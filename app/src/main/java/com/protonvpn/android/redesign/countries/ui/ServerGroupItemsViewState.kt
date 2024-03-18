@@ -18,9 +18,11 @@
  */
 package com.protonvpn.android.redesign.countries.ui
 
+import androidx.annotation.StringRes
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
+import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.vpn.ServerFeature
 
 // Server data as needed by the UI, doesn't have dynamic properties like isConnected or
@@ -67,8 +69,17 @@ sealed class ServerGroupItemData {
     }
 }
 
-data class ServerGroupItemState(
-    val data: ServerGroupItemData,
-    val available: Boolean,
-    val connected: Boolean,
-)
+sealed class ServerGroupUiItem {
+
+    data class ServerGroup(
+        val data: ServerGroupItemData,
+        val available: Boolean,
+        val connected: Boolean,
+    ) : ServerGroupUiItem()
+
+    data class Header(
+        @StringRes val labelRes: Int,
+        val count: Int,
+        val info: InfoType?,
+    ) : ServerGroupUiItem()
+}

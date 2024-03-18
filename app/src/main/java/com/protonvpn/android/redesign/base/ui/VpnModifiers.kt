@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.base.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +29,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.delay
 
 // Adds modifier only if predicate returns true.
@@ -62,4 +66,12 @@ fun Modifier.clickableWithDebounce(
         clickEnabled = false
         action()
     }, enabled = clickEnabled)
+}
+
+@Stable
+fun Modifier.rtlMirror(): Modifier = composed {
+    if (LocalLayoutDirection.current == LayoutDirection.Rtl)
+        scale(scaleX = -1f, scaleY = 1f)
+    else
+        this
 }

@@ -49,16 +49,26 @@ class CountriesViewModel @Inject constructor(
     vpnStatusProviderUI,
     showFilters = true
 ) {
-    override fun getMainDataItems(
+    override fun getUiItems(
         savedState: CountryScreenSavedState,
         userTier: Int?,
         locale: Locale,
-    ) : Flow<List<ServerGroupItemData>> =
+        currentConnection: ActiveConnection?,
+    ) : Flow<List<ServerGroupUiItem>> =
         dataAdapter.countries(savedState.filter).map { countries ->
-            buildList {
-                if (userTier != null && userTier > VpnUser.FREE_TIER)
+            val filterType = savedState.filter.type
+            val isFreeUser = userTier != null && userTier == VpnUser.FREE_TIER
+            val items = buildList {
+                if (!isFreeUser)
                     add(fastestCountryItem(savedState.filter))
                 addAll(countries.sortedByLabel(locale))
+            }.map {
+                it.toState(userTier, savedState.filter, currentConnection)
+            }
+
+            buildList {
+                add(ServerGroupUiItem.Header(filterType.headerLabel(isFreeUser), countries.size, filterType.info))
+                addAll(items)
             }
         }
 }

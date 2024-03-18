@@ -46,8 +46,9 @@ import com.protonvpn.android.redesign.ServerId
 import com.protonvpn.android.redesign.base.ui.ActiveDot
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.GatewayIndicator
+import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
-import com.protonvpn.android.redesign.home_screen.ui.ServerLoadBar
+import com.protonvpn.android.redesign.base.ui.ServerLoadBar
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.iconRes
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -59,9 +60,9 @@ import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun ServerGroupItem(
-    item: ServerGroupItemState,
-    onItemOpen: (ServerGroupItemState) -> Unit,
-    onItemClick: (ServerGroupItemState) -> Unit,
+    item: ServerGroupUiItem.ServerGroup,
+    onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
+    onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -115,7 +116,7 @@ fun ServerGroupItem(
 }
 
 @Composable
-private fun ServerGroupItemState.label() : String = when (data) {
+private fun ServerGroupUiItem.ServerGroup.label() : String = when (data) {
     is ServerGroupItemData.Country -> data.countryId.label()
     is ServerGroupItemData.City -> data.name
     is ServerGroupItemData.Server -> data.name
@@ -123,7 +124,7 @@ private fun ServerGroupItemState.label() : String = when (data) {
 }
 
 @Composable
-private fun ServerGroupItemState.subLabel() = when (data) {
+private fun ServerGroupUiItem.ServerGroup.subLabel() = when (data) {
     is ServerGroupItemData.Country ->
         data.entryCountryId?.takeIf { !it.isFastest }?.let { viaCountry(it) }
     is ServerGroupItemData.City -> null
@@ -132,7 +133,7 @@ private fun ServerGroupItemState.subLabel() = when (data) {
 }
 
 @Composable
-private fun ServerGroupItemState.Icon(modifier: Modifier) {
+private fun ServerGroupUiItem.ServerGroup.Icon(modifier: Modifier) {
     when (data) {
         is ServerGroupItemData.Country -> Flag(
             modifier = modifier,
@@ -159,7 +160,7 @@ private fun ServerGroupItemState.Icon(modifier: Modifier) {
 }
 
 @Composable
-private fun ServerGroupItemState.Info(modifier: Modifier) {
+private fun ServerGroupUiItem.ServerGroup.Info(modifier: Modifier) {
     if (data is ServerGroupItemData.Server) {
         Row(modifier) {
             ServerFeaturesRow(data.serverFeatures)
@@ -216,7 +217,7 @@ private fun LoadPercentText(loadPercent: Int, alpha: Float) {
     )
 }
 
-private val ServerGroupItemState.openIconRes get() = when {
+private val ServerGroupUiItem.ServerGroup.openIconRes get() = when {
     data.inMaintenance -> CoreR.drawable.ic_proton_wrench
     canOpen -> CoreR.drawable.ic_proton_three_dots_horizontal
     else -> null
@@ -231,7 +232,7 @@ fun CountryItemPreview(
 ) {
     ServerGroupItem(
         modifier = Modifier.padding(6.dp),
-        item = ServerGroupItemState(
+        item = ServerGroupUiItem.ServerGroup(
             data = ServerGroupItemData.Country(
                 countryId = CountryId("us"),
                 entryCountryId = entry,
@@ -253,7 +254,7 @@ fun CityItemPreview(
     connected: Boolean = false,
 ) {
     ServerGroupItem(
-        item = ServerGroupItemState(
+        item = ServerGroupUiItem.ServerGroup(
             data = ServerGroupItemData.City(
                 countryId = CountryId("us"),
                 cityStateId = CityStateId("Arizona", isState = true),
@@ -270,13 +271,68 @@ fun CityItemPreview(
 }
 
 @Composable
+fun ServerGroupHeader(
+    item: ServerGroupUiItem.Header,
+    onOpenInfo: (InfoType) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(modifier = modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)) {
+        Text(
+            text = stringResource(id = item.labelRes, item.count),
+            style = ProtonTheme.typography.captionRegular,
+            color = ProtonTheme.colors.textWeak,
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = 8.dp)
+        )
+        if (item.info != null) {
+            Row(
+                modifier = Modifier
+                    .clickable { onOpenInfo(item.info) }
+                    .padding(all = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(id = R.string.country_filter_info_label),
+                    style = ProtonTheme.typography.captionMedium,
+                    color = ProtonTheme.colors.textWeak,
+                    modifier = Modifier.padding(end = 5.dp)
+                )
+                Icon(
+                    painter = painterResource(id = CoreR.drawable.ic_info_circle),
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                    tint = ProtonTheme.colors.iconWeak
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SectionHeaderPreview() {
+    VpnTheme(isDark = true) {
+        ServerGroupHeader(
+            item = ServerGroupUiItem.Header(
+                labelRes = R.string.country_filter_all_list_header,
+                count = 10,
+                info = InfoType.SecureCore,
+            ),
+            onOpenInfo = {},
+            modifier = Modifier.background(ProtonTheme.colors.backgroundSecondary),
+        )
+    }
+}
+
+@Composable
 fun ServerItemPreview(
     inMaintenance: Boolean = false,
     available: Boolean = true,
     load: Int = 50
 ) {
     ServerGroupItem(
-        item = ServerGroupItemState(
+        item = ServerGroupUiItem.ServerGroup(
             data = ServerGroupItemData.Server(
                 countryId = CountryId("us"),
                 serverId = ServerId("us-ny-01"),
@@ -341,7 +397,7 @@ fun GatewayItemPreviews() {
     VpnTheme(isDark = true) {
         Column(modifier = Modifier.background(ProtonTheme.colors.backgroundNorm)) {
             ServerGroupItem(
-                item = ServerGroupItemState(
+                item = ServerGroupUiItem.ServerGroup(
                     data = ServerGroupItemData.Gateway(
                         gatewayName = "MyCompany",
                         inMaintenance = false,
@@ -354,7 +410,7 @@ fun GatewayItemPreviews() {
                 onItemClick = {}
             )
             ServerGroupItem(
-                item = ServerGroupItemState(
+                item = ServerGroupUiItem.ServerGroup(
                     data = ServerGroupItemData.Server(
                         countryId = CountryId("us"),
                         serverId = ServerId("gateway-us-01"),

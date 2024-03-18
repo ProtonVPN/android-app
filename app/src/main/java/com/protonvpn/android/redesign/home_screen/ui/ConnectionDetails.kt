@@ -24,32 +24,25 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -61,7 +54,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -75,27 +67,25 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.VpnOutlinedButton
 import com.protonvpn.android.base.ui.speedBytesToString
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
+import com.protonvpn.android.redesign.base.ui.InfoSheet
+import com.protonvpn.android.redesign.base.ui.InfoType
+import com.protonvpn.android.redesign.base.ui.ServerLoadBar
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.compose.theme.overlineWeak
-import me.proton.core.compose.theme.subheadlineNorm
 import kotlin.math.roundToInt
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -134,7 +124,7 @@ fun ConnectionDetails(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ColumnScope.ConnectionDetailsConnected(
+private fun ConnectionDetailsConnected(
     viewState: ConnectionDetailsViewModel.ConnectionDetailsViewState.Connected,
     onClosePanel: () -> Unit
 ) {
@@ -266,21 +256,19 @@ private fun getSessionTime(sessionTimeInSeconds: Int?): String {
     return sb.toString().trim()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ConnectionSpeedRow(
     downloadSpeed: String,
     uploadSpeed: String,
     onOpenUrl: (url: String) -> Unit,
 ) {
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    var isModalVisible by remember { mutableStateOf(false) }
+    var info by remember { mutableStateOf<InfoType?>(null) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = {
-                isModalVisible = !isModalVisible
+                info = InfoType.VpnSpeed
             })
 
     ) {
@@ -316,22 +304,7 @@ private fun ConnectionSpeedRow(
             modifier = Modifier.weight(1f)
         )
     }
-    if (isModalVisible) {
-        ModalBottomSheet(
-            sheetState = bottomSheetState,
-            content = {
-                GenericLearnMore(
-                    title = stringResource(id = R.string.connection_details_vpn_speed_question),
-                    details = stringResource(id = R.string.connection_details_vpn_speed_description),
-                    onLearnMoreClick = {
-                        onOpenUrl(Constants.URL_SPEED_LEARN_MORE)
-                    })
-            },
-            windowInsets = WindowInsets.navigationBars,
-            onDismissRequest = {
-                isModalVisible = !isModalVisible
-            })
-    }
+    InfoSheet(info, onOpenUrl, dismissInfo = { info = null })
 }
 
 @Composable
@@ -418,7 +391,9 @@ private fun ConnectionStats(
                             )
                         }
                     }
-                })
+                },
+                onOpenUrl = onOpenUrl
+            )
             city?.let {
                 VpnDivider()
                 ConnectionDetailRowWithText(
@@ -432,10 +407,10 @@ private fun ConnectionStats(
                 contentValue = serverName
             )
             VpnDivider()
-            ConnectionDetailRowWithComposable(labelTitle = stringResource(id = R.string.connection_details_server_load),
-                onInfoComposable = {
-                    ServerLoadBottomSheet(onOpenUrl)
-                },
+            ConnectionDetailRowWithComposable(
+                labelTitle = stringResource(id = R.string.connection_details_server_load),
+                infoType = InfoType.ServerLoad,
+                onOpenUrl = onOpenUrl,
                 contentComposable = {
                     ServerLoadBar(progress = serverLoad / 100)
                     Text(
@@ -446,146 +421,31 @@ private fun ConnectionStats(
                     )
                 })
             VpnDivider()
-            ConnectionDetailRowWithText(
+            ConnectionDetailRowWithTextAndInfo(
                 labelTitle = stringResource(id = R.string.connection_details_protocol),
-                onInfoClick = {
-                    // TODO protocol bottom sheet design paths differ, for now add basic version
-                    GenericLearnMore(title = stringResource(id = R.string.connection_details_protocol),
-                        details = stringResource(id = R.string.connection_details_protocol_description),
-                        onLearnMoreClick = {
-                            onOpenUrl(Constants.URL_PROTOCOL_LEARN_MORE)
-                        })
-                },
-                contentValue = protocol
+                infoType = InfoType.Protocol,
+                contentValue = protocol,
+                onOpenUrl = onOpenUrl
             )
         }
     }
 }
 
-@Composable
-fun GenericLearnMore(
-    title: String,
-    details: String,
-    subDetailsComposable: (@Composable () -> Unit)? = null,
-    onLearnMoreClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-    ) {
-        Text(
-            text = title,
-            style = ProtonTheme.typography.subheadlineNorm,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        Text(
-            text = details,
-            style = ProtonTheme.typography.defaultSmallNorm,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        subDetailsComposable?.invoke()
-        VpnOutlinedButton(
-            stringResource(id = R.string.connection_details_learn_more),
-            onClick = onLearnMoreClick,
-            isExternalLink = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-}
-
-@Composable
-private fun ServerLoadBottomSheet(onOpenUrl: (url: String) -> Unit) {
-    GenericLearnMore(title = stringResource(id = R.string.connection_details_server_load_question),
-        details = stringResource(id = R.string.connection_details_server_load_description),
-        subDetailsComposable = {
-            ServerLoadLegendItem(
-                progress = 0.3F,
-                title = stringResource(id = R.string.connection_details_server_load_low_title),
-                details = stringResource(id = R.string.connection_details_server_load_low_description),
-                Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
-            ServerLoadLegendItem(
-                progress = 0.76F,
-                title = stringResource(id = R.string.connection_details_server_load_medium_title),
-                details = stringResource(id = R.string.connection_details_server_load_medium_description),
-                Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
-            ServerLoadLegendItem(
-                progress = 0.95F,
-                title = stringResource(id = R.string.connection_details_server_load_high_title),
-                details = stringResource(id = R.string.connection_details_server_load_high_description),
-                Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            )
-        },
-        onLearnMoreClick = {
-            onOpenUrl(Constants.URL_LOAD_LEARN_MORE)
-        })
-}
-
-@Composable
-fun ServerLoadBar(progress: Float) {
-    val color = when {
-        progress <= 0.75F -> ProtonTheme.colors.notificationSuccess
-        progress <= 0.9F -> ProtonTheme.colors.notificationWarning
-        else -> ProtonTheme.colors.notificationError
-    }
-    LinearProgressIndicator(
-        progress = progress,
-        color = color,
-        strokeCap = StrokeCap.Round,
-        trackColor = ProtonTheme.colors.shade40,
-        modifier = Modifier
-            .width(36.dp)
-    )
-}
-
-@Composable
-private fun ServerLoadLegendItem(
-    progress: Float,
-    title: String,
-    details: String,
-    modifier: Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically, modifier = modifier
-    ) {
-        ServerLoadBar(progress)
-        Column(
-            Modifier
-                .weight(1f)
-                .padding(horizontal = 8.dp)
-        ) {
-            Text(
-                text = title, style = ProtonTheme.typography.captionNorm
-            )
-            Text(
-                text = details, style = ProtonTheme.typography.captionWeak
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConnectionDetailRowWithComposable(
     labelTitle: String,
     modifier: Modifier = Modifier,
-    onInfoComposable: (@Composable ColumnScope.() -> Unit)? = null,
+    infoType: InfoType? = null,
+    onOpenUrl: (url: String) -> Unit,
     contentComposable: @Composable () -> Unit
 ) {
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    var isModalVisible by remember { mutableStateOf(false) }
+    var info by remember { mutableStateOf<InfoType?>(null) }
     Column {
         Row(modifier = modifier
             .fillMaxWidth()
             .let {
-                if (onInfoComposable != null) it.clickable(onClick = {
-                    isModalVisible = !isModalVisible
+                if (infoType != null) it.clickable(onClick = {
+                    info = infoType
                 }) else it
             }
             .clip(RoundedCornerShape(4.dp))
@@ -597,7 +457,7 @@ fun ConnectionDetailRowWithComposable(
                 style = ProtonTheme.typography.defaultSmallWeak,
                 textAlign = TextAlign.Start
             )
-            if (onInfoComposable != null) {
+            if (infoType != null) {
                 Icon(
                     painter = painterResource(id = CoreR.drawable.ic_info_circle),
                     tint = ProtonTheme.colors.iconHint,
@@ -611,24 +471,25 @@ fun ConnectionDetailRowWithComposable(
             contentComposable()
         }
     }
-
-    if (isModalVisible && onInfoComposable != null) {
-        ModalBottomSheet(sheetState = bottomSheetState,
-            content = onInfoComposable,
-            windowInsets = WindowInsets.navigationBars,
-            onDismissRequest = {
-                isModalVisible = !isModalVisible
-            })
-    }
+    InfoSheet(info = info, onOpenUrl = onOpenUrl, dismissInfo = { info = null })
 }
 
 @Composable
 fun ConnectionDetailRowWithText(
     labelTitle: String,
-    onInfoClick: (@Composable ColumnScope.() -> Unit)? = null,
+    contentValue: String?,
+) {
+    ConnectionDetailRowWithTextAndInfo(labelTitle, onOpenUrl = {}, infoType = null, contentValue)
+}
+
+@Composable
+fun ConnectionDetailRowWithTextAndInfo(
+    labelTitle: String,
+    onOpenUrl: (url: String) -> Unit,
+    infoType: InfoType?,
     contentValue: String?
 ) {
-    ConnectionDetailRowWithComposable(labelTitle, onInfoComposable = onInfoClick) {
+    ConnectionDetailRowWithComposable(labelTitle, infoType = infoType, onOpenUrl = onOpenUrl) {
         Text(
             text = contentValue ?: "",
             style = ProtonTheme.typography.defaultSmallNorm,
@@ -782,15 +643,5 @@ fun VpnSpeedPreview() {
 fun IpViewPreview() {
     VpnTheme {
         IpView("192.120.0.1", "123.1233")
-    }
-}
-
-@Preview
-@Composable
-fun BottomSheetLoadDescriptionPreview() {
-    LightAndDarkPreview {
-        Surface {
-            ServerLoadBottomSheet {}
-        }
     }
 }

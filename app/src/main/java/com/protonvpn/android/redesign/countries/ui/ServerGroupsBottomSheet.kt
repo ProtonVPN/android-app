@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -43,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.GatewayIndicator
-import com.protonvpn.android.redesign.base.ui.VpnDivider
+import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.vpn.ui.label
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.headlineNorm
@@ -53,9 +52,10 @@ fun ServerGroupsBottomSheet(
     modifier: Modifier,
     screen: SubScreenState,
     onNavigateBack: suspend (suspend () -> Unit) -> Unit,
-    onNavigateToItem: (ServerGroupItemState) -> Unit,
-    onItemClicked: (ServerGroupItemState) -> Unit,
+    onNavigateToItem: (ServerGroupUiItem.ServerGroup) -> Unit,
+    onItemClicked: (ServerGroupUiItem.ServerGroup) -> Unit,
     onClose: () -> Unit,
+    onOpenInfo: (InfoType) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
@@ -80,7 +80,8 @@ fun ServerGroupsBottomSheet(
                 screen = screen,
                 onItemOpen = onNavigateToItem,
                 onItemClick = onItemClicked,
-                modifier = Modifier.heightIn(min = halfScreenHeight)
+                modifier = Modifier.heightIn(min = halfScreenHeight),
+                onOpenInfo = onOpenInfo
             )
         }
     }
@@ -90,8 +91,9 @@ fun ServerGroupsBottomSheet(
 private fun BottomSheetScreen(
     modifier: Modifier = Modifier,
     screen: SubScreenState,
-    onItemOpen: (ServerGroupItemState) -> Unit,
-    onItemClick: (ServerGroupItemState) -> Unit,
+    onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
+    onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
+    onOpenInfo: (InfoType) -> Unit,
 ) {
     val countryId = screen.savedState.filter.country
     val gatewayName = screen.savedState.filter.gatewayName
@@ -100,20 +102,20 @@ private fun BottomSheetScreen(
             isGateway = screen.savedState.type == SubScreenType.GatewayServers,
             countryId = countryId,
             gatewayName = gatewayName,
-            modifier = Modifier.padding(16.dp).fillMaxWidth()
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
         )
-        if (screen.filterButtons != null && screen.allLabelRes != null) {
-            FiltersRow(buttonActions = screen.filterButtons, allLabelRes = screen.allLabelRes)
+        if (screen.filterButtons != null) {
+            FiltersRow(buttonActions = screen.filterButtons)
             Spacer(modifier = Modifier.size(8.dp))
         }
-        LazyColumn {
-            screen.items.forEach { item ->
-                item {
-                    ServerGroupItem(item, onItemOpen, onItemClick)
-                    VpnDivider()
-                }
-            }
-        }
+        ServerGroupItemsList(
+            items = screen.items,
+            onItemOpen = onItemOpen,
+            onItemClick = onItemClick,
+            onOpenInfo = onOpenInfo
+        )
     }
 }
 
