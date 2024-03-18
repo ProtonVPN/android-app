@@ -48,11 +48,14 @@ class GatewaysViewModel @Inject constructor(
     vpnStatusProviderUI,
     showFilters = false
 ) {
-    override fun getMainDataItems(
+    override fun getUiItems(
         savedState: CountryScreenSavedState,
         userTier: Int?,
         locale: Locale,
-    ) : Flow<List<ServerGroupItemData>> = dataAdapter.gateways(savedState.filter).map { gateways ->
-        gateways.sortedByLabel(locale)
+        currentConnection: ActiveConnection?
+    ): Flow<List<ServerGroupUiItem>> = dataAdapter.gateways(savedState.filter).map { gateways ->
+        gateways.sortedByLabel(locale).map {
+            it.toState(userTier, savedState.filter, currentConnection)
+        }
     }
 }

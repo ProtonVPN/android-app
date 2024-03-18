@@ -20,9 +20,11 @@
 package com.protonvpn.android.redesign.countries.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.heightIn
@@ -40,22 +42,32 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.protonElevation
+import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.redesign.base.ui.InfoSheet
+import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
 import me.proton.core.presentation.utils.currentLocale
@@ -77,12 +89,14 @@ fun ServerGroupsRoute(
         viewModel.localeFlow.value = locale
     }
     val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value ?: return
+    var info by remember { mutableStateOf<InfoType?>(null) }
+
     val navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) }
     val navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
-    fun createOnItemOpen(filter: ServerFilterType): (ServerGroupItemState) -> Unit = { item ->
+    fun createOnItemOpen(filter: ServerFilterType): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
         viewModel.onItemOpen(item, filter)
     }
-    fun createOnConnectAction(filter: ServerListFilter): (ServerGroupItemState) -> Unit = { item ->
+    fun createOnConnectAction(filter: ServerListFilter): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
         viewModel.onItemConnect(
             vpnUiDelegate = uiDelegate,
             item = item,
@@ -97,11 +111,12 @@ fun ServerGroupsRoute(
         toolbarFilters = mainState.filterButtons,
         titleRes = titleRes,
         content = {
-            ServerGroup(
-                modifier = Modifier.padding(it),
+            ServerGroupItemsList(
                 mainState.items,
-                onCountryClick = createOnConnectAction(mainState.savedState.filter),
-                onOpenCountry = createOnItemOpen(mainState.savedState.filter.type),
+                onItemClick = createOnConnectAction(mainState.savedState.filter),
+                onItemOpen = createOnItemOpen(mainState.savedState.filter.type),
+                onOpenInfo = { infoType -> info = infoType },
+                modifier = Modifier.padding(it)
             )
         }
     )
@@ -115,9 +130,16 @@ fun ServerGroupsRoute(
             onNavigateBack = { onHide -> viewModel.onNavigateBack(onHide) },
             onNavigateToItem = createOnItemOpen(subScreenState.savedState.filter.type),
             onItemClicked = createOnConnectAction(subScreenState.savedState.filter),
-            onClose = { viewModel.onClose() }
+            onClose = { viewModel.onClose() },
+            onOpenInfo = { info = it }
         )
     }
+
+    InfoSheet(
+        info = info,
+        onOpenUrl = { context.openUrl(it) },
+        dismissInfo = { info = null }
+    )
 }
 
 @Composable
@@ -143,7 +165,6 @@ fun ToolbarWithFilters(
         toolbarAdditionalContent = {
             if (toolbarFilters != null) FiltersRow(
                 buttonActions = toolbarFilters,
-                allLabelRes = R.string.country_filter_all,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         },
@@ -153,7 +174,7 @@ fun ToolbarWithFilters(
 }
 
 @Composable
-fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier, @StringRes allLabelRes: Int) {
+fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -186,14 +207,8 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier,
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                     }
-                    val filterTitleRes = when (filterButton.filter) {
-                        ServerFilterType.All -> allLabelRes
-                        ServerFilterType.SecureCore -> R.string.country_filter_secure_core
-                        ServerFilterType.P2P -> R.string.country_filter_p2p
-                        ServerFilterType.Tor -> R.string.country_filter_tor
-                    }
                     Text(
-                        text = stringResource(id = filterTitleRes),
+                        text = stringResource(id = filterButton.label),
                         style = ProtonTheme.typography.defaultSmallUnspecified
                     )
                 }
@@ -203,17 +218,25 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier,
 }
 
 @Composable
-fun ServerGroup(
-    modifier: Modifier,
-    countries: List<ServerGroupItemState>,
-    onOpenCountry: (ServerGroupItemState) -> Unit,
-    onCountryClick: (ServerGroupItemState) -> Unit
+fun ServerGroupItemsList(
+    items: List<ServerGroupUiItem>,
+    onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
+    onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
+    onOpenInfo: (InfoType) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier) {
-        countries.forEach { country ->
+    LazyColumn(modifier) {
+        items.forEach { item ->
             item {
-                ServerGroupItem(country, onOpenCountry, onCountryClick)
-                VpnDivider()
+                when (item) {
+                    is ServerGroupUiItem.Header ->
+                        ServerGroupHeader(item, onOpenInfo = onOpenInfo)
+
+                    is ServerGroupUiItem.ServerGroup -> {
+                        ServerGroupItem(item, onItemOpen = onItemOpen, onItemClick = onItemClick)
+                        VpnDivider()
+                    }
+                }
             }
         }
     }

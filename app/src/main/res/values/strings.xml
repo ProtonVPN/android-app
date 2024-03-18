@@ -1089,6 +1089,19 @@
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
 
+    <string name="country_filter_all_list_header">All countries (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
+    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
+    <string name="country_filter_states_list_header">States (%1$d)</string>
+    <string name="country_filter_servers_list_header">Servers (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core countries (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P countries (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P cities (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
+    <string name="country_filter_info_label">Info</string>
+
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1171,6 +1184,15 @@
     <string name="connection_details_section_vpn_speed">VPN speed</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
+    <string name="info_secure_core_standard_header">Standard VPN&#160;connection</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN&#160;connection</string>
+    <string name="info_dialog_tor_description">Connect to a Tor server to access hidden services and onion sites using any browser.</string>
+    <string name="info_dialog_button_learn_more_tor">How to access the Tor network</string>
+    <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
+
 
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
@@ -1240,4 +1262,17 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_dialog_reconnect">New settings will apply next time you connect.</string>
+    <string name="info_secure_core_standard_high_privacy">High privacy</string>
+    <string name="info_secure_core_standard_lower_latency">Lower latency</string>
+    <string name="info_secure_core_advanced_privacy">Advanced privacy</string>
+    <string name="info_secure_core_higher_latency">Higher latency</string>
+    <string name="info_p2p_what_title">What is P2P?</string>
+    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
+    <string name="info_p2p_torrenting_title">What is torrenting?</string>
+    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
+    <string name="info_p2p_why_title">Why use a P2P server when torrenting?</string>
+    <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
+    <string name="info_p2p_why_description_logs">No activity logs</string>
+    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
 </resources>
