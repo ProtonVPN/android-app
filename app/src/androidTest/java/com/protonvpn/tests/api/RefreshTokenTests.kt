@@ -27,7 +27,6 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import me.proton.core.account.domain.entity.Account
@@ -62,14 +61,13 @@ class RefreshTokenTests {
         protonRule.inject()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun invalidRefreshTokenWhenNoUiLogsOut() = runTest {
         protonRule.mockDispatcher.prependRules {
             rule(get, path eq "/vpn/v2/clientconfig") {
                 respond(HttpResponseCodes.HTTP_UNAUTHORIZED)
             }
-            rule(post, path eq "/auth/refresh") {
+            rule(post, path eq "/auth/v4/refresh") {
                 respond(HttpResponseCodes.HTTP_UNPROCESSABLE)
             }
         }
@@ -79,7 +77,7 @@ class RefreshTokenTests {
                 logoutEvents += it
             }
         }
-        appConfig.forceUpdate(currentUser.sessionId())
+        appConfig.forceUpdate(currentUser.user()?.userId)
         collectJob.cancel()
         assertFalse(currentUser.isLoggedIn())
         assertEquals(1, logoutEvents.size)

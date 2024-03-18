@@ -47,10 +47,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import me.proton.core.domain.entity.UserId
 import me.proton.core.featureflag.domain.usecase.FetchUnleashTogglesRemote
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
-import me.proton.core.network.domain.session.SessionId
+import me.proton.core.network.domain.session.SessionProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -70,6 +71,7 @@ class AppConfig @Inject constructor(
     mainScope: CoroutineScope,
     private val periodicUpdateManager: PeriodicUpdateManager,
     private val api: ProtonApiRetroFit,
+    private val sessionProvider: SessionProvider,
     private val getNetZone: GetNetZone,
     private val globalSettingsManager: GlobalSettingsManager,
     private val fetchFlags: FetchUnleashTogglesRemote,
@@ -81,7 +83,7 @@ class AppConfig @Inject constructor(
     // This value is used when filtering servers, let's have it cached
     private var smartProtocolsCached: List<ProtocolSelection>? = null
 
-    private suspend fun currentSessionId() = getActiveAuthenticatedAccount()?.sessionId
+    private suspend fun currentUserId(): UserId? = getActiveAuthenticatedAccount()?.userId
 
     val appConfigUpdateEvent = MutableSharedFlow<AppConfigResponse>(extraBufferCapacity = 1)
     val appConfigFlow = appConfigUpdateEvent.stateIn(
@@ -100,7 +102,7 @@ class AppConfig @Inject constructor(
     private val appConfigUpdate = periodicUpdateManager.registerApiCall(
         "app_config",
         ::updateInternal,
-        { currentSessionId() },
+        { currentUserId() },
         PeriodicUpdateSpec(UPDATE_DELAY_UI, setOf(loggedIn, inForeground)),
         PeriodicUpdateSpec(UPDATE_DELAY, UPDATE_DELAY_FAIL, setOf()),
     )
@@ -108,21 +110,21 @@ class AppConfig @Inject constructor(
     private val bugReportUpdate = periodicUpdateManager.registerApiCall(
         "bug_report",
         ::updateBugReportInternal,
-        { currentSessionId() },
+        { currentUserId() },
         PeriodicUpdateSpec(BUG_REPORT_UPDATE_DELAY, setOf(loggedIn)),
     )
 
     init {
         userPlanManager.planChangeFlow
-            .onEach { forceUpdate(currentSessionId()) }
+            .onEach { forceUpdate(currentUserId()) }
             .launchIn(mainScope)
     }
 
-    suspend fun forceUpdate(sessionId: SessionId?): ApiResult<Any> {
+    suspend fun forceUpdate(userId: UserId?): ApiResult<Any> {
         return coroutineScope {
             // This can be called on login, launch in parallel.
-            val bugReportJob = launch { periodicUpdateManager.executeNow(bugReportUpdate, sessionId) }
-            periodicUpdateManager.executeNow(appConfigUpdate, sessionId).also {
+            val bugReportJob = launch { periodicUpdateManager.executeNow(bugReportUpdate, userId) }
+            periodicUpdateManager.executeNow(appConfigUpdate, userId).also {
                 bugReportJob.join()
             }
         }
@@ -154,7 +156,8 @@ class AppConfig @Inject constructor(
 
     fun getRatingConfig(): RatingConfig = appConfigResponse.ratingConfig ?: getDefaultRatingConfig()
 
-    private suspend fun updateBugReportInternal(sessionId: SessionId?): ApiResult<DynamicReportModel> {
+    private suspend fun updateBugReportInternal(userId: UserId?): ApiResult<DynamicReportModel> {
+        val sessionId = sessionProvider.getSessionId(userId)
         val dynamicReportModel = api.getDynamicReportConfig(sessionId)
         dynamicReportModel.valueOrNull?.let {
             Storage.save(it, DynamicReportModel::class.java)
@@ -163,14 +166,15 @@ class AppConfig @Inject constructor(
         return dynamicReportModel
     }
 
-    private suspend fun updateInternal(sessionId: SessionId?): ApiResult<Any> {
+    private suspend fun updateInternal(userId: UserId?): ApiResult<Any> {
+        val sessionId = sessionProvider.getSessionId(userId)
         val result = api.getAppConfig(sessionId, getNetZone())
         if (sessionId != null) {
             globalSettingsManager.refresh(sessionId)
         }
 
         val flagsResult = suspend {
-            fetchFlags(getActiveAuthenticatedAccount()?.userId)
+            fetchFlags(userId)
             ApiResult.Success(Unit)
         }.runCatchingCheckedExceptions {
             (it as? ApiException)?.error
