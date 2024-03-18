@@ -1,7 +1,6 @@
 package com.protonvpn.di
 
 import com.protonvpn.android.di.CoreNotificationFeaturesModule
-import com.protonvpn.mocks.FakeIsAccountRecoveryEnabled
 import com.protonvpn.mocks.FakeIsNotificationsEnabled
 import dagger.Binds
 import dagger.Module
@@ -10,6 +9,9 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import me.proton.core.accountrecovery.dagger.CoreAccountRecoveryFeaturesModule
 import me.proton.core.accountrecovery.domain.IsAccountRecoveryEnabled
+import me.proton.core.accountrecovery.domain.IsAccountRecoveryResetEnabled
+import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryEnabled
+import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryResetEnabled
 import me.proton.core.notification.domain.usecase.IsNotificationsEnabled
 import javax.inject.Singleton
 
@@ -25,12 +27,20 @@ interface MockCoreFeaturesModule {
 
     @Binds
     @Singleton
+    fun bindIsAccountRecoveryResetEnabled(impl: FakeIsAccountRecoveryResetEnabled): IsAccountRecoveryResetEnabled
+
+    @Binds
+    @Singleton
     fun bindIsNotificationsEnabled(impl: FakeIsNotificationsEnabled): IsNotificationsEnabled
 
     companion object {
         @Provides
         @Singleton
         fun provideFakeIsAccountRecoveryEnabled() = FakeIsAccountRecoveryEnabled(enabled = false)
+
+        @Provides
+        @Singleton
+        fun provideFakeIsAccountRecoveryResetEnabled() = FakeIsAccountRecoveryResetEnabled(enabled = false)
 
         @Provides
         @Singleton
