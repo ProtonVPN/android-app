@@ -715,6 +715,7 @@
     <string name="no_logs_banner_description">Deine VPN-Aktivitäten sind durch die Schweizer Datenschutzgesetze geschützt. Wir werden dich niemals online nachverfolgen oder deine Informationen an Dritte weitergeben.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Startseite</string>
+    <string name="bottom_nav_gateways">Gateways</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Länder</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -749,7 +750,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">suche</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -964,7 +965,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Alle Server in dieser Stadt werden gerade gewartet</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
+    <string name="message_state_servers_in_maintenance">Alle Server in diesem Bundesstaat werden gerade gewartet</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Server wird gewartet</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -975,6 +976,8 @@
     <string name="settings_sign_out">Abmelden</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Einstellungen</string>
+    <string name="gateways_title">Gateways</string>
+    <string name="countries_title">Länder</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funktionen</string>
     <!-- tag(Redesign_2023) -->
@@ -1036,9 +1039,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Abbrechen</string>
     <!-- tag(Redesign_2023) -->
-    <string name="country_filter_all">All</string>
-    <string name="country_filter_cities">Cities</string>
-    <string name="country_filter_states">States</string>
+    <string name="country_filter_all">Alle</string>
+    <string name="country_filter_cities">Städte</string>
+    <string name="country_filter_states">Bundesstaaten</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->

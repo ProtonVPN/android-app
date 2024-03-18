@@ -253,16 +253,16 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[この統計にあなたの IP アドレスは含まれず、あなたを特定することはできません。この統計は第三者に共有しません。<a href="%1$s">詳細</a>]]></string>
     <string name="netshield_settings_description_not_html">ウェブサイトやアプリ上の広告、マルウェア、トラッカーから身を守ります。ウェブサイトが読み込まれない場合は、NetShield を無効にしてみてください。%1$s</string>
     <string name="learn_more">詳細</string>
-    <string name="netshield_state_on" comment="Describes state, not action">On</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Off</string>
-    <string name="split_tunneling_state_on" comment="Describes state, not action">On</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">Off</string>
-    <string name="vpn_accelerator_state_on" comment="Describes state, not action">On</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Off</string>
-    <string name="lan_state_on" comment="Describes state, not action">On</string>
-    <string name="lan_state_off" comment="Describes state, not action">Off</string>
-    <string name="alt_routing_state_on" comment="Describes state, not action">On</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
+    <string name="netshield_state_on" comment="Describes state, not action">オン</string>
+    <string name="netshield_state_off" comment="Describes state, not action">オフ</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">オン</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">オフ</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">オン</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">オフ</string>
+    <string name="lan_state_on" comment="Describes state, not action">オン</string>
+    <string name="lan_state_off" comment="Describes state, not action">オフ</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">オン</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">オフ</string>
     <string name="netshield_free_description">ウェブサイトとアプリの広告、トラッカー、マルウェアをブロック</string>
     <string name="netshield_what_data_means">What NetShield data means</string>
     <string name="netshield_ads_title">広告</string>
@@ -697,6 +697,7 @@
     <string name="no_logs_banner_description">あなたのVPN活動はスイスのプライバシー法により保護されています。お客様のオンライン情報を追跡したり、第三者と共有したりすることは決してありません。</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">ホーム</string>
+    <string name="bottom_nav_gateways">ゲートウェイ</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">国</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -731,7 +732,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">検索</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -949,13 +950,15 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">サーバーはメンテナンス中です</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">Server not available</string>
+    <string name="message_server_not_available">サーバーは利用できません</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
+    <string name="message_gateway_in_maintenance">ゲートウェイはメンテナンス中です</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">サインアウト</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">設定</string>
+    <string name="gateways_title">ゲートウェイ</string>
+    <string name="countries_title">国</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">機能</string>
     <!-- tag(Redesign_2023) -->
@@ -997,7 +1000,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">検閲との闘いにご協力ください</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_rate_us_title">Rate Proton VPN</string>
+    <string name="settings_rate_us_title">Proton VPN を評価</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_restore_defaults_title">デフォルト設定を復元する</string>
     <!-- tag(Redesign_2023) -->
@@ -1017,8 +1020,8 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">キャンセル</string>
     <!-- tag(Redesign_2023) -->
-    <string name="country_filter_all">All</string>
-    <string name="country_filter_cities">Cities</string>
+    <string name="country_filter_all">すべて</string>
+    <string name="country_filter_cities">都市</string>
     <string name="country_filter_states">States</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
@@ -1063,13 +1066,13 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_gateway">ゲートウェイ</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_country">Country</string>
+    <string name="connection_details_country">国</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_city">City</string>
+    <string name="connection_details_city">都市</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">Server load</string>
+    <string name="connection_details_server_load">サーバー利用率</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">サーバー負荷とは何ですか?</string>
     <!-- tag(Redesign_2023) -->
@@ -1112,11 +1115,11 @@
     <string name="connection_details_unknown_ip">不明</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">このグラフは、現在のアップロードとダウンロードの速度を示しています。VPN接続によって、通常のオンライン・アクティビティの速度が低下することはほとんどありません。</string>
-    <string name="speed_bytes_per_second">%1$s B/s</string>
-    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
-    <string name="speed_megabytes_per_second">%1$s MB/s</string>
-    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
-    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <string name="speed_bytes_per_second">%1$s B/秒</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/秒</string>
+    <string name="speed_megabytes_per_second">%1$s MB/秒</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/秒</string>
+    <string name="speed_terabytes_per_second">%1$s TB/秒</string>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
     <string name="traffic_volume_megabytes">%1$s MB</string>
@@ -1146,7 +1149,7 @@
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">LAN 接続</string>
     <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
-    <string name="settings_advanced_nat_type_title">NAT type</string>
+    <string name="settings_advanced_nat_type_title">NAT タイプ</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">接続のネットワーク アドレス変換タイプを選択します。</string>
@@ -1158,7 +1161,7 @@
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
     <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
-    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">なし</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_dialog_reconnect">新しい設定は次の接続から適用されます。</string>
 </resources>

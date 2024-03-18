@@ -751,6 +751,7 @@
     <string name="no_logs_banner_description">Twoja aktywność VPN jest chroniona przez szwajcarskie prawa ochrony danych osobowych. Nigdy nie będziemy śledzić użytkownika ani udostępniać danych stronom trzecim.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Strona główna</string>
+    <string name="bottom_nav_gateways">Bramy</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Kraje</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -785,7 +786,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">szukaj</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -1002,7 +1003,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Wszystkie serwery w tym mieście są w trakcie przerwy technicznej</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
+    <string name="message_state_servers_in_maintenance">Wszystkie serwery w tym stanie są w trakcie przerwy technicznej</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Serwer jest w trakcie przerwy technicznej</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1013,6 +1014,8 @@
     <string name="settings_sign_out">Wyloguj</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Ustawienia</string>
+    <string name="gateways_title">Bramy</string>
+    <string name="countries_title">Kraje</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funkcje</string>
     <!-- tag(Redesign_2023) -->
@@ -1074,9 +1077,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Anuluj</string>
     <!-- tag(Redesign_2023) -->
-    <string name="country_filter_all">All</string>
-    <string name="country_filter_cities">Cities</string>
-    <string name="country_filter_states">States</string>
+    <string name="country_filter_all">Wszystkie</string>
+    <string name="country_filter_cities">Miasta</string>
+    <string name="country_filter_states">Stany</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->
@@ -1169,11 +1172,11 @@
     <string name="connection_details_unknown_ip">Nieznany</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Wykres pokazuje aktualną prędkość wysyłania i pobierania. Połączenie VPN ma mały wpływ na spowolnienie normalnej aktywności online.</string>
-    <string name="speed_bytes_per_second">%1$s b/s</string>
-    <string name="speed_kilobytes_per_second">%1$s kb/s</string>
-    <string name="speed_megabytes_per_second">%1$s Mb/s</string>
-    <string name="speed_gigabytes_per_second">%1$s Gb/s</string>
-    <string name="speed_terabytes_per_second">%1$s Tb/s</string>
+    <string name="speed_bytes_per_second">%1$s B/s</string>
+    <string name="speed_kilobytes_per_second">%1$s kB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s kB</string>
     <string name="traffic_volume_megabytes">%1$s MB</string>

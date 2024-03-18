@@ -102,7 +102,7 @@
     <string name="offerTooltipShowOffer">Se tilbudet</string>
     <string name="listItemMaintenance">Under vedlikehold</string>
     <string name="listAllCountries">Alle plasseringer (%1$d)</string>
-    <string name="listGateways">Gatewayer</string>
+    <string name="listGateways">Mellomtjenere</string>
     <string name="listFreeCountries">Gratis plasseringer (%1$d)</string>
     <string name="listPremiumCountries">Basic &amp; Plus-plasseringer (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus-plasseringer (%1$d)</string>
@@ -507,7 +507,7 @@
     <string name="activity_information_title">Informasjon</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - Plus-tjenere</string>
-    <string name="activity_information_gateways_title">Hva er en gateway?</string>
+    <string name="activity_information_gateways_title">Hva er en gateway (mellomtjener)?</string>
     <string name="info_features">Funksjoner</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Denne teknologien lar Proton VPN gi høyere hastighet og sikkerhet i vanskelige-å betjene-land.</string>
@@ -529,7 +529,7 @@
     <string name="server_load_low">Lav</string>
     <string name="server_load_medium">Middels</string>
     <string name="server_load_high">Høy</string>
-    <string name="info_gateways_description">En VPN-gateway er en sikker tilkobling som gir kontrollert tilgang til bedriftens data og tjenester gjennom dedikerte tjenere.</string>
+    <string name="info_gateways_description">En VPN-mellomtjener er en sikker tilkobling som gir kontrollert tilgang til bedriftens data og tjenester gjennom dedikerte tjenere.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Velkommen til Proton VPN</string>
@@ -715,6 +715,7 @@
     <string name="no_logs_banner_description">VPN-aktiviteten din er beskyttet av sveitsiske personvernlover. Vi vil aldri spore deg på nettet eller dele informasjonen din med tredjeparter.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Hjem</string>
+    <string name="bottom_nav_gateways">Mellomtjenere</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Land</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -970,11 +971,13 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Tjener ikke tilgjengelig</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">Gatewayen blir vedlikeholdt</string>
+    <string name="message_gateway_in_maintenance">Mellomtjener blir vedlikeholdt</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Logg av</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Innstillinger</string>
+    <string name="gateways_title">Mellomtjenere</string>
+    <string name="countries_title">Land</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funksjoner</string>
     <!-- tag(Redesign_2023) -->
@@ -1080,7 +1083,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Tjener</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_gateway">Gateway</string>
+    <string name="connection_details_gateway">Mellomtjener</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">Land</string>
     <!-- tag(Redesign_2023) -->

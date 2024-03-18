@@ -697,6 +697,7 @@
     <string name="no_logs_banner_description">您的 VPN 活動，受瑞士隱私法律保障。我們永不追蹤您的線上活動或與第三方分享您的資訊。</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">住家</string>
+    <string name="bottom_nav_gateways">預設閘道</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">國家</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -731,7 +732,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">搜尋</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -945,7 +946,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">此城市所有伺服器俱在維護中</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
+    <string name="message_state_servers_in_maintenance">此省/州的所有伺服器均在維護中</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">伺服器維護中</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -956,6 +957,8 @@
     <string name="settings_sign_out">登出</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">設定</string>
+    <string name="gateways_title">預設閘道</string>
+    <string name="countries_title">國家</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">功能</string>
     <!-- tag(Redesign_2023) -->
@@ -1017,9 +1020,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">取消</string>
     <!-- tag(Redesign_2023) -->
-    <string name="country_filter_all">All</string>
-    <string name="country_filter_cities">Cities</string>
-    <string name="country_filter_states">States</string>
+    <string name="country_filter_all">全部</string>
+    <string name="country_filter_cities">城市</string>
+    <string name="country_filter_states">省/州</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->

@@ -697,6 +697,7 @@
     <string name="no_logs_banner_description">Aktivitas VPN Anda dilindungi oleh undang-undang privasi Swiss. Kami tidak akan pernah melacak Anda secara online atau membagikan informasi pribadi Anda dengan pihak ketiga.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Beranda</string>
+    <string name="bottom_nav_gateways">Gateway</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Negara</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -956,6 +957,8 @@
     <string name="settings_sign_out">Keluar</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Pengaturan</string>
+    <string name="gateways_title">Gateway</string>
+    <string name="countries_title">Negara</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Fitur</string>
     <!-- tag(Redesign_2023) -->
