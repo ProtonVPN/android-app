@@ -20,6 +20,7 @@
 package com.protonvpn.testSuites
 
 import com.protonvpn.tests.api.FeatureFlagUserCountryTests
+import com.protonvpn.tests.api.RefreshTokenTests
 import com.protonvpn.tests.bugReport.MockedBugReportTests
 import com.protonvpn.tests.logging.ProtonLoggerImplTests
 import com.protonvpn.tests.login.LogoutTests
@@ -42,6 +43,7 @@ import org.junit.runners.Suite
     LogoutTests::class,
     MockedBugReportTests::class,
     ProtonLoggerImplTests::class,
+    RefreshTokenTests::class,
     TelemetryCacheTests::class,
     UserDataMigrationTests::class,
     VpnConnectionTests::class,
