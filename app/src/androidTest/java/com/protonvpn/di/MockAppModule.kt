@@ -94,13 +94,16 @@ import me.proton.core.user.domain.repository.UserRepository
 import me.proton.core.util.android.dagger.CoreAndroidModule
 import me.proton.core.util.android.dagger.Monotonic
 import me.proton.core.util.android.dagger.UtcClock
+import me.proton.core.util.android.datetime.Clock
+import me.proton.core.util.android.datetime.ClockSystemUtc
+import me.proton.core.util.android.datetime.DateTimeFormat
+import me.proton.core.util.android.datetime.DurationFormat
 import me.proton.core.util.kotlin.CoroutineScopeProvider
 import me.proton.core.util.kotlin.DefaultCoroutineScopeProvider
 import me.proton.core.util.kotlin.DispatcherProvider
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
-import java.time.Clock
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import kotlin.time.ExperimentalTime
@@ -142,7 +145,19 @@ class MockAppModule {
 
     @Provides
     @UtcClock
-    fun provideClock(): Clock = Clock.systemUTC()
+    fun provideClock(): Clock = ClockSystemUtc()
+
+    @Provides
+    @Singleton
+    fun provideDataTimeFormat(
+        @ApplicationContext context: Context
+    ): DateTimeFormat = DateTimeFormat(context)
+
+    @Provides
+    @Singleton
+    internal fun provideDurationFormat(
+        @ApplicationContext context: Context
+    ): DurationFormat = DurationFormat(context)
 
     @OptIn(ExperimentalTime::class)
     @Provides
