@@ -101,7 +101,7 @@ private fun MainTarget.getIcon(selected: Boolean): Int = when (this) {
     MainTarget.Home ->
         if (selected) CoreR.drawable.ic_proton_house_filled else CoreR.drawable.ic_proton_house
     MainTarget.Gateways ->
-        if (selected) CoreR.drawable.ic_proton_servers else CoreR.drawable.ic_proton_servers //TODO: add _filled to core (VPNAND-1685)
+        if (selected) CoreR.drawable.ic_proton_servers_filled else CoreR.drawable.ic_proton_servers
     MainTarget.Countries ->
         if (selected) CoreR.drawable.ic_proton_earth_filled else CoreR.drawable.ic_proton_earth
     MainTarget.Settings ->

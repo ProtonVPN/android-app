@@ -7,7 +7,6 @@ import androidx.test.filters.LargeTest
 import com.protonvpn.actions.compose.HomeRobot
 import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.android.ui.onboarding.SplashActivity
-import com.protonvpn.mocks.FakeIsAccountRecoveryEnabled
 import com.protonvpn.mocks.FakeIsNotificationsEnabled
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.testRules.ProtonHiltAndroidRule
@@ -17,6 +16,7 @@ import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.accountmanager.data.AccountStateHandler
 import me.proton.core.accountrecovery.test.MinimalAccountRecoveryNotificationTest
+import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryEnabled
 import me.proton.core.auth.test.usecase.WaitForPrimaryAccount
 import me.proton.core.eventmanager.domain.EventManagerProvider
 import me.proton.core.eventmanager.domain.repository.EventMetadataRepository
