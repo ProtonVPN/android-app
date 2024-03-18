@@ -256,16 +256,16 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ця статистика не містить вашої IP-адреси та не може бути використана для вашої ідентифікації. Ми ніколи не передаємо ці дані третім сторонам. <a href="%1$s">Докладніше</a>]]></string>
     <string name="netshield_settings_description_not_html">Захистіться від реклами, зловмисних програм і елементів стеження на вебсайтах і в програмах. Якщо вебсайти не завантажуються, спробуйте вимкнути NetShield. %1$s</string>
     <string name="learn_more">Докладніше</string>
-    <string name="netshield_state_on" comment="Describes state, not action">On</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Off</string>
-    <string name="split_tunneling_state_on" comment="Describes state, not action">On</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">Off</string>
-    <string name="vpn_accelerator_state_on" comment="Describes state, not action">On</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Off</string>
-    <string name="lan_state_on" comment="Describes state, not action">On</string>
-    <string name="lan_state_off" comment="Describes state, not action">Off</string>
-    <string name="alt_routing_state_on" comment="Describes state, not action">On</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Увімкнено</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Вимкнено</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Увімкнено</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Вимкнено</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Увімкнено</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Вимкнено</string>
+    <string name="lan_state_on" comment="Describes state, not action">Увімкнено</string>
+    <string name="lan_state_off" comment="Describes state, not action">Вимкнено</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Увімкнено</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Вимкнено</string>
     <string name="netshield_free_description">Блокуйте рекламу, стеження та зловмисні програми на вебсайтах і в програмах</string>
     <string name="netshield_what_data_means">Що означають дані NetShield</string>
     <string name="netshield_ads_title">Реклама</string>
@@ -288,7 +288,7 @@
         <item quantity="other">Зупинених вистежувачів</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Заощаджено даних</string>
-    <string name="netshield_setting_warning">Some websites may not load properly when ads and trackers are blocked.</string>
+    <string name="netshield_setting_warning">Під час блокування реклами та стеження деякі вебсайти можуть завантажуватися некоректно.</string>
     <string name="dialogDontShowAgain">Не показувати знову</string>
     <string name="guestHoleActivated">Доступ до Proton VPN може бути обмежено у вашому регіоні, тому це триватиме довше, ніж зазвичай. Будь ласка, зачекайте, доки ми не виправимо цю проблему.</string>
     <string name="guestHoleNotificationContent">Спроба обійти проблеми з мережею. Це допоможе вам одержати доступ до Proton VPN.</string>
@@ -751,6 +751,7 @@
     <string name="no_logs_banner_description">Ваша діяльність у мережі VPN захищається швейцарським законодавством щодо приватності. Ми ніколи не стежитимемо за вашими діями й не передаватимемо дані про вас третім сторонам.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Домівка</string>
+    <string name="bottom_nav_gateways">Мережеві шлюзи</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Країни</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -785,7 +786,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">пошук</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -1002,7 +1003,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Усі сервери в цьому місті на обслуговуванні</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
+    <string name="message_state_servers_in_maintenance">Усі сервери в цьому регіоні на обслуговуванні</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Сервер обслуговується</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1013,6 +1014,8 @@
     <string name="settings_sign_out">Вийти</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Налаштування</string>
+    <string name="gateways_title">Мережеві шлюзи</string>
+    <string name="countries_title">Країни</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Функції</string>
     <!-- tag(Redesign_2023) -->
@@ -1074,9 +1077,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Скасувати</string>
     <!-- tag(Redesign_2023) -->
-    <string name="country_filter_all">All</string>
-    <string name="country_filter_cities">Cities</string>
-    <string name="country_filter_states">States</string>
+    <string name="country_filter_all">Всі</string>
+    <string name="country_filter_cities">Міста</string>
+    <string name="country_filter_states">Регіони</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->
@@ -1169,16 +1172,16 @@
     <string name="connection_details_unknown_ip">Невідомо</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Цей графік показує швидкість поточного завантаження і вивантаження. VPN-з\'єднання не повинно впливати на типову активність онлайн.</string>
-    <string name="speed_bytes_per_second">%1$s B/s</string>
-    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
-    <string name="speed_megabytes_per_second">%1$s MB/s</string>
-    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
-    <string name="speed_terabytes_per_second">%1$s TB/s</string>
-    <string name="traffic_volume_bytes">%1$s B</string>
-    <string name="traffic_volume_kilobytes">%1$s KB</string>
-    <string name="traffic_volume_megabytes">%1$s MB</string>
-    <string name="traffic_volume_gigabytes">%1$s GB</string>
-    <string name="traffic_volume_terabytes">%1$s TB</string>
+    <string name="speed_bytes_per_second">%1$s Б/с</string>
+    <string name="speed_kilobytes_per_second">%1$s кБ/с</string>
+    <string name="speed_megabytes_per_second">%1$s МБ/с</string>
+    <string name="speed_gigabytes_per_second">%1$s ГБ/с</string>
+    <string name="speed_terabytes_per_second">%1$s ТБ/с</string>
+    <string name="traffic_volume_bytes">%1$s Б</string>
+    <string name="traffic_volume_kilobytes">%1$s кБ</string>
+    <string name="traffic_volume_megabytes">%1$s МБ</string>
+    <string name="traffic_volume_gigabytes">%1$s ГБ</string>
+    <string name="traffic_volume_terabytes">%1$s ТБ</string>
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
@@ -1201,24 +1204,24 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Збільште швидкість з\'єднання до 400%% завдяки технологіям підвищення продуктивності. %1$s</string>
     <string name="settings_advanced_alternative_routing_title">Альтернативна маршрутизація</string>
-    <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
+    <string name="settings_advanced_alternative_routing_description">Якщо служби Proton блокуються мережевими обмеженнями, ми спробуємо використати альтернативний спосіб маршрутизації для з\'єднання з вашими сайтами.</string>
     <string name="settings_advanced_allow_lan_title">LAN-з\'єднання</string>
-    <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
-    <string name="settings_advanced_nat_type_title">NAT type</string>
+    <string name="settings_advanced_allow_lan_description">Дає можливість під\'єднуватися до принтерів, гучномовців та інших пристроїв у локальній мережі вашого пристрою.</string>
+    <string name="settings_advanced_nat_type_title">NAT Type</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">Select a network address translation type for your connection.</string>
-    <string name="settings_advanced_nat_type_strict">Strict (type 3)</string>
-    <string name="settings_advanced_nat_type_moderate">Moderate (type 2)</string>
-    <string name="settings_advanced_nat_type_strict_description">Restricts the data entering your network. This option is more secure, but can make peer-to-peer gaming connections more difficult.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
-    <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
-    <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
-    <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
-    <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
-    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_advanced_nat_type_description">Виберіть тип перекладу мережевої адреси для свого з\'єднання. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Виберіть тип перекладу мережевої адреси для свого з\'єднання.</string>
+    <string name="settings_advanced_nat_type_strict">Суворий (тип 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Середній (тип 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Обмежує дані, що входять до вашої мережі. Цей параметр безпечніший, але може ускладнити ігрові з\'єднання peer-to-peer.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Обмеження щодо даних, які входять до вашої мережі. Цей параметр найкраще використовувати для відеоігор онлайн.</string>
+    <string name="settings_split_tunneling_description">Налаштуйте з\'єднання, вирішивши, які програми та IP-адреси захищаються VPN. %1$s</string>
+    <string name="settings_protocol_description">Протокол VPN визначає спосіб обміну даними між VPN-сервером і вашим пристроєм. %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">Винятки програм</string>
+    <string name="settings_split_tunneling_excluded_ips">Винятки IP-адрес</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Немає</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, і ще %3$d</string>
     <string name="settings_dialog_reconnect">Нові налаштування застосуються при наступному з\'єднанні.</string>
 </resources>

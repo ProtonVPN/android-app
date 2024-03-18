@@ -663,7 +663,7 @@
     <string name="whats_new_recents_description">Het is nu nog makkelijker om opnieuw verbinding te maken met je favoriete servers. Bekijk uw meest recente verbindingen op het startscherm, of pin ze voor snelle toegang. Recente vervangt profielen.</string>
     <string name="whats_new_dismiss_button">Neem een kijkje</string>
     <string name="whats_new_added_countries_title">Nieuwe gratis landen</string>
-    <string name="whats_new_added_countries_description">Er zijn nu vrije servers in Polen en Roemenië. Om te voorkomen dat server wordt gecrowding, hebben we handmatige landselectie verwijderd en hebben we belangrijke verbeteringen aangebracht in de automatische serverselectie.</string>
+    <string name="whats_new_added_countries_description">Er zijn nu gratis servers in Polen en Roemenië. Om overbelasting te voorkomen, hebben we handmatige landselectie verwijderd en hebben we belangrijke verbeteringen aangebracht in de automatische serverselectie.</string>
     <string name="welcome_plus_title">Welkom bij VPN Plus</string>
     <string name="welcome_plus_description">Geniet van extra privacy functies, supercharged prestaties en next-level VPN aanpassingen.</string>
     <string name="welcome_plus_feature_security">Geavanceerde beveiligingsfuncties</string>
@@ -715,6 +715,7 @@
     <string name="no_logs_banner_description">Uw activiteit via VPN is beschermd door Zwitserse privacy-wetgeving. We zullen u nooit volgen of uw informatie delen met derden.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Start</string>
+    <string name="bottom_nav_gateways">Gateways</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Landen</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -749,7 +750,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">zoeken</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -964,7 +965,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Alle servers in deze stad zijn in onderhoud</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
+    <string name="message_state_servers_in_maintenance">Alle servers in deze staat zijn in onderhoud</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Server ondergaat onderhoud</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -975,6 +976,8 @@
     <string name="settings_sign_out">Uitloggen</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Instellingen</string>
+    <string name="gateways_title">Gateways</string>
+    <string name="countries_title">Landen</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Functies</string>
     <!-- tag(Redesign_2023) -->
@@ -1036,9 +1039,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Annuleren</string>
     <!-- tag(Redesign_2023) -->
-    <string name="country_filter_all">All</string>
-    <string name="country_filter_cities">Cities</string>
-    <string name="country_filter_states">States</string>
+    <string name="country_filter_all">Alle</string>
+    <string name="country_filter_cities">Steden</string>
+    <string name="country_filter_states">Staten</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->
@@ -1163,7 +1166,7 @@
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Verhoog uw verbindingssnelheid met maximaal 400%% met prestatieverbetering technologieën. %1$s</string>
     <string name="settings_advanced_alternative_routing_title">Alternatieve routing</string>
-    <string name="settings_advanced_alternative_routing_description">Als Proton diensten worden geblokkeerd vanwege netwerkbeperkingen, zullen we proberen alternatieve netwerkrouting te gebruiken om verbinding te maken met onze sites.</string>
+    <string name="settings_advanced_alternative_routing_description">Als Proton-diensten worden geblokkeerd vanwege netwerkbeperkingen, zullen we proberen alternatieve netwerkrouting te gebruiken om verbinding te maken met onze sites.</string>
     <string name="settings_advanced_allow_lan_title">LAN-verbindingen</string>
     <string name="settings_advanced_allow_lan_description">Hiermee kunt u verbinding maken met printers, luidsprekers en andere apparaten in het lokale netwerk van uw apparaat.</string>
     <string name="settings_advanced_nat_type_title">NAT-type</string>

@@ -422,7 +422,7 @@
     <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
     <string name="upgrade_p2p_text">Улучшите скорость загрузки и скачивания, скрывая при этом свой IP-адрес.</string>
     <string name="upgrade_streaming_title">Трансляция в 4K</string>
-    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
+    <string name="upgrade_streaming_text">Наслаждайтесь любимыми фильмами и телепередачами из любой точки мира.</string>
     <string name="upgrade_tor_title">Доступ к сети Tor одним нажатием</string>
     <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
     <string name="upgrade_vpn_accelerator_title">Просматривайте веб-страницы на еще более высоких скоростях</string>
@@ -478,7 +478,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
+    <string name="upsell_card_countries_description">%1$d+ серверов в %2$s</string>
     <string name="upsell_card_customization_title">И многое другое…</string>
     <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
     <plurals name="upsell_card_devices_title">
@@ -487,13 +487,13 @@
         <item quantity="many">Защитите %1$d устройств</item>
         <item quantity="other">Защитите %1$d устройств</item>
     </plurals>
-    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_devices_description">Безопасность и конфиденциальность на всех ваших устройствах</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_netshield_description">Блокировать рекламу, вредоносные программы и трекеры</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Добавьте еще один уровень шифрования к своему подключению к VPN</string>
     <string name="upsell_card_p2p_title">Поддержка P2P</string>
-    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
+    <string name="upsell_card_p2p_description">Скачивайте файлы через BitTorrent и другие протоколы обмена файлами</string>
     <string name="upsell_card_speed_title">Faster browsing</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -751,6 +751,7 @@
     <string name="no_logs_banner_description">Работа вашей VPN защищена швейцарскими законами о частной жизни. Мы никогда не будем отслеживать вас в сети или передавать вашу информацию третьим лицам.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Главная</string>
+    <string name="bottom_nav_gateways">Gateways</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Страны</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -785,7 +786,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">поиск</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -1013,6 +1014,8 @@
     <string name="settings_sign_out">Bыйти</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Настройки</string>
+    <string name="gateways_title">Gateways</string>
+    <string name="countries_title">Страны</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Функции</string>
     <!-- tag(Redesign_2023) -->
@@ -1075,7 +1078,7 @@
     <string name="dialog_action_cancel">Отменить</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">All</string>
-    <string name="country_filter_cities">Cities</string>
+    <string name="country_filter_cities">Города</string>
     <string name="country_filter_states">States</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
