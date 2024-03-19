@@ -27,6 +27,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
@@ -39,6 +40,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -52,6 +54,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ModalBottomSheetWithBackNavigation(
     modifier: Modifier,
+    containerColor: Color = BottomSheetDefaults.ContainerColor,
     sheetState: SheetState = rememberModalBottomSheetState(),
     scope: CoroutineScope = rememberCoroutineScope(),
     onNavigateBack: suspend (suspend () -> Unit) -> Unit,
@@ -69,6 +72,7 @@ fun ModalBottomSheetWithBackNavigation(
 
     ModalBottomSheet(
         onDismissRequest = onClose,
+        containerColor = containerColor,
         sheetState = sheetState,
         windowInsets = WindowInsets.navigationBars,
         modifier = modifier

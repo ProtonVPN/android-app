@@ -23,6 +23,7 @@ package com.protonvpn.android.redesign.countries.ui
 
 import android.os.Parcelable
 import androidx.annotation.StringRes
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -89,6 +90,11 @@ abstract class ServerGroupsViewModel(
         val intent: ConnectIntent?,
         val server: Server?,
     )
+
+    private val listStates = mutableMapOf<String, LazyListState>()
+
+    fun getListStateForBottomScreen(screenKey: String): LazyListState =
+        listStates.getOrPut(screenKey) { LazyListState() }
 
     // Helper flows
     val localeFlow = MutableStateFlow<Locale?>(null)
@@ -253,10 +259,22 @@ abstract class ServerGroupsViewModel(
         } else {
             null
         }
+        val city = when (savedState.type) {
+            SubScreenType.Cities -> savedState.city
+            SubScreenType.Servers -> savedState.city
+            SubScreenType.GatewayServers -> ""
+        }
         return SubScreenState(
             savedState,
-            filterButtons,
-            items
+            filterButtons = filterButtons,
+            items = items,
+            allLabelRes =  when {
+                filterButtons == null -> null
+                dataAdapter.haveStates(savedState.filter) -> R.string.country_filter_states
+                else -> R.string.country_filter_cities
+            },
+            city = city,
+            countryId = savedState.countryId
         )
     }
 
@@ -283,6 +301,7 @@ abstract class ServerGroupsViewModel(
             type = SubScreenType.Cities,
             filter = ServerListFilter(country = countryId, type = type),
             previousScreen = null,
+            countryId = countryId,
             rememberStateKey = "country_view"
         )
     }
@@ -292,6 +311,7 @@ abstract class ServerGroupsViewModel(
             type = SubScreenType.GatewayServers,
             filter = ServerListFilter(gatewayName = gatewayName),
             previousScreen = null,
+            countryId = null,
             rememberStateKey = "gateway_view"
         )
     }
@@ -299,13 +319,15 @@ abstract class ServerGroupsViewModel(
     private fun onOpenCity(type: ServerFilterType, countryId: CountryId, cityStateId: CityStateId) {
         subScreenSaveState = SubScreenSaveState(
             type = SubScreenType.Servers,
+            city = cityStateId.name,
             filter = ServerListFilter(
                 country = countryId,
                 cityStateId = cityStateId,
                 type = type
             ),
             previousScreen = subScreenSaveState,
-            rememberStateKey = "servers_view"
+            countryId = countryId,
+            rememberStateKey = "servers_view" + cityStateId.name
         )
     }
 
@@ -353,6 +375,7 @@ abstract class ServerGroupsViewModel(
     }
 
     fun onClose() {
+        listStates.clear()
         subScreenSaveState = null
     }
 
@@ -504,6 +527,8 @@ data class CountryScreenState(
 
 @Parcelize
 data class SubScreenSaveState(
+    val city: String = "",
+    val countryId: CountryId?,
     val type: SubScreenType,
     val filter: ServerListFilter,
     val previousScreen: SubScreenSaveState?,
@@ -514,6 +539,9 @@ data class SubScreenState(
     val savedState: SubScreenSaveState,
     val filterButtons: List<FilterButton>?,
     val items: List<ServerGroupUiItem>,
+    @StringRes val allLabelRes: Int?,
+    val countryId: CountryId?,
+    val city: String = "",
 )
 
 // Adapter separating server data storage from view model.
