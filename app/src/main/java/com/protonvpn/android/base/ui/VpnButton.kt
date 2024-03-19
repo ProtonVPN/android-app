@@ -118,7 +118,7 @@ fun ProtonOutlinedNeutralButton(
     content: @Composable () -> Unit,
 ) {
     ProtonOutlinedButton(
-        onClick, modifier, enabled, loading, contained, interactionSource, colors, border, content
+        onClick, modifier, enabled, loading, contained, interactionSource, colors, border, content = content
     )
 }
 

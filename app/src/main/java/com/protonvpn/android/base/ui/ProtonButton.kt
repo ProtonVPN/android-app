@@ -36,9 +36,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,6 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.theme.ProtonDimens
@@ -63,6 +66,7 @@ fun ProtonSolidButton(
     contained: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: ButtonColors = ButtonDefaults.protonButtonColors(loading),
+    contentPadding: PaddingValues = ButtonDefaults.ProtonContentPadding,
     content: @Composable () -> Unit,
 ) {
     ProtonButton(
@@ -77,6 +81,7 @@ fun ProtonSolidButton(
         border = null,
         style = ProtonTheme.typography.defaultUnspecified,
         colors = colors,
+        contentPadding = contentPadding,
         content = content,
     )
 }
@@ -119,6 +124,7 @@ fun ProtonOutlinedButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: ButtonColors = ButtonDefaults.protonOutlinedButtonColors(loading),
     border: BorderStroke = ButtonDefaults.protonOutlinedBorder(enabled, loading),
+    contentPadding: PaddingValues = ButtonDefaults.ProtonContentPadding,
     content: @Composable () -> Unit,
 ) {
     ProtonButton(
@@ -133,6 +139,7 @@ fun ProtonOutlinedButton(
         border = border,
         style = ProtonTheme.typography.defaultUnspecified,
         colors = colors,
+        contentPadding = contentPadding,
         content = content,
     )
 }
@@ -183,23 +190,26 @@ fun ProtonTextButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: ButtonColors = ButtonDefaults.protonTextButtonColors(loading),
     style: TextStyle = ProtonTheme.typography.defaultSmallUnspecified,
+    contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding,
     content: @Composable () -> Unit,
 ) {
-    ProtonButton(
-        onClick = onClick,
-        modifier = modifier,
-        enabled = enabled,
-        loading = loading,
-        contained = contained,
-        interactionSource = interactionSource,
-        elevation = null,
-        shape = ProtonTheme.shapes.small,
-        border = null,
-        style = style,
-        colors = colors,
-        contentPadding = ButtonDefaults.TextButtonContentPadding,
-        content = content,
-    )
+    CompositionLocalProvider(LocalTextStyle provides ProtonTheme.typography.body2Regular) {
+        ProtonButton(
+            onClick = onClick,
+            modifier = modifier,
+            enabled = enabled,
+            loading = loading,
+            contained = contained,
+            interactionSource = interactionSource,
+            elevation = null,
+            shape = ProtonTheme.shapes.small,
+            border = null,
+            style = style,
+            colors = colors,
+            contentPadding = contentPadding,
+            content = content,
+        )
+    }
 }
 
 @Composable
@@ -240,22 +250,26 @@ fun ProtonSecondaryButton(
     loading: Boolean = false,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: ButtonColors = ButtonDefaults.protonSecondaryButtonColors(loading),
+    contentPadding: PaddingValues = ButtonDefaults.ProtonContentPadding,
     content: @Composable () -> Unit,
 ) {
-    ProtonButton(
-        onClick = onClick,
-        modifier = modifier,
-        enabled = enabled,
-        loading = loading,
-        interactionSource = interactionSource,
-        elevation = null,
-        shape = ProtonTheme.shapes.medium,
-        border = null,
-        style = ProtonTheme.typography.defaultSmallUnspecified,
-        colors = colors,
-        contentPadding = ButtonDefaults.TextButtonContentPadding,
-        content = content,
-    )
+    CompositionLocalProvider(LocalTextStyle provides ProtonTheme.typography.captionRegular) {
+        ProtonButton(
+            onClick = onClick,
+            modifier = modifier,
+            minHeight = 32.dp,
+            enabled = enabled,
+            loading = loading,
+            interactionSource = interactionSource,
+            elevation = null,
+            shape = ProtonTheme.shapes.medium,
+            border = null,
+            style = ProtonTheme.typography.defaultSmallUnspecified,
+            colors = colors,
+            contentPadding = contentPadding,
+            content = content,
+        )
+    }
 }
 
 @Composable
@@ -294,12 +308,13 @@ fun ProtonButton(
     border: BorderStroke?,
     style: TextStyle,
     colors: ButtonColors,
+    minHeight: Dp = ButtonDefaults.ProtonMinHeight,
     contentPadding: PaddingValues = ButtonDefaults.ProtonContentPadding,
     content: @Composable () -> Unit,
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.heightIn(min = ButtonDefaults.ProtonMinHeight),
+        modifier = modifier.heightIn(min = minHeight),
         enabled = !loading && enabled,
         interactionSource = interactionSource,
         elevation = elevation,
