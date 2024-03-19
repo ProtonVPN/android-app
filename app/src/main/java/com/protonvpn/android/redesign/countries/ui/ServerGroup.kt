@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -195,7 +196,27 @@ fun ToolbarWithFilters(
 
 @Composable
 fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier) {
+    val listState = rememberLazyListState()
+
+    val selectedIndex = buttonActions.indexOfFirst { it.isSelected }
+    LaunchedEffect(selectedIndex) {
+        if (selectedIndex != -1) {
+            val visibleItemsInfo = listState.layoutInfo.visibleItemsInfo
+            val selectedItemInfo = visibleItemsInfo.firstOrNull { it.index == selectedIndex }
+            selectedItemInfo?.let {
+                val startOffset = it.offset
+                val endOffset = startOffset + it.size
+
+                if (startOffset < 0 || endOffset > listState.layoutInfo.viewportEndOffset) {
+                    // The selected item is partially visible, scroll to make it fully visible.
+                    listState.animateScrollToItem(selectedIndex)
+                }
+            }
+        }
+    }
+
     LazyRow(
+        state = listState,
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier,
