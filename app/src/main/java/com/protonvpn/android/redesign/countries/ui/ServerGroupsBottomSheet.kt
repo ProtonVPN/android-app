@@ -97,7 +97,7 @@ private fun BottomSheetScreen(
     val gatewayName = screen.savedState.filter.gatewayName
     Column(modifier = modifier) {
         BottomSheetTitleRow(
-            isGateway = screen.savedState.type != SubScreenType.GatewayServers,
+            isGateway = screen.savedState.type == SubScreenType.GatewayServers,
             countryId = countryId,
             gatewayName = gatewayName,
             modifier = Modifier.padding(16.dp).fillMaxWidth()
