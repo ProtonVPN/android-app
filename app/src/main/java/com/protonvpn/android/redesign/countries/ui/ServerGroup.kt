@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -130,7 +131,7 @@ fun ServerGroupsRoute(
         titleRes = titleRes,
         content = {
             ServerGroupItemsList(
-                mainState.items,
+                items = mainState.items,
                 onItemClick = createOnConnectAction(mainState.savedState.filter),
                 onItemOpen = createOnItemOpen(mainState.savedState.filter.type),
                 onOpenInfo = { infoType -> info = infoType },
@@ -148,6 +149,7 @@ fun ServerGroupsRoute(
             modifier = Modifier,
             screen = subScreenState,
             onNavigateBack = { onHide -> viewModel.onNavigateBack(onHide) },
+            getListStateFromViewModel = { screenKey -> viewModel.getListStateForBottomScreen(screenKey) },
             onNavigateToItem = createOnItemOpen(subScreenState.savedState.filter.type),
             onItemClicked = createOnConnectAction(subScreenState.savedState.filter),
             onClose = { viewModel.onClose() },
@@ -260,17 +262,19 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier)
 
 @Composable
 fun ServerGroupItemsList(
+    modifier: Modifier = Modifier,
     items: List<ServerGroupUiItem>,
+    listState: LazyListState = rememberLazyListState(),
     onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
     onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
     onOpenInfo: (InfoType) -> Unit,
     navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
-    modifier: Modifier = Modifier,
     horizontalContentPadding: Dp = 0.dp,
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(horizontal = horizontalContentPadding)
+        contentPadding = PaddingValues(horizontal = horizontalContentPadding),
+        state = listState,
     ) {
         items.forEach { item ->
             item {
