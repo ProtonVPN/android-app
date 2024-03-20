@@ -2,29 +2,29 @@ Proton VPN is the world's ONLY free VPN service that is safe to use and respects
 
 Used by millions worldwide, Proton’s secure no-logs VPN offers 24/7 private internet access, and does not record your browsing history, display ads, sell your data to third parties, or limit downloads.
 
-FREE VPN features available to ALL users:
+Free VPN features available to all users:
 
-1. VPN accelerator - increases Proton VPN's speeds by up to 400% to give users an express service
-2. Unlimited data with no bandwidth or speed restrictions
-3. Strictly NO logs
-4. Full disk encrypted servers protect your data
-5. Bypass geo-restrictions - smart protocol selection automatically overcomes VPN bans and unblocks censored content
-6. Perfect forward secrecy - encrypted traffic cannot be captured and decrypted later
-7. DNS leak protection - DNS queries are also encrypted to ensure that your browsing activity cannot be exposed through DNS leaks
-8. Split tunneling support allows you to select which apps go through the VPN tunnel
-9. Always-on VPN/kill switch offers protection against leaks caused by accidental disconnections
+• Unlimited data access with no bandwidth or speed restrictions
+• Strict no logs policy; your privacy is our priority
+• Bypass geo-restrictions: smart protocol selection automatically overcomes VPN bans and unblocks censored sites and content
+• Full disk encrypted servers protect your data privacy
+• Perfect forward secrecy: encrypted traffic cannot be captured and decrypted later
+• DNS leak protection: we encrypt DNS queries to ensure that your browsing activity cannot be exposed through DNS leaks
+• Always-on VPN/ kill switch offers protection against leaks caused by accidental disconnections
 
-PREMIUM features:
+Premium VPN features:
 
-1. 1400+ high speed servers across 60+ countries
-2. Fast VPN: High speed servers with connections up to 10 Gbps
-3. Connect up to 10 devices to VPN at the same time
-4. Stream films, sports events, and videos on any streaming service (Netflix, Hulu, Amazon Prime Video, Disney+ etc)
-5. Access to blocked or censored content
-6. File-sharing and P2P support
-7. Adblocker (NetShield) - a DNS filtering feature that protects users from malware, blocks ads, and prevents website trackers from following you across the web
-8. Secure Core servers protect against network-based attacks with multi-hop VPN
-9. Tor over VPN provides automatic integration with the Tor anonymity network
+• Access 3800+ high speed servers across 80+ countries worldwide
+• Fast VPN: high-speed server network with connections up to 10 Gbps
+• VPN Accelerator: unique technology increases Proton VPN's speeds by up to 400% for a faster browsing experience
+• Unblock access to blocked or censored content to get unlimited internet access
+• Connect up to 10 devices to the VPN at the same time
+• Ad blocker (NetShield): a DNS filtering feature that protects you from malware, blocks ads, and prevents website trackers from following you across the web
+• Stream films, sports events, and videos on any streaming service (Netflix, Hulu, Amazon Prime Video, Disney+, BBC iPlayer etc) with our fast server network
+• File-sharing and P2P support
+• Secure Core servers protect against network-based attacks with multi-hop VPN
+• Tor over VPN provides automatic integration with the Tor anonymity network
+• Split tunneling support allows you to select which apps go through the VPN tunnel
 
 Why Proton VPN?
 
