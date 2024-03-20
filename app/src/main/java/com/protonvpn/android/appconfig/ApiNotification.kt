@@ -25,6 +25,7 @@ object ApiNotificationTypes {
     //const val TYPE_TOOLBAR = 0 // No longer supported.
     const val TYPE_ONE_TIME_POPUP = 1
     const val TYPE_HOME_SCREEN_BANNER = 2
+    const val TYPE_HOME_PROMINENT_BANNER = 3
 }
 
 @Serializable
@@ -34,6 +35,7 @@ data class ApiNotification(
     @SerialName("EndTime") val endTime: Long,
     @SerialName("Type") val type: Int,
     @SerialName("Offer") val offer: ApiNotificationOffer? = null,
+    @SerialName("ProminentBanner") val prominentBanner: ApiNotificationProminentBanner? = null,
     @SerialName("Reference") val reference: String? = null,
 )
 
@@ -67,6 +69,21 @@ data class ApiNotificationOfferPanel(
 data class ApiNotificationOfferFeature(
     @SerialName("IconURL") val iconUrl: String,
     @SerialName("Text") val text: String
+)
+
+@Serializable
+enum class ApiNotificationProminentBannerStyle {
+    @SerialName("Regular") REGULAR,
+    @SerialName("Warning") WARNING,
+}
+
+@Serializable
+data class ApiNotificationProminentBanner(
+    @SerialName("Title") val title: String? = null,
+    @SerialName("Description") val description: String? = null,
+    @SerialName("ActionButton") val actionButton: ApiNotificationOfferButton? = null,
+    @SerialName("DismissButtonText") val dismissButtonText: String,
+    @SerialName("Style") val style: ApiNotificationProminentBannerStyle,
 )
 
 @Serializable
