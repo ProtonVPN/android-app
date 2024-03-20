@@ -22,6 +22,7 @@ import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.RecentConnection
@@ -40,7 +41,9 @@ import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
+import com.protonvpn.android.ui.promooffers.HomeScreenProminentBannerFlow
 import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
+import com.protonvpn.android.ui.promooffers.ProminentBannerState
 import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.ui.promooffers.PromoOfferButtonActions
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
@@ -71,7 +74,7 @@ private const val DialogStateKey = "dialog"
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     recentsListViewStateFlow: RecentsListViewStateFlow,
     private val recentsManager: RecentsManager,
     private val uiStateStorage: UiStateStorage,
@@ -85,7 +88,8 @@ class HomeViewModel @Inject constructor(
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val vpnErrorUIManager: VpnErrorUIManager,
     upsellCarouselStateFlow: UpsellCarouselStateFlow,
-    promoBannerFlow: HomeScreenPromoBannerFlow,
+    bottomPromoBannerFlow: HomeScreenPromoBannerFlow,
+    prominentPromoBannerFlow: HomeScreenProminentBannerFlow,
     private val promoOfferButtonActions: PromoOfferButtonActions,
     private val promoOffersPrefs: PromoOffersPrefs,
     @ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
@@ -110,7 +114,10 @@ class HomeViewModel @Inject constructor(
     val recentsViewState = recentsListViewStateFlow
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
 
-    val promoBannerStateFlow: StateFlow<PromoOfferBannerState?> = promoBannerFlow
+    val bottomPromoBannerStateFlow: StateFlow<PromoOfferBannerState?> = bottomPromoBannerFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
+    val prominentPromoBannerStateFlow: StateFlow<ProminentBannerState?> = prominentPromoBannerFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     val changeServerViewState: SharedFlow<ChangeServerViewState?> = changeServerViewStateFlow
@@ -183,17 +190,25 @@ class HomeViewModel @Inject constructor(
     }
 
     suspend fun openPromoOffer(banner: PromoOfferBannerState, context: Context) {
-        val url = promoOfferButtonActions.getButtonUrl(banner.action)
+        openPromoOffer(banner.action, banner.reference, context)
+    }
+
+    suspend fun openPromoOffer(banner: ProminentBannerState, context: Context) {
+        openPromoOffer(banner.actionButton!!, banner.reference, context)
+    }
+
+    private suspend fun openPromoOffer(action: ApiNotificationOfferButton, reference: String?, context: Context) {
+        val url = promoOfferButtonActions.getButtonUrl(action)
 
         if (url != null) { // It's not null on correctly defined notifications.
-            upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, banner.reference)
+            upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROMO_OFFER, reference)
             upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.EXTERNAL)
             context.openUrl(url)
         }
     }
 
-    fun dismissPromoOffer(banner: PromoOfferBannerState) {
-        promoOffersPrefs.addVisitedOffer(banner.notificationId)
+    fun dismissPromoOffer(notificationId: String) {
+        promoOffersPrefs.addVisitedOffer(notificationId)
     }
 
     private fun RecentConnection.toMaintenanceDialogType() =

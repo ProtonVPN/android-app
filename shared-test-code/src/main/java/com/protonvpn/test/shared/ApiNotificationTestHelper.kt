@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.ApiNotificationOfferFullScreenImage
 import com.protonvpn.android.appconfig.ApiNotificationOfferImageSource
 import com.protonvpn.android.appconfig.ApiNotificationOfferPanel
+import com.protonvpn.android.appconfig.ApiNotificationProminentBanner
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 
@@ -40,6 +41,7 @@ object ApiNotificationTestHelper {
         label: String = "Offer",
         iconUrl: String = "file:///android_asset/no_such_file.png",
         panel: ApiNotificationOfferPanel? = null,
+        prominentBanner: ApiNotificationProminentBanner? = null,
         reference: String? = null,
     ) = ApiNotification(
             id,
@@ -47,6 +49,7 @@ object ApiNotificationTestHelper {
             end,
             type,
             ApiNotificationOffer(label, "https://protonvpn.com", iconUrl = iconUrl, panel = panel),
+            prominentBanner,
             reference
         )
 

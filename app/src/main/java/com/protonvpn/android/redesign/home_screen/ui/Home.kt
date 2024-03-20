@@ -24,10 +24,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,8 +33,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -55,7 +53,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
@@ -67,12 +64,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.netshield.NetShieldActions
+import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
-import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
@@ -91,6 +88,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.promooffers.PromoOfferBanner
 import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
+import com.protonvpn.android.ui.promooffers.PromoOfferProminentBanner
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -141,7 +139,8 @@ fun HomeView(
     val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
     val changeServerState = viewModel.changeServerViewState.collectAsStateWithLifecycle(null).value
     val upsellCarouselState = viewModel.upsellCarouselState.collectAsStateWithLifecycle().value
-    val promoBannerState = viewModel.promoBannerStateFlow.collectAsStateWithLifecycle().value
+    val bottomPromoBannerState = viewModel.bottomPromoBannerStateFlow.collectAsStateWithLifecycle().value
+    val prominentPromoBannerState = viewModel.prominentPromoBannerStateFlow.collectAsStateWithLifecycle().value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val coroutineScope = rememberCoroutineScope()
 
@@ -171,12 +170,12 @@ fun HomeView(
             )
         }
     }
-    val promoBanner: (@Composable (Modifier) -> Unit)? = promoBannerState?.let { state ->
+    val bottomPromoBanner: (@Composable (Modifier) -> Unit)? = bottomPromoBannerState?.let { state ->
         @Composable { modifier ->
             PromoOfferBanner(
                 state = state,
                 onClick = { viewModel.openPromoOffer(state, context) },
-                onDismiss = { viewModel.dismissPromoOffer(state) },
+                onDismiss = { viewModel.dismissPromoOffer(state.notificationId) },
                 modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
             )
         }
@@ -288,8 +287,8 @@ fun HomeView(
                     viewState = recentsViewState,
                     expandState = recentsExpandState,
                     changeServerButton = changeServerButton,
-                    promoBanner = promoBanner,
-                    promoBannerPeekOffset = promoBannerState?.peekOffset ?: 0.dp,
+                    promoBanner = bottomPromoBanner,
+                    promoBannerPeekOffset = bottomPromoBannerState?.peekOffset ?: 0.dp,
                     upsellContent = upsellCarouselContent,
                     onConnectClicked = connectionCardConnectAction,
                     onDisconnectClicked = connectionCardDisconnectAction,
@@ -331,9 +330,19 @@ fun HomeView(
                 .fillMaxWidth()
                 .heightIn(min = vpnStatusTopMinHeight)
                 .recentsScrollOverlayBackground(coverAlpha)
-                .windowInsetsPadding(WindowInsets.statusBars)
+                .statusBarsPadding()
                 .constrainAs(vpnStatusTop) {}
         )
+
+        if (prominentPromoBannerState != null) {
+            PromoOfferProminentBanner(
+                state = prominentPromoBannerState,
+                onDismiss = { viewModel.dismissPromoOffer(prominentPromoBannerState.notificationId) },
+                onAction = { viewModel.openPromoOffer(prominentPromoBannerState, context) },
+                contentWindowInsets = WindowInsets.statusBars,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 
     HomeDialog(dialogState, onDismiss = viewModel::dismissDialog)
