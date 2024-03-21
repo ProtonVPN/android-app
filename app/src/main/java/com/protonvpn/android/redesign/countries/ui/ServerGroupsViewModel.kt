@@ -444,6 +444,13 @@ fun ServerFilterType.headerLabel(isFreeUser: Boolean): Int = when(this) {
     ServerFilterType.Tor -> R.string.country_filter_tor_list_header
 }
 
+val ServerFilterType.bannerType: ServerGroupUiItem.BannerType get() = when(this) {
+    ServerFilterType.All -> ServerGroupUiItem.BannerType.Countries
+    ServerFilterType.SecureCore -> ServerGroupUiItem.BannerType.SecureCore
+    ServerFilterType.P2P -> ServerGroupUiItem.BannerType.P2P
+    ServerFilterType.Tor -> ServerGroupUiItem.BannerType.Tor
+}
+
 fun subScreenHeaderLabel(hasStates: Boolean, type: SubScreenType, filterType: ServerFilterType): Int = when(filterType) {
     ServerFilterType.All ->
         if (type == SubScreenType.Cities) {

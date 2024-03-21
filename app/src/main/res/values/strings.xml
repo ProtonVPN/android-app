@@ -1275,4 +1275,8 @@
     <string name="info_p2p_why_description_logs">No activity logs</string>
     <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
     <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="countries_upsell_banner_description">Get worldwide coverage with VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Add another layer of encryption to your VPN connection</string>
+    <string name="p2p_upsell_banner_description">Download files through BitTorrent and other file sharing protocols</string>
+    <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
 </resources>

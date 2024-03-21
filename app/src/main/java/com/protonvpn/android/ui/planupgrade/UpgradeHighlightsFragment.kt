@@ -311,7 +311,7 @@ class UpgradeStreamingHighlightsFragment : UpgradeHighlightsFragment() {
 }
 
 @AndroidEntryPoint
-class UpgradeTorHighlightsFragment : UpgradeHighlightsFragment() {
+class UpgradeTorHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.TOR) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -339,7 +339,7 @@ class UpgradeDevicesHighlightsFragment : UpgradeHighlightsFragment() {
 }
 
 @AndroidEntryPoint
-class UpgradeP2PHighlightsFragment : UpgradeHighlightsFragment() {
+class UpgradeP2PHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.P2P) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

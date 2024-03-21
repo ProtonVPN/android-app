@@ -82,4 +82,9 @@ sealed class ServerGroupUiItem {
         val count: Int,
         val info: InfoType?,
     ) : ServerGroupUiItem()
+
+    enum class BannerType { Countries, SecureCore, P2P, Tor }
+    data class Banner(
+        val type: BannerType,
+    ) : ServerGroupUiItem()
 }

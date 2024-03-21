@@ -18,8 +18,6 @@
  */
 package com.protonvpn.android.netshield
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -31,7 +29,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -50,18 +47,17 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.res.ResourcesCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.base.ui.volumeBytesToString
+import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionStrongNorm
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallStrongNorm
-import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.overlineWeak
 import me.proton.core.presentation.R as CoreR
 
@@ -69,70 +65,12 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun UpgradeNetShieldFree(
     navigateToUpgrade: () -> Unit = {}
-) = UpgradePromo(
+) = UpsellBannerContent(
     R.string.netshield_free_title,
     R.string.netshield_free_description,
-    navigateToUpgrade = navigateToUpgrade
+    iconRes = R.drawable.ic_netshield_promo,
+    onClick = {}
 )
-
-@Composable
-fun UpgradePromo(
-    @StringRes titleRes: Int,
-    @StringRes descriptionRes: Int,
-    @DrawableRes iconRes: Int = R.drawable.ic_netshield_promo,
-    @DrawableRes badgeIconRes: Int = ResourcesCompat.ID_NULL,
-    navigateToUpgrade: (() -> Unit)?
-) {
-    val rowClickModifier = if (navigateToUpgrade != null) {
-        Modifier
-            .clickable(onClick = navigateToUpgrade)
-            .semantics(mergeDescendants = true, properties = {})
-    } else {
-        Modifier
-    }
-    Row(
-        modifier = rowClickModifier
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Image(
-            painter = painterResource(id = iconRes),
-            contentDescription = null,
-            modifier = Modifier
-                .wrapContentSize()
-        )
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 16.dp)
-        ) {
-            Text(
-                text = stringResource(titleRes),
-                style = ProtonTheme.typography.defaultStrongNorm,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
-            Text(
-                text = stringResource(descriptionRes),
-                style = ProtonTheme.typography.defaultNorm,
-            )
-        }
-
-        if (badgeIconRes != ResourcesCompat.ID_NULL) {
-            Image(
-                painter = painterResource(id = badgeIconRes),
-                contentDescription = null
-            )
-        }
-        if (navigateToUpgrade != null) {
-            Icon(
-                painter = painterResource(id = CoreR.drawable.ic_proton_chevron_right),
-                tint = ProtonTheme.colors.iconHint,
-                contentDescription = null,
-                modifier = Modifier.wrapContentSize()
-            )
-        }
-    }
-}
 
 @Composable
 fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit) {

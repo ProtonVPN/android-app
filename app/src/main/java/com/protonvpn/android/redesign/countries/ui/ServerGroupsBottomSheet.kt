@@ -54,6 +54,7 @@ fun ServerGroupsBottomSheet(
     onNavigateBack: suspend (suspend () -> Unit) -> Unit,
     onNavigateToItem: (ServerGroupUiItem.ServerGroup) -> Unit,
     onItemClicked: (ServerGroupUiItem.ServerGroup) -> Unit,
+    navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
     onClose: () -> Unit,
     onOpenInfo: (InfoType) -> Unit,
 ) {
@@ -81,7 +82,8 @@ fun ServerGroupsBottomSheet(
                 onItemOpen = onNavigateToItem,
                 onItemClick = onItemClicked,
                 modifier = Modifier.heightIn(min = halfScreenHeight),
-                onOpenInfo = onOpenInfo
+                onOpenInfo = onOpenInfo,
+                navigateToUpsell = navigateToUpsell
             )
         }
     }
@@ -94,6 +96,7 @@ private fun BottomSheetScreen(
     onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
     onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
     onOpenInfo: (InfoType) -> Unit,
+    navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
 ) {
     val countryId = screen.savedState.filter.country
     val gatewayName = screen.savedState.filter.gatewayName
@@ -114,7 +117,8 @@ private fun BottomSheetScreen(
             items = screen.items,
             onItemOpen = onItemOpen,
             onItemClick = onItemClick,
-            onOpenInfo = onOpenInfo
+            onOpenInfo = onOpenInfo,
+            navigateToUpsell = navigateToUpsell
         )
     }
 }

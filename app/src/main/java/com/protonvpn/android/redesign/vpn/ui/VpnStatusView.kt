@@ -27,6 +27,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -77,7 +78,7 @@ import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldView
 import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.netshield.UpgradeNetShieldFree
-import com.protonvpn.android.netshield.UpgradePromo
+import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import kotlinx.coroutines.delay
 import me.proton.core.compose.theme.ProtonTheme
@@ -103,7 +104,7 @@ sealed class VpnStatusViewState {
         val locationText: LocationText? = null
     ) : VpnStatusViewState()
 
-    object Loading : VpnStatusViewState()
+    data object Loading : VpnStatusViewState()
 }
 
 sealed class StatusBanner {
@@ -111,8 +112,8 @@ sealed class StatusBanner {
         val netShieldState: NetShieldViewState,
     ) : StatusBanner()
 
-    object UpgradePlus : StatusBanner()
-    object UnwantedCountry : StatusBanner()
+    data object UpgradePlus : StatusBanner()
+    data object UnwantedCountry : StatusBanner()
 }
 
 data class LocationText(
@@ -297,11 +298,12 @@ private fun VpnConnectedView(
             }
 
             StatusBanner.UnwantedCountry -> {
-                UpgradePromo(
+                UpsellBannerContent(
                     titleRes = R.string.not_wanted_country_title,
                     descriptionRes = R.string.not_wanted_country_description,
                     iconRes = R.drawable.upsell_worldwide_cover_exclamation,
-                    navigateToUpgrade = netShieldActions.onChangeServerPromoUpgrade
+                    onClick = { netShieldActions.onChangeServerPromoUpgrade },
+                    modifier = Modifier.padding(16.dp)
                 )
             }
 
