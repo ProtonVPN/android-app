@@ -54,6 +54,7 @@ enum class UpgradeSource {
     NETSHIELD,
     ONBOARDING,
     P2P,
+    TOR,
     PORT_FORWARDING,
     PROFILES,
     SECURE_CORE,

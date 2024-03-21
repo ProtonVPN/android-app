@@ -20,11 +20,9 @@
 package com.protonvpn.android.redesign.countries.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.heightIn
@@ -46,27 +44,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.protonElevation
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
+import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
@@ -92,7 +91,21 @@ fun ServerGroupsRoute(
     var info by remember { mutableStateOf<InfoType?>(null) }
 
     val navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) }
-    val navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
+    val navigateToUpsellFromBanner = { bannerType: ServerGroupUiItem.BannerType ->
+        when(bannerType) {
+            ServerGroupUiItem.BannerType.Countries ->
+                UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            ServerGroupUiItem.BannerType.SecureCore ->
+                UpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(context)
+            ServerGroupUiItem.BannerType.P2P ->
+                UpgradeDialogActivity.launch<UpgradeP2PHighlightsFragment>(context)
+            ServerGroupUiItem.BannerType.Tor ->
+                UpgradeDialogActivity.launch<UpgradeTorHighlightsFragment>(context)
+        }
+    }
+    val navigateToUpsell = {
+        UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+    }
     fun createOnItemOpen(filter: ServerFilterType): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
         viewModel.onItemOpen(item, filter)
     }
@@ -116,6 +129,7 @@ fun ServerGroupsRoute(
                 onItemClick = createOnConnectAction(mainState.savedState.filter),
                 onItemOpen = createOnItemOpen(mainState.savedState.filter.type),
                 onOpenInfo = { infoType -> info = infoType },
+                navigateToUpsell = navigateToUpsellFromBanner,
                 modifier = Modifier.padding(it)
             )
         }
@@ -131,7 +145,8 @@ fun ServerGroupsRoute(
             onNavigateToItem = createOnItemOpen(subScreenState.savedState.filter.type),
             onItemClicked = createOnConnectAction(subScreenState.savedState.filter),
             onClose = { viewModel.onClose() },
-            onOpenInfo = { info = it }
+            onOpenInfo = { info = it },
+            navigateToUpsell = navigateToUpsellFromBanner
         )
     }
 
@@ -223,6 +238,7 @@ fun ServerGroupItemsList(
     onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
     onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
     onOpenInfo: (InfoType) -> Unit,
+    navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier) {
@@ -232,6 +248,9 @@ fun ServerGroupItemsList(
                     is ServerGroupUiItem.Header ->
                         ServerGroupHeader(item, onOpenInfo = onOpenInfo)
 
+                    is ServerGroupUiItem.Banner ->
+                        ServerGroupBanner(item, navigateToUpsell)
+
                     is ServerGroupUiItem.ServerGroup -> {
                         ServerGroupItem(item, onItemOpen = onItemOpen, onItemClick = onItemClick)
                         VpnDivider()
@@ -239,5 +258,49 @@ fun ServerGroupItemsList(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ServerGroupBanner(
+    item: ServerGroupUiItem.Banner,
+    navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit
+) {
+    val modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
+    val onClick = { navigateToUpsell(item.type) }
+
+    when (item.type) {
+        ServerGroupUiItem.BannerType.Countries ->
+            UpsellBanner(
+                titleRes = null,
+                descriptionRes = R.string.countries_upsell_banner_description,
+                iconRes = R.drawable.banner_icon_worldwide_coverage,
+                onClick = onClick,
+                modifier = modifier,
+            )
+        ServerGroupUiItem.BannerType.SecureCore ->
+            UpsellBanner(
+                titleRes = null,
+                descriptionRes = R.string.secure_core_upsell_banner_description,
+                iconRes = R.drawable.banner_icon_secure_core,
+                onClick = onClick,
+                modifier = modifier,
+            )
+        ServerGroupUiItem.BannerType.P2P ->
+            UpsellBanner(
+                titleRes = null,
+                descriptionRes = R.string.p2p_upsell_banner_description,
+                iconRes = R.drawable.banner_icon_p2p,
+                onClick = onClick,
+                modifier = modifier,
+            )
+        ServerGroupUiItem.BannerType.Tor ->
+            UpsellBanner(
+                titleRes = null,
+                descriptionRes = R.string.tor_upsell_banner_description,
+                iconRes = R.drawable.banner_icon_tor,
+                onClick = onClick,
+                modifier = modifier,
+            )
     }
 }

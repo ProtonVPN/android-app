@@ -68,6 +68,8 @@ class CountriesViewModel @Inject constructor(
 
             buildList {
                 add(ServerGroupUiItem.Header(filterType.headerLabel(isFreeUser), countries.size, filterType.info))
+                if (isFreeUser)
+                    add(ServerGroupUiItem.Banner(filterType.bannerType))
                 addAll(items)
             }
         }
