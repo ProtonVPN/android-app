@@ -59,7 +59,7 @@ class CountriesViewModel @Inject constructor(
             val filterType = savedState.filter.type
             val isFreeUser = userTier != null && userTier == VpnUser.FREE_TIER
             val items = buildList {
-                if (!isFreeUser)
+                if (!isFreeUser && countries.size > 1)
                     add(fastestCountryItem(savedState.filter))
                 addAll(countries.sortedByLabel(locale))
             }.map {
