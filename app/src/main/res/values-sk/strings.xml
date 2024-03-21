@@ -273,7 +273,7 @@
     <string name="netshield_trackers_title">Sledovače</string>
     <string name="netshield_trackers_details">Súbory cookie a ďalšie sledovacie prvky, ktoré ukladajú a zdieľajú informácie o vašej aktivite na internete.</string>
     <string name="netshield_data_title">Údaje</string>
-    <string name="netshield_data_details">Množstvo nežiaducich údajov z reklám, sledovacích zariadení a škodlivého softvéru, ktoré NetShield blokuje</string>
+    <string name="netshield_data_details">Množstvo nežiaducich údajov z reklám, sledovacích zariadení a škodlivého softvéru, ktoré blokuje NetShield</string>
     <string name="accessibility_netshield_status_on_click">Prejsť do nastavení NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Zablokovaná reklama</item>
@@ -492,7 +492,7 @@
     <string name="upsell_card_netshield_description">Blokujte reklamy, malvér a sledovače</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Pridajte ďalšiu úroveň šifrovania k vášmu VPN pripojeniu</string>
-    <string name="upsell_card_p2p_title">P2 podpora</string>
+    <string name="upsell_card_p2p_title">P2P podpora</string>
     <string name="upsell_card_p2p_description">Sťahujte súbory cez BitTorrent a iné protokoly na zdieľanie súborov</string>
     <string name="upsell_card_speed_title">Rýchlejšie prehliadanie</string>
     <!-- Parameters:
@@ -501,7 +501,7 @@
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Prehliadanie pri ešte vyšších rýchlostiach (až do %1$d Gb/s)</string>
     <string name="upsell_card_split_tunneling_title">Rozdelené tunelovanie</string>
-    <string name="upsell_card_split_tunneling_description">Browsovanie z dvoch miest naraz</string>
+    <string name="upsell_card_split_tunneling_description">Prehliadanie z dvoch miest naraz</string>
     <string name="upsell_card_streaming_title">Streamovanie</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
     <string name="upsell_card_tor_title">Tor cez VPN</string>
@@ -691,7 +691,7 @@
     <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
     <string name="whats_new_recents_title">Introducing Recents</string>
     <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
-    <string name="whats_new_dismiss_button">Pozrite sa</string>
+    <string name="whats_new_dismiss_button">Pozrieť sa</string>
     <string name="whats_new_added_countries_title">Nové Bezplatné krajiny</string>
     <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
     <string name="welcome_plus_title">Vitajte vo VPN Plus</string>
@@ -949,7 +949,7 @@
          Label above the connection card indicating that a connection to a different server is
          being established. It's shown only in response to user clicking the "Change server" button.
      -->
-    <string name="connection_card_label_changing_server">Mením server…</string>
+    <string name="connection_card_label_changing_server">Zmena serveru…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
@@ -1200,7 +1200,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d s</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Pripojenie zlyhalo</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Toto zariadenie neumožňuje pripojenie k sieti VPN.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Toto zariadenie neumožňuje pripojenie k VPN sieti.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1218,7 +1218,7 @@
     <string name="settings_advanced_nat_type_strict_description">Obmedzuje dáta vstupujúce do vašej siete. Táto voľba je bezpečnejšia, ale môže skomplikovať pripojenie k hrám typu peer-to-peer.</string>
     <string name="settings_advanced_nat_type_moderate_description">Niektoré obmedzenia dát vstupujúcich do vašej siete. Táto voľba je najlepšia pre hranie online video hier.</string>
     <string name="settings_split_tunneling_description">Prispôsobte si pripojenie tým, že sa rozhodnete, ktoré aplikácie a IP adresy budú chránené pomocou VPN. %1$s</string>
-    <string name="settings_protocol_description">VPN protokol určuje spôsob prenosu dát medzi VNP serverom a vaším zariadením. %1$s</string>
+    <string name="settings_protocol_description">VPN protokol určuje spôsob prenosu dát medzi VPN serverom a vaším zariadením. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Vylúčené aplikácie</string>
     <string name="settings_split_tunneling_excluded_ips">Vylúčené IP adresy</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Žiadne</string>

@@ -89,7 +89,7 @@
     <string name="settingsAllowNonStandardPortsTitle">Нестандартныя парты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Выкарыстоўвайце Proton VPN для любых адмысловых патрабаванняў, дазваляючы трафік да нестандартных партоў праз сетку VPN. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="settingsModerateNatTitle">Умераны NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Умераны NAT адключае рандамізацыю пераназначэнняў лакальных адрасоў, што можа крыху паменшыць вашу бяспеку, але дазволіць такія метады, як прамое падключэнне для праграм (напрыклад, сеткавых гульняў). <a href="%1$s">Даведацца больш</a>]]></string>
+    <string name="settingsModerateNatDescription"><![CDATA[Умераны NAT адключае рандамізацыю пераназначэнняў лакальных адрасоў, што можа крыху паменшыць вашу бяспеку, але дазволіць такія спосабы, як прамое падключэнне для праграм (напрыклад, сеткавых гульняў). <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="use_coupon_title">Выкарыстаць купон</string>
     <string name="use_coupon_code_label">Код купона</string>
     <string name="use_coupon_success">Купон быў паспяхова ўжыты</string>

@@ -950,7 +950,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">伺服器維護中</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">服務器不可用</string>
+    <string name="message_server_not_available">伺服器不適用</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">閘道維護中</string>
     <!-- tag(Redesign_2023) -->
