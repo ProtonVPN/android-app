@@ -19,7 +19,7 @@
 package com.protonvpn.android.netshield
 
 data class NetShieldActions(
-    val onChangeServerPromoUpgrade: (() -> Unit)?,
+    val onChangeServerPromoUpgrade: () -> Unit,
     val onNetShieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
     val onNetShieldLearnMore: () -> Unit,
     val onUpgradeNetShield: () -> Unit,

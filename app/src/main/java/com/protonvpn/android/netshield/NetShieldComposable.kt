@@ -51,7 +51,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.base.ui.volumeBytesToString
-import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionStrongNorm
@@ -60,17 +59,6 @@ import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallStrongNorm
 import me.proton.core.compose.theme.overlineWeak
 import me.proton.core.presentation.R as CoreR
-
-@Preview
-@Composable
-fun UpgradeNetShieldFree(
-    navigateToUpgrade: () -> Unit = {}
-) = UpsellBannerContent(
-    R.string.netshield_free_title,
-    R.string.netshield_free_description,
-    iconRes = R.drawable.ic_netshield_promo,
-    onClick = {}
-)
 
 @Composable
 fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit) {

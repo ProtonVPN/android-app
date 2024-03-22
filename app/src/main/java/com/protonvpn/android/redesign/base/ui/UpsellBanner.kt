@@ -46,19 +46,18 @@ import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
-// This is not a self-contained banner, caller need to deliver background, padding and shape via
-// modifier or parent composable.
+// This is not a self-contained banner, caller need to deliver background, padding, click and shape
+// via modifier or parent composable.
 @Composable
 fun UpsellBannerContent(
     @StringRes titleRes: Int?,
     @StringRes descriptionRes: Int,
     @DrawableRes iconRes: Int,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     @DrawableRes badgeIconRes: Int = ResourcesCompat.ID_NULL,
 ) {
     Row(
-        modifier.clickable { onClick() },
+        modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
@@ -114,10 +113,10 @@ fun UpsellBanner(
         titleRes,
         descriptionRes,
         iconRes,
-        onClick,
         modifier = modifier
             .clip(ProtonTheme.shapes.large)
             .background(ProtonTheme.colors.backgroundSecondary)
+            .clickable(onClick = onClick)
             .padding(16.dp),
         badgeIconRes = badgeIconRes
     )
