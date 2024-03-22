@@ -25,12 +25,13 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
+        android:layout_gravity="top|center_horizontal"
         android:layout_marginHorizontal="46dp"
         android:layout_marginBottom="40dp"
         android:adjustViewBounds="true"
+        android:maxWidth="600dp"
         app:srcCompat="@drawable/always_on_step_1" />
 
     <FrameLayout
