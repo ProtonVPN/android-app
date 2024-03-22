@@ -115,6 +115,7 @@ class RecentsListViewStateFlow @Inject constructor(
                         isDefaultConnection = connectedIntent === defaultConnectIntent,
                         connectionCardIntentViewState = connectIntentViewState,
                         showFreeCountriesInformationPanel = vpnUser.isFreeUser && status.state == VpnState.Disabled,
+                        isFreeUser = vpnUser.isFreeUser,
                     ),
                     createRecentsViewState(
                         recents,
@@ -176,6 +177,7 @@ class RecentsListViewStateFlow @Inject constructor(
         isDefaultConnection: Boolean,
         connectionCardIntentViewState: ConnectIntentViewState,
         showFreeCountriesInformationPanel: Boolean,
+        isFreeUser: Boolean,
     ): VpnConnectionCardViewState {
         @StringRes
         val buttonLabelRes: Int = when {
@@ -188,10 +190,10 @@ class RecentsListViewStateFlow @Inject constructor(
             vpnState is VpnState.Connected -> R.string.connection_card_label_connected
             vpnState.isEstablishingConnection && isChangingServer -> R.string.connection_card_label_changing_server
             vpnState.isEstablishingConnection -> R.string.connection_card_label_connecting
-            else -> if (isDefaultConnection) {
-                R.string.connection_card_label_recommended
-            } else {
-                R.string.connection_card_label_last_connected
+            else -> when { // Disconnected
+                isFreeUser -> R.string.connection_card_label_free_connection
+                isDefaultConnection -> R.string.connection_card_label_recommended
+                else -> R.string.connection_card_label_last_connected
             }
         }
         return VpnConnectionCardViewState(

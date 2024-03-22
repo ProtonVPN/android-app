@@ -174,6 +174,7 @@ private fun ConnectionDetailsConnected(
                 serverFeatures = connectIntent.serverFeatures,
                 primaryLabelStyle = ProtonTheme.typography.headlineNorm,
                 detailsStyle = ProtonTheme.typography.defaultSmallWeak,
+                secondaryLabelVerticalPadding = 4.dp,
                 isConnected = false,
                 modifier = Modifier
                     .weight(1f)
