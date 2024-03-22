@@ -80,6 +80,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
@@ -612,6 +613,7 @@ fun SettingRowWithIcon(
     title: String,
     subtitle: String? = null,
     @DrawableRes trailingIcon: Int? = null,
+    iconTint: Boolean = false,
     trailingIconTint: Boolean = true,
     onClick: (() -> Unit)? = null
 ) {
@@ -620,7 +622,7 @@ fun SettingRowWithIcon(
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = null,
-                tint = Color.Unspecified,
+                tint = if (iconTint) ProtonTheme.colors.iconNorm else Color.Unspecified,
             )
         },
         trailingComposable = {
@@ -644,65 +646,71 @@ fun SettingRowWithIcon(
 @Preview
 @Composable
 fun SettingRowWithIconPreview() {
-    SettingRowWithIcon(
-        icon = R.drawable.vpn_plus_badge,
-        title = "Netshield",
-        subtitle = "On",
-        onClick = { }
-    )
+    VpnTheme(isDark = true) {
+        SettingRowWithIcon(
+            icon = R.drawable.vpn_plus_badge,
+            title = "Netshield",
+            subtitle = "On",
+            onClick = { }
+        )
+    }
 }
 
 @Preview
 @Composable
 fun SettingRowWithComposablesPreview() {
-    SettingRowWithComposables(
-        leadingComposable = {
-            Text("A")
-        },
-        title = "User",
-        subtitle = "user@mail.com",
-        onClick = { }
-    )
+    VpnTheme(isDark = true) {
+        SettingRowWithComposables(
+            leadingComposable = {
+                Text("A")
+            },
+            title = "User",
+            subtitle = "user@mail.com",
+            onClick = { }
+        )
+    }
 }
 
 @Preview
 @Composable
 fun CategoryPreview() {
-    Column {
-        Category(title = stringResource(id = R.string.settings_category_features)) {
-            SettingRowWithComposables(
-                leadingComposable = {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .size(30.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(ProtonTheme.colors.brandNorm)
-                    ) {
-                        Text(
-                            text = "AG",
-                            style = ProtonTheme.typography.defaultNorm
-                        )
-                    }
-                },
-                title = stringResource(id = R.string.settings_netshield_title),
-                subtitle = "On"
-            )
+    VpnTheme(isDark = true) {
+        Column {
+            Category(title = stringResource(id = R.string.settings_category_features)) {
+                SettingRowWithComposables(
+                    leadingComposable = {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(ProtonTheme.colors.brandNorm)
+                        ) {
+                            Text(
+                                text = "AG",
+                                style = ProtonTheme.typography.defaultNorm
+                            )
+                        }
+                    },
+                    title = stringResource(id = R.string.settings_netshield_title),
+                    subtitle = "On"
+                )
 
-            SettingRowWithIcon(
-                icon = CoreR.drawable.ic_proton_earth,
-                title = stringResource(id = R.string.settings_netshield_title),
-                subtitle = "On"
-            )
-            SettingRowWithIcon(
-                icon = CoreR.drawable.ic_proton_earth,
-                title = stringResource(id = R.string.settings_split_tunneling_title),
-                subtitle = "On"
-            )
-            SettingRowWithIcon(
-                icon = CoreR.drawable.ic_proton_earth,
-                title = stringResource(id = R.string.settings_kill_switch_title)
-            )
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_earth,
+                    title = stringResource(id = R.string.settings_netshield_title),
+                    subtitle = "On"
+                )
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_earth,
+                    title = stringResource(id = R.string.settings_split_tunneling_title),
+                    subtitle = "On"
+                )
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_earth,
+                    title = stringResource(id = R.string.settings_kill_switch_title)
+                )
+            }
         }
     }
 }
@@ -710,7 +718,7 @@ fun CategoryPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun AccountCategoryLoggedInPreview() {
-    ProtonTheme {
+    VpnTheme(isDark = true) {
         Column {
             AccountCategory(
                 state = AccountSettingsViewState.LoggedIn(
@@ -731,7 +739,7 @@ fun AccountCategoryLoggedInPreview() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun AccountCategoryCredentialLessPreview() {
-    ProtonTheme {
+    VpnTheme(isDark = true) {
         Column {
             AccountCategory(
                 state = AccountSettingsViewState.CredentialLess(UserId("userId")),
