@@ -361,7 +361,8 @@ private fun SettingsView(
                 stringResource(id = R.string.settings_connection_category)
             ) {
                 SettingRowWithIcon(
-                    icon = CoreR.drawable.ic_proton_servers,
+                    icon = viewState.protocol.iconRes,
+                    iconTint = true,
                     title = stringResource(id = viewState.protocol.titleRes),
                     onClick = onProtocolClick,
                     subtitle = stringResource(id = viewState.protocol.subtitleRes)
