@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
+import android.app.Activity
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +39,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -59,6 +62,7 @@ import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.VpnDivider
+import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
@@ -73,6 +77,7 @@ import me.proton.core.presentation.utils.currentLocale
 import me.proton.core.presentation.R as CoreR
 
 // This route is shared by both Gateways and Countries main screens.
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun ServerGroupsRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
@@ -124,13 +129,18 @@ fun ServerGroupsRoute(
         toolbarFilters = mainState.filterButtons,
         titleRes = titleRes,
         content = {
+            val activity = LocalContext.current as Activity
+            val extraScreenPadding =
+                ProtonTheme.getPaddingForWindowWidthClass(calculateWindowSizeClass(activity).widthSizeClass)
             ServerGroupItemsList(
                 mainState.items,
                 onItemClick = createOnConnectAction(mainState.savedState.filter),
                 onItemOpen = createOnItemOpen(mainState.savedState.filter.type),
                 onOpenInfo = { infoType -> info = infoType },
                 navigateToUpsell = navigateToUpsellFromBanner,
-                modifier = Modifier.padding(it)
+                modifier = Modifier
+                    .padding(it)
+                    .padding(horizontal = extraScreenPadding)
             )
         }
     )

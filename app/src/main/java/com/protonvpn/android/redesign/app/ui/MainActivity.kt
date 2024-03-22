@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.app.ui
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -47,6 +48,7 @@ import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
@@ -72,6 +74,8 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     @Inject
     lateinit var whatsNewDialogController: WhatsNewDialogController
+    @Inject
+    lateinit var isTv: IsTvCheck
 
     // public for now until there is need to bridge old code, as LocalVpnUiDelegate is not available in non-compose
     val vpnActivityDelegate = VpnUiActivityDelegateMobile(this) {
@@ -98,6 +102,8 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
         val splashScreen = installSplashScreen()
         helper.onCreate(accountViewModel)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        requestedOrientation = if (resources.getBoolean(R.bool.isTablet) || isTv())
+            ActivityInfo.SCREEN_ORIENTATION_FULL_USER else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         accountViewModel.eventShowOnboarding
             .flowWithLifecycle(lifecycle)

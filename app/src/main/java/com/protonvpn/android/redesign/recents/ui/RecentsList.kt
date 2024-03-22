@@ -123,11 +123,11 @@ fun RecentsList(
     ) {
         item {
             val connectionCardModifier = Modifier
+                .padding(start = horizontalPadding, end = horizontalPadding, top = topPadding)
                 .widthIn(max = ProtonTheme.MaxContentWidth)
                 .optional({ peekThresholdItem == PeekThresholdItem.ConnectionCard }, peekPositionObserver)
                 .animateItemPlacement()
                 .animateContentSize()
-                .padding(start = horizontalPadding, end = horizontalPadding, top = topPadding)
             Column(
                 modifier = connectionCardModifier
             ) {
@@ -161,9 +161,9 @@ fun RecentsList(
                 }
                 promoBanner(
                     Modifier
+                        .padding(horizontal = horizontalPadding)
                         .widthIn(max = ProtonTheme.MaxContentWidth)
                         .fillMaxWidth()
-                        .padding(horizontal = horizontalPadding)
                         .animateItemPlacement()
                         .optional({ peekThresholdItem == PeekThresholdItem.PromoBanner }, bannerPeekObserver)
                 )
@@ -220,6 +220,7 @@ fun RecentsList(
             if (index < viewState.recents.lastIndex) {
                 VpnDivider(
                     Modifier
+                        .padding(horizontal = horizontalPadding)
                         .widthIn(max = ProtonTheme.MaxContentWidth)
                         .animateItemPlacement())
             }
