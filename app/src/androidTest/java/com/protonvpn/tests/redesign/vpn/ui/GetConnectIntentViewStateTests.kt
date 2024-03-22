@@ -20,6 +20,7 @@
 package com.protonvpn.tests.redesign.vpn.ui
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.unit.dp
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
@@ -437,7 +438,8 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
                     primaryLabel = state.primaryLabel,
                     secondaryLabel = state.secondaryLabel,
                     serverFeatures = state.serverFeatures,
-                    isConnected = false
+                    isConnected = false,
+                    secondaryLabelVerticalPadding = 2.dp
                 )
             }
         }

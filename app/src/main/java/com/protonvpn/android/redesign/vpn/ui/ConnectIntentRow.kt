@@ -51,6 +51,7 @@ import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.protonvpn.android.R
@@ -88,9 +89,10 @@ fun ConnectIntentLabels(
     secondaryLabel: ConnectIntentSecondaryLabel?,
     serverFeatures: Set<ServerFeature>,
     isConnected: Boolean,
+    secondaryLabelVerticalPadding: Dp,
     primaryLabelStyle: TextStyle = ProtonTheme.typography.headlineSmallNorm,
     detailsStyle: TextStyle = ProtonTheme.typography.captionUnspecified,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -111,7 +113,9 @@ fun ConnectIntentLabels(
                 secondaryLabel?.contentDescription(),
                 serverFeatures,
                 detailsStyle,
-                modifier = Modifier.testTag("secondaryLabel")
+                modifier = Modifier
+                    .padding(top = secondaryLabelVerticalPadding)
+                    .testTag("secondaryLabel")
             )
         }
     }
@@ -259,7 +263,8 @@ private fun ConnectIntentRowPreviewCountry() {
                 primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.fastest, null),
                 secondaryLabel = ConnectIntentSecondaryLabel.RawText("Lithuania"),
                 serverFeatures = EnumSet.of(ServerFeature.Tor),
-                isConnected = true
+                isConnected = true,
+                secondaryLabelVerticalPadding = 2.dp,
             )
         }
     }
@@ -274,7 +279,8 @@ private fun ConnectIntentRowPreviewGateway() {
                 primaryLabel = ConnectIntentPrimaryLabel.Gateway(gatewayName = "Dev VPN", null),
                 secondaryLabel = null,
                 serverFeatures = EnumSet.of(ServerFeature.Tor),
-                isConnected = true
+                isConnected = true,
+                secondaryLabelVerticalPadding = 2.dp,
             )
         }
     }
@@ -289,7 +295,8 @@ private fun ConnectIntentRowFastestFreeServer() {
                 primaryLabel = ConnectIntentPrimaryLabel.FastestFreeServer,
                 secondaryLabel = ConnectIntentSecondaryLabel.FastestFreeServer(5),
                 serverFeatures = emptySet(),
-                isConnected = true
+                isConnected = true,
+                secondaryLabelVerticalPadding = 2.dp,
             )
         }
     }

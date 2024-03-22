@@ -29,9 +29,7 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Transition
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -143,6 +141,7 @@ fun VpnConnectionCard(
                                 secondaryLabel,
                                 serverFeatures,
                                 isConnected = false,
+                                secondaryLabelVerticalPadding = 2.dp,
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(start = 16.dp)

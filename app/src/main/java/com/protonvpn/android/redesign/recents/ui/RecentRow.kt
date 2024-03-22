@@ -173,6 +173,7 @@ private fun RecentRowContent(
                 item.connectIntent.secondaryLabel,
                 item.connectIntent.serverFeatures,
                 item.isConnected,
+                secondaryLabelVerticalPadding = 0.dp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = 16.dp)
