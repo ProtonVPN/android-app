@@ -63,13 +63,13 @@ class ServerListViewModelDataAdapterTests {
     fun testCountryFiltering() = runTest {
         serverManager.setServers(
             listOf(
-                createServer(exitCountry = "PL", isOnline = false),
-                createServer(exitCountry = "PL", isOnline = true),
-                createServer(exitCountry = "PL", features = SERVER_FEATURE_TOR),
-                createServer(exitCountry = "FR", features = SERVER_FEATURE_P2P or SERVER_FEATURE_TOR),
-                createServer(exitCountry = "DE", entryCountry = "SE", isSecureCore = true, tier = 2, isOnline = false),
-                createServer(exitCountry = "DE", entryCountry = "IS", isSecureCore = true, tier = 3, isOnline = false),
-                createServer(exitCountry = "JP", gatewayName = "gateway"), // Country with just gateways shouldn't show for countries
+                server(exitCountry = "PL", isOnline = false),
+                server(exitCountry = "PL", isOnline = true),
+                server(exitCountry = "PL", features = SERVER_FEATURE_TOR),
+                server(exitCountry = "FR", features = SERVER_FEATURE_P2P or SERVER_FEATURE_TOR),
+                server(exitCountry = "DE", entryCountry = "SE", isSecureCore = true, tier = 2, isOnline = false),
+                server(exitCountry = "DE", entryCountry = "IS", isSecureCore = true, tier = 3, isOnline = false),
+                server(exitCountry = "JP", gatewayName = "gateway"), // Country with just gateways shouldn't show for countries
             ),
             null
         )
@@ -95,7 +95,7 @@ class ServerListViewModelDataAdapterTests {
             ServerGroupItemData.Country(
                 countryId = CountryId("PL"),
                 inMaintenance = false,
-                tier = 0,
+                tier = 1,
                 entryCountryId = null,
             ),
             allCountries.first()
@@ -106,14 +106,14 @@ class ServerListViewModelDataAdapterTests {
     fun testCitiesFiltering() = runTest {
         serverManager.setServers(
             listOf(
-                createServer(exitCountry = "DE", city = "Berlin"),
-                createServer(exitCountry = "PL", city = "Warsaw", translations = mapOf("City" to "Warszawa"), tier = 1),
-                createServer(exitCountry = "PL", city = "Warsaw", translations = mapOf("City" to "Warszawa"), tier = 2, isOnline = false),
-                createServer(exitCountry = "PL", city = "Cracow", isOnline = false, features = SERVER_FEATURE_TOR),
-                createServer(exitCountry = "PL", city = "Wroclaw", gatewayName = "gateway"), // City with only gateways shouldn't show
-                createServer(exitCountry = "US", region = "California", city = "Los Angeles"),
-                createServer(exitCountry = "US", region = "California", city = "San Francisco"),
-                createServer(exitCountry = "US", region = "Alabama", city = "Birmingham"),
+                server(exitCountry = "DE", city = "Berlin"),
+                server(exitCountry = "PL", city = "Warsaw", translations = mapOf("City" to "Warszawa"), tier = 2),
+                server(exitCountry = "PL", city = "Warsaw", translations = mapOf("City" to "Warszawa"), tier = 3, isOnline = false),
+                server(exitCountry = "PL", city = "Cracow", isOnline = false, features = SERVER_FEATURE_TOR),
+                server(exitCountry = "PL", city = "Wroclaw", gatewayName = "gateway"), // City with only gateways shouldn't show
+                server(exitCountry = "US", region = "California", city = "Los Angeles"),
+                server(exitCountry = "US", region = "California", city = "San Francisco"),
+                server(exitCountry = "US", region = "Alabama", city = "Birmingham"),
             ),
             null
         )
@@ -128,14 +128,14 @@ class ServerListViewModelDataAdapterTests {
                     countryId = CountryId("PL"),
                     cityStateId = CityStateId("Warsaw", false),
                     inMaintenance = false,
-                    tier = 1,
+                    tier = 2,
                     name = "Warszawa"
                 ),
                 ServerGroupItemData.City(
                     countryId = CountryId("PL"),
                     cityStateId = CityStateId("Cracow", false),
                     inMaintenance = true,
-                    tier = 0,
+                    tier = 1,
                     name = "Cracow"
                 ),
             ),
@@ -152,13 +152,13 @@ class ServerListViewModelDataAdapterTests {
     fun testServersFiltering() = runTest {
         serverManager.setServers(
             listOf(
-                createServer(exitCountry = "PL", city = "Warsaw", serverName = "PL#1", serverId = "w1", tier = 1),
-                createServer(exitCountry = "PL", city = "Warsaw", serverName = "PL#2", serverId = "w2", tier = 2, features = SERVER_FEATURE_TOR),
-                createServer(exitCountry = "PL", city = "Cracow", serverName = "PL#3", serverId = "c1", entryCountry = "IS", isSecureCore = true, isOnline = false, load = 70f),
-                createServer(exitCountry = "PL", city = "Cracow", serverName = "PL#4", serverId = "c2", hostCountry = "DE"),
-                createServer(exitCountry = "PL", gatewayName = "gateway", city = "Cracow", serverName = "PL-G#1"), // Gateway server shouldn't show unless gateway filter is set
-                createServer(exitCountry = "US", region = "California", serverName = "US-CA#1", serverId = "cal1"),
-                createServer(exitCountry = "US", region = "California", serverName = "US-CA#2", serverId = "cal2"),
+                server(exitCountry = "PL", city = "Warsaw", serverName = "PL#1", serverId = "w1", tier = 2),
+                server(exitCountry = "PL", city = "Warsaw", serverName = "PL#2", serverId = "w2", tier = 3, features = SERVER_FEATURE_TOR),
+                server(exitCountry = "PL", city = "Cracow", serverName = "PL#3", serverId = "c1", entryCountry = "IS", isSecureCore = true, isOnline = false, load = 70f),
+                server(exitCountry = "PL", city = "Cracow", serverName = "PL#4", serverId = "c2", hostCountry = "DE"),
+                server(exitCountry = "PL", gatewayName = "gateway", city = "Cracow", serverName = "PL-G#1"), // Gateway server shouldn't show unless gateway filter is set
+                server(exitCountry = "US", region = "California", serverName = "US-CA#1", serverId = "cal1"),
+                server(exitCountry = "US", region = "California", serverName = "US-CA#2", serverId = "cal2"),
             ),
             null
         )
@@ -179,7 +179,7 @@ class ServerListViewModelDataAdapterTests {
                     serverFeatures = emptySet(),
                     isVirtualLocation = false,
                     inMaintenance = false,
-                    tier = 1,
+                    tier = 2,
                     entryCountryId = null,
                     gatewayName = null
                 ),
@@ -191,7 +191,7 @@ class ServerListViewModelDataAdapterTests {
                     serverFeatures = setOf(ServerFeature.Tor),
                     isVirtualLocation = false,
                     inMaintenance = false,
-                    tier = 2,
+                    tier = 3,
                     entryCountryId = null,
                     gatewayName = null
                 ),
@@ -208,7 +208,7 @@ class ServerListViewModelDataAdapterTests {
                     serverFeatures = emptySet(),
                     isVirtualLocation = true,
                     inMaintenance = false,
-                    tier = 0,
+                    tier = 1,
                     entryCountryId = null,
                     gatewayName = null
                 ),
@@ -225,7 +225,7 @@ class ServerListViewModelDataAdapterTests {
                     serverFeatures = emptySet(),
                     isVirtualLocation = false,
                     inMaintenance = true,
-                    tier = 0,
+                    tier = 1,
                     entryCountryId = CountryId("IS"),
                     gatewayName = null
                 ),
@@ -242,10 +242,10 @@ class ServerListViewModelDataAdapterTests {
     fun testHaveStates() = runTest {
         serverManager.setServers(
             listOf(
-                createServer(exitCountry = "PL", city = "Warsaw"),
-                createServer(exitCountry = "PL", city = "Cracow"),
-                createServer(exitCountry = "US", region = "California"),
-                createServer(exitCountry = "US", region = "Alabama"),
+                server(exitCountry = "PL", city = "Warsaw"),
+                server(exitCountry = "PL", city = "Cracow"),
+                server(exitCountry = "US", region = "California"),
+                server(exitCountry = "US", region = "Alabama"),
             ),
             null
         )
@@ -257,10 +257,10 @@ class ServerListViewModelDataAdapterTests {
     fun testAvailableTypes() = runTest {
         serverManager.setServers(
             listOf(
-                createServer(exitCountry = "PL"),
-                createServer(exitCountry = "PL", features = SERVER_FEATURE_TOR),
-                createServer(exitCountry = "DE", city = "Berlin", isSecureCore = true),
-                createServer(exitCountry = "DE", city = "Hamburg", features = SERVER_FEATURE_P2P),
+                server(exitCountry = "PL"),
+                server(exitCountry = "PL", features = SERVER_FEATURE_TOR),
+                server(exitCountry = "DE", city = "Berlin", isSecureCore = true),
+                server(exitCountry = "DE", city = "Hamburg", features = SERVER_FEATURE_P2P),
             ),
             null
         )
@@ -282,10 +282,10 @@ class ServerListViewModelDataAdapterTests {
     fun testEntryCountries() = runTest {
         serverManager.setServers(
             listOf(
-                createServer(exitCountry = "PL"),
-                createServer(exitCountry = "PL", entryCountry = "IS", isSecureCore = true),
-                createServer(exitCountry = "DE", entryCountry = "IS", isSecureCore = true),
-                createServer(exitCountry = "DE", entryCountry = "SE", isSecureCore = true),
+                server(exitCountry = "PL"),
+                server(exitCountry = "PL", entryCountry = "IS", isSecureCore = true),
+                server(exitCountry = "DE", entryCountry = "IS", isSecureCore = true),
+                server(exitCountry = "DE", entryCountry = "SE", isSecureCore = true),
             ),
             null
         )
@@ -298,7 +298,7 @@ class ServerListViewModelDataAdapterTests {
                 ServerGroupItemData.Country(
                     countryId = CountryId("PL"),
                     inMaintenance = false,
-                    tier = 0,
+                    tier = 1,
                     entryCountryId = CountryId("IS"),
                 )
             ),
@@ -309,13 +309,13 @@ class ServerListViewModelDataAdapterTests {
                 ServerGroupItemData.Country(
                     countryId = CountryId("DE"),
                     inMaintenance = false,
-                    tier = 0,
+                    tier = 1,
                     entryCountryId = CountryId("IS"),
                 ),
                 ServerGroupItemData.Country(
                     countryId = CountryId("DE"),
                     inMaintenance = false,
-                    tier = 0,
+                    tier = 1,
                     entryCountryId = CountryId("SE"),
                 )
             ),
@@ -327,10 +327,10 @@ class ServerListViewModelDataAdapterTests {
     fun testGateways() = runTest {
         serverManager.setServers(
             listOf(
-                createServer(exitCountry = "US"),
-                createServer(exitCountry = "US", gatewayName = "gateway1", isOnline = false, tier = 1),
-                createServer(exitCountry = "JP", gatewayName = "gateway2"),
-                createServer(exitCountry = "JP", gatewayName = "gateway2"),
+                server(exitCountry = "US"),
+                server(exitCountry = "US", gatewayName = "gateway1", isOnline = false, tier = 2),
+                server(exitCountry = "JP", gatewayName = "gateway2"),
+                server(exitCountry = "JP", gatewayName = "gateway2"),
             ),
             null
         )
@@ -338,9 +338,53 @@ class ServerListViewModelDataAdapterTests {
         val gateways = adapter.gateways(ServerListFilter()).first()
 
         assertEquals(listOf(
-            ServerGroupItemData.Gateway(gatewayName = "gateway1", inMaintenance = true, tier = 1),
-            ServerGroupItemData.Gateway(gatewayName = "gateway2", inMaintenance = false, tier = 0),
+            ServerGroupItemData.Gateway(gatewayName = "gateway1", inMaintenance = true, tier = 2),
+            ServerGroupItemData.Gateway(gatewayName = "gateway2", inMaintenance = false, tier = 1),
         ), gateways)
+    }
+
+    @Test
+    fun freeServersNotListed() = runTest {
+        serverManager.setServers(
+            listOf(
+                server(exitCountry = "PL", tier = 0),
+                server(exitCountry = "PL", tier = 1),
+            ),
+            null
+        )
+        val servers = adapter.servers(ServerListFilter(country = CountryId("PL"))).first()
+        assertEquals(1, servers.size)
     }
 }
 
+fun server(
+    exitCountry: String,
+    city: String? = null,
+    region: String? = null,
+    serverName: String = "serverName",
+    serverId: String = "ID",
+    entryCountry: String = exitCountry,
+    tier: Int = 1, // Servers with lower tier shouldn't be shown from adapter
+    features: Int = 0,
+    gatewayName: String? = null,
+    translations: Map<String, String?>? = null,
+    isSecureCore: Boolean = false,
+    isOnline: Boolean = true,
+    load: Float = 50f,
+    hostCountry: String? = null
+) = createServer(
+    exitCountry = exitCountry,
+    city = city,
+    region = region,
+    serverName = serverName,
+    serverId = serverId,
+    entryCountry = entryCountry,
+    tier = tier,
+    features = features,
+    gatewayName = gatewayName,
+    translations = translations,
+    isSecureCore = isSecureCore,
+    isOnline = isOnline,
+    load = load,
+    hostCountry = hostCountry
+)
