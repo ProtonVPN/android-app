@@ -131,7 +131,10 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
         }
 
     private fun List<Server>.asFilteredSequence(filter: ServerListFilter, forceIncludeGateways: Boolean = false) =
-        asSequence().filter { filter.isMatching(it, forceIncludeGateways) }
+        asSequence().filter {
+            // We shouldn't show free servers on the list
+            !it.isFreeServer && filter.isMatching(it, forceIncludeGateways)
+        }
 }
 
 private fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?) = ServerGroupItemData.Country(
