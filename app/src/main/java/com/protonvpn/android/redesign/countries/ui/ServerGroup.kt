@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
-import android.app.Activity
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,7 +39,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,6 +51,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
@@ -62,7 +61,7 @@ import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.VpnDivider
-import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
+import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
@@ -129,18 +128,14 @@ fun ServerGroupsRoute(
         toolbarFilters = mainState.filterButtons,
         titleRes = titleRes,
         content = {
-            val activity = LocalContext.current as Activity
-            val extraScreenPadding =
-                ProtonTheme.getPaddingForWindowWidthClass(calculateWindowSizeClass(activity).widthSizeClass)
             ServerGroupItemsList(
                 mainState.items,
                 onItemClick = createOnConnectAction(mainState.savedState.filter),
                 onItemOpen = createOnItemOpen(mainState.savedState.filter.type),
                 onOpenInfo = { infoType -> info = infoType },
                 navigateToUpsell = navigateToUpsellFromBanner,
-                modifier = Modifier
-                    .padding(it)
-                    .padding(horizontal = extraScreenPadding)
+                horizontalContentPadding = largeScreenContentPadding(),
+                modifier = Modifier.padding(it)
             )
         }
     )
@@ -249,9 +244,13 @@ fun ServerGroupItemsList(
     onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
     onOpenInfo: (InfoType) -> Unit,
     navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    horizontalContentPadding: Dp = 0.dp,
 ) {
-    LazyColumn(modifier) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = horizontalContentPadding)
+    ) {
         items.forEach { item ->
             item {
                 when (item) {

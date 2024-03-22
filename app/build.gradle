@@ -740,6 +740,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
     implementation 'androidx.activity:activity-ktx:1.8.1'
     implementation 'androidx.fragment:fragment-ktx:1.6.2'
+    implementation 'androidx.window:window:1.2.0'
     implementation 'io.sentry:sentry-android:6.34.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'

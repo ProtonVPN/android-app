@@ -59,6 +59,7 @@ import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -83,6 +84,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
+import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.account.AccountActivity
@@ -305,6 +307,7 @@ fun CollapsibleToolbarScaffold(
     )
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 private fun SettingsView(
     modifier: Modifier = Modifier,
@@ -333,13 +336,16 @@ private fun SettingsView(
 ) {
     CollapsibleToolbarScaffold(
         titleResId = R.string.settings_title,
-        contentWindowInsets = WindowInsets.statusBars
+        contentWindowInsets = WindowInsets.statusBars,
+        modifier = modifier,
     ) { innerPadding ->
+        val extraScreenPadding = largeScreenContentPadding()
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
+                .padding(horizontal = extraScreenPadding)
         ) {
             AccountCategory(
                 state = accountSettingsViewState,

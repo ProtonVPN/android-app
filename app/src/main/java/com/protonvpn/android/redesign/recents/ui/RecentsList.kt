@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -51,8 +50,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.redesign.base.ui.MaxContentWidth
 import com.protonvpn.android.redesign.base.ui.VpnDivider
+import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import me.proton.core.compose.theme.ProtonTheme
@@ -123,8 +122,7 @@ fun RecentsList(
     ) {
         item {
             val connectionCardModifier = Modifier
-                .padding(start = horizontalPadding, end = horizontalPadding, top = topPadding)
-                .widthIn(max = ProtonTheme.MaxContentWidth)
+                .padding(top = topPadding, start = horizontalPadding, end = horizontalPadding)
                 .optional({ peekThresholdItem == PeekThresholdItem.ConnectionCard }, peekPositionObserver)
                 .animateItemPlacement()
                 .animateContentSize()
@@ -162,7 +160,6 @@ fun RecentsList(
                 promoBanner(
                     Modifier
                         .padding(horizontal = horizontalPadding)
-                        .widthIn(max = ProtonTheme.MaxContentWidth)
                         .fillMaxWidth()
                         .animateItemPlacement()
                         .optional({ peekThresholdItem == PeekThresholdItem.PromoBanner }, bannerPeekObserver)
@@ -180,14 +177,11 @@ fun RecentsList(
                     stringResource(id = headlineText),
                     style = ProtonTheme.typography.captionWeak,
                     modifier = Modifier
-                        .widthIn(max = ProtonTheme.MaxContentWidth)
+                        .padding(horizontal = horizontalPadding)
                         .fillMaxWidth()
                         .animateItemPlacement()
                         .optional({ peekThresholdItem == PeekThresholdItem.Header }, peekPositionObserver)
-                        .padding(
-                            horizontal = horizontalPadding + 16.dp,
-                            vertical = 8.dp
-                        )
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                 )
             }
         }
@@ -207,7 +201,6 @@ fun RecentsList(
                 exit = ExitTransition.None,
                 modifier = Modifier
                     .padding(horizontal = horizontalPadding)
-                    .widthIn(max = ProtonTheme.MaxContentWidth)
                     .animateItemPlacement(),
             ) {
                 RecentRow(
@@ -221,7 +214,6 @@ fun RecentsList(
                 VpnDivider(
                     Modifier
                         .padding(horizontal = horizontalPadding)
-                        .widthIn(max = ProtonTheme.MaxContentWidth)
                         .animateItemPlacement())
             }
         }

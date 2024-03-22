@@ -68,7 +68,7 @@ import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
-import com.protonvpn.android.redesign.base.ui.getPaddingForWindowWidthClass
+import com.protonvpn.android.redesign.base.ui.extraPaddingForWindowSize
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
@@ -277,7 +277,7 @@ fun HomeView(
             if (recentsViewState != null) {
                 val maxHeightPx = LocalDensity.current.run { maxHeight.toPx() }
                 recentsExpandState.setMaxHeight(maxHeightPx.roundToInt())
-                val horizontalPadding = ProtonTheme.getPaddingForWindowWidthClass(widthSizeClass)
+                val horizontalPadding = ProtonTheme.extraPaddingForWindowSize(viewportSize)
 
                 val listBgGradientHeight =
                     if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientHeightBasic else ListBgGradientHeightExpanded
