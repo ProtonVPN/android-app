@@ -245,7 +245,7 @@ private fun UpsellCardDevices(
     val devices = Constants.MAX_CONNECTIONS_IN_PLUS_PLAN
     UpsellCard(
         title = pluralStringResource(R.plurals.upsell_card_devices_title, count = devices, devices),
-        description = stringResource(R.string.upsell_card_secure_core_description),
+        description = stringResource(R.string.upsell_card_devices_description),
         imageRes = R.drawable.upsell_card_secure_core,
         modifier = modifier,
     )

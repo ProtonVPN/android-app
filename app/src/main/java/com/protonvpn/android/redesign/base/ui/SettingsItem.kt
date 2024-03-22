@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -139,6 +140,7 @@ fun <T> SettingsRadioItem(
             Text(
                 text = label,
                 style = ProtonTheme.typography.defaultSmallNorm,
+                modifier = Modifier.padding(bottom = 4.dp),
             )
             Text(
                 text = description,
@@ -153,14 +155,16 @@ fun <T> SettingsRadioItem(
 @Composable
 fun RadioButtonPreview() {
     VpnTheme(isDark = true) {
-        SettingsRadioItem(
-            modifier = Modifier,
-            itemValue = true,
-            selectedValue = true,
-            onSelected = {},
-            label = "Radio option",
-            description = "Long radio button description. Long radio button description. Long radio button description."
-        )
+        Surface {
+            SettingsRadioItem(
+                modifier = Modifier,
+                itemValue = true,
+                selectedValue = true,
+                onSelected = {},
+                label = "Radio option",
+                description = "Long radio button description. Long radio button description. Long radio button description."
+            )
+        }
     }
 }
 
@@ -168,12 +172,14 @@ fun RadioButtonPreview() {
 @Composable
 fun SettingTogglePreview() {
     VpnTheme(isDark = true) {
-        SettingsToggleItem(
-            name = "Toggle option",
-            description = "Long toggle description. Long toggle description. Long toggle description. Learn more",
-            descriptionAnnotation = ClickableTextAnnotation("Learn more", {}, {}),
-            value = true,
-            onToggle = {},
-        )
+        Surface {
+            SettingsToggleItem(
+                name = "Toggle option",
+                description = "Long toggle description. Long toggle description. Long toggle description. Learn more",
+                descriptionAnnotation = ClickableTextAnnotation("Learn more", {}, {}),
+                value = true,
+                onToggle = {},
+            )
+        }
     }
 }
