@@ -127,12 +127,12 @@ class SettingsViewModel @Inject constructor(
 
         class Protocol(
             protocol: ProtocolSelection,
+            override val iconRes: Int = me.proton.core.auth.R.drawable.ic_proton_servers,
         ) : SettingViewState<ProtocolSelection>(
             value = protocol,
             isRestricted = false,
             titleRes = R.string.settings_protocol_title,
             subtitleRes = protocol.displayName,
-            iconRes = me.proton.core.auth.R.drawable.ic_proton_servers,
             descriptionRes = R.string.settings_protocol_description,
             annotationRes = R.string.learn_more
         )
