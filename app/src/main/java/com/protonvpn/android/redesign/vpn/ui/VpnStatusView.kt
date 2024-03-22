@@ -77,7 +77,6 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldView
 import com.protonvpn.android.netshield.NetShieldViewState
-import com.protonvpn.android.netshield.UpgradeNetShieldFree
 import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import kotlinx.coroutines.delay
@@ -302,12 +301,22 @@ private fun VpnConnectedView(
                     titleRes = R.string.not_wanted_country_title,
                     descriptionRes = R.string.not_wanted_country_description,
                     iconRes = R.drawable.upsell_worldwide_cover_exclamation,
-                    onClick = { netShieldActions.onChangeServerPromoUpgrade },
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier
+                        .clickable(onClick = netShieldActions.onChangeServerPromoUpgrade)
+                        .padding(16.dp)
                 )
             }
 
-            StatusBanner.UpgradePlus -> UpgradeNetShieldFree(netShieldActions.onUpgradeNetShield)
+            StatusBanner.UpgradePlus -> {
+                UpsellBannerContent(
+                    R.string.netshield_free_title,
+                    R.string.netshield_free_description,
+                    iconRes = R.drawable.ic_netshield_promo,
+                    modifier = Modifier
+                        .clickable(onClick = netShieldActions.onUpgradeNetShield)
+                        .padding(16.dp),
+                )
+            }
         }
     }
     if (isModalVisible && banner is StatusBanner.NetShieldBanner) {
