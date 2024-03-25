@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.countries.ui
 import androidx.lifecycle.SavedStateHandle
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -39,6 +40,7 @@ class CountriesViewModel @Inject constructor(
     shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
+    translator: Translator,
 ) : ServerGroupsViewModel(
     "country_list",
     savedStateHandle,
@@ -47,6 +49,7 @@ class CountriesViewModel @Inject constructor(
     shouldShowcaseRecents,
     currentUser,
     vpnStatusProviderUI,
+    translator,
     showFilters = true
 ) {
     override fun getUiItems(
@@ -60,7 +63,7 @@ class CountriesViewModel @Inject constructor(
             val isFreeUser = userTier != null && userTier == VpnUser.FREE_TIER
             val items = buildList {
                 if (!isFreeUser && countries.size > 1)
-                    add(fastestCountryItem(savedState.filter))
+                    add(fastestCountryItem(savedState.filter.type))
                 addAll(countries.sortedByLabel(locale))
             }.map {
                 it.toState(userTier, savedState.filter, currentConnection)

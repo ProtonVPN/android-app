@@ -21,7 +21,6 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.MutableTransitionState
@@ -35,6 +34,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -57,6 +57,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.GatewayIndicator
@@ -67,14 +68,13 @@ import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.headlineNorm
-import me.proton.core.presentation.R
+import me.proton.core.presentation.R as CoreR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ServerGroupsBottomSheet(
     modifier: Modifier,
     screen: SubScreenState,
-    getListStateFromViewModel: (String) -> LazyListState,
     onNavigateBack: suspend (suspend () -> Unit) -> Unit,
     onNavigateToItem: (ServerGroupUiItem.ServerGroup) -> Unit,
     onItemClicked: (ServerGroupUiItem.ServerGroup) -> Unit,
@@ -89,11 +89,21 @@ fun ServerGroupsBottomSheet(
         animationSpec = tween(durationMillis = 500),
         label = "BottomSheetTopColorAnimation"
     )
+    val listStatesMap = remember { mutableMapOf<String, LazyListState>() }
+    val listState = listStatesMap.getOrPut(screen.savedState.rememberStateKey) { rememberLazyListState() }
+    val onCloseWithClearState = {
+        listStatesMap.clear()
+        onClose()
+    }
+    val onNavigateBackWithClearState: suspend (suspend () -> Unit) -> Unit = { onBack ->
+        listStatesMap.remove(screen.savedState.rememberStateKey)
+        onNavigateBack(onBack)
+    }
     ModalBottomSheetWithBackNavigation(
         modifier = modifier,
         containerColor = headerAreaColor,
-        onNavigateBack = onNavigateBack,
-        onClose = onClose,
+        onNavigateBack = onNavigateBackWithClearState,
+        onClose = onCloseWithClearState,
         sheetState = sheetState,
         scope = scope
     ) {
@@ -101,8 +111,9 @@ fun ServerGroupsBottomSheet(
             screen = screen,
             onItemOpen = onNavigateToItem,
             onItemClick = onItemClicked,
-            getListStateFromViewModel = getListStateFromViewModel,
-            onNavigateBack = { scope.launch { onNavigateBack {} } },
+            listState = listState,
+            onNavigateBack = { scope.launch { onNavigateBackWithClearState {} } },
+            navigateToUpsell = navigateToUpsell,
             onOpenInfo = onOpenInfo,
             modifier = Modifier
         )
@@ -110,25 +121,78 @@ fun ServerGroupsBottomSheet(
 }
 
 @Composable
-private fun AnimatedBottomHeader(
+private fun BottomSheetScreen(
     modifier: Modifier = Modifier,
-    isServerScreen: Boolean,
-    countryId: CountryId?,
-    gateway: String?,
-    flagComposable: (@Composable () -> Unit),
-    filterButtons: List<FilterButton>?,
-    @StringRes allLabelRes: Int?,
-    city: String = "",
+    screen: SubScreenState,
+    listState: LazyListState,
+    onOpenInfo: (InfoType) -> Unit,
+    onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
+    onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
+    navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
-    var showSecondStepAnimations by remember { mutableStateOf(false) }
+    Column(modifier) {
+        AnimatedBottomSheetHeader(screen = screen, onNavigateBack = onNavigateBack)
+        ServerGroupItemsList(
+            listState = listState,
+            items = screen.items,
+            onItemOpen = onItemOpen,
+            onItemClick = onItemClick,
+            onOpenInfo = onOpenInfo,
+            navigateToUpsell = navigateToUpsell,
+            modifier = Modifier
+                .fillMaxHeight()
+                .background(ProtonTheme.colors.backgroundNorm)
+        )
+    }
+}
 
-    LaunchedEffect(isServerScreen) {
-        if (isServerScreen) {
+@Composable
+private fun AnimatedBottomSheetHeader(
+    modifier: Modifier = Modifier,
+    screen: SubScreenState,
+    onNavigateBack: () -> Unit,
+) {
+    val flagComposable: @Composable () -> Unit = when (screen) {
+        is GatewayServersScreenState -> { -> GatewayIndicator(null) }
+        is CitiesScreenState -> { -> Flag(exitCountry = screen.countryId) }
+        is ServersScreenState -> { -> Flag(exitCountry = screen.countryId) }
+    }
+
+    val shouldAnimateTransition: Boolean
+    val titleText: String
+    val filterButtons: List<FilterButton>?
+    val selectedCity: String?
+    when (screen) {
+        is CitiesScreenState -> {
+            shouldAnimateTransition = false
+            titleText = screen.countryId.label()
+            filterButtons = screen.filterButtons
+            selectedCity = null
+        }
+
+        is GatewayServersScreenState -> {
+            shouldAnimateTransition = false
+            filterButtons = null
+            selectedCity = null
+            titleText = screen.gatewayName
+        }
+
+        is ServersScreenState -> {
+            shouldAnimateTransition = true
+            filterButtons = null
+            selectedCity = screen.city
+            titleText = screen.countryId.label()
+        }
+    }
+
+    var showSecondStepAnimations by remember { mutableStateOf(false) }
+    LaunchedEffect(shouldAnimateTransition) {
+        showSecondStepAnimations = if (shouldAnimateTransition) {
             delay(100)
-            showSecondStepAnimations = true
+            true
         } else {
-            showSecondStepAnimations = false
+            false
         }
     }
     val textPadding = 16.dp
@@ -151,9 +215,9 @@ private fun AnimatedBottomHeader(
                             rowWidth = it.size.width
                         }
                 ) {
-                    AnimatedVisibility(visible = isServerScreen) {
+                    AnimatedVisibility(visible = shouldAnimateTransition) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_arrow_left),
+                            painter = painterResource(id = CoreR.drawable.ic_arrow_left),
                             tint = ProtonTheme.colors.iconNorm,
                             contentDescription = null,
                             modifier = Modifier
@@ -168,14 +232,14 @@ private fun AnimatedBottomHeader(
 
                 }
                 Text(
-                    text = countryId?.label() ?: gateway ?: "",
+                    text = titleText,
                     modifier = Modifier.padding(start = textPadding),
                     style = ProtonTheme.typography.headlineNorm
                 )
             }
             AnimatedVisibility(visible = showSecondStepAnimations) {
                 Text(
-                    text = city,
+                    text = selectedCity ?: "",
                     modifier = Modifier
                         .padding(start = with(LocalDensity.current) {
                             rowWidth.toDp() + textPadding
@@ -190,107 +254,57 @@ private fun AnimatedBottomHeader(
         }
         AnimatedVisibility(visible = !showSecondStepAnimations) {
             val buttons = filterButtons ?: filterButtonsTransition.currentState
-            if (allLabelRes != null) {
-                buttons?.let {
-                    FiltersRow(
-                        buttonActions = it,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
-                }
+            buttons?.let {
+                FiltersRow(
+                    buttonActions = it,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
             }
         }
-    }
-}
-
-@Composable
-private fun BottomSheetScreen(
-    modifier: Modifier = Modifier,
-    screen: SubScreenState,
-    getListStateFromViewModel: (String) -> LazyListState,
-    onOpenInfo: (InfoType) -> Unit,
-    onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
-    onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
-    navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
-    onNavigateBack: () -> Unit,
-) {
-    val screenKey = screen.savedState.rememberStateKey
-    val listState = remember(screenKey) { getListStateFromViewModel(screenKey) }
-    Column(modifier) {
-        AnimatedBottomHeader(
-            isServerScreen = screen.savedState.type != SubScreenType.Cities,
-            countryId = screen.savedState.countryId,
-            city = screen.city,
-            flagComposable = {
-                if (screen.savedState.type == SubScreenType.GatewayServers) {
-                    GatewayIndicator(country = screen.savedState.countryId)
-                } else {
-                    Flag(exitCountry = screen.savedState.countryId ?: CountryId.fastest)
-                }
-            },
-            filterButtons = screen.filterButtons,
-            allLabelRes = screen.allLabelRes,
-            gateway = screen.savedState.filter.gatewayName,
-            onNavigateBack = onNavigateBack
-        )
-        ServerGroupItemsList(
-            listState = listState,
-            items = screen.items,
-            onItemOpen = onItemOpen,
-            onItemClick = onItemClick,
-            onOpenInfo = onOpenInfo,
-            navigateToUpsell = navigateToUpsell
-            modifier = Modifier
-                .fillMaxHeight()
-                .background(ProtonTheme.colors.backgroundNorm)
-       )
     }
 }
 
 @Preview
 @Composable
 fun BottomSheetHeaderCitySelectionPreview() {
-    AnimatedBottomHeader(
-        isServerScreen = false,
-        countryId = CountryId.iceland,
-        city = "Stockholm",
-        filterButtons = listOf(
-            FilterButton(ServerFilterType.All, label = com.protonvpn.android.R.string.country_filter_all, onClick = {}, isSelected = true),
-            FilterButton(ServerFilterType.SecureCore,label = com.protonvpn.android.R.string.country_filter_secure_core, onClick = {}, isSelected = false)
+    AnimatedBottomSheetHeader(
+        screen = CitiesScreenState(
+            savedState = CitiesScreenSaveState(
+                CountryId("CH"),
+                ServerListFilter(),
+                "test"
+            ),
+            filterButtons = listOf(
+                FilterButton(
+                    ServerFilterType.All,
+                    label = R.string.country_filter_all,
+                    onClick = {},
+                    isSelected = true
+                ),
+                FilterButton(
+                    ServerFilterType.SecureCore,
+                    label = R.string.country_filter_secure_core,
+                    onClick = {},
+                    isSelected = false
+                )
+            ),
+            items = emptyList()
         ),
-        allLabelRes = com.protonvpn.android.R.string.country_filter_all,
-        flagComposable = { Flag(exitCountry = CountryId.iceland) },
-        gateway = null,
         onNavigateBack = {}
     )
 }
+
 @Preview
 @Composable
 fun BottomSheetHeaderGatewayPreview() {
-    AnimatedBottomHeader(
-        isServerScreen = true,
-        countryId = CountryId("CH"),
-        city = "Zurich",
-        filterButtons = null,
-        allLabelRes = null,
-        flagComposable = { GatewayIndicator(country = CountryId("CH")) },
-        gateway = "Gateway Test",
-        onNavigateBack = {}
-    )
-}
-@Preview
-@Composable
-fun BottomSheetHeaderServerSelectionPreview() {
-    AnimatedBottomHeader(
-        isServerScreen = true,
-        countryId = CountryId("CH"),
-        city = "Zurich",
-        filterButtons = listOf(
-            FilterButton(ServerFilterType.All, label = com.protonvpn.android.R.string.country_filter_all, onClick = {}, isSelected = true),
-            FilterButton(ServerFilterType.SecureCore,label = com.protonvpn.android.R.string.country_filter_secure_core, onClick = {}, isSelected = false)
+    AnimatedBottomSheetHeader(
+        screen = GatewayServersScreenState(
+            savedState = GatewayServersScreenSaveState(
+                "Gateway",
+                ServerListFilter(), "test"
+            ),
+            items = emptyList()
         ),
-        allLabelRes = com.protonvpn.android.R.string.country_filter_all,
-        flagComposable = { Flag(exitCountry = CountryId.switzerland) },
-        gateway = null,
         onNavigateBack = {}
     )
 }

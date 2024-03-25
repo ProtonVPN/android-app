@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.countries.ui
 
 import androidx.lifecycle.SavedStateHandle
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -38,6 +39,7 @@ class GatewaysViewModel @Inject constructor(
     shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
+    translator: Translator,
 ) : ServerGroupsViewModel(
     "gateways",
     savedStateHandle,
@@ -46,6 +48,7 @@ class GatewaysViewModel @Inject constructor(
     shouldShowcaseRecents,
     currentUser,
     vpnStatusProviderUI,
+    translator,
     showFilters = false
 ) {
     override fun getUiItems(
