@@ -25,6 +25,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -78,6 +81,7 @@ fun SubSettingsRoute(
         modifier = Modifier
             .fillMaxSize()
             .background(color = ProtonTheme.colors.backgroundNorm)
+            .navigationBarsPadding()
     ) {
         when (type) {
             SubSettingsScreen.Type.VpnAccelerator -> {
@@ -188,7 +192,9 @@ fun SubSetting(
             },
         )
         Column(
-            modifier = Modifier.largeScreenContentPadding(),
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .largeScreenContentPadding(),
         ) {
             content()
         }
