@@ -56,6 +56,7 @@ import java.io.IOException
 private const val LOG_PATTERN = "%msg"
 private const val LOG_QUEUE_MAX_SIZE = 100
 private const val LOG_ROTATE_SIZE = "300kb"
+private const val LINES_FOR_DISPLAY_CHUNK_SIZE = 1024
 
 /**
  * Writes logs to files.
@@ -159,12 +160,13 @@ class FileLogWriter(
                 }
             }
 
-        fun getLogLines(): Flow<String> = callbackFlow {
+        fun getLogLines(): Flow<List<String>> = callbackFlow {
             getLogFiles().forEach { file ->
                 file.bufferedReader().use { reader ->
                     reader.lineSequence()
                         .takeWhile { isActive }
-                        .forEach { line -> send(line) }
+                        .chunked(LINES_FOR_DISPLAY_CHUNK_SIZE)
+                        .forEach { lines -> send(lines) }
                 }
             }
             val encoder = createAndStartEncoder(logger.loggerContext, LOG_PATTERN)
@@ -267,13 +269,13 @@ class FileLogWriter(
         }
 
         private class ChannelAdapter(
-            private val channel: SendChannel<String>,
+            private val channel: SendChannel<List<String>>,
             private val encoder: Encoder<ILoggingEvent>
         ) : UnsynchronizedAppenderBase<ILoggingEvent>() {
 
             override fun append(eventObject: ILoggingEvent) {
                 val line = encoder.encode(eventObject).decodeToString()
-                channel.trySendBlocking(line)
+                channel.trySendBlocking(listOf(line))
             }
         }
     }

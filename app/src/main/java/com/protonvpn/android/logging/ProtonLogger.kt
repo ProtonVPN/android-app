@@ -52,7 +52,7 @@ object ProtonLogger : ProtonLoggerInterface {
 
     override suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile> = logger.getLogFilesForUpload()
 
-    override fun getLogLinesForDisplay(): Flow<String> = logger.getLogLinesForDisplay()
+    override fun getLogLinesForDisplay(): Flow<List<String>> = logger.getLogLinesForDisplay()
 
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) =
         logger.clearUploadTempFiles(files)
@@ -72,7 +72,7 @@ private class NoopProtonLogger : ProtonLoggerInterface {
     override fun logBlocking(event: LogEventType, message: String) {}
     override fun formatTime(timeMs: Long): String = ""
     override suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile> = emptyList()
-    override fun getLogLinesForDisplay(): Flow<String> = emptyFlow()
+    override fun getLogLinesForDisplay(): Flow<List<String>> = emptyFlow()
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) {}
     override suspend fun getLogFileForSharing(): File? = null
 }

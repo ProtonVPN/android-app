@@ -56,7 +56,9 @@ interface ProtonLoggerInterface {
     fun formatTime(timeMs: Long): String
 
     suspend fun getLogFilesForUpload(): List<FileLogWriter.LogFile>
-    fun getLogLinesForDisplay(): Flow<String>
+
+    // Emits lists of log lines, each emitted list should be appended to the result, it doesn't replace it.
+    fun getLogLinesForDisplay(): Flow<List<String>>
     fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>)
     suspend fun getLogFileForSharing(): File?
 }
@@ -110,8 +112,8 @@ open class ProtonLoggerImpl(
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun getLogFilesForUpload() = fileLogWriter.getLogFilesForUpload()
 
-    override fun getLogLinesForDisplay() = fileLogWriter.getLogLinesForDisplay().map {
-        replaceDateForDisplay(it)
+    override fun getLogLinesForDisplay(): Flow<List<String>> = fileLogWriter.getLogLinesForDisplay().map { lines ->
+        lines.map { replaceDateForDisplay(it) }
     }
 
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) = fileLogWriter.clearUploadTempFiles(files)

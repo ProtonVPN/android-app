@@ -75,8 +75,8 @@ class LogActivity : BaseActivityV2() {
 
         ProtonLogger.getLogLinesForDisplay()
             .flowWithLifecycle(lifecycle)
-            .onEach {
-                adapter.addLogItem(it)
+            .onEach { newLines ->
+                adapter.addLogLines(newLines)
                 if (isScrolledToBottom) recyclerView.scrollToPosition(adapter.itemCount - 1)
             }
             .launchIn(lifecycleScope)
@@ -119,9 +119,9 @@ class LogActivity : BaseActivityV2() {
 
         override fun getItemCount() = log.size
 
-        fun addLogItem(item: String) {
-            log.add(item)
-            notifyItemInserted(log.size - 1)
+        fun addLogLines(lines: List<String>) {
+            log.addAll(lines)
+            notifyItemRangeInserted(log.size - 1, lines.size)
         }
     }
 }
