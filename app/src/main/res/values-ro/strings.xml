@@ -922,6 +922,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Ultima conexiune la</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Free connection</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1067,6 +1071,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Toate țările (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Țări Plus (%1$d)</string>
+    <string name="country_filter_cities_list_header">Orașe (%1$d)</string>
+    <string name="country_filter_states_list_header">Țări (%1$d)</string>
+    <string name="country_filter_servers_list_header">Servere (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Țări cu Secure Core (%1$d)</string>
+    <string name="country_filter_p2p_list_header">Țări P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">Orașe P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">Țări P2P (%1$d)</string>
+    <string name="country_filter_tor_list_header">Țări Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Servere Tor (%1$d)</string>
+    <string name="country_filter_info_label">Informații</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1143,6 +1159,14 @@
     <string name="connection_details_section_vpn_speed">Viteză VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Care este viteza prin VPN?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core vă conectează la serverul de destinație printr-un al doilea server VPN de securitate maximă.\n\nAcest nivel mai mare de protecție poate provoca latență mai mare și viteze mai mici.</string>
+    <string name="info_secure_core_standard_header">Conexiune VPN standard</string>
+    <string name="info_secure_core_secure_header">Conexiune VPN Secure Core</string>
+    <string name="info_dialog_tor_description">Conectați-vă la un server Tor pentru a accesa servicii ascunse și site-uri de tip onion folosind orice navigator web.</string>
+    <string name="info_dialog_button_learn_more_tor">Cum se accesează rețeaua Tor?</string>
+    <string name="info_dialog_button_learn_more_p2p">Cum se folosește partajarea fișierelor prin torrent cu P2P</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1204,4 +1228,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Niciuna</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s și încă %3$d</string>
     <string name="settings_dialog_reconnect">Noile setări vor fi aplicate la următoarea conectare.</string>
+    <string name="info_secure_core_standard_high_privacy">Intimitate mare</string>
+    <string name="info_secure_core_standard_lower_latency">Latență scăzută</string>
+    <string name="info_secure_core_advanced_privacy">Intimitate avansată</string>
+    <string name="info_secure_core_higher_latency">Latență mai mare</string>
+    <string name="info_p2p_what_title">Ce este P2P?</string>
+    <string name="info_p2p_what_description">Tehnologia persoană-la-persoană (P2P) vă permite să vă conectați și să partajați fișiere direct cu alte dispozitive.\n\nServerele noastre P2P sunt special concepute pentru a accepta acest tip de partajare a fișierelor.</string>
+    <string name="info_p2p_torrenting_title">Ce este partajarea prin fișiere torrent?</string>
+    <string name="info_p2p_torrenting_description">Partajarea și descărcarea rapidă a fișierelor mari printr-o rețea P2P.</string>
+    <string name="info_p2p_why_title">De să folosiți un server P2P când utilizați fișiere torrent?</string>
+    <string name="info_p2p_why_description_speed">Viteze de încărcare și descărcare crescute</string>
+    <string name="info_p2p_why_description_logs">Fără jurnale de activitate</string>
+    <string name="info_p2p_why_description_hide">Vă ascundeți adresa IP față de furnizorul de servicii și față de partenerii de transfer</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing folosește servere virtuale pentru a oferi acoperire VPN în țările greu accesibile.\n\nCând vă conectați la un server Smart Routing, veți părea că navigați în țara de destinație, chiar dacă serverul fizic este situat în altă parte.\n\nSmart Routing este de obicei folosit pentru a evita legile anti-confidențialitate și alte forme de cenzură.</string>
+    <string name="countries_upsell_banner_description">Obțineți acoperire la nivel mondial cu VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Adăugați încă un nivel de criptare a conexiunii VPN</string>
+    <string name="p2p_upsell_banner_description">Descărcați fișiere prin BitTorrent și alte protocoale de partajare fișiere</string>
+    <string name="tor_upsell_banner_description">Utilizați rețeaua Tor prin conexiunea VPN pentru intimitate suplimentară</string>
 </resources>

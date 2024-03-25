@@ -715,7 +715,7 @@
     <string name="no_logs_banner_description">Uw activiteit via VPN is beschermd door Zwitserse privacy-wetgeving. We zullen u nooit volgen of uw informatie delen met derden.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Start</string>
-    <string name="bottom_nav_gateways">Gateways</string>
+    <string name="bottom_nav_gateways">Gateway</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Landen</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -903,6 +903,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Laatst verbonden met</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Free connection</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1048,6 +1052,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Alle landen (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
+    <string name="country_filter_cities_list_header">Steden (%1$d)</string>
+    <string name="country_filter_states_list_header">Staten (%1$d)</string>
+    <string name="country_filter_servers_list_header">Servers (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core landen (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P-landen (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P-steden (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P-staten (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor-landen (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
+    <string name="country_filter_info_label">Info</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1124,6 +1140,14 @@
     <string name="connection_details_section_vpn_speed">VPN-snelheid</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Wat is VPN-snelheid?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core verbindt u met uw bestemming server via een tweede, maximale beveiliging VPN-server.\n\nDit hogere niveau van bescherming kan hogere vertraging en tragere snelheden veroorzaken.</string>
+    <string name="info_secure_core_standard_header">Standaard VPN-connectie</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN-verbinding</string>
+    <string name="info_dialog_tor_description">Maak verbinding met een Tor-server om via een willekeurige browser toegang te krijgen tot verborgen services en privé(onion)sites.</string>
+    <string name="info_dialog_button_learn_more_tor">Hoe krijgt u toegang tot het Tor-netwerk</string>
+    <string name="info_dialog_button_learn_more_p2p">Hoe torrent met P2P</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1184,4 +1208,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Geen</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s en %3$d meer</string>
     <string name="settings_dialog_reconnect">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
+    <string name="info_secure_core_standard_high_privacy">Hoge privacy</string>
+    <string name="info_secure_core_standard_lower_latency">Lagere latentie</string>
+    <string name="info_secure_core_advanced_privacy">Geavanceerde privacy</string>
+    <string name="info_secure_core_higher_latency">Hogere latentie</string>
+    <string name="info_p2p_what_title">Wat is P2P?</string>
+    <string name="info_p2p_what_description">Met de Peer-to-peer (P2P) technologie kunt u bestanden rechtstreeks verbinden en delen met andere apparaten.\n\nOnze P2P-servers zijn speciaal ontworpen om dit type bestandsdeling te ondersteunen.</string>
+    <string name="info_p2p_torrenting_title">Wat is torrent?</string>
+    <string name="info_p2p_torrenting_description">Het snel delen en downloaden van grote bestanden via een P2P-netwerk.</string>
+    <string name="info_p2p_why_title">Waarom een P2P-server gebruiken bij het torrenten?</string>
+    <string name="info_p2p_why_description_speed">Verhoogde upload- en download snelheden</string>
+    <string name="info_p2p_why_description_logs">Geen activiteitenlogs</string>
+    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing gebruikt virtuele servers om VPN-dekking te bieden in moeilijk te bereiken landen.\n\nWanneer u verbinding maakt met een slimme routeringsserver, dan lijkt u te bladeren in het land van bestemming Hoewel de fysieke server zich ergens anders bevindt.  \n\nSmart Routing wordt meestal gebruikt om anti-privacywetten en andere vormen van censuur te omzeilen.</string>
+    <string name="countries_upsell_banner_description">Krijg wereldwijde dekking met VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Voeg een extra laag encryptie toe aan uw VPN-verbinding</string>
+    <string name="p2p_upsell_banner_description">Download bestanden via BitTorrent en andere bestanden delen protocollen</string>
+    <string name="tor_upsell_banner_description">Gebruik het Tor netwerk via uw VPN-verbinding voor extra privacy</string>
 </resources>

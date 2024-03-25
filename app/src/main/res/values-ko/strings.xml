@@ -884,6 +884,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">마지막 연결:</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Free 연결</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1029,6 +1033,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">전체 국가 (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus 국가 (%1$d)</string>
+    <string name="country_filter_cities_list_header">도시 (%1$d)</string>
+    <string name="country_filter_states_list_header">시/주 (%1$d)</string>
+    <string name="country_filter_servers_list_header">서버 (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core 도시 (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P 국가 (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P 도시 (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P 도시 (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor 국가 (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor 서버 (%1$d)</string>
+    <string name="country_filter_info_label">정보</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1105,6 +1121,14 @@
     <string name="connection_details_section_vpn_speed">VPN 속도</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">VPN 속도가 무엇인가요?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core는 최대의 보안을 갖는 두 번째 VPN 서버를 경유하여 목적지 서버로 연결합니다.\n\n이런 높은 수준의 보호는 높아진 레이턴시와 느려진 속도를 유발할 수 있습니다.</string>
+    <string name="info_secure_core_standard_header">일반 VPN 연결</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN 연결</string>
+    <string name="info_dialog_tor_description">Tor 서버에 접속하면 히든 서비스와 어니언 사이트에 어느 브라우저를 사용해도 접근할 수 있습니다.</string>
+    <string name="info_dialog_button_learn_more_tor">Tor 네트워크에 접속하는 방법</string>
+    <string name="info_dialog_button_learn_more_p2p">P2P를 이용해 토렌트하는 방법</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1164,4 +1188,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">없음</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s 외 %3$d개</string>
     <string name="settings_dialog_reconnect">다음에 연결할 때 새 설정이 적용됩니다.</string>
+    <string name="info_secure_core_standard_high_privacy">높은 개인정보 보호</string>
+    <string name="info_secure_core_standard_lower_latency">낮은 레이턴시</string>
+    <string name="info_secure_core_advanced_privacy">향상된 개인정보 보호</string>
+    <string name="info_secure_core_higher_latency">더 높은 레이턴시</string>
+    <string name="info_p2p_what_title">P2P가 무엇인가요?</string>
+    <string name="info_p2p_what_description">피어 투 피어 (P2P)는 사용자가 다른 기기와 파일을 직접적으로 연결 및 공유할 수 있는 기술을 의미합니다.\n\nProton의 P2P 서버는 이러한 파일 공유를 지원하도록 특별히 설계되었습니다.</string>
+    <string name="info_p2p_torrenting_title">토렌트한다는 것은?</string>
+    <string name="info_p2p_torrenting_description">P2P 네트워크를 통하여 대용량 파일을 빠르게 공유하고 다운로드함을 말합니다.</string>
+    <string name="info_p2p_why_title">토렌트에 P2P 서버를 쓰는 이유라면?</string>
+    <string name="info_p2p_why_description_speed">업로드와 다운로드 속도가 더욱 빠릅니다</string>
+    <string name="info_p2p_why_description_logs">활동 로그 없음</string>
+    <string name="info_p2p_why_description_hide">귀하의 IP 주소를 서비스 제공자와 피어로부터 숨깁니다</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing은 가상 서버를 이용하여 접근이 어려운 국가에 VPN 커버리지를 제공합니다.\n\nSmart Routing 서버에 접속했다면 물리적 서버의 위치와 상관없이 목적지 국가에서 탐색하는 것으로 보이게 됩니다.\n\nSmart Routing은 보통 안티-프라이버시 법령과 기타 유형의 검열을 우회하는 데 쓸모가 있습니다.</string>
+    <string name="countries_upsell_banner_description">VPN Plus 전세계적 커버리지 받기</string>
+    <string name="secure_core_upsell_banner_description">VPN 연결에 암호화 계층 추가</string>
+    <string name="p2p_upsell_banner_description">BitTorrent와 다른 파일 공유 프로토콜로 파일을 다운로드하세요</string>
+    <string name="tor_upsell_banner_description">추가적인 개인 정보 보호를 위해 VPN 연결을 통해 Tor 네트워크를 사용하세요</string>
 </resources>

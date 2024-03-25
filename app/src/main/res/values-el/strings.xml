@@ -903,6 +903,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Τελευταία σύνδεση στη</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Free connection</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1048,6 +1052,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Όλες οι χώρες (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Χώρες Plus (%1$d)</string>
+    <string name="country_filter_cities_list_header">Πόλεις (%1$d)</string>
+    <string name="country_filter_states_list_header">Πολιτείες (%1$d)</string>
+    <string name="country_filter_servers_list_header">Διακομιστές (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Χώρες Secure Core (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P χώρες (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P πόλεις (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">Πολιτείες P2P (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor χώρες (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Διακομιστές Tor (%1$d)</string>
+    <string name="country_filter_info_label">Πληροφορίες</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1124,6 +1140,14 @@
     <string name="connection_details_section_vpn_speed">Ταχύτητα VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Τι είναι η ταχύτητα VPN;</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Το Secure Core σας συνδέει με τον διακομιστή προορισμού σας μέσω ενός δεύτερου, μέγιστης ασφάλειας διακομιστή VPN.\n\nΑυτό το υψηλότερο επίπεδο προστασίας μπορεί να προκαλέσει υψηλότερο χρόνο αδράνειας και χαμηλότερες ταχύτητες.</string>
+    <string name="info_secure_core_standard_header">Τυπική σύνδεση VPN</string>
+    <string name="info_secure_core_secure_header">Σύνδεση VPN Secure Core</string>
+    <string name="info_dialog_tor_description">Συνδεθείτε σε έναν διακομιστή Tor για να αποκτήσετε πρόσβαση σε κρυφές υπηρεσίες και ιστότοπους onion χρησιμοποιώντας οποιοδήποτε πρόγραμμα περιήγησης.</string>
+    <string name="info_dialog_button_learn_more_tor">Πώς να αποκτήσετε πρόσβαση στο δίκτυο Tor</string>
+    <string name="info_dialog_button_learn_more_p2p">Πώς να κάνετε torrent με P2P</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1184,4 +1208,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Κανένα</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s και %3$d ακόμη</string>
     <string name="settings_dialog_reconnect">Οι νέες ρυθμίσεις θα εφαρμοστούν την επόμενη φορά που θα συνδεθείτε.</string>
+    <string name="info_secure_core_standard_high_privacy">Υψηλή ιδιωτικότητα</string>
+    <string name="info_secure_core_standard_lower_latency">Χαμηλότερη αδράνεια</string>
+    <string name="info_secure_core_advanced_privacy">Προηγμένο απόρρητο</string>
+    <string name="info_secure_core_higher_latency">Υψηλότερη αδράνεια</string>
+    <string name="info_p2p_what_title">Τι είναι το P2P;</string>
+    <string name="info_p2p_what_description">Η τεχνολογία peer-to-peer (P2P) σάς επιτρέπει να συνδέεστε και να μοιράζεστε αρχεία απευθείας με άλλες συσκευές.\n\nΟι διακομιστές μας P2P είναι ειδικά σχεδιασμένοι για να υποστηρίζουν αυτόν τον τύπο κοινής χρήσης αρχείων.</string>
+    <string name="info_p2p_torrenting_title">Τι είναι το torrenting;</string>
+    <string name="info_p2p_torrenting_description">Η γρήγορη κοινή χρήση και λήψη μεγάλων αρχείων μέσω δικτύου P2P.</string>
+    <string name="info_p2p_why_title">Γιατί να χρησιμοποιήσετε έναν διακομιστή P2P όταν χρησιμοποιείτε torrents;</string>
+    <string name="info_p2p_why_description_speed">Αυξημένες ταχύτητες μεταφόρτωσης και λήψης</string>
+    <string name="info_p2p_why_description_logs">Χωρίς αρχεία καταγραφής</string>
+    <string name="info_p2p_why_description_hide">Απόκρυψη της διεύθυνσης IP σας από τον πάροχο υπηρεσιών και τους συναδέλφους σας</string>
+    <string name="info_dialog_smart_routing_description">Το Smart Routing χρησιμοποιεί εικονικούς διακομιστές για να παρέχει κάλυψη VPN σε δυσπρόσιτες χώρες.\n\nΌταν συνδέεστε σε ένα Smart Routing διακομιστή, θα φαίνεται ότι περιηγείστε στη χώρα προορισμού σας, παρόλο που ο φυσικός διακομιστής βρίσκεται αλλού.  \n\nΤο Smart Routing χρησιμοποιείται συνήθως για την παράκαμψη των νόμων κατά της ιδιωτικότητας και άλλων μορφών λογοκρισίας.</string>
+    <string name="countries_upsell_banner_description">Αποκτήστε παγκόσμια κάλυψη με το VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Επιπρόσθετο επίπεδο κρυπτογράφησης στη σύνδεση VPN σας</string>
+    <string name="p2p_upsell_banner_description">Λήψη αρχείων μέσω BitTorrent και άλλων πρωτοκόλλων κοινής χρήσης αρχείων</string>
+    <string name="tor_upsell_banner_description">Χρησιμοποιήστε το δίκτυο Tor μέσω της σύνδεσής σας VPN για επιπλέον ιδιωτικότητα</string>
 </resources>

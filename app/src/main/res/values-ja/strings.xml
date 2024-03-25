@@ -264,7 +264,7 @@
     <string name="alt_routing_state_on" comment="Describes state, not action">オン</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">オフ</string>
     <string name="netshield_free_description">ウェブサイトとアプリの広告、トラッカー、マルウェアをブロック</string>
-    <string name="netshield_what_data_means">What NetShield data means</string>
+    <string name="netshield_what_data_means">NetShield のデータの意味</string>
     <string name="netshield_ads_title">広告</string>
     <string name="netshield_ads_details">広告と見えない広告トラッカー</string>
     <string name="netshield_trackers_title">トラッカー</string>
@@ -884,6 +884,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">最後の接続</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Free connection</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -905,7 +909,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">からの安全なブラウジング</string>
+    <string name="connection_card_label_connected">安全なブラウジング</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.
@@ -1029,6 +1033,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">All countries (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
+    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
+    <string name="country_filter_states_list_header">States (%1$d)</string>
+    <string name="country_filter_servers_list_header">Servers (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core の国 (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P対応国 (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P 都市 (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor対応国 (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Torサーバー (%1$d)</string>
+    <string name="country_filter_info_label">Info</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1060,7 +1076,7 @@
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
     -->
-    <string name="connection_details_connected_for">Connected for</string>
+    <string name="connection_details_connected_for">接続時間</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">サーバー</string>
     <!-- tag(Redesign_2023) -->
@@ -1076,7 +1092,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">サーバー負荷とは何ですか?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
+    <string name="connection_details_server_load_description">サーバー負荷は、サーバーが最大容量にどの程度近づいているかを示します。\n\nサーバー負荷が高いと、接続が遅くなる可能性があります。</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_title">低 (1–75%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1105,6 +1121,14 @@
     <string name="connection_details_section_vpn_speed">VPN速度</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">VPNの速度とは？</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
+    <string name="info_secure_core_standard_header">Standard VPN connection</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN connection</string>
+    <string name="info_dialog_tor_description">Tor サーバーに接続し、任意のブラウザを使用して隠しサービスやオニオン サイトにアクセスします。</string>
+    <string name="info_dialog_button_learn_more_tor">Tor ネットワークにアクセスする方法</string>
+    <string name="info_dialog_button_learn_more_p2p">P2Pでトレントする方法</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1164,4 +1188,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">なし</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_dialog_reconnect">新しい設定は次の接続から適用されます。</string>
+    <string name="info_secure_core_standard_high_privacy">High privacy</string>
+    <string name="info_secure_core_standard_lower_latency">Lower latency</string>
+    <string name="info_secure_core_advanced_privacy">高度なプライバシー</string>
+    <string name="info_secure_core_higher_latency">Higher latency</string>
+    <string name="info_p2p_what_title">What is P2P?</string>
+    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
+    <string name="info_p2p_torrenting_title">トレントとは何ですか?</string>
+    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
+    <string name="info_p2p_why_title">トレント時に P2P サーバーを使用する理由は何ですか?</string>
+    <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
+    <string name="info_p2p_why_description_logs">No activity logs</string>
+    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
+    <string name="info_dialog_smart_routing_description">Smart Routingは、仮想サーバーを使用して、アクセスが困難な国でも VPN カバレッジを提供します。\n\nSmart Routing サーバーに接続すると、物理サーバーが別の場所にある場合でも、目的の国でブラウジングしているように見えます。  \n\nSmart Routingは通常、反プライバシー法やその他の形式の検閲を回避するために使用されます。</string>
+    <string name="countries_upsell_banner_description">VPN Plus で世界中をカバー</string>
+    <string name="secure_core_upsell_banner_description">VPN接続にもう1つの暗号化レイヤーを追加する</string>
+    <string name="p2p_upsell_banner_description">BitTorrentやその他のファイル共有プロトコルでファイルをダウンロードする</string>
+    <string name="tor_upsell_banner_description">VPN接続にTorネットワークを使用することで、プライバシーをさらに守ることができます</string>
 </resources>

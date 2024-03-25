@@ -903,6 +903,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Son bağlantı</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Ücretsiz bağlantı</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1048,6 +1052,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Tüm ülkeler (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus ülkeler (%1$d)</string>
+    <string name="country_filter_cities_list_header">Şehirler (%1$d)</string>
+    <string name="country_filter_states_list_header">Eyaletler (%1$d)</string>
+    <string name="country_filter_servers_list_header">Sunucular (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core ülkeleri (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P ülkeleri (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P illeri (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P eyaletleri (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor ülkeleri (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor sunucuları (%1$d)</string>
+    <string name="country_filter_info_label">Bilgi</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1124,6 +1140,14 @@
     <string name="connection_details_section_vpn_speed">VPN hızı</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">VPN hızı nedir?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core, sizi ikinci, yüksek güvenlikli bir VPN sunucusu üzerinden hedef sunucunuza bağlar.\n\nBu yöntem daha yüksek düzeyde koruma sağlarken, gecikme süresinin artmasına ve hızın düşmesine neden olabilir.</string>
+    <string name="info_secure_core_standard_header">Standart VPN bağlantısı</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN bağlantısı</string>
+    <string name="info_dialog_tor_description">Herhangi bir tarayıcı ile gizli hizmetlere ve onion sitelerine erişmek için bir Tor sunucusuna bağlanın.</string>
+    <string name="info_dialog_button_learn_more_tor">Tor ağına nasıl erişilir</string>
+    <string name="info_dialog_button_learn_more_p2p">P2P ile torrent nasıl kullanılır</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1184,4 +1208,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Yok</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s ve %3$d diğer</string>
     <string name="settings_dialog_reconnect">Yeni ayarlar kurulacak bir sonraki bağlantıya uygulanacak.</string>
+    <string name="info_secure_core_standard_high_privacy">Yüksek gizlilik</string>
+    <string name="info_secure_core_standard_lower_latency">Daha düşük gecikme</string>
+    <string name="info_secure_core_advanced_privacy">Gelişmiş gizlilik</string>
+    <string name="info_secure_core_higher_latency">Daha yüksek gecikme</string>
+    <string name="info_p2p_what_title">P2P nedir?</string>
+    <string name="info_p2p_what_description">Eşler arası (P2P) teknolojisi, dosyaları doğrudan diğer cihazlara bağlamanıza ve paylaşmanıza olanak tanır.\n\nP2P sunucularımız bu tür dosya paylaşımını desteklemek için özel olarak tasarlanmıştır.</string>
+    <string name="info_p2p_torrenting_title">Torrent nedir?</string>
+    <string name="info_p2p_torrenting_description">Büyük dosyaların bir P2P ağı üzerinden hızlı bir şekilde paylaşılması ve indirilmesi.</string>
+    <string name="info_p2p_why_title">Torrent için neden bir P2P sunucusu kullanmalısınız?</string>
+    <string name="info_p2p_why_description_speed">Artırılmış yükleme ve indirme hızları</string>
+    <string name="info_p2p_why_description_logs">Etkinlik günlüğü yok</string>
+    <string name="info_p2p_why_description_hide">IP adresinizi servis sağlayıcınızdan ve meslektaşlarınızdan gizleyin</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing, ulaşılması zor ülkelerde VPN erişimi sağlamak için sanal sunucuları kullanır.\n\nBir Smart Routing sunucusuna bağlandığınızda, fiziksel sunucu başka bir yerde bulunsa bile, hedef ülkenizde geziniyormuş gibi görüneceksiniz.  \n\nSmart Routing genellikle gizlilik karşıtı yasaları ve diğer sansür biçimlerini aşmak için kullanılır.</string>
+    <string name="countries_upsell_banner_description">VPN Plus tarifesi ile tüm Dünya\'ya erişin</string>
+    <string name="secure_core_upsell_banner_description">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
+    <string name="p2p_upsell_banner_description">Dosyaları BitTorrent ve diğer dosya paylaşım iletişim kuralları üzerinden indirin</string>
+    <string name="tor_upsell_banner_description">Ek gizlilik sağlamak için VPN bağlantınızı Tor ağından geçirin</string>
 </resources>

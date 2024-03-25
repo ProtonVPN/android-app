@@ -903,6 +903,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">ბოლოს მიუერთდით</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Free connection</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1048,6 +1052,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">ყველა ქვეყანა (%1$d)</string>
+    <string name="country_filter_all_list_header_free">პლუს ქვეყანა (%1$d)</string>
+    <string name="country_filter_cities_list_header">ქალაქები (%1$d)</string>
+    <string name="country_filter_states_list_header">შტატები (%1$d)</string>
+    <string name="country_filter_servers_list_header">სერვერები (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core-ის ქვეყნები (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P ქვეყნები (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P ქალაქები (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P შტატები (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor ქვეყნები (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor-ის სერვერები (%1$d)</string>
+    <string name="country_filter_info_label">ინფო</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1124,6 +1140,14 @@
     <string name="connection_details_section_vpn_speed">VPN-ის სიჩქარე</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">რა სიჩქარითაა VPN?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
+    <string name="info_secure_core_standard_header">სტანდარტული VPN მიერთება</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN მიერთება</string>
+    <string name="info_dialog_tor_description">მიუერთდით Tor სერვერს, რომ იქონიოთ წვდომა დამალულ სერვისებთან და .onlion ვებგვერდებთან ნებისმიერი ბრაუზერით.</string>
+    <string name="info_dialog_button_learn_more_tor">როგორ შევიდე Tor-ის ქსელში</string>
+    <string name="info_dialog_button_learn_more_p2p">როგორ ვიმუშაოთ ტორენტებთან P2P-ით</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1184,4 +1208,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">არცერთი</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s და კიდევ %3$d</string>
     <string name="settings_dialog_reconnect">ახალი პარამეტრები ძალაში შემდეგი შეერთებისას შევა.</string>
+    <string name="info_secure_core_standard_high_privacy">მაღალი კონფიდენციალობა</string>
+    <string name="info_secure_core_standard_lower_latency">დაბალი შეყოვნება</string>
+    <string name="info_secure_core_advanced_privacy">დამატებითი პირადულობა</string>
+    <string name="info_secure_core_higher_latency">მაღალი დაყოვნება</string>
+    <string name="info_p2p_what_title">რაია P2P?</string>
+    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
+    <string name="info_p2p_torrenting_title">რა არის ტორენტი?</string>
+    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
+    <string name="info_p2p_why_title">რატომ გამოვიყენო P2P სერვერი ტორენტებთან მუშაობისას?</string>
+    <string name="info_p2p_why_description_speed">გაზრდილი ატვირთვის და გადმოწერის სიჩქარეები</string>
+    <string name="info_p2p_why_description_logs">აქტივობის ჟურნალის შესახებ</string>
+    <string name="info_p2p_why_description_hide">დამალეთ თქვენი IP მისამართი თქვენი ინტერნეტპროვაიდერისგან და პარტნორებისგან</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing იყენებს ვირტუალურ სერვერბს, რომ  VPN დაფარვა ძნელად ხელმსაწვდომ ქვეყნებშიც იყო ხელმისაწვდომი.\n\nროცა უერთდებით Smart Routing სერვერს, გამოჩნდება, რომ თქვენ სამიზნე ქვეყანაში ხართ მაშინაც კი, თუ ფიზიკური სერვერი სადმე სხვაგანაა.  \n\nSmart Routing, ჩვეულებრივ, ანტი-კონფიდენციალობის კანონებისა და სხვა ფორმის ცენზურის თავის დასაღწევად გამოიყენება.</string>
+    <string name="countries_upsell_banner_description">იქონიეთ წვდომა ყველაფერზე VPN Plus-თან ერთად</string>
+    <string name="secure_core_upsell_banner_description">დაამატეთ თქვენს VPN-ს უსაფრთხოების კიდევ ერთი დონე</string>
+    <string name="p2p_upsell_banner_description">გადმოწერეთ ფაილები BitTorrent-ით და სხვა ფაილების გაზიარების პროტოკოლებით</string>
+    <string name="tor_upsell_banner_description">გამოიყენეთ Tor-ის ქსელი თქვენი VPN მიერთების ზემოდან, დამატებითი კონფიდენციალობისთვის</string>
 </resources>

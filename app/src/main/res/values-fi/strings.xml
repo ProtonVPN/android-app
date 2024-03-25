@@ -903,6 +903,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Edellinen yhteys</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Ilmaisyhteys</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1048,6 +1052,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Kaikki maat (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus-maat (%1$d)</string>
+    <string name="country_filter_cities_list_header">Kaupungit (%1$d)</string>
+    <string name="country_filter_states_list_header">Osavaltiot (%1$d)</string>
+    <string name="country_filter_servers_list_header">Palvelimet (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core -maat (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P-maat (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P-kaupunkit (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P-osavaltiot (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor-maat (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor-palvelimet (%1$d)</string>
+    <string name="country_filter_info_label">Tiedot</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1124,6 +1140,14 @@
     <string name="connection_details_section_vpn_speed">VPN:n nopeus</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Mikä on VPN:n nopeus?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core yhdistää sinut kohdepalvelimeesi toisen, mahdollisimman turvallisen VPN-palvelimen kautta.\n\nTämä korkeampi suojaustaso voi aiheuttaa suurempaa viivettä ja hitaampia nopeuksia.</string>
+    <string name="info_secure_core_standard_header">Tavallinen VPN-yhteys</string>
+    <string name="info_secure_core_secure_header">Secure Core -VPN-yhteys</string>
+    <string name="info_dialog_tor_description">Yhdistä Tor-palvelimeen ja käytä piilotettuja palveluita ja onion-sivustoja millä tahansa selaimella.</string>
+    <string name="info_dialog_button_learn_more_tor">Miten pääset Tor-verkkoon</string>
+    <string name="info_dialog_button_learn_more_p2p">Miten torrentoit P2P:llä</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1184,4 +1208,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ei mitään</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s ja %3$d muuta</string>
     <string name="settings_dialog_reconnect">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
+    <string name="info_secure_core_standard_high_privacy">Korkean tason yksityisyys</string>
+    <string name="info_secure_core_standard_lower_latency">Matalampi viive</string>
+    <string name="info_secure_core_advanced_privacy">Edistynyt yksityisyys</string>
+    <string name="info_secure_core_higher_latency">Korkeampi viive</string>
+    <string name="info_p2p_what_title">Mikä on P2P?</string>
+    <string name="info_p2p_what_description">Peer-to-peer (P2P) -tekniikan avulla voit muodostaa yhteyden ja jakaa tiedostoja suoraan muiden laitteiden kanssa.\n\nP2P-palvelimemme on suunniteltu erityisesti tällaista tiedostojen jakamista varten.</string>
+    <string name="info_p2p_torrenting_title">Mitä on torrentointi?</string>
+    <string name="info_p2p_torrenting_description">Suurten tiedostojen nopea jakaminen ja lataaminen P2P-verkon välityksellä.</string>
+    <string name="info_p2p_why_title">Miksi käyttää P2P-palvelinta torrentoinnissa?</string>
+    <string name="info_p2p_why_description_speed">Korkeammat lähetys- ja latausnopeudet</string>
+    <string name="info_p2p_why_description_logs">Ei toimintalokeja</string>
+    <string name="info_p2p_why_description_hide">Piilota IP-osoitteesi palveluntarjoajaltasi ja vertaisilta</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing käyttää virtuaalipalvelimia tarjotakseen VPN-verkon kattavuuden vaikeasti saavutettavissa maissa.\n\nKun muodostat yhteyden Smart Routing -palvelimeen, näytät selaavasi kohdemaastasi, vaikka fyysinen palvelin sijaitsee muualla.  \n\nSmart Routingia käytetään yleensä yksityisyydensuojan vastaisten lakien ja muunlaisen sensuurin kiertämiseen</string>
+    <string name="countries_upsell_banner_description">Hanki maailmanlaajuinen kattavuus VPN Plus -tilauksella</string>
+    <string name="secure_core_upsell_banner_description">Lisää VPN-yhteyteesi toinen salauskerros.</string>
+    <string name="p2p_upsell_banner_description">Lataa tiedostoja mm. BitTorrentin kaltaisilla tiedonsiirtoprotokollilla.</string>
+    <string name="tor_upsell_banner_description">Käytä Tor-verkkoa VPN-yhteytesi välityksellä ja tehosta tietosuojaasi.</string>
 </resources>

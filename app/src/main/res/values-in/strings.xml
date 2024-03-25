@@ -173,7 +173,7 @@
     <string name="error_prepare_vpn_title">Kesalahan: masalah perizinan VPN</string>
     <string name="error_server_not_set">Server tidak lagi tersedia</string>
     <string name="bugReportThankYouToast">Terima kasih atas laporan Anda</string>
-    <string name="bugReportErrorEmptyEmail">Surel tidak boleh kosong</string>
+    <string name="bugReportErrorEmptyEmail">Alamat email tidak boleh kosong</string>
     <string name="bugReportErrorInvalidEmail">Alamat surel tidak valid</string>
     <string name="bugReportErrorEmptyDescription">Mohon tulis ke kami mengenai apa yang sedang terjadi</string>
     <string name="bugReportLabelVpnLogsTitle">Sertakan log error</string>
@@ -884,6 +884,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Terakhir terhubung ke</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Koneksi Free</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -994,7 +998,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Laporkan Masalah</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Catatan Awakutu</string>
+    <string name="settings_debug_logs_title">Log Debug</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Tingkatkan Proton</string>
     <!-- tag(Redesign_2023) -->
@@ -1029,6 +1033,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">Semua negara (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Negara Plus (%1$d)</string>
+    <string name="country_filter_cities_list_header">Kota (%1$d)</string>
+    <string name="country_filter_states_list_header">Negara (%1$d)</string>
+    <string name="country_filter_servers_list_header">Server (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Negara Secure Core (%1$d)</string>
+    <string name="country_filter_p2p_list_header">Negara P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">Kota P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">Negara P2P (%1$d)</string>
+    <string name="country_filter_tor_list_header">Negara Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Server Tor (%1$d)</string>
+    <string name="country_filter_info_label">Info</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1105,6 +1121,14 @@
     <string name="connection_details_section_vpn_speed">Kecepatan VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Apa itu kecepatan VPN?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core menghubungkan Anda ke server tujuan melalui server VPN kedua yang berkeamanan maksimum.\n\nPerlindungan tingkat tinggi ini dapat meningkatkan latensi dan menurunkan kecepatan.</string>
+    <string name="info_secure_core_standard_header">Koneksi VPN standar</string>
+    <string name="info_secure_core_secure_header">Koneksi VPN Secure Core</string>
+    <string name="info_dialog_tor_description">Hubungkan ke server Tor untuk mengakses layanan tersembunyi dan situs onion melalui browser mana pun.</string>
+    <string name="info_dialog_button_learn_more_tor">Cara mengakses jaringan Tor</string>
+    <string name="info_dialog_button_learn_more_p2p">Cara menggunakan torrent dengan P2P</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1164,4 +1188,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Tidak ada</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, dan %3$d lainnya</string>
     <string name="settings_dialog_reconnect">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
+    <string name="info_secure_core_standard_high_privacy">Privasi tinggi</string>
+    <string name="info_secure_core_standard_lower_latency">Latensi rendah</string>
+    <string name="info_secure_core_advanced_privacy">Privasi lanjutan</string>
+    <string name="info_secure_core_higher_latency">Latensi tinggi</string>
+    <string name="info_p2p_what_title">Apa itu P2P?</string>
+    <string name="info_p2p_what_description">Peer-to-peer (P2P) merupakan teknologi yang memungkinkan Anda untuk menghubungkan dan membagikan berkas secara langsung dengan perangkat lain.\n\nServer P2P kami dirancang secara khusus untuk mendukung jenis pembagian berkas ini.</string>
+    <string name="info_p2p_torrenting_title">Apa itu torrenting?</string>
+    <string name="info_p2p_torrenting_description">Torrent merupakan proses pembagian dan pengunduhan berkas berukuran besar secara kilat melalui jaringan P2P.</string>
+    <string name="info_p2p_why_title">Mengapa saya sebaiknya menggunakan server P2P saat mengambil torrent?</string>
+    <string name="info_p2p_why_description_speed">Kecepatan unggah dan unduh yang ditingkatkan</string>
+    <string name="info_p2p_why_description_logs">Tanpa log aktivitas</string>
+    <string name="info_p2p_why_description_hide">Sembunyikan alamat IP Anda dari penyedia layanan internet dan rekan kerja Anda</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing menggunakan server virtual untuk menyediakan VPN di negara dengan pembatasan internet yang ketat.\n\nPada saat Anda terhubung ke server dengan Smart Routing, Anda akan terlihat seolah-olah Anda sedang menjelajah dari negara tujuan Anda, meskipun server yang melayani Anda secara fisik berada di tempat lain.  \n\nSmart Routing pada umumnya digunakan untuk menghindari undang-undang anti-privasi dan bentuk sensor lainnya.</string>
+    <string name="countries_upsell_banner_description">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
+    <string name="p2p_upsell_banner_description">Unduh berkas melalui BitTorrent dan berbagai protokol file sharing lainnya</string>
+    <string name="tor_upsell_banner_description">Sandingkan jaringan Tor dengan koneksi VPN Anda untuk privasi yang lebih</string>
 </resources>
