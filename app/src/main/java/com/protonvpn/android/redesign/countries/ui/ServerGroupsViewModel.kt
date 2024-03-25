@@ -23,7 +23,6 @@ package com.protonvpn.android.redesign.countries.ui
 
 import android.os.Parcelable
 import androidx.annotation.StringRes
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,6 +32,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.InfoType
+import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -75,6 +75,7 @@ abstract class ServerGroupsViewModel(
     private val shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
+    private val translator: Translator,
     private val showFilters: Boolean,
 ) : ViewModel() {
 
@@ -90,11 +91,6 @@ abstract class ServerGroupsViewModel(
         val intent: ConnectIntent?,
         val server: Server?,
     )
-
-    private val listStates = mutableMapOf<String, LazyListState>()
-
-    fun getListStateForBottomScreen(screenKey: String): LazyListState =
-        listStates.getOrPut(screenKey) { LazyListState() }
 
     // Helper flows
     val localeFlow = MutableStateFlow<Locale?>(null)
@@ -147,8 +143,8 @@ abstract class ServerGroupsViewModel(
         locale: Locale,
         currentConnection: ActiveConnection?
     ): Flow<List<ServerGroupUiItem>> =
-        when (savedState.type) {
-            SubScreenType.Cities -> when (savedState.filter.type) {
+        when (savedState) {
+            is CitiesScreenSaveState -> when (savedState.filter.type) {
                 ServerFilterType.All, ServerFilterType.P2P ->
                     dataAdapter.cities(savedState.filter)
                 ServerFilterType.SecureCore -> {
@@ -161,8 +157,8 @@ abstract class ServerGroupsViewModel(
                 ServerFilterType.Tor ->
                     dataAdapter.servers(savedState.filter)
             }
-            SubScreenType.Servers -> dataAdapter.servers(savedState.filter)
-            SubScreenType.GatewayServers -> dataAdapter.servers(savedState.filter)
+            is GatewayServersScreenSaveState -> dataAdapter.servers(savedState.filter)
+            is ServersScreenSaveState -> dataAdapter.servers(savedState.filter)
         }.map { dataItems ->
             buildList {
                 val filterType = savedState.filter.type
@@ -176,9 +172,9 @@ abstract class ServerGroupsViewModel(
 
                 add(
                     ServerGroupUiItem.Header(
-                        subScreenHeaderLabel(hasStates, savedState.type, filterType),
+                        subScreenHeaderLabel(hasStates, savedState, filterType),
                         items.size,
-                        subScreenHeaderInfo(savedState.type, filterType),
+                        subScreenHeaderInfo(savedState, filterType),
                     )
                 )
                 addAll(items)
@@ -205,14 +201,14 @@ abstract class ServerGroupsViewModel(
 
     private suspend fun getSubScreenFilterButtons(
         availableTypes: Set<ServerFilterType>,
-        selectedType: ServerFilterType,
-        savedState: SubScreenSaveState
+        selectedType: ServerListFilter,
+        savedState: CitiesScreenSaveState
     ): List<FilterButton> {
         val allLabel = if (dataAdapter.haveStates(savedState.filter))
             R.string.country_filter_states
         else
             R.string.country_filter_cities
-        return getFilterButtons(availableTypes, selectedType, allLabel) { type ->
+        return getFilterButtons(availableTypes, selectedType.type, allLabel) { type ->
             val newFilter = savedState.filter.copy(type = type)
             subScreenSaveState = savedState.copy(filter = newFilter)
         }
@@ -246,36 +242,23 @@ abstract class ServerGroupsViewModel(
         savedState: SubScreenSaveState,
         items: List<ServerGroupUiItem>,
     ): SubScreenState {
-        val filterButtons = if (showFilters) {
-            when (savedState.type) {
-                SubScreenType.Cities -> getSubScreenFilterButtons(
-                    dataAdapter.availableTypesFor(savedState.filter.country),
-                    savedState.filter.type,
+        return when (savedState) {
+            is CitiesScreenSaveState -> CitiesScreenState(
+                savedState = savedState,
+                filterButtons = getSubScreenFilterButtons(
+                    dataAdapter.availableTypesFor(savedState.countryId),
+                    savedState.filter,
                     savedState
-                )
-                SubScreenType.Servers,
-                SubScreenType.GatewayServers -> null
-            }
-        } else {
-            null
+                ),
+                items = items,
+            )
+            is GatewayServersScreenSaveState -> GatewayServersScreenState(
+                savedState = savedState,
+                items = items)
+            is ServersScreenSaveState -> ServersScreenState(
+                savedState = savedState,
+                items = items)
         }
-        val city = when (savedState.type) {
-            SubScreenType.Cities -> savedState.city
-            SubScreenType.Servers -> savedState.city
-            SubScreenType.GatewayServers -> ""
-        }
-        return SubScreenState(
-            savedState,
-            filterButtons = filterButtons,
-            items = items,
-            allLabelRes =  when {
-                filterButtons == null -> null
-                dataAdapter.haveStates(savedState.filter) -> R.string.country_filter_states
-                else -> R.string.country_filter_cities
-            },
-            city = city,
-            countryId = savedState.countryId
-        )
     }
 
     protected fun ServerGroupItemData.toState(
@@ -297,37 +280,30 @@ abstract class ServerGroupsViewModel(
     }
 
     private fun onOpenCountry(type: ServerFilterType, countryId: CountryId) {
-        subScreenSaveState = SubScreenSaveState(
-            type = SubScreenType.Cities,
-            filter = ServerListFilter(country = countryId, type = type),
+        subScreenSaveState = CitiesScreenSaveState(
             previousScreen = null,
+            filter = ServerListFilter(country = countryId, type = type),
             countryId = countryId,
             rememberStateKey = "country_view"
         )
     }
 
     private fun onOpenGateway(gatewayName: String) {
-        subScreenSaveState = SubScreenSaveState(
-            type = SubScreenType.GatewayServers,
-            filter = ServerListFilter(gatewayName = gatewayName),
+        subScreenSaveState = GatewayServersScreenSaveState(
             previousScreen = null,
-            countryId = null,
+            filter = ServerListFilter(gatewayName = gatewayName),
+            gatewayName = gatewayName,
             rememberStateKey = "gateway_view"
         )
     }
 
     private fun onOpenCity(type: ServerFilterType, countryId: CountryId, cityStateId: CityStateId) {
-        subScreenSaveState = SubScreenSaveState(
-            type = SubScreenType.Servers,
-            city = cityStateId.name,
-            filter = ServerListFilter(
-                country = countryId,
-                cityStateId = cityStateId,
-                type = type
-            ),
-            previousScreen = subScreenSaveState,
+        subScreenSaveState = ServersScreenSaveState(
             countryId = countryId,
-            rememberStateKey = "servers_view" + cityStateId.name
+            city = translator.getCity(cityStateId.name),
+            filter = ServerListFilter(country = countryId, cityStateId = cityStateId, type = type),
+            previousScreen = subScreenSaveState,
+            rememberStateKey = "servers_view"
         )
     }
 
@@ -375,7 +351,6 @@ abstract class ServerGroupsViewModel(
     }
 
     fun onClose() {
-        listStates.clear()
         subScreenSaveState = null
     }
 
@@ -403,12 +378,12 @@ val ServerGroupUiItem.ServerGroup.canOpen: Boolean get() = when(data) {
         (data.entryCountryId == null || data.entryCountryId == CountryId.fastest)
 }
 
-internal fun fastestCountryItem(filter: ServerListFilter): ServerGroupItemData.Country =
+internal fun fastestCountryItem(filter: ServerFilterType): ServerGroupItemData.Country =
     ServerGroupItemData.Country(
         countryId = CountryId.fastest,
         inMaintenance = false,
         tier = 0,
-        entryCountryId = if (filter.type == ServerFilterType.SecureCore) CountryId.fastest else null
+        entryCountryId = if (filter == ServerFilterType.SecureCore) CountryId.fastest else null
     )
 
 internal fun List<ServerGroupItemData>.sortedByLabel(locale: Locale): List<ServerGroupItemData> {
@@ -474,9 +449,9 @@ val ServerFilterType.bannerType: ServerGroupUiItem.BannerType get() = when(this)
     ServerFilterType.Tor -> ServerGroupUiItem.BannerType.Tor
 }
 
-fun subScreenHeaderLabel(hasStates: Boolean, type: SubScreenType, filterType: ServerFilterType): Int = when(filterType) {
+private fun subScreenHeaderLabel(hasStates: Boolean, type: SubScreenSaveState, filterType: ServerFilterType): Int = when(filterType) {
     ServerFilterType.All ->
-        if (type == SubScreenType.Cities) {
+        if (type is CitiesScreenSaveState) {
             if (hasStates)
                 R.string.country_filter_states_list_header
             else
@@ -492,9 +467,9 @@ fun subScreenHeaderLabel(hasStates: Boolean, type: SubScreenType, filterType: Se
     ServerFilterType.Tor -> R.string.country_filter_tor_servers_list_header
 }
 
-fun subScreenHeaderInfo(subScreen: SubScreenType, filter: ServerFilterType) = when(filter) {
+private fun subScreenHeaderInfo(subScreen: SubScreenSaveState, filter: ServerFilterType) = when(filter) {
     ServerFilterType.All ->
-        if (subScreen == SubScreenType.GatewayServers) InfoType.ServerLoad else null
+        if (subScreen is GatewayServersScreenSaveState) InfoType.ServerLoad else null
     ServerFilterType.SecureCore -> InfoType.SecureCore
     ServerFilterType.P2P -> InfoType.P2P
     ServerFilterType.Tor -> InfoType.Tor
@@ -512,8 +487,6 @@ data class ServerListFilter(
     val type: ServerFilterType = ServerFilterType.All
 ): Parcelable
 
-enum class SubScreenType { Cities, Servers, GatewayServers }
-
 @Parcelize
 data class CountryScreenSavedState(
     val filter: ServerListFilter,
@@ -526,23 +499,65 @@ data class CountryScreenState(
 )
 
 @Parcelize
-data class SubScreenSaveState(
-    val city: String = "",
-    val countryId: CountryId?,
-    val type: SubScreenType,
-    val filter: ServerListFilter,
-    val previousScreen: SubScreenSaveState?,
-    val rememberStateKey: String
-): Parcelable
+sealed class SubScreenSaveState: Parcelable {
+    abstract val previousScreen: SubScreenSaveState?
+    abstract val filter: ServerListFilter
+    abstract val rememberStateKey: String
+}
 
-data class SubScreenState(
-    val savedState: SubScreenSaveState,
-    val filterButtons: List<FilterButton>?,
-    val items: List<ServerGroupUiItem>,
-    @StringRes val allLabelRes: Int?,
-    val countryId: CountryId?,
-    val city: String = "",
-)
+@Parcelize
+data class CitiesScreenSaveState(
+    val countryId: CountryId,
+    override val filter: ServerListFilter,
+    override val rememberStateKey: String,
+    override val previousScreen: SubScreenSaveState? = null
+) : SubScreenSaveState()
+
+@Parcelize
+data class ServersScreenSaveState(
+    val countryId: CountryId,
+    val city: String,
+    override val filter: ServerListFilter,
+    override val rememberStateKey: String,
+    override val previousScreen: SubScreenSaveState?,
+) : SubScreenSaveState()
+
+@Parcelize
+data class GatewayServersScreenSaveState(
+    val gatewayName: String,
+    override val filter: ServerListFilter,
+    override val rememberStateKey: String,
+    override val previousScreen: SubScreenSaveState? = null
+) : SubScreenSaveState()
+
+sealed class SubScreenState {
+    abstract val savedState: SubScreenSaveState
+    abstract val items: List<ServerGroupUiItem>
+}
+
+data class CitiesScreenState(
+    override val savedState: CitiesScreenSaveState,
+    override val items: List<ServerGroupUiItem>,
+    val filterButtons: List<FilterButton>,
+) : SubScreenState() {
+    val countryId: CountryId get() = savedState.countryId
+}
+
+data class ServersScreenState(
+    override val savedState: ServersScreenSaveState,
+    override val items: List<ServerGroupUiItem>,
+) : SubScreenState() {
+    val countryId: CountryId get() = savedState.countryId
+    val city: String get() = savedState.city
+}
+
+data class GatewayServersScreenState(
+    override val savedState: GatewayServersScreenSaveState,
+    override val items: List<ServerGroupUiItem>,
+) : SubScreenState() {
+    val gatewayName: String get() = savedState.gatewayName
+}
+
 
 // Adapter separating server data storage from view model.
 interface ServerListViewModelDataAdapter {

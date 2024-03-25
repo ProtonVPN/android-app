@@ -97,6 +97,7 @@ fun ServerGroupsRoute(
     var info by remember { mutableStateOf<InfoType?>(null) }
 
     val navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) }
+
     val navigateToUpsellFromBanner = { bannerType: ServerGroupUiItem.BannerType ->
         when(bannerType) {
             ServerGroupUiItem.BannerType.Countries ->
@@ -109,11 +110,9 @@ fun ServerGroupsRoute(
                 UpgradeDialogActivity.launch<UpgradeTorHighlightsFragment>(context)
         }
     }
-    val navigateToUpsell = {
-        UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
-    }
-    fun createOnItemOpen(filter: ServerFilterType): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
-        viewModel.onItemOpen(item, filter)
+    val navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
+    fun createOnItemOpen(parentFilter: ServerListFilter): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
+        viewModel.onItemOpen(item, parentFilter.type)
     }
     fun createOnConnectAction(filter: ServerListFilter): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
         viewModel.onItemConnect(
@@ -133,7 +132,7 @@ fun ServerGroupsRoute(
             ServerGroupItemsList(
                 items = mainState.items,
                 onItemClick = createOnConnectAction(mainState.savedState.filter),
-                onItemOpen = createOnItemOpen(mainState.savedState.filter.type),
+                onItemOpen = createOnItemOpen(mainState.savedState.filter),
                 onOpenInfo = { infoType -> info = infoType },
                 navigateToUpsell = navigateToUpsellFromBanner,
                 horizontalContentPadding = largeScreenContentPadding(),
@@ -149,8 +148,7 @@ fun ServerGroupsRoute(
             modifier = Modifier,
             screen = subScreenState,
             onNavigateBack = { onHide -> viewModel.onNavigateBack(onHide) },
-            getListStateFromViewModel = { screenKey -> viewModel.getListStateForBottomScreen(screenKey) },
-            onNavigateToItem = createOnItemOpen(subScreenState.savedState.filter.type),
+            onNavigateToItem = createOnItemOpen(subScreenState.savedState.filter),
             onItemClicked = createOnConnectAction(subScreenState.savedState.filter),
             onClose = { viewModel.onClose() },
             onOpenInfo = { info = it },
