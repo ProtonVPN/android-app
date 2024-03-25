@@ -58,7 +58,7 @@ class ProtonLoggerImplTests {
     @Test
     fun `local time is used in log lines for display`() = withCustomTimeZone(TimeZone.getTimeZone("GMT+5")) {
         val mockLogWriter = mockk<FileLogWriter>()
-        every { mockLogWriter.getLogLinesForDisplay() } returns flowOf("$TIMESTAMP_TEXT message")
+        every { mockLogWriter.getLogLinesForDisplay() } returns flowOf(listOf("$TIMESTAMP_TEXT message"))
 
         val wallClockUtc = TIMESTAMP
         val logger = ProtonLoggerImpl(
@@ -69,7 +69,7 @@ class ProtonLoggerImplTests {
         val logLines = runBlocking {
             logger.getLogLinesForDisplay().toList()
         }
-        assertEquals("16:11:11.123 message", logLines.first())
+        assertEquals(listOf("16:11:11.123 message"), logLines.first())
     }
 
     private fun withCustomTimeZone(tz: TimeZone, block: () -> Unit) {
