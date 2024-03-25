@@ -941,6 +941,10 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Последнее подключение к</string>
+    <!-- Label above the connection card when not connected and the user is on the free plan.
+         The connection card always shows "Fastest free server" (fastest_free_server) for free
+         users. -->
+    <string name="connection_card_label_free_connection">Free connection</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1086,6 +1090,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
+    <string name="country_filter_all_list_header">All countries (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
+    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
+    <string name="country_filter_states_list_header">States (%1$d)</string>
+    <string name="country_filter_servers_list_header">Servers (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Страны с серверами Secure Core (%1$d)</string>
+    <string name="country_filter_p2p_list_header">Страны P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">Города P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
+    <string name="country_filter_tor_list_header">Страны Tor (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Серверы Tor (%1$d)</string>
+    <string name="country_filter_info_label">Info</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1162,6 +1178,14 @@
     <string name="connection_details_section_vpn_speed">Скорость VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Что такое скорость VPN?</string>
+    <string name="info_dialog_secure_core_title">Secure Core</string>
+    <string name="info_dialog_p2p_title">P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core соединяет вас с конечным сервером через другой, максимально защищенный сервер VPN.\n\nЭтот более высокий уровень защиты может привести к увеличению задержек и снижению скорости.</string>
+    <string name="info_secure_core_standard_header">Standard VPN connection</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN connection</string>
+    <string name="info_dialog_tor_description">Подключайтесь к серверу Tor для доступа к скрытым сервисам и сайтам onion через любой браузер.</string>
+    <string name="info_dialog_button_learn_more_tor">Как получить доступ к сети Tor</string>
+    <string name="info_dialog_button_learn_more_p2p">Как использовать торренты в P2P</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1224,4 +1248,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_dialog_reconnect">Новые настройки будут применены при следующем подключении.</string>
+    <string name="info_secure_core_standard_high_privacy">High privacy</string>
+    <string name="info_secure_core_standard_lower_latency">Lower latency</string>
+    <string name="info_secure_core_advanced_privacy">Продвинутая конфиденциальность</string>
+    <string name="info_secure_core_higher_latency">Higher latency</string>
+    <string name="info_p2p_what_title">What is P2P?</string>
+    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
+    <string name="info_p2p_torrenting_title">Что такое торрентинг?</string>
+    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
+    <string name="info_p2p_why_title">Зачем использовать сервер P2P для торрентов?</string>
+    <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
+    <string name="info_p2p_why_description_logs">No activity logs</string>
+    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing использует виртуальные серверы для обеспечения покрытия VPN в труднодоступных странах.\n\nКогда вы подключаетесь к серверу Smart Routing, создается впечатление, что вы находитесь в стране назначения, хотя физический сервер расположен в другом месте.\n\nSmart Routing обычно используется для обхода законов, ограничивающих конфиденциальность, и других форм цензуры.</string>
+    <string name="countries_upsell_banner_description">Получите глобальное покрытие с помощью VPN Plus</string>
+    <string name="secure_core_upsell_banner_description">Добавьте еще один уровень шифрования к своему подключению к VPN</string>
+    <string name="p2p_upsell_banner_description">Скачивайте файлы через BitTorrent и другие протоколы обмена файлами</string>
+    <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
 </resources>
