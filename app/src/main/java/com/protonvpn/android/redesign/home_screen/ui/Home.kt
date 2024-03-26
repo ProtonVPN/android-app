@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.home_screen.ui
 
+import android.app.Activity
 import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
@@ -42,6 +43,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -134,7 +136,7 @@ fun HomeView(
     onConnectionCardClick: () -> Unit
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
-    val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle(null).value
+    val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle(null)
     val mapState = viewModel.mapHighlightState.collectAsStateWithLifecycle(initialValue = null).value
     val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
     val changeServerState = viewModel.changeServerViewState.collectAsStateWithLifecycle(null).value
@@ -145,6 +147,13 @@ fun HomeView(
     val coroutineScope = rememberCoroutineScope()
 
     val context = LocalContext.current
+    val fullyDrawn by remember { derivedStateOf { recentsViewState.value != null } }
+    if (fullyDrawn) {
+        LaunchedEffect(key1 = Unit) {
+            (context as Activity).reportFullyDrawn()
+        }
+    }
+
     LaunchedEffect(key1 = Unit) {
         viewModel.eventNavigateToUpgrade.collect {
             UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
@@ -274,7 +283,8 @@ fun HomeView(
                 // size class here to take that into account.
                 WindowSizeClass.calculateFromSize(viewportSize).widthSizeClass
             }
-            if (recentsViewState != null) {
+            val recentsViewStateValue = recentsViewState.value
+            if (recentsViewStateValue != null) {
                 val maxHeightPx = LocalDensity.current.run { maxHeight.toPx() }
                 recentsExpandState.setMaxHeight(maxHeightPx.roundToInt())
                 val horizontalPadding = ProtonTheme.extraPaddingForWindowSize(viewportSize)
@@ -284,7 +294,7 @@ fun HomeView(
                 val listBgGradientOffset =
                     if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientOffsetBasic else ListBgGradientHeightExpanded / 2
                 RecentsList(
-                    viewState = recentsViewState,
+                    viewState = recentsViewStateValue,
                     expandState = recentsExpandState,
                     changeServerButton = changeServerButton,
                     promoBanner = bottomPromoBanner,
