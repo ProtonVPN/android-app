@@ -892,6 +892,7 @@ dependencies {
     implementation "me.proton.core:data:$core_version"
     implementation "me.proton.core:data-room:$core_version"
     implementation "me.proton.core:util-android-dagger:$core_version"
+    implementation "me.proton.core:util-android-datetime:$core_version"
     implementation "me.proton.core:util-android-sentry:$core_version"
     implementation "me.proton.core:util-android-shared-preferences:$core_version"
     implementation "me.proton.core:configuration-data:$core_version"
