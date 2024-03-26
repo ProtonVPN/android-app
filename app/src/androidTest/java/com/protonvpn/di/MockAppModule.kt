@@ -92,12 +92,12 @@ import me.proton.core.user.domain.repository.PassphraseRepository
 import me.proton.core.user.domain.repository.UserAddressRepository
 import me.proton.core.user.domain.repository.UserRepository
 import me.proton.core.util.android.dagger.CoreAndroidModule
-import me.proton.core.util.android.dagger.Monotonic
-import me.proton.core.util.android.dagger.UtcClock
 import me.proton.core.util.android.datetime.Clock
 import me.proton.core.util.android.datetime.ClockSystemUtc
 import me.proton.core.util.android.datetime.DateTimeFormat
 import me.proton.core.util.android.datetime.DurationFormat
+import me.proton.core.util.android.datetime.Monotonic
+import me.proton.core.util.android.datetime.UtcClock
 import me.proton.core.util.kotlin.CoroutineScopeProvider
 import me.proton.core.util.kotlin.DefaultCoroutineScopeProvider
 import me.proton.core.util.kotlin.DispatcherProvider
