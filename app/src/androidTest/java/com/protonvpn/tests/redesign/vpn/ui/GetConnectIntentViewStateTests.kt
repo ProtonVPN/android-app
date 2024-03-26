@@ -62,8 +62,8 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     private val serverCh =
         createServer("serverCh1", serverName = "CH#1", exitCountry = "CH", city = "Zurich", tier = 2)
-    private val serverChRegion =
-        createServer("serverChRegion1", serverName = "CH-R#1", exitCountry = "CH", city = "Zurich", tier = 2, region = "Canton Zurich")
+    private val serverChState =
+        createServer("serverChState1", serverName = "CH-R#1", exitCountry = "CH", city = "Zurich", tier = 2, state = "Canton Zurich")
     private val serverChFree =
         createServer("serverCh1Free", serverName = "CH-FREE#1", exitCountry = "CH", city = "Zurich", tier = 0)
     private val serverPl = createServer(
@@ -103,7 +103,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         }
         coEvery { mockServerManager.getFreeCountries() } returns listOf(VpnCountry("ch", listOf(serverCh, serverChFree)))
         every { mockTranslator.getCity(any()) } answers { firstArg() }
-        every { mockTranslator.getRegion(any()) } answers { firstArg() }
+        every { mockTranslator.getState(any()) } answers { firstArg() }
 
         getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, mockTranslator)
     }
@@ -204,8 +204,8 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun region() = runTest {
-        val connectIntent = ConnectIntent.FastestInRegion(switzerland, "Canton Zurich", noServerFeatures)
+    fun state() = runTest {
+        val connectIntent = ConnectIntent.FastestInState(switzerland, "Canton Zurich", noServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
@@ -222,9 +222,9 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun regionConnected() = runTest {
-        val connectIntent = ConnectIntent.FastestInRegion(switzerland, "Canton Zurich", noServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverChRegion, isFreeUser = false)
+    fun stateConnected() = runTest {
+        val connectIntent = ConnectIntent.FastestInState(switzerland, "Canton Zurich", noServerFeatures)
+        setConnectIntentRowComposable(connectIntent, serverChState, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
         node.withTag("secondaryLabel").hasChild(node.withText("Canton Zurich")).assertIsDisplayed()
@@ -250,9 +250,9 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun regionWithTranslation() = runTest {
-        every { mockTranslator.getRegion("Canton Zurich") } returns "Kanton Zurych"
-        val connectIntent = ConnectIntent.FastestInRegion(switzerland, "Canton Zurich", noServerFeatures)
+    fun stateWithTranslation() = runTest {
+        every { mockTranslator.getState("Canton Zurich") } returns "Kanton Zurych"
+        val connectIntent = ConnectIntent.FastestInState(switzerland, "Canton Zurich", noServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
@@ -390,9 +390,9 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     }
 
     @Test
-    fun serverConnectedToDifferentServerWithRegion() = runTest {
+    fun serverConnectedToDifferentServerWithState() = runTest {
         val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
-        setConnectIntentRowComposable(connectIntent, serverChRegion, isFreeUser = false)
+        setConnectIntentRowComposable(connectIntent, serverChState, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
         node.withTag("secondaryLabel").hasChild(node.withText("Canton Zurich #1")).assertIsDisplayed()

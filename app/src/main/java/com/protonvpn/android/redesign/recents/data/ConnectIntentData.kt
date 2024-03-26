@@ -62,9 +62,9 @@ fun ConnectIntentData.toConnectIntent(): ConnectIntent =
             )
 
         ConnectIntentType.FASTEST_IN_REGION ->
-            ConnectIntent.FastestInRegion(
+            ConnectIntent.FastestInState(
                 country = exitCountry.toCountryId(),
-                regionEn = requireNotNull(region),
+                stateEn = requireNotNull(region),
                 features = features
             )
 
@@ -117,7 +117,7 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 features = features,
                 region = null,
             )
-        is ConnectIntent.FastestInRegion ->
+        is ConnectIntent.FastestInState ->
             ConnectIntentData(
                 connectIntentType = ConnectIntentType.FASTEST_IN_REGION,
                 exitCountry = country.toDataString(),
@@ -126,7 +126,7 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 gatewayName = null,
                 serverId = null,
                 features = features,
-                region = regionEn,
+                region = stateEn,
             )
         is ConnectIntent.SecureCore ->
             ConnectIntentData(

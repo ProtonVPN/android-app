@@ -65,6 +65,7 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @Query("WithTranslations") language: String,
         @Query("WithEntriesForProtocols") protocols: String,
         @Query("WithPartnerLogicals") withPartners: Boolean,
+        @Query("WithState") withState: Boolean,
         @Query("Tier") userTier: Int?
     ): Response<ServerList>
 

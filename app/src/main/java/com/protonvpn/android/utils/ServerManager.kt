@@ -34,7 +34,6 @@ import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.models.vpn.ServerGroup
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
@@ -401,10 +400,10 @@ class ServerManager @Inject constructor(
                     )
                 } ?: fallbackResult
             }
-            is ConnectIntent.FastestInRegion -> {
+            is ConnectIntent.FastestInState -> {
                 getVpnExitCountry(connectIntent.country.countryCode, false)?.let { country ->
                     onFastestInGroup(
-                        country.serverList.filter { it.region == connectIntent.regionEn && it.satisfiesFeatures() }
+                        country.serverList.filter { it.state == connectIntent.stateEn && it.satisfiesFeatures() }
                     )
                 } ?: fallbackResult
             }

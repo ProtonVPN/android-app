@@ -164,7 +164,7 @@ class ServerManagerTests {
                 serverId,
                 exitCountry = "US",
                 entryCountry = entryCountry ?: "US",
-                region = "Washington",
+                state = "Washington",
                 city = "Seattle",
                 score = score,
                 features = features
@@ -192,7 +192,7 @@ class ServerManagerTests {
         )
         testIntent("2", ConnectIntent.FastestInCountry(CountryId("US"), EnumSet.of(ServerFeature.P2P)))
         testIntent("3", ConnectIntent.FastestInCountry(CountryId("US"), EnumSet.of(ServerFeature.Tor)))
-        testIntent("2", ConnectIntent.FastestInRegion(CountryId("US"), "Washington", EnumSet.of(ServerFeature.P2P)))
+        testIntent("2", ConnectIntent.FastestInState(CountryId("US"), "Washington", EnumSet.of(ServerFeature.P2P)))
         testIntent("2", ConnectIntent.FastestInCity(CountryId("US"), "Seattle", EnumSet.of(ServerFeature.P2P)))
 
         // Secure Core is a bit special but also uses features, make sure it's not filtered out.

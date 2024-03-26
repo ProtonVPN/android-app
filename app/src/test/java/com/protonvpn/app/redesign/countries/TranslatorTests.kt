@@ -82,16 +82,16 @@ class TranslatorTests {
     }
 
     @Test
-    fun `region names are translated correctly`() = testScope.runTest {
+    fun `state names are translated correctly`() = testScope.runTest {
         val servers = listOf(
-            createServer(region = "California", translations = mapOf("Region" to "Kalifornia")),
-            createServer(region = "New York", translations = mapOf("Region" to "Nowy Jork"))
+            createServer(state = "California", translations = mapOf("State" to "Kalifornia")),
+            createServer(state = "New York", translations = mapOf("State" to "Nowy Jork"))
         )
         serverManager.setServers(servers, "pl")
         val translator = createTranslator()
 
-        assertEquals("Kalifornia", translator.getRegion("California"))
-        assertEquals("Nowy Jork", translator.getRegion("New York"))
+        assertEquals("Kalifornia", translator.getState("California"))
+        assertEquals("Nowy Jork", translator.getState("New York"))
     }
 
     @Test
@@ -100,7 +100,7 @@ class TranslatorTests {
             createServer(city = "Zurich", translations = null),
             createServer(city = "New York", translations = mapOf("City" to null)),
             createServer(city = "Warsaw", translations = mapOf("City" to "")),
-            createServer(region = "California", translations = null),
+            createServer(state = "California", translations = null),
         )
         serverManager.setServers(servers, "pl")
         val translator = createTranslator()
@@ -108,27 +108,27 @@ class TranslatorTests {
         assertEquals("Zurich", translator.getCity("Zurich"))
         assertEquals("New York", translator.getCity("New York"))
         assertEquals("Warsaw", translator.getCity("Warsaw"))
-        assertEquals("California", translator.getRegion("California"))
+        assertEquals("California", translator.getState("California"))
     }
 
     @Test
     fun `when server list changes then translations are updated`() = testScope.runTest {
         val serversPl = listOf(
             createServer(city = "New York", translations = mapOf("City" to "Nowy Jork")),
-            createServer(region = "North Carolina", translations = mapOf("Region" to "Północna Karolina"))
+            createServer(state = "North Carolina", translations = mapOf("State" to "Północna Karolina"))
         )
         val serversEs = listOf(
             createServer(city = "New York", translations = mapOf("City" to "Nueva York")),
-            createServer(region = "North Carolina", translations = mapOf("Region" to "Carolina del Norte"))
+            createServer(state = "North Carolina", translations = mapOf("State" to "Carolina del Norte"))
         )
 
         serverManager.setServers(serversPl, "pl")
         val translator = createTranslator()
         assertEquals("Nowy Jork", translator.getCity("New York"))
-        assertEquals("Północna Karolina", translator.getRegion("North Carolina"))
+        assertEquals("Północna Karolina", translator.getState("North Carolina"))
 
         serverManager.setServers(serversEs, "es")
         assertEquals("Nueva York", translator.getCity("New York"))
-        assertEquals("Carolina del Norte", translator.getRegion("North Carolina"))
+        assertEquals("Carolina del Norte", translator.getState("North Carolina"))
     }
 }

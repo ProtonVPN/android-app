@@ -401,7 +401,7 @@ private fun ServerGroupItemData.sortLabel(locale: Locale): String = when(this) {
 private fun ServerGroupItemData.getConnectIntent(filter: ServerListFilter): ConnectIntent = when(this) {
     is ServerGroupItemData.City -> {
         if (cityStateId.isState)
-            ConnectIntent.FastestInRegion(countryId, cityStateId.name, filter.toFeatures())
+            ConnectIntent.FastestInState(countryId, cityStateId.name, filter.toFeatures())
         else
             ConnectIntent.FastestInCity(countryId, cityStateId.name, filter.toFeatures())
     }

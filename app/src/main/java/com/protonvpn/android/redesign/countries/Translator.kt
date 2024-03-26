@@ -33,19 +33,19 @@ class Translator @Inject constructor(
     private val serverManager: ServerManager
 ) {
     private var cityTranslations: Map<String, String> = emptyMap()
-    private var regionTranslations: Map<String, String> = emptyMap()
+    private var stateTranslations: Map<String, String> = emptyMap()
 
     init {
         serverManager.serverListVersion
             .onEach {
                 cityTranslations = extractCityTranslations()
-                regionTranslations = extractRegionTranslations()
+                stateTranslations = extractStateTranslations()
             }
             .launchIn(mainScope)
     }
 
     fun getCity(cityEn: String): String = cityTranslations.getOrDefault(cityEn, cityEn).takeIfNotBlank() ?: cityEn
-    fun getRegion(regionEn: String): String = regionTranslations.getOrDefault(regionEn, regionEn).takeIfNotBlank() ?: regionEn
+    fun getState(stateEn: String): String = stateTranslations.getOrDefault(stateEn, stateEn).takeIfNotBlank() ?: stateEn
 
     private fun extractCityTranslations(): Map<String, String> =
         serverManager.allServers
@@ -57,11 +57,11 @@ class Translator @Inject constructor(
             }
             .associateTo(HashMap()) { it }
 
-    private fun extractRegionTranslations(): Map<String, String> =
+    private fun extractStateTranslations(): Map<String, String> =
         serverManager.allServers
             .mapNotNull {
-                if (it.region != null && it.getRegionTranslation() != null)
-                    it.region to it.getRegionTranslation()!!
+                if (it.state != null && it.getStateTranslation() != null)
+                    it.state to it.getStateTranslation()!!
                 else
                     null
             }
