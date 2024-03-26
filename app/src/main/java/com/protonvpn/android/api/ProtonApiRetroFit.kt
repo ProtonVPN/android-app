@@ -76,6 +76,7 @@ open class ProtonApiRetroFit @Inject constructor(
             lang,
             protocols.joinToString(","),
             withPartners = true,
+            withState = true,
             if (freeOnly) VpnUser.FREE_TIER else null
         )
     }

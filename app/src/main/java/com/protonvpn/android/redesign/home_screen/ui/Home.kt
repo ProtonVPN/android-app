@@ -374,7 +374,7 @@ private fun HomeDialog(dialog: DialogState?, onDismiss: () -> Unit) {
         val textId = when (dialog) {
             DialogState.CountryInMaintenance -> R.string.message_country_servers_in_maintenance
             DialogState.CityInMaintenance -> R.string.message_city_servers_in_maintenance
-            DialogState.RegionInMaintenance -> R.string.message_state_servers_in_maintenance
+            DialogState.StateInMaintenance -> R.string.message_state_servers_in_maintenance
             DialogState.ServerInMaintenance -> R.string.message_server_in_maintenance
             DialogState.GatewayInMaintenance -> R.string.message_gateway_in_maintenance
             DialogState.ServerNotAvailable -> R.string.message_server_not_available

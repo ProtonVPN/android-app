@@ -43,7 +43,7 @@ class GetConnectIntentViewState @Inject constructor(
                 else fastestInCountry(connectIntent, connectedServer)
             }
             is ConnectIntent.FastestInCity -> fastestInCity(connectIntent, connectedServer)
-            is ConnectIntent.FastestInRegion -> fastestInRegion(connectIntent, connectedServer)
+            is ConnectIntent.FastestInState -> fastestInState(connectIntent, connectedServer)
             is ConnectIntent.SecureCore -> secureCore(connectIntent, connectedServer)
             is ConnectIntent.Gateway -> gateway(connectIntent, connectedServer)
             is ConnectIntent.Server -> specificServer(connectIntent, connectedServer)
@@ -73,14 +73,14 @@ class GetConnectIntentViewState @Inject constructor(
             serverFeatures = emptySet()
         )
 
-    private fun fastestInRegion(connectIntent: ConnectIntent.FastestInRegion, connectedServer: Server? = null) =
+    private fun fastestInState(connectIntent: ConnectIntent.FastestInState, connectedServer: Server? = null) =
         ConnectIntentViewState(
             primaryLabel = ConnectIntentPrimaryLabel.Country(
                 exitCountry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.country,
                 entryCountry = null,
             ),
             secondaryLabel = ConnectIntentSecondaryLabel.RawText(
-                connectedServer?.displayRegion ?: connectedServer?.displayCity ?: translator.getRegion(connectIntent.regionEn)
+                connectedServer?.displayState ?: connectedServer?.displayCity ?: translator.getState(connectIntent.stateEn)
             ),
             serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
         )
@@ -195,7 +195,7 @@ class GetConnectIntentViewState @Inject constructor(
             }
         } else {
             listOfNotNull(
-                displayRegion ?: displayCity,
+                displayState ?: displayCity,
                 serverName.dropWhile { it != '#' }
             ).joinToString(" ")
         }

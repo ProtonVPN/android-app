@@ -77,14 +77,14 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
     ): Flow<List<ServerGroupItemData.City>> =
         serverManager2.allServersFlow.map { servers ->
             val filteredServers = servers.asFilteredSequence(filter)
-            val hasRegions = filteredServers.any { it.region != null }
-            val groupBySelector = if (hasRegions) Server::region else Server::city
+            val hasStates = filteredServers.any { it.state != null }
+            val groupBySelector = if (hasStates) Server::state else Server::city
             val availableTypes = initAvailableTypes()
             filteredServers
                 .groupBy(groupBySelector)
-                .mapNotNull { (cityOrRegion, servers) ->
+                .mapNotNull { (cityOrState, servers) ->
                     availableTypes.update(servers)
-                    toCityItem(hasRegions, cityOrRegion, servers)
+                    toCityItem(hasStates, cityOrState, servers)
                 }
         }
 
@@ -114,7 +114,7 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
         }
 
     override suspend fun haveStates(filter: ServerListFilter): Boolean =
-        serverManager2.allServersFlow.first().asFilteredSequence(filter).any { it.region != null }
+        serverManager2.allServersFlow.first().asFilteredSequence(filter).any { it.state != null }
 
     override fun gateways(filter: ServerListFilter): Flow<List<ServerGroupItemData.Gateway>> =
         serverManager2.allServersFlow.map { servers ->
@@ -157,16 +157,16 @@ private fun Server.toServerItem() = ServerGroupItemData.Server(
     gatewayName = gatewayName,
 )
 
-private fun toCityItem(isRegion: Boolean, cityOrRegion: String?, servers: List<Server>) : ServerGroupItemData.City? {
-    if (cityOrRegion == null || servers.isEmpty())
+private fun toCityItem(isState: Boolean, cityOrState: String?, servers: List<Server>) : ServerGroupItemData.City? {
+    if (cityOrState == null || servers.isEmpty())
         return null
 
     val server = servers.first()
-    //TODO: what to do with servers without a region if hasRegions is true
+    //TODO: what to do with servers without a state if hasStates is true
     return ServerGroupItemData.City(
         countryId = CountryId(server.exitCountry),
-        cityStateId = CityStateId(cityOrRegion, isRegion),
-        name = (if (isRegion) server.displayRegion else server.displayCity) ?: cityOrRegion,
+        cityStateId = CityStateId(cityOrState, isState),
+        name = (if (isState) server.displayState else server.displayCity) ?: cityOrState,
         inMaintenance = servers.all { !it.online },
         tier = servers.minOf { it.tier }
     )
@@ -181,7 +181,7 @@ private val Server.serverFeatures get() = buildSet {
 }
 
 private fun CityStateId.matches(server: Server) =
-    name == if (isState) server.region else server.city
+    name == if (isState) server.state else server.city
 
 private fun ServerFilterType.isMatching(server: Server) = when (this) {
     ServerFilterType.All -> !server.isSecureCoreServer

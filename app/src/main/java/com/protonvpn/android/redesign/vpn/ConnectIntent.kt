@@ -48,9 +48,9 @@ sealed interface ConnectIntent : AnyConnectIntent {
         override val features: Set<ServerFeature>,
     ) : ConnectIntent
 
-    data class FastestInRegion(
+    data class FastestInState(
         val country: CountryId,
-        val regionEn: String, // Not translated.
+        val stateEn: String, // Not translated.
         override val features: Set<ServerFeature>,
     ) : ConnectIntent
 

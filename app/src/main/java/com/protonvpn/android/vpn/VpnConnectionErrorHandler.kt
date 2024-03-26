@@ -212,7 +212,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     }
 
     enum class CompatibilityAspect {
-        Features, Tier, Gateway, City, Region, Country, SecureCore
+        Features, Tier, Gateway, City, State, Country, SecureCore
     }
 
     suspend fun onServerNotAvailable(connectIntent: AnyConnectIntent) =
@@ -445,9 +445,9 @@ class VpnConnectionErrorHandler @Inject constructor(
             !server.city.isNullOrEmpty() && cityEn == server.city
         }
 
-    fun getRegionScore(regionEn: String?, server: Server): Int =
-        scoreForCondition(1 shl CompatibilityAspect.Region.ordinal) {
-            !server.region.isNullOrEmpty() && regionEn == server.region
+    fun getStateScore(stateEn: String?, server: Server): Int =
+        scoreForCondition(1 shl CompatibilityAspect.State.ordinal) {
+            !server.state.isNullOrEmpty() && stateEn == server.state
         }
 
     fun getGatewayScore(gatewayName: String, server: Server): Int =
@@ -470,9 +470,9 @@ class VpnConnectionErrorHandler @Inject constructor(
                 score += getCountryScore(orgIntent.country, server)
                 score += getCityScore(orgIntent.cityEn, server)
             }
-            is ConnectIntent.FastestInRegion -> {
+            is ConnectIntent.FastestInState -> {
                 score += getCountryScore(orgIntent.country, server)
-                score += getRegionScore(orgIntent.regionEn, server)
+                score += getStateScore(orgIntent.stateEn, server)
             }
             is ConnectIntent.SecureCore -> {
                 score += getCountryScore(orgIntent.exitCountry, server)

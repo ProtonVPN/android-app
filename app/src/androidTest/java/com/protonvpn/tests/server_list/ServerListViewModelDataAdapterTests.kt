@@ -111,9 +111,9 @@ class ServerListViewModelDataAdapterTests {
                 server(exitCountry = "PL", city = "Warsaw", translations = mapOf("City" to "Warszawa"), tier = 3, isOnline = false),
                 server(exitCountry = "PL", city = "Cracow", isOnline = false, features = SERVER_FEATURE_TOR),
                 server(exitCountry = "PL", city = "Wroclaw", gatewayName = "gateway"), // City with only gateways shouldn't show
-                server(exitCountry = "US", region = "California", city = "Los Angeles"),
-                server(exitCountry = "US", region = "California", city = "San Francisco"),
-                server(exitCountry = "US", region = "Alabama", city = "Birmingham"),
+                server(exitCountry = "US", state = "California", city = "Los Angeles"),
+                server(exitCountry = "US", state = "California", city = "San Francisco"),
+                server(exitCountry = "US", state = "Alabama", city = "Birmingham"),
             ),
             null
         )
@@ -157,8 +157,8 @@ class ServerListViewModelDataAdapterTests {
                 server(exitCountry = "PL", city = "Cracow", serverName = "PL#3", serverId = "c1", entryCountry = "IS", isSecureCore = true, isOnline = false, load = 70f),
                 server(exitCountry = "PL", city = "Cracow", serverName = "PL#4", serverId = "c2", hostCountry = "DE"),
                 server(exitCountry = "PL", gatewayName = "gateway", city = "Cracow", serverName = "PL-G#1"), // Gateway server shouldn't show unless gateway filter is set
-                server(exitCountry = "US", region = "California", serverName = "US-CA#1", serverId = "cal1"),
-                server(exitCountry = "US", region = "California", serverName = "US-CA#2", serverId = "cal2"),
+                server(exitCountry = "US", state = "California", serverName = "US-CA#1", serverId = "cal1"),
+                server(exitCountry = "US", state = "California", serverName = "US-CA#2", serverId = "cal2"),
             ),
             null
         )
@@ -244,8 +244,8 @@ class ServerListViewModelDataAdapterTests {
             listOf(
                 server(exitCountry = "PL", city = "Warsaw"),
                 server(exitCountry = "PL", city = "Cracow"),
-                server(exitCountry = "US", region = "California"),
-                server(exitCountry = "US", region = "Alabama"),
+                server(exitCountry = "US", state = "California"),
+                server(exitCountry = "US", state = "Alabama"),
             ),
             null
         )
@@ -360,7 +360,7 @@ class ServerListViewModelDataAdapterTests {
 fun server(
     exitCountry: String,
     city: String? = null,
-    region: String? = null,
+    state: String? = null,
     serverName: String = "serverName",
     serverId: String = "ID",
     entryCountry: String = exitCountry,
@@ -375,7 +375,7 @@ fun server(
 ) = createServer(
     exitCountry = exitCountry,
     city = city,
-    region = region,
+    state = state,
     serverName = serverName,
     serverId = serverId,
     entryCountry = entryCountry,
