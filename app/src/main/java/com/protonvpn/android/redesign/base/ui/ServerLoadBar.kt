@@ -24,6 +24,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -34,12 +35,16 @@ fun ServerLoadBar(progress: Float) {
         progress <= 0.9F -> ProtonTheme.colors.notificationWarning
         else -> ProtonTheme.colors.notificationError
     }
+    // TODO: reimplement it. Don't use progress bar, it has accessibility semantics and its look will changes in newer
+    //  versions of M3.
+    //  The indicator is 2 lines, draw them on Canvas. Don't forget about RTL.
     LinearProgressIndicator(
         progress = progress,
         color = color,
         strokeCap = StrokeCap.Round,
         trackColor = ProtonTheme.colors.shade40,
         modifier = Modifier
+            .clearAndSetSemantics {}
             .width(36.dp)
     )
 }
