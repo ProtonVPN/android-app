@@ -55,6 +55,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
@@ -141,6 +144,7 @@ private fun BottomSheetScreen(
             onOpenInfo = onOpenInfo,
             navigateToUpsell = navigateToUpsell,
             modifier = Modifier
+                .semantics { traversalIndex = -1f }
                 .fillMaxHeight()
                 .background(ProtonTheme.colors.backgroundNorm)
         )
@@ -159,27 +163,27 @@ private fun AnimatedBottomSheetHeader(
         is ServersScreenState -> { -> Flag(exitCountry = screen.countryId) }
     }
 
-    val shouldAnimateTransition: Boolean
+    val canNavigateBack: Boolean
     val titleText: String
     val filterButtons: List<FilterButton>?
     val selectedCity: String?
     when (screen) {
         is CitiesScreenState -> {
-            shouldAnimateTransition = false
+            canNavigateBack = false
             titleText = screen.countryId.label()
             filterButtons = screen.filterButtons
             selectedCity = null
         }
 
         is GatewayServersScreenState -> {
-            shouldAnimateTransition = false
+            canNavigateBack = false
             filterButtons = null
             selectedCity = null
             titleText = screen.gatewayName
         }
 
         is ServersScreenState -> {
-            shouldAnimateTransition = true
+            canNavigateBack = true
             filterButtons = null
             selectedCity = screen.city
             titleText = screen.countryId.label()
@@ -187,8 +191,8 @@ private fun AnimatedBottomSheetHeader(
     }
 
     var showSecondStepAnimations by remember { mutableStateOf(false) }
-    LaunchedEffect(shouldAnimateTransition) {
-        showSecondStepAnimations = if (shouldAnimateTransition) {
+    LaunchedEffect(canNavigateBack) {
+        showSecondStepAnimations = if (canNavigateBack) {
             delay(100)
             true
         } else {
@@ -215,11 +219,11 @@ private fun AnimatedBottomSheetHeader(
                             rowWidth = it.size.width
                         }
                 ) {
-                    AnimatedVisibility(visible = shouldAnimateTransition) {
+                    AnimatedVisibility(visible = canNavigateBack) {
                         Icon(
                             painter = painterResource(id = CoreR.drawable.ic_arrow_left),
                             tint = ProtonTheme.colors.iconNorm,
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.accessibility_back),
                             modifier = Modifier
                                 .padding(end = 8.dp)
                                 .clip(CircleShape)
