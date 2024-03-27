@@ -33,11 +33,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
@@ -49,8 +56,9 @@ import com.protonvpn.android.redesign.base.ui.ActiveDot
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.GatewayIndicator
 import com.protonvpn.android.redesign.base.ui.InfoType
-import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.base.ui.ServerLoadBar
+import com.protonvpn.android.redesign.base.ui.optional
+import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.iconRes
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -60,6 +68,7 @@ import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.presentation.R as CoreR
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ServerGroupItem(
     item: ServerGroupUiItem.ServerGroup,
@@ -67,10 +76,23 @@ fun ServerGroupItem(
     onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val openCustomAction =
+        CustomAccessibilityAction(stringResource(R.string.accessibility_menu_action_open)) { onItemOpen(item); true }
+    val customAccessibilityActions = if (item.canOpen) listOf(openCustomAction) else emptyList()
+    val rowContentDescription = item.contentDescription()?.let { stringResource(id = it)}
+    val clickable = Modifier.clickable(
+        onClick = { onItemClick(item) },
+        onClickLabel = stringResource(item.clickLabel()),
+    )
     Row(
         modifier = modifier
             .heightIn(min = 64.dp)
-            .clickable { onItemClick(item) }
+            .optional({ !item.data.inMaintenance }, clickable)
+            .semantics(mergeDescendants = true) { // Merge in case it's not clickable.
+                customActions = customAccessibilityActions
+                if (rowContentDescription != null)
+                    contentDescription = rowContentDescription
+            }
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -110,12 +132,13 @@ fun ServerGroupItem(
                     modifier = Modifier
                         .offset(8.dp) // the padding is enlarging the click target, use offset to adjust position.
                         .clip(CircleShape)
+                        .clearAndSetSemantics { } // Handled via custom action on the row.
                         .clickable(enabled = item.canOpen) { onItemOpen(item) }
                         .padding(16.dp),
                     tint = if (item.data.inMaintenance)
                         ProtonTheme.colors.iconWeak else ProtonTheme.colors.iconNorm,
                     painter = painterResource(id = iconRes),
-                    contentDescription = null //TODO: accessibility
+                    contentDescription = null // Accessibility handled semantics on the whole row.
                 )
             }
         }
@@ -228,6 +251,17 @@ private val ServerGroupUiItem.ServerGroup.openIconRes get() = when {
     data.inMaintenance -> CoreR.drawable.ic_proton_wrench
     canOpen -> CoreR.drawable.ic_proton_three_dots_horizontal
     else -> null
+}
+
+private fun ServerGroupUiItem.ServerGroup.contentDescription() = when {
+    data.inMaintenance -> R.string.accessibility_item_in_maintenance
+    !available -> R.string.accessibility_item_unavailable
+    else -> null
+}
+
+private fun ServerGroupUiItem.ServerGroup.clickLabel() = when {
+    available -> R.string.accessibility_action_connect
+    else -> R.string.accessibility_action_upgrade
 }
 
 @Composable
