@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.countries.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -51,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -71,6 +73,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
+import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
@@ -199,17 +202,37 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier)
     val listState = rememberLazyListState()
 
     val selectedIndex = buttonActions.indexOfFirst { it.isSelected }
+    // Add padding to scroll so that next potential item is partially visible too
+    val contentPadding = 16.dp
+    val animationPadding = with(LocalDensity.current) {
+        // Use smaller padding for first/last items as they don't have next potential item
+        // and overshooting padding causes less smooth transition
+        if (selectedIndex > 0 && selectedIndex < buttonActions.size - 1) 32.dp.toPx() else contentPadding.toPx()
+    }
     LaunchedEffect(selectedIndex) {
         if (selectedIndex != -1) {
-            val visibleItemsInfo = listState.layoutInfo.visibleItemsInfo
+            val layoutInfo = listState.layoutInfo
+            val visibleItemsInfo = layoutInfo.visibleItemsInfo
             val selectedItemInfo = visibleItemsInfo.firstOrNull { it.index == selectedIndex }
             selectedItemInfo?.let {
-                val startOffset = it.offset
-                val endOffset = startOffset + it.size
+                val itemStartOffset = it.offset - layoutInfo.viewportStartOffset
+                val itemEndOffset = itemStartOffset + it.size
 
-                if (startOffset < 0 || endOffset > listState.layoutInfo.viewportEndOffset) {
-                    // The selected item is partially visible, scroll to make it fully visible.
-                    listState.animateScrollToItem(selectedIndex)
+                val scrollOffset = when {
+                    // Item behind
+                    (itemStartOffset < 0)
+                        -> itemStartOffset - animationPadding
+
+                    // Item in front
+                    (itemEndOffset > layoutInfo.viewportSize.width.toFloat())
+                        -> itemEndOffset - layoutInfo.viewportSize.width.toFloat() + animationPadding
+
+                    // Item is already visible
+                    else -> 0
+                }
+
+                if (scrollOffset != 0) {
+                    listState.animateScrollBy(scrollOffset.toFloat())
                 }
             }
         }
@@ -217,7 +240,7 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier)
 
     LazyRow(
         state = listState,
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(horizontal = contentPadding),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier,
     ) {
