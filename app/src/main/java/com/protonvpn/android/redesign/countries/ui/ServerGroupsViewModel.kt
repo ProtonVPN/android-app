@@ -468,8 +468,10 @@ private fun subScreenHeaderLabel(hasStates: Boolean, type: SubScreenSaveState, f
 }
 
 private fun subScreenHeaderInfo(subScreen: SubScreenSaveState, filter: ServerFilterType) = when(filter) {
-    ServerFilterType.All ->
-        if (subScreen is GatewayServersScreenSaveState) InfoType.ServerLoad else null
+    ServerFilterType.All -> when (subScreen) {
+        is CitiesScreenSaveState -> null
+        is GatewayServersScreenSaveState, is ServersScreenSaveState -> InfoType.ServerLoad
+    }
     ServerFilterType.SecureCore -> InfoType.SecureCore
     ServerFilterType.P2P -> InfoType.P2P
     ServerFilterType.Tor -> InfoType.Tor

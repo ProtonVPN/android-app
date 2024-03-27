@@ -293,7 +293,7 @@ fun ServerGroupHeader(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(id = R.string.country_filter_info_label),
+                    text = stringResource(id = item.info.label),
                     style = ProtonTheme.typography.captionMedium,
                     color = ProtonTheme.colors.textWeak,
                     modifier = Modifier.padding(end = 5.dp)
@@ -307,6 +307,16 @@ fun ServerGroupHeader(
             }
         }
     }
+}
+
+private val InfoType.label: Int get() = when(this) {
+    InfoType.SecureCore,
+    InfoType.VpnSpeed,
+    InfoType.Protocol,
+    InfoType.Tor,
+    InfoType.P2P,
+    InfoType.SmartRouting -> R.string.country_filter_info_label
+    InfoType.ServerLoad -> R.string.server_load_title
 }
 
 @Preview
