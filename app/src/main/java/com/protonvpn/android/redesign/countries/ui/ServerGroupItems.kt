@@ -276,7 +276,10 @@ fun ServerGroupHeader(
     onOpenInfo: (InfoType) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)) {
+    Row(
+        modifier = modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Text(
             text = stringResource(id = item.labelRes, item.count),
             style = ProtonTheme.typography.captionRegular,
