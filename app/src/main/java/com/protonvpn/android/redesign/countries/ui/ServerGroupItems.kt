@@ -24,6 +24,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -67,6 +69,7 @@ fun ServerGroupItem(
 ) {
     Row(
         modifier = modifier
+            .heightIn(min = 64.dp)
             .clickable { onItemClick(item) }
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -74,10 +77,13 @@ fun ServerGroupItem(
         val alphaModifier = Modifier
             .unavailableServerAlpha(!item.available || item.data.inMaintenance)
         item.Icon(alphaModifier.padding(end = 12.dp))
-        Column(Modifier
-            .weight(1f)
-            .padding(vertical = 20.dp)
-            .then(alphaModifier)
+        Column(
+            Modifier
+                .weight(1f)
+                // The row will maintain min height but if text is very large it will expand to accommodate the contents
+                // with this padding.
+                .padding(vertical = 12.dp)
+                .then(alphaModifier)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
@@ -102,9 +108,10 @@ fun ServerGroupItem(
             item.openIconRes?.let { iconRes ->
                 Icon(
                     modifier = Modifier
+                        .offset(8.dp) // the padding is enlarging the click target, use offset to adjust position.
                         .clip(CircleShape)
                         .clickable(enabled = item.canOpen) { onItemOpen(item) }
-                        .padding(8.dp),
+                        .padding(16.dp),
                     tint = if (item.data.inMaintenance)
                         ProtonTheme.colors.iconWeak else ProtonTheme.colors.iconNorm,
                     painter = painterResource(id = iconRes),
