@@ -620,7 +620,7 @@
     </plurals>
     <string name="server_change_max_reached">您目前已達免費伺服器變更的最大數量。</string>
     <string name="server_change_upsell">使用 VPN Plus 取得無限制的變更。</string>
-    <string name="server_change_button_title">切換服務器</string>
+    <string name="server_change_button_title">變更伺服器</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services.
 
@@ -887,7 +887,7 @@
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
-    <string name="connection_card_label_free_connection">Free connection</string>
+    <string name="connection_card_label_free_connection">免費連線</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->

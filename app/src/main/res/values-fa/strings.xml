@@ -401,28 +401,28 @@
     <string name="upgrade_devices_text">Proton VPN در ۸ پلتفرم مختلف در دسترس است.</string>
     <string name="upgrade_plus_title">حريم خصوصی خود را ارتقا دهید</string>
     <string name="upgrade_plus_message">با VPN Plus ویژگی‌های حریم خصوصی پیشرفته و سرعت بیشتر بگیرید.</string>
-    <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
-    <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Double the encryption</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Add another layer of encryption to your VPN connection with <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
-    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
-    <string name="upgrade_streaming_title">Stream in 4K</string>
-    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
-    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
-    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds</string>
+    <string name="upgrade_netshield_title">از مرور بدون تبلیغات لذت ببرید</string>
+    <string name="upgrade_netshield_message"><![CDATA[با <b>NetShield</b> تبلیغات، ردیاب‌ها و بدافزارها را مسدود کنید.]]></string>
+    <string name="upgrade_secure_core_title">رمزگذاری را دوبرابر کنید</string>
+    <string name="upgrade_secure_core_message"><![CDATA[یک لایه اضافه رمزگذاری به اتصال VPN تان با <b>Secure Core</b> اضافه کنید.]]></string>
+    <string name="upgrade_p2p_title">اشتراک‌گذاری فایل و بارگیری‌های همتا به همتا (P2P) را قفل‌گشایی کنید </string>
+    <string name="upgrade_p2p_text">سرعت‌های بارگذاری و بارگیری‌تان را همراه با مخفی‌سازی نشانی IP تان بهبود ببخشید.</string>
+    <string name="upgrade_streaming_title">پخش جریانی در 4K</string>
+    <string name="upgrade_streaming_text">از فیلم‌ها و برنامه‌های تلویزیونی مورد علاقه‌تان در سراسر جهان لذت ببرید.</string>
+    <string name="upgrade_tor_title">با یک کلیک به شبکه Tor دسترسی یابید</string>
+    <string name="upgrade_tor_text">به سرویس‌های مخفی و سایت‌های onion با مرورگر معمولی‌تان وصل شوید.</string>
+    <string name="upgrade_vpn_accelerator_title">با سرعت‌های حتی بیشتر مرور کنید</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Unlock faster, less crowded servers with speeds of up to %1$d Gbps.</string>
-    <string name="upgrade_split_tunneling_title">Get the best of both worlds</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
-    <string name="upgrade_customization_title">Unlock advanced VPN customization</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Access devices on your <b>local area network (LAN)</b> with VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Access all countries</string>
+    <string name="upgrade_vpn_accelerator_message">سرورهای سریع‌تر و کم بارتر با سرعت‌های تا %1$d Gbps را قفل‌گشایی کنید.</string>
+    <string name="upgrade_split_tunneling_title">بهترین‌های هر دو جوانب را بگیرید</string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[ترافیکتان را بین تونل‌های VPN و بدون VPN با <b>split tunneling</b> تقسیم کنید.]]></string>
+    <string name="upgrade_customization_title">سفارشی‌سازی پیشرفته VPN را قفل‌گشایی کنید</string>
+    <string name="upgrade_lan_access_message"><![CDATA[به دستگاه‌های موجود در <b>شبکه محلی‌تان (LAN)</b> با VPN Plus دسترسی پیدا کنید.]]></string>
+    <string name="upgrade_all_countries_title">به تمامی کشورها دسترسی پیدا کنید</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -449,43 +449,43 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Unlock %1$s in %2$s with <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[با <b>VPN Plus</b> %1$s در %2$s را قفل‌گشایی کنید.]]></string>
     <string name="upgrade_plus_countries_subtitle">زمانی که شما به Plus ارتقا دهید</string>
     <string name="upgrade_not_now_button">الان نه</string>
     <string name="upgrade_learn_more">بیشتر بدانید</string>
-    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <string name="upsell_card_countries_title">پوشش جهانی</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
-    <string name="upsell_card_customization_title">And much more…</string>
-    <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
+    <string name="upsell_card_countries_description">%1$d+ مکان سرور در %2$s</string>
+    <string name="upsell_card_customization_title">و بسیاری امکانات دیگر…</string>
+    <string name="upsell_card_customization_description">عملکرد و ویژگی‌های حریم خصوصی حتی بیشتر قفل‌گشایی کنید</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Protect %1$d device</item>
-        <item quantity="other">Protect %1$d devices</item>
+        <item quantity="one">از %1$d دستگاه محافظت کنید</item>
+        <item quantity="other">از %1$d دستگاه محافظت کنید</item>
     </plurals>
-    <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
+    <string name="upsell_card_devices_description">امنیت و حریم خصوصی در تمامی دستگاه‌هایتان</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Block ads, malware, and trackers</string>
+    <string name="upsell_card_netshield_description">تبلیغات، بدافزارها و ردیاب‌ها را مسدود کنید</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">اضافه کردن یک لایه دیگر رمزنگاری به ارتباط VPN شما</string>
-    <string name="upsell_card_p2p_title">P2P support</string>
-    <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
-    <string name="upsell_card_speed_title">Faster browsing</string>
+    <string name="upsell_card_p2p_title">پشتیبانی از P2P</string>
+    <string name="upsell_card_p2p_description">از طریق BitTorrent و پروتکل‌های اشتراک گذاری فایل دیگر بارگیری کنید</string>
+    <string name="upsell_card_speed_title">مرور کردن سریع</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
+    <string name="upsell_card_speed_description">با حتی سرعت‌های بیشتر مرور کنید (تا %1$d Gbps)</string>
     <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
-    <string name="upsell_card_streaming_title">Streaming</string>
-    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
-    <string name="upsell_card_tor_title">Tor over VPN</string>
-    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="upsell_card_split_tunneling_description">همزمان از دو مکان مرور کنید</string>
+    <string name="upsell_card_streaming_title">پخش جریانی</string>
+    <string name="upsell_card_streaming_description">فیلم‌ها و برنامه‌های تلویزیونی مورد علاقه‌تان را تماشا کنید</string>
+    <string name="upsell_card_tor_title">Tor روی VPN</string>
+    <string name="upsell_card_tor_description">از شبکه‌ی Tor روی اتصال VPN تان برای حریم خصوصی بیشتر استفاده کنید</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -495,19 +495,19 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_month">month</string>
-    <string name="payment_price_per_year">year</string>
-    <string name="payment_price_per_2years">2 years</string>
-    <string name="payment_price_cycle_month_label">1 month</string>
-    <string name="payment_price_cycle_year_label">1 year</string>
-    <string name="payment_price_cycle_2years_label">2 years</string>
-    <string name="payment_select_your_plan">Select your plan</string>
-    <string name="payment_button_get_vpn_plus">Get VPN Plus</string>
+    <string name="payment_price_per_month">ماه</string>
+    <string name="payment_price_per_year">سال</string>
+    <string name="payment_price_per_2years">۲ سال</string>
+    <string name="payment_price_cycle_month_label">۱ ماه</string>
+    <string name="payment_price_cycle_year_label">۱ سال</string>
+    <string name="payment_price_cycle_2years_label">۲ سال</string>
+    <string name="payment_select_your_plan">اشتراکتان را انتخاب کنید</string>
+    <string name="payment_button_get_vpn_plus">خرید VPN Plus</string>
     <!-- Information activity -->
     <string name="activity_information_title">اطلاعات</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
     <string name="activity_information_plus_title">%1$s - سرورهای Plus</string>
-    <string name="activity_information_gateways_title">What is a gateway?</string>
+    <string name="activity_information_gateways_title">دروازه چیست؟</string>
     <string name="info_features">قابلیت‌ها</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">این فناوری به Proton VPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
@@ -529,7 +529,7 @@
     <string name="server_load_low">پایین</string>
     <string name="server_load_medium">متوسط</string>
     <string name="server_load_high">بالا</string>
-    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s data and services through dedicated servers.</string>
+    <string name="info_gateways_description">یک دروازهٔ VPN اتصالی امن است که دسترسی کنترل شده به اطلاعات و سرویس‌های کمپانی‌تان را از طریق سرورهای اختصاصی فراهم می‌کند.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">به Proton VPN خوش آمدید</string>
@@ -906,7 +906,7 @@
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
-    <string name="connection_card_label_free_connection">Free connection</string>
+    <string name="connection_card_label_free_connection">اتصال رایگان</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->

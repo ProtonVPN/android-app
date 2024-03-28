@@ -1209,9 +1209,9 @@
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_dialog_reconnect">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
     <string name="info_secure_core_standard_high_privacy">Hög integritet</string>
-    <string name="info_secure_core_standard_lower_latency">Lower latency</string>
+    <string name="info_secure_core_standard_lower_latency">Lägre latens</string>
     <string name="info_secure_core_advanced_privacy">Avancerad integritet</string>
-    <string name="info_secure_core_higher_latency">Higher latency</string>
+    <string name="info_secure_core_higher_latency">Högre latens</string>
     <string name="info_p2p_what_title">Vad är P2P?</string>
     <string name="info_p2p_what_description">Peer-to-peer (P2P)-teknologi gör att du kan ansluta och dela filer direkt med andra enheter.\n\nVåra P2P-servrar är specialdesignade för att stödja denna typ av fildelning.</string>
     <string name="info_p2p_torrenting_title">Vad är torrenting?</string>
