@@ -241,7 +241,7 @@ class UpgradeHighlightsOnboardingFragment : UpgradeHighlightsCarouselFragment(
 )
 
 @AndroidEntryPoint
-class UpgradeHighlightsHomeCardsFragment : UpgradeHighlightsCarouselFragment(FeatureCarouselFragments)
+class UpgradeHighlightsRegularCarouselFragment : UpgradeHighlightsCarouselFragment(FeatureCarouselFragments)
 
 @AndroidEntryPoint
 class UpgradeVpnPlusHighlightsFragment : UpgradeHighlightsFragment() {

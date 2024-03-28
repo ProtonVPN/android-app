@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
@@ -40,12 +41,21 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import me.proton.core.domain.entity.UserId
 import me.proton.core.presentation.savedstate.state
+import me.proton.core.user.domain.entity.UserRecovery
+import me.proton.core.usersettings.domain.usecase.ObserveUserSettings
 import javax.inject.Inject
+import me.proton.core.accountmanager.presentation.R as AccountManagerR
+import me.proton.core.presentation.R as CoreR
 
 enum class NatType(val labelRes: Int, val descriptionRes: Int) {
    Strict(
@@ -60,10 +70,12 @@ enum class NatType(val labelRes: Int, val descriptionRes: Int) {
 
 private const val ReconnectDialogStateKey = "reconnect_dialog"
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    currentUser: CurrentUser,
+    private val currentUser: CurrentUser,
+    accountUserSettings: ObserveUserSettings,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     effectiveUserSettings: EffectiveCurrentUserSettings,
     buildConfigInfo: BuildConfigInfo,
@@ -114,11 +126,11 @@ class SettingsViewModel @Inject constructor(
         class VpnAccelerator(
             vpnAcceleratorSettingValue: Boolean,
             isFreeUser: Boolean,
-            override val iconRes: Int = me.proton.core.auth.R.drawable.ic_proton_rocket
+            override val iconRes: Int = CoreR.drawable.ic_proton_rocket
         ) : SettingViewState<Boolean>(
             value = vpnAcceleratorSettingValue && !isFreeUser,
             isRestricted = isFreeUser,
-            iconRes = me.proton.core.auth.R.drawable.ic_proton_rocket,
+            iconRes = CoreR.drawable.ic_proton_rocket,
             titleRes = R.string.settings_vpn_accelerator_title,
             subtitleRes = if (vpnAcceleratorSettingValue && !isFreeUser) R.string.vpn_accelerator_state_on else R.string.vpn_accelerator_state_off,
             descriptionRes = R.string.settings_vpn_accelerator_description,
@@ -127,7 +139,7 @@ class SettingsViewModel @Inject constructor(
 
         class Protocol(
             protocol: ProtocolSelection,
-            override val iconRes: Int = me.proton.core.auth.R.drawable.ic_proton_servers,
+            override val iconRes: Int = CoreR.drawable.ic_proton_servers,
         ) : SettingViewState<ProtocolSelection>(
             value = protocol,
             isRestricted = false,
@@ -241,6 +253,33 @@ class SettingsViewModel @Inject constructor(
         )
     }.distinctUntilChanged()
 
+    data class AccountSettingsViewState(
+        val userId: UserId, // Needed for navigating to activities
+        val displayName: String,
+        val planDisplayName: String?,
+        val recoveryEmail: String?,
+        @StringRes val passwordHint: Int?,
+        val upgradeToPlusBanner: Boolean,
+    )
+
+    val accountSettings: Flow<AccountSettingsViewState?> = currentUser.userFlow
+        .filterNotNull()
+        .flatMapLatest { accountUser ->
+            combine(
+                currentUser.vpnUserFlow.filterNotNull(),
+                accountUserSettings(accountUser.userId)
+            ) { vpnUser, accountUserSettings ->
+                AccountSettingsViewState(
+                    userId = accountUser.userId,
+                    displayName = accountUser.uiName() ?: "",
+                    planDisplayName = vpnUser.planDisplayName,
+                    recoveryEmail = accountUserSettings?.email?.value,
+                    passwordHint = accountUser.recovery?.state?.enum.passwordHint(),
+                    upgradeToPlusBanner = vpnUser.isFreeUser
+                )
+            }
+        }.distinctUntilChanged()
+
     fun toggleNetShield() {
         viewModelScope.launch {
             userSettingsManager.toggleNetShield()
@@ -332,4 +371,13 @@ class SettingsViewModel @Inject constructor(
                 dontShowAgainStore.setChoice(type, DontShowAgainStore.Choice.Negative)
         }
     }
+}
+
+private fun UserRecovery.State?.passwordHint(): Int? = when(this) {
+    null,
+    UserRecovery.State.None,
+    UserRecovery.State.Cancelled,
+    UserRecovery.State.Expired -> null
+    UserRecovery.State.Grace -> AccountManagerR.string.account_settings_list_item_password_hint_grace
+    UserRecovery.State.Insecure -> AccountManagerR.string.account_settings_list_item_password_hint_insecure
 }

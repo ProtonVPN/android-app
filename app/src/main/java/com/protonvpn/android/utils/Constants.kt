@@ -35,7 +35,8 @@ object Constants {
     const val TV_UPGRADE_LINK = "account.protonvpn.com/account"
     const val ALTERNATIVE_ROUTING_LEARN_URL =
             "https://protonmail.com/blog/anti-censorship-alternative-routing"
-    const val ACCOUNT_LOGIN_URL = "https://account.protonvpn.com/login"
+    const val URL_ACCOUNT_LOGIN = "https://account.protonvpn.com/login"
+    const val URL_ACCOUNT_DELETE = "https://account.proton.me/u/0/vpn/account-password"
     const val URL_SUPPORT = "https://protonvpn.com/support"
     const val URL_SUPPORT_PERMISSIONS =
             "https://protonvpn.com/support/android-vpn-permissions-problem"

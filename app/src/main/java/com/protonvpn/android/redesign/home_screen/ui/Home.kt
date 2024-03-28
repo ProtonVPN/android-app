@@ -85,7 +85,7 @@ import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsCarouselFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsHomeCardsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsRegularCarouselFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.promooffers.PromoOfferBanner
@@ -424,7 +424,7 @@ private fun calculateOverlayAlpha(offset: Int, fullCoverPx: Float): Float {
 }
 
 private fun launchUpgradeDialog(context: Context, focusFragment: KClass<out Fragment>, upgradeSource: UpgradeSource) {
-    UpgradeDialogActivity.launch<UpgradeHighlightsHomeCardsFragment>(
+    UpgradeDialogActivity.launch<UpgradeHighlightsRegularCarouselFragment>(
         context,
         upgradeSource,
         UpgradeHighlightsCarouselFragment.args(focusFragment),

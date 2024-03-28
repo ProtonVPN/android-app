@@ -35,6 +35,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 enum class UpgradeSource {
+    ACCOUNT,
     ALLOW_LAN,
     CHANGE_SERVER,
     COUNTRIES,
