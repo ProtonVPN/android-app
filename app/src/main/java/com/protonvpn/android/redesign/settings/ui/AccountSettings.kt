@@ -31,7 +31,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnOutlinedButton
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
-import com.protonvpn.android.redesign.base.ui.BaseSettingsItem
+import com.protonvpn.android.redesign.base.ui.SettingsItem
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import me.proton.core.compose.theme.ProtonTheme
@@ -61,18 +61,18 @@ fun AccountSettings(
             )
         }
 
-        BaseSettingsItem(
+        SettingsItem(
             name = viewState.displayName,
             subTitle = viewState.planDisplayName ?: stringResource(R.string.accountFree),
             actionComposable = {},
         )
-        BaseSettingsItem(
+        SettingsItem(
             name = stringResource(R.string.settings_account_change_password),
             subTitle = viewState.passwordHint?.let { stringResource(id = it) },
             actionComposable = {},
             modifier = Modifier.clickable(onClick = onChangePassword),
         )
-        BaseSettingsItem(
+        SettingsItem(
             name = stringResource(R.string.settings_account_recovery_email),
             subTitle = viewState.recoveryEmail ?: stringResource(R.string.settings_account_recovery_email_not_set),
             actionComposable = {},
