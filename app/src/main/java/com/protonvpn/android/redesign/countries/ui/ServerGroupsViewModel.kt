@@ -199,12 +199,12 @@ abstract class ServerGroupsViewModel(
         items = items
     )
 
-    private suspend fun getSubScreenFilterButtons(
+    private suspend fun getCitiesScreenFilterButtons(
         availableTypes: Set<ServerFilterType>,
         selectedType: ServerListFilter,
         savedState: CitiesScreenSaveState
     ): List<FilterButton> {
-        val allLabel = if (dataAdapter.haveStates(savedState.filter))
+        val allLabel = if (dataAdapter.haveStates(savedState.countryId))
             R.string.country_filter_states
         else
             R.string.country_filter_cities
@@ -245,7 +245,7 @@ abstract class ServerGroupsViewModel(
         return when (savedState) {
             is CitiesScreenSaveState -> CitiesScreenState(
                 savedState = savedState,
-                filterButtons = getSubScreenFilterButtons(
+                filterButtons = getCitiesScreenFilterButtons(
                     dataAdapter.availableTypesFor(savedState.countryId),
                     savedState.filter,
                     savedState
@@ -566,7 +566,7 @@ interface ServerListViewModelDataAdapter {
 
     suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType>
 
-    suspend fun haveStates(filter: ServerListFilter): Boolean
+    suspend fun haveStates(country: CountryId): Boolean
 
     fun countries(filter: ServerListFilter):
         Flow<List<ServerGroupItemData.Country>>

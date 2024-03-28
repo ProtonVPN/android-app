@@ -113,8 +113,10 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
             }
         }
 
-    override suspend fun haveStates(filter: ServerListFilter): Boolean =
-        serverManager2.allServersFlow.first().asFilteredSequence(filter).any { it.state != null }
+    override suspend fun haveStates(country: CountryId): Boolean =
+        serverManager2.allServersFlow.first()
+            .asFilteredSequence(ServerListFilter(country))
+            .any { it.state != null }
 
     override fun gateways(filter: ServerListFilter): Flow<List<ServerGroupItemData.Gateway>> =
         serverManager2.allServersFlow.map { servers ->
