@@ -26,6 +26,7 @@ import com.protonvpn.android.utils.withPrevious
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -46,6 +47,7 @@ interface CurrentUserProvider {
     val vpnUserFlow: Flow<VpnUser?>
     val userFlow: Flow<User?>
     val sessionIdFlow: Flow<SessionId?>
+    val jointUserFlow: Flow<Pair<User, VpnUser>?>
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -55,6 +57,20 @@ class DefaultCurrentUserProvider @Inject constructor(
     vpnUserDao: VpnUserDao,
     private val userManager: UserManager
 ) : CurrentUserProvider {
+
+    override val jointUserFlow: Flow<Pair<User, VpnUser>?> = accountManager.getPrimaryUserId().flatMapLatest { userId ->
+        when (userId) {
+            null -> flowOf(null)
+            else -> combine(
+                userManager.observeUser(SessionUserId(userId.id)),
+                vpnUserDao.getByUserId(userId)
+            ) { accountUser, vpnUser ->
+                if (accountUser == null || vpnUser == null) null
+                else Pair(accountUser, vpnUser)
+            }
+        }
+    }.distinctUntilChanged()
+
     override val vpnUserFlow = accountManager.getPrimaryUserId().flatMapLatest { userId ->
         userId?.let { vpnUserDao.getByUserId(it) } ?: flowOf(null)
     }.distinctUntilChanged()
@@ -79,6 +95,7 @@ class CurrentUser @Inject constructor(
     val vpnUserFlow = provider.vpnUserFlow
     val userFlow = provider.userFlow
     val sessionIdFlow = provider.sessionIdFlow
+    val jointUserFlow = provider.jointUserFlow
 
     val eventVpnLogin =
         vpnUserFlow.withPrevious().filter { (previous, new) -> previous == null && new != null }.map { (_, new) -> new }
