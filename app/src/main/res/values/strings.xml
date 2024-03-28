@@ -44,8 +44,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Continue</string>
     <string name="dialogLearnMore">Learn more</string>
-    <string name="dialog_apply">Apply</string>
-    <string name="dialog_applying">Applying</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Connected</string>
     <string name="buttonConnect">Connect</string>
@@ -68,16 +66,7 @@
     <string name="drawerSignOut">@string/menuActionSignOut</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Share</string>
-    <string name="accountDetails">Account details</string>
-    <string name="accountSubscription">Subscription</string>
-    <string name="accountUser">User:</string>
-    <string name="accountTier">Active subscription:</string>
-    <string name="accountVersion">Version:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[To manage your subscription, you have to go to the <font color="%1$s">protonvpn.com</font> webpanel.]]></string>
-    <string name="accountButtonManage">Manage account</string>
-    <string name="accountButtonUseCoupon">Use coupon</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Account</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Connection</string>
     <string name="settingsSectionSecurity">Security</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -94,10 +83,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
-    <string name="use_coupon_title">Use coupon</string>
-    <string name="use_coupon_code_label">Coupon code</string>
-    <string name="use_coupon_success">Coupon has been applied successfully</string>
-    <string name="use_coupon_success_no_upgrade_yet">Coupon has been applied successfully. Your subscription will be upgraded within a few minutes.</string>
     <string name="restrictedMaintenanceTitle">Under maintenance</string>
     <string name="restrictedMaintenanceDescription">Server you are currently trying to connect is under maintenance. Please try another server.</string>
     <string name="errorUserDelinquent"><![CDATA[Your account currently has an overdue invoice. Please pay all unpaid invoices at&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
