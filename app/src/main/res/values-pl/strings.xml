@@ -1253,12 +1253,12 @@
     <string name="info_secure_core_advanced_privacy">Zaawansowana prywatność</string>
     <string name="info_secure_core_higher_latency">Wyższe opóźnienie</string>
     <string name="info_p2p_what_title">Co to jest P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
+    <string name="info_p2p_what_description">Technologia Peer-to-peer (P2P) pozwala na łączenie i udostępnianie plików bezpośrednio z innymi urządzeniami.\n\nNasze serwery P2P są specjalnie zaprojektowane do obsługi udostępniania plików tego typu.</string>
     <string name="info_p2p_torrenting_title">Co to jest torrenting?</string>
     <string name="info_p2p_torrenting_description">To szybkie udostępnianie i pobieranie dużych plików za pomocą sieci P2P.</string>
     <string name="info_p2p_why_title">Dlaczego warto używać serwera P2P podczas pobierania torrentów?</string>
     <string name="info_p2p_why_description_speed">Zwiększona prędkość wysyłania i pobierania</string>
-    <string name="info_p2p_why_description_logs">No activity logs</string>
+    <string name="info_p2p_why_description_logs">Brak przechowywania logów</string>
     <string name="info_p2p_why_description_hide">Ukryj adres IP przed dostawcą usługi i użytkownikami sieci</string>
     <string name="info_dialog_smart_routing_description">Funkcja Smart Routing używa wirtualnych serwerów, aby zapewnić dostęp do usługi VPN w trudno dostępnych krajach.\n\nPo nawiązaniu połączenia z serwerem Smart Routing przeglądanie odbywa się w kraju docelowym, mimo że fizyczny serwer znajduje się w innym miejscu.\n\nFunkcja Smart Routing jest wykorzystywana do omijania przepisów dotyczących prywatności i innych form cenzury.</string>
     <string name="countries_upsell_banner_description">Plan VPN Plus zapewnia zasięg na całym świecie</string>

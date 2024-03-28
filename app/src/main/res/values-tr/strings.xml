@@ -1053,8 +1053,8 @@
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Tüm ülkeler (%1$d)</string>
-    <string name="country_filter_all_list_header_free">Plus ülkeler (%1$d)</string>
-    <string name="country_filter_cities_list_header">Şehirler (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus ülkeleri (%1$d)</string>
+    <string name="country_filter_cities_list_header">İller (%1$d)</string>
     <string name="country_filter_states_list_header">Eyaletler (%1$d)</string>
     <string name="country_filter_servers_list_header">Sunucular (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Secure Core ülkeleri (%1$d)</string>
@@ -1063,7 +1063,7 @@
     <string name="country_filter_p2p_list_header_states">P2P eyaletleri (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor ülkeleri (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor sunucuları (%1$d)</string>
-    <string name="country_filter_info_label">Bilgi</string>
+    <string name="country_filter_info_label">Bilgiler</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1209,18 +1209,18 @@
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s ve %3$d diğer</string>
     <string name="settings_dialog_reconnect">Yeni ayarlar kurulacak bir sonraki bağlantıya uygulanacak.</string>
     <string name="info_secure_core_standard_high_privacy">Yüksek gizlilik</string>
-    <string name="info_secure_core_standard_lower_latency">Daha düşük gecikme</string>
+    <string name="info_secure_core_standard_lower_latency">Düşük gecikme</string>
     <string name="info_secure_core_advanced_privacy">Gelişmiş gizlilik</string>
-    <string name="info_secure_core_higher_latency">Daha yüksek gecikme</string>
+    <string name="info_secure_core_higher_latency">Yüksek gecikme</string>
     <string name="info_p2p_what_title">P2P nedir?</string>
-    <string name="info_p2p_what_description">Eşler arası (P2P) teknolojisi, dosyaları doğrudan diğer cihazlara bağlamanıza ve paylaşmanıza olanak tanır.\n\nP2P sunucularımız bu tür dosya paylaşımını desteklemek için özel olarak tasarlanmıştır.</string>
+    <string name="info_p2p_what_description">Eşler arası (P2P) teknolojisi, doğrudan diğer aygıtlara bağlanmanızı ve dosyaları paylaşmanızı sağlar.\n\nP2P sunucularımız bu tür dosya paylaşımlarını desteklemek için özel olarak tasarlanmıştır.</string>
     <string name="info_p2p_torrenting_title">Torrent nedir?</string>
-    <string name="info_p2p_torrenting_description">Büyük dosyaların bir P2P ağı üzerinden hızlı bir şekilde paylaşılması ve indirilmesi.</string>
+    <string name="info_p2p_torrenting_description">Büyük dosyaların bir P2P ağı üzerinden hızlı bir şekilde paylaşılması ve indirilmesidir.</string>
     <string name="info_p2p_why_title">Torrent için neden bir P2P sunucusu kullanmalısınız?</string>
     <string name="info_p2p_why_description_speed">Artırılmış yükleme ve indirme hızları</string>
-    <string name="info_p2p_why_description_logs">Etkinlik günlüğü yok</string>
-    <string name="info_p2p_why_description_hide">IP adresinizi servis sağlayıcınızdan ve meslektaşlarınızdan gizleyin</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing, ulaşılması zor ülkelerde VPN erişimi sağlamak için sanal sunucuları kullanır.\n\nBir Smart Routing sunucusuna bağlandığınızda, fiziksel sunucu başka bir yerde bulunsa bile, hedef ülkenizde geziniyormuş gibi görüneceksiniz.  \n\nSmart Routing genellikle gizlilik karşıtı yasaları ve diğer sansür biçimlerini aşmak için kullanılır.</string>
+    <string name="info_p2p_why_description_logs">Etkinlik kaydı tutulmaz</string>
+    <string name="info_p2p_why_description_hide">IP adresinizi hizmet sağlayıcınızdan ve eşlerinizden gizleyin</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing, ulaşılması zor ülkelerde VPN erişimi sağlamak için sanal sunucuları kullanır.\n\nBir Smart Routing sunucusuna bağlandığınızda, fiziksel sunucu başka bir yerde bulunsa bile, hedef ülkenizde geziniyormuş gibi görünürsünüz.  \n\nSmart Routing genellikle gizlilik karşıtı yasaları ve diğer sansür biçimlerini aşmak için kullanılır.</string>
     <string name="countries_upsell_banner_description">VPN Plus tarifesi ile tüm Dünya\'ya erişin</string>
     <string name="secure_core_upsell_banner_description">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
     <string name="p2p_upsell_banner_description">Dosyaları BitTorrent ve diğer dosya paylaşım iletişim kuralları üzerinden indirin</string>

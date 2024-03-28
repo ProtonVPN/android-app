@@ -906,7 +906,7 @@
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
-    <string name="connection_card_label_free_connection">Free connection</string>
+    <string name="connection_card_label_free_connection">უფასო მიერთება</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1212,10 +1212,10 @@
     <string name="info_secure_core_standard_lower_latency">დაბალი შეყოვნება</string>
     <string name="info_secure_core_advanced_privacy">დამატებითი პირადულობა</string>
     <string name="info_secure_core_higher_latency">მაღალი დაყოვნება</string>
-    <string name="info_p2p_what_title">რაია P2P?</string>
+    <string name="info_p2p_what_title">რა არის P2P?</string>
     <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
     <string name="info_p2p_torrenting_title">რა არის ტორენტი?</string>
-    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
+    <string name="info_p2p_torrenting_description">სწრაფი გაზიარება და დიდი ფაილების გადმოწერა P2P ქსელით.</string>
     <string name="info_p2p_why_title">რატომ გამოვიყენო P2P სერვერი ტორენტებთან მუშაობისას?</string>
     <string name="info_p2p_why_description_speed">გაზრდილი ატვირთვის და გადმოწერის სიჩქარეები</string>
     <string name="info_p2p_why_description_logs">აქტივობის ჟურნალის შესახებ</string>
