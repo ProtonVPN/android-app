@@ -31,8 +31,6 @@ data class FeatureFlags(
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "PollNotificationAPI") val pollApiNotifications: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
-    @SerialName(value = "PromoCode") val promoCodeEnabled: Boolean = false,
-    @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "StreamingServicesLogos") val streamingServicesLogos: Boolean = false,
     @Serializable(with = IntToBoolSerializer::class)
     @SerialName(value = "WireGuardTls") val wireguardTlsEnabled: Boolean = true,
@@ -41,6 +39,8 @@ data class FeatureFlags(
 //    @SerialName(value = "NetShield") val netShieldEnabled: Boolean = false,
 //    @Serializable(with = IntToBoolSerializer::class)
 //    @SerialName(value = "NetShieldStats") val netShieldV2: Boolean = false,
+//    @Serializable(with = IntToBoolSerializer::class)
+//    @SerialName(value = "PromoCode") val promoCodeEnabled: Boolean = false,
 //    @Serializable(with = IntToBoolSerializer::class)
 //    @SerialName(value = "VpnAccelerator") val vpnAccelerator: Boolean = false,
 //    @Serializable(with = IntToBoolSerializer::class)
