@@ -1,0 +1,2 @@
+What's new
+- Includes UI and stability improvements
