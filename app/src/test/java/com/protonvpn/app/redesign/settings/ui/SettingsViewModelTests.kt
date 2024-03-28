@@ -68,6 +68,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import me.proton.core.usersettings.domain.usecase.ObserveUserSettings
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -79,6 +80,9 @@ class SettingsViewModelTests {
 
     @RelaxedMockK
     private lateinit var mockBuildConfigInfo: BuildConfigInfo
+
+    @MockK
+    private lateinit var mockObserveUserSettings: ObserveUserSettings
 
     @MockK
     private lateinit var mockIsTvCheck: IsTvCheck
@@ -144,6 +148,7 @@ class SettingsViewModelTests {
         settingsViewModel = SettingsViewModel(
             SavedStateHandle(),
             currentUser,
+            mockObserveUserSettings,
             settingsManager,
             effectiveSettings,
             mockBuildConfigInfo,

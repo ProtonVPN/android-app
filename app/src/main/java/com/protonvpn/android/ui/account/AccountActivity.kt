@@ -63,7 +63,7 @@ class AccountActivity : BaseActivityV2() {
                 if (viewModel.purchaseEnabled()) {
                     buttonManageAccount.isVisible = true
                     buttonManageAccount.setOnClickListener {
-                        openProtonUrl(Constants.ACCOUNT_LOGIN_URL)
+                        openProtonUrl(Constants.URL_ACCOUNT_LOGIN)
                     }
                 }
                 buttonCoupon.setOnClickListener {

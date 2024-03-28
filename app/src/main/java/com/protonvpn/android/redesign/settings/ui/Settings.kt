@@ -89,7 +89,6 @@ import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.ui.ProtocolSelectionActivity
-import com.protonvpn.android.ui.account.AccountActivity
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.ui.onboarding.heroNorm
@@ -100,7 +99,6 @@ import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragm
 import com.protonvpn.android.ui.settings.OssLicensesActivity
 import com.protonvpn.android.ui.settings.SettingsAlwaysOnActivity
 import com.protonvpn.android.ui.settings.SettingsTelemetryActivity
-import com.protonvpn.android.utils.AndroidUtils.launchActivity
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.accountmanager.presentation.compose.AccountSettingsInfo
 import me.proton.core.accountmanager.presentation.compose.viewmodel.AccountSettingsViewModel
@@ -158,7 +156,7 @@ fun SettingsRoute(
             onSignInClick = onSignInClick,
             onSignOutClick = onSignOutClick,
             onAccountClick = {
-                context.launchActivity<AccountActivity>()
+                onNavigateToSubSetting(SubSettingsScreen.Type.Account)
             },
             onNetShieldClick = {
                 onNavigateToSubSetting(SubSettingsScreen.Type.NetShield)

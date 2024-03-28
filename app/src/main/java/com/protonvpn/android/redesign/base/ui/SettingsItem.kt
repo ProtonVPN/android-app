@@ -53,7 +53,7 @@ data class ClickableTextAnnotation(
 fun BaseSettingsItem(
     modifier: Modifier = Modifier,
     name: String,
-    description: String,
+    description: String? = null,
     subTitle: String? = null,
     descriptionAnnotation: ClickableTextAnnotation? = null,
     actionComposable: @Composable () -> Unit
@@ -71,26 +71,29 @@ fun BaseSettingsItem(
             Text(
                 text = subTitle,
                 style = ProtonTheme.typography.defaultSmallWeak,
+                modifier = Modifier.padding(top = 4.dp)
             )
         }
         val paddingModifier = Modifier.padding(end = 8.dp, top = 16.dp)
-        if (descriptionAnnotation != null) {
-            AnnotatedClickableText(
-                fullText = description,
-                annotatedPart = descriptionAnnotation.annotatedPart,
-                onAnnotatedClick = descriptionAnnotation.onAnnotatedClick,
-                onAnnotatedOutsideClick = descriptionAnnotation.onAnnotatedOutsideClick,
-                style = ProtonTheme.typography.body2Regular,
-                color = ProtonTheme.colors.textWeak,
-                modifier = paddingModifier,
-            )
-        } else {
-            Text(
-                text = description,
-                style = ProtonTheme.typography.body2Regular,
-                color = ProtonTheme.colors.textWeak,
-                modifier = paddingModifier
-            )
+        if (description != null) {
+            if (descriptionAnnotation != null) {
+                AnnotatedClickableText(
+                    fullText = description,
+                    annotatedPart = descriptionAnnotation.annotatedPart,
+                    onAnnotatedClick = descriptionAnnotation.onAnnotatedClick,
+                    onAnnotatedOutsideClick = descriptionAnnotation.onAnnotatedOutsideClick,
+                    style = ProtonTheme.typography.body2Regular,
+                    color = ProtonTheme.colors.textWeak,
+                    modifier = paddingModifier
+                )
+            } else {
+                Text(
+                    text = description,
+                    style = ProtonTheme.typography.body2Regular,
+                    color = ProtonTheme.colors.textWeak,
+                    modifier = paddingModifier
+                )
+            }
         }
     }
 }
