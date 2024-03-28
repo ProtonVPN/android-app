@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.protonvpn.android.R
-import com.protonvpn.android.redesign.base.ui.BaseSettingsItem
+import com.protonvpn.android.redesign.base.ui.SettingsItem
 import com.protonvpn.android.redesign.base.ui.ClickableTextAnnotation
 
 @Composable
@@ -69,7 +69,7 @@ fun SettingsViewModel.SettingViewState.Nat.ToItem(
     onNatTypeRestricted: () -> Unit,
 ) {
     val natOnClick = if (isRestricted) onNatTypeRestricted else onNavigateToNatType
-    BaseSettingsItem(
+    SettingsItem(
         modifier = Modifier.clickable(onClick = natOnClick),
         name = stringResource(id = titleRes),
         description = descriptionText(),

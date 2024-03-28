@@ -26,8 +26,6 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -50,7 +48,7 @@ data class ClickableTextAnnotation(
 )
 
 @Composable
-fun BaseSettingsItem(
+fun SettingsItem(
     modifier: Modifier = Modifier,
     name: String,
     description: String? = null,
@@ -108,12 +106,12 @@ fun SettingsToggleItem(
     descriptionAnnotation: ClickableTextAnnotation? = null,
     onToggle: () -> Unit
 ) {
-    BaseSettingsItem(
+    SettingsItem(
         modifier.toggleable(value, onValueChange = { onToggle() }),
-        name,
-        description,
-        subTitle,
-        descriptionAnnotation
+        name = name,
+        description = description,
+        subTitle = subTitle,
+        descriptionAnnotation = descriptionAnnotation
     ) {
         ProtonSwitch(
             checked = value,
@@ -131,29 +129,12 @@ fun <T> SettingsRadioItem(
     label: String,
     description: String
 ) {
-    Row(
-        modifier = modifier
-            .selectable(
-                selected = itemValue == selectedValue,
-                onClick = { onSelected(itemValue) }
-            )
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
+    SettingsItem(
+        modifier.selectable( selected = itemValue == selectedValue,  onClick = { onSelected(itemValue) }),
+        name = label,
+        subTitle = null,
+        description = description,
     ) {
-        Column(
-            modifier = Modifier.padding(end = 8.dp).weight(1f),
-        ) {
-            Text(
-                text = label,
-                style = ProtonTheme.typography.defaultSmallNorm,
-                modifier = Modifier.padding(bottom = 4.dp),
-            )
-            Text(
-                text = description,
-                style = ProtonTheme.typography.body2Regular,
-                color = ProtonTheme.colors.textWeak,
-            )
-        }
         RadioButton(selected = itemValue == selectedValue, onClick = null)
     }
 }
