@@ -249,8 +249,8 @@ class ServerListViewModelDataAdapterTests {
             ),
             null
         )
-        assertEquals(false, adapter.haveStates(ServerListFilter(CountryId("PL"))))
-        assertEquals(true, adapter.haveStates(ServerListFilter(CountryId("US"))))
+        assertEquals(false, adapter.haveStates(CountryId("PL")))
+        assertEquals(true, adapter.haveStates(CountryId("US")))
     }
 
     @Test
