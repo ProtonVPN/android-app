@@ -77,7 +77,7 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun ServerGroupsBottomSheet(
     modifier: Modifier,
-    screen: SubScreenState,
+    screen: ServerGroupsSubScreenState,
     onNavigateBack: suspend (suspend () -> Unit) -> Unit,
     onNavigateToItem: (ServerGroupUiItem.ServerGroup) -> Unit,
     onItemClicked: (ServerGroupUiItem.ServerGroup) -> Unit,
@@ -93,13 +93,13 @@ fun ServerGroupsBottomSheet(
         label = "BottomSheetTopColorAnimation"
     )
     val listStatesMap = remember { mutableMapOf<String, LazyListState>() }
-    val listState = listStatesMap.getOrPut(screen.savedState.rememberStateKey) { rememberLazyListState() }
+    val listState = listStatesMap.getOrPut(screen.rememberStateKey) { rememberLazyListState() }
     val onCloseWithClearState = {
         listStatesMap.clear()
         onClose()
     }
     val onNavigateBackWithClearState: suspend (suspend () -> Unit) -> Unit = { onBack ->
-        listStatesMap.remove(screen.savedState.rememberStateKey)
+        listStatesMap.remove(screen.rememberStateKey)
         onNavigateBack(onBack)
     }
     ModalBottomSheetWithBackNavigation(
@@ -123,10 +123,16 @@ fun ServerGroupsBottomSheet(
     }
 }
 
+val ServerGroupsSubScreenState.rememberStateKey get() = when (this) {
+    is CitiesScreenState -> "country_view"
+    is GatewayServersScreenState -> "gateway_view"
+    is ServersScreenState -> "servers_view"
+}
+
 @Composable
 private fun BottomSheetScreen(
     modifier: Modifier = Modifier,
-    screen: SubScreenState,
+    screen: ServerGroupsSubScreenState,
     listState: LazyListState,
     onOpenInfo: (InfoType) -> Unit,
     onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
@@ -154,7 +160,7 @@ private fun BottomSheetScreen(
 @Composable
 private fun AnimatedBottomSheetHeader(
     modifier: Modifier = Modifier,
-    screen: SubScreenState,
+    screen: ServerGroupsSubScreenState,
     onNavigateBack: () -> Unit,
 ) {
     val flagComposable: @Composable () -> Unit = when (screen) {
@@ -166,26 +172,26 @@ private fun AnimatedBottomSheetHeader(
     val canNavigateBack: Boolean
     val titleText: String
     val filterButtons: List<FilterButton>?
-    val selectedCity: String?
+    val cityStateDisplay: String?
     when (screen) {
         is CitiesScreenState -> {
             canNavigateBack = false
             titleText = screen.countryId.label()
             filterButtons = screen.filterButtons
-            selectedCity = null
+            cityStateDisplay = null
         }
 
         is GatewayServersScreenState -> {
             canNavigateBack = false
             filterButtons = null
-            selectedCity = null
+            cityStateDisplay = null
             titleText = screen.gatewayName
         }
 
         is ServersScreenState -> {
             canNavigateBack = true
             filterButtons = null
-            selectedCity = screen.city
+            cityStateDisplay = screen.cityStateDisplay
             titleText = screen.countryId.label()
         }
     }
@@ -243,7 +249,7 @@ private fun AnimatedBottomSheetHeader(
             }
             AnimatedVisibility(visible = showSecondStepAnimations) {
                 Text(
-                    text = selectedCity ?: "",
+                    text = cityStateDisplay ?: "",
                     modifier = Modifier
                         .padding(start = with(LocalDensity.current) {
                             rowWidth.toDp() + textPadding
@@ -273,11 +279,8 @@ private fun AnimatedBottomSheetHeader(
 fun BottomSheetHeaderCitySelectionPreview() {
     AnimatedBottomSheetHeader(
         screen = CitiesScreenState(
-            savedState = CitiesScreenSaveState(
-                CountryId("CH"),
-                ServerListFilter(),
-                "test"
-            ),
+            countryId = CountryId("CH"),
+            selectedFilter = ServerFilterType.All,
             filterButtons = listOf(
                 FilterButton(
                     ServerFilterType.All,
@@ -303,10 +306,7 @@ fun BottomSheetHeaderCitySelectionPreview() {
 fun BottomSheetHeaderGatewayPreview() {
     AnimatedBottomSheetHeader(
         screen = GatewayServersScreenState(
-            savedState = GatewayServersScreenSaveState(
-                "Gateway",
-                ServerListFilter(), "test"
-            ),
+            gatewayName = "Gateway",
             items = emptyList()
         ),
         onNavigateBack = {}

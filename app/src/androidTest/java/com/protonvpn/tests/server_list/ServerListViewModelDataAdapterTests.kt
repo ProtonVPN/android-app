@@ -27,7 +27,6 @@ import com.protonvpn.android.redesign.ServerId
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemData
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerFilterType
-import com.protonvpn.android.redesign.countries.ui.ServerListFilter
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.mocks.TestApiConfig
@@ -74,10 +73,10 @@ class ServerListViewModelDataAdapterTests {
             null
         )
 
-        val allCountries = adapter.countries(ServerListFilter()).first()
-        val secureCoreCountries = adapter.countries(ServerListFilter(type = ServerFilterType.SecureCore)).first()
-        val torCountries = adapter.countries(ServerListFilter(type = ServerFilterType.Tor)).first()
-        val p2pCountries = adapter.countries(ServerListFilter(type = ServerFilterType.P2P)).first()
+        val allCountries = adapter.countries().first()
+        val secureCoreCountries = adapter.countries(ServerFilterType.SecureCore).first()
+        val torCountries = adapter.countries(ServerFilterType.Tor).first()
+        val p2pCountries = adapter.countries(ServerFilterType.P2P).first()
 
         assertEquals(listOf("PL", "FR"), allCountries.map { it.countryId.countryCode })
         assertEquals(listOf("PL", "FR"), torCountries.map { it.countryId.countryCode })
@@ -118,9 +117,9 @@ class ServerListViewModelDataAdapterTests {
             null
         )
 
-        val plCities = adapter.cities(ServerListFilter(country = CountryId("PL"))).first()
-        val torCities = adapter.cities(ServerListFilter(country = CountryId("PL"), type = ServerFilterType.Tor)).first()
-        val states = adapter.cities(ServerListFilter(country = CountryId("US"))).first()
+        val plCities = adapter.cities(country = CountryId("PL")).first()
+        val torCities = adapter.cities(country = CountryId("PL"), filter = ServerFilterType.Tor).first()
+        val states = adapter.cities(country = CountryId("US")).first()
 
         assertEquals(
             listOf(
@@ -163,11 +162,11 @@ class ServerListViewModelDataAdapterTests {
             null
         )
 
-        val plWarsawServers = adapter.servers(ServerListFilter(country = CountryId("PL"), cityStateId = CityStateId("Warsaw", false))).first()
-        val plAllCracowServers = adapter.servers(ServerListFilter(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false))).first()
-        val plScCracowServers = adapter.servers(ServerListFilter(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false), type = ServerFilterType.SecureCore)).first()
-        val californiaServers = adapter.servers(ServerListFilter(country = CountryId("US"), cityStateId = CityStateId("California", true))).first()
-        val gatewayServers = adapter.servers(ServerListFilter(gatewayName = "gateway")).first()
+        val plWarsawServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Warsaw", false)).first()
+        val plAllCracowServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false)).first()
+        val plScCracowServers = adapter.servers(country = CountryId("PL"), cityStateId = CityStateId("Cracow", false), filter = ServerFilterType.SecureCore).first()
+        val californiaServers = adapter.servers(country = CountryId("US"), cityStateId = CityStateId("California", true)).first()
+        val gatewayServers = adapter.servers(gatewayName = "gateway").first()
 
         assertEquals(
             listOf(
@@ -335,7 +334,7 @@ class ServerListViewModelDataAdapterTests {
             null
         )
 
-        val gateways = adapter.gateways(ServerListFilter()).first()
+        val gateways = adapter.gateways().first()
 
         assertEquals(listOf(
             ServerGroupItemData.Gateway(gatewayName = "gateway1", inMaintenance = true, tier = 2),
@@ -352,7 +351,7 @@ class ServerListViewModelDataAdapterTests {
             ),
             null
         )
-        val servers = adapter.servers(ServerListFilter(country = CountryId("PL"))).first()
+        val servers = adapter.servers(country = CountryId("PL")).first()
         assertEquals(1, servers.size)
     }
 }

@@ -50,10 +50,10 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
     }
 
     override fun countries(
-        filter: ServerListFilter,
+        filter: ServerFilterType
     ): Flow<List<ServerGroupItemData.Country>> =
         serverManager2.allServersFlow.map { servers ->
-            val secureCore = filter.type == ServerFilterType.SecureCore
+            val secureCore = filter == ServerFilterType.SecureCore
             val entryCountryId = if (secureCore)
                 CountryId.fastest
             else
@@ -73,10 +73,11 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
         }
 
     override fun cities(
-        filter: ServerListFilter,
+        filter: ServerFilterType,
+        country: CountryId
     ): Flow<List<ServerGroupItemData.City>> =
         serverManager2.allServersFlow.map { servers ->
-            val filteredServers = servers.asFilteredSequence(filter)
+            val filteredServers = servers.asFilteredSequence(filter, country)
             val hasStates = filteredServers.any { it.state != null }
             val groupBySelector = if (hasStates) Server::state else Server::city
             val availableTypes = initAvailableTypes()
@@ -89,12 +90,15 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
         }
 
     override fun servers(
-        filter: ServerListFilter,
+        filter: ServerFilterType,
+        country: CountryId?,
+        cityStateId: CityStateId?,
+        gatewayName: String?
     ): Flow<List<ServerGroupItemData.Server>> =
         serverManager2.allServersFlow.map { servers ->
             val availableTypes = initAvailableTypes()
             servers
-                .asFilteredSequence(filter)
+                .asFilteredSequence(filter, country, cityStateId, gatewayName)
                 .onEach { availableTypes.update(it) }
                 .map(Server::toServerItem)
                 .toList()
@@ -115,12 +119,12 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
 
     override suspend fun haveStates(country: CountryId): Boolean =
         serverManager2.allServersFlow.first()
-            .asFilteredSequence(ServerListFilter(country))
+            .asFilteredSequence(country = country)
             .any { it.state != null }
 
-    override fun gateways(filter: ServerListFilter): Flow<List<ServerGroupItemData.Gateway>> =
+    override fun gateways(): Flow<List<ServerGroupItemData.Gateway>> =
         serverManager2.allServersFlow.map { servers ->
-            val gateways = servers.asFilteredSequence(filter, forceIncludeGateways = true).groupBy { it.gatewayName }
+            val gateways = servers.asFilteredSequence(forceIncludeGateways = true).groupBy { it.gatewayName }
             gateways.mapNotNull { (gatewayName, servers) ->
                 if (gatewayName == null)
                     null
@@ -132,10 +136,20 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
             }
         }
 
-    private fun List<Server>.asFilteredSequence(filter: ServerListFilter, forceIncludeGateways: Boolean = false) =
-        asSequence().filter {
+    private fun List<Server>.asFilteredSequence(
+        filter: ServerFilterType = ServerFilterType.All,
+        country: CountryId? = null,
+        cityStateId: CityStateId? = null,
+        gatewayName: String? = null,
+        forceIncludeGateways: Boolean = false
+    ) =
+        asSequence().filter { server ->
             // We shouldn't show free servers on the list
-            !it.isFreeServer && filter.isMatching(it, forceIncludeGateways)
+            !server.isFreeServer &&
+                filter.isMatching(server) &&
+                (country == null || country.countryCode == server.exitCountry) &&
+                (cityStateId == null || cityStateId.matches(server)) &&
+                ((forceIncludeGateways && gatewayName == null) || gatewayName == server.gatewayName)
         }
 }
 
@@ -191,14 +205,6 @@ private fun ServerFilterType.isMatching(server: Server) = when (this) {
     ServerFilterType.Tor -> server.isTor
     ServerFilterType.P2P -> server.isP2pServer
 }
-
-// if forceIncludeGateways == false gateways will be ignored if not set by the filter
-private fun ServerListFilter.isMatching(server: Server, forceIncludeGateways: Boolean) =
-    type.isMatching(server) &&
-        (country == null || country.countryCode == server.exitCountry) &&
-        (cityStateId == null || cityStateId.matches(server)) &&
-        ((forceIncludeGateways && gatewayName == null) || gatewayName == server.gatewayName)
-
 
 private fun initAvailableTypes() = EnumSet.of(ServerFilterType.All)
 
