@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.countries.ui
 
 import androidx.lifecycle.SavedStateHandle
+import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.countries.Translator
@@ -50,30 +51,43 @@ class CountriesViewModel @Inject constructor(
     currentUser,
     vpnStatusProviderUI,
     translator,
-    showFilters = true
+    defaultMainSavedState = ServerGroupsMainScreenSaveState(selectedFilter = ServerFilterType.All),
 ) {
-    override fun getUiItems(
-        savedState: CountryScreenSavedState,
+    override fun mainScreenState(
+        savedState: ServerGroupsMainScreenSaveState,
         userTier: Int?,
         locale: Locale,
         currentConnection: ActiveConnection?,
-    ) : Flow<List<ServerGroupUiItem>> =
-        dataAdapter.countries(savedState.filter).map { countries ->
-            val filterType = savedState.filter.type
+    ): Flow<ServerGroupsMainScreenState> =
+        dataAdapter.countries(savedState.selectedFilter).map { countries ->
+            val filterType = savedState.selectedFilter
             val isFreeUser = userTier != null && userTier == VpnUser.FREE_TIER
-            val items = buildList {
+
+            val connectableItems = buildList {
                 if (!isFreeUser && countries.size > 1)
-                    add(fastestCountryItem(savedState.filter.type))
+                    add(fastestCountryItem(filterType))
                 addAll(countries.sortedByLabel(locale))
             }.map {
-                it.toState(userTier, savedState.filter, currentConnection)
+                it.toState(userTier, filterType, currentConnection)
             }
 
-            buildList {
+            val uiItems = buildList {
                 add(ServerGroupUiItem.Header(filterType.headerLabel(isFreeUser), countries.size, filterType.info))
                 if (isFreeUser)
                     add(ServerGroupUiItem.Banner(filterType.bannerType))
-                addAll(items)
+                addAll(connectableItems)
             }
+
+            ServerGroupsMainScreenState(
+                selectedFilter = savedState.selectedFilter,
+                filterButtons = getFilterButtons(
+                    dataAdapter.availableTypesFor(country = null),
+                    savedState.selectedFilter,
+                    allLabel = R.string.country_filter_all,
+                ) {
+                    mainSaveState = ServerGroupsMainScreenSaveState(selectedFilter = it)
+                },
+                items = uiItems
+            )
         }
 }

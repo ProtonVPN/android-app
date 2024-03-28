@@ -41,7 +41,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -73,7 +72,6 @@ import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
-import com.protonvpn.android.utils.Log
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
@@ -81,7 +79,6 @@ import me.proton.core.presentation.utils.currentLocale
 import me.proton.core.presentation.R as CoreR
 
 // This route is shared by both Gateways and Countries main screens.
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun ServerGroupsRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
@@ -114,14 +111,14 @@ fun ServerGroupsRoute(
         }
     }
     val navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
-    fun createOnItemOpen(parentFilter: ServerListFilter): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
-        viewModel.onItemOpen(item, parentFilter.type)
+    fun createOnItemOpen(filter: ServerFilterType): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
+        viewModel.onItemOpen(item, filter)
     }
-    fun createOnConnectAction(filter: ServerListFilter): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
+    fun createOnConnectAction(filterType: ServerFilterType): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
         viewModel.onItemConnect(
             vpnUiDelegate = uiDelegate,
             item = item,
-            filter = filter,
+            filterType = filterType,
             navigateToHome = navigateToHome,
             navigateToUpsell = navigateToUpsell
         )
@@ -134,8 +131,8 @@ fun ServerGroupsRoute(
         content = {
             ServerGroupItemsList(
                 items = mainState.items,
-                onItemClick = createOnConnectAction(mainState.savedState.filter),
-                onItemOpen = createOnItemOpen(mainState.savedState.filter),
+                onItemClick = createOnConnectAction(mainState.selectedFilter),
+                onItemOpen = createOnItemOpen(mainState.selectedFilter),
                 onOpenInfo = { infoType -> info = infoType },
                 navigateToUpsell = navigateToUpsellFromBanner,
                 horizontalContentPadding = largeScreenContentPadding(),
@@ -151,8 +148,8 @@ fun ServerGroupsRoute(
             modifier = Modifier,
             screen = subScreenState,
             onNavigateBack = { onHide -> viewModel.onNavigateBack(onHide) },
-            onNavigateToItem = createOnItemOpen(subScreenState.savedState.filter),
-            onItemClicked = createOnConnectAction(subScreenState.savedState.filter),
+            onNavigateToItem = createOnItemOpen(subScreenState.selectedFilter),
+            onItemClicked = createOnConnectAction(subScreenState.selectedFilter),
             onClose = { viewModel.onClose() },
             onOpenInfo = { info = it },
             navigateToUpsell = navigateToUpsellFromBanner
@@ -169,7 +166,7 @@ fun ServerGroupsRoute(
 @Composable
 fun ToolbarWithFilters(
     onNavigateToSearch: (() -> Unit)?,
-    toolbarFilters: List<FilterButton>?,
+    toolbarFilters: List<FilterButton>,
     @StringRes titleRes: Int,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -187,7 +184,7 @@ fun ToolbarWithFilters(
             )
         },
         toolbarAdditionalContent = {
-            if (toolbarFilters != null) FiltersRow(
+            if (toolbarFilters.isNotEmpty()) FiltersRow(
                 buttonActions = toolbarFilters,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
