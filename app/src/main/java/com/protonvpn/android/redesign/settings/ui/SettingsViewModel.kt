@@ -262,13 +262,10 @@ class SettingsViewModel @Inject constructor(
         val upgradeToPlusBanner: Boolean,
     )
 
-    val accountSettings: Flow<AccountSettingsViewState?> = currentUser.userFlow
+    val accountSettings: Flow<AccountSettingsViewState?> = currentUser.jointUserFlow
         .filterNotNull()
-        .flatMapLatest { accountUser ->
-            combine(
-                currentUser.vpnUserFlow.filterNotNull(),
-                accountUserSettings(accountUser.userId)
-            ) { vpnUser, accountUserSettings ->
+        .flatMapLatest { (accountUser, vpnUser) ->
+            accountUserSettings(accountUser.userId).map { accountUserSettings ->
                 AccountSettingsViewState(
                     userId = accountUser.userId,
                     displayName = accountUser.uiName() ?: "",

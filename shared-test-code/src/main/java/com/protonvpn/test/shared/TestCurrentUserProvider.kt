@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.user.domain.entity.User
 
@@ -51,4 +52,8 @@ class TestCurrentUserProvider(
     override val vpnUserFlow: Flow<VpnUser?> = mutableVpnUserFlow
     override val userFlow: Flow<User?> = mutableUserFlow
     override val sessionIdFlow: Flow<SessionId?> = mutableSessionIdFlow
+    override val jointUserFlow: Flow<Pair<User, VpnUser>?> = combine(userFlow, vpnUserFlow) { accountUser, vpnUser ->
+        if (accountUser == null || vpnUser == null) null
+        else Pair(accountUser, vpnUser)
+    }
 }
