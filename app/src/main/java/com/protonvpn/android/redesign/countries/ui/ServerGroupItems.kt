@@ -19,19 +19,28 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -40,12 +49,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
@@ -55,7 +64,7 @@ import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.GatewayIndicator
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ServerLoadBar
-import com.protonvpn.android.redesign.base.ui.optional
+import com.protonvpn.android.redesign.base.ui.thenNotNull
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.iconRes
@@ -66,6 +75,75 @@ import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.presentation.R as CoreR
 
+/**
+ * A row container for server group items.
+ * Its main role is to provide layout and accessibility for actions:
+ * - the main action on the whole row
+ * - optional "open" button at the end. Its click area covers the entire area at the end of the row to prevent
+ *   misclicks, however its ripple is smaller to preserve visual layout.
+ */
+@Composable
+private fun ServerGroupItemRow(
+    @StringRes rowClickLabel: Int,
+    onRowClick: (() -> Unit)?,
+    onOpen: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit,
+) {
+    val edgePadding = 16.dp
+    val customAccessibilityActions = when {
+        onOpen != null -> listOf(
+            CustomAccessibilityAction(stringResource(R.string.accessibility_menu_action_open)) { onOpen(); true }
+        )
+        else -> emptyList()
+    }
+    val clickable = onRowClick?.let {
+        Modifier.clickable(
+            onClick = onRowClick,
+            onClickLabel = stringResource(rowClickLabel),
+        )
+    }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .semantics(mergeDescendants = true) {  // Merge in case it's not clickable.
+                customActions = customAccessibilityActions
+            }
+            .thenNotNull(clickable)
+            .padding(start = edgePadding, end = edgePadding.takeIf { onOpen == null } ?: 0.dp)
+    ) {
+        content()
+
+        if (onOpen != null) {
+            // The open button has larger click area and no padding on the edge to avoid accidental clicks on the
+            // row itself.
+            val interactionSource = remember { MutableInteractionSource() }
+            val iconOverflow = 8.dp // How much the icon sticks out into edgePadding
+            Box(
+                modifier = Modifier
+                    .height(IntrinsicSize.Max)
+                    .clearAndSetSemantics {} // Accessibility handled via semantics on the whole row.
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null, // Indication only on the icon.
+                        onClick = onOpen
+                    )
+                    .padding(end = edgePadding - iconOverflow)
+            ) {
+                Icon(
+                    painterResource(CoreR.drawable.ic_proton_three_dots_horizontal),
+                    tint = ProtonTheme.colors.iconNorm,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .indication(interactionSource, rememberRipple())
+                        .padding(16.dp),
+                    contentDescription = null // Accessibility handled via semantics on the whole row.
+                )
+            }
+        }
+    }
+}
+
 @Composable
 fun ServerGroupItem(
     item: ServerGroupUiItem.ServerGroup,
@@ -73,25 +151,11 @@ fun ServerGroupItem(
     onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val openCustomAction =
-        CustomAccessibilityAction(stringResource(R.string.accessibility_menu_action_open)) { onItemOpen(item); true }
-    val customAccessibilityActions = if (item.canOpen) listOf(openCustomAction) else emptyList()
-    val rowContentDescription = item.contentDescription()?.let { stringResource(id = it)}
-    val clickable = Modifier.clickable(
-        onClick = { onItemClick(item) },
-        onClickLabel = stringResource(item.clickLabel()),
-    )
-    Row(
-        modifier = modifier
-            .heightIn(min = 64.dp)
-            .optional({ !item.data.inMaintenance }, clickable)
-            .semantics(mergeDescendants = true) { // Merge in case it's not clickable.
-                customActions = customAccessibilityActions
-                if (rowContentDescription != null)
-                    contentDescription = rowContentDescription
-            }
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
+    ServerGroupItemRow(
+        rowClickLabel = item.clickLabel(),
+        onRowClick = { onItemClick(item) },
+        onOpen = { onItemOpen(item) }.takeIf { item.canOpen },
+        modifier = modifier.heightIn(min = 64.dp)
     ) {
         val alphaModifier = Modifier
             .unavailableServerAlpha(!item.available || item.data.inMaintenance)
@@ -99,8 +163,8 @@ fun ServerGroupItem(
         Column(
             Modifier
                 .weight(1f)
-                // The row will maintain min height but if text is very large it will expand to accommodate the contents
-                // with this padding.
+                // The row will maintain min height but if text is very large it will expand to accommodate the
+                // contents with this padding.
                 .padding(vertical = 12.dp)
                 .then(alphaModifier)
         ) {
@@ -121,21 +185,21 @@ fun ServerGroupItem(
             }
         }
         Box(
+            modifier = alphaModifier,
             contentAlignment = Alignment.CenterEnd,
         ) {
-            item.Info(alphaModifier)
-            item.openIconRes?.let { iconRes ->
+            if (item.data is ServerGroupItemData.Server) {
+                FeaturesAndLoad(
+                    item.data,
+                    invisibleLoad = item.data.inMaintenance // Lay out invisible load for alignment.
+                )
+            }
+            if (item.data.inMaintenance) {
                 Icon(
+                    painterResource(id = CoreR.drawable.ic_proton_wrench),
+                    contentDescription = stringResource(R.string.accessibility_item_in_maintenance),
                     modifier = Modifier
-                        .offset(8.dp) // the padding is enlarging the click target, use offset to adjust position.
-                        .clip(CircleShape)
-                        .clearAndSetSemantics { } // Handled via custom action on the row.
-                        .clickable(enabled = item.canOpen) { onItemOpen(item) }
-                        .padding(16.dp),
-                    tint = if (item.data.inMaintenance)
-                        ProtonTheme.colors.iconWeak else ProtonTheme.colors.iconNorm,
-                    painter = painterResource(id = iconRes),
-                    contentDescription = null // Accessibility handled semantics on the whole row.
+                        .padding(end = 8.dp)
                 )
             }
         }
@@ -187,12 +251,17 @@ private fun ServerGroupUiItem.ServerGroup.Icon(modifier: Modifier) {
 }
 
 @Composable
-private fun ServerGroupUiItem.ServerGroup.Info(modifier: Modifier) {
-    if (data is ServerGroupItemData.Server) {
-        Row(modifier) {
-            ServerFeaturesRow(data.serverFeatures)
-            LoadInfo(data.loadPercent, data.inMaintenance)
-        }
+private fun FeaturesAndLoad(
+    server: ServerGroupItemData.Server,
+    modifier: Modifier = Modifier,
+    invisibleLoad: Boolean,
+) {
+    Row(modifier) {
+        ServerFeaturesRow(server.serverFeatures)
+        LoadInfo(
+            server.loadPercent,
+            if (invisibleLoad) Modifier.alpha(0f) else Modifier
+        )
     }
 }
 
@@ -215,13 +284,9 @@ private fun ServerFeaturesRow(features: Set<ServerFeature>) {
 }
 
 @Composable
-private fun LoadInfo(loadPercent: Int, inMaintenance: Boolean) {
-    // Don't show load if in maintenance but reserve space for it
-    val loadAlpha = if (inMaintenance) 0f else 1f
+private fun LoadInfo(loadPercent: Int, modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier
-            .padding(start = 20.dp)
-            .alpha(loadAlpha),
+        modifier = modifier.padding(start = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ServerLoadBar(progress = loadPercent / 100f)
@@ -242,18 +307,6 @@ private fun LoadPercentText(loadPercent: Int, alpha: Float) {
         text = stringResource(id = R.string.serverLoad, loadPercent),
         style = ProtonTheme.typography.captionNorm,
     )
-}
-
-private val ServerGroupUiItem.ServerGroup.openIconRes get() = when {
-    data.inMaintenance -> CoreR.drawable.ic_proton_wrench
-    canOpen -> CoreR.drawable.ic_proton_three_dots_horizontal
-    else -> null
-}
-
-private fun ServerGroupUiItem.ServerGroup.contentDescription() = when {
-    data.inMaintenance -> R.string.accessibility_item_in_maintenance
-    !available -> R.string.accessibility_item_unavailable
-    else -> null
 }
 
 private fun ServerGroupUiItem.ServerGroup.clickLabel() = when {
@@ -358,6 +411,27 @@ private val InfoType.label: Int get() = when(this) {
     InfoType.P2P,
     InfoType.SmartRouting -> R.string.country_filter_info_label
     InfoType.ServerLoad -> R.string.server_load_title
+}
+
+@Preview
+@Composable
+private fun ServerGroupItemRowWithOpenPreview() {
+    LightAndDarkPreview {
+        Surface(
+            color = ProtonTheme.colors.backgroundNorm
+        ) {
+            ServerGroupItemRow(
+                rowClickLabel = R.string.accessibility_action_connect,
+                onRowClick = {},
+                onOpen = {},
+                modifier = Modifier
+                    .heightIn(64.dp)
+                    .fillMaxWidth(),
+            ) {
+                Text("Some content", modifier = Modifier.weight(1f))
+            }
+        }
+    }
 }
 
 @Preview

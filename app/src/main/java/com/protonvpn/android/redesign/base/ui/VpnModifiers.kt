@@ -39,6 +39,10 @@ fun Modifier.optional(predicate: () -> Boolean, modifier: Modifier): Modifier =
     if (predicate()) this then modifier
     else this
 
+fun Modifier.thenNotNull(optionalModifier: Modifier?): Modifier =
+    if (optionalModifier != null) this then optionalModifier
+    else this
+
 /**
  * Draw composable with alpha mark the server/country/recent etc. is unavailable.
  */
