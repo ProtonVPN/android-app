@@ -59,6 +59,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
@@ -268,9 +269,13 @@ private fun ConnectionSpeedRow(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = {
-                info = InfoType.VpnSpeed
-            })
+            .clickable(
+                onClick = {
+                    info = InfoType.VpnSpeed
+                },
+                role = Role.Button,
+                onClickLabel = stringResource(R.string.accessibility_action_open)
+            )
 
     ) {
         Text(
@@ -288,7 +293,7 @@ private fun ConnectionSpeedRow(
     }
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().semantics(mergeDescendants = true, properties = {})
     ) {
         SpeedInfoColumn(
             title = stringResource(id = R.string.connection_details_download),
@@ -441,7 +446,7 @@ fun ConnectionDetailRowWithComposable(
     contentComposable: @Composable () -> Unit
 ) {
     var info by remember { mutableStateOf<InfoType?>(null) }
-    Column {
+    Column(modifier = Modifier.semantics(mergeDescendants = true, properties = {})) {
         Row(modifier = modifier
             .fillMaxWidth()
             .let {
@@ -540,7 +545,7 @@ fun IpView(
                             contentDescription = accessibilityDescription
                         }
                 } else {
-                    Modifier
+                    Modifier.semantics(mergeDescendants = true, properties = {})
                 }
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -587,11 +592,11 @@ fun IpView(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .weight(1f)
+                    .semantics(mergeDescendants = true, properties = {})
                     .padding(16.dp),
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
-
                 ) {
                     Text(
                         text = stringResource(id = R.string.connection_details_vpn_ip),
@@ -605,7 +610,6 @@ fun IpView(
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(min = 20.dp),
-
                         )
                 }
             }
