@@ -74,6 +74,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -557,7 +559,9 @@ private fun ColumnScope.Category(
         text = title,
         color = ProtonTheme.colors.textAccent,
         style = ProtonTheme.typography.defaultSmallStrongUnspecified,
-        modifier = modifier.padding(bottom = 8.dp, top = 16.dp)
+        modifier = modifier
+            .semantics { heading() }
+            .padding(bottom = 8.dp, top = 16.dp)
     )
     content()
 }
