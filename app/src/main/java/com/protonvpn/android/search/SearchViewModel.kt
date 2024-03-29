@@ -244,12 +244,12 @@ class SearchViewModel @Inject constructor(
             )
         }
 
-    private fun mapCity(match: Search.Match<Search.CityResult>, vpnUser: VpnUser?, connectedServer: Server?) =
+    private suspend fun mapCity(match: Search.Match<Search.CityResult>, vpnUser: VpnUser?, connectedServer: Server?) =
         match.value.let { city ->
             ResultItem(
                 match,
                 city.servers.contains(connectedServer),
-                vpnUser.hasAccessToAnyServer(city.servers),
+                vpnUser.hasAccessToAnyServer(city.servers) && !restrictions.restrictServerList(),
                 city.servers.any { it.online },
                 partnerships = emptyList()
             )
