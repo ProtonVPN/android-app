@@ -24,7 +24,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.data.VpnUser
@@ -51,7 +50,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -189,6 +187,7 @@ class SearchViewModel @Inject constructor(
         connectedServer: Server?
     ): ViewState {
         val secureCore = getSecureCore()
+        val isRestrictedUser = restrictions.restrictServerList()
         val result = search(query, secureCore)
         return when {
             query.isBlank() -> {
@@ -205,11 +204,11 @@ class SearchViewModel @Inject constructor(
                     if (!secureCore) {
                         ViewState.SearchResults(
                             query,
-                            countries.sortedWith(comparator).map { mapCountry(it, vpnUser, connectedServer) },
-                            cities.sortedWith(comparator).map { mapCity(it, vpnUser, connectedServer) },
+                            countries.sortedWith(comparator).map { mapCountry(it, vpnUser, connectedServer, isRestrictedUser) },
+                            cities.sortedWith(comparator).map { mapCity(it, vpnUser, connectedServer, isRestrictedUser) },
                             servers
                                 .sortedWith(getServerTierComparator(vpnUser))
-                                .map { mapServer(it, vpnUser, connectedServer) },
+                                .map { mapServer(it, vpnUser, connectedServer, isRestrictedUser) },
                             vpnUser.isFreeUser
                         )
                     } else {
@@ -233,33 +232,33 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private suspend fun mapCountry(match: Search.Match<VpnCountry>, vpnUser: VpnUser?, connectedServer: Server?) =
+    private fun mapCountry(match: Search.Match<VpnCountry>, vpnUser: VpnUser?, connectedServer: Server?, isRestricted: Boolean) =
         with(match.value) {
             ResultItem(
                 match,
                 serverList.contains(connectedServer),
-                hasAccessibleServer(vpnUser) && !restrictions.restrictServerList(),
+                hasAccessibleServer(vpnUser) && !isRestricted,
                 !isUnderMaintenance(),
                 partnerships = emptyList()
             )
         }
 
-    private suspend fun mapCity(match: Search.Match<Search.CityResult>, vpnUser: VpnUser?, connectedServer: Server?) =
+    private fun mapCity(match: Search.Match<Search.CityResult>, vpnUser: VpnUser?, connectedServer: Server?, isRestricted: Boolean) =
         match.value.let { city ->
             ResultItem(
                 match,
                 city.servers.contains(connectedServer),
-                vpnUser.hasAccessToAnyServer(city.servers) && !restrictions.restrictServerList(),
+                vpnUser.hasAccessToAnyServer(city.servers) && !isRestricted,
                 city.servers.any { it.online },
                 partnerships = emptyList()
             )
         }
 
-    private suspend fun mapServer(match: Search.Match<Server>, vpnUser: VpnUser?, connectedServer: Server?) =
+    private fun mapServer(match: Search.Match<Server>, vpnUser: VpnUser?, connectedServer: Server?, isRestricted: Boolean) =
         ResultItem(
             match,
             match.value == connectedServer,
-            vpnUser.hasAccessToServer(match.value) && !restrictions.restrictServerList(),
+            vpnUser.hasAccessToServer(match.value) && !isRestricted,
             match.value.online,
             parntershipsRepository.getServerPartnerships(match.value)
         )
