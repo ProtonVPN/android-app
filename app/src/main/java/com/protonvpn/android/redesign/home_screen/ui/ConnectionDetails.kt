@@ -190,8 +190,8 @@ private fun ConnectionDetailsConnected(
         viewState.trafficUpdate?.let { trafficUpdate ->
             Spacer(Modifier.height(16.dp))
             ConnectionSpeedRow(
-                trafficUpdate.downloadSpeed.speedBytesToString(),
-                trafficUpdate.uploadSpeed.speedBytesToString(),
+                trafficUpdate.downloadSpeed,
+                trafficUpdate.uploadSpeed,
                 onOpenUrl = onOpenUrl
             )
         }
@@ -260,8 +260,8 @@ private fun getSessionTime(sessionTimeInSeconds: Int?): String {
 
 @Composable
 private fun ConnectionSpeedRow(
-    downloadSpeed: String,
-    uploadSpeed: String,
+    downloadSpeed: Long,
+    uploadSpeed: Long,
     onOpenUrl: (url: String) -> Unit,
 ) {
     var info by remember { mutableStateOf<InfoType?>(null) }
@@ -293,18 +293,18 @@ private fun ConnectionSpeedRow(
     }
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().semantics(mergeDescendants = true, properties = {})
+        modifier = Modifier.fillMaxWidth()
     ) {
         SpeedInfoColumn(
             title = stringResource(id = R.string.connection_details_download),
-            value = downloadSpeed,
+            speedValue = downloadSpeed,
             icon = painterResource(id = CoreR.drawable.ic_proton_arrow_down_line),
             tint = ProtonTheme.colors.notificationSuccess,
             modifier = Modifier.weight(1f)
         )
         SpeedInfoColumn(
             title = stringResource(id = R.string.connection_details_upload),
-            value = uploadSpeed,
+            speedValue = uploadSpeed,
             icon = painterResource(id = CoreR.drawable.ic_proton_arrow_up_line),
             tint = ProtonTheme.colors.notificationError,
             modifier = Modifier.weight(1f)
@@ -316,7 +316,7 @@ private fun ConnectionSpeedRow(
 @Composable
 private fun SpeedInfoColumn(
     title: String,
-    value: String,
+    speedValue: Long,
     icon: Painter,
     tint: Color,
     modifier: Modifier = Modifier
@@ -325,6 +325,7 @@ private fun SpeedInfoColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .padding(horizontal = 8.dp)
+            .semantics(mergeDescendants = true, properties = {})
             .fillMaxWidth()
     ) {
         Row(
@@ -344,8 +345,13 @@ private fun SpeedInfoColumn(
                     .padding(start = 4.dp)
             )
         }
+        val accessibilityValue = speedValue.speedBytesToString(useAbbreviations = false)
         Text(
-            text = value, style = ProtonTheme.typography.defaultNorm
+            text = speedValue.speedBytesToString(),
+            style = ProtonTheme.typography.defaultNorm,
+            modifier = Modifier.semantics {
+                contentDescription = accessibilityValue
+            }
         )
     }
 }
@@ -639,7 +645,7 @@ fun ConnectionStatsPreview() {
 @Composable
 fun VpnSpeedPreview() {
     VpnTheme {
-        ConnectionSpeedRow("10 ", "123.1233", {})
+        ConnectionSpeedRow(10, 123.1233.toLong(), {})
     }
 }
 
