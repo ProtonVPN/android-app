@@ -369,7 +369,8 @@ private fun ServerLoadLegendItem(
     modifier: Modifier = Modifier
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically, modifier = modifier
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.semantics(mergeDescendants = true, properties = {})
     ) {
         ServerLoadBar(progress)
         Column(
