@@ -65,6 +65,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
@@ -193,7 +194,9 @@ fun VpnStatusTop(
                 CircularProgressIndicator(
                     color = ProtonTheme.colors.iconNorm,
                     strokeWidth = 2.dp,
-                    modifier = contentModifier.size(STATUS_ICON_SIZE)
+                    modifier = contentModifier
+                        .size(STATUS_ICON_SIZE)
+                        .clearAndSetSemantics {} // It's visual only.
                 )
 
             is VpnStatusViewState.Disabled -> {

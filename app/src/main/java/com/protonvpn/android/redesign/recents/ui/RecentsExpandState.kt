@@ -72,6 +72,7 @@ class RecentsExpandState(
     private val maxOffset: Int get() = maxHeightPx - peekHeightState.intValue
 
     val isCollapsed: Boolean get() = listOffsetPx == maxOffset
+    val canExpand: Boolean get() = minOffset < listOffsetPx
 
     val listOffsetPx by listOffsetState
     val fullExpandProgress: Float get() = when { // 0 when collapsed (at the bottom), 1 when covers the whole viewport.
@@ -200,7 +201,7 @@ fun Modifier.expandCollapseSemantics(
         ((if (expandState.isCollapsed) 0 else 1) + firstVisibleItemScrollOffset + firstVisibleItemIndex * 500).toFloat()
     }
     fun maxPseudoScrollOffset() =
-        if (expandState.isCollapsed || listState.canScrollForward) pseudoScrollOffset() + 100 else pseudoScrollOffset()
+        if (expandState.canExpand || listState.canScrollForward) pseudoScrollOffset() + 100 else pseudoScrollOffset()
     fun isAtTopOfList() = with(listState) { firstVisibleItemScrollOffset + firstVisibleItemIndex == 0 }
 
     val coroutineScope = rememberCoroutineScope()
@@ -213,13 +214,12 @@ fun Modifier.expandCollapseSemantics(
         val scrollAction: (Float) -> Unit = { y ->
             coroutineScope.launch {
                 when {
-                    expandState.isCollapsed && y > 0 -> expandState.expand()
+                    expandState.canExpand && y > 0 -> expandState.expand()
                     isAtTopOfList() && !expandState.isCollapsed && y < 0 -> expandState.collapse()
                     else -> listState.animateScrollBy(y)
                 }
             }
         }
-
 
         Modifier.semantics {
             verticalScrollAxisRange = scrollAxisRange
