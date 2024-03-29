@@ -43,6 +43,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,7 +69,9 @@ fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit)
     ) {
         Row(
             modifier = Modifier
-                .semantics(mergeDescendants = true, properties = {})
+                .semantics(mergeDescendants = true) {
+                    onClick { onNavigateToSubsetting(); true }
+                }
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -130,6 +134,7 @@ fun BandwidthStatsRow(
         BandwidthColumn(
             title = stringResource(id = R.string.netshield_data_saved),
             content = dataBytesSaved.volumeBytesToString(),
+            contentDescription = dataBytesSaved.volumeBytesToString(useAbbreviations = false),
             modifier = columnModifier.testTag("bandwidthSaved")
         )
     }
@@ -139,7 +144,8 @@ fun BandwidthStatsRow(
 private fun BandwidthColumn(
     title: String,
     content: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
 ) {
     Column(
         modifier = modifier,
@@ -150,7 +156,11 @@ private fun BandwidthColumn(
             text = content,
             style = ProtonTheme.typography.defaultSmallStrongNorm,
             textAlign = TextAlign.Center,
-            modifier = Modifier.testTag("value")
+            modifier = Modifier
+                .semantics {
+                    if (contentDescription != null) this.contentDescription = contentDescription
+                }
+                .testTag("value")
         )
         Text(
             text = title,
@@ -240,7 +250,10 @@ private fun StatsDescriptionRows(modifier: Modifier) {
 
 @Composable
 private fun StatsDescriptionRow(titleId: Int, detailsId: Int) {
-    Row(modifier = Modifier.padding(8.dp)) {
+    Row(modifier = Modifier
+        .semantics(mergeDescendants = true) {}
+        .padding(8.dp)
+    ) {
         Box(modifier = Modifier.weight(0.7f, fill = true)) {
             androidx.compose.material.Text(
                 text = stringResource(id = titleId),
