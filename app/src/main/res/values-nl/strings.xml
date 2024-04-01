@@ -751,6 +751,14 @@
      Only used by accessibility services.
     -->
     <string name="accessibility_action_search">zoeken</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">Open</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -1163,6 +1171,46 @@
     <string name="speed_megabytes_per_second">%1$s MB/s</string>
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="one">%1$s Byte per second</item>
+        <item quantity="other">%1$s Bytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="one">%1$s Kilobyte per second</item>
+        <item quantity="other">%1$s Kilobytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="one">%1$s Megabyte per second</item>
+        <item quantity="other">%1$s Megabytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="one">%1$s Gigabyte per second</item>
+        <item quantity="other">%1$s Gigabytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="one">%1$s Terabyte per second</item>
+        <item quantity="other">%1$s Terabytes per second</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="one">%1$s Byte</item>
+        <item quantity="other">%1$s Bytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="one">%1$s Kilobyte</item>
+        <item quantity="other">%1$s Kilobytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="one">%1$s Megabyte</item>
+        <item quantity="other">%1$s Megabytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="one">%1$s Gigabyte</item>
+        <item quantity="other">%1$s Gigabytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="one">%1$s Terabyte</item>
+        <item quantity="other">%1$s Terabytes</item>
+    </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
     <string name="traffic_volume_megabytes">%1$s MB</string>

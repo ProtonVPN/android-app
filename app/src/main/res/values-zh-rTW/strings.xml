@@ -733,6 +733,14 @@
      Only used by accessibility services.
     -->
     <string name="accessibility_action_search">搜尋</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">開啟</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -1033,18 +1041,18 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-    <string name="country_filter_all_list_header">All countries (%1$d)</string>
-    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
-    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
-    <string name="country_filter_states_list_header">States (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers (%1$d)</string>
+    <string name="country_filter_all_list_header">全部國家 (%1$d)</string>
+    <string name="country_filter_all_list_header_free">增加部國家 (%1$d)</string>
+    <string name="country_filter_cities_list_header">城市 (%1$d)</string>
+    <string name="country_filter_states_list_header">州 (%1$d)</string>
+    <string name="country_filter_servers_list_header">伺服器 (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Secure Core 國家 (地區) (%1$d)</string>
-    <string name="country_filter_p2p_list_header">P2P countries (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">P2P cities (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
-    <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
-    <string name="country_filter_info_label">Info</string>
+    <string name="country_filter_p2p_list_header">P2P國家 (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P城市 (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P州 (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor國家 (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor伺服器 (%1$d)</string>
+    <string name="country_filter_info_label">資訊</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1124,8 +1132,8 @@
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
-    <string name="info_secure_core_standard_header">Standard VPN connection</string>
-    <string name="info_secure_core_secure_header">Secure Core VPN connection</string>
+    <string name="info_secure_core_standard_header">標準VPN 連線</string>
+    <string name="info_secure_core_secure_header">Secure CoreVPN 連線</string>
     <string name="info_dialog_tor_description">Connect to a Tor server to access hidden services and onion sites using any browser.</string>
     <string name="info_dialog_button_learn_more_tor">How to access the Tor network</string>
     <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
@@ -1144,6 +1152,36 @@
     <string name="speed_megabytes_per_second">%1$s MB/s</string>
     <string name="speed_gigabytes_per_second">%1$s Gb/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="other">%1$s Bytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="other">%1$s Kilobytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="other">%1$s Megabytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="other">%1$s Gigabytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="other">%1$s Terabytes per second</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="other">%1$s Bytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="other">%1$s Kilobytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="other">%1$s Megabytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="other">%1$s Gigabytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="other">%1$s Terabytes</item>
+    </plurals>
     <string name="traffic_volume_bytes">%1$s位元組</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
     <string name="traffic_volume_megabytes">%1$s MB</string>
@@ -1188,17 +1226,17 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">無</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s、%2$s 及另 %3$d 個</string>
     <string name="settings_dialog_reconnect">新的設定將於下次連線時套用。</string>
-    <string name="info_secure_core_standard_high_privacy">High privacy</string>
-    <string name="info_secure_core_standard_lower_latency">Lower latency</string>
-    <string name="info_secure_core_advanced_privacy">Advanced privacy</string>
-    <string name="info_secure_core_higher_latency">Higher latency</string>
-    <string name="info_p2p_what_title">What is P2P?</string>
+    <string name="info_secure_core_standard_high_privacy">高隱私</string>
+    <string name="info_secure_core_standard_lower_latency">低延遲</string>
+    <string name="info_secure_core_advanced_privacy">進階隱私</string>
+    <string name="info_secure_core_higher_latency">較高延遲</string>
+    <string name="info_p2p_what_title">甚麼是P2P?</string>
     <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
     <string name="info_p2p_torrenting_title">What is torrenting?</string>
     <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
     <string name="info_p2p_why_title">Why use a P2P server when torrenting?</string>
     <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
-    <string name="info_p2p_why_description_logs">No activity logs</string>
+    <string name="info_p2p_why_description_logs">無活動日誌</string>
     <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
     <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="countries_upsell_banner_description">使用 VPN Plus 來獲得全球的覆蓋</string>

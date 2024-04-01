@@ -733,6 +733,14 @@
      Only used by accessibility services.
     -->
     <string name="accessibility_action_search">검색</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">열기</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -1144,6 +1152,36 @@
     <string name="speed_megabytes_per_second">%1$s MB/초</string>
     <string name="speed_gigabytes_per_second">%1$s GB/초</string>
     <string name="speed_terabytes_per_second">%1$s TB/초</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="other">초당 %1$s바이트</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="other">초당 %1$s킬로바이트</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="other">초당 %1$s메가바이트</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="other">초당 %1$s기가바이트</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="other">초당 %1$s테라바이트</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="other">%1$s바이트</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="other">%1$s킬로바이트</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="other">%1$s메가바이트</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="other">%1$s기가바이트</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="other">%1$s테라바이트</item>
+    </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
     <string name="traffic_volume_megabytes">%1$s MB</string>
@@ -1188,10 +1226,10 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">없음</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s 외 %3$d개</string>
     <string name="settings_dialog_reconnect">다음에 연결할 때 새 설정이 적용됩니다.</string>
-    <string name="info_secure_core_standard_high_privacy">높은 개인정보 보호</string>
+    <string name="info_secure_core_standard_high_privacy">강화된 개인정보 보호</string>
     <string name="info_secure_core_standard_lower_latency">낮은 레이턴시</string>
     <string name="info_secure_core_advanced_privacy">향상된 개인정보 보호</string>
-    <string name="info_secure_core_higher_latency">더 높은 레이턴시</string>
+    <string name="info_secure_core_higher_latency">높은 레이턴시</string>
     <string name="info_p2p_what_title">P2P가 무엇인가요?</string>
     <string name="info_p2p_what_description">피어 투 피어 (P2P)는 사용자가 다른 기기와 파일을 직접적으로 연결 및 공유할 수 있는 기술을 의미합니다.\n\nProton의 P2P 서버는 이러한 파일 공유를 지원하도록 특별히 설계되었습니다.</string>
     <string name="info_p2p_torrenting_title">토렌트한다는 것은?</string>
