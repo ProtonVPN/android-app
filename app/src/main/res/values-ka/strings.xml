@@ -751,6 +751,14 @@
      Only used by accessibility services.
     -->
     <string name="accessibility_action_search">ძებნა</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">გახსნა</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -1142,7 +1150,7 @@
     <string name="connection_details_vpn_speed_question">რა სიჩქარითაა VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
+    <string name="info_dialog_secure_core_description">Secure Core თქვენს სამიზნე სერვერთან მეორე, მაქსიმალური უსაფრთხოების მქონე VPN სერვერით მიგაერთებთ.\n\nამ უფრო მაღალმა უსაფრთხოების დონემ, შეიძლება, მაღალი დაყოვნება და დაბალი სიჩქარე გამოიწვიოს.</string>
     <string name="info_secure_core_standard_header">სტანდარტული VPN მიერთება</string>
     <string name="info_secure_core_secure_header">Secure Core VPN მიერთება</string>
     <string name="info_dialog_tor_description">მიუერთდით Tor სერვერს, რომ იქონიოთ წვდომა დამალულ სერვისებთან და .onlion ვებგვერდებთან ნებისმიერი ბრაუზერით.</string>
@@ -1163,6 +1171,46 @@
     <string name="speed_megabytes_per_second">%1$s მბ/წმ</string>
     <string name="speed_gigabytes_per_second">%1$s გბ/წმ</string>
     <string name="speed_terabytes_per_second">%1$s ტბ/წმ</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="one">%1$s Byte per second</item>
+        <item quantity="other">%1$s Bytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="one">%1$s Kilobyte per second</item>
+        <item quantity="other">%1$s Kilobytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="one">%1$s Megabyte per second</item>
+        <item quantity="other">%1$s Megabytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="one">%1$s Gigabyte per second</item>
+        <item quantity="other">%1$s Gigabytes per second</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="one">%1$s Terabyte per second</item>
+        <item quantity="other">%1$s Terabytes per second</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="one">%1$s Byte</item>
+        <item quantity="other">%1$s Bytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="one">%1$s Kilobyte</item>
+        <item quantity="other">%1$s Kilobytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="one">%1$s Megabyte</item>
+        <item quantity="other">%1$s Megabytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="one">%1$s Gigabyte</item>
+        <item quantity="other">%1$s Gigabytes</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="one">%1$s Terabyte</item>
+        <item quantity="other">%1$s Terabytes</item>
+    </plurals>
     <string name="traffic_volume_bytes">%1$s ბ</string>
     <string name="traffic_volume_kilobytes">%1$s კბ</string>
     <string name="traffic_volume_megabytes">%1$s მბ</string>
@@ -1213,7 +1261,7 @@
     <string name="info_secure_core_advanced_privacy">დამატებითი პირადულობა</string>
     <string name="info_secure_core_higher_latency">მაღალი დაყოვნება</string>
     <string name="info_p2p_what_title">რა არის P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
+    <string name="info_p2p_what_description">Peer-to-peer (P2P) ტექნოლოგია საშუალებას გაძლევთ დააკავშიროთ და გააზიაროთ ფაილები პირდაპირ სხვა მოწყობილობებთან.\n\nჩვენი P2P სერვერები სპეციალურად შექმნილია ამ ტიპის ფაილების გაზიარების მხარდასაჭერად.</string>
     <string name="info_p2p_torrenting_title">რა არის ტორენტი?</string>
     <string name="info_p2p_torrenting_description">სწრაფი გაზიარება და დიდი ფაილების გადმოწერა P2P ქსელით.</string>
     <string name="info_p2p_why_title">რატომ გამოვიყენო P2P სერვერი ტორენტებთან მუშაობისას?</string>

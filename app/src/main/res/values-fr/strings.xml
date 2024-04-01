@@ -751,6 +751,14 @@
      Only used by accessibility services.
     -->
     <string name="accessibility_action_search">rechercher</string>
+    <!-- Name of action for opening a screen/panel for an item.
+         The action is listed in a menu of additional actions available to accessibility services.
+
+         Example:
+         - item in a list of countries has a custom action to open list of cities in the country
+         - item in a list of cities has a custom action to open list of servers in the city
+         -->
+    <string name="accessibility_menu_action_open">Ouvrir</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -1163,6 +1171,46 @@
     <string name="speed_megabytes_per_second">%1$s Mo/s</string>
     <string name="speed_gigabytes_per_second">%1$s Go/s</string>
     <string name="speed_terabytes_per_second">%1$s To/s</string>
+    <plurals name="full_name_speed_bytes_per_second">
+        <item quantity="one">%1$s octet par seconde</item>
+        <item quantity="other">%1$s octets par seconde</item>
+    </plurals>
+    <plurals name="full_name_speed_kilobytes_per_second">
+        <item quantity="one">%1$s kilooctet par seconde</item>
+        <item quantity="other">%1$s kilooctets par seconde</item>
+    </plurals>
+    <plurals name="full_name_speed_megabytes_per_second">
+        <item quantity="one">%1$s mégaoctet par seconde</item>
+        <item quantity="other">%1$s mégaoctets par seconde</item>
+    </plurals>
+    <plurals name="full_name_speed_gigabytes_per_second">
+        <item quantity="one">%1$s gigaoctet par seconde</item>
+        <item quantity="other">%1$s gigaoctets par seconde</item>
+    </plurals>
+    <plurals name="full_name_speed_terabytes_per_second">
+        <item quantity="one">%1$s téraoctet par seconde</item>
+        <item quantity="other">%1$s téraoctets par seconde</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_bytes">
+        <item quantity="one">%1$s octet</item>
+        <item quantity="other">%1$s octets</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_kilobytes">
+        <item quantity="one">%1$s kilooctet</item>
+        <item quantity="other">%1$s kilooctets</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_megabytes">
+        <item quantity="one">%1$s mégaoctet</item>
+        <item quantity="other">%1$s mégaoctets</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_gigabytes">
+        <item quantity="one">%1$s gigaoctet</item>
+        <item quantity="other">%1$s gigaoctets</item>
+    </plurals>
+    <plurals name="full_name_traffic_volume_terabytes">
+        <item quantity="one">%1$s téraoctet</item>
+        <item quantity="other">%1$s téraoctets</item>
+    </plurals>
     <string name="traffic_volume_bytes">%1$s o</string>
     <string name="traffic_volume_kilobytes">%1$s Ko</string>
     <string name="traffic_volume_megabytes">%1$s Mo</string>
