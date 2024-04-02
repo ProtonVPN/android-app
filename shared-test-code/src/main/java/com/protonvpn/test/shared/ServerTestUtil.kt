@@ -54,7 +54,7 @@ fun createServer(
     isSecureCore: Boolean = false, // For convenience, adds SERVER_FEATURE_SECURE_CORE
     connectingDomains: List<ConnectingDomain> = listOf(dummyConnectingDomain),
     isOnline: Boolean = true,
-    load: Float = 50f,
+    loadPercent: Float = 50f,
     hostCountry: String? = null
 ) = Server(
         serverId = serverId,
@@ -65,7 +65,7 @@ fun createServer(
         connectingDomains = connectingDomains,
         hostCountry = hostCountry,
         domain = "dummy.protonvpn.net",
-        load = load,
+        load = loadPercent,
         tier = tier,
         region = region,
         state = state,

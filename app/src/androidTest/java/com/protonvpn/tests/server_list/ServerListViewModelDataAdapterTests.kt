@@ -384,6 +384,6 @@ fun server(
     translations = translations,
     isSecureCore = isSecureCore,
     isOnline = isOnline,
-    load = load,
+    loadPercent = load,
     hostCountry = hostCountry
 )

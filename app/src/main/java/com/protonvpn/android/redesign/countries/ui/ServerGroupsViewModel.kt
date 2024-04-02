@@ -49,6 +49,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -60,6 +61,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.savedstate.state
+import java.text.DecimalFormat
 import java.util.Locale
 
 private const val MainScreenStateKey = "main_screen_state"
@@ -135,6 +137,7 @@ data class GatewayServersScreenState(
     override val selectedFilter: ServerFilterType get() = ServerFilterType.All
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 abstract class ServerGroupsViewModel(
     screenId: String,
     savedStateHandle: SavedStateHandle,
@@ -177,7 +180,7 @@ abstract class ServerGroupsViewModel(
     ) : Flow<ServerGroupsMainScreenState>
 
     // Screen states
-    val stateFlow =
+    val stateFlow: StateFlow<ServerGroupsMainScreenState?> =
         combine(
             mainSaveStateFlow,
             userTierFlow,
@@ -227,7 +230,8 @@ abstract class ServerGroupsViewModel(
                     dataItems.any { (it as? ServerGroupItemData.City)?.cityStateId?.isState == true }
                 else
                     false
-                val items = dataItems.sortedByLabel(locale).map { data ->
+
+                val items =  dataItems.sortedForUi(locale).map { data ->
                     data.toState(userTier, filterType, currentConnection)
                 }
 
@@ -428,16 +432,17 @@ internal fun fastestCountryItem(filter: ServerFilterType): ServerGroupItemData.C
         entryCountryId = if (filter == ServerFilterType.SecureCore) CountryId.fastest else null
     )
 
-internal fun List<ServerGroupItemData>.sortedByLabel(locale: Locale): List<ServerGroupItemData> {
-    val sortLabel = associateWith { data -> data.sortLabel(locale) }
+internal fun List<ServerGroupItemData>.sortedForUi(locale: Locale): List<ServerGroupItemData> {
+    val sortLabel = associateWith { data -> data.getUiSortProperty(locale) }
     return sortedByLocaleAware { data -> sortLabel[data]!! }
 }
 
-private fun ServerGroupItemData.sortLabel(locale: Locale): String = when(this) {
+private val loadPercentFormatter by lazy(LazyThreadSafetyMode.NONE) { DecimalFormat("000") }
+private fun ServerGroupItemData.getUiSortProperty(locale: Locale): String = when(this) {
     is ServerGroupItemData.Country -> CountryTools.getFullName(locale, countryId.countryCode)
     is ServerGroupItemData.City -> name
-    is ServerGroupItemData.Server -> name
     is ServerGroupItemData.Gateway -> gatewayName
+    is ServerGroupItemData.Server -> loadPercentFormatter.format(loadPercent)
 }
 
 private fun ServerGroupItemData.getConnectIntent(filterType: ServerFilterType): ConnectIntent = when(this) {
