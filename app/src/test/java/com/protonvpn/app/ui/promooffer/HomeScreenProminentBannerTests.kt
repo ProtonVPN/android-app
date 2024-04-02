@@ -21,6 +21,7 @@ package com.protonvpn.app.ui.promooffer
 
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
+import com.protonvpn.android.appconfig.ApiNotificationOffer
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.appconfig.ApiNotificationProminentBanner
 import com.protonvpn.android.appconfig.ApiNotificationProminentBannerStyle
@@ -119,16 +120,20 @@ class HomeScreenProminentBannerTests {
                 "StartTime": 1000,
                 "EndTime": 2000,
                 "Type": 3,
-                "ProminentBanner": {
-                    "DismissButtonText": "Close",
-                    "Style": "Warning"
+                "Offer": {
+                    "ProminentBanner": {
+                        "DismissButtonText": "Close",
+                        "Style": "Warning"
+                    }
                 }
             }
         """.trimIndent()
         val expected = ApiNotification(
             id = "ID", startTime = 1000, endTime = 2000, type = ApiNotificationTypes.TYPE_HOME_PROMINENT_BANNER,
-            prominentBanner = ApiNotificationProminentBanner(
-                dismissButtonText = "Close", style = ApiNotificationProminentBannerStyle.WARNING
+            offer = ApiNotificationOffer(
+                prominentBanner = ApiNotificationProminentBanner(
+                    dismissButtonText = "Close", style = ApiNotificationProminentBannerStyle.WARNING
+                )
             )
         )
         assertEquals(expected, json.deserialize<ApiNotification>())
@@ -142,33 +147,37 @@ class HomeScreenProminentBannerTests {
                 "StartTime": 1000,
                 "EndTime": 2000,
                 "Type": 3,
-                "ProminentBanner": {
-                    "Title": "Title",
-                    "Description": "Description",
-                    "ActionButton": {
-                        "Text": "Action",
-                        "URL": "https://action",
-                        "Action": "OpenURL",
-                        "Behaviors": [ "AutoLogin" ]
-                    },
-                    "DismissButtonText": "Close",
-                    "Style": "Warning"
+                "Offer": {
+                    "ProminentBanner": {
+                        "Title": "Title",
+                        "Description": "Description",
+                        "ActionButton": {
+                            "Text": "Action",
+                            "URL": "https://action",
+                            "Action": "OpenURL",
+                            "Behaviors": [ "AutoLogin" ]
+                        },
+                        "DismissButtonText": "Close",
+                        "Style": "Warning"
+                    }
                 }
             }
         """.trimIndent()
         val expected = ApiNotification(
             id = "ID", startTime = 1000, endTime = 2000, type = ApiNotificationTypes.TYPE_HOME_PROMINENT_BANNER,
-            prominentBanner = ApiNotificationProminentBanner(
-                title = "Title",
-                description = "Description",
-                actionButton = ApiNotificationOfferButton(
-                    text = "Action",
-                    url = "https://action",
-                    action = "OpenURL",
-                    actionBehaviors = listOf("AutoLogin")
-                ),
-                dismissButtonText = "Close",
-                style = ApiNotificationProminentBannerStyle.WARNING
+            offer = ApiNotificationOffer(
+                prominentBanner = ApiNotificationProminentBanner(
+                    title = "Title",
+                    description = "Description",
+                    actionButton = ApiNotificationOfferButton(
+                        text = "Action",
+                        url = "https://action",
+                        action = "OpenURL",
+                        actionBehaviors = listOf("AutoLogin")
+                    ),
+                    dismissButtonText = "Close",
+                    style = ApiNotificationProminentBannerStyle.WARNING
+                )
             )
         )
         assertEquals(expected, json.deserialize<ApiNotification>())

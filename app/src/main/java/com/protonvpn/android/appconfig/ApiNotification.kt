@@ -35,7 +35,6 @@ data class ApiNotification(
     @SerialName("EndTime") val endTime: Long,
     @SerialName("Type") val type: Int,
     @SerialName("Offer") val offer: ApiNotificationOffer? = null,
-    @SerialName("ProminentBanner") val prominentBanner: ApiNotificationProminentBanner? = null,
     @SerialName("Reference") val reference: String? = null,
 )
 
@@ -47,6 +46,7 @@ data class ApiNotificationOffer(
     @SerialName("Behaviors") val actionBehaviors: List<String> = emptyList(),
     @SerialName("Icon") val iconUrl: String? = null,
     @SerialName("Panel") val panel: ApiNotificationOfferPanel? = null,
+    @SerialName("ProminentBanner") val prominentBanner: ApiNotificationProminentBanner? = null,
 )
 
 @Serializable

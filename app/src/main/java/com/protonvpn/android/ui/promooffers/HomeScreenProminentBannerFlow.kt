@@ -56,7 +56,7 @@ class HomeScreenProminentBannerFlow @Inject constructor(
     }
 
     private val stateFlow: Flow<ProminentBannerState?> = activeNotificationsFlow.map { notification ->
-        val banner = notification?.prominentBanner
+        val banner = notification?.offer?.prominentBanner
         banner?.let {
             ProminentBannerState(
                 title = it.title,
