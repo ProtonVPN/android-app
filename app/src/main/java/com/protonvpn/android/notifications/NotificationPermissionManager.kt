@@ -95,7 +95,7 @@ class NotificationPermissionManager @Inject constructor(
 
     private fun showDialogAndRequestPermission(activity: AppCompatActivity) {
         val bottomSheetFragment = NotificationPermissionBottomSheetFragment()
-        bottomSheetFragment.show(activity.supportFragmentManager, bottomSheetFragment.tag)
+        bottomSheetFragment.showNowAndExpand(activity.supportFragmentManager, bottomSheetFragment.tag)
     }
 }
 
