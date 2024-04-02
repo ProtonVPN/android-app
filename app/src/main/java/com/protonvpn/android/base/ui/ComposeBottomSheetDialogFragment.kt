@@ -19,9 +19,13 @@
 
 package com.protonvpn.android.base.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.compose.runtime.Composable
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -35,6 +39,12 @@ abstract class ComposeBottomSheetDialogFragment : BottomSheetDialogFragment(R.la
 
     private val binding by viewBinding(BottomSheetComposeViewBinding::bind)
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return (super.onCreateDialog(savedInstanceState) as BottomSheetDialog).apply {
+            behavior.skipCollapsed = true // Skip half-expand when collapsing.
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.composeView.setContent {
@@ -42,6 +52,11 @@ abstract class ComposeBottomSheetDialogFragment : BottomSheetDialogFragment(R.la
                 Content()
             }
         }
+    }
+
+    fun showNowAndExpand(manager: FragmentManager, tag: String? = null) {
+        showNow(manager, tag)
+        (dialog as? BottomSheetDialog)?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     /**
