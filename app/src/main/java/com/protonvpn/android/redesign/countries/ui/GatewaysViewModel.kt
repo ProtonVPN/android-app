@@ -61,7 +61,7 @@ class GatewaysViewModel @Inject constructor(
             ServerGroupsMainScreenState(
                 selectedFilter = ServerFilterType.All,
                 filterButtons = emptyList(),
-                items = gateways.sortedByLabel(locale).map {
+                items = gateways.sortedForUi(locale).map {
                     it.toState(userTier, ServerFilterType.All, currentConnection)
                 }
             )

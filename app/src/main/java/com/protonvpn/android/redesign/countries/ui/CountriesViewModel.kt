@@ -66,7 +66,7 @@ class CountriesViewModel @Inject constructor(
             val connectableItems = buildList {
                 if (!isFreeUser && countries.size > 1)
                     add(fastestCountryItem(filterType))
-                addAll(countries.sortedByLabel(locale))
+                addAll(countries.sortedForUi(locale))
             }.map {
                 it.toState(userTier, filterType, currentConnection)
             }

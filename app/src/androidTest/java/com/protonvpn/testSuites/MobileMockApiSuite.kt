@@ -24,6 +24,7 @@ import com.protonvpn.tests.api.RefreshTokenTests
 import com.protonvpn.tests.bugReport.MockedBugReportTests
 import com.protonvpn.tests.logging.ProtonLoggerImplTests
 import com.protonvpn.tests.login.LogoutTests
+import com.protonvpn.tests.server_list.CountriesViewModelTests
 import com.protonvpn.tests.server_list.ServerListViewModelDataAdapterTests
 import com.protonvpn.tests.settings.data.UserDataMigrationTests
 import com.protonvpn.tests.telemetry.TelemetryCacheTests
@@ -37,6 +38,7 @@ import org.junit.runners.Suite
 //    HomeActivityPromoOfferTests::class,
 //    PartnershipTests::class,
 //    PromoOfferActivityTests::class,
+    CountriesViewModelTests::class,
     FeatureFlagUserCountryTests::class,
     // Note: when we have a lot of isolated tests they can be run in a separate CI job without test orchestrator.
     IsolatedTestsSuite::class,
