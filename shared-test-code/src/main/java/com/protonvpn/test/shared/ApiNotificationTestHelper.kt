@@ -48,8 +48,13 @@ object ApiNotificationTestHelper {
             start,
             end,
             type,
-            ApiNotificationOffer(label, "https://protonvpn.com", iconUrl = iconUrl, panel = panel),
-            prominentBanner,
+        ApiNotificationOffer(
+            label,
+            "https://protonvpn.com",
+            iconUrl = iconUrl,
+            panel = panel,
+            prominentBanner = prominentBanner
+        ),
             reference
         )
 
