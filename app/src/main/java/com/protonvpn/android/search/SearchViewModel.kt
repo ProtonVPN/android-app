@@ -219,7 +219,7 @@ class SearchViewModel @Inject constructor(
                                     ResultItem(
                                         Search.Match(countryMatch.textMatch, it),
                                         it == connectedServer,
-                                        vpnUser.hasAccessToServer(it) && !restrictions.restrictServerList(),
+                                        vpnUser.hasAccessToServer(it) && !isRestrictedUser,
                                         it.online,
                                         parntershipsRepository.getServerPartnerships(it)
                                     )
