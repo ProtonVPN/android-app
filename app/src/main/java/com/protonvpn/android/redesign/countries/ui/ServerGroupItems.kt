@@ -49,6 +49,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -270,8 +271,10 @@ private fun ServerFeaturesRow(features: Set<ServerFeature>) {
     if (features.isNotEmpty()) {
         Row(modifier = Modifier.padding(start = 12.dp)) {
             features.forEach { feature ->
+                val description = feature.contentDescription()
                 Icon(
                     modifier = Modifier
+                        .semantics { contentDescription = description }
                         .padding(horizontal = 4.dp)
                         .size(14.dp),
                     painter = painterResource(id = feature.iconRes()),
@@ -284,6 +287,15 @@ private fun ServerFeaturesRow(features: Set<ServerFeature>) {
 }
 
 @Composable
+private fun ServerFeature.contentDescription(): String {
+    val resourceId = when(this) {
+        ServerFeature.P2P -> R.string.server_feature_content_description_p2p
+        ServerFeature.Tor -> R.string.server_feature_content_description_tor
+    }
+    return stringResource(resourceId)
+}
+
+@Composable
 private fun LoadInfo(loadPercent: Int, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier.padding(start = 20.dp),
@@ -293,15 +305,17 @@ private fun LoadInfo(loadPercent: Int, modifier: Modifier = Modifier) {
         Box {
             // Invisible view to reserve space for 100% load text
             LoadPercentText(loadPercent = 100, alpha = 0f)
-            LoadPercentText(loadPercent = loadPercent, alpha = 1f)
+            val description = stringResource(R.string.country_filter_server_load_content_description, loadPercent)
+            val semanticsModifier = Modifier.semantics { contentDescription = description }
+            LoadPercentText(loadPercent = loadPercent, alpha = 1f, semanticsModifier)
         }
     }
 }
 
 @Composable
-private fun LoadPercentText(loadPercent: Int, alpha: Float) {
+private fun LoadPercentText(loadPercent: Int, alpha: Float, modifier: Modifier = Modifier) {
     Text(
-        modifier = Modifier
+        modifier = modifier
             .alpha(alpha)
             .padding(start = 8.dp),
         text = stringResource(id = R.string.serverLoad, loadPercent),
