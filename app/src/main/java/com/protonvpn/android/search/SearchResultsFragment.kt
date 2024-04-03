@@ -57,6 +57,8 @@ import me.proton.core.presentation.utils.viewBinding
 import me.proton.core.util.kotlin.exhaustive
 import me.proton.core.presentation.R as CoreR
 
+private const val INSTANT_UPDATE_THRESHOLD = 50 // Above this many results list updates happen without animations.
+
 class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
 
     private val binding by viewBinding(FragmentSearchResultsBinding::bind)
@@ -148,7 +150,7 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         addSection(sections, R.string.server_search_servers_header, state.servers) {
             ServerResultBinding(it, matchLength, ::connectServer, viewModel::disconnect, this::showCountryUpgrade)
         }
-        resultsAdapter.updateAsync(sections)
+        updateResults(sections)
     }
 
     private fun setSecureCoreResults(query: String, state: SearchViewModel.ViewState.ScSearchResults) {
@@ -156,7 +158,7 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
         addSection(sections, R.string.server_search_sc_countries_header, state.servers) {
             SecureCoreServerResultBinding(it, query.length, ::connectServer, viewModel::disconnect, this::showCountryUpgrade)
         }
-        resultsAdapter.updateAsync(sections)
+        updateResults(sections)
     }
 
     private fun setSearchRecentResults(state: SearchViewModel.ViewState.SearchHistory) {
@@ -185,7 +187,18 @@ class SearchResultsFragment : Fragment(R.layout.fragment_search_results) {
                     )
                 })
         )
-        resultsAdapter.updateAsync(sections)
+        updateResults(sections)
+    }
+
+    private fun updateResults(newGroups: List<Group>) {
+        // Assume there's just one nesting level
+        val newItemCount = newGroups.sumOf { it.itemCount }
+        val currentItemCount = (0..<resultsAdapter.groupCount).sumOf { resultsAdapter.getItemCountForGroup(it) }
+        if (newItemCount > INSTANT_UPDATE_THRESHOLD || currentItemCount > INSTANT_UPDATE_THRESHOLD) {
+            resultsAdapter.replaceAll(newGroups)
+        } else {
+            resultsAdapter.updateAsync(newGroups, false, null)
+        }
     }
 
     private fun <T> addSection(
