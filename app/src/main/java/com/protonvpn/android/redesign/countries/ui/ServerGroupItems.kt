@@ -387,7 +387,7 @@ fun ServerGroupHeader(
     ) {
         Text(
             text = stringResource(id = item.labelRes, item.count),
-            style = ProtonTheme.typography.captionRegular,
+            style = ProtonTheme.typography.body2Regular,
             color = ProtonTheme.colors.textWeak,
             modifier = Modifier
                 .weight(1f)
@@ -402,7 +402,7 @@ fun ServerGroupHeader(
             ) {
                 Text(
                     text = stringResource(id = item.info.label),
-                    style = ProtonTheme.typography.captionMedium,
+                    style = ProtonTheme.typography.body2Medium,
                     color = ProtonTheme.colors.textWeak,
                     modifier = Modifier.padding(end = 5.dp)
                 )

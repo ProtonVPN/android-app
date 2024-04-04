@@ -175,7 +175,8 @@ fun RecentsList(
                     else R.string.home_upsell_carousel_headline
                 Text(
                     stringResource(id = headlineText),
-                    style = ProtonTheme.typography.captionWeak,
+                    style = ProtonTheme.typography.body2Regular,
+                    color = ProtonTheme.colors.textWeak,
                     modifier = Modifier
                         .padding(horizontal = horizontalPadding)
                         .fillMaxWidth()
