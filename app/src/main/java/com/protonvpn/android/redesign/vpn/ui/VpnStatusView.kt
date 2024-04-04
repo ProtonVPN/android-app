@@ -372,7 +372,8 @@ private fun VpnWaitingForNetwork() {
 @Composable
 private fun LocationTextAnimated(locationText: LocationText) {
     Surface(
-        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4f),
+        color = ProtonTheme.colors.backgroundSecondary.copy(alpha = 0.86F),
+        border = TranslucentSurfaceBorder,
         shape = ProtonTheme.shapes.medium,
     ) {
         val country = BidiFormatter.getInstance().unicodeWrap(locationText.country)
@@ -397,7 +398,8 @@ private fun VpnDisabledView(state: VpnStatusViewState.Disabled) {
         modifier = Modifier.padding(8.dp)
     )
     Surface(
-        color = ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4F),
+        color = ProtonTheme.colors.backgroundSecondary.copy(alpha = 0.86F),
+        border = TranslucentSurfaceBorder,
         shape = ProtonTheme.shapes.medium,
     ) {
         val (text, highlight) = state.locationText?.let {

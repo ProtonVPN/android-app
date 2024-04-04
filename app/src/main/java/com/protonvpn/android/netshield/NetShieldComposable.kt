@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
+import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.volumeBytesToString
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
@@ -65,14 +66,16 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit) {
     Column(
-        modifier = Modifier.clickable(onClick = onNavigateToSubsetting)
+        modifier = Modifier
+            .clickable(onClick = onNavigateToSubsetting)
+            .padding(8.dp),
     ) {
         Row(
             modifier = Modifier
                 .semantics(mergeDescendants = true) {
                     onClick { onNavigateToSubsetting(); true }
                 }
-                .padding(16.dp),
+                .padding(4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
@@ -80,27 +83,32 @@ fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit)
                 contentDescription = null,
                 modifier = Modifier
                     .padding(end = 4.dp)
+                    .size(20.dp)
             )
             Text(
                 text = stringResource(R.string.netshield_feature_name),
-                style = ProtonTheme.typography.captionNorm,
+                style = ProtonTheme.typography.body2Regular,
                 modifier = Modifier.weight(1f)
-                )
-            Text(
-                text = stringResource(state.titleRes),
-                style = ProtonTheme.typography.captionWeak,
-                modifier = Modifier.padding(horizontal = 8.dp)
             )
 
+            Text(
+                text = stringResource(state.titleRes),
+                style = ProtonTheme.typography.body2Regular,
+                color = ProtonTheme.colors.textWeak,
+                modifier = Modifier.padding(horizontal = 4.dp)
+            )
             Icon(
                 painter = painterResource(id = CoreR.drawable.ic_proton_chevron_right),
                 contentDescription = null,
-                tint = ProtonTheme.colors.iconHint,
-                modifier = Modifier.size(24.dp)
+                tint = ProtonTheme.colors.iconWeak,
+                modifier = Modifier.size(16.dp)
             )
         }
         AnimatedVisibility(state.bandwidthShown) {
-            BandwidthStatsRow(stats = state.netShieldStats)
+            BandwidthStatsRow(
+                stats = state.netShieldStats,
+                modifier = Modifier.padding(top = 8.dp)
+            )
         }
     }
 }
@@ -112,15 +120,14 @@ fun BandwidthStatsRow(
 ) {
     Row(
         modifier = modifier
-            .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
-            .semantics(mergeDescendants = true, properties = {})
+            .semantics(mergeDescendants = true, properties = {}),
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         val adsCount = stats.adsBlocked
         val trackerCount = stats.trackersBlocked
         val dataBytesSaved = stats.savedBytes
         val columnModifier = Modifier
             .weight(1f)
-            .padding(2.dp)
         BandwidthColumn(
             title = pluralStringResource(id = R.plurals.netshield_ads_blocked, count = adsCount.toInt()),
             content = adsCount.toString(),
@@ -154,7 +161,7 @@ private fun BandwidthColumn(
     ) {
         Text(
             text = content,
-            style = ProtonTheme.typography.defaultSmallStrongNorm,
+            style = ProtonTheme.typography.body1Medium,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .semantics {
@@ -164,7 +171,7 @@ private fun BandwidthColumn(
         )
         Text(
             text = title,
-            style = ProtonTheme.typography.overlineWeak,
+            style = ProtonTheme.typography.captionWeak,
             textAlign = TextAlign.Center,
         )
     }
@@ -290,8 +297,9 @@ private fun NetShieldBottomSheetPreview() {
 @Preview
 @Composable
 private fun NetShieldOnPreview() {
-    NetShieldView(
-        state =
+    LightAndDarkPreview {
+        NetShieldView(
+            state =
             NetShieldViewState(
                 protocol = NetShieldProtocol.ENABLED_EXTENDED,
                 netShieldStats = NetShieldStats(
@@ -300,22 +308,24 @@ private fun NetShieldOnPreview() {
                     savedBytes = 2000
                 )
             ),
-        onNavigateToSubsetting = {}
-    )
+            onNavigateToSubsetting = {}
+        )
+    }
 }
 
 @Preview
 @Composable
 private fun NetShieldOffPreview() {
-    NetShieldView(
-        state =
-            NetShieldViewState(
+    LightAndDarkPreview {
+        NetShieldView(
+            state = NetShieldViewState(
                 protocol = NetShieldProtocol.DISABLED,
                 netShieldStats = NetShieldStats(
                     adsBlocked = 3,
                     trackersBlocked = 5,
                 )
             ),
-        onNavigateToSubsetting = {}
-    )
+            onNavigateToSubsetting = {}
+        )
+    }
 }
