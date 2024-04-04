@@ -773,6 +773,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">洋蔥路由器</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最快的國家</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1053,6 +1055,10 @@
     <string name="country_filter_tor_list_header">Tor國家 (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor伺服器 (%1$d)</string>
     <string name="country_filter_info_label">資訊</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing '%' sign needs to be doubled
+         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1135,7 +1141,7 @@
     <string name="info_secure_core_standard_header">標準VPN 連線</string>
     <string name="info_secure_core_secure_header">Secure CoreVPN 連線</string>
     <string name="info_dialog_tor_description">Connect to a Tor server to access hidden services and onion sites using any browser.</string>
-    <string name="info_dialog_button_learn_more_tor">How to access the Tor network</string>
+    <string name="info_dialog_button_learn_more_tor">如何使用 Tor 網路</string>
     <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts

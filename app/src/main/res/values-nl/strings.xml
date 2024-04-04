@@ -791,6 +791,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Snelste land</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1072,6 +1074,10 @@
     <string name="country_filter_tor_list_header">Tor-landen (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
     <string name="country_filter_info_label">Info</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing '%' sign needs to be doubled
+         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1267,7 +1273,7 @@
     <string name="info_p2p_why_title">Waarom een P2P-server gebruiken bij het torrenten?</string>
     <string name="info_p2p_why_description_speed">Verhoogde upload- en download snelheden</string>
     <string name="info_p2p_why_description_logs">Geen activiteitenlogs</string>
-    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
+    <string name="info_p2p_why_description_hide">Verberg uw IP-adres van uw internet provider en andere gebruikers.</string>
     <string name="info_dialog_smart_routing_description">Smart Routing gebruikt virtuele servers om VPN-dekking te bieden in moeilijk te bereiken landen.\n\nWanneer u verbinding maakt met een slimme routeringsserver, dan lijkt u te bladeren in het land van bestemming Hoewel de fysieke server zich ergens anders bevindt.  \n\nSmart Routing wordt meestal gebruikt om anti-privacywetten en andere vormen van censuur te omzeilen.</string>
     <string name="countries_upsell_banner_description">Krijg wereldwijde dekking met VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Voeg een extra laag encryptie toe aan uw VPN-verbinding</string>

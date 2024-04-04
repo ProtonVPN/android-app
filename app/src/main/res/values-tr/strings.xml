@@ -791,6 +791,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">En hızlı ülke</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1072,6 +1074,10 @@
     <string name="country_filter_tor_list_header">Tor ülkeleri (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor sunucuları (%1$d)</string>
     <string name="country_filter_info_label">Bilgiler</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing '%' sign needs to be doubled
+         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1180,36 +1186,36 @@
         <item quantity="other">Saniyede %1$s Kilobyte</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s Megabyte per second</item>
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="one">Saniyede %1$s Megabyte</item>
+        <item quantity="other">Saniyede %1$s Megabyte</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s Gigabyte per second</item>
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="one">Saniyede %1$s Gigabyte</item>
+        <item quantity="other">Saniyede %1$s Gigabyte</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s Terabyte per second</item>
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="one">Saniyede %1$s Terabyte</item>
+        <item quantity="other">Saniyede %1$s Terabyte</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
         <item quantity="one">%1$s Byte</item>
-        <item quantity="other">%1$s Bytes</item>
+        <item quantity="other">%1$s Byte</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
         <item quantity="one">%1$s Kilobyte</item>
-        <item quantity="other">%1$s Kilobytes</item>
+        <item quantity="other">%1$s Kilobyte</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
         <item quantity="one">%1$s Megabyte</item>
-        <item quantity="other">%1$s Megabytes</item>
+        <item quantity="other">%1$s Megabyte</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
         <item quantity="one">%1$s Gigabyte</item>
-        <item quantity="other">%1$s Gigabytes</item>
+        <item quantity="other">%1$s Gigabyte</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
         <item quantity="one">%1$s Terabyte</item>
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="other">%1$s Terabyte</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>

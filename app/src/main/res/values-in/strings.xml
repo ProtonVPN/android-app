@@ -133,8 +133,8 @@
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Lampiran</string>
     <string name="report_message">Laporkan pesan</string>
-    <string name="report_bug_email_label">Surel Anda</string>
-    <string name="report_bug_email_hint">Masukkan alamat surel Anda</string>
+    <string name="report_bug_email_label">Email Anda</string>
+    <string name="report_bug_email_hint">Masukkan alamat email Anda</string>
     <string name="report_bug_message_label">Pesan</string>
     <string name="report_bug_message_hint">Mohon deskripsikan bug dan bagaimana Anda menemukannya</string>
     <string name="send_report">Kirim laporan</string>
@@ -174,7 +174,7 @@
     <string name="error_server_not_set">Server tidak lagi tersedia</string>
     <string name="bugReportThankYouToast">Terima kasih atas laporan Anda</string>
     <string name="bugReportErrorEmptyEmail">Alamat email tidak boleh kosong</string>
-    <string name="bugReportErrorInvalidEmail">Alamat surel tidak valid</string>
+    <string name="bugReportErrorInvalidEmail">Alamat email tidak valid</string>
     <string name="bugReportErrorEmptyDescription">Mohon tulis ke kami mengenai apa yang sedang terjadi</string>
     <string name="bugReportLabelVpnLogsTitle">Sertakan log error</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Tindakan ini akan mengirimkan log error lokal (tanpa catatan rekam jejak aktivitas) untuk membantu kami dalam menangani masalah Anda</string>
@@ -250,7 +250,7 @@
     <string name="settingsSendCrashReportsTitle">Bagikan laporan crash anonim</string>
     <string name="settingsSendCrashReportsDescription">Laporan crash membantu kami dalam memperbaiki bug, mendeteksi firewall, dan menangkal pemblokiran VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistik pemakaian</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga manapun. <a href="%1$s">Pelajari lebih lanjute</a>]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga mana pun. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. Apabila situs web yang ingin Anda kunjungi tidak termuat, cobalah untuk menonaktifkan NetShield. %1$s</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
     <string name="netshield_state_on" comment="Describes state, not action">Aktif</string>
@@ -451,7 +451,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server yang terletak di %2$s</string>
+    <string name="upsell_card_countries_description">Dengan %1$d+ server yang terletak di %2$s</string>
     <string name="upsell_card_customization_title">Dan masih banyak lagi…</string>
     <string name="upsell_card_customization_description">Akses lebih banyak fitur performa dan privasi</string>
     <plurals name="upsell_card_devices_title">
@@ -773,6 +773,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Negara tercepat</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1053,6 +1055,10 @@
     <string name="country_filter_tor_list_header">Negara Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Server Tor (%1$d)</string>
     <string name="country_filter_info_label">Info</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing '%' sign needs to be doubled
+         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Muatan: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
