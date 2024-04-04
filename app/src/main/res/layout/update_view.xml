@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/textView4"
-            style="@style/Proton.Text.Caption"
+            style="@style/Proton.Text.DefaultSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/update_screen_title"
@@ -53,7 +53,7 @@
 
         <TextView
             android:id="@+id/textView5"
-            style="@style/Proton.Text.Caption.Weak"
+            style="@style/Proton.Text.DefaultSmall.Weak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/update_screen_description"

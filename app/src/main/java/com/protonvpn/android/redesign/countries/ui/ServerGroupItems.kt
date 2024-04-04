@@ -319,7 +319,7 @@ private fun LoadPercentText(loadPercent: Int, alpha: Float, modifier: Modifier =
             .alpha(alpha)
             .padding(start = 8.dp),
         text = stringResource(id = R.string.serverLoad, loadPercent),
-        style = ProtonTheme.typography.captionNorm,
+        style = ProtonTheme.typography.body2Regular,
     )
 }
 

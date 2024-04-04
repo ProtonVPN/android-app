@@ -204,13 +204,16 @@ fun NetShieldBottomComposable(
             ProtonSwitch(checked = switchEnabled, onCheckedChange = null)
         }
         AnnotatedClickableText(
-            fullText = stringResource(id = R.string.netshield_settings_description_not_html, stringResource(
-                id = R.string.learn_more
-            )),
+            fullText = stringResource(
+                id = R.string.netshield_settings_description_not_html,
+                stringResource(id = R.string.learn_more)
+            ),
             annotatedPart = stringResource(id = R.string.learn_more),
             onAnnotatedClick = onNetShieldLearnMore,
             onAnnotatedOutsideClick = null,
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 8.dp),
+            style = ProtonTheme.typography.body2Regular,
+            color = ProtonTheme.colors.textWeak,
         )
 
         Surface(
@@ -228,7 +231,7 @@ fun NetShieldBottomComposable(
             ) {
                 androidx.compose.material.Text(
                     text = stringResource(id = R.string.netshield_what_data_means),
-                    style = ProtonTheme.typography.defaultNorm,
+                    style = ProtonTheme.typography.body1Regular,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
                 StatsDescriptionRows(modifier = Modifier.fillMaxWidth())
@@ -264,12 +267,13 @@ private fun StatsDescriptionRow(titleId: Int, detailsId: Int) {
         Box(modifier = Modifier.weight(0.7f, fill = true)) {
             androidx.compose.material.Text(
                 text = stringResource(id = titleId),
-                style = ProtonTheme.typography.captionStrongNorm
+                style = ProtonTheme.typography.body2Medium,
             )
         }
         androidx.compose.material.Text(
             text = stringResource(id = detailsId),
-            style = ProtonTheme.typography.captionWeak,
+            style = ProtonTheme.typography.body2Regular,
+            color = ProtonTheme.colors.textWeak,
             modifier = Modifier.weight(2f)
         )
     }

@@ -80,12 +80,15 @@ fun BaseSettingsItem(
                 annotatedPart = descriptionAnnotation.annotatedPart,
                 onAnnotatedClick = descriptionAnnotation.onAnnotatedClick,
                 onAnnotatedOutsideClick = descriptionAnnotation.onAnnotatedOutsideClick,
-                modifier = paddingModifier
+                style = ProtonTheme.typography.body2Regular,
+                color = ProtonTheme.colors.textWeak,
+                modifier = paddingModifier,
             )
         } else {
             Text(
                 text = description,
-                style = ProtonTheme.typography.captionWeak,
+                style = ProtonTheme.typography.body2Regular,
+                color = ProtonTheme.colors.textWeak,
                 modifier = paddingModifier
             )
         }
@@ -144,7 +147,8 @@ fun <T> SettingsRadioItem(
             )
             Text(
                 text = description,
-                style = ProtonTheme.typography.captionWeak,
+                style = ProtonTheme.typography.body2Regular,
+                color = ProtonTheme.colors.textWeak,
             )
         }
         RadioButton(selected = itemValue == selectedValue, onClick = null)

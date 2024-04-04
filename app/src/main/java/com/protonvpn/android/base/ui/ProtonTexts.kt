@@ -19,21 +19,26 @@
 package com.protonvpn.android.base.ui
 
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionWeak
 
 @Composable
 fun AnnotatedClickableText(
-    modifier: Modifier = Modifier,
     fullText: String,
     annotatedPart: String,
     onAnnotatedClick: () -> Unit,
-    onAnnotatedOutsideClick: (() -> Unit)?
+    onAnnotatedOutsideClick: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    style: TextStyle = ProtonTheme.typography.body1Regular,
+    color: Color = Color.Unspecified,
 ) {
     val annotatedString = buildAnnotatedString {
         val startIndex = fullText.indexOf(annotatedPart)
@@ -59,9 +64,15 @@ fun AnnotatedClickableText(
         }
     }
 
+    val textColor = color.takeOrElse {
+        style.color.takeOrElse {
+            LocalContentColor.current
+        }
+    }
+    val textStyle = style.merge(color = textColor)
     ClickableText(
         text = annotatedString,
-        style = ProtonTheme.typography.captionWeak,
+        style = textStyle,
         modifier = modifier,
         onClick = { offset ->
             annotatedString.getStringAnnotations("URL", offset, offset).firstOrNull()?.let {
