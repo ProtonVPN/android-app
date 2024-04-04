@@ -53,6 +53,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -77,6 +78,7 @@ import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ServerLoadBar
 import com.protonvpn.android.redesign.base.ui.VpnDivider
+import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
@@ -84,8 +86,6 @@ import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
-import me.proton.core.compose.theme.defaultSmallNorm
-import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.headlineNorm
 import kotlin.math.roundToInt
 import kotlin.time.Duration
@@ -157,6 +157,7 @@ private fun ConnectionDetailsConnected(
             .fillMaxSize()
             .verticalScroll(scrollState)
             .padding(16.dp)
+            .largeScreenContentPadding()
     ) {
         Row(
             modifier = Modifier
@@ -174,7 +175,6 @@ private fun ConnectionDetailsConnected(
                 secondaryLabel = connectIntent.secondaryLabel,
                 serverFeatures = connectIntent.serverFeatures,
                 primaryLabelStyle = ProtonTheme.typography.headlineNorm,
-                detailsStyle = ProtonTheme.typography.defaultSmallWeak,
                 secondaryLabelVerticalPadding = 4.dp,
                 isConnected = false,
                 modifier = Modifier
@@ -192,7 +192,7 @@ private fun ConnectionDetailsConnected(
             ConnectionSpeedRows(
                 trafficUpdate.downloadSpeed,
                 trafficUpdate.uploadSpeed,
-                onOpenUrl = onOpenUrl
+                onOpenUrl = onOpenUrl,
             )
         }
 
@@ -269,6 +269,7 @@ private fun ColumnScope.ConnectionSpeedRows(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .padding(bottom = 8.dp)
             .clip(RoundedCornerShape(8.dp))
             .clickable(
                 onClick = {
@@ -295,66 +296,65 @@ private fun ColumnScope.ConnectionSpeedRows(
     }
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp, bottom = 4.dp)
     ) {
-        SpeedInfoColumn(
+        SpeedInfo(
             title = stringResource(id = R.string.connection_details_download),
             speedValue = downloadSpeed,
             icon = painterResource(id = CoreR.drawable.ic_proton_arrow_down_line),
-            tint = ProtonTheme.colors.notificationSuccess,
-            modifier = Modifier.weight(1f)
+            color = ProtonTheme.colors.notificationSuccess,
+            modifier = Modifier.weight(1f),
         )
-        SpeedInfoColumn(
+        SpeedInfo(
             title = stringResource(id = R.string.connection_details_upload),
             speedValue = uploadSpeed,
             icon = painterResource(id = CoreR.drawable.ic_proton_arrow_up_line),
-            tint = ProtonTheme.colors.notificationError,
-            modifier = Modifier.weight(1f)
+            color = ProtonTheme.colors.notificationError,
+            modifier = Modifier.weight(1f),
         )
     }
     InfoSheet(info, onOpenUrl, dismissInfo = { info = null })
 }
 
 @Composable
-private fun SpeedInfoColumn(
+private fun SpeedInfo(
     title: String,
     speedValue: Long,
     icon: Painter,
-    tint: Color,
+    color: Color,
     modifier: Modifier = Modifier
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .padding(horizontal = 8.dp)
-            .semantics(mergeDescendants = true, properties = {})
-            .fillMaxWidth()
+            .semantics(mergeDescendants = true, properties = {}),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Text(
-                text = title,
-                style = ProtonTheme.typography.captionWeak,
-            )
             Icon(
                 painter = icon,
-                tint = tint,
+                tint = color,
                 contentDescription = null,
-                modifier = Modifier
-                    .size(20.dp)
-                    .padding(start = 4.dp)
+            )
+            Text(
+                text = title,
+                style = ProtonTheme.typography.body2Regular,
+                color = color,
             )
         }
         val accessibilityValue = speedValue.speedBytesToString(useAbbreviations = false)
         Text(
             text = speedValue.speedBytesToString(),
-            style = ProtonTheme.typography.defaultNorm,
-            modifier = Modifier.semantics {
-                contentDescription = accessibilityValue
-            }
+            style = ProtonTheme.typography.headline,
+            modifier = Modifier
+                .semantics { contentDescription = accessibilityValue }
+                .padding(bottom = 4.dp)
         )
     }
 }
@@ -395,13 +395,14 @@ private fun ConnectionStats(
                     Column {
                         Text(
                             text = exitCountry.label(),
-                            style = ProtonTheme.typography.defaultSmallNorm,
+                            style = ProtonTheme.typography.body1Medium,
                             modifier = Modifier.align(Alignment.End)
                         )
                         entryCountry?.let {
                             Text(
                                 text = viaCountry(entryCountry = it),
-                                style = ProtonTheme.typography.captionWeak,
+                                style = ProtonTheme.typography.body2Regular,
+                                color = ProtonTheme.colors.textWeak,
                                 modifier = Modifier.align(Alignment.End)
                             )
                         }
@@ -430,9 +431,9 @@ private fun ConnectionStats(
                     ServerLoadBar(progress = serverLoad / 100)
                     Text(
                         text = stringResource(id = R.string.serverLoad, serverLoad.roundToInt()),
-                        style = ProtonTheme.typography.defaultSmallNorm,
+                        style = ProtonTheme.typography.body1Medium,
                         textAlign = TextAlign.End,
-                        modifier = Modifier.padding(horizontal = 4.dp)
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                 })
             VpnDivider()
@@ -469,7 +470,8 @@ fun ConnectionDetailRowWithComposable(
             horizontalArrangement = Arrangement.Start) {
             Text(
                 text = labelTitle,
-                style = ProtonTheme.typography.defaultSmallWeak,
+                style = ProtonTheme.typography.body1Regular,
+                color = ProtonTheme.colors.textWeak,
                 textAlign = TextAlign.Start
             )
             if (infoType != null) {
@@ -507,7 +509,7 @@ fun ConnectionDetailRowWithTextAndInfo(
     ConnectionDetailRowWithComposable(labelTitle, infoType = infoType, onOpenUrl = onOpenUrl) {
         Text(
             text = contentValue ?: "",
-            style = ProtonTheme.typography.defaultSmallNorm,
+            style = ProtonTheme.typography.body1Medium,
             textAlign = TextAlign.End
         )
     }

@@ -58,6 +58,7 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
@@ -141,6 +142,7 @@ fun VpnConnectionCard(
                                 secondaryLabel,
                                 serverFeatures,
                                 isConnected = false,
+                                primaryLabelStyle = ProtonTheme.typography.body1Medium.copy(fontSize = 18.sp),
                                 secondaryLabelVerticalPadding = 2.dp,
                                 modifier = Modifier
                                     .weight(1f)
