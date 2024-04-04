@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -52,7 +51,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.VpnOutlinedButton
+import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.utils.Constants
 import me.proton.core.compose.theme.ProtonTheme
@@ -422,7 +421,7 @@ private fun GenericLearnMore(
             )
         }
         subDetailsComposable?.invoke()
-        VpnOutlinedButton(
+        VpnWeakSolidButton(
             stringResource(id = learnMoreLabelRes),
             onClick = onLearnMoreClick,
             isExternalLink = true,
