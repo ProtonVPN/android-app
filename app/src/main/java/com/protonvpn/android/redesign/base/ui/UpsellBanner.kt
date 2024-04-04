@@ -79,7 +79,7 @@ fun UpsellBannerContent(
             }
             Text(
                 text = stringResource(descriptionRes),
-                style = ProtonTheme.typography.captionRegular,
+                style = ProtonTheme.typography.body2Regular,
             )
         }
 
