@@ -441,8 +441,6 @@ private fun Previews(
     @PreviewParameter(InfoTypePreviewProvider::class) info: InfoType
 ) {
     LightAndDarkPreview {
-        Surface {
-            InfoSheetContent(info = info, onOpenUrl = {})
-        }
+        InfoSheetContent(info = info, onOpenUrl = {})
     }
 }

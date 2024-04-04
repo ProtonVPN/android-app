@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
@@ -67,10 +68,21 @@ fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
 }
 
 @Composable
-fun LightAndDarkPreview(content: @Composable (isDark: Boolean) -> Unit) {
+fun LightAndDarkPreview(addSurface: Boolean = true, content: @Composable () -> Unit) {
+    @Composable
+    fun OptionalSurface(surface: Boolean, content: @Composable () -> Unit) {
+        if (surface) {
+            Surface(
+                color = ProtonTheme.colors.backgroundNorm
+            ) {
+                content()
+            }
+        }
+    }
+
     Column {
-        VpnTheme(isDark = false) { content(false) }
+        VpnTheme(isDark = false) { OptionalSurface(addSurface, content) }
         Spacer(modifier = Modifier.height(10.dp))
-        VpnTheme(isDark = true) { content(true) }
+        VpnTheme(isDark = true) { OptionalSurface(addSurface, content) }
     }
 }

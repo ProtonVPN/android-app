@@ -111,7 +111,7 @@ private fun MainTarget.getIcon(selected: Boolean): Int = when (this) {
 @Preview()
 @Composable
 fun BottomBarPreviewDark() {
-    LightAndDarkPreview { darkMode ->
+    LightAndDarkPreview {
         BottomBarView(selectedTarget = MainTarget.Home, showGateways = true) {}
     }
 }
