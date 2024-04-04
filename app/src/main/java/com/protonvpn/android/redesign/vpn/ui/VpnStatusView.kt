@@ -83,6 +83,7 @@ import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import kotlinx.coroutines.delay
+import me.proton.core.compose.theme.ProtonColors
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
@@ -129,25 +130,21 @@ private val STATUS_ICON_SIZE = 32.dp
 fun Modifier.vpnStatusOverlayBackground(
     state: VpnStatusViewState,
 ): Modifier = composed {
-    val targetColor = when (state) {
-        is VpnStatusViewState.Connected -> ProtonTheme.colors.vpnGreen
-        is VpnStatusViewState.Connecting, is VpnStatusViewState.WaitingForNetwork -> ProtonTheme.colors.shade100
-        is VpnStatusViewState.Disabled -> ProtonTheme.colors.notificationError
-        is VpnStatusViewState.Loading -> Color.Transparent
-    }
-    val gradientColor = animateColorAsState(
+    val targetColor = ProtonTheme.colors.getOverlayGradientTop(state)
+    val gradientColor by animateColorAsState(
         targetValue = targetColor,
         animationSpec = tween(durationMillis = 500), label = "Gradient Animation"
     )
 
-    background(
-        Brush.verticalGradient(
-            colors = listOf(
-                gradientColor.value.copy(alpha = 0.5F),
-                gradientColor.value.copy(alpha = 0.0F)
-            )
-        )
-    )
+    background(Brush.verticalGradient(colors = listOf(gradientColor, gradientColor.copy(alpha = 0.0F))))
+}
+
+private fun ProtonColors.getOverlayGradientTop(state: VpnStatusViewState): Color = when(state) {
+    is VpnStatusViewState.Connected -> if (isDark) vpnGreen.copy(alpha = 0.5f) else vpnGreen.copy(alpha = 0.2f)
+    is VpnStatusViewState.Connecting, is VpnStatusViewState.WaitingForNetwork -> Color.White.copy(alpha = 0.5f)
+    is VpnStatusViewState.Disabled ->
+        if (isDark) notificationError.copy(alpha = 0.5f) else notificationError.copy(alpha = 0.12f)
+    is VpnStatusViewState.Loading -> Color.Transparent
 }
 
 @Composable
