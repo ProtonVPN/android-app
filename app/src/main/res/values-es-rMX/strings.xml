@@ -791,6 +791,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">País más rápido</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1072,6 +1074,10 @@
     <string name="country_filter_tor_list_header">Países Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Servidores Tor (%1$d)</string>
     <string name="country_filter_info_label">Información</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing '%' sign needs to be doubled
+         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Carga: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1253,7 +1259,7 @@
     <string name="settings_protocol_description">Un protocolo VPN determina cómo se mueven los datos entre un servidor VPN y su dispositivo. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Apps excluidas</string>
     <string name="settings_split_tunneling_excluded_ips">Direcciones IP excluidas</string>
-    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ninguno</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ninguna</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s y %3$d más</string>
     <string name="settings_dialog_reconnect">Los ajustes nuevos se aplicarán la próxima vez que se conecte.</string>
     <string name="info_secure_core_standard_high_privacy">Gran privacidad</string>

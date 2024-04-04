@@ -751,7 +751,7 @@
     <string name="no_logs_banner_description">Vaša aktivita v sieti VPN je chránené švajčiarskymi zákonmi o ochrane osobných údajov. Nikdy vás nebudeme sledovať online ani zdieľať vaše informácie s tretími stranami.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Domov</string>
-    <string name="bottom_nav_gateways">Gateways</string>
+    <string name="bottom_nav_gateways">Brány</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Krajiny</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -786,7 +786,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">hľadať</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -794,7 +794,7 @@
          - item in a list of countries has a custom action to open list of cities in the country
          - item in a list of cities has a custom action to open list of servers in the city
          -->
-    <string name="accessibility_menu_action_open">Open</string>
+    <string name="accessibility_menu_action_open">Otvoriť</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -827,6 +827,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Najrýchlejšia krajina</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1026,8 +1028,8 @@
     <string name="settings_sign_out">Odhlásiť sa</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Nastavenia</string>
-    <string name="gateways_title">Gateways</string>
-    <string name="countries_title">Countries</string>
+    <string name="gateways_title">Brány</string>
+    <string name="countries_title">Krajiny</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funkcie</string>
     <!-- tag(Redesign_2023) -->
@@ -1089,27 +1091,31 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Zrušiť</string>
     <!-- tag(Redesign_2023) -->
-    <string name="country_filter_all">All</string>
-    <string name="country_filter_cities">Cities</string>
-    <string name="country_filter_states">States</string>
+    <string name="country_filter_all">Všetko</string>
+    <string name="country_filter_cities">Mestá</string>
+    <string name="country_filter_states">Štáty</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-    <string name="country_filter_all_list_header">All countries (%1$d)</string>
-    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
-    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
-    <string name="country_filter_states_list_header">States (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers (%1$d)</string>
+    <string name="country_filter_all_list_header">Všetky krajiny (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Plus krajiny (%1$d)</string>
+    <string name="country_filter_cities_list_header">Mestá (%1$d)</string>
+    <string name="country_filter_states_list_header">Štáty (%1$d)</string>
+    <string name="country_filter_servers_list_header">Servery (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Krajiny so Secure Core (%1$d)</string>
-    <string name="country_filter_p2p_list_header">P2P countries (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">P2P cities (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
-    <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
-    <string name="country_filter_info_label">Info</string>
+    <string name="country_filter_p2p_list_header">P2P krajiny (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P mestá (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P štáty (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor krajiny (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Tor servery (%1$d)</string>
+    <string name="country_filter_info_label">Informácie</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing '%' sign needs to be doubled
+         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1188,12 +1194,12 @@
     <string name="connection_details_vpn_speed_question">Čo je rýchlosť VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
-    <string name="info_secure_core_standard_header">Standard VPN connection</string>
-    <string name="info_secure_core_secure_header">Secure Core VPN connection</string>
-    <string name="info_dialog_tor_description">Connect to a Tor server to access hidden services and onion sites using any browser.</string>
-    <string name="info_dialog_button_learn_more_tor">How to access the Tor network</string>
-    <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
+    <string name="info_dialog_secure_core_description">Secure Core vás pripojí k cieľovému serveru prostredníctvom ďalšieho servera VPN s maximálnym zabezpečením.\n\nTáto vyššia úroveň ochrany môže spôsobiť vyššiu latenciu a nižšiu rýchlosť.</string>
+    <string name="info_secure_core_standard_header">Bežné VPN pripojenie</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN pripojenie</string>
+    <string name="info_dialog_tor_description">Pripojte sa k serveru Tor a získajte prístup k skrytým službám a lokalitám typu onion pomocou ľubovoľného prehliadača.</string>
+    <string name="info_dialog_button_learn_more_tor">Ako pristupovať k Tor sieti</string>
+    <string name="info_dialog_button_learn_more_p2p">Ako torrentovať s P2P</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1316,21 +1322,21 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Žiadne</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s a %3$d ďalšie</string>
     <string name="settings_dialog_reconnect">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
-    <string name="info_secure_core_standard_high_privacy">High privacy</string>
-    <string name="info_secure_core_standard_lower_latency">Lower latency</string>
-    <string name="info_secure_core_advanced_privacy">Advanced privacy</string>
-    <string name="info_secure_core_higher_latency">Higher latency</string>
-    <string name="info_p2p_what_title">What is P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
-    <string name="info_p2p_torrenting_title">What is torrenting?</string>
-    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
-    <string name="info_p2p_why_title">Why use a P2P server when torrenting?</string>
-    <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
-    <string name="info_p2p_why_description_logs">No activity logs</string>
-    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="info_secure_core_standard_high_privacy">Väčšie súkromie</string>
+    <string name="info_secure_core_standard_lower_latency">Nižšia latencia</string>
+    <string name="info_secure_core_advanced_privacy">Pokročilé súkromie</string>
+    <string name="info_secure_core_higher_latency">Vyššia latencia</string>
+    <string name="info_p2p_what_title">Čo to je P2P?</string>
+    <string name="info_p2p_what_description">Technológia P2P (Peer-to-peer) vám umožňuje pripojiť sa a zdieľať súbory priamo s inými zariadeniami.\n\nNaše servery P2P sú špeciálne navrhnuté na podporu tohto typu zdieľania súborov.</string>
+    <string name="info_p2p_torrenting_title">Čo to sú torrenty?</string>
+    <string name="info_p2p_torrenting_description">Rýchle zdieľanie a sťahovanie veľkých súborov prostredníctvom siete P2P.</string>
+    <string name="info_p2p_why_title">Prečo pri torrentovaní používať server P2P?</string>
+    <string name="info_p2p_why_description_speed">Zvýšená rýchlosť odosielania a sťahovania</string>
+    <string name="info_p2p_why_description_logs">Žiadne protokoly aktivít</string>
+    <string name="info_p2p_why_description_hide">Skryte svoju IP adresu pred poskytovateľom služieb a partnermi</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing používa virtuálne servery na zabezpečenie pokrytia VPN v ťažko dostupných krajinách.\n\nPri pripojení k serveru Smart Routing sa bude zdať, že surfujete v cieľovej krajine, hoci fyzický server sa nachádza inde.  \n\nSmart Routing sa zvyčajne používa na obchádzanie zákonov proti ochrane súkromia a iných foriem cenzúry.</string>
     <string name="countries_upsell_banner_description">Získajte celosvetové pokrytie s VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Pridajte ďalšiu úroveň šifrovania k vášmu VPN pripojeniu</string>
     <string name="p2p_upsell_banner_description">Sťahujte súbory cez BitTorrent a iné protokoly na zdieľanie súborov</string>
-    <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="tor_upsell_banner_description">Použite sieť Tor nad vaším VPN pripojením pre väčšie súkromie</string>
 </resources>

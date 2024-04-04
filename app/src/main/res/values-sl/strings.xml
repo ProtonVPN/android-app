@@ -796,7 +796,7 @@
          - item in a list of countries has a custom action to open list of cities in the country
          - item in a list of cities has a custom action to open list of servers in the city
          -->
-    <string name="accessibility_menu_action_open">Open</string>
+    <string name="accessibility_menu_action_open">Odpri</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -829,6 +829,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
+    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Najhitrejša država</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1112,6 +1114,10 @@
     <string name="country_filter_tor_list_header">Države Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor strežniki (%1$d)</string>
     <string name="country_filter_info_label">Info</string>
+    <!-- Content description for server load indicator. Used by accessibility services only.
+         Note: the trailing '%' sign needs to be doubled
+         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1212,64 +1218,64 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s Byte per second</item>
-        <item quantity="two">%1$s Bytes per second</item>
-        <item quantity="few">%1$s Bytes per second</item>
-        <item quantity="other">%1$s Bytes per second</item>
+        <item quantity="one">%1$s bajt na sekundo</item>
+        <item quantity="two">%1$s bajta na sekundo</item>
+        <item quantity="few">%1$s bajte na sekundo</item>
+        <item quantity="other">%1$s bajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">%1$s Kilobyte per second</item>
-        <item quantity="two">%1$s Kilobytes per second</item>
-        <item quantity="few">%1$s Kilobytes per second</item>
-        <item quantity="other">%1$s Kilobytes per second</item>
+        <item quantity="one">%1$s kilobajt na sekundo</item>
+        <item quantity="two">%1$s kilobajta na sekundo</item>
+        <item quantity="few">%1$s kilobajte na sekundo</item>
+        <item quantity="other">%1$s kilobajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s Megabyte per second</item>
-        <item quantity="two">%1$s Megabytes per second</item>
-        <item quantity="few">%1$s Megabytes per second</item>
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="one">%1$s megabajt na sekundo</item>
+        <item quantity="two">%1$s megabajta na sekundo</item>
+        <item quantity="few">%1$s megabajte na sekundo</item>
+        <item quantity="other">%1$s megabajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s Gigabyte per second</item>
-        <item quantity="two">%1$s Gigabytes per second</item>
-        <item quantity="few">%1$s Gigabytes per second</item>
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="one">%1$s gigabajt na sekundo</item>
+        <item quantity="two">%1$s gigabajta na sekundo</item>
+        <item quantity="few">%1$s gigabajte na sekundo</item>
+        <item quantity="other">%1$s gigabajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s Terabyte per second</item>
-        <item quantity="two">%1$s Terabytes per second</item>
-        <item quantity="few">%1$s Terabytes per second</item>
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="one">%1$s terabajt na sekundo</item>
+        <item quantity="two">%1$s terabajta na sekundo</item>
+        <item quantity="few">%1$s terabajte na sekundo</item>
+        <item quantity="other">%1$s terabajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="one">%1$s Byte</item>
-        <item quantity="two">%1$s Bytes</item>
-        <item quantity="few">%1$s Bytes</item>
-        <item quantity="other">%1$s Bytes</item>
+        <item quantity="one">%1$s bajt</item>
+        <item quantity="two">%1$s bajta</item>
+        <item quantity="few">%1$s bajte</item>
+        <item quantity="other">%1$s bajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="one">%1$s Kilobyte</item>
-        <item quantity="two">%1$s Kilobytes</item>
-        <item quantity="few">%1$s Kilobytes</item>
-        <item quantity="other">%1$s Kilobytes</item>
+        <item quantity="one">%1$s kilobajt</item>
+        <item quantity="two">%1$s kilobajta</item>
+        <item quantity="few">%1$s kilobajti</item>
+        <item quantity="other">%1$s kilobajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s Megabyte</item>
-        <item quantity="two">%1$s Megabytes</item>
-        <item quantity="few">%1$s Megabytes</item>
-        <item quantity="other">%1$s Megabytes</item>
+        <item quantity="one">%1$s megabajt</item>
+        <item quantity="two">%1$s megabajta</item>
+        <item quantity="few">%1$s megabajti</item>
+        <item quantity="other">%1$s megabajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s Gigabyte</item>
-        <item quantity="two">%1$s Gigabytes</item>
-        <item quantity="few">%1$s Gigabytes</item>
-        <item quantity="other">%1$s Gigabytes</item>
+        <item quantity="one">%1$s gigabajt</item>
+        <item quantity="two">%1$s gigabajta</item>
+        <item quantity="few">%1$s gigabajti</item>
+        <item quantity="other">%1$s gigabajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s Terabyte</item>
-        <item quantity="two">%1$s Terabytes</item>
-        <item quantity="few">%1$s Terabytes</item>
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="one">%1$s terabajt</item>
+        <item quantity="two">%1$s terabajta</item>
+        <item quantity="few">%1$s terabajti</item>
+        <item quantity="other">%1$s terabajtov</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
