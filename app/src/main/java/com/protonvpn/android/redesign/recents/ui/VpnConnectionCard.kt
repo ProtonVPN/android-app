@@ -232,7 +232,7 @@ private fun ContainerLabelRow(
     ) {
         Text(
             stringResource(labelRes),
-            style = ProtonTheme.typography.captionNorm,
+            style = ProtonTheme.typography.body2Regular,
             modifier = Modifier.weight(1f)
         )
     }

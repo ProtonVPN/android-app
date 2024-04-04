@@ -24,6 +24,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -86,7 +87,6 @@ import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.headlineNorm
-import me.proton.core.compose.theme.overlineWeak
 import kotlin.math.roundToInt
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -189,7 +189,7 @@ private fun ConnectionDetailsConnected(
 
         viewState.trafficUpdate?.let { trafficUpdate ->
             Spacer(Modifier.height(16.dp))
-            ConnectionSpeedRow(
+            ConnectionSpeedRows(
                 trafficUpdate.downloadSpeed,
                 trafficUpdate.uploadSpeed,
                 onOpenUrl = onOpenUrl
@@ -199,7 +199,8 @@ private fun ConnectionDetailsConnected(
         Spacer(Modifier.height(16.dp))
         Text(
             text = stringResource(id = R.string.connection_details_subtitle),
-            style = ProtonTheme.typography.captionWeak,
+            style = ProtonTheme.typography.body2Regular,
+            color = ProtonTheme.colors.textWeak,
             modifier = Modifier.padding(bottom = 8.dp)
         )
         ConnectionStats(
@@ -259,7 +260,7 @@ private fun getSessionTime(sessionTimeInSeconds: Int?): String {
 }
 
 @Composable
-private fun ConnectionSpeedRow(
+private fun ColumnScope.ConnectionSpeedRows(
     downloadSpeed: Long,
     uploadSpeed: Long,
     onOpenUrl: (url: String) -> Unit,
@@ -280,7 +281,8 @@ private fun ConnectionSpeedRow(
     ) {
         Text(
             text = stringResource(id = R.string.connection_details_section_vpn_speed),
-            style = ProtonTheme.typography.captionWeak,
+            style = ProtonTheme.typography.body2Regular,
+            color = ProtonTheme.colors.textWeak
         )
         Icon(
             painter = painterResource(id = CoreR.drawable.ic_info_circle),
@@ -334,7 +336,8 @@ private fun SpeedInfoColumn(
             modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
         ) {
             Text(
-                text = title, style = ProtonTheme.typography.overlineWeak
+                text = title,
+                style = ProtonTheme.typography.captionWeak,
             )
             Icon(
                 painter = icon,
@@ -562,7 +565,7 @@ fun IpView(
                     ) {
                         Text(
                             text = stringResource(id = R.string.connection_details_my_ip),
-                            style = ProtonTheme.typography.overlineWeak,
+                            style = ProtonTheme.typography.captionWeak,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.align(Alignment.CenterVertically)
                         )
@@ -606,7 +609,7 @@ fun IpView(
                 ) {
                     Text(
                         text = stringResource(id = R.string.connection_details_vpn_ip),
-                        style = ProtonTheme.typography.overlineWeak
+                        style = ProtonTheme.typography.captionWeak
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
@@ -645,7 +648,9 @@ fun ConnectionStatsPreview() {
 @Composable
 fun VpnSpeedPreview() {
     VpnTheme {
-        ConnectionSpeedRow(10, 123.1233.toLong(), {})
+        Column {
+            ConnectionSpeedRows(10, 123.1233.toLong(), {})
+        }
     }
 }
 

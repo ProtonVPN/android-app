@@ -558,7 +558,7 @@ private fun ColumnScope.Category(
     Text(
         text = title,
         color = ProtonTheme.colors.textAccent,
-        style = ProtonTheme.typography.defaultSmallStrongUnspecified,
+        style = ProtonTheme.typography.body2Medium,
         modifier = modifier
             .semantics { heading() }
             .padding(bottom = 8.dp, top = 16.dp)
