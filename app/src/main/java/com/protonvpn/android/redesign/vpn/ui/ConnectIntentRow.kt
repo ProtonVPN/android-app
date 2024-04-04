@@ -91,7 +91,6 @@ fun ConnectIntentLabels(
     isConnected: Boolean,
     secondaryLabelVerticalPadding: Dp,
     primaryLabelStyle: TextStyle = ProtonTheme.typography.headlineSmallNorm,
-    detailsStyle: TextStyle = ProtonTheme.typography.captionUnspecified,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -112,7 +111,7 @@ fun ConnectIntentLabels(
                 secondaryLabel?.label(),
                 secondaryLabel?.contentDescription(),
                 serverFeatures,
-                detailsStyle,
+                detailsStyle = ProtonTheme.typography.body2Regular,
                 modifier = Modifier
                     .padding(top = secondaryLabelVerticalPadding)
                     .testTag("secondaryLabel")
