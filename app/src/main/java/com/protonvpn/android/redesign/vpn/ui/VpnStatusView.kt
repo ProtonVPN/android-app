@@ -60,7 +60,10 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
@@ -88,6 +91,7 @@ import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.compose.theme.headlineNorm
+import kotlin.math.roundToInt
 import me.proton.core.presentation.R as CoreR
 
 sealed class VpnStatusViewState {
@@ -263,13 +267,26 @@ private fun VpnConnectedViewTop(
             ),
             tint = ProtonTheme.colors.vpnGreen,
             contentDescription = null,
-            modifier = Modifier.size(STATUS_ICON_SIZE)
+            modifier = Modifier
+                .size(STATUS_ICON_SIZE)
+                .layout { measurable, constraints ->
+                    // The most basic layout just to define base line for the icon.
+                    val iconBaselineRatio = if (isSecureCoreServer) 0.79f else 0.85f
+                    val placeable = measurable.measure(constraints)
+                    val alignmentLines: Map<AlignmentLine, Int> =
+                        mapOf(FirstBaseline to (placeable.height * iconBaselineRatio).roundToInt())
+                    layout(width = placeable.width, height = placeable.height, alignmentLines = alignmentLines) {
+                        placeable.placeRelative(0, 0)
+                    }
+                }
+                .alignBy(FirstBaseline)
         )
         Spacer(Modifier.width(8.dp))
         Text(
             text = stringResource(R.string.vpn_status_connected),
             style = ProtonTheme.typography.headlineNorm,
             color = ProtonTheme.colors.vpnGreen,
+            modifier = Modifier.alignBy(FirstBaseline)
         )
     }
 }
@@ -528,7 +545,7 @@ private fun PreviewVpnDisabledStateWithRTLSymbols() {
 private fun PreviewVpnConnectedState() {
     PreviewHelper(
         state = VpnStatusViewState.Connected(
-            true, banner = StatusBanner.NetShieldBanner(
+            false, banner = StatusBanner.NetShieldBanner(
                 NetShieldViewState(
                     protocol = NetShieldProtocol.ENABLED_EXTENDED,
                     netShieldStats = NetShieldStats(
