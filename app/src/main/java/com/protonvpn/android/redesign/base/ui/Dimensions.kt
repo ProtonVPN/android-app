@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -74,10 +75,13 @@ fun ProtonTheme.extraPaddingForWindowSize(size: DpSize): Dp {
 }
 
 @Composable
-fun largeScreenContentPadding(): Dp {
-    val activity = LocalContext.current as Activity
-    return ProtonTheme.extraPaddingForWindowSize(calculateWindowSize(activity))
-}
+fun largeScreenContentPadding(): Dp =
+    if (LocalInspectionMode.current) {
+        0.dp
+    } else {
+        val activity = LocalContext.current as Activity
+        ProtonTheme.extraPaddingForWindowSize(calculateWindowSize(activity))
+    }
 
 // Set additional padding (beyond the default 16.dp) for the content based on the activity's dimensions.
 fun Modifier.largeScreenContentPadding() = composed {
