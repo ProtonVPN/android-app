@@ -117,6 +117,10 @@ annotation class WallClock
 @InstallIn(SingletonComponent::class)
 object AppModuleProd {
 
+    @Provides
+    @Singleton
+    fun provideMainScope(): CoroutineScope = MainScope()
+
     @Singleton
     @Provides
     @BaseProtonApiUrl
@@ -158,6 +162,18 @@ object AppModuleProd {
             wireguardBackend,
             supportsProtocol
         )
+
+    @Provides
+    @Singleton
+    fun provideServerStore(
+        scope: CoroutineScope,
+        @ApplicationContext context: Context,
+        dispatcherProvider: VpnDispatcherProvider
+    ) = ServersStore.create(
+        scope,
+        dispatcherProvider,
+        File(context.filesDir, ServersStore.STORE_FILENAME)
+    )
 
     @Singleton
     @Provides
@@ -208,8 +224,6 @@ object AppModuleProd {
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private val scope = MainScope()
-
     @Provides
     @Singleton
     fun provideProduct(): Product =
@@ -227,10 +241,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRandom(): Random = Random
-
-    @Provides
-    @Singleton
-    fun provideMainScope(): CoroutineScope = scope
 
     @Provides
     @WallClock
@@ -283,45 +293,11 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideVpnApiClient(dohEnabled: DohEnabled, isTvCheck: IsTvCheck): VpnApiClient =
-        VpnApiClient(scope, dohEnabled, isTvCheck)
-
-    @Singleton
-    @Provides
     fun provideApiClient(vpnApiClient: VpnApiClient): ApiClient = vpnApiClient
-
-    @Singleton
-    @Provides
-    fun provideConnectivityMonitor() = ConnectivityMonitor(scope, ProtonApplication.getAppContext())
-
-    @Singleton
-    @Provides
-    fun provideMaintenanceTracker(
-        appConfig: AppConfig,
-        vpnStateMonitor: VpnStateMonitor,
-        vpnErrorHandler: VpnConnectionErrorHandler
-    ) = MaintenanceTracker(
-        scope,
-        ProtonApplication.getAppContext(),
-        appConfig,
-        vpnStateMonitor,
-        vpnErrorHandler
-    )
 
     @Provides
     @Singleton
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
-
-    @Provides
-    @Singleton
-    fun provideServerStore(
-        @ApplicationContext context: Context,
-        dispatcherProvider: VpnDispatcherProvider
-    ) = ServersStore.create(
-        scope,
-        dispatcherProvider,
-        File(context.filesDir, ServersStore.STORE_FILENAME)
-    )
 
     @Module
     @InstallIn(SingletonComponent::class)

@@ -35,6 +35,7 @@ import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.di.AppDatabaseModule
 import com.protonvpn.android.di.AppModuleProd
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -45,7 +46,6 @@ import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
@@ -65,7 +65,7 @@ import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestUserCountryProvider
-import com.protonvpn.testsHelper.EspressoDispatcherProvider
+import com.protonvpn.test.shared.createInMemoryServersStore
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -115,12 +115,16 @@ import me.proton.core.network.data.di.Constants as CoreConstants
     components = [SingletonComponent::class],
     replaces = [AppModuleProd::class, CoreBaseNetworkModule::class]
 )
-class MockAppModule {
+class SharedTestAppModule {
 
     // https://jira.protontech.ch/browse/CP-4334 - Provide an abstraction over `WorkManager`
     @Provides
     @Singleton
     fun provideWorkManager(): WorkManager = FakeWorkManager()
+
+    @Provides
+    @Singleton
+    fun provideServerStore() : ServersStore = createInMemoryServersStore()
 
     @Singleton
     @Provides
@@ -282,10 +286,6 @@ class MockAppModule {
         @Binds
         @Singleton
         fun provideDispatcherProvider(impl: VpnDispatcherProvider): DispatcherProvider
-
-        @Binds
-        @Singleton
-        fun provideVpnDispatcherProvider(impl: EspressoDispatcherProvider): VpnDispatcherProvider
 
         @Binds
         fun bindTelemetryUploadScheduler(scheduler: NoopTelemetryUploadScheduler): TelemetryUploadScheduler

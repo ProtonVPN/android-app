@@ -93,15 +93,53 @@ android {
 dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    implementation 'androidx.hilt:hilt-work:1.2.0'
     kapt 'androidx.hilt:hilt-compiler:1.1.0'
 
     implementation project(':app')
+    implementation project(path: ':openvpn')
+    implementation "me.proton.core:auth-dagger:$core_version"
+    implementation "me.proton.core:account-data:$core_version"
+    implementation "me.proton.core:account-recovery-dagger:$core_version"
+    implementation("me.proton.core:account-recovery-test:$core_version") {
+        // account-recovery modules are pulling in notification-dagger.
+        exclude group: "me.proton.core", module: "notification"
+        exclude group: "me.proton.core", module: "notification-dagger"
+    }
+    implementation "me.proton.core:configuration-data:$core_version"
+    implementation "me.proton.core:crypto-android:$core_version"
     implementation "me.proton.core:domain:$core_version"
+    implementation "me.proton.core:event-manager-data:$core_version"
+    implementation "me.proton.core:feature-flag-data:$core_version"
+    implementation "me.proton.core:human-verification-data:$core_version"
     implementation "me.proton.core:network:$core_version"
+    implementation "me.proton.core:notification-data:$core_version"
+    implementation "me.proton.core:notification-domain:$core_version"
+    implementation "me.proton.core:notification-test:$core_version"
+    implementation "me.proton.core:observability-data:$core_version"
+    implementation "me.proton.core:payment-data:$core_version"
+    implementation "me.proton.core:presentation:$core_version"
+    implementation "me.proton.core:push-data:$core_version"
+    implementation "me.proton.core:telemetry-data:$core_version"
     implementation "me.proton.core:user-domain:$core_version"
+    implementation "me.proton.core:user-settings-data:$core_version"
+    implementation "me.proton.core:user:$core_version"
+    implementation "me.proton.core:util-android-dagger:$core_version"
+    implementation "me.proton.core:util-android-datetime:$core_version"
     implementation "me.proton.core:util-kotlin:$core_version"
+
     implementation "androidx.datastore:datastore-core:$datastore_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
+    implementation 'androidx.work:work-runtime:2.9.0'
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
+
+    implementation 'com.squareup.okhttp3:okhttp-tls:4.12.0'
+    implementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
+    implementation 'com.google.guava:guava:33.1.0-android'
+
+    implementation "me.proton.test:fusion:0.9.62"
+    implementation 'me.proton.vpn:go-vpn-lib:0.1.39'
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version") {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android

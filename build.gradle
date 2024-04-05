@@ -31,6 +31,7 @@ buildscript {
     ext.kotlinx_coroutines_version = '1.8.0'
     ext.kotlinx_serialization_json_version = '1.6.3'
     ext.mockk_version = '1.13.8'
+    ext.robolectric_version = '4.12.1'
 
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }

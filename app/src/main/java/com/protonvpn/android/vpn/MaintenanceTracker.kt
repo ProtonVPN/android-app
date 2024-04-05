@@ -5,16 +5,17 @@ import android.os.SystemClock
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.utils.ReschedulableTask
 import com.protonvpn.android.utils.jitterMs
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MaintenanceTracker(
+class MaintenanceTracker @Inject constructor(
     val scope: CoroutineScope,
-    val appContext: Context,
+    @ApplicationContext val appContext: Context,
     private val appConfig: AppConfig,
     private val vpnStateMonitor: VpnStateMonitor,
     private val vpnConnectionErrorHandler: VpnConnectionErrorHandler,

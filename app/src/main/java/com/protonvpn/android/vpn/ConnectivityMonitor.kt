@@ -60,20 +60,22 @@ import com.protonvpn.android.logging.NetworkChanged
 import com.protonvpn.android.logging.NetworkUnavailable
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import java.util.EnumSet
+import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val NOT_VPN = "NOT_VPN"
 private const val UNSUPPORTED_TRANSPORT: Int = -1 // The TRANSPORT_* constants are non-negative.
 
 @Singleton
-class ConnectivityMonitor(
+class ConnectivityMonitor @Inject constructor(
     mainScope: CoroutineScope,
-    context: Context
+    @ApplicationContext context: Context
 ) {
     private data class NetworkTransports(
         val network: Network,
