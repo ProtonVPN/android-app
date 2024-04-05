@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.redesign.home_screen.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,7 +54,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -71,7 +71,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.speedBytesToString
+import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.InfoSheet
@@ -80,9 +83,13 @@ import com.protonvpn.android.redesign.base.ui.ServerLoadBar
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
 import com.protonvpn.android.utils.openUrl
+import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
@@ -137,6 +144,7 @@ private fun ConnectionDetailsConnected(
     )
     val context = LocalContext.current
     val onOpenUrl: (String) -> Unit = { url -> context.openUrl(url) }
+    var info by remember { mutableStateOf<InfoType?>(null) }
     TopAppBar(
         title = { },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -188,21 +196,29 @@ private fun ConnectionDetailsConnected(
         )
 
         viewState.trafficUpdate?.let { trafficUpdate ->
-            Spacer(Modifier.height(16.dp))
-            ConnectionSpeedRows(
+            HeaderText(
+                R.string.connection_details_section_vpn_speed,
+                withInfoIcon = true,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable(
+                        onClick = {
+                            info = InfoType.VpnSpeed
+                        },
+                        role = Role.Button,
+                        onClickLabel = stringResource(R.string.accessibility_action_open)
+                    )
+            )
+            ConnectionSpeedRow(
                 trafficUpdate.downloadSpeed,
                 trafficUpdate.uploadSpeed,
-                onOpenUrl = onOpenUrl,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp, bottom = 4.dp)
             )
         }
 
-        Spacer(Modifier.height(16.dp))
-        Text(
-            text = stringResource(id = R.string.connection_details_subtitle),
-            style = ProtonTheme.typography.body2Regular,
-            color = ProtonTheme.colors.textWeak,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+        HeaderText(R.string.connection_details_subtitle, withInfoIcon = false)
         ConnectionStats(
             sessionTime = getSessionTime(sessionTimeInSeconds = viewState.trafficUpdate?.sessionTimeSeconds),
             exitCountry = viewState.exitCountryId,
@@ -214,6 +230,36 @@ private fun ConnectionDetailsConnected(
             protocol = viewState.protocolDisplay?.let { stringResource(it) },
             onOpenUrl = onOpenUrl
         )
+    }
+    InfoSheet(info, onOpenUrl, dismissInfo = { info = null })
+}
+
+@Composable
+private fun HeaderText(
+    @StringRes textId: Int,
+    withInfoIcon: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .padding(top = 16.dp, bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(textId),
+            style = ProtonTheme.typography.body2Regular,
+            color = ProtonTheme.colors.textWeak
+        )
+        if (withInfoIcon) {
+            Icon(
+                painter = painterResource(id = CoreR.drawable.ic_info_circle),
+                tint = ProtonTheme.colors.iconHint,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(20.dp)
+                    .padding(start = 4.dp)
+            )
+        }
     }
 }
 
@@ -260,45 +306,14 @@ private fun getSessionTime(sessionTimeInSeconds: Int?): String {
 }
 
 @Composable
-private fun ColumnScope.ConnectionSpeedRows(
+private fun ConnectionSpeedRow(
     downloadSpeed: Long,
     uploadSpeed: Long,
-    onOpenUrl: (url: String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    var info by remember { mutableStateOf<InfoType?>(null) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .padding(bottom = 8.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(
-                onClick = {
-                    info = InfoType.VpnSpeed
-                },
-                role = Role.Button,
-                onClickLabel = stringResource(R.string.accessibility_action_open)
-            )
-
-    ) {
-        Text(
-            text = stringResource(id = R.string.connection_details_section_vpn_speed),
-            style = ProtonTheme.typography.body2Regular,
-            color = ProtonTheme.colors.textWeak
-        )
-        Icon(
-            painter = painterResource(id = CoreR.drawable.ic_info_circle),
-            tint = ProtonTheme.colors.iconHint,
-            contentDescription = null,
-            modifier = Modifier
-                .size(20.dp)
-                .padding(start = 4.dp)
-        )
-    }
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 12.dp, bottom = 4.dp)
+        modifier = modifier,
     ) {
         SpeedInfo(
             title = stringResource(id = R.string.connection_details_download),
@@ -315,7 +330,6 @@ private fun ColumnScope.ConnectionSpeedRows(
             modifier = Modifier.weight(1f),
         )
     }
-    InfoSheet(info, onOpenUrl, dismissInfo = { info = null })
 }
 
 @Composable
@@ -630,6 +644,33 @@ fun IpView(
 
 @Preview
 @Composable
+fun ConnectionDetailsPreview() {
+    LightAndDarkPreview {
+        val connectIntentViewState = ConnectIntentViewState(
+            primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.sweden, CountryId.iceland),
+            secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(CountryId.sweden, CountryId.iceland),
+            serverFeatures = emptySet()
+        )
+        val viewState = ConnectionDetailsViewModel.ConnectionDetailsViewState.Connected(
+            connectIntentViewState = connectIntentViewState,
+            entryIp = "192.120.0.1",
+            vpnIp = "1.4.3.2",
+            exitCountryId = CountryId.sweden,
+            entryCountryId = CountryId.iceland,
+            trafficUpdate = TrafficUpdate(0L, 0L, 1156L, 2048L, 1_000_000L, 2_000_000, 2413),
+            serverGatewayName = null,
+            serverCity = "Stockholm",
+            serverDisplayName = "SE#1",
+            serverLoad = 32F,
+            protocolDisplay = ProtocolSelection.SMART.displayName,
+        )
+        ConnectionDetailsConnected(viewState, {})
+    }
+
+}
+
+@Preview
+@Composable
 fun ConnectionStatsPreview() {
     VpnTheme {
         ConnectionStats(
@@ -643,16 +684,6 @@ fun ConnectionStatsPreview() {
             protocol = "WireGuard",
             onOpenUrl = {}
         )
-    }
-}
-
-@Preview
-@Composable
-fun VpnSpeedPreview() {
-    VpnTheme {
-        Column {
-            ConnectionSpeedRows(10, 123.1233.toLong(), {})
-        }
     }
 }
 
