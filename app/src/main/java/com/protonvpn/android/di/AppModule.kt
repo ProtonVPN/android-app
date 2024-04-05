@@ -62,7 +62,6 @@ import com.protonvpn.android.userstorage.DefaultLocalDataStoreFactory
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
 import com.protonvpn.android.utils.BuildConfigUtils
-import com.protonvpn.android.utils.Constants.PRIMARY_VPN_API_URL
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.MaintenanceTracker
@@ -83,6 +82,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import me.proton.core.account.domain.entity.AccountType
+import me.proton.core.configuration.EnvironmentConfiguration
 import me.proton.core.domain.entity.AppStore
 import me.proton.core.domain.entity.Product
 import me.proton.core.featureflag.domain.repository.FeatureFlagContextProvider
@@ -120,7 +120,8 @@ object AppModuleProd {
     @Singleton
     @Provides
     @BaseProtonApiUrl
-    fun provideProtonApiUrl(): HttpUrl = PRIMARY_VPN_API_URL.toHttpUrl()
+    fun provideProtonApiUrl(environmentConfiguration: EnvironmentConfiguration): HttpUrl =
+        environmentConfiguration.baseUrl.toHttpUrl()
 
     @Provides
     @DohProviderUrls
@@ -130,9 +131,9 @@ object AppModuleProd {
 
     @Provides
     @CertificatePins
-    fun provideCertificatePins(): Array<String> = when {
+    fun provideCertificatePins(environmentConfiguration: EnvironmentConfiguration): Array<String> = when {
         BuildConfig.API_TLS_PINS != null -> BuildConfig.API_TLS_PINS
-        BuildConfigUtils.isCertificatePinningFlavor() -> Constants.DEFAULT_SPKI_PINS
+        environmentConfiguration.useDefaultPins -> Constants.DEFAULT_SPKI_PINS
         else -> emptyArray()
     }
 
@@ -140,7 +141,6 @@ object AppModuleProd {
     @AlternativeApiPins
     fun provideAlternativeApiPins(): List<String> = when {
         BuildConfig.API_ALT_TLS_PINS != null -> BuildConfig.API_ALT_TLS_PINS.toList()
-        BuildConfigUtils.isCertificatePinningFlavor() -> Constants.ALTERNATIVE_API_SPKI_PINS
         else -> emptyList()
     }
 
@@ -242,8 +242,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideExtraHeaderProvider(): ExtraHeaderProvider = ExtraHeaderProviderImpl().apply {
-        BuildConfig.BLACK_TOKEN?.takeIfNotBlank()?.let {
+    fun provideExtraHeaderProvider(
+        environmentConfiguration: EnvironmentConfiguration
+    ): ExtraHeaderProvider = ExtraHeaderProviderImpl().apply {
+        environmentConfiguration.proxyToken.takeIfNotBlank()?.let {
             addHeaders("X-atlas-secret" to it)
         }
     }

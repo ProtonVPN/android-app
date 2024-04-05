@@ -22,6 +22,7 @@
 package com.protonvpn.testsHelper
 
 import com.protonvpn.BuildConfig
+import me.proton.core.configuration.EnvironmentConfigurationDefaults
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -54,7 +55,7 @@ class AtlasEnvVarHelper {
     }
 
     private fun postAtlasEnvVariable(jsonBody: String) {
-        val url = "https://${BuildConfig.API_DOMAIN}/internal/system"
+        val url = "${EnvironmentConfigurationDefaults.baseUrl}/internal/system"
 
         val mediaType = "application/json".toMediaType()
 
@@ -64,7 +65,7 @@ class AtlasEnvVarHelper {
             .url(url)
             .post(jsonBody.toRequestBody(mediaType))
             .addHeader("Content-Type", "application/json")
-            .addHeader("x-atlas-secret", BuildConfig.BLACK_TOKEN)
+            .addHeader("x-atlas-secret", EnvironmentConfigurationDefaults.proxyToken)
             .build()
 
         client.newCall(request).execute().use { response ->

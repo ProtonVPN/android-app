@@ -27,6 +27,7 @@ import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import io.mockk.coEvery
 import io.mockk.every
+import me.proton.core.configuration.EnvironmentConfigurationDefaults
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.takeIfNotBlank
@@ -84,7 +85,7 @@ class TestUser private constructor(
             )
 
         private fun getFreePlanUser(): TestUser {
-            val blackToken = BuildConfig.BLACK_TOKEN?.takeIfNotBlank()
+            val blackToken = EnvironmentConfigurationDefaults.proxyToken?.takeIfNotBlank()
             return if (blackToken != null)
                 TestUser("vpnfree", "12341234", "test", "free", "free", 0, 1)
             else
@@ -92,7 +93,7 @@ class TestUser private constructor(
         }
 
         private fun getPlusPlanUser(): TestUser {
-            BuildConfig.BLACK_TOKEN?.takeIfNotBlank()?.let {
+            EnvironmentConfigurationDefaults.proxyToken?.takeIfNotBlank()?.let {
                 return TestUser("vpnplus", "12341234", "test", "vpnplus", "vpnplus", 2, 10)
             }
             return TestUser("Testas3", BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
