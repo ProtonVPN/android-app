@@ -17,35 +17,37 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.server_list
+package com.protonvpn.app.redesign.countries
 
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
+import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemData
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
-import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.createServer
-import com.protonvpn.testRules.ProtonHiltAndroidRule
+import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import javax.inject.Inject
 import kotlin.test.assertEquals
 
+@RunWith(RobolectricTestRunner::class)
 @HiltAndroidTest
 class ServerListViewModelDataAdapterTests {
 
     @get:Rule
-    val protonRule = ProtonHiltAndroidRule(this, TestApiConfig.Mocked())
+    val protonRule = RobolectricHiltAndroidRule(this)
 
     @Inject
     lateinit var serverManager: ServerManager
@@ -153,7 +155,7 @@ class ServerListViewModelDataAdapterTests {
             listOf(
                 server(exitCountry = "PL", city = "Warsaw", serverName = "PL#1", serverId = "w1", tier = 2),
                 server(exitCountry = "PL", city = "Warsaw", serverName = "PL#2", serverId = "w2", tier = 3, features = SERVER_FEATURE_TOR),
-                server(exitCountry = "PL", city = "Cracow", serverName = "PL#3", serverId = "c1", entryCountry = "IS", isSecureCore = true, isOnline = false, load = 70f),
+                server(exitCountry = "PL", city = "Cracow", serverName = "PL#3", serverId = "c1", entryCountry = "IS", isSecureCore = true, isOnline = false, loadPercent = 70f),
                 server(exitCountry = "PL", city = "Cracow", serverName = "PL#4", serverId = "c2", hostCountry = "DE"),
                 server(exitCountry = "PL", gatewayName = "gateway", city = "Cracow", serverName = "PL-G#1"), // Gateway server shouldn't show unless gateway filter is set
                 server(exitCountry = "US", state = "California", serverName = "US-CA#1", serverId = "cal1"),
@@ -369,7 +371,7 @@ fun server(
     translations: Map<String, String?>? = null,
     isSecureCore: Boolean = false,
     isOnline: Boolean = true,
-    load: Float = 50f,
+    loadPercent: Float = 50f,
     hostCountry: String? = null
 ) = createServer(
     exitCountry = exitCountry,
@@ -384,6 +386,6 @@ fun server(
     translations = translations,
     isSecureCore = isSecureCore,
     isOnline = isOnline,
-    loadPercent = load,
+    loadPercent = loadPercent,
     hostCountry = hostCountry
 )
