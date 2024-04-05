@@ -74,6 +74,7 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asExecutor
+import me.proton.core.configuration.EnvironmentConfiguration
 import me.proton.core.network.dagger.CoreBaseNetworkModule
 import me.proton.core.network.data.di.AlternativeApiPins
 import me.proton.core.network.data.di.BaseProtonApiUrl
@@ -124,7 +125,8 @@ class MockAppModule {
 
     @Provides
     @BaseProtonApiUrl
-    fun provideProtonApiUrl(): HttpUrl = TestSettings.protonApiUrlOverride ?: Constants.PRIMARY_VPN_API_URL.toHttpUrl()
+    fun provideProtonApiUrl(environmentConfiguration: EnvironmentConfiguration): HttpUrl =
+        TestSettings.protonApiUrlOverride ?: "${environmentConfiguration.baseUrl}/".toHttpUrl()
 
     @Provides
     @CertificatePins

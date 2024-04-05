@@ -33,7 +33,6 @@ object Constants {
 
     const val TV_SIGNUP_LINK = "protonvpn.com/signup"
     const val TV_UPGRADE_LINK = "account.protonvpn.com/account"
-    const val PRIMARY_VPN_API_URL = "https://" + BuildConfig.API_DOMAIN + "/"
     const val ALTERNATIVE_ROUTING_LEARN_URL =
             "https://protonmail.com/blog/anti-censorship-alternative-routing"
     const val ACCOUNT_LOGIN_URL = "https://account.protonvpn.com/login"

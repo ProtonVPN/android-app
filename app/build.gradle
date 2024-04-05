@@ -16,12 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-import com.android.build.OutputFile
+import com.android.build.api.dsl.ApplicationBuildType
+import com.android.build.gradle.internal.dsl.BaseFlavor
+import configuration.EnvironmentConfigSettings
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import groovy.json.StringEscapeUtils
 import io.gitlab.arturbosch.detekt.Detekt
-import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 
 buildscript {
     repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
     }
 }
@@ -31,6 +36,7 @@ plugins {
     id 'com.github.triplet.play' version '3.7.0'
     id 'io.sentry.android.gradle' version '3.14.0'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'me.proton.core.gradle-plugins.environment-config' version '1.3.1'
 }
 
 apply plugin: 'com.android.application'
@@ -41,6 +47,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.jaredsburrows.license'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'io.gitlab.arturbosch.detekt'
+apply plugin: 'me.proton.core.gradle-plugins.environment-config'
 
 jacoco {
     toolVersion = '0.8.8'
@@ -116,8 +123,6 @@ licenseReport {
     copyJsonReportToAssets = false
 }
 
-def productionServer = "\"vpn-api.proton.me\""
-def productionHv3Server = "\"verify.proton.me\""
 def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias : 'proton'
 def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
 def storeKeyPass = project.hasProperty('keyStoreKeyPassword') ? keyStoreKeyPassword : "\"Store key password\""
@@ -178,7 +183,6 @@ android {
         buildConfigField "String", "SPECIAL_CHAR_PASSWORD",  "\"${StringEscapeUtils.escapeJava(specialCharPass)}\""
         buildConfigField "String", "CI_BRANCH_NAME", "\"${StringEscapeUtils.escapeJava(ciBranchName)}\""
         buildConfigField "String", "CI_COMMIT_MESSAGE", "\"${StringEscapeUtils.escapeJava(commitFirstLine)}\""
-        buildConfigField "String", "BLACK_TOKEN", "\"\""
         buildConfigField "String", "TEST_ASSET_OVERRIDE_SHA", "\"${helpers.readFileOrDefault("test_asset_override_sha", "db95210d57b90063bfa1cac9881c7a8df326e6e2")}\""
         buildConfigField "String", "TEST_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_asset_override_key", "241b080fb0f1216e")}\""
         buildConfigField "String", "TEST_SUITE_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_suite_asset_override_key", "3ea60f6a2fbfc015")}\""
@@ -204,8 +208,11 @@ android {
         production {
             dimension "environment"
             getIsDefault().set(true)
-            buildConfigField "String", "API_DOMAIN", productionServer
-            buildConfigField "String", "HV3_DOMAIN", productionHv3Server
+
+            helpers.protonEnvironmentConfig(it) {
+                // default host is 'proton.me'
+                apiPrefix = 'vpn-api'
+            }
         }
         black {
             dimension "environment"
@@ -216,30 +223,37 @@ android {
             //  - TEST_ENV_DOMAIN for regular test environments,
             //  - the BTI_* variables for the BTI environment.
             def testEnvHost = System.getenv("TEST_ENV_DOMAIN")
-            def apiUrl, hv3Host, dohUrls, apiPinsString, altPinsString, altRoutingCertForMainRoute
+            def dohUrls, apiPinsString, altPinsString, altRoutingCertForMainRoute, apiHost, prefix
+
             if (testEnvHost != null) {
-                apiUrl = "${testEnvHost}/api"
-                hv3Host = "verify.$testEnvHost"
                 dohUrls = null
                 // Disable cert pinning:
                 apiPinsString = "{}"
                 altPinsString = "{}"
                 altRoutingCertForMainRoute = false
-            } else {
-                def apiHost = System.getenv("BTI_API_DOMAIN")?.replace("\"", "")
+
+                apiHost = testEnvHost
+                prefix = 'api'
+            }
+            else {
                 def apiPins = System.getenv("BTI_API_TLS_PINNINGS")
                 def altPins = System.getenv("BTI_ALT_ROUTE_TLS_PINNINGS")
-                apiUrl = apiHost
-                hv3Host = System.getenv("BTI_HV3_DOMAIN")?.replace("\"", "")
                 dohUrls = System.getenv("BTI_AR_DOH_URLS")
                 apiPinsString = "{${helpers.sanitizeStringListForBuildConfig(apiPins)}}"
                 altPinsString = altPins != null ? "{${helpers.sanitizeStringListForBuildConfig(altPins)}}" : null
                 altRoutingCertForMainRoute = true
+
+                prefix = System.getenv("BTI_PREFIX")
+                apiHost = System.getenv("BTI_HOST")
             }
+
+            helpers.protonEnvironmentConfig(it) {
+                host = StringEscapeUtils.escapeJava(apiHost)
+                apiPrefix = StringEscapeUtils.escapeJava(prefix)
+                proxyToken = StringEscapeUtils.escapeJava(blackToken)
+            }
+
             def vpnServerRootCert = System.getenv("BTI_SERVERS_ROOT_CERT")
-            buildConfigField "String", "BLACK_TOKEN", "\"${StringEscapeUtils.escapeJava(blackToken)}\""
-            buildConfigField "String", "API_DOMAIN", "\"${StringEscapeUtils.escapeJava(apiUrl)}\""
-            buildConfigField "String", "HV3_DOMAIN", "\"${StringEscapeUtils.escapeJava(hv3Host)}\""
             buildConfigField "Boolean", "ALT_ROUTING_CERT_FOR_MAIN_ROUTE", "$altRoutingCertForMainRoute"
             buildConfigField "String[]", "DOH_SERVICES_URLS", "{${helpers.sanitizeStringListForBuildConfig(dohUrls)}}"
             buildConfigField "String[]", "API_TLS_PINS", apiPinsString
@@ -519,9 +533,7 @@ tasks.withType(Test) {
 
 preBuild.dependsOn prepareGuestHoleServers
 
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-import groovy.json.StringEscapeUtils
+import org.gradle.internal.extensibility.DefaultExtraPropertiesExtension
 
 class Helpers {
     private File workingDir
@@ -674,6 +686,28 @@ class Helpers {
                 .collect { it.trim().replace("\"", "") }
                 .collect { "\"${StringEscapeUtils.escapeJava(it)}\""}
                 .join(", ")
+    }
+
+    static void protonEnvironmentConfig(BaseFlavor flavor, Closure<?> configurator) {
+        setEnvironmentConfigExt(flavor.ext, flavor.name, configurator)
+    }
+
+    static void protonEnvironmentConfig(ApplicationBuildType buildType, Closure<EnvironmentConfigSettings> configurator) {
+        setEnvironmentConfigExt(buildType.ext, buildType.name, configurator)
+    }
+
+    private static void setEnvironmentConfigExt(
+        DefaultExtraPropertiesExtension ext,
+        String name,
+        Closure<EnvironmentConfigSettings> configurator
+    ) {
+        def configSettings = new EnvironmentConfigSettings()
+
+        configurator.delegate = configSettings
+        configurator.resolveStrategy = Closure.DELEGATE_FIRST
+        configurator.call()
+
+        ext.set("""${name}ProtonEnvironmentConfig""", configSettings)
     }
 }
 tasks.register("getVersionName"){
@@ -864,6 +898,9 @@ dependencies {
     implementation "me.proton.core:util-android-dagger:$core_version"
     implementation "me.proton.core:util-android-sentry:$core_version"
     implementation "me.proton.core:util-android-shared-preferences:$core_version"
+    implementation "me.proton.core:configuration-data:$core_version"
+    debugImplementation "me.proton.core:configuration-dagger-content-resolver:$core_version"
+    releaseImplementation "me.proton.core:configuration-dagger-staticdefaults:$core_version"
 
     androidTestImplementation "me.proton.core:test-quark:$core_version"
     androidTestImplementation("me.proton.core:account-recovery-test:$core_version") {

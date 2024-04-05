@@ -39,6 +39,7 @@ import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import com.bumptech.glide.load.model.stream.BaseGlideUrlLoader
 import com.bumptech.glide.load.resource.drawable.DrawableResource
 import com.bumptech.glide.module.AppGlideModule
+import me.proton.core.configuration.EnvironmentConfigurationDefaults
 import java.io.IOException
 import java.io.InputStream
 
@@ -89,8 +90,8 @@ class BlackGlideUrlLoader : BaseGlideUrlLoader<String> {
     override fun getUrl(model: String, width: Int, height: Int, options: Options?): String = model
 
     override fun getHeaders(model: String?, width: Int, height: Int, options: Options?): Headers? =
-        if (BuildConfig.BLACK_TOKEN.isNotBlank()) {
-            LazyHeaders.Builder().addHeader("X-atlas-secret", BuildConfig.BLACK_TOKEN).build()
+        if (EnvironmentConfigurationDefaults.proxyToken?.isNotBlank() == true) {
+            LazyHeaders.Builder().addHeader("X-atlas-secret", EnvironmentConfigurationDefaults.proxyToken).build()
         } else {
             super.getHeaders(model, width, height, options)
         }
@@ -110,7 +111,7 @@ class ProtonVpnGlideModule : AppGlideModule() {
         registry
             .append(InputStream::class.java, LottieDrawable::class.java, StreamLottieDecoder(context))
 
-        if (BuildConfig.BLACK_TOKEN.isNotBlank()) {
+        if (EnvironmentConfigurationDefaults.proxyToken?.isNotBlank() == true) {
             registry.prepend(String::class.java, InputStream::class.java, BlackGlideUrlLoader.Factory())
         }
     }

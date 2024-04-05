@@ -26,6 +26,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import me.proton.core.configuration.EnvironmentConfiguration
 import me.proton.core.humanverification.data.DeviceVerificationListenerImpl
 import me.proton.core.humanverification.data.DeviceVerificationProviderImpl
 import me.proton.core.humanverification.data.HumanVerificationManagerImpl
@@ -53,7 +54,8 @@ object HumanVerificationModule {
     // HV3
     @Provides
     @HumanVerificationApiHost
-    fun provideHumanVerificationApiHost(): String = "https://${BuildConfig.HV3_DOMAIN}"
+    fun provideHumanVerificationApiHost(environmentConfiguration: EnvironmentConfiguration): String =
+        environmentConfiguration.hv3Url
 
     @Provides
     fun provideHumanVerificationVersion(): HumanVerificationVersion = HumanVerificationVersion.HV3

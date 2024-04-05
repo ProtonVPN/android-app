@@ -62,7 +62,7 @@ class LoginTests {
 
     @Before
     fun setUp() {
-        TestSetup.quark?.jailUnban()
+        TestSetup.quark.jailUnban()
         loginRobot = LoginRobot()
         addAccountRobot = AddAccountRobot()
         humanVerificationRobot = HumanVerificationRobot()

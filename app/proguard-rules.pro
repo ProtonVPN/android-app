@@ -128,3 +128,6 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
+
+# Proton Environment Configuration
+-keep class me.proton.core.configuration.** { *; }
