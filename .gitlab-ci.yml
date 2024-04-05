@@ -24,6 +24,8 @@ variables:
     description: List of components to deploy (fe-vpn:v4.7.0:prod+t to use a tag)
   GIT_FETCH_EXTRA_FLAGS: --tags
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
+  NEXUS_GROUP: "/Vpn/Android/SLI/Latest/Stable"
+  NEXUS_REPO: "test-productivity-builds-distribution"
 
 workflow:
   rules:
