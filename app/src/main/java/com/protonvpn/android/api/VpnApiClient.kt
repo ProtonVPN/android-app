@@ -28,8 +28,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiClient
 import java.util.Locale
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class VpnApiClient(
+@Singleton
+class VpnApiClient @Inject constructor(
     private val scope: CoroutineScope,
     private val dohEnabled: DohEnabled,
     private val isTv: IsTvCheck

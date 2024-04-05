@@ -21,7 +21,6 @@ package com.protonvpn.mocks
 import com.proton.gopenpgp.localAgent.Features
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.StatusMessage
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.TransmissionProtocol
