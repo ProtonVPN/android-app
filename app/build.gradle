@@ -243,8 +243,8 @@ android {
                 altPinsString = altPins != null ? "{${helpers.sanitizeStringListForBuildConfig(altPins)}}" : null
                 altRoutingCertForMainRoute = true
 
-                prefix = System.getenv("BTI_PREFIX")
-                apiHost = System.getenv("BTI_HOST")
+                prefix = System.getenv("BTI_PREFIX") ?: ""
+                apiHost = System.getenv("BTI_HOST") ?: ""
             }
 
             helpers.protonEnvironmentConfig(it) {
