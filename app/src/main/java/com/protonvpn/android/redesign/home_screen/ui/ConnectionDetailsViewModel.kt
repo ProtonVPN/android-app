@@ -61,7 +61,7 @@ class ConnectionDetailsViewModel @Inject constructor(
             val vpnIp: String,
             val entryCountryId: CountryId?,
             val exitCountryId: CountryId,
-            val trafficUpdate: TrafficUpdate?,
+            val trafficHistory: List<TrafficUpdate>,
             val connectIntentViewState: ConnectIntentViewState,
             val serverDisplayName: String,
             val serverCity: String?,
@@ -88,7 +88,7 @@ class ConnectionDetailsViewModel @Inject constructor(
             "",
             CountryId.fastest,
             CountryId.fastest,
-            null,
+            emptyList(),
             ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet()),
             "",
             "",
@@ -102,8 +102,8 @@ class ConnectionDetailsViewModel @Inject constructor(
             currentUser.vpnUserFlow,
             vpnStateMonitor.exitIp,
             serverListUpdaterPrefs.ipAddress,
-            trafficMonitor.trafficStatus.asFlow()
-        ) { vpnUser, exitIp, userIp, trafficUpdate ->
+            trafficMonitor.trafficHistory.asFlow(),
+        ) { vpnUser, exitIp, userIp, trafficHistory ->
             val connectIntent = connectionParams.connectIntent as ConnectIntent
             val server = connectionParams.server
             val vpnIp = exitIp ?: ""
@@ -113,7 +113,7 @@ class ConnectionDetailsViewModel @Inject constructor(
                 vpnIp = vpnIp,
                 entryCountryId = if (server.isSecureCoreServer) CountryId(server.entryCountry) else null,
                 exitCountryId = CountryId(server.exitCountry),
-                trafficUpdate = trafficUpdate,
+                trafficHistory = trafficHistory,
                 connectIntentViewState = getConnectIntentViewState(connectIntent, vpnUser?.isFreeUser == true, server),
                 serverDisplayName = server.serverName,
                 serverCity = server.displayCity,
