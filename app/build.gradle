@@ -826,6 +826,9 @@ dependencies {
 
     implementation 'androidx.constraintlayout:constraintlayout-compose-android:1.1.0-alpha13'
 
+    implementation("com.patrykandpatrick.vico:core:2.0.0-alpha.14")
+    implementation("com.patrykandpatrick.vico:compose:2.0.0-alpha.14")
+
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'

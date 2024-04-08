@@ -20,6 +20,10 @@ package com.protonvpn.tests.redesign.vpn.ui
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import com.protonvpn.android.R
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.CountryId
@@ -29,6 +33,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.proton.test.fusion.Fusion.node
+import me.proton.test.fusion.FusionConfig
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Test
 
@@ -39,14 +44,16 @@ class ConnectionDetailsTests : FusionComposeTest() {
         vpnIp = "10.0.0.1",
         entryCountryId = CountryId.sweden,
         exitCountryId = CountryId.iceland,
-        trafficUpdate = TrafficUpdate(
-            monotonicTimestampMs = 5_000_000,
-            sessionStartTimestampMs = 0,
-            downloadSpeed = 1000,
-            uploadSpeed = 1000,
-            sessionDownload = 10000,
-            sessionUpload = 20000,
-            sessionTimeSeconds = 5000
+        trafficHistory = listOf(
+            TrafficUpdate(
+                monotonicTimestampMs = 5_000_000,
+                sessionStartTimestampMs = 0,
+                downloadSpeed = 1000,
+                uploadSpeed = 1000,
+                sessionDownload = 10000,
+                sessionUpload = 20000,
+                sessionTimeSeconds = 5000
+            )
         ),
         connectIntentViewState = ConnectIntentViewState(
             primaryLabel = ConnectIntentPrimaryLabel.Country(
@@ -93,15 +100,38 @@ class ConnectionDetailsTests : FusionComposeTest() {
             ConnectionDetails(sampleViewState, onClosePanel = {})
         }
 
-        node.withText(R.string.connection_details_server_load).click()
+        composeRule.onNodeWithText(FusionConfig.targetContext.resources.getString(R.string.connection_details_server_load))
+            .performScrollTo()
+            .performClick()
         node.withText(R.string.connection_details_server_load_description).assertExists()
+    }
+
+    @Test
+    fun correctSpeedGraphScaleIsDisplayed() {
+        val viewStateFlow = MutableStateFlow(sampleViewState)
+        viewStateFlow.value = sampleViewState.copy(
+            trafficHistory = listOf(TrafficUpdate(0, 0, 100, 0, 0, 0, 6000))
+        )
+
+        composeRule.setContent {
+            val viewState by viewStateFlow.collectAsState()
+            ConnectionDetails(viewState, onClosePanel = {})
+        }
+
+        node.withText("Speed B/s").assertExists()
+
+        viewStateFlow.value = sampleViewState.copy(
+            trafficHistory = listOf(TrafficUpdate(0, 0, 1000000, 0, 0, 0, 6000))
+        )
+
+        node.withText("Speed MB/s").assertExists()
     }
 
     @Test
     fun checkSessionTimeChanges() {
         val viewStateFlow = MutableStateFlow(sampleViewState)
         viewStateFlow.value = sampleViewState.copy(
-            trafficUpdate = TrafficUpdate(0, 0, 0, 0, 0, 0, 6000)
+            trafficHistory = listOf(TrafficUpdate(0, 0, 0, 0, 0, 0, 6000))
         )
 
         composeRule.setContent {
@@ -112,13 +142,13 @@ class ConnectionDetailsTests : FusionComposeTest() {
         node.withText("1 hr 40 min").assertExists()
 
         viewStateFlow.value = sampleViewState.copy(
-            trafficUpdate = TrafficUpdate(0, 0, 0, 0, 0, 0, 6)
+            trafficHistory = listOf(TrafficUpdate(0, 0, 0, 0, 0, 0, 6))
         )
 
         node.withText("6 sec").assertExists()
 
         viewStateFlow.value = sampleViewState.copy(
-            trafficUpdate = TrafficUpdate(0, 0, 0, 0, 0, 0, 100000)
+            trafficHistory = listOf(TrafficUpdate(0, 0, 0, 0, 0, 0, 100000))
         )
 
         node.withText("1 day 3 hr").assertExists()

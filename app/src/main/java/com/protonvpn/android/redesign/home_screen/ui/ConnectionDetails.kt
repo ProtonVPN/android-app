@@ -25,7 +25,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -69,12 +68,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.patrykandpatrick.vico.compose.axis.rememberAxisLabelComponent
+import com.patrykandpatrick.vico.compose.axis.vertical.rememberEndAxis
+import com.patrykandpatrick.vico.compose.chart.CartesianChartHost
+import com.patrykandpatrick.vico.compose.chart.layer.rememberLineCartesianLayer
+import com.patrykandpatrick.vico.compose.chart.layer.rememberLineSpec
+import com.patrykandpatrick.vico.compose.chart.layout.fullWidth
+import com.patrykandpatrick.vico.compose.chart.rememberCartesianChart
+import com.patrykandpatrick.vico.compose.chart.scroll.rememberVicoScrollState
+import com.patrykandpatrick.vico.compose.component.shape.shader.color
+import com.patrykandpatrick.vico.compose.component.shape.shader.verticalGradient
+import com.patrykandpatrick.vico.core.axis.AxisItemPlacer
+import com.patrykandpatrick.vico.core.axis.formatter.DecimalFormatAxisValueFormatter
+import com.patrykandpatrick.vico.core.axis.vertical.VerticalAxis
+import com.patrykandpatrick.vico.core.chart.layout.HorizontalLayout
+import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
+import com.patrykandpatrick.vico.core.model.CartesianChartModelProducer
+import com.patrykandpatrick.vico.core.model.lineSeries
+import com.patrykandpatrick.vico.core.scroll.Scroll
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.speedBytesToString
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.bus.TrafficUpdate
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.InfoSheet
@@ -94,6 +110,7 @@ import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.headlineNorm
+import java.math.RoundingMode
 import kotlin.math.roundToInt
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -196,7 +213,8 @@ private fun ConnectionDetailsConnected(
             viewState.entryIp, viewState.vpnIp, Modifier.padding(vertical = 16.dp)
         )
 
-        viewState.trafficUpdate?.let { trafficUpdate ->
+        val trafficHistory = viewState.trafficHistory
+        if (trafficHistory.isNotEmpty()) {
             HeaderText(
                 R.string.connection_details_section_vpn_speed,
                 withInfoIcon = true,
@@ -211,17 +229,17 @@ private fun ConnectionDetailsConnected(
                     )
             )
             ConnectionSpeedRow(
-                trafficUpdate.downloadSpeed,
-                trafficUpdate.uploadSpeed,
+                trafficHistory = trafficHistory,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp, bottom = 4.dp)
             )
+            SpeedGraph(trafficHistory = trafficHistory)
         }
 
         HeaderText(R.string.connection_details_subtitle, withInfoIcon = false)
         ConnectionStats(
-            sessionTime = getSessionTime(sessionTimeInSeconds = viewState.trafficUpdate?.sessionTimeSeconds),
+            sessionTime = getSessionTime(sessionTimeInSeconds = trafficHistory.lastOrNull()?.sessionTimeSeconds),
             exitCountry = viewState.exitCountryId,
             entryCountry = viewState.entryCountryId,
             gatewayName = viewState.serverGatewayName,
@@ -308,24 +326,25 @@ private fun getSessionTime(sessionTimeInSeconds: Int?): String {
 
 @Composable
 private fun ConnectionSpeedRow(
-    downloadSpeed: Long,
-    uploadSpeed: Long,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    trafficHistory: List<TrafficUpdate>,
 ) {
+    val currentDownloadSpeed = trafficHistory.last().downloadSpeed
+    val currentUploadSpeed = trafficHistory.last().uploadSpeed
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier,
     ) {
-        SpeedInfo(
+        SpeedInfoColumn(
             title = stringResource(id = R.string.connection_details_download),
-            speedValue = downloadSpeed,
+            speedValue = currentDownloadSpeed,
             icon = painterResource(id = CoreR.drawable.ic_proton_arrow_down_line),
             color = ProtonTheme.colors.notificationSuccess,
             modifier = Modifier.weight(1f),
         )
-        SpeedInfo(
+        SpeedInfoColumn(
             title = stringResource(id = R.string.connection_details_upload),
-            speedValue = uploadSpeed,
+            speedValue = currentUploadSpeed,
             icon = painterResource(id = CoreR.drawable.ic_proton_arrow_up_line),
             color = ProtonTheme.colors.notificationError,
             modifier = Modifier.weight(1f),
@@ -334,7 +353,85 @@ private fun ConnectionSpeedRow(
 }
 
 @Composable
-private fun SpeedInfo(
+private fun SpeedGraph(
+    trafficHistory: List<TrafficUpdate>,
+    modifier: Modifier = Modifier
+) {
+    val uploadSpeedList = trafficHistory.map { it.uploadSpeed }
+    val downloadSpeedList = trafficHistory.map { it.downloadSpeed }
+
+    val (speedLabel, conversionFactor) = determineScaleAndLabel(uploadSpeedList + downloadSpeedList)
+
+    val modelProducer = remember { CartesianChartModelProducer.build() }
+    val scrollState = rememberVicoScrollState(
+        scrollEnabled = false,
+        initialScroll = Scroll.Absolute.End,
+    )
+
+    LaunchedEffect(uploadSpeedList, downloadSpeedList) {
+        modelProducer.runTransaction {
+            lineSeries {
+                series(uploadSpeedList.map { it / conversionFactor })
+                series(downloadSpeedList.map { it / conversionFactor })
+            }
+        }
+    }
+    Column(modifier) {
+        Text(
+            text = stringResource(id = R.string.speed_graph_title, speedLabel),
+            style = ProtonTheme.typography.captionMedium,
+            color = ProtonTheme.colors.textWeak,
+            textAlign = TextAlign.End,
+            modifier = Modifier.fillMaxWidth()
+        )
+        CartesianChartHost(
+            chart = rememberCartesianChart(
+                rememberLineCartesianLayer(
+                    listOf(
+                        rememberLineSpec(
+                            shader = DynamicShaders.color(ProtonTheme.colors.notificationError),
+                            backgroundShader =
+                            DynamicShaders.verticalGradient(
+                                arrayOf(ProtonTheme.colors.notificationError.copy(alpha = 0.7f), ProtonTheme.colors.notificationError.copy(alpha = 0f)),
+                            ),
+                        ),
+                        rememberLineSpec(
+                            shader = DynamicShaders.color(ProtonTheme.colors.notificationSuccess),
+                            backgroundShader =
+                            DynamicShaders.verticalGradient(
+                                arrayOf(ProtonTheme.colors.notificationSuccess.copy(alpha = 0.7f), ProtonTheme.colors.notificationSuccess.copy(alpha = 0f)),
+                            ),
+                        ),
+                    )
+                ),
+                endAxis = rememberEndAxis(
+                    itemPlacer = remember { AxisItemPlacer.Vertical.count(count = { 3 }) },
+                    valueFormatter = DecimalFormatAxisValueFormatter(pattern = "#", roundingMode = RoundingMode.UP),
+                    label = rememberAxisLabelComponent(color = ProtonTheme.colors.textWeak),
+                    horizontalLabelPosition = VerticalAxis.HorizontalLabelPosition.Outside
+                ),
+            ),
+            diffAnimationSpec = null,
+            scrollState = scrollState,
+            horizontalLayout = HorizontalLayout.fullWidth(),
+            modelProducer = modelProducer,
+        )
+    }
+}
+
+@Composable
+private fun determineScaleAndLabel(speeds: List<Long>): Pair<String, Double> {
+    val maxSpeedInBytes = speeds.maxOrNull() ?: 0L
+    return when {
+        maxSpeedInBytes >= 1_000_000_000 -> stringResource(id = R.string.gigabytes_per_second) to 1_000_000_000.0
+        maxSpeedInBytes >= 1_000_000 -> stringResource(id = R.string.megabytes_per_second) to 1_000_000.0
+        maxSpeedInBytes >= 1_000 -> stringResource(id = R.string.kilobytes_per_second) to 1_000.0
+        else -> stringResource(id = R.string.bytes_per_second) to 1.0
+    }
+}
+
+@Composable
+private fun SpeedInfoColumn(
     title: String,
     speedValue: Long,
     icon: Painter,
@@ -658,7 +755,7 @@ fun ConnectionDetailsPreview() {
             vpnIp = "1.4.3.2",
             exitCountryId = CountryId.sweden,
             entryCountryId = CountryId.iceland,
-            trafficUpdate = TrafficUpdate(0L, 0L, 1156L, 2048L, 1_000_000L, 2_000_000, 2413),
+            trafficHistory = listOf(TrafficUpdate(0L, 0L, 1156L, 2048L, 1_000_000L, 2_000_000, 2413)),
             serverGatewayName = null,
             serverCity = "Stockholm",
             serverDisplayName = "SE#1",
