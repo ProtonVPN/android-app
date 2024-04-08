@@ -20,7 +20,7 @@
 <resources>
     <!-- Strings related to login -->
     <string name="login">Accedi</string>
-    <string name="menuActionSignOut">Disconnetti</string>
+    <string name="menuActionSignOut">Esci</string>
     <string name="connectionAllocationHelpTitle">Grazie per l\'upgrade a \nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Per iniziare il tuo viaggio in Proton VPN, assegna le connessioni VPN al tuo account o a qualsiasi altro account secondario.</string>
     <string name="connectionAllocationHelpDescription2">Questo passaggio richiederà solo pochi minuti. Dopodiché sarai in grado di accedere e proteggere tutti i tuoi dispositivi.</string>
@@ -32,9 +32,9 @@
     <string name="secureCoreSpeedInfoTitle">Una nota sulla velocità…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core offre il livello più elevato di sicurezza e privacy, ma potrebbe ridurre la velocità del tuo Internet. Se necessiti di maggiori prestazioni, puoi disabilitare Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Attiva Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Vuoi disconnettere l\'account?</string>
-    <string name="logoutConfirmDialogMessage">Uscire dall\'account disconnetterà il dispositivo dalla VPN.</string>
-    <string name="logoutConfirmDialogButton">Disconnetti</string>
+    <string name="logoutConfirmDialogTitle">Vuoi uscire dall\'account?</string>
+    <string name="logoutConfirmDialogMessage">L\'uscita dall\'account disconnetterà il dispositivo dalla VPN.</string>
+    <string name="logoutConfirmDialogButton">Esci</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
@@ -327,10 +327,10 @@
     <string name="tv_upgrade_url_details"><![CDATA[Visita <b>%1$s</b> per passare a Proton VPN Plus ora.]]></string>
     <string name="tv_upgrade_description">Ottieni un piano Proton VPN Plus per accedere a più di 500 server in tutto il mondo e avere opzioni di streaming ottimizzate per Netflix, Amazon Prime Video, Disney+ e molti altri.</string>
     <string name="tv_vpn_error_dialog_title">Connessione VPN non riuscita</string>
-    <string name="tv_signout_label">Disconnetti</string>
-    <string name="tv_signout_dialog_title">Sei sicuro di volerti disconnettere?</string>
+    <string name="tv_signout_label">Esci</string>
+    <string name="tv_signout_dialog_title">Sei sicuro di voler uscire dall\'account?</string>
     <string name="tv_signout_dialog_description_connected">Questo disconnetterà la tua TV da qualsiasi server VPN.</string>
-    <string name="tv_signout_dialog_ok">Disconnetti</string>
+    <string name="tv_signout_dialog_ok">Esci</string>
     <string name="tv_quick_connect_recommened">Consigliato</string>
     <string name="tv_quick_connect_favourite">Preferito</string>
     <string name="tv_country_maintenance_dialog_title">Paese non disponibile</string>
@@ -987,7 +987,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway in manutenzione</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out">Disconnetti</string>
+    <string name="settings_sign_out">Esci</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Impostazioni</string>
     <string name="gateways_title">Gateway</string>
@@ -1037,19 +1037,19 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_restore_defaults_title">Ripristina le impostazioni predefinite</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Disconnetti</string>
+    <string name="settings_sign_out_title">Esci</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">Versione dell\'applicazione: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Licenze di terze parti</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Vuoi disconnettere l\'account?</string>
+    <string name="dialog_sign_out_title">Vuoi uscire dall\'account?</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_message">Verrai disconnesso dalla VPN.</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">Non chiederlo più</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Disconnetti</string>
+    <string name="dialog_sign_out_action">Esci</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Annulla</string>
     <!-- tag(Redesign_2023) -->

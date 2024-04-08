@@ -1115,7 +1115,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Загруженность %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1216,64 +1216,64 @@
     <string name="speed_gigabytes_per_second">%1$s ГБ/c.</string>
     <string name="speed_terabytes_per_second">%1$s ТБ/c.</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s Byte per second</item>
-        <item quantity="few">%1$s Bytes per second</item>
-        <item quantity="many">%1$s Bytes per second</item>
-        <item quantity="other">%1$s Bytes per second</item>
+        <item quantity="one">%1$s Байт в секунду</item>
+        <item quantity="few">%1$s Байта в секунду</item>
+        <item quantity="many">%1$s Байтов в секунду</item>
+        <item quantity="other">%1$s Байтов в секунду</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">%1$s Kilobyte per second</item>
-        <item quantity="few">%1$s Kilobytes per second</item>
-        <item quantity="many">%1$s Kilobytes per second</item>
-        <item quantity="other">%1$s Kilobytes per second</item>
+        <item quantity="one">%1$s Килобайт в секунду</item>
+        <item quantity="few">%1$s Килобайта в секунду</item>
+        <item quantity="many">%1$s Килобайтов в секунду</item>
+        <item quantity="other">%1$s Килобайтов в секунду</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s Megabyte per second</item>
-        <item quantity="few">%1$s Megabytes per second</item>
-        <item quantity="many">%1$s Megabytes per second</item>
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="one">%1$s Мегабайт в секунду</item>
+        <item quantity="few">%1$s Мегабайта в секунду</item>
+        <item quantity="many">%1$s Мегабайтов в секунду</item>
+        <item quantity="other">%1$s Мегабайтов в секунду</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s Gigabyte per second</item>
-        <item quantity="few">%1$s Gigabytes per second</item>
-        <item quantity="many">%1$s Gigabytes per second</item>
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="one">%1$s Гигабайт в секунду</item>
+        <item quantity="few">%1$s Гигабайта в секунду</item>
+        <item quantity="many">%1$s Гигабайтов в секунду</item>
+        <item quantity="other">%1$s Гигабайтов в секунду</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s Terabyte per second</item>
-        <item quantity="few">%1$s Terabytes per second</item>
-        <item quantity="many">%1$s Terabytes per second</item>
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="one">%1$s Терабайт в секунду</item>
+        <item quantity="few">%1$s Терабайта в секунду</item>
+        <item quantity="many">%1$s Терабайтов в секунду</item>
+        <item quantity="other">%1$s Терабайтов в секунду</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="one">%1$s Byte</item>
-        <item quantity="few">%1$s Bytes</item>
-        <item quantity="many">%1$s Bytes</item>
-        <item quantity="other">%1$s Bytes</item>
+        <item quantity="one">%1$s Байт в секунду</item>
+        <item quantity="few">%1$s Байта в секунду</item>
+        <item quantity="many">%1$s Байтов в секунду</item>
+        <item quantity="other">%1$s Байтов в секунду</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="one">%1$s Kilobyte</item>
-        <item quantity="few">%1$s Kilobytes</item>
-        <item quantity="many">%1$s Kilobytes</item>
-        <item quantity="other">%1$s Kilobytes</item>
+        <item quantity="one">%1$s Килобайт</item>
+        <item quantity="few">%1$s Килобайта</item>
+        <item quantity="many">%1$s Килобайтов</item>
+        <item quantity="other">%1$s Килобайтов</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s Megabyte</item>
-        <item quantity="few">%1$s Megabytes</item>
-        <item quantity="many">%1$s Megabytes</item>
-        <item quantity="other">%1$s Megabytes</item>
+        <item quantity="one">%1$s Мегабайт</item>
+        <item quantity="few">%1$s Мегабайта</item>
+        <item quantity="many">%1$s Мегабайтов</item>
+        <item quantity="other">%1$s Мегабайтов</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s Gigabyte</item>
-        <item quantity="few">%1$s Gigabytes</item>
-        <item quantity="many">%1$s Gigabytes</item>
-        <item quantity="other">%1$s Gigabytes</item>
+        <item quantity="one">%1$s Гигабайт</item>
+        <item quantity="few">%1$s Гигабайта</item>
+        <item quantity="many">%1$s Гигабайтов</item>
+        <item quantity="other">%1$s Гигабайтов</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s Terabyte</item>
-        <item quantity="few">%1$s Terabytes</item>
-        <item quantity="many">%1$s Terabytes</item>
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="one">%1$s Терабайт</item>
+        <item quantity="few">%1$s Терабайта</item>
+        <item quantity="many">%1$s Терабайтов</item>
+        <item quantity="other">%1$s Терабайтов</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s Б</string>
     <string name="traffic_volume_kilobytes">%1$s КБ</string>
@@ -1316,27 +1316,27 @@
     <string name="settings_advanced_nat_type_strict_description">Ограничивает поступление данных в сеть. Этот вариант более безопасен, но может затруднить одноранговые игровые соединения.</string>
     <string name="settings_advanced_nat_type_moderate_description">Некоторое ограничение на поступление данных в вашу сеть. Этот вариант лучше всего подходит для сетевых видеоигр.</string>
     <string name="settings_split_tunneling_description">Настройте свое подключение, определив, какие приложения и адреса IP будут защищены VPN. %1$s</string>
-    <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
+    <string name="settings_protocol_description">Протокол VPN определяет, как данные перемещаются между сервером VPN и вашим устройством. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Исключённые приложения</string>
     <string name="settings_split_tunneling_excluded_ips">Исключённые IP-адреса</string>
-    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ничего</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s и еще %3$d</string>
     <string name="settings_dialog_reconnect">Новые настройки будут применены при следующем подключении.</string>
-    <string name="info_secure_core_standard_high_privacy">High privacy</string>
+    <string name="info_secure_core_standard_high_privacy">Высокая степень приватности</string>
     <string name="info_secure_core_standard_lower_latency">Меньшая задержка</string>
     <string name="info_secure_core_advanced_privacy">Продвинутая конфиденциальность</string>
     <string name="info_secure_core_higher_latency">Большая задержка</string>
     <string name="info_p2p_what_title">Что такое P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
+    <string name="info_p2p_what_description">Технология Peer-to-peer (P2P) позволяет подключаться и обмениваться файлами напрямую с другими устройствами.\n\nНаши серверы P2P специально разработаны для поддержки этого типа обмена файлами.</string>
     <string name="info_p2p_torrenting_title">Что такое торрентинг?</string>
-    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
+    <string name="info_p2p_torrenting_description">Быстрый обмен и загрузка больших файлов по сети P2P.</string>
     <string name="info_p2p_why_title">Зачем использовать сервер P2P для торрентов?</string>
-    <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
+    <string name="info_p2p_why_description_speed">Повышенная скорость загрузки и скачивания</string>
     <string name="info_p2p_why_description_logs">Нет журналов действий</string>
-    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
+    <string name="info_p2p_why_description_hide">Скрывайте свой адрес IP от поставщика услуг и других пользователей.</string>
     <string name="info_dialog_smart_routing_description">Smart Routing использует виртуальные серверы для обеспечения покрытия VPN в труднодоступных странах.\n\nКогда вы подключаетесь к серверу Smart Routing, создается впечатление, что вы находитесь в стране назначения, хотя физический сервер расположен в другом месте.\n\nSmart Routing обычно используется для обхода законов, ограничивающих конфиденциальность, и других форм цензуры.</string>
     <string name="countries_upsell_banner_description">Получите глобальное покрытие с помощью VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Добавьте еще один уровень шифрования к своему подключению к VPN</string>
     <string name="p2p_upsell_banner_description">Скачивайте файлы через BitTorrent и другие протоколы обмена файлами</string>
-    <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="tor_upsell_banner_description">Используйте сеть Tor через подключение к VPN для обеспечения дополнительной приватности</string>
 </resources>

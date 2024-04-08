@@ -419,12 +419,12 @@
     <string name="upgrade_netshield_message"><![CDATA[Blokujte reklamy, sledovacie programy a škodlivý softvér pomocou nástroja <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Zdvojnásobte šifrovanie</string>
     <string name="upgrade_secure_core_message"><![CDATA[Pridajte ďalšiu vrstvu šifrovania k vášmu VPN pripojeniu pomocou <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
-    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
+    <string name="upgrade_p2p_title">Odomknúť sťahovanie peer-to-peer (P2P) a zdieľanie súborov </string>
+    <string name="upgrade_p2p_text">Zlepšite rýchlosť odosielania a sťahovania a zároveň skryte svoju IP adresu.</string>
     <string name="upgrade_streaming_title">Streamovanie v 4K</string>
     <string name="upgrade_streaming_text">Vychutnajte si svoje obľúbené filmy a televízne programy odkiaľkoľvek na svete.</string>
     <string name="upgrade_tor_title">Pristupujte k sieti Tor jedným ťuknutím</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
+    <string name="upgrade_tor_text">Pripojte sa k skrytým službám a \"onion\" webom pomocou bežného prehliadača.</string>
     <string name="upgrade_vpn_accelerator_title">Prehliadajte ešte vyššou rýchlosťou</string>
     <!--
         %1$s - speed in Gbps
@@ -503,9 +503,9 @@
     <string name="upsell_card_split_tunneling_title">Rozdelené tunelovanie</string>
     <string name="upsell_card_split_tunneling_description">Prehliadanie z dvoch miest naraz</string>
     <string name="upsell_card_streaming_title">Streamovanie</string>
-    <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
+    <string name="upsell_card_streaming_description">Pozerajte vaše obľúbené filmy a televízne relácie</string>
     <string name="upsell_card_tor_title">Tor cez VPN</string>
-    <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="upsell_card_tor_description">Použite sieť Tor nad vaším VPN pripojením pre väčšie súkromie</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -624,7 +624,7 @@
     </plurals>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
-    <string name="notification_banner_dismiss_accessibility_label">Dismiss banner</string>
+    <string name="notification_banner_dismiss_accessibility_label">Odstrániť banner</string>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
          %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
@@ -688,12 +688,12 @@
     <string name="not_wanted_country_description">Aktualizujte a vyberte si ľubovoľný server</string>
     <string name="whats_new_title">Čo je nové</string>
     <string name="whats_new_new_look_title">Nový vzhľad, tá istá ochrana</string>
-    <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
-    <string name="whats_new_recents_title">Introducing Recents</string>
+    <string name="whats_new_new_look_description">Aktualizovali sme náš dizajn a presunuli niektoré veci, aby sa aplikácia ľahšie používala.</string>
+    <string name="whats_new_recents_title">Predstavujeme posledné novinky</string>
     <string name="whats_new_recents_description">Teraz je ešte jednoduchšie znova sa pripojiť k obľúbeným serverom. Zobrazte najnovšie pripojenia na domovskej obrazovke alebo ich pripnite pre rýchly prístup. Nedávne nahrádza položku Profily.</string>
     <string name="whats_new_dismiss_button">Pozrieť sa</string>
     <string name="whats_new_added_countries_title">Nové Bezplatné krajiny</string>
-    <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
+    <string name="whats_new_added_countries_description">Bezplatné servery sú teraz v Poľsku a Rumunsku. Aby sme zabránili preplneniu serverov, odstránili sme manuálny výber krajiny a výrazne sme zlepšili automatický výber serverov.</string>
     <string name="welcome_plus_title">Vitajte vo VPN Plus</string>
     <string name="welcome_plus_description">Vychutnajte si ďalšie funkcie ochrany súkromia, vyšší výkon a prispôsobenie VPN na novej úrovni.</string>
     <string name="welcome_plus_feature_security">Pokročilé bezpečnostné funkcie</string>
@@ -1017,7 +1017,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Na všetkých serveroch v tomto meste prebieha údržba</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
+    <string name="message_state_servers_in_maintenance">Na všetkých serveroch v tomto štáte prebieha údržba</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Na serveri prebieha údržba</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1115,7 +1115,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Vyťaženie: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1216,64 +1216,64 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s Byte per second</item>
-        <item quantity="few">%1$s Bytes per second</item>
-        <item quantity="many">%1$s Bytes per second</item>
-        <item quantity="other">%1$s Bytes per second</item>
+        <item quantity="one">%1$s Bajt za sekundu</item>
+        <item quantity="few">%1$s Bajty za sekundu</item>
+        <item quantity="many">%1$s Bajtov za sekundu</item>
+        <item quantity="other">%1$s Bajtov za sekundu</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">%1$s Kilobyte per second</item>
-        <item quantity="few">%1$s Kilobytes per second</item>
-        <item quantity="many">%1$s Kilobytes per second</item>
-        <item quantity="other">%1$s Kilobytes per second</item>
+        <item quantity="one">%1$s Kilobajt za sekundu</item>
+        <item quantity="few">%1$s Kilobajty za sekundu</item>
+        <item quantity="many">%1$s Kilobajtov za sekundu</item>
+        <item quantity="other">%1$s Kilobajtov za sekundu</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s Megabyte per second</item>
-        <item quantity="few">%1$s Megabytes per second</item>
-        <item quantity="many">%1$s Megabytes per second</item>
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="one">%1$s Megabajt za sekundu</item>
+        <item quantity="few">%1$s Megabajty za sekundu</item>
+        <item quantity="many">%1$s Megabajtov za sekundu</item>
+        <item quantity="other">%1$s Megabajtov za sekundu</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s Gigabyte per second</item>
-        <item quantity="few">%1$s Gigabytes per second</item>
-        <item quantity="many">%1$s Gigabytes per second</item>
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="one">%1$s Gigabajt za sekundu</item>
+        <item quantity="few">%1$s Gigabajty za sekundu</item>
+        <item quantity="many">%1$s Gigabajtov za sekundu</item>
+        <item quantity="other">%1$s Gigabajtov za sekundu</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s Terabyte per second</item>
-        <item quantity="few">%1$s Terabytes per second</item>
-        <item quantity="many">%1$s Terabytes per second</item>
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="one">%1$s Terabajt za sekundu</item>
+        <item quantity="few">%1$s Terabajty za sekundu</item>
+        <item quantity="many">%1$s Terabajtov za sekundu</item>
+        <item quantity="other">%1$s Terabajtov za sekundu</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="one">%1$s Byte</item>
-        <item quantity="few">%1$s Bytes</item>
-        <item quantity="many">%1$s Bytes</item>
-        <item quantity="other">%1$s Bytes</item>
+        <item quantity="one">%1$s Bajt</item>
+        <item quantity="few">%1$s Bajty</item>
+        <item quantity="many">%1$s Bajtov</item>
+        <item quantity="other">%1$s Bajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="one">%1$s Kilobyte</item>
-        <item quantity="few">%1$s Kilobytes</item>
-        <item quantity="many">%1$s Kilobytes</item>
-        <item quantity="other">%1$s Kilobytes</item>
+        <item quantity="one">%1$s Kilobajt</item>
+        <item quantity="few">%1$s Kilobajty</item>
+        <item quantity="many">%1$s Kilobajtov</item>
+        <item quantity="other">%1$s Kilobajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s Megabyte</item>
-        <item quantity="few">%1$s Megabytes</item>
-        <item quantity="many">%1$s Megabytes</item>
-        <item quantity="other">%1$s Megabytes</item>
+        <item quantity="one">%1$s Megabajt</item>
+        <item quantity="few">%1$s Megabajty</item>
+        <item quantity="many">%1$s Megabajtov</item>
+        <item quantity="other">%1$s Megabajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s Gigabyte</item>
-        <item quantity="few">%1$s Gigabytes</item>
-        <item quantity="many">%1$s Gigabytes</item>
-        <item quantity="other">%1$s Gigabytes</item>
+        <item quantity="one">%1$s Gigabajt</item>
+        <item quantity="few">%1$s Gigabajty</item>
+        <item quantity="many">%1$s Gigabajtov</item>
+        <item quantity="other">%1$s Gigabajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s Terabyte</item>
-        <item quantity="few">%1$s Terabytes</item>
-        <item quantity="many">%1$s Terabytes</item>
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="one">%1$s Terabajt</item>
+        <item quantity="few">%1$s Terabajty</item>
+        <item quantity="many">%1$s Terabajtov</item>
+        <item quantity="other">%1$s Terabajtov</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>

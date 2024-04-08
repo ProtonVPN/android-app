@@ -809,8 +809,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
-    <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_p2p">persoană-la-persoană</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Cea mai rapidă țară</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1096,7 +1096,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Solicitare: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->

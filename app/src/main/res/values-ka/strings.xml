@@ -791,7 +791,7 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
-    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_p2p">გამჭოლი</string>
     <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">უსწრაფესი ქვეყანა</string>
@@ -1077,7 +1077,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">დატვირთვა: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1178,24 +1178,24 @@
     <string name="speed_gigabytes_per_second">%1$s გბ/წმ</string>
     <string name="speed_terabytes_per_second">%1$s ტბ/წმ</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s Byte per second</item>
-        <item quantity="other">%1$s Bytes per second</item>
+        <item quantity="one">%1$s ბაიტი წამში</item>
+        <item quantity="other">%1$s ბაიტი წამში</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">%1$s Kilobyte per second</item>
-        <item quantity="other">%1$s Kilobytes per second</item>
+        <item quantity="one">%1$s კილობაიტი წამში</item>
+        <item quantity="other">%1$s კილობაიტი წამში</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s Megabyte per second</item>
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="one">%1$s მეგაბაიტი წამში</item>
+        <item quantity="other">%1$s მეგაბაიტი წამში</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s Gigabyte per second</item>
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="one">%1$s გიგაბაიტი წამში</item>
+        <item quantity="other">%1$s გიგაბაიტი წამში</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s Terabyte per second</item>
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="one">%1$s ტერაბაიტი წამში</item>
+        <item quantity="other">%1$s ტერაბაიტი წამში</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
         <item quantity="one">%1$s ბაიტი</item>
@@ -1206,16 +1206,16 @@
         <item quantity="other">%1$s კილობაიტი</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s Megabyte</item>
-        <item quantity="other">%1$s Megabytes</item>
+        <item quantity="one">%1$s მეგაბაიტი</item>
+        <item quantity="other">%1$s მეგაბაიტი</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s Gigabyte</item>
-        <item quantity="other">%1$s Gigabytes</item>
+        <item quantity="one">%1$s გიგაბაიტი</item>
+        <item quantity="other">%1$s გიგაბაიტი</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s Terabyte</item>
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="one">%1$s ტერაბაიტი</item>
+        <item quantity="other">%1$s ტერაბაიტი</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s ბ</string>
     <string name="traffic_volume_kilobytes">%1$s კბ</string>
