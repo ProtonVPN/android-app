@@ -74,6 +74,7 @@ private object FlagDefaults {
     val twoFlagMainSize = DpSize(24.dp, 16.dp)
     val companionFlagSize = DpSize(18.dp, 12.dp)
     val companionFlagTop = 15.dp
+    val shadowColor = Color(0x66000000)
 }
 
 @Composable
@@ -103,6 +104,25 @@ fun GatewayIndicator(
     GatewayIndicator(countryFlag = country?.flagResource(LocalContext.current), modifier)
 }
 
+@Composable
+private fun GatewayIndicator(
+    countryFlag: Int?,
+    modifier: Modifier = Modifier
+) {
+    if (countryFlag == null) {
+        Image(
+            painterResource(id = R.drawable.ic_gateway_flag),
+            contentDescription = null,
+            modifier = modifier
+        )
+    } else {
+        TwoFlagsSmallOnTop(
+            largeImage = R.drawable.ic_gateway_flag,
+            smallImage = countryFlag,
+            modifier = modifier
+        )
+    }
+}
 
 @Composable
 private fun Flag(
@@ -113,35 +133,11 @@ private fun Flag(
     modifier: Modifier = Modifier
 ) {
     if (isSecureCore && entryCountryFlag != null) {
-        Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
-            Image(
-                painterResource(id = entryCountryFlag),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .padding(top = 15.dp)
-                    .size(18.dp, 12.dp)
-                    .clip(FlagShapes.small)
-                    .drawWithCache {
-                        val shadowPath = createScFlagShadow(Offset(4.dp.toPx(), -6.dp.toPx()), bottomRadius = 6.dp.toPx())
-                        onDrawWithContent {
-                            drawContent()
-                            drawScFlagShadow(shadowPath, Color(0x66000000))
-                        }
-                    }
-            )
-            Image(
-                painterResource(id = exitCountryFlag),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .padding(top = FlagDefaults.twoFlagTop, start = 6.dp)
-                    .size(FlagDefaults.twoFlagMainSize)
-                    .clip(FlagShapes.regular)
-            )
-        }
+        TwoFlagsLargeOnTop(
+            largeImage = exitCountryFlag,
+            smallImage = entryCountryFlag,
+            modifier = modifier
+        )
     } else {
         val drawScIndicatorModifier = if (isSecureCore) {
             val color =
@@ -172,44 +168,74 @@ private fun Flag(
 }
 
 @Composable
-private fun GatewayIndicator(
-    countryFlag: Int?,
+private fun TwoFlagsLargeOnTop(
+    @DrawableRes largeImage: Int,
+    @DrawableRes smallImage: Int,
     modifier: Modifier = Modifier
 ) {
-    if (countryFlag == null) {
+    Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
         Image(
-            painterResource(id = R.drawable.ic_gateway_flag),
+            painterResource(id = smallImage),
             contentDescription = null,
-            modifier = modifier
-        )
-    } else {
-        Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
-            Image(
-                painterResource(id = R.drawable.ic_gateway_flag),
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(top = FlagDefaults.twoFlagTop)
-                    .size(FlagDefaults.twoFlagMainSize)
-                    .clip(FlagShapes.sharp) // Clipping needed only for the shadow.
-                    .drawWithCache {
-                        val shadowPath = createScFlagShadow(Offset(10.dp.toPx(), 10.dp.toPx(),), topRadius = 6.dp.toPx())
-                        onDrawWithContent {
-                            drawContent()
-                            drawScFlagShadow(shadowPath, Color(0x66000000))
-                        }
+            alignment = Alignment.Center,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(top = 15.dp)
+                .size(18.dp, 12.dp)
+                .clip(FlagShapes.small)
+                .drawWithCache {
+                    val shadowPath = createScFlagShadow(Offset(4.dp.toPx(), -6.dp.toPx()), bottomRadius = 6.dp.toPx())
+                    onDrawWithContent {
+                        drawContent()
+                        drawScFlagShadow(shadowPath, FlagDefaults.shadowColor)
                     }
-            )
-            Image(
-                painterResource(id = countryFlag),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .padding(top = FlagDefaults.companionFlagTop, start = 12.dp)
-                    .size(FlagDefaults.companionFlagSize)
-                    .clip(FlagShapes.small)
-            )
-        }
+                }
+        )
+        Image(
+            painterResource(id = largeImage),
+            contentDescription = null,
+            alignment = Alignment.Center,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(top = FlagDefaults.twoFlagTop, start = 6.dp)
+                .size(FlagDefaults.twoFlagMainSize)
+                .clip(FlagShapes.regular)
+        )
+    }
+}
+
+@Composable
+private fun TwoFlagsSmallOnTop(
+    @DrawableRes largeImage: Int,
+    @DrawableRes smallImage: Int,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
+        Image(
+            painterResource(id = largeImage),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(top = FlagDefaults.twoFlagTop)
+                .size(FlagDefaults.twoFlagMainSize)
+                .clip(FlagShapes.sharp) // Clipping needed only for the shadow.
+                .drawWithCache {
+                    val shadowPath = createScFlagShadow(Offset(10.dp.toPx(), 10.dp.toPx(),), topRadius = 6.dp.toPx())
+                    onDrawWithContent {
+                        drawContent()
+                        drawScFlagShadow(shadowPath, FlagDefaults.shadowColor)
+                    }
+                }
+        )
+        Image(
+            painterResource(id = smallImage),
+            contentDescription = null,
+            alignment = Alignment.Center,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(top = FlagDefaults.companionFlagTop, start = 12.dp)
+                .size(FlagDefaults.companionFlagSize)
+                .clip(FlagShapes.small)
+        )
     }
 }
 
