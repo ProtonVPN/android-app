@@ -19,13 +19,10 @@
 
 package com.protonvpn.testSuites
 
-import com.protonvpn.tests.base.ui.SpeedAndSizeFormatTests
 import com.protonvpn.tests.netshield.NetShieldComponentTests
 import com.protonvpn.tests.promooffer.PromoOfferCountDownTests
 import com.protonvpn.tests.redesign.base.ui.ProtonTextFieldTests
 import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
-import com.protonvpn.tests.redesign.recents.MigrateProfileTests
-import com.protonvpn.tests.redesign.recents.RecentsDaoTests
 import com.protonvpn.tests.redesign.recents.RecentsListUiTests
 import com.protonvpn.tests.redesign.recents.RecentsListValidatorTests
 import com.protonvpn.tests.redesign.vpn.ui.ConnectionDetailsTests
@@ -41,15 +38,12 @@ import org.junit.runners.Suite
 @Suite.SuiteClasses(
     ConnectionDetailsTests::class,
     GetConnectIntentViewStateTests::class,
-    MigrateProfileTests::class,
     NavigationTests::class,
     NetShieldComponentTests::class,
     PromoOfferCountDownTests::class,
     ProtonTextFieldTests::class,
-    RecentsDaoTests::class,
     RecentsListUiTests::class,
     RecentsListValidatorTests::class,
-    SpeedAndSizeFormatTests::class,
     VpnStatusViewTests::class,
 )
 class IsolatedTestsSuite

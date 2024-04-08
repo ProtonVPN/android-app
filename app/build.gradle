@@ -830,7 +830,9 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
+    testImplementation "androidx.compose.ui:ui-test-junit4"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+    testImplementation "androidx.navigation:navigation-testing:2.7.6"
     androidTestImplementation "androidx.navigation:navigation-testing:2.7.6"
 
     // Play core
@@ -951,7 +953,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:$mockk_version"
-    testImplementation 'org.robolectric:robolectric:4.12'
+    testImplementation 'org.robolectric:robolectric:4.12.1'
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version") {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
@@ -992,12 +994,13 @@ dependencies {
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit"
 
     // Espresso dependencies
+    testImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
     androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.5.1'
     androidTestImplementation 'androidx.test.espresso:espresso-web:3.5.1'
-    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0-alpha05'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0'
 
     // Fusion
     testImplementation "me.proton.test:fusion:0.9.62"

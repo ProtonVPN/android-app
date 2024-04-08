@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.redesign.recents
+package com.protonvpn.app.redesign.recents
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
@@ -32,15 +32,16 @@ import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount1
 import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount2
 import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestSession1
 import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestSession2
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import me.proton.core.domain.entity.UserId
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@RunWith(RobolectricTestRunner::class)
 class RecentsDaoTests {
 
     private lateinit var recentsDao: RecentsDao

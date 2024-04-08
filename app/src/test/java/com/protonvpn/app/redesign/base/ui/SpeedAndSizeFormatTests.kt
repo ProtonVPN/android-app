@@ -17,14 +17,17 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.base.ui
+package com.protonvpn.app.redesign.base.ui
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.base.ui.speedBytesToString
 import com.protonvpn.android.base.ui.volumeBytesToString
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class SpeedAndSizeFormatTests {
 
     @Test
