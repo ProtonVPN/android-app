@@ -827,7 +827,7 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
-    <string name="server_feature_content_description_p2p">аднарангавае</string>
+    <string name="server_feature_content_description_p2p">аднарангавы</string>
     <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Найхутчэйшыя краіны</string>
