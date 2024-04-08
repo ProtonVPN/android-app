@@ -17,11 +17,10 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.tests.redesign.recents
+package com.protonvpn.app.redesign.recents
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.db.AppDatabase
@@ -36,7 +35,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.usecases.MigrateProfiles
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -63,11 +61,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import java.util.concurrent.Executors
 
-// These tests use mocking of final classes that's not available on API < 28
-@SdkSuppress(minSdkVersion = 28)
 @OptIn(ExperimentalCoroutinesApi::class)
+@RunWith(RobolectricTestRunner::class)
 class MigrateProfileTests {
 
     @get:Rule
