@@ -167,13 +167,14 @@ private fun ConnectionDetailsConnected(
             .padding(16.dp)
             .largeScreenContentPadding()
     ) {
+        val connectIntent = viewState.connectIntentViewState
         Row(
             modifier = Modifier
                 .padding(bottom = 16.dp)
                 .heightIn(min = 42.dp)
                 .semantics(mergeDescendants = true) {},
+            verticalAlignment = if (connectIntent.secondaryLabel != null) Alignment.Top else Alignment.CenterVertically,
         ) {
-            val connectIntent = viewState.connectIntentViewState
             FlagOrGatewayIndicator(
                 connectIntent.primaryLabel,
                 modifier = Modifier.padding(top = 4.dp)
