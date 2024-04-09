@@ -392,14 +392,14 @@ private fun SpeedGraph(
                             shader = DynamicShaders.color(ProtonTheme.colors.notificationError),
                             backgroundShader =
                             DynamicShaders.verticalGradient(
-                                arrayOf(ProtonTheme.colors.notificationError.copy(alpha = 0.7f), ProtonTheme.colors.notificationError.copy(alpha = 0f)),
+                                with(ProtonTheme.colors) { arrayOf(notificationError.copy(alpha = 0.7f), notificationError.copy(alpha = 0f)) }
                             ),
                         ),
                         rememberLineSpec(
                             shader = DynamicShaders.color(ProtonTheme.colors.notificationSuccess),
                             backgroundShader =
                             DynamicShaders.verticalGradient(
-                                arrayOf(ProtonTheme.colors.notificationSuccess.copy(alpha = 0.7f), ProtonTheme.colors.notificationSuccess.copy(alpha = 0f)),
+                                with(ProtonTheme.colors) { arrayOf(notificationSuccess.copy(alpha = 0.7f), notificationSuccess.copy(alpha = 0f)) }
                             ),
                         ),
                     )
@@ -449,15 +449,15 @@ private fun SpeedInfoColumn(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Icon(
-                painter = icon,
-                tint = color,
-                contentDescription = null,
-            )
             Text(
                 text = title,
                 style = ProtonTheme.typography.body2Regular,
                 color = color,
+            )
+            Icon(
+                painter = icon,
+                tint = color,
+                contentDescription = null,
             )
         }
         val accessibilityValue = speedValue.speedBytesToString(useAbbreviations = false)
