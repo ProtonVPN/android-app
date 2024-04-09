@@ -19,32 +19,59 @@
 
 package com.protonvpn.android.redesign.base.ui
 
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
-fun ServerLoadBar(progress: Float) {
-    val color = when {
+fun ServerLoadBar(progress: Float, modifier: Modifier = Modifier) {
+    val trackColor = ProtonTheme.colors.shade40
+    val loadColor = when {
         progress <= 0.75F -> ProtonTheme.colors.notificationSuccess
         progress <= 0.9F -> ProtonTheme.colors.notificationWarning
         else -> ProtonTheme.colors.notificationError
     }
-    // TODO: reimplement it. Don't use progress bar, it has accessibility semantics and its look will changes in newer
-    //  versions of M3.
-    //  The indicator is 2 lines, draw them on Canvas. Don't forget about RTL.
-    LinearProgressIndicator(
-        progress = progress,
-        color = color,
-        strokeCap = StrokeCap.Round,
-        trackColor = ProtonTheme.colors.shade40,
-        modifier = Modifier
-            .clearAndSetSemantics {}
-            .width(36.dp)
-    )
+    val thickness = 4.dp
+    Canvas(modifier = modifier.size(36.dp, thickness)) {
+        val lineY = size.height / 2
+        val strokeCapThickness = thickness.toPx() / 2
+        drawLine(
+            trackColor,
+            Offset(strokeCapThickness, lineY),
+            Offset(size.width - strokeCapThickness, lineY),
+            strokeWidth = thickness.toPx(),
+            cap = StrokeCap.Round,
+        )
+        if (progress > 0f) {
+            val progressWidth = progress * (size.width - 2 * strokeCapThickness)
+            drawLine(
+                loadColor,
+                Offset(strokeCapThickness, lineY),
+                Offset(strokeCapThickness + progressWidth, lineY),
+                strokeWidth = thickness.toPx(),
+                cap = StrokeCap.Round,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewServerLoadBar() {
+    LightAndDarkPreview {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf(0f, 0.01f,  0.76f, 1f).forEach {
+                ServerLoadBar(it)
+            }
+        }
+    }
 }
