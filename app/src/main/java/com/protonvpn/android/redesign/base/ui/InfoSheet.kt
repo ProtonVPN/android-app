@@ -173,6 +173,9 @@ private fun SubDetailsComposableServerLoad(modifier: Modifier) {
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        ServerLoadInfoBar(
+            modifier = Modifier.fillMaxWidth()
+        )
         ServerLoadLegendItem(
             progress = 0.3F,
             title = stringResource(id = R.string.connection_details_server_load_low_title),
