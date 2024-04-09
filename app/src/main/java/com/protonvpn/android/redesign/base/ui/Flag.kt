@@ -78,6 +78,22 @@ private object FlagDefaults {
 }
 
 @Composable
+fun FlagFastest(
+    connectedCountry: CountryId?,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+    val secondaryFlag = connectedCountry?.flagResource(context)
+    Flag(
+        mainFlag = R.drawable.flag_fastest,
+        secondaryFlag = secondaryFlag,
+        isSecureCore = false,
+        isFastest = true,
+        modifier = modifier
+    )
+}
+
+@Composable
 fun Flag(
     exitCountry: CountryId,
     entryCountry: CountryId? = null,
@@ -88,8 +104,8 @@ fun Flag(
         if (entryCountry == null || entryCountry.isFastest) null
         else entryCountry.flagResource(context)
     Flag(
-        exitCountry.flagResource(context),
-        entryCountryFlag,
+        mainFlag = exitCountry.flagResource(context),
+        secondaryFlag = entryCountryFlag,
         isSecureCore = entryCountry != null,
         isFastest = exitCountry.isFastest,
         modifier = modifier
@@ -119,6 +135,7 @@ private fun GatewayIndicator(
         TwoFlagsSmallOnTop(
             largeImage = R.drawable.ic_gateway_flag,
             smallImage = countryFlag,
+            isRounded = false,
             modifier = modifier
         )
     }
@@ -126,45 +143,54 @@ private fun GatewayIndicator(
 
 @Composable
 private fun Flag(
-    exitCountryFlag: Int,
-    entryCountryFlag: Int?,
+    @DrawableRes mainFlag: Int,
+    secondaryFlag: Int?,
     isSecureCore: Boolean,
     isFastest: Boolean,
     modifier: Modifier = Modifier
 ) {
-    if (isSecureCore && entryCountryFlag != null) {
-        TwoFlagsLargeOnTop(
-            largeImage = exitCountryFlag,
-            smallImage = entryCountryFlag,
-            modifier = modifier
-        )
-    } else {
-        val drawScIndicatorModifier = if (isSecureCore) {
-            val color =
-                if (isFastest) ProtonTheme.colors.vpnGreen.copy(alpha = 0.24f)
-                else ProtonTheme.colors.textHint
-            Modifier.drawWithCache {
-                val path = createScUnderlineArc(Size(26.dp.toPx(), 16.dp.toPx()), 6.dp.toPx())
-                onDrawBehind {
-                    // The underline arc is outside the layout area for this component, same as in
-                    // designs. This should make it easier to position the flag.
-                    drawScUnderlineArc(Offset(-4.dp.toPx(), 8.dp.toPx()), path, color)
-                }
-            }
-        } else {
-            Modifier
-        }
-        Image(
-            painterResource(id = exitCountryFlag),
-            contentDescription = null,
-            alignment = Alignment.Center,
-            contentScale = ContentScale.Crop,
-            modifier = modifier
-                .size(30.dp, 20.dp)
-                .then(drawScIndicatorModifier)
-                .clip(FlagShapes.regular)
-        )
+    when {
+        secondaryFlag != null && isSecureCore->
+            TwoFlagsLargeOnTop(largeImage = mainFlag, smallImage = secondaryFlag, modifier = modifier)
+        secondaryFlag != null && !isSecureCore ->
+            TwoFlagsSmallOnTop(largeImage = mainFlag, smallImage = secondaryFlag, isRounded = true, modifier = modifier)
+        else ->
+            SingleFlag(mainFlag, isSecureCore, isFastest, modifier)
     }
+}
+
+@Composable
+private fun SingleFlag(
+    @DrawableRes flagImage: Int,
+    isSecureCore: Boolean,
+    isFastest: Boolean,
+    modifier: Modifier = Modifier
+) {
+    val drawScIndicatorModifier = if (isSecureCore) {
+        val color =
+            if (isFastest) ProtonTheme.colors.vpnGreen.copy(alpha = 0.24f)
+            else ProtonTheme.colors.textHint
+        Modifier.drawWithCache {
+            val path = createScUnderlineArc(Size(26.dp.toPx(), 16.dp.toPx()), 6.dp.toPx())
+            onDrawBehind {
+                // The underline arc is outside the layout area for this component, same as in
+                // designs. This should make it easier to position the flag.
+                drawScUnderlineArc(Offset(-4.dp.toPx(), 8.dp.toPx()), path, color)
+            }
+        }
+    } else {
+        Modifier
+    }
+    Image(
+        painterResource(id = flagImage),
+        contentDescription = null,
+        alignment = Alignment.Center,
+        contentScale = ContentScale.Crop,
+        modifier = modifier
+            .size(30.dp, 20.dp)
+            .then(drawScIndicatorModifier)
+            .clip(FlagShapes.regular)
+    )
 }
 
 @Composable
@@ -208,6 +234,7 @@ private fun TwoFlagsLargeOnTop(
 private fun TwoFlagsSmallOnTop(
     @DrawableRes largeImage: Int,
     @DrawableRes smallImage: Int,
+    isRounded: Boolean,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
@@ -217,7 +244,7 @@ private fun TwoFlagsSmallOnTop(
             modifier = Modifier
                 .padding(top = FlagDefaults.twoFlagTop)
                 .size(FlagDefaults.twoFlagMainSize)
-                .clip(FlagShapes.sharp) // Clipping needed only for the shadow.
+                .clip(if (isRounded) FlagShapes.regular else FlagShapes.sharp) // Sharp clipping needed for the shadow.
                 .drawWithCache {
                     val shadowPath = createScFlagShadow(Offset(10.dp.toPx(), 10.dp.toPx(),), topRadius = 6.dp.toPx())
                     onDrawWithContent {
@@ -320,24 +347,31 @@ private fun FlagsPreviewHelper() {
             Column {
                 val modifier = Modifier.padding(8.dp)
                 Flag(
-                    exitCountryFlag = R.drawable.flag_fastest,
-                    entryCountryFlag = null,
+                    mainFlag = R.drawable.flag_fastest,
+                    secondaryFlag = null,
                     isSecureCore = true,
                     isFastest = true,
                     modifier = modifier
                 )
                 Flag(
-                    exitCountryFlag = CountryR.drawable.flag_au,
-                    entryCountryFlag = CountryR.drawable.flag_ch,
+                    mainFlag = CountryR.drawable.flag_au,
+                    secondaryFlag = CountryR.drawable.flag_ch,
                     isSecureCore = true,
                     isFastest = false,
                     modifier = modifier
                 )
                 Flag(
-                    exitCountryFlag = CountryR.drawable.flag_us,
-                    entryCountryFlag = null,
+                    mainFlag = CountryR.drawable.flag_us,
+                    secondaryFlag = null,
                     isSecureCore = false,
                     isFastest = false,
+                    modifier = modifier
+                )
+                Flag(
+                    mainFlag = R.drawable.flag_fastest,
+                    secondaryFlag = CountryR.drawable.flag_ch,
+                    isSecureCore = false,
+                    isFastest = true,
                     modifier = modifier
                 )
                 GatewayIndicator(countryFlag = null, modifier = modifier)

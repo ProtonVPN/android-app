@@ -49,22 +49,27 @@ class GetConnectIntentViewState @Inject constructor(
             is ConnectIntent.Server -> specificServer(connectIntent, connectedServer)
         }
 
-    private fun fastestInCountry(connectIntent: ConnectIntent.FastestInCountry, connectedServer: Server? = null) =
-        ConnectIntentViewState(
-            primaryLabel = ConnectIntentPrimaryLabel.Country(
+    private fun fastestInCountry(
+        connectIntent: ConnectIntent.FastestInCountry,
+        connectedServer: Server? = null
+    ): ConnectIntentViewState {
+        val primary = if (connectIntent.country.isFastest) {
+            ConnectIntentPrimaryLabel.Fastest(connectedServer?.exitCountryId(), isFree = false)
+        } else {
+            ConnectIntentPrimaryLabel.Country(
                 exitCountry = fastestOrConnectedOrIntent(connectIntent.country, connectedServer, Server::exitCountry),
                 entryCountry = null,
-            ),
-            secondaryLabel =
-                connectedCountryIfFastest(connectIntent.country, connectedServer, Server::entryCountry)?.let {
-                    ConnectIntentSecondaryLabel.Country(it, null)
-                },
-            serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
-        )
+            )
+        }
+        val secondary = connectedCountryIfFastest(connectIntent.country, connectedServer, Server::entryCountry)?.let {
+            ConnectIntentSecondaryLabel.Country(it, null)
+        }
+        return ConnectIntentViewState(primary, secondary, effectiveServerFeatures(connectIntent, connectedServer))
+    }
 
     private suspend fun fastestFreeServer(connectedServer: Server? = null) =
         ConnectIntentViewState(
-            primaryLabel = ConnectIntentPrimaryLabel.FastestFreeServer,
+            primaryLabel = ConnectIntentPrimaryLabel.Fastest(connectedServer?.exitCountryId(), isFree = true),
             secondaryLabel = if (connectedServer != null) {
                 countryWithServerNumberSecondaryLabel(connectedServer)
             } else {
@@ -121,14 +126,12 @@ class GetConnectIntentViewState @Inject constructor(
     }
 
     private suspend fun gateway(connectIntent: ConnectIntent.Gateway, connectedServer: Server?): ConnectIntentViewState {
-        val specificServer = connectIntent.serverId?.let { connectedServer ?: serverManager.getServerById(it) }
-        val secondaryLabel = specificServer?.let { countryWithServerNumberSecondaryLabel(it) }
-        val exitCountry = specificServer?.let { CountryId(it.exitCountry) }
+        val labelServer = connectIntent.serverId?.let { connectedServer ?: serverManager.getServerById(it) }
+        val secondaryLabel = labelServer?.let { countryWithServerNumberSecondaryLabel(it) }
+        val intentServer = connectIntent.serverId?.let { serverManager.getServerById(it) }
+        val country = connectedServer?.exitCountryId() ?: intentServer?.let { CountryId(it.exitCountry) }
         return ConnectIntentViewState(
-            primaryLabel = ConnectIntentPrimaryLabel.Gateway(
-                connectIntent.gatewayName,
-                exitCountry
-            ),
+            primaryLabel = ConnectIntentPrimaryLabel.Gateway(connectIntent.gatewayName, country),
             secondaryLabel = secondaryLabel,
             serverFeatures = emptySet()
         )
@@ -204,4 +207,6 @@ class GetConnectIntentViewState @Inject constructor(
 
     private fun countryWithServerNumberSecondaryLabel(server: Server): ConnectIntentSecondaryLabel =
         ConnectIntentSecondaryLabel.Country(CountryId(server.exitCountry), server.serverName.dropWhile { it != '#' })
+
+    private fun Server.exitCountryId() = CountryId(exitCountry)
 }

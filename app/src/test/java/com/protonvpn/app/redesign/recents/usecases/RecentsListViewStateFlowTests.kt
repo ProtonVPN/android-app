@@ -180,7 +180,7 @@ class RecentsListViewStateFlowTests {
     fun defaultConnectionIsShownWhenThereAreNoRecents() = testScope.runTest {
         val viewState = viewStateFlow.first()
         val expectedConnectionCard =
-            ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.fastest, null), null, emptySet())
+            ConnectIntentViewState(ConnectIntentPrimaryLabel.Fastest(null, isFree = false), null, emptySet())
         assertEquals(expectedConnectionCard, viewState.connectionCard.connectIntentViewState)
         assertEquals(emptyList(), viewState.recents)
     }
@@ -382,7 +382,12 @@ class RecentsListViewStateFlowTests {
 
         val DefaultRecents = listOf(RecentSecureCore, RecentFastest, RecentSweden, RecentIceland)
 
-        private fun createViewStateForFastestInCountry(intent: ConnectIntent.FastestInCountry) =
-            ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(intent.country, null), null, intent.features)
+        private fun createViewStateForFastestInCountry(intent: ConnectIntent.FastestInCountry): ConnectIntentViewState {
+            val primaryLabel = if (intent.country.isFastest)
+                ConnectIntentPrimaryLabel.Fastest(connectedCountry = null, isFree = false)
+            else
+                ConnectIntentPrimaryLabel.Country(intent.country, null)
+            return ConnectIntentViewState(primaryLabel, secondaryLabel = null, serverFeatures = intent.features)
+        }
     }
 }

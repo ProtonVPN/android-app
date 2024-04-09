@@ -30,11 +30,11 @@ fun FlagOrGatewayIndicator(
     modifier: Modifier = Modifier
 ) {
     when(label) {
-        is ConnectIntentPrimaryLabel.FastestFreeServer ->
-            Flag(CountryId.fastest, modifier = modifier)
+        is ConnectIntentPrimaryLabel.Fastest ->
+            FlagFastest(connectedCountry = label.connectedCountry, modifier = modifier)
         is ConnectIntentPrimaryLabel.Country ->
             Flag(label.exitCountry, label.entryCountry, modifier = modifier)
         is ConnectIntentPrimaryLabel.Gateway ->
-            GatewayIndicator(label.exitCountry, modifier = modifier)
+            GatewayIndicator(label.country, modifier = modifier)
     }
 }

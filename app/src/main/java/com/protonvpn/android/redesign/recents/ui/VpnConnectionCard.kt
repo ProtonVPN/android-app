@@ -63,6 +63,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.clickableWithDebounce
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
@@ -245,7 +246,7 @@ private fun ContainerLabelRow(
 private fun VpnConnectionCardFreeUserPreview() {
     LightAndDarkPreview {
         val connectIntentState = ConnectIntentViewState(
-            ConnectIntentPrimaryLabel.FastestFreeServer,
+            ConnectIntentPrimaryLabel.Fastest(CountryId.sweden, isFree = true),
             ConnectIntentSecondaryLabel.FastestFreeServer(4),
             emptySet(),
         )
