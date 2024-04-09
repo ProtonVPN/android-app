@@ -137,7 +137,8 @@ fun VpnConnectionCard(
                             .semantics(mergeDescendants = true) {},
                     ) {
                         with(targetState) {
-                            FlagOrGatewayIndicator(primaryLabel)
+                            val alignment = if (secondaryLabel != null) Alignment.Top else Alignment.CenterVertically
+                            FlagOrGatewayIndicator(primaryLabel, modifier = Modifier.align(alignment))
                             ConnectIntentLabels(
                                 primaryLabel,
                                 secondaryLabel,
@@ -147,6 +148,7 @@ fun VpnConnectionCard(
                                 secondaryLabelVerticalPadding = 2.dp,
                                 modifier = Modifier
                                     .weight(1f)
+                                    .align(alignment)
                                     .padding(start = 16.dp)
                             )
                         }
