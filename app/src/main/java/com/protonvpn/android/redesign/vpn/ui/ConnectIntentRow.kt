@@ -70,10 +70,10 @@ import java.util.EnumSet
 private const val FLAGS_TOKEN = "[flags]"
 
 sealed interface ConnectIntentPrimaryLabel {
-    object FastestFreeServer : ConnectIntentPrimaryLabel
+    data class Fastest(val connectedCountry: CountryId?, val isFree: Boolean) : ConnectIntentPrimaryLabel
     data class Country(val exitCountry: CountryId, val entryCountry: CountryId?) : ConnectIntentPrimaryLabel
 
-    data class Gateway(val gatewayName: String, val exitCountry: CountryId?) : ConnectIntentPrimaryLabel
+    data class Gateway(val gatewayName: String, val country: CountryId?) : ConnectIntentPrimaryLabel
 }
 
 sealed interface ConnectIntentSecondaryLabel {
@@ -177,7 +177,8 @@ private fun ServerDetailsRow(
 
 @Composable
 private fun ConnectIntentPrimaryLabel.label(): String = when (this) {
-    is ConnectIntentPrimaryLabel.FastestFreeServer -> stringResource(R.string.fastest_free_server)
+    is ConnectIntentPrimaryLabel.Fastest ->
+        stringResource(if (isFree) R.string.fastest_free_server else R.string.fastest_country)
     is ConnectIntentPrimaryLabel.Country -> exitCountry.label()
     is ConnectIntentPrimaryLabel.Gateway -> gatewayName
 }
@@ -291,7 +292,7 @@ private fun ConnectIntentRowFastestFreeServer() {
     VpnTheme {
         Row {
             ConnectIntentLabels(
-                primaryLabel = ConnectIntentPrimaryLabel.FastestFreeServer,
+                primaryLabel = ConnectIntentPrimaryLabel.Fastest(null, isFree = true),
                 secondaryLabel = ConnectIntentSecondaryLabel.FastestFreeServer(5),
                 serverFeatures = emptySet(),
                 isConnected = true,
