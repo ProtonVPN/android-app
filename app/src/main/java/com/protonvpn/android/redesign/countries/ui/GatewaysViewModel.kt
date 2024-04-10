@@ -44,7 +44,7 @@ class GatewaysViewModel @Inject constructor(
     "gateways",
     savedStateHandle,
     dataAdapter,
-    vpnConnectionManager,
+    vpnConnectionManager::connect,
     shouldShowcaseRecents,
     currentUser,
     vpnStatusProviderUI,

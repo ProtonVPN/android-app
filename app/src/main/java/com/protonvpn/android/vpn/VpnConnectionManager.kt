@@ -92,6 +92,14 @@ interface VpnUiDelegate {
     fun onProtocolNotSupported()
 }
 
+// Simpler dependency (that's easier to fake than VpnConnectionManager) for all code that simply
+// triggers connection.
+fun interface VpnConnect {
+    fun connect(uiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, triggerAction: ConnectTrigger)
+    operator fun invoke(uiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, triggerAction: ConnectTrigger) =
+        connect(uiDelegate, connectIntent, triggerAction)
+}
+
 @OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
 class VpnConnectionManager @Inject constructor(
@@ -112,7 +120,7 @@ class VpnConnectionManager @Inject constructor(
     private val supportsProtocol: SupportsProtocol,
     powerManager: PowerManager,
     private val vpnConnectionTelemetry: VpnConnectionTelemetry
-) : VpnStateSource {
+) : VpnStateSource, VpnConnect {
 
     // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
     private var ongoingConnect: Job? = null
@@ -468,7 +476,7 @@ class VpnConnectionManager @Inject constructor(
         return false
     }
 
-    fun connect(uiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, triggerAction: ConnectTrigger) {
+    override fun connect(uiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, triggerAction: ConnectTrigger) {
         val intent = permissionDelegate.prepareVpnPermission()
         scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {

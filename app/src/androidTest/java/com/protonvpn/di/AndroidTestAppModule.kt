@@ -18,6 +18,8 @@
  */
 package com.protonvpn.di
 
+import com.protonvpn.android.auth.usecase.CurrentUserProvider
+import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.testsHelper.EspressoDispatcherProvider
 import dagger.Binds
@@ -44,5 +46,9 @@ object AndroidTestScopeAppModule {
         @Binds
         @Singleton
         fun provideVpnDispatcherProvider(impl: EspressoDispatcherProvider): VpnDispatcherProvider
+
+        @Binds
+        @Singleton
+        fun provideCurrentUserProvider(impl: DefaultCurrentUserProvider): CurrentUserProvider
     }
 }

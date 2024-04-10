@@ -25,7 +25,7 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
-import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -34,10 +34,10 @@ import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class CountriesViewModel @Inject constructor(
+class CountriesViewModel  @Inject constructor(
     savedStateHandle: SavedStateHandle,
     dataAdapter: ServerListViewModelDataAdapter,
-    vpnConnectionManager: VpnConnectionManager,
+    connect: VpnConnect,
     shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
@@ -46,7 +46,7 @@ class CountriesViewModel @Inject constructor(
     "country_list",
     savedStateHandle,
     dataAdapter,
-    vpnConnectionManager,
+    connect,
     shouldShowcaseRecents,
     currentUser,
     vpnStatusProviderUI,

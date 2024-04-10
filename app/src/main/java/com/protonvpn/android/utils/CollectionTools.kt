@@ -39,8 +39,8 @@ fun <T> Collection<T>.randomNullable() =
         if (isEmpty()) null else random()
 
 // locale-aware sortedBy e.g. a < ą < b
-inline fun <T> Iterable<T>.sortedByLocaleAware(crossinline selector: (T) -> String): List<T> {
-    val c = Collator.getInstance(Locale.getDefault())
+inline fun <T> Iterable<T>.sortedByLocaleAware(locale: Locale? = null, crossinline selector: (T) -> String): List<T> {
+    val c = Collator.getInstance(locale ?: Locale.getDefault())
     return sortedWith(Comparator { s1, s2 ->
         c.compare(selector(s1), selector(s2))
     })

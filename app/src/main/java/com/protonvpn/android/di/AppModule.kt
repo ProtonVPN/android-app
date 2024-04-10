@@ -28,7 +28,6 @@ import android.telephony.TelephonyManager
 import androidx.work.WorkManager
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
-import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
@@ -54,7 +53,6 @@ import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapte
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
-import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
@@ -63,14 +61,12 @@ import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.AndroidSharedPreferencesProvider
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.SharedPreferencesProvider
-import com.protonvpn.android.vpn.ConnectivityMonitor
-import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.VpnBackendProvider
-import com.protonvpn.android.vpn.VpnConnectionErrorHandler
+import com.protonvpn.android.vpn.VpnConnect
+import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
-import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import dagger.Binds
@@ -216,6 +212,10 @@ object AppModuleProd {
 
         @Binds
         fun bindUserCountryProvider(provider: DefaultUserCountryProvider): UserCountryProvider
+
+        @Singleton
+        @Binds
+        fun provideCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
     }
 }
 
@@ -310,15 +310,15 @@ object AppModule {
         @Binds
         fun bindImagePrefetcher(glide: GlideImagePrefetcher): ImagePrefetcher
 
-        @Singleton
-        @Binds
-        fun provideCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
-
         @Binds
         fun provideFeatureFlagContextProvider(provider: VpnFeatureFlagContextProvider): FeatureFlagContextProvider
 
         @Singleton
         @Binds
         fun provideServerListViewModelDataAdapter(impl: ServerListViewModelDataAdapterLegacy): ServerListViewModelDataAdapter
+
+        @Singleton
+        @Binds
+        fun provideVpnConnect(impl: VpnConnectionManager): VpnConnect
     }
 }
