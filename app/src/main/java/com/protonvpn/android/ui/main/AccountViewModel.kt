@@ -28,6 +28,7 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
+import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
 import com.protonvpn.android.auth.usecase.Logout
@@ -91,6 +92,7 @@ class AccountViewModel @Inject constructor(
     private val isCredentialLessEnabled: IsCredentialLessEnabled,
     private val isInAppUpgradeAllowedUseCase: IsInAppUpgradeAllowedUseCase,
     private val getDynamicSubscription: GetDynamicSubscription,
+    private val authFlowTriggerHelper: AuthFlowStartHelper,
 ) : ViewModel() {
 
     sealed class State {
@@ -188,6 +190,15 @@ class AccountViewModel @Inject constructor(
                 .onAccountCreateAccountNeeded { startSignupWorkflow(requiredAccountType, cancellable = false) }
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
+
+            authFlowTriggerHelper.startAuthEvent
+                .onEach { type ->
+                    when (type) {
+                        AuthFlowStartHelper.Type.SignIn -> startLoginWorkflow(requiredAccountType)
+                        AuthFlowStartHelper.Type.CreateAccount -> startSignupWorkflow(requiredAccountType)
+                    }
+                }
+                .launchIn(activity.lifecycleScope)
         }
     }
 

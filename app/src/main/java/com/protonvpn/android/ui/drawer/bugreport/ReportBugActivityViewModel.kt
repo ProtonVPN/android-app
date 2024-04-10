@@ -25,12 +25,15 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.IsCredentiallessUser
 import com.protonvpn.android.logging.FileLogWriter
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.bugreport.Category
@@ -41,6 +44,8 @@ import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.SentryIntegration
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.presentation.ui.view.ProtonInput
@@ -60,6 +65,8 @@ class ReportBugActivityViewModel @Inject constructor(
     private val telephony: TelephonyManager?,
     private val guestHole: GuestHole,
     private val isTv: IsTvCheck,
+    private val isCredentiallessUser: IsCredentiallessUser,
+    private val authFlowStartHelper: AuthFlowStartHelper,
 ) : ViewModel() {
 
     interface DynamicInputUI {
@@ -76,8 +83,15 @@ class ReportBugActivityViewModel @Inject constructor(
         object Finish : ViewState()
     }
 
+    enum class UiEvent {
+        ShowLoginDialog
+    }
+
     private val _state = MutableLiveData<ViewState>(ViewState.Categories(getCategories()))
     val state: LiveData<ViewState> = _state
+
+    private val _event = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
+    val event: SharedFlow<UiEvent> = _event
 
     suspend fun getUserEmail() = currentUser.user()?.email
 
@@ -92,7 +106,14 @@ class ReportBugActivityViewModel @Inject constructor(
     }
 
     fun navigateToReport(category: Category) {
-        _state.value = ViewState.Report(category)
+        viewModelScope.launch {
+            val user = currentUser.user()
+            if (!isTv() && user != null && isCredentiallessUser(user.userId)) {
+                _event.tryEmit(UiEvent.ShowLoginDialog)
+            } else {
+                _state.value = ViewState.Report(category)
+            }
+        }
     }
 
     private fun generateReportDescription(category: Category, dynamicInputMap: Map<InputField, DynamicInputUI>): String {
@@ -124,6 +145,14 @@ class ReportBugActivityViewModel @Inject constructor(
         }
 
         return missingFieldsFound
+    }
+
+    fun startSignInFlow() {
+        authFlowStartHelper.startAuthFlow(AuthFlowStartHelper.Type.SignIn)
+    }
+
+    fun startCreateAccountFlow() {
+        authFlowStartHelper.startAuthFlow(AuthFlowStartHelper.Type.CreateAccount)
     }
 
     fun prepareAndPostReport(

@@ -26,12 +26,18 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.components.NetworkFrameLayout
 import com.protonvpn.android.databinding.ActivityDynamicReportBinding
+import com.protonvpn.android.databinding.DialogCreateAccountButtonsBinding
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class DynamicReportActivity : BaseActivityV2() {
@@ -51,6 +57,10 @@ class DynamicReportActivity : BaseActivityV2() {
         viewModel.state.observe(this, Observer {
             handleStateChanges(it)
         })
+        viewModel.event
+            .flowWithLifecycle(lifecycle)
+            .onEach(::handleUiEvent)
+            .launchIn(lifecycleScope)
     }
 
     override fun onBackPressed() {
@@ -75,6 +85,27 @@ class DynamicReportActivity : BaseActivityV2() {
                 binding.loadingContainer.switchToRetry(state.error)
             is ReportBugActivityViewModel.ViewState.SubmittingReport ->
                 Unit
+        }
+    }
+
+    private fun handleUiEvent(event: ReportBugActivityViewModel.UiEvent) {
+        when (event) {
+            ReportBugActivityViewModel.UiEvent.ShowLoginDialog -> {
+                val buttonsView = DialogCreateAccountButtonsBinding.inflate(layoutInflater)
+                val dialog = MaterialAlertDialogBuilder(this)
+                    .setMessage(R.string.dialog_create_account_title)
+                    .setView(buttonsView.root)
+                    .show()
+                buttonsView.buttonCreateAccount.setOnClickListener {
+                    viewModel.startCreateAccountFlow()
+                    dialog.dismiss()
+                }
+                buttonsView.buttonSignIn.setOnClickListener {
+                    viewModel.startSignInFlow()
+                    dialog.dismiss()
+                }
+                buttonsView.buttonCancel.setOnClickListener { dialog.dismiss() }
+            }
         }
     }
 
