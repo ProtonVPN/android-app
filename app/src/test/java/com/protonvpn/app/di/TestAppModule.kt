@@ -20,28 +20,39 @@
 
 package com.protonvpn.app.di
 
+import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.setMain
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object TestScopeAppModule {
 
-    val testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
+    @Provides
+    @Singleton
+    fun provideTestDispatcher() : TestDispatcher =
+        UnconfinedTestDispatcher(TestCoroutineScheduler()).apply {
+            Dispatchers.setMain(this)
+        }
 
     @Provides
     @Singleton
-    fun provideTestScope() = TestScope(testDispatcher)
+    fun provideTestScope(testDispatcher: TestDispatcher) = TestScope(testDispatcher)
 
     @Provides
     @Singleton
@@ -49,5 +60,15 @@ object TestScopeAppModule {
 
     @Provides
     @Singleton
-    fun provideVpnDispatcherProvider(): VpnDispatcherProvider = TestDispatcherProvider(testDispatcher)
+    fun provideVpnDispatcherProvider(testDispatcher: TestDispatcher): VpnDispatcherProvider = TestDispatcherProvider(testDispatcher)
+
+
+    @Module
+    @InstallIn(SingletonComponent::class)
+    interface Bindings {
+
+        @Binds
+        @Singleton
+        fun provideCurrentUserProvider(impl: TestCurrentUserProvider): CurrentUserProvider
+    }
 }

@@ -64,6 +64,7 @@ import com.protonvpn.mocks.NoopPeriodicUpdateWorkerScheduler
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
+import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUserCountryProvider
 import com.protonvpn.test.shared.createInMemoryServersStore
 import dagger.Binds
@@ -258,6 +259,10 @@ class SharedTestAppModule {
     @TvLoginPollDelayMs
     fun provideTvLoginPollDelayMs() = if (TestSettings.mockedConnectionUsed)
         TimeUnit.MILLISECONDS.toMillis(150) else TvLoginViewModel.POLL_DELAY_MS
+
+    @Provides
+    @Singleton
+    fun provideTestCurrentUserProvider() = TestCurrentUserProvider(null)
 
     @Module
     @TestInstallIn(

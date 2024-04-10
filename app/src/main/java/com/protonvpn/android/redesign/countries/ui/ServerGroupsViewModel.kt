@@ -41,7 +41,7 @@ import com.protonvpn.android.redesign.vpn.isCompatibleWith
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ConnectTrigger
-import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -137,12 +137,11 @@ data class GatewayServersScreenState(
     override val selectedFilter: ServerFilterType get() = ServerFilterType.All
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
 abstract class ServerGroupsViewModel(
     screenId: String,
     savedStateHandle: SavedStateHandle,
     protected val dataAdapter: ServerListViewModelDataAdapter,
-    private val vpnConnectionManager: VpnConnectionManager,
+    private val connect: VpnConnect,
     private val shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
@@ -376,7 +375,7 @@ abstract class ServerGroupsViewModel(
                     val connectIntent = item.data.getConnectIntent(filterType).takeIf { !item.connected }
                     val trigger = ConnectTrigger.Server("")
                     if (connectIntent != null)
-                        vpnConnectionManager.connect(vpnUiDelegate, connectIntent, trigger)
+                        connect(vpnUiDelegate, connectIntent, trigger)
                     navigateToHome(connectIntent != null && shouldShowcaseRecents(connectIntent))
                 } else {
                     navigateToUpsell()
@@ -434,7 +433,7 @@ internal fun fastestCountryItem(filter: ServerFilterType): ServerGroupItemData.C
 
 internal fun List<ServerGroupItemData>.sortedForUi(locale: Locale): List<ServerGroupItemData> {
     val sortLabel = associateWith { data -> data.getUiSortProperty(locale) }
-    return sortedByLocaleAware { data -> sortLabel[data]!! }
+    return sortedByLocaleAware(locale) { data -> sortLabel[data]!! }
 }
 
 private val loadPercentFormatter by lazy(LazyThreadSafetyMode.NONE) { DecimalFormat("000") }
