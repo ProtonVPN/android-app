@@ -41,8 +41,6 @@
     <string name="ok">U redu</string>
     <string name="dialogContinue">Nastavi</string>
     <string name="dialogLearnMore">Saznajte više</string>
-    <string name="dialog_apply">Primijeni</string>
-    <string name="dialog_applying">Applying</string>
     <string name="secureCoreConnectVia">putem %1$s</string>
     <string name="connected">Povezano</string>
     <string name="buttonConnect">Poveži</string>
@@ -64,20 +62,11 @@
     <string name="drawerReportProblem">Prijavite problem</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Share</string>
-    <string name="accountDetails">Podaci o korisničkom računu</string>
-    <string name="accountSubscription">Pretplata</string>
-    <string name="accountUser">Korisnik:</string>
-    <string name="accountTier">Aktivna pretplata:</string>
-    <string name="accountVersion">Verzija:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Da biste upravljali pretplatom, morate posjetiti <font color="%1$s">protonvpn.com</font> web stranicu.]]></string>
-    <string name="accountButtonManage">Upravljanje korisničkim računom</string>
-    <string name="accountButtonUseCoupon">Use coupon</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Korisnički račun</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Veza</string>
     <string name="settingsSectionSecurity">Sigurnost</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Support</string>
+    <string name="settingsSectionSupport">Podrška</string>
     <string name="settingsSectionAdvanced">Napredno</string>
     <string name="settingsBypassLocalTitle">LAN connections</string>
     <string name="settingsDnsLeakProtectionTitle">Zaštita od curenja DNS-a</string>
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT disables randomization of the local addresses mapping, which can reduce slightly your security, but allows techniques such as direct connections for applications like online games. <a href="%1$s">Learn more</a>]]></string>
-    <string name="use_coupon_title">Use coupon</string>
-    <string name="use_coupon_code_label">Kôd kupona</string>
-    <string name="use_coupon_success">Coupon has been applied successfully</string>
-    <string name="use_coupon_success_no_upgrade_yet">Coupon has been applied successfully. Your subscription will be upgraded within a few minutes.</string>
     <string name="restrictedMaintenanceTitle">Održavanje u tijeku</string>
     <string name="restrictedMaintenanceDescription">Poslužitelj na koji se trenutno pokušavate povezati je u procesu održavanja. Pokušajte s drugim poslužiteljem.</string>
     <string name="errorUserDelinquent"><![CDATA[Tvoj račun trenutno ima neplaćenu fakturu. Molimo platite sve neplaćene fakture na &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -255,16 +240,16 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="learn_more">Learn more</string>
-    <string name="netshield_state_on" comment="Describes state, not action">On</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Off</string>
-    <string name="split_tunneling_state_on" comment="Describes state, not action">On</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">Off</string>
-    <string name="vpn_accelerator_state_on" comment="Describes state, not action">On</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Off</string>
-    <string name="lan_state_on" comment="Describes state, not action">On</string>
-    <string name="lan_state_off" comment="Describes state, not action">Off</string>
-    <string name="alt_routing_state_on" comment="Describes state, not action">On</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Oključeno</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Isključeno</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Oključeno</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Isključeno</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Oključeno</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Isključeno</string>
+    <string name="lan_state_on" comment="Describes state, not action">Oključeno</string>
+    <string name="lan_state_off" comment="Describes state, not action">Isključeno</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Oključeno</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Isključeno</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="netshield_what_data_means">What NetShield data means</string>
     <string name="netshield_ads_title">Ads</string>
@@ -776,7 +761,7 @@
          - item in a list of countries has a custom action to open list of cities in the country
          - item in a list of cities has a custom action to open list of servers in the city
          -->
-    <string name="accessibility_menu_action_open">Open</string>
+    <string name="accessibility_menu_action_open">Otvori</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -907,7 +892,7 @@
     <!-- tag(Redesign_2023)
          Help button above the connection card.
      -->
-    <string name="connection_card_help">Help</string>
+    <string name="connection_card_help">Pomoć</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
@@ -1030,7 +1015,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">General</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_account">Account</string>
+    <string name="settings_category_account">Račun</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_notifications_title">Notifications</string>
     <!-- tag(Redesign_2023) -->
@@ -1040,7 +1025,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_widget_title">Widget</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_support">Support</string>
+    <string name="settings_category_support">Podrška</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Help Center</string>
     <!-- tag(Redesign_2023) -->
@@ -1092,7 +1077,7 @@
     <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
-    <string name="country_filter_info_label">Info</string>
+    <string name="country_filter_info_label">Informacije</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
@@ -1120,7 +1105,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Show IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">Back</string>
+    <string name="accessibility_back">Natrag</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">My IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1134,9 +1119,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_gateway">Gateway</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_country">Country</string>
+    <string name="connection_details_country">Država</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_city">City</string>
+    <string name="connection_details_city">Grad</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1188,7 +1173,7 @@
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
-    <string name="connection_details_unknown_ip">Unknown</string>
+    <string name="connection_details_unknown_ip">Nepoznato</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
     <string name="speed_bytes_per_second">%1$s B/s</string>
@@ -1273,6 +1258,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Nije postavljeno</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Alternativno usmjeravanje</string>
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">LAN connections</string>
@@ -1309,4 +1301,5 @@
     <string name="secure_core_upsell_banner_description">Add another layer of encryption to your VPN connection</string>
     <string name="p2p_upsell_banner_description">Download files through BitTorrent and other file sharing protocols</string>
     <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

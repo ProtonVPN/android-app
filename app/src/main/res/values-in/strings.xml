@@ -41,8 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Lanjut</string>
     <string name="dialogLearnMore">Pelajari lebih lanjut</string>
-    <string name="dialog_apply">Terapkan</string>
-    <string name="dialog_applying">Menerapkan</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Terhubung</string>
     <string name="buttonConnect">Hubungkan</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Laporkan masalah</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Bagikan</string>
-    <string name="accountDetails">Rincian akun</string>
-    <string name="accountSubscription">Langganan</string>
-    <string name="accountUser">Pengguna:</string>
-    <string name="accountTier">Paket aktif:</string>
-    <string name="accountVersion">Versi:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Untuk mengelola langganan Anda, tuju panel web <font color="%1$s">protonvpn.com</font>.]]></string>
-    <string name="accountButtonManage">Kelola akun</string>
-    <string name="accountButtonUseCoupon">Gunakan kupon</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Akun</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Koneksi</string>
     <string name="settingsSectionSecurity">Keamanan</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="settingsModerateNatTitle">NAT Moderat</string>
     <string name="settingsModerateNatDescription"><![CDATA[NAT moderat menonaktifkan pengacakan alamat IP lokal, yang dapat membuat Anda lebih rentan namun memungkinkan aplikasi tertentu seperti game online untuk terhubung secara langsung ke internet. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
-    <string name="use_coupon_title">Gunakan kupon</string>
-    <string name="use_coupon_code_label">Kode kupon</string>
-    <string name="use_coupon_success">Kupon berhasil diterapkan</string>
-    <string name="use_coupon_success_no_upgrade_yet">Kupon berhasil diterapkan. Langganan Anda akan ditingkatkan dengan segera.</string>
     <string name="restrictedMaintenanceTitle">Dalam pemeliharaan</string>
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
     <string name="errorUserDelinquent"><![CDATA[Akun Anda saat ini memiliki faktur yang tertunggak. Silakan lunasi seluruh tagihan yang belum lunas pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1213,6 +1198,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Tingkatkan kecepatan koneksi Anda hingga 400%% dengan teknologi pemicu performa. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Pengalihan lalu lintas alternatif</string>
     <string name="settings_advanced_alternative_routing_description">Apabila layanan Proton diblokir karena pembatasan jaringan, kami akan mencoba untuk menghubungkan Anda ke situs kami melalui rute jaringan alternatif.</string>
     <string name="settings_advanced_allow_lan_title">Koneksi LAN</string>
@@ -1249,4 +1241,5 @@
     <string name="secure_core_upsell_banner_description">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
     <string name="p2p_upsell_banner_description">Unduh berkas melalui BitTorrent dan berbagai protokol file sharing lainnya</string>
     <string name="tor_upsell_banner_description">Sandingkan jaringan Tor dengan koneksi VPN Anda untuk privasi yang lebih</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

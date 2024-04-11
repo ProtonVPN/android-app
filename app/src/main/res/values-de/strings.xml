@@ -41,8 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Fortfahren</string>
     <string name="dialogLearnMore">Mehr erfahren</string>
-    <string name="dialog_apply">Übernehmen</string>
-    <string name="dialog_applying">Wird angewendet</string>
     <string name="secureCoreConnectVia">über %1$s</string>
     <string name="connected">Verbunden</string>
     <string name="buttonConnect">Verbinden</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Problem melden</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Teilen</string>
-    <string name="accountDetails">Kontodetails</string>
-    <string name="accountSubscription">Abonnement</string>
-    <string name="accountUser">Benutzer:</string>
-    <string name="accountTier">Aktives Abonnement:</string>
-    <string name="accountVersion">Version:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Um dein Abonnement zu verwalten, öffne bitte die Webseite: <font color="%1$s">protonvpn.com</font>]]></string>
-    <string name="accountButtonManage">Konto verwalten</string>
-    <string name="accountButtonUseCoupon">Gutschein verwenden</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Konto</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Verbindung</string>
     <string name="settingsSectionSecurity">Sicherheit</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Nutze Proton VPN für jeden speziellen Bedarf, indem du Datenverkehr zu nicht standardisierten Ports über das VPN-Netzwerk erlaubst. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="settingsModerateNatTitle">Moderates NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderates NAT deaktiviert die zufällige Zuordnung der lokalen Adressen, dies kann die Sicherheit etwas einschränken, jedoch ermöglicht dies Techniken wie direkte Verbindungen für Anwendungen wie z.B. Online-Spiele. <a href="%1$s">Mehr erfahren</a>]]></string>
-    <string name="use_coupon_title">Gutschein verwenden</string>
-    <string name="use_coupon_code_label">Gutschein-Code</string>
-    <string name="use_coupon_success">Gutschein wurde erfolgreich angewandt</string>
-    <string name="use_coupon_success_no_upgrade_yet">Gutschein wurde erfolgreich angewandt. Dein Abonnement wird innerhalb weniger Minuten aktualisiert.</string>
     <string name="restrictedMaintenanceTitle">Im Wartungsmodus</string>
     <string name="restrictedMaintenanceDescription">Der Server, mit dem du dich versuchst zu verbinden, ist zurzeit im Wartungsmodus. Bitte versuche es mit einem anderen Server.</string>
     <string name="errorUserDelinquent"><![CDATA[Dein Konto enthält derzeit eine überfällige Rechnung. Bitte begleiche alle unbezahlten Rechnungen unter&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -758,7 +743,7 @@
          - item in a list of countries has a custom action to open list of cities in the country
          - item in a list of cities has a custom action to open list of servers in the city
          -->
-    <string name="accessibility_menu_action_open">Open</string>
+    <string name="accessibility_menu_action_open">Öffnen</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -791,8 +776,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
-    <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_p2p">Peer-to-Peer</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Schnellstes Land</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1077,7 +1062,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Laden: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1179,23 +1164,23 @@
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s Byte per second</item>
-        <item quantity="other">%1$s Bytes per second</item>
+        <item quantity="other">%1$s Bytes pro Sekunde</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
         <item quantity="one">%1$s Kilobyte per second</item>
-        <item quantity="other">%1$s Kilobytes per second</item>
+        <item quantity="other">%1$s Kilobytes pro Sekunde</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
         <item quantity="one">%1$s Megabyte per second</item>
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="other">%1$s Megabytes pro Sekunde</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
         <item quantity="one">%1$s Gigabyte per second</item>
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="other">%1$s Gigabytes pro Sekunde</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
         <item quantity="one">%1$s Terabyte per second</item>
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="other">%1$s Terabytes pro Sekunde</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
         <item quantity="one">%1$s Byte</item>
@@ -1243,6 +1228,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Steigere deine Verbindungsgeschwindigkeit mit leistungssteigernden Technologien um bis zu 400%%. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Alternatives Routing</string>
     <string name="settings_advanced_alternative_routing_description">Wenn Proton-Dienste aufgrund von Netzbeschränkungen blockiert sind, versuchen wir, dich über eine alternative Netzweiterleitung mit unseren Websites zu verbinden.</string>
     <string name="settings_advanced_allow_lan_title">LAN‐Verbindungen</string>
@@ -1279,4 +1271,5 @@
     <string name="secure_core_upsell_banner_description">Füge deiner VPN-Verbindung eine weitere Verschlüsselungsebene hinzu</string>
     <string name="p2p_upsell_banner_description">Herunterladen von Dateien über BitTorrent und andere Dateifreigabeprotokolle</string>
     <string name="tor_upsell_banner_description">Verwende das Tor-Netzwerk über deine VPN-Verbindung für mehr Privatsphäre</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

@@ -41,8 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Продовжити</string>
     <string name="dialogLearnMore">Докладніше</string>
-    <string name="dialog_apply">Застосувати</string>
-    <string name="dialog_applying">Застосування</string>
     <string name="secureCoreConnectVia">через %1$s</string>
     <string name="connected">Під\'єднано</string>
     <string name="buttonConnect">З\'єднатися</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Повідомити про проблему</string>
     <string name="drawerAppVersion">Версія %1$s</string>
     <string name="action_share">Поділитися</string>
-    <string name="accountDetails">Подробиці облікового запису</string>
-    <string name="accountSubscription">Передплата</string>
-    <string name="accountUser">Користувач:</string>
-    <string name="accountTier">Чинна передплата:</string>
-    <string name="accountVersion">Версія:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Щоб керувати передплатою, перейдіть на вебпанель <font color="%1$s">protonvpn.com</font>.]]></string>
-    <string name="accountButtonManage">Керувати обліковим записом</string>
-    <string name="accountButtonUseCoupon">Використати купон</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Обліковий запис</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">З\'єднання</string>
     <string name="settingsSectionSecurity">Безпека</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Використовуйте Proton VPN для будь-якої спеціальної потреби, дозволяючи трафік до нестандартних портів через мережу VPN. <a href="%1$s">Докладніше</a>]]></string>
     <string name="settingsModerateNatTitle">Помірне NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Помірне NAT вимикає рандомізацію показу локальних адрес, що може трохи знизити вашу безпеку, але дає змогу використовувати такі методи, як пряме підключення до програм, наприклад онлайн-ігор. <a href="%1$s">Докладніше</a>]]></string>
-    <string name="use_coupon_title">Використати купон</string>
-    <string name="use_coupon_code_label">Код купону</string>
-    <string name="use_coupon_success">Купон успішно застосовано</string>
-    <string name="use_coupon_success_no_upgrade_yet">Купон успішно застосовано. Ваша передплата буде покращена протягом кількох хвилин.</string>
     <string name="restrictedMaintenanceTitle">Обслуговується</string>
     <string name="restrictedMaintenanceDescription">Сервер, з яким ви зараз намагаєтеся з\'єднатися, обслуговується. Будь ласка, спробуйте інший сервер.</string>
     <string name="errorUserDelinquent"><![CDATA[У вашому обліковому записі є протермінований рахунок. Будь ласка, сплатіть усі рахунки на сайті&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1303,6 +1288,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Збільште швидкість з\'єднання до 400%% завдяки технологіям підвищення продуктивності. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Альтернативна маршрутизація</string>
     <string name="settings_advanced_alternative_routing_description">Якщо служби Proton блокуються мережевими обмеженнями, ми спробуємо використати альтернативний спосіб маршрутизації для з\'єднання з вашими сайтами.</string>
     <string name="settings_advanced_allow_lan_title">LAN-з\'єднання</string>
@@ -1339,4 +1331,5 @@
     <string name="secure_core_upsell_banner_description">Додайте ще один рівень шифрування до свого VPN-з\'єднання</string>
     <string name="p2p_upsell_banner_description">Завантажуйте файли через BitTorrent й інші протоколи обміну файлами</string>
     <string name="tor_upsell_banner_description">Користуйтеся мережею Tor через VPN-з\'єднання для додаткової приватності</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

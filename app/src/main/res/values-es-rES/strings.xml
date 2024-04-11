@@ -41,8 +41,6 @@
     <string name="ok">Aceptar</string>
     <string name="dialogContinue">Continuar</string>
     <string name="dialogLearnMore">Más información</string>
-    <string name="dialog_apply">Aplicar</string>
-    <string name="dialog_applying">Aplicando</string>
     <string name="secureCoreConnectVia">vía %1$s</string>
     <string name="connected">Conectado</string>
     <string name="buttonConnect">Conectar</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Notificar un problema</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Compartir</string>
-    <string name="accountDetails">Detalles de la cuenta</string>
-    <string name="accountSubscription">Suscripción</string>
-    <string name="accountUser">Usuario:</string>
-    <string name="accountTier">Suscripción activa:</string>
-    <string name="accountVersion">Versión:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Para gestionar tu suscripción, tienes que ir al panel web <font color="%1$s">protonvpn.com</font>.]]></string>
-    <string name="accountButtonManage">Administrar cuenta</string>
-    <string name="accountButtonUseCoupon">Utilizar un cupón</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Cuenta</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Conexión</string>
     <string name="settingsSectionSecurity">Seguridad</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utiliza Proton VPN para cualquier necesidad especial permitiendo el tráfico a puertos no estándar a través de la red VPN. <a href="%1$s">Más información</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderada</string>
     <string name="settingsModerateNatDescription"><![CDATA[La NAT moderada desactiva la aleatorización del mapeo de las direcciones locales, lo que puede reducir ligeramente tu seguridad, pero permite técnicas como las conexiones directas para aplicaciones como los juegos en línea. <a href="%1$s">Más información</a>]]></string>
-    <string name="use_coupon_title">Añadir cupón</string>
-    <string name="use_coupon_code_label">Código de descuento</string>
-    <string name="use_coupon_success">El cupón se ha aplicado correctamente.</string>
-    <string name="use_coupon_success_no_upgrade_yet">El cupón se ha aplicado correctamente. Tu suscripción se actualizará en unos minutos.</string>
     <string name="restrictedMaintenanceTitle">En mantenimiento</string>
     <string name="restrictedMaintenanceDescription">El servidor al que se está intentando conectar está en mantenimiento. Por favor, inténtelo con otro servidor.</string>
     <string name="errorUserDelinquent"><![CDATA[Su cuenta tiene una factura vencida. Por favor, pague todas las facturas pendientes de pago en&#160;<a href="http://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1243,6 +1228,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Aumenta la velocidad de tu conexión hasta 400%% con tecnologías que mejoran el rendimiento. %1$s</string>
+    <string name="settings_account_settings_title">Configuración de la cuenta</string>
+    <string name="settings_account_change_password">Cambiar la contraseña</string>
+    <string name="settings_account_recovery_email">Correo electrónico de recuperación</string>
+    <string name="settings_account_recovery_email_not_set">No establecido</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">Mi cuenta</string>
+    <string name="settings_account_button_delete_account">Eliminar la cuenta</string>
     <string name="settings_advanced_alternative_routing_title">Enrutado alternativo</string>
     <string name="settings_advanced_alternative_routing_description">Si los servicios de Proton están bloqueados debido a restricciones de red, intentaremos usar enrutamiento de red alternativo para conectarte a nuestros sitios.</string>
     <string name="settings_advanced_allow_lan_title">Conexiones LAN</string>
@@ -1279,4 +1271,5 @@
     <string name="secure_core_upsell_banner_description">Añade otra capa de cifrado a tu conexión VPN</string>
     <string name="p2p_upsell_banner_description">Descarga archivos con BitTorrent y otros protocolos de intercambio de archivos</string>
     <string name="tor_upsell_banner_description">Usa la red Tor sobre tu conexión VPN para más privacidad</string>
+    <string name="vpnplus_upsell_banner_description">Mejorar a VPN Plus</string>
 </resources>

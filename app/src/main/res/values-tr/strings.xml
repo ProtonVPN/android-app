@@ -41,8 +41,6 @@
     <string name="ok">Tamam</string>
     <string name="dialogContinue">İlerle</string>
     <string name="dialogLearnMore">Ayrıntılı bilgi alın</string>
-    <string name="dialog_apply">Uygula</string>
-    <string name="dialog_applying">Uygulanıyor</string>
     <string name="secureCoreConnectVia">%1$s üzerinden</string>
     <string name="connected">Bağlandı</string>
     <string name="buttonConnect">Bağlan</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Bir sorun bildirin</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Paylaş</string>
-    <string name="accountDetails">Hesap bilgileri</string>
-    <string name="accountSubscription">Abonelik</string>
-    <string name="accountUser">Kullanıcı:</string>
-    <string name="accountTier">Etkin abonelik:</string>
-    <string name="accountVersion">Sürüm:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Aboneliğinizi yönetmek için <font color="%1$s">protonvpn.com</font> İnternet panosuna gitmelisiniz.]]></string>
-    <string name="accountButtonManage">Hesap yönetimi</string>
-    <string name="accountButtonUseCoupon">Kupon kullan</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Hesap</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Bağlantı</string>
     <string name="settingsSectionSecurity">Güvenlik</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinde standart olmayan bağlantı noktalarından trafik akışına izin vererek herhangi bir özel gereksinim için Proton VPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="settingsModerateNatTitle">Ilımlı NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Ilımlı NAT, güvenliğinizi biraz azaltabilir. Ancak çevrim içi oyunlar gibi uygulamaların doğrudan bağlantı kurması gibi tekniklere izin veren yerel adres eşlemelerini rastgeleleştirme özelliğini kapatır. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
-    <string name="use_coupon_title">Kupon kullan</string>
-    <string name="use_coupon_code_label">Kupon kodu</string>
-    <string name="use_coupon_success">Kupon uygulandı</string>
-    <string name="use_coupon_success_no_upgrade_yet">Kupon uygulandı. Aboneliğiniz birkaç dakika içinde yükseltilecek.</string>
     <string name="restrictedMaintenanceTitle">Bakım yapılıyor</string>
     <string name="restrictedMaintenanceDescription">Şu anda bağlanmaya çalıştığınız sunucuda bakım yapılıyor. Lütfen başka bir sunucu deneyin.</string>
     <string name="errorUserDelinquent"><![CDATA[Hesabınızda şu anda ödenmemiş bir fatura var. Lütfen&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> adresinden tüm süresi geçmiş faturaları ödeyin]]></string>
@@ -1077,7 +1062,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Yükle: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Yük: %%%1$s</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1178,44 +1163,44 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">Saniyede %1$s Byte</item>
-        <item quantity="other">Saniyede %1$s Byte</item>
+        <item quantity="one">%1$s Bayt/sn</item>
+        <item quantity="other">%1$s Bayt/sn</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">Saniyede %1$s Kilobyte</item>
-        <item quantity="other">Saniyede %1$s Kilobyte</item>
+        <item quantity="one">%1$s Kilobayt/sn</item>
+        <item quantity="other">%1$s Kilobayt/sn</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">Saniyede %1$s Megabyte</item>
-        <item quantity="other">Saniyede %1$s Megabyte</item>
+        <item quantity="one">%1$s Megabayt/sn</item>
+        <item quantity="other">%1$s Megabayt/sn</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">Saniyede %1$s Gigabyte</item>
-        <item quantity="other">Saniyede %1$s Gigabyte</item>
+        <item quantity="one">%1$s Gigabayt/sn</item>
+        <item quantity="other">%1$s Gigabayt/sn</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">Saniyede %1$s Terabyte</item>
-        <item quantity="other">Saniyede %1$s Terabyte</item>
+        <item quantity="one">%1$s Terabayt/sn</item>
+        <item quantity="other">%1$s Terabayt/sn</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="one">%1$s Byte</item>
-        <item quantity="other">%1$s Byte</item>
+        <item quantity="one">%1$s Bayt</item>
+        <item quantity="other">%1$s Bayt</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="one">%1$s Kilobyte</item>
-        <item quantity="other">%1$s Kilobyte</item>
+        <item quantity="one">%1$s Kilobayt</item>
+        <item quantity="other">%1$s Kilobayt</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s Megabyte</item>
-        <item quantity="other">%1$s Megabyte</item>
+        <item quantity="one">%1$s Megabayt</item>
+        <item quantity="other">%1$s Megabayt</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s Gigabyte</item>
-        <item quantity="other">%1$s Gigabyte</item>
+        <item quantity="one">%1$s Gigabayt</item>
+        <item quantity="other">%1$s Gigabayt</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s Terabyte</item>
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="one">%1$s Terabayt</item>
+        <item quantity="other">%1$s Terabayt</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
@@ -1243,6 +1228,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Başarım artırıcı teknolojilerle bağlantı hızınızı 400%% oranına kadar artırın. %1$s</string>
+    <string name="settings_account_settings_title">Hesap ayarları</string>
+    <string name="settings_account_change_password">Parolayı değiştir</string>
+    <string name="settings_account_recovery_email">Kurtarma e-postası adresi</string>
+    <string name="settings_account_recovery_email_not_set">Ayarlanmamış</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">Hesabım</string>
+    <string name="settings_account_button_delete_account">Hesabı sil</string>
     <string name="settings_advanced_alternative_routing_title">Alternatif yöneltme</string>
     <string name="settings_advanced_alternative_routing_description">Ağ kısıtlamaları nedeniyle Proton hizmetleri engelleniyorsa sitelerimize bağlanmanız için alternatif ağ yöneltmesini kullanmayı deneyeceğiz.</string>
     <string name="settings_advanced_allow_lan_title">Yerel ağ bağlantıları</string>
@@ -1279,4 +1271,5 @@
     <string name="secure_core_upsell_banner_description">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
     <string name="p2p_upsell_banner_description">Dosyaları BitTorrent ve diğer dosya paylaşım iletişim kuralları üzerinden indirin</string>
     <string name="tor_upsell_banner_description">Ek gizlilik sağlamak için VPN bağlantınızı Tor ağından geçirin</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

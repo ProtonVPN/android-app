@@ -41,8 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Fortsett</string>
     <string name="dialogLearnMore">Lær mer</string>
-    <string name="dialog_apply">Anvend</string>
-    <string name="dialog_applying">Anvender</string>
     <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Tilkoblet</string>
     <string name="buttonConnect">Koble til</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Rapporter en feil</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Del</string>
-    <string name="accountDetails">Kontodetaljer</string>
-    <string name="accountSubscription">Abonnement</string>
-    <string name="accountUser">Bruker:</string>
-    <string name="accountTier">Aktivt abonnement:</string>
-    <string name="accountVersion">Versjon:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[For å administrere abonnementet ditt, må du gå til nettpanelet til <font color="%1$s">protonvpn.com</font>.]]></string>
-    <string name="accountButtonManage">Administrer konto</string>
-    <string name="accountButtonUseCoupon">Bruk kupong</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Konto</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Tilkobling</string>
     <string name="settingsSectionSecurity">Sikkerhet</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Bruk Proton VPN for ethvert spesielt behov ved å la trafikk til ikke-standardporter gå gjennom VPN-nettverket. <a href="%1$s">Lær mer</a>]]></string>
     <string name="settingsModerateNatTitle">Moderat NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderat NAT deaktiverer randomisering av tilordning av lokale adresser, noe som kan redusere sikkerheten noe, men tillater teknikker som direkte tilkoblinger for programmer som nettspill. <a href="%1$s">Lær mer</a>]]></string>
-    <string name="use_coupon_title">Bruk kupong</string>
-    <string name="use_coupon_code_label">Kupongkode</string>
-    <string name="use_coupon_success">Kupongen er brukt</string>
-    <string name="use_coupon_success_no_upgrade_yet">Kupongen er brukt. Abonnementet ditt vil bli oppgradert i løpet av få minutter.</string>
     <string name="restrictedMaintenanceTitle">Under vedlikehold</string>
     <string name="restrictedMaintenanceDescription">Tjeneren du prøver å koble til, er under vedlikehold. Vennligst prøv en annen tjener.</string>
     <string name="errorUserDelinquent"><![CDATA[Kontoen din har for øyeblikket en forfalt faktura. Vennligst betal alle ubetalte fakturaer på &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1243,6 +1228,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Øk tilkoblingshastigheten med opptil 400 %% med ytelsesforbedrende teknologier. %1$s.</string>
+    <string name="settings_account_settings_title">Kontoinnstillinger</string>
+    <string name="settings_account_change_password">Endre passord</string>
+    <string name="settings_account_recovery_email">E-post for gjenoppretting</string>
+    <string name="settings_account_recovery_email_not_set">Ikke angitt</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">Min konto</string>
+    <string name="settings_account_button_delete_account">Slett konto</string>
     <string name="settings_advanced_alternative_routing_title">Alternativ ruting</string>
     <string name="settings_advanced_alternative_routing_description">Hvis Proton-tjenester er blokkert på grunn av nettverksbegrensninger, prøver vi å bruke alternativ nettverksruting for å koble deg til nettstedene våre.</string>
     <string name="settings_advanced_allow_lan_title">LAN-forbindelser</string>
@@ -1279,4 +1271,5 @@
     <string name="secure_core_upsell_banner_description">Legg til et ekstra krypteringslag til VPN-tilkoblingen din.</string>
     <string name="p2p_upsell_banner_description">Last ned filer gjennom BitTorrent og andre fildelingsprotokoller</string>
     <string name="tor_upsell_banner_description">Bruk Tor-nettverket over VPN-tilkoblingen for ekstra personvern</string>
+    <string name="vpnplus_upsell_banner_description">Oppgrader til VPN Plus</string>
 </resources>

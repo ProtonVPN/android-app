@@ -41,8 +41,6 @@
     <string name="ok">확인</string>
     <string name="dialogContinue">계속</string>
     <string name="dialogLearnMore">더 알아보기</string>
-    <string name="dialog_apply">적용</string>
-    <string name="dialog_applying">적용 중</string>
     <string name="secureCoreConnectVia">%1$s 경유</string>
     <string name="connected">연결됨</string>
     <string name="buttonConnect">연결</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">문제 제보하기</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">공유</string>
-    <string name="accountDetails">계정 정보</string>
-    <string name="accountSubscription">구독</string>
-    <string name="accountUser">사용자:</string>
-    <string name="accountTier">요금제:</string>
-    <string name="accountVersion">버전:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[구독을 관리하기 위해, <font color="%1$s">protonvpn.com</font> 웹패널로 이동해야 합니다]]></string>
-    <string name="accountButtonManage">계정 관리</string>
-    <string name="accountButtonUseCoupon">쿠폰 사용</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">계정</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">연결</string>
     <string name="settingsSectionSecurity">보안</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN 네트워크를 통해 비표준 포트로의 트래픽을 허용하여 특별한 필요에 따라 Proton VPN을 사용하세요. <a href="%1$s">더 알아보기</a>]]></string>
     <string name="settingsModerateNatTitle">일반형 NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[일반형 NAT를 사용하면 로컬 IP 매핑이 랜덤화되지 않아 보안을 약간 약화시킬 수 있지만, 온라인 게임과 같은 어플리케이션에서 직접 연결 등의 테크닉을 사용할 수 있게 됩니다. <a href="%1$s">더 알아보기</a>]]></string>
-    <string name="use_coupon_title">쿠폰 사용</string>
-    <string name="use_coupon_code_label">쿠폰코드</string>
-    <string name="use_coupon_success">쿠폰이 성공적으로 적용되었습니다</string>
-    <string name="use_coupon_success_no_upgrade_yet">쿠폰이 성공적으로 적용되었습니다. 구독이 몇 분 내로 업그레이드됩니다.</string>
     <string name="restrictedMaintenanceTitle">점검 중</string>
     <string name="restrictedMaintenanceDescription">현재 연결하려는 서버가 점검 중입니다. 다른 서버를 시도하십시오.</string>
     <string name="errorUserDelinquent"><![CDATA[귀하의 계정에 현재 연체된 금액이 있습니다. &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>에서 연체된 금액을 지불해주세요.]]></string>
@@ -1213,6 +1198,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">성능 강화 기술을 통해 연결 속도가 400%%까지 빨라집니다. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">대체 라우팅</string>
     <string name="settings_advanced_alternative_routing_description">Proton 서비스가 네트워크 제한으로 막혔다면, 대체 네트워크 라우딩을 이용해서 연결해보세요.</string>
     <string name="settings_advanced_allow_lan_title">LAN 연결</string>
@@ -1249,4 +1241,5 @@
     <string name="secure_core_upsell_banner_description">VPN 연결에 암호화 계층 추가</string>
     <string name="p2p_upsell_banner_description">BitTorrent와 다른 파일 공유 프로토콜로 파일을 다운로드하세요</string>
     <string name="tor_upsell_banner_description">추가적인 개인 정보 보호를 위해 VPN 연결을 통해 Tor 네트워크를 사용하세요</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

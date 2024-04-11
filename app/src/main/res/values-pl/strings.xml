@@ -41,8 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Kontynuuj</string>
     <string name="dialogLearnMore">Dowiedz się więcej</string>
-    <string name="dialog_apply">Zastosuj</string>
-    <string name="dialog_applying">Trwa zastosowanie</string>
     <string name="secureCoreConnectVia">przez %1$s</string>
     <string name="connected">Połączono</string>
     <string name="buttonConnect">Połącz</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Zgłoś problem</string>
     <string name="drawerAppVersion">Wersja %1$s</string>
     <string name="action_share">Udostępnij</string>
-    <string name="accountDetails">Szczegóły konta</string>
-    <string name="accountSubscription">Subskrypcja</string>
-    <string name="accountUser">Użytkownik:</string>
-    <string name="accountTier">Aktywna subskrypcja:</string>
-    <string name="accountVersion">Wersja:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Zarządzaj swoją subskrypcją przez stronę <font color="%1$s">protonvpn.com</font>.]]></string>
-    <string name="accountButtonManage">Zarządzaj kontem</string>
-    <string name="accountButtonUseCoupon">Użyj kuponu</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Konto</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Połączenie</string>
     <string name="settingsSectionSecurity">Bezpieczeństwo</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Używaj aplikacji Proton VPN do wszelkich specjalnych potrzeb, zezwalając na ruch do niestandardowych portów przez sieć VPN. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="settingsModerateNatTitle">Umiarkowany NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Umiarkowany NAT wyłącza losowe mapowanie adresów lokalnych, co może nieco zmniejszyć bezpieczeństwo, ale umożliwia stosowanie technik takich, jak bezpośrednie połączenia aplikacji, np. gier online. <a href="%1$s">Dowiedz się więcej</a>]]></string>
-    <string name="use_coupon_title">Użyj kuponu</string>
-    <string name="use_coupon_code_label">Kod kuponu</string>
-    <string name="use_coupon_success">Kupon został naliczony</string>
-    <string name="use_coupon_success_no_upgrade_yet">Kupon został naliczony. Subskrypcja zostanie ulepszona w ciągu kilku minut.</string>
     <string name="restrictedMaintenanceTitle">W trakcie przerwy technicznej</string>
     <string name="restrictedMaintenanceDescription">Serwer, z którym próbujesz się połączyć, jest w trakcie przerwy technicznej. Wybierz inny serwer.</string>
     <string name="errorUserDelinquent"><![CDATA[Twoje konto posiada obecnie zaległe faktury. Ureguluj wszystkie zobowiązania na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1303,6 +1288,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Zwiększ prędkość połączenia nawet o 400%% dzięki technologii zwiększających wydajność. %1$s</string>
+    <string name="settings_account_settings_title">Ustawienia konta</string>
+    <string name="settings_account_change_password">Zmień hasło</string>
+    <string name="settings_account_recovery_email">Adres pomocniczy</string>
+    <string name="settings_account_recovery_email_not_set">Nie ustawiono</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">Moje konto</string>
+    <string name="settings_account_button_delete_account">Usuń konto</string>
     <string name="settings_advanced_alternative_routing_title">Alternatywne przekierowanie połączenia</string>
     <string name="settings_advanced_alternative_routing_description">Jeśli usługi Proton są zablokowane z powodu ograniczeń sieciowych, spróbujemy użyć alternatywnego przekierowania połączenia.</string>
     <string name="settings_advanced_allow_lan_title">Połączenia LAN</string>
@@ -1339,4 +1331,5 @@
     <string name="secure_core_upsell_banner_description">Dodaj kolejną warstwę szyfrowania do połączenia VPN</string>
     <string name="p2p_upsell_banner_description">Pobieraj pliki za pośrednictwem protokołów udostępniania plików, takich jak BitTorrent</string>
     <string name="tor_upsell_banner_description">Korzystaj z sieci Tor za pomocą połączenia VPN zapewniającego dodatkową prywatność</string>
+    <string name="vpnplus_upsell_banner_description">Ulepsz do planu VPN Plus</string>
 </resources>

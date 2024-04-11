@@ -41,8 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Jatka</string>
     <string name="dialogLearnMore">Lue lisää</string>
-    <string name="dialog_apply">Käytä</string>
-    <string name="dialog_applying">Käytetään</string>
     <string name="secureCoreConnectVia">Ohjaus: %1$s</string>
     <string name="connected">Yhdistetty</string>
     <string name="buttonConnect">Yhdistä</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Ilmoita ongelmasta</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Jaa</string>
-    <string name="accountDetails">Tilin tiedot</string>
-    <string name="accountSubscription">Tilaus</string>
-    <string name="accountUser">Käyttäjä:</string>
-    <string name="accountTier">Aktiivinen tilaus:</string>
-    <string name="accountVersion">Versio:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Hallitaksesi tilaustasi, avaa <font color="%1$s">protonvpn.com</font>-sivuston hallinta.]]></string>
-    <string name="accountButtonManage">Hallitse tiliä</string>
-    <string name="accountButtonUseCoupon">Käytä etukoodi</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Tili</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Yhteys</string>
     <string name="settingsSectionSecurity">Tietoturva</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Käytä Proton VPN:ää erityistapauksissa sallimalla VPN-verkon tietoliikenteen kulkea epätyypillisten porttien kautta. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="settingsModerateNatTitle">Keskitason NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Keskitason (eli tyypin 2) NAT, poistaa paikallisten osoitteiden sekoitetun määrityksen käytöstä. Tämä voi heikentää suojaustasi hieman, mutta mahdollistaa esimerkiksi suorien yhteyksien kaltaiset tekniikat mm. verkkopeleille. <a href="%1$s">Lue lisää</a>]]></string>
-    <string name="use_coupon_title">Käytä etukoodi</string>
-    <string name="use_coupon_code_label">Etukoodi</string>
-    <string name="use_coupon_success">Etukoodin käyttö onnistui</string>
-    <string name="use_coupon_success_no_upgrade_yet">Etukoodin käyttö onnistui. Tilauksesi päivittyy muutaman minuutin kuluessa.</string>
     <string name="restrictedMaintenanceTitle">Huollossa</string>
     <string name="restrictedMaintenanceDescription">Palvelin johon yrität yhdistää on huollossa. Kokeile eri palvelinta.</string>
     <string name="errorUserDelinquent"><![CDATA[Tililläsi on erääntynyt lasku. Maksa kaikki maksamattomat laskut osoitteessa&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1243,6 +1228,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Nopeuta yhteyttäsi jopa 400 %% suorituskykyä parantavien tekniikoiden avulla. %1$s</string>
+    <string name="settings_account_settings_title">Tilin asetukset</string>
+    <string name="settings_account_change_password">Vaihda salasana</string>
+    <string name="settings_account_recovery_email">Palautuksen sähköpostiosoite</string>
+    <string name="settings_account_recovery_email_not_set">Ei asetettu</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">Oma tili</string>
+    <string name="settings_account_button_delete_account">Poista tili</string>
     <string name="settings_advanced_alternative_routing_title">Vaihtoehtoinen reititys</string>
     <string name="settings_advanced_alternative_routing_description">Jos Proton-palvelut on estetty verkkorajoitusten takia, yritämme käyttää vaihtoehtoista verkkoreititystä, jotta voit silti muodostaa yhteyden sivustoihimme.</string>
     <string name="settings_advanced_allow_lan_title">LAN-yhteydet</string>
@@ -1262,7 +1254,7 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ei mitään</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s ja %3$d muuta</string>
     <string name="settings_dialog_reconnect">Uudet asetukset tulevat voimaan seuraavan yhteydenmuodostuksen yhteydessä.</string>
-    <string name="info_secure_core_standard_high_privacy">Korkean tason yksityisyys</string>
+    <string name="info_secure_core_standard_high_privacy">Korkeampi yksityisyys</string>
     <string name="info_secure_core_standard_lower_latency">Matalampi viive</string>
     <string name="info_secure_core_advanced_privacy">Edistynyt yksityisyys</string>
     <string name="info_secure_core_higher_latency">Korkeampi viive</string>
@@ -1279,4 +1271,5 @@
     <string name="secure_core_upsell_banner_description">Lisää VPN-yhteyteesi toinen salauskerros.</string>
     <string name="p2p_upsell_banner_description">Lataa tiedostoja mm. BitTorrentin kaltaisilla tiedonsiirtoprotokollilla.</string>
     <string name="tor_upsell_banner_description">Käytä Tor-verkkoa VPN-yhteytesi välityksellä ja tehosta tietosuojaasi.</string>
+    <string name="vpnplus_upsell_banner_description">Päivitä VPN Plus -tilaukseen</string>
 </resources>

@@ -41,8 +41,6 @@
     <string name="ok">確定</string>
     <string name="dialogContinue">繼續</string>
     <string name="dialogLearnMore">瞭解更多</string>
-    <string name="dialog_apply">套用</string>
-    <string name="dialog_applying">正在套用</string>
     <string name="secureCoreConnectVia">中轉 %1$s</string>
     <string name="connected">已連線</string>
     <string name="buttonConnect">連線</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">回報問題</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">共享</string>
-    <string name="accountDetails">帳號詳細資料</string>
-    <string name="accountSubscription">訂購授權</string>
-    <string name="accountUser">使用者：</string>
-    <string name="accountTier">現有訂購授權 :</string>
-    <string name="accountVersion">版本 :</string>
-    <string name="accountSubscriptionDetails"><![CDATA[請前往 <font color="%1$s">protonvpn.com</font> 網頁面板管理您的訂閱。]]></string>
-    <string name="accountButtonManage">管理帳號</string>
-    <string name="accountButtonUseCoupon">使用優惠券</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">帳號</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">連接</string>
     <string name="settingsSectionSecurity">安全性</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[使用 Proton VPN 可依任一特殊需求，在虛擬專屬網路允許流量使用非標準連接埠。 <a href="%1$s">了解更多</a>]]></string>
     <string name="settingsModerateNatTitle">中等 NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[中等 NAT 停用本機位址對應隨機化，可能會稍微降低您的安全性，然而卻允許使用諸如線上遊戲等應用程式的直接連線技術。<a href="%1$s">了解更多</a>]]></string>
-    <string name="use_coupon_title">使用優惠券</string>
-    <string name="use_coupon_code_label">優惠券代碼</string>
-    <string name="use_coupon_success">已成功使用優惠券</string>
-    <string name="use_coupon_success_no_upgrade_yet">已成功使用優惠券。您的訂購授權將於數分鐘後升級。</string>
     <string name="restrictedMaintenanceTitle">維修中</string>
     <string name="restrictedMaintenanceDescription">你現在試著去連線的伺服器正在維修中。請試試其他伺服器。</string>
     <string name="errorUserDelinquent"><![CDATA[您的帳號目前有繳款單逾期未付。請到&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> 結清所有未付繳款單]]></string>
@@ -1213,6 +1198,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">以效能強化技術，提升您的連線速度高達 400%%。%1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">替代路由</string>
     <string name="settings_advanced_alternative_routing_description">萬一 Proton 服務受網路限制封鎖，我們將嘗試改用替代網路路由，替您連接至我們的網站。</string>
     <string name="settings_advanced_allow_lan_title">區域網路連線</string>
@@ -1249,4 +1241,5 @@
     <string name="secure_core_upsell_banner_description">為您的 VPN 連線加入另一層加密</string>
     <string name="p2p_upsell_banner_description">透過 BitTorrent 及其他檔案共享通訊協定下載檔案</string>
     <string name="tor_upsell_banner_description">經由您的 VPN 連線使用 Tor 網路，以加強隱私</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>
