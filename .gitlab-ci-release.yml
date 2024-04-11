@@ -149,9 +149,11 @@ publish nexus:
       when: never
     - if: $CI_COMMIT_BRANCH =~ /^release/
       when: always
+    - when: manual
   tags:
     - shared-medium
   image: $CI_REGISTRY/tpe/test-scripts
+  allow_failure: true
   dependencies:
     - build google play release
   before_script: []

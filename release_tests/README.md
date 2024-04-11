@@ -28,7 +28,7 @@ adb shell 'CLASSPATH=$(pm path androidx.test.services) app_process / \
 Directly run single test (`testSignIn` in the example below):  
 (app state is preserved between tests but it's faster, use for running single tests)
 ```
-adb shell am instrument -w -e class com.protonvpn.android.release_tests.SmokeTest#testSignIn com.protonvpn.android.release_tests/androidx.test.runner.AndroidJUnitRunner
+adb shell am instrument -w -e class com.protonvpn.android.release_tests.tests.SmokeTest#testSignIn com.protonvpn.android.release_tests/androidx.test.runner.AndroidJUnitRunner
 ```
 
 See https://developer.android.com/studio/test/command-line#run-tests-with-adb for more.
