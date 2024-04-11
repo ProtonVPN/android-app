@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.release_tests.suites
 
-import com.protonvpn.android.release_tests.SmokeTest
+import com.protonvpn.android.release_tests.tests.SmokeTest
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
