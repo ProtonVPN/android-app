@@ -257,6 +257,7 @@ class ServerListUpdater @Inject constructor(
             // Force update regardless of the timestamp.
             // TODO: after removing network loader replace with forceRefresh input
             prefs.serverListLastModified = 0
+            prefs.lastFullUpdateTimestamp = 0
         }
         return periodicUpdateManager.executeNow(serverListUpdate)
     }
