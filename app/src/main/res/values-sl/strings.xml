@@ -41,8 +41,6 @@
     <string name="ok">V redu</string>
     <string name="dialogContinue">Nadaljujte</string>
     <string name="dialogLearnMore">Več informacij</string>
-    <string name="dialog_apply">Potrdi</string>
-    <string name="dialog_applying">Prijavljanje</string>
     <string name="secureCoreConnectVia">preko %1$s</string>
     <string name="connected">Povezano</string>
     <string name="buttonConnect">Poveži</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Prijava napake</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Deli</string>
-    <string name="accountDetails">Podrobnosti računa</string>
-    <string name="accountSubscription">Naročnina</string>
-    <string name="accountUser">Uporabnik:</string>
-    <string name="accountTier">Aktivna naročnina</string>
-    <string name="accountVersion">Različica:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Če želite upravljati svojo naročnino, morate obiskati spletno ploščo <font color="%1$s">protonvpn.com</font>.]]></string>
-    <string name="accountButtonManage">Upravljajte račun</string>
-    <string name="accountButtonUseCoupon">Uporabi kupon</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Račun</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Povezava</string>
     <string name="settingsSectionSecurity">Varnost</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -81,7 +70,7 @@
     <string name="settingsSectionAdvanced">Napredno</string>
     <string name="settingsBypassLocalTitle">LAN povezave</string>
     <string name="settingsDnsLeakProtectionTitle">Zaščita pred uhajanjem DNS</string>
-    <string name="settingsDnsLeakDescription">Preprečite puščanje podrobnosti o poizvedbi DNS tretjim osebam (vedno vključeno)</string>
+    <string name="settingsDnsLeakDescription">Preprečite razkrivanje podrobnosti o poizvedbi DNS tretjim osebam (vedno vključeno)</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">MTU velikost</string>
     <string name="settingsMtuDescription">Če privzeta vrednost ni primerna za določeno omrežje, vnesite vrednost v območju 1280–1500. Spremenite ga le, če veste, kaj počnete.</string>
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Uporabite Proton VPN za kakršne koli posebne potrebe, tako da omogočite promet do nestandardnih vrat prek omrežja VPN. <a href="%1$s">Več o tem</a>]]></string>
     <string name="settingsModerateNatTitle">Zmerni NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Zmerni NAT onemogoči naključno preslikavo lokalnih naslovov, kar lahko nekoliko zmanjša vašo varnost, vendar omogoča tehnike, kot so neposredne povezave za aplikacije, kot so spletne igre. <a href="%1$s">Več o tem</a>]]></string>
-    <string name="use_coupon_title">Uporabi kupon</string>
-    <string name="use_coupon_code_label">Koda s kupona</string>
-    <string name="use_coupon_success">Kupon je bil uspešno uporabljen</string>
-    <string name="use_coupon_success_no_upgrade_yet">Kupon je bil uspešno uporabljen. Vaša naročnina bo nadgrajena v nekaj minutah.</string>
     <string name="restrictedMaintenanceTitle">Vzdrževalna dela v teku</string>
     <string name="restrictedMaintenanceDescription">Strežnik, s katerim se trenutno poskušate povezati, je v vzdrževanju. Poskusite z drugim strežnikom.</string>
     <string name="errorUserDelinquent"><![CDATA[Vaš račun ima trenutno zapadli račun. Vse neplačane račune plačajte na &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1117,7 +1102,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Obremenitev: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1306,6 +1291,13 @@ Ta naprava ne dovoljuje povezav VPN.</string>
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Povečajte hitrost povezave do 400%% s tehnologijami za izboljšanje zmogljivosti. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Alternativno usmerjanje</string>
     <string name="settings_advanced_alternative_routing_description">Če so storitve Proton blokirane zaradi omrežnih omejitev, bomo poskušali uporabiti alternativno omrežno usmerjanje, da vas povežemo z našimi spletnimi mesti.</string>
     <string name="settings_advanced_allow_lan_title">LAN povezave</string>
@@ -1342,4 +1334,5 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="secure_core_upsell_banner_description">Dodajte še eno plast šifriranja svoji VPN povezavi s Secure Core</string>
     <string name="p2p_upsell_banner_description">​Prenesite datoteke prek BitTorrenta in drugih protokolov za skupno rabo datotek</string>
     <string name="tor_upsell_banner_description">Za dodatno zasebnost uporabite omrežje Tor prek povezave VPN</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

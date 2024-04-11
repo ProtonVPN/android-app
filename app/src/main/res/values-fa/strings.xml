@@ -41,8 +41,6 @@
     <string name="ok">تأیید</string>
     <string name="dialogContinue">ادامه</string>
     <string name="dialogLearnMore">بیشتر بدانید</string>
-    <string name="dialog_apply">اعمال</string>
-    <string name="dialog_applying">در حال اعمال</string>
     <string name="secureCoreConnectVia">از طریق %1$s</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">گزارش یک اشکال</string>
     <string name="drawerAppVersion">نسخه %1$s</string>
     <string name="action_share">اشتراک گذاری</string>
-    <string name="accountDetails">جزئیات حساب کاربری</string>
-    <string name="accountSubscription">اشتراک</string>
-    <string name="accountUser">کاربر:</string>
-    <string name="accountTier">اشتراک فعال:</string>
-    <string name="accountVersion">نسخه:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[برای مدیریت اشتراک خود، شما باید بروید به <font color="%1$s">protonvpn.com</font>webpanel.]]></string>
-    <string name="accountButtonManage">مدیریت حساب کاربری</string>
-    <string name="accountButtonUseCoupon">استفاده از کد تخفیف</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">حساب کاربری</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">اتصال</string>
     <string name="settingsSectionSecurity">امنیت</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[از Proton VPN برای هرگونه نیاز خاص با اجازهٔ عبور ترافیک از درگاه‌های غیر-استاندارد در شبکهٔ VPN استفاده کنید. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
     <string name="settingsModerateNatTitle">NAT میانه‌رو</string>
     <string name="settingsModerateNatDescription"><![CDATA[NAT میا‌نه‌رو، تصادفی‌سازی نگاشت نشانی‌های محلی را غیرفعال می‌کند، که می‌تواند امنیت شما را اندکی کاهش دهد، اما به برنامه‌هایی نظیر بازی‌های آنلاین اجازهٔ استفاده از تکنیک‌هایی نظیر اتصال مستقیم را می‌دهد. <a href="%1$s">بیشتر یاد بگیرید</a>]]></string>
-    <string name="use_coupon_title">استفاده از کد تخفیف</string>
-    <string name="use_coupon_code_label">کد تخفیف</string>
-    <string name="use_coupon_success">کد تخفیف با موفقیت اعمال شد</string>
-    <string name="use_coupon_success_no_upgrade_yet">کد تخفیف با موفقیت اعمال شد. اشتراک شما در چند دقیقهٔ آینده ارتقا خواهد یافت.</string>
     <string name="restrictedMaintenanceTitle">تحت عملیات نگهداری</string>
     <string name="restrictedMaintenanceDescription">سروری که می‌خواهید به آن متصل شوید، در دست تعمیر است لطفاً سرور دیگری را انتخاب کنید.</string>
     <string name="errorUserDelinquent"><![CDATA[حساب شما یک فاکتور پرداخت نشده دارد. لطفاً همهٔ فاکتورهای پرداخت نشده را در&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a> پرداخت نمایید.]]></string>
@@ -1243,6 +1228,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">مسیریابی جایگزین</string>
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">اتصالات LAN</string>
@@ -1279,4 +1271,5 @@
     <string name="secure_core_upsell_banner_description">اضافه کردن یک لایه دیگر رمزنگاری به ارتباط VPN شما</string>
     <string name="p2p_upsell_banner_description">Download files through BitTorrent and other file sharing protocols</string>
     <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

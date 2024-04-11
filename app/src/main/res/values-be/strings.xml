@@ -41,8 +41,6 @@
     <string name="ok">Добра</string>
     <string name="dialogContinue">Працягнуць</string>
     <string name="dialogLearnMore">Даведацца больш</string>
-    <string name="dialog_apply">Ужыць</string>
-    <string name="dialog_applying">Ужыванне</string>
     <string name="secureCoreConnectVia">праз %1$s</string>
     <string name="connected">Падключана</string>
     <string name="buttonConnect">Падключыцца</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Паведаміць пра праблему</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Абагуліць</string>
-    <string name="accountDetails">Падрабязнасці ўліковага запісу</string>
-    <string name="accountSubscription">Падпіска</string>
-    <string name="accountUser">Карыстальнік:</string>
-    <string name="accountTier">Актыўная падпіска:</string>
-    <string name="accountVersion">Версія:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Каб кіраваць падпіскай, перайдзіце на вэб-панэль <font color="%1$s">protonvpn.com</font>.]]></string>
-    <string name="accountButtonManage">Кіраванне ўліковым запісам</string>
-    <string name="accountButtonUseCoupon">Выкарыстаць купон</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Уліковы запіс</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Падключэнне</string>
     <string name="settingsSectionSecurity">Бяспека</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Выкарыстоўвайце Proton VPN для любых адмысловых патрабаванняў, дазваляючы трафік да нестандартных партоў праз сетку VPN. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="settingsModerateNatTitle">Умераны NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Умераны NAT адключае рандамізацыю пераназначэнняў лакальных адрасоў, што можа крыху паменшыць вашу бяспеку, але дазволіць такія спосабы, як прамое падключэнне для праграм (напрыклад, сеткавых гульняў). <a href="%1$s">Даведацца больш</a>]]></string>
-    <string name="use_coupon_title">Выкарыстаць купон</string>
-    <string name="use_coupon_code_label">Код купона</string>
-    <string name="use_coupon_success">Купон быў паспяхова ўжыты</string>
-    <string name="use_coupon_success_no_upgrade_yet">Купон быў паспяхова ўжыты. Ваша падпіска будзе палепшана на працягу некалькіх хвілін.</string>
     <string name="restrictedMaintenanceTitle">На тэхнічным абслугоўванні</string>
     <string name="restrictedMaintenanceDescription">Сервер, да якога вы спрабуеце падключыцца ў дадзены момант, знаходзіцца на тэхнічным абслугоўванні. Выберыце іншы сервер.</string>
     <string name="errorUserDelinquent"><![CDATA[Ваш уліковы запіс мае пратэрмінаваны рахунак. Аплаціце ўсе неаплачаныя рахункі на &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1303,6 +1288,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Павялічце хуткасць свайго падключэння да 400 %% дзякуючы тэхналогіям павышэння прадукцыйнасці. %1$s</string>
+    <string name="settings_account_settings_title">Налады ўліковага запісу</string>
+    <string name="settings_account_change_password">Змяніць пароль</string>
+    <string name="settings_account_recovery_email">Электронная пошта для аднаўлення доступу</string>
+    <string name="settings_account_recovery_email_not_set">Не зададзена</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">Мой уліковы запіс</string>
+    <string name="settings_account_button_delete_account">Выдаліць уліковы запіс</string>
     <string name="settings_advanced_alternative_routing_title">Альтэрнатыўная маршрутызацыя</string>
     <string name="settings_advanced_alternative_routing_description">Калі сэрвісы Proton заблакіраваны па прычыне абмежаванняў сеткі, мы паспрабуем скарыстацца альтэрнатыўным сеткавым маршрутам для падключэння да нашых сайтаў.</string>
     <string name="settings_advanced_allow_lan_title">Падключэнні па лакальнай сетцы</string>
@@ -1339,4 +1331,5 @@
     <string name="secure_core_upsell_banner_description">Дадайце яшчэ адзін слой шыфравання ў ваша падключэнне па VPN</string>
     <string name="p2p_upsell_banner_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагулення файлаў</string>
     <string name="tor_upsell_banner_description">Выкарыстоўвайце сетку Tor праз ваша падключэнне да VPN для дадатковай прыватнасці</string>
+    <string name="vpnplus_upsell_banner_description">Палепшыць да VPN Plus</string>
 </resources>

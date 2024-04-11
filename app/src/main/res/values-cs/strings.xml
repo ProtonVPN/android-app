@@ -41,8 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Pokračovat</string>
     <string name="dialogLearnMore">Více informací</string>
-    <string name="dialog_apply">Použít</string>
-    <string name="dialog_applying">Aplikuji</string>
     <string name="secureCoreConnectVia">přes %1$s</string>
     <string name="connected">Připojeno</string>
     <string name="buttonConnect">Připojit</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Nahlásit problém</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Sdílení</string>
-    <string name="accountDetails">Podrobnosti účtu</string>
-    <string name="accountSubscription">Předplatné</string>
-    <string name="accountUser">Uživatel:</string>
-    <string name="accountTier">Aktivní předplatné:</string>
-    <string name="accountVersion">Verze:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Chcete-li spravovat své předplatné, musíte přejít na web <font color="%1$s">protonvpn.com</font>.]]></string>
-    <string name="accountButtonManage">Spravovat účet</string>
-    <string name="accountButtonUseCoupon">Použít kupón</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Účet</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Připojení</string>
     <string name="settingsSectionSecurity">Zabezpečení</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Použijte Proton VPN pro jakékoliv speciální potřeby povolením provozu na nestandardních portech prostřednictvím sítě VPN. <a href="%1$s">Další informace</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT deaktivuje náhodné mapování místních adres, což může mírně snížit zabezpečení, ale umožňuje techniky, jako je přímé připojení pro aplikace, například online hry. <a href="%1$s">Více informací</a>]]></string>
-    <string name="use_coupon_title">Použít kupón</string>
-    <string name="use_coupon_code_label">Kód kupónu</string>
-    <string name="use_coupon_success">Kupón byl úspěšně uplatněn</string>
-    <string name="use_coupon_success_no_upgrade_yet">Kupón byl úspěšně uplatněn. Vaše předplatné bude aktualizováno během několika minut.</string>
     <string name="restrictedMaintenanceTitle">Probíhá údržba</string>
     <string name="restrictedMaintenanceDescription">Server, ke kterému se aktuálně pokoušíte připojit, je v údržbě. Zkuste prosím jiný server.</string>
     <string name="errorUserDelinquent"><![CDATA[Váš účet má aktuálně fakturu po splatnosti. Zaplaťte prosím všechny nezaplacené faktury na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1303,6 +1288,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Zvyšte rychlost připojení až o 400%% pomocí technologií zvyšujících výkon. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Alternativní směrování</string>
     <string name="settings_advanced_alternative_routing_description">Pokud jsou služby Protonu blokovány poskytovatelem síťového připojení, pokusíme se vás připojit k našim stránkám pomocí alternativního síťového směrování.</string>
     <string name="settings_advanced_allow_lan_title">LAN připojení</string>
@@ -1339,4 +1331,5 @@
     <string name="secure_core_upsell_banner_description">Přidejte další úroveň šifrování vašemu VPN připojení</string>
     <string name="p2p_upsell_banner_description">Download files through BitTorrent and other file sharing protocols</string>
     <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

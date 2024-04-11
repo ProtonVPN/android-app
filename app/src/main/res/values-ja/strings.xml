@@ -41,8 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">続行</string>
     <string name="dialogLearnMore">詳細</string>
-    <string name="dialog_apply">適用</string>
-    <string name="dialog_applying">適用中</string>
     <string name="secureCoreConnectVia">%1$s 経由</string>
     <string name="connected">接続完了</string>
     <string name="buttonConnect">接続</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">問題を報告</string>
     <string name="drawerAppVersion">バージョン%1$s</string>
     <string name="action_share">共有</string>
-    <string name="accountDetails">アカウントの詳細</string>
-    <string name="accountSubscription">サブスクリプション</string>
-    <string name="accountUser">ユーザー:</string>
-    <string name="accountTier">現在のサブスクリプション:</string>
-    <string name="accountVersion">バージョン:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[サブスクリプションの管理は、<font color="%1$s">protonvpn.com</font> から行えます。]]></string>
-    <string name="accountButtonManage">アカウントの管理</string>
-    <string name="accountButtonUseCoupon">クーポンを使用</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">アカウント</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">接続</string>
     <string name="settingsSectionSecurity">セキュリティ</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[標準以外のポートへの VPN ネットワーク経由のトラフィックを許可して、特殊な用途に Proton VPN を使用します。<a href="%1$s">詳細</a>]]></string>
     <string name="settingsModerateNatTitle">モデレート NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[モデレート NAT はローカルアドレスマッピングのランダム化を無効にします。これによりセキュリティが若干低下しますが、オンラインゲームなどのアプリケーションで直接接続などの手法が利用可能になります。<a href="%1$s">詳細</a>]]></string>
-    <string name="use_coupon_title">クーポンを使用</string>
-    <string name="use_coupon_code_label">クーポンコード</string>
-    <string name="use_coupon_success">クーポンは正常に適用されました</string>
-    <string name="use_coupon_success_no_upgrade_yet">クーポンは正常に適用されました。サブスクリプションはまもなく更新されます。</string>
     <string name="restrictedMaintenanceTitle">メンテナンス中</string>
     <string name="restrictedMaintenanceDescription">接続しようとしているサーバーは、現在メンテナンス中です。他のサーバーをご利用ください。</string>
     <string name="errorUserDelinquent"><![CDATA[アカウントに未払いの請求があります。 &#160;<a href="https://account.protonvpn.com"> account.protonvpn.com</a> にアクセスして全額ご精算ください。]]></string>
@@ -1213,6 +1198,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">代替ルーティング</string>
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">LAN 接続</string>
@@ -1249,4 +1241,5 @@
     <string name="secure_core_upsell_banner_description">VPN接続にもう1つの暗号化レイヤーを追加する</string>
     <string name="p2p_upsell_banner_description">BitTorrentやその他のファイル共有プロトコルでファイルをダウンロードする</string>
     <string name="tor_upsell_banner_description">VPN接続にTorネットワークを使用することで、プライバシーをさらに守ることができます</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

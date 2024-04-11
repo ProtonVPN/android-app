@@ -41,8 +41,6 @@
     <string name="ok">OK</string>
     <string name="dialogContinue">Continuare</string>
     <string name="dialogLearnMore">Detalii</string>
-    <string name="dialog_apply">Aplicare</string>
-    <string name="dialog_applying">Se aplică</string>
     <string name="secureCoreConnectVia">prin %1$s</string>
     <string name="connected">Conectat</string>
     <string name="buttonConnect">Conectare</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Raportare o problemă</string>
     <string name="drawerAppVersion">v.%1$s</string>
     <string name="action_share">Partajare</string>
-    <string name="accountDetails">Detalii cont</string>
-    <string name="accountSubscription">Abonament</string>
-    <string name="accountUser">Utilizator:</string>
-    <string name="accountTier">Abonament activ:</string>
-    <string name="accountVersion">Versiune:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Pentru a vă gestiona abonamentul, trebuie să accesați panoul de la <font color="%1$s">protonvpn.com</font>.]]></string>
-    <string name="accountButtonManage">Gestionare cont</string>
-    <string name="accountButtonUseCoupon">Folosire cupon</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Cont</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Conexiune</string>
     <string name="settingsSectionSecurity">Securitate</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilizați Proton VPN pentru orice nevoie specială, permițând traficul către porturile nonstandard prin VPN. <a href="%1$s">Detalii</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderat</string>
     <string name="settingsModerateNatDescription"><![CDATA[NAT moderat dezactivează alocarea aleatoare a adreselor locale, ceea ce poate reduce ușor securitatea, dar permite folosirea unor tehnici cum ar fi conexiunea directă pentru aplicații precum jocurile online. <a href="%1$s">Detalii</a>]]></string>
-    <string name="use_coupon_title">Folosire cupon</string>
-    <string name="use_coupon_code_label">Cod cupon</string>
-    <string name="use_coupon_success">Cuponul a fost aplicat cu succes</string>
-    <string name="use_coupon_success_no_upgrade_yet">Cuponul a fost aplicat cu succes. Abonamentul va fi modificat în câteva minute.</string>
     <string name="restrictedMaintenanceTitle">În întreținere</string>
     <string name="restrictedMaintenanceDescription">Serverul la care se încearcă conectarea este în întreținere. Încercați alt server.</string>
     <string name="errorUserDelinquent"><![CDATA[Contul are în prezent o factură restantă. Vă rugăm să plătiți toate facturile neachitate la&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1273,6 +1258,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Măriți viteza de conectare cu până la 400 %% cu tehnologii de îmbunătățire a performanței. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Rută alternativă</string>
     <string name="settings_advanced_alternative_routing_description">Dacă serviciile Proton sunt blocate din cauza restricțiilor de rețea, vom încerca să utilizăm o rută alternativă de rețea pentru a vă conecta la site-urile noastre.</string>
     <string name="settings_advanced_allow_lan_title">Conexiuni LAN</string>
@@ -1309,4 +1301,5 @@
     <string name="secure_core_upsell_banner_description">Adăugați încă un nivel de criptare a conexiunii VPN</string>
     <string name="p2p_upsell_banner_description">Descărcați fișiere prin BitTorrent și alte protocoale de partajare fișiere</string>
     <string name="tor_upsell_banner_description">Utilizați rețeaua Tor prin conexiunea VPN pentru intimitate suplimentară</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>

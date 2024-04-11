@@ -41,8 +41,6 @@
     <string name="ok">ΟΚ</string>
     <string name="dialogContinue">Συνέχεια</string>
     <string name="dialogLearnMore">Μάθετε περισσότερα</string>
-    <string name="dialog_apply">Εφαρμογή</string>
-    <string name="dialog_applying">Εφαρμογή</string>
     <string name="secureCoreConnectVia">μέσω %1$s</string>
     <string name="connected">Συνδεδεμένο</string>
     <string name="buttonConnect">Σύνδεση</string>
@@ -64,16 +62,7 @@
     <string name="drawerReportProblem">Αναφορά προβλήματος</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Κοινοποίηση</string>
-    <string name="accountDetails">Πληροφορίες λογαριασμού</string>
-    <string name="accountSubscription">Συνδρομή</string>
-    <string name="accountUser">Χρήστης:</string>
-    <string name="accountTier">Ενεργή συνδρομή:</string>
-    <string name="accountVersion">Έκδοση:</string>
-    <string name="accountSubscriptionDetails"><![CDATA[Για να διαχειριστείτε τη συνδρομή σας, πρέπει να μεταβείτε στο <font color="%1$s">protonvpn.com</font> webpanel.]]></string>
-    <string name="accountButtonManage">Διαχείριση λογαριασμού</string>
-    <string name="accountButtonUseCoupon">Χρήση κουπονιού</string>
-    <string name="accountFree">Proton VPN Free</string>
-    <string name="activityAccountTitle">Λογαριασμός</string>
+    <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Σύνδεση</string>
     <string name="settingsSectionSecurity">Ασφάλεια</string>
     <!-- tag(Redesign_2023) Support section title in settings screen -->
@@ -90,10 +79,6 @@
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Χρησιμοποιήστε το Proton VPN για κάθε ειδική περιπτωση επιτρέποντας την ροή των δεδομένων από μη τυποποιημένες θύρες μέσω του δικτύου VPN. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
     <string name="settingsModerateNatTitle">Παραμετροποιήστε το NAT</string>
     <string name="settingsModerateNatDescription"><![CDATA[Παραμετροποιώντας το NAT, απενεργοποιείται η τυχαιοποίηση της αντιστοίχησης των τοπικών διευθύνσεων το οποίο μπορεί να μειώσει ελαφρώς το επίπεδο ασφαλείας, αλλά επιτρέπει τις απευθείας συνδέσεις για ορισμένες εφαρμογές όπως τα διαδικτυακά παιχνίδια.<a href="%1$s">Μάθετε περισσότερα</a>]]></string>
-    <string name="use_coupon_title">Χρήση κουπονιού</string>
-    <string name="use_coupon_code_label">Κωδικός κουπονιού</string>
-    <string name="use_coupon_success">Επιτυχής εφαρμογή κουπονιού</string>
-    <string name="use_coupon_success_no_upgrade_yet">Επιτυχής εφαρμογή κουπονιού. Η συνδρομή σας θα αναβαθμιστεί εντός ολίγων λεπτών.</string>
     <string name="restrictedMaintenanceTitle">Υπό Συντήρηση</string>
     <string name="restrictedMaintenanceDescription">Ο διακομιστής που προσπαθείτε αυτήν τη στιγμή να συνδεθείτε βρίσκεται υπό συντήρηση. Δοκιμάστε κάποιον άλλο διακομιστή.</string>
     <string name="errorUserDelinquent"><![CDATA[Ο λογαριασμός σας έχει εκπρόθεσμο λογαριασμό. Καταβάλλετε όλο το μη καταβληθέν ποσό στο&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -1243,6 +1228,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Αυξήστε την ταχύτητα σύνδεσής σας έως και 400%% με τεχνολογίες βελτίωσης της απόδοσης. %1$s</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <!-- Label of a button that opens user's account page -->
+    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Εναλλακτική δρομολόγηση</string>
     <string name="settings_advanced_alternative_routing_description">Εάν οι υπηρεσίες Proton αποκλειστούν λόγω περιορισμών δικτύου, θα προσπαθήσουμε να χρησιμοποιήσουμε εναλλακτική δρομολόγηση δικτύου για να σας συνδέσουμε στους ιστότοπούς μας.</string>
     <string name="settings_advanced_allow_lan_title">Τοπικές συνδέσεις (LAN)</string>
@@ -1279,4 +1271,5 @@
     <string name="secure_core_upsell_banner_description">Επιπρόσθετο επίπεδο κρυπτογράφησης στη σύνδεση VPN σας</string>
     <string name="p2p_upsell_banner_description">Λήψη αρχείων μέσω BitTorrent και άλλων πρωτοκόλλων κοινής χρήσης αρχείων</string>
     <string name="tor_upsell_banner_description">Χρησιμοποιήστε το δίκτυο Tor μέσω της σύνδεσής σας VPN για επιπλέον ιδιωτικότητα</string>
+    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
 </resources>
