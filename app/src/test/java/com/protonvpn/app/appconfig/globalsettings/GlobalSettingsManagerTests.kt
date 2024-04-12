@@ -27,7 +27,6 @@ import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsPrefs
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsResponse
 import com.protonvpn.android.appconfig.globalsettings.GlobalUserSettings
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.IsCredentiallessUser
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.IsTvCheck
@@ -35,6 +34,7 @@ import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createAccountUser
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -51,8 +51,11 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
+import me.proton.core.user.domain.UserManager
+import me.proton.core.user.domain.entity.Type
 import me.proton.core.usersettings.domain.usecase.GetUserSettings
 import org.junit.After
 import org.junit.Assert.assertFalse
@@ -77,7 +80,7 @@ class GlobalSettingsManagerTests {
     @MockK
     private lateinit var mockGetUserSettings: GetUserSettings
     @MockK
-    private lateinit var mockIsCredentiallessUser: IsCredentiallessUser
+    private lateinit var mockUserManager: UserManager
 
     private lateinit var currentUser: CurrentUser
     private lateinit var testUserProvider: TestCurrentUserProvider
@@ -87,8 +90,10 @@ class GlobalSettingsManagerTests {
 
     private lateinit var globalSettingsManager: GlobalSettingsManager
 
-    private val user1 = TestUser.plusUser.vpnUser
-    private val user2 = TestUser.freeUser.vpnUser
+    private val vpnUser1 = TestUser.plusUser.vpnUser
+    private val vpnUser2 = TestUser.freeUser.vpnUser
+    private val accountUser1 = createAccountUser(vpnUser1.userId)
+    private val accountUser2 = createAccountUser(vpnUser2.userId)
 
     @Before
     fun setup() {
@@ -97,7 +102,10 @@ class GlobalSettingsManagerTests {
         Dispatchers.setMain(testDispatcher)
         testScope = TestScope(testDispatcher)
 
-        testUserProvider = TestCurrentUserProvider(user1)
+        listOf(accountUser1, accountUser2).forEach { accountUser ->
+            coEvery { mockUserManager.getUser(accountUser.userId) } returns accountUser
+        }
+        testUserProvider = TestCurrentUserProvider(vpnUser1, accountUser1)
         currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
         userSettingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
@@ -105,7 +113,6 @@ class GlobalSettingsManagerTests {
 
         globalSettingsPrefs = GlobalSettingsPrefs(MockSharedPreferencesProvider())
         every { mockIsTvCheck.invoke() } returns false
-        coEvery { mockIsCredentiallessUser.invoke(any()) } returns false
 
         globalSettingsManager = GlobalSettingsManager(
             testScope.backgroundScope,
@@ -116,7 +123,7 @@ class GlobalSettingsManagerTests {
             mockIsTvCheck,
             mockGlobalSettingUpdateScheduler,
             mockGetUserSettings,
-            mockIsCredentiallessUser,
+            mockUserManager,
         )
     }
 
@@ -149,7 +156,7 @@ class GlobalSettingsManagerTests {
         coEvery { mockGetUserSettings(any<SessionId>(), any()) } returns mockk {
             every { telemetry } returns true
         }
-        globalSettingsManager.refresh(user1.userId, user1.sessionId)
+        globalSettingsManager.refresh(vpnUser1.userId, vpnUser1.sessionId)
 
         assertTrue(globalSettingsPrefs.telemetryEnabled)
         assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
@@ -163,7 +170,7 @@ class GlobalSettingsManagerTests {
         coEvery { mockGetUserSettings(any<SessionId>(), any()) } returns mockk {
             every { telemetry } returns false
         }
-        globalSettingsManager.refresh(user1.userId, user1.sessionId)
+        globalSettingsManager.refresh(vpnUser1.userId, vpnUser1.sessionId)
 
         assertFalse(globalSettingsPrefs.telemetryEnabled)
         assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
@@ -191,12 +198,12 @@ class GlobalSettingsManagerTests {
     @Ignore("VPNAND-1381")
     @Test
     fun `when new user logs in then global telemetry is not updated`() = testScope.runTest {
-        userSettingsManager.getRawUserSettingsStore(user1).updateData { it.copy(telemetry = false) }
-        userSettingsManager.getRawUserSettingsStore(user2).updateData { it.copy(telemetry = true) }
+        userSettingsManager.getRawUserSettingsStore(vpnUser1).updateData { it.copy(telemetry = false) }
+        userSettingsManager.getRawUserSettingsStore(vpnUser2).updateData { it.copy(telemetry = true) }
         globalSettingsPrefs.telemetryEnabled = false
         assertFalse(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
 
-        testUserProvider.vpnUser = user2
+        testUserProvider.set(vpnUser2, accountUser2)
 
         assertTrue(userSettingsManager.rawCurrentUserSettingsFlow.first().telemetry)
         assertFalse(globalSettingsPrefs.telemetryEnabled)
@@ -206,13 +213,18 @@ class GlobalSettingsManagerTests {
     @Test
     fun `when user is credentialless don't fetch nor set global settings`() = testScope.runTest {
         // Given:
-        coEvery { mockIsCredentiallessUser.invoke(any()) } returns true
+        val (credlessUser1, _) = listOf(vpnUser1, vpnUser2).map { vpnUser -> // All users are credentialless now
+            val credentiallessUser = createAccountUser(vpnUser.userId, type = Type.CredentialLess)
+            coEvery { mockUserManager.getUser(credentiallessUser.userId) } returns credentiallessUser
+            credentiallessUser
+        }
+        testUserProvider.set(vpnUser1, credlessUser1)
         globalSettingsPrefs.telemetryEnabled = false
-        userSettingsManager.getRawUserSettingsStore(user1).updateData { it.copy(telemetry = false) }
+        userSettingsManager.getRawUserSettingsStore(vpnUser1).updateData { it.copy(telemetry = false) }
 
         // When
-        userSettingsManager.getRawUserSettingsStore(user2).updateData { it.copy(telemetry = true) }
-        globalSettingsManager.refresh(user2.userId, user2.sessionId)
+        userSettingsManager.getRawUserSettingsStore(vpnUser2).updateData { it.copy(telemetry = true) }
+        globalSettingsManager.refresh(vpnUser2.userId, vpnUser2.sessionId)
 
         // Then
         coVerify(exactly = 0) { mockGlobalSettingUpdateScheduler.updateRemoteTelemetry(any()) }

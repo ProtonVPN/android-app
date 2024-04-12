@@ -56,4 +56,10 @@ class TestCurrentUserProvider(
         if (accountUser == null || vpnUser == null) null
         else Pair(accountUser, vpnUser)
     }
+
+    fun set(vpnUser: VpnUser?, user: User?) {
+        this.vpnUser = vpnUser
+        this.user = user
+    }
+
 }

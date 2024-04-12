@@ -24,13 +24,13 @@ import me.proton.core.user.domain.entity.Type
 import me.proton.core.user.domain.entity.User
 
 // We should upstream such helpers to Account modules.
-fun createAccountUser(id: UserId = UserId("id"), createdAtUtc: Long = 0L) = User(
+fun createAccountUser(id: UserId = UserId("id"), type: Type = Type.Proton, createdAtUtc: Long = 0L) = User(
     userId = id,
     email = null,
     name = null,
     displayName = null,
     currency = "EUR",
-    type = Type.Proton,
+    type = type,
     credit = 0,
     createdAtUtc = createdAtUtc,
     usedSpace = 0,
