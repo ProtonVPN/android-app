@@ -264,7 +264,7 @@ class CountriesViewModelTests {
     }
 
     @Test
-    fun connectedCountryIsMarkedAsConnected() = runTest {
+    fun connectedCountryIsMarkedAsConnected() = testScope.runTest {
         var connectRequested = false
         val usServer = server(exitCountry = "US")
         val connectionParams = ConnectionParams(ConnectIntent.FastestInCountry(CountryId("US"), setOf()), usServer, null, null)
