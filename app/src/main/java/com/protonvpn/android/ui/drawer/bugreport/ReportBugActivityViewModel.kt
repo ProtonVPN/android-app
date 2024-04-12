@@ -33,7 +33,6 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.usecase.IsCredentiallessUser
 import com.protonvpn.android.logging.FileLogWriter
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.bugreport.Category
@@ -49,6 +48,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.presentation.ui.view.ProtonInput
+import me.proton.core.user.domain.extension.isCredentialLess
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -65,7 +65,6 @@ class ReportBugActivityViewModel @Inject constructor(
     private val telephony: TelephonyManager?,
     private val guestHole: GuestHole,
     private val isTv: IsTvCheck,
-    private val isCredentiallessUser: IsCredentiallessUser,
     private val authFlowStartHelper: AuthFlowStartHelper,
 ) : ViewModel() {
 
@@ -108,7 +107,7 @@ class ReportBugActivityViewModel @Inject constructor(
     fun navigateToReport(category: Category) {
         viewModelScope.launch {
             val user = currentUser.user()
-            if (!isTv() && user != null && isCredentiallessUser(user.userId)) {
+            if (!isTv() && user != null && user.isCredentialLess()) {
                 _event.tryEmit(UiEvent.ShowLoginDialog)
             } else {
                 _state.value = ViewState.Report(category)
