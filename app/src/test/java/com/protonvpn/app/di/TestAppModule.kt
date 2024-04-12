@@ -56,7 +56,7 @@ object TestScopeAppModule {
 
     @Provides
     @Singleton
-    fun provideMainScope(testScope: TestScope): CoroutineScope = testScope
+    fun provideMainScope(testScope: TestScope): CoroutineScope = testScope.backgroundScope
 
     @Provides
     @Singleton
