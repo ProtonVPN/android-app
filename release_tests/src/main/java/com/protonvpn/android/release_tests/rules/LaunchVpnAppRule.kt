@@ -62,7 +62,7 @@ open class LaunchVpnAppRule : TestWatcher() {
         Assert.assertNotNull(launcherPackage)
         device.wait(
             Until.hasObject(By.pkg(launcherPackage).depth(0)),
-            TestConstants.LONG_TIMEOUT.inWholeMilliseconds
+            TestConstants.TWENTY_SECOND_TIMEOUT.inWholeMilliseconds
         )
 
         // Launch the app
@@ -76,6 +76,6 @@ open class LaunchVpnAppRule : TestWatcher() {
         context.startActivity(intent)
 
         // Wait for the app to appear
-        device.wait(Until.hasObject(By.pkg(TestConstants.TEST_PACKAGE).depth(0)), TestConstants.LONG_TIMEOUT.inWholeMilliseconds);
+        device.wait(Until.hasObject(By.pkg(TestConstants.TEST_PACKAGE).depth(0)), TestConstants.TWENTY_SECOND_TIMEOUT.inWholeMilliseconds);
     }
 }

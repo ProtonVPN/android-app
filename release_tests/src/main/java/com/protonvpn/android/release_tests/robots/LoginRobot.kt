@@ -23,6 +23,7 @@ package com.protonvpn.android.release_tests.robots
 
 import com.protonvpn.android.release_tests.data.TestConstants
 import me.proton.test.fusion.Fusion.byObject
+import me.proton.test.fusion.Fusion.device
 import me.proton.test.fusion.ui.uiautomator.ByObject
 
 class LoginRobot {
@@ -51,9 +52,8 @@ class LoginRobot {
     }
 
     fun waitUntilLoggedIn(): LoginRobot {
-        byObject.withText("Connect").waitForExists(TestConstants.LONG_TIMEOUT)
+        byObject.withText("Connect").waitForExists(TestConstants.ONE_MINUTE_TIMEOUT)
         byObject.withText("You are unprotected").waitForExists()
-
         return this
     }
 

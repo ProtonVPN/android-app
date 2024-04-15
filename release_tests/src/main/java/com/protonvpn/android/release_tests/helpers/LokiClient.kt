@@ -21,13 +21,18 @@
 
 package com.protonvpn.android.release_tests.helpers
 
+import android.content.Context
+import android.os.Build
+import androidx.test.core.app.ApplicationProvider
 import com.protonvpn.android.release_tests.BuildConfig
+import com.protonvpn.android.release_tests.data.TestConstants
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.UUID
 
 class LokiClient {
 
@@ -42,8 +47,8 @@ class LokiClient {
             .build()
 
         val response = client.newCall(request).execute()
-        if(!response.isSuccessful){
-            throw Exception(response.isSuccessful.toString())
+        if (!response.isSuccessful) {
+            throw Exception(response.body.toString())
         }
         return response.isSuccessful
     }
@@ -52,7 +57,7 @@ class LokiClient {
         val metricsJson = JSONObject(metrics)
         val timestamp = System.currentTimeMillis() * 1000000
         val values = JSONArray()
-            .put(JSONArray().put(timestamp.toString()).put(metricsJson.toString()))
+            .put(JSONArray().put(timestamp.toString()).put(metricsJson.toString()).put(getMetadata()))
 
         val stream = JSONObject()
         stream.put("stream", getMetricLabels())
@@ -73,6 +78,23 @@ class LokiClient {
             "sli" to sliGroup
         )
         return JSONObject(labels)
+    }
+
+    fun getMetadata(): JSONObject {
+        val labels = mapOf(
+            "id" to UUID.randomUUID().toString(),
+            "os_version" to Build.VERSION.RELEASE,
+            "app_version" to getAppVersion(),
+            "build_commit_sha1" to BuildConfig.CI_COMMIT_SHORT_SHA,
+            "device_model" to Build.MODEL
+        )
+        return JSONObject(labels)
+    }
+
+    private fun getAppVersion(): String {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val packageInfo = context.packageManager.getPackageInfo(TestConstants.TEST_PACKAGE, 0)
+        return packageInfo.versionName
     }
 
     companion object {
