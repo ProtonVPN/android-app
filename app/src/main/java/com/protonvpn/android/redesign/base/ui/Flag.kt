@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,9 +53,12 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.isSpecified
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
@@ -69,16 +73,21 @@ private object FlagShapes {
 }
 
 private object FlagDefaults {
+    val singleFlagSize = DpSize(30.dp, 20.dp)
     val twoFlagSize = DpSize(30.dp, 30.dp)
     val twoFlagTop = 3.dp
     val twoFlagMainSize = DpSize(24.dp, 16.dp)
     val companionFlagSize = DpSize(18.dp, 12.dp)
     val companionFlagTop = 15.dp
+    val scUnderlineArcSize = DpSize(26.dp, 16.dp)
+    val scUnderlineArcOffset = DpOffset(-4.dp, 4.dp + (singleFlagSize.height - scUnderlineArcSize.height))
+    val scUnderlineArcRadius = 6.dp
     val shadowColor = Color(0x66000000)
 }
 
 @Composable
 fun FlagFastest(
+    isSecureCore: Boolean,
     connectedCountry: CountryId?,
     modifier: Modifier = Modifier,
 ) {
@@ -87,7 +96,7 @@ fun FlagFastest(
     Flag(
         mainFlag = R.drawable.flag_fastest,
         secondaryFlag = secondaryFlag,
-        isSecureCore = false,
+        isSecureCore = isSecureCore,
         isFastest = true,
         modifier = modifier
     )
@@ -136,6 +145,7 @@ private fun GatewayIndicator(
             largeImage = R.drawable.ic_gateway_flag,
             smallImage = countryFlag,
             isRounded = false,
+            isSecureCore = false,
             modifier = modifier
         )
     }
@@ -150,14 +160,25 @@ private fun Flag(
     modifier: Modifier = Modifier
 ) {
     when {
-        secondaryFlag != null && isSecureCore->
+        secondaryFlag != null && !isFastest ->
             TwoFlagsLargeOnTop(largeImage = mainFlag, smallImage = secondaryFlag, modifier = modifier)
-        secondaryFlag != null && !isSecureCore ->
-            TwoFlagsSmallOnTop(largeImage = mainFlag, smallImage = secondaryFlag, isRounded = true, modifier = modifier)
+        secondaryFlag != null && isFastest ->
+            TwoFlagsSmallOnTop(
+                largeImage = mainFlag,
+                smallImage = secondaryFlag,
+                isRounded = true,
+                isSecureCore = isSecureCore,
+                modifier = modifier
+            )
         else ->
             SingleFlag(mainFlag, isSecureCore, isFastest, modifier)
     }
 }
+
+@Composable
+private fun secureCoreArcColor(isFastest: Boolean) =
+    if (isFastest) ProtonTheme.colors.vpnGreen.copy(alpha = 0.24f)
+    else ProtonTheme.colors.textHint
 
 @Composable
 private fun SingleFlag(
@@ -167,15 +188,15 @@ private fun SingleFlag(
     modifier: Modifier = Modifier
 ) {
     val drawScIndicatorModifier = if (isSecureCore) {
-        val color =
-            if (isFastest) ProtonTheme.colors.vpnGreen.copy(alpha = 0.24f)
-            else ProtonTheme.colors.textHint
+        val color = secureCoreArcColor(isFastest)
         Modifier.drawWithCache {
-            val path = createScUnderlineArc(Size(26.dp.toPx(), 16.dp.toPx()), 6.dp.toPx())
+            val path = with(FlagDefaults) {
+                createScUnderlineArc(scUnderlineArcSize.toSize(), scUnderlineArcRadius.toPx())
+            }
             onDrawBehind {
                 // The underline arc is outside the layout area for this component, same as in
                 // designs. This should make it easier to position the flag.
-                drawScUnderlineArc(Offset(-4.dp.toPx(), 8.dp.toPx()), path, color)
+                drawScUnderlineArc(FlagDefaults.scUnderlineArcOffset.toOffset(this), path, color)
             }
         }
     } else {
@@ -187,7 +208,7 @@ private fun SingleFlag(
         alignment = Alignment.Center,
         contentScale = ContentScale.Crop,
         modifier = modifier
-            .size(30.dp, 20.dp)
+            .size(FlagDefaults.singleFlagSize)
             .then(drawScIndicatorModifier)
             .clip(FlagShapes.regular)
     )
@@ -235,15 +256,32 @@ private fun TwoFlagsSmallOnTop(
     @DrawableRes largeImage: Int,
     @DrawableRes smallImage: Int,
     isRounded: Boolean,
+    isSecureCore: Boolean,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
+        val color = secureCoreArcColor(isFastest = true)
+        val secureCoreLine = Modifier.drawWithCache {
+            val path = with(FlagDefaults) {
+                createScUnderlineArc(scUnderlineArcSize.toSize(), scUnderlineArcRadius.toPx())
+            }
+            val flagScale = with(FlagDefaults) { twoFlagMainSize.width / singleFlagSize.width }
+            onDrawBehind {
+                val isRtl = layoutDirection == LayoutDirection.Rtl
+                scale(flagScale, pivot = if (isRtl) Offset(size.width, 0f) else Offset.Zero) {
+                    // The underline arc is outside the layout area for this component, same as in
+                    // designs. This should make it easier to position the flag.
+                    drawScUnderlineArc(FlagDefaults.scUnderlineArcOffset.toOffset(this), path, color)
+                }
+            }
+        }
         Image(
             painterResource(id = largeImage),
             contentDescription = null,
             modifier = Modifier
                 .padding(top = FlagDefaults.twoFlagTop)
                 .size(FlagDefaults.twoFlagMainSize)
+                .optional({ isSecureCore }, secureCoreLine)
                 .clip(if (isRounded) FlagShapes.regular else FlagShapes.sharp) // Sharp clipping needed for the shadow.
                 .drawWithCache {
                     val shadowPath = createScFlagShadow(Offset(10.dp.toPx(), 10.dp.toPx(),), topRadius = 6.dp.toPx())
@@ -322,6 +360,11 @@ fun CountryId.flagResource(context: Context): Int =
         CountryTools.getFlagResource(context, countryCode)
     }
 
+// Note: once context-receivers become stable this can be improved.
+private fun DpOffset.toOffset(density: Density): Offset = with(density) {
+    if (isSpecified) Offset(x.toPx(), y.toPx()) else Offset.Unspecified
+}
+
 @Preview
 @Composable
 private fun FlagPreviewDark() {
@@ -349,6 +392,13 @@ private fun FlagsPreviewHelper() {
                 Flag(
                     mainFlag = R.drawable.flag_fastest,
                     secondaryFlag = null,
+                    isSecureCore = true,
+                    isFastest = true,
+                    modifier = modifier
+                )
+                Flag(
+                    mainFlag = R.drawable.flag_fastest,
+                    secondaryFlag = CountryR.drawable.flag_us,
                     isSecureCore = true,
                     isFastest = true,
                     modifier = modifier

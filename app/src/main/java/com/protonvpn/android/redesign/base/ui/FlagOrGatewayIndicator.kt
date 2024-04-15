@@ -31,7 +31,7 @@ fun FlagOrGatewayIndicator(
 ) {
     when(label) {
         is ConnectIntentPrimaryLabel.Fastest ->
-            FlagFastest(connectedCountry = label.connectedCountry, modifier = modifier)
+            FlagFastest(label.isSecureCore, label.connectedCountry, modifier = modifier)
         is ConnectIntentPrimaryLabel.Country ->
             Flag(label.exitCountry, label.entryCountry, modifier = modifier)
         is ConnectIntentPrimaryLabel.Gateway ->

@@ -248,7 +248,7 @@ private fun ContainerLabelRow(
 private fun VpnConnectionCardFreeUserPreview() {
     LightAndDarkPreview {
         val connectIntentState = ConnectIntentViewState(
-            ConnectIntentPrimaryLabel.Fastest(CountryId.sweden, isFree = true),
+            ConnectIntentPrimaryLabel.Fastest(CountryId.sweden, isSecureCore = false, isFree = true),
             ConnectIntentSecondaryLabel.FastestFreeServer(4),
             emptySet(),
         )
