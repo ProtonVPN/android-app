@@ -19,9 +19,9 @@
 package com.protonvpn.android.ui.onboarding
 
 import android.app.Activity
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.play.core.ktx.requestReview
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.android.play.core.tasks.OnCompleteListener
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock

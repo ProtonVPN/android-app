@@ -19,7 +19,6 @@
 package com.protonvpn.android;
 
 import static com.protonvpn.android.utils.AndroidUtilsKt.getAppExitReasonForLog;
-import static com.protonvpn.android.utils.MissingSplitsKt.disableIfMissingSplits;
 import static com.protonvpn.android.utils.PurchaseHandlerKt.initPurchaseHandler;
 import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
 
@@ -130,7 +129,6 @@ public class ProtonApplication extends Application {
     public void onCreate() {
         super.onCreate();
         appContext = this;
-        disableIfMissingSplits(this);
 
         initPreferences();
         SentryIntegration.initSentry(this);
