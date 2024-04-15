@@ -1143,6 +1143,13 @@
     <string name="speed_megabytes_per_second">%1$s MB/dtk</string>
     <string name="speed_gigabytes_per_second">%1$s GB/dtk</string>
     <string name="speed_terabytes_per_second">%1$s TB/dtk</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="bytes_per_second">B/s</string>
+    <string name="kilobytes_per_second">KB/s</string>
+    <string name="megabytes_per_second">MB/s</string>
+    <string name="gigabytes_per_second">GB/s</string>
+    <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="other">%1$s Byte per detik</item>
     </plurals>
@@ -1198,13 +1205,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Tingkatkan kecepatan koneksi Anda hingga 400%% dengan teknologi pemicu performa. %1$s</string>
-    <string name="settings_account_settings_title">Account settings</string>
-    <string name="settings_account_change_password">Change password</string>
-    <string name="settings_account_recovery_email">Recovery email</string>
-    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <string name="settings_account_settings_title">Pengaturan akun</string>
+    <string name="settings_account_change_password">Ubah kata sandi</string>
+    <string name="settings_account_recovery_email">Email pemulihan</string>
+    <string name="settings_account_recovery_email_not_set">Belum diatur</string>
     <!-- Label of a button that opens user's account page -->
-    <string name="settings_account_button_my_account">My account</string>
-    <string name="settings_account_button_delete_account">Delete account</string>
+    <string name="settings_account_button_my_account">Akun saya</string>
+    <string name="settings_account_button_delete_account">Hapus akun</string>
     <string name="settings_advanced_alternative_routing_title">Pengalihan lalu lintas alternatif</string>
     <string name="settings_advanced_alternative_routing_description">Apabila layanan Proton diblokir karena pembatasan jaringan, kami akan mencoba untuk menghubungkan Anda ke situs kami melalui rute jaringan alternatif.</string>
     <string name="settings_advanced_allow_lan_title">Koneksi LAN</string>
@@ -1241,5 +1248,5 @@
     <string name="secure_core_upsell_banner_description">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
     <string name="p2p_upsell_banner_description">Unduh berkas melalui BitTorrent dan berbagai protokol file sharing lainnya</string>
     <string name="tor_upsell_banner_description">Sandingkan jaringan Tor dengan koneksi VPN Anda untuk privasi yang lebih</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">Tingkatkan ke VPN Plus</string>
 </resources>

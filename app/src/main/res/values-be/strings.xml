@@ -1200,6 +1200,13 @@
     <string name="speed_megabytes_per_second">%1$s МБ/с</string>
     <string name="speed_gigabytes_per_second">%1$s ГБ/с</string>
     <string name="speed_terabytes_per_second">%1$s ТБ/с</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Хуткасць %1$s</string>
+    <string name="bytes_per_second">Б/с</string>
+    <string name="kilobytes_per_second">КБ/с</string>
+    <string name="megabytes_per_second">МБ/с</string>
+    <string name="gigabytes_per_second">ГБ/с</string>
+    <string name="terabytes_per_second">ТБ/с</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s байт за секунду</item>
         <item quantity="few">%1$s байты за секунду</item>
@@ -1307,7 +1314,7 @@
     <string name="settings_advanced_nat_type_moderate">Умераны (тып 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Абмяжоўвае даныя, якія трапляюць у вашу сетку. Гэты параметр больш бяспечны, але можа прывесці да ўзнікнення праблем у гульнях, якія патрабуюць аднарангавага падключэння.</string>
     <string name="settings_advanced_nat_type_moderate_description">Некаторыя абмежаванні на даныя, якія трапляюць у вашу сетку. Гэты параметр найлепш пасуе для сеткавых гульняў.</string>
-    <string name="settings_split_tunneling_description">Наладзіць падключэнне вырашыўшы, якія праграмы і IP-адрасы будуць абаронены VPN. %1$s</string>
+    <string name="settings_split_tunneling_description">Наладзьце падключэнне вырашыўшы, якія праграмы і IP-адрасы будуць абаронены VPN. %1$s</string>
     <string name="settings_protocol_description">Пратакол VPN вызначае, як даныя перамяшчаюцца паміж серверам VPN і вашай прыладай. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Выключаныя праграмы</string>
     <string name="settings_split_tunneling_excluded_ips">Выключаныя IP-адрасы</string>
