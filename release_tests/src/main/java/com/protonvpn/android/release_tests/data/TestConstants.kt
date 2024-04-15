@@ -25,5 +25,6 @@ import kotlin.time.Duration.Companion.milliseconds
 
 object TestConstants {
     const val TEST_PACKAGE = "ch.protonvpn.android"
-    val LONG_TIMEOUT = 20000.milliseconds
+    val TWENTY_SECOND_TIMEOUT = 20000.milliseconds
+    val ONE_MINUTE_TIMEOUT = 60000.milliseconds
 }

@@ -51,7 +51,9 @@ android {
         versionName "1.0"
         buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
         def lokiEndpoint = System.getenv("LOKI_ENDPOINT")
+        def commitSha = System.getenv("CI_COMMIT_SHORT_SHA")
         buildConfigField "String", "LOKI_ENDPOINT",  "\"${StringEscapeUtils.escapeJava(lokiEndpoint)}\""
+        buildConfigField "String", "CI_COMMIT_SHORT_SHA",  "\"${StringEscapeUtils.escapeJava(commitSha)}\""
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
