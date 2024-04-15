@@ -31,7 +31,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
-import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
@@ -179,8 +178,8 @@ class RecentsListViewStateFlowTests {
     @Test
     fun defaultConnectionIsShownWhenThereAreNoRecents() = testScope.runTest {
         val viewState = viewStateFlow.first()
-        val expectedConnectionCard =
-            ConnectIntentViewState(ConnectIntentPrimaryLabel.Fastest(null, isFree = false), null, emptySet())
+        val expectedPrimaryLabel = ConnectIntentPrimaryLabel.Fastest(null, isSecureCore = false, isFree = false)
+        val expectedConnectionCard = ConnectIntentViewState(expectedPrimaryLabel, null, emptySet())
         assertEquals(expectedConnectionCard, viewState.connectionCard.connectIntentViewState)
         assertEquals(emptyList(), viewState.recents)
     }
@@ -384,7 +383,7 @@ class RecentsListViewStateFlowTests {
 
         private fun createViewStateForFastestInCountry(intent: ConnectIntent.FastestInCountry): ConnectIntentViewState {
             val primaryLabel = if (intent.country.isFastest)
-                ConnectIntentPrimaryLabel.Fastest(connectedCountry = null, isFree = false)
+                ConnectIntentPrimaryLabel.Fastest(connectedCountry = null, isSecureCore = false, isFree = false)
             else
                 ConnectIntentPrimaryLabel.Country(intent.country, null)
             return ConnectIntentViewState(primaryLabel, secondaryLabel = null, serverFeatures = intent.features)

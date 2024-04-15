@@ -54,7 +54,7 @@ class GetConnectIntentViewState @Inject constructor(
         connectedServer: Server? = null
     ): ConnectIntentViewState {
         val primary = if (connectIntent.country.isFastest) {
-            ConnectIntentPrimaryLabel.Fastest(connectedServer?.exitCountryId(), isFree = false)
+            ConnectIntentPrimaryLabel.Fastest(connectedServer?.exitCountryId(), isSecureCore = false, isFree = false)
         } else {
             ConnectIntentPrimaryLabel.Country(
                 exitCountry = fastestOrConnectedOrIntent(connectIntent.country, connectedServer, Server::exitCountry),
@@ -69,7 +69,11 @@ class GetConnectIntentViewState @Inject constructor(
 
     private suspend fun fastestFreeServer(connectedServer: Server? = null) =
         ConnectIntentViewState(
-            primaryLabel = ConnectIntentPrimaryLabel.Fastest(connectedServer?.exitCountryId(), isFree = true),
+            primaryLabel = ConnectIntentPrimaryLabel.Fastest(
+                connectedServer?.exitCountryId(),
+                isSecureCore = false,
+                isFree = true
+            ),
             secondaryLabel = if (connectedServer != null) {
                 countryWithServerNumberSecondaryLabel(connectedServer)
             } else {
@@ -106,23 +110,28 @@ class GetConnectIntentViewState @Inject constructor(
         connectIntent: ConnectIntent.SecureCore,
         connectedServer: Server? = null
     ): ConnectIntentViewState {
-        val secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(
-            exit = connectedCountryIfFastest(connectIntent.exitCountry, connectedServer, Server::exitCountry),
-            entry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.entryCountry
-        )
-        return ConnectIntentViewState(
-            primaryLabel = ConnectIntentPrimaryLabel.Country(
-                exitCountry =
-                    fastestOrConnectedOrIntent(connectIntent.exitCountry, connectedServer, Server::exitCountry),
+        val isFastestFastest = with(connectIntent) { exitCountry.isFastest && entryCountry.isFastest }
+        val primaryLabel = if (isFastestFastest) {
+            ConnectIntentPrimaryLabel.Fastest(connectedServer?.exitCountryId(), isSecureCore = true, isFree = false)
+        } else {
+            ConnectIntentPrimaryLabel.Country(
+                exitCountry = fastestOrConnectedOrIntent(
+                    connectIntent.exitCountry,
+                    connectedServer,
+                    Server::exitCountry
+                ),
                 entryCountry = fastestOrConnectedOrIntent(
                     connectIntent.entryCountry,
                     connectedServer,
                     Server::entryCountry
                 ),
-            ),
-            secondaryLabel = secondaryLabel,
-            serverFeatures = effectiveServerFeatures(connectIntent, connectedServer)
+            )
+        }
+        val secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(
+            exit = connectedCountryIfFastest(connectIntent.exitCountry, connectedServer, Server::exitCountry),
+            entry = connectedServer?.entryCountry?.let { CountryId(it) } ?: connectIntent.entryCountry
         )
+        return ConnectIntentViewState(primaryLabel, secondaryLabel, effectiveServerFeatures(connectIntent, connectedServer))
     }
 
     private suspend fun gateway(connectIntent: ConnectIntent.Gateway, connectedServer: Server?): ConnectIntentViewState {
