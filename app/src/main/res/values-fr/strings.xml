@@ -1162,6 +1162,13 @@
     <string name="speed_megabytes_per_second">%1$s Mo/s</string>
     <string name="speed_gigabytes_per_second">%1$s Go/s</string>
     <string name="speed_terabytes_per_second">%1$s To/s</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Vitesse %1$s</string>
+    <string name="bytes_per_second">O/s</string>
+    <string name="kilobytes_per_second">Ko/s</string>
+    <string name="megabytes_per_second">Mo/s</string>
+    <string name="gigabytes_per_second">Go/s</string>
+    <string name="terabytes_per_second">To/s</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s octet par seconde</item>
         <item quantity="other">%1$s octets par seconde</item>

@@ -1143,6 +1143,13 @@
     <string name="speed_megabytes_per_second">%1$s MB/초</string>
     <string name="speed_gigabytes_per_second">%1$s GB/초</string>
     <string name="speed_terabytes_per_second">%1$s TB/초</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">%1$s 속도</string>
+    <string name="bytes_per_second">B/초</string>
+    <string name="kilobytes_per_second">KB/초</string>
+    <string name="megabytes_per_second">MB/초</string>
+    <string name="gigabytes_per_second">GB/초</string>
+    <string name="terabytes_per_second">TB/초</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="other">초당 %1$s바이트</item>
     </plurals>
@@ -1198,13 +1205,13 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">성능 강화 기술을 통해 연결 속도가 400%%까지 빨라집니다. %1$s</string>
-    <string name="settings_account_settings_title">Account settings</string>
-    <string name="settings_account_change_password">Change password</string>
-    <string name="settings_account_recovery_email">Recovery email</string>
-    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <string name="settings_account_settings_title">계정 설정</string>
+    <string name="settings_account_change_password">비밀번호 변경</string>
+    <string name="settings_account_recovery_email">복구 이메일</string>
+    <string name="settings_account_recovery_email_not_set">설정하지 않음</string>
     <!-- Label of a button that opens user's account page -->
-    <string name="settings_account_button_my_account">My account</string>
-    <string name="settings_account_button_delete_account">Delete account</string>
+    <string name="settings_account_button_my_account">내 계정</string>
+    <string name="settings_account_button_delete_account">계정 삭제</string>
     <string name="settings_advanced_alternative_routing_title">대체 라우팅</string>
     <string name="settings_advanced_alternative_routing_description">Proton 서비스가 네트워크 제한으로 막혔다면, 대체 네트워크 라우딩을 이용해서 연결해보세요.</string>
     <string name="settings_advanced_allow_lan_title">LAN 연결</string>
@@ -1241,5 +1248,5 @@
     <string name="secure_core_upsell_banner_description">VPN 연결에 암호화 계층 추가</string>
     <string name="p2p_upsell_banner_description">BitTorrent와 다른 파일 공유 프로토콜로 파일을 다운로드하세요</string>
     <string name="tor_upsell_banner_description">추가적인 개인 정보 보호를 위해 VPN 연결을 통해 Tor 네트워크를 사용하세요</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">VPL Plus로 업그레이드</string>
 </resources>

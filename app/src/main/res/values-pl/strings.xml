@@ -258,7 +258,7 @@
     <string name="netshield_trackers_title">Elementy śledzące</string>
     <string name="netshield_trackers_details">Pliki cookies i inne elementy śledzące, które przechowują i udostępniają informacje o aktywności użytkownika w Internecie</string>
     <string name="netshield_data_title">Dane</string>
-    <string name="netshield_data_details">Liczba niechcianych reklam, elementów śledzących i złośliwego oprogramowania zablokowanych przez funkcję NetShield</string>
+    <string name="netshield_data_details">Ilość niechcianych reklam, elementów śledzących i złośliwego oprogramowania zablokowanych przez funkcję NetShield</string>
     <string name="accessibility_netshield_status_on_click">Przejdź do ustawień funkcji NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">reklama zablokowana</item>
@@ -1200,6 +1200,13 @@
     <string name="speed_megabytes_per_second">%1$s MB/s</string>
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Prędkość %1$s</string>
+    <string name="bytes_per_second">B/s</string>
+    <string name="kilobytes_per_second">kB/s</string>
+    <string name="megabytes_per_second">MB/s</string>
+    <string name="gigabytes_per_second">GB/s</string>
+    <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s bajt na sekundę</item>
         <item quantity="few">%1$s bajty na sekundę</item>

@@ -141,16 +141,16 @@
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licence tretjih oseb</string>
     <string name="stateFragmentUnknownIp">Neznano</string>
-    <string name="noVpnPermissionMainTitle">Potrebno se je povezati z VPN</string>
+    <string name="noVpnPermissionMainTitle">Action needed to connect to VPN</string>
     <string name="noVpnPermissionMainMessage">Za povezavo s Proton VPN naredite naslednje:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Dodelite dovoljenje VPN</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android potrebuje vaše dovoljenje za povezavo s Proton VPN. Odobrite ga tako, da tapnete »V redu«, ko se od Androida prikaže okno »Zahteva za povezavo«.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Onemogočite trajno aktivno omrežje VPN drugih aplikacij</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ne podpira več aplikacij VPN. Onemogočite vedno vklopljeno za katero koli aplikacijo VPN, razen za Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ne podpira več aplikacij VPN. Onemogočite trajno aktivno omrežje VPN drugih aplikacij, razen za Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Aplikacija Proton VPN</string>
-    <string name="noVpnPermissionOtherAppLabel">Druga aplikacija VPN</string>
+    <string name="noVpnPermissionOtherAppLabel">Druge aplikacije VPN</string>
     <string name="noVpnPermissionOpenSettings">Odprite nastavitve VPN za Android</string>
-    <string name="noNotificationPermissionGrantTitle">Ne pustite se ujeti…</string>
+    <string name="noNotificationPermissionGrantTitle">Ne pustite se ujeti …</string>
     <string name="noNotificationPermissionGrantDescription">Omogočite obvestila, če želite biti obveščeni o spremembah stanja vaše povezave.</string>
     <string name="noNotificationPermissionGrantNowTitle">Omogoči obvestila</string>
     <string name="error_prepare_vpn_description"><![CDATA[Onemogočite vedno vključeno VPN za vse druge aplikacije VPN v sistemskih nastavitvah Android VPN, saj to preprečuje Proton VPN vzpostavitev povezave VPN. Dodelite tudi dovoljenja VPN, če se prikaže pogovorno okno, ki zahteva dovoljenja VPN. Morda bo treba odstraniti tudi druge aplikacije VPN, da preprečite spore. Nato poskusite znova. <a href="%1$s">Več o tem</a>]]></string>
@@ -169,15 +169,15 @@
     <string name="settingsSplitTunnelingTitle">Razdeljeno tuneliranje</string>
     <string name="loaderErrorNoInternet">Ni spletne povezave</string>
     <string name="loaderErrorGeneric">Nekaj je šlo narobe</string>
-    <string name="loaderLoadingServers">Nalaganje strežnikov…</string>
+    <string name="loaderLoadingServers">Nalaganje strežnikov …</string>
     <string name="inputIpAddressLabel">IP naslov</string>
     <string name="inputIpAddressHint">Napišite IP naslov</string>
     <string name="inputIpAddressErrorInvalid">Neveljaven IP naslov</string>
-    <string name="settingsExcludedIPAddresses">Izključi IP naslove</string>
+    <string name="settingsExcludedIPAddresses">Izključeni IP naslovi</string>
     <string name="settingsExcludedIPAddressesListHeader">Izključeni IP naslovi (%1$d)</string>
-    <string name="settingsExcludedApps">Izključi aplikacije</string>
+    <string name="settingsExcludedApps">Izključene aplikacije</string>
     <string name="settingsExcludedAppsEmpty">Dodajte aplikacije, ki jih želite izključiti iz prometa VPN.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Izključi aplikacije (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Izključene aplikacije (%1$d)</string>
     <string name="settingsExcludedAppsAvailableRegularHeader">Dovoljene navadne aplikacije (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">Dovoljene sistemske aplikacije (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Pokaži sistemske aplikacije</string>
@@ -194,18 +194,18 @@
     <string name="excludeAlreadyExcluded">Že izključeno</string>
     <string name="removeExcludedIpDialogDescription">Želite odstraniti naslov IP s seznama?</string>
     <string name="tileConnected">Povezano: %1$s</string>
-    <string name="openUrlError">%1$s ni bilo mogoče odpreti. Spletni brskalnik ni bil zaznan v vaši napravi.</string>
-    <string name="loaderErrorTimeout">Povezava potekla, prosimo poskusite znova</string>
+    <string name="openUrlError">%1$s ni bilo mogoče odpreti. Na vaši napravi ni zaznati spletnega brskalnika.</string>
+    <string name="loaderErrorTimeout">Povezava je potekla, prosimo poskusite znova.</string>
     <string name="troubleshootButton">Odpravljanje težav</string>
     <string name="activityTroubleshootTitle">Odpravljanje težav</string>
-    <string name="troubleshootPotentialSolutionsSectionTitle">Potencialne rešitve</string>
-    <string name="troubleshootNoInternetDescription">Prepričajte se, da vaša internetna povezava deluje.</string>
+    <string name="troubleshootPotentialSolutionsSectionTitle">Možne rešitve</string>
+    <string name="troubleshootNoInternetDescription">Prepričajte se, da vaša spletna povezava deluje.</string>
     <string name="troubleshootNoInternetTitle">Ni spletne povezave</string>
     <string name="troubleshootIspProblemTitle">Težava s ponudnikom spletnih storitev (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Poskusite se povezati s Protonom iz drugega omrežja (ali uporabite <a href=\'%1$s\'>Tor</a>)]]></string>
-    <string name="troubleshootAntivirusProblemTitle">Protivirusne motnje</string>
-    <string name="troubleshootAntivirusProblemDescription">Začasno onemogočite ali odstranite antivirusni program.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">Motnje na povezavi posredniškega strežnika ali požarnega zidu</string>
+    <string name="troubleshootAntivirusProblemTitle">Antivirus interference</string>
+    <string name="troubleshootAntivirusProblemDescription">Začasno onemogočite ali odstranite protivirusni program.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Proxy/Firewall interference</string>
     <string name="troubleshootProxyFirewallProblemDescription">Onemogočite posredniške strežnike ali požarne zidove oziroma se obrnite na skrbnika omrežja.</string>
     <string name="troubleshootProtonDownTitle">Proton ne deluje.</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Preverite <a href=\"%1$s\">Proton Status</a> za stanje našega sistema.]]></string>
@@ -535,29 +535,29 @@
     <string name="activity_information_learn_more">Več informacij</string>
     <string name="server_load_low">Nizko</string>
     <string name="server_load_medium">Srednje</string>
-    <string name="server_load_high">Visoka</string>
+    <string name="server_load_high">Visoko</string>
     <string name="info_gateways_description">Prehod VPN je varna povezava, ki omogoča nadzorovan dostop do podatkov in storitev vašega podjetja prek namenskih strežnikov.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Dobrodošli v Proton VP</string>
+    <string name="onboarding_welcome_title">Dobrodošli v Proton VPN</string>
     <string name="onboarding_welcome_description">Brskajte zasebno, dostopajte do blokirane vsebine in uživajte v digitalni svobodi.</string>
     <string name="onboarding_welcome_action">Začnite</string>
     <string name="onboarding_available_on_plus">Na voljo s Plus</string>
     <string name="upgrade_success_get_started_button">Začnite</string>
-    <string name="upgrade_use_limited_free_button">Uporabite omejeno brezplačni načrt</string>
+    <string name="upgrade_use_limited_free_button">Uporabite omejeni brezplačni paket</string>
     <string name="dynamic_report_suggestion_didnt_work">Ni delovalo?</string>
     <string name="dynamic_report_contact_us">Kontaktirajte nas</string>
     <string name="dynamic_report_tips_description">Ti nasveti vam lahko pomagajo rešiti vašo težavo hitreje.</string>
     <string name="dynamic_report_tips_title">Hitri popravki</string>
     <string name="dynamic_report_logs_title">Pošlji dnevnik z napakami</string>
     <string name="dynamic_report_success_title">Hvala za vaše povratne informacije.</string>
-    <string name="dynamic_report_success_description">Vrnili vam bomo odgovor, takoj ko bo mogoče.</string>
+    <string name="dynamic_report_success_description">Odgovorili vam bomo takoj, ko bo mogoče.</string>
     <string name="dynamic_report_field_mandatory">To polje je obvezno.</string>
     <string name="dynamic_report_logs_description">Dnevnik je vrsta datoteke, ki nam prikazuje dejanja, ki ste jih izvedli in so povzročila napako. Uporabljali jih bomo samo za pomoč našim inženirjem pri odpravljanju napak.</string>
     <string name="dynamic_report_logs_missing">Dnevniške datoteke nam pomagajo priti do jedra vaše težave. Če jih ne vključite, morda ne bomo mogli temeljito preiskati.</string>
     <string name="dynamic_report_step1">Korak 1 od 3</string>
     <string name="dynamic_report_step2">Korak 2 od 3</string>
-    <string name="dynamic_report_step3">Korak 3 od 4</string>
+    <string name="dynamic_report_step3">Korak 3 od 3</string>
     <string name="dynamic_report_your_issue_headline">Kaj je vaša težava?</string>
     <string name="update_screen_title">Posodobi Proton VPN.</string>
     <string name="update_screen_description">Verjetneje boste imeli težave na starejših različicah Proton VPN.</string>
@@ -1202,6 +1202,13 @@
     <string name="speed_megabytes_per_second">%1$s MB/s</string>
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
+    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="bytes_per_second">B/s</string>
+    <string name="kilobytes_per_second">KB/s</string>
+    <string name="megabytes_per_second">MB/s</string>
+    <string name="gigabytes_per_second">GB/s</string>
+    <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s bajt na sekundo</item>
         <item quantity="two">%1$s bajta na sekundo</item>
@@ -1291,8 +1298,8 @@ Ta naprava ne dovoljuje povezav VPN.</string>
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Povečajte hitrost povezave do 400%% s tehnologijami za izboljšanje zmogljivosti. %1$s</string>
-    <string name="settings_account_settings_title">Account settings</string>
-    <string name="settings_account_change_password">Change password</string>
+    <string name="settings_account_settings_title">Nastavitve računa</string>
+    <string name="settings_account_change_password">Spremeni geslo</string>
     <string name="settings_account_recovery_email">Recovery email</string>
     <string name="settings_account_recovery_email_not_set">Not set</string>
     <!-- Label of a button that opens user's account page -->
