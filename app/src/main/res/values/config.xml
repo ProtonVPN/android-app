@@ -27,4 +27,5 @@
     <integer name="core_feature_event_manager_worker_repeat_internal_foreground_seconds">120</integer>
     <integer name="core_feature_event_manager_worker_repeat_internal_background_seconds">43200</integer> <!-- 12h -->
     <integer name="core_feature_event_manager_worker_backoff_delay_seconds">60</integer>
+    <string name="core_feature_auth_sso_redirect_scheme" translatable="false">protonvpn</string>
 </resources>
