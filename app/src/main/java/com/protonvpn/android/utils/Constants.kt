@@ -48,6 +48,7 @@ object Constants {
     const val URL_PROTOCOL_LEARN_MORE = "https://protonvpn.com/support/how-to-change-vpn-protocols/"
     const val URL_TOR_LEARN_MORE = "https://protonvpn.com/support/tor-vpn/"
     const val URL_P2P_LEARN_MORE = "https://protonvpn.com/support/p2p-vpn-redirection/"
+    const val URL_STREAMING_LEARN_MORE = "https://protonvpn.com/support/streaming-troubleshooting-guide/"
     const val URL_SMART_ROUTING_LEARN_MORE = "https://protonvpn.com/support/how-smart-routing-works/"
     const val PROTON_URL_UTM_SOURCE = "androidvpn"
     const val MINIMUM_MAINTENANCE_CHECK_MINUTES = 5L

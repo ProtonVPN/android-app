@@ -31,6 +31,8 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
+import com.protonvpn.android.servers.GetStreamingServices
+import com.protonvpn.android.servers.StreamingService
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.vpn.VpnState
@@ -38,6 +40,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -53,6 +56,7 @@ class ConnectionDetailsViewModel @Inject constructor(
     private val currentUser: CurrentUser,
     private val getConnectIntentViewState: GetConnectIntentViewState,
     private val trafficMonitor: TrafficMonitor,
+    private val streamingServices: GetStreamingServices,
 ) : ViewModel() {
 
     sealed interface ConnectionDetailsViewState {
@@ -67,11 +71,22 @@ class ConnectionDetailsViewModel @Inject constructor(
             val serverCity: String?,
             val serverGatewayName: String?,
             val serverLoad: Float,
-            @StringRes val protocolDisplay: Int? = null
+            @StringRes val protocolDisplay: Int? = null,
+            val serverFeatures: ServerFeatures,
         ) : ConnectionDetailsViewState
 
         object Close : ConnectionDetailsViewState
     }
+
+    data class ServerFeatures(
+        val hasTor: Boolean = false,
+        val hasP2P: Boolean = false,
+        val hasSecureCore: Boolean = false,
+        val smartRouting: SmartRouting? = null,
+        val streamingServices: List<StreamingService>? = null
+    )
+
+    data class SmartRouting(val entryCountry: CountryId, val exitCountry: CountryId)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val connectionDetailsViewState = vpnStatusProviderUI.uiStatus.flatMapLatest {
@@ -93,12 +108,14 @@ class ConnectionDetailsViewModel @Inject constructor(
             "",
             "",
             null,
-            0F
+            0F,
+            serverFeatures = ServerFeatures()
         )
     )
 
-    private fun createConnectedViewState(connectionParams: ConnectionParams) =
-        combine(
+    private fun createConnectedViewState(connectionParams: ConnectionParams): Flow<ConnectionDetailsViewState> {
+        val streamingList = streamingServices.invoke(connectionParams.server.entryCountry)
+        return combine(
             currentUser.vpnUserFlow,
             vpnStateMonitor.exitIp,
             serverListUpdaterPrefs.ipAddress,
@@ -114,12 +131,27 @@ class ConnectionDetailsViewModel @Inject constructor(
                 entryCountryId = if (server.isSecureCoreServer) CountryId(server.entryCountry) else null,
                 exitCountryId = CountryId(server.exitCountry),
                 trafficHistory = trafficHistory,
-                connectIntentViewState = getConnectIntentViewState(connectIntent, vpnUser?.isFreeUser == true, server),
+                connectIntentViewState = getConnectIntentViewState(
+                    connectIntent,
+                    vpnUser?.isFreeUser == true,
+                    server
+                ),
                 serverDisplayName = server.serverName,
                 serverCity = server.displayCity,
                 serverGatewayName = server.gatewayName,
                 serverLoad = server.load,
-                protocolDisplay = protocol
+                protocolDisplay = protocol,
+                serverFeatures = ServerFeatures(
+                    server.isTor,
+                    server.isP2pServer,
+                    server.isSecureCoreServer,
+                    smartRouting = if (!server.hostCountry.isNullOrBlank() && server.hostCountry != server.exitCountry)
+                        SmartRouting(entryCountry = CountryId(server.hostCountry), exitCountry = CountryId(server.exitCountry))
+                    else
+                        null,
+                    streamingServices = streamingList
+                )
             )
         }
+    }
 }

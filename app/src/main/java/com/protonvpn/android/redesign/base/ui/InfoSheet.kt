@@ -43,10 +43,12 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -64,6 +66,8 @@ import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.subheadlineNorm
+import me.proton.core.presentation.utils.currentLocale
+import java.text.NumberFormat
 import me.proton.core.presentation.R as CoreR
 
 @Stable
@@ -95,6 +99,7 @@ enum class InfoType {
     Tor,
     P2P,
     SmartRouting,
+    Streaming,
 }
 
 @Composable
@@ -143,6 +148,7 @@ private val InfoType.title get() = when (this) {
     InfoType.Tor -> R.string.tor_title
     InfoType.P2P -> R.string.info_dialog_p2p_title
     InfoType.SmartRouting -> R.string.smart_routing_title
+    InfoType.Streaming -> R.string.info_dialog_streaming_title
 }
 
 private val InfoType.imageRes get() = when (this) {
@@ -153,6 +159,7 @@ private val InfoType.imageRes get() = when (this) {
     InfoType.Tor,
     InfoType.P2P -> null
     InfoType.SmartRouting -> R.drawable.info_smart_routing
+    InfoType.Streaming -> R.drawable.upgrade_streaming
 }
 
 private val InfoType.details get() = when (this) {
@@ -163,6 +170,7 @@ private val InfoType.details get() = when (this) {
     InfoType.Tor -> R.string.info_dialog_tor_description
     InfoType.P2P -> null
     InfoType.SmartRouting -> R.string.info_dialog_smart_routing_description
+    InfoType.Streaming -> R.string.info_dialog_streaming_description
 }
 
 private val InfoType.learnMoreLabel get() = when (this) {
@@ -172,6 +180,7 @@ private val InfoType.learnMoreLabel get() = when (this) {
     InfoType.Protocol,
     InfoType.SmartRouting -> R.string.connection_details_learn_more
     InfoType.Tor -> R.string.info_dialog_button_learn_more_tor
+    InfoType.Streaming -> R.string.info_dialog_button_learn_more_streaming
     InfoType.P2P -> R.string.info_dialog_button_learn_more_p2p
 }
 
@@ -183,6 +192,7 @@ private val InfoType.learnMoreUrl get() = when (this) {
     InfoType.Tor -> Constants.URL_TOR_LEARN_MORE
     InfoType.P2P -> Constants.URL_P2P_LEARN_MORE
     InfoType.SmartRouting -> Constants.URL_SMART_ROUTING_LEARN_MORE
+    InfoType.Streaming -> Constants.URL_STREAMING_LEARN_MORE
 }
 
 @Composable
@@ -195,6 +205,49 @@ private fun SubDetailsComposable(info: InfoType) {
         InfoType.ServerLoad -> SubDetailsComposableServerLoad(modifier)
         InfoType.SecureCore -> SubDetailsComposableSecureCore(modifier)
         InfoType.P2P -> SubDetailsComposableP2P(modifier)
+        InfoType.Streaming -> SubDetailsStreaming(modifier)
+    }
+}
+
+@Composable
+private fun SubDetailsStreaming(modifier: Modifier) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.info_dialog_how_to_stream),
+            style = ProtonTheme.typography.body2Medium,
+        )
+
+        val steps = listOf(
+            stringResource(id = R.string.info_dialog_how_to_stream_step_1),
+            stringResource(id = R.string.info_dialog_how_to_stream_step_2),
+            stringResource(id = R.string.info_dialog_how_to_stream_step_3)
+        )
+
+        val context = LocalContext.current
+        val numberFormat = remember { NumberFormat.getInstance(context.resources.configuration.currentLocale()) }
+
+        Column(
+            modifier = Modifier.semantics(mergeDescendants = true, properties = {})
+        ) {
+            steps.forEachIndexed { index, step ->
+                Row {
+                    Text(
+                        text = "${numberFormat.format(index + 1)}. ",
+                        style = ProtonTheme.typography.body2Regular,
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
+                    Text(
+                        text = "$step",
+                        style = ProtonTheme.typography.body2Regular,
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
+                }
+
+            }
+        }
     }
 }
 

@@ -20,7 +20,6 @@ package com.protonvpn.tests.redesign.vpn.ui
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -31,6 +30,7 @@ import com.protonvpn.android.redesign.home_screen.ui.ConnectionDetails
 import com.protonvpn.android.redesign.home_screen.ui.ConnectionDetailsViewModel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.servers.StreamingService
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.FusionConfig
@@ -66,7 +66,11 @@ class ConnectionDetailsTests : FusionComposeTest() {
         serverDisplayName = "CH#1",
         serverCity = "Stockholm",
         serverGatewayName = null,
-        serverLoad = 50f
+        serverLoad = 50f,
+        serverFeatures = ConnectionDetailsViewModel.ServerFeatures(
+            hasSecureCore = true,
+            streamingServices = listOf(StreamingService("ProtoStream", ""))
+        )
     )
 
     @Test
@@ -92,6 +96,23 @@ class ConnectionDetailsTests : FusionComposeTest() {
         node.withText("***.***.*.*").assertExists()
         node.withContentDescription(R.string.accessibility_show_ip).click()
         node.withText("192.168.1.1").assertExists()
+    }
+
+    @Test
+    fun checkFeaturesVisibility() {
+        composeRule.setContent {
+            ConnectionDetails(sampleViewState, onClosePanel = {})
+        }
+        val resources = FusionConfig.targetContext.resources
+        composeRule
+            .onNodeWithText(resources.getString(R.string.connection_feature_secure_core_description))
+            .performScrollTo()
+            .assertExists()
+        composeRule
+            .onNodeWithText(resources.getString(R.string.connection_feature_streaming_description))
+            .performScrollTo()
+            .assertExists()
+        node.withText("ProtoStream").assertExists()
     }
 
     @Test

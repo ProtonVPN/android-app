@@ -23,7 +23,6 @@ import com.protonvpn.android.models.vpn.StreamingService
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.utils.StreamingServicesModel
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.decodeFromString
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -37,17 +36,20 @@ private const val streamingServicesWithWildcardJson =
       "1": [
         {
           "Name": "Service * 1",
-          "Icon": "1.jpg"
+          "Icon": "1.jpg",
+          "ColoredIcon": "colored1.jpg"
         },
         {
           "Name": "Service common",
-          "Icon": "common.jpg"
+          "Icon": "common.jpg",
+          "ColoredIcon": "coloredCommon.jpg"
         }
       ],
       "2": [
         {
           "Name": "Service * 2",
-          "Icon": "2.jpg"
+          "Icon": "2.jpg",
+          "ColoredIcon": "colored2.jpg"
         }
       ]
     },
@@ -55,13 +57,15 @@ private const val streamingServicesWithWildcardJson =
       "1": [
         {
           "Name": "Service PL 1",
-          "Icon": "1.jpg"
+          "Icon": "1.jpg",
+          "ColoredIcon": "colored1.jpg"
         }
       ],
       "2": [
         {
           "Name": "Service common",
-          "Icon": "common.jpg"
+          "Icon": "common.jpg",
+          "ColoredIcon": "coloredCommon.jpg"
         }
       ]
     },
@@ -69,7 +73,8 @@ private const val streamingServicesWithWildcardJson =
       "1": [
         {
           "Name": "Service LT 1",
-          "Icon": "1.jpg"
+          "Icon": "1.jpg",
+          "ColoredIcon": "colored1.jpg"
         }
       ]
     }
@@ -101,8 +106,8 @@ class StreamingServicesModelTests {
 
         assertEquals(
             mapOf(
-                "1" to listOf(StreamingService("Service PL 1", "1.jpg")),
-                "2" to listOf(StreamingService("Service common", "common.jpg"))
+                "1" to listOf(StreamingService("Service PL 1", "1.jpg", "colored1.jpg")),
+                "2" to listOf(StreamingService("Service common", "common.jpg", "coloredCommon.jpg"))
             ),
             servicesMap
         )
@@ -115,14 +120,14 @@ class StreamingServicesModelTests {
         assertEquals(
             mapOf(
                 "1" to listOf(
-                    StreamingService("Service * 1", "1.jpg"),
-                    StreamingService("Service common", "common.jpg"),
-                    StreamingService("Service PL 1", "1.jpg")
+                    StreamingService("Service * 1", "1.jpg", "colored1.jpg"),
+                    StreamingService("Service common", "common.jpg", "coloredCommon.jpg"),
+                    StreamingService("Service PL 1", "1.jpg", "colored1.jpg"),
                 ),
                 "2" to listOf(
-                    StreamingService("Service * 2", "2.jpg"),
-                    StreamingService("Service common", "common.jpg")
-                )
+                    StreamingService("Service * 2", "2.jpg", "colored2.jpg"),
+                    StreamingService("Service common", "common.jpg", "coloredCommon.jpg")
+                ),
             ),
             servicesMap
         )
@@ -142,11 +147,11 @@ class StreamingServicesModelTests {
         assertEquals(
             mapOf(
                 "1" to listOf(
-                    StreamingService("Service * 1", "1.jpg"),
-                    StreamingService("Service common", "common.jpg"),
+                    StreamingService("Service * 1", "1.jpg", "colored1.jpg"),
+                    StreamingService("Service common", "common.jpg","coloredCommon.jpg"),
                 ),
                 "2" to listOf(
-                    StreamingService("Service * 2", "2.jpg"),
+                    StreamingService("Service * 2", "2.jpg", "colored2.jpg"),
                 )
             ),
             servicesMap
@@ -159,8 +164,8 @@ class StreamingServicesModelTests {
 
         assertEquals(
             listOf(
-                StreamingService("Service PL 1", "1.jpg"),
-                StreamingService("Service common", "common.jpg")
+                StreamingService("Service PL 1", "1.jpg", "colored1.jpg"),
+                StreamingService("Service common", "common.jpg", "coloredCommon.jpg"),
             ),
             services
         )
@@ -172,10 +177,10 @@ class StreamingServicesModelTests {
 
         assertEquals(
             setOf(
-                StreamingService("Service PL 1", "1.jpg"),
-                StreamingService("Service common", "common.jpg"),
-                StreamingService("Service * 1", "1.jpg"),
-                StreamingService("Service * 2", "2.jpg")
+                StreamingService("Service PL 1", "1.jpg", "colored1.jpg"),
+                StreamingService("Service common", "common.jpg", "coloredCommon.jpg"),
+                StreamingService("Service * 1", "1.jpg", "colored1.jpg"),
+                StreamingService("Service * 2", "2.jpg", "colored2.jpg")
             ),
             services.toSet()
         )
