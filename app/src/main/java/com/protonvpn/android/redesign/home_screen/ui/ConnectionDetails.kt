@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.redesign.home_screen.ui
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
@@ -25,6 +26,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,8 +69,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.patrykandpatrick.vico.compose.axis.rememberAxisLabelComponent
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberEndAxis
 import com.patrykandpatrick.vico.compose.chart.CartesianChartHost
@@ -107,6 +114,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
+import com.protonvpn.android.servers.StreamingService
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -253,8 +261,217 @@ private fun ConnectionDetailsConnected(
             protocol = viewState.protocolDisplay?.let { stringResource(it) },
             onOpenUrl = onOpenUrl
         )
+
+        HeaderText(R.string.connection_details_features_title, withInfoIcon = false)
+        ServerFeatures(
+            features = viewState.serverFeatures,
+            onInfoOpen = { infoSheetState.show(it) }
+        )
     }
     InfoSheet(infoSheetState, onOpenUrl)
+}
+
+@Composable
+private fun ServerFeatures(
+    features: ConnectionDetailsViewModel.ServerFeatures,
+    onInfoOpen: (InfoType) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        if (features.hasSecureCore) {
+            FeatureComposable(
+                title = stringResource(id = R.string.connection_feature_secure_core_title),
+                details = stringResource(id = R.string.connection_feature_secure_core_description),
+                iconId = CoreR.drawable.ic_proton_lock_layers,
+                onClick = { onInfoOpen(InfoType.SecureCore) },
+            )
+        }
+        if (features.hasP2P) {
+            FeatureComposable(
+                title = stringResource(id = R.string.connection_feature_p2p_title),
+                details = stringResource(id = R.string.connection_feature_p2p_description),
+                iconId = CoreR.drawable.ic_proton_arrow_right_arrow_left,
+                onClick = { onInfoOpen(InfoType.P2P) },
+            )
+        }
+        if (features.hasTor) {
+            FeatureComposable(
+                title = stringResource(id = R.string.connection_feature_tor_title),
+                details = stringResource(id = R.string.connection_feature_tor_description),
+                iconId = CoreR.drawable.ic_proton_brand_tor,
+                onClick = { onInfoOpen(InfoType.Tor) },
+            )
+        }
+        if (features.smartRouting != null) {
+            val smartRouting = features.smartRouting
+            val description = stringResource(
+                R.string.connection_feature_smart_routing_description, smartRouting.entryCountry.label(), smartRouting.exitCountry.label()
+            )
+
+            FeatureComposable(
+                title = stringResource(id = R.string.connection_feature_smart_routing_title),
+                details = description,
+                iconId = CoreR.drawable.ic_proton_globe,
+                onClick = { onInfoOpen(InfoType.SmartRouting) },
+            )
+        }
+        if (features.streamingServices != null) {
+            FeatureComposable(
+                title = stringResource(id = R.string.connection_feature_streaming_title),
+                details = stringResource(id = R.string.connection_feature_streaming_description),
+                iconId = CoreR.drawable.ic_proton_play,
+                additionalInformation = {
+                    StreamingServicesGrid(
+                        streamingServices = features.streamingServices,
+                        modifier = Modifier.padding(start = 12.dp, top = 12.dp, bottom = 12.dp)
+                    )
+                },
+                onClick = { onInfoOpen(InfoType.Streaming) },
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalLayoutApi::class)
+@Composable
+private fun StreamingServicesGrid(
+    streamingServices: List<StreamingService>,
+    modifier: Modifier
+) {
+    val numberOfColumns = 4
+    val rows = if (streamingServices.isNotEmpty()) {
+        (streamingServices.size + numberOfColumns - 1) / numberOfColumns
+    } else {
+        0
+    }
+
+    FlowRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        maxItemsInEachRow = numberOfColumns
+    ) {
+        repeat(rows * numberOfColumns) {
+            // If service is null the column will still be created to fill space in rows which do not contain enough items
+            val service = streamingServices.getOrNull(it)
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(1f)
+            ) {
+                service?.let {
+                    GlideImage(
+                        model = service.iconUrl,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .height(48.dp)
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = service.name,
+                        style = ProtonTheme.typography.overlineRegular,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FeatureComposable(
+    modifier: Modifier = Modifier,
+    title: String,
+    details: String,
+    @DrawableRes iconId: Int,
+    additionalInformation: (@Composable () -> Unit)? = null,
+    onClick: (() -> Unit)
+) {
+    ConstraintLayout(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .background(
+                color = ProtonTheme.colors.backgroundNorm,
+                shape = ProtonTheme.shapes.medium
+            )
+            .padding(16.dp)
+    ) {
+        val (icon, titleView, detailsView, additionalView) = createRefs()
+
+        Icon(
+            painter = painterResource(id = iconId),
+            tint = ProtonTheme.colors.iconNorm,
+            contentDescription = null,
+            modifier = Modifier
+                .size(20.dp)
+                .constrainAs(icon) {
+                    start.linkTo(parent.start)
+                    top.linkTo(parent.top)
+                }
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.constrainAs(titleView) {
+                start.linkTo(icon.end, margin = 8.dp)
+                end.linkTo(parent.end)
+                top.linkTo(icon.top)
+                width = Dimension.fillToConstraints
+            }
+        ) {
+            Text(
+                text = title,
+                style = ProtonTheme.typography.body2Medium,
+                color = ProtonTheme.colors.textNorm,
+                modifier = Modifier.weight(1f)
+            )
+
+            Text(
+                text = stringResource(id = R.string.connection_details_info_label),
+                style = ProtonTheme.typography.body2Medium,
+                color = ProtonTheme.colors.textWeak,
+                modifier = Modifier.padding(end = 4.dp)
+            )
+
+            Icon(
+                painter = painterResource(id = CoreR.drawable.ic_info_circle),
+                tint = ProtonTheme.colors.iconHint,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(20.dp)
+                    .padding(end = 4.dp)
+            )
+        }
+
+
+        Text(
+            text = details,
+            style = ProtonTheme.typography.body2Regular,
+            color = ProtonTheme.colors.textWeak,
+            modifier = Modifier.constrainAs(detailsView) {
+                start.linkTo(titleView.start)
+                end.linkTo(titleView.end)
+                top.linkTo(titleView.bottom, margin = 8.dp)
+                width = Dimension.fillToConstraints
+            }
+        )
+
+        additionalInformation?.let {
+            Box(
+                modifier = Modifier.constrainAs(additionalView) {
+                    start.linkTo(parent.start)
+                    top.linkTo(detailsView.bottom, margin = 8.dp)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                }
+            ) {
+                it()
+            }
+        }
+    }
 }
 
 @Composable
@@ -771,6 +988,7 @@ fun ConnectionDetailsPreview() {
             serverDisplayName = "SE#1",
             serverLoad = 32F,
             protocolDisplay = ProtocolSelection.SMART.displayName,
+            serverFeatures = ConnectionDetailsViewModel.ServerFeatures()
         )
         ConnectionDetailsConnected(viewState, {})
     }
@@ -791,6 +1009,58 @@ fun ConnectionStatsPreview() {
             serverLoad = 32F,
             protocol = "WireGuard",
             onOpenUrl = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ServerFeaturesPreview() {
+    ServerFeatures(
+        features = ConnectionDetailsViewModel.ServerFeatures(
+            hasTor = true,
+            hasP2P = true,
+            hasSecureCore = true,
+            smartRouting = ConnectionDetailsViewModel.SmartRouting(CountryId.switzerland, CountryId.sweden),
+            streamingServices = listOf(
+                StreamingService("Netflix", ""),
+                StreamingService("BBC iPlayer", ""),
+                StreamingService("Amazon Prime", ""),
+                StreamingService("DisneyPlus", ""),
+                StreamingService("ESPN", ""),
+                StreamingService("HULU", ""),
+                StreamingService("CBS", ""),
+            )
+        )
+    ) {
+
+    }
+}
+
+@Preview
+@Composable
+fun FeaturePreview() {
+    Column {
+        FeatureComposable(
+            title = "P2P",
+            details = "Very long text to indicate multiple lines. Very long text to indicate multiple lines. Very long text to indicate multiple lines.",
+            iconId = CoreR.drawable.ic_proton_brand_tor,
+            onClick = {}
+        )
+
+        FeatureComposable(
+            title = stringResource(id = R.string.connection_feature_streaming_title),
+            details = stringResource(id = R.string.connection_feature_streaming_description),
+            iconId = CoreR.drawable.ic_proton_play,
+            additionalInformation = {
+                Text(
+                    text = "Additional composable here",
+                    style = ProtonTheme.typography.body2Medium,
+                    color = ProtonTheme.colors.textNorm,
+                )
+            },
+            onClick = {},
+            modifier = Modifier.padding(vertical = 8.dp)
         )
     }
 }

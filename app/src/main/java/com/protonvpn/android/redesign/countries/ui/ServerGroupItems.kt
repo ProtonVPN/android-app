@@ -480,6 +480,7 @@ private val InfoType.label: Int get() = when(this) {
     InfoType.Protocol,
     InfoType.Tor,
     InfoType.P2P,
+    InfoType.Streaming,
     InfoType.SmartRouting -> R.string.country_filter_info_label
     InfoType.ServerLoad -> R.string.server_load_title
 }

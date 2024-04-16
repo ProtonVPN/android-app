@@ -21,6 +21,7 @@ package com.protonvpn.android.servers
 
 import android.net.Uri
 import com.protonvpn.android.appconfig.GetFeatureFlags
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.ServerManager
 import dagger.Reusable
 import javax.inject.Inject
@@ -31,19 +32,22 @@ data class StreamingService(val name: String, val iconUrl: String?)
 class GetStreamingServices @Inject constructor(
     private val serverManager: ServerManager,
     private val featureFlags: GetFeatureFlags,
+    isTvCheck: IsTvCheck
 ) {
     private val displayStreamingIcons get() = featureFlags.value.streamingServicesLogos
-
+    private val isTV = isTvCheck.invoke()
     operator fun invoke(countryCode: String): List<StreamingService> =
         serverManager.streamingServicesModel?.let { streamingServices ->
             streamingServices.getForAllTiers(countryCode).map { streamingService ->
+                val iconName = if (isTV) streamingService.iconName else streamingService.coloredIconName
                 StreamingService(
                     streamingService.name,
                     if (displayStreamingIcons) {
                         Uri.parse(streamingServices.resourceBaseURL)
                             .buildUpon()
-                            .appendPath(streamingService.iconName)
+                            .appendEncodedPath(iconName)
                             .toString()
+
                     } else {
                         null
                     }

@@ -30,5 +30,6 @@ data class StreamingServicesResponse(
 @Serializable
 data class StreamingService(
     @SerialName(value = "Name") val name: String,
-    @SerialName(value = "Icon") val iconName: String
+    @SerialName(value = "Icon") val iconName: String,
+    @SerialName(value = "ColoredIcon") val coloredIconName: String
 )
