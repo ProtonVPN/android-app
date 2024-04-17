@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
 import me.proton.core.util.android.sharedpreferences.boolean
+import me.proton.core.util.android.sharedpreferences.int
 import me.proton.core.util.android.sharedpreferences.list
 import me.proton.core.util.android.sharedpreferences.long
 import me.proton.core.util.android.sharedpreferences.observe
@@ -56,6 +57,9 @@ class AppFeaturesPrefs @Inject constructor(
 
     var showOnboardingUserId by string(key = KEY_SHOW_ONBOARDING_USER_ID)
     val showOnboardingUserIdFlow = preferences.observe<String>(key = KEY_SHOW_ONBOARDING_USER_ID)
+
+    var lastUpdatePromptTimestamp: Long by long(0)
+    var lastUpdatePromptTryCount: Int by int(0)
 
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
