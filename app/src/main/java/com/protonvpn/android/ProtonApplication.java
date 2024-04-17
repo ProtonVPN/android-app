@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.protonvpn.android.api.DohEnabled;
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager;
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
+import com.protonvpn.android.auth.usecase.LogoutOnForceUpdate;
 import com.protonvpn.android.logging.CurrentStateLogger;
 import com.protonvpn.android.logging.CurrentStateLoggerGlobal;
 import com.protonvpn.android.logging.FileLogWriter;
@@ -106,6 +107,7 @@ public class ProtonApplication extends Application {
         HumanVerificationStateHandler getHumanVerificationStateHandler();
         IsTvCheck getIsTv();
         LogcatLogCapture getLogcatLogCapture();
+        LogoutOnForceUpdate getLogoutOnForceUpdate();
         MaintenanceTracker getMaintenanceTracker();
         OneTimePopupNotificationTrigger getOneTimePopupNotificationTrigger();
         PeriodicUpdateManager getPeriodicUpdateManager();
@@ -170,6 +172,7 @@ public class ProtonApplication extends Application {
         dependencies.getCloseSessionOnForceLogout();
         dependencies.getDohEnabledProvider();
         dependencies.getHumanVerificationStateHandler().observe();
+        dependencies.getLogoutOnForceUpdate();
         dependencies.getMaintenanceTracker();
         dependencies.getNotificationPermissionManager();
         dependencies.getQuickTileDataStoreUpdater().start();
