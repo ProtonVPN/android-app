@@ -82,8 +82,10 @@ import com.patrykandpatrick.vico.core.axis.AxisItemPlacer
 import com.patrykandpatrick.vico.core.axis.formatter.DecimalFormatAxisValueFormatter
 import com.patrykandpatrick.vico.core.axis.vertical.VerticalAxis
 import com.patrykandpatrick.vico.core.chart.layout.HorizontalLayout
+import com.patrykandpatrick.vico.core.chart.values.AxisValueOverrider
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
 import com.patrykandpatrick.vico.core.model.CartesianChartModelProducer
+import com.patrykandpatrick.vico.core.model.ExtraStore
 import com.patrykandpatrick.vico.core.model.lineSeries
 import com.patrykandpatrick.vico.core.scroll.Scroll
 import com.protonvpn.android.R
@@ -104,6 +106,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
+import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
@@ -402,7 +405,8 @@ private fun SpeedGraph(
                                 with(ProtonTheme.colors) { arrayOf(notificationSuccess.copy(alpha = 0.7f), notificationSuccess.copy(alpha = 0f)) }
                             ),
                         ),
-                    )
+                    ),
+                    axisValueOverrider = remember { TimeAxisValueOverrider() }
                 ),
                 endAxis = rememberEndAxis(
                     itemPlacer = remember { AxisItemPlacer.Vertical.count(count = { 3 }) },
@@ -417,6 +421,11 @@ private fun SpeedGraph(
             modelProducer = modelProducer,
         )
     }
+}
+
+private class TimeAxisValueOverrider : AxisValueOverrider {
+    override fun getMinX(minX: Float, maxX: Float, extraStore: ExtraStore): Float =
+        maxX - TrafficMonitor.TRAFFIC_HISTORY_LENGTH_S + 1
 }
 
 @Composable
