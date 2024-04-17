@@ -38,9 +38,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -59,6 +61,7 @@ import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess
 import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
+import com.protonvpn.android.update.UpdatePromptForStaleVersion
 import com.protonvpn.android.vpn.ConnectTrigger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
@@ -76,6 +79,9 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     @Inject
     lateinit var showUpgradeSuccess: ShowUpgradeSuccess
+
+    @Inject
+    lateinit var promptUpdate: UpdatePromptForStaleVersion
 
     @Inject
     lateinit var whatsNewDialogController: WhatsNewDialogController
@@ -199,6 +205,14 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                 whatsNewDialogController.onDialogShown()
             }
             .launchIn(lifecycleScope)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                val appUpdate = promptUpdate.getUpdatePrompt()
+                if (appUpdate != null) {
+                    promptUpdate.launchUpdateFlow(this@MainActivity, appUpdate)
+                }
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
