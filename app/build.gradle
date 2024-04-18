@@ -223,7 +223,7 @@ android {
             //  - TEST_ENV_DOMAIN for regular test environments,
             //  - the BTI_* variables for the BTI environment.
             def testEnvHost = System.getenv("TEST_ENV_DOMAIN")
-            def dohUrls, apiPinsString, altPinsString, altRoutingCertForMainRoute, apiHost, prefix
+            def dohUrls, apiPinsString, altPinsString, altRoutingCertForMainRoute, customApiHost, customPrefix, customHv3Host
 
             if (testEnvHost != null) {
                 dohUrls = null
@@ -232,8 +232,7 @@ android {
                 altPinsString = "{}"
                 altRoutingCertForMainRoute = false
 
-                apiHost = testEnvHost
-                prefix = 'api'
+                customApiHost = testEnvHost
             }
             else {
                 def apiPins = System.getenv("BTI_API_TLS_PINNINGS")
@@ -243,13 +242,18 @@ android {
                 altPinsString = altPins != null ? "{${helpers.sanitizeStringListForBuildConfig(altPins)}}" : null
                 altRoutingCertForMainRoute = true
 
-                prefix = System.getenv("BTI_PREFIX") ?: ""
-                apiHost = System.getenv("BTI_HOST") ?: ""
+                customPrefix = System.getenv("BTI_PREFIX")
+                customApiHost = System.getenv("BTI_HOST")
+                customHv3Host = System.getenv("BTI_HV3_DOMAIN")
             }
 
             helpers.protonEnvironmentConfig(it) {
-                host = StringEscapeUtils.escapeJava(apiHost)
-                apiPrefix = StringEscapeUtils.escapeJava(prefix)
+                if (customApiHost != null)
+                    host = StringEscapeUtils.escapeJava(customApiHost)
+                if (customPrefix != null)
+                    apiPrefix = StringEscapeUtils.escapeJava(customPrefix)
+                if (customHv3Host != null)
+                    hv3Host = StringEscapeUtils.escapeJava(customHv3Host)
                 proxyToken = StringEscapeUtils.escapeJava(blackToken)
             }
 
