@@ -559,6 +559,9 @@
     <string name="dynamic_report_your_issue_headline">У чым ваша праблема</string>
     <string name="update_screen_title">Абнавіць Proton VPN</string>
     <string name="update_screen_description">Хутчэй за ўсё ў вас з\'явяцца праблемы са старымі версіямі Proton VPN.</string>
+    <string name="dialog_create_account_title">Стварыце ўліковы запіс, каб працягнуць</string>
+    <string name="dialog_create_account_action_create">Стварыць уліковы запіс</string>
+    <string name="dialog_create_account_action_signin">Увайсці</string>
     <string name="server_search_menu_title">Пошук</string>
     <string name="server_search_hint">Краіна, горад, сервер</string>
     <string name="server_search_hint_secure_core">Краіна</string>

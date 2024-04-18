@@ -529,6 +529,9 @@
     <string name="dynamic_report_your_issue_headline">문제가 무엇인가요</string>
     <string name="update_screen_title">Proton VPN 업데이트</string>
     <string name="update_screen_description">이전 버전의 Proton VPN에서는 문제를 겪기 쉽습니다.</string>
+    <string name="dialog_create_account_title">계속하기 위해 계정 생성하기</string>
+    <string name="dialog_create_account_action_create">계정 생성</string>
+    <string name="dialog_create_account_action_signin">로그인</string>
     <string name="server_search_menu_title">검색</string>
     <string name="server_search_hint">국가, 도시, 서버</string>
     <string name="server_search_hint_secure_core">국가</string>

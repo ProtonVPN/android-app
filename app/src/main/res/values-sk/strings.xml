@@ -559,6 +559,9 @@
     <string name="dynamic_report_your_issue_headline">Aký máte problém</string>
     <string name="update_screen_title">Aktualizovať Proton VPN</string>
     <string name="update_screen_description">Je pravdepodobnejšie, že budete mať problémy so staršími verziami Proton VPN.</string>
+    <string name="dialog_create_account_title">Pre pokračovanie si vytvorte účet</string>
+    <string name="dialog_create_account_action_create">Vytvoriť účet</string>
+    <string name="dialog_create_account_action_signin">Prihlásiť sa</string>
     <string name="server_search_menu_title">Hľadať</string>
     <string name="server_search_hint">Krajina, mesto, server</string>
     <string name="server_search_hint_secure_core">Krajina</string>
@@ -1201,7 +1204,7 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="speed_graph_title">Rýchlosť %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>

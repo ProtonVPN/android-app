@@ -549,6 +549,9 @@
     <string name="dynamic_report_your_issue_headline">Care este problema</string>
     <string name="update_screen_title">Actualizare Proton VPN</string>
     <string name="update_screen_description">Este mai probabil să aveți probleme cu versiunile mai vechi ale Proton VPN .</string>
+    <string name="dialog_create_account_title">Creați un cont pentru a continua</string>
+    <string name="dialog_create_account_action_create">Creare cont</string>
+    <string name="dialog_create_account_action_signin">Conectare</string>
     <string name="server_search_menu_title">Căutare</string>
     <string name="server_search_hint">Țara, oraș, server</string>
     <string name="server_search_hint_secure_core">Țara</string>
@@ -1182,12 +1185,12 @@
     <string name="speed_gigabytes_per_second">%1$s GiB/s</string>
     <string name="speed_terabytes_per_second">%1$s TiB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="speed_graph_title">Viteza %1$s</string>
     <string name="bytes_per_second">B/s</string>
-    <string name="kilobytes_per_second">KB/s</string>
-    <string name="megabytes_per_second">MB/s</string>
-    <string name="gigabytes_per_second">GB/s</string>
-    <string name="terabytes_per_second">TB/s</string>
+    <string name="kilobytes_per_second">KiB/s</string>
+    <string name="megabytes_per_second">MiB/s</string>
+    <string name="gigabytes_per_second">GiB/s</string>
+    <string name="terabytes_per_second">TiB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s bait pe secundă</item>
         <item quantity="few">%1$s baiți pe secundă</item>
@@ -1267,11 +1270,11 @@
     <string name="settings_vpn_accelerator_description">Măriți viteza de conectare cu până la 400 %% cu tehnologii de îmbunătățire a performanței. %1$s</string>
     <string name="settings_account_settings_title">Setări cont</string>
     <string name="settings_account_change_password">Schimbare parolă</string>
-    <string name="settings_account_recovery_email">Recovery email</string>
-    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <string name="settings_account_recovery_email">E-mail de recuperare</string>
+    <string name="settings_account_recovery_email_not_set">Nesetat</string>
     <!-- Label of a button that opens user's account page -->
-    <string name="settings_account_button_my_account">My account</string>
-    <string name="settings_account_button_delete_account">Delete account</string>
+    <string name="settings_account_button_my_account">Contul meu</string>
+    <string name="settings_account_button_delete_account">Ștergere cont</string>
     <string name="settings_advanced_alternative_routing_title">Rută alternativă</string>
     <string name="settings_advanced_alternative_routing_description">Dacă serviciile Proton sunt blocate din cauza restricțiilor de rețea, vom încerca să utilizăm o rută alternativă de rețea pentru a vă conecta la site-urile noastre.</string>
     <string name="settings_advanced_allow_lan_title">Conexiuni LAN</string>

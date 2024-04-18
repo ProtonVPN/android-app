@@ -539,6 +539,9 @@
     <string name="dynamic_report_your_issue_headline">რა პრობლემა გაქვთ</string>
     <string name="update_screen_title">Proton VPN-ის განახლება</string>
     <string name="update_screen_description">Proton VPN-ის ძველ ვერსიებზე პრობლემები გექნებათ.</string>
+    <string name="dialog_create_account_title">გასაგრძელებლად შექმენით ანგარიში</string>
+    <string name="dialog_create_account_action_create">ანგარიშის შექმნა</string>
+    <string name="dialog_create_account_action_signin">შესვლა</string>
     <string name="server_search_menu_title">ძებნა</string>
     <string name="server_search_hint">ქვეყანა, ქალაქი, სერვერი</string>
     <string name="server_search_hint_secure_core">ქვეყანა</string>
@@ -1163,12 +1166,12 @@
     <string name="speed_gigabytes_per_second">%1$s გბ/წმ</string>
     <string name="speed_terabytes_per_second">%1$s ტბ/წმ</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
-    <string name="bytes_per_second">B/s</string>
-    <string name="kilobytes_per_second">KB/s</string>
-    <string name="megabytes_per_second">MB/s</string>
-    <string name="gigabytes_per_second">GB/s</string>
-    <string name="terabytes_per_second">TB/s</string>
+    <string name="speed_graph_title">სიჩქარე %1$s</string>
+    <string name="bytes_per_second">ბ/წმ</string>
+    <string name="kilobytes_per_second">კბ/წმ</string>
+    <string name="megabytes_per_second">მბ/წმ</string>
+    <string name="gigabytes_per_second">გბ/წმ</string>
+    <string name="terabytes_per_second">ტბ/წმ</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s ბაიტი წამში</item>
         <item quantity="other">%1$s ბაიტი წამში</item>

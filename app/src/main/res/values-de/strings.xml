@@ -539,6 +539,9 @@
     <string name="dynamic_report_your_issue_headline">Beschreibe dein Problem</string>
     <string name="update_screen_title">Proton VPN aktualisieren</string>
     <string name="update_screen_description">Bei älteren Versionen von Proton VPN ist die Wahrscheinlichkeit größer, dass Probleme auftreten.</string>
+    <string name="dialog_create_account_title">Erstelle ein Konto, um fortzufahren.</string>
+    <string name="dialog_create_account_action_create">Konto erstellen</string>
+    <string name="dialog_create_account_action_signin">Anmelden</string>
     <string name="server_search_menu_title">Suchen</string>
     <string name="server_search_hint">Land, Stadt, Server</string>
     <string name="server_search_hint_secure_core">Land</string>
@@ -1163,7 +1166,7 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="speed_graph_title">Geschwindigkeit: %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>

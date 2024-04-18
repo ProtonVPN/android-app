@@ -539,6 +539,9 @@
     <string name="dynamic_report_your_issue_headline">Mikä on ongelmana</string>
     <string name="update_screen_title">Päivitä Proton VPN</string>
     <string name="update_screen_description">Ongelmia esiintyy todennäköisesti useammin vanhemmissa Proton VPN -versioissa.</string>
+    <string name="dialog_create_account_title">Jatka luomalla tili</string>
+    <string name="dialog_create_account_action_create">Luo tili</string>
+    <string name="dialog_create_account_action_signin">Kirjaudu</string>
     <string name="server_search_menu_title">Haku</string>
     <string name="server_search_hint">Maa, kaupunki, palvelin</string>
     <string name="server_search_hint_secure_core">Maa</string>
@@ -1096,7 +1099,7 @@
     -->
     <string name="connection_details_connected_for">Yhdistettynä</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server">Pavelin</string>
+    <string name="connection_details_server">Palvelin</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_gateway">Yhdyskäytävä</string>
     <!-- tag(Redesign_2023) -->
@@ -1163,12 +1166,12 @@
     <string name="speed_gigabytes_per_second">%1$s Gt/s</string>
     <string name="speed_terabytes_per_second">%1$s Tt/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
-    <string name="bytes_per_second">B/s</string>
-    <string name="kilobytes_per_second">KB/s</string>
-    <string name="megabytes_per_second">MB/s</string>
-    <string name="gigabytes_per_second">GB/s</string>
-    <string name="terabytes_per_second">TB/s</string>
+    <string name="speed_graph_title">Nopeus %1$s</string>
+    <string name="bytes_per_second">t/s</string>
+    <string name="kilobytes_per_second">kt/s</string>
+    <string name="megabytes_per_second">Mt/s</string>
+    <string name="gigabytes_per_second">Gt/s</string>
+    <string name="terabytes_per_second">Tt/s</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s tavu sekunnissa</item>
         <item quantity="other">%1$s tavua sekunnissa</item>

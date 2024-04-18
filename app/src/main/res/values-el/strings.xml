@@ -539,6 +539,9 @@
     <string name="dynamic_report_your_issue_headline">Ποιο είναι το πρόβλημά σας</string>
     <string name="update_screen_title">Ενημέρωση Proton VPN</string>
     <string name="update_screen_description">Σε παλαιότερες εκδόσεις του Proton VPN, είναι πιο πιθανό να έχετε προβλήματα.</string>
+    <string name="dialog_create_account_title">Δημιουργήστε έναν λογαριασμό για να συνεχίσετε</string>
+    <string name="dialog_create_account_action_create">Δημιουργία λογαριασμού</string>
+    <string name="dialog_create_account_action_signin">Σύνδεση</string>
     <string name="server_search_menu_title">Αναζήτηση</string>
     <string name="server_search_hint">Χώρα, πόλη, διακομιστής</string>
     <string name="server_search_hint_secure_core">Χώρα</string>
@@ -1163,12 +1166,12 @@
     <string name="speed_gigabytes_per_second">%1$s GB/δλ</string>
     <string name="speed_terabytes_per_second">%1$s TB/δλ</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="speed_graph_title">Ταχύτητα %1$s</string>
     <string name="bytes_per_second">B/s</string>
-    <string name="kilobytes_per_second">KB/s</string>
-    <string name="megabytes_per_second">MB/s</string>
-    <string name="gigabytes_per_second">GB/s</string>
-    <string name="terabytes_per_second">TB/s</string>
+    <string name="kilobytes_per_second">KB/δλ</string>
+    <string name="megabytes_per_second">MB/δλ</string>
+    <string name="gigabytes_per_second">GB/δλ</string>
+    <string name="terabytes_per_second">TB/δλ</string>
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s Byte ανά δευτερόλεπτο</item>
         <item quantity="other">%1$s Bytes ανά δευτερόλεπτο</item>

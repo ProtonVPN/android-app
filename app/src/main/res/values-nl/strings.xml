@@ -539,6 +539,9 @@
     <string name="dynamic_report_your_issue_headline">Wat is uw probleem</string>
     <string name="update_screen_title">Proton VPN bijwerken</string>
     <string name="update_screen_description">U heeft meer kans op problemen op oudere versies van Proton VPN.</string>
+    <string name="dialog_create_account_title">Maak een account aan om door te gaan</string>
+    <string name="dialog_create_account_action_create">Maak account</string>
+    <string name="dialog_create_account_action_signin">Log in</string>
     <string name="server_search_menu_title">Zoek</string>
     <string name="server_search_hint">Land, stad, server</string>
     <string name="server_search_hint_secure_core">Land</string>
@@ -1163,15 +1166,15 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="speed_graph_title">Snelheid %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>
     <string name="gigabytes_per_second">GB/s</string>
     <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s Byte per second</item>
-        <item quantity="other">%1$s Byte per seconde</item>
+        <item quantity="one">%1$s bytes per seconde</item>
+        <item quantity="other">%1$s byte per seconde</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
         <item quantity="one">%1$s Kilobyte per seconde</item>
@@ -1237,7 +1240,7 @@
     <string name="settings_vpn_accelerator_description">Verhoog uw verbindingssnelheid met maximaal 400%% met prestatieverbetering technologieën. %1$s</string>
     <string name="settings_account_settings_title">Accountinstellingen</string>
     <string name="settings_account_change_password">Wachtwoord wijzigen</string>
-    <string name="settings_account_recovery_email">Herstel e-mail</string>
+    <string name="settings_account_recovery_email">Herstel-e-mailadres</string>
     <string name="settings_account_recovery_email_not_set">Niet ingesteld</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Mijn account</string>

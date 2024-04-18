@@ -255,7 +255,7 @@
     <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
     <string name="netshield_trackers_title">Trackers</string>
     <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
-    <string name="netshield_data_title">Data</string>
+    <string name="netshield_data_title">Dados</string>
     <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
     <string name="accessibility_netshield_status_on_click">Inserir as definições do NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
@@ -481,7 +481,7 @@
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
     <string name="payment_price_per_month">month</string>
-    <string name="payment_price_per_year">year</string>
+    <string name="payment_price_per_year">ano</string>
     <string name="payment_price_per_2years">2 anos</string>
     <string name="payment_price_cycle_month_label">1 mês</string>
     <string name="payment_price_cycle_year_label">1 ano</string>
@@ -539,6 +539,9 @@
     <string name="dynamic_report_your_issue_headline">Reportar um problema</string>
     <string name="update_screen_title">Atualizar o Proton VPN</string>
     <string name="update_screen_description">É provável que tenha problemas com versões mais antigas do Proton VPN.</string>
+    <string name="dialog_create_account_title">Create an account to continue</string>
+    <string name="dialog_create_account_action_create">Create account</string>
+    <string name="dialog_create_account_action_signin">Sign in</string>
     <string name="server_search_menu_title">Pesquisar</string>
     <string name="server_search_hint">País, cidade ou servidor</string>
     <string name="server_search_hint_secure_core">País</string>
@@ -699,7 +702,7 @@
     <string name="no_logs_banner_title">Certified no-logs VPN</string>
     <string name="no_logs_banner_description">Your VPN activity is protected by Swiss privacy laws. We’ll never track you online or share your information with third parties.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
-    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_home">Início</string>
     <string name="bottom_nav_gateways">Gateways</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Countries</string>
@@ -713,7 +716,7 @@
          reader as:
          "Connection details, button. Double tap to open"
     -->
-    <string name="accessibility_action_open">open</string>
+    <string name="accessibility_action_open">abrir</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that initiate a VPN connection.
          Only used by accessibility services.
@@ -743,7 +746,7 @@
          - item in a list of countries has a custom action to open list of cities in the country
          - item in a list of cities has a custom action to open list of servers in the city
          -->
-    <string name="accessibility_menu_action_open">Open</string>
+    <string name="accessibility_menu_action_open">Abrir</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -873,7 +876,7 @@
     <!-- tag(Redesign_2023)
          Help button above the connection card.
      -->
-    <string name="connection_card_help">Help</string>
+    <string name="connection_card_help">Ajuda</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
@@ -1038,7 +1041,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Cancelar</string>
     <!-- tag(Redesign_2023) -->
-    <string name="country_filter_all">All</string>
+    <string name="country_filter_all">Todos</string>
     <string name="country_filter_cities">Cities</string>
     <string name="country_filter_states">States</string>
     <!-- tag(Redesign_2023) -->
@@ -1058,7 +1061,7 @@
     <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
-    <string name="country_filter_info_label">Info</string>
+    <string name="country_filter_info_label">Informação</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
@@ -1086,7 +1089,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Mostrar IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="accessibility_back">Back</string>
+    <string name="accessibility_back">Voltar</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">My IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1102,7 +1105,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">País</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_city">City</string>
+    <string name="connection_details_city">Cidade</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
@@ -1258,7 +1261,7 @@
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
     <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
-    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nenhuma</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_dialog_reconnect">As novas definições serão aplicadas na próxima vez que estabelecer ligação.</string>
     <string name="info_secure_core_standard_high_privacy">High privacy</string>

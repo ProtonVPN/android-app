@@ -529,6 +529,9 @@
     <string name="dynamic_report_your_issue_headline">您遇到甚麼問題</string>
     <string name="update_screen_title">更新 Proton VPN</string>
     <string name="update_screen_description">您的問題可能是因為使用舊版的 Proton VPN。</string>
+    <string name="dialog_create_account_title">Create an account to continue</string>
+    <string name="dialog_create_account_action_create">Create account</string>
+    <string name="dialog_create_account_action_signin">Sign in</string>
     <string name="server_search_menu_title">搜尋</string>
     <string name="server_search_hint">國家 (地區)、城市、伺服器</string>
     <string name="server_search_hint_secure_core">國家</string>
@@ -758,8 +761,8 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">洋蔥路由器</string>
-    <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_p2p">點對點</string>
+    <string name="server_feature_content_description_tor">洋蔥路由器</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最快的國家</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1207,7 +1210,7 @@
     <string name="settings_vpn_accelerator_description">以效能強化技術，提升您的連線速度高達 400%%。%1$s</string>
     <string name="settings_account_settings_title">帳號設定</string>
     <string name="settings_account_change_password">變更密碼</string>
-    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email">復原用電郵位址</string>
     <string name="settings_account_recovery_email_not_set">Not set</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">My account</string>

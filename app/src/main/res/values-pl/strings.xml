@@ -559,6 +559,9 @@
     <string name="dynamic_report_your_issue_headline">Co jest Twoim problemem</string>
     <string name="update_screen_title">Zaktualizuj Proton VPN</string>
     <string name="update_screen_description">Problemy są bardziej prawdopodobne w starszych wersjach aplikacji Proton VPN.</string>
+    <string name="dialog_create_account_title">Utwórz konto, aby kontynuować</string>
+    <string name="dialog_create_account_action_create">Utwórz konto</string>
+    <string name="dialog_create_account_action_signin">Zaloguj się</string>
     <string name="server_search_menu_title">Szukaj</string>
     <string name="server_search_hint">Kraj, miasto, serwer</string>
     <string name="server_search_hint_secure_core">Kraj</string>
