@@ -539,6 +539,9 @@
     <string name="dynamic_report_your_issue_headline">Vad är ditt problem</string>
     <string name="update_screen_title">Uppdatera Proton VPN</string>
     <string name="update_screen_description">Det är mer sannolikt att du har problem med äldre versioner av Proton VPN.</string>
+    <string name="dialog_create_account_title">Skapa ett konto för att fortsätta</string>
+    <string name="dialog_create_account_action_create">Skapa konto</string>
+    <string name="dialog_create_account_action_signin">Logga in</string>
     <string name="server_search_menu_title">Sök</string>
     <string name="server_search_hint">Land, ort, server</string>
     <string name="server_search_hint_secure_core">Land</string>

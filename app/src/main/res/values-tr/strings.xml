@@ -539,6 +539,9 @@
     <string name="dynamic_report_your_issue_headline">Sorununuz nedir</string>
     <string name="update_screen_title">Proton VPN uygulamasını güncelle</string>
     <string name="update_screen_description">Eski Proton VPN sürümlerinde sorun yaşamanız daha olasıdır.</string>
+    <string name="dialog_create_account_title">İlerlemek için bir hesap açın</string>
+    <string name="dialog_create_account_action_create">Hesap aç</string>
+    <string name="dialog_create_account_action_signin">Oturum aç</string>
     <string name="server_search_menu_title">Arama</string>
     <string name="server_search_hint">Ülke, il, sunucu</string>
     <string name="server_search_hint_secure_core">Ülke</string>
@@ -1163,7 +1166,7 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="speed_graph_title">Hız %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>

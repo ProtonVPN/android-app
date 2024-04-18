@@ -539,6 +539,9 @@
     <string name="dynamic_report_your_issue_headline">Quale è il problema</string>
     <string name="update_screen_title">Aggiorna Proton VPN</string>
     <string name="update_screen_description">È più probabile che tu abbia problemi con le versioni precedenti di Proton VPN.</string>
+    <string name="dialog_create_account_title">Crea un account per continuare</string>
+    <string name="dialog_create_account_action_create">Crea un account</string>
+    <string name="dialog_create_account_action_signin">Accedi</string>
     <string name="server_search_menu_title">Cerca</string>
     <string name="server_search_hint">Paese, città, server</string>
     <string name="server_search_hint_secure_core">Paese</string>

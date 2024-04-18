@@ -529,6 +529,9 @@
     <string name="dynamic_report_your_issue_headline">問題はなんですか?</string>
     <string name="update_screen_title">Proton VPN をアップデート</string>
     <string name="update_screen_description">古い Proton VPN には問題がある可能性があります。</string>
+    <string name="dialog_create_account_title">Create an account to continue</string>
+    <string name="dialog_create_account_action_create">Create account</string>
+    <string name="dialog_create_account_action_signin">Sign in</string>
     <string name="server_search_menu_title">検索</string>
     <string name="server_search_hint">国、都市、サーバー</string>
     <string name="server_search_hint_secure_core">国</string>
