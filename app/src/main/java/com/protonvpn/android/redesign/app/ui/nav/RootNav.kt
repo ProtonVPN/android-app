@@ -30,6 +30,8 @@ import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen.mainScreen
+import com.protonvpn.android.redesign.main_screen.ui.nav.MainTarget
+import com.protonvpn.android.redesign.main_screen.ui.nav.rememberMainNav
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen.subSettings
 
@@ -46,20 +48,24 @@ class RootNav(
         modifier: Modifier,
         coreNavigation: CoreNavigation
     ) {
+        val mainNav = rememberMainNav(coreNavigation, this)
         SafeNavHost(
             modifier = modifier,
             startScreen = MainScreen,
         ) {
-            RootTarget.values().forEach { target ->
+            RootTarget.entries.forEach { target ->
                 when (target) {
                     RootTarget.Main -> {
-                        mainScreen(
-                            coreNavigation,
-                            this@RootNav
-                        )
+                        mainScreen(mainNav)
                     }
                     RootTarget.SearchScreen -> {
-                        searchScreen(onBackIconClick = ::popBackStack)
+                        searchScreen(
+                            onBackIconClick = ::popBackStack,
+                            onNavigateToHomeOnConnect = {
+                                popBackStack()
+                                mainNav.navigate(MainTarget.Home)
+                            }
+                        )
                     }
                     RootTarget.ConnectionDetails -> {
                         connectionStatus(onClosePanel = ::popBackStack)

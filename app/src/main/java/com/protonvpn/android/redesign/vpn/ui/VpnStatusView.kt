@@ -333,7 +333,7 @@ private fun VpnConnectedView(
             StatusBanner.UpgradePlus -> {
                 UpsellBannerContent(
                     R.string.netshield_free_title,
-                    R.string.netshield_free_description,
+                    descriptionRes = R.string.netshield_free_description,
                     iconRes = R.drawable.ic_netshield_promo,
                     modifier = Modifier
                         .clickable(onClick = netShieldActions.onUpgradeNetShield)

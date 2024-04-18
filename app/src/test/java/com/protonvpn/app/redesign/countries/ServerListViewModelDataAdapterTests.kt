@@ -27,6 +27,7 @@ import com.protonvpn.android.redesign.ServerId
 import com.protonvpn.android.redesign.countries.ui.ServerFilterType
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemData
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
+import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.test.shared.createServer
@@ -39,6 +40,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.test.assertEquals
 
@@ -54,6 +56,9 @@ class ServerListViewModelDataAdapterTests {
 
     @Inject
     lateinit var adapter: ServerListViewModelDataAdapter
+
+    @Inject
+    lateinit var searchAdapter: SearchViewModelDataAdapter
 
     @Before
     fun setup() {
@@ -355,6 +360,104 @@ class ServerListViewModelDataAdapterTests {
         )
         val servers = adapter.servers(country = CountryId("PL")).first()
         assertEquals(1, servers.size)
+    }
+
+    private suspend fun searchTestSetup() {
+        serverManager.setServers(
+            listOf(
+                server(exitCountry = "PL", city = "Warsaw", serverName = "PL#1"),
+                server(exitCountry = "PL", city = "Warsaw", serverName = "PL#2", features = SERVER_FEATURE_TOR),
+                server(exitCountry = "PL", city = "Cracow", serverName = "PL#3", isSecureCore = true, translations = mapOf("City" to "Kraków")),
+                server(exitCountry = "PL", city = "Cracow", serverName = "PL#4", translations = mapOf("City" to "Kraków")),
+                server(exitCountry = "US", state = "California", serverName = "US-CA#1"),
+                server(exitCountry = "US", city = "New York", serverName = "US-NY#2"),
+            ),
+            null
+        )
+    }
+
+    @Test
+    fun basicSearchTest() = runTest {
+        searchTestSetup()
+
+        val result = searchAdapter.search("p", Locale("PL")).first()
+        assertEquals(
+            listOf("PL#1", "PL#2", "PL#4"), // All PL servers without secure core
+            result[ServerFilterType.All]?.servers?.map { it.name }
+        )
+        assertEquals(
+            listOf("PL"),
+            result[ServerFilterType.All]?.countries?.map { it.countryId.countryCode }
+        )
+        assertEquals(0, result[ServerFilterType.All]?.cities?.size)
+    }
+
+    @Test
+    fun searchFiltersTest() = runTest {
+        searchTestSetup()
+        val result = searchAdapter.search("p", Locale("PL")).first()
+        assertEquals(
+            listOf("PL#3"),
+            result[ServerFilterType.SecureCore]?.servers?.map { it.name }
+        )
+        assertEquals(
+            listOf("PL#2"),
+            result[ServerFilterType.Tor]?.servers?.map { it.name }
+        )
+    }
+
+    @Test
+    fun accentAndCaseSearchTest() = runTest {
+        searchTestSetup()
+        val result = searchAdapter.search("krak", Locale("PL")).first()
+        assertEquals(
+            listOf("Kraków"),
+            result[ServerFilterType.All]?.cities?.map { it.textMatch?.fullText }
+        )
+    }
+
+    @Test
+    fun testFallbackToEnglish() = runTest {
+        searchTestSetup()
+        val result = searchAdapter.search("crac", Locale("PL")).first()
+        assertEquals(
+            listOf("Cracow"),
+            result[ServerFilterType.All]?.cities?.map { it.textMatch?.fullText }
+        )
+    }
+
+    @Test
+    fun testSearchStates() = runTest {
+        searchTestSetup()
+        val result = searchAdapter.search("cal", Locale.US).first()
+        assertEquals(
+            listOf("California"),
+            result[ServerFilterType.All]?.states?.map { it.textMatch?.fullText }
+        )
+    }
+
+    @Test
+    fun testSearchByServerNumber() = runTest {
+        searchTestSetup()
+        val result = searchAdapter.search("1", Locale.US).first()
+        assertEquals(
+            listOf("PL#1", "US-CA#1"),
+            result[ServerFilterType.All]?.servers?.map { it.name }
+        )
+    }
+
+    @Test
+    fun testSearchByNotFirstWord() = runTest {
+        searchTestSetup()
+        val result = searchAdapter.search("york", Locale.US).first()
+        assertEquals(
+            listOf("New York"),
+            result[ServerFilterType.All]?.cities?.map { it.textMatch?.fullText }
+        )
+
+        // We match only beginning of words
+        val searchMiddleOfTheWord = searchAdapter.search("ork", Locale.US).first()
+        assertEquals(0, searchMiddleOfTheWord[ServerFilterType.All]?.cities?.size)
     }
 }
 

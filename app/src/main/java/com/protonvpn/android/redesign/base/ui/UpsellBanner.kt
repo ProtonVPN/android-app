@@ -51,9 +51,10 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun UpsellBannerContent(
     @StringRes titleRes: Int?,
-    @StringRes descriptionRes: Int,
     @DrawableRes iconRes: Int,
     modifier: Modifier = Modifier,
+    @StringRes descriptionRes: Int? = null,
+    description: String? = null, // Note: takes precedence over descriptionRes
     @DrawableRes badgeIconRes: Int = ResourcesCompat.ID_NULL,
 ) {
     Row(
@@ -77,10 +78,13 @@ fun UpsellBannerContent(
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
-            Text(
-                text = stringResource(descriptionRes),
-                style = ProtonTheme.typography.body2Regular,
-            )
+            val descriptionText = description ?: descriptionRes?.let { stringResource(it) }
+            if (descriptionText != null) {
+                Text(
+                    text = descriptionText,
+                    style = ProtonTheme.typography.body2Regular,
+                )
+            }
         }
 
         if (badgeIconRes != ResourcesCompat.ID_NULL) {
@@ -103,22 +107,24 @@ fun UpsellBannerContent(
 @Composable
 fun UpsellBanner(
     @StringRes titleRes: Int?,
-    @StringRes descriptionRes: Int,
     @DrawableRes iconRes: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    @DrawableRes badgeIconRes: Int = ResourcesCompat.ID_NULL,
+    @StringRes descriptionRes: Int? = null,
+    description: String? = null,
+    @DrawableRes badgeIconRes: Int = ResourcesCompat.ID_NULL
 ) {
     UpsellBannerContent(
         titleRes,
-        descriptionRes,
         iconRes,
         modifier = modifier
             .clip(ProtonTheme.shapes.large)
             .background(ProtonTheme.colors.backgroundSecondary)
             .clickable(onClick = onClick)
             .padding(16.dp),
-        badgeIconRes = badgeIconRes
+        badgeIconRes = badgeIconRes,
+        descriptionRes = descriptionRes,
+        description = description
     )
 }
 
@@ -129,7 +135,7 @@ fun UpsellBannerPreview() {
         Surface {
             UpsellBanner(
                 R.string.netshield_free_title,
-                R.string.netshield_free_description,
+                descriptionRes = R.string.netshield_free_description,
                 iconRes = R.drawable.ic_netshield_promo,
                 onClick = {}
             )
@@ -144,7 +150,7 @@ fun UpsellBannerPreviewNoTitle() {
         Surface {
             UpsellBanner(
                 null,
-                R.string.netshield_free_description,
+                descriptionRes = R.string.netshield_free_description,
                 iconRes = R.drawable.ic_netshield_promo,
                 onClick = {}
             )

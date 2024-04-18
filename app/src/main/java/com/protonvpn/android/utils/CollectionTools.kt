@@ -128,3 +128,11 @@ fun <T> List<T>.takeRandomStable(n: Int, random: Random = Random.Default): List<
             removeAt(random.nextInt(size))
         }
     }
+
+fun <K,V> MutableMap<K, MutableList<V>>.addToList(k: K, v: V) {
+    getOrPut(k) { mutableListOf() }.add(v)
+}
+
+fun <K,V> MutableMap<K, MutableSet<V>>.addToSet(k: K, v: V) {
+    getOrPut(k) { mutableSetOf() }.add(v)
+}

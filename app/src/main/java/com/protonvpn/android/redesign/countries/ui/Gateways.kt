@@ -35,7 +35,7 @@ fun GatewaysRoute(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        ServerGroupsRoute(
+        ServerGroupsWithToolbarRoute(
             onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
             onNavigateToSearch = null,
             viewModel = viewModel,

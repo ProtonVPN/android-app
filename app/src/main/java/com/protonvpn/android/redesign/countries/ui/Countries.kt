@@ -44,7 +44,7 @@ fun CountriesRoute(
     ) {
         when (showNewUI) {
             null -> {}
-            true -> ServerGroupsRoute(
+            true -> ServerGroupsWithToolbarRoute(
                 onNavigateToHomeOnConnect,
                 onNavigateToSearch,
                 hiltViewModel<CountriesViewModel>(),

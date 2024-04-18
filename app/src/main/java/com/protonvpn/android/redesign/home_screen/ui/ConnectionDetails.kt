@@ -100,6 +100,7 @@ import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ServerLoadBar
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
+import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
@@ -164,7 +165,7 @@ private fun ConnectionDetailsConnected(
     )
     val context = LocalContext.current
     val onOpenUrl: (String) -> Unit = { url -> context.openUrl(url) }
-    var info by remember { mutableStateOf<InfoType?>(null) }
+    val infoSheetState = rememberInfoSheetState()
     TopAppBar(
         title = { },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -225,7 +226,7 @@ private fun ConnectionDetailsConnected(
                     .clip(RoundedCornerShape(8.dp))
                     .clickable(
                         onClick = {
-                            info = InfoType.VpnSpeed
+                            infoSheetState.show(InfoType.VpnSpeed)
                         },
                         role = Role.Button,
                         onClickLabel = stringResource(R.string.accessibility_action_open)
@@ -253,7 +254,7 @@ private fun ConnectionDetailsConnected(
             onOpenUrl = onOpenUrl
         )
     }
-    InfoSheet(info, onOpenUrl, dismissInfo = { info = null })
+    InfoSheet(infoSheetState, onOpenUrl)
 }
 
 @Composable
@@ -576,13 +577,13 @@ fun ConnectionDetailRowWithComposable(
     onOpenUrl: (url: String) -> Unit,
     contentComposable: @Composable () -> Unit
 ) {
-    var info by remember { mutableStateOf<InfoType?>(null) }
+    val infoSheetState = rememberInfoSheetState()
     Column(modifier = Modifier.semantics(mergeDescendants = true, properties = {})) {
         Row(modifier = modifier
             .fillMaxWidth()
             .let {
                 if (infoType != null) it.clickable(onClick = {
-                    info = infoType
+                    infoSheetState.show(infoType)
                 }) else it
             }
             .clip(RoundedCornerShape(4.dp))
@@ -609,7 +610,7 @@ fun ConnectionDetailRowWithComposable(
             contentComposable()
         }
     }
-    InfoSheet(info = info, onOpenUrl = onOpenUrl, dismissInfo = { info = null })
+    InfoSheet(infoSheetState, onOpenUrl = onOpenUrl)
 }
 
 @Composable

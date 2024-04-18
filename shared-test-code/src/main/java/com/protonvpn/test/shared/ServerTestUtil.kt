@@ -21,6 +21,7 @@ package com.protonvpn.test.shared
 
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.Location
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetSmartProtocols
@@ -70,7 +71,9 @@ fun createServer(
         region = region,
         state = state,
         city = city,
-        features = if (isSecureCore || entryCountry != exitCountry) features or SERVER_FEATURE_SECURE_CORE else features,
+        features = features
+            or (if (isSecureCore || entryCountry != exitCountry) SERVER_FEATURE_SECURE_CORE else 0)
+            or (if (gatewayName != null) SERVER_FEATURE_RESTRICTED else 0),
         location = Location("", ""),
         translations = translations,
         score = score,

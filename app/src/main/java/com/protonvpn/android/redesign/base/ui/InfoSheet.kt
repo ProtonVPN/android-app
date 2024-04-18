@@ -40,6 +40,10 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -61,6 +65,27 @@ import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.subheadlineNorm
 import me.proton.core.presentation.R as CoreR
 
+@Stable
+class InfoSheetState(
+    initialType: InfoType? = null
+) {
+    private val type = mutableStateOf(initialType)
+    val currentType: InfoType? get() = type.value
+
+    fun show(newType: InfoType) { type.value = newType }
+    fun dismiss() { type.value = null }
+
+    companion object {
+        val Saver : Saver<InfoSheetState, InfoType> = Saver(
+            save = { it.currentType },
+            restore = { InfoSheetState(it) }
+        )
+    }
+}
+
+@Composable
+fun rememberInfoSheetState() = rememberSaveable(saver = InfoSheetState.Saver) { InfoSheetState() }
+
 enum class InfoType {
     SecureCore,
     VpnSpeed,
@@ -73,19 +98,19 @@ enum class InfoType {
 
 @Composable
 fun InfoSheet(
-    info: InfoType?,
+    infoSheetState: InfoSheetState,
     onOpenUrl: (url: String) -> Unit,
-    dismissInfo: () -> Unit
 ) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    if (info != null) {
+    val currentInfo = infoSheetState.currentType
+    if (currentInfo != null) {
         ModalBottomSheet(
             sheetState = bottomSheetState,
             content = {
-                InfoSheetContent(info, onOpenUrl)
+                InfoSheetContent(currentInfo, onOpenUrl)
             },
             windowInsets = WindowInsets.navigationBars,
-            onDismissRequest = dismissInfo
+            onDismissRequest = { infoSheetState.dismiss() }
         )
     }
 }
@@ -310,12 +335,16 @@ private fun SecureCoreCompare(
     ) {
         SecureCoreContentHeader(
             headerRes,
-            modifier = Modifier.padding(vertical = 12.dp).fillMaxWidth()
+            modifier = Modifier
+                .padding(vertical = 12.dp)
+                .fillMaxWidth()
         )
         Image(
             painter = painterResource(id = imageRes),
             contentDescription = null,
-            modifier = Modifier.fillMaxWidth().rtlMirror()
+            modifier = Modifier
+                .fillMaxWidth()
+                .rtlMirror()
         )
         SecureCoreContentBulletList(
             modifier = Modifier.padding(vertical = 12.dp),

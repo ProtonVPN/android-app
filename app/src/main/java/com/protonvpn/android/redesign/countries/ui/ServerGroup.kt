@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.redesign.countries.ui
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.animateScrollBy
@@ -43,16 +44,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -60,11 +62,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.protonElevation
 import com.protonvpn.android.redesign.base.ui.InfoSheet
+import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
+import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
@@ -73,18 +77,40 @@ import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragme
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeTorHighlightsFragment
 import com.protonvpn.android.utils.openUrl
+import com.protonvpn.android.vpn.VpnUiDelegate
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
 import me.proton.core.presentation.utils.currentLocale
 import me.proton.core.presentation.R as CoreR
 
-// This route is shared by both Gateways and Countries main screens.
 @Composable
-fun ServerGroupsRoute(
+fun ServerGroupsWithToolbarRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     onNavigateToSearch: (() -> Unit)?,
-    viewModel: ServerGroupsViewModel,
+    viewModel: ServerGroupsViewModel<ServerGroupsMainScreenState>,
     @StringRes titleRes: Int,
+) {
+    ServerGroupsRoute(
+        onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
+        viewModel = viewModel,
+    ) { mainState, infoSheetState ->
+        ServerGroupToolbarScaffold(
+            onNavigateToSearch = onNavigateToSearch,
+            toolbarFilters = mainState.filterButtons,
+            titleRes = titleRes,
+            content = { paddingValues ->
+                ServerGroupItemsList(viewModel, mainState, onNavigateToHomeOnConnect, infoSheetState, paddingValues)
+            }
+        )
+    }
+}
+
+// Generic route template shared by Gateways, Countries and Search screens.
+@Composable
+fun <T> ServerGroupsRoute(
+    viewModel: ServerGroupsViewModel<T>,
+    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
+    content: @Composable (mainState: T, info: InfoSheetState) -> Unit,
 ) {
     val uiDelegate = LocalVpnUiDelegate.current
     val context = LocalContext.current
@@ -94,52 +120,9 @@ fun ServerGroupsRoute(
         viewModel.localeFlow.value = locale
     }
     val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value ?: return
-    var info by remember { mutableStateOf<InfoType?>(null) }
+    val infoSheetState = rememberInfoSheetState()
 
-    val navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) }
-
-    val navigateToUpsellFromBanner = { bannerType: ServerGroupUiItem.BannerType ->
-        when(bannerType) {
-            ServerGroupUiItem.BannerType.Countries ->
-                UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
-            ServerGroupUiItem.BannerType.SecureCore ->
-                UpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(context)
-            ServerGroupUiItem.BannerType.P2P ->
-                UpgradeDialogActivity.launch<UpgradeP2PHighlightsFragment>(context)
-            ServerGroupUiItem.BannerType.Tor ->
-                UpgradeDialogActivity.launch<UpgradeTorHighlightsFragment>(context)
-        }
-    }
-    val navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
-    fun createOnItemOpen(filter: ServerFilterType): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
-        viewModel.onItemOpen(item, filter)
-    }
-    fun createOnConnectAction(filterType: ServerFilterType): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
-        viewModel.onItemConnect(
-            vpnUiDelegate = uiDelegate,
-            item = item,
-            filterType = filterType,
-            navigateToHome = navigateToHome,
-            navigateToUpsell = navigateToUpsell
-        )
-    }
-
-    ToolbarWithFilters(
-        onNavigateToSearch = onNavigateToSearch,
-        toolbarFilters = mainState.filterButtons,
-        titleRes = titleRes,
-        content = {
-            ServerGroupItemsList(
-                items = mainState.items,
-                onItemClick = createOnConnectAction(mainState.selectedFilter),
-                onItemOpen = createOnItemOpen(mainState.selectedFilter),
-                onOpenInfo = { infoType -> info = infoType },
-                navigateToUpsell = navigateToUpsellFromBanner,
-                horizontalContentPadding = largeScreenContentPadding(),
-                modifier = Modifier.padding(it)
-            )
-        }
-    )
+    content(mainState, infoSheetState)
 
     val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
 
@@ -148,23 +131,53 @@ fun ServerGroupsRoute(
             modifier = Modifier,
             screen = subScreenState,
             onNavigateBack = { onHide -> viewModel.onNavigateBack(onHide) },
-            onNavigateToItem = createOnItemOpen(subScreenState.selectedFilter),
-            onItemClicked = createOnConnectAction(subScreenState.selectedFilter),
+            onNavigateToItem = { viewModel.onItemOpen(it, subScreenState.selectedFilter) },
+            onItemClicked = createOnConnectAction(viewModel, uiDelegate, context, subScreenState.selectedFilter, onNavigateToHomeOnConnect),
             onClose = { viewModel.onClose() },
-            onOpenInfo = { info = it },
-            navigateToUpsell = navigateToUpsellFromBanner
+            infoSheetState = infoSheetState,
+            navigateToUpsell = { navigateToUpsellFromBanner(context, it) }
         )
     }
 
     InfoSheet(
-        info = info,
+        infoSheetState = infoSheetState,
         onOpenUrl = { context.openUrl(it) },
-        dismissInfo = { info = null }
     )
 }
 
 @Composable
-fun ToolbarWithFilters(
+fun createOnConnectAction(
+    viewModel: ServerGroupsViewModel<*>,
+    uiDelegate: VpnUiDelegate,
+    context: Context,
+    filterType: ServerFilterType,
+    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit
+): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
+    viewModel.onItemConnect(
+        vpnUiDelegate = uiDelegate,
+        item = item,
+        filterType = filterType,
+        navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) },
+        navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
+    )
+}
+
+fun navigateToUpsellFromBanner(context: Context, bannerType: ServerGroupUiItem.BannerType) =
+    when(bannerType) {
+        ServerGroupUiItem.BannerType.Countries ->
+            UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+        ServerGroupUiItem.BannerType.SecureCore ->
+            UpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(context)
+        ServerGroupUiItem.BannerType.P2P ->
+            UpgradeDialogActivity.launch<UpgradeP2PHighlightsFragment>(context)
+        ServerGroupUiItem.BannerType.Tor ->
+            UpgradeDialogActivity.launch<UpgradeTorHighlightsFragment>(context)
+        is ServerGroupUiItem.BannerType.Search ->
+            UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+    }
+
+@Composable
+fun ServerGroupToolbarScaffold(
     onNavigateToSearch: (() -> Unit)?,
     toolbarFilters: List<FilterButton>,
     @StringRes titleRes: Int,
@@ -246,7 +259,9 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier)
             itemContent = { filterButton ->
                 Button(
                     onClick = filterButton.onClick,
-                    modifier = Modifier.heightIn(min = ButtonDefaults.MinHeight),
+                    modifier = Modifier
+                        .heightIn(min = ButtonDefaults.MinHeight)
+                        .alpha(if (filterButton.isEmpty && !filterButton.isSelected) 0.5f else 1f),
                     elevation = ButtonDefaults.protonElevation(),
                     shape = ProtonTheme.shapes.medium,
                     colors = ButtonDefaults.buttonColors(
@@ -280,6 +295,27 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier)
 
 @Composable
 fun ServerGroupItemsList(
+    viewModel: ServerGroupsViewModel<*>,
+    state: ServerGroupsMainScreenState,
+    onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
+    infoSheetState: InfoSheetState,
+    paddingValues: PaddingValues = PaddingValues(0.dp),
+) {
+    val context = LocalContext.current
+    val uiDelegate = LocalVpnUiDelegate.current
+    ServerGroupItemsList(
+        items = state.items,
+        onItemClick = createOnConnectAction(viewModel, uiDelegate, context, state.selectedFilter, onNavigateToHomeOnConnect),
+        onItemOpen = { viewModel.onItemOpen(it, state.selectedFilter) },
+        onOpenInfo = { infoType -> infoSheetState.show(infoType) },
+        navigateToUpsell = { navigateToUpsellFromBanner(context, it) },
+        horizontalContentPadding = largeScreenContentPadding(),
+        modifier = Modifier.padding(paddingValues)
+    )
+}
+
+@Composable
+fun ServerGroupItemsList(
     modifier: Modifier = Modifier,
     items: List<ServerGroupUiItem>,
     listState: LazyListState = rememberLazyListState(),
@@ -294,7 +330,7 @@ fun ServerGroupItemsList(
         contentPadding = PaddingValues(horizontal = horizontalContentPadding),
         state = listState,
     ) {
-        items.forEach { item ->
+        items.forEachIndexed { index, item ->
             item {
                 when (item) {
                     is ServerGroupUiItem.Header ->
@@ -305,7 +341,8 @@ fun ServerGroupItemsList(
 
                     is ServerGroupUiItem.ServerGroup -> {
                         ServerGroupItem(item, onItemOpen = onItemOpen, onItemClick = onItemClick)
-                        VpnDivider()
+                        if (index < items.lastIndex && items[index + 1] is ServerGroupUiItem.ServerGroup)
+                            VpnDivider()
                     }
                 }
             }
@@ -351,6 +388,15 @@ private fun ServerGroupBanner(
                 titleRes = null,
                 descriptionRes = R.string.tor_upsell_banner_description,
                 iconRes = R.drawable.banner_icon_tor,
+                onClick = onClick,
+                modifier = modifier,
+            )
+        is ServerGroupUiItem.BannerType.Search ->
+            UpsellBanner(
+                titleRes = R.string.search_upsell_banner_title,
+                descriptionRes = 0,
+                description = pluralStringResource(R.plurals.search_upsell_banner_message, item.type.countriesCount, item.type.countriesCount),
+                iconRes = R.drawable.upsell_card_worldwide,
                 onClick = onClick,
                 modifier = modifier,
             )
