@@ -25,6 +25,8 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
+import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.search.ui.TextMatch
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.hasFlag
@@ -37,7 +39,11 @@ import kotlin.math.roundToInt
 
 class ServerListViewModelDataAdapterLegacy @Inject constructor(
     private val serverManager2: ServerManager2,
+    private val translator: Translator,
 ) : ServerListViewModelDataAdapter {
+
+    override suspend fun countriesCount(): Int =
+        serverManager2.getCountriesAndServersCount().first
 
     override suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType> {
         val servers = serverManager2.allServersFlow.first()
@@ -85,7 +91,7 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
                 .groupBy(groupBySelector)
                 .mapNotNull { (cityOrState, servers) ->
                     availableTypes.update(servers)
-                    toCityItem(hasStates, cityOrState, servers)
+                    toCityItem(translator, hasStates, cityOrState, servers)
                 }
         }
 
@@ -126,13 +132,7 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
         serverManager2.allServersFlow.map { servers ->
             val gateways = servers.asFilteredSequence(forceIncludeGateways = true).groupBy { it.gatewayName }
             gateways.mapNotNull { (gatewayName, servers) ->
-                if (gatewayName == null)
-                    null
-                else ServerGroupItemData.Gateway(
-                    gatewayName = gatewayName,
-                    inMaintenance = servers.all { !it.online },
-                    tier = servers.minOf { it.tier }
-                )
+                gatewayName?.let { servers.toGatewayItem(gatewayName) }
             }
         }
 
@@ -153,14 +153,15 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
         }
 }
 
-private fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?) = ServerGroupItemData.Country(
+fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?, match: TextMatch? = null) = ServerGroupItemData.Country(
     countryId = CountryId(countryCode),
     entryCountryId = entryCountryId,
     inMaintenance = all { !it.online },
-    tier = minOf { it.tier }
+    tier = minOf { it.tier },
+    textMatch = match,
 )
 
-private fun Server.toServerItem() = ServerGroupItemData.Server(
+fun Server.toServerItem(match: TextMatch? = null) = ServerGroupItemData.Server(
     countryId = CountryId(exitCountry),
     serverId = ServerId(serverId),
     name = serverName,
@@ -171,9 +172,16 @@ private fun Server.toServerItem() = ServerGroupItemData.Server(
     tier = tier,
     entryCountryId = if (isSecureCoreServer) CountryId(entryCountry) else null,
     gatewayName = gatewayName,
+    textMatch = match,
 )
 
-private fun toCityItem(isState: Boolean, cityOrState: String?, servers: List<Server>) : ServerGroupItemData.City? {
+fun toCityItem(
+    translator: Translator,
+    isState: Boolean,
+    cityOrState: String?,
+    servers: List<Server>,
+    match: TextMatch? = null
+) : ServerGroupItemData.City? {
     if (cityOrState == null || servers.isEmpty())
         return null
 
@@ -182,12 +190,20 @@ private fun toCityItem(isState: Boolean, cityOrState: String?, servers: List<Ser
     return ServerGroupItemData.City(
         countryId = CountryId(server.exitCountry),
         cityStateId = CityStateId(cityOrState, isState),
-        name = (if (isState) server.displayState else server.displayCity) ?: cityOrState,
+        name = if (isState) translator.getState(cityOrState) else translator.getCity(cityOrState),
         inMaintenance = servers.all { !it.online },
-        tier = servers.minOf { it.tier }
+        tier = servers.minOf { it.tier },
+        textMatch = match,
     )
 }
 
+fun List<Server>.toGatewayItem(gatewayName: String, match: TextMatch? = null) =
+    ServerGroupItemData.Gateway(
+        gatewayName = gatewayName,
+        inMaintenance = all { !it.online },
+        tier = minOf { it.tier },
+        textMatch = match
+    )
 
 private val Server.serverFeatures get() = buildSet {
     if (features.hasFlag(SERVER_FEATURE_P2P))
@@ -196,10 +212,10 @@ private val Server.serverFeatures get() = buildSet {
         add(ServerFeature.Tor)
 }
 
-private fun CityStateId.matches(server: Server) =
+fun CityStateId.matches(server: Server) =
     name == if (isState) server.state else server.city
 
-private fun ServerFilterType.isMatching(server: Server) = when (this) {
+fun ServerFilterType.isMatching(server: Server) = when (this) {
     ServerFilterType.All -> !server.isSecureCoreServer
     ServerFilterType.SecureCore -> server.isSecureCoreServer
     ServerFilterType.Tor -> server.isTor
@@ -215,3 +231,4 @@ private fun EnumSet<ServerFilterType>.update(server: Server) {
 }
 
 private fun EnumSet<ServerFilterType>.update(servers: List<Server>) = servers.forEach { update(it) }
+

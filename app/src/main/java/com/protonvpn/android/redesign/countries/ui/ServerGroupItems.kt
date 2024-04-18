@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CustomAccessibilityAction
@@ -52,6 +53,9 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
@@ -67,6 +71,7 @@ import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ServerLoadBar
 import com.protonvpn.android.redesign.base.ui.thenNotNull
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
+import com.protonvpn.android.redesign.search.ui.TextMatch
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.iconRes
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -170,10 +175,18 @@ fun ServerGroupItem(
                 .then(alphaModifier)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = item.label(),
-                    style = ProtonTheme.typography.defaultNorm
-                )
+                val textMatch = item.data.textMatch
+                if (textMatch != null) {
+                    MatchedText(
+                        textMatch,
+                        style = ProtonTheme.typography.defaultNorm
+                    )
+                } else {
+                    Text(
+                        text = item.label(),
+                        style = ProtonTheme.typography.defaultNorm
+                    )
+                }
                 if (item.connected) {
                     ActiveDot(modifier = Modifier.padding(start = 8.dp))
                 }
@@ -205,6 +218,30 @@ fun ServerGroupItem(
             }
         }
     }
+}
+
+@Composable
+fun MatchedText(
+    match: TextMatch,
+    modifier: Modifier = Modifier,
+    style: TextStyle = ProtonTheme.typography.body1Regular,
+    color: Color = ProtonTheme.colors.textWeak,
+    matchedColor: Color = ProtonTheme.colors.textNorm,
+) {
+    val annotatedString = buildAnnotatedString {
+        append(match.fullText)
+        addStyle(
+            style = SpanStyle(color = matchedColor),
+            start = match.index,
+            end = match.index + match.length
+        )
+    }
+    Text(
+        text = annotatedString,
+        style = style,
+        color = color,
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -334,6 +371,7 @@ fun CountryItemPreview(
     inMaintenance: Boolean = false,
     available: Boolean = true,
     connected: Boolean = false,
+    match: TextMatch? = null
 ) {
     ServerGroupItem(
         modifier = Modifier.padding(6.dp),
@@ -342,7 +380,8 @@ fun CountryItemPreview(
                 countryId = CountryId("us"),
                 entryCountryId = entry,
                 inMaintenance = inMaintenance,
-                tier = 0
+                tier = 0,
+                textMatch = match
             ),
             available = available,
             connected = connected,
@@ -501,6 +540,7 @@ fun CountryItemPreviews() {
             CountryItemPreview(entry = CountryId("is"), connected = true)
             CountryItemPreview(entry = CountryId("se"), inMaintenance = true)
             CountryItemPreview(available = false)
+            CountryItemPreview(match = TextMatch(0, 5, "United States"))
         }
     }
 }

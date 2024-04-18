@@ -40,7 +40,7 @@ class GatewaysViewModel @Inject constructor(
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
     translator: Translator,
-) : ServerGroupsViewModel(
+) : ServerGroupsViewModel<ServerGroupsMainScreenState>(
     "gateways",
     savedStateHandle,
     dataAdapter,
@@ -52,7 +52,7 @@ class GatewaysViewModel @Inject constructor(
     defaultMainSavedState = ServerGroupsMainScreenSaveState(selectedFilter = ServerFilterType.All),
 ) {
     override fun mainScreenState(
-        savedState: ServerGroupsMainScreenSaveState,
+        savedStateFlow: Flow<ServerGroupsMainScreenSaveState>,
         userTier: Int?,
         locale: Locale,
         currentConnection: ActiveConnection?

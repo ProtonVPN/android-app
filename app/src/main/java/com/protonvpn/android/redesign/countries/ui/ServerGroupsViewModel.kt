@@ -73,7 +73,7 @@ enum class ServerFilterType {
 
 @Parcelize
 data class ServerGroupsMainScreenSaveState(
-    val selectedFilter: ServerFilterType
+    val selectedFilter: ServerFilterType,
 ): Parcelable
 
 data class ServerGroupsMainScreenState(
@@ -137,7 +137,7 @@ data class GatewayServersScreenState(
     override val selectedFilter: ServerFilterType get() = ServerFilterType.All
 }
 
-abstract class ServerGroupsViewModel(
+abstract class ServerGroupsViewModel<MainStateT>(
     screenId: String,
     savedStateHandle: SavedStateHandle,
     protected val dataAdapter: ServerListViewModelDataAdapter,
@@ -151,7 +151,7 @@ abstract class ServerGroupsViewModel(
 
     private val mainStateKey = "$screenId:$MainScreenStateKey"
     protected var mainSaveState by savedStateHandle.state<ServerGroupsMainScreenSaveState>(defaultMainSavedState, mainStateKey)
-    private val mainSaveStateFlow = savedStateHandle.getStateFlow(mainStateKey, mainSaveState)
+    protected val mainSaveStateFlow = savedStateHandle.getStateFlow(mainStateKey, mainSaveState)
 
     private val subStateKey = "$screenId:$SubScreenStateKey"
     private var subScreenSaveState by savedStateHandle.state<ServerGroupsSubScreenSaveState?>(null, subStateKey)
@@ -172,21 +172,20 @@ abstract class ServerGroupsViewModel(
             .distinctUntilChanged()
 
     protected abstract fun mainScreenState(
-        savedState: ServerGroupsMainScreenSaveState,
+        savedStateFlow: Flow<ServerGroupsMainScreenSaveState>,
         userTier: Int?,
         locale: Locale,
         currentConnection: ActiveConnection?
-    ) : Flow<ServerGroupsMainScreenState>
+    ) : Flow<MainStateT>
 
     // Screen states
-    val stateFlow: StateFlow<ServerGroupsMainScreenState?> =
+    val stateFlow: StateFlow<MainStateT?> =
         combine(
-            mainSaveStateFlow,
             userTierFlow,
             localeFlow.filterNotNull(),
             currentConnectionFlow,
-        ) { savedState, userTier, locale, currentConnection ->
-            mainScreenState(savedState, userTier, locale, currentConnection)
+        ) { userTier, locale, currentConnection ->
+            mainScreenState(mainSaveStateFlow, userTier, locale, currentConnection)
         }.flatMapLatest { it }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
     val subScreenStateFlow =
@@ -263,6 +262,7 @@ abstract class ServerGroupsViewModel(
         availableTypes: Set<ServerFilterType>,
         selectedType: ServerFilterType,
         @StringRes allLabel: Int,
+        emptyTypes: Set<ServerFilterType> = emptySet(),
         onItemSelect: (ServerFilterType) -> Unit,
     ): List<FilterButton> =
         ServerFilterType.entries
@@ -274,6 +274,7 @@ abstract class ServerGroupsViewModel(
                     filter = filter,
                     isSelected = filter == selectedType,
                     onClick = { onItemSelect(filter) },
+                    isEmpty = filter in emptyTypes,
                     label = when (filter) {
                         ServerFilterType.All -> allLabel
                         ServerFilterType.SecureCore -> R.string.country_filter_secure_core
@@ -373,7 +374,7 @@ abstract class ServerGroupsViewModel(
             if (!item.data.inMaintenance) {
                 if (item.available) {
                     val connectIntent = item.data.getConnectIntent(filterType).takeIf { !item.connected }
-                    val trigger = ConnectTrigger.Server("")
+                    val trigger = connectTrigger(item.data)
                     if (connectIntent != null)
                         connect(vpnUiDelegate, connectIntent, trigger)
                     navigateToHome(connectIntent != null && shouldShowcaseRecents(connectIntent))
@@ -381,6 +382,18 @@ abstract class ServerGroupsViewModel(
                     navigateToUpsell()
                 }
             }
+        }
+    }
+
+    open fun connectTrigger(item: ServerGroupItemData): ConnectTrigger {
+        val description = "Country List"
+        return when (item) {
+            //TODO: dedicated triggers for cities and gateways?
+            is ServerGroupItemData.City,
+            is ServerGroupItemData.Gateway,
+            is ServerGroupItemData.Country -> ConnectTrigger.Country(description)
+
+            is ServerGroupItemData.Server -> ConnectTrigger.Server(description)
         }
     }
 
@@ -411,6 +424,7 @@ data class FilterButton(
     val filter: ServerFilterType,
     @StringRes val label: Int,
     val isSelected: Boolean = false,
+    val isEmpty: Boolean = false, // indicates that there's no content for this filter
     val onClick: () -> Unit
 ) : Parcelable
 
@@ -528,25 +542,3 @@ private fun Translator.translateCityState(cityStateId: CityStateId): String =
         getState(cityStateId.name)
     else
         getCity(cityStateId.name)
-
-// Adapter separating server data storage from view model.
-interface ServerListViewModelDataAdapter {
-
-    suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType>
-
-    suspend fun haveStates(country: CountryId): Boolean
-
-    fun countries(filter: ServerFilterType = ServerFilterType.All):
-        Flow<List<ServerGroupItemData.Country>>
-
-    fun cities(filter: ServerFilterType = ServerFilterType.All, country: CountryId):
-        Flow<List<ServerGroupItemData.City>>
-
-    fun servers(filter: ServerFilterType = ServerFilterType.All, country: CountryId? = null, cityStateId: CityStateId? = null, gatewayName: String? = null):
-        Flow<List<ServerGroupItemData.Server>>
-
-    fun entryCountries(country: CountryId):
-        Flow<List<ServerGroupItemData.Country>>
-
-    fun gateways(): Flow<List<ServerGroupItemData.Gateway>>
-}

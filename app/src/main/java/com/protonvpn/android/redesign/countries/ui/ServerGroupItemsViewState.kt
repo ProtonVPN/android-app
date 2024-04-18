@@ -23,6 +23,7 @@ import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
 import com.protonvpn.android.redesign.base.ui.InfoType
+import com.protonvpn.android.redesign.search.ui.TextMatch
 import com.protonvpn.android.redesign.vpn.ServerFeature
 
 // Server data as needed by the UI, doesn't have dynamic properties like isConnected or
@@ -32,11 +33,15 @@ sealed class ServerGroupItemData {
     abstract val inMaintenance: Boolean
     abstract val tier: Int
 
+    // Not null if the item is a search result.
+    abstract val textMatch: TextMatch?
+
     data class Country(
         override val countryId: CountryId,
         override val inMaintenance: Boolean,
         override val tier: Int,
         val entryCountryId: CountryId?,
+        override val textMatch: TextMatch? = null
     ) : ServerGroupItemData()
 
     data class City(
@@ -45,6 +50,7 @@ sealed class ServerGroupItemData {
         override val tier: Int,
         val cityStateId: CityStateId,
         val name: String,
+        override val textMatch: TextMatch? = null
     ) : ServerGroupItemData()
 
     data class Server(
@@ -58,12 +64,14 @@ sealed class ServerGroupItemData {
         val loadPercent: Int,
         val serverFeatures: Set<ServerFeature>,
         val isVirtualLocation: Boolean,
+        override val textMatch: TextMatch? = null
     ) : ServerGroupItemData()
 
     data class Gateway(
         override val inMaintenance: Boolean,
         override val tier: Int,
         val gatewayName: String,
+        override val textMatch: TextMatch? = null
     ) : ServerGroupItemData() {
         override val countryId: CountryId? get() = null
     }
@@ -83,7 +91,13 @@ sealed class ServerGroupUiItem {
         val info: InfoType?,
     ) : ServerGroupUiItem()
 
-    enum class BannerType { Countries, SecureCore, P2P, Tor }
+    sealed class BannerType {
+        data object Countries: BannerType()
+        data object SecureCore: BannerType()
+        data object P2P: BannerType()
+        data object Tor: BannerType()
+        data class Search(val countriesCount: Int): BannerType()
+    }
     data class Banner(
         val type: BannerType,
     ) : ServerGroupUiItem()

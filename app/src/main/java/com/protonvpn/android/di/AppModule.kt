@@ -51,6 +51,8 @@ import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
+import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
+import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
@@ -316,6 +318,10 @@ object AppModule {
         @Singleton
         @Binds
         fun provideServerListViewModelDataAdapter(impl: ServerListViewModelDataAdapterLegacy): ServerListViewModelDataAdapter
+
+        @Singleton
+        @Binds
+        fun provideSearchViewModelDataAdapter(impl: SearchViewModelDataAdapterLegacy): SearchViewModelDataAdapter
 
         @Singleton
         @Binds

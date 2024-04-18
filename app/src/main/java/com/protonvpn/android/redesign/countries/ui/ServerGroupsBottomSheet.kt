@@ -64,6 +64,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.GatewayIndicator
+import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.vpn.ui.label
 import kotlinx.coroutines.delay
@@ -83,7 +84,7 @@ fun ServerGroupsBottomSheet(
     onItemClicked: (ServerGroupUiItem.ServerGroup) -> Unit,
     navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
     onClose: () -> Unit,
-    onOpenInfo: (InfoType) -> Unit,
+    infoSheetState: InfoSheetState,
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
@@ -117,7 +118,7 @@ fun ServerGroupsBottomSheet(
             listState = listState,
             onNavigateBack = { scope.launch { onNavigateBackWithClearState {} } },
             navigateToUpsell = navigateToUpsell,
-            onOpenInfo = onOpenInfo,
+            infoSheetState = infoSheetState,
             modifier = Modifier
         )
     }
@@ -134,7 +135,7 @@ private fun BottomSheetScreen(
     modifier: Modifier = Modifier,
     screen: ServerGroupsSubScreenState,
     listState: LazyListState,
-    onOpenInfo: (InfoType) -> Unit,
+    infoSheetState: InfoSheetState,
     onItemOpen: (ServerGroupUiItem.ServerGroup) -> Unit,
     onItemClick: (ServerGroupUiItem.ServerGroup) -> Unit,
     navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
@@ -147,7 +148,7 @@ private fun BottomSheetScreen(
             items = screen.items,
             onItemOpen = onItemOpen,
             onItemClick = onItemClick,
-            onOpenInfo = onOpenInfo,
+            onOpenInfo = { infoSheetState.show(it) },
             navigateToUpsell = navigateToUpsell,
             modifier = Modifier
                 .semantics { traversalIndex = -1f }

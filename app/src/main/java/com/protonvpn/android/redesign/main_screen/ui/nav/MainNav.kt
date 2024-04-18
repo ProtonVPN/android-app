@@ -185,10 +185,8 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
     }
 
     fun SafeNavGraphBuilder<RootNav>.mainScreen(
-        coreNavigation: CoreNavigation,
-        rootNav: RootNav
+        mainNav: MainNav,
     ) = addToGraph(this) {
-        val mainNav = rememberMainNav(coreNavigation, rootNav)
         MainScreenNavigation(Modifier, mainNav)
     }
 }

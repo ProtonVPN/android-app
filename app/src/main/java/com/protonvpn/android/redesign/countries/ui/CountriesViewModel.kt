@@ -17,6 +17,8 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.protonvpn.android.redesign.countries.ui
 
 import androidx.lifecycle.SavedStateHandle
@@ -28,13 +30,15 @@ import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class CountriesViewModel  @Inject constructor(
+class CountriesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     dataAdapter: ServerListViewModelDataAdapter,
     connect: VpnConnect,
@@ -42,7 +46,7 @@ class CountriesViewModel  @Inject constructor(
     currentUser: CurrentUser,
     vpnStatusProviderUI: VpnStatusProviderUI,
     translator: Translator,
-) : ServerGroupsViewModel(
+) : ServerGroupsViewModel<ServerGroupsMainScreenState>(
     "country_list",
     savedStateHandle,
     dataAdapter,
@@ -54,40 +58,42 @@ class CountriesViewModel  @Inject constructor(
     defaultMainSavedState = ServerGroupsMainScreenSaveState(selectedFilter = ServerFilterType.All),
 ) {
     override fun mainScreenState(
-        savedState: ServerGroupsMainScreenSaveState,
+        savedStateFlow: Flow<ServerGroupsMainScreenSaveState>,
         userTier: Int?,
         locale: Locale,
         currentConnection: ActiveConnection?,
     ): Flow<ServerGroupsMainScreenState> =
-        dataAdapter.countries(savedState.selectedFilter).map { countries ->
-            val filterType = savedState.selectedFilter
-            val isFreeUser = userTier != null && userTier == VpnUser.FREE_TIER
+        savedStateFlow.flatMapLatest { savedState ->
+            dataAdapter.countries(savedState.selectedFilter).map { countries ->
+                val filterType = savedState.selectedFilter
+                val isFreeUser = userTier != null && userTier == VpnUser.FREE_TIER
 
-            val connectableItems = buildList {
-                if (!isFreeUser && countries.size > 1)
-                    add(fastestCountryItem(filterType))
-                addAll(countries.sortedForUi(locale))
-            }.map {
-                it.toState(userTier, filterType, currentConnection)
+                val connectableItems = buildList {
+                    if (!isFreeUser && countries.size > 1)
+                        add(fastestCountryItem(filterType))
+                    addAll(countries.sortedForUi(locale))
+                }.map {
+                    it.toState(userTier, filterType, currentConnection)
+                }
+
+                val uiItems = buildList {
+                    add(ServerGroupUiItem.Header(filterType.headerLabel(isFreeUser), countries.size, filterType.info))
+                    if (isFreeUser)
+                        add(ServerGroupUiItem.Banner(filterType.bannerType))
+                    addAll(connectableItems)
+                }
+
+                ServerGroupsMainScreenState(
+                    selectedFilter = savedState.selectedFilter,
+                    filterButtons = getFilterButtons(
+                        dataAdapter.availableTypesFor(country = null),
+                        savedState.selectedFilter,
+                        allLabel = R.string.country_filter_all,
+                    ) {
+                        mainSaveState = ServerGroupsMainScreenSaveState(selectedFilter = it)
+                    },
+                    items = uiItems
+                )
             }
-
-            val uiItems = buildList {
-                add(ServerGroupUiItem.Header(filterType.headerLabel(isFreeUser), countries.size, filterType.info))
-                if (isFreeUser)
-                    add(ServerGroupUiItem.Banner(filterType.bannerType))
-                addAll(connectableItems)
-            }
-
-            ServerGroupsMainScreenState(
-                selectedFilter = savedState.selectedFilter,
-                filterButtons = getFilterButtons(
-                    dataAdapter.availableTypesFor(country = null),
-                    savedState.selectedFilter,
-                    allLabel = R.string.country_filter_all,
-                ) {
-                    mainSaveState = ServerGroupsMainScreenSaveState(selectedFilter = it)
-                },
-                items = uiItems
-            )
         }
 }
