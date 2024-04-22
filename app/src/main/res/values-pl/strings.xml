@@ -463,7 +463,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
+    <string name="upsell_card_countries_description">%1$d+ serwerów w %2$s</string>
     <string name="upsell_card_customization_title">i wiele więcej…</string>
     <string name="upsell_card_customization_description">Odblokuj więcej funkcji wydajności i prywatności</string>
     <plurals name="upsell_card_devices_title">

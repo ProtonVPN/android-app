@@ -529,9 +529,9 @@
     <string name="dynamic_report_your_issue_headline">您遇到甚麼問題</string>
     <string name="update_screen_title">更新 Proton VPN</string>
     <string name="update_screen_description">您的問題可能是因為使用舊版的 Proton VPN。</string>
-    <string name="dialog_create_account_title">Create an account to continue</string>
-    <string name="dialog_create_account_action_create">Create account</string>
-    <string name="dialog_create_account_action_signin">Sign in</string>
+    <string name="dialog_create_account_title">建立一個帳號以繼續</string>
+    <string name="dialog_create_account_action_create">建立帳號</string>
+    <string name="dialog_create_account_action_signin">登入</string>
     <string name="server_search_menu_title">搜尋</string>
     <string name="server_search_hint">國家 (地區)、城市、伺服器</string>
     <string name="server_search_hint_secure_core">國家</string>
@@ -1046,7 +1046,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">讀取：%1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1125,12 +1125,12 @@
     <string name="connection_details_vpn_speed_question">甚麼是 VPN 速度?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
+    <string name="info_dialog_secure_core_description">Secure Core 通過第二個最高安全性的 VPN 伺服器將您連接到目標伺服器。\n\n這種更高級別的保護可能會導致較高的延遲和較慢的速度。</string>
     <string name="info_secure_core_standard_header">標準VPN 連線</string>
     <string name="info_secure_core_secure_header">Secure CoreVPN 連線</string>
-    <string name="info_dialog_tor_description">Connect to a Tor server to access hidden services and onion sites using any browser.</string>
+    <string name="info_dialog_tor_description">連線到 Tor 伺服器，使用任何瀏覽器訪問隱藏服務和隱蔽網站。</string>
     <string name="info_dialog_button_learn_more_tor">如何使用 Tor 網路</string>
-    <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
+    <string name="info_dialog_button_learn_more_p2p">如何使用 P2P 下載種子</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1147,41 +1147,41 @@
     <string name="speed_gigabytes_per_second">%1$s Gb/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
-    <string name="bytes_per_second">B/s</string>
-    <string name="kilobytes_per_second">KB/s</string>
-    <string name="megabytes_per_second">MB/s</string>
-    <string name="gigabytes_per_second">GB/s</string>
-    <string name="terabytes_per_second">TB/s</string>
+    <string name="speed_graph_title">速度 %1$s</string>
+    <string name="bytes_per_second">位元組/秒</string>
+    <string name="kilobytes_per_second">KB/秒</string>
+    <string name="megabytes_per_second">MB/秒</string>
+    <string name="gigabytes_per_second">GB/秒</string>
+    <string name="terabytes_per_second">TB/秒</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="other">%1$s Bytes per second</item>
+        <item quantity="other">每秒 %1$s 位元組</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="other">%1$s Kilobytes per second</item>
+        <item quantity="other">每秒 %1$s Kb</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="other">每秒 %1$s MB</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="other">每秒 %1$s GB</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="other">每秒 %1$s TB</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="other">%1$s Bytes</item>
+        <item quantity="other">%1$s 位元組</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="other">%1$s Kilobytes</item>
+        <item quantity="other">%1$s KB</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="other">%1$s Megabytes</item>
+        <item quantity="other">%1$s MB</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="other">%1$s Gigabytes</item>
+        <item quantity="other">%1$s GB</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="other">%1$s TB</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s位元組</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
@@ -1211,10 +1211,10 @@
     <string name="settings_account_settings_title">帳號設定</string>
     <string name="settings_account_change_password">變更密碼</string>
     <string name="settings_account_recovery_email">復原用電郵位址</string>
-    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <string name="settings_account_recovery_email_not_set">未設定</string>
     <!-- Label of a button that opens user's account page -->
-    <string name="settings_account_button_my_account">My account</string>
-    <string name="settings_account_button_delete_account">Delete account</string>
+    <string name="settings_account_button_my_account">我的帳號</string>
+    <string name="settings_account_button_delete_account">刪除帳號</string>
     <string name="settings_advanced_alternative_routing_title">替代路由</string>
     <string name="settings_advanced_alternative_routing_description">萬一 Proton 服務受網路限制封鎖，我們將嘗試改用替代網路路由，替您連接至我們的網站。</string>
     <string name="settings_advanced_allow_lan_title">區域網路連線</string>
@@ -1239,14 +1239,14 @@
     <string name="info_secure_core_advanced_privacy">進階隱私</string>
     <string name="info_secure_core_higher_latency">較高延遲</string>
     <string name="info_p2p_what_title">甚麼是P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
-    <string name="info_p2p_torrenting_title">What is torrenting?</string>
-    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
-    <string name="info_p2p_why_title">Why use a P2P server when torrenting?</string>
-    <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
+    <string name="info_p2p_what_description">點對點（P2P）技術允許您直接與其他設備連接並共享文件。\n\n我們的P2P服務器是專門設計用來支持這種類型的文件共享。</string>
+    <string name="info_p2p_torrenting_title">什麼是種子下載？</string>
+    <string name="info_p2p_torrenting_description">通過 P2P（點對點）網絡快速分享和下載大型文件。</string>
+    <string name="info_p2p_why_title">為什麼在種子下載時使用 P2P 伺服器？</string>
+    <string name="info_p2p_why_description_speed">增加上下載時的速度</string>
     <string name="info_p2p_why_description_logs">無活動日誌</string>
-    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="info_p2p_why_description_hide">向您的網絡服務供應商和其他下載者藏您的 IP 位址</string>
+    <string name="info_dialog_smart_routing_description">Smart Routing 透過虛擬伺服器，在難以到達的國家/地區提供 VPN 連線。\n\n當你連上Smart Routing 伺服器時，即便伺服器實際上位於其他地方，你瀏覽網站時看起來也會像是在你想連線的國家。\n\nSmart Routing 經常被用來繞過反隱私法和其他形式的網路審查。</string>
     <string name="countries_upsell_banner_description">使用 VPN Plus 來獲得全球的覆蓋</string>
     <string name="secure_core_upsell_banner_description">為您的 VPN 連線加入另一層加密</string>
     <string name="p2p_upsell_banner_description">透過 BitTorrent 及其他檔案共享通訊協定下載檔案</string>

@@ -563,7 +563,7 @@
     <string name="update_screen_description">Verjetneje boste imeli težave na starejših različicah Proton VPN.</string>
     <string name="dialog_create_account_title">Create an account to continue</string>
     <string name="dialog_create_account_action_create">Create account</string>
-    <string name="dialog_create_account_action_signin">Sign in</string>
+    <string name="dialog_create_account_action_signin">Prijava</string>
     <string name="server_search_menu_title">Išči</string>
     <string name="server_search_hint">Država, mesto, server</string>
     <string name="server_search_hint_secure_core">Država</string>
@@ -1344,5 +1344,5 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="secure_core_upsell_banner_description">Dodajte še eno plast šifriranja svoji VPN povezavi s Secure Core</string>
     <string name="p2p_upsell_banner_description">​Prenesite datoteke prek BitTorrenta in drugih protokolov za skupno rabo datotek</string>
     <string name="tor_upsell_banner_description">Za dodatno zasebnost uporabite omrežje Tor prek povezave VPN</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">Nadgradite na VPN Plus</string>
 </resources>
