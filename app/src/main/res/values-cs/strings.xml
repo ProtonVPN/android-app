@@ -774,7 +774,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">hledat</string>
+    <string name="accessibility_action_search">vyhledat</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -1089,7 +1089,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Všechny země (%1$d)</string>
-    <string name="country_filter_all_list_header_free">Plus země (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Země Plus (%1$d)</string>
     <string name="country_filter_cities_list_header">Města (%1$d)</string>
     <string name="country_filter_states_list_header">Státy (%1$d)</string>
     <string name="country_filter_servers_list_header">Servery (%1$d)</string>
@@ -1183,8 +1183,8 @@
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">Secure Core vás připojí k cílovému serveru prostřednictvím druhého serveru VPN s maximálním zabezpečením.\n\nTato vyšší úroveň ochrany může způsobit vyšší latenci a nižší rychlosti.</string>
-    <string name="info_secure_core_standard_header">Běžné VPN připojení</string>
-    <string name="info_secure_core_secure_header">Secure Core VPN připojení</string>
+    <string name="info_secure_core_standard_header">Standardní VPN připojení</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN připojení</string>
     <string name="info_dialog_tor_description">Připojte se k serveru Tor a získejte přístup ke skrytým službám a onion webům pomocí libovolného prohlížeče.</string>
     <string name="info_dialog_button_learn_more_tor">Jak získat přístup k síti Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Jak používat torrenty pomocí P2P</string>
@@ -1211,34 +1211,34 @@
     <string name="gigabytes_per_second">GB/s</string>
     <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s bajt za vteřinu</item>
-        <item quantity="few">%1$s bajty za vteřinu</item>
-        <item quantity="many">%1$s bajtů za vteřinu</item>
-        <item quantity="other">%1$s bajtů za vteřinu</item>
+        <item quantity="one">%1$s bajt za sekundu</item>
+        <item quantity="few">%1$s bajty za sekundu</item>
+        <item quantity="many">%1$s bajtů za sekundu</item>
+        <item quantity="other">%1$s bajtů za sekundu</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">%1$s kilobajt za vteřinu</item>
-        <item quantity="few">%1$s kilobajty za vteřinu</item>
-        <item quantity="many">%1$s kilobajtů za vteřinu</item>
-        <item quantity="other">%1$s kilobajtů za vteřinu</item>
+        <item quantity="one">%1$s kilobajt za sekundu</item>
+        <item quantity="few">%1$s kilobajty za sekundu</item>
+        <item quantity="many">%1$s kilobajtů za sekundu</item>
+        <item quantity="other">%1$s kilobajtů za sekundu</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s megabajt za vteřinu</item>
-        <item quantity="few">%1$s megabajty za vteřinu</item>
-        <item quantity="many">%1$s megabajtů za vteřinu</item>
-        <item quantity="other">%1$s megabajtů za vteřinu</item>
+        <item quantity="one">%1$s megabajt za sekundu</item>
+        <item quantity="few">%1$s megabajty za sekundu</item>
+        <item quantity="many">%1$s megabajtů za sekundu</item>
+        <item quantity="other">%1$s megabajtů za sekundu</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s gigabajt za vteřinu</item>
-        <item quantity="few">%1$s gigabajty za vteřinu</item>
-        <item quantity="many">%1$s gigabajtů za vteřinu</item>
-        <item quantity="other">%1$s gigabajtů za vteřinu</item>
+        <item quantity="one">%1$s gigabajt za sekundu</item>
+        <item quantity="few">%1$s gigabajty za sekundu</item>
+        <item quantity="many">%1$s gigabajtů za sekundu</item>
+        <item quantity="other">%1$s gigabajtů za sekundu</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s terabajt za vteřinu</item>
-        <item quantity="few">%1$s terabajty za vteřinu</item>
-        <item quantity="many">%1$s terabajtů za vteřinu</item>
-        <item quantity="other">%1$s terabajtů za vteřinu</item>
+        <item quantity="one">%1$s terabajt za sekundu</item>
+        <item quantity="few">%1$s terabajty za sekundu</item>
+        <item quantity="many">%1$s terabajtů za sekundu</item>
+        <item quantity="other">%1$s terabajtů za sekundu</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
         <item quantity="one">%1$s bajt</item>
@@ -1324,17 +1324,17 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Žádné</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s a %3$d další</string>
     <string name="settings_dialog_reconnect">Nové nastavení se projeví při příštím připojení.</string>
-    <string name="info_secure_core_standard_high_privacy">Vysoké soukromí</string>
-    <string name="info_secure_core_standard_lower_latency">Nižší prodleva</string>
+    <string name="info_secure_core_standard_high_privacy">Vysoký stupeň soukromí</string>
+    <string name="info_secure_core_standard_lower_latency">Nižší latence</string>
     <string name="info_secure_core_advanced_privacy">Pokročilé soukromí</string>
-    <string name="info_secure_core_higher_latency">Vyšší prodleva</string>
+    <string name="info_secure_core_higher_latency">Vyšší latence</string>
     <string name="info_p2p_what_title">Co je P2P?</string>
     <string name="info_p2p_what_description">Peer-to-peer (P2P) technologie umožňuje připojit k jiným zařízením napřímo a sdílet s nimi soubory.\n\nNaše P2P servery jsou uzpůsobeny, aby tento druh sdílení dat podporovaly.</string>
     <string name="info_p2p_torrenting_title">Co jsou torrenty?</string>
     <string name="info_p2p_torrenting_description">Rychlé sdílení a stahování velkých souborů přes P2P sítě.</string>
     <string name="info_p2p_why_title">Proč používat P2P server při používání torrentů?</string>
     <string name="info_p2p_why_description_speed">Zvýšená rychlost nahrávání a stahování</string>
-    <string name="info_p2p_why_description_logs">Žádný záznamy o aktivitě</string>
+    <string name="info_p2p_why_description_logs">Žádné logy aktivity</string>
     <string name="info_p2p_why_description_hide">Skryjte svoji IP adresu přes poskytovatelem internetu a ostatními</string>
     <string name="info_dialog_smart_routing_description">Smart Routing využívá virtuální servery k poskytování VPN v těžko dostupných zemích.\n\nKdyž se připojíte k serveru Smart Routing, bude se zdát, že prohlížíte ve své cílové zemi, i když je fyzický server umístěn jinde.\n\nSmart Routing se obvykle používá k obcházení zákonů potlačujících ochranu soukromí a jiných forem cenzury.</string>
     <string name="countries_upsell_banner_description">Získejte celosvětové pokrytí díky VPN Plus</string>

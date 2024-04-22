@@ -1185,7 +1185,7 @@
         <item quantity="other">%1$s Megabytes pro Sekunde</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s Gigabyte per second</item>
+        <item quantity="one">%1$s Gigabyte pro Sekunde</item>
         <item quantity="other">%1$s Gigabytes pro Sekunde</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">

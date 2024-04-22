@@ -1275,7 +1275,7 @@
     <string name="info_p2p_why_title">Varför använda en P2P-server vid torrenting?</string>
     <string name="info_p2p_why_description_speed">Ökad upp- och nedladdningshastighet</string>
     <string name="info_p2p_why_description_logs">Inga aktivitetsloggar</string>
-    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
+    <string name="info_p2p_why_description_hide">Dölj din IP-adress från din internetleverantör och andra användare</string>
     <string name="info_dialog_smart_routing_description">Smart Routing använder virtuella servrar för att tillhandahålla VPN-täckning i svåråtkomliga länder.\n\nNär du ansluter till en Smart Routing-server verkar det som om du surfar i ditt destinationsland, även om den fysiska servern finns någon annanstans.  \n\nSmart Routing används vanligtvis för att komma runt antiintegritetslagar och andra former av censur.</string>
     <string name="countries_upsell_banner_description">Få världsomspännande täckning med VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Lägg till ytterligare ett lager av kryptering till din VPN-anslutning</string>
