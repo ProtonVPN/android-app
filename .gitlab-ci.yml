@@ -385,6 +385,10 @@ include:
     ref: master
     file: '/jobs/sync-crowdin.gitlab-ci.yml'
 
+  - component: gitlab.protontech.ch/proton/devops/cicd-components/devsecops/gitleaks/scan-repository@0.0.12
+    inputs:
+      stage: prepare
+
   - project: 'translations/generator'
     ref: master
     file: '/jobs/commit-locales.gitlab-ci.yml'
