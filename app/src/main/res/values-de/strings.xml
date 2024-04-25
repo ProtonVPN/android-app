@@ -1052,6 +1052,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Alle Länder (%1$d)</string>
     <string name="country_filter_all_list_header_free">Plus-Länder (%1$d)</string>
+    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
     <string name="country_filter_cities_list_header">Städte (%1$d)</string>
     <string name="country_filter_states_list_header">Staaten (%1$d)</string>
     <string name="country_filter_servers_list_header">Server (%1$d)</string>
@@ -1281,5 +1282,12 @@
     <string name="secure_core_upsell_banner_description">Füge deiner VPN-Verbindung eine weitere Verschlüsselungsebene hinzu</string>
     <string name="p2p_upsell_banner_description">Herunterladen von Dateien über BitTorrent und andere Dateifreigabeprotokolle</string>
     <string name="tor_upsell_banner_description">Verwende das Tor-Netzwerk über deine VPN-Verbindung für mehr Privatsphäre</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">Auf VPN Plus upgraden</string>
+    <string name="search_zero_screen_title">Try searching for…</string>
+    <string name="search_zero_screen_info_countries_title">Countries</string>
+    <string name="search_zero_screen_info_cities_title">Cities</string>
+    <string name="search_zero_screen_info_servers_title">Servers</string>
+    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
 </resources>

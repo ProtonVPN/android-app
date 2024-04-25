@@ -1052,6 +1052,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Alle land (%1$d)</string>
     <string name="country_filter_all_list_header_free">Plus-land (%1$d)</string>
+    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
     <string name="country_filter_cities_list_header">Byer (%1$d)</string>
     <string name="country_filter_states_list_header">Stater (%1$d)</string>
     <string name="country_filter_servers_list_header">Tjenere (%1$d)</string>
@@ -1282,4 +1283,11 @@
     <string name="p2p_upsell_banner_description">Last ned filer gjennom BitTorrent og andre fildelingsprotokoller</string>
     <string name="tor_upsell_banner_description">Bruk Tor-nettverket over VPN-tilkoblingen for ekstra personvern</string>
     <string name="vpnplus_upsell_banner_description">Oppgrader til VPN Plus</string>
+    <string name="search_zero_screen_title">Try searching for…</string>
+    <string name="search_zero_screen_info_countries_title">Countries</string>
+    <string name="search_zero_screen_info_cities_title">Cities</string>
+    <string name="search_zero_screen_info_servers_title">Servers</string>
+    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
 </resources>

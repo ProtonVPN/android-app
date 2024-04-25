@@ -404,12 +404,12 @@
     <string name="upgrade_netshield_message"><![CDATA[Blokujte reklamy, sledovací prvky a malware pomocí funkce <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Dvojnásobné šifrování</string>
     <string name="upgrade_secure_core_message"><![CDATA[Přidejte k připojení VPN další vrstvu šifrování pomocí nástroje <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Odemknout peer-to-peer (P2P) stahování a sdílení souborů </string>
+    <string name="upgrade_p2p_title">Odemkněte peer-to-peer (P2P) stahování a sdílení souborů </string>
     <string name="upgrade_p2p_text">Zvyšte rychlost nahrávání a stahování a současně skryjte svoji IP adresu.</string>
     <string name="upgrade_streaming_title">Streamování ve 4K</string>
-    <string name="upgrade_streaming_text">Sledujte oblíbené filmy a seriály z celého světa.</string>
-    <string name="upgrade_tor_title">Připojte se přes Tor jediným kliknutím</string>
-    <string name="upgrade_tor_text">Připojte se k utajeným službám a onion internetovým stránkám prostřednictvím běžného prohlížeče.</string>
+    <string name="upgrade_streaming_text">Sledujte oblíbené filmy a seriály odkdudkoli na světě.</string>
+    <string name="upgrade_tor_title">Získejte přístup k síti Tor jediným klepnutím</string>
+    <string name="upgrade_tor_text">Připojte se ke skrytým službám a onion stránkám pomocí běžného prohlížeče.</string>
     <string name="upgrade_vpn_accelerator_title">Procházejte internet ještě vyšší rychlostí</string>
     <!--
         %1$s - speed in Gbps
@@ -474,7 +474,7 @@
     </plurals>
     <string name="upsell_card_devices_description">Zabezpečení a soukromí na všech vašich zařízeních</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Blokuje reklamy, škodlivý software a sledovače</string>
+    <string name="upsell_card_netshield_description">Blokujte reklamu, malware a sledovací prvky</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Přidejte další úroveň šifrování vašemu VPN připojení</string>
     <string name="upsell_card_p2p_title">Podpora P2P</string>
@@ -484,7 +484,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Surfujte ještě vyšší rychlostí (až %1$d Gb/s)</string>
+    <string name="upsell_card_speed_description">Surfujte ještě vyšší rychlostí (až %1$d Gbit/s)</string>
     <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Surfujte ze dvou různých míst najednou</string>
     <string name="upsell_card_streaming_title">Streamování</string>
@@ -676,7 +676,7 @@
     <string name="not_wanted_country_description">Navyšte tarif pro výběr libovolného serveru</string>
     <string name="whats_new_title">Co je nového</string>
     <string name="whats_new_new_look_title">Nový vzhled, stejná ochrana</string>
-    <string name="whats_new_new_look_description">Aktualizovali jsme design a uspořádaly některé prvky, aby se aplikace snadněji používala.</string>
+    <string name="whats_new_new_look_description">Aktualizovali jsme design a uspořádali některé prvky tak, aby se aplikace snáze používala.</string>
     <string name="whats_new_recents_title">Představujeme Nedávné</string>
     <string name="whats_new_recents_description">Připojení k oblíbeným serverům je nyní ještě snazší. Na domovské obrazovce si můžete zobrazit nedávná připojení nebo si je připnout pro rychlý přístup. Funkce Nedávné nahrazuje funkci Profily.</string>
     <string name="whats_new_dismiss_button">Podívejte se</string>
@@ -1090,6 +1090,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Všechny země (%1$d)</string>
     <string name="country_filter_all_list_header_free">Země Plus (%1$d)</string>
+    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
     <string name="country_filter_cities_list_header">Města (%1$d)</string>
     <string name="country_filter_states_list_header">Státy (%1$d)</string>
     <string name="country_filter_servers_list_header">Servery (%1$d)</string>
@@ -1300,7 +1301,7 @@
     <string name="settings_vpn_accelerator_description">Zvyšte rychlost připojení až o 400%% pomocí technologií zvyšujících výkon. %1$s</string>
     <string name="settings_account_settings_title">Nastavení účtu</string>
     <string name="settings_account_change_password">Změnit heslo</string>
-    <string name="settings_account_recovery_email">Záložní email</string>
+    <string name="settings_account_recovery_email">E-mail pro obnovení</string>
     <string name="settings_account_recovery_email_not_set">Nenastaveno</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Můj účet</string>
@@ -1342,4 +1343,11 @@
     <string name="p2p_upsell_banner_description">Stahujte soubory přes BitTorrent a jiné protokoly ke sdílení souborů</string>
     <string name="tor_upsell_banner_description">Zvyšte svoje soukromí přistupováním k Toru přes VPN</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="search_zero_screen_title">Try searching for…</string>
+    <string name="search_zero_screen_info_countries_title">Countries</string>
+    <string name="search_zero_screen_info_cities_title">Cities</string>
+    <string name="search_zero_screen_info_servers_title">Servers</string>
+    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
 </resources>
