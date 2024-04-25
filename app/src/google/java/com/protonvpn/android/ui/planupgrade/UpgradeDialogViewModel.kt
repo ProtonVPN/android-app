@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.planupgrade
 
 import android.app.Activity
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
@@ -135,14 +136,18 @@ class UpgradeDialogViewModel(
             if (giapPlan != null) {
                 loadedPlan = giapPlan
                 val prices = calculatePriceInfos(loadedPlan.cycles, loadedPlan.dynamicPlan)
-                state.value = State.PurchaseReady(GiapPlanModel(loadedPlan), prices)
-                selectedCycle.value = giapPlan.preselectedCycle
+                if (prices.isEmpty())
+                    state.value = State.LoadError(R.string.error_fetching_prices)
+                else {
+                    state.value = State.PurchaseReady(GiapPlanModel(loadedPlan), prices)
+                    selectedCycle.value = giapPlan.preselectedCycle
+                }
             } else {
                 state.value = State.PlansFallback
             }
         }.runCatchingCheckedExceptions { e ->
             // loadDefaultGiapPlan throws errors.
-            state.value = State.LoadError(e)
+            state.value = State.LoadError(error = e)
         }
     }
 
@@ -180,7 +185,7 @@ class UpgradeDialogViewModel(
             }
         }
     }.catch {
-        state.value = State.LoadError(it)
+        state.value = State.LoadError(error = it)
     }.onEach {
         state.value = it
     }.launchIn(viewModelScope)
@@ -202,6 +207,12 @@ class UpgradeDialogViewModel(
             val currencies = dynamicPlan.instances
                 .flatMap { (_, instance) -> instance.price.map { it.value.currency } }
                 .toSet()
+
+            // Temporary workaround for issue in core returning wrong prices if there was an issue
+            // fetching prices from google billing library.
+            if (currencies.size > 1)
+                return emptyMap()
+
             // The prices coming from Google Play will have a single currency:
             val currency = currencies.first()
 
