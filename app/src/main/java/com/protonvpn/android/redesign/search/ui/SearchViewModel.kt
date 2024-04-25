@@ -36,6 +36,7 @@ import com.protonvpn.android.redesign.countries.ui.ServerGroupsViewModel
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.sortedForUi
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -150,6 +151,19 @@ class SearchViewModel @Inject constructor(
         searchQuery = query
     }
 
-    override fun connectTrigger(item: ServerGroupItemData): ConnectTrigger =
-        ConnectTrigger.Search("Search UI")
+    override fun connectTrigger(item: ServerGroupItemData): ConnectTrigger {
+        val description = "Search UI"
+        return when (item) {
+            is ServerGroupItemData.City -> {
+                if (item.cityStateId.isState) ConnectTrigger.SearchState(description)
+                else ConnectTrigger.SearchCity(description)
+            }
+            is ServerGroupItemData.Country -> ConnectTrigger.SearchCountry(description)
+            is ServerGroupItemData.Server -> ConnectTrigger.SearchServer(description)
+            is ServerGroupItemData.Gateway -> {
+                DebugUtils.fail("No gateways expected in search results")
+                ConnectTrigger.GatewaysGateway(description)
+            }
+        }
+    }
 }

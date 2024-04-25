@@ -113,7 +113,7 @@ class CountryDetailViewModel @Inject constructor(
         connectHelper.connect(
             activity,
             ConnectIntent.FastestInCountry(CountryId(countryCode), emptySet()),
-            ConnectTrigger.Country("country details (TV)")
+            ConnectTrigger.CountriesCountry("country details (TV)")
         )
     }
 

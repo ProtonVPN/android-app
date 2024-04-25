@@ -177,7 +177,7 @@ class SearchViewModel @Inject constructor(
 
     private fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: ConnectIntent) {
         query.value?.let { saveSearchQuery(it) }
-        vpnConnectionManager.connect(vpnUiDelegate, connectIntent, ConnectTrigger.Search("Search UI"))
+        vpnConnectionManager.connect(vpnUiDelegate, connectIntent, ConnectTrigger.SearchServer("Search UI"))
     }
 
     private suspend fun mapState(

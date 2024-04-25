@@ -27,6 +27,8 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
+import com.protonvpn.android.utils.DebugUtils
+import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -96,4 +98,20 @@ class CountriesViewModel @Inject constructor(
                 )
             }
         }
+
+    override fun connectTrigger(item: ServerGroupItemData): ConnectTrigger {
+        val description = "Countries tab"
+        return when (item) {
+            is ServerGroupItemData.City -> {
+                if (item.cityStateId.isState) ConnectTrigger.CountriesState(description)
+                else ConnectTrigger.CountriesCity(description)
+            }
+            is ServerGroupItemData.Country -> ConnectTrigger.CountriesCountry(description)
+            is ServerGroupItemData.Server -> ConnectTrigger.CountriesServer(description)
+            is ServerGroupItemData.Gateway -> {
+                DebugUtils.fail("No gateways expected in country list")
+                ConnectTrigger.GatewaysGateway(description)
+            }
+        }
+    }
 }

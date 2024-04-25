@@ -385,17 +385,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
         }
     }
 
-    open fun connectTrigger(item: ServerGroupItemData): ConnectTrigger {
-        val description = "Country List"
-        return when (item) {
-            //TODO: dedicated triggers for cities and gateways?
-            is ServerGroupItemData.City,
-            is ServerGroupItemData.Gateway,
-            is ServerGroupItemData.Country -> ConnectTrigger.Country(description)
-
-            is ServerGroupItemData.Server -> ConnectTrigger.Server(description)
-        }
-    }
+    abstract fun connectTrigger(item: ServerGroupItemData): ConnectTrigger
 
     suspend fun onNavigateBack(onHide: suspend () -> Unit) {
         subScreenSaveState?.let { current ->
