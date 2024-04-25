@@ -49,6 +49,8 @@ class SearchUtilTests {
             TextMatch(5, 2, "_abc-abc"),
             match("ab", "_abc-abc", matchOnlyWordPrefixes = true, additionalSeparators = charArrayOf('-'))
         )
+        // Allow matches for terms starting with separator
+        assertEquals(TextMatch(2, 3, "PL#30"), match("#30", "PL#30", matchOnlyWordPrefixes = true))
     }
 
     @Test
