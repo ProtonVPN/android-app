@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
@@ -103,21 +104,26 @@ fun InfoSheet(
 ) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val currentInfo = infoSheetState.currentType
+
+    // We should use Modifier.navigationBarsPadding() instead but it doesn't work correctly for
+    // API < 29 until https://issuetracker.google.com/issues/290893168 is addressed.
+    val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     if (currentInfo != null) {
         ModalBottomSheet(
             sheetState = bottomSheetState,
             content = {
-                InfoSheetContent(currentInfo, onOpenUrl)
+                InfoSheetContent(currentInfo, onOpenUrl, Modifier.padding(bottom = bottomPadding))
             },
-            windowInsets = WindowInsets.navigationBars,
+            windowInsets = WindowInsets(0, 0, 0 ,0), // Draw under navigation bar to cover bottom sheet below
             onDismissRequest = { infoSheetState.dismiss() }
         )
     }
 }
 
 @Composable
-private fun InfoSheetContent(info: InfoType, onOpenUrl: (url: String) -> Unit) {
+private fun InfoSheetContent(info: InfoType, onOpenUrl: (url: String) -> Unit, modifier: Modifier = Modifier) {
     GenericLearnMore(
+        modifier = modifier,
         title = stringResource(id = info.title),
         details = info.details?.let { stringResource(id = it) },
         imageRes = info.imageRes,
@@ -423,13 +429,14 @@ private fun ServerLoadLegendItem(
 private fun GenericLearnMore(
     title: String,
     details: String?,
+    modifier: Modifier = Modifier,
     @StringRes learnMoreLabelRes: Int = R.string.connection_details_learn_more,
     @DrawableRes imageRes: Int? = null,
     subDetailsComposable: (@Composable () -> Unit)? = null,
     onLearnMoreClick: () -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
         Text(
             text = title,
