@@ -75,8 +75,10 @@ class PaymentPanelFragment : Fragment() {
                             state.inProgress
                         )
                 }
-                is CommonUpgradeDialogViewModel.State.LoadError ->
-                    onError(state.error.getUserMessage(resources), state.error)
+                is CommonUpgradeDialogViewModel.State.LoadError -> {
+                    val message = state.messageRes?.let { resources.getString(it) }
+                    onError(message ?: state.error?.getUserMessage(resources), state.error)
+                }
                 is CommonUpgradeDialogViewModel.State.PlansFallback ->
                     currentViewState.value = ViewState.FallbackFlowReady
                 CommonUpgradeDialogViewModel.State.Initializing -> {

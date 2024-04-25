@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.planupgrade
 
 import androidx.activity.ComponentActivity
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -62,7 +63,10 @@ abstract class CommonUpgradeDialogViewModel(
         object Initializing : State()
         object UpgradeDisabled : State()
         object LoadingPlans : State()
-        class LoadError(val error: Throwable) : State()
+        class LoadError(
+            @StringRes val messageRes: Int? = null,
+            val error: Throwable? = null
+        ) : State()
         data class PurchaseReady(
             val plan: PlanModel,
             val priceInfo: Map<PlanCycle, PriceInfo>,

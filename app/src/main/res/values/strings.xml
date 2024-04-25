@@ -1341,4 +1341,5 @@
     <string name="p2p_upsell_banner_description">Download files through BitTorrent and other file sharing protocols</string>
     <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="error_fetching_prices">Error fetching prices.</string>
 </resources>
