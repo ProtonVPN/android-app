@@ -91,6 +91,18 @@ mobile tests mocked api:
 #   UI coverage disabled for now due to API 23 devices crashing if running with coverage
 #    COVERAGE_FOLDER: "mobile_mocked_api"
 
+mobile tests real connection:
+  extends: .tests_preparation_script
+  variables:
+    TESTS_TYPE: smokeTest
+    NUM_SHARDS: 1
+    APP_LOCATION: "app/build/outputs/apk/productionGooglePlayStore/debug/"
+    APP_TYPE: "production-google-playStore-debug.apk"
+    TEST_APP_LOCATION: "app/build/outputs/apk/androidTest/productionGooglePlayStore/debug/"
+    TEST_APP_TYPE: "production-google-playStore-debug-androidTest.apk"
+    TEST_SUITE: "com.protonvpn.testSuites.RealConnectionTestSuite"
+    TIMEOUT: $TIMEOUT_GENERAL_TESTS
+
 mobile tests test-env:
   extends: .tests_preparation_script
   variables:

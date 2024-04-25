@@ -10,5 +10,6 @@ object ConnectionPanelRobot : Robot {
     fun goBack(): ConnectionPanelRobot = backButton.clickTo(this)
 
     fun correctIpIsDisplayed(ip: String) = nodeWithTextDisplayed(ip)
-    fun correctProtocolIsDisplayed(protocol: Int) = nodeWithTextDisplayed(protocol)
+    fun correctProtocolIsDisplayed(protocol: Int) =
+        node.withText(protocol).scrollTo().await { assertIsDisplayed() }
 }
