@@ -135,6 +135,7 @@ def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccou
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 def supportedLocales = ['b+es+419', 'be', 'cs', 'de', 'el', 'en', 'es-rES', 'es-rMX', 'fa', 'fi', 'fr', 'hr', 'in', 'it', 'ja', 'ka', 'ko', 'nb-rNO', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'sk', 'sl', 'sv-rSE', 'tr', 'uk', 'zh-rTW']
 def redesignTestBuild = project.hasProperty('redesignTestBuild') ? project.redesignTestBuild.toBoolean() : false
+def allowLogcat = System.getenv("ALLOW_LOGCAT") ? System.getenv("ALLOW_LOGCAT").toBoolean() : false
 def helpers = new Helpers(rootDir)
 
 android {
@@ -187,6 +188,7 @@ android {
         buildConfigField "String", "TEST_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_asset_override_key", "241b080fb0f1216e")}\""
         buildConfigField "String", "TEST_SUITE_ASSET_OVERRIDE_KEY", "\"${helpers.readFileOrDefault("test_suite_asset_override_key", "3ea60f6a2fbfc015")}\""
         buildConfigField "Boolean", "ALT_ROUTING_CERT_FOR_MAIN_ROUTE", "false"
+        buildConfigField "Boolean", "ALLOW_LOGCAT", "false"
         buildConfigField "String[]", "API_TLS_PINS", "null"
         buildConfigField "String[]", "API_ALT_TLS_PINS", "null"
         buildConfigField "String[]", "DOH_SERVICES_URLS", "null"
@@ -270,7 +272,7 @@ android {
                 buildConfigField "String", "VPN_SERVER_ROOT_CERT", "\"${StringEscapeUtils.escapeJava(vpnServerRootCert)}\""
             }
         }
-
+        def additionalProguard =  "proguard-rules-logcat.pro"
         vanilla {
             dimension "functionality"
         }
@@ -283,25 +285,30 @@ android {
             dimension "distribution"
             getIsDefault().set(true)
             buildConfigField "String", "STORE_SUFFIX", "\"+play\""
+            proguardFile additionalProguard
         }
 
         amazon {
             dimension "distribution"
             buildConfigField "String", "STORE_SUFFIX", "\"+aws\""
+            proguardFile additionalProguard
         }
         direct {
             dimension "distribution"
             buildConfigField "String", "STORE_SUFFIX", "\"+apk\""
+            proguardFile additionalProguard
         }
         openSource {
             dimension "distribution"
             buildConfigField "String", "STORE_SUFFIX", "\"+os\""
+            proguardFile additionalProguard
         }
         dev {
             dimension "distribution"
             applicationIdSuffix '.dev'
             versionNameSuffix '-dev'
             buildConfigField "String", "STORE_SUFFIX", "\"\""
+            buildConfigField "Boolean", "ALLOW_LOGCAT", "true"
         }
     }
     variantFilter { variant ->

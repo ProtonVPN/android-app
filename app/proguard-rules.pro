@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in C:\Users\Algirdas\AppData\Local\Android\sdk/tools/proguard/proguard-android.txt
+# in sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
 #
@@ -28,16 +28,6 @@
 -verbose
 -keepattributes SourceFile,LineNumberTable,Exceptions,InnerClasses,Signature,Deprecated,*Annotation*,EnclosingMethod
 
-# disable logcat logs in release builds
--assumenosideeffects class android.util.Log {
-    v(...);
-    d(...);
-    i(...);
-    w(...);
-    e(...);
-    wtf(...);
-    println(...);
-}
 
 # Keep kotlinx serializable classes.
 -keep @kotlinx.serialization.Serializable public class * {

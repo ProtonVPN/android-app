@@ -27,7 +27,6 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import dagger.Reusable
-import io.sentry.Sentry
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
@@ -179,7 +178,7 @@ class Telemetry(
     }
 
     private fun logd(message: String) {
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG || BuildConfig.ALLOW_LOGCAT) {
             ProtonLogger.logCustom(LogLevel.DEBUG, LogCategory.TELEMETRY, message)
         }
     }
