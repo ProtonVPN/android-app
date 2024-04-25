@@ -163,7 +163,8 @@ class TvServerListViewModel @Inject constructor(
             ServerActionState.DISCONNECTED -> {
                 val connectIntent = ConnectIntent.Server(server.serverId, emptySet())
                 ProtonLogger.log(UiConnect, "server tile (TV)")
-                vpnConnectionManager.connect(vpnUiDelegate, connectIntent, ConnectTrigger.Server("user via server tile (TV)"))
+                val trigger = ConnectTrigger.CountriesServer("user via server tile (TV)")
+                vpnConnectionManager.connect(vpnUiDelegate, connectIntent, trigger)
             }
             ServerActionState.CONNECTING, ServerActionState.CONNECTED -> {
                 ProtonLogger.log(UiDisconnect, "server tile (TV)")

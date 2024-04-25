@@ -367,8 +367,8 @@ class CountryListViewModel @Inject constructor(
             }
             ProtonLogger.log(UiConnect, triggerDescription)
             val trigger = when {
-                connectIntent is ConnectIntent.Server -> ConnectTrigger.Server(triggerDescription)
-                else -> ConnectTrigger.Country(triggerDescription)
+                connectIntent is ConnectIntent.Server -> ConnectTrigger.CountriesServer(triggerDescription)
+                else -> ConnectTrigger.CountriesCountry(triggerDescription)
             }
             vpnConnectionManager.connect(vpnUiDelegate, connectIntent, trigger)
         } else {

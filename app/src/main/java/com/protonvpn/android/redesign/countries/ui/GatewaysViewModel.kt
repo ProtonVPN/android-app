@@ -23,6 +23,8 @@ import androidx.lifecycle.SavedStateHandle
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
+import com.protonvpn.android.utils.DebugUtils
+import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,4 +68,17 @@ class GatewaysViewModel @Inject constructor(
                 }
             )
         }
+
+    override fun connectTrigger(item: ServerGroupItemData): ConnectTrigger {
+        val description = "Gateways tab"
+        return when (item) {
+            is ServerGroupItemData.Gateway -> ConnectTrigger.GatewaysGateway(description)
+            is ServerGroupItemData.Server -> ConnectTrigger.GatewaysServer(description)
+            is ServerGroupItemData.City,
+            is ServerGroupItemData.Country -> {
+                DebugUtils.fail("Only gateways expected in gateways list")
+                ConnectTrigger.GatewaysGateway(description)
+            }
+        }
+    }
 }

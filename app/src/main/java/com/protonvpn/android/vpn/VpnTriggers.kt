@@ -21,7 +21,25 @@ package com.protonvpn.android.vpn
 
 // This set of values is provided by the data team.
 private enum class ConnectStatsKeyword {
-    CONNECTION_CARD, CHANGE_SERVER, QUICK, COUNTRY, SERVER, PROFILE, MAP, TRAY, AUTO, RECENT, PIN
+    CONNECTION_CARD,
+    CHANGE_SERVER,
+    QUICK,
+    COUNTRIES_COUNTRY,
+    COUNTRIES_STATE,
+    COUNTRIES_CITY,
+    COUNTRIES_SERVER,
+    GATEWAYS_GATEWAY,
+    GATEWAYS_SERVER,
+    SEARCH_COUNTRY,
+    SEARCH_STATE,
+    SEARCH_CITY,
+    SEARCH_SERVER,
+    PROFILE,
+    MAP,
+    TRAY,
+    AUTO,
+    RECENT,
+    PIN
 }
 
 private enum class DisconnectStatsKeyword {
@@ -35,9 +53,16 @@ sealed class ConnectTrigger(statsKeyword: ConnectStatsKeyword, val description: 
     object RecentRegular : ConnectTrigger(ConnectStatsKeyword.RECENT, "recent")
     object RecentPinned : ConnectTrigger(ConnectStatsKeyword.PIN, "pinned recent")
     class Onboarding(description: String) : ConnectTrigger(ConnectStatsKeyword.QUICK, description)
-    class Country(description: String) : ConnectTrigger(ConnectStatsKeyword.COUNTRY, description)
-    class Server(description: String) : ConnectTrigger(ConnectStatsKeyword.SERVER, description)
-    class Search(description: String) : ConnectTrigger(ConnectStatsKeyword.SERVER, description)
+    class CountriesCountry(description: String) : ConnectTrigger(ConnectStatsKeyword.COUNTRIES_COUNTRY, description)
+    class CountriesState(description: String) : ConnectTrigger(ConnectStatsKeyword.COUNTRIES_STATE, description)
+    class CountriesCity(description: String) : ConnectTrigger(ConnectStatsKeyword.COUNTRIES_CITY, description)
+    class CountriesServer(description: String) : ConnectTrigger(ConnectStatsKeyword.COUNTRIES_SERVER, description)
+    class GatewaysGateway(description: String) : ConnectTrigger(ConnectStatsKeyword.GATEWAYS_GATEWAY, description)
+    class GatewaysServer(description: String) : ConnectTrigger(ConnectStatsKeyword.GATEWAYS_SERVER, description)
+    class SearchCountry(description: String) : ConnectTrigger(ConnectStatsKeyword.SEARCH_COUNTRY, description)
+    class SearchState(description: String) : ConnectTrigger(ConnectStatsKeyword.SEARCH_STATE, description)
+    class SearchCity(description: String) : ConnectTrigger(ConnectStatsKeyword.SEARCH_CITY, description)
+    class SearchServer(description: String) : ConnectTrigger(ConnectStatsKeyword.SEARCH_SERVER, description)
     object QuickTile : ConnectTrigger(ConnectStatsKeyword.TRAY, "quick tile")
     class Notification(description: String) : ConnectTrigger(ConnectStatsKeyword.TRAY, description)
     class Auto(description: String) : ConnectTrigger(ConnectStatsKeyword.AUTO, description)
