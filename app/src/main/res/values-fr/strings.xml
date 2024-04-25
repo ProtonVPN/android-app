@@ -1052,6 +1052,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Tous les pays (%1$d)</string>
     <string name="country_filter_all_list_header_free">Pays Plus (%1$d)</string>
+    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
     <string name="country_filter_cities_list_header">Villes (%1$d)</string>
     <string name="country_filter_states_list_header">États (%1$d)</string>
     <string name="country_filter_servers_list_header">Serveurs (%1$d)</string>
@@ -1282,4 +1283,11 @@
     <string name="p2p_upsell_banner_description">Téléchargez des fichiers depuis BitTorrent ou d\'autres protocoles de partage de fichier.</string>
     <string name="tor_upsell_banner_description">Ajoutez le réseau Tor sur votre connexion VPN pour plus de protection de votre vie privée</string>
     <string name="vpnplus_upsell_banner_description">Passez à l\'abonnement VPN Plus</string>
+    <string name="search_zero_screen_title">Try searching for…</string>
+    <string name="search_zero_screen_info_countries_title">Countries</string>
+    <string name="search_zero_screen_info_cities_title">Cities</string>
+    <string name="search_zero_screen_info_servers_title">Servers</string>
+    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
 </resources>
