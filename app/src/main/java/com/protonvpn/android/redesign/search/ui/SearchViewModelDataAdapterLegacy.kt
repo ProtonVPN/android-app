@@ -210,7 +210,10 @@ fun match(
     val idx = normalizedText.indexOf(term, ignoreCase = ignoreCase)
     return when {
         idx < 0 -> null
-        !matchOnlyWordPrefixes || idx == 0 || normalizedText[idx - 1].isSeparator() -> TextMatch(idx, term.length, text)
+        !matchOnlyWordPrefixes
+            || idx == 0
+            || normalizedText[idx - 1].isSeparator()
+            || normalizedText[idx].isSeparator() -> TextMatch(idx, term.length, text)
         else -> {
             var idxAcc = 0
             val matched = normalizedText.splitToSequence(*additionalSeparators).any { word ->
