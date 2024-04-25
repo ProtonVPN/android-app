@@ -238,6 +238,25 @@ build google play release:
     - app/build/outputs/apk
     - release_tests/build/outputs/apk
 
+build google play dev (monitoring release):
+  stage: build
+  when: manual
+  tags:
+    - xlarge-k8s
+  script:
+    - ./gradlew openvpn:assembleRelease
+    - ./gradlew assembleProductionGoogleDevRelease
+    - ./gradlew :release_tests:assembleRelease
+  except:
+    - schedules
+  interruptible: false
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - app/build/outputs/apk
+      - release_tests/build/outputs/apk
+
+
 .build amazon release:
   stage: build
   tags:

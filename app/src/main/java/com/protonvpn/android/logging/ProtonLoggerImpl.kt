@@ -119,7 +119,7 @@ open class ProtonLoggerImpl(
     override fun clearUploadTempFiles(files: List<FileLogWriter.LogFile>) = fileLogWriter.clearUploadTempFiles(files)
     override suspend fun getLogFileForSharing(): File? = fileLogWriter.getLogFileForSharing()
 
-    private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG
+    private fun shouldLog(level: LogLevel): Boolean = BuildConfig.DEBUG || level > LogLevel.DEBUG || BuildConfig.ALLOW_LOGCAT
 
     private fun replaceDateForDisplay(logLine: String): String {
         val firstSeparatorIndex = logLine.indexOf(' ')

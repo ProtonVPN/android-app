@@ -211,7 +211,7 @@ public class ProtonApplication extends Application {
             // dependencies are not available in tests this early.
             secondaryWriters.add(new GlobalSentryLogWriter(this));
         }
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG || BuildConfig.ALLOW_LOGCAT) {
             secondaryWriters.add(new LogcatLogWriter());
         }
 

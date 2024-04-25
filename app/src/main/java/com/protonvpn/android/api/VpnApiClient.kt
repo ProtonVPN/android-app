@@ -43,7 +43,7 @@ class VpnApiClient @Inject constructor(
     private val clientId get() = if (isTv()) Constants.TV_CLIENT_ID else Constants.MOBILE_CLIENT_ID
     override val appVersionHeader get() =
         "${clientId}@" + BuildConfig.VERSION_NAME + BuildConfig.STORE_SUFFIX
-    override val enableDebugLogging = BuildConfig.DEBUG
+    override val enableDebugLogging = BuildConfig.DEBUG || BuildConfig.ALLOW_LOGCAT
     override val shouldUseDoh get() = dohEnabled()
 
     override val userAgent: String =
