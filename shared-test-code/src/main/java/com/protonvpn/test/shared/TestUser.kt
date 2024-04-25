@@ -57,6 +57,8 @@ class TestUser private constructor(
             get() = TestUser("Testas2", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas2", "vpnbasic", "vpnbasic", 1, 2)
         @JvmStatic val plusUser: TestUser
             get() = getPlusPlanUser()
+        val anyPaidUser: TestUser
+            get() = TestUser(getRandomUsername(), BuildConfig.TEST_ACCOUNT_PASSWORD, "test", "vpnplus", "vpnplus", 2, 5)
 
         val sameIdFreeUser: TestUser
             get() = TestUser("Testas", "a", "rand", "free", "free", 0, 1)
@@ -90,6 +92,11 @@ class TestUser private constructor(
                 TestUser("vpnfree", "12341234", "test", "free", "free", 0, 1)
             else
                 TestUser("Testas1", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas", "free", "free", 0, 1)
+        }
+
+        fun getRandomUsername(): String {
+            val usernames = listOf("testas2", "testas3", "testas4")
+            return usernames.random()
         }
 
         private fun getPlusPlanUser(): TestUser {
