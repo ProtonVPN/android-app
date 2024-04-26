@@ -149,7 +149,7 @@ robo tests:
       --device model=Nexus6,version=24,locale=en,orientation=portrait
       --timeout $TIMEOUT
       --robo-script=gs://protonvpn-testing-scripts/ProtonVPN_Login_Robo_Script.json
-      --robo-directives ignore:R.id.drawerButtonLogout=
+      --robo-directives ignore:R.string.settings_sign_out=,ignore:R.string.settings_third_party_licenses=
   variables:
     TIMEOUT: $TIMEOUT_ROBO_TESTS
     APP_LOCATION: "app/build/outputs/bundle/productionGooglePlayStoreRelease/"
