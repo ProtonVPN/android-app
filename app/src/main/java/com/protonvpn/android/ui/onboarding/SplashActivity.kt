@@ -72,9 +72,9 @@ class SplashActivity : AppCompatActivity() {
         overridePendingTransition(0, 0) // Disable exit animation.
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        intent?.let { handleDeeplinkIntent(it) }
+        handleDeeplinkIntent(intent)
     }
 
     private fun processDeepLink() {
