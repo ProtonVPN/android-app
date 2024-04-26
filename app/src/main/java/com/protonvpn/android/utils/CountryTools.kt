@@ -23,6 +23,7 @@ import android.graphics.RectF
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
 import com.protonvpn.android.R
@@ -30,7 +31,8 @@ import java.util.Locale
 
 object CountryTools {
 
-    private val supportedLanguages by lazy {
+    @VisibleForTesting
+    val supportedLanguages by lazy {
         BuildConfig.SUPPORTED_LOCALES.map {
             // Get the language for comparisons via a Locale object, see:
             // https://developer.android.com/reference/java/util/Locale#getLanguage()

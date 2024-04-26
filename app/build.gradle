@@ -529,9 +529,11 @@ task prepareGuestHoleServers {
     }
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     testLogging {
-        events "passed", "skipped", "failed"
+        events "skipped", "failed"
+        exceptionFormat "full"
+        showExceptions true
     }
 }
 
