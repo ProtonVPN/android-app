@@ -119,12 +119,12 @@ tv tests:
 release tests:
   extends: .tests_preparation_script
   dependencies:
-    - build google play release
+    - build google play dev (monitoring release)
     - build google debug # For ARCHIVES_BASE_NAME
   variables:
     TESTS_TYPE: smokeTest
-    APP_LOCATION: "app/build/outputs/apk/productionGooglePlayStore/release/"
-    APP_TYPE: "production-google-playStore-release.apk"
+    APP_LOCATION: "app/build/outputs/apk/productionGoogleDev/release/"
+    APP_TYPE: "production-google-dev-release.apk"
     TEST_APP_LOCATION: "release_tests/build/outputs/apk/release/"
     TEST_APP_BASE_NAME: "release_tests"
     TEST_APP_TYPE: "release.apk"
@@ -134,6 +134,9 @@ release tests:
 robo tests:
   stage: test
   timeout: 2h
+  needs:
+    - build google play dev (monitoring release)
+    - build google debug # For ARCHIVES_BASE_NAME
   tags:
     - shared-small
   rules:
@@ -152,8 +155,8 @@ robo tests:
       --robo-directives ignore:R.string.settings_sign_out=,ignore:R.string.settings_third_party_licenses=
   variables:
     TIMEOUT: $TIMEOUT_ROBO_TESTS
-    APP_LOCATION: "app/build/outputs/bundle/productionGooglePlayStoreRelease/"
-    APP_TYPE: "production-google-playStore-release.aab"
+    APP_LOCATION: "app/build/outputs/apk/productionGoogleDev/release/"
+    APP_TYPE: "production-google-dev-release.apk"
     CHECKOUT_CORE_SUBMODULE: "true"
   after_script:
     - |

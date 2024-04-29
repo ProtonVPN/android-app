@@ -112,8 +112,14 @@ detekt analysis:
 
 build google debug:
   stage: build
-  except:
-    - schedules
+  rules:
+    - if: $ROBO_TEST == "true"
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - when: always
   tags:
     - xlarge-k8s
   script:
@@ -194,8 +200,6 @@ build BTI:
 build google play bundle:
   stage: build
   rules:
-    - if: $ROBO_TEST == "true"
-      when: always
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
     - if: $CI_COMMIT_BRANCH == "development"
@@ -223,12 +227,12 @@ build google play bundle:
 
 build google play release:
   stage: build
+  when: manual
   tags:
     - xlarge-k8s
   script:
     - ./gradlew openvpn:assembleRelease
     - ./gradlew assembleProductionGooglePlayStoreRelease
-    - ./gradlew :release_tests:assembleRelease
   except:
     - schedules
   interruptible: false
@@ -236,19 +240,23 @@ build google play release:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
-    - release_tests/build/outputs/apk
 
 build google play dev (monitoring release):
   stage: build
-  when: manual
+  rules:
+    - if: $ROBO_TEST == "true"
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - when: always
   tags:
     - xlarge-k8s
   script:
     - ./gradlew openvpn:assembleRelease
     - ./gradlew assembleProductionGoogleDevRelease
     - ./gradlew :release_tests:assembleRelease
-  except:
-    - schedules
   interruptible: false
   artifacts:
     expire_in: 1 week
