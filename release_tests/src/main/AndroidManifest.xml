@@ -35,7 +35,7 @@
     <!-- Target a dummy process to prevent instrumentation from attaching to any process.
          Attaching to a R8-optimized build sometimes leads to crashes. -->
     <instrumentation android:name="androidx.test.runner.AndroidJUnitRunner"
-        android:targetPackage="ch.protonvpn.android"
+        android:targetPackage="ch.protonvpn.android.dev"
         android:targetProcesses="nonexistent"
         android:label="Release tests for ProtonVPN" />
 </manifest>

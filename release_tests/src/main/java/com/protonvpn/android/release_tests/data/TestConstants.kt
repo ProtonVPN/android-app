@@ -24,7 +24,7 @@ package com.protonvpn.android.release_tests.data
 import kotlin.time.Duration.Companion.milliseconds
 
 object TestConstants {
-    const val TEST_PACKAGE = "ch.protonvpn.android"
+    const val TEST_PACKAGE = "ch.protonvpn.android.dev"
     val TWENTY_SECOND_TIMEOUT = 20000.milliseconds
     val ONE_MINUTE_TIMEOUT = 60000.milliseconds
 }
