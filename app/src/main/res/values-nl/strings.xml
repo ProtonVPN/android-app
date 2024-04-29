@@ -1052,7 +1052,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Alle landen (%1$d)</string>
     <string name="country_filter_all_list_header_free">Plus landen (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Landen (%1$d)</string>
     <string name="country_filter_cities_list_header">Steden (%1$d)</string>
     <string name="country_filter_states_list_header">Staten (%1$d)</string>
     <string name="country_filter_servers_list_header">Servers (%1$d)</string>
@@ -1283,11 +1283,12 @@
     <string name="p2p_upsell_banner_description">Download bestanden via BitTorrent en andere bestanden delen protocollen</string>
     <string name="tor_upsell_banner_description">Gebruik het Tor netwerk via uw VPN-verbinding voor extra privacy</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
+    <string name="search_zero_screen_title">Probeer te zoeken naar...</string>
+    <string name="search_zero_screen_info_countries_title">Landen</string>
+    <string name="search_zero_screen_info_cities_title">Steden</string>
     <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_countries_examples">Zwitserland, Verenigde Staten, Italië, Canada...</string>
+    <string name="search_zero_screen_info_cities_examples">New York, Londen, Tokio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Fout bij het ophalen van de prijzen.</string>
 </resources>

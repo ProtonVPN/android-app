@@ -559,9 +559,9 @@
     <string name="dynamic_report_your_issue_headline">У чому ваша проблема</string>
     <string name="update_screen_title">Оновити Proton VPN</string>
     <string name="update_screen_description">Швидше за все у вас виникли проблеми з застарілою версією Proton VPN.</string>
-    <string name="dialog_create_account_title">Create an account to continue</string>
-    <string name="dialog_create_account_action_create">Create account</string>
-    <string name="dialog_create_account_action_signin">Sign in</string>
+    <string name="dialog_create_account_title">Щоб продовжити, створіть обліковий запис</string>
+    <string name="dialog_create_account_action_create">Створити обліковий запис</string>
+    <string name="dialog_create_account_action_signin">Увійти</string>
     <string name="server_search_menu_title">Пошук</string>
     <string name="server_search_hint">Країна, місто, сервер</string>
     <string name="server_search_hint_secure_core">Країна</string>
@@ -782,7 +782,7 @@
          - item in a list of countries has a custom action to open list of cities in the country
          - item in a list of cities has a custom action to open list of servers in the city
          -->
-    <string name="accessibility_menu_action_open">Open</string>
+    <string name="accessibility_menu_action_open">Відкрити</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable because servers
          are in maintenance.
@@ -1090,7 +1090,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Всі країни (%1$d)</string>
     <string name="country_filter_all_list_header_free">Країни Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Країни (%1$d)</string>
     <string name="country_filter_cities_list_header">Міста (%1$d)</string>
     <string name="country_filter_states_list_header">Штати (%1$d)</string>
     <string name="country_filter_servers_list_header">Сервери (%1$d)</string>
@@ -1104,7 +1104,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Навантаження: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1183,7 +1183,7 @@
     <string name="connection_details_vpn_speed_question">Що таке швидкість VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
+    <string name="info_dialog_secure_core_description">Secure Core встановлює з\'єднання з цільовим сервером через допоміжний сервер VPN задля досягнення максимальної безпеки.\n\nОднак такий високий рівень захисту може спричинити більшу затримку і зниження швидкості.</string>
     <string name="info_secure_core_standard_header">Стандартне VPN-з\'єднання</string>
     <string name="info_secure_core_secure_header">VPN-з\'єднання Secure Core</string>
     <string name="info_dialog_tor_description">Під\'єднайтеся до сервера Tor, щоб отримати доступ до прихованих сервісів і сайтів onion, використовуючи будь-який браузер.</string>
@@ -1205,71 +1205,71 @@
     <string name="speed_gigabytes_per_second">%1$s ГБ/с</string>
     <string name="speed_terabytes_per_second">%1$s ТБ/с</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
-    <string name="bytes_per_second">B/s</string>
-    <string name="kilobytes_per_second">KB/s</string>
-    <string name="megabytes_per_second">MB/s</string>
-    <string name="gigabytes_per_second">GB/s</string>
-    <string name="terabytes_per_second">TB/s</string>
+    <string name="speed_graph_title">Швидкість %1$s</string>
+    <string name="bytes_per_second">Б/с</string>
+    <string name="kilobytes_per_second">кБ/с</string>
+    <string name="megabytes_per_second">МБ/с</string>
+    <string name="gigabytes_per_second">ГБ/с</string>
+    <string name="terabytes_per_second">ТБ/с</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s Byte per second</item>
-        <item quantity="few">%1$s Bytes per second</item>
-        <item quantity="many">%1$s Bytes per second</item>
-        <item quantity="other">%1$s Bytes per second</item>
+        <item quantity="one">%1$s байт за секунду</item>
+        <item quantity="few">%1$s байти за секунду</item>
+        <item quantity="many">%1$s байтів за секунду</item>
+        <item quantity="other">%1$s байтів за секунду</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">%1$s Kilobyte per second</item>
-        <item quantity="few">%1$s Kilobytes per second</item>
-        <item quantity="many">%1$s Kilobytes per second</item>
-        <item quantity="other">%1$s Kilobytes per second</item>
+        <item quantity="one">%1$s кілобайт за секунду</item>
+        <item quantity="few">%1$s кілобайти за секунду</item>
+        <item quantity="many">%1$s кілобайтів за секунду</item>
+        <item quantity="other">%1$s кілобайтів за секунду</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s Megabyte per second</item>
-        <item quantity="few">%1$s Megabytes per second</item>
-        <item quantity="many">%1$s Megabytes per second</item>
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="one">%1$s мегабайт за секунду</item>
+        <item quantity="few">%1$s мегабайти за секунду</item>
+        <item quantity="many">%1$s мегабайтів за секунду</item>
+        <item quantity="other">%1$s мегабайтів за секунду</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s Gigabyte per second</item>
-        <item quantity="few">%1$s Gigabytes per second</item>
-        <item quantity="many">%1$s Gigabytes per second</item>
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="one">%1$s гігабайт за секунду</item>
+        <item quantity="few">%1$s гігабайти за секунду</item>
+        <item quantity="many">%1$s гігабайтів за секунду</item>
+        <item quantity="other">%1$s гігабайтів за секунду</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s Terabyte per second</item>
-        <item quantity="few">%1$s Terabytes per second</item>
-        <item quantity="many">%1$s Terabytes per second</item>
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="one">%1$s терабайт за секунду</item>
+        <item quantity="few">%1$s терабайти за секунду</item>
+        <item quantity="many">%1$s терабайтів за секунду</item>
+        <item quantity="other">%1$s терабайтів за секунду</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="one">%1$s Byte</item>
-        <item quantity="few">%1$s Bytes</item>
-        <item quantity="many">%1$s Bytes</item>
-        <item quantity="other">%1$s Bytes</item>
+        <item quantity="one">%1$s байт</item>
+        <item quantity="few">%1$s байти</item>
+        <item quantity="many">%1$s байтів</item>
+        <item quantity="other">%1$s байтів</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="one">%1$s Kilobyte</item>
-        <item quantity="few">%1$s Kilobytes</item>
-        <item quantity="many">%1$s Kilobytes</item>
-        <item quantity="other">%1$s Kilobytes</item>
+        <item quantity="one">%1$s кілобайт</item>
+        <item quantity="few">%1$s кілобайти</item>
+        <item quantity="many">%1$s кілобайтів</item>
+        <item quantity="other">%1$s кілобайтів</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s Megabyte</item>
-        <item quantity="few">%1$s Megabytes</item>
-        <item quantity="many">%1$s Megabytes</item>
-        <item quantity="other">%1$s Megabytes</item>
+        <item quantity="one">%1$s мегабайт</item>
+        <item quantity="few">%1$s мегабайти</item>
+        <item quantity="many">%1$s мегабайтів</item>
+        <item quantity="other">%1$s мегабайтів</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s Gigabyte</item>
-        <item quantity="few">%1$s Gigabytes</item>
-        <item quantity="many">%1$s Gigabytes</item>
-        <item quantity="other">%1$s Gigabytes</item>
+        <item quantity="one">%1$s гігабайт</item>
+        <item quantity="few">%1$s гігабайти</item>
+        <item quantity="many">%1$s гігабайтів</item>
+        <item quantity="other">%1$s гігабайтів</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s Terabyte</item>
-        <item quantity="few">%1$s Terabytes</item>
-        <item quantity="many">%1$s Terabytes</item>
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="one">%1$s терабайт</item>
+        <item quantity="few">%1$s терабайти</item>
+        <item quantity="many">%1$s терабайтів</item>
+        <item quantity="other">%1$s терабайтів</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s Б</string>
     <string name="traffic_volume_kilobytes">%1$s кБ</string>
@@ -1301,11 +1301,11 @@
     <string name="settings_vpn_accelerator_description">Збільште швидкість з\'єднання до 400%% завдяки технологіям підвищення продуктивності. %1$s</string>
     <string name="settings_account_settings_title">Налаштування облікового запису</string>
     <string name="settings_account_change_password">Змінити пароль</string>
-    <string name="settings_account_recovery_email">Recovery email</string>
-    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <string name="settings_account_recovery_email">Резервна е-пошта</string>
+    <string name="settings_account_recovery_email_not_set">Не налаштовано</string>
     <!-- Label of a button that opens user's account page -->
-    <string name="settings_account_button_my_account">My account</string>
-    <string name="settings_account_button_delete_account">Delete account</string>
+    <string name="settings_account_button_my_account">Мій обліковий запис</string>
+    <string name="settings_account_button_delete_account">Видалити обліковий запис</string>
     <string name="settings_advanced_alternative_routing_title">Альтернативна маршрутизація</string>
     <string name="settings_advanced_alternative_routing_description">Якщо служби Proton блокуються мережевими обмеженнями, ми спробуємо використати альтернативний спосіб маршрутизації для з\'єднання з вашими сайтами.</string>
     <string name="settings_advanced_allow_lan_title">LAN-з\'єднання</string>
@@ -1330,24 +1330,25 @@
     <string name="info_secure_core_advanced_privacy">Вдосконалена приватність</string>
     <string name="info_secure_core_higher_latency">Вища затримка</string>
     <string name="info_p2p_what_title">Що таке P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
-    <string name="info_p2p_torrenting_title">What is torrenting?</string>
-    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
-    <string name="info_p2p_why_title">Why use a P2P server when torrenting?</string>
-    <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
+    <string name="info_p2p_what_description">Технологія peer-to-peer (P2P) дає змогу встановлювати з\'єднання та обмінюватися файлами безпосередньо з іншими пристроями.\n\nНаші сервери P2P передбачають підтримку такого типу обміну файлами.</string>
+    <string name="info_p2p_torrenting_title">Що таке торент?</string>
+    <string name="info_p2p_torrenting_description">Швидкий обмін і завантаження великих файлів через мережу P2P.</string>
+    <string name="info_p2p_why_title">Чому варто використовувати сервер із підтримкою P2P для торентів?</string>
+    <string name="info_p2p_why_description_speed">Збільшена швидкість завантаження і вивантаження</string>
     <string name="info_p2p_why_description_logs">Без журналів активності</string>
     <string name="info_p2p_why_description_hide">Приховайте вашу IP-адресу від постачальника послуг та однорангових вузлів</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="info_dialog_smart_routing_description">Технологія Smart Routing використовує віртуальні сервери для забезпечення покриття VPN у країнах з ускладненим доступом.\n\nПід час з\'єднання з сервером Smart Routing здаватиметься, наче ви користуєтесь інтернетом у країні призначення, навіть попри інше фізичне розташування сервера.  \n\nSmart Routing зазвичай використовується для обходу законодавчих обмежень щодо приватності та інших форм цензури.</string>
     <string name="countries_upsell_banner_description">Користуйтеся світовим покриттям з VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Додайте ще один рівень шифрування до свого VPN-з\'єднання</string>
     <string name="p2p_upsell_banner_description">Завантажуйте файли через BitTorrent й інші протоколи обміну файлами</string>
     <string name="tor_upsell_banner_description">Користуйтеся мережею Tor через VPN-з\'єднання для додаткової приватності</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_title">Спробуйте пошукати…</string>
+    <string name="search_zero_screen_info_countries_title">Країни</string>
+    <string name="search_zero_screen_info_cities_title">Міста</string>
+    <string name="search_zero_screen_info_servers_title">Сервери</string>
+    <string name="search_zero_screen_info_countries_examples">Швейцарія, Сполучені Штати, Італія, Канада…</string>
+    <string name="search_zero_screen_info_cities_examples">Нью-Йорк, Лондон, Токіо, Сідней…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Помилка отримання цін.</string>
 </resources>

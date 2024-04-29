@@ -1090,7 +1090,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Všechny země (%1$d)</string>
     <string name="country_filter_all_list_header_free">Země Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Země (%1$d)</string>
     <string name="country_filter_cities_list_header">Města (%1$d)</string>
     <string name="country_filter_states_list_header">Státy (%1$d)</string>
     <string name="country_filter_servers_list_header">Servery (%1$d)</string>
@@ -1350,4 +1350,5 @@
     <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Error fetching prices.</string>
 </resources>

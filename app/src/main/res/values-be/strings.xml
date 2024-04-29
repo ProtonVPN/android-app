@@ -279,7 +279,7 @@
     <string name="guestHoleNotificationContent">Паспрабаваць абысці праблемы з сеткай. Гэта дапаможа вам атрымаць доступ да Proton VPN.</string>
     <string name="onMaintenanceDetected">Сервер VPN, да якога вы былі падключаны, знаходзіцца на тэхнічным абслугоўванні. Мы аўтаматычна падключылі вас да самага хуткага з даступных сервераў.</string>
     <string name="errorTunMultiUserPermission">Немагчыма ініцыялізаваць падключэнне па VPN. Прычынай можа быць канфлікт паміж праграмай для падвойнага ўліковага запісу (напрыклад, Dual Messenger) і Split Tunneling. Адключыце адну з іх і перазапусціце прыладу.</string>
-    <string name="errorTorrentNotAllowed">Трафік P2P не дазволены на гэтым серверы</string>
+    <string name="errorTorrentNotAllowed">Трафік P2P забаронены на гэтым серверы</string>
     <string name="errorWireguardWithPlaceholder">Памылка WireGuard %1$s</string>
     <string name="profileProtocolNotAvailable">Гэты профіль пратакола VPN у цяперашні момант недаступны. Для падключэння, паспрабуйце змяніць пратакол.</string>
     <string name="stateConnectedTo">Падключана да %1$s</string>
@@ -1090,7 +1090,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Усе краіны (%1$d)</string>
     <string name="country_filter_all_list_header_free">Краіны Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Краіны (%1$d)</string>
     <string name="country_filter_cities_list_header">Гарады (%1$d)</string>
     <string name="country_filter_states_list_header">Штаты (%1$d)</string>
     <string name="country_filter_servers_list_header">Серверы (%1$d)</string>
@@ -1343,11 +1343,12 @@
     <string name="p2p_upsell_banner_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагулення файлаў</string>
     <string name="tor_upsell_banner_description">Выкарыстоўвайце сетку Tor праз ваша падключэнне да VPN для дадатковай прыватнасці</string>
     <string name="vpnplus_upsell_banner_description">Палепшыць да VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_title">Паспрабуйце шукаць…</string>
+    <string name="search_zero_screen_info_countries_title">Краіны</string>
+    <string name="search_zero_screen_info_cities_title">Гарады</string>
+    <string name="search_zero_screen_info_servers_title">Серверы</string>
+    <string name="search_zero_screen_info_countries_examples">Швейцарыя, Злучаныя Штаты, Італія, Канада…</string>
+    <string name="search_zero_screen_info_cities_examples">Нью-Ёрк, Лондан, Токіа, Сіднэй...</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Памылка атрымання цэн.</string>
 </resources>

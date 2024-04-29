@@ -22,9 +22,9 @@
     <string name="login">Iniciar sesión</string>
     <string name="menuActionSignOut">Cerrar sesión</string>
     <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
-    <string name="connectionAllocationHelpDescription1">Para empezar su viaje en Proton VPN, asigne conexiones VPN a su cuenta o cualquier otra subcuenta.</string>
-    <string name="connectionAllocationHelpDescription2">Este paso tomará solo unos minutos. Después será capaz de iniciar sesión y proteger todos sus dispositivos.</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN activada para esta cuenta. Para comenzar su viaje en Proton VPN contacte con su administrador. </string>
+    <string name="connectionAllocationHelpDescription1">Para empezar su viaje en Proton VPN, asigne conexiones VPN a la cuenta o cualquier otra subcuenta.</string>
+    <string name="connectionAllocationHelpDescription2">Este paso tomará solo unos minutos. Después será capaz de iniciar sesión y proteger todos los dispositivos.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN activada para esta cuenta. Para comenzar su viaje en Proton VPN contacte con el administrador. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activar conexiones VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
@@ -33,7 +33,7 @@
     <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el más alto nivel de seguridad y privacidad, pero puede reducir la velocidad de Internet. Si necesita más rendimiento, puede desactivar Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Activar Secure Core</string>
     <string name="logoutConfirmDialogTitle">¿Cerrar sesión?</string>
-    <string name="logoutConfirmDialogMessage">Al cerrar la sesión desconectará su dispositivo de la VPN.</string>
+    <string name="logoutConfirmDialogMessage">Al cerrar la sesión desconectará el dispositivo de la VPN.</string>
     <string name="logoutConfirmDialogButton">Cerrar sesión</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
@@ -76,13 +76,13 @@
     <string name="settingsMtuDescription">En caso de que el valor por defecto no sea adecuado para una red en particular, ingrese un valor dentro del rango 1280-1500. Cámbielo sólo si sabe lo que está haciendo.</string>
     <string name="settingsMtuRangeInvalid">El valor MTU debe estar en el rango 1280-1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Puertos no estándar</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN para cualquier necesidad permitiendo el tráfico a puertos no estándar mediante la red VPN. <a href="%1$s">Más información</a>]]></string>
+    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN para cualquier necesidad permitiendo el tráfico a puertos no estándar con la red VPN. <a href="%1$s">Más información</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderada</string>
     <string name="settingsModerateNatDescription"><![CDATA[La NAT moderada desactiva la aleatorización del mapeo de direcciones locales, lo que puede reducir ligeramente su seguridad, pero permite técnicas como conexiones directas para aplicaciones como juegos en línea. <a href="%1$s">Más información</a>]]></string>
     <string name="restrictedMaintenanceTitle">En mantenimiento</string>
     <string name="restrictedMaintenanceDescription">El servidor al que intenta conectar está en mantenimiento. Intente con otro servidor.</string>
-    <string name="errorUserDelinquent"><![CDATA[Su cuenta tiene una factura vencida. Pague todas las facturas pendientes en&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Ha alcanzado el número máximo de conexiones simultáneas permitidas para su cuenta. Mejore su plan de Proton VPN para obtener más conexiones.</string>
+    <string name="errorUserDelinquent"><![CDATA[La cuenta tiene una factura vencida. Pague todas las facturas pendientes en&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorMaxSessions">Ha alcanzado el número máximo de conexiones simultáneas permitidas para la cuenta. Mejore el plan de Proton VPN para obtener más conexiones.</string>
     <string name="onboardingSignup">Registrarse</string>
     <string name="offerTooltipShowOffer">Ver la oferta</string>
     <string name="listItemMaintenance">En mantenimiento</string>
@@ -104,7 +104,7 @@
     <string name="state_connected">Conectado</string>
     <string name="state_disconnecting">Desconectando…</string>
     <string name="state_error">Error</string>
-    <string name="error_server_list_load_failed">Compruebe su conexión e intente de nuevo.</string>
+    <string name="error_server_list_load_failed">Compruebe la conexión e intente de nuevo.</string>
     <string name="error_server_unreachable">No se pudo conectar a la VPN. Verifique la conexión y vuelva a intentarlo.</string>
     <string name="error_auth_failed">Error en la autenticación de usuario.</string>
     <string name="error_generic">Error no especificado al conectar.</string>
@@ -118,8 +118,8 @@
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Adjuntos</string>
     <string name="report_message">Mensaje del reporte</string>
-    <string name="report_bug_email_label">Su correo</string>
-    <string name="report_bug_email_hint">Ingrese su dirección de correo</string>
+    <string name="report_bug_email_label">El correo</string>
+    <string name="report_bug_email_hint">Ingrese la dirección de correo</string>
     <string name="report_bug_message_label">Mensaje</string>
     <string name="report_bug_message_hint">Describa el error y cómo y dónde lo encontró</string>
     <string name="send_report">Enviar reporte</string>
@@ -151,18 +151,18 @@
     <string name="noVpnPermissionOtherAppLabel">Otras aplicaciones de VPN</string>
     <string name="noVpnPermissionOpenSettings">Abrir ajustes de VPN de Android</string>
     <string name="noNotificationPermissionGrantTitle">No se deje sorprender…</string>
-    <string name="noNotificationPermissionGrantDescription">Active las notificaciones para recibir alertas cuando ocurran cambios en su conexión.</string>
+    <string name="noNotificationPermissionGrantDescription">Active las notificaciones para recibir alertas cuando ocurran cambios en la conexión.</string>
     <string name="noNotificationPermissionGrantNowTitle">Activar notificaciones</string>
     <string name="error_prepare_vpn_description"><![CDATA[Desactive la VPN siempre-activa para todas las demás aplicaciones VPN en los ajustes VPN del sistema de Android, ya que evita que Proton VPN establezca una conexión VPN. También conceda permisos de VPN si aparece una ventana solicitando permisos de VPN. Otras aplicaciones pueden ser desinstaladas para prevenir conflictos. Después, intente nuevamente. <a href="%1$s">Más información</a>]]></string>
     <string name="error_prepare_vpn_settings">Ir a los ajustes VPN de Android</string>
     <string name="error_prepare_vpn_title">Error: problema de permisos VPN</string>
     <string name="error_server_not_set">El servidor ya no está disponible</string>
-    <string name="bugReportThankYouToast">Gracias por su reporte</string>
+    <string name="bugReportThankYouToast">Gracias por el reporte</string>
     <string name="bugReportErrorEmptyEmail">El correo no puede estar vacío</string>
     <string name="bugReportErrorInvalidEmail">Dirección de correo no válida</string>
     <string name="bugReportErrorEmptyDescription">Escríbanos lo que está sucediendo.</string>
     <string name="bugReportLabelVpnLogsTitle">Incluir registros de errores</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Esto envía registros de errores locales (no registramos la actividad) para ayudarnos a resolver su problema</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Esto envía registros de errores locales (no registramos la actividad) para ayudarnos a resolver el problema</string>
     <string name="profileFastest">El más rápido</string>
     <string name="profileRandom">Aleatorio</string>
     <string name="settingsSplitTunnelingDescription">La tunelización dividida permite que ciertas aplicaciones o direcciones IP sean excluidas del tráfico VPN.</string>
@@ -176,11 +176,11 @@
     <string name="settingsExcludedIPAddresses">Excluir direcciones IP</string>
     <string name="settingsExcludedIPAddressesListHeader">Direcciones IP excluidas (%1$d)</string>
     <string name="settingsExcludedApps">Apps excluidas</string>
-    <string name="settingsExcludedAppsEmpty">Añada apps para ser excluidas del tráfico VPN.</string>
+    <string name="settingsExcludedAppsEmpty">Añada aplicaciones para ser excluidas del tráfico VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Apps excluidas (%1$d)</string>
     <string name="settingsExcludedAppsAvailableRegularHeader">Apps regulares permitidas (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">Apps del sistema permitidas (%1$d)</string>
-    <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar apps del sistema</string>
+    <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar aplicaciones del sistema</string>
     <string name="listNoItems">Ninguna</string>
     <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
          %2$d - a number of remaining items.
@@ -192,31 +192,31 @@
     <string name="excludeAlreadyExcluded">Ya excluido</string>
     <string name="removeExcludedIpDialogDescription">¿Borrar la dirección IP de la lista?</string>
     <string name="tileConnected">Conectado: %1$s</string>
-    <string name="openUrlError">No se pudo abrir %1$s. No se detectó un navegador en su dispositivo.</string>
+    <string name="openUrlError">No se pudo abrir %1$s. No se detectó un navegador en el dispositivo.</string>
     <string name="loaderErrorTimeout">Tiempo de conexión agotado. Inténtelo de nuevo.</string>
     <string name="troubleshootButton">Resolución de problemas</string>
     <string name="activityTroubleshootTitle">Resolución de problemas</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Soluciones potenciales</string>
-    <string name="troubleshootNoInternetDescription">Asegúrese de que su conexión a Internet está funcionando.</string>
+    <string name="troubleshootNoInternetDescription">Asegúrese de que la conexión a Internet está funcionando.</string>
     <string name="troubleshootNoInternetTitle">No hay conexión a internet</string>
     <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Intente conectarse a Proton desde una red diferente (o utilice <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferencia del antivirus</string>
-    <string name="troubleshootAntivirusProblemDescription">Desactive temporalmente o borre su software antivirus.</string>
+    <string name="troubleshootAntivirusProblemDescription">Desactive temporalmente o borre el software antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferencia de Proxy/Firewall</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Desactive cualquier proxy o firewall, o contacte con el administrador de su red.</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Desactive cualquier proxy o firewall, o contacte con el administrador de la red.</string>
     <string name="troubleshootProtonDownTitle">Proton está caído</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Compruebe el <a href=\"%1$s\">Estado de Proton</a> para conocer el estado de nuestro sistema.]]></string>
     <string name="troubleshootContactUsSectionTitle">¿Aún necesita ayuda? Contáctenos directamente.</string>
     <string name="troubleshootCustomerSupport">Atención al cliente</string>
     <string name="settingsAllowAlternativeRoutingTitle">Ruta alternativa</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permita que la app intente rutas alternas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permita que la aplicación intente rutas alternas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueo gubernamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Su país puede estar bloqueando el acceso a Proton. Pruebe usando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN siempre-activa e interruptor de bloqueo</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Configure cómo se comporta Proton VPN si su conexión se interrumpe</string>
+    <string name="settingsAlwaysOnKillSwitchDescription">Configure cómo se comporta Proton VPN si la conexión se interrumpe</string>
     <string name="settingsAlwaysOnWindowHeader">Cómo activar VPN siempre-activa y el interruptor de bloqueo:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Abra los <b>ajustes</b> de su dispositivo presionando el botón de abajo]]></string>
+    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Abra los <b>ajustes</b> del dispositivo presionando el botón de abajo]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Busque Proton VPN y pulse %1$s</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
@@ -236,8 +236,8 @@
     <string name="settingsSendCrashReportsTitle">Compartir reportes de error anónimos</string>
     <string name="settingsSendCrashReportsDescription">Los reportes de error nos ayuda a corregir errores, detectar firewalls y evitar bloqueos de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Estadísticas de uso</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen su dirección IP y no pueden ser usadas para identificarle. Nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
-    <string name="netshield_settings_description_not_html">Protéjase de anuncios, malware y rastreadores en sitios web y apps. Si los sitios web no cargan, intente desactivar NetShield. %1$s</string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen la dirección IP y no pueden ser usadas para identificarle. Nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
+    <string name="netshield_settings_description_not_html">Protéjase de anuncios, malware y rastreadores en sitios web y aplicaciones. Si los sitios web no cargan, intente desactivar NetShield. %1$s</string>
     <string name="learn_more">Más información</string>
     <string name="netshield_state_on" comment="Describes state, not action">Activado</string>
     <string name="netshield_state_off" comment="Describes state, not action">Desactivado</string>
@@ -249,7 +249,7 @@
     <string name="lan_state_off" comment="Describes state, not action">Desactivado</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Activado</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Desactivado</string>
-    <string name="netshield_free_description">Bloquea anuncios, rastreadores y malware en apps y sitios web</string>
+    <string name="netshield_free_description">Bloquea anuncios, rastreadores y malware en aplicaciones y sitios web</string>
     <string name="netshield_what_data_means">Lo que significan los datos de NetShield</string>
     <string name="netshield_ads_title">Anuncios</string>
     <string name="netshield_ads_details">Anuncios y rastreadores de anuncios invisibles</string>
@@ -272,7 +272,7 @@
     <string name="guestHoleActivated">El acceso a Proton VPN podría estar limitado en su área, por lo que esto tomará más tiempo de lo usual. Espere mientras trabajamos en este problema.</string>
     <string name="guestHoleNotificationContent">Intentando eludir problemas de red. Esto le ayudará a acceder a Proton VPN.</string>
     <string name="onMaintenanceDetected">El servidor VPN al que estaba conectado está en mantenimiento. Lo reconectamos automáticamente al servidor más rápido disponible.</string>
-    <string name="errorTunMultiUserPermission">No se pudo inicializar la conexión VPN debido a un conflicto entre una app dual (por ejemplo, Dual Messenger) y Tunelización dividida. Desactive una de ellas y reinicie su dispositivo.</string>
+    <string name="errorTunMultiUserPermission">No se pudo inicializar la conexión VPN debido a un conflicto entre una aplicación dual (por ejemplo, Dual Messenger) y Tunelización dividida. Desactive una de ellas y reinicie el dispositivo.</string>
     <string name="errorTorrentNotAllowed">P2P no está permitido en este servidor</string>
     <string name="errorWireguardWithPlaceholder">Error de WireGuard %1$s</string>
     <string name="profileProtocolNotAvailable">El protocolo VPN de este perfil no está disponible. Para conectarse, cambie el protocolo.</string>
@@ -298,9 +298,9 @@
     <string name="tv_login_title_signin">Iniciar sesión en Proton VPN</string>
     <string name="tv_login_title_welcome">Transmita su contenido de video favorito</string>
     <string name="tv_login_welcome_description">Vea contenido de video de más de 50 países, incluyendo YouTube y Twitch. Transmita Netflix, Amazon Prime, y Hulu con Proton VPN Plus.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenga su cuenta de Proton VPN en <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenga la cuenta de Proton VPN en <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Iniciar sesión</string>
-    <string name="tv_login_step1_description"><![CDATA[Ir a <b>%1$s</b> en su dispositivo móvil o computadora]]></string>
+    <string name="tv_login_step1_description"><![CDATA[Ir a <b>%1$s</b> en el dispositivo móvil o computadora]]></string>
     <string name="tv_login_step2_description">Iniciar sesión en Proton VPN</string>
     <string name="tv_login_step3_description">Ingrese el código:</string>
     <string name="tv_login_timer_label">Este código expira en:</string>
@@ -314,7 +314,7 @@
     <string name="tv_vpn_error_dialog_title">Error con la conexión VPN</string>
     <string name="tv_signout_label">Cerrar sesión</string>
     <string name="tv_signout_dialog_title">¿Está seguro que quiere salir?</string>
-    <string name="tv_signout_dialog_description_connected">Esto desconectará su televisor de cualquier servidor VPN.</string>
+    <string name="tv_signout_dialog_description_connected">Esto desconectará el televisor de cualquier servidor VPN.</string>
     <string name="tv_signout_dialog_ok">Cerrar sesión</string>
     <string name="tv_quick_connect_recommened">Recomendado</string>
     <string name="tv_quick_connect_favourite">Favorito</string>
@@ -334,12 +334,12 @@
     <string name="tv_server_list_action_unavailable">No disponible</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Los ajustes nuevos se aplicarán la próxima vez que se conecte.</string>
-    <string name="settingsReconnectToChangeDialogContent">Esto reiniciará su conexión.</string>
-    <string name="reconnectToEnableNetshield">Esto reiniciará su conexión.\n\nNota: algunos sitios podrían no cargar con NetShield encendido.</string>
-    <string name="notification_subscription_expired_title">Su plan de suscripción de Proton VPN ha expirado</string>
+    <string name="settingsReconnectToChangeDialogContent">Esto reiniciará la conexión.</string>
+    <string name="reconnectToEnableNetshield">Esto reiniciará la conexión.\n\nNota: algunos sitios podrían no cargar con NetShield encendido.</string>
+    <string name="notification_subscription_expired_title">El plan de suscripción de Proton VPN ha expirado</string>
     <string name="notification_subscription_expired_content">Hemos tenido que atribuirle un plan con menos funciones pero le estamos reconectando al servidor más rápido disponible en ese plan.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">Su suscripción ha pasado a un nivel inferior.</string>
-    <string name="notification_delinquent_title">Su cuenta de Proton VPN tiene facturas pendientes</string>
+    <string name="notification_subscription_expired_no_reconnection_content">La suscripción ha pasado a un nivel inferior.</string>
+    <string name="notification_delinquent_title">La cuenta de Proton VPN tiene facturas pendientes</string>
     <string name="notification_delinquent_content">Tómese un momento para actualizar su información de facturación para mantener la suscripción activa.</string>
     <string name="notification_max_sessions_title">Ha alcanzado el límite máximo de dispositivos</string>
     <!-- The number of devices will always be greater than 1. -->
@@ -357,7 +357,7 @@
     <string name="no_thanks">No, gracias</string>
     <string name="enable">Activar</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol está actualmente desactivado</string>
-    <string name="notification_smart_protocol_disabled_content">Proton VPN detectó que su red actual está impidiendo una conexión a la VPN. Activar Smart Protocol podría eludir estas limitaciones.</string>
+    <string name="notification_smart_protocol_disabled_content">Proton VPN detectó que la red actual está impidiendo una conexión a la VPN. Activar Smart Protocol podría eludir estas limitaciones.</string>
     <string name="upsell_advanced_features">Funciones avanzadas: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Acceda a servicios de transmisión (Netflix, Disney+, etc.) en cualquier parte del mundo</string>
     <!-- Number of servers available in the service.
@@ -378,7 +378,7 @@
         <item quantity="one">%1$d país</item>
         <item quantity="other">%1$d países</item>
     </plurals>
-    <string name="upsell_upgrade_again">Mejore su plan de nuevo para disfrutar de todas las funciones:</string>
+    <string name="upsell_upgrade_again">Mejore el plan de nuevo para disfrutar de todas las funciones:</string>
     <plurals name="upgrade_devices_title">
         <item quantity="one">Proteja %1$d dispositivo a la vez</item>
         <item quantity="other">Proteja %1$d dispositivos a la vez</item>
@@ -389,13 +389,13 @@
     <string name="upgrade_netshield_title">Disfrute una navegación sin anuncios</string>
     <string name="upgrade_netshield_message"><![CDATA[Bloquee anuncios, rastreadores y malware con <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Duplique el cifrado</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Añada otra capa de protección a su conexión VPN con <b>Secure Core</b>.]]></string>
+    <string name="upgrade_secure_core_message"><![CDATA[Añada otra capa de protección a la conexión VPN con <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Desbloquee las descargas entre pares (P2P) e intercambio de archivos </string>
-    <string name="upgrade_p2p_text">Aumente las velocidades de carga y descarga mientras oculta su dirección IP.</string>
+    <string name="upgrade_p2p_text">Aumente las velocidades de carga y descarga mientras oculta la dirección IP.</string>
     <string name="upgrade_streaming_title">Transmita en 4K</string>
     <string name="upgrade_streaming_text">Disfrute sus películas y shows favoritos desde cualquier lugar en el mundo.</string>
     <string name="upgrade_tor_title">Acceda a la red Tor con un toque</string>
-    <string name="upgrade_tor_text">Conéctese a servicios ocultos y sitios onion con su navegador habitual.</string>
+    <string name="upgrade_tor_text">Conéctese a servicios ocultos y sitios onion con el navegador habitual.</string>
     <string name="upgrade_vpn_accelerator_title">Navegue incluso a velocidades máximas</string>
     <!--
         %1$s - speed in Gbps
@@ -404,7 +404,7 @@
     -->
     <string name="upgrade_vpn_accelerator_message">Desbloquee servidores rápidos y menos concurridos con velocidades de hasta %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Obtenga lo mejor de ambas opciones</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Divida su tráfico en túneles VPN y de no VPN con <b>túnel dividido</b>.]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Divida el tráfico en túneles VPN y de no VPN con <b>túnel dividido</b>.]]></string>
     <string name="upgrade_customization_title">Desbloquee personalizaciones VPN avanzadas</string>
     <string name="upgrade_lan_access_message"><![CDATA[Acceda a dispositivos en su <b>red local (LAN)</b> con VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Acceda a todos los países</string>
@@ -452,13 +452,13 @@
         <item quantity="one">Proteja %1$d dispositivo</item>
         <item quantity="other">Proteja %1$d dispositivos</item>
     </plurals>
-    <string name="upsell_card_devices_description">Seguridad y privacidad en todos sus dispositivos</string>
+    <string name="upsell_card_devices_description">Seguridad y privacidad en todos los dispositivos</string>
     <string name="upsell_card_netshield_title">NetShield</string>
     <string name="upsell_card_netshield_description">Bloquee anuncios, malware y rastreadores</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Añada otra capa de cifrado a su conexión VPN</string>
+    <string name="upsell_card_secure_core_description">Añada otra capa de cifrado a la conexión VPN</string>
     <string name="upsell_card_p2p_title">Soporte P2P</string>
-    <string name="upsell_card_p2p_description">Descargue archivos mediante BitTorrent y otros protocolos de intercambio de archivos</string>
+    <string name="upsell_card_p2p_description">Descargue archivos con BitTorrent y otros protocolos de intercambio de archivos</string>
     <string name="upsell_card_speed_title">Navegación más rápida</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -470,7 +470,7 @@
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Mire sus películas y programas favoritos</string>
     <string name="upsell_card_tor_title">Tor sobre VPN</string>
-    <string name="upsell_card_tor_description">Use la red Tor sobre su conexión VPN para privacidad adicional</string>
+    <string name="upsell_card_tor_description">Use la red Tor sobre la conexión VPN para privacidad adicional</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -486,7 +486,7 @@
     <string name="payment_price_cycle_month_label">1 mes</string>
     <string name="payment_price_cycle_year_label">1 año</string>
     <string name="payment_price_cycle_2years_label">2 años</string>
-    <string name="payment_select_your_plan">Elija su plan</string>
+    <string name="payment_select_your_plan">Elija el plan</string>
     <string name="payment_button_get_vpn_plus">Obtener VPN Plus</string>
     <!-- Information activity -->
     <string name="activity_information_title">Información</string>
@@ -501,7 +501,7 @@
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Estos servidores ofrecen el mejor rendimiento para BitTorrent y compartir archivos.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Envía su tráfico de internet a través de la red Tor. Más lento, pero más privado.</string>
+    <string name="tor_description">Envía el tráfico de internet a través de la red Tor. Más lento, pero más privado.</string>
     <string name="info_performance">Rendimiento</string>
     <string name="server_load_title">Carga del servidor</string>
     <string name="server_load_description">Los servidores con carga mayor son más lentos que los servidores con carga menor.</string>
@@ -514,7 +514,7 @@
     <string name="server_load_low">Baja</string>
     <string name="server_load_medium">Media</string>
     <string name="server_load_high">Alta</string>
-    <string name="info_gateways_description">Una puerta de enlace VPN es una conexión segura que proporciona acceso controlado a los datos y servicios de su empresa mediante servidores dedicados.</string>
+    <string name="info_gateways_description">Una puerta de enlace VPN es una conexión segura que proporciona acceso controlado a los datos y servicios de su empresa con servidores dedicados.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bienvenido a Proton VPN</string>
@@ -525,14 +525,14 @@
     <string name="upgrade_use_limited_free_button">Usar plan gratuito limitado</string>
     <string name="dynamic_report_suggestion_didnt_work">¿No funcionó?</string>
     <string name="dynamic_report_contact_us">Contáctenos</string>
-    <string name="dynamic_report_tips_description">Estos consejos podrían ayudarle a resolver su problema más rápido.</string>
+    <string name="dynamic_report_tips_description">Estos consejos podrían ayudarle a resolver el problema más rápido.</string>
     <string name="dynamic_report_tips_title">Arreglos rápidos</string>
     <string name="dynamic_report_logs_title">Enviar registros de error</string>
     <string name="dynamic_report_success_title">Gracias por sus comentarios</string>
     <string name="dynamic_report_success_description">Nos comunicaremos con usted lo antes posible.</string>
     <string name="dynamic_report_field_mandatory">Este campo es requerido</string>
     <string name="dynamic_report_logs_description">Un registro es un tipo de archivo que nos muestra las acciones que realizó y que provocaron un error. Solo los usaremos para ayudar a nuestros ingenieros a corregir errores.</string>
-    <string name="dynamic_report_logs_missing">Los registros de errores nos ayudan a llegar al fondo de su problema. Si no los incluye, es posible que no podamos investigar por completo.</string>
+    <string name="dynamic_report_logs_missing">Los registros de errores nos ayudan a llegar al fondo del problema. Si no los incluye, es posible que no podamos investigar por completo.</string>
     <string name="dynamic_report_step1">Paso 1 de 3</string>
     <string name="dynamic_report_step2">Paso 2 de 3</string>
     <string name="dynamic_report_step3">Paso 3 de 3</string>
@@ -564,10 +564,10 @@
     <string name="search_empty_hint_usa_regions"><![CDATA[Regiones de EE. UU.: <font color="%1$s">California, Florida, Colorado…</font>]]></string>
     <string name="search_empty_hint_servers"><![CDATA[Servidores: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Intente con una contraseña diferente</string>
-    <string name="search_empty_result_title">No se encontraron resultados</string>
+    <string name="search_empty_result_title">No se encontraron resultados.</string>
     <string name="search_recents_header_title">Visto reciente (%1$d)</string>
     <string name="search_clear_history">Borrar historial</string>
-    <string name="search_clear_history_dialog">Se perderá su historial de búsqueda. ¿Continuar?</string>
+    <string name="search_clear_history_dialog">Se perderá el historial de búsqueda. ¿Continuar?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Borrar</string>
     <!-- Core strings overrides -->
@@ -590,7 +590,7 @@
     </plurals>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
-    <string name="notification_banner_dismiss_accessibility_label">Descartar banner</string>
+    <string name="notification_banner_dismiss_accessibility_label">Descartar el banner</string>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
          %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
@@ -646,7 +646,7 @@
     <string name="not_wanted_country_description">Mejore para elegir cualquier servidor</string>
     <string name="whats_new_title">Novedades</string>
     <string name="whats_new_new_look_title">Apariencia nueva, misma protección</string>
-    <string name="whats_new_new_look_description">Hemos actualizado nuestros diseños y movimos algunas cosas para que la app sea fácil de usar.</string>
+    <string name="whats_new_new_look_description">Hemos actualizado nuestros diseños y movimos algunas cosas para que la aplicación sea fácil de usar.</string>
     <string name="whats_new_recents_title">Presentamos la función Recientes</string>
     <string name="whats_new_recents_description">Ahora es mucho más fácil restablecer la conexión a sus servidores favoritos. Vea las más conexiones recientes en la pantalla de inicio o fíjelas para un acceso más rápido. Recientes es la funcionalidad que reemplaza los Perfiles.</string>
     <string name="whats_new_dismiss_button">Eche un vistazo</string>
@@ -658,7 +658,7 @@
     <string name="welcome_unlimited_title">Le damos la bienvenida a Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[¡Felicitaciones! Ha desbloqueado seguridad premium y funciones de rendimiento en todos los servicios de Proton además de <b>%1$d&#160; GB</b> de almacenamiento total.<br><br>Disfrute lo mejor de la privacidad de Proton.]]></string>
     <string name="welcome_generic_title">Felicitaciones</string>
-    <string name="welcome_generic_description">Ha mejorado su suscripción. Disfrute funciones de privacidad avanzadas y rendimiento de otro nivel.</string>
+    <string name="welcome_generic_description">Ha mejorado la suscripción. Disfrute funciones de privacidad avanzadas y rendimiento de otro nivel.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
@@ -733,7 +733,7 @@
          available will be read by a screen reader as:
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
-    <string name="accessibility_action_upgrade">actualizar</string>
+    <string name="accessibility_action_upgrade">mejorar</string>
     <!-- tag(Redesign_2023)
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
@@ -1027,7 +1027,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out_title">Cerrar sesión</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_app_version">Versión de la app: %1$s</string>
+    <string name="settings_app_version">Versión de la aplicación: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Licencias de terceros</string>
     <!-- tag(Redesign_2023) -->
@@ -1114,7 +1114,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">¿Qué es la carga del servidor?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">La carga del servidor muestra qué tan cerca está un servidor de su capacidad máxima. \n\nUna carga alta del servidor puede ralentizar su conexión.</string>
+    <string name="connection_details_server_load_description">La carga del servidor muestra qué tan cerca está un servidor de su capacidad máxima. \n\nUna carga alta del servidor puede ralentizar la conexión.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_title">Baja (1–75%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1130,7 +1130,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocolo</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol_description">Un protocolo es un conjunto de instrucciones que su dispositivo sigue para conectarse y comunicarse con un servidor.</string>
+    <string name="connection_details_protocol_description">Un protocolo es un conjunto de instrucciones que el dispositivo sigue para conectarse y comunicarse con un servidor.</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
@@ -1160,7 +1160,7 @@
     -->
     <string name="connection_details_unknown_ip">Desconocida</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">Este gráfico muestra la velocidad de su actividad actual de carga y descarga. Es poco probable que su conexión VPN ralentice la actividad en línea normal.</string>
+    <string name="connection_details_vpn_speed_description">Este gráfico muestra la velocidad de su actividad actual de carga y descarga. Es poco probable que la conexión VPN ralentice la actividad en línea normal.</string>
     <string name="speed_bytes_per_second">%1$s B/s</string>
     <string name="speed_kilobytes_per_second">%1$s KB/s</string>
     <string name="speed_megabytes_per_second">%1$s MB/s</string>
@@ -1238,7 +1238,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Aumente la velocidad de su conexión hasta 400%% con tecnologías que mejoran el rendimiento. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Aumente la velocidad de la conexión hasta 400%% con tecnologías que mejoran el rendimiento. %1$s</string>
     <string name="settings_account_settings_title">Ajustes de la cuenta</string>
     <string name="settings_account_change_password">Cambiar la contraseña</string>
     <string name="settings_account_recovery_email">Correo electrónico de recuperación</string>
@@ -1249,17 +1249,17 @@
     <string name="settings_advanced_alternative_routing_title">Ruta alternativa</string>
     <string name="settings_advanced_alternative_routing_description">Si los servicios de Proton están bloqueados debido a restricciones de red, intentaremos usar el enrutamiento de red alternativo para conectarle a nuestros sitios.</string>
     <string name="settings_advanced_allow_lan_title">Conexiones LAN</string>
-    <string name="settings_advanced_allow_lan_description">Le permite conectarse a impresoras, altavoces y otros dispositivos en su red local.</string>
+    <string name="settings_advanced_allow_lan_description">Le permite conectarse a impresoras, altavoces y otros dispositivos en la red local.</string>
     <string name="settings_advanced_nat_type_title">Tipo de NAT</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Seleccione un tipo de traducción de dirección de red para su conexión. %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">Seleccione un tipo de traducción de dirección de red para su conexión.</string>
+    <string name="settings_advanced_nat_type_description">Seleccione un tipo de traducción de dirección de red para la conexión. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Seleccione un tipo de traducción de dirección de red para la conexión.</string>
     <string name="settings_advanced_nat_type_strict">Estricta (tipo 3)</string>
     <string name="settings_advanced_nat_type_moderate">Moderada (tipo 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Restringe los datos que entran en la red. Esta opción es más segura pero puede dificultar más las conexiones de juegos por pares.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Alguna restricción en los datos que entran en su red. Esta opción es mejor para juegos en línea.</string>
-    <string name="settings_split_tunneling_description">Personalice su conexión al decidir cuáles apps y direcciones IP serán protegidas con VPN. %1$s</string>
-    <string name="settings_protocol_description">Un protocolo VPN determina cómo se mueven los datos entre un servidor VPN y su dispositivo. %1$s</string>
+    <string name="settings_advanced_nat_type_moderate_description">Alguna restricción en los datos que entran en la red. Esta opción es mejor para juegos en línea.</string>
+    <string name="settings_split_tunneling_description">Personalice la conexión al decidir cuáles aplicaciones y direcciones IP serán protegidas con VPN. %1$s</string>
+    <string name="settings_protocol_description">Un protocolo VPN determina cómo se mueven los datos entre un servidor VPN y el dispositivo. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Apps excluidas</string>
     <string name="settings_split_tunneling_excluded_ips">Direcciones IP excluidas</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ninguna</string>
@@ -1276,18 +1276,19 @@
     <string name="info_p2p_why_title">¿Por qué usar un servidor P2P para descargar torrents?</string>
     <string name="info_p2p_why_description_speed">Velocidades de carga y descarga incrementadas</string>
     <string name="info_p2p_why_description_logs">Sin registros de actividad</string>
-    <string name="info_p2p_why_description_hide">Oculte su dirección IP de su proveedor de servicios y de sus pares</string>
+    <string name="info_p2p_why_description_hide">Oculte la dirección IP del proveedor de servicios y de sus pares</string>
     <string name="info_dialog_smart_routing_description">Smart Routing usa servidores virtuales para proporcionar cobertura VPN en países de difícil acceso.\n\nCuando se conecta a un servidor de Smart Routing, parecerá que está navegando en su país de destino, aunque el servidor físico esté en otro lugar.  \n\nSmart Routing se usa normalmente para eludir las leyes contra la privacidad y otras formas de censura.</string>
     <string name="countries_upsell_banner_description">Disfrute de una cobertura global con VPN Plus</string>
-    <string name="secure_core_upsell_banner_description">Añada otra capa de cifrado a su conexión VPN</string>
-    <string name="p2p_upsell_banner_description">Descargue archivos mediante BitTorrent y otros protocolos de intercambio de archivos</string>
-    <string name="tor_upsell_banner_description">Use la red Tor sobre su conexión VPN para privacidad adicional</string>
+    <string name="secure_core_upsell_banner_description">Añada otra capa de cifrado a la conexión VPN</string>
+    <string name="p2p_upsell_banner_description">Descargue archivos con BitTorrent y otros protocolos de intercambio de archivos</string>
+    <string name="tor_upsell_banner_description">Use la red Tor sobre la conexión VPN para privacidad adicional</string>
     <string name="vpnplus_upsell_banner_description">Mejorar a VPN Plus</string>
     <string name="search_zero_screen_title">Intente buscar...</string>
     <string name="search_zero_screen_info_countries_title">Países</string>
     <string name="search_zero_screen_info_cities_title">Ciudades</string>
     <string name="search_zero_screen_info_servers_title">Servidores</string>
-    <string name="search_zero_screen_info_countries_examples">Suiza, Estados Unidos, Italia, Canadá...</string>
-    <string name="search_zero_screen_info_cities_examples">Nueva York, Londres, Tokio, Sídney...</string>
+    <string name="search_zero_screen_info_countries_examples">Suiza, Estados Unidos, Italia, Canadá…</string>
+    <string name="search_zero_screen_info_cities_examples">Nueva York, Londres, Tokio, Sídney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14</string>
+    <string name="error_fetching_prices">Error al obtener los precios</string>
 </resources>

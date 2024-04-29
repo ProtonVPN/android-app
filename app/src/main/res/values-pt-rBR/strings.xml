@@ -239,14 +239,14 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm seu endereço IP, e não podem ser usadas para te identificar. Nunca as compartilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="netshield_settings_description_not_html">Proteja-se contra anúncios, malware e rastreadores em sites e aplicativos. Se os sites não carregarem, tente desativar o NetShield.%1$s</string>
     <string name="learn_more">Saiba mais</string>
-    <string name="netshield_state_on" comment="Describes state, not action">Ativado</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Desativado</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Ligado</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Desligado</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Ativado</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Desativado</string>
-    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Ativado</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Desativado</string>
-    <string name="lan_state_on" comment="Describes state, not action">Ativado</string>
-    <string name="lan_state_off" comment="Describes state, not action">Desativado</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Ligado</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Desligado</string>
+    <string name="lan_state_on" comment="Describes state, not action">Ligado</string>
+    <string name="lan_state_off" comment="Describes state, not action">Desligado</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Ativado</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Desativado</string>
     <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sites e aplicativos</string>
@@ -391,8 +391,8 @@
     <string name="upgrade_secure_core_title">Duplique a criptografia</string>
     <string name="upgrade_secure_core_message"><![CDATA[Adicione outra camada de criptografia à sua conexão VPN com o <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Desbloqueie downloads peer-to-peer (P2P) e compartilhamento de arquivos </string>
-    <string name="upgrade_p2p_text">Melhore suas velocidades de envio e download enquanto oculta seu endereço IP.</string>
-    <string name="upgrade_streaming_title">Faça stream em 4K</string>
+    <string name="upgrade_p2p_text">Melhore suas velocidades de upload e download enquanto oculta seu endereço IP.</string>
+    <string name="upgrade_streaming_title">Faça transmissão em 4K</string>
     <string name="upgrade_streaming_text">Aproveite seus filmes e programas favoritos de qualquer lugar do mundo.</string>
     <string name="upgrade_tor_title">Acesse a rede Tor com um toque</string>
     <string name="upgrade_tor_text">Conecte-se a serviços ocultos e sites onion com seu navegador normal.</string>
@@ -449,8 +449,8 @@
     <string name="upsell_card_customization_title">E muito mais…</string>
     <string name="upsell_card_customization_description">Desbloqueie ainda mais performance e recursos de privacidade</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Proteger %1$d dispositivo</item>
-        <item quantity="other">Proteja %1$d dispositivos</item>
+        <item quantity="one">Proteja até %1$d dispositivo</item>
+        <item quantity="other">Proteja até %1$d dispositivos</item>
     </plurals>
     <string name="upsell_card_devices_description">Segurança e privacidade em todos os seus dispositivos</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -464,7 +464,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Navegue por velocidades ainda maiores (até %1$d Gbps)</string>
+    <string name="upsell_card_speed_description">Navegue em velocidades ainda mais altas(até %1$d Gbps)</string>
     <string name="upsell_card_split_tunneling_title">Tunelamento dividido</string>
     <string name="upsell_card_split_tunneling_description">Navegue de dois locais ao mesmo tempo</string>
     <string name="upsell_card_streaming_title">Streaming</string>
@@ -647,11 +647,11 @@
     <string name="whats_new_title">Novidades</string>
     <string name="whats_new_new_look_title">Nova aparência, mesma proteção</string>
     <string name="whats_new_new_look_description">Atualizamos nossos designs e movemos algumas coisas para que o aplicativo seja mais fácil de usar.</string>
-    <string name="whats_new_recents_title">Apresentamos a função Recentes</string>
+    <string name="whats_new_recents_title">Apresentando Recentes</string>
     <string name="whats_new_recents_description">Agora é ainda mais fácil reconectar-se aos seus servidores favoritos. Veja suas conexões mais recentes na tela inicial ou fixe-as para acesso rápido. Recentes substitui Perfis.</string>
     <string name="whats_new_dismiss_button">Dê uma olhada</string>
     <string name="whats_new_added_countries_title">Novos países gratuitos</string>
-    <string name="whats_new_added_countries_description">Existem agora servidores gratuitos na Polónia e na Roménia. Para evitar a aglomeração de servidores, removemos a seleção manual de países e fizemos grandes melhorias na seleção automática de servidores.</string>
+    <string name="whats_new_added_countries_description">Existem agora servidores gratuitos na Polônia e na Romênia. Para evitar a aglomeração de servidores, removemos a seleção manual de países e fizemos grandes melhorias na seleção automática de servidores.</string>
     <string name="welcome_plus_title">Boas-vindas ao VPN Plus</string>
     <string name="welcome_plus_description">Aproveite recursos extras de privacidade, desempenho aprimorado e customização de VPN de próximo nível.</string>
     <string name="welcome_plus_feature_security">Recursos avançados de segurança</string>
@@ -851,7 +851,7 @@
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Seleção automática de [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">Selecionado automaticamente de [flags]</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -862,7 +862,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Seleção automática de [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Selecionado automaticamente de [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -870,8 +870,8 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="one">Seleção automática de %1$d país</item>
-        <item quantity="other">Seleção automática de %1$d países</item>
+        <item quantity="one">Selecionado automaticamente de %1$d país</item>
+        <item quantity="other">Selecionado automaticamente de %1$d países</item>
     </plurals>
     <!-- tag(Redesign_2023)
          Help button above the connection card.
@@ -963,17 +963,17 @@
     -->
     <string name="recent_action_accessibility_state_pinned">Fixado</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">Todos os servidores do país estão em manutenção.</string>
+    <string name="message_country_servers_in_maintenance">Todos os servidores do país estão em manutenção</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">Todos os servidores dessa cidade estão em manutenção.</string>
+    <string name="message_city_servers_in_maintenance">Todos os servidores dessa cidade estão em manutenção</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">Todos os servidores desse estado estão em manutenção.</string>
+    <string name="message_state_servers_in_maintenance">Todos os servidores desse estado estão em manutenção</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_in_maintenance">O servidor está em manutenção</string>
+    <string name="message_server_in_maintenance">Servidor em manutenção</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Servidor indisponível</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">O gateway está em manutenção</string>
+    <string name="message_gateway_in_maintenance">Gateway em manutenção</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Encerrar sessão</string>
     <!-- tag(Redesign_2023) -->
@@ -1015,7 +1015,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Reportar um problema</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Registros de depuração</string>
+    <string name="settings_debug_logs_title">Logs de Depuração</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Melhorar a Proton</string>
     <!-- tag(Redesign_2023) -->
@@ -1051,15 +1051,15 @@
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Todos os países (%1$d)</string>
-    <string name="country_filter_all_list_header_free">Países Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_all_list_header_free">Mais países (%1$d)</string>
+    <string name="country_filter_countries_list_header">Países (%1$d)</string>
     <string name="country_filter_cities_list_header">Cidades (%1$d)</string>
     <string name="country_filter_states_list_header">Estados (%1$d)</string>
     <string name="country_filter_servers_list_header">Servidores (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Países do Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Países P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Cidades P2P (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">Estads P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">Estados P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">Países Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Servidores Tor (%1$d)</string>
     <string name="country_filter_info_label">Informações</string>
@@ -1147,9 +1147,9 @@
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">O Secure Core conecta você ao seu servidor de destino através de um segundo servidor VPN de segurança máxima.\n\nEsse nível mais alto de proteção pode causar maior latência e velocidades mais lentas.</string>
     <string name="info_secure_core_standard_header">Conexão VPN padrão</string>
-    <string name="info_secure_core_secure_header">Conexão Secure Core VPN</string>
+    <string name="info_secure_core_secure_header">Conexão VPN Secure Core</string>
     <string name="info_dialog_tor_description">Conecte-se a um servidor Tor para acessar serviços ocultos e sites da rede onion usando qualquer navegador.</string>
-    <string name="info_dialog_button_learn_more_tor">Como acesas a rede Tor</string>
+    <string name="info_dialog_button_learn_more_tor">Como acessar a rede Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Como fazer torrent com P2P</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
@@ -1247,9 +1247,9 @@
     <string name="settings_account_button_my_account">Minha conta</string>
     <string name="settings_account_button_delete_account">Excluir conta</string>
     <string name="settings_advanced_alternative_routing_title">Roteamento alternativo</string>
-    <string name="settings_advanced_alternative_routing_description">Se os serviços da Proton forem bloqueados por restrições da rede, tentaremos usar roteamento alternativo de rede para conectar você aos nossos sites.</string>
+    <string name="settings_advanced_alternative_routing_description">Se os serviços da Proton forem bloqueados devido a restrições de rede, tentaremos usar roteamento de rede alternativo para conectar você aos nossos sites.</string>
     <string name="settings_advanced_allow_lan_title">Conexões LAN</string>
-    <string name="settings_advanced_allow_lan_description">Permite que você se conecte a impressoras, alto-falantes e outros dispositivos na mesma rede local.</string>
+    <string name="settings_advanced_allow_lan_description">Permite conectar-se a impressoras, alto-falantes e outros dispositivos na rede local do seu dispositivo.</string>
     <string name="settings_advanced_nat_type_title">Tipo NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Selecione um tipo de tradução de endereço de rede para a sua conexão. %1$s</string>
@@ -1283,11 +1283,12 @@
     <string name="p2p_upsell_banner_description">Baixe arquivos via BitTorrent e outros protocolos de compartilhamento de arquivos</string>
     <string name="tor_upsell_banner_description">Use a rede Tor sobre sua conexão VPN para privacidade extra</string>
     <string name="vpnplus_upsell_banner_description">Faça upgrade para o VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_title">Tente procurar por…</string>
+    <string name="search_zero_screen_info_countries_title">Países</string>
+    <string name="search_zero_screen_info_cities_title">Cidades</string>
+    <string name="search_zero_screen_info_servers_title">Servidores</string>
+    <string name="search_zero_screen_info_countries_examples">Suíça, Estados Unidos, Itália, Canadá…</string>
+    <string name="search_zero_screen_info_cities_examples">Nova York, Londres, Tóquio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Error fetching prices.</string>
 </resources>

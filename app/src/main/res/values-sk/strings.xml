@@ -1090,7 +1090,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Všetky krajiny (%1$d)</string>
     <string name="country_filter_all_list_header_free">Plus krajiny (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Krajiny (%1$d)</string>
     <string name="country_filter_cities_list_header">Mestá (%1$d)</string>
     <string name="country_filter_states_list_header">Štáty (%1$d)</string>
     <string name="country_filter_servers_list_header">Servery (%1$d)</string>
@@ -1343,11 +1343,12 @@
     <string name="p2p_upsell_banner_description">Sťahujte súbory cez BitTorrent a iné protokoly na zdieľanie súborov</string>
     <string name="tor_upsell_banner_description">Použite sieť Tor nad vaším VPN pripojením pre väčšie súkromie</string>
     <string name="vpnplus_upsell_banner_description">Inovovať na VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_title">Skúste vyhľadať...</string>
+    <string name="search_zero_screen_info_countries_title">Krajiny</string>
+    <string name="search_zero_screen_info_cities_title">Mestá</string>
+    <string name="search_zero_screen_info_servers_title">Servery</string>
+    <string name="search_zero_screen_info_countries_examples">Švajčiarsko, Spojené štáty, Taliansko, Kanada...</string>
+    <string name="search_zero_screen_info_cities_examples">New York, Londýn, Tokio, Sydney...</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Chyba pri načítavaní cien.</string>
 </resources>
