@@ -1033,7 +1033,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">全部國家 (%1$d)</string>
     <string name="country_filter_all_list_header_free">增加部國家 (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">國家 (%1$d)</string>
     <string name="country_filter_cities_list_header">城市 (%1$d)</string>
     <string name="country_filter_states_list_header">州 (%1$d)</string>
     <string name="country_filter_servers_list_header">伺服器 (%1$d)</string>
@@ -1260,4 +1260,5 @@
     <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Error fetching prices.</string>
 </resources>

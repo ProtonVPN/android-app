@@ -82,7 +82,7 @@
     <string name="restrictedMaintenanceTitle">Vzdrževalna dela v teku</string>
     <string name="restrictedMaintenanceDescription">Strežnik, s katerim se trenutno poskušate povezati, je v vzdrževanju. Poskusite z drugim strežnikom.</string>
     <string name="errorUserDelinquent"><![CDATA[Vaš račun ima trenutno zapadli račun. Vse neplačane račune plačajte na &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Dosegli ste največje dovoljeno število hkratnih povezav za vaš račun. Za več povezav nadgradite svoj načrt Proton VPN.</string>
+    <string name="errorMaxSessions">Dosegli ste največje dovoljeno število hkratnih povezav za vaš račun. Za več povezav nadgradite svoj paket Proton VPN.</string>
     <string name="onboardingSignup">Prijavite se</string>
     <string name="offerTooltipShowOffer">Oglejte si ponudbo</string>
     <string name="listItemMaintenance">Vzdrževalna dela v teku</string>
@@ -299,7 +299,7 @@
     <string name="tv_detail_connect">Poveži</string>
     <string name="tv_detail_description_streaming_country">Pretakajte svojo najljubšo vsebino. Dostopajte do več aplikacij s paketom Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Pretakajte več svoje najljubše vsebine s paketom Proton VPN Plus.</string>
-    <string name="tv_detail_description_country_not_available">Ta država ni na voljo. Pridobite več možnosti pretakanja z načrtom Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Ta država ni na voljo. Pridobite več možnosti pretakanja s paketom Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">S svojimi aplikacijami pretakajte svoje najljubše videoposnetke, filme ali šport.</string>
     <string name="tv_login_title_signin">Prijavite se v Proton VPN</string>
     <string name="tv_login_title_welcome">Pretakajte svojo najljubšo video vsebino</string>
@@ -316,7 +316,7 @@
     <string name="tv_upgrade_title">Začnite pretakati s Plusom</string>
     <string name="back">Nazaj</string>
     <string name="tv_upgrade_url_details"><![CDATA[Obiščite <b>%1$s</b> za nadgradnjo na Proton VPN Plus zdaj.]]></string>
-    <string name="tv_upgrade_description">Pridobite načrt Proton VPN Plus za dostop do več kot 500 strežnikov po vsem svetu in optimiziranih možnosti pretakanja za Netflix, Amazon Prime Video, Disney+ in številne druge.</string>
+    <string name="tv_upgrade_description">Pridobite paket Proton VPN Plus za dostop do več kot 500 strežnikov po vsem svetu in optimiziranih možnosti pretakanja za Netflix, Amazon Prime Video, Disney+ in številne druge.</string>
     <string name="tv_vpn_error_dialog_title">Povezava VPN ni uspela</string>
     <string name="tv_signout_label">Odjava</string>
     <string name="tv_signout_dialog_title">Ali ste prepričani, da se želite izpisati?</string>
@@ -342,8 +342,8 @@
     <string name="settingsReconnectToApplySettingsDialogContent">Nove nastavitve bodo veljale ob naslednji povezavi.</string>
     <string name="settingsReconnectToChangeDialogContent">To bo znova zagnalo vašo povezavo.</string>
     <string name="reconnectToEnableNetshield">To bo znova zagnalo vašo povezavo.\n\nOpomba: nekatera spletna mesta se morda ne bodo naložila z vklopljenim NetShieldom.</string>
-    <string name="notification_subscription_expired_title">Vaš naročniški načrt Proton VPN je potekel</string>
-    <string name="notification_subscription_expired_content">Vaš načrt smo morali znižati, vendar vas ponovno povezujemo z najhitrejšim strežnikom, ki je na voljo v tem načrtu.</string>
+    <string name="notification_subscription_expired_title">Vaš naročniški paket Proton VPN je potekel</string>
+    <string name="notification_subscription_expired_content">Vaš paket smo morali znižati, vendar vas ponovno povezujemo z najhitrejšim strežnikom, ki je na voljo v tem paketu.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaša naročnina je bila znižana.</string>
     <string name="notification_delinquent_title">Vaš račun Proton VPN ima neplačane račune</string>
     <string name="notification_delinquent_content">Vzemite si trenutek in posodobite podatke za obračun, da bo vaša naročnina ostala aktivna.</string>
@@ -356,8 +356,8 @@
         <item quantity="other">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d naprav.</item>
     </plurals>
     <string name="notification_max_sessions_content">Odklopite drugo napravo, da povežete to.</string>
-    <string name="notification_cancel_to_free">Ste na brezplačnem načrtu. Na voljo so brezplačni strežniki in funkcije.</string>
-    <string name="notification_cancel_to_basic">Ste na osnovnem načrtu. Osnovni &amp; Na voljo so brezplačni strežniki in funkcije.</string>
+    <string name="notification_cancel_to_free">Ste na brezplačnem paketu. Na voljo so brezplačni strežniki in funkcije.</string>
+    <string name="notification_cancel_to_basic">Ste na osnovnem paketu. Osnovni &amp; brezplačni strežniki in funkcije so na voljo.</string>
     <string name="notification_cancel_to_delinquent">Po plačilu čakajočih računov boste lahko znova dostopali do premium funkcij.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Iz strežnika: </string>
@@ -1092,7 +1092,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Vse države (%1$d)</string>
     <string name="country_filter_all_list_header_free">Plus države (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Države (%1$d)</string>
     <string name="country_filter_cities_list_header">Mesta (%1$d)</string>
     <string name="country_filter_states_list_header">Države (%1$d)</string>
     <string name="country_filter_servers_list_header">Strežniki (%1$d)</string>
@@ -1353,4 +1353,5 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Error fetching prices.</string>
 </resources>

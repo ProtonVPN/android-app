@@ -1052,7 +1052,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Tutti i paesi (%1$d)</string>
     <string name="country_filter_all_list_header_free">Paesi Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Paesi (%1$d)</string>
     <string name="country_filter_cities_list_header">Città (%1$d)</string>
     <string name="country_filter_states_list_header">Stati (%1$d)</string>
     <string name="country_filter_servers_list_header">Server (%1$d)</string>
@@ -1066,7 +1066,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Carico: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Carico: %1$s %%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1283,11 +1283,12 @@
     <string name="p2p_upsell_banner_description">Scarica i file tramite BitTorrent e altri protocolli di condivisione dei file</string>
     <string name="tor_upsell_banner_description">Utilizza la rete Tor tramite la tua connessione VPN per una privacy maggiore</string>
     <string name="vpnplus_upsell_banner_description">Effettua l\'upgrade a VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_title">Prova a cercare...</string>
+    <string name="search_zero_screen_info_countries_title">Paesi</string>
+    <string name="search_zero_screen_info_cities_title">Città</string>
+    <string name="search_zero_screen_info_servers_title">Server</string>
+    <string name="search_zero_screen_info_countries_examples">Svizzera, Stati Uniti, Italia, Canada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, Londra, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Errore nel caricamento dei prezzi</string>
 </resources>

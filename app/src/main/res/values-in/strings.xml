@@ -1033,7 +1033,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Semua negara (%1$d)</string>
     <string name="country_filter_all_list_header_free">Negara Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Negara (%1$d)</string>
     <string name="country_filter_cities_list_header">Kota (%1$d)</string>
     <string name="country_filter_states_list_header">Negara (%1$d)</string>
     <string name="country_filter_servers_list_header">Server (%1$d)</string>
@@ -1253,11 +1253,12 @@
     <string name="p2p_upsell_banner_description">Unduh berkas melalui BitTorrent dan berbagai protokol file sharing lainnya</string>
     <string name="tor_upsell_banner_description">Sandingkan jaringan Tor dengan koneksi VPN Anda untuk privasi yang lebih</string>
     <string name="vpnplus_upsell_banner_description">Tingkatkan ke VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
+    <string name="search_zero_screen_title">Coba cari…</string>
+    <string name="search_zero_screen_info_countries_title">Negara</string>
+    <string name="search_zero_screen_info_cities_title">Kota</string>
+    <string name="search_zero_screen_info_servers_title">Server</string>
+    <string name="search_zero_screen_info_countries_examples">Swiss, Amerika Serikat, Italia, Kanada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Gagal memperoleh harga.</string>
 </resources>

@@ -1090,7 +1090,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Wszystkie kraje (%1$d)</string>
     <string name="country_filter_all_list_header_free">Kraje planu Plus (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Kraje (%1$d)</string>
     <string name="country_filter_cities_list_header">Miasta (%1$d)</string>
     <string name="country_filter_states_list_header">Stany (%1$d)</string>
     <string name="country_filter_servers_list_header">Serwery (%1$d)</string>
@@ -1343,11 +1343,12 @@
     <string name="p2p_upsell_banner_description">Pobieraj pliki za pośrednictwem protokołów udostępniania plików, takich jak BitTorrent</string>
     <string name="tor_upsell_banner_description">Korzystaj z sieci Tor za pomocą połączenia VPN zapewniającego dodatkową prywatność</string>
     <string name="vpnplus_upsell_banner_description">Ulepsz do planu VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_title">Spróbuj wyszukać…</string>
+    <string name="search_zero_screen_info_countries_title">Kraje</string>
+    <string name="search_zero_screen_info_cities_title">Miasta</string>
+    <string name="search_zero_screen_info_servers_title">Serwery</string>
+    <string name="search_zero_screen_info_countries_examples">Szwajcaria, Stany Zjednoczone, Włochy, Kanada…</string>
+    <string name="search_zero_screen_info_cities_examples">Nowy Jork, Londyn, Tokio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Pobieranie cen nie powiodło się.</string>
 </resources>

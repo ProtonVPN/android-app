@@ -1052,7 +1052,7 @@
     <string name="country_filter_tor">Tor</string>
     <string name="country_filter_all_list_header">Tüm ülkeler (%1$d)</string>
     <string name="country_filter_all_list_header_free">Plus ülkeleri (%1$d)</string>
-    <string name="country_filter_countries_list_header">Countries (%1$d)</string>
+    <string name="country_filter_countries_list_header">Ülkeler (%1$d)</string>
     <string name="country_filter_cities_list_header">İller (%1$d)</string>
     <string name="country_filter_states_list_header">Eyaletler (%1$d)</string>
     <string name="country_filter_servers_list_header">Sunucular (%1$d)</string>
@@ -1283,11 +1283,12 @@
     <string name="p2p_upsell_banner_description">Dosyaları BitTorrent ve diğer dosya paylaşım iletişim kuralları üzerinden indirin</string>
     <string name="tor_upsell_banner_description">Ek gizlilik sağlamak için VPN bağlantınızı Tor ağından geçirin</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_title">Şunun için aramayı dene…</string>
+    <string name="search_zero_screen_info_countries_title">Ülkeler</string>
+    <string name="search_zero_screen_info_cities_title">İller</string>
+    <string name="search_zero_screen_info_servers_title">Sunucular</string>
+    <string name="search_zero_screen_info_countries_examples">İsviçre, Birleşik Devletler, İtalya, Kanada…</string>
+    <string name="search_zero_screen_info_cities_examples">New York, Londra, Tokyo, Sidney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="error_fetching_prices">Fiyatlar alınırken sorun çıktı.</string>
 </resources>
