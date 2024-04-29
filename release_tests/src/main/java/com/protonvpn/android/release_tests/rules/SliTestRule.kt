@@ -22,6 +22,7 @@
 package com.protonvpn.android.release_tests.rules
 
 import com.protonvpn.android.release_tests.helpers.LokiClient
+import com.protonvpn.android.release_tests.helpers.TestMonitoringHelper
 import org.junit.runner.Description
 
 class SliTestRule : LaunchVpnAppRule() {
@@ -29,13 +30,25 @@ class SliTestRule : LaunchVpnAppRule() {
 
     override fun finished(description: Description?) {
         super.finished(description)
-        val lokiEntry = lokiClient.createLokiEntry(LokiClient.metrics)
-        lokiClient.pushLokiEntry(lokiEntry)
+
+        if (LokiClient.metrics.isEmpty()) {
+            return
+        }
+
+        val metricsLabels = lokiClient.getMetricLabels()
+        val metricsEntry = lokiClient.createLokiEntry(LokiClient.metrics, metricsLabels)
+        lokiClient.pushLokiEntry(metricsEntry)
+
+        val logsLabels = lokiClient.getLogsLabels()
+        val logsEntry = lokiClient.createLogsEntry(lokiClient.parseLogs(), logsLabels)
+        lokiClient.pushLokiEntry(logsEntry)
     }
 
     override fun failed(e: Throwable?, description: Description?) {
         super.failed(e, description)
-        LokiClient.metrics["status"] = "failed"
+        if (TestMonitoringHelper.isMonitoringStarted) {
+            LokiClient.metrics["status"] = "failed"
+        }
     }
 
     override fun succeeded(description: Description?) {

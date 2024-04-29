@@ -23,6 +23,7 @@ package com.protonvpn.android.release_tests.tests
 
 import com.protonvpn.android.release_tests.BuildConfig
 import com.protonvpn.android.release_tests.helpers.LokiClient
+import com.protonvpn.android.release_tests.helpers.TestMonitoringHelper
 import com.protonvpn.android.release_tests.robots.LoginRobot
 import com.protonvpn.android.release_tests.rules.LaunchVpnAppRule
 import com.protonvpn.android.release_tests.rules.SliTestRule
@@ -30,6 +31,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
+import java.util.UUID
 
 class MainSliMeasurements {
 
@@ -42,6 +44,7 @@ class MainSliMeasurements {
 
     @Before
     fun setup() {
+        LokiClient.id = UUID.randomUUID().toString()
         loginRobot = LoginRobot()
     }
 
@@ -52,9 +55,9 @@ class MainSliMeasurements {
         loginRobot.navigateToSignIn()
         loginRobot.enterCredentials("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
         loginRobot.pressSignIn()
-        val startTime = System.currentTimeMillis()
-        loginRobot.waitUntilLoggedIn()
-        val durationSeconds = (System.currentTimeMillis() - startTime) / 1000.0
-        LokiClient.metrics["duration"] = "%.2f".format(durationSeconds)
+        TestMonitoringHelper.measureTime {
+            loginRobot.waitUntilLoggedIn()
+        }
+        LokiClient.metrics["duration"] = "%.2f".format(TestMonitoringHelper.elapsedTimeSeconds)
     }
 }
