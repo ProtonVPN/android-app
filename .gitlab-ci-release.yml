@@ -155,7 +155,7 @@ publish nexus:
   image: $CI_REGISTRY/tpe/test-scripts
   allow_failure: true
   dependencies:
-    - build google play release
+    - build google play dev (monitoring release)
   before_script: []
   script:
     # Delete old assets
@@ -164,7 +164,7 @@ publish nexus:
       --group $NEXUS_GROUP
     # Upload release build
     - /usr/local/bin/nexus/upload_to_nexus.py
-      --path "app/build/outputs/apk/productionGooglePlayStore/release/ProtonVPN-*-production-google-playStore-release.apk"
+      --path "app/build/outputs/apk/productionGoogleDev/release/ProtonVPN-*-production-google-dev-release.apk"
       --repository $NEXUS_REPO
       --group $NEXUS_GROUP
       --filename "vpn-latest-stable-release.apk"
