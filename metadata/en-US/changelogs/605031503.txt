@@ -1,0 +1,2 @@
+What's new
+The Countries screen has been updated, now you can filter by server features and enjoy a new user-friendly navigation.
