@@ -117,12 +117,12 @@
     <string name="retry">Reintentar</string>
     <string name="secure_core">Secure Core</string>
     <string name="attachments">Adjuntos</string>
-    <string name="report_message">Mensaje del reporte</string>
+    <string name="report_message">Mensaje del informe</string>
     <string name="report_bug_email_label">El correo</string>
     <string name="report_bug_email_hint">Ingrese la dirección de correo</string>
     <string name="report_bug_message_label">Mensaje</string>
     <string name="report_bug_message_hint">Describa el error y cómo y dónde lo encontró</string>
-    <string name="send_report">Enviar reporte</string>
+    <string name="send_report">Enviar informe</string>
     <string name="excludeIpTitle">Excluir direcciones IP</string>
     <string name="discardChanges">¿Descartar los cambios sin guardar?</string>
     <string name="discard">Descartar</string>
@@ -157,7 +157,7 @@
     <string name="error_prepare_vpn_settings">Ir a los ajustes VPN de Android</string>
     <string name="error_prepare_vpn_title">Error: problema de permisos VPN</string>
     <string name="error_server_not_set">El servidor ya no está disponible</string>
-    <string name="bugReportThankYouToast">Gracias por el reporte</string>
+    <string name="bugReportThankYouToast">Gracias por el informe</string>
     <string name="bugReportErrorEmptyEmail">El correo no puede estar vacío</string>
     <string name="bugReportErrorInvalidEmail">Dirección de correo no válida</string>
     <string name="bugReportErrorEmptyDescription">Escríbanos lo que está sucediendo.</string>
@@ -233,8 +233,8 @@
     <string name="settingsSmartProtocolDescription">Utiliza automáticamente el protocolo y el puerto que ofrecen la mejor conectividad.</string>
     <string name="settingsEnableTelemetryTitle">Compartir estadísticas de uso anónimas</string>
     <string name="settingsEnableTelemetryDescription">Los datos de uso nos ayudan a superar los bloqueos de VPN y mejorar el rendimiento de la aplicación.</string>
-    <string name="settingsSendCrashReportsTitle">Compartir reportes de error anónimos</string>
-    <string name="settingsSendCrashReportsDescription">Los reportes de error nos ayuda a corregir errores, detectar firewalls y evitar bloqueos de VPN.</string>
+    <string name="settingsSendCrashReportsTitle">Compartir informes de error anónimos</string>
+    <string name="settingsSendCrashReportsDescription">Los informes de error nos ayuda a corregir errores, detectar firewalls y evitar bloqueos de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Estadísticas de uso</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen la dirección IP y no pueden ser usadas para identificarle. Nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
     <string name="netshield_settings_description_not_html">Protéjase de anuncios, malware y rastreadores en sitios web y aplicaciones. Si los sitios web no cargan, intente desactivar NetShield. %1$s</string>

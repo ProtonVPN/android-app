@@ -1241,7 +1241,7 @@
     <string name="settings_vpn_accelerator_description">Nopeuta yhteyttäsi jopa 400 %% suorituskykyä parantavien tekniikoiden avulla. %1$s</string>
     <string name="settings_account_settings_title">Tilin asetukset</string>
     <string name="settings_account_change_password">Vaihda salasana</string>
-    <string name="settings_account_recovery_email">Palautuksen sähköpostiosoite</string>
+    <string name="settings_account_recovery_email">Palautusosoite</string>
     <string name="settings_account_recovery_email_not_set">Ei asetettu</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Oma tili</string>
