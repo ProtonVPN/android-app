@@ -12,6 +12,7 @@ import me.proton.core.accountrecovery.domain.IsAccountRecoveryResetEnabled
 import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryEnabled
 import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryResetEnabled
 import me.proton.core.auth.dagger.CoreAuthFeaturesModule
+import me.proton.core.auth.domain.IsCommonPasswordCheckEnabled
 import me.proton.core.auth.domain.usecase.IsCredentialLessEnabled
 import me.proton.core.auth.domain.usecase.IsSsoCustomTabEnabled
 import me.proton.core.auth.domain.usecase.IsSsoEnabled
@@ -56,6 +57,10 @@ interface MockCoreFeaturesModule {
     @Singleton
     fun bindIsNotificationsEnabled(impl: FakeIsNotificationsEnabled): IsNotificationsEnabled
 
+    @Binds
+    @Singleton
+    fun bindIsCommonPasswordCheckEnabled(impl: FakeIsCommonPasswordCheckEnabled): IsCommonPasswordCheckEnabled
+
     companion object {
         @Provides
         @Singleton
@@ -64,3 +69,4 @@ interface MockCoreFeaturesModule {
         // NOTE: Other Fake.. classes have a default `false` value.
     }
 }
+
