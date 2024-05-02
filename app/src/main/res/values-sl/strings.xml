@@ -73,8 +73,8 @@
     <string name="settingsDnsLeakDescription">Preprečite razkrivanje podrobnosti o poizvedbi DNS tretjim osebam (vedno vključeno)</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">MTU velikost</string>
-    <string name="settingsMtuDescription">Če privzeta vrednost ni primerna za določeno omrežje, vnesite vrednost v območju 1280–1500. Spremenite ga le, če veste, kaj počnete.</string>
-    <string name="settingsMtuRangeInvalid">Vrednost MTU mora biti v območju 1280–1500</string>
+    <string name="settingsMtuDescription">Če privzeta vrednost ni primerna za določeno omrežje, vnesite vrednost v območju 1280-1500. Spremenite ga le, če veste, kaj počnete.</string>
+    <string name="settingsMtuRangeInvalid">Vrednost MTU mora biti v območju 1280-1500.</string>
     <string name="settingsAllowNonStandardPortsTitle">Nestandardna vrata</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Uporabite Proton VPN za kakršne koli posebne potrebe, tako da omogočite promet do nestandardnih vrat prek omrežja VPN. <a href="%1$s">Več o tem</a>]]></string>
     <string name="settingsModerateNatTitle">Zmerni NAT</string>
@@ -89,7 +89,7 @@
     <string name="listAllCountries">Vse lokacije (%1$d)</string>
     <string name="listGateways">Prehodi</string>
     <string name="listFreeCountries">Brezplačne lokacije (%1$d)</string>
-    <string name="listPremiumCountries">Osnovni &amp; Plus lokacije (%1$d)</string>
+    <string name="listPremiumCountries">Osnovne &amp; Plus lokacije (%1$d)</string>
     <string name="listPremiumCountries_new_plans">Plus lokacije (%1$d)</string>
     <string name="listFastestServer">Najhitrejši strežnik</string>
     <string name="listFreeServers">Brezplačni strežniki (%1$d)</string>
@@ -215,16 +215,16 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V primeru, da je Proton blokiran, dovolite aplikaciji, da preizkusi alternativne poti za doseganje strežnikov Proton. <a href="%1$s">Več o tem</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada s strani države</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša država morda blokira dostop do Protona. Poskusite uporabiti <a href=\'%1$s\'>Tor</a> za dostop do Protona.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Vedno vklopljen VPN &amp; stikalo za izklop</string>
+    <string name="settingsAlwaysOnAndKillSwitchTitle">Vedno vključen VPN &amp; stikalo za izklop</string>
     <string name="settingsAlwaysOnKillSwitchDescription">Nastavite, kako se Proton VPN obnaša, če je vaša povezava motena</string>
-    <string name="settingsAlwaysOnWindowHeader">Kako vklopiti vedno vklopljen VPN in stikalo za izklop:</string>
+    <string name="settingsAlwaysOnWindowHeader">Kako vklopiti vedno vključen VPN in stikalo za izklop:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Odprite <b>Nastavitve</b> vaše naprave tako, da tapnete spodnji gumb]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Poiščite Proton VPN in tapnite %1$s</string>
     <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
          find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tapnite stikalo poleg <b>Always-on VPN</b>, da ga omogočite]]></string>
+    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tapnite stikalo poleg <b>Vedno vključen VPN</b>, da ga omogočite]]></string>
     <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
          Android settings.
          Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
@@ -233,13 +233,13 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Odprite nastavitve za Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Če aktivirate stikalo za izklop, boste onemogočili razdeljeno tuneliranje, saj stikalo za izklop blokira vse povezave zunaj tunela VPN</string>
     <string name="settingsSmartProtocolDescription">Samodejno uporabite protokol in vrata, ki nudijo najboljšo povezljivost.</string>
-    <string name="settingsEnableTelemetryTitle">Pošlji anonime podatke o uporabi?</string>
+    <string name="settingsEnableTelemetryTitle">Delite anonimne podatke o uporabi</string>
     <string name="settingsEnableTelemetryDescription">Podatki o uporabi nam pomagajo premagati blokade VPN in izboljšati delovanje aplikacije.</string>
     <string name="settingsSendCrashReportsTitle">Delite anonimna poročila o zrušitvah</string>
     <string name="settingsSendCrashReportsDescription">Poročila o zrušitvah nam pomagajo odpraviti napake, zaznati požarne zidove in se izogniti blokadam VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistika uporabe</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ti statistični podatki ne vsebujejo vašega naslova IP in jih ni mogoče uporabiti za vašo identifikacijo. Nikoli jih ne bomo delili s tretjimi osebami. <a href="%1$s">Več o tem</a>]]></string>
-    <string name="netshield_settings_description_not_html">Zaščitite se pred oglasi, zlonamerno programsko opremo in sledilci na spletnih mestih in v aplikacijah. Če se spletna mesta ne naložijo, poskusite onemogočiti NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Zaščitite se pred oglasi, zlonamerno programsko opremo in sledilniki na spletnih mestih in v aplikacijah. Če se spletne strani ne naložijo, poskusite onemogočiti NetShield. %1$s</string>
     <string name="learn_more">Izvedi več</string>
     <string name="netshield_state_on" comment="Describes state, not action">Vključeno</string>
     <string name="netshield_state_off" comment="Describes state, not action">Izključeno</string>
@@ -251,12 +251,12 @@
     <string name="lan_state_off" comment="Describes state, not action">Izključeno</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Vključeno</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Izključeno</string>
-    <string name="netshield_free_description">Blokirajte oglase, sledilce in zlonamerno programsko opremo na spletnih mestih in v aplikacijah</string>
+    <string name="netshield_free_description">Blokirajte oglase, sledilnike in zlonamerno programsko opremo na spletnih mestih in v aplikacijah</string>
     <string name="netshield_what_data_means">Kaj pomenijo podatki NetShield</string>
-    <string name="netshield_ads_title">Oglas</string>
+    <string name="netshield_ads_title">Oglasi</string>
     <string name="netshield_ads_details">Oglasi in nevidni sledilniki oglasov</string>
     <string name="netshield_trackers_title">Sledilniki</string>
-    <string name="netshield_trackers_details">Piškotki in drugi sledilci, ki shranjujejo in delijo informacije o vaši internetni dejavnosti</string>
+    <string name="netshield_trackers_details">Piškotki in drugi sledilniki, ki shranjujejo in delijo informacije o vaši internetni dejavnosti</string>
     <string name="netshield_data_title">Podatki</string>
     <string name="netshield_data_details">Količina neželenih podatkov iz oglasov, sledilnikov in zlonamerne programske opreme, ki jih blokira NetShield</string>
     <string name="accessibility_netshield_status_on_click">Nastavitve NetShield</string>
@@ -273,12 +273,12 @@
         <item quantity="other">Sledilnikov ustavljenih</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Shranjeni podatki</string>
-    <string name="netshield_setting_warning">Nekatera spletna mesta se morda ne bodo pravilno naložila, če so oglasi in sledilniki blokirani.</string>
+    <string name="netshield_setting_warning">Nekatere spletne strani se morda ne bodo pravilno naložile, če so oglasi in sledilniki blokirani.</string>
     <string name="dialogDontShowAgain">Ne prikaži več</string>
     <string name="guestHoleActivated">Dostop do Proton VPN je lahko na vašem območju omejen, zato bo trajalo dlje kot običajno. Počakajte, da rešimo to težavo.</string>
     <string name="guestHoleNotificationContent">Poskušam zaobiti težave z omrežjem. To vam bo pomagalo dostopati do Proton VPN.</string>
     <string name="onMaintenanceDetected">Strežnik VPN, s katerim ste bili povezani, je v vzdrževalnih delih. Samodejno smo vas ponovno povezali z najhitrejšim razpoložljivim strežnikom.</string>
-    <string name="errorTunMultiUserPermission">Povezave VPN ni bilo mogoče inicializirati zaradi spora med dvojno aplikacijo (na primer Dual Messenger) in razdeljenim tuneliranjem. Onemogočite enega od teh in znova zaženite napravo.</string>
+    <string name="errorTunMultiUserPermission">Povezave VPN ni bilo mogoče zagnati zaradi spora med dvojno aplikacijo (na primer Dual Messenger) in razdeljenim tuneliranjem. Onemogočite enega od teh in znova zaženite napravo.</string>
     <string name="errorTorrentNotAllowed">P2P na tem strežniku ni dovoljen</string>
     <string name="errorWireguardWithPlaceholder">Napaka WireGuard %1$s</string>
     <string name="profileProtocolNotAvailable">Ta profil protokola VPN trenutno ni na voljo. Če želite vzpostaviti povezavo, spremenite protokol.</string>
@@ -290,7 +290,7 @@
     <string name="nameEurope">Evropa</string>
     <string name="nameAmerica">Amerika</string>
     <string name="nameAsia">Azija</string>
-    <string name="nameAfricaAndMiddleEast">Afrika &amp; srednji vzhod</string>
+    <string name="nameAfricaAndMiddleEast">Afrika &amp; Bližnji vzhod</string>
     <string name="nameOceania">Oceanija</string>
     <string name="tvRowMore">Več</string>
     <string name="tv_detail_default_connection_checkbox">Moja najljubša država</string>
@@ -311,7 +311,7 @@
     <string name="tv_login_step3_description">Vnesite kodo:</string>
     <string name="tv_login_timer_label">Ta koda poteče čez:</string>
     <string name="tv_login_refresh">Osveži</string>
-    <string name="tv_login_title_loading">Nalaganje…</string>
+    <string name="tv_login_title_loading">Nalaganje …</string>
     <string name="tv_login_title_refresh">Vaša seja je potekla. Kliknite Osveži, da začnete znova.</string>
     <string name="tv_upgrade_title">Začnite pretakati s Plusom</string>
     <string name="back">Nazaj</string>
@@ -358,7 +358,7 @@
     <string name="notification_max_sessions_content">Odklopite drugo napravo, da povežete to.</string>
     <string name="notification_cancel_to_free">Ste na brezplačnem paketu. Na voljo so brezplačni strežniki in funkcije.</string>
     <string name="notification_cancel_to_basic">Ste na osnovnem paketu. Osnovni &amp; brezplačni strežniki in funkcije so na voljo.</string>
-    <string name="notification_cancel_to_delinquent">Po plačilu čakajočih računov boste lahko znova dostopali do premium funkcij.</string>
+    <string name="notification_cancel_to_delinquent">Po plačilu čakajočih računov boste lahko znova dostopali do premijskih funkcij.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Iz strežnika: </string>
     <string name="reconnect_to_server">Na strežnik: </string>
@@ -407,7 +407,7 @@
     <string name="upgrade_p2p_title">Odklenite prenose enakovrednih (P2P) in skupno rabo datotek </string>
     <string name="upgrade_p2p_text">Izboljšajte hitrost nalaganja in prenosa, medtem ko skrivate svoj naslov IP.</string>
     <string name="upgrade_streaming_title">Pretakajte v 4K</string>
-    <string name="upgrade_streaming_text">Uživajte v svojih najljubših filmih in TV-oddajah kjer koli na svetu.</string>
+    <string name="upgrade_streaming_text">Uživajte v svojih najljubših filmih in serijah kjer koli na svetu.</string>
     <string name="upgrade_tor_title">Dostopajte do omrežja Tor z enim dotikom</string>
     <string name="upgrade_tor_text">Povežite se s skritimi storitvami in Tor spletnimi mesti z običajnim brskalnikom.
 ​</string>

@@ -1172,7 +1172,7 @@
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
-    <string name="connection_details_upload">Przesyłanie</string>
+    <string name="connection_details_upload">Wysyłanie</string>
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
