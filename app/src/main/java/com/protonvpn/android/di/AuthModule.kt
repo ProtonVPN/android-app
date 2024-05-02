@@ -24,16 +24,13 @@ import android.content.Intent
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.VpnLogin
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.ui.login.TroubleshootActivity
 import com.protonvpn.android.ui.login.VpnHelpOptionHandler
-import com.protonvpn.android.vpn.CertificateRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
 import me.proton.core.auth.presentation.HelpOptionHandler
