@@ -1252,14 +1252,14 @@
     <string name="settings_advanced_allow_lan_description">Permite conectar-se a impressoras, alto-falantes e outros dispositivos na rede local do seu dispositivo.</string>
     <string name="settings_advanced_nat_type_title">Tipo NAT</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Selecione um tipo de tradução de endereço de rede para a sua conexão. %1$s</string>
+    <string name="settings_advanced_nat_type_description">Selecione um tipo de tradução de endereço de rede para sua conexão. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Selecione um tipo de tradução de endereço de rede para sua conexão.</string>
     <string name="settings_advanced_nat_type_strict">Estrito (tipo 3)</string>
     <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
-    <string name="settings_advanced_nat_type_strict_description">Restringe os dados que entram na sua rede. Essa opção é mais segura, mas pode tornar as conexões de jogos peer-to-peer mais difíceis.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Algumas restrições nos dados que entram na sua rede. Esta é a melhor opção para jogar games on-line.</string>
+    <string name="settings_advanced_nat_type_strict_description">Restringe a entrada de dados na sua rede. Esta opção é mais segura, mas pode dificultar as conexões de jogos ponto a ponto.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Alguma restrição na entrada de dados na sua rede. Esta opção é melhor para jogos on-line.</string>
     <string name="settings_split_tunneling_description">Customize sua conexão decidindo quais aplicativos e endereços IP serão protegidos pela VPN. %1$s</string>
-    <string name="settings_protocol_description">Um protocolo de VPN determina como os dados trafegam entre o servidor VPN e o seu dispositivo. %1$s</string>
+    <string name="settings_protocol_description">Um protocolo VPN determina como os dados trafegam entre um servidor VPN e o seu dispositivo. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicativos excluídos</string>
     <string name="settings_split_tunneling_excluded_ips">Endereços de IP excluídos</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nenhum</string>
@@ -1270,13 +1270,13 @@
     <string name="info_secure_core_advanced_privacy">Privacidade avançada</string>
     <string name="info_secure_core_higher_latency">Latência alta</string>
     <string name="info_p2p_what_title">O que é P2P?</string>
-    <string name="info_p2p_what_description">A tecnologia peer-to-peer (P2P) te permite se conectar e compartilhar arquivos diretamente com outros dispositivos.\n\nNossos servidores P2P são criados especialmente para suportar esse tipo de compartilhamento de arquivos.</string>
+    <string name="info_p2p_what_description">A tecnologia peer-to-peer (P2P) permite conectar e compartilhar arquivos diretamente com outros dispositivos.\n\nNossos servidores P2P são especialmente projetados para suportar esse tipo de compartilhamento de arquivos.</string>
     <string name="info_p2p_torrenting_title">O que é torrent?</string>
-    <string name="info_p2p_torrenting_description">O compartilhamento e download rápido de arquivos grandes em P2P.</string>
+    <string name="info_p2p_torrenting_description">O compartilhamento e download rápido de arquivos grandes em uma rede P2P.</string>
     <string name="info_p2p_why_title">Por que usar um servidor P2P ao fazer torrent?</string>
-    <string name="info_p2p_why_description_speed">Velocidades aumentadas de envio e download</string>
+    <string name="info_p2p_why_description_speed">Velocidades aumentadas de upload e download</string>
     <string name="info_p2p_why_description_logs">Sem registros de atividades</string>
-    <string name="info_p2p_why_description_hide">Oculte seu endereço IP de seu provedor de internet e dos colegas</string>
+    <string name="info_p2p_why_description_hide">Oculte seu endereço IP do seu provedor de serviços e de seus pares</string>
     <string name="info_dialog_smart_routing_description">O Smart Routing utiliza servidores virtuais para fornecer cobertura VPN em países de difícil acesso.\n\nAo se conectar a um servidor Smart Routing, você parecerá estar navegando no seu país de destino, mesmo que o servidor físico esteja localizado em outro lugar.  \n\nO Smart Routing é normalmente utilizado para contornar leis anti-privacidade e outras formas de censura.</string>
     <string name="countries_upsell_banner_description">Obtenha cobertura global com o VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Adicione outra camada de criptografia à sua conexão VPN</string>

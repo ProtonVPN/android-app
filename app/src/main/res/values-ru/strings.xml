@@ -561,7 +561,7 @@
     <string name="update_screen_description">Вероятность возникновения проблем выше на старых версиях Proton VPN.</string>
     <string name="dialog_create_account_title">Create an account to continue</string>
     <string name="dialog_create_account_action_create">Создать аккаунт</string>
-    <string name="dialog_create_account_action_signin">Sign in</string>
+    <string name="dialog_create_account_action_signin">Войти</string>
     <string name="server_search_menu_title">Поиск</string>
     <string name="server_search_hint">Страна, город, сервер</string>
     <string name="server_search_hint_secure_core">Страна</string>
@@ -1346,8 +1346,8 @@
     <string name="search_zero_screen_title">Try searching for…</string>
     <string name="search_zero_screen_info_countries_title">Страны</string>
     <string name="search_zero_screen_info_cities_title">Города</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
+    <string name="search_zero_screen_info_servers_title">Серверы</string>
+    <string name="search_zero_screen_info_countries_examples">Швейцария, Соединенные Штаты, Италия, Канада…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Error fetching prices.</string>

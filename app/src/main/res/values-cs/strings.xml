@@ -1343,7 +1343,7 @@
     <string name="p2p_upsell_banner_description">Stahujte soubory přes BitTorrent a jiné protokoly ke sdílení souborů</string>
     <string name="tor_upsell_banner_description">Zvyšte svoje soukromí přistupováním k Toru přes VPN</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
-    <string name="search_zero_screen_title">Zkus vyhledat…</string>
+    <string name="search_zero_screen_title">Zkuste hledat…</string>
     <string name="search_zero_screen_info_countries_title">Země</string>
     <string name="search_zero_screen_info_cities_title">Města</string>
     <string name="search_zero_screen_info_servers_title">Servery</string>
