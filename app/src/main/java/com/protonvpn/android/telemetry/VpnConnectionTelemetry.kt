@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.telemetry
 
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
@@ -32,12 +31,8 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import io.sentry.Sentry
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,11 +42,10 @@ private class ConnectionTelemetryDebug(message: String) : Throwable(message)
 class VpnConnectionTelemetry @Inject constructor(
     private val mainScope: CoroutineScope,
     @ElapsedRealtimeClock private val clock: () -> Long,
-    private val telemetry: Telemetry,
     private val commonDimensions: CommonDimensions,
     private val vpnStateMonitor: VpnStateMonitor,
     private val connectivityMonitor: ConnectivityMonitor,
-    currentUser: CurrentUser,
+    private val helper: TelemetryFlowHelper,
 ) {
 
     private enum class Outcome(val statsKeyword: String) {
@@ -63,16 +57,6 @@ class VpnConnectionTelemetry @Inject constructor(
         val timestampMs: Long,
         val vpnOn: Boolean
     )
-
-    // Cache the current user's tier to avoid async calls when reacting to events.
-    private val currentUserTier: StateFlow<String> = currentUser.vpnUserFlow.map { vpnUser ->
-        when {
-            vpnUser == null -> "non-user"
-            vpnUser.userTier == 0 -> "free"
-            vpnUser.userTier in 1..2 -> "paid"
-            else -> "internal"
-        }
-    }.stateIn(mainScope, SharingStarted.Eagerly, "non-user")
 
     private var connectionInProgress: ConnectionInitInfo? = null
     private var lastConnectTimestampMs: Long? = null
@@ -138,13 +122,15 @@ class VpnConnectionTelemetry @Inject constructor(
             val values = buildMap {
                 this["time_to_connection"] = clock() - timestampMs
             }
-            val dimensions = buildMap {
-                this["vpn_status"] = if (vpnOn) "on" else "off"
-                this["vpn_trigger"] = trigger.statsName
-                addCommonDimensions(outcome, connectionParams)
-                addServerFeatures(connectionParams?.server)
+            helper.event {
+                val dimensions = buildMap {
+                    this["vpn_status"] = if (vpnOn) "on" else "off"
+                    this["vpn_trigger"] = trigger.statsName
+                    addCommonDimensions(outcome, connectionParams)
+                    addServerFeatures(connectionParams?.server)
+                }
+                TelemetryEventData(MEASUREMENT_GROUP, EVENT_CONNECT, values, dimensions)
             }
-            telemetry.event(MEASUREMENT_GROUP, EVENT_CONNECT, values, dimensions)
         }
     }
 
@@ -152,24 +138,26 @@ class VpnConnectionTelemetry @Inject constructor(
         val values = buildMap {
             this["session_length"] = lastConnectTimestampMs?.let { clock() - it } ?: 0
         }
-        val dimensions = buildMap {
-            this["vpn_trigger"] = trigger.statsName
-            addCommonDimensions(trigger.isSuccess.toOutcome(), connectionParams)
+        helper.event {
+            val dimensions = buildMap {
+                this["vpn_trigger"] = trigger.statsName
+                addCommonDimensions(trigger.isSuccess.toOutcome(), connectionParams)
+            }
+            TelemetryEventData(MEASUREMENT_GROUP, EVENT_DISCONNECT, values, dimensions)
         }
-        telemetry.event(MEASUREMENT_GROUP, EVENT_DISCONNECT, values, dimensions)
     }
 
-    private fun MutableMap<String, String>.addCommonDimensions(
+    private suspend fun MutableMap<String, String>.addCommonDimensions(
         outcome: Outcome,
         connectionParams: ConnectionParams?
     ) {
-        commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY, CommonDimensions.Key.ISP)
+        commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY,
+            CommonDimensions.Key.ISP, CommonDimensions.Key.USER_TIER)
         this["outcome"] = outcome.statsKeyword
         this["vpn_country"] = connectionParams?.server?.exitCountry?.uppercase() ?: NO_VALUE
         this["server"] = connectionParams?.server?.serverName ?: NO_VALUE
         this["port"] = connectionParams?.port?.toString() ?: NO_VALUE
         this["protocol"] = connectionParams?.protocolSelection?.toStats() ?: NO_VALUE
-        this["user_tier"] = currentUserTier.value
         this["network_type"] = getNetworkType()
     }
 

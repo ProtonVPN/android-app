@@ -24,10 +24,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -69,54 +65,45 @@ enum class UpgradeSource {
 
 @Singleton
 class UpgradeTelemetry @Inject constructor(
-    private val mainScope: CoroutineScope,
     private val commonDimensions: CommonDimensions,
     private val currentUser: CurrentUser,
     private val getFeatureFlags: GetFeatureFlags,
-    private val telemetry: Telemetry,
-    @WallClock private val clock: () -> Long
+    @WallClock private val clock: () -> Long,
+    private val helper: TelemetryFlowHelper
 ) {
 
     private var currentUpgradeFlow: UpgradeFlow? = null
     private val currentDimensions get() = currentUpgradeFlow?.getCurrentDimensions()
-    // Run the actions sequentially to ensure the suspending parts of onUpgradeFlowStarted finish before others are
-    // executed.
-    private val serialExecutor = Channel<suspend () -> Unit>(capacity = Channel.UNLIMITED).apply {
-        mainScope.launch {
-            consumeEach { action -> action() }
-        }
-    }
 
     fun onUpgradeFlowStarted(upgradeSource: UpgradeSource, reference: String? = null) {
-        serialExecutor.trySend {
+        helper.event {
             val dimensions = createDimensions(upgradeSource, reference)
             currentUpgradeFlow = UpgradeFlow(dimensions, clock)
-            sendEvent("upsell_display", dimensions)
+            eventData("upsell_display", dimensions)
         }
     }
 
     fun onUpgradeAttempt(flowType: UpgradeFlowType) {
-        serialExecutor.trySend {
+        helper.event {
             currentDimensions?.let { currentDimensions ->
-                sendEvent("upsell_upgrade_attempt", currentDimensions.withFlowType(flowType))
+                eventData("upsell_upgrade_attempt", currentDimensions.withFlowType(flowType))
             }
         }
     }
 
     fun onUpgradeSuccess(newPlanId: String?, flowType: UpgradeFlowType) {
-        serialExecutor.trySend {
+        helper.event {
             currentDimensions?.let { currentDimensions ->
                 val upgradedPlan = newPlanId ?: NO_VALUE
                 val dimensions = currentDimensions + ("upgraded_user_plan" to upgradedPlan)
                 currentUpgradeFlow = null
-                sendEvent("upsell_success", dimensions.withFlowType(flowType))
+                eventData("upsell_success", dimensions.withFlowType(flowType))
             }
         }
     }
 
-    private fun sendEvent(eventName: String, dimensions: Map<String, String>) {
-        telemetry.event(MEASUREMENT_GROUP, eventName, emptyMap(), dimensions)
-    }
+    private fun eventData(eventName: String, dimensions: Map<String, String>) =
+        TelemetryEventData(MEASUREMENT_GROUP, eventName, emptyMap(), dimensions)
 
     private suspend fun createDimensions(
         upgradeSource: UpgradeSource,
@@ -125,7 +112,8 @@ class UpgradeTelemetry @Inject constructor(
         val user = currentUser.user()
         val vpnUser = currentUser.vpnUser()
 
-        commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY, CommonDimensions.Key.VPN_STATUS)
+        commonDimensions.add(this, CommonDimensions.Key.USER_COUNTRY, CommonDimensions.Key.VPN_STATUS,
+            CommonDimensions.Key.USER_TIER, CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED)
         put("modal_source", upgradeSource.reportedName)
         put("new_free_plan_ui", if (getFeatureFlags.value.showNewFreePlan) "yes" else "no")
         put("reference", reference ?: NO_VALUE)

@@ -24,6 +24,7 @@ import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
+import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -42,13 +43,10 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import me.proton.core.domain.entity.UserId
-import me.proton.core.user.domain.entity.Type
-import me.proton.core.user.domain.entity.User
+import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -81,20 +79,23 @@ class UpgradeTelemetryTests {
         every { mockTelemetry.event(UPSELL_GROUP, any(), any(), any()) } just runs
 
         testUserProvider = TestCurrentUserProvider(freeVpnUser, createAccountUser(createdAtUtc = 100L))
+        val currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
 
         featureFlagsFlow = MutableStateFlow(FeatureFlags())
         val getFeatureFlags = GetFeatureFlags(featureFlagsFlow)
         val commonDimensions = CommonDimensions(
+            currentUser,
             VpnStateMonitor(),
-            ServerListUpdaterPrefs(MockSharedPreferencesProvider())
+            ServerListUpdaterPrefs(MockSharedPreferencesProvider()),
+            FakeIsCredentialLessEnabled(true)
         )
+        val helper = TelemetryFlowHelper(testScope.backgroundScope, mockTelemetry)
         upgradeTelemetry = UpgradeTelemetry(
-            testScope.backgroundScope,
             commonDimensions,
-            CurrentUser(testScope.backgroundScope, testUserProvider),
+            currentUser,
             getFeatureFlags,
-            mockTelemetry,
-            clock = { fakeTime }
+            clock = { fakeTime },
+            helper
         )
     }
 
@@ -109,7 +110,9 @@ class UpgradeTelemetryTests {
             "vpn_status" to "off",
             "user_plan" to "free",
             "days_since_account_creation" to "0",
-            "reference" to "ref"
+            "reference" to "ref",
+            "is_credential_less_enabled" to "yes",
+            "user_tier" to "free"
         )
         verify {
             mockTelemetry.event(UPSELL_GROUP, "upsell_display", emptyMap(), expectedDimensions)

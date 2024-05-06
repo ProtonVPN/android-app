@@ -19,7 +19,6 @@
 
 package com.protonvpn.app.telemetry
 
-import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
@@ -34,6 +33,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
+import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -43,18 +43,22 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
-import com.protonvpn.test.shared.TestVpnUser
+import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createAccountUser
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -70,12 +74,12 @@ class VpnConnectionTelemetryTests {
     private lateinit var mockConnectivityMonitor: ConnectivityMonitor
 
     @MockK
-    private lateinit var mockCurrentUser: CurrentUser
+    private lateinit var currentUser: CurrentUser
 
+    private lateinit var telemetryScope: TestScope
     private lateinit var prefs: ServerListUpdaterPrefs
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var testScheduler: TestCoroutineScheduler
-    private lateinit var vpnUserFlow: MutableStateFlow<VpnUser>
 
     private lateinit var vpnConnectionTelemetry: VpnConnectionTelemetry
 
@@ -105,23 +109,25 @@ class VpnConnectionTelemetryTests {
         prefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         vpnStateMonitor = VpnStateMonitor()
         testScheduler = TestCoroutineScheduler()
-        vpnUserFlow = MutableStateFlow(TestVpnUser.create())
 
-        every { mockCurrentUser.vpnUserFlow } returns vpnUserFlow
         every {
             mockConnectivityMonitor.defaultNetworkTransports
         } returns EnumSet.of(ConnectivityMonitor.Transport.WIFI)
+        every { mockTelemetry.event(any(), any(), any(), any()) } returns Unit
 
-        val telemetryScope = TestScope(UnconfinedTestDispatcher(testScheduler))
-        val commonDimensions = CommonDimensions(vpnStateMonitor, prefs)
+        telemetryScope = TestScope(UnconfinedTestDispatcher(testScheduler))
+        currentUser = CurrentUser(
+            telemetryScope.backgroundScope,
+            TestCurrentUserProvider(TestUser.plusUser.vpnUser, createAccountUser())
+        )
+        val commonDimensions = CommonDimensions(currentUser, vpnStateMonitor, prefs, FakeIsCredentialLessEnabled(true))
         vpnConnectionTelemetry = VpnConnectionTelemetry(
-            telemetryScope,
+            telemetryScope.backgroundScope,
             { testScheduler.currentTime },
-            mockTelemetry,
             commonDimensions,
             vpnStateMonitor,
             mockConnectivityMonitor,
-            mockCurrentUser,
+            TelemetryFlowHelper(telemetryScope.backgroundScope, mockTelemetry)
         )
         vpnConnectionTelemetry.start()
     }
@@ -168,7 +174,7 @@ class VpnConnectionTelemetryTests {
             443
         )
         val dimensions = slot<Map<String, String>>()
-        every { mockTelemetry.event(any(), any(), any(), capture(dimensions)) }
+        every { mockTelemetry.event(any(), any(), any(), capture(dimensions), any()) } just Runs
 
         connectSequence(connectionParams)
 

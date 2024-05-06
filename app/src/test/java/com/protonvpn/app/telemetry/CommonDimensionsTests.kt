@@ -17,10 +17,11 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.protonvpn.app.telemetry
 
-import com.protonvpn.android.models.profiles.Profile
-import com.protonvpn.android.models.profiles.ServerWrapper
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.telemetry.CommonDimensions
@@ -29,6 +30,14 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createAccountUser
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
+import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -36,6 +45,7 @@ import org.junit.Test
 
 class CommonDimensionsTests {
 
+    private lateinit var scope: TestScope
     private lateinit var prefs: ServerListUpdaterPrefs
     private lateinit var vpnStateMonitor: VpnStateMonitor
 
@@ -43,14 +53,20 @@ class CommonDimensionsTests {
 
     @Before
     fun setup() {
+        scope = TestScope(UnconfinedTestDispatcher())
         prefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         vpnStateMonitor = VpnStateMonitor()
+        val currentUser = CurrentUser(
+            scope.backgroundScope,
+            TestCurrentUserProvider(TestUser.plusUser.vpnUser, createAccountUser())
+        )
 
-        commonDimensions = CommonDimensions(vpnStateMonitor, prefs)
+        commonDimensions = CommonDimensions(currentUser, vpnStateMonitor,
+            prefs, FakeIsCredentialLessEnabled(true))
     }
 
     @Test
-    fun `add only requested dimensions`() {
+    fun `add only requested dimensions`() = scope.runTest {
         val empty = buildMap { commonDimensions.add(this) }
         assertTrue(empty.isEmpty())
 
@@ -58,11 +74,11 @@ class CommonDimensionsTests {
         assertEquals(setOf("isp", "user_country"), some.keys)
 
         val all = buildMap { commonDimensions.add(this, *CommonDimensions.Key.values()) }
-        assertEquals(setOf("isp", "user_country", "vpn_status"), all.keys)
+        assertEquals(setOf("isp", "user_country", "vpn_status", "is_credential_less_enabled", "user_tier"), all.keys)
     }
 
     @Test
-    fun `values are correctly set`() {
+    fun `values are correctly set`() = scope.runTest {
         val connectionParams = ConnectionParams(
             ConnectIntent.Default,
             MockedServers.server,
@@ -76,7 +92,9 @@ class CommonDimensionsTests {
         val expected = mapOf(
             "isp" to "some ISP",
             "user_country" to "CH",
-            "vpn_status" to "on"
+            "vpn_status" to "on",
+            "is_credential_less_enabled" to "yes",
+            "user_tier" to "paid"
         )
 
         val dimensions = buildMap { commonDimensions.add(this, *CommonDimensions.Key.values()) }
