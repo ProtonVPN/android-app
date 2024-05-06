@@ -233,10 +233,10 @@
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Адкрыць налады Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Актывацыя Kill Switch адключыць Split Tunneling, бо Kill Switch блакіруе ўсе падключэнні па-за тунэлем VPN</string>
     <string name="settingsSmartProtocolDescription">Аўтаматычна выкарыстоўваць пратакол і порт, якія забяспечваюць найлепшае падключэнне.</string>
-    <string name="settingsEnableTelemetryTitle">Абагуленне ананімнай статыстыкі выкарыстання</string>
+    <string name="settingsEnableTelemetryTitle">Абагульванне ананімнай статыстыкі выкарыстання</string>
     <string name="settingsEnableTelemetryDescription">Даныя аб выкарыстанні дапамагаюць нам пераадольваць блакіроўкі VPN і паляпшаць прадукцыйнасць праграмы.</string>
-    <string name="settingsSendCrashReportsTitle">Абагуленне ананімных справаздач пра збоі</string>
-    <string name="settingsSendCrashReportsDescription">Справаздачы пра збоі дапамагаюць нам выпраўляць памылкі, вызначаць міжсеткавыя экраны, а таксама пазбягаць блакіровак VPN.</string>
+    <string name="settingsSendCrashReportsTitle">Абагульванне ананімных справаздач аб збоях</string>
+    <string name="settingsSendCrashReportsDescription">Справаздачы аб збоях дапамагаюць нам выпраўляць памылкі, вызначаць міжсеткавыя экраны, а таксама пазбягаць блакіровак VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм і праграм сачэння на вэб-сайтах і ў праграмах. Калі вэб-сайты не грузяцца, паспрабуйце адключыць NetShield. %1$s</string>
@@ -404,7 +404,7 @@
     <string name="upgrade_netshield_message"><![CDATA[Блакіруйце рэкламу, праграмы сачэння і шкодныя праграмы з дапамогай <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Двайное шыфраванне</string>
     <string name="upgrade_secure_core_message"><![CDATA[Дадайце яшчэ адзін слой шыфравання ў сваё злучэнне VPN з дапамогай <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Разблакіруйце аднарангавае (P2P) спампоўванне і абагуленне файлаў </string>
+    <string name="upgrade_p2p_title">Разблакіруйце аднарангавае (P2P) спампоўванне і абагульванне файлаў </string>
     <string name="upgrade_p2p_text">Палепшыце хуткасць спампоўвання і запампоўвання не раскрываючы свой IP-адрас.</string>
     <string name="upgrade_streaming_title">Прагляд у 4K</string>
     <string name="upgrade_streaming_text">Атрымлівайце асалоду ад прагляду абраных фільмаў і тэлеперадач з любой краіны ў свеце.</string>
@@ -1116,7 +1116,7 @@
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
-    <string name="vpn_status_connecting">Абарона вашых лічбавых асабістых даных</string>
+    <string name="vpn_status_connecting">Абарона вашай лічбавай ідэнтычнасці</string>
     <!-- tag(Redesign_2023)
          Displays Country name and IP of user if he is not connected.
          First parameter is country, second is IP.
@@ -1330,9 +1330,9 @@
     <string name="info_secure_core_advanced_privacy">Пашыраная прыватнасць</string>
     <string name="info_secure_core_higher_latency">Вышэйшая затрымка</string>
     <string name="info_p2p_what_title">Што такое P2P?</string>
-    <string name="info_p2p_what_description">Тэхналогія аднарангавай сеткі (P2P) дазваляе вам падключацца і абагуляць файлы наўпрост з іншымі прыладамі\n\nНашы серверы P2P спецыяльна распрацаваны для падтрымкі гэтага тыпу абагулення файла.</string>
+    <string name="info_p2p_what_description">Тэхналогія аднарангавай сеткі (P2P) дазваляе вам падключацца і абагульваць файлы наўпрост з іншымі прыладамі\n\nНашы серверы P2P спецыяльна распрацаваны для падтрымкі гэтага тыпу абагульвання файла.</string>
     <string name="info_p2p_torrenting_title">Што ўяўляе сабой праца з торэнтамі?</string>
-    <string name="info_p2p_torrenting_description">Гэта хуткае абагуленне і спампоўванне вялікіх файлаў праз сетку P2P.</string>
+    <string name="info_p2p_torrenting_description">Гэта хуткае абагульванне і спампоўванне вялікіх файлаў праз сетку P2P.</string>
     <string name="info_p2p_why_title">Навошта выкарыстоўваць сервер P2P падчас працы з торэнтамі?</string>
     <string name="info_p2p_why_description_speed">Павялічаныя хуткасці запампоўвання і спампоўвання</string>
     <string name="info_p2p_why_description_logs">Адсутнасць журналаў актыўнасці</string>

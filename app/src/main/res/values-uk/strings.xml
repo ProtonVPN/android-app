@@ -358,7 +358,7 @@
     <string name="notification_max_sessions_content">Від\'єднайте інший пристрій, щоб під\'єднати цей.</string>
     <string name="notification_cancel_to_free">У вас зараз тарифний план Free. Доступні сервери та функції Free.</string>
     <string name="notification_cancel_to_basic">У вас зараз тарифний план Basic. Доступні сервери й функції Basic і Free.</string>
-    <string name="notification_cancel_to_delinquent">Ви зможете знову отримати доступ до преміумфункцій після сплати рахунків.</string>
+    <string name="notification_cancel_to_delinquent">Ви зможете знову отримати доступ до преміальних функцій після сплати рахунків.</string>
     <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Із сервера: </string>
     <string name="reconnect_to_server">До сервера: </string>

@@ -395,7 +395,7 @@
     <string name="upgrade_streaming_title">Streama i 4K</string>
     <string name="upgrade_streaming_text">Njut av dina favoritfilmer och TV-program från var som helst i världen.</string>
     <string name="upgrade_tor_title">Åtkomst till Tor-nätverket med ett tryck</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
+    <string name="upgrade_tor_text">Anslut till dolda tjänster och onion-webbplatser med din vanliga webbläsare.</string>
     <string name="upgrade_vpn_accelerator_title">Surfa i ännu högre hastigheter</string>
     <!--
         %1$s - speed in Gbps

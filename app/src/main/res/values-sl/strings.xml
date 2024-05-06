@@ -465,7 +465,7 @@
         Example:
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">%1$d+ strežniških lokacij v %2$s</string>
-    <string name="upsell_card_customization_title">In veliko več…</string>
+    <string name="upsell_card_customization_title">In veliko več …</string>
     <string name="upsell_card_customization_description">Odklenite še več zmogljivosti in funkcij zasebnosti</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Zaščitite %1$d napravo</item>
@@ -489,7 +489,7 @@
     <string name="upsell_card_split_tunneling_title">Razdeljeno tuneliranje</string>
     <string name="upsell_card_split_tunneling_description">Brskajte z dveh lokacij hkrati</string>
     <string name="upsell_card_streaming_title">Pretakanje</string>
-    <string name="upsell_card_streaming_description">Glejte svoje najljubše filme in TV-oddaje</string>
+    <string name="upsell_card_streaming_description">Glejte svoje najljubše filme in serije</string>
     <string name="upsell_card_tor_title">Tor preko VPN</string>
     <string name="upsell_card_tor_description">Za dodatno zasebnost uporabite omrežje Tor prek povezave VPN</string>
     <!-- Format for price per period of time.
@@ -580,14 +580,14 @@
          Examples: "Servers (5)", "Servers (1)" -->
     <string name="server_search_servers_header">Strežniki (%1$d)</string>
     <string name="search_empty_title">Poiščite poljubno lokacijo</string>
-    <string name="search_empty_hint_countries"><![CDATA[Države: <font color="%1$s">Švica, Združene države, Italija…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Države: <font color="%1$s">Francija, Združene države, Italija…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Mesta: <font color="%1$s">New York, London, Tokio…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[Regije ZDA: <font color="%1$s">Kalifornija, Florida, Kolorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Strežniki: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
+    <string name="search_empty_hint_countries"><![CDATA[Države: <font color="%1$s">Švica, Združene države, Italija …</font>]]></string>
+    <string name="search_empty_hint_countries_secure_core"><![CDATA[Države: <font color="%1$s">Francija, Združene države, Italija …</font>]]></string>
+    <string name="search_empty_hint_cities"><![CDATA[Mesta: <font color="%1$s">New York, London, Tokio …</font>]]></string>
+    <string name="search_empty_hint_usa_regions"><![CDATA[Regije ZDA: <font color="%1$s">Kalifornija, Florida, Kolorado …</font>]]></string>
+    <string name="search_empty_hint_servers"><![CDATA[Strežniki: <font color="%1$s">JP#50, CA#3, IT#14 …</font>]]></string>
     <string name="search_empty_result_subtitle">Poskusite z drugo ključno besedo</string>
     <string name="search_empty_result_title">Ni najdenih rezultatov</string>
-    <string name="search_recents_header_title">Nedavno ogledano (%1$d)</string>
+    <string name="search_recents_header_title">Nedavno pogledano (%1$d)</string>
     <string name="search_clear_history">Počisti zgodovino</string>
     <string name="search_clear_history_dialog">Vaša zgodovina iskanja bo izgubljena. Nadaljujem?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
@@ -601,7 +601,7 @@
     <string name="upgrade_moderate_nat_title2">Izboljšajte svojo igralno izkušnjo</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Izboljšajte delovanje spletnih iger in video klicev z <b>NAT tip 2</b>.]]></string>
     <string name="free_connections_info_message">Brezplačni Proton vas samodejno poveže z najhitrejšim razpoložljivim strežnikom. To bo običajno najbližji strežnik vaši lokaciji.</string>
-    <string name="free_connections_info_server_locations">Lokacije brezplačnih serverjev (%1$d)</string>
+    <string name="free_connections_info_server_locations">Lokacije brezplačnih strežnikov (%1$d)</string>
     <string name="free_connections_info_banner_text">Zagotovite si svetovno pokritost z VPN Plus</string>
     <string name="free_connection_info_title">Brezplačne povezave</string>
     <string name="search_upsell_banner_title">Pretakajte od koder koli</string>
@@ -909,7 +909,7 @@
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
         <item quantity="one">Samodejno izbrano iz %1$d države</item>
-        <item quantity="two">Samodejno izbrano iz %1$d državi</item>
+        <item quantity="two">Samodejno izbrano iz %1$d držav</item>
         <item quantity="few">Samodejno izbrano iz %1$d držav</item>
         <item quantity="other">Samodejno izbrano iz %1$d držav</item>
     </plurals>
@@ -944,16 +944,16 @@
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
-    <string name="connection_card_label_free_connection">Brezplačne povezave</string>
+    <string name="connection_card_label_free_connection">Brezplačna povezava</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">Povezovanje z…</string>
+    <string name="connection_card_label_connecting">Povezovanje z …</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
          being established. It's shown only in response to user clicking the "Change server" button.
      -->
-    <string name="connection_card_label_changing_server">Spreminjanje strežnika…</string>
+    <string name="connection_card_label_changing_server">Menjavanje strežnika …</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
@@ -992,7 +992,7 @@
     <!-- Displayed above the list of VPN Plus features in the home screen -->
     <string name="home_upsell_carousel_headline">Odkrijte VPN Plus</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">Pin</string>
+    <string name="recent_action_pin">Pripni</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_unpin">Odpni</string>
     <!-- tag(Redesign_2023) -->
@@ -1096,7 +1096,7 @@
     <string name="country_filter_cities_list_header">Mesta (%1$d)</string>
     <string name="country_filter_states_list_header">Države (%1$d)</string>
     <string name="country_filter_servers_list_header">Strežniki (%1$d)</string>
-    <string name="country_filter_secure_core_list_header">„Secure Core” države(%1$d)</string>
+    <string name="country_filter_secure_core_list_header">„Secure Core” države (%1$d)</string>
     <string name="country_filter_p2p_list_header">Države P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P mesta (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P države (%1$d)</string>
@@ -1154,17 +1154,17 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">Kaj je obremenitev strežnika?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Obremenitev strežnika kaže, kako blizu je strežnik največjih zmogljivosti.\n\nVelika obremenitev strežnika lahko upočasni vašo povezavo.</string>
+    <string name="connection_details_server_load_description">Obremenitev strežnika kaže, kako blizu je strežnik svojim največjim zmogljivostim.\n\nVelika obremenitev strežnika lahko upočasni vašo povezavo.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_title">Nizka (1–75 %)</string>
+    <string name="connection_details_server_load_low_title">Nizka (1-75 %)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_description">Bliskovite hitrosti</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Srednje (76–90 %)</string>
+    <string name="connection_details_server_load_medium_title">Srednja (76-90 %)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_description">Ni verjetnosti, da bi vplivalo na hitrost VPN</string>
+    <string name="connection_details_server_load_medium_description">Ni verjetno, da bo vplivalo na hitrost VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_title">Visoko (91-100%)</string>
+    <string name="connection_details_server_load_high_title">Visoka (91-100%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_description">VPN lahko deluje počasneje kot običajno </string>
     <!-- tag(Redesign_2023) -->
@@ -1190,7 +1190,7 @@
     <string name="info_secure_core_secure_header">Secure Core VPN povezava</string>
     <string name="info_dialog_tor_description">Povežite se s strežnikom Tor za dostop do skritih storitev in Tor spletnih mest s katerim koli brskalnikom.</string>
     <string name="info_dialog_button_learn_more_tor">Kako dostopati do omrežja Tor</string>
-    <string name="info_dialog_button_learn_more_p2p">Kako torrentati s P2P</string>
+    <string name="info_dialog_button_learn_more_p2p">Kako uporabljati torrente s P2P</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1315,8 +1315,8 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_advanced_allow_lan_description">Omogoča povezovanje s tiskalniki, zvočniki in drugimi napravami v lokalnem omrežju.</string>
     <string name="settings_advanced_nat_type_title">NAT tip</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Izberite vrsto prevajanja omrežnih naslovov za povezavo. %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">Izberite vrsto prevoda omrežnega naslova za svojo povezavo.</string>
+    <string name="settings_advanced_nat_type_description">Izberite vrsto prevajanja omrežnih naslovov za vašo povezavo. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Izberite vrsto prevajanja omrežnih naslovov za vašo povezavo.</string>
     <string name="settings_advanced_nat_type_strict">Strogo (tip 3)</string>
     <string name="settings_advanced_nat_type_moderate">Zmerno (tip 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Omejuje podatke, ki vstopajo v vaše omrežje. Ta možnost je bolj varna, vendar lahko oteži povezave P2P pri igranju iger.</string>
