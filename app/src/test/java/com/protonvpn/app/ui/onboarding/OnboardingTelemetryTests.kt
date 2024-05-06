@@ -25,15 +25,18 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.app.ui.MainActivity
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
+import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
+import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createAccountUser
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -50,6 +53,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.proton.core.auth.presentation.ui.signup.SignupActivity
+import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import org.junit.Before
 import org.junit.Test
 
@@ -127,12 +131,21 @@ class OnboardingTelemetryTests {
     }
 
     @Test
+    fun `onboarding_start reported when UpgradeDialogActivity goes foreground`() = testScope.runTest {
+        createTelemetry()
+        foregroundActivityFlow.value = mockk<UpgradeDialogActivity>()
+        runCurrent()
+
+        verify(exactly = 1) { mockTelemetry.event(GROUP, "onboarding_start", any(), any(), true) }
+    }
+
+    @Test
     fun `payment_done reported`() = testScope.runTest {
         val telemetry = createTelemetry()
         telemetry.onOnboardingPaymentSuccess("new plan")
         runCurrent()
 
-        val expectedDimensions = mapOf("user_plan" to "new plan", "user_country" to "n/a")
+        val expectedDimensions = mapOf("user_plan" to "new plan", "user_country" to "n/a", "is_credential_less_enabled" to "yes", "user_tier" to "non-user")
         verify(exactly = 1) { mockTelemetry.event(GROUP, "payment_done", any(), expectedDimensions, true) }
     }
 
@@ -156,14 +169,16 @@ class OnboardingTelemetryTests {
         runCurrent()
 
         testUserProvider.vpnUser = TestUser.freeUser.vpnUser
+        testUserProvider.user = createAccountUser()
+        runCurrent()
         telemetry.onOnboardingPaymentSuccess("vpnPlus")
         runCurrent()
 
         verify(exactly = 1) {
-            mockTelemetry.event(GROUP, "first_launch", emptyMap(), mapOf("user_country" to "UK"), true)
+            mockTelemetry.event(GROUP, "first_launch", emptyMap(), mapOf("user_country" to "UK", "is_credential_less_enabled" to "yes", "user_tier" to "non-user"), true)
         }
         verify(exactly = 1) {
-            val dimensions =  mapOf("user_country" to "UK", "user_plan" to "vpnPlus")
+            val dimensions =  mapOf("user_country" to "UK", "user_plan" to "vpnPlus", "is_credential_less_enabled" to "yes", "user_tier" to "free")
             mockTelemetry.event(GROUP, "payment_done", emptyMap(), dimensions, true)
         }
     }
@@ -182,12 +197,12 @@ class OnboardingTelemetryTests {
     private fun createTelemetry() = OnboardingTelemetry(
         testScope.backgroundScope,
         TestDispatcherProvider(testDispatcher),
-        mockTelemetry,
         mockForegroundActivityTracker,
         vpnStateMonitor,
         currentUser,
-        CommonDimensions(vpnStateMonitor, serverListPrefs),
-        appFeaturesPrefs
+        CommonDimensions(currentUser, vpnStateMonitor, serverListPrefs, FakeIsCredentialLessEnabled(true)),
+        appFeaturesPrefs,
+        TelemetryFlowHelper(testScope.backgroundScope, mockTelemetry)
     )
 
 }

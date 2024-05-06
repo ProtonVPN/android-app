@@ -47,6 +47,7 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.Telemetry
+import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
@@ -110,6 +111,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlinx.coroutines.yield
+import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import me.proton.core.network.domain.NetworkStatus
 import me.proton.core.network.domain.session.SessionId
 import org.junit.After
@@ -260,11 +262,10 @@ class VpnConnectionTests {
         val vpnConnectionTelemetry = VpnConnectionTelemetry(
             scope.backgroundScope,
             clock,
-            mockTelemetry,
-            CommonDimensions(monitor, serverListUpdaterPrefs),
+            CommonDimensions(currentUser, monitor, serverListUpdaterPrefs, FakeIsCredentialLessEnabled(true)),
             monitor,
             mockConnectivityMonitor,
-            currentUser
+            TelemetryFlowHelper(scope.backgroundScope, mockTelemetry)
         ).apply { start() }
 
         val profileManager =
