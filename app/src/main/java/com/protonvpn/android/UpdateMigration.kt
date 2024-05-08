@@ -23,6 +23,7 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.tv.IsTvCheck
@@ -57,6 +58,7 @@ class UpdateMigration @Inject constructor(
             updateOnboardingTelemetry(strippedOldVersionCode)
             enableWhatsNew(strippedOldVersionCode)
             updateNetShieldValue(strippedOldVersionCode)
+            clearCertificateData(strippedOldVersionCode)
         }
     }
 
@@ -88,6 +90,13 @@ class UpdateMigration @Inject constructor(
     private fun enableWhatsNew(oldVersionCode: Int) {
         if (oldVersionCode <= 5_00_00_00) {
             appFeaturesPrefs.get().showWhatsNew = true
+        }
+    }
+
+    @SuppressWarnings("MagicNumber")
+    private fun clearCertificateData(oldVersionCode: Int) {
+        if (oldVersionCode <= 5_03_50_00) {
+            Storage.save(null, CertificateData::class.java)
         }
     }
 

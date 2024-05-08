@@ -19,6 +19,7 @@
 package com.protonvpn.android.vpn.openvpn
 
 import android.content.Intent
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.CertificateData
@@ -28,12 +29,14 @@ import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.OpenVPNService
 import de.blinkt.openvpn.core.VpnStatus.StateListener
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,6 +45,8 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     @Inject lateinit var userSettings: EffectiveCurrentUserSettingsCached
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
+    @Inject lateinit var certificateRepository: CertificateRepository
+    @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
 
     override fun onCreate() {
@@ -56,8 +61,18 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     }
 
     override fun getProfile(): VpnProfile? {
-        return Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)
-            ?.openVpnProfile(userSettings.value, Storage.load(CertificateData::class.java))
+        val connectionParams = Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)
+        return connectionParams?.let {
+            val userSessionId = currentUser.vpnUserCached()?.sessionId
+            val certificateResult = runBlocking {
+                // In most cases this should access preferences that are already in memory and should be fast.
+                userSessionId?.let { certificateRepository.getCertificateWithoutRefresh(it) }
+            }
+            val certificate = (certificateResult as? CertificateRepository.CertificateResult.Success)?.let {
+                CertificateData(it.privateKeyPem, it.certificate)
+            }
+            connectionParams.openVpnProfile(userSettings.value, certificate)
+        }
     }
 
     override fun onProcessRestore(): Boolean {
