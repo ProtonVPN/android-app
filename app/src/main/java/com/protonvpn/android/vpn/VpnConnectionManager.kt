@@ -46,7 +46,6 @@ import com.protonvpn.android.logging.UserPlanMaxSessionsReached
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
@@ -71,6 +70,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.network.domain.session.SessionId
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -417,25 +417,17 @@ class VpnConnectionManager @Inject constructor(
             disconnectBlocking(DisconnectTrigger.NewConnection)
 
         val sessionId = currentUser.sessionId()
-        if (newBackend.vpnProtocol == VpnProtocol.OpenVPN && sessionId != null) {
-            // OpenVpnWrapperService is unable to obtain the certificate from
-            // CertificateRepository because all the methods are synchronous.
-            // Save the certificate to storage for easier access.
-            // Also don't try to refresh the certificate now, if it is invalid it will be refreshed
-            // via the VPN tunnel.
-            val result = certificateRepository.getCertificateWithoutRefresh(sessionId)
-            if (result is CertificateRepository.CertificateResult.Success) {
-                Storage.save(
-                    CertificateData(result.privateKeyPem, result.certificate),
-                    CertificateData::class.java
-                )
-            } else {
+        if (newBackend.vpnProtocol == VpnProtocol.OpenVPN && sessionId != null &&
+            preparedConnection.connectionParams.connectIntent !is AnyConnectIntent.GuestHole
+        ) {
+            // OpenVPN needs a certificate to connect, make sure there is one available (it can be expired, it'll be
+            // refreshed via the VPN tunnel if needed).
+            if (!ensureCertificateAvailable(sessionId)) {
                 // Report LOCAL_AGENT_ERROR, same as other places where CertificateResult.Error is handled.
-                setSelfState(VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate", isFinal = true))
+                val error = VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate", isFinal = true)
+                setSelfState(error)
                 return
             }
-        } else {
-            Storage.save(null, CertificateData::class.java)
         }
 
         connectionParams = preparedConnection.connectionParams
@@ -450,6 +442,15 @@ class VpnConnectionManager @Inject constructor(
         ConnectionParams.store(connectionParams)
         activateBackend(newBackend)
         activeBackend?.connect(preparedConnection.connectionParams)
+    }
+
+    private suspend fun ensureCertificateAvailable(sessionId: SessionId): Boolean {
+        var result = certificateRepository.getCertificateWithoutRefresh(sessionId)
+        if (result !is CertificateRepository.CertificateResult.Success) {
+            // No certificate found, is there an issue with CertificateStorage? Try fetching.
+            result = certificateRepository.getCertificate(sessionId)
+        }
+        return result is CertificateRepository.CertificateResult.Success
     }
 
     private fun clearOngoingFallback() {
