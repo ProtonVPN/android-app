@@ -20,9 +20,12 @@
 package com.protonvpn.android.vpn
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.os.Build
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserCertStoreError
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -30,10 +33,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 import me.proton.core.crypto.validator.domain.prefs.CryptoPrefs
+import me.proton.core.featureflag.domain.entity.FeatureId
+import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
+import java.io.File
 import java.io.IOException
 import java.security.GeneralSecurityException
 import javax.inject.Inject
@@ -41,38 +47,26 @@ import javax.inject.Singleton
 
 @Singleton
 class CertificateStorage @Inject constructor(
-    val mainScope: CoroutineScope,
-    val dispatcherProvider: DispatcherProvider,
-    val cryptoPrefs: CryptoPrefs,
-    @ApplicationContext val appContext: Context
+    private @ApplicationContext val appContext: Context,
+    mainScope: CoroutineScope,
+    dispatcherProvider: DispatcherProvider,
+    private val cryptoPrefs: CryptoPrefs,
+    featureFlagRepository: FeatureFlagRepository,
+    currentUser: CurrentUser,
 ) {
     // Use getCertPrefs() to access this.
     private val certPreferences = mainScope.async(dispatcherProvider.Io, start = CoroutineStart.LAZY) {
-        @Suppress("BlockingMethodInNonBlockingContext")
-        val encryptedPrefs = if (cryptoPrefs.useInsecureKeystore == true)
-            null
-        else {
-            try {
-                EncryptedSharedPreferences.create(
-                    "cert_data",
-                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                    appContext,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                )
-            } catch (e: GeneralSecurityException) {
-                ProtonLogger.log(UserCertStoreError, e.message ?: e.javaClass.simpleName)
-                null
-            } catch (e: IOException) {
-                ProtonLogger.log(UserCertStoreError, e.message ?: e.javaClass.simpleName)
-                null
+        if (cryptoPrefs.useInsecureKeystore == true) {
+            createStorageWithoutEncryption()
+        } else {
+            val clearStorageOnError = featureFlagRepository.getValue(currentUser.user()?.userId, FEATURE_FLAG) ?: false
+            if (clearStorageOnError) {
+                createStorageWithClearOnError()
+            } else {
+                createStorageWithFallback()
             }
         }
-        encryptedPrefs ?: getFallbackPrefs()
     }
-
-    // Due to a number of issues with EncryptedSharedPreferences on some devices we fallback to unencrypted storage.
-    private fun getFallbackPrefs() = appContext.getSharedPreferences("cert_data_fallback", Context.MODE_PRIVATE)
 
     suspend fun get(sessionId: SessionId): CertInfo? =
         getCertPrefs().getString(sessionId.id, null)?.deserialize()
@@ -90,4 +84,60 @@ class CertificateStorage @Inject constructor(
     }
 
     private suspend fun getCertPrefs() = certPreferences.await()
+
+    private fun createStorageWithClearOnError(): SharedPreferences {
+        fun recreatePrefsOnError(e: Throwable): SharedPreferences {
+            ProtonLogger.log(UserCertStoreError, e.toString())
+            deleteEncryptedPrefs()
+            return createEncryptedPrefs()
+        }
+
+        return try {
+            createEncryptedPrefs()
+        } catch (e: GeneralSecurityException) {
+            recreatePrefsOnError(e)
+        } catch (e: IOException) {
+            recreatePrefsOnError(e)
+        }
+    }
+
+    private fun createStorageWithFallback(): SharedPreferences {
+        val encryptedPrefs = try {
+            createEncryptedPrefs()
+        } catch (e: GeneralSecurityException) {
+            ProtonLogger.log(UserCertStoreError, e.toString())
+            null
+        } catch (e: IOException) {
+            ProtonLogger.log(UserCertStoreError, e.toString())
+            null
+        }
+        return encryptedPrefs ?: createStorageWithoutEncryption()
+    }
+
+    // Due to a number of issues with EncryptedSharedPreferences on some devices we fallback to unencrypted storage.
+    private fun createStorageWithoutEncryption() =
+        appContext.getSharedPreferences(FALLBACK_PREFS_NAME, Context.MODE_PRIVATE)
+
+    private fun createEncryptedPrefs() = EncryptedSharedPreferences.create(
+        PREFS_NAME,
+        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+        appContext,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+
+    private fun deleteEncryptedPrefs() {
+        if (Build.VERSION.SDK_INT >= 24) {
+            appContext.deleteSharedPreferences(PREFS_NAME)
+        } else {
+            val dir = File(appContext.applicationInfo.dataDir, "shared_prefs")
+            File(dir, "$PREFS_NAME.xml").delete()
+        }
+    }
+
+    companion object {
+        private const val PREFS_NAME = "cert_data"
+        private const val FALLBACK_PREFS_NAME = "cert_data_fallback"
+        private val FEATURE_FLAG = FeatureId("CertStorageRecreateOnErrorEnabled")
+    }
 }
