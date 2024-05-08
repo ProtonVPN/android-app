@@ -186,7 +186,7 @@ class CertificateRepository @Inject constructor(
             currentUser.sessionId()?.let {
                 val certInfo = getCertInfo(it)
                 val certString =
-                    if (certInfo.certificatePem == null) {
+                    if (certInfo?.certificatePem == null) {
                         "none"
                     } else {
                         val expires = ProtonLogger.formatTime(certInfo.expiresAt)
@@ -256,7 +256,7 @@ class CertificateRepository @Inject constructor(
     private suspend fun updateCertificateFromBackend(
         sessionId: SessionId
     ): PeriodicActionResult<out CertificateResult> {
-        val info = getCertInfo(sessionId)
+        val info = getCertInfo(sessionId) ?: keyProvider.generateCertInfo()
         ProtonLogger.log(UserCertRefresh, "retry count: ${info.refreshCount}")
         return when (val response = api.getCertificate(sessionId, info.publicKeyPem)) {
             is ApiResult.Success -> {
@@ -278,7 +278,7 @@ class CertificateRepository @Inject constructor(
                 PeriodicActionResult(result, true, nextRefreshDelay(response, newInfo))
             }
             is ApiResult.Error -> {
-                val certString = if (info.certificatePem == null)
+                val certString = if (info?.certificatePem == null)
                     "current certificate: none"
                 else
                     "current certificate expiring at ${ProtonLogger.formatTime(info.expiresAt)}"
@@ -312,17 +312,18 @@ class CertificateRepository @Inject constructor(
     }
 
     private suspend fun getCertInfo(sessionId: SessionId) =
-        certificateStorage.get(sessionId) ?: run {
-            generateNewKey(sessionId)
-        }
+        certificateStorage.get(sessionId)
+
+    private suspend fun getOrCreateCertInfo(sessionId: SessionId) =
+        certificateStorage.get(sessionId) ?: generateNewKey(sessionId)
 
     suspend fun getX25519Key(sessionId: SessionId?): String =
-        sessionId?.let { getCertInfo(it).x25519Base64 } ?: guestX25519Key
+        sessionId?.let { getOrCreateCertInfo(it).x25519Base64 } ?: guestX25519Key
 
     suspend fun getCertificate(sessionId: SessionId, cancelOngoing: Boolean = false): CertificateResult =
         withContext(mainScope.coroutineContext) {
             val certInfo = getCertInfo(sessionId)
-            if (certInfo.certificatePem != null && certInfo.expiresAt > serverClock.getCurrentTime().toEpochMilli())
+            if (certInfo?.certificatePem != null && certInfo.expiresAt > serverClock.getCurrentTime().toEpochMilli())
                 CertificateResult.Success(certInfo.certificatePem, certInfo.privateKeyPem)
             else
                 updateCertificate(sessionId, cancelOngoing = cancelOngoing)
@@ -336,7 +337,7 @@ class CertificateRepository @Inject constructor(
     suspend fun getCertificateWithoutRefresh(sessionId: SessionId): CertificateResult =
         withContext(mainScope.coroutineContext) {
             val certInfo = getCertInfo(sessionId)
-            if (certInfo.certificatePem != null)
+            if (certInfo?.certificatePem != null)
                 CertificateResult.Success(certInfo.certificatePem, certInfo.privateKeyPem)
             else
                 CertificateResult.Error(null)
