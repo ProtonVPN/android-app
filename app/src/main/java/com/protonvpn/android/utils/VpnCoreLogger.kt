@@ -109,18 +109,13 @@ class VpnCoreLogger : Logger by TimberLogger {
         AccountLogTag.SESSION_REFRESH -> LogCategory.API
         AccountLogTag.SESSION_REQUEST -> LogCategory.API
         AccountLogTag.SESSION_FORCE_LOGOUT -> LogCategory.API
-        NetworkLogTag.SERVER_TIME_PARSE_ERROR -> LogCategory.API
-        NetworkLogTag.API_REQUEST -> LogCategory.API
-        NetworkLogTag.API_RESPONSE -> LogCategory.API
-        NetworkLogTag.API_ERROR -> LogCategory.API
-        NetworkLogTag.DEFAULT -> LogCategory.API
-        HvLogTag.HV_REQUEST_ERROR -> LogCategory.API
         KeystoreLogTag.KEYSTORE_INIT -> LogCategory.SECURE_STORE
         KeystoreLogTag.KEYSTORE_ENCRYPT -> LogCategory.SECURE_STORE
         KeystoreLogTag.KEYSTORE_DECRYPT -> LogCategory.SECURE_STORE
-        else -> {
-            DebugUtils.debugAssert("Unknown log tag. Update this mapping.") { true }
-            LogCategory.APP
+        else -> when {
+            tag.startsWith(NetworkLogTag.DEFAULT) -> LogCategory.API
+            tag.startsWith(HvLogTag.DEFAULT) -> LogCategory.HV
+            else -> LogCategory.APP
         }
     }
 
