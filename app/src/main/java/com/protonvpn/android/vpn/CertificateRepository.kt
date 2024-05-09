@@ -19,11 +19,7 @@
 
 package com.protonvpn.android.vpn
 
-import android.content.Context
 import androidx.annotation.VisibleForTesting
-import androidx.core.content.edit
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
 import com.proton.gopenpgp.ed25519.KeyPair
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
@@ -38,14 +34,11 @@ import com.protonvpn.android.logging.UserCertNew
 import com.protonvpn.android.logging.UserCertRefresh
 import com.protonvpn.android.logging.UserCertRefreshError
 import com.protonvpn.android.logging.UserCertScheduleRefresh
-import com.protonvpn.android.logging.UserCertStoreError
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.Reusable
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -55,16 +48,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
-import me.proton.core.crypto.validator.domain.prefs.CryptoPrefs
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.retryAfter
 import me.proton.core.network.domain.server.ServerClock
 import me.proton.core.network.domain.session.SessionId
-import me.proton.core.util.kotlin.DispatcherProvider
-import me.proton.core.util.kotlin.deserialize
-import me.proton.core.util.kotlin.serialize
-import java.io.IOException
-import java.security.GeneralSecurityException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -83,59 +70,6 @@ data class CertInfo(
     val certificatePem: String? = null,
     val refreshCount: Int = 0,
 )
-
-@Singleton
-class CertificateStorage @Inject constructor(
-    val mainScope: CoroutineScope,
-    val dispatcherProvider: DispatcherProvider,
-    val cryptoPrefs: CryptoPrefs,
-    @ApplicationContext val appContext: Context
-) {
-    // Use getCertPrefs() to access this.
-    private val certPreferences = mainScope.async(dispatcherProvider.Io, start = CoroutineStart.LAZY) {
-        @Suppress("BlockingMethodInNonBlockingContext")
-        val encryptedPrefs = if (cryptoPrefs.useInsecureKeystore == true)
-            null
-        else {
-            try {
-                EncryptedSharedPreferences.create(
-                    "cert_data",
-                    MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-                    appContext,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                )
-            } catch (e: GeneralSecurityException) {
-                ProtonLogger.log(UserCertStoreError, e.message ?: e.javaClass.simpleName)
-                null
-            } catch (e: IOException) {
-                ProtonLogger.log(UserCertStoreError, e.message ?: e.javaClass.simpleName)
-                null
-            }
-        }
-        encryptedPrefs ?: getFallbackPrefs()
-    }
-
-    // Due to a number of issues with EncryptedSharedPreferences on some devices we fallback to unencrypted storage.
-    private fun getFallbackPrefs() = appContext.getSharedPreferences("cert_data_fallback", Context.MODE_PRIVATE)
-
-    suspend fun get(sessionId: SessionId): CertInfo? =
-        getCertPrefs().getString(sessionId.id, null)?.deserialize()
-
-    suspend fun put(sessionId: SessionId, info: CertInfo) {
-        getCertPrefs().edit {
-            putString(sessionId.id, info.serialize())
-        }
-    }
-
-    suspend fun remove(sessionId: SessionId) {
-        getCertPrefs().edit {
-            remove(sessionId.id)
-        }
-    }
-
-    private suspend fun getCertPrefs() = certPreferences.await()
-}
 
 // Allows running unit tests without the go library, see VPNAND-797.
 @Reusable
