@@ -1282,7 +1282,7 @@
     <string name="secure_core_upsell_banner_description">Voeg een extra laag encryptie toe aan uw VPN-verbinding</string>
     <string name="p2p_upsell_banner_description">Download bestanden via BitTorrent en andere bestanden delen protocollen</string>
     <string name="tor_upsell_banner_description">Gebruik het Tor netwerk via uw VPN-verbinding voor extra privacy</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">Upgraden naar VPN Plus</string>
     <string name="search_zero_screen_title">Probeer te zoeken naar...</string>
     <string name="search_zero_screen_info_countries_title">Landen</string>
     <string name="search_zero_screen_info_cities_title">Steden</string>
