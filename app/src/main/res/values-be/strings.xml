@@ -256,7 +256,7 @@
     <string name="netshield_ads_title">Рэклама</string>
     <string name="netshield_ads_details">Рэклама і нябачныя праграмы сачэння</string>
     <string name="netshield_trackers_title">Праграмы сачэння</string>
-    <string name="netshield_trackers_details">Файлы cookie і іншыя праграмы сачэння, якія захоўваюць і распаўсюджваюць звесткі пра вашу сеткавую актыўнасць</string>
+    <string name="netshield_trackers_details">Файлы cookie і іншыя праграмы сачэння, якія захоўваюць і распаўсюджваюць звесткі аб вашай сеткавай актыўнасці</string>
     <string name="netshield_data_title">Даныя</string>
     <string name="netshield_data_details">Колькасць непажаданых даных ад рэкламы, праграм сачэння і шкодных праграм, якія заблакіраваў NetShield</string>
     <string name="accessibility_netshield_status_on_click">Увядзіце налады NetShield</string>
@@ -1172,11 +1172,11 @@
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
-    <string name="connection_details_upload">Запампаваць</string>
+    <string name="connection_details_upload">Запампавана</string>
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Спампаваць</string>
+    <string name="connection_details_download">Спампавана</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Хуткасць VPN</string>
     <!-- tag(Redesign_2023) -->

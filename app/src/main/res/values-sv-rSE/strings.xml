@@ -1263,7 +1263,7 @@
     <string name="settings_split_tunneling_excluded_apps">Exkluderade appar</string>
     <string name="settings_split_tunneling_excluded_ips">Exkluderade IP-adresser</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ingen</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s och %3$d till</string>
     <string name="settings_dialog_reconnect">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
     <string name="info_secure_core_standard_high_privacy">Hög integritet</string>
     <string name="info_secure_core_standard_lower_latency">Lägre latens</string>
