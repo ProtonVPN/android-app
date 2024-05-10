@@ -57,14 +57,14 @@ class TokenExpirationTests {
     }
 
     @Test
-    fun sessionAndRefreshTokenExpiration() = runTest(timeout = Timeouts.MEDIUM) {
+    fun sessionAndRefreshTokenExpiration() = runTest(timeout = Timeouts.TWENTY_SECONDS) {
         SessionManagerImpl.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email, true)
         loginRobot.verify { loginScreenIsDisplayed() }
     }
 
     @Test
-    fun sessionExpirationCheckIfNotLoggedOut() = runTest(timeout = Timeouts.MEDIUM) {
+    fun sessionExpirationCheckIfNotLoggedOut() = runTest(timeout = Timeouts.TWENTY_SECONDS) {
         SessionManagerImpl.reset(currentUser.sessionId())
         TestSetup.quark!!.expireSession(TestUser.plusUser.email)
     }
