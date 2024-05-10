@@ -45,4 +45,6 @@ interface ServerListViewModelDataAdapter {
         Flow<List<ServerGroupItemData.Country>>
 
     fun gateways(): Flow<List<ServerGroupItemData.Gateway>>
+
+    suspend fun getHostCountry(countryId: CountryId): CountryId?
 }

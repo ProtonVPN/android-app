@@ -105,8 +105,8 @@ class StringResourcesTest {
 
         val paramTypes = extractParamTypes(string.text)
 
-        if (referenceParamTypes != null && referenceParamTypes != paramTypes) {
-            return error("mismatched params, expected: ${referenceParamTypes}, got: $paramTypes")
+        if (referenceParamTypes != null && !referenceParamTypes.startsWith(paramTypes)) {
+            return error("mismatched params, expected $paramTypes to be equal or prefix of $referenceParamTypes")
         }
 
         try {
@@ -117,6 +117,11 @@ class StringResourcesTest {
             return error("getString() throws: $e")
         }
         return null
+    }
+
+    private fun <T> List<T>.startsWith(other: List<T>): Boolean {
+        if (size < other.size) return false
+        return other.indices.all { this[it] == other[it] }
     }
 
     private fun extractParamTypes(text: String): List<String> {

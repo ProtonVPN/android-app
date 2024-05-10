@@ -120,7 +120,8 @@ data class CitiesScreenState(
     override val selectedFilter: ServerFilterType,
     override val items: List<ServerGroupUiItem>,
     val filterButtons: List<FilterButton>,
-    val countryId: CountryId
+    val countryId: CountryId,
+    val hostCountryId: CountryId?,
 ) : ServerGroupsSubScreenState()
 
 data class ServersScreenState(
@@ -298,6 +299,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
                     savedState
                 ),
                 items = items,
+                hostCountryId = dataAdapter.getHostCountry(savedState.countryId)
             )
             is GatewayServersScreenSaveState -> GatewayServersScreenState(
                 gatewayName = savedState.gatewayName,

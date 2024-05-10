@@ -433,26 +433,34 @@ fun ServerGroupHeader(
                 .padding(vertical = 8.dp)
         )
         if (item.info != null) {
-            Row(
-                modifier = Modifier
-                    .clickable { onOpenInfo(item.info) }
-                    .padding(all = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(id = item.info.label),
-                    style = ProtonTheme.typography.body2Medium,
-                    color = ProtonTheme.colors.textWeak,
-                    modifier = Modifier.padding(end = 5.dp)
-                )
-                Icon(
-                    painter = painterResource(id = CoreR.drawable.ic_info_circle),
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp),
-                    tint = ProtonTheme.colors.iconWeak
-                )
-            }
+            InfoButton(item.info, onOpenInfo)
         }
+    }
+}
+
+@Composable
+fun InfoButton(
+    info: InfoType,
+    onOpenInfo: (InfoType) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .clickable { onOpenInfo(info) }
+            .padding(all = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(id = info.label),
+            style = ProtonTheme.typography.body2Medium,
+            color = ProtonTheme.colors.textWeak,
+            modifier = Modifier.padding(end = 5.dp)
+        )
+        Icon(
+            painter = painterResource(id = CoreR.drawable.ic_info_circle),
+            contentDescription = null,
+            modifier = Modifier.size(16.dp),
+            tint = ProtonTheme.colors.iconWeak
+        )
     }
 }
 
