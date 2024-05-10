@@ -21,7 +21,6 @@ package com.protonvpn.tests.redesign.recents
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.Text
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.ui.CardLabel
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
@@ -148,7 +148,7 @@ class RecentsListUiTests : FusionComposeTest() {
         private val ConnectIntentViewSwitzerland =
             ConnectIntentViewState(ConnectIntentPrimaryLabel.Country(CountryId.switzerland, null), null, emptySet())
         private val ConnectionCardViewState = VpnConnectionCardViewState(
-            cardLabelRes = R.string.connection_card_label_last_connected,
+            cardLabel = CardLabel(R.string.connection_card_label_last_connected),
             mainButtonLabelRes = R.string.buttonConnect,
             isConnectedOrConnecting = false,
             connectIntentViewState = ConnectIntentViewFastest,

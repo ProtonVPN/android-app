@@ -32,7 +32,9 @@ import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
+import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
@@ -44,6 +46,7 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.userstorage.DontShowAgainStateStoreProvider
 import com.protonvpn.android.userstorage.DontShowAgainStore
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
@@ -55,6 +58,7 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -64,6 +68,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.TestScope
@@ -100,6 +105,11 @@ class SettingsViewModelTests {
     @RelaxedMockK
     private lateinit var mockUiDelegate: VpnUiDelegate
 
+    @RelaxedMockK
+    private lateinit var mockGetQuickIntent: GetConnectIntentViewState
+    @RelaxedMockK
+    private lateinit var mockRecentManager: RecentsManager
+
     private lateinit var effectiveSettings: EffectiveCurrentUserSettings
     private lateinit var settingsManager: CurrentUserLocalSettingsManager
     private lateinit var testScope: TestScope
@@ -121,7 +131,7 @@ class SettingsViewModelTests {
         Dispatchers.setMain(testDispatcher)
         testScope = TestScope(testDispatcher)
         every { mockIsTvCheck.invoke() } returns false
-
+        coEvery { mockRecentManager.getDefaultConnectionFlow() } returns flowOf(Constants.DEFAULT_CONNECTION)
         val accountUser = createAccountUser()
         testUserProvider = TestCurrentUserProvider(plusUser, accountUser)
         val currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
@@ -154,10 +164,12 @@ class SettingsViewModelTests {
             settingsManager,
             effectiveSettings,
             mockBuildConfigInfo,
+            mockRecentManager,
             mockInstalledAppsProvider,
             mockConnectionManager,
             VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor),
             dontShowAgainStore,
+            mockGetQuickIntent
         )
     }
 

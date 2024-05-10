@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.base.ui
 import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -41,6 +42,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -65,6 +67,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.country.presentation.R as CountryR
+import me.proton.core.presentation.R as CoreR
 
 private object FlagShapes {
     val regular = RoundedCornerShape(size = 4.dp)
@@ -99,6 +102,21 @@ fun FlagFastest(
         isSecureCore = isSecureCore,
         isFastest = true,
         modifier = modifier
+    )
+}
+@Composable
+fun FlagRecentConnection(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        painterResource(id = CoreR.drawable.ic_proton_clock_rotate_left),
+        colorFilter = ColorFilter.tint(ProtonTheme.colors.iconNorm),
+        contentDescription = null,
+        modifier = modifier
+            .background(color = ProtonTheme.colors.shade40, shape = FlagShapes.regular)
+            .size(FlagDefaults.singleFlagSize)
+            .padding(2.dp)
+            .clip(FlagShapes.regular)
     )
 }
 
@@ -426,6 +444,7 @@ private fun FlagsPreviewHelper() {
                 )
                 GatewayIndicator(countryFlag = null, modifier = modifier)
                 GatewayIndicator(countryFlag = CountryR.drawable.flag_us, modifier = modifier)
+                FlagRecentConnection(modifier)
             }
         }
     }

@@ -32,13 +32,14 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
-import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.recents.ui.CardLabel
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCard
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import kotlinx.coroutines.launch
 import me.proton.core.compose.component.VerticalSpacer
@@ -66,7 +67,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
             SamplesSectionLabel(label = "Connection cards in various sample states")
             VpnConnectionCard(
                 VpnConnectionCardViewState(
-                    cardLabelRes = R.string.connection_card_label_last_connected,
+                    CardLabel(R.string.connection_card_label_last_connected),
                     mainButtonLabelRes = R.string.buttonConnect,
                     isConnectedOrConnecting = false,
                     connectIntentViewState = ConnectIntentViewState(
@@ -85,7 +86,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
 
             VpnConnectionCard(
                 VpnConnectionCardViewState(
-                    cardLabelRes = R.string.connection_card_label_connected,
+                    CardLabel(R.string.connection_card_label_connected),
                     mainButtonLabelRes = R.string.disconnect,
                     isConnectedOrConnecting = true,
                     connectIntentViewState = ConnectIntentViewState(
@@ -104,7 +105,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
 
             VpnConnectionCard(
                 VpnConnectionCardViewState(
-                    cardLabelRes = R.string.connection_card_label_connected,
+                    cardLabel = CardLabel(R.string.connection_card_label_connected),
                     mainButtonLabelRes = R.string.disconnect,
                     isConnectedOrConnecting = true,
                     connectIntentViewState = ConnectIntentViewState(
@@ -126,7 +127,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
 
             VpnConnectionCard(
                 VpnConnectionCardViewState(
-                    cardLabelRes = R.string.connection_card_label_connected,
+                    cardLabel = CardLabel(R.string.connection_card_label_connected),
                     mainButtonLabelRes = R.string.disconnect,
                     isConnectedOrConnecting = true,
                     connectIntentViewState = ConnectIntentViewState(
@@ -154,7 +155,7 @@ class ConnectionCardSample : SampleScreen("Connection card", "connection_card") 
             }
             VpnConnectionCard(
                 VpnConnectionCardViewState(
-                    cardLabelRes = R.string.connection_card_label_connected,
+                    CardLabel(R.string.connection_card_label_connected),
                     mainButtonLabelRes = R.string.disconnect,
                     isConnectedOrConnecting = true,
                     connectIntentViewState = ConnectIntentViewState(

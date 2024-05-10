@@ -29,6 +29,7 @@ import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
@@ -134,7 +135,8 @@ class RecentsListViewStateFlowTests {
 
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(emptyList())
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(null)
-
+        coEvery { mockRecentsManager.getRecentById(any()) } returns null
+        coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.LastConnection)
         every { mockChangeServerManager.isChangingServer } returns MutableStateFlow(false)
 
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
@@ -201,6 +203,7 @@ class RecentsListViewStateFlowTests {
     fun mostRecentConnectionShownOnlyInConnectionCard() = testScope.runTest {
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(DefaultRecents)
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(RecentIceland)
+        coEvery { mockRecentsManager.getRecentById(any()) } returns RecentIceland
 
         val viewState = viewStateFlow.first()
 

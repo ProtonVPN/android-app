@@ -19,6 +19,49 @@
 
 package com.protonvpn.android.redesign.recents.data
 
+import androidx.sqlite.db.SupportSQLiteDatabase
+import me.proton.core.data.room.db.migration.DatabaseMigration
+
 interface VpnRecentsDatabase {
     fun recentsDao(): RecentsDao
+
+    fun defaultConnectionDao(): DefaultConnectionDao
+
+    companion object {
+        val MIGRATION_0 = object : DatabaseMigration {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    """
+                        CREATE TABLE IF NOT EXISTS `defaultConnection` (
+                        `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                        `userId` TEXT NOT NULL,
+                        `connectionType` TEXT NOT NULL,
+                        `recentId` INTEGER,
+                        FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON DELETE CASCADE,
+                        FOREIGN KEY(`recentId`) REFERENCES `recents`(`id`) ON DELETE CASCADE
+                        )
+                        """
+                )
+
+                database.execSQL(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_defaultConnection_userId` ON `defaultConnection` (`userId`)"
+                )
+                database.execSQL(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_defaultConnection_recentId` ON `defaultConnection` (`recentId`)"
+                )
+
+                // Migrate previous users to Last connection by default
+                database.execSQL(
+                    """
+                        INSERT INTO defaultConnection (userId, connectionType, recentId)
+                        SELECT 
+                            userId, 
+                            '${ConnectionType.LAST_CONNECTION}' AS connectionType, 
+                            NULL AS recentId
+                        FROM UserEntity
+                        """
+                )
+            }
+        }
+    }
 }

@@ -501,7 +501,11 @@
         <item quantity="one">Unlock geoblocked content from %1$d country with VPN Plus</item>
         <item quantity="other">Unlock geoblocked content from %1$d countries with VPN Plus</item>
     </plurals>
-
+    <string name="select_default_connection">Select your default connection</string>
+    <string name="settings_default_connection_title">Default connection</string>
+    <string name="fastest_country_description">The best server based on your location</string>
+    <string name="settings_last_connection_title">Last connection</string>
+    <string name="settings_last_connection_description">Your most recently used connection</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Dismiss banner</string>
@@ -802,18 +806,6 @@
     </plurals>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
-         the recommended one.
-
-         Example:
-         Recommended
-         Switzerland, Zurich
-         or
-         Recommended
-         Fastest country
-     -->
-    <string name="connection_card_label_recommended">Recommended</string>
-    <!-- tag(Redesign_2023)
-         Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
 
          Example:
@@ -824,6 +816,11 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Last connected to</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Default connection</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->

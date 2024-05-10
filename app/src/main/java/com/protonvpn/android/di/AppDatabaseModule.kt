@@ -68,6 +68,9 @@ object AppDatabaseDaoModule {
     fun provideVpnUserDao(db: VpnUserDatabase) = db.vpnUserDao()
     @Provides
     fun provideRecentsDao(db: VpnRecentsDatabase) = db.recentsDao()
+
+    @Provides
+    fun provideDefaultConnectionDao(db: VpnRecentsDatabase) = db.defaultConnectionDao()
 }
 
 @Module

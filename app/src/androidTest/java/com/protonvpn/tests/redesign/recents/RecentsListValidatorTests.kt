@@ -49,6 +49,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.test.TestScope
@@ -76,7 +77,7 @@ class RecentsListValidatorTests {
     private lateinit var serverManager: ServerManager
     private lateinit var serverManager2: ServerManager2
     private lateinit var testScope: TestScope
-
+    private lateinit var settingsFlow: StateFlow<LocalUserSettings>
     private lateinit var idlingResource: CountingIdlingResource
 
     private val userId1 = AccountTestHelper.TestAccount1.userId
@@ -98,7 +99,7 @@ class RecentsListValidatorTests {
 
         currentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
         currentUser = CurrentUser(testScope.backgroundScope, currentUserProvider)
-
+        settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
             .setQueryExecutor(transactionExecutor)
@@ -111,7 +112,7 @@ class RecentsListValidatorTests {
             accountManager.addAccount(AccountTestHelper.TestAccount2, AccountTestHelper.TestSession2)
         }
 
-        val settingsFlow = MutableStateFlow(LocalUserSettings.Default)
+
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         recentsDao = db.recentsDao()
         serverManager = ServerManager(

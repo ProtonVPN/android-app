@@ -51,11 +51,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.VpnDivider
-import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionWeak
 import kotlin.math.roundToInt
 
 data class ItemIds(
@@ -80,6 +78,7 @@ fun RecentsList(
     onRecentClicked: (item: RecentItemViewState) -> Unit,
     onRecentPinToggle: (item: RecentItemViewState) -> Unit,
     onRecentRemove: (item: RecentItemViewState) -> Unit,
+    onOpenDefaultConnection: (() -> Unit)? = null,
     errorSnackBar: androidx.compose.material.SnackbarHostState?,
     modifier: Modifier = Modifier,
     changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,
@@ -135,6 +134,7 @@ fun RecentsList(
                     onConnect = onConnectClicked,
                     onDisconnect = onDisconnectClicked,
                     onOpenConnectionPanel = onOpenConnectionPanelClicked,
+                    onOpenDefaultConnection = onOpenDefaultConnection,
                     modifier = Modifier.padding(16.dp),
                     itemIdsTransition = itemIdsTransition
                 )

@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.ui.CardLabel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
@@ -55,7 +56,7 @@ class RecentsAndConnectionSampleViewModel @Inject constructor(
 
     private val initialCardViewState =
         VpnConnectionCardViewState(
-            cardLabelRes = R.string.connection_card_label_recommended,
+            CardLabel(R.string.connection_card_label_default_connection),
             mainButtonLabelRes = R.string.buttonConnect,
             isConnectedOrConnecting = false,
             connectIntentViewState = ConnectIntentViewState(
