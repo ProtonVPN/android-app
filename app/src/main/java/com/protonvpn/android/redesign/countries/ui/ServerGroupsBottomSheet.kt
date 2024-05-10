@@ -27,6 +27,7 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -141,14 +142,19 @@ private fun BottomSheetScreen(
     navigateToUpsell: (ServerGroupUiItem.BannerType) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
+    val onOpenInfo = { infoType: InfoType -> infoSheetState.show(infoType) }
     Column(modifier) {
-        AnimatedBottomSheetHeader(screen = screen, onNavigateBack = onNavigateBack)
+        AnimatedBottomSheetHeader(
+            screen = screen,
+            onNavigateBack = onNavigateBack,
+            onOpenInfo = onOpenInfo
+        )
         ServerGroupItemsList(
             listState = listState,
             items = screen.items,
             onItemOpen = onItemOpen,
             onItemClick = onItemClick,
-            onOpenInfo = { infoSheetState.show(it) },
+            onOpenInfo = onOpenInfo,
             navigateToUpsell = navigateToUpsell,
             modifier = Modifier
                 .semantics { traversalIndex = -1f }
@@ -163,6 +169,7 @@ private fun AnimatedBottomSheetHeader(
     modifier: Modifier = Modifier,
     screen: ServerGroupsSubScreenState,
     onNavigateBack: () -> Unit,
+    onOpenInfo: (InfoType) -> Unit,
 ) {
     val flagComposable: @Composable () -> Unit = when (screen) {
         is GatewayServersScreenState -> { -> GatewayIndicator(null) }
@@ -260,6 +267,30 @@ private fun AnimatedBottomSheetHeader(
             }
         }
 
+        if (screen is CitiesScreenState) {
+            val hostCountryId = screen.hostCountryId
+            if (hostCountryId != null) {
+                Row(
+                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp, end = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(id = CoreR.drawable.ic_proton_globe),
+                        contentDescription = null,
+                        tint = ProtonTheme.colors.iconWeak,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.country_smart_routing_info, hostCountryId.label(), screen.countryId.label()),
+                        style = ProtonTheme.typography.body2Regular,
+                        color = ProtonTheme.colors.textWeak,
+                        modifier = Modifier.weight(1f).padding(top = 4.dp)
+                    )
+                    InfoButton(info = InfoType.SmartRouting, onOpenInfo)
+                }
+            }
+        }
+
         val filterButtonsTransition = remember {
             MutableTransitionState(filterButtons)
         }
@@ -280,7 +311,7 @@ private fun AnimatedBottomSheetHeader(
 fun BottomSheetHeaderCitySelectionPreview() {
     AnimatedBottomSheetHeader(
         screen = CitiesScreenState(
-            countryId = CountryId("CH"),
+            countryId = CountryId("DE"),
             selectedFilter = ServerFilterType.All,
             filterButtons = listOf(
                 FilterButton(
@@ -296,9 +327,11 @@ fun BottomSheetHeaderCitySelectionPreview() {
                     isSelected = false
                 )
             ),
-            items = emptyList()
+            items = emptyList(),
+            hostCountryId = CountryId("CH")
         ),
-        onNavigateBack = {}
+        onNavigateBack = {},
+        onOpenInfo = {}
     )
 }
 
@@ -310,6 +343,7 @@ fun BottomSheetHeaderGatewayPreview() {
             gatewayName = "Gateway",
             items = emptyList()
         ),
-        onNavigateBack = {}
+        onNavigateBack = {},
+        onOpenInfo = {}
     )
 }

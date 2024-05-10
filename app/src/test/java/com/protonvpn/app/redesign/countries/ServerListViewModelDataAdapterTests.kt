@@ -459,6 +459,20 @@ class ServerListViewModelDataAdapterTests {
         val searchMiddleOfTheWord = searchAdapter.search("ork", Locale.US).first()
         assertEquals(0, searchMiddleOfTheWord[ServerFilterType.All]?.cities?.size)
     }
+
+    @Test
+    fun testGetHostCountry() = runTest {
+        serverManager.setServers(
+            listOf(
+                server(exitCountry = "PL", city = "Warsaw", hostCountry = "US"),
+                server(exitCountry = "US", city = "New York"),
+            ),
+            null
+        )
+
+        assertEquals(CountryId("US"), adapter.getHostCountry(CountryId("PL")))
+        assertEquals(null, adapter.getHostCountry(CountryId("US")))
+    }
 }
 
 fun server(
