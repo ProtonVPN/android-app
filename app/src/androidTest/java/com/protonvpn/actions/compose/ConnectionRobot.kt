@@ -33,7 +33,7 @@ object ConnectionRobot : Robot {
     fun isDisconnected() = nodeWithTextDisplayed(R.string.vpn_status_disabled)
 
     private fun isAllowVpnRequestVisible(): Boolean {
-        device.wait(Until.hasObject(By.text("OK")), Timeouts.MEDIUM.inWholeMilliseconds)
+        device.wait(Until.hasObject(By.text("OK")), Timeouts.FIVE_SECONDS_MS)
         return device.findObject(UiSelector().textContains("Connection request")).exists()
     }
 
