@@ -6,6 +6,7 @@
 /build
 /config/detekt/config.yml
 /config/detekt/reports
+/observability/domain/build
 openvpn/build/**
 /captures
 .externalNativeBuild
