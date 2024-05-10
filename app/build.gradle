@@ -17,6 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 import com.android.build.api.dsl.ApplicationBuildType
+import com.android.build.api.dsl.VariantDimension
 import com.android.build.gradle.internal.dsl.BaseFlavor
 import configuration.EnvironmentConfigSettings
 import groovy.json.JsonOutput
@@ -193,6 +194,9 @@ android {
         buildConfigField "String[]", "API_ALT_TLS_PINS", "null"
         buildConfigField "String[]", "DOH_SERVICES_URLS", "null"
         buildConfigField "String", "VPN_SERVER_ROOT_CERT", "null"
+
+        Helpers.setAssetLinksResValue(it, "proton.me")
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -257,6 +261,10 @@ android {
                 if (customHv3Host != null)
                     hv3Host = StringEscapeUtils.escapeJava(customHv3Host)
                 proxyToken = StringEscapeUtils.escapeJava(blackToken)
+            }
+
+            if (customApiHost != null) {
+                Helpers.setAssetLinksResValue(it, customApiHost)
             }
 
             def vpnServerRootCert = System.getenv("BTI_SERVERS_ROOT_CERT")
@@ -699,6 +707,19 @@ class Helpers {
                 .collect { it.trim().replace("\"", "") }
                 .collect { "\"${StringEscapeUtils.escapeJava(it)}\""}
                 .join(", ")
+    }
+
+    static void setAssetLinksResValue(VariantDimension variantDimension, String host) {
+        variantDimension.resValue(
+                /* type */ "string",
+                /* name */ "asset_statements",
+                /* value */ """
+                [{
+                  "relation": ["delegate_permission/common.handle_all_urls", "delegate_permission/common.get_login_creds"],
+                  "target": { "namespace": "web", "site": "https://$host" }
+                }]
+                """.stripIndent()
+        )
     }
 
     static void protonEnvironmentConfig(BaseFlavor flavor, Closure<?> configurator) {
