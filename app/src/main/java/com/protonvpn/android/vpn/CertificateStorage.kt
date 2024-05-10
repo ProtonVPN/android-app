@@ -28,14 +28,17 @@ import androidx.security.crypto.MasterKeys
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserCertStoreError
+import com.protonvpn.android.observability.CertificateStorageCreateMetric
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import me.proton.core.crypto.validator.domain.prefs.CryptoPrefs
 import me.proton.core.featureflag.domain.entity.FeatureId
 import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import me.proton.core.network.domain.session.SessionId
+import me.proton.core.observability.domain.ObservabilityManager
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
@@ -45,19 +48,21 @@ import java.security.GeneralSecurityException
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
 class CertificateStorage @Inject constructor(
     private @ApplicationContext val appContext: Context,
-    mainScope: CoroutineScope,
+    private val mainScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     private val cryptoPrefs: CryptoPrefs,
     featureFlagRepository: FeatureFlagRepository,
     currentUser: CurrentUser,
+    private val observability: ObservabilityManager,
 ) {
     // Use getCertPrefs() to access this.
     private val certPreferences = mainScope.async(dispatcherProvider.Io, start = CoroutineStart.LAZY) {
         if (cryptoPrefs.useInsecureKeystore == true) {
-            createStorageWithoutEncryption()
+            createStorageWithoutEncryption(CertificateStorageCreateMetric.StorageType.Unencrypted)
         } else {
             val clearStorageOnError = featureFlagRepository.getValue(currentUser.user()?.userId, FEATURE_FLAG) ?: false
             if (clearStorageOnError) {
@@ -89,11 +94,15 @@ class CertificateStorage @Inject constructor(
         fun recreatePrefsOnError(e: Throwable): SharedPreferences {
             ProtonLogger.log(UserCertStoreError, e.toString())
             deleteEncryptedPrefs()
-            return createEncryptedPrefs()
+            return createEncryptedPrefs().also {
+                enqueueObservabilityEvent(CertificateStorageCreateMetric.StorageType.EncryptedFallback)
+            }
         }
 
         return try {
-            createEncryptedPrefs()
+            createEncryptedPrefs().also {
+                enqueueObservabilityEvent(CertificateStorageCreateMetric.StorageType.Encrypted)
+            }
         } catch (e: GeneralSecurityException) {
             recreatePrefsOnError(e)
         } catch (e: IOException) {
@@ -111,12 +120,19 @@ class CertificateStorage @Inject constructor(
             ProtonLogger.log(UserCertStoreError, e.toString())
             null
         }
-        return encryptedPrefs ?: createStorageWithoutEncryption()
+        return if (encryptedPrefs != null) {
+            enqueueObservabilityEvent(CertificateStorageCreateMetric.StorageType.Encrypted)
+            encryptedPrefs
+        } else {
+            createStorageWithoutEncryption(CertificateStorageCreateMetric.StorageType.UnencryptedFallback)
+        }
     }
 
     // Due to a number of issues with EncryptedSharedPreferences on some devices we fallback to unencrypted storage.
-    private fun createStorageWithoutEncryption() =
-        appContext.getSharedPreferences(FALLBACK_PREFS_NAME, Context.MODE_PRIVATE)
+    private fun createStorageWithoutEncryption(storageType: CertificateStorageCreateMetric.StorageType): SharedPreferences {
+        enqueueObservabilityEvent(storageType)
+        return appContext.getSharedPreferences(FALLBACK_PREFS_NAME, Context.MODE_PRIVATE)
+    }
 
     private fun createEncryptedPrefs() = EncryptedSharedPreferences.create(
         PREFS_NAME,
@@ -132,6 +148,12 @@ class CertificateStorage @Inject constructor(
         } else {
             val dir = File(appContext.applicationInfo.dataDir, "shared_prefs")
             File(dir, "$PREFS_NAME.xml").delete()
+        }
+    }
+
+    private fun enqueueObservabilityEvent(storageType: CertificateStorageCreateMetric.StorageType) {
+        mainScope.launch {
+            observability.enqueue(CertificateStorageCreateMetric(storageType))
         }
     }
 

@@ -951,6 +951,9 @@ dependencies {
         }
     }
 
+    // Observability
+    implementation project(":observability:domain")
+
     // TV
     implementation "androidx.leanback:leanback:1.1.0-rc02"
     implementation "androidx.leanback:leanback-preference:1.1.0-rc01"
