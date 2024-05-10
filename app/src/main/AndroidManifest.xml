@@ -261,6 +261,10 @@
             android:name="android.max_aspect"
             android:value="2.1" />
 
+        <meta-data
+            android:name="asset_statements"
+            android:resource="@string/asset_statements" />
+
         <meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
 
         <!-- Disable Sentry initialization. -->
