@@ -24,7 +24,12 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.data.ConnectionType
+import com.protonvpn.android.redesign.recents.data.DefaultConnectionDao
+import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
+import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentsDao
+import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.testsHelper.AccountTestHelper
@@ -45,6 +50,7 @@ import org.robolectric.RobolectricTestRunner
 class RecentsDaoTests {
 
     private lateinit var recentsDao: RecentsDao
+    private lateinit var defaultConnectionDao: DefaultConnectionDao
 
     private val intentFastest = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
     private val intentSweden = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
@@ -66,6 +72,16 @@ class RecentsDaoTests {
         }
 
         recentsDao = db.recentsDao()
+        defaultConnectionDao = db.defaultConnectionDao()
+    }
+
+    @Test
+    fun defaultConnectionIsDeletedAlongsideRecent() = runTest {
+        val connection = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
+        recentsDao.insert(listOf(RecentConnectionEntity(2, userId1, false, 0,0, connection.toData())))
+        defaultConnectionDao.insert(DefaultConnectionEntity(userId = userId1.id, connectionType = ConnectionType.RECENT, recentId = 2))
+        recentsDao.delete(2)
+        assertEquals(null, defaultConnectionDao.getDefaultConnectionFlow(userId1).first())
     }
 
     @Test

@@ -21,16 +21,20 @@ package com.protonvpn.app.redesign.recents.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -62,7 +66,7 @@ class GetQuickConnectIntentTests {
 
         mostRecentConnectionFlow = MutableStateFlow(null)
         every { mockRecentsManager.getMostRecentConnection() } returns mostRecentConnectionFlow
-
+        coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(Constants.DEFAULT_CONNECTION)
         getQuickConnectIntent = GetQuickConnectIntent(currentUser, mockRecentsManager)
     }
 
@@ -77,6 +81,7 @@ class GetQuickConnectIntentTests {
     @Test
     fun `when there is connection history return most recent`() = testScope.runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
+        coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.LastConnection)
         testUserProvider.vpnUser = plusUser
         mostRecentConnectionFlow.value = RecentConnection(0, false, connectIntent)
 

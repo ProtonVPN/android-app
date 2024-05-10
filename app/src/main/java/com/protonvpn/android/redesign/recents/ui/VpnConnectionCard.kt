@@ -32,6 +32,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -50,6 +53,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -72,12 +76,11 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.ui.home.FreeConnectionsInfoBottomSheet
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionNorm
 import me.proton.core.presentation.R as CoreR
 
 @Immutable
 data class VpnConnectionCardViewState(
-    @StringRes val cardLabelRes: Int,
+    val cardLabel: CardLabel,
     @StringRes val mainButtonLabelRes: Int,
     val isConnectedOrConnecting: Boolean,
     val connectIntentViewState: ConnectIntentViewState,
@@ -87,6 +90,8 @@ data class VpnConnectionCardViewState(
     val canOpenPanel: Boolean = canOpenConnectionPanel || canOpenFreeCountriesPanel
 }
 
+data class CardLabel(@StringRes val cardLabelRes: Int, val isClickable: Boolean = false)
+
 @Suppress("LongParameterList")
 @Composable
 fun VpnConnectionCard(
@@ -94,6 +99,7 @@ fun VpnConnectionCard(
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
     onOpenConnectionPanel: () -> Unit,
+    onOpenDefaultConnection: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     changeServerButton: (@Composable ColumnScope.() -> Unit)? = null,
     itemIdsTransition: Transition<ItemIds>? = null
@@ -105,7 +111,8 @@ fun VpnConnectionCard(
             .animateContentSize()
     ) {
         ContainerLabelRow(
-            viewState.cardLabelRes,
+            viewState.cardLabel,
+            onOpenDefaultConnection,
             Modifier.padding(vertical = 12.dp) // There's 4.dp padding on the help button.
         )
         val surfaceShape = ProtonTheme.shapes.large
@@ -228,18 +235,31 @@ private fun AnimatedContentTransitionScope<ConnectIntentViewState>.getTransition
 
 @Composable
 private fun ContainerLabelRow(
-    @StringRes labelRes: Int,
+    cardLabel: CardLabel,
+    onLabelAction: (() -> Unit)?,
     modifier: Modifier = Modifier
 ) {
+    val dynamicModifier = if (onLabelAction != null && cardLabel.isClickable) {
+        Modifier.clip(RoundedCornerShape(4.dp)).clickable { onLabelAction() }.then(modifier)
+    } else {
+        modifier
+    }
+
     Row(
-        modifier,
+        modifier = dynamicModifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            stringResource(labelRes),
+            stringResource(cardLabel.cardLabelRes),
             style = ProtonTheme.typography.body2Regular,
-            modifier = Modifier.weight(1f)
         )
+        if (cardLabel.isClickable) {
+            Icon(
+                painterResource(id = CoreR.drawable.ic_proton_chevron_down_filled),
+                contentDescription = stringResource(R.string.accessibility_external_link_suffix),
+                modifier = Modifier.padding(start = 8.dp).size(16.dp)
+            )
+        }
     }
 }
 
@@ -253,7 +273,7 @@ private fun VpnConnectionCardFreeUserPreview() {
             emptySet(),
         )
         val state = VpnConnectionCardViewState(
-            R.string.connection_card_label_last_connected,
+            CardLabel(R.string.connection_card_label_last_connected, false),
             mainButtonLabelRes = R.string.buttonConnect,
             isConnectedOrConnecting = false,
             connectIntentViewState = connectIntentState,
@@ -265,6 +285,7 @@ private fun VpnConnectionCardFreeUserPreview() {
             onConnect = {},
             onDisconnect = {},
             onOpenConnectionPanel = {},
+            onOpenDefaultConnection = {},
             modifier = Modifier
         )
     }

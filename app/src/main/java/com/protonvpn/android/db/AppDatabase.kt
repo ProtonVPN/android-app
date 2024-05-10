@@ -24,11 +24,12 @@ import androidx.room.Database
 import androidx.room.TypeConverters
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicCallInfo
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDatabase
-import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.data.VpnUserDatabase
+import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
-import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
 import com.protonvpn.android.redesign.recents.data.RecentsTypeConverters
+import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
 import me.proton.core.account.data.db.AccountConverters
 import me.proton.core.account.data.db.AccountDatabase
 import me.proton.core.account.data.entity.AccountEntity
@@ -123,6 +124,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         // vpn
         PeriodicCallInfo::class,
         RecentConnectionEntity::class,
+        DefaultConnectionEntity::class,
         VpnUser::class
     ],
     autoMigrations = [
@@ -172,7 +174,7 @@ abstract class AppDatabase :
     VpnUserDatabase {
 
     companion object {
-        const val version = 31
+        const val version = 32
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -201,6 +203,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_28_29,
             DatabaseMigrations.MIGRATION_29_30,
             DatabaseMigrations.MIGRATION_30_31,
+            DatabaseMigrations.MIGRATION_31_32,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {

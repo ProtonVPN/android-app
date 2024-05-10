@@ -773,18 +773,6 @@
     </plurals>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
-         the recommended one.
-
-         Example:
-         Recommended
-         Switzerland, Zurich
-         or
-         Recommended
-         Fastest country
-     -->
-    <string name="connection_card_label_recommended">Önerilen</string>
-    <!-- tag(Redesign_2023)
-         Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
 
          Example:

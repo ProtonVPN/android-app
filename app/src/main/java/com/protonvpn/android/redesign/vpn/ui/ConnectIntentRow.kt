@@ -123,7 +123,7 @@ fun ConnectIntentLabels(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ServerDetailsRow(
+fun ServerDetailsRow(
     detailsText: AnnotatedString?,
     contentDescriptionOverride: String?, // Set to null to use default behavior.
     features: Set<ServerFeature>,
@@ -176,7 +176,7 @@ private fun ServerDetailsRow(
 }
 
 @Composable
-private fun ConnectIntentPrimaryLabel.label(): String = when (this) {
+fun ConnectIntentPrimaryLabel.label(): String = when (this) {
     is ConnectIntentPrimaryLabel.Fastest ->
         stringResource(if (isFree) R.string.fastest_free_server else R.string.fastest_country)
     is ConnectIntentPrimaryLabel.Country -> exitCountry.label()
@@ -184,7 +184,7 @@ private fun ConnectIntentPrimaryLabel.label(): String = when (this) {
 }
 
 @Composable
-private fun ConnectIntentSecondaryLabel.label(): AnnotatedString = when (this) {
+fun ConnectIntentSecondaryLabel.label(): AnnotatedString = when (this) {
     is ConnectIntentSecondaryLabel.RawText -> AnnotatedString(text)
     is ConnectIntentSecondaryLabel.Country -> {
         val suffix = serverNumberLabel?.let { " $it" } ?: ""

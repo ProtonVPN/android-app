@@ -183,6 +183,10 @@ fun SubSettingsRoute(
                     )
                 }
             }
+
+            SubSettingsScreen.Type.DefaultConnection -> {
+                DefaultConnectionSetting(onClose)
+            }
         }
     }
 

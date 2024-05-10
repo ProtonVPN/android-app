@@ -22,6 +22,7 @@ import android.app.Activity
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.app.ui.MainActivity
+import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.tv.main.TvMainActivity
 
 object Constants {
@@ -57,6 +58,7 @@ object Constants {
     const val WIREGUARD_TUNNEL_NAME = "ProtonTunnel"
     const val SECONDARY_PROCESS_TAG = "SecondaryProcess"
     const val DISTRIBUTION_AMAZON = "amazon"
+    val DEFAULT_CONNECTION = DefaultConnection.FastestConnection
 
     const val MOBILE_CLIENT_ID: String = "android-vpn"
     const val TV_CLIENT_ID: String = "android_tv-vpn"

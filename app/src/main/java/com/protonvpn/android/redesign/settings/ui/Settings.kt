@@ -88,6 +88,7 @@ import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
+import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
@@ -175,6 +176,9 @@ fun SettingsRoute(
             },
             onProtocolClick = {
                 protocolLauncher.launch(viewState.protocol.value)
+            },
+            onDefaultConnectionClick = {
+                onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
             },
             onVpnAcceleratorClick = {
                 onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
@@ -321,6 +325,7 @@ private fun SettingsView(
     onSplitTunnelClick: () -> Unit,
     onSplitTunnelUpgrade: () -> Unit,
     onAlwaysOnClick: () -> Unit,
+    onDefaultConnectionClick: () -> Unit,
     onProtocolClick: () -> Unit,
     onVpnAcceleratorClick: () -> Unit,
     onVpnAcceleratorUpgrade: () -> Unit,
@@ -365,6 +370,15 @@ private fun SettingsView(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 stringResource(id = R.string.settings_connection_category)
             ) {
+                viewState.defaultConnection?.let {
+                    SettingRowWithIcon(
+                        icon = it.iconRes,
+                        iconTint = true,
+                        title = stringResource(id = it.titleRes),
+                        subtitle = it.predefinedTitle?.let { stringResource(id = it) } ?: it.recentLabel?.label(),
+                        onClick = onDefaultConnectionClick,
+                    )
+                }
                 SettingRowWithIcon(
                     icon = viewState.protocol.iconRes,
                     iconTint = true,

@@ -21,6 +21,7 @@ package com.protonvpn.android.db
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
 import me.proton.core.account.data.db.AccountDatabase
 import me.proton.core.challenge.data.db.ChallengeDatabase
 import me.proton.core.data.room.db.extension.addTableColumn
@@ -214,6 +215,12 @@ object DatabaseMigrations {
             DeviceRecoveryDatabase.MIGRATION_0.migrate(db)
             DeviceRecoveryDatabase.MIGRATION_1.migrate(db)
             UserKeyDatabase.MIGRATION_1.migrate(db)
+        }
+    }
+
+    val MIGRATION_31_32 = object : Migration(31, 32) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            VpnRecentsDatabase.MIGRATION_0.migrate(db)
         }
     }
 }

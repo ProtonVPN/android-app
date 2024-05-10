@@ -76,9 +76,11 @@ abstract class RecentsDao {
     @Query("""
         DELETE FROM recents WHERE id IN (
             SELECT id FROM recents
-             WHERE isPinned = 0 AND userId = :userId
-             ORDER BY lastConnectionAttemptTimestamp DESC
-             LIMIT -1 OFFSET :max
+            WHERE isPinned = 0 AND userId = :userId AND id != COALESCE((
+                SELECT recentId FROM defaultConnection WHERE userId = :userId LIMIT 1
+            ), -1)
+            ORDER BY lastConnectionAttemptTimestamp DESC
+            LIMIT -1 OFFSET :max
         )
     """)
     abstract suspend fun deleteExcessUnpinnedRecents(userId: UserId, max: Int)

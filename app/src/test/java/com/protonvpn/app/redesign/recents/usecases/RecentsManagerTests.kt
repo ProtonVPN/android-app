@@ -21,10 +21,11 @@ package com.protonvpn.app.redesign.recents.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.recents.data.DefaultConnectionDao
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.usecases.MigrateProfiles
+import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
@@ -49,6 +50,8 @@ class RecentsManagerTests {
     @RelaxedMockK
     private lateinit var mockRecentsDao: RecentsDao
     @RelaxedMockK
+    private lateinit var mockDefaultDao: DefaultConnectionDao
+    @RelaxedMockK
     private lateinit var mockMigrateProfiles: MigrateProfiles
 
     private lateinit var currentUserProvider: TestCurrentUserProvider
@@ -65,7 +68,7 @@ class RecentsManagerTests {
         val currentUser =
             CurrentUser(testScope.backgroundScope, currentUserProvider)
         recentsManager =
-            RecentsManager(testScope.backgroundScope, mockRecentsDao, currentUser, { testScope.currentTime }, mockMigrateProfiles)
+            RecentsManager(testScope.backgroundScope, mockRecentsDao, mockDefaultDao, currentUser, { testScope.currentTime }, mockMigrateProfiles)
     }
 
     @Test
@@ -93,6 +96,7 @@ class RecentsManagerTests {
     @Test
     fun `when pinned item is removed it is deleted from DB`() = testScope.runTest {
         coEvery { mockRecentsDao.getMostRecentConnection(any()) } returns flowOf(null)
+        coEvery { mockDefaultDao.getDefaultConnectionFlow(any()) } returns flowOf(null)
         recentsManager.remove(1)
         coVerify { mockRecentsDao.delete(1) }
     }

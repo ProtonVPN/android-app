@@ -30,6 +30,11 @@ import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
+import com.protonvpn.android.redesign.recents.data.DefaultConnection
+import com.protonvpn.android.redesign.recents.data.getRecentIdOrNull
+import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
+import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
@@ -81,10 +86,12 @@ class SettingsViewModel @Inject constructor(
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     effectiveUserSettings: EffectiveCurrentUserSettings,
     buildConfigInfo: BuildConfigInfo,
+    private val recentsManager: RecentsManager,
     private val installedAppsProvider: InstalledAppsProvider,
     private val vpnConnectionManager: VpnConnectionManager,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val dontShowAgainStore: DontShowAgainStore
+    private val dontShowAgainStore: DontShowAgainStore,
+    private val getConnectIntentViewState: GetConnectIntentViewState,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -141,6 +148,12 @@ class SettingsViewModel @Inject constructor(
             annotationRes = R.string.learn_more
         )
 
+        data class DefaultConnectionSettingState(
+            val iconRes: Int = CoreR.drawable.ic_proton_bookmark,
+            val titleRes: Int = R.string.settings_default_connection_title,
+            val predefinedTitle: Int?,
+            val recentLabel: ConnectIntentPrimaryLabel?,
+        )
         class Protocol(
             protocol: ProtocolSelection,
             override val iconRes: Int = CoreR.drawable.ic_proton_servers,
@@ -183,6 +196,7 @@ class SettingsViewModel @Inject constructor(
         val netShield: SettingViewState.NetShield?,
         val splitTunneling: SettingViewState.SplitTunneling,
         val vpnAccelerator: SettingViewState.VpnAccelerator,
+        val defaultConnection: SettingViewState.DefaultConnectionSettingState? = null,
         val protocol: SettingViewState.Protocol,
         val altRouting: SettingViewState.AltRouting,
         val lanConnections: SettingViewState.LanConnections,
@@ -202,12 +216,11 @@ class SettingsViewModel @Inject constructor(
             currentUser.jointUserFlow,
             // Keep in mind UI for some settings can't rely directly on effective settings.
             effectiveUserSettings.effectiveSettings,
-        ) { user, settings ->
-            val accountUser = user?.first
-            val vpnUser = user?.second
-            val isFree = vpnUser?.isFreeUser == true
-            val isCredentialLess = accountUser?.isCredentialLess() == true
-            val netShieldSetting = when (val netShieldAvailability = vpnUser.getNetShieldAvailability()) {
+            recentsManager.getDefaultConnectionFlow()
+        ) { user, settings, defaultConnection ->
+            val isFree = user?.second?.isFreeUser == true
+            val isCredentialLess = user?.first?.isCredentialLess() == true
+            val netShieldSetting = when (val netShieldAvailability = user?.second.getNetShieldAvailability()) {
                 NetShieldAvailability.HIDDEN -> null
                 else -> SettingViewState.NetShield(
                     settings.netShield != NetShieldProtocol.DISABLED,
@@ -218,6 +231,20 @@ class SettingsViewModel @Inject constructor(
                 installedAppsProvider.getNamesOfInstalledApps(settings.splitTunneling.currentModeApps())
                     .map { it.toString() }
 
+            val defaultConnectionSetting = if (isFree)
+                null
+            else {
+                val defaultRecent = defaultConnection.getRecentIdOrNull()?.let { recentsManager.getRecentById(it) }
+                val recent = defaultRecent?.let { getConnectIntentViewState(it.connectIntent, false) }
+                SettingViewState.DefaultConnectionSettingState(
+                    predefinedTitle = when (defaultConnection) {
+                        DefaultConnection.LastConnection -> R.string.settings_last_connection_title
+                        DefaultConnection.FastestConnection -> R.string.fastest_country
+                        else -> null
+                    },
+                    recentLabel = recent?.primaryLabel,
+                )
+            }
             SettingsViewState(
                 netShield = netShieldSetting,
                 vpnAccelerator = SettingViewState.VpnAccelerator(settings.vpnAccelerator, isFree),
@@ -229,6 +256,7 @@ class SettingsViewModel @Inject constructor(
                     isFreeUser = isFree,
                 ),
                 protocol = SettingViewState.Protocol(settings.protocol),
+                defaultConnection = defaultConnectionSetting,
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
                 lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
                 natType = SettingViewState.Nat(if (settings.randomizedNat) NatType.Strict else NatType.Moderate, isFree),

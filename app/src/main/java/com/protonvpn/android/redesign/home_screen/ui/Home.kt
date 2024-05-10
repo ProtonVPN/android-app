@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -44,8 +45,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
@@ -65,6 +68,7 @@ import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
@@ -76,6 +80,7 @@ import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
+import com.protonvpn.android.redesign.settings.ui.DefaultConnectionSelection
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
@@ -179,6 +184,25 @@ fun HomeView(
             )
         }
     }
+
+    var defaultConnectionModalShown by remember { mutableStateOf(false) }
+    val onDefaultConnectionOpen = { defaultConnectionModalShown = true }
+    if (defaultConnectionModalShown) {
+        val dismiss = { defaultConnectionModalShown = false }
+        SimpleModalBottomSheet(
+            onDismissRequest = dismiss,
+        ) {
+            Text(
+                text = stringResource(R.string.select_default_connection),
+                style = ProtonTheme.typography.body1Regular,
+                modifier = Modifier.padding(16.dp)
+            )
+            DefaultConnectionSelection(
+                onClose = dismiss
+            )
+        }
+    }
+
     val bottomPromoBanner: (@Composable (Modifier) -> Unit)? = bottomPromoBannerState?.let { state ->
         @Composable { modifier ->
             PromoOfferBanner(
@@ -303,6 +327,7 @@ fun HomeView(
                     onConnectClicked = connectionCardConnectAction,
                     onDisconnectClicked = connectionCardDisconnectAction,
                     onOpenConnectionPanelClicked = onConnectionCardClick,
+                    onOpenDefaultConnection = onDefaultConnectionOpen,
                     onRecentClicked = recentClickedAction,
                     onRecentPinToggle = viewModel::togglePinned,
                     onRecentRemove = viewModel::removeRecent,
