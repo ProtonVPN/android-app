@@ -29,7 +29,7 @@
     <string name="connectionAllocationHelpLoginAgainButton">Увайсці яшчэ раз</string>
     <string name="mapSwitchSecureCore">Secure Core</string>
     <string name="warning">Папярэджанне</string>
-    <string name="secureCoreSpeedInfoTitle">Нататка пра хуткасць…</string>
+    <string name="secureCoreSpeedInfoTitle">Нататка аб хуткасці...</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core прапануе высокі ўзровень бяспекі і прыватнасці, але можа запаволіць ваша падключэнне. Калі вам неабходна большая прадукцыйнасць, рэкамендуецца адключыць Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Актываваць Secure Core</string>
     <string name="logoutConfirmDialogTitle">Выйсці?</string>
@@ -151,7 +151,7 @@
     <string name="noVpnPermissionOtherAppLabel">Іншыя праграмы VPN</string>
     <string name="noVpnPermissionOpenSettings">Адкрыць налады VPN у Android</string>
     <string name="noNotificationPermissionGrantTitle">Будзьце ў курсе…</string>
-    <string name="noNotificationPermissionGrantDescription">Уключыць апавяшчэнні для атрымання абвестак пра змяненні вашага статусу падключэння.</string>
+    <string name="noNotificationPermissionGrantDescription">Уключыць апавяшчэнні для атрымання абвестак аб змяненні вашага статусу падключэння.</string>
     <string name="noNotificationPermissionGrantNowTitle">Уключыць апавяшчэнні</string>
     <string name="error_prepare_vpn_description"><![CDATA[Адключыце пастаяннае падключэнне па VPN для ўсіх іншых праграм VPN у наладах аперацыйнай сістэмы, бо гэта перашкаджае Proton VPN усталяваць падключэнне з серверам VPN. Таксама дайце правы VPN, калі з\'яўляецца адпаведнае патрабаванне дазволіць доступ па VPN. Магчыма, што неабходна будзе выдаліць іншыя праграмы VPN для прадухілення канфліктаў. Пасля гэтага паспрабуйце яшчэ раз. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="error_prepare_vpn_settings">Перайсці да налад VPN для Android</string>
@@ -982,7 +982,7 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">больш звестак пра бясплатныя падключэнні</string>
+    <string name="connection_card_accessbility_label_free_connections">больш звестак аб бясплатных падключэннях</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->

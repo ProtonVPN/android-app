@@ -1254,11 +1254,11 @@
     <string name="tor_upsell_banner_description">經由您的 VPN 連線使用 Tor 網路，以加強隱私</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
     <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
+    <string name="search_zero_screen_info_countries_title">國家</string>
+    <string name="search_zero_screen_info_cities_title">城市</string>
+    <string name="search_zero_screen_info_servers_title">伺服器</string>
     <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
-    <string name="error_fetching_prices">Error fetching prices.</string>
+    <string name="error_fetching_prices">收取價格時發生錯誤。</string>
 </resources>

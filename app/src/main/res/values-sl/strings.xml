@@ -417,7 +417,7 @@
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Odklenite hitrejše strežnike z manj gneče s hitrostmi do %1$d Gbps.</string>
+    <string name="upgrade_vpn_accelerator_message">Odklenite hitrejše strežnike z manj gneče s hitrostmi do %1$d Gb/s.</string>
     <string name="upgrade_split_tunneling_title">Izkoristite najboljše iz obeh svetov</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Razdelite promet na tunele VPN in tunele brez VPN z <b>deljenim tuneliranjem</b>.]]></string>
     <string name="upgrade_customization_title">Odklenite napredno prilagoditev VPN</string>
@@ -485,7 +485,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Brskajte pri še večjih hitrostih (do %1$d Gbps)</string>
+    <string name="upsell_card_speed_description">Brskajte pri še večjih hitrostih (do %1$d Gb/s)</string>
     <string name="upsell_card_split_tunneling_title">Razdeljeno tuneliranje</string>
     <string name="upsell_card_split_tunneling_description">Brskajte z dveh lokacij hkrati</string>
     <string name="upsell_card_streaming_title">Pretakanje</string>
@@ -554,25 +554,25 @@
     <string name="dynamic_report_success_description">Odgovorili vam bomo takoj, ko bo mogoče.</string>
     <string name="dynamic_report_field_mandatory">To polje je obvezno.</string>
     <string name="dynamic_report_logs_description">Dnevnik je vrsta datoteke, ki nam prikazuje dejanja, ki ste jih izvedli in so povzročila napako. Uporabljali jih bomo samo za pomoč našim inženirjem pri odpravljanju napak.</string>
-    <string name="dynamic_report_logs_missing">Dnevniške datoteke nam pomagajo priti do jedra vaše težave. Če jih ne vključite, morda ne bomo mogli temeljito preiskati.</string>
+    <string name="dynamic_report_logs_missing">Dnevniške datoteke z napakami nam pomagajo priti do jedra vaše težave. Če jih ne vključite, morda ne bomo mogli izvesti temeljite preiskave.</string>
     <string name="dynamic_report_step1">Korak 1 od 3</string>
     <string name="dynamic_report_step2">Korak 2 od 3</string>
     <string name="dynamic_report_step3">Korak 3 od 3</string>
     <string name="dynamic_report_your_issue_headline">Kaj je vaša težava?</string>
-    <string name="update_screen_title">Posodobi Proton VPN.</string>
+    <string name="update_screen_title">Posodobi Proton VPN</string>
     <string name="update_screen_description">Verjetneje boste imeli težave na starejših različicah Proton VPN.</string>
     <string name="dialog_create_account_title">Create an account to continue</string>
     <string name="dialog_create_account_action_create">Create account</string>
     <string name="dialog_create_account_action_signin">Prijava</string>
     <string name="server_search_menu_title">Išči</string>
-    <string name="server_search_hint">Država, mesto, server</string>
+    <string name="server_search_hint">Država, mesto, strežnik</string>
     <string name="server_search_hint_secure_core">Država</string>
     <!-- The parameter is the number of countries displayed in search results.
          Examples: "Countries (5)", "Countries (1)" -->
     <string name="server_search_countries_header">Države (%1$d)</string>
     <!-- The parameter is the number of Secure Core countries displayed in search results.
      Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">„Secure Core” države(%1$d)</string>
+    <string name="server_search_sc_countries_header">„Secure Core” države (%1$d)</string>
     <!-- The parameter is the number of cities displayed in search results.
          Examples: "Cities (5)", "Cities (1)" -->
     <string name="server_search_cities_header">Mesta (%1$d)</string>
@@ -597,10 +597,10 @@
     <string name="free_upsell_header_title">Zagotovite si svetovno pokritost z VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Se želite povezati z določeno državo?</string>
-    <string name="upgrade_country_message"><![CDATA[Odklenite <b>seznam držav</b> z VPN Plus.]]></string>
+    <string name="upgrade_country_message"><![CDATA[Odklenite <b>izbiro držav</b> z VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Izboljšajte svojo igralno izkušnjo</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Izboljšajte delovanje spletnih iger in video klicev z <b>NAT tip 2</b>.]]></string>
-    <string name="free_connections_info_message">Brezplačni Proton vas samodejno poveže z najhitrejšim razpoložljivim strežnikom. To bo običajno najbližji strežnik vaši lokaciji.</string>
+    <string name="free_connections_info_message">Brezplačni Proton vas samodejno poveže z najhitrejšim razpoložljivim strežnikom. To bo običajno vaši lokaciji najbližji strežnik.</string>
     <string name="free_connections_info_server_locations">Lokacije brezplačnih strežnikov (%1$d)</string>
     <string name="free_connections_info_banner_text">Zagotovite si svetovno pokritost z VPN Plus</string>
     <string name="free_connection_info_title">Brezplačne povezave</string>
@@ -608,7 +608,7 @@
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Odklenite geografsko blokirano vsebino iz %1$d države z VPN Plus</item>
-        <item quantity="two">Odklenite geografsko blokirano vsebino iz %1$d države z VPN Plus</item>
+        <item quantity="two">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
         <item quantity="few">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
         <item quantity="other">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
     </plurals>
@@ -676,25 +676,25 @@
     <string name="server_change_progress_finished_contend_description">Na voljo sedaj</string>
     <string name="not_wanted_country_title">Ni država, ki ste jo želeli?</string>
     <string name="not_wanted_country_description">Nadgradite, da izberete kateri koli strežnik</string>
-    <string name="whats_new_title">Kaj je novega</string>
+    <string name="whats_new_title">Novosti</string>
     <string name="whats_new_new_look_title">Nov videz, enaka zaščita</string>
     <string name="whats_new_new_look_description">Posodobili smo svoje zasnove in premaknili nekatere stvari, da bi olajšali uporabo aplikacije.</string>
     <string name="whats_new_recents_title">Predstavljamo nedavno</string>
-    <string name="whats_new_recents_description">Zdaj je še lažje ponovno vzpostaviti povezavo z vašimi najljubšimi strežniki. Oglejte si najnovejše povezave na začetnem zaslonu ali jih pripnite za hiter dostop. Nedavne zamenjave profila.</string>
+    <string name="whats_new_recents_description">Zdaj je še lažje ponovno vzpostaviti povezavo z vašimi najljubšimi strežniki. Oglejte si najnovejše povezave na začetnem zaslonu ali jih pripnite za hiter dostop. Nedavno je zamenjalo profile.</string>
     <string name="whats_new_dismiss_button">Poglej</string>
     <string name="whats_new_added_countries_title">Nove brezplačne države</string>
     <string name="whats_new_added_countries_description">Zdaj so brezplačni strežniki na Poljskem in v Romuniji. Da bi preprečili gnečo na strežniku, smo odstranili ročno izbiro države in bistveno izboljšali samodejno izbiro strežnika.</string>
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
-    <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, izjemno zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
+    <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, okrepljeni zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
     <string name="welcome_plus_feature_security">Napredne varnostne funkcije</string>
     <string name="welcome_unlimited_title">Dobrodošli v Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Čestitke! Odklenili ste prvovrstne varnostne in zmogljive funkcije za vse storitve Proton ter skupno <b>%1$d&#160;GB</b> prostora za shranjevanje.<br><br>Uživajte v najboljši zasebnosti Proton.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Čestitke! Odklenili ste premijske varnostne funkcije in zmogljivosti za vse storitve Proton ter skupno <b>%1$d&#160;GB</b> prostora za shranjevanje.<br><br>Uživajte v najboljši zasebnosti Proton.]]></string>
     <string name="welcome_generic_title">Čestitamo</string>
     <string name="welcome_generic_description">Nadgradili ste naročnino. Uživajte v naprednih funkcijah zasebnosti in zmogljivosti naslednje ravni.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Do %1$d naprav hkrati</item>
+        <item quantity="one">Do %1$d naprave hkrati</item>
         <item quantity="two">Do %1$d naprav hkrati</item>
         <item quantity="few">Do %1$d naprav hkrati</item>
         <item quantity="other">Do %1$d naprav hkrati</item>
@@ -709,7 +709,7 @@
         <item quantity="one">%d nov strežnik</item>
         <item quantity="two">%d nova strežnika</item>
         <item quantity="few">%d novi strežniki</item>
-        <item quantity="other">%d novi strežniki</item>
+        <item quantity="other">%d novih strežnikov</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
 
@@ -737,7 +737,7 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">zunanja povezava</string>
-    <string name="no_logs_banner_title">Certificiran VPN brez prijav</string>
+    <string name="no_logs_banner_title">Preverjeni VPN brez sledenja prijav</string>
     <string name="no_logs_banner_description">Vaša dejavnost ob uporabi VPN je zaščitena s švicarskimi zakoni o zasebnosti. Nikoli vam ne bomo sledili na spletu ali vaših podatkov delili s tretjimi osebami.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Domov</string>
@@ -817,7 +817,7 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
-    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_p2p">vsak z vsakim (P2P)</string>
     <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Najhitrejša država</string>
@@ -1333,7 +1333,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="info_secure_core_advanced_privacy">Napredna zasebnost</string>
     <string name="info_secure_core_higher_latency">Večja zakasnitev</string>
     <string name="info_p2p_what_title">Kaj je P2P?</string>
-    <string name="info_p2p_what_description">Tehnologija enakovrednega (P2P) vam omogoča povezavo in skupno rabo datotek neposredno z drugimi napravami.\n\nNaši strežniki P2P so zasnovani posebej za podporo te vrste skupne rabe datotek.</string>
+    <string name="info_p2p_what_description">Tehnologija povezave vsak z vsakim (P2P) vam omogoča povezavo in skupno rabo datotek neposredno z drugimi napravami.\n\nNaši strežniki P2P so zasnovani posebej za podporo te vrste skupne rabe datotek.</string>
     <string name="info_p2p_torrenting_title">Kaj je torrenting?</string>
     <string name="info_p2p_torrenting_description">Hitro deljenje in nalaganje velikih datotek prek omrežja enakovrednih P2P.</string>
     <string name="info_p2p_why_title">Zakaj uporabljati strežnik P2P pri torrenting?</string>
@@ -1342,7 +1342,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="info_p2p_why_description_hide">Skrijte svoj naslov IP pred ponudnikom storitev in podobnimi</string>
     <string name="info_dialog_smart_routing_description">Smart Routing uporablja virtualne strežnike za zagotavljanje pokritosti VPN v težko dostopnih državah.\n\nKo se povežete s strežnikom Smart Routing, bo videti, kot da brskate v ciljni državi, čeprav je fizični strežnik drugje.  \n\nPametno usmerjanje se običajno uporablja za izogibanje zakonom proti zasebnosti in drugim oblikam cenzure.</string>
     <string name="countries_upsell_banner_description">Zagotovite si svetovno pokritost z VPN Plus</string>
-    <string name="secure_core_upsell_banner_description">Dodajte še eno plast šifriranja svoji VPN povezavi s Secure Core</string>
+    <string name="secure_core_upsell_banner_description">Dodajte še eno plast šifriranja svoji VPN povezavi</string>
     <string name="p2p_upsell_banner_description">​Prenesite datoteke prek BitTorrenta in drugih protokolov za skupno rabo datotek</string>
     <string name="tor_upsell_banner_description">Za dodatno zasebnost uporabite omrežje Tor prek povezave VPN</string>
     <string name="vpnplus_upsell_banner_description">Nadgradite na VPN Plus</string>
