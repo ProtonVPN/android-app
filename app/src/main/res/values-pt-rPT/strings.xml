@@ -61,7 +61,7 @@
     <string name="drawerShowLog">Mostrar diário</string>
     <string name="drawerReportProblem">Reportar um problema</string>
     <string name="drawerAppVersion">v%1$s</string>
-    <string name="action_share">Share</string>
+    <string name="action_share">Partilhar</string>
     <string name="accountFree">Proton Free</string>
     <string name="settingsSectionConnection">Ligação</string>
     <string name="settingsSectionSecurity">Segurança</string>
@@ -480,7 +480,7 @@
         $100 /year
     -->
     <string name="payment_price_with_period">%1$s /%2$s</string>
-    <string name="payment_price_per_month">month</string>
+    <string name="payment_price_per_month">mês</string>
     <string name="payment_price_per_year">ano</string>
     <string name="payment_price_per_2years">2 anos</string>
     <string name="payment_price_cycle_month_label">1 mês</string>
@@ -541,7 +541,7 @@
     <string name="update_screen_description">É provável que tenha problemas com versões mais antigas do Proton VPN.</string>
     <string name="dialog_create_account_title">Create an account to continue</string>
     <string name="dialog_create_account_action_create">Create account</string>
-    <string name="dialog_create_account_action_signin">Sign in</string>
+    <string name="dialog_create_account_action_signin">Iniciar sessão</string>
     <string name="server_search_menu_title">Pesquisar</string>
     <string name="server_search_hint">País, cidade ou servidor</string>
     <string name="server_search_hint_secure_core">País</string>
@@ -569,7 +569,7 @@
     <string name="search_clear_history">Limpar histórico</string>
     <string name="search_clear_history_dialog">O seu histórico de pesquisas será perdido. Continuar?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
-    <string name="search_clear_query_content_description">Clear</string>
+    <string name="search_clear_query_content_description">Limpar</string>
     <!-- Core strings overrides -->
     <string name="plans_customizable_features">Visite <a href="https://protonvpn.com/pricing">protonvpn.com</a> para obter mais informações.</string>
     <string name="free_upsell_header_title">Obtenha uma cobertura global com a VPN Plus</string>
@@ -954,7 +954,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Fixar</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_unpin">Unpin</string>
+    <string name="recent_action_unpin">Desafixar</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_remove">Remover</string>
     <!-- tag(Redesign_2023)
@@ -1025,7 +1025,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_restore_defaults_title">Restore default settings</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Sign Out</string>
+    <string name="settings_sign_out_title">Terminar sessão</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">Versão da app: %1$s</string>
     <!-- tag(Redesign_2023) -->
@@ -1037,7 +1037,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">Não perguntar novamente</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Sign out</string>
+    <string name="dialog_sign_out_action">Terminar sessão</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Cancelar</string>
     <!-- tag(Redesign_2023) -->
@@ -1092,7 +1092,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Voltar</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_my_ip">My IP</string>
+    <string name="connection_details_my_ip">O meu IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">IP da VPN</string>
     <!-- tag(Redesign_2023)
@@ -1128,7 +1128,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol">Protocol</string>
+    <string name="connection_details_protocol">Protocolo</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol_description">A protocol is a set of instructions your device follows to connect and communicate with a server.</string>
     <!-- tag(Redesign_2023)
@@ -1138,7 +1138,7 @@
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Download</string>
+    <string name="connection_details_download">Descarregar</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN speed</string>
     <!-- tag(Redesign_2023) -->
@@ -1228,11 +1228,11 @@
         <item quantity="other">%1$d dias</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d hr</string>
+    <string name="connection_details_hours_shortened">%1$d h</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sec</string>
+    <string name="connection_details_seconds_shortened">%1$d seg</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Erro de ligação</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
@@ -1242,7 +1242,7 @@
     <string name="settings_account_settings_title">Definições de conta</string>
     <string name="settings_account_change_password">Alterar a palavra-passe</string>
     <string name="settings_account_recovery_email">Recovery email</string>
-    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <string name="settings_account_recovery_email_not_set">Não definido</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">My account</string>
     <string name="settings_account_button_delete_account">Delete account</string>
@@ -1250,7 +1250,7 @@
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">Ligações LAN</string>
     <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
-    <string name="settings_advanced_nat_type_title">NAT type</string>
+    <string name="settings_advanced_nat_type_title">Tipo de NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Select a network address translation type for your connection.</string>
@@ -1286,7 +1286,7 @@
     <string name="search_zero_screen_title">Try searching for…</string>
     <string name="search_zero_screen_info_countries_title">Countries</string>
     <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
+    <string name="search_zero_screen_info_servers_title">Servidores</string>
     <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
