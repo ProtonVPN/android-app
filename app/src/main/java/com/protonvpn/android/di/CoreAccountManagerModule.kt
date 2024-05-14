@@ -73,11 +73,13 @@ object CoreAccountManagerModuleProvides {
         sessionListener: SessionListener,
         sessionProvider: SessionProvider,
         authRepository: AuthRepository,
-        accountRepository: AccountRepository
+        accountRepository: AccountRepository,
+        accountManager: AccountManager
     ): SessionManager = SessionManagerImpl(
         sessionListener = sessionListener,
         sessionProvider = sessionProvider,
         authRepository = authRepository,
-        accountRepository = accountRepository
+        accountRepository = accountRepository,
+        accountManager = accountManager
     ) { SystemClock.elapsedRealtime() }
 }

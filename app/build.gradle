@@ -887,6 +887,7 @@ dependencies {
     implementation "me.proton.core:country:$core_version"
     implementation "me.proton.core:user:$core_version"
     implementation "me.proton.core:user-data:$core_version"
+    implementation "me.proton.core:user-recovery:$core_version"
     implementation "me.proton.core:user-settings:$core_version"
     implementation "me.proton.core:account:$core_version"
     implementation "me.proton.core:account-manager-data:$core_version"
@@ -924,6 +925,7 @@ dependencies {
     androidTestImplementation "me.proton.core:auth-test:$core_version"
     androidTestImplementation "me.proton.core:plan-test:$core_version"
     androidTestImplementation "me.proton.core:notification-test:$core_version"
+    androidTestImplementation "me.proton.core:user-recovery-test:$core_version"
 
 
     testImplementation("me.proton.core:test-kotlin:$core_version") {

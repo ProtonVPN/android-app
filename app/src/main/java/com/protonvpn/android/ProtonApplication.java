@@ -82,6 +82,8 @@ import me.proton.core.accountmanager.data.AccountStateHandler;
 import me.proton.core.eventmanager.data.CoreEventManagerStarter;
 import me.proton.core.humanverification.presentation.HumanVerificationStateHandler;
 import me.proton.core.plan.data.PurchaseStateHandler;
+import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryHandler;
+import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryNotificationSetup;
 import me.proton.core.util.kotlin.CoreLogger;
 
 /**
@@ -103,6 +105,8 @@ public class ProtonApplication extends Application {
         ConnectingUpdatesRecents getConnectingUpdatesRecents();
         CoreEventManagerStarter getCoreEventManagerStarter();
         CurrentStateLogger getCurrentStateLogger();
+        DeviceRecoveryHandler getDeviceRecoveryHandler();
+        DeviceRecoveryNotificationSetup getDeviceRecoveryNotificationSetup();
         DohEnabled.Provider getDohEnabledProvider();
         HumanVerificationStateHandler getHumanVerificationStateHandler();
         IsTvCheck getIsTv();
@@ -170,6 +174,8 @@ public class ProtonApplication extends Application {
         dependencies.getCertificateRepository();
         dependencies.getConnectingUpdatesRecents();
         dependencies.getCloseSessionOnForceLogout();
+        dependencies.getDeviceRecoveryHandler().start();
+        dependencies.getDeviceRecoveryNotificationSetup().init();
         dependencies.getDohEnabledProvider();
         dependencies.getHumanVerificationStateHandler().observe();
         dependencies.getLogoutOnForceUpdate();
