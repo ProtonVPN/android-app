@@ -40,6 +40,7 @@ import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.Session
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.network.domain.session.SessionListener
+import me.proton.core.test.kotlin.TestCoroutineScopeProvider
 
 // TODO: we should upstream this to core modules.
 class AccountTestHelper {
@@ -58,6 +59,7 @@ class AccountTestHelper {
 
         val accountManager = AccountManagerImpl(
             Product.Vpn,
+            TestCoroutineScopeProvider(),
             AccountRepositoryImpl(Product.Vpn, db, cryptoContext.keyStoreCrypto),
             mockk(relaxed = true),
             mockk(relaxed = true),

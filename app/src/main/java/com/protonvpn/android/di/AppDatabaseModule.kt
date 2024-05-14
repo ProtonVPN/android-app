@@ -45,6 +45,7 @@ import me.proton.core.push.data.local.db.PushDatabase
 import me.proton.core.telemetry.data.db.TelemetryDatabase
 import me.proton.core.user.data.db.AddressDatabase
 import me.proton.core.user.data.db.UserDatabase
+import me.proton.core.userrecovery.data.db.DeviceRecoveryDatabase
 import me.proton.core.usersettings.data.db.OrganizationDatabase
 import me.proton.core.usersettings.data.db.UserSettingsDatabase
 import javax.inject.Singleton
@@ -80,6 +81,9 @@ abstract class AppDatabaseBindsModule {
 
     @Binds
     abstract fun provideChallengeDatabase(appDatabase: AppDatabase): ChallengeDatabase
+
+    @Binds
+    abstract fun provideDeviceRecoveryDatabase(appDatabase: AppDatabase): DeviceRecoveryDatabase
 
     @Binds
     abstract fun provideEventMetadataDatabase(appDatabase: AppDatabase): EventMetadataDatabase

@@ -71,6 +71,8 @@ import me.proton.core.user.data.entity.AddressEntity
 import me.proton.core.user.data.entity.AddressKeyEntity
 import me.proton.core.user.data.entity.UserEntity
 import me.proton.core.user.data.entity.UserKeyEntity
+import me.proton.core.userrecovery.data.db.DeviceRecoveryDatabase
+import me.proton.core.userrecovery.data.entity.RecoveryFileEntity
 import me.proton.core.usersettings.data.db.OrganizationDatabase
 import me.proton.core.usersettings.data.db.UserSettingsConverters
 import me.proton.core.usersettings.data.db.UserSettingsDatabase
@@ -116,6 +118,8 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         TelemetryEventEntity::class,
         // event-manager
         EventMetadataEntity::class,
+        // user-recovery
+        RecoveryFileEntity::class,
         // vpn
         PeriodicCallInfo::class,
         RecentConnectionEntity::class,
@@ -150,6 +154,7 @@ abstract class AppDatabase :
     AccountDatabase,
     AddressDatabase,
     ChallengeDatabase,
+    DeviceRecoveryDatabase,
     EventMetadataDatabase,
     FeatureFlagDatabase,
     HumanVerificationDatabase,
@@ -167,7 +172,7 @@ abstract class AppDatabase :
     VpnUserDatabase {
 
     companion object {
-        const val version = 30
+        const val version = 31
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -195,6 +200,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_27_28,
             DatabaseMigrations.MIGRATION_28_29,
             DatabaseMigrations.MIGRATION_29_30,
+            DatabaseMigrations.MIGRATION_30_31,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
