@@ -270,7 +270,7 @@
     <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi Proton VPN Anda.</string>
     <string name="onMaintenanceDetected">Server VPN yang sedang terhubung dengan Anda tengah memasuki masa pemeliharaan. Kami telah secara otomatis menghubungkan Anda kembali ke server tercepat yang tersedia.</string>
     <string name="errorTunMultiUserPermission">Sambungan VPN tidak dapat dikukuhkan karena terdapat konflik antar aplikasi dual-app (semisal Dual Messenger) dan Split Tunneling. Silakan nonaktifkan salah satu aplikasi dan nyalakan ulang perangkat Anda.</string>
-    <string name="errorTorrentNotAllowed">Koneksi P2P tidak diizinkan di server ini</string>
+    <string name="errorTorrentNotAllowed">P2P tidak diizinkan pada server ini</string>
     <string name="errorWireguardWithPlaceholder">Kesalahan WireGuard %1$s</string>
     <string name="profileProtocolNotAvailable">Protokol VPN yang diusung oleh profil ini saat ini sedang tidak tersedia. Untuk dapat terhubung, cobalah untuk mengubah protokol.</string>
     <string name="stateConnectedTo">Terhubung ke %1$s</string>
@@ -331,8 +331,8 @@
     <string name="tv_server_list_action_unavailable">Tidak tersedia</string>
     <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
     <string name="settingsReconnectToApplySettingsDialogContent">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
-    <string name="settingsReconnectToChangeDialogContent">Tindakan ini akan menyambungkan ulang koneksi internet Anda.</string>
-    <string name="reconnectToEnableNetshield">Tindakan ini akan menyambungkan ulang koneksi Anda.\n\nCatatan: Beberapa situs mungkin tidak akan dapat termuat dengan NetShield yang aktif.</string>
+    <string name="settingsReconnectToChangeDialogContent">Tindakan ini akan memulai ulang koneksi Anda.</string>
+    <string name="reconnectToEnableNetshield">Tindakan ini akan memulai ulang koneksi Anda.\n\nCatatan: Beberapa situs mungkin tidak akan dapat termuat pada saat NetShield sedang aktif.</string>
     <string name="notification_subscription_expired_title">Paket langganan Proton VPN Anda telah berakhir</string>
     <string name="notification_subscription_expired_content">Kami telah menurunkan paket Anda, namun kami menghubungkan ulang Anda ke server tercepat yang tersedia di paket tesebut.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Paket langganan Anda telah diturunkan.</string>
@@ -567,7 +567,7 @@
     <string name="upgrade_country_title">Ingin terhubung ke negara tertentu?</string>
     <string name="upgrade_country_message"><![CDATA[Akses fitur <b>pemilihan negara</b> dengan VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Bawa pengalaman gaming Anda ke level selanjutnya</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Tingkatkan performa game online dan panggilan video dengan <b>NAT type 2</b>.]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Tingkatkan performa game online dan panggilan video dengan <b>NAT tipe 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free akan menghubungkan Anda secara otomatis ke server tercepat yang tersedia. Pada umumnya, Anda akan terhubung ke server yang paling dekat dengan lokasi Anda.</string>
     <string name="free_connections_info_server_locations">Lokasi server Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>
@@ -1220,14 +1220,14 @@
     <string name="settings_advanced_alternative_routing_description">Apabila layanan Proton diblokir karena pembatasan jaringan, kami akan mencoba untuk menghubungkan Anda ke situs kami melalui rute jaringan alternatif.</string>
     <string name="settings_advanced_allow_lan_title">Koneksi LAN</string>
     <string name="settings_advanced_allow_lan_description">Memungkinkan Anda untuk terhubung ke printer, speaker, dan perangkat lainnya pada jaringan lokal milik perangkat Anda.</string>
-    <string name="settings_advanced_nat_type_title">Jenis NAT</string>
+    <string name="settings_advanced_nat_type_title">Tipe NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Pilih jenis terjemahan alamat jaringan (NAT) untuk koneksi Anda. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Pilih jenis terjemahan alamat jaringan (NAT) untuk koneksi Anda.</string>
-    <string name="settings_advanced_nat_type_strict">Ketat (Type 3)</string>
-    <string name="settings_advanced_nat_type_moderate">Moderat (Type 2)</string>
-    <string name="settings_advanced_nat_type_strict_description">Membatasi seluruh data yang memasuki jaringan Anda. Opsi ini lebih aman, namun dapat mempersulit koneksi peer-to-peer antar aplikasi permainan.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Membatasi sebagian data yang memasuki jaringan Anda. Opsi ini merupakan opsi terbaik untuk permainan video online.</string>
+    <string name="settings_advanced_nat_type_strict">Ketat (tipe 3)</string>
+    <string name="settings_advanced_nat_type_moderate">Moderat (tipe 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Membatasi data yang memasuki jaringan Anda. Opsi ini lebih aman, namun dapat mempersulit koneksi peer-to-peer antar aplikasi permainan.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Menerapkan beberapa pembatasan bagi data yang memasuki jaringan Anda. Opsi ini merupakan opsi terbaik untuk permainan video online.</string>
     <string name="settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi dan alamat IP mana saja yang akan terlindung oleh VPN. %1$s</string>
     <string name="settings_protocol_description">Protokol VPN menentukan bagaimana data antara server VPN dan perangkat Anda akan saling berpindah. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Aplikasi yang dikecualikan</string>

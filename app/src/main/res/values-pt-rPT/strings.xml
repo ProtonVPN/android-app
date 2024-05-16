@@ -238,7 +238,7 @@
     <string name="settingsTelemetryScreenTitle">Estatísticas de utilização</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm o seu endereço IP e não podem ser utilizadas para o identificar. Nunca as partilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
-    <string name="learn_more">Learn more</string>
+    <string name="learn_more">Saiba mais</string>
     <string name="netshield_state_on" comment="Describes state, not action">Ligado</string>
     <string name="netshield_state_off" comment="Describes state, not action">Desligado</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Ligado</string>
@@ -253,7 +253,7 @@
     <string name="netshield_what_data_means">What NetShield data means</string>
     <string name="netshield_ads_title">Anúncios</string>
     <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
-    <string name="netshield_trackers_title">Trackers</string>
+    <string name="netshield_trackers_title">Rastreadores</string>
     <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
     <string name="netshield_data_title">Dados</string>
     <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
@@ -266,7 +266,7 @@
         <item quantity="one">Rastreador parado</item>
         <item quantity="other">Rastreadores parados</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data saved</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dados economizados</string>
     <string name="netshield_setting_warning">Some websites may not load properly when ads and trackers are blocked.</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>
     <string name="guestHoleActivated">O acesso ao Proton VPN pode estar limitado na sua zona, a ligação será mais demorada do que o normal. Aguarde.</string>
@@ -392,7 +392,7 @@
     <string name="upgrade_secure_core_message"><![CDATA[Add another layer of encryption to your VPN connection with <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
     <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
-    <string name="upgrade_streaming_title">Stream in 4K</string>
+    <string name="upgrade_streaming_title">Streaming em 4K</string>
     <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
     <string name="upgrade_tor_title">Access the Tor network in one tap</string>
     <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
@@ -407,7 +407,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Desbloqueie personalizações avançadas da VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Access devices on your <b>local area network (LAN)</b> with VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Access all countries</string>
+    <string name="upgrade_all_countries_title">Aceda a todos os países</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -487,7 +487,7 @@
     <string name="payment_price_cycle_year_label">1 ano</string>
     <string name="payment_price_cycle_2years_label">2 anos</string>
     <string name="payment_select_your_plan">Selecione o seu plano</string>
-    <string name="payment_button_get_vpn_plus">Get VPN Plus</string>
+    <string name="payment_button_get_vpn_plus">Obter VPN Plus</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informação</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -640,8 +640,8 @@
         Example:
         Available in 23 seconds.
       -->
-    <string name="server_change_button_time_left_seconds_content_description">Available in %1$s</string>
-    <string name="server_change_progress_finished_contend_description">Available now</string>
+    <string name="server_change_button_time_left_seconds_content_description">Disponível em %1$s</string>
+    <string name="server_change_progress_finished_contend_description">Disponível agora</string>
     <string name="not_wanted_country_title">Não é o país que pretendia?</string>
     <string name="not_wanted_country_description">Faça \'upgrade\' para escolher qualquer servidor</string>
     <string name="whats_new_title">O que há de novo</string>
@@ -705,9 +705,9 @@
     <string name="bottom_nav_home">Início</string>
     <string name="bottom_nav_gateways">Gateways</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
-    <string name="bottom_nav_countries">Countries</string>
+    <string name="bottom_nav_countries">Países</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
-    <string name="botton_nav_settings">Settings</string>
+    <string name="botton_nav_settings">Definições</string>
     <!-- tag(Redesign_2023)
          Text added to button labels that open a UI element (e.g. a panel).
          Only used by accessibility services.
@@ -738,7 +738,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">procurar</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -765,7 +765,7 @@
          reader as:
          "unavailable, Switzerland"
      -->
-    <string name="accessibility_item_unavailable">unavailable</string>
+    <string name="accessibility_item_unavailable">indisponível</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when there is active connection to it.
          Only used by accessibility services.
@@ -774,7 +774,7 @@
          will be read by a screen reader as:
          "Switzerland, connected"
      -->
-    <string name="accessibility_item_connected">connected</string>
+    <string name="accessibility_item_connected">ligado</string>
     <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
@@ -782,7 +782,7 @@
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
     <string name="server_feature_content_description_tor">Tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
-    <string name="fastest_country">Fastest country</string>
+    <string name="fastest_country">País mais rápido</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Fastest free server</string>
     <!-- tag(Redesign_2023)
@@ -798,14 +798,14 @@
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">%1$s via Sweden</string>
+    <string name="connection_info_secure_core_full_sweden">%1$s via a Suécia</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_switzerland">%1$s via Switzerland</string>
+    <string name="connection_info_secure_core_full_switzerland">%1$s via a Suíça</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
          This text will only be used if a new entry country is added and the application is not
@@ -971,17 +971,17 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Servidor em manutenção</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">Server not available</string>
+    <string name="message_server_not_available">Servidor indisponível</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_sign_out">Encerrar sessão</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_title">Settings</string>
+    <string name="settings_title">Definições</string>
     <string name="gateways_title">Gateways</string>
-    <string name="countries_title">Countries</string>
+    <string name="countries_title">Países</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_features">Features</string>
+    <string name="settings_category_features">Funcionalidades</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
@@ -991,11 +991,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Ligação</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_protocol_title">Protocol</string>
+    <string name="settings_protocol_title">Protocolo</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">Acelerador VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced Settings</string>
+    <string name="settings_advanced_settings_title">Definições avançadas</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">Geral</string>
     <!-- tag(Redesign_2023) -->
@@ -1015,13 +1015,13 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Reportar um problema</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug Logs</string>
+    <string name="settings_debug_logs_title">Registos de depuração</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Improve Proton</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">Ajude-nos a combater a censura</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_rate_us_title">Rate Proton VPN</string>
+    <string name="settings_rate_us_title">Avalie o Proton VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_restore_defaults_title">Restore default settings</string>
     <!-- tag(Redesign_2023) -->
@@ -1031,7 +1031,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Licenças de terceiros</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Sign out?</string>
+    <string name="dialog_sign_out_title">Encerrar sessão?</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
     <!-- tag(Redesign_2023) -->
@@ -1042,35 +1042,35 @@
     <string name="dialog_action_cancel">Cancelar</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Todos</string>
-    <string name="country_filter_cities">Cities</string>
-    <string name="country_filter_states">States</string>
+    <string name="country_filter_cities">Cidades</string>
+    <string name="country_filter_states">Estados</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-    <string name="country_filter_all_list_header">All countries (%1$d)</string>
+    <string name="country_filter_all_list_header">Todos os países (%1$d)</string>
     <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
     <string name="country_filter_countries_list_header">Países (%1$d)</string>
-    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
-    <string name="country_filter_states_list_header">States (%1$d)</string>
+    <string name="country_filter_cities_list_header">Cidades (%1$d)</string>
+    <string name="country_filter_states_list_header">Estados (%1$d)</string>
     <string name="country_filter_servers_list_header">Servers (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Países do Secure Core (%1$d)</string>
-    <string name="country_filter_p2p_list_header">P2P countries (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">P2P cities (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
-    <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
+    <string name="country_filter_p2p_list_header">Países P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">Cidades P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">Estados P2P (%1$d)</string>
+    <string name="country_filter_tor_list_header">Países Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
     <string name="country_filter_info_label">Informação</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Carga: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
-    <string name="vpn_status_connected">Protected</string>
+    <string name="vpn_status_connected">Protegido</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
@@ -1112,11 +1112,11 @@
     -->
     <string name="connection_details_server_load">Carga do servidor</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_question">What is server load?</string>
+    <string name="connection_details_server_load_question">O que é a carga do servidor?</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_low_title">Low (1–75%)</string>
+    <string name="connection_details_server_load_low_title">Baixa (1–75%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
     <!-- tag(Redesign_2023) -->
@@ -1138,7 +1138,7 @@
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
-    <string name="connection_details_download">Descarregar</string>
+    <string name="connection_details_download">Transferir</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN speed</string>
     <!-- tag(Redesign_2023) -->
@@ -1162,12 +1162,12 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
     <string name="speed_bytes_per_second">%1$s B/s</string>
-    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
-    <string name="speed_megabytes_per_second">%1$s MB/s</string>
-    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
-    <string name="speed_terabytes_per_second">%1$s TB/s</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/seg</string>
+    <string name="speed_megabytes_per_second">%1$s MB/seg</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/seg</string>
+    <string name="speed_terabytes_per_second">%1$s TB/seg</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="speed_graph_title">Velocidade %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>
@@ -1198,12 +1198,12 @@
         <item quantity="other">%1$s Bytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="one">%1$s Kilobyte</item>
-        <item quantity="other">%1$s Kilobytes</item>
+        <item quantity="one">%1$s kilobyte</item>
+        <item quantity="other">%1$s kilobytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s Megabyte</item>
-        <item quantity="other">%1$s Megabytes</item>
+        <item quantity="one">%1$s megabyte</item>
+        <item quantity="other">%1$s megabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
         <item quantity="one">%1$s Gigabyte</item>
@@ -1241,11 +1241,11 @@
     <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">Definições de conta</string>
     <string name="settings_account_change_password">Alterar a palavra-passe</string>
-    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email">E-mail de recuperação</string>
     <string name="settings_account_recovery_email_not_set">Não definido</string>
     <!-- Label of a button that opens user's account page -->
-    <string name="settings_account_button_my_account">My account</string>
-    <string name="settings_account_button_delete_account">Delete account</string>
+    <string name="settings_account_button_my_account">A minha conta</string>
+    <string name="settings_account_button_delete_account">Eliminar a conta</string>
     <string name="settings_advanced_alternative_routing_title">Redirecionamento alternativo</string>
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">Ligações LAN</string>
@@ -1255,7 +1255,7 @@
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Select a network address translation type for your connection.</string>
     <string name="settings_advanced_nat_type_strict">Strict (type 3)</string>
-    <string name="settings_advanced_nat_type_moderate">Moderate (type 2)</string>
+    <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Restricts the data entering your network. This option is more secure, but can make peer-to-peer gaming connections more difficult.</string>
     <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
@@ -1265,11 +1265,11 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nenhuma</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_dialog_reconnect">As novas definições serão aplicadas na próxima vez que estabelecer ligação.</string>
-    <string name="info_secure_core_standard_high_privacy">High privacy</string>
+    <string name="info_secure_core_standard_high_privacy">Privacidade alta</string>
     <string name="info_secure_core_standard_lower_latency">Lower latency</string>
     <string name="info_secure_core_advanced_privacy">Advanced privacy</string>
     <string name="info_secure_core_higher_latency">Higher latency</string>
-    <string name="info_p2p_what_title">What is P2P?</string>
+    <string name="info_p2p_what_title">O que é P2P?</string>
     <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
     <string name="info_p2p_torrenting_title">What is torrenting?</string>
     <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
@@ -1284,8 +1284,8 @@
     <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
     <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
+    <string name="search_zero_screen_info_countries_title">Países</string>
+    <string name="search_zero_screen_info_cities_title">Cidades</string>
     <string name="search_zero_screen_info_servers_title">Servidores</string>
     <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
