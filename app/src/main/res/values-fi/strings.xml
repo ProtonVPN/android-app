@@ -965,7 +965,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_country_servers_in_maintenance">Kaikki tämän maan palvelimet ovat huollossa</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">Kaikki palvelimet tässä kaupungissa ovat huollossa</string>
+    <string name="message_city_servers_in_maintenance">Kaikki tämän kaupungin palvelimet ovat huollossa</string>
     <!-- State means here US state, like California -->
     <string name="message_state_servers_in_maintenance">Kaikki tämän osavaltion palvelimet ovat huollossa</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->

@@ -59,7 +59,7 @@
     <string name="close">Kapat</string>
     <string name="drawerHelp">Yardım</string>
     <string name="drawerShowLog">Günlüğü görüntüle</string>
-    <string name="drawerReportProblem">Bir sorun bildirin</string>
+    <string name="drawerReportProblem">Sorun bildireceğim</string>
     <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Paylaş</string>
     <string name="accountFree">Proton Free</string>
@@ -237,7 +237,7 @@
     <string name="settingsSendCrashReportsDescription">Çökme bildirimleri sorunları gidermemize, güvenlik duvarlarını algılamamıza ve VPN engellemelerini aşmamıza yardımcı olur.</string>
     <string name="settingsTelemetryScreenTitle">Kullanım istatistikleri</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
-    <string name="netshield_settings_description_not_html">Kendinizi siteler ile uygulamalarda bulunabilecek reklam, kötü amaçlı yazılım ve izleyicilerden koruyun. Siteler yüklenmezse NetShield özelliğini kapatmayı deneyin. %1$s</string>
+    <string name="netshield_settings_description_not_html">Siteler ile uygulamalarda bulunabilecek reklam, kötü amaçlı yazılım ve izleyicilerden korunun. Siteler yüklenmiyorsa NetShield özelliğini kapatmayı deneyin. %1$s</string>
     <string name="learn_more">Ayrıntılı bilgi alın</string>
     <string name="netshield_state_on" comment="Describes state, not action">Açık</string>
     <string name="netshield_state_off" comment="Describes state, not action">Kapalı</string>
@@ -256,17 +256,17 @@
     <string name="netshield_trackers_title">İzleyiciler</string>
     <string name="netshield_trackers_details">İnternet etkinliğiniz ile ilgili bilgileri tutan ve paylaşan çerezler ve diğer izleyiciler</string>
     <string name="netshield_data_title">Veriler</string>
-    <string name="netshield_data_details">NetShield tarafından reklamlar, izleyiciler ve zararlı yazılımlarla ilgili engellenmiş veri miktarı</string>
+    <string name="netshield_data_details">NetShield tarafından engellenen reklam, izleyici ve zararlı yazılım verilerinin miktarı</string>
     <string name="accessibility_netshield_status_on_click">NetShield ayarlarını yazın</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Reklam engellendi</item>
-        <item quantity="other">Reklamlar engellendi</item>
+        <item quantity="other">Reklam engellendi</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">İzleyici durduruldu</item>
-        <item quantity="other">İzleyiciler durduruldu</item>
+        <item quantity="one">İzleyici engellendi</item>
+        <item quantity="other">İzleyici engellendi</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Kazanılan veri</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Veri kazanıldı</string>
     <string name="netshield_setting_warning">Reklamlar ve izleyiciler engellendiğinde bazı siteler düzgün yüklenmeyebilir.</string>
     <string name="dialogDontShowAgain">Bir daha görüntülenmesin</string>
     <string name="guestHoleActivated">Bölgenizde Proton VPN erişimi sınırlı olabilir. Bu nedenle bu işlem normalden daha uzun sürecek. Lütfen biz bu sorunu çözerken bekleyin.</string>
@@ -1013,7 +1013,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Yardım merkezi</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Bir sorun bildir</string>
+    <string name="settings_report_issue_title">Sorun bildireceğim</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_debug_logs_title">Hata ayıklama günlüğü</string>
     <!-- tag(Redesign_2023) -->
@@ -1247,9 +1247,9 @@
     <string name="settings_account_button_my_account">Hesabım</string>
     <string name="settings_account_button_delete_account">Hesabı sil</string>
     <string name="settings_advanced_alternative_routing_title">Alternatif yöneltme</string>
-    <string name="settings_advanced_alternative_routing_description">Ağ kısıtlamaları nedeniyle Proton hizmetleri engelleniyorsa sitelerimize bağlanmanız için alternatif ağ yöneltmesini kullanmayı deneyeceğiz.</string>
+    <string name="settings_advanced_alternative_routing_description">Ağ kısıtlamaları nedeniyle Proton hizmetleri engelleniyorsa sitelerimize bağlanmanız için alternatif ağ yöneltmesini kullanmayı deneriz.</string>
     <string name="settings_advanced_allow_lan_title">Yerel ağ bağlantıları</string>
-    <string name="settings_advanced_allow_lan_description">Aygıtınızın aynı yerel ağdaki yazıcı, hoparlör gibi diğer aygıtlara bağlanmasını sağlar.</string>
+    <string name="settings_advanced_allow_lan_description">Aygıtınızın aynı yerel ağda bulunan yazıcı, hoparlör gibi diğer aygıtlara bağlanmasını sağlar.</string>
     <string name="settings_advanced_nat_type_title">NAT Type</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Bağlantınız için bir ağ adresi dönüştürme (NAT) türü seçin. %1$s</string>
