@@ -73,7 +73,7 @@
     <string name="settingsDnsLeakDescription">Mencegah agar rincian kueri DNS Anda tidak bocor ke pihak ketiga (selalu aktif)</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">Ukuran MTU</string>
-    <string name="settingsMtuDescription">Apabila nilai bawaan yang tertera tidak sesuai untuk jaringan tertentu, masukkan nilai dalam rentang 1280–1500. Mohon ubah nilai ini hanya apabila Anda paham akan resikonya.</string>
+    <string name="settingsMtuDescription">Apabila nilai bawaan yang tertera tidak sesuai untuk jaringan tertentu, masukkan nilai dalam rentang 1280–1500. Mohon ubah nilai ini hanya apabila Anda paham akan risikonya.</string>
     <string name="settingsMtuRangeInvalid">Nilai MTU harus dalam kisaran 1280–1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Port non-standar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>

@@ -1112,7 +1112,7 @@
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
-    <string name="vpn_status_disabled">Вы незащищены</string>
+    <string name="vpn_status_disabled">Вы не защищены</string>
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
