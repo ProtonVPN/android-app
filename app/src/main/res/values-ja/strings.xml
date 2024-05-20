@@ -436,7 +436,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
+    <string name="upsell_card_countries_description">%1$d+ サーバーの場所 (%2$s)</string>
     <string name="upsell_card_customization_title">他にもいろいろ...</string>
     <string name="upsell_card_customization_description">パフォーマンスとプライバシー機能をさらに強化</string>
     <plurals name="upsell_card_devices_title">
@@ -529,8 +529,8 @@
     <string name="dynamic_report_your_issue_headline">問題はなんですか?</string>
     <string name="update_screen_title">Proton VPN をアップデート</string>
     <string name="update_screen_description">古い Proton VPN には問題がある可能性があります。</string>
-    <string name="dialog_create_account_title">Create an account to continue</string>
-    <string name="dialog_create_account_action_create">Create account</string>
+    <string name="dialog_create_account_title">続行するにはアカウントを作成してください</string>
+    <string name="dialog_create_account_action_create">アカウントを作成する</string>
     <string name="dialog_create_account_action_signin">サインイン</string>
     <string name="server_search_menu_title">検索</string>
     <string name="server_search_hint">国、都市、サーバー</string>
@@ -632,7 +632,7 @@
     <string name="whats_new_title">最新情報</string>
     <string name="whats_new_new_look_title">新しい外観、変わらない保護</string>
     <string name="whats_new_new_look_description">私たちはデザインを更新し、アプリを使いやすくするためにいくつかのものを移動させました。</string>
-    <string name="whats_new_recents_title">Introducing Recents</string>
+    <string name="whats_new_recents_title">最近の紹介</string>
     <string name="whats_new_recents_description">お気に入りのサーバーへの再接続がさらに簡単になりました。最近の接続をホーム画面に表示したり、ピン留めしてすばやくアクセスできます。最近の接続はプロファイルに置き換わります。</string>
     <string name="whats_new_dismiss_button">確認する</string>
     <string name="whats_new_added_countries_title">新しい自由の国</string>
@@ -761,7 +761,7 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
-    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_p2p">ピアツーピア</string>
     <string name="server_feature_content_description_tor">tor</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最速の国</string>
@@ -925,13 +925,13 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
+    <string name="connection_card_accessbility_label_free_connections">無料接続に関する詳細情報</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
-    <string name="recents_headline">Recents</string>
+    <string name="recents_headline">最近</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
-    <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
+    <string name="home_upsell_carousel_headline">VPN プラスを発見する</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Pin</string>
     <!-- tag(Redesign_2023) -->
@@ -944,11 +944,11 @@
     -->
     <string name="recent_action_accessibility_state_pinned">ピン留めしました</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
+    <string name="message_country_servers_in_maintenance">この国のすべてのサーバーはメンテナンス中です</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">All servers in this city are under maintenance</string>
+    <string name="message_city_servers_in_maintenance">この都市のすべてのサーバーはメンテナンス中です</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
+    <string name="message_state_servers_in_maintenance">この状態のサーバーはすべてメンテナンス中です</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">サーバーはメンテナンス中です</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -976,7 +976,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced Settings</string>
+    <string name="settings_advanced_settings_title">高度な設定</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">一般</string>
     <!-- tag(Redesign_2023) -->
@@ -1024,30 +1024,30 @@
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">すべて</string>
     <string name="country_filter_cities">都市</string>
-    <string name="country_filter_states">States</string>
+    <string name="country_filter_states">州</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-    <string name="country_filter_all_list_header">All countries (%1$d)</string>
-    <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
+    <string name="country_filter_all_list_header">すべての国 (%1$d)</string>
+    <string name="country_filter_all_list_header_free">プラスの国 (%1$d)</string>
     <string name="country_filter_countries_list_header">国 (%1$d)</string>
-    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
-    <string name="country_filter_states_list_header">States (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers (%1$d)</string>
+    <string name="country_filter_cities_list_header">都市 (%1$d)</string>
+    <string name="country_filter_states_list_header">州 (%1$d)</string>
+    <string name="country_filter_servers_list_header">サーバー (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Secure Core の国 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P対応国 (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P 都市 (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor対応国 (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Torサーバー (%1$d)</string>
     <string name="country_filter_info_label">情報</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
          (this doesn't apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">負荷: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1126,9 +1126,9 @@
     <string name="connection_details_vpn_speed_question">VPNの速度とは？</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
-    <string name="info_secure_core_standard_header">Standard VPN connection</string>
-    <string name="info_secure_core_secure_header">Secure Core VPN connection</string>
+    <string name="info_dialog_secure_core_description">Secure Core は、セキュリティが最大の 2 番目の VPN サーバーを介して宛先サーバーに接続します。\n\nこのより高いレベルの保護により、遅延が増加し、速度が低下する可能性があります。</string>
+    <string name="info_secure_core_standard_header">標準VPN 接続</string>
+    <string name="info_secure_core_secure_header">セキュアコアVPN 接続</string>
     <string name="info_dialog_tor_description">Tor サーバーに接続し、任意のブラウザを使用して隠しサービスやオニオン サイトにアクセスします。</string>
     <string name="info_dialog_button_learn_more_tor">Tor ネットワークにアクセスする方法</string>
     <string name="info_dialog_button_learn_more_p2p">P2Pでトレントする方法</string>
@@ -1148,41 +1148,41 @@
     <string name="speed_gigabytes_per_second">%1$s GB/秒</string>
     <string name="speed_terabytes_per_second">%1$s TB/秒</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="speed_graph_title">速度 %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>
     <string name="gigabytes_per_second">GB/s</string>
     <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="other">%1$s Bytes per second</item>
+        <item quantity="other">%1$s バイト/秒</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="other">%1$s Kilobytes per second</item>
+        <item quantity="other">%1$s キロバイト/秒</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="other">%1$s メガバイト/秒</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="other">%1$s ギガバイト/秒</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="other">%1$s テラバイト/秒</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="other">%1$s Bytes</item>
+        <item quantity="other">%1$s バイト</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="other">%1$s Kilobytes</item>
+        <item quantity="other">%1$s キロバイト</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="other">%1$s Megabytes</item>
+        <item quantity="other">%1$s メガバイト</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="other">%1$s Gigabytes</item>
+        <item quantity="other">%1$s ギガバイト</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="other">%1$s テラバイト</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
@@ -1208,57 +1208,57 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_vpn_accelerator_description">パフォーマンス強化テクノロジーにより、接続速度が最大 400%% 向上します。 %1$s</string>
     <string name="settings_account_settings_title">アカウントの設定</string>
     <string name="settings_account_change_password">パスワードを変更する</string>
-    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email">回復用メールアドレス</string>
     <string name="settings_account_recovery_email_not_set">未設定</string>
     <!-- Label of a button that opens user's account page -->
-    <string name="settings_account_button_my_account">My account</string>
-    <string name="settings_account_button_delete_account">Delete account</string>
+    <string name="settings_account_button_my_account">マイアカウント</string>
+    <string name="settings_account_button_delete_account">アカウントを削除する</string>
     <string name="settings_advanced_alternative_routing_title">代替ルーティング</string>
-    <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
+    <string name="settings_advanced_alternative_routing_description">ネットワーク制限により Proton サービスがブロックされている場合は、代替ネットワーク ルーティングを使用してサイトに接続しようとします。</string>
     <string name="settings_advanced_allow_lan_title">LAN 接続</string>
-    <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
+    <string name="settings_advanced_allow_lan_description">デバイスのローカル ネットワーク内のプリンター、スピーカー、その他のデバイスに接続できるようにします。</string>
     <string name="settings_advanced_nat_type_title">NAT タイプ</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
+    <string name="settings_advanced_nat_type_description">接続のネットワーク アドレス変換タイプを選択します。 %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">接続のネットワーク アドレス変換タイプを選択します。</string>
     <string name="settings_advanced_nat_type_strict">厳密(タイプ 3)</string>
     <string name="settings_advanced_nat_type_moderate">中程度(タイプ 2)</string>
     <string name="settings_advanced_nat_type_strict_description">ネットワークに入るデータを制限します。 このオプションはより安全ですが、ピアツーピア ゲーム接続がより困難になる可能性があります。</string>
     <string name="settings_advanced_nat_type_moderate_description">ネットワークに入るデータにはいくつかの制限があります。 このオプションはオンライン ビデオ ゲームに最適です。</string>
-    <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
-    <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
-    <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
-    <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
+    <string name="settings_split_tunneling_description">どのアプリと IP アドレスを VPN によって保護するかを決定して、接続をカスタマイズします。 %1$s</string>
+    <string name="settings_protocol_description">VPN プロトコルは、VPN サーバーとデバイスの間でデータがどのように移動するかを決定します。 %1$s</string>
+    <string name="settings_split_tunneling_excluded_apps">除外されたアプリ</string>
+    <string name="settings_split_tunneling_excluded_ips">除外されるIPアドレス</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">なし</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s、%2$s、%3$d その他</string>
     <string name="settings_dialog_reconnect">新しい設定は次の接続から適用されます。</string>
     <string name="info_secure_core_standard_high_privacy">高いプライバシー</string>
     <string name="info_secure_core_standard_lower_latency">低レイテンシー</string>
     <string name="info_secure_core_advanced_privacy">高度なプライバシー</string>
-    <string name="info_secure_core_higher_latency">Higher latency</string>
-    <string name="info_p2p_what_title">What is P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
+    <string name="info_secure_core_higher_latency">高いレイテンシー</string>
+    <string name="info_p2p_what_title">P2Pとは何ですか?</string>
+    <string name="info_p2p_what_description">ピアツーピア (P2P) テクノロジーを使用すると、他のデバイスに直接接続してファイルを共有できます。\n\n当社の P2P サーバーは、このタイプのファイル共有をサポートするように特別に設計されています。</string>
     <string name="info_p2p_torrenting_title">トレントとは何ですか?</string>
-    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
+    <string name="info_p2p_torrenting_description">P2P ネットワーク上で大きなファイルを高速に共有およびダウンロードします。</string>
     <string name="info_p2p_why_title">トレント時に P2P サーバーを使用する理由は何ですか?</string>
-    <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
-    <string name="info_p2p_why_description_logs">No activity logs</string>
-    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
+    <string name="info_p2p_why_description_speed">アップロードとダウンロードの速度が向上しました</string>
+    <string name="info_p2p_why_description_logs">アクティビティログがありません</string>
+    <string name="info_p2p_why_description_hide">サービスプロバイダーやピアから IP アドレスを隠します</string>
     <string name="info_dialog_smart_routing_description">Smart Routingは、仮想サーバーを使用して、アクセスが困難な国でも VPN カバレッジを提供します。\n\nSmart Routing サーバーに接続すると、物理サーバーが別の場所にある場合でも、目的の国でブラウジングしているように見えます。  \n\nSmart Routingは通常、反プライバシー法やその他の形式の検閲を回避するために使用されます。</string>
     <string name="countries_upsell_banner_description">VPN Plus で世界中をカバー</string>
     <string name="secure_core_upsell_banner_description">VPN接続にもう1つの暗号化レイヤーを追加する</string>
     <string name="p2p_upsell_banner_description">BitTorrentやその他のファイル共有プロトコルでファイルをダウンロードする</string>
     <string name="tor_upsell_banner_description">VPN接続にTorネットワークを使用することで、プライバシーをさらに守ることができます</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
+    <string name="search_zero_screen_title">検索してみてください…</string>
+    <string name="search_zero_screen_info_countries_title">国</string>
+    <string name="search_zero_screen_info_cities_title">都市</string>
     <string name="search_zero_screen_info_servers_title">サーバー</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_countries_examples">スイス、アメリカ、イタリア、カナダ…</string>
+    <string name="search_zero_screen_info_cities_examples">ニューヨーク、ロンドン、東京、シドニー…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
-    <string name="error_fetching_prices">Error fetching prices.</string>
+    <string name="error_fetching_prices">価格の取得中にエラーが発生しました。</string>
 </resources>

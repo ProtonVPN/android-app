@@ -1059,7 +1059,7 @@
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
-    <string name="vpn_status_connecting">당신의 디지털 신원을 보호하고 있습니다</string>
+    <string name="vpn_status_connecting">회원님의 디지털 신원을 보호하고 있습니다</string>
     <!-- tag(Redesign_2023)
          Displays Country name and IP of user if he is not connected.
          First parameter is country, second is IP.
@@ -1252,7 +1252,7 @@
     <string name="secure_core_upsell_banner_description">VPN 연결에 암호화 계층 추가</string>
     <string name="p2p_upsell_banner_description">BitTorrent와 다른 파일 공유 프로토콜로 파일을 다운로드하세요</string>
     <string name="tor_upsell_banner_description">추가적인 개인 정보 보호를 위해 VPN 연결을 통해 Tor 네트워크를 사용하세요</string>
-    <string name="vpnplus_upsell_banner_description">VPL Plus로 업그레이드</string>
+    <string name="vpnplus_upsell_banner_description">VPN Plus로 업그레이드</string>
     <string name="search_zero_screen_title">다음을 검색해 보세요…</string>
     <string name="search_zero_screen_info_countries_title">국가</string>
     <string name="search_zero_screen_info_cities_title">도시</string>
