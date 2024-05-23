@@ -65,6 +65,7 @@ import com.protonvpn.android.vpn.MaintenanceTracker;
 import com.protonvpn.android.vpn.UpdateSecureCoreToMatchConnectedServer;
 import com.protonvpn.android.vpn.UpdateSettingsOnFeatureFlagChange;
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange;
+import com.protonvpn.android.vpn.VpnConnectionObservability;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -128,6 +129,7 @@ public class ProtonApplication extends Application {
         UpdateServersOnStartAndLocaleChange getUpdateServersOnLocaleChange();
         UpdateSettingsOnVpnUserChange getUpdateSettingsOnVpnUserChange();
         UpdateSettingsOnFeatureFlagChange getUpdateSettingsOnFeatureFlagChange();
+        VpnConnectionObservability getVpnConnectionObservability();
         VpnConnectionTelemetry getVpnConnectionTelemetry();
     }
 
@@ -191,6 +193,7 @@ public class ProtonApplication extends Application {
         dependencies.getUpdateSettingsOnVpnUserChange();
         dependencies.getUpdateSettingsOnFeatureFlagChange();
         dependencies.getShowUpgradeSuccess();
+        dependencies.getVpnConnectionObservability();
         dependencies.getVpnConnectionTelemetry().start();
 
         // Start last.
