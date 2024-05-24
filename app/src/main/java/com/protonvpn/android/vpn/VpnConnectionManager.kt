@@ -479,7 +479,8 @@ class VpnConnectionManager @Inject constructor(
 
     override fun connect(uiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, triggerAction: ConnectTrigger) {
         val intent = permissionDelegate.prepareVpnPermission()
-        scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
+        if (connectIntent !is AnyConnectIntent.GuestHole)
+            scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
             uiDelegate.askForPermissions(intent, connectIntent) {
                 connectWithPermission(uiDelegate, connectIntent, triggerAction, clearFallback = true)
