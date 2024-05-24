@@ -295,7 +295,7 @@ private fun FeaturesAndLoad(
     invisibleLoad: Boolean,
 ) {
     Row(modifier) {
-        ServerFeaturesRow(server.serverFeatures)
+        ServerFeaturesRow(server.serverFeatures, server.isVirtualLocation)
         LoadInfo(
             server.loadPercent,
             if (invisibleLoad) Modifier.alpha(0f) else Modifier
@@ -304,19 +304,29 @@ private fun FeaturesAndLoad(
 }
 
 @Composable
-private fun ServerFeaturesRow(features: Set<ServerFeature>) {
+private fun ServerFeaturesRow(features: Set<ServerFeature>, isVirtualLocation: Boolean) {
     if (features.isNotEmpty()) {
         Row(modifier = Modifier.padding(start = 12.dp)) {
+            val iconModifier = Modifier
+                .padding(horizontal = 4.dp)
+                .size(14.dp)
+            val iconTint = ProtonTheme.colors.iconWeak
+            if (isVirtualLocation) {
+                val description = stringResource(R.string.server_feature_content_description_smart_routing)
+                Icon(
+                    modifier = iconModifier,
+                    painter = painterResource(id = CoreR.drawable.ic_proton_globe),
+                    tint = iconTint,
+                    contentDescription = description
+                )
+            }
             features.forEach { feature ->
                 val description = feature.contentDescription()
                 Icon(
-                    modifier = Modifier
-                        .semantics { contentDescription = description }
-                        .padding(horizontal = 4.dp)
-                        .size(14.dp),
+                    modifier = iconModifier,
                     painter = painterResource(id = feature.iconRes()),
-                    tint = ProtonTheme.colors.iconWeak,
-                    contentDescription = null
+                    tint = iconTint,
+                    contentDescription = description
                 )
             }
         }
