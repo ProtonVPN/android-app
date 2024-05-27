@@ -1342,7 +1342,7 @@
     <string name="secure_core_upsell_banner_description">Přidejte další úroveň šifrování vašemu VPN připojení</string>
     <string name="p2p_upsell_banner_description">Stahujte soubory přes BitTorrent a jiné protokoly ke sdílení souborů</string>
     <string name="tor_upsell_banner_description">Zvyšte svoje soukromí přistupováním k Toru přes VPN</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">Navýšit na VPN Plus</string>
     <string name="search_zero_screen_title">Zkuste hledat…</string>
     <string name="search_zero_screen_info_countries_title">Země</string>
     <string name="search_zero_screen_info_cities_title">Města</string>
@@ -1351,4 +1351,11 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londýn, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Chyba získávání cen.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
+        Smart Routing
+    -->
+    <string name="country_smart_routing_info">Země fyzického umístění serverů je %1$s, ale při vašem procházení se bude zdát, že vaše země je %2$s.</string>
 </resources>

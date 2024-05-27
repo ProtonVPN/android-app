@@ -380,7 +380,7 @@
     </plurals>
     <string name="upsell_upgrade_again">Passez de nouveau à la version supérieure pour profiter de toutes les fonctionnalités :</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Protégez %1$d appareils en même temps</item>
+        <item quantity="one">Protégez %1$d appareil</item>
         <item quantity="other">Protégez %1$d appareils en même temps</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN est disponible sur 8 plateformes différentes.</string>
@@ -393,9 +393,9 @@
     <string name="upgrade_p2p_title">Débloquez les téléchargements peer-to-peer (P2P) et le partage de fichiers </string>
     <string name="upgrade_p2p_text">Améliorez vos vitesses de téléchargement tout en masquant votre adresse IP.</string>
     <string name="upgrade_streaming_title">Streaming en 4K</string>
-    <string name="upgrade_streaming_text">Profitez de vos films et séries préférées partout dans le monde.</string>
+    <string name="upgrade_streaming_text">Profitez de vos films et séries préférés partout dans le monde.</string>
     <string name="upgrade_tor_title">Accédez au réseau Tor en un clin d\'œil</string>
-    <string name="upgrade_tor_text">Connectez-vous à des services masqués et des sites onion avec votre navigateur habituel.</string>
+    <string name="upgrade_tor_text">Connectez-vous à des services masqués et des sites cachés (onion) avec votre navigateur habituel.</string>
     <string name="upgrade_vpn_accelerator_title">Profitez d\'une navigation ultra-rapide</string>
     <!--
         %1$s - speed in Gbps
@@ -447,14 +447,14 @@
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">Plus de %1$d emplacements de serveur dans %2$s</string>
     <string name="upsell_card_customization_title">Et bien plus encore…</string>
-    <string name="upsell_card_customization_description">Débloquez encore plus de fonctionnalités performantes et respectant la vie privée</string>
+    <string name="upsell_card_customization_description">Débloquez encore plus de fonctionnalités performantes et respectueuses de votre vie privée.</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Protégez %1$d appareil.</item>
         <item quantity="other">Protégez %1$d appareils.</item>
     </plurals>
     <string name="upsell_card_devices_description">Sécurité et respect de la vie privée sur tous vos appareils</string>
     <string name="upsell_card_netshield_title">NetShield</string>
-    <string name="upsell_card_netshield_description">Bloquez les traqueurs, logiciels malveillants et publicités</string>
+    <string name="upsell_card_netshield_description">Bloquez les traqueurs, logiciels malveillants et publicités.</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Ajoutez une couche de chiffrement à votre connexion VPN.</string>
     <string name="upsell_card_p2p_title">Support P2P</string>
@@ -464,13 +464,13 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Naviguez à des vitesses encore plus élevées (jusqu\'à %1$d Gbit/s)</string>
+    <string name="upsell_card_speed_description">Naviguez à des vitesses encore plus élevées (jusqu\'à %1$d Gbit/s).</string>
     <string name="upsell_card_split_tunneling_title">Split tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Naviguez depuis 2 emplacements à la fois</string>
+    <string name="upsell_card_split_tunneling_description">Naviguez depuis 2 emplacements à la fois.</string>
     <string name="upsell_card_streaming_title">Streaming</string>
-    <string name="upsell_card_streaming_description">Regardez vos films et séries préférées</string>
+    <string name="upsell_card_streaming_description">Regardez vos films et séries préférés.</string>
     <string name="upsell_card_tor_title">Tor via VPN</string>
-    <string name="upsell_card_tor_description">Ajoutez le réseau Tor sur votre connexion VPN pour plus de protection de votre vie privée</string>
+    <string name="upsell_card_tor_description">Utilisez le réseau Tor via votre connexion VPN pour une meilleure protection de votre vie privée.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -814,7 +814,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$s en passant par %2$s</string>
+    <string name="connection_info_secure_core_full_other">%1$s via %2$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -969,7 +969,7 @@
     <!-- State means here US state, like California -->
     <string name="message_state_servers_in_maintenance">Tous les serveurs dans cet état sont en maintenance.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_in_maintenance">Serveur en maintenance</string>
+    <string name="message_server_in_maintenance">Le serveur est en maintenance.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Le serveur n\'est pas disponible.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
@@ -1273,15 +1273,15 @@
     <string name="info_p2p_what_description">La technologie pair-à-pair (P2P) vous permet de vous connecter et de partager des fichiers directement avec d\'autres appareils.\n\nNos serveurs P2P sont spécialement conçus pour prendre en charge ce genre de partage.</string>
     <string name="info_p2p_torrenting_title">Qu\'est-ce que le torrenting ?</string>
     <string name="info_p2p_torrenting_description">Le partage et le téléchargement rapides de fichiers volumineux sur un réseau pairs à pairs (P2P).</string>
-    <string name="info_p2p_why_title">Pourquoi utiliser un serveur P2P pour la diffusion de torrents ?</string>
+    <string name="info_p2p_why_title">Pourquoi utiliser un serveur P2P pour faire du torrenting ?</string>
     <string name="info_p2p_why_description_speed">Vitesses de chargement et de téléchargement augmentées</string>
     <string name="info_p2p_why_description_logs">Aucune activité enregistrée</string>
     <string name="info_p2p_why_description_hide">Masquez votre adresse IP à votre fournisseur de service et aux autres utilisateurs.</string>
-    <string name="info_dialog_smart_routing_description">L\'option Smart Routing utilise des serveurs virtuels pour fournir une couverture VPN dans des pays difficiles d\'accès.\n\nLorsque vous vous connectez à un serveur Smart Routing, vous avez l\'impression de naviguer dans votre pays de destination, même si le serveur physique est situé ailleurs.  \n\nLa fonction Smart Routing permet généralement de contourner la censure et les lois contre la vie privée.</string>
+    <string name="info_dialog_smart_routing_description">L\'option Smart Routing utilise des serveurs virtuels pour fournir une couverture VPN dans des pays difficiles d\'accès.\n\nQuand vous vous connectez à un serveur Smart Routing, vous semblez naviguer dans votre pays de destination, même si le serveur physique est situé ailleurs.  \n\nLa fonctionnalité Smart Routing est généralement utilisée pour contourner les lois qui restreignent la protection de la vie privée et d\'autres formes de censure.</string>
     <string name="countries_upsell_banner_description">Profitez de serveurs dans le monde entier en passant à VPN Plus.</string>
     <string name="secure_core_upsell_banner_description">Ajoutez une couche de chiffrement à votre connexion VPN.</string>
     <string name="p2p_upsell_banner_description">Téléchargez des fichiers depuis BitTorrent ou d\'autres protocoles de partage de fichier.</string>
-    <string name="tor_upsell_banner_description">Ajoutez le réseau Tor sur votre connexion VPN pour plus de protection de votre vie privée</string>
+    <string name="tor_upsell_banner_description">Utilisez le réseau Tor via votre connexion VPN pour une meilleure protection de votre vie privée.</string>
     <string name="vpnplus_upsell_banner_description">Passez à l\'abonnement VPN Plus</string>
     <string name="search_zero_screen_title">Essayez de rechercher…</string>
     <string name="search_zero_screen_info_countries_title">Pays</string>
@@ -1291,4 +1291,11 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londres, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Une erreur s\'est produite lors de la récupération des tarifs.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
+        Smart Routing
+    -->
+    <string name="country_smart_routing_info">Le pays dans lequel les serveurs sont physiquement situés est %1$s, mais le pays à partir duquel vous semblerez naviguer est %2$s.</string>
 </resources>
