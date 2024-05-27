@@ -1321,4 +1321,11 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londra, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Eroare la preluarea prețurilor.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
+        Smart Routing
+    -->
+    <string name="country_smart_routing_info">Serverele se află fizic în %1$s, dar se pare că navigați din %2$s.</string>
 </resources>

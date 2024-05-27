@@ -1321,4 +1321,11 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Error fetching prices.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
+        Smart Routing
+    -->
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
 </resources>

@@ -73,7 +73,7 @@
     <string name="settingsDnsLeakDescription">Impedir a fuga de consultas de DNS para terceiros (sempre ligado)</string>
     <string name="settingsDefaultMtu">1375</string>
     <string name="settingsMtuSizeTitle">Tamanho MTU</string>
-    <string name="settingsMtuDescription">Caso o valor predefinido não seja adequado para uma rede em particular, introduza um valor dentro do intervalo 1280-1500. Altere só se souber o que está a fazer.</string>
+    <string name="settingsMtuDescription">Caso o valor padrão não seja adequado para uma rede em particular, introduza um valor dentro do intervalo 1280-1500. Altere só se souber o que está a fazer.</string>
     <string name="settingsMtuRangeInvalid">O valor MTU deve estar dentro do intervalo 1280-1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Portas incomuns</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilize o Proton VPN para necessidades especiais, permitindo tráfego de portas incomuns na rede VPN.<a href="%1$s">Saiba mais</a>.]]></string>
@@ -192,7 +192,7 @@
     <string name="excludeAlreadyExcluded">Já excluído</string>
     <string name="removeExcludedIpDialogDescription">Remover endereço IP da lista?</string>
     <string name="tileConnected">Ligado: %1$s</string>
-    <string name="openUrlError">%1$s não pôde ser aberto. Nenhum navegador web detectado no dispositivo.</string>
+    <string name="openUrlError">%1$s não pôde ser aberto. Nenhum navegador web detetado no dispositivo.</string>
     <string name="loaderErrorTimeout">Ligação expirada. Tente novamente.</string>
     <string name="troubleshootButton">Resolução de problemas</string>
     <string name="activityTroubleshootTitle">Solução de problemas</string>
@@ -384,7 +384,7 @@
         <item quantity="other">Protect %1$d devices at once</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
-    <string name="upgrade_plus_title">Upgrade your privacy</string>
+    <string name="upgrade_plus_title">Melhorar a sua privacidade</string>
     <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
     <string name="upgrade_netshield_title">Enjoy ad-free browsing</string>
     <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
@@ -438,7 +438,7 @@
     <string name="upgrade_plus_countries_subtitle">Quando fizer \"upgrade\" para o Plus</string>
     <string name="upgrade_not_now_button">Agora não</string>
     <string name="upgrade_learn_more">Saiba mais</string>
-    <string name="upsell_card_countries_title">Worldwide cover</string>
+    <string name="upsell_card_countries_title">Cobertura mundial</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
@@ -446,7 +446,7 @@
         Example:
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
-    <string name="upsell_card_customization_title">And much more…</string>
+    <string name="upsell_card_customization_title">E muito mais…</string>
     <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Protect %1$d device</item>
@@ -459,7 +459,7 @@
     <string name="upsell_card_secure_core_description">Adicione outra camada de encriptação à sua ligação VPN</string>
     <string name="upsell_card_p2p_title">Suporte a P2P</string>
     <string name="upsell_card_p2p_description">Download files through BitTorrent and other file sharing protocols</string>
-    <string name="upsell_card_speed_title">Faster browsing</string>
+    <string name="upsell_card_speed_title">Navegação mais rápida</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
@@ -540,7 +540,7 @@
     <string name="update_screen_title">Atualizar o Proton VPN</string>
     <string name="update_screen_description">É provável que tenha problemas com versões mais antigas do Proton VPN.</string>
     <string name="dialog_create_account_title">Create an account to continue</string>
-    <string name="dialog_create_account_action_create">Create account</string>
+    <string name="dialog_create_account_action_create">Criar uma conta</string>
     <string name="dialog_create_account_action_signin">Iniciar sessão</string>
     <string name="server_search_menu_title">Pesquisar</string>
     <string name="server_search_hint">País, cidade ou servidor</string>
@@ -590,7 +590,7 @@
     </plurals>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
-    <string name="notification_banner_dismiss_accessibility_label">Dismiss banner</string>
+    <string name="notification_banner_dismiss_accessibility_label">Descartar o banner</string>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
          %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
@@ -600,7 +600,7 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">%1$s %2$s left</string>
+    <string name="offer_time_left">Restam %1$s %2$s.</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d segundo</item>
@@ -632,7 +632,7 @@
         Example:
         Available in 1 minute 23 seconds.
       -->
-    <string name="server_change_button_time_left_content_description">Available in %1$s %2$s</string>
+    <string name="server_change_button_time_left_content_description">Disponível em %1$s %2$s</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services and only if time left is less than 1 minute.
 
@@ -649,7 +649,7 @@
     <string name="whats_new_new_look_description">We updated our designs and moved some things around to make the app easier to use.</string>
     <string name="whats_new_recents_title">Introducing Recents</string>
     <string name="whats_new_recents_description">It’s now even easier to reconnect to your favorite servers. View your most recent connections on the home screen, or pin them for quick access. Recents replaces Profiles.</string>
-    <string name="whats_new_dismiss_button">Take a look</string>
+    <string name="whats_new_dismiss_button">Dê uma olhada</string>
     <string name="whats_new_added_countries_title">Novos países Free</string>
     <string name="whats_new_added_countries_description">There are now Free servers in Poland and Romania. To prevent server crowding, we removed manual country selection and made major improvements to automatic server selection.</string>
     <string name="welcome_plus_title">Bem-vindo à VPN Plus</string>
@@ -756,7 +756,7 @@
          screen reader as:
          "in maintenance, Switzerland"
      -->
-    <string name="accessibility_item_in_maintenance">in maintenance</string>
+    <string name="accessibility_item_in_maintenance">em manutenção</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when it is unavailable.
          Only used by accessibility services.
@@ -784,14 +784,14 @@
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">País mais rápido</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">Fastest free server</string>
+    <string name="fastest_free_server">Servidor gratuito mais rápido</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Iceland
      -->
-    <string name="connection_info_secure_core_full_iceland">%1$s via Iceland</string>
+    <string name="connection_info_secure_core_full_iceland">%1$s via a Islândia</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -836,7 +836,7 @@
          Italy
          via Secure Core
     -->
-    <string name="connection_info_secure_core_entry_fastest">via Secure Core</string>
+    <string name="connection_info_secure_core_entry_fastest">vía Secure Core</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country.
          This text will only be used if a new entry country is added and the application is not
@@ -900,7 +900,7 @@
          Last connected to
          Fastest country
          -->
-    <string name="connection_card_label_last_connected">Last connected to</string>
+    <string name="connection_card_label_last_connected">Última ligação a</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
@@ -908,7 +908,7 @@
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">Connecting to…</string>
+    <string name="connection_card_label_connecting">A ligar a…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
          being established. It's shown only in response to user clicking the "Change server" button.
@@ -926,7 +926,7 @@
          Fastest country
          Germany
      -->
-    <string name="connection_card_label_connected">Browsing safely from</string>
+    <string name="connection_card_label_connected">Navegação segura desde</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with details of the current VPN connection.
          Only used by accessibility services.
@@ -935,7 +935,7 @@
          a button with this description will be read by a screen reader as:
          "connection details, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_connection_details">connection details</string>
+    <string name="connection_card_accessbility_label_connection_details">detalhes da ligação</string>
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with information about connections in free plan.
          Only used by accessibility services.
@@ -950,7 +950,7 @@
      -->
     <string name="recents_headline">Recentes</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
-    <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
+    <string name="home_upsell_carousel_headline">Descubra VPN Plus</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Fixar</string>
     <!-- tag(Redesign_2023) -->
@@ -1017,7 +1017,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_debug_logs_title">Registos de depuração</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_improve_proton">Improve Proton</string>
+    <string name="settings_category_improve_proton">Melhorar a Proton</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">Ajude-nos a combater a censura</string>
     <!-- tag(Redesign_2023) -->
@@ -1055,13 +1055,13 @@
     <string name="country_filter_countries_list_header">Países (%1$d)</string>
     <string name="country_filter_cities_list_header">Cidades (%1$d)</string>
     <string name="country_filter_states_list_header">Estados (%1$d)</string>
-    <string name="country_filter_servers_list_header">Servers (%1$d)</string>
+    <string name="country_filter_servers_list_header">Servidores (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Países do Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Países P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Cidades P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">Estados P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">Países Tor (%1$d)</string>
-    <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
+    <string name="country_filter_tor_servers_list_header">Servidores Tor (%1$d)</string>
     <string name="country_filter_info_label">Informação</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing '%' sign needs to be doubled
@@ -1086,7 +1086,7 @@
     -->
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_subtitle">Connection details</string>
+    <string name="connection_details_subtitle">Detalhes da ligação</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Mostrar IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1098,7 +1098,7 @@
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
     -->
-    <string name="connection_details_connected_for">Connected for</string>
+    <string name="connection_details_connected_for">Ligado por</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Servidor</string>
     <!-- tag(Redesign_2023) -->
@@ -1120,11 +1120,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_description">Lightning fast speeds</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_title">Medium (76–90%)</string>
+    <string name="connection_details_server_load_medium_title">Médio (76 – 90%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_medium_description">Unlikely to affect VPN speed</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_title">High (91–100%)</string>
+    <string name="connection_details_server_load_high_title">Alta (91-100%)</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
     <!-- tag(Redesign_2023) -->
@@ -1140,9 +1140,9 @@
     -->
     <string name="connection_details_download">Transferir</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_section_vpn_speed">VPN speed</string>
+    <string name="connection_details_section_vpn_speed">Velocidade da VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">What is VPN speed?</string>
+    <string name="connection_details_vpn_speed_question">O que é a velocidade do VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
@@ -1174,28 +1174,28 @@
     <string name="gigabytes_per_second">GB/s</string>
     <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s Byte per second</item>
-        <item quantity="other">%1$s Bytes per second</item>
+        <item quantity="one">%1$s byte por segundo</item>
+        <item quantity="other">%1$s bytes por segundo</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
-        <item quantity="one">%1$s Kilobyte per second</item>
-        <item quantity="other">%1$s Kilobytes per second</item>
+        <item quantity="one">%1$s kilobyte por segundo</item>
+        <item quantity="other">%1$s kilobytes por segundo</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s Megabyte per second</item>
-        <item quantity="other">%1$s Megabytes per second</item>
+        <item quantity="one">%1$s megabyte por segundo</item>
+        <item quantity="other">%1$s megabytes por segundo</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s Gigabyte per second</item>
-        <item quantity="other">%1$s Gigabytes per second</item>
+        <item quantity="one">%1$s gigabyte por segundo</item>
+        <item quantity="other">%1$s gigabytes por segundo</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s Terabyte per second</item>
-        <item quantity="other">%1$s Terabytes per second</item>
+        <item quantity="one">%1$s terabyte por segundo</item>
+        <item quantity="other">%1$s terabytes por segundo</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="one">%1$s Byte</item>
-        <item quantity="other">%1$s Bytes</item>
+        <item quantity="one">%1$s byte</item>
+        <item quantity="other">%1$s bytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
         <item quantity="one">%1$s kilobyte</item>
@@ -1206,12 +1206,12 @@
         <item quantity="other">%1$s megabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s Gigabyte</item>
-        <item quantity="other">%1$s Gigabytes</item>
+        <item quantity="one">%1$s gigabyte</item>
+        <item quantity="other">%1$s gigabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s Terabyte</item>
-        <item quantity="other">%1$s Terabytes</item>
+        <item quantity="one">%1$s terabyte</item>
+        <item quantity="other">%1$s terabytes</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
@@ -1254,35 +1254,35 @@
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Select a network address translation type for your connection.</string>
-    <string name="settings_advanced_nat_type_strict">Strict (type 3)</string>
+    <string name="settings_advanced_nat_type_strict">Estrito (tipo 3)</string>
     <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Restricts the data entering your network. This option is more secure, but can make peer-to-peer gaming connections more difficult.</string>
     <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
-    <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
+    <string name="settings_split_tunneling_excluded_apps">Aplicativos excluídos</string>
     <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nenhuma</string>
-    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s e %3$d mais</string>
     <string name="settings_dialog_reconnect">As novas definições serão aplicadas na próxima vez que estabelecer ligação.</string>
     <string name="info_secure_core_standard_high_privacy">Privacidade alta</string>
-    <string name="info_secure_core_standard_lower_latency">Lower latency</string>
-    <string name="info_secure_core_advanced_privacy">Advanced privacy</string>
-    <string name="info_secure_core_higher_latency">Higher latency</string>
+    <string name="info_secure_core_standard_lower_latency">Latência mais baixa</string>
+    <string name="info_secure_core_advanced_privacy">Privacidade avançada</string>
+    <string name="info_secure_core_higher_latency">Latência mais alta</string>
     <string name="info_p2p_what_title">O que é P2P?</string>
     <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
     <string name="info_p2p_torrenting_title">What is torrenting?</string>
     <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
     <string name="info_p2p_why_title">Why use a P2P server when torrenting?</string>
     <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
-    <string name="info_p2p_why_description_logs">No activity logs</string>
+    <string name="info_p2p_why_description_logs">Sem diário de actividade</string>
     <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
     <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="countries_upsell_banner_description">Obtenha uma cobertura global com a VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Adicione outra camada de encriptação à sua ligação VPN</string>
     <string name="p2p_upsell_banner_description">Download files through BitTorrent and other file sharing protocols</string>
     <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">Melhorar para VPN Plus</string>
     <string name="search_zero_screen_title">Try searching for…</string>
     <string name="search_zero_screen_info_countries_title">Países</string>
     <string name="search_zero_screen_info_cities_title">Cidades</string>
@@ -1290,5 +1290,12 @@
     <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
-    <string name="error_fetching_prices">Error fetching prices.</string>
+    <string name="error_fetching_prices">Erro ao obter os preços</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
+        Smart Routing
+    -->
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
 </resources>
