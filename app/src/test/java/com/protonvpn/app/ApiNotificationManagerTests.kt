@@ -23,9 +23,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
-import com.protonvpn.android.appconfig.ApiNotificationProminentBanner
-import com.protonvpn.android.appconfig.ApiNotificationProminentBannerStyle
-import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppConfigResponse
@@ -47,7 +44,6 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
 import io.mockk.MockKAnnotations
 import io.mockk.called
-import io.mockk.clearMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -69,10 +65,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
-import me.proton.core.featureflag.domain.entity.FeatureFlag
-import me.proton.core.featureflag.domain.entity.FeatureId
-import me.proton.core.featureflag.domain.entity.Scope
-import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import me.proton.core.network.domain.ApiResult
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -92,8 +84,6 @@ class ApiNotificationManagerTests {
     private lateinit var mockContext: Context
     @MockK
     private lateinit var mockImagePrefercher: ImagePrefetcher
-    @MockK
-    private lateinit var mockFeatureRepository: FeatureFlagRepository
     @MockK
     private lateinit var mockUserPlanManager: UserPlanManager
     @MockK
@@ -138,7 +128,6 @@ class ApiNotificationManagerTests {
 
         testUserProvider = TestCurrentUserProvider(plusUser, createAccountUser(plusUser.userId))
         currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
-        every { mockFeatureRepository.observe(any(), any<FeatureId>()) } returns flowOf(null)
 
         every { mockAppConfig.appConfigUpdateEvent } returns MutableSharedFlow()
         every { mockAppConfig.appConfigFlow } returns appConfigFlow
@@ -277,40 +266,6 @@ class ApiNotificationManagerTests {
         assertEquals(expectedNotificationIds, notificationIds)
     }
 
-    @Test
-    fun `prominent banner is ignored when feature flag is off`() = testScope.runTest {
-        val banner = ApiNotificationProminentBanner(
-            dismissButtonText = "Close",
-            style = ApiNotificationProminentBannerStyle.REGULAR
-        )
-        val prominentBannerOffer = mockOffer(
-            "prominent banner",
-            type = ApiNotificationTypes.TYPE_HOME_PROMINENT_BANNER,
-            prominentBanner = banner
-        )
-        val flagId = FeatureId("ProminentBannerNotification")
-        val featureFlagFlow = MutableStateFlow<FeatureFlag?>(null)
-        clearMocks(mockFeatureRepository)
-        every { mockFeatureRepository.observe(any(), any<FeatureId>()) } returns featureFlagFlow
-
-        // Create a new test object so that it uses the featureFlagFlow
-        notificationManager = createNotificationsManager()
-
-        mockResponse(prominentBannerOffer)
-        notificationManager.updateNotifications()
-        assertEquals(emptyList<ApiNotification>(), notificationManager.activeListFlow.first())
-
-        featureFlagFlow.value = FeatureFlag(
-            TestUser.plusUser.vpnUser.userId,
-            flagId,
-            Scope.Unleash,
-            defaultValue = false,
-            value = true
-        )
-        val notifications = notificationManager.activeListFlow.first()
-        assertEquals(listOf("prominent banner"), notifications.map { it.id })
-    }
-
     private fun createNotificationsManager() =
         ApiNotificationManager(
             mockContext,
@@ -323,7 +278,6 @@ class ApiNotificationManagerTests {
             mockUserPlanManager,
             mockImagePrefercher,
             mockPeriodicUpdateManager,
-            mockFeatureRepository,
             flowOf(true),
             flowOf(true)
         )
