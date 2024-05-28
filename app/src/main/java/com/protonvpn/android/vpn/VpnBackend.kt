@@ -29,6 +29,7 @@ import com.proton.gopenpgp.localAgent.StatusMessage
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.ConnError
+import com.protonvpn.android.logging.ConnStateChanged
 import com.protonvpn.android.logging.LocalAgentError
 import com.protonvpn.android.logging.LocalAgentStateChanged
 import com.protonvpn.android.logging.LocalAgentStatus
@@ -59,6 +60,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.yield
@@ -66,6 +68,7 @@ import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import okhttp3.OkHttpClient
+import kotlin.coroutines.resume
 
 data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams) : java.io.Serializable
 
@@ -358,7 +361,9 @@ abstract class VpnBackend(
         mainScope.launch(start = CoroutineStart.UNDISPATCHED) {
             if (value == VpnState.Connected) {
                 withContext(dispatcherProvider.Io) {
-                    okHttp?.connectionPool?.evictAll()
+                    // TCP sockets cannot be reused after connecting to another server, force
+                    // OkHttp to reset all sockets so that we avoid timeout for next request.
+                    okHttp?.resetSockets()
                 }
                 lastKnownExitIp.value = lastConnectionParams?.connectingDomain?.getExitIP()
             } else {
@@ -368,7 +373,7 @@ abstract class VpnBackend(
         }
     }
 
-    private suspend fun prepareFeaturesForAgentConnection() {
+    private fun prepareFeaturesForAgentConnection() {
         val bouncing = lastConnectionParams?.bouncing
         if (bouncing == null)
             features.remove(FEATURES_BOUNCING)
@@ -518,7 +523,47 @@ abstract class VpnBackend(
         private const val FEATURES_BOUNCING = "bouncing"
         private const val FEATURES_NETSHIELD = "netshield-level"
         private const val FEATURES_RANDOMIZED_NAT = "randomized-nat"
-        private const val FEATURES_SAFE_MODE = "safe-mode"
         private const val FEATURES_SPLIT_TCP = "split-tcp"
     }
 }
+
+private class OkHttpIdleCallbackWrapper(
+    val original: Runnable?,
+    val callback: () -> Unit
+) : Runnable {
+    override fun run() {
+        original?.run()
+        callback()
+    }
+}
+
+private suspend fun OkHttpClient.resetSockets() {
+    val haveOngoingRequests = dispatcher.runningCallsCount() + dispatcher.queuedCallsCount() > 0
+    ProtonLogger.log(ConnStateChanged, "Tunnel connected: resetting OkHttp sockets, ongoing_requests=$haveOngoingRequests")
+
+    // Wait (with timeout) for OkHttp to actually become Idle (cancelAll is asynchronous)
+    if (haveOngoingRequests) {
+        // Cancel all running calls
+        dispatcher.cancelAll()
+
+        val timedOut = null == withTimeoutOrNull(500) {
+            suspendCancellableCoroutine { continuation ->
+                val original = dispatcher.idleCallback?.unwrapIdleCallback()
+                dispatcher.idleCallback =
+                    OkHttpIdleCallbackWrapper(original) {
+                        continuation.resume(Unit)
+                        dispatcher.idleCallback = original
+                    }
+                continuation.invokeOnCancellation { dispatcher.idleCallback = original }
+            }
+        }
+        if (timedOut)
+            ProtonLogger.log(ConnStateChanged, "Tunnel opened: timed-out waiting for OkHttp idle")
+    }
+
+    // Get rid of all cached connections
+    connectionPool.evictAll()
+}
+
+private fun Runnable?.unwrapIdleCallback(): Runnable? =
+    if (this is OkHttpIdleCallbackWrapper) original?.unwrapIdleCallback() else this
