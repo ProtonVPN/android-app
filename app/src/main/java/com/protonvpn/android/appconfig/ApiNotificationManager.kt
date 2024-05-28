@@ -35,7 +35,6 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.ui.promooffers.PromoOfferImage
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
-import com.protonvpn.android.utils.flatMapLatestNotNull
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,7 +46,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -58,8 +56,6 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import me.proton.core.featureflag.domain.entity.FeatureId
-import me.proton.core.featureflag.domain.repository.FeatureFlagRepository
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
@@ -104,7 +100,6 @@ class ApiNotificationManager @Inject constructor(
     private val userPlanManager: UserPlanManager,
     private val imagePrefetcher: ImagePrefetcher,
     private val periodicUpdateManager: PeriodicUpdateManager,
-    private val featureFlagRepository: FeatureFlagRepository,
     @IsInForeground private val inForeground: Flow<Boolean>,
     @IsLoggedIn private val isLoggedIn: Flow<Boolean>
 ) {
@@ -119,24 +114,10 @@ class ApiNotificationManager @Inject constructor(
 
     private val prefetchTrigger = MutableSharedFlow<Unit>(replay = 1).apply { tryEmit(Unit) }
 
-    private val prominentBannerSupport = currentUser.userFlow
-        .flatMapLatestNotNull {
-            featureFlagRepository.observe(it.userId, FeatureId("ProminentBannerNotification")).map { flag ->
-                flag?.value ?: false
-            }
-        }
-        // Use stateIn with default value to allow immediate processing of unrelated notification types, especially
-        // the splash screen.
-        .stateIn(mainScope, SharingStarted.WhileSubscribed(), false)
-
     private val allNotificationsFlow = apiNotificationsResponse
         .map { response -> response.notifications }
         .combine(testNotifications) { notifications, testNotifications ->
             testNotifications.ifEmpty { notifications }
-        }
-        .combine(prominentBannerSupport) { notifications, isProminentBannerEnabled ->
-            if (isProminentBannerEnabled) notifications
-            else notifications.filterNot { it.type == ApiNotificationTypes.TYPE_HOME_PROMINENT_BANNER }
         }
 
     private val notificationsFlow = allNotificationsFlow
