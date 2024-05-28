@@ -27,7 +27,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.redesign.vpn.UnrestrictedChangeServerOnLongConnectEnabled
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
 import com.protonvpn.android.servers.ServerManager2
@@ -44,7 +43,6 @@ import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -79,12 +77,8 @@ class ChangeServerTests {
     @MockK
     private lateinit var mockVpnUiDelegate: VpnUiDelegate
 
-    @MockK
-    private lateinit var mockUnrestrictedChangeServerEnabled: UnrestrictedChangeServerOnLongConnectEnabled
-
     private lateinit var changeServerPrefs: ChangeServerPrefs
     private lateinit var currentUser: CurrentUser
-    private lateinit var isFeatureFlagEnabled: MutableStateFlow<Boolean>
     private lateinit var restrictionsConfig: RestrictionsConfig
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
@@ -114,8 +108,6 @@ class ChangeServerTests {
             RestrictionsConfig(testScope.backgroundScope, flowOf(Restrictions(true, changeServerConfig)))
 
         coEvery { mockServerManager.getRandomServer(any()) } returns server
-        isFeatureFlagEnabled = MutableStateFlow(true)
-        every { mockUnrestrictedChangeServerEnabled.isEnabled } returns isFeatureFlagEnabled
 
         // Advance time away from 0, otherwise the state will be locked because lastChangeTimestamp is 0 on start.
         testScope.advanceTimeBy(60_000)
@@ -128,7 +120,6 @@ class ChangeServerTests {
             mockServerManager,
             changeServerPrefs,
             currentUser,
-            mockUnrestrictedChangeServerEnabled,
             testScope::currentTime,
         )
         changeServerViewStateFlow = ChangeServerViewStateFlow(
@@ -294,16 +285,6 @@ class ChangeServerTests {
         }
         val expected = listOf(null, ChangeServerViewState.Unlocked, null)
         assertEquals(expected, state)
-    }
-
-    @Test
-    fun `when feature flag is disabled don't allow change server on long connect`() = testScope.runTest {
-        isFeatureFlagEnabled.value = false
-        val states = runWhileCollecting(changeServerViewStateFlow) {
-            updateVpnStatus(VpnState.Connecting, ConnectIntent.Fastest)
-            advanceTimeBy(LONG_CONNECT_TIME)
-        }
-        assertEquals(listOf(null), states)
     }
 
     @Test
