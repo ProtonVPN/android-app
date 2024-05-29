@@ -18,16 +18,22 @@
  */
 package com.protonvpn.android.redesign.settings.ui
 
+import android.os.SystemClock
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItem
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallWeak
+import java.lang.RuntimeException
+
+class TestCrash : RuntimeException("Test exception, everything's fine")
 
 @Composable
 fun NatTypeSettings(
@@ -40,11 +46,13 @@ fun NatTypeSettings(
         onClose = onClose
     ) {
         Text(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .detectMultiTap(7) { throw TestCrash() }
+                .padding(16.dp),
             text = stringResource(id = R.string.settings_advanced_nat_type_description_no_learn),
             style = ProtonTheme.typography.defaultSmallWeak,
         )
-        NatType.values().forEach { type ->
+        NatType.entries.forEach { type ->
             SettingsRadioItem(
                 modifier = Modifier,
                 itemValue = type,
@@ -56,3 +64,23 @@ fun NatTypeSettings(
         }
     }
 }
+
+private fun Modifier.detectMultiTap(count: Int, onTriggered: () -> Unit) =
+    this.pointerInput(Unit) {
+        var consecutiveTaps = 0
+        var lastTapTimestampMs = 0L
+        detectTapGestures {
+            val now = SystemClock.elapsedRealtime()
+            val timeSincePreviousClick = now - lastTapTimestampMs
+            lastTapTimestampMs = now
+            if (timeSincePreviousClick < 500) {
+                ++consecutiveTaps
+                if (consecutiveTaps == count) {
+                    consecutiveTaps = 0
+                    onTriggered()
+                }
+            } else {
+                consecutiveTaps = 0
+            }
+        }
+    }
