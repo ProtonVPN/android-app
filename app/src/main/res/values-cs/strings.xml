@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Vyloučené aplikace</string>
     <string name="settingsExcludedAppsEmpty">Přidejte aplikace, které chcete vyloučit z vašeho VPN provozu.</string>
     <string name="settingsExcludedAppsSelectedHeader">Vyloučené aplikace (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Povolené běžné aplikace (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Povolené systémové aplikace (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Povolené běžné aplikace (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Povolené systémové aplikace (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Zobrazit systémové aplikace</string>
     <string name="excludeAlreadyExcluded">Již vyloučeno</string>
-    <string name="removeExcludedIpDialogDescription">Odstranit IP adresu z listu?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Odstranit IP adresu z listu?</string>
     <string name="tileConnected">Připojeno: %1$s</string>
     <string name="openUrlError">%1$s nelze otevřít. Na vašem zařízení nebyl detekován webový prohlížeč.</string>
     <string name="loaderErrorTimeout">Připojení vypršelo. Zkuste to prosím znovu.</string>

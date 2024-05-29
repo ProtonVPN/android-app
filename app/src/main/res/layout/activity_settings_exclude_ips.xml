@@ -62,7 +62,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerExcludedIps"
+        android:id="@+id/recycler_selected_ips"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

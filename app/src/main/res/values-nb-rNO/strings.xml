@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Ekskluderte apper</string>
     <string name="settingsExcludedAppsEmpty">Legg til apper som skal ekskluderes fra VPN-trafikken.</string>
     <string name="settingsExcludedAppsSelectedHeader">Ekskluderte apper (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Tillatte vanlige apper (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Tillatte systemapper (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Tillatte vanlige apper (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Tillatte systemapper (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Vis systemapper</string>
     <string name="excludeAlreadyExcluded">Allerede ekskludert</string>
-    <string name="removeExcludedIpDialogDescription">Fjerne IP-adressen fra listen?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Fjerne IP-adressen fra listen?</string>
     <string name="tileConnected">Tilkoblet: %1$s</string>
     <string name="openUrlError">%1$s kunne ikke åpnes. Nettleser ble ikke oppdaget på enheten din.</string>
     <string name="loaderErrorTimeout">Tilkoblingen ble tidsavbrutt. Vennligst prøv på nytt.</string>

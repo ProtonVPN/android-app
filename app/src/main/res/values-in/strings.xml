@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Aplikasi yang Dikecualikan</string>
     <string name="settingsExcludedAppsEmpty">Tambahkan aplikasi untuk dikecualikan dari lalu lintas VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplikasi yang Dikecualikan (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Aplikasi Reguler yang Diizinkan (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Aplikas Sistem yang Diizinkan (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Aplikasi Reguler yang Diizinkan (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Aplikas Sistem yang Diizinkan (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Tampilkan aplikasi sistem</string>
     <string name="excludeAlreadyExcluded">Sudah dikecualikan</string>
-    <string name="removeExcludedIpDialogDescription">Hapus alamat IP dari daftar?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Hapus alamat IP dari daftar?</string>
     <string name="tileConnected">Terhubung: %1$s</string>
     <string name="openUrlError">%1$s tidak dapat dibuka. Aplikasi browser tidak terdeteksi pada perangkat Anda.</string>
     <string name="loaderErrorTimeout">Waktu sambungan habis. Mohon coba lagi.</string>

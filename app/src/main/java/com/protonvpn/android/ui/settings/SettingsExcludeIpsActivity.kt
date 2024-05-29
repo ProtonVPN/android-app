@@ -30,12 +30,14 @@ import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.internal.TextWatcherAdapter
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ActivitySettingsExcludeIpsBinding
+import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.SaveableSettingsActivity
+import com.protonvpn.android.utils.DefaultTextWatcher
 import com.protonvpn.android.utils.ViewUtils.viewBinding
+import com.protonvpn.android.utils.getSerializableExtraCompat
 import com.protonvpn.android.utils.setMinSizeTouchDelegate
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -48,13 +50,19 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
 
     private val binding by viewBinding(ActivitySettingsExcludeIpsBinding::inflate)
     override val viewModel: SettingsExcludeIpsViewModel by viewModels()
+    private lateinit var mode: SplitTunnelingMode
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        mode = requireNotNull(intent.getSerializableExtraCompat<SplitTunnelingMode>(SPLIT_TUNNELING_MODE_KEY))
+        title = when (mode) {
+            SplitTunnelingMode.INCLUDE_ONLY -> getString(R.string.settings_split_tunneling_included_ips)
+            SplitTunnelingMode.EXCLUDE_ONLY -> getString(R.string.settings_split_tunneling_excluded_ips)
+        }
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
-        val excludedIpsAdapter = GroupAdapter<GroupieViewHolder>()
+        val selectedIpsAdapter = GroupAdapter<GroupieViewHolder>()
 
         with(binding) {
             buttonAdd.setMinSizeTouchDelegate()
@@ -63,7 +71,7 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
             }
             updateAddButtonState(inputIp.text.toString())
 
-            inputIp.addTextChangedListener(object : TextWatcherAdapter() {
+            inputIp.addTextChangedListener(object : DefaultTextWatcher() {
                 override fun afterTextChanged(editable: Editable) {
                     updateAddButtonState(editable.toString())
                 }
@@ -73,19 +81,22 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
             }
             inputIp.setOnEditorActionListener(editorActionListener)
 
-            recyclerExcludedIps.adapter = excludedIpsAdapter
-            recyclerExcludedIps.layoutManager = LinearLayoutManager(this@SettingsExcludeIpsActivity)
+            recyclerSelectedIps.adapter = selectedIpsAdapter
+            recyclerSelectedIps.layoutManager = LinearLayoutManager(this@SettingsExcludeIpsActivity)
             // Disable change animations for instant header updates.
-            (recyclerExcludedIps.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+            (recyclerSelectedIps.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
 
         val removeAction = { item: LabeledItem -> confirmRemove(item) }
-        viewModel.ipAddressItems.asLiveData().observe(this, Observer { excludedIps ->
-            val groups = if (excludedIps.isNotEmpty()) {
-                val headerText =
-                    getString(R.string.settingsExcludedIPAddressesListHeader, excludedIps.size)
+        viewModel.ipAddressItems.asLiveData().observe(this, Observer { selectedIps ->
+            val groups = if (selectedIps.isNotEmpty()) {
+                val headerTextRes = when (mode) {
+                    SplitTunnelingMode.INCLUDE_ONLY -> R.string.settingsIncludedIPAddressesListHeader
+                    SplitTunnelingMode.EXCLUDE_ONLY -> R.string.settingsExcludedIPAddressesListHeader
+                }
+                val headerText = getString(headerTextRes, selectedIps.size)
 
-                val section = Section(HeaderViewHolder(text = headerText), excludedIps.map {
+                val section = Section(HeaderViewHolder(text = headerText), selectedIps.map {
                     LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_cross, removeAction)
                 })
                 listOf(section)
@@ -94,7 +105,7 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
             }
             // Update the whole section to avoid calling Section.setHeader() and get thus get proper
             // update notifications.
-            excludedIpsAdapter.updateAsync(groups)
+            selectedIpsAdapter.updateAsync(groups)
         })
     }
 
@@ -105,7 +116,11 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
             // ProtonInput doesn't clear error when text changes to empty, do it explicitly.
             binding.inputIp.clearInputError()
         } else {
-            binding.inputIp.setInputError(getString(R.string.excludeAlreadyExcluded))
+            val errorRes = when( mode) {
+                SplitTunnelingMode.INCLUDE_ONLY -> R.string.settings_split_tunneling_already_included
+                SplitTunnelingMode.EXCLUDE_ONLY -> R.string.settings_split_tunneling_already_excluded
+            }
+            binding.inputIp.setInputError(getString(errorRes))
         }
     }
 
@@ -128,7 +143,7 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
 
     private fun confirmRemove(item: LabeledItem) {
         MaterialAlertDialogBuilder(this)
-            .setMessage(R.string.removeExcludedIpDialogDescription)
+            .setMessage(R.string.settings_split_tunneling_remove_ip_dialog_message)
             .setPositiveButton(R.string.remove) { _, _ -> viewModel.removeAddress(item) }
             .setNegativeButton(R.string.cancel, null)
             .show()
@@ -137,6 +152,10 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
     private fun isValidIp(ip: String) = Patterns.IP_ADDRESS.matcher(ip).matches()
 
     companion object {
-        fun createContract() = createContract(SettingsExcludeIpsActivity::class)
+        const val SPLIT_TUNNELING_MODE_KEY = "split tunneling mode"
+
+        fun createContract() = createContract<SplitTunnelingMode>(SettingsExcludeIpsActivity::class) { mode ->
+            putExtra(SPLIT_TUNNELING_MODE_KEY, mode)
+        }
     }
 }

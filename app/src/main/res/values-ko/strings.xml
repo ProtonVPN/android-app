@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">제외된 앱</string>
     <string name="settingsExcludedAppsEmpty">VPN 트래픽에서 제외하고 싶은 앱을 추가하세요.</string>
     <string name="settingsExcludedAppsSelectedHeader">제외된 앱 (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">허용된 일반 앱 (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">허용된 시스템 앱 (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">허용된 일반 앱 (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">허용된 시스템 앱 (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">시스템 앱 표시</string>
     <string name="excludeAlreadyExcluded">이미 제외됨</string>
-    <string name="removeExcludedIpDialogDescription">IP 주소를 목록에서 삭제하시겠습니까?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">IP 주소를 목록에서 삭제하시겠습니까?</string>
     <string name="tileConnected">연결됨: %1$s</string>
     <string name="openUrlError">%1$s 를 열 수 없습니다. 기기에서 웹 브라우저가 탐지되지 않았습니다.</string>
     <string name="loaderErrorTimeout">연결 시간 초과. 다시 시도하십시오.</string>

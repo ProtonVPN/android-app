@@ -38,6 +38,8 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
+import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.userstorage.DontShowAgainStateStoreProvider
@@ -100,7 +102,6 @@ class SettingsViewModelTests {
 
     private lateinit var effectiveSettings: EffectiveCurrentUserSettings
     private lateinit var settingsManager: CurrentUserLocalSettingsManager
-    private lateinit var rawSettingsFlow: MutableStateFlow<LocalUserSettings>
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var vpnStateMonitor: VpnStateMonitor
@@ -133,19 +134,18 @@ class SettingsViewModelTests {
         }
         val getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags()))
 
-        rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
-
+        settingsManager = CurrentUserLocalSettingsManager(
+            LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
+        )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
-            rawSettingsFlow, getFeatureFlags, currentUser, mockIsTvCheck, restrictionsFlow
+            settingsManager.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, mockIsTvCheck, restrictionsFlow
         )
         effectiveSettings = EffectiveCurrentUserSettings(
             testScope.backgroundScope, effectiveCurrentUserSettingsFlow
         )
         vpnStateMonitor = VpnStateMonitor()
         dontShowAgainStore = DontShowAgainStore(currentUser, DontShowAgainStateStoreProvider(InMemoryDataStoreFactory()))
-        settingsManager = CurrentUserLocalSettingsManager(
-            LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
-        )
+
 
         settingsViewModel = SettingsViewModel(
             SavedStateHandle(),
@@ -168,7 +168,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `netshield enabled for plus users`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
+        settingsManager.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
         assertCommonProperties(
@@ -179,7 +179,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `netshield disabled for plus users`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.DISABLED) }
+        settingsManager.update { it.copy(netShield = NetShieldProtocol.DISABLED) }
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
         assertCommonProperties(
@@ -190,7 +190,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `netshield disabled for free users even if setting is on`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
+        settingsManager.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
         testUserProvider.vpnUser = freeUser
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
@@ -202,7 +202,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `netshield hidden for B2B-essentials users`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
+        settingsManager.update { it.copy(netShield = NetShieldProtocol.ENABLED_EXTENDED) }
         testUserProvider.vpnUser = businessEssentialUser
         val state = settingsViewModel.viewState.first()
         assertNull(state.netShield)
@@ -210,7 +210,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `vpn accelerator off for free users`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(vpnAccelerator = false) }
+        settingsManager.update { it.copy(vpnAccelerator = false) }
         testUserProvider.vpnUser = freeUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
@@ -221,7 +221,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `vpn accelerator off for free users even when enabled`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(vpnAccelerator = true) }
+        settingsManager.update { it.copy(vpnAccelerator = true) }
         testUserProvider.vpnUser = freeUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
@@ -232,7 +232,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `vpn accelerator enabled for plus users`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(vpnAccelerator = true) }
+        settingsManager.update { it.copy(vpnAccelerator = true) }
         testUserProvider.vpnUser = plusUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
@@ -243,7 +243,7 @@ class SettingsViewModelTests {
 
     @Test
     fun `vpn accelerator disabled for plus users`() = testScope.runTest {
-        rawSettingsFlow.update { it.copy(vpnAccelerator = false) }
+        settingsManager.update { it.copy(vpnAccelerator = false) }
         testUserProvider.vpnUser = plusUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
@@ -277,7 +277,12 @@ class SettingsViewModelTests {
     fun `split tunnel toggle with exclusions triggers reconnect dialog`() = testScope.runTest {
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
         settingsManager.update { current ->
-            current.copy(splitTunneling = current.splitTunneling.copy(isEnabled = false, excludedApps = listOf("app1")))
+            val newSplitTunnelingSettings = SplitTunnelingSettings(
+                isEnabled = false,
+                mode = SplitTunnelingMode.EXCLUDE_ONLY,
+                excludedApps = listOf("app1")
+            )
+            current.copy(splitTunneling = newSplitTunnelingSettings)
         }
         settingsViewModel.onSplitTunnelingUpdated(mockUiDelegate)
         assertEquals(DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected, settingsViewModel.showReconnectDialogFlow.first())
@@ -285,6 +290,13 @@ class SettingsViewModelTests {
 
     @Test
     fun `split tunnel toggle with empty exclusions don't triggers reconnect dialog`() = testScope.runTest {
+        settingsManager.update { current ->
+            val newSplitTunnelingSettings = SplitTunnelingSettings(
+                isEnabled = false,
+                mode = SplitTunnelingMode.EXCLUDE_ONLY
+            )
+            current.copy(splitTunneling = newSplitTunnelingSettings)
+        }
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
         settingsViewModel.toggleSplitTunneling(mockUiDelegate)
         assertEquals(null, settingsViewModel.showReconnectDialogFlow.first())

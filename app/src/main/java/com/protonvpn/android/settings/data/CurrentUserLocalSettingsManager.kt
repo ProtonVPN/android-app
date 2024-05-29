@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.settings.data
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataMigration
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
@@ -90,11 +91,23 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun setRandomizedNat(value: Boolean) =
         update { current -> current.copy(randomizedNat = value) }
 
-    suspend fun updateExcludedApps(excludedApps: List<String>) =
-        update { current -> current.copy(splitTunneling = current.splitTunneling.copy(excludedApps = excludedApps)) }
+    suspend fun updateSplitTunnelApps(selectedApps: List<String>, mode: SplitTunnelingMode) =
+        update { current ->
+            val newSplitTunneling = when (mode) {
+                SplitTunnelingMode.INCLUDE_ONLY -> current.splitTunneling.copy(includedApps = selectedApps)
+                SplitTunnelingMode.EXCLUDE_ONLY -> current.splitTunneling.copy(excludedApps = selectedApps)
+            }
+            current.copy(splitTunneling = newSplitTunneling)
+        }
 
-    suspend fun updateExcludedIps(excludedIps: List<String>) =
-        update { current -> current.copy(splitTunneling = current.splitTunneling.copy(excludedIps = excludedIps)) }
+    suspend fun updateExcludedIps(selectedIps: List<String>, mode: SplitTunnelingMode) =
+        update { current ->
+            val newSplitTunneling = when (mode) {
+                SplitTunnelingMode.INCLUDE_ONLY -> current.splitTunneling.copy(includedIps = selectedIps)
+                SplitTunnelingMode.EXCLUDE_ONLY -> current.splitTunneling.copy(excludedIps = selectedIps)
+            }
+            current.copy(splitTunneling = newSplitTunneling)
+        }
 
     suspend fun updateTelemetry(isEnabled: Boolean) =
         update { current -> current.copy(telemetry = isEnabled) }
@@ -112,7 +125,7 @@ class LocalUserSettingsStoreProvider @Inject constructor(
     LocalUserSettings.Default,
     LocalUserSettings.serializer(),
     factory,
-    listOf(UserDataMigration(appFeaturesPrefs))
+    listOf(UserDataMigration(appFeaturesPrefs), SplitTunnelingMigration())
 )
 
 private class UserDataMigration(
@@ -147,9 +160,12 @@ private class UserDataMigration(
                 randomizedNat = userData.randomizedNatEnabled,
                 secureCore = userData.secureCoreEnabled,
                 splitTunneling = SplitTunnelingSettings(
-                    userData.useSplitTunneling,
-                    userData.splitTunnelIpAddresses,
-                    userData.splitTunnelApps
+                    isEnabled = userData.useSplitTunneling,
+                    mode = migratedMode(userData.splitTunnelApps, userData.splitTunnelIpAddresses),
+                    excludedIps = userData.splitTunnelIpAddresses,
+                    excludedApps = userData.splitTunnelApps,
+                    includedIps = emptyList(),
+                    includedApps = emptyList(),
                 ),
                 telemetry = userData.telemetryEnabled,
                 vpnAccelerator = userData.vpnAcceleratorEnabled,
@@ -159,3 +175,25 @@ private class UserDataMigration(
         }
     }
 }
+
+@VisibleForTesting
+class SplitTunnelingMigration : DataMigration<LocalUserSettings> {
+
+    override suspend fun shouldMigrate(currentData: LocalUserSettings): Boolean = currentData.version < 2
+
+    override suspend fun migrate(currentData: LocalUserSettings): LocalUserSettings =
+        currentData.copy(
+            version = 2,
+            splitTunneling = migrateSplitTunneling(currentData.splitTunneling)
+        )
+
+    override suspend fun cleanUp() = Unit
+
+    private fun migrateSplitTunneling(current: SplitTunnelingSettings): SplitTunnelingSettings =
+        // Update the mode for existing settings, even when disabled.
+        current.copy(mode = migratedMode(excludedApps = current.excludedApps, excludedIps = current.excludedIps))
+}
+
+private fun migratedMode(excludedApps: List<String>, excludedIps: List<String>): SplitTunnelingMode =
+    if (excludedApps.isNotEmpty() || excludedIps.isNotEmpty()) SplitTunnelingMode.EXCLUDE_ONLY
+    else SplitTunnelingMode.INCLUDE_ONLY

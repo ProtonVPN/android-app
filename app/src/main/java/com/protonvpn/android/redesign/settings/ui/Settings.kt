@@ -107,7 +107,6 @@ import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
-import me.proton.core.compose.theme.defaultSmallStrongUnspecified
 import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.domain.entity.UserId
@@ -567,12 +566,12 @@ private fun ColumnScope.Category(
 }
 
 @Composable
-private fun SettingRowWithComposables(
-    modifier: Modifier = Modifier,
-    leadingComposable: @Composable () -> Unit,
-    trailingComposable: (@Composable () -> Unit)? = null,
+fun SettingRow(
     title: String,
+    modifier: Modifier = Modifier,
     subtitle: String? = null,
+    leadingComposable: (@Composable () -> Unit)? = null,
+    trailingComposable: (@Composable () -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
     var baseModifier = modifier
@@ -589,15 +588,18 @@ private fun SettingRowWithComposables(
         modifier = baseModifier,
         verticalAlignment = if (subtitle != null) Alignment.Top else Alignment.CenterVertically
     ) {
-        Box(
-            modifier = Modifier.width(32.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            leadingComposable()
+        if (leadingComposable != null) {
+            Box(
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .width(32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                leadingComposable()
+            }
         }
         Column(
             modifier = Modifier
-                .padding(start = 16.dp)
                 .weight(1f),
             verticalArrangement = Arrangement.Center
         ) {
@@ -628,7 +630,7 @@ fun SettingRowWithIcon(
     trailingIconTint: Boolean = true,
     onClick: (() -> Unit)? = null
 ) {
-    SettingRowWithComposables(
+    SettingRow(
         leadingComposable = {
             Icon(
                 painter = painterResource(id = icon),
@@ -671,7 +673,7 @@ fun SettingRowWithIconPreview() {
 @Composable
 fun SettingRowWithComposablesPreview() {
     VpnTheme(isDark = true) {
-        SettingRowWithComposables(
+        SettingRow(
             leadingComposable = {
                 Text("A")
             },
@@ -688,7 +690,7 @@ fun CategoryPreview() {
     VpnTheme(isDark = true) {
         Column {
             Category(title = stringResource(id = R.string.settings_category_features)) {
-                SettingRowWithComposables(
+                SettingRow(
                     leadingComposable = {
                         Box(
                             contentAlignment = Alignment.Center,

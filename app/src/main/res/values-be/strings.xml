@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Выключаныя праграмы</string>
     <string name="settingsExcludedAppsEmpty">Дадайце праграмы, якія будуць падключацца без VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Выключаныя праграмы (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Дазволеныя звычайныя праграмы (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Дазволеныя сістэмныя праграмы (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Дазволеныя звычайныя праграмы (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Дазволеныя сістэмныя праграмы (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Паказаць сістэмныя праграмы</string>
     <string name="excludeAlreadyExcluded">Ужо выключана</string>
-    <string name="removeExcludedIpDialogDescription">Выдаліць IP-адрас са спіса?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Выдаліць IP-адрас са спіса?</string>
     <string name="tileConnected">Падключана: %1$s</string>
     <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
     <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>

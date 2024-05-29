@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Applications exclues</string>
     <string name="settingsExcludedAppsEmpty">Ajoutez les applications que vous voulez exclure de votre trafic VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Applications exclues (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Applications usuelles autorisées (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Applications système autorisées (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Applications usuelles autorisées (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Applications système autorisées (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Afficher les applications système</string>
     <string name="excludeAlreadyExcluded">Déjà exclue</string>
-    <string name="removeExcludedIpDialogDescription">Retirer l’adresse IP de la liste ?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Retirer l’adresse IP de la liste ?</string>
     <string name="tileConnected">Connecté : %1$s</string>
     <string name="openUrlError">%1$s ne peut être ouvert. Le navigateur web n\'a pas été détecté sur votre appareil.</string>
     <string name="loaderErrorTimeout">La connexion a expiré. Nous vous invitons à réessayer.</string>

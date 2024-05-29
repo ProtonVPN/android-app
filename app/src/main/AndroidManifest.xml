@@ -190,11 +190,9 @@
             android:name=".ui.login.AssignVpnConnectionActivity"
             android:label="@string/activityTroubleshootTitle" />
         <activity
-            android:name=".ui.settings.SettingsExcludeAppsActivity"
-            android:label="@string/settingsExcludedApps" />
+            android:name=".ui.settings.SettingsExcludeAppsActivity" />
         <activity
-            android:name=".ui.settings.SettingsExcludeIpsActivity"
-            android:label="@string/settingsExcludedIPAddresses" />
+            android:name=".ui.settings.SettingsExcludeIpsActivity" />
         <activity
             android:name=".ui.settings.SettingsAlwaysOnActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />

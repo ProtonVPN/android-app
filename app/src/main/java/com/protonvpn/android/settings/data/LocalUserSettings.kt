@@ -28,19 +28,41 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
+enum class SplitTunnelingMode {
+    INCLUDE_ONLY,
+    EXCLUDE_ONLY
+}
+
 @Serializable
 data class SplitTunnelingSettings(
     val isEnabled: Boolean = false,
+    val mode: SplitTunnelingMode = SplitTunnelingMode.INCLUDE_ONLY,
     val excludedIps: List<String> = emptyList(),
-    val excludedApps: List<String> = emptyList()
+    val excludedApps: List<String> = emptyList(),
+    val includedIps: List<String> = emptyList(),
+    val includedApps: List<String> = emptyList(),
 ) {
-    val isEmpty = !isEnabled || (excludedApps.isEmpty() && excludedIps.isEmpty())
-    fun isEffectivelySameAs(other: SplitTunnelingSettings?): Boolean =
-        this == other || (isEmpty && other?.isEmpty == true)
+    fun isEffectivelySameAs(other: SplitTunnelingSettings): Boolean {
+        fun excludesEqual() = this.excludedIps == other.excludedIps && this.excludedApps == other.excludedApps
+        fun includesEqual() = this.includedIps == other.includedIps && this.includedApps == other.includedApps
+        fun excludesEmpty() = this.excludedIps.isEmpty() && this.excludedApps.isEmpty()
+        fun includesEmpty() = this.includedIps.isEmpty() && this.includedApps.isEmpty()
+
+        return this == other
+            || !this.isEnabled && !other.isEnabled
+            || this.mode == other.mode && this.isEnabled == other.isEnabled && (
+                mode == SplitTunnelingMode.EXCLUDE_ONLY && excludesEqual()
+                    || mode == SplitTunnelingMode.INCLUDE_ONLY && includesEqual()
+            )
+            // Both INCLUDE_ONLY and EXCLUDE_ONLY behave the same as split tunneling disabled:
+            || this.mode == other.mode && mode == SplitTunnelingMode.EXCLUDE_ONLY && excludesEmpty()
+            || this.mode == other.mode && mode == SplitTunnelingMode.INCLUDE_ONLY && includesEmpty()
+    }
 }
 
 @Serializable
 data class LocalUserSettings(
+    val version: Int = 2, // Version of the LocalUserSettings structure. Only increase when needed for migration.
     val apiUseDoh: Boolean = true,
     @Serializable(with = UUIDSerializer::class)
     val defaultProfileId: UUID? = null,

@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.settings
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
@@ -29,9 +30,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
+import com.protonvpn.android.databinding.ItemExcludedAppsEmptyBinding
 import com.protonvpn.android.databinding.ItemExcludedAppsLoadSystemAppsBinding
+import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.SaveableSettingsActivity
+import com.protonvpn.android.utils.BindableItemEx
+import com.protonvpn.android.utils.getSerializableExtraCompat
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -48,10 +53,17 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
 
     private var previousSystemAppsState: SettingsExcludeAppsViewModel.SystemAppsState? = null
 
+    private lateinit var mode: SplitTunnelingMode
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityRecyclerWithToolbarBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        mode = requireNotNull(intent.getSerializableExtraCompat<SplitTunnelingMode>(SPLIT_TUNNELING_MODE_KEY))
+        title = when (mode) {
+            SplitTunnelingMode.INCLUDE_ONLY -> getString(R.string.settings_split_tunneling_included_apps)
+            SplitTunnelingMode.EXCLUDE_ONLY -> getString(R.string.settings_split_tunneling_excluded_apps)
+        }
         initToolbarWithUpEnabled(binding.contentAppbar.toolbar)
 
         val selectedItemsSection = Section()
@@ -69,8 +81,8 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
 
-        val actionAdd = { item: LabeledItem -> viewModel.addAppToExcluded(item) }
-        val actionRemove = { item: LabeledItem -> viewModel.removeAppFromExcluded(item) }
+        val actionAdd = { item: LabeledItem -> viewModel.addApp(item) }
+        val actionRemove = { item: LabeledItem -> viewModel.removeApp(item) }
         viewModel.viewState.asLiveData().observe(this, Observer { state ->
             when (state) {
                 is SettingsExcludeAppsViewModel.ViewState.Loading ->
@@ -100,16 +112,21 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
         val selectedItems = content.selectedApps
         val availableRegularItems = content.availableRegularApps
         val availableSystemItems = content.availableSystemApps
-        val headerSelected =
-            getString(R.string.settingsExcludedAppsSelectedHeader, selectedItems.size)
+        val headerLabel =
+            if (mode == SplitTunnelingMode.INCLUDE_ONLY) R.string.settingsIncludedAppsSelectedHeader
+            else R.string.settingsExcludedAppsSelectedHeader
+        val headerSelected = getString(headerLabel, selectedItems.size)
         val headerAvailableRegular =
-            getString(R.string.settingsExcludedAppsAvailableRegularHeader, availableRegularItems.size)
+            getString(R.string.settingsSplitTunnelingAvailableRegularHeader, availableRegularItems.size)
         val headerAvailableSystem =
-            getString(R.string.settingsExcludedAppsAvailableSystemHeader, availableSystemItems.appCount())
+            getString(R.string.settingsSplitTunnelingAvailableSystemHeader, availableSystemItems.appCount())
         // Not using Section.setPlaceholder for empty state because the Section is recreated
         // each time anyway.
         val selectedViewHolders = if (selectedItems.isEmpty()) {
-            listOf(EmptyStateItem())
+            val emptyText =
+                if (mode == SplitTunnelingMode.EXCLUDE_ONLY) R.string.settingsExcludedAppsEmpty
+                else R.string.settingsIncludedAppsEmpty
+            listOf(EmptyStateItem(emptyText))
         } else {
             selectedItems.map { LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_cross, actionRemove) }
         }
@@ -161,21 +178,21 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
         is SettingsExcludeAppsViewModel.SystemAppsState.Content -> apps.size
     }
 
-    private class EmptyStateItem : Item<GroupieViewHolder>() {
-        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+    private class EmptyStateItem(
+        @StringRes private val textRes: Int
+    ) : BindableItemEx<ItemExcludedAppsEmptyBinding>() {
+        override fun initializeViewBinding(view: View) = ItemExcludedAppsEmptyBinding.bind(view).apply {
+            textLabel.setText(textRes)
         }
-
-        override fun getLayout(): Int = R.layout.item_excluded_apps_empty
-
+        override fun clear() = Unit
+        override fun getLayout(): Int = R.layout.item_excluded_apps_empty // TODO: rename
         override fun getId(): Long = 1L // There's at most 1 such element in the list.
+
     }
 
     private class LoadSystemAppsSpinnerItem : Item<GroupieViewHolder>() {
-        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        }
-
-        override fun getLayout(): Int = R.layout.item_excluded_apps_spinner
-
+        override fun bind(viewHolder: GroupieViewHolder, position: Int) = Unit
+        override fun getLayout(): Int = R.layout.item_excluded_apps_spinner // TODO: rename
         override fun getId(): Long = 1L // There's at most 1 such element in the list.
     }
 
@@ -194,6 +211,10 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
     }
 
     companion object {
-        fun createContract() = createContract(SettingsExcludeAppsActivity::class)
+        const val SPLIT_TUNNELING_MODE_KEY = "split tunneling mode"
+
+        fun createContract() = createContract<SplitTunnelingMode>(SettingsExcludeAppsActivity::class) { mode ->
+            putExtra(SPLIT_TUNNELING_MODE_KEY, mode)
+        }
     }
 }
