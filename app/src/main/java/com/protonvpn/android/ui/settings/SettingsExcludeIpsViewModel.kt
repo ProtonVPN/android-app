@@ -19,11 +19,13 @@
 
 package com.protonvpn.android.ui.settings
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -36,9 +38,13 @@ private const val BITS_IN_BYTE = 8
 
 @HiltViewModel
 class SettingsExcludeIpsViewModel @Inject constructor(
-    private val userSettingsManager: CurrentUserLocalSettingsManager
+    private val userSettingsManager: CurrentUserLocalSettingsManager,
+    savedStateHandle: SavedStateHandle,
 ) : SaveableSettingsViewModel() {
 
+    private val mode: SplitTunnelingMode = requireNotNull(
+        savedStateHandle[SettingsExcludeIpsActivity.SPLIT_TUNNELING_MODE_KEY]
+    )
     private val ipAddresses = MutableStateFlow<List<String>>(emptyList())
 
     val ipAddressItems = ipAddresses.map { ips ->
@@ -81,12 +87,17 @@ class SettingsExcludeIpsViewModel @Inject constructor(
     override fun saveChanges() {
         ProtonLogger.logUiSettingChange(Setting.SPLIT_TUNNEL_IPS, "settings")
         viewModelScope.launch {
-            userSettingsManager.updateExcludedIps(ipAddresses.value)
+            userSettingsManager.updateExcludedIps(ipAddresses.value, mode)
         }
     }
 
     override suspend fun hasUnsavedChanges(): Boolean = valueInSettings() != ipAddresses.value
 
     private suspend fun valueInSettings() =
-        userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling.excludedIps
+        with(userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling) {
+            when (mode) {
+                SplitTunnelingMode.INCLUDE_ONLY -> includedIps
+                SplitTunnelingMode.EXCLUDE_ONLY -> excludedIps
+            }
+        }
 }

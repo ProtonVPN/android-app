@@ -26,6 +26,9 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.settings.data.SplitTunnelingSettings
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
 import com.wireguard.config.Config
@@ -33,10 +36,16 @@ import com.wireguard.config.Interface
 import com.wireguard.config.Peer
 import de.blinkt.openvpn.core.NetworkUtils
 import de.blinkt.openvpn.core.removeIpFromRanges
+import inet.ipaddr.IPAddress
 import inet.ipaddr.IPAddressString
 import inet.ipaddr.ipv4.IPv4Address
 import inet.ipaddr.ipv4.IPv4AddressSeqRange
 import me.proton.core.network.domain.session.SessionId
+
+private const val WG_CLIENT_IP = "10.2.0.2"
+private const val WG_SERVER_IP = "10.2.0.1"
+
+private typealias LocalNetworksProvider = (ipv6: Boolean) -> List<String>
 
 class ConnectionParamsWireguard(
     connectIntent: AnyConnectIntent,
@@ -63,48 +72,94 @@ class ConnectionParamsWireguard(
         userSettings: LocalUserSettings,
         sessionId: SessionId?,
         certificateRepository: CertificateRepository
+    ): Config =
+        getTunnelConfig(
+            context.packageName,
+            { ipv6: Boolean -> NetworkUtils.getLocalNetworks(context, ipv6).toList() },
+            userSettings,
+            sessionId,
+            certificateRepository
+        )
+
+    @Throws(IllegalStateException::class)
+    @VisibleForTesting
+    suspend fun getTunnelConfig(
+        myPackageName: String,
+        localNetworksProvider: LocalNetworksProvider,
+        userSettings: LocalUserSettings,
+        sessionId: SessionId?,
+        certificateRepository: CertificateRepository
     ): Config {
         val entryIp = entryIp ?: requireNotNull(connectingDomain?.getEntryIp(protocolSelection))
 
-        val splitTunneling = userSettings.splitTunneling
-        val excludedIPs: MutableList<String> = with(splitTunneling) {
-            excludedIps.takeIf { isEnabled }.orEmpty().toMutableList()
+        val allowedIps4String = if (connectIntent is AnyConnectIntent.GuestHole) {
+            "0.0.0.0/0"
+        } else {
+            val allowedIps = allowedIps(localNetworksProvider, userSettings.splitTunneling, userSettings.lanConnections)
+            allowedIps.joinToString(separator = ", ") { it.toCanonicalString() }
         }
-        val excludedApps: List<String> = with(splitTunneling) { excludedApps.takeIf { isEnabled }.orEmpty() }
+        // Don't leak IPv6 for Wireguard when split tunneling is used
+        // Also ::/0 CIDR should not be used for IPv6 as it causes LAN connection issues
+        val allowedIpsString = "$allowedIps4String, 2000::/3"
 
-        if (userSettings.lanConnections)
-            excludedIPs += NetworkUtils.getLocalNetworks(context, false).toList()
-
-        val allowedIps = calculateAllowedIps(excludedIPs)
-        ProtonLogger.logCustom(LogCategory.CONN, "WireGuard port: $port, allowed IPs: $allowedIps")
+        ProtonLogger.logCustom(LogCategory.CONN, "WireGuard port: $port, allowed IPs: $allowedIpsString")
 
         val peer = Peer.Builder()
             .parsePublicKey(requireNotNull(connectingDomain?.publicKeyX25519))
             .parseEndpoint("$entryIp:$port")
-            .parseAllowedIPs(allowedIps)
+            .parseAllowedIPs(allowedIpsString)
             // Having persistent keepalive ensures that WG handshake will be triggered even if no data goes through
             // the tunnel - which fixes the issue on some devices where handshake is not triggered and we're stuck in
             // connecting state.
             .setPersistentKeepalive(60)
             .build()
 
+        val splitTunneling = userSettings.splitTunneling
         val iface = Interface.Builder()
-            .parseAddresses("10.2.0.2/32")
-            .apply {
-                if (connectIntent is AnyConnectIntent.GuestHole)
-                    includeApplication(context.packageName)
-                else
-                    excludeApplications(excludedApps)
-            }
-            .parseDnsServers("10.2.0.1")
+            .parseAddresses("${WG_CLIENT_IP}/32")
+            .parseDnsServers(WG_SERVER_IP)
             .parsePrivateKey(certificateRepository.getX25519Key(sessionId))
+            .splitTunnelingApps(connectIntent, myPackageName, splitTunneling)
             .build()
 
         return Config.Builder().addPeer(peer).setInterface(iface).build()
     }
 
+    private fun allowedIps(
+        localNetworksProvider: LocalNetworksProvider,
+        splitTunneling: SplitTunnelingSettings,
+        allowLan: Boolean
+    ): List<IPAddress> {
+        val includeOnly = with (splitTunneling) {
+            isEnabled && mode == SplitTunnelingMode.INCLUDE_ONLY && includedIps.isNotEmpty()
+        }
+        return if (includeOnly) {
+            val alwaysIncluded = setOf(Constants.LOCAL_AGENT_IP, WG_SERVER_IP)
+            val includeIps = splitTunneling.includedIps
+                .map { IPAddressString(it).address }
+                .filter { it.isIPv4 && !it.toCanonicalString().startsWith("127.") }
+                .flatMap { it.spanWithPrefixBlocks().toList() }
+                .toMutableList()
+
+            // Note: allow LAN is ignored, mostly for consistency with OpenVPN where this behavior is implemented in
+            // OpenVPNService. LAN is accessible in INCLUDE_ONLY mode anyway unless the user explicitly configures
+            // LAN IPs to go via VPN - there should be no reason to do this.
+
+            includeIps + alwaysIncluded.map { IPAddressString(it).address }
+        } else {
+            val excludedIps = mutableListOf<String>()
+            if (splitTunneling.isEnabled && splitTunneling.mode == SplitTunnelingMode.EXCLUDE_ONLY)
+                excludedIps += splitTunneling.excludedIps
+
+            if (allowLan)
+                excludedIps += localNetworksProvider(false)
+
+            excludedIpsToAllowedIps(excludedIps)
+        }
+    }
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun calculateAllowedIps(excludedIps: List<String>): String {
+    fun excludedIpsToAllowedIps(excludedIps: List<String>): List<IPAddress> {
         val excludedAddrs = excludedIps.asSequence()
             .map { IPAddressString(it).address }
         DebugUtils.debugAssert { excludedAddrs.none { it.isIPv6 } }
@@ -125,10 +180,26 @@ class ConnectionParamsWireguard(
             ranges = removeIpFromRanges(ranges, loopbackAddress)
             allowedIps4 = ranges.flatMap { it.spanWithPrefixBlocks().toList() }
         }
-        val allowedIps4String = allowedIps4.joinToString(separator = ", ") { it.toCanonicalString() }
+        return allowedIps4
+    }
 
-        // Don't leak IPv6 for Wireguard when split tunneling is used
-        // Also ::/0 CIDR should not be used for IPv6 as it causes LAN connection issues
-        return "$allowedIps4String, 2000::/3"
+    private class SplitTunnelAppsWgConfigurator(private val builder: Interface.Builder) : SplitTunnelAppsConfigurator {
+        override fun includeApplications(packageNames: List<String>) {
+            builder.includeApplications(packageNames)
+        }
+
+        override fun excludeApplications(packageNames: List<String>) {
+            builder.excludeApplications(packageNames)
+        }
+    }
+
+    private fun Interface.Builder.splitTunnelingApps(
+        connectIntent: AnyConnectIntent,
+        myPackageName: String,
+        splitTunneling: SplitTunnelingSettings
+    ): Interface.Builder {
+        val configurator = SplitTunnelAppsWgConfigurator(this)
+        applyAppsSplitTunneling(configurator, connectIntent, myPackageName, splitTunneling)
+        return this
     }
 }

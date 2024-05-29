@@ -22,6 +22,8 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.utils.Constants
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.Connection
@@ -46,6 +48,7 @@ class ConnectionParamsOpenVpn(
     override val info get() = "${super.info} $transmissionProtocol port: $port"
 
     fun openVpnProfile(
+        myPackageName: String,
         userSettings: LocalUserSettings,
         clientCertificate: CertificateData?
     ) = VpnProfile(server.getLabel()).apply {
@@ -71,14 +74,14 @@ class ConnectionParamsOpenVpn(
         mRemoteCN = connectingDomain!!.entryDomain
         mPersistTun = true
         mAllowLocalLAN = userSettings.lanConnections
-        val splitTunneling = userSettings.splitTunneling
-        if (splitTunneling.isEnabled && splitTunneling.excludedIps.isNotEmpty()) {
-            mUseDefaultRoute = false
-            mExcludedRoutes = splitTunneling.excludedIps.joinToString(" ")
+        if (connectIntent !is AnyConnectIntent.GuestHole) {
+            setSplitTunnelingIps(userSettings.splitTunneling)
         }
+        val appsSplitTunnelingConfigurator = SplitTunnelAppsOpenVpnConfigurator(this)
+        applyAppsSplitTunneling(
+            appsSplitTunnelingConfigurator, connectIntent, myPackageName, userSettings.splitTunneling
+        )
         mConnections[0] = Connection().apply {
-            if (splitTunneling.isEnabled)
-                mAllowedAppsVpn = HashSet<String>(splitTunneling.excludedApps)
             mServerName = entryIp ?: requireNotNull(connectingDomain.getEntryIp(protocolSelection))
             mUseUdp = transmissionProtocol == TransmissionProtocol.UDP
             mServerPort = port.toString()
@@ -86,7 +89,43 @@ class ConnectionParamsOpenVpn(
         }
     }
 
+    private fun VpnProfile.setSplitTunnelingIps(split: SplitTunnelingSettings) {
+        if (split.isEnabled) {
+            when {
+                split.mode == SplitTunnelingMode.INCLUDE_ONLY && split.includedIps.isNotEmpty() -> {
+                    val alwaysIncluded = listOf(Constants.LOCAL_AGENT_IP)
+                    // Don't add the default route and also ignore "redirect-gateway" setting from the server.
+                    mUseDefaultRoute = false
+                    mUseCustomConfig = true
+                    mCustomConfigOptions += "pull-filter ignore \"redirect-gateway\"\n"
+
+                    mCustomRoutes = (split.includedIps + alwaysIncluded)
+                        .filterNot { it.startsWith("127.") }
+                        .joinToString(" ")
+                }
+                split.mode == SplitTunnelingMode.EXCLUDE_ONLY && split.excludedIps.isNotEmpty() -> {
+                    // Don't add the default route but accept the default route set by the server (as opposed
+                    // to INCLUDE_ONLY mode) - OpenVPNService will subtract the excludedIps from it.
+                    mUseDefaultRoute = false
+                    mExcludedRoutes = split.excludedIps.joinToString(" ")
+                }
+            }
+        }
+    }
+
     private fun inlineFile(data: String) = "[[INLINE]]$data"
+
+    private class SplitTunnelAppsOpenVpnConfigurator(private val profile: VpnProfile) : SplitTunnelAppsConfigurator {
+        override fun includeApplications(packageNames: List<String>) {
+            profile.mAllowedAppsVpn += packageNames
+            profile.mAllowedAppsVpnAreDisallowed = false
+        }
+
+        override fun excludeApplications(packageNames: List<String>) {
+            profile.mAllowedAppsVpnAreDisallowed = true
+            profile.mAllowedAppsVpn += packageNames
+        }
+    }
 
     companion object {
 

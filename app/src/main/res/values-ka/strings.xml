@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">გამორიცხული აპები</string>
     <string name="settingsExcludedAppsEmpty">VPN-ის ტრაფიკიდან ამოღებული აპები.</string>
     <string name="settingsExcludedAppsSelectedHeader">გამორიცხული აპები (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">ნებადართული ჩვეულებრივი აპლიკაციები (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">ნებადართული სისტემური აპლიკაციები (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">ნებადართული ჩვეულებრივი აპლიკაციები (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">ნებადართული სისტემური აპლიკაციები (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">სისტემური აპების ჩვენება</string>
     <string name="excludeAlreadyExcluded">უკვე გამორიცხულია</string>
-    <string name="removeExcludedIpDialogDescription">წავშალო IP მისამართი სიიდან?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">წავშალო IP მისამართი სიიდან?</string>
     <string name="tileConnected">მიერთებულია: %1$s</string>
     <string name="openUrlError">%1$s-ის გახსნის შეცდომა. თქვენს მოწყობილობაზე ვებ ბრაუზერი ვერ ვიპოვე.</string>
     <string name="loaderErrorTimeout">მოლოდინის დრო გავიდა. თავიდან სცადეთ.</string>

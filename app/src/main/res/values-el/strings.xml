@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Εξαιρούμενες εφαρμογές</string>
     <string name="settingsExcludedAppsEmpty">Προσθέστε τις εφαρμογές που θέλετε να εξαιρέσετε από την ροή δεδομένων του δικτύου VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Εξαιρούμενες εφαρμογές (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Επιτρεπόμενες τακτικές εφαρμογές (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Επιτρεπόμενες εφαρμογές συστήματος (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Επιτρεπόμενες τακτικές εφαρμογές (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Επιτρεπόμενες εφαρμογές συστήματος (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Προβολή εφαρμογών συστήματος</string>
     <string name="excludeAlreadyExcluded">Έχει ήδη αποκλειστεί</string>
-    <string name="removeExcludedIpDialogDescription">Κατάργηση IP Διευθύνσης από τη λίστα;</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Κατάργηση IP Διευθύνσης από τη λίστα;</string>
     <string name="tileConnected">Συνδέθηκε: %1$s</string>
     <string name="openUrlError">%1$s δεν μπόρεσε να ανοίξει. Δεν εντοπίστηκε πρόγραμμα περιήγησης στη συσκευή σας.</string>
     <string name="loaderErrorTimeout">Λήξη χρονικού ορίου σύνδεσης. Παρακαλώ προσπαθήστε ξανά.</string>

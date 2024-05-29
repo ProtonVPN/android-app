@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Исключенные приложения</string>
     <string name="settingsExcludedAppsEmpty">Добавьте приложения, трафик которых должен идти в обход VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Исключенные приложения (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Разрешенные обычные приложения (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Разрешенные системные приложения (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Разрешенные обычные приложения (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Разрешенные системные приложения (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Показать системные приложения</string>
     <string name="excludeAlreadyExcluded">Уже исключено</string>
-    <string name="removeExcludedIpDialogDescription">Удалить IP-адреса из списка?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Удалить IP-адреса из списка?</string>
     <string name="tileConnected">Подключено: %1$s</string>
     <string name="openUrlError">%1$s не может быть открыт. Веб-браузер не был обнаружен на вашем устройстве.</string>
     <string name="loaderErrorTimeout">Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.</string>

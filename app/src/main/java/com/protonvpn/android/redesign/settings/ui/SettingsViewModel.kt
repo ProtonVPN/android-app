@@ -32,6 +32,7 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.userstorage.DontShowAgainStore
@@ -111,15 +112,17 @@ class SettingsViewModel @Inject constructor(
         )
 
         class SplitTunneling(
-            val splitTunnelingSettings: SplitTunnelingSettings,
-            val splitTunnelAppNames: List<String>,
+            isEnabled: Boolean,
+            val mode: SplitTunnelingMode,
+            val currentModeAppNames: List<String>,
+            val currentModeIps: List<String>,
             isFreeUser: Boolean,
-            override val iconRes: Int = if (splitTunnelingSettings.isEnabled) R.drawable.feature_splittunneling_on else R.drawable.feature_splittunneling_off
+            override val iconRes: Int = if (isEnabled) R.drawable.feature_splittunneling_on else R.drawable.feature_splittunneling_off
         ) : SettingViewState<Boolean>(
-            value = splitTunnelingSettings.isEnabled,
+            value = isEnabled,
             isRestricted = isFreeUser,
             titleRes = R.string.settings_split_tunneling_title,
-            subtitleRes = if (splitTunnelingSettings.isEnabled) R.string.split_tunneling_state_on else R.string.split_tunneling_state_off,
+            subtitleRes = if (isEnabled) R.string.split_tunneling_state_on else R.string.split_tunneling_state_off,
             descriptionRes = R.string.settings_split_tunneling_description,
             annotationRes = R.string.learn_more
         )
@@ -211,14 +214,19 @@ class SettingsViewModel @Inject constructor(
                     isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE
                 )
             }
+            val currentModeAppNames =
+                installedAppsProvider.getNamesOfInstalledApps(settings.splitTunneling.currentModeApps())
+                    .map { it.toString() }
 
             SettingsViewState(
                 netShield = netShieldSetting,
                 vpnAccelerator = SettingViewState.VpnAccelerator(settings.vpnAccelerator, isFree),
                 splitTunneling = SettingViewState.SplitTunneling(
-                    splitTunnelingSettings = settings.splitTunneling,
-                    splitTunnelAppNames = installedAppsProvider.getNamesOfInstalledApps(settings.splitTunneling.excludedApps).map { it.toString() },
-                    isFreeUser = isFree
+                    isEnabled = settings.splitTunneling.isEnabled,
+                    mode = settings.splitTunneling.mode,
+                    currentModeAppNames = currentModeAppNames,
+                    currentModeIps = settings.splitTunneling.currentModeIps(),
+                    isFreeUser = isFree,
                 ),
                 protocol = SettingViewState.Protocol(settings.protocol),
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
@@ -332,6 +340,19 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun setSplitTunnelingMode(uiDelegate: VpnUiDelegate, newMode: SplitTunnelingMode) {
+        viewModelScope.launch {
+            userSettingsManager.update { current ->
+                val oldValue = current.splitTunneling
+                val newValue = oldValue.copy(mode = newMode)
+                if (!oldValue.isEffectivelySameAs(newValue)) viewModelScope.launch {
+                    reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
+                }
+                current.copy(splitTunneling = newValue)
+            }
+        }
+    }
+
     fun onSplitTunnelingUpdated(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
             reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
@@ -378,3 +399,15 @@ private fun UserRecovery.State?.passwordHint(): Int? = when(this) {
     UserRecovery.State.Grace -> AccountManagerR.string.account_settings_list_item_password_hint_grace
     UserRecovery.State.Insecure -> AccountManagerR.string.account_settings_list_item_password_hint_insecure
 }
+
+private fun SplitTunnelingSettings.currentModeApps() =
+    when(mode) {
+        SplitTunnelingMode.INCLUDE_ONLY -> includedApps
+        SplitTunnelingMode.EXCLUDE_ONLY -> excludedApps
+    }
+
+private fun SplitTunnelingSettings.currentModeIps() =
+    when(mode) {
+        SplitTunnelingMode.INCLUDE_ONLY -> includedIps
+        SplitTunnelingMode.EXCLUDE_ONLY -> excludedIps
+    }

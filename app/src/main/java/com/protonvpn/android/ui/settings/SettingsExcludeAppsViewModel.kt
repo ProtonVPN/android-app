@@ -19,12 +19,14 @@
 
 package com.protonvpn.android.ui.settings
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.sortedByLocaleAware
@@ -52,7 +54,8 @@ private const val APP_ICON_SIZE_DP = 24
 class SettingsExcludeAppsViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val installedAppsProvider: InstalledAppsProvider,
-    private val userSettingsManager: CurrentUserLocalSettingsManager
+    private val userSettingsManager: CurrentUserLocalSettingsManager,
+    savedStateHandle: SavedStateHandle,
 ) : SaveableSettingsViewModel() {
 
     sealed class SystemAppsState {
@@ -69,6 +72,10 @@ class SettingsExcludeAppsViewModel @Inject constructor(
             val availableSystemApps: SystemAppsState
         ) : ViewState()
     }
+
+    private val mode: SplitTunnelingMode = requireNotNull(
+        savedStateHandle[SettingsExcludeAppsActivity.SPLIT_TUNNELING_MODE_KEY]
+    )
 
     private val shouldLoadSystemApps = MutableStateFlow(false)
 
@@ -145,16 +152,16 @@ class SettingsExcludeAppsViewModel @Inject constructor(
         shouldLoadSystemApps.value = true
     }
 
-    fun addAppToExcluded(item: LabeledItem) {
-        selectedPackages.value = selectedPackages.value + item.id
+    fun addApp(item: LabeledItem) {
+        selectedPackages.value += item.id
     }
-    fun removeAppFromExcluded(item: LabeledItem) {
-        selectedPackages.value = selectedPackages.value - item.id
+    fun removeApp(item: LabeledItem) {
+        selectedPackages.value -= item.id
     }
 
     override fun saveChanges() {
         ProtonLogger.logUiSettingChange(Setting.SPLIT_TUNNEL_APPS, "settings")
-        viewModelScope.launch { userSettingsManager.updateExcludedApps(selectedPackages.value.toList()) }
+        viewModelScope.launch { userSettingsManager.updateSplitTunnelApps(selectedPackages.value.toList(), mode) }
     }
 
     override suspend fun hasUnsavedChanges() = selectedPackages.value != valueInSettings()
@@ -184,5 +191,10 @@ class SettingsExcludeAppsViewModel @Inject constructor(
     }
 
     private suspend fun valueInSettings(): Set<String> =
-        userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling.excludedApps.toHashSet()
+        with(userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling) {
+            when (mode) {
+                SplitTunnelingMode.INCLUDE_ONLY -> includedApps
+                SplitTunnelingMode.EXCLUDE_ONLY -> excludedApps
+            }.toHashSet()
+        }
 }

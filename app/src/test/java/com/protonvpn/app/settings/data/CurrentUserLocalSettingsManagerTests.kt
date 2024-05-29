@@ -24,6 +24,9 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
+import com.protonvpn.android.settings.data.SplitTunnelingMigration
+import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -34,6 +37,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
@@ -102,5 +107,33 @@ class CurrentUserLocalSettingsManagerTests {
             listOf(user1Protocol, LocalUserSettings.Default.protocol),
             emittedSettings.map { it.protocol }
         )
+    }
+
+    @Test
+    fun `migrate settings, split tunneling - excluded IPs present`() = runTest {
+        val migration = SplitTunnelingMigration()
+        val ips = listOf("1.2.3.4")
+        val oldSplitTunneling =
+            SplitTunnelingSettings(isEnabled = false, mode = SplitTunnelingMode.INCLUDE_ONLY, excludedIps = ips)
+        val old = LocalUserSettings(version = 1, splitTunneling = oldSplitTunneling)
+
+        assertTrue(migration.shouldMigrate(old))
+        val new = migration.migrate(old)
+        Assert.assertEquals(2, new.version)
+        val expectedSplitTunneling =
+            SplitTunnelingSettings(isEnabled = false, mode = SplitTunnelingMode.EXCLUDE_ONLY, excludedIps = ips)
+        Assert.assertEquals(expectedSplitTunneling, new.splitTunneling)
+    }
+
+    @Test
+    fun `migrate settings, split tunneling - no excluded IPs, no excluded apps`() = runTest {
+        val migration = SplitTunnelingMigration()
+        val oldSplitTunneling = SplitTunnelingSettings(isEnabled = true, mode = SplitTunnelingMode.INCLUDE_ONLY)
+        val old = LocalUserSettings(version = 1, splitTunneling = oldSplitTunneling)
+        assertTrue(migration.shouldMigrate(old))
+        val new = migration.migrate(old)
+        Assert.assertEquals(2, new.version)
+        val expectedSplitTunneling = SplitTunnelingSettings(isEnabled = true, mode = SplitTunnelingMode.INCLUDE_ONLY)
+        Assert.assertEquals(expectedSplitTunneling, new.splitTunneling)
     }
 }

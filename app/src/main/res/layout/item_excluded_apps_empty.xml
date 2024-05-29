@@ -24,6 +24,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@id/textLabel"
         style="@style/Proton.Text.Caption.Weak"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

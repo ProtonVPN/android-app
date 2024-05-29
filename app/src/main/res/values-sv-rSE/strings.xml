@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Exkluderade appar</string>
     <string name="settingsExcludedAppsEmpty">Lägg till appar att exkludera från VPN-trafiken.</string>
     <string name="settingsExcludedAppsSelectedHeader">Exkluderade appar (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Tillåtna vanliga appar (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Tillåtna systemappar (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Tillåtna vanliga appar (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Tillåtna systemappar (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Visa systemappar</string>
     <string name="excludeAlreadyExcluded">Redan exkluderad</string>
-    <string name="removeExcludedIpDialogDescription">Ta bort IP-adress från listan?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Ta bort IP-adress från listan?</string>
     <string name="tileConnected">Ansluten: %1$s</string>
     <string name="openUrlError">%1$s kunde inte öppnas. Webbläsaren upptäcktes inte på din enhet.</string>
     <string name="loaderErrorTimeout">Anslutning gjorde timeout. Försök igen.</string>

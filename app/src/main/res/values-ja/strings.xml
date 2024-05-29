@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">除外するアプリ</string>
     <string name="settingsExcludedAppsEmpty">VPN トラフィックからアプリを追加して除外することができます。</string>
     <string name="settingsExcludedAppsSelectedHeader">除外するアプリ (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">許可されたアプリ (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">許可されたシステムアプリ (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">許可されたアプリ (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">許可されたシステムアプリ (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">システムアプリを表示</string>
     <string name="excludeAlreadyExcluded">既に除外されています</string>
-    <string name="removeExcludedIpDialogDescription">リストから IP アドレスを削除しますか?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">リストから IP アドレスを削除しますか?</string>
     <string name="tileConnected">接続済み: %1$s</string>
     <string name="openUrlError">%1$s が開けません。このデバイス内にウェブブラウザが見つかりません。</string>
     <string name="loaderErrorTimeout">接続が時間切れになりました。もう一度やり直してください。</string>

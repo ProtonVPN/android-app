@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Excluded Apps</string>
     <string name="settingsExcludedAppsEmpty">Add apps to be excluded from the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">Excluded Apps (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Allowed Regular Apps (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Allowed System Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Allowed Regular Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Allowed System Apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Show system apps</string>
     <string name="excludeAlreadyExcluded">Već izuzeto</string>
-    <string name="removeExcludedIpDialogDescription">Remove IP address from the list?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Remove IP address from the list?</string>
     <string name="tileConnected">Povezan: %1$s</string>
     <string name="openUrlError">%1$s se ne može otvoriti. Web preglednik nije otkriven na vašem uređaju.</string>
     <string name="loaderErrorTimeout">Veza je istekla. Molimo pokušajte ponovno.</string>

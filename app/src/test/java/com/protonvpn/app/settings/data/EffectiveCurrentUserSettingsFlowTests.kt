@@ -26,6 +26,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -162,7 +163,12 @@ class EffectiveCurrentUserSettingsFlowTests {
 
     @Test
     fun `Split tunnel empty when restricted`() = testScope.runTest {
-        val splitTunnel = SplitTunnelingSettings(isEnabled = true, listOf("1.1.1.1"), listOf("app"))
+        val splitTunnel = SplitTunnelingSettings(
+            isEnabled = true,
+            mode = SplitTunnelingMode.EXCLUDE_ONLY,
+            listOf("1.1.1.1"),
+            listOf("app")
+        )
         rawSettingsFlow.update { it.copy(splitTunneling = splitTunnel) }
         assertEquals(splitTunnel, effectiveSettings().splitTunneling)
         restrictionFlow.value = restrictionFlow.value.copy(splitTunneling = true)

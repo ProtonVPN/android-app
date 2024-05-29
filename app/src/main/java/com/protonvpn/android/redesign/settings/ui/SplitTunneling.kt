@@ -23,14 +23,28 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
+import com.protonvpn.android.settings.data.SplitTunnelingMode
+import me.proton.core.compose.component.VerticalSpacer
+import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
 @Composable
@@ -39,9 +53,11 @@ fun SplitTunnelingSubSetting(
     splitTunneling: SettingsViewModel.SettingViewState.SplitTunneling,
     onLearnMore: () -> Unit,
     onSplitTunnelToggle: () -> Unit,
-    onExcludedAppsClick: () -> Unit,
-    onExcludedIpsClick: () -> Unit,
+    onSplitTunnelModeSelected: (SplitTunnelingMode) -> Unit,
+    onAppsClick: (SplitTunnelingMode) -> Unit,
+    onIpsClick: (SplitTunnelingMode) -> Unit,
 ) {
+    var changeModeDialogShown by rememberSaveable { mutableStateOf(false) }
     SubSetting(
         title = stringResource(id = splitTunneling.titleRes),
         onClose = onClose
@@ -57,28 +73,124 @@ fun SplitTunnelingSubSetting(
             onToggle = onSplitTunnelToggle,
             onAnnotatedClick = onLearnMore,
         )
-        val splitTunnelingSettings = splitTunneling.splitTunnelingSettings
         AnimatedVisibility(
-            visible = splitTunnelingSettings.isEnabled,
+            visible = splitTunneling.value,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
             Column {
+                val splitTunnelingMode = splitTunneling.mode
+                val modeStandard = splitTunnelingMode == SplitTunnelingMode.EXCLUDE_ONLY
+                val modeLabel =
+                    if (modeStandard) R.string.settings_split_tunneling_mode_standard
+                    else R.string.settings_split_tunneling_mode_inverse
+                val appsLabel =
+                    if (modeStandard) R.string.settings_split_tunneling_excluded_apps
+                    else R.string.settings_split_tunneling_included_apps
+                val ipsLabel =
+                    if (modeStandard) R.string.settings_split_tunneling_excluded_ips
+                    else R.string.settings_split_tunneling_included_ips
+                SettingRow(
+                    title = stringResource(id = R.string.settings_split_tunneling_mode_title),
+                    subtitle = stringResource(modeLabel),
+                    onClick = { changeModeDialogShown = true }
+                )
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_mobile,
-                    title = stringResource(id = R.string.settings_split_tunneling_excluded_apps),
-                    subtitle = formatExcludedItems(splitTunneling.splitTunnelAppNames),
-                    onClick = onExcludedAppsClick
+                    title = stringResource(id = appsLabel),
+                    subtitle = formatExcludedItems(splitTunneling.currentModeAppNames),
+                    onClick = { onAppsClick(splitTunnelingMode) }
                 )
 
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_window_terminal,
-                    title = stringResource(id = R.string.settings_split_tunneling_excluded_ips),
-                    subtitle = formatExcludedItems(splitTunnelingSettings.excludedIps),
-                    onClick = onExcludedIpsClick
+                    title = stringResource(id = ipsLabel),
+                    subtitle = formatExcludedItems(splitTunneling.currentModeIps),
+                    onClick = { onIpsClick(splitTunnelingMode) }
                 )
             }
         }
+    }
+
+    if (changeModeDialogShown) {
+        ChangeModeDialog(
+            isStandardSelected = splitTunneling.mode == SplitTunnelingMode.EXCLUDE_ONLY,
+            onStandardSelected = { onSplitTunnelModeSelected(SplitTunnelingMode.EXCLUDE_ONLY) },
+            onInverseSelected = { onSplitTunnelModeSelected(SplitTunnelingMode.INCLUDE_ONLY) },
+            onDismissRequest = { changeModeDialogShown = false }
+        )
+    }
+}
+
+@Composable
+private fun ChangeModeDialog(
+    isStandardSelected: Boolean,
+    onStandardSelected: () -> Unit,
+    onInverseSelected: () -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    ProtonBasicAlert(
+        onDismissRequest = onDismissRequest
+    ) {
+        Column {
+            Text(
+                stringResource(R.string.settings_split_tunneling_mode_title),
+                style = ProtonTheme.typography.body1Bold,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+            DialogRadioItem(
+                title = stringResource(R.string.settings_split_tunneling_mode_standard),
+                description = stringResource(R.string.settings_split_tunneling_mode_description_standard),
+                selected = isStandardSelected,
+                onSelected = {
+                    onStandardSelected()
+                    onDismissRequest()
+                },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            DialogRadioItem(
+                title = stringResource(R.string.settings_split_tunneling_mode_inverse),
+                description = stringResource(R.string.settings_split_tunneling_mode_description_inverse),
+                selected = !isStandardSelected,
+                onSelected = {
+                    onInverseSelected()
+                    onDismissRequest()
+                },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+    }
+}
+
+// TODO: this should replace SettingsRadioItem, the current SettingsRadioItem has incorrect layout.
+@Composable
+private fun DialogRadioItem(
+    title: String,
+    description: String,
+    selected: Boolean,
+    onSelected: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .selectable(selected, onClick = onSelected)
+            .padding(vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(title, style = ProtonTheme.typography.body2Regular)
+            VerticalSpacer(height = 4.dp)
+            Text(description, style = ProtonTheme.typography.body2Regular, color = ProtonTheme.colors.textWeak)
+        }
+        RadioButton(
+            selected = selected,
+            onClick = null,
+            modifier = Modifier
+                .clearAndSetSemantics {}
+                .padding(start = 8.dp)
+        )
     }
 }
 

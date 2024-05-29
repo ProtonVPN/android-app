@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">برنامه‌های مستثنی شده</string>
     <string name="settingsExcludedAppsEmpty">برنامه‌هایی که می‌خواهید از ترافیک VPN جدا شوند را اضافه کنید.</string>
     <string name="settingsExcludedAppsSelectedHeader">برنامه‌های استثنا شده (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">برنامه‌های مجاز عادی (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">برنامه‌های مجاز سیستم (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">برنامه‌های مجاز عادی (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">برنامه‌های مجاز سیستم (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">نمایش برنامه‌های سیستم</string>
     <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>
-    <string name="removeExcludedIpDialogDescription">حذف نشانی IP از لیست؟</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">حذف نشانی IP از لیست؟</string>
     <string name="tileConnected">متصل: %1$s</string>
     <string name="openUrlError">%1$s باز نمی‌شود. مرورگر وب روی دستگاه شما شناسایی نشد.</string>
     <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>

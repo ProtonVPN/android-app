@@ -71,7 +71,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
             val certificate = (certificateResult as? CertificateRepository.CertificateResult.Success)?.let {
                 CertificateData(it.privateKeyPem, it.certificate)
             }
-            connectionParams.openVpnProfile(userSettings.value, certificate)
+            connectionParams.openVpnProfile(packageName, userSettings.value, certificate)
         }
     }
 

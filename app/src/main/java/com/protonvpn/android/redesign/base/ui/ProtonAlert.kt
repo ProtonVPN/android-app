@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.redesign.base.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,8 +28,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +52,12 @@ import me.proton.core.compose.theme.defaultSmallUnspecified
 import me.proton.core.compose.theme.defaultUnspecified
 import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.compose.theme.headlineSmallUnspecified
+
+object ProtonAlertDefaults {
+    val tonalElevation = 0.dp
+    val containerColor @Composable get() = ProtonTheme.colors.backgroundSecondary
+    val shape @Composable get() = AlertDialogDefaults.shape
+}
 
 @SuppressWarnings("LongParameterList")
 @Composable
@@ -90,9 +102,35 @@ fun ProtonAlert(
                 }
             }
         },
-        tonalElevation = 0.dp,
-        containerColor = ProtonTheme.colors.backgroundSecondary,
+        tonalElevation = ProtonAlertDefaults.tonalElevation,
+        containerColor = ProtonAlertDefaults.containerColor,
+        shape = ProtonAlertDefaults.shape,
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProtonBasicAlert(
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    BasicAlertDialog(
+        onDismissRequest = onDismissRequest,
+        modifier = modifier,
+    ) {
+        Surface(
+            color = ProtonAlertDefaults.containerColor,
+            tonalElevation = ProtonAlertDefaults. tonalElevation,
+            shape = ProtonAlertDefaults.shape,
+        ) {
+            Box(
+                modifier = Modifier.padding(24.dp), // Same as the private DialogPadding used by AlertDialog.
+            ) {
+               content()
+            }
+        }
+    }
 }
 
 @Composable

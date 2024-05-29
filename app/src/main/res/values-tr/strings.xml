@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Katılmayacak uygulamalar</string>
     <string name="settingsExcludedAppsEmpty">VPN trafiğine katılmayacak uygulamaları ekleyin.</string>
     <string name="settingsExcludedAppsSelectedHeader">Katılmayacak uygulamalar (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">İzin verilen normal ugulamalar (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">İzin verilen sistem ugulamaları (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">İzin verilen normal ugulamalar (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">İzin verilen sistem ugulamaları (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Sistem uygulamalarını görüntüle</string>
     <string name="excludeAlreadyExcluded">Zaten katılmamış</string>
-    <string name="removeExcludedIpDialogDescription">IP adresi listeden kaldırılsın mı?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">IP adresi listeden kaldırılsın mı?</string>
     <string name="tileConnected">Bağlandı: %1$s</string>
     <string name="openUrlError">%1$s açılamadı. Aygıtınızda bir tarayıcı uygulaması bulunamadı.</string>
     <string name="loaderErrorTimeout">Bağlantı zaman aşımına uğradı. Lütfen yeniden deneyin.</string>

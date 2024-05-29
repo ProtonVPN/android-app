@@ -29,8 +29,8 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import io.mockk.every
 import io.mockk.mockk
 
-private val dummyConnectingDomain =
-    ConnectingDomain("1.2.34", null, "dummy.protonvpn.net", "1.2.3.5", null, null, true, "dummy")
+val dummyConnectingDomain =
+    ConnectingDomain("1.2.34", null, "dummy.protonvpn.net", "1.2.3.5", null, null, true, "o0AixWIjxr61AwsKjrTIM+f9iHWZlWUOYZQyroX+zz4=")
 
 fun createGetSmartProtocols(
     protocols: List<ProtocolSelection> = ProtocolSelection.REAL_PROTOCOLS

@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Виключені програми</string>
     <string name="settingsExcludedAppsEmpty">Додайте програми, які потрібно виключити з вашого трафіку VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Виключені програми (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Дозволені звичайні програми (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Дозволені системні програми (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Дозволені звичайні програми (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Дозволені системні програми (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Показати системні програми</string>
     <string name="excludeAlreadyExcluded">Уже виключено</string>
-    <string name="removeExcludedIpDialogDescription">Вилучити IP-адресу зі списку?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Вилучити IP-адресу зі списку?</string>
     <string name="tileConnected">Під\'єднано: %1$s</string>
     <string name="openUrlError">Не вдалося відкрити %1$s. Не вдалося знайти браузер на вашому пристрої.</string>
     <string name="loaderErrorTimeout">Час очікування з\'єднання завершився. Будь ласка, спробуйте ще раз.</string>

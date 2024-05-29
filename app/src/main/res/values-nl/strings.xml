@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Uitgesloten apps</string>
     <string name="settingsExcludedAppsEmpty">Voeg apps toe die moeten worden uitgesloten van het VPN-verkeer.</string>
     <string name="settingsExcludedAppsSelectedHeader">Uitgesloten apps (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Toegestane normale apps (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Toegestane systeemapps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Toegestane normale apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Toegestane systeemapps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Systeemapps weergeven</string>
     <string name="excludeAlreadyExcluded">Al uitgesloten</string>
-    <string name="removeExcludedIpDialogDescription">IP-adres uit de lijst verwijderen?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">IP-adres uit de lijst verwijderen?</string>
     <string name="tileConnected">Verbonden: %1$s</string>
     <string name="openUrlError">%1$s kon niet worden geopend. Webbrowser is niet gedetecteerd op uw apparaat.</string>
     <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>

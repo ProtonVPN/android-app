@@ -46,6 +46,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
+import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
@@ -170,13 +171,15 @@ fun SubSettingsRoute(
             SubSettingsScreen.Type.SplitTunneling -> {
                 val splitTunnelingSettings = viewModel.splitTunneling.collectAsStateWithLifecycle(initialValue = null).value
                 if (splitTunnelingSettings != null) {
+                    val onModeSet = { mode: SplitTunnelingMode -> viewModel.setSplitTunnelingMode(vpnUiDelegate, mode) }
                     SplitTunnelingSubSetting(
                         onClose = onClose,
                         splitTunneling = splitTunnelingSettings,
                         onLearnMore = { context.openUrl(Constants.SPLIT_TUNNELING_INFO_URL) },
                         onSplitTunnelToggle = { viewModel.toggleSplitTunneling(vpnUiDelegate) },
-                        onExcludedAppsClick = { splitTunnelAppsLauncher.launch(Unit) },
-                        onExcludedIpsClick = { splitTunnelIpLauncher.launch(Unit) }
+                        onSplitTunnelModeSelected = onModeSet,
+                        onAppsClick = { mode -> splitTunnelAppsLauncher.launch(mode) },
+                        onIpsClick = { mode -> splitTunnelIpLauncher.launch(mode) }
                     )
                 }
             }

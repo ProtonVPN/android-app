@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Rajoitetut sovellukset</string>
     <string name="settingsExcludedAppsEmpty">Lisää VPN-tietoliikenteen ulkopuolelle rajoitettavia sovelluksia.</string>
     <string name="settingsExcludedAppsSelectedHeader">Rajoitetut sovellukset (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Sallitut tavalliset sovellukset (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Sallitut järjestelmäsovellukset (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Sallitut tavalliset sovellukset (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Sallitut järjestelmäsovellukset (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Näytä järjestelmäsovellukset</string>
     <string name="excludeAlreadyExcluded">On jo rajoitettu</string>
-    <string name="removeExcludedIpDialogDescription">Poistetaanko IP-osoite listalta?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Poistetaanko IP-osoite listalta?</string>
     <string name="tileConnected">Yhdistetty: %1$s</string>
     <string name="openUrlError">Osoitetta %1$s ei voitu avata, koska laitteella ei havaittu verkkoselainta.</string>
     <string name="loaderErrorTimeout">Yhteys aikakatkaistiin. Yritä uudelleen.</string>

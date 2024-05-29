@@ -95,9 +95,14 @@ abstract class SaveableSettingsActivity<VM : SaveableSettingsViewModel> : BaseAc
         private const val HAS_SAVED_CHANGES_KEY = "hasSavedChanges"
 
         fun createContract(clazz: KClass<out SaveableSettingsActivity<*>>) =
-            object : ActivityResultContract<Unit, Boolean?>() {
-                override fun createIntent(context: Context, input: Unit): Intent =
-                    Intent(context, clazz.java)
+            createContract<Unit>(clazz) { /* nothing */ }
+
+        fun <Input: Any> createContract(
+            clazz: KClass<out SaveableSettingsActivity<*>>,
+            inputHandler: Intent.(Input) -> Unit
+        ) = object : ActivityResultContract<Input, Boolean?>() {
+                override fun createIntent(context: Context, input: Input): Intent =
+                    Intent(context, clazz.java).apply { inputHandler(input) }
 
                 override fun parseResult(resultCode: Int, intent: Intent?): Boolean? =
                     if (resultCode == Activity.RESULT_OK) {

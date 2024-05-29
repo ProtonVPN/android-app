@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">Aplicații excluse</string>
     <string name="settingsExcludedAppsEmpty">Adăugare aplicații pentru excluderea de la traficul prin VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicații excluse (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">Aplicații normale permise (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">Aplicații de sistem permise (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Aplicații normale permise (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Aplicații de sistem permise (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Afișare aplicații de sistem</string>
     <string name="excludeAlreadyExcluded">Deja exclus</string>
-    <string name="removeExcludedIpDialogDescription">Eliminați adresa IP din listă?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Eliminați adresa IP din listă?</string>
     <string name="tileConnected">Conectat: %1$s</string>
     <string name="openUrlError">%1$s nu a putut fi deschisă. Navigatorul web nu a fost detectat pe dispozitiv.</string>
     <string name="loaderErrorTimeout">Conexiunea a expirat. Mai reîncercați.</string>

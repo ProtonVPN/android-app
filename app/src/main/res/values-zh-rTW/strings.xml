@@ -129,11 +129,11 @@
     <string name="settingsExcludedApps">排除的應用程式</string>
     <string name="settingsExcludedAppsEmpty">加入您要從 VPN 流量排除的應用程式。</string>
     <string name="settingsExcludedAppsSelectedHeader">排除的應用程式 (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableRegularHeader">已允許的一般應用程式 (%1$d)</string>
-    <string name="settingsExcludedAppsAvailableSystemHeader">已允許的系統應用程式 (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">已允許的一般應用程式 (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">已允許的系統應用程式 (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">顯示系統應用程式</string>
     <string name="excludeAlreadyExcluded">已經被排除</string>
-    <string name="removeExcludedIpDialogDescription">要從清單中移除 IP 位址嗎？</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">要從清單中移除 IP 位址嗎？</string>
     <string name="tileConnected">已連線 %1$s</string>
     <string name="openUrlError">無法開啟 %1$s。裝置上未偵測到網頁瀏覽器。</string>
     <string name="loaderErrorTimeout">連線逾時，請重試。</string>
