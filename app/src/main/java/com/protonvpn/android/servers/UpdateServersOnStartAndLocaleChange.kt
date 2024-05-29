@@ -17,7 +17,7 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.search
+package com.protonvpn.android.servers
 
 import android.content.Context
 import android.content.Intent

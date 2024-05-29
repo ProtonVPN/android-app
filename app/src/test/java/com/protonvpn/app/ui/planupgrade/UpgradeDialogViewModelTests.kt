@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.domain.entity.UserId
@@ -45,6 +46,7 @@ import me.proton.core.plan.domain.entity.DynamicPlanInstance
 import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import me.proton.core.plan.domain.usecase.PerformGiapPurchase
 import me.proton.core.plan.presentation.entity.PlanCycle
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -106,6 +108,11 @@ class UpgradeDialogViewModelTests {
             userPlanManager = mockk(relaxed = true),
             waitForSubscription = mockk(relaxed = true)
         )
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test

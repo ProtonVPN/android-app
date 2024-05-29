@@ -48,7 +48,7 @@ import com.protonvpn.android.quicktile.QuickTileDataStoreUpdater;
 import com.protonvpn.android.redesign.recents.usecases.ConnectingUpdatesRecents;
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator;
 import com.protonvpn.android.redesign.upgrade.usecase.PurchasesEnabledUpdater;
-import com.protonvpn.android.search.UpdateServersOnStartAndLocaleChange;
+import com.protonvpn.android.servers.UpdateServersOnStartAndLocaleChange;
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry;
 import com.protonvpn.android.tv.IsTvCheck;
 import com.protonvpn.android.ui.onboarding.ReviewTracker;
