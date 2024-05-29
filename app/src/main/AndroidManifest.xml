@@ -196,9 +196,6 @@
             android:name=".ui.settings.SettingsExcludeIpsActivity"
             android:label="@string/settingsExcludedIPAddresses" />
         <activity
-            android:name=".ui.settings.SettingsMtuActivity"
-            android:label="@string/settingsMtuSizeTitle" />
-        <activity
             android:name=".ui.settings.SettingsAlwaysOnActivity"
             android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
         <activity

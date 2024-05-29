@@ -75,10 +75,6 @@
     <string name="settingsBypassLocalTitle">LAN connections</string>
     <string name="settingsDnsLeakProtectionTitle">DNS Leak Protection</string>
     <string name="settingsDnsLeakDescription">Prevent leaking DNS query details to third parties (always on)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU size</string>
-    <string name="settingsMtuDescription">In case the default value is unsuitable for a particular network, enter a value within 1280–1500 range. Change it only if you know what you are doing.</string>
-    <string name="settingsMtuRangeInvalid">MTU value must be in 1280–1500 range</string>
     <string name="settingsAllowNonStandardPortsTitle">Non-standard ports</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN for any special need by allowing traffic to non-standard ports through the VPN network. <a href="%1$s">Learn more</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
