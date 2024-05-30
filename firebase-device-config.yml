@@ -1,15 +1,15 @@
 mobileTest:
   timeout: 30m
   device:
-  - model: Pixel2.arm
-    version: 28
+  - model: MediumPhone.arm
+    version: 34
   - model: Nexus5X
     version: 24
 smokeTest:
   timeout: 30m
   device:
-  - model: a10
-    version: 29
+  - model: shiba
+    version: 34
 tvTest:
   timeout: 30m
   device:
