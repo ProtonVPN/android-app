@@ -439,12 +439,14 @@ private fun SettingsView(
 
                 Spacer(modifier = Modifier.size(8.dp))
             }
-            SettingRowWithIcon(
-                modifier = Modifier.padding(vertical = 8.dp),
-                icon = CoreR.drawable.ic_proton_arrow_in_to_rectangle,
-                title = stringResource(id = R.string.settings_sign_out),
-                onClick = onSignOutClick
-            )
+            if (viewState.showSignOut) {
+                SettingRowWithIcon(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    icon = CoreR.drawable.ic_proton_arrow_in_to_rectangle,
+                    title = stringResource(id = R.string.settings_sign_out),
+                    onClick = onSignOutClick
+                )
+            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
