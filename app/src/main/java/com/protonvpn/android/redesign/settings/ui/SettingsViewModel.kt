@@ -52,6 +52,7 @@ import kotlinx.coroutines.launch
 import me.proton.core.domain.entity.UserId
 import me.proton.core.presentation.savedstate.state
 import me.proton.core.user.domain.entity.UserRecovery
+import me.proton.core.user.domain.extension.isCredentialLess
 import me.proton.core.usersettings.domain.usecase.ObserveUserSettings
 import javax.inject.Inject
 import me.proton.core.accountmanager.presentation.R as AccountManagerR
@@ -74,7 +75,7 @@ private const val ReconnectDialogStateKey = "reconnect_dialog"
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val currentUser: CurrentUser,
+    currentUser: CurrentUser,
     accountUserSettings: ObserveUserSettings,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     effectiveUserSettings: EffectiveCurrentUserSettings,
@@ -184,12 +185,7 @@ class SettingsViewModel @Inject constructor(
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
         val buildInfo: String?,
-    )
-    data class UserViewState(
-        val isFreeUser: Boolean,
-        val shortenedName: String,
-        val displayName: String,
-        val email: String
+        val showSignOut: Boolean,
     )
 
     // The configuration doesn't change during runtime.
@@ -200,11 +196,14 @@ class SettingsViewModel @Inject constructor(
 
     val viewState =
         combine(
-            currentUser.vpnUserFlow,
+            currentUser.jointUserFlow,
             // Keep in mind UI for some settings can't rely directly on effective settings.
             effectiveUserSettings.effectiveSettings,
-        ) { vpnUser, settings ->
+        ) { user, settings ->
+            val accountUser = user?.first
+            val vpnUser = user?.second
             val isFree = vpnUser?.isFreeUser == true
+            val isCredentialLess = accountUser?.isCredentialLess() == true
             val netShieldSetting = when (val netShieldAvailability = vpnUser.getNetShieldAvailability()) {
                 NetShieldAvailability.HIDDEN -> null
                 else -> SettingViewState.NetShield(
@@ -225,7 +224,8 @@ class SettingsViewModel @Inject constructor(
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
                 lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
                 natType = SettingViewState.Nat(if (settings.randomizedNat) NatType.Strict else NatType.Moderate, isFree),
-                buildInfo = buildConfigText
+                buildInfo = buildConfigText,
+                showSignOut = !isCredentialLess
             )
         }
 
