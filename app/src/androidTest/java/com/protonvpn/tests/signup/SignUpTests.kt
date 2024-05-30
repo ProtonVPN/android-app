@@ -33,7 +33,6 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignUpExternalTests
 import me.proton.core.auth.test.robot.AddAccountRobot
 import me.proton.core.auth.test.robot.signup.CongratsRobot
-import me.proton.core.auth.test.robot.signup.RecoveryMethodRobot
 import me.proton.core.auth.test.robot.signup.SetPasswordRobot
 import me.proton.core.auth.test.robot.signup.SignUpRobot
 import me.proton.core.auth.test.rule.AcceptExternalRule
@@ -90,7 +89,7 @@ class SignupTests : MinimalSignUpExternalTests {
             .fillAndClickNext("123123123")
 
         SignupRobot().enterRecoveryEmail("${testUsername}@proton.ch")
-        humanVerificationRobot.verifyViaSms()
+        humanVerificationRobot.verifyViaEmail()
 
         CongratsRobot.takeIf { isCongratsDisplayed }?.apply {
             uiElementsDisplayed()

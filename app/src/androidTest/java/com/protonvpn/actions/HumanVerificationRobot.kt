@@ -44,7 +44,7 @@ class HumanVerificationRobot : BaseRobot() {
         return OnboardingRobot()
     }
 
-    fun verifyViaSms() : OnboardingRobot {
+    fun verifyViaEmail() : OnboardingRobot {
         uiDevice.wait(Until.findObject(By.clazz(WebView::class.java)), 30_000L)
         repeat(2) { uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB) }
         uiDevice.pressEnter()
