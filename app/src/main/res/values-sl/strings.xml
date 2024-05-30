@@ -203,9 +203,9 @@
     <string name="troubleshootNoInternetTitle">Ni spletne povezave</string>
     <string name="troubleshootIspProblemTitle">Težava s ponudnikom spletnih storitev (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Poskusite se povezati s Protonom iz drugega omrežja (ali uporabite <a href=\'%1$s\'>Tor</a>)]]></string>
-    <string name="troubleshootAntivirusProblemTitle">Antivirus interference</string>
+    <string name="troubleshootAntivirusProblemTitle">Protivirusne motnje</string>
     <string name="troubleshootAntivirusProblemDescription">Začasno onemogočite ali odstranite protivirusni program.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">Proxy/Firewall interference</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Motnje na povezavi posredniškega strežnika ali požarnega zidu</string>
     <string name="troubleshootProxyFirewallProblemDescription">Onemogočite posredniške strežnike ali požarne zidove oziroma se obrnite na skrbnika omrežja.</string>
     <string name="troubleshootProtonDownTitle">Proton ne deluje.</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Preverite <a href=\"%1$s\">Proton Status</a> za stanje našega sistema.]]></string>
@@ -561,8 +561,8 @@
     <string name="dynamic_report_your_issue_headline">Kaj je vaša težava?</string>
     <string name="update_screen_title">Posodobi Proton VPN</string>
     <string name="update_screen_description">Verjetneje boste imeli težave na starejših različicah Proton VPN.</string>
-    <string name="dialog_create_account_title">Create an account to continue</string>
-    <string name="dialog_create_account_action_create">Create account</string>
+    <string name="dialog_create_account_title">Za nadaljevanje ustvarite račun</string>
+    <string name="dialog_create_account_action_create">Ustvarite račun</string>
     <string name="dialog_create_account_action_signin">Prijava</string>
     <string name="server_search_menu_title">Išči</string>
     <string name="server_search_hint">Država, mesto, strežnik</string>
@@ -819,6 +819,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">vsak z vsakim (P2P)</string>
     <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Najhitrejša država</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1127,6 +1128,7 @@
     <string name="vpn_status_disabled_location">%1$s – %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Podrobnosti povezave</string>
+    <string name="connection_details_features_title">Funkcije</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Prikaži IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1191,6 +1193,42 @@
     <string name="info_dialog_tor_description">Povežite se s strežnikom Tor za dostop do skritih storitev in Tor spletnih mest s katerim koli brskalnikom.</string>
     <string name="info_dialog_button_learn_more_tor">Kako dostopati do omrežja Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Kako uporabljati torrente s P2P</string>
+    <string name="info_dialog_button_learn_more_streaming">Potrebujete pomoč glede pretakanja?</string>
+    <string name="info_dialog_streaming_title">Pretakanje</string>
+    <string name="info_dialog_streaming_description">Pretočni strežniki so zasnovani za hitro in varno predvajanje televizije in filmov.</string>
+    <string name="info_dialog_how_to_stream">Kako pretakati:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Pojdite v nastavitve telefona in izklopite lokacijske storitve.</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Ponovno zaženite storitve pretočnega predvajanja</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Povežite se s katerim koli strežnikom Plus in začnite pretakati</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">V tem strežniku je omogočena izmenjava datotek peer-to-peer (P2P).</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">S spletnimi mesti .onion se lahko povežete z običajnim brskalnikom.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Vaše dejavnosti so šifrirane za 2 visokozavarovanima strežnikoma VPN.</string>
+    <string name="connection_feature_streaming_title">Pretakanje</string>
+    <string name="connection_feature_streaming_description">Ta strežnik je optimiziran za predvajanje televizije in filmov.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case.
+    -->
+    <string name="connection_feature_smart_routing_description">Povezuje vas z vašo ciljno državo prek strežnikov, ki so fizično nameščeni drugje.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+    -->
+    <string name="country_smart_routing_info">Smart Routing</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Podrobnosti</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1207,7 +1245,7 @@
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
-    <string name="speed_graph_title">Speed %1$s</string>
+    <string name="speed_graph_title">Hitrost %1$s</string>
     <string name="bytes_per_second">B/s</string>
     <string name="kilobytes_per_second">KB/s</string>
     <string name="megabytes_per_second">MB/s</string>
@@ -1346,19 +1384,12 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="p2p_upsell_banner_description">​Prenesite datoteke prek BitTorrenta in drugih protokolov za skupno rabo datotek</string>
     <string name="tor_upsell_banner_description">Za dodatno zasebnost uporabite omrežje Tor prek povezave VPN</string>
     <string name="vpnplus_upsell_banner_description">Nadgradite na VPN Plus</string>
-    <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
-    <string name="search_zero_screen_info_cities_title">Cities</string>
-    <string name="search_zero_screen_info_servers_title">Servers</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
-    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
+    <string name="search_zero_screen_title">Poskusite najti ...</string>
+    <string name="search_zero_screen_info_countries_title">Države</string>
+    <string name="search_zero_screen_info_cities_title">Mesta</string>
+    <string name="search_zero_screen_info_servers_title">Strežniki</string>
+    <string name="search_zero_screen_info_countries_examples">Švica, ZDA, Italija, Kanada, ...</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney, …</string>
+    <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14, …</string>
     <string name="error_fetching_prices">Napaka pri pridobivanju cen.</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
-        Smart Routing
-    -->
-    <string name="country_smart_routing_info">Smart Routing</string>
 </resources>

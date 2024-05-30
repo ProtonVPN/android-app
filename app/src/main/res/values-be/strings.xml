@@ -817,6 +817,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">аднарангавы</string>
     <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Найхутчэйшыя краіны</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1125,6 +1126,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Падрабязнасці падключэння</string>
+    <string name="connection_details_features_title">Функцыі</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Паказаць IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1189,6 +1191,42 @@
     <string name="info_dialog_tor_description">Падключайцеся да сервера Tor, каб атрымаць доступ да схаваных сэрвісаў і сайтаў onion праз любы браўзер.</string>
     <string name="info_dialog_button_learn_more_tor">Як атрымаць доступ да сеткі Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Як карыстацца торэнтамі з дапамогай P2P</string>
+    <string name="info_dialog_button_learn_more_streaming">Патрэбная дапамогай з трансляцыяй?</string>
+    <string name="info_dialog_streaming_title">Трансляцыя</string>
+    <string name="info_dialog_streaming_description">Серверы трансляцый распрацаваны для хуткага і бяспечнага ўзнаўлення тэлебачання і фільмаў.</string>
+    <string name="info_dialog_how_to_stream">Як глядзець трансляцыі:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Перайдзіце ў налады сваёй прылады і выключыце сэрвіс вызначэння месцазнаходжання</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Перазапусціце сэрвіс трансляцыі</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Падключыцеся да любога сервера Plus і пачніце трансляцыю</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">Аднарангавае абагульванне файла ўключана на гэтым серверы.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">Вы можаце падключацца да сайтаў onion з вашым звычайным браўзерам.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Ваша актыўнасць зашыфравана двума высокаабароненымі серверамі VPN</string>
+    <string name="connection_feature_streaming_title">Трансляцыя</string>
+    <string name="connection_feature_streaming_description">Гэты сервер аптымізаваны для тэлебачання і ўзнаўлення фільмаў.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case.
+    -->
+    <string name="connection_feature_smart_routing_description">Падключае вас да вашай краіны прызначэння праз серверы, якія фізічна знаходзяцца дзе-небудзь у іншым месцы.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+    -->
+    <string name="country_smart_routing_info">Фізічна серверы размяшчаюцца ў краіне %1$s, але будзе выглядаць быццам вы праглядаеце сайты з краіны %2$s</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Звесткі</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1351,11 +1389,4 @@
     <string name="search_zero_screen_info_cities_examples">Нью-Ёрк, Лондан, Токіа, Сіднэй...</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Памылка атрымання цэн.</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
-        Smart Routing
-    -->
-    <string name="country_smart_routing_info">Фізічна серверы размяшчаюцца ў краіне %1$s, але будзе выглядаць быццам вы праглядаеце сайты з краіны %2$s</string>
 </resources>

@@ -763,6 +763,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">피어 투 피어</string>
     <string name="server_feature_content_description_tor">Tor</string>
+    <string name="server_feature_content_description_smart_routing">스마트 라우팅</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">가장 빠른 국가</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1068,6 +1069,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">연결 세부사항</string>
+    <string name="connection_details_features_title">Features</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">IP 보기</string>
     <!-- tag(Redesign_2023) -->
@@ -1132,6 +1134,42 @@
     <string name="info_dialog_tor_description">Tor 서버에 접속하면 히든 서비스와 어니언 사이트에 어느 브라우저를 사용해도 접근할 수 있습니다.</string>
     <string name="info_dialog_button_learn_more_tor">Tor 네트워크에 접속하는 방법</string>
     <string name="info_dialog_button_learn_more_p2p">P2P를 이용해 토렌트하는 방법</string>
+    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
+    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case.
+    -->
+    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+    -->
+    <string name="country_smart_routing_info">%1$s에 위치한 서버지만, %2$s에서 탐색하는 것으로 표시됩니다.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Info</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1261,11 +1299,4 @@
     <string name="search_zero_screen_info_cities_examples">뉴욕, 런던, 도쿄, 시드니…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">가격을 불러오던 중 오류가 발생했습니다.</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
-        Smart Routing
-    -->
-    <string name="country_smart_routing_info">%1$s에 위치한 서버지만, %2$s에서 탐색하는 것으로 표시됩니다.</string>
 </resources>

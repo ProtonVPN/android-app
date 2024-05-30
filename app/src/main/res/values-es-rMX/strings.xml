@@ -647,7 +647,7 @@
     <string name="whats_new_title">Novedades</string>
     <string name="whats_new_new_look_title">Apariencia nueva, misma protección</string>
     <string name="whats_new_new_look_description">Hemos actualizado nuestros diseños y movimos algunas cosas para que la aplicación sea fácil de usar.</string>
-    <string name="whats_new_recents_title">Presentamos la función Recientes</string>
+    <string name="whats_new_recents_title">Conexiones recientes</string>
     <string name="whats_new_recents_description">Ahora es mucho más fácil restablecer la conexión a sus servidores favoritos. Vea las más conexiones recientes en la pantalla de inicio o fíjelas para un acceso más rápido. Recientes es la funcionalidad que reemplaza los Perfiles.</string>
     <string name="whats_new_dismiss_button">Eche un vistazo</string>
     <string name="whats_new_added_countries_title">Nuevos países gratuitos</string>
@@ -781,6 +781,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
     <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">País más rápido</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1087,6 +1088,7 @@
     <string name="vpn_status_disabled_location">%1$s • %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Detalles de la conexión</string>
+    <string name="connection_details_features_title">Funciones</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Mostrar IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1151,6 +1153,42 @@
     <string name="info_dialog_tor_description">Conéctese a un servidor Tor para acceder a servicios ocultos y sitios onion usando cualquier navegador.</string>
     <string name="info_dialog_button_learn_more_tor">Cómo acceder a la red Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Cómo hacer torrent con P2P</string>
+    <string name="info_dialog_button_learn_more_streaming">¿Necesita ayuda con la transmisión?</string>
+    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_description">Los servidores de streaming están diseñados para una reproducción rápida y segura de películas y TV.</string>
+    <string name="info_dialog_how_to_stream">Cómo transmitir:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Vaya a los ajustes de su teléfono y desactive los servicios de ubicación</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Reinicie su servicio de streaming</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Conéctese a cualquier servidor Plus e inicie la transmisión</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">El intercambio de archivos P2P está activado en este servidor.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">Puede contectarse a sitios .onion con su navegador habitual.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Su actividad está cifrada con dos servidores VPN de alta seguridad.</string>
+    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_description">Este servidor está optimizado para reproducir películas y TV.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case.
+    -->
+    <string name="connection_feature_smart_routing_description">Le conecta a su país destino a través de servidores que están ubicados físicamente en algún lugar.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+    -->
+    <string name="country_smart_routing_info">Los servidores están físicamente ubicados en %1$s pero aparecerá que navega desde %2$s.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Info.</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1291,11 +1329,4 @@
     <string name="search_zero_screen_info_cities_examples">Nueva York, Londres, Tokio, Sídney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14</string>
     <string name="error_fetching_prices">Error al obtener los precios</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
-        Smart Routing
-    -->
-    <string name="country_smart_routing_info">Los servidores están físicamente ubicados en %1$s pero aparecerá que navega desde %2$s.</string>
 </resources>

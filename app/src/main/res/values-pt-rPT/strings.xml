@@ -380,8 +380,8 @@
     </plurals>
     <string name="upsell_upgrade_again">Atualize novamente para aproveitar todas as funcionalidades:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Proteja %1$d dispositivo de uma só vez.</item>
+        <item quantity="other">Proteja %1$d dispositivos de uma só vez.</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
     <string name="upgrade_plus_title">Melhorar a sua privacidade</string>
@@ -449,8 +449,8 @@
     <string name="upsell_card_customization_title">E muito mais…</string>
     <string name="upsell_card_customization_description">Unlock even more performance and privacy features</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Protect %1$d device</item>
-        <item quantity="other">Protect %1$d devices</item>
+        <item quantity="one">Proteção até %1$d dispositivo</item>
+        <item quantity="other">Proteção até %1$d dispositivos</item>
     </plurals>
     <string name="upsell_card_devices_description">Security and privacy on all your devices</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -655,7 +655,7 @@
     <string name="welcome_plus_title">Bem-vindo à VPN Plus</string>
     <string name="welcome_plus_description">Aproveite funcionalidades de privacidade extra, desempenho de alta qualidade, e uma personalização da VPN de outro nível.</string>
     <string name="welcome_plus_feature_security">Funcionalidades de segurança avançadas</string>
-    <string name="welcome_unlimited_title">Welcome to Proton Unlimited</string>
+    <string name="welcome_unlimited_title">Boas-vindas ao Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Congratulations! You unlocked premium security and performance features on all Proton services, plus <b>%1$d&#160;GB</b> total storage.<br><br>Enjoy the best of Proton privacy.]]></string>
     <string name="welcome_generic_title">Parabéns</string>
     <string name="welcome_generic_description">You\'ve upgraded your subscription. Enjoy advanced privacy features and next-level performance.</string>
@@ -781,6 +781,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
     <string name="server_feature_content_description_tor">Tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">País mais rápido</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -851,7 +852,7 @@
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Auto-selected from [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">Seleção automática de [flags]</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -1087,6 +1088,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Detalhes da ligação</string>
+    <string name="connection_details_features_title">Features</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Mostrar IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1151,6 +1153,42 @@
     <string name="info_dialog_tor_description">Connect to a Tor server to access hidden services and onion sites using any browser.</string>
     <string name="info_dialog_button_learn_more_tor">How to access the Tor network</string>
     <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
+    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
+    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case.
+    -->
+    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+    -->
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Info</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1291,11 +1329,4 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Erro ao obter os preços</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
-        Smart Routing
-    -->
-    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
 </resources>
