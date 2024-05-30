@@ -781,6 +781,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
     <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Snabbaste land</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1087,6 +1088,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Anslutningsdetaljer</string>
+    <string name="connection_details_features_title">Funktioner</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Visa IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1151,6 +1153,42 @@
     <string name="info_dialog_tor_description">Anslut till en Tor-server för att komma åt dolda tjänster och onion-webbplatser med vilken webbläsare som helst.</string>
     <string name="info_dialog_button_learn_more_tor">Hur man kommer åt Tor-nätverket</string>
     <string name="info_dialog_button_learn_more_p2p">Hur man laddar ner torrent med P2P</string>
+    <string name="info_dialog_button_learn_more_streaming">Behöver du hjälp med streaming?</string>
+    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_description">Streamingservrar är designade för snabb och säker TV- och filmuppspelning.</string>
+    <string name="info_dialog_how_to_stream">Hur man streamar:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Gå till dina telefoninställningar och stäng av platstjänster</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Starta om din streamingtjänst</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Anslut till valfri Plus-server och börja streama</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">Peer-to-peer fildelning är aktiverad på denna server.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">Du kan ansluta till .onion-webbplatser med din vanliga webbläsare.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Din aktivitet är krypterad bakom 2 högsäkerhets-VPN-servrar.</string>
+    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_description">Denna server är optimerad för TV- och filmuppspelning.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case.
+    -->
+    <string name="connection_feature_smart_routing_description">Ansluter dig till ditt destinationsland via servrar som är fysiskt placerade någon annanstans.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+    -->
+    <string name="country_smart_routing_info">Servrarna är fysiskt placerade i %1$s, men du ser ut att surfa från %2$s.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Info</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1291,11 +1329,4 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Fel vid hämtning av priser.</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
-        Smart Routing
-    -->
-    <string name="country_smart_routing_info">Servrarna är fysiskt placerade i %1$s, men du ser ut att surfa från %2$s.</string>
 </resources>

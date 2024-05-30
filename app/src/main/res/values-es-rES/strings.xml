@@ -582,7 +582,7 @@
     <string name="free_connections_info_server_locations">Ubicaciones de servidores gratuitos (%1$d)</string>
     <string name="free_connections_info_banner_text">Disfruta de una cobertura global con VPN Plus</string>
     <string name="free_connection_info_title">Conexiones gratuitas</string>
-    <string name="search_upsell_banner_title">Transmite desde cualquier lugar</string>
+    <string name="search_upsell_banner_title">Stream from anywhere</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Desbloquea contenido geobloqueado desde %1$d país con VPN Plus</item>
@@ -647,7 +647,7 @@
     <string name="whats_new_title">Novedades</string>
     <string name="whats_new_new_look_title">Nuevo aspecto, misma protección</string>
     <string name="whats_new_new_look_description">Hemos actualizado nuestros diseños y movimos algunas cosas para que la aplicación sea fácil de usar.</string>
-    <string name="whats_new_recents_title">Presentamos la función Recientes</string>
+    <string name="whats_new_recents_title">Aquí tienes las conexiones recientes</string>
     <string name="whats_new_recents_description">Ahora es mucho más fácil restablecer la conexión a tus servidores favoritos. Ve las conexiones más recientes en la pantalla de inicio o fíjalas para un acceso más rápido. Recientes es la funcionalidad que reemplaza los Perfiles.</string>
     <string name="whats_new_dismiss_button">Echa un vistazo</string>
     <string name="whats_new_added_countries_title">Nuevos países gratuitos</string>
@@ -781,6 +781,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
     <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">País más rápido</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1087,6 +1088,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Detalles de conexión</string>
+    <string name="connection_details_features_title">Funciones</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Mostrar IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1151,6 +1153,42 @@
     <string name="info_dialog_tor_description">Conéctate a un servidor Tor para acceder a servicios ocultos y sitios onion usando cualquier navegador.</string>
     <string name="info_dialog_button_learn_more_tor">Cómo acceder a la red Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Cómo hacer torrent con P2P</string>
+    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
+    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case.
+    -->
+    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+    -->
+    <string name="country_smart_routing_info">Los servidores están físicamente ubicados en %1$s pero aparecerá que navegas desde %2$s.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Información</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1291,11 +1329,4 @@
     <string name="search_zero_screen_info_cities_examples">Nueva York, Londres, Tokio, Sídney...</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Error al obtener los precios</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
-        Smart Routing
-    -->
-    <string name="country_smart_routing_info">Los servidores están físicamente ubicados en %1$s pero aparecerá que navegas desde %2$s.</string>
 </resources>

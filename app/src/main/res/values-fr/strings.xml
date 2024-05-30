@@ -647,7 +647,7 @@
     <string name="whats_new_title">Nouveautés</string>
     <string name="whats_new_new_look_title">Nouveau look, même protection</string>
     <string name="whats_new_new_look_description">Nous avons mis à jour notre design et nous avons déplacé certains éléments pour que l\'application soit plus facile à utiliser.</string>
-    <string name="whats_new_recents_title">Voici les Connexions récentes</string>
+    <string name="whats_new_recents_title">Connections récentes</string>
     <string name="whats_new_recents_description">Vous pouvez désormais vous reconnecter plus facilement à vos serveurs préférés. Affichez vos connexions les plus récentes depuis l\'écran d\'accueil ou épinglez-les pour y accéder rapidement. « Connexions récentes » remplace « Profils ».</string>
     <string name="whats_new_dismiss_button">Jetez un coup d\'œil</string>
     <string name="whats_new_added_countries_title">Nouveaux pays dans l\'abonnement Free</string>
@@ -781,6 +781,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">P2P</string>
     <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Pays le plus rapide</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
@@ -1087,6 +1088,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Informations de connexion</string>
+    <string name="connection_details_features_title">Fonctionnalités</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Afficher l\'IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1151,6 +1153,42 @@
     <string name="info_dialog_tor_description">Connectez-vous à un serveur Tor pour accéder aux sites onion et services cachés depuis le navigateur de votre choix.</string>
     <string name="info_dialog_button_learn_more_tor">Comment accéder au réseau Tor ?</string>
     <string name="info_dialog_button_learn_more_p2p">Comment faire du torrent en P2P ?</string>
+    <string name="info_dialog_button_learn_more_streaming">Avez-vous besoin d\'aide pour le streaming ?</string>
+    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_description">Les serveurs de streaming sont conçus pour diffuser des films et des programmes de télévision rapidement et en toute sécurité.</string>
+    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <!-- item 1 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_1">Ouvrez les paramètres de votre téléphone et désactivez le service de localisation.</string>
+    <!-- item 2 in the numbered list -->
+    <string name="info_dialog_how_to_stream_step_2">Redémarrez votre service de streaming.</string>
+    <!-- item 3 in the numbered list (last item) -->
+    <string name="info_dialog_how_to_stream_step_3">Connectez-vous à un serveur Plus quelconque et commencez à streamer.</string>
+    <string name="connection_feature_p2p_title">P2P</string>
+    <string name="connection_feature_p2p_description">Le partage en peer-to-peer (P2P) est activé sur ce serveur.</string>
+    <string name="connection_feature_tor_title">Tor</string>
+    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_secure_core_title">Secure Core</string>
+    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Country names are inserted in the nominative case.
+    -->
+    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <!--
+        %1$s - physical server location country
+        %2$s - destination country
+        Warning: country names are inserted in the nominative case.
+        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+    -->
+    <string name="country_smart_routing_info">Le pays dans lequel les serveurs sont physiquement situés est %1$s, mais le pays à partir duquel vous semblerez naviguer est %2$s.</string>
+    <!--
+        Displayed next to an icon which provides more information if clicked
+    -->
+    <string name="connection_details_info_label">Informations</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1257,7 +1295,7 @@
     <string name="settings_advanced_nat_type_strict">Strict (type 3)</string>
     <string name="settings_advanced_nat_type_moderate">Modéré (type 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Restreint les données entrant dans votre réseau. Cette option est plus sûre, mais peut compliquer les connexions de jeux vidéo en pair à pair.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Certaines restrictions sur les données entrant dans votre réseau. Cette option est idéale pour les jeux vidéo en ligne.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Certaines restrictions sur les données entrant dans votre réseau. Cette option est préférable pour les jeux vidéo en ligne.</string>
     <string name="settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications et adresses IP sont protégées par le VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocole VPN détermine la manière dont les données circulent entre un serveur VPN et votre appareil. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Applications exclues</string>
@@ -1291,11 +1329,4 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londres, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Une erreur s\'est produite lors de la récupération des tarifs.</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case. Therefore, when translating into inflected languages simply use:
-        Smart Routing
-    -->
-    <string name="country_smart_routing_info">Le pays dans lequel les serveurs sont physiquement situés est %1$s, mais le pays à partir duquel vous semblerez naviguer est %2$s.</string>
 </resources>
