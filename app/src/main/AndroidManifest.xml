@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SYSTEM_EXEMPTED" />
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -123,6 +124,7 @@
         <service
             android:name=".vpn.wireguard.WireguardWrapperService"
             android:exported="false"
+            android:foregroundServiceType="systemExempted"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
                 <action android:name="android.net.VpnService" />
@@ -131,6 +133,7 @@
         <service
             android:name=".vpn.openvpn.OpenVPNWrapperService"
             android:exported="false"
+            android:foregroundServiceType="systemExempted"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
                 <action android:name="android.net.VpnService" />
@@ -139,6 +142,7 @@
         <service
             android:name="com.wireguard.android.backend.GoBackend$VpnService"
             android:exported="false"
+            android:foregroundServiceType="systemExempted"
             tools:node="merge" />
         <service
             android:name=".components.QuickTileService"
