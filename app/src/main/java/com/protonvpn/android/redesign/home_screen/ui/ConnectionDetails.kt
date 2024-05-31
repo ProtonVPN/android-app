@@ -305,9 +305,7 @@ private fun ServerFeatures(
         }
         if (features.smartRouting != null) {
             val smartRouting = features.smartRouting
-            val description = stringResource(
-                R.string.connection_feature_smart_routing_description, smartRouting.entryCountry.label(), smartRouting.exitCountry.label()
-            )
+            val description = stringResource(R.string.connection_feature_smart_routing_description)
 
             FeatureComposable(
                 title = stringResource(id = R.string.connection_feature_smart_routing_title),
