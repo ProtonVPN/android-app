@@ -19,16 +19,23 @@
  *
  */
 
-package com.protonvpn.android.release_tests.data
+package com.protonvpn.android.release_tests.robots
 
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
+import me.proton.test.fusion.Fusion.byObject
 
-object TestConstants {
-    const val TEST_PACKAGE = "ch.protonvpn.android.dev"
-    val TWENTY_SECOND_TIMEOUT = 20000.milliseconds
-    val ONE_MINUTE_TIMEOUT = 60000.milliseconds
+object CountriesRobot {
+    fun clickOnSearchIcon(): CountriesRobot {
+        byObject.withContentDesc("search").click()
+        return this
+    }
 
-    val FIVE_SECONDS_TIMEOUT_MS = 5.seconds.inWholeMilliseconds
-    val TWENTY_SECOND_TIMEOUT_MS = TWENTY_SECOND_TIMEOUT.inWholeMilliseconds
+    fun searchFor(query: String): CountriesRobot {
+        byObject.withResName("searchInput").typeText(query)
+        return this
+    }
+
+    fun connectTo(server: String): CountriesRobot {
+        byObject.withResName("searchResult").withText(server).click()
+        return this
+    }
 }
