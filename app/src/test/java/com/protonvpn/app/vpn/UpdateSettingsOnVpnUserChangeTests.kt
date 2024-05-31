@@ -48,7 +48,6 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -137,14 +136,12 @@ class UpdateSettingsOnVpnUserChangeTests {
             settings.copy(
                 netShield = NetShieldProtocol.ENABLED_EXTENDED,
                 randomizedNat = false,
-                secureCore = true
             )
         }
 
         vpnUserFlow.value = plusUser.copy(maxTier = 0)
 
         val updatedSettings = userSettingsManager.rawCurrentUserSettingsFlow.first()
-        assertFalse(updatedSettings.secureCore)
         assertTrue(updatedSettings.randomizedNat)
         assertEquals(NetShieldProtocol.ENABLED_EXTENDED, updatedSettings.netShield)
     }
@@ -195,7 +192,6 @@ class UpdateSettingsOnVpnUserChangeTests {
                 defaultProfileId = defaultProfile.id,
                 netShield = NetShieldProtocol.ENABLED_EXTENDED,
                 randomizedNat = false,
-                secureCore = true
             )
         }
         every { mockDefaultServer.tier } returns 1

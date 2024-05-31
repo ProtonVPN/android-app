@@ -87,7 +87,6 @@ class ServerManager @Inject constructor(
     @Transient private var guestHoleServers: List<Server>? = null
     @Transient private val isLoaded = MutableStateFlow(false)
 
-    private val secureCoreCached get() = currentUserSettingsCached.value.secureCore
     private val protocolCached get() = currentUserSettingsCached.value.protocol
 
     private var streamingServices: StreamingServicesResponse? = null
@@ -317,7 +316,7 @@ class ServerManager @Inject constructor(
         getBestScoreServer(serverList, currentUser.vpnUserCached())
 
     fun getRandomServer(vpnUser: VpnUser?): Server? {
-        val allCountries = getExitCountries(secureCoreCached)
+        val allCountries = getExitCountries(secureCore = false)
         val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
         return accessibleCountries.ifEmpty { allCountries }.randomNullable()?.let { getRandomServer(it, vpnUser) }
     }
@@ -332,16 +331,12 @@ class ServerManager @Inject constructor(
         grouped.secureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
     @Deprecated("Use getServerForConnectIntent")
-    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? =
-        getServerForProfile(profile, vpnUser, secureCoreCached)
-
-    @Deprecated("Use getServerForConnectIntent")
-    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?, secureCoreEnabled: Boolean): Server? {
+    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
         val wrapper = profile.wrapper
-        val needsSecureCore = profile.isSecureCore ?: secureCoreEnabled
+        val needsSecureCore = profile.isSecureCore ?: false
         return when (wrapper.type) {
             ProfileType.FASTEST ->
-                getBestScoreServer(secureCoreEnabled, emptySet(), vpnUser)
+                getBestScoreServer(needsSecureCore, emptySet(), vpnUser)
             ProfileType.RANDOM ->
                 getRandomServer(vpnUser)
             ProfileType.RANDOM_IN_COUNTRY ->
