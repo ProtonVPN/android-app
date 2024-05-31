@@ -648,6 +648,7 @@ private class TimeAxisValueOverrider : AxisValueOverrider {
 private fun determineScaleAndLabel(speeds: List<Long>): Pair<String, Double> {
     val maxSpeedInBytes = speeds.maxOrNull() ?: 0L
     return when {
+        maxSpeedInBytes >= 1_000_000_000_000 -> stringResource(id = R.string.terabytes_per_second) to 1_000_000_000_000.0
         maxSpeedInBytes >= 1_000_000_000 -> stringResource(id = R.string.gigabytes_per_second) to 1_000_000_000.0
         maxSpeedInBytes >= 1_000_000 -> stringResource(id = R.string.megabytes_per_second) to 1_000_000.0
         maxSpeedInBytes >= 1_000 -> stringResource(id = R.string.kilobytes_per_second) to 1_000.0
