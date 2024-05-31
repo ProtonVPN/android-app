@@ -403,9 +403,9 @@ android {
         ]
     }
     lint {
-        // In our process we might temporairly have extra translations that will get removed on
+        // In our process we might temporarily have extra translations that will get removed on
         // next update.
-        disable 'ExtraTranslation'
+        disable 'ExtraTranslation', 'MissingDefaultResource'
     }
 }
 
