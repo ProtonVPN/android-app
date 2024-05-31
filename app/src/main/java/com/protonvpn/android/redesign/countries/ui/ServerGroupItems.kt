@@ -42,10 +42,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CustomAccessibilityAction
@@ -53,6 +55,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -88,6 +91,7 @@ import me.proton.core.presentation.R as CoreR
  * - optional "open" button at the end. Its click area covers the entire area at the end of the row to prevent
  *   misclicks, however its ripple is smaller to preserve visual layout.
  */
+@OptIn()
 @Composable
 private fun ServerGroupItemRow(
     @StringRes rowClickLabel: Int,
@@ -150,6 +154,7 @@ private fun ServerGroupItemRow(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ServerGroupItem(
     item: ServerGroupUiItem.ServerGroup,
@@ -220,6 +225,7 @@ fun ServerGroupItem(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MatchedText(
     match: TextMatch,
@@ -241,6 +247,8 @@ fun MatchedText(
         style = style,
         color = color,
         modifier = modifier
+            .semantics { testTagsAsResourceId = true }
+            .testTag("searchResult")
     )
 }
 

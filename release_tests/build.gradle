@@ -49,10 +49,14 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
         def lokiEndpoint = System.getenv("LOKI_ENDPOINT")
+        def lokiPrivateKey = System.getenv("LOKI_PRIVATE_KEY_ANDROID")
+        def lokiCertificate = System.getenv("LOKI_CERTIFICATE_ANDROID")
         def commitSha = System.getenv("CI_COMMIT_SHORT_SHA")
         buildConfigField "String", "LOKI_ENDPOINT",  "\"${StringEscapeUtils.escapeJava(lokiEndpoint)}\""
+        buildConfigField "String", "LOKI_PRIVATE_KEY_ANDROID",  "\"${StringEscapeUtils.escapeJava(lokiPrivateKey)}\""
+        buildConfigField "String", "LOKI_CERTIFICATE_ANDROID",  "\"${StringEscapeUtils.escapeJava(lokiCertificate)}\""
+        buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
         buildConfigField "String", "CI_COMMIT_SHORT_SHA",  "\"${StringEscapeUtils.escapeJava(commitSha)}\""
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -81,4 +85,5 @@ dependencies {
     implementation "androidx.test.uiautomator:uiautomator:2.3.0"
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation "me.proton.test:fusion:0.9.62"
+    implementation "me.proton.core:test-performance:25.0.0"
 }

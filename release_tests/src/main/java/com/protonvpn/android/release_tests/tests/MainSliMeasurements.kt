@@ -21,43 +21,109 @@
 
 package com.protonvpn.android.release_tests.tests
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.protonvpn.android.release_tests.BuildConfig
-import com.protonvpn.android.release_tests.helpers.LokiClient
-import com.protonvpn.android.release_tests.helpers.TestMonitoringHelper
+import com.protonvpn.android.release_tests.data.LokiConfig
+import com.protonvpn.android.release_tests.data.TestConstants
+import com.protonvpn.android.release_tests.helpers.ProdApiClient
+import com.protonvpn.android.release_tests.robots.CountriesRobot
+import com.protonvpn.android.release_tests.robots.HomeRobot
 import com.protonvpn.android.release_tests.robots.LoginRobot
 import com.protonvpn.android.release_tests.rules.LaunchVpnAppRule
-import com.protonvpn.android.release_tests.rules.SliTestRule
+import me.proton.core.test.performance.MeasurementProfile
+import me.proton.core.test.performance.MeasurementRule
+import me.proton.core.test.performance.annotation.Measure
+import me.proton.core.test.performance.measurement.DurationMeasurement
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
-import java.util.UUID
 
+@RequiresApi(Build.VERSION_CODES.O)
 class MainSliMeasurements {
 
-    private lateinit var loginRobot: LoginRobot
+    private lateinit var profile: MeasurementProfile
+    private val measurementRule = MeasurementRule()
+    private val measurementContext = measurementRule.measurementContext(LokiConfig.measurementConfig)
 
     @get:Rule
     val rule: RuleChain = RuleChain
         .outerRule(LaunchVpnAppRule())
-        .around(SliTestRule())
+        .around(measurementRule)
 
     @Before
     fun setup() {
-        LokiClient.id = UUID.randomUUID().toString()
-        loginRobot = LoginRobot()
+        LoginRobot.navigateToSignIn()
+            .enterCredentials("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
+            .pressSignIn()
     }
 
     @Test
+    @Measure
     fun loginSli() {
-        LokiClient.sliGroup = "login"
+        profile = measurementContext
+            .setWorkflow("login_flow")
+            .setServiceLevelIndicator("login")
+            .addMeasurement(DurationMeasurement())
+            .setLogcatFilter(LokiConfig.logcatFilter)
 
-        loginRobot.navigateToSignIn()
-        loginRobot.enterCredentials("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
-        loginRobot.pressSignIn()
-        TestMonitoringHelper.measureTime {
-            loginRobot.waitUntilLoggedIn()
+        profile.measure {
+            LoginRobot.waitUntilLoggedIn()
         }
-        LokiClient.metrics["duration"] = "%.2f".format(TestMonitoringHelper.elapsedTimeSeconds)
+    }
+
+    @Test
+    @Measure
+    fun connectionSli(){
+        profile = measurementContext
+            .setWorkflow("connection_flow")
+            .setServiceLevelIndicator("quick_connect")
+            .addMeasurement(DurationMeasurement())
+            .setLogcatFilter(LokiConfig.logcatFilter)
+
+        LoginRobot.waitUntilLoggedIn()
+        HomeRobot.connect()
+
+        profile.measure {
+            HomeRobot.waitForNotificationPermissionRequest()
+        }
+        disconnectWithDelay()
+    }
+
+    @Test
+    @Measure
+    fun connectionToSpecificServer(){
+       profile = measurementContext
+            .setWorkflow("specific_server_connection_flow")
+            .setServiceLevelIndicator("specific_server_connect")
+            .setLogcatFilter(LokiConfig.logcatFilter)
+
+        val server: String = ProdApiClient().getRandomServer()
+
+        LoginRobot.waitUntilLoggedIn()
+        HomeRobot.navigateToCountries()
+        CountriesRobot.clickOnSearchIcon()
+            .searchFor(server)
+            .connectTo(server)
+        HomeRobot.allowVpnPermission()
+        profile.measure {
+            HomeRobot.waitForNotificationPermissionRequest()
+        }
+        disconnectWithDelay()
+    }
+
+    @After
+    fun tearDown(){
+        profile.pushLogcatLogs()
+        profile.clearLogcatLogs()
+    }
+
+    private fun disconnectWithDelay(){
+        HomeRobot.dismissNotificationRequest()
+            .disconnect()
+        //Delay to prevent issues when sending SLI results
+        Thread.sleep(TestConstants.FIVE_SECONDS_TIMEOUT_MS)
     }
 }

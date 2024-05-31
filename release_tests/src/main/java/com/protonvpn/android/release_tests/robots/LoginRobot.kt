@@ -26,7 +26,7 @@ import me.proton.test.fusion.Fusion.byObject
 import me.proton.test.fusion.Fusion.device
 import me.proton.test.fusion.ui.uiautomator.ByObject
 
-class LoginRobot {
+object LoginRobot {
     fun signIn(username: String, password: String) {
         navigateToSignIn()
         enterCredentials(username, password)
@@ -35,7 +35,7 @@ class LoginRobot {
     }
 
     fun navigateToSignIn(): LoginRobot {
-        byObject.withText("Sign in").click()
+        byObject.withTimeout(TestConstants.TWENTY_SECOND_TIMEOUT).withText("Sign in").click()
         return this
     }
 

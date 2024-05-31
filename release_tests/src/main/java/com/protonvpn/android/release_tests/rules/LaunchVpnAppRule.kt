@@ -39,6 +39,7 @@ open class LaunchVpnAppRule : TestWatcher() {
     override fun starting(description: Description?) {
         super.starting(description)
         disableAnimations()
+        device.wakeUp()
         launchVpnApp(device)
     }
 

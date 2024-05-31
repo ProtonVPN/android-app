@@ -21,14 +21,21 @@
 
 package com.protonvpn.android.release_tests.data
 
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
+import com.protonvpn.android.release_tests.BuildConfig
+import me.proton.core.test.performance.LogcatFilter
+import me.proton.core.test.performance.MeasurementConfig
+import java.util.UUID
 
-object TestConstants {
-    const val TEST_PACKAGE = "ch.protonvpn.android.dev"
-    val TWENTY_SECOND_TIMEOUT = 20000.milliseconds
-    val ONE_MINUTE_TIMEOUT = 60000.milliseconds
+object LokiConfig {
+    val logcatFilter = LogcatFilter()
+        .addTag("ProtonLogger")
+        .setLokiLogsId(UUID.randomUUID().toString())
+        .failTestOnEmptyLogs()
 
-    val FIVE_SECONDS_TIMEOUT_MS = 5.seconds.inWholeMilliseconds
-    val TWENTY_SECOND_TIMEOUT_MS = TWENTY_SECOND_TIMEOUT.inWholeMilliseconds
+    val measurementConfig = MeasurementConfig
+        .setEnvironment("api.protonvpn.ch")
+        .setLokiEndpoint(BuildConfig.LOKI_ENDPOINT)
+        .setLokiPrivateKey(BuildConfig.LOKI_PRIVATE_KEY_ANDROID)
+        .setLokiCertificate(BuildConfig.LOKI_CERTIFICATE_ANDROID)
+        .setBuildCommitShortSha(BuildConfig.CI_COMMIT_SHORT_SHA)
 }

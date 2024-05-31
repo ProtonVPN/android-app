@@ -24,25 +24,16 @@ package com.protonvpn.android.release_tests.tests
 import com.protonvpn.android.release_tests.BuildConfig
 import com.protonvpn.android.release_tests.robots.LoginRobot
 import com.protonvpn.android.release_tests.rules.LaunchVpnAppRule
-import com.protonvpn.android.release_tests.rules.SliTestRule
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 
 class SmokeTest {
-    private lateinit var loginRobot: LoginRobot
 
     @get:Rule
     val rule = LaunchVpnAppRule()
 
-    @Before
-    fun setup() {
-        loginRobot = LoginRobot()
-    }
-
     @Test
     fun testSignIn() {
-        loginRobot.signIn("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
+        LoginRobot.signIn("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
     }
 }
