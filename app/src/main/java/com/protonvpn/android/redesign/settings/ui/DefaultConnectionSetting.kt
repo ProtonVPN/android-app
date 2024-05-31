@@ -53,7 +53,7 @@ import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun DefaultConnectionSetting(onClose: () -> Unit) {
-    SubSetting(
+    SubSettingWithLazyContent(
         title = stringResource(id = R.string.settings_default_connection_title),
         onClose = onClose
     ) {
