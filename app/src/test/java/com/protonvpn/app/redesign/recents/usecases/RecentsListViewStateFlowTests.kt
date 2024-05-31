@@ -32,6 +32,7 @@ import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
+import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
@@ -159,13 +160,14 @@ class RecentsListViewStateFlowTests {
         runBlocking {
             serverManager.setServers(listOf(serverCh, serverIs, serverSe, serverSecureCore), null)
         }
+        val getIntentAvailability = GetIntentAvailability(serverManager2, supportsProtocol)
         val translator = Translator(testScope.backgroundScope, serverManager)
         viewStateFlow = RecentsListViewStateFlow(
             mockRecentsManager,
             GetConnectIntentViewState(serverManager2, translator),
             serverManager2,
-            supportsProtocol,
             effectiveUserSettings,
+            getIntentAvailability,
             vpnStatusProviderUI,
             mockChangeServerManager,
             currentUser

@@ -20,7 +20,9 @@ package com.protonvpn.android.redesign.recents.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
+import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -29,17 +31,21 @@ import javax.inject.Inject
 class GetQuickConnectIntent @Inject constructor(
     private val currentUser: CurrentUser,
     private val recentsManager: RecentsManager,
+    private val getIntentAvailability: GetIntentAvailability,
+    private val userSettings: EffectiveCurrentUserSettings,
 ) {
     suspend operator fun invoke(): ConnectIntent {
         val isPaidUser = currentUser.vpnUser()?.isFreeUser == false
         val quickIntent = when (val defaultConnection = recentsManager.getDefaultConnectionFlow().first()) {
             DefaultConnection.LastConnection ->
                 recentsManager.getMostRecentConnection().first()?.connectIntent?.takeIf { isPaidUser }
-            DefaultConnection.FastestConnection ->
-                ConnectIntent.Fastest
+            DefaultConnection.FastestConnection -> ConnectIntent.Fastest
             is DefaultConnection.Recent ->
                 recentsManager.getRecentById(defaultConnection.recentId)?.connectIntent
         }
-        return quickIntent ?: ConnectIntent.Default
+
+        return quickIntent?.takeIf {
+            getIntentAvailability(it, currentUser.vpnUser(), userSettings.protocol.first()) == RecentAvailability.ONLINE
+        } ?: ConnectIntent.Default
     }
 }

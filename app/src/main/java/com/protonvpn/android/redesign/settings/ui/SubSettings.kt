@@ -200,16 +200,16 @@ fun SubSettingsRoute(
 }
 
 private fun UserId.toInput() = SettingsInput(this.id)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SubSetting(
+private fun SubSettingBase(
+    modifier: Modifier = Modifier,
     title: String,
     onClose: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit,
+    content: @Composable () -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TopAppBar(
@@ -228,10 +228,46 @@ fun SubSetting(
                 }
             },
         )
+        content()
+    }
+}
+@Composable
+fun SubSetting(
+    modifier: Modifier = Modifier,
+    title: String,
+    onClose: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    SubSettingBase(
+        modifier = modifier,
+        title = title,
+        onClose = onClose,
+    ) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .largeScreenContentPadding(),
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+fun SubSettingWithLazyContent(
+    modifier: Modifier = Modifier,
+    title: String,
+    onClose: () -> Unit,
+    content: @Composable () -> Unit,
+) {
+    SubSettingBase(
+        modifier = modifier,
+        title = title,
+        onClose = onClose
+    ) {
+        Box(
+            modifier = Modifier
+                .largeScreenContentPadding()
         ) {
             content()
         }
