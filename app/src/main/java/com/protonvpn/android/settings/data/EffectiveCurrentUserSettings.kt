@@ -60,7 +60,6 @@ class EffectiveCurrentUserSettings(
     val defaultProfileId = distinct { it.defaultProfileId }
     val netShield = distinct { it.netShield }
     val protocol = distinct { it.protocol }
-    val secureCore = distinct { it.secureCore }
     val telemetry = distinct { it.telemetry }
     val vpnAccelerator = distinct { it.vpnAccelerator }
     val splitTunneling = distinct { it.splitTunneling }

@@ -36,10 +36,6 @@ class ServiceTestHelper {
     @JvmField var mockVpnBackend = helper.backend
     @JvmField var connectionManager = helper.vpnConnectionManager
 
-    val isSecureCoreEnabled get() = runBlocking {
-        helper.userSettingsManager.rawCurrentUserSettingsFlow.first().secureCore
-    }
-
     fun addProfile(protocol: VpnProtocol, name: String, serverDomain: String) = runBlocking(Dispatchers.Main){
         var server: Server? = null
         for (s in serverList) {
@@ -56,10 +52,6 @@ class ServiceTestHelper {
 
     fun checkIfConnectedToVPN() = runBlocking(Dispatchers.Main) {
         assertTrue("User was not connected to VPN", stateMonitor.isConnected)
-    }
-
-    suspend fun enableSecureCore(state: Boolean) {
-        helper.userSettingsManager.updateSecureCore(state)
     }
 
     fun checkIfDisconnectedFromVPN() = runBlocking(Dispatchers.Main) {

@@ -68,7 +68,7 @@ class ServerManager2 @Inject constructor(
 
     suspend fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
         serverManager.ensureLoaded()
-        return serverManager.getServerForProfile(profile, vpnUser, currentUserSettings.secureCore.first())
+        return serverManager.getServerForProfile(profile, vpnUser)
     }
 
     suspend fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? {

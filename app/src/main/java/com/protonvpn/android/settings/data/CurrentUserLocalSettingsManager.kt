@@ -73,9 +73,6 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun updateProtocol(newProtocol: ProtocolSelection) =
         update { current -> current.copy(protocol = newProtocol) }
 
-    suspend fun updateSecureCore(isEnabled: Boolean) =
-        update { current -> current.copy(secureCore = isEnabled) }
-
     suspend fun toggleSplitTunneling() =
         update { current ->
             current.copy(splitTunneling = current.splitTunneling.copy(isEnabled = !current.splitTunneling.isEnabled))

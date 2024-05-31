@@ -115,9 +115,9 @@ class MigrateProfiles @Inject constructor(
     }
 }
 
-// TODO: make it private and switch to using ServerManager2
+// TODO: switch to using ServerManager2
 @Deprecated("Don't use it outside the migration code")
-fun Profile.toConnectIntent(
+private fun Profile.toConnectIntent(
     serverManager: ServerManager,
     isGlobalSecureCoreEnabled: Boolean
 ): ConnectIntent? {

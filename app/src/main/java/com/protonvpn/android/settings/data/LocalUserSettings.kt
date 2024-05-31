@@ -49,7 +49,7 @@ data class LocalUserSettings(
     val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
     val protocol: ProtocolSelection = ProtocolSelection.SMART,
     val randomizedNat: Boolean = true,
-    val secureCore: Boolean = false,
+    @Deprecated("used only for migration") val secureCore: Boolean = false, // Value needed only for migrated profiles.
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
     val telemetry: Boolean = true,
     val vpnAccelerator: Boolean = true,
@@ -69,7 +69,6 @@ fun LocalUserSettings.toLogList(profileManager: ProfileManager): List<String> {
         "NetShield: $netShield",
         "Protocol: ${protocol.apiName}",
         "Restricted NAT: ${randomizedNat.toLog()}",
-        "Secure Core: ${secureCore.toLog()}",
         with(splitTunneling) {
             "Split tunneling: ${isEnabled.toLog()}," +
                 " excluded apps: ${excludedApps.itemCountToLog()}, excluded IPs: ${excludedIps.itemCountToLog()}"

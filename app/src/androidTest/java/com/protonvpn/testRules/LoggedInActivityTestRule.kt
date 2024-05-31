@@ -46,7 +46,6 @@ open class LoggedInActivityTestRule<T : Activity>(private val activityClass: Cla
     override fun finished(description: Description) {
         super.finished(description)
         runBlocking(Dispatchers.Main) {
-            service.enableSecureCore(false)
             service.connectionManager.disconnect(DisconnectTrigger.Test("test tear down"))
             service.deleteCreatedProfiles()
         }
