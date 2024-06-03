@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">區域網路連線</string>
     <string name="settingsDnsLeakProtectionTitle">DNS 洩漏預防</string>
     <string name="settingsDnsLeakDescription">防止 DNS 查詢詳情外洩給第三方 (總是開啟)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU 大小</string>
-    <string name="settingsMtuDescription">如果預設值未契合特定網路，請輸入介乎 1280–1500 之間的數值。只有在您清楚明白，才該作出變動。</string>
-    <string name="settingsMtuRangeInvalid">MTU 值必須在 1280–1500 範圍內</string>
     <string name="settingsAllowNonStandardPortsTitle">非標準的連接埠</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[使用 Proton VPN 可依任一特殊需求，在虛擬專屬網路允許流量使用非標準連接埠。 <a href="%1$s">了解更多</a>]]></string>
     <string name="settingsModerateNatTitle">中等 NAT</string>
@@ -1069,7 +1065,7 @@
     <string name="vpn_status_disabled_location">%1$s • %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">連結詳細資訊</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">功能</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">顯示 IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1134,14 +1130,14 @@
     <string name="info_dialog_tor_description">連線到 Tor 伺服器，使用任何瀏覽器訪問隱藏服務和隱蔽網站。</string>
     <string name="info_dialog_button_learn_more_tor">如何使用 Tor 網路</string>
     <string name="info_dialog_button_learn_more_p2p">如何使用 P2P 下載種子</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
-    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_button_learn_more_streaming">需要影音串流幫助?</string>
+    <string name="info_dialog_streaming_title">影音串流</string>
     <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
     <string name="info_dialog_how_to_stream">How to stream:</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">重新啟動啟動影音串流服務</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
     <string name="connection_feature_p2p_title">P2P</string>
@@ -1153,11 +1149,6 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
         %1$s - physical server location country
@@ -1169,7 +1160,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">資訊</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->

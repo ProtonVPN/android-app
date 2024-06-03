@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">LAN pripojenia</string>
     <string name="settingsDnsLeakProtectionTitle">Ochrana pred únikom DNS</string>
     <string name="settingsDnsLeakDescription">Zabrániť úniku o dotazoch DNS tretím stranám (vždy zapnuté)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Veľkosť MTU</string>
-    <string name="settingsMtuDescription">V prípade, že predvolená hodnota nie je vhodná pre konkrétnu sieť, zadajte hodnotu v rozsahu 1280–1500. Zmeňte to len vtedy, ak viete, čo robíte.</string>
-    <string name="settingsMtuRangeInvalid">Hodnota MTU musí byť v rozsahu 1280–1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Neštandardné porty</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Použite Proton VPN pre akúkoľvek špeciálnu potrebu povolením prevádzky na neštandardné porty cez sieť VPN. <a href="%1$s">Zistiť viac</a>]]></string>
     <string name="settingsModerateNatTitle">Moderate NAT</string>
@@ -1210,11 +1206,6 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
         %1$s - physical server location country

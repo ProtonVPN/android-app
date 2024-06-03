@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">LAN-з\'єднання</string>
     <string name="settingsDnsLeakProtectionTitle">Захист від витоку DNS</string>
     <string name="settingsDnsLeakDescription">Запобігання витоку даних DNS-запитів (завжди увімкнено)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Розмір MTU</string>
-    <string name="settingsMtuDescription">Якщо типове значення не підходить для певної мережі, введіть значення в діапазоні 1280-1500. Змінюйте його тільки якщо ви впевнені у своїх діях.</string>
-    <string name="settingsMtuRangeInvalid">Значення MTU має бути в діапазоні 1280–1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Нестандартні порти</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Використовуйте Proton VPN для будь-якої спеціальної потреби, дозволяючи трафік до нестандартних портів через мережу VPN. <a href="%1$s">Докладніше</a>]]></string>
     <string name="settingsModerateNatTitle">Помірне NAT</string>
@@ -1210,11 +1206,6 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
         %1$s - physical server location country
@@ -1222,7 +1213,7 @@
         Warning: country names are inserted in the nominative case.
         For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
     -->
-    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
+    <string name="country_smart_routing_info">Сервери фізично розташовані в %1$s, але вам буде здаватися, що ви переглядаєте сторінки з %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->

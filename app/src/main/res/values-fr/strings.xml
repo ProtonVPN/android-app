@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Connexions LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Protection contre les fuites DNS</string>
     <string name="settingsDnsLeakDescription">Empêche la fuite des détails de requête DNS vers des tiers (toujours actif).</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Taille du MTU</string>
-    <string name="settingsMtuDescription">Si la valeur par défaut n\'est pas adaptée à un réseau particulier, entrez une valeur comprise entre 1280 et 1500. Ne changez cette valeur que si vous savez bien de quoi il s\'agit.</string>
-    <string name="settingsMtuRangeInvalid">La valeur du MTU (unité de transmission maximale) doit être comprise entre 1280 et 1500.</string>
     <string name="settingsAllowNonStandardPortsTitle">Ports non standard</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilisez Proton VPN pour tout besoin particulier en autorisant le trafic vers des ports non standard à travers le réseau VPN. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="settingsModerateNatTitle">NAT modéré</string>
@@ -647,7 +643,7 @@
     <string name="whats_new_title">Nouveautés</string>
     <string name="whats_new_new_look_title">Nouveau look, même protection</string>
     <string name="whats_new_new_look_description">Nous avons mis à jour notre design et nous avons déplacé certains éléments pour que l\'application soit plus facile à utiliser.</string>
-    <string name="whats_new_recents_title">Connections récentes</string>
+    <string name="whats_new_recents_title">Voici les connexions récentes</string>
     <string name="whats_new_recents_description">Vous pouvez désormais vous reconnecter plus facilement à vos serveurs préférés. Affichez vos connexions les plus récentes depuis l\'écran d\'accueil ou épinglez-les pour y accéder rapidement. « Connexions récentes » remplace « Profils ».</string>
     <string name="whats_new_dismiss_button">Jetez un coup d\'œil</string>
     <string name="whats_new_added_countries_title">Nouveaux pays dans l\'abonnement Free</string>
@@ -1155,29 +1151,24 @@
     <string name="info_dialog_button_learn_more_p2p">Comment faire du torrent en P2P ?</string>
     <string name="info_dialog_button_learn_more_streaming">Avez-vous besoin d\'aide pour le streaming ?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Les serveurs de streaming sont conçus pour diffuser des films et des programmes de télévision rapidement et en toute sécurité.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_streaming_description">Les serveurs de streaming sont conçus pour vous permettre de regarder des programmes télévisés et des films de manière rapide et sécurisée.</string>
+    <string name="info_dialog_how_to_stream">Voici comment utiliser le streaming :</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Ouvrez les paramètres de votre téléphone et désactivez le service de localisation.</string>
     <!-- item 2 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_2">Redémarrez votre service de streaming.</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connectez-vous à un serveur Plus quelconque et commencez à streamer.</string>
+    <string name="info_dialog_how_to_stream_step_3">Connectez-vous à n\'importe quel serveur Plus et commencez à regarder des contenus en streaming.</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Le partage en peer-to-peer (P2P) est activé sur ce serveur.</string>
+    <string name="connection_feature_p2p_description">Le partage de fichiers en peer-to-peer (P2P) est activé sur ce serveur.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Vous pouvez vous connecter à des sites cachés (en .onion) avec votre navigateur habituel.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_secure_core_description">Votre activité est chiffrée derrière 2 serveurs VPN hautement sécurisés.</string>
     <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">Ce serveur est optimisé pour la diffusion de films et de programmes TV.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Vous connecte à votre pays de destination par l\'intermédiaire de serveurs qui se trouvent physiquement à un autre endroit.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

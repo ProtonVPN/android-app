@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Подключения по LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Защита от утечки DNS</string>
     <string name="settingsDnsLeakDescription">Предотвратить утечку данных DNS-запроса третьим лицам (включено всегда)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Размер MTU</string>
-    <string name="settingsMtuDescription">Если значение по умолчанию не подходит для конкретной сети, введите значение в диапазоне 1280–1500. Меняйте его только если знаете, что делаете.</string>
-    <string name="settingsMtuRangeInvalid">Значение MTU должно быть в диапазоне 1280–1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Нестандартные порты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Используйте Proton VPN для любых особых нужд, разрешая трафик на нестандартные порты через VPN. <a href="%1$s">Подробнее</a>]]></string>
     <string name="settingsModerateNatTitle">Умеренный NAT</string>
@@ -1126,7 +1122,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Информация о подключении</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Функции</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Показать IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1210,11 +1206,6 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
         %1$s - physical server location country

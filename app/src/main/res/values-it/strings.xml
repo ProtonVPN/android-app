@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Connessioni LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Protezione dalle perdite di DNS</string>
     <string name="settingsDnsLeakDescription">Evita la perdita di dati dalle query DNS a terze parti (sempre attiva)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Dimensione MTU</string>
-    <string name="settingsMtuDescription">Se il valore predefinito non è adatto per una particolare rete, inserisci un valore nell\'intervallo 1280-1500. Cambialo solo se sai cosa stai facendo.</string>
-    <string name="settingsMtuRangeInvalid">Il valore MTU deve essere nel range 1280-1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Porte non standard</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Usa Proton VPN per qualsiasi esigenza speciale consentendo il traffico verso porte non standard attraverso la rete VPN. <a href="%1$s">Scopri di più</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderato</string>
@@ -1172,11 +1168,6 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">Questo server è ottimizzato per la riproduzione di programmi TV e film.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Ti connette al paese di destinazione tramite server che sono fisicamente situati altrove.</string>
     <!--
         %1$s - physical server location country

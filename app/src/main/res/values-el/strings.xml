@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Τοπικές συνδέσεις (LAN)</string>
     <string name="settingsDnsLeakProtectionTitle">Προστασία Διαρροής DNS</string>
     <string name="settingsDnsLeakDescription">Αποτροπή διαρροής λεπτομερειών DNS query σε τρίτους (πάντα ενεργοποιημένο)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Μέγεθος MTU</string>
-    <string name="settingsMtuDescription">Σε περίπτωση που η προεπιλεγμένη τιμή δεν είναι κατάλληλη για ένα συγκεκριμένο δίκτυο, εισαγάγετε μια τιμή εντός του εύρους 1280-1500. Αλλάξτε το μόνο εάν γνωρίζετε τι κάνετε.</string>
-    <string name="settingsMtuRangeInvalid">Η τιμή MTU πρέπει να είναι στο εύρος 1280 -- 1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Μη τυποποιημένες θύρες</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Χρησιμοποιήστε το Proton VPN για κάθε ειδική περιπτωση επιτρέποντας την ροή των δεδομένων από μη τυποποιημένες θύρες μέσω του δικτύου VPN. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
     <string name="settingsModerateNatTitle">Παραμετροποιήστε το NAT</string>
@@ -1088,7 +1084,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Λεπτομέρειες σύνδεσης</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Χαρακτηριστικά</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Εμφάνιση IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1153,31 +1149,26 @@
     <string name="info_dialog_tor_description">Συνδεθείτε σε έναν διακομιστή Tor για να αποκτήσετε πρόσβαση σε κρυφές υπηρεσίες και ιστότοπους onion χρησιμοποιώντας οποιοδήποτε πρόγραμμα περιήγησης.</string>
     <string name="info_dialog_button_learn_more_tor">Πώς να αποκτήσετε πρόσβαση στο δίκτυο Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Πώς να κάνετε torrent με P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
-    <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_button_learn_more_streaming">Χρειάζεστε βοήθεια για ροή;</string>
+    <string name="info_dialog_streaming_title">Ροή</string>
+    <string name="info_dialog_streaming_description">Οι διακομιστές ροής έχουν σχεδιαστεί για γρήγορη και ασφαλή αναπαραγωγή τηλεόρασης και ταινιών.</string>
+    <string name="info_dialog_how_to_stream">Πώς να κάνετε ροή:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Μεταβείτε στις ρυθμίσεις του τηλεφώνου σας και απενεργοποιήστε τις υπηρεσίες τοποθεσίας</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Επανεκκινήστε την υπηρεσία ροής</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Συνδεθείτε σε οποιονδήποτε διακομιστή Plus και ξεκινήστε τη ροή</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">Ομότιμη κοινή χρήση αρχείων είναι ενεργοποιημένη σε αυτόν το διακομιστή.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Μπορείτε να συνδεθείτε σε ιστότοπους .onion με το κανονικό σας πρόγραμμα περιήγησης.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
-    <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_secure_core_description">Η δραστηριότητά σας κρυπτογραφείται πίσω από 2 διακομιστές VPN υψηλής ασφάλειας.</string>
+    <string name="connection_feature_streaming_title">Ροή</string>
+    <string name="connection_feature_streaming_description">Αυτός ο διακομιστής έχει βελτιστοποιηθεί για αναπαραγωγή τηλεόρασης και ταινιών.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Σας συνδέει με τη χώρα προορισμού σας μέσω διακομιστών που βρίσκονται κάπου αλλού.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1188,7 +1179,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">Πληροφορίες</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->

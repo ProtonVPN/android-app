@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">LAN 연결</string>
     <string name="settingsDnsLeakProtectionTitle">DNS 유출 방지</string>
     <string name="settingsDnsLeakDescription">제3자에게 DNS 쿼리 세부 정보 유출 방지 (항상 켜짐)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU 크기</string>
-    <string name="settingsMtuDescription">기본값이 특정 네트워크에 적합하지 않은 경우 1280~1500 범위의 값을 입력합니다. 이 기능이 무엇인지 알고 있는 경우에만 변경하세요.</string>
-    <string name="settingsMtuRangeInvalid">MTU 값은 1280~1500 범위여야 합니다.</string>
     <string name="settingsAllowNonStandardPortsTitle">비표준 포트</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN 네트워크를 통해 비표준 포트로의 트래픽을 허용하여 특별한 필요에 따라 Proton VPN을 사용하세요. <a href="%1$s">더 알아보기</a>]]></string>
     <string name="settingsModerateNatTitle">일반형 NAT</string>
@@ -1069,7 +1065,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">연결 세부사항</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">특징</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">IP 보기</string>
     <!-- tag(Redesign_2023) -->
@@ -1134,31 +1130,26 @@
     <string name="info_dialog_tor_description">Tor 서버에 접속하면 히든 서비스와 어니언 사이트에 어느 브라우저를 사용해도 접근할 수 있습니다.</string>
     <string name="info_dialog_button_learn_more_tor">Tor 네트워크에 접속하는 방법</string>
     <string name="info_dialog_button_learn_more_p2p">P2P를 이용해 토렌트하는 방법</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
-    <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_button_learn_more_streaming">스트리밍 도움이 필요하신가요?</string>
+    <string name="info_dialog_streaming_title">스트리밍</string>
+    <string name="info_dialog_streaming_description">스트리밍 서버는 빠르고 안전하게 TV와 영화 다시 보기를 시청할 수 있도록 설계되었습니다.</string>
+    <string name="info_dialog_how_to_stream">스트리밍 하는 방법:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">휴대폰의 설정으로 이동한 뒤 위치 서비스를 비활성화 하세요.</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">스트리밍 서비스를 재시작 하세요.</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Plus 서버에 접속한 뒤 스트리밍을 시작하세요.</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">P2P 파일 공유가 이 서버에서 활성화 되었습니다.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">일반적인 브라우저에서 .onion 사이트에 접속할 수 있습니다.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
-    <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_secure_core_description">사용자의 활동이 2개 고도의 보안의 VPN 서버들 뒤로 암호화되어 있습니다.</string>
+    <string name="connection_feature_streaming_title">스트리밍 서비스</string>
+    <string name="connection_feature_streaming_description">이 서버는 TV 및 영화 다시보기에 최적화 되어있습니다.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">물리적으로 다른 곳에 위치한 서버를 통해 목적지 국가로 연결합니다.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1169,7 +1160,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">정보</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->

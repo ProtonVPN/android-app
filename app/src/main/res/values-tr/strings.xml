@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Yerel ağ bağlantıları</string>
     <string name="settingsDnsLeakProtectionTitle">DNS sızıntı koruması</string>
     <string name="settingsDnsLeakDescription">DNS sorgusu bilgilerinin üçüncü taraflara sızmasını önler (hep açık)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU boyutu</string>
-    <string name="settingsMtuDescription">Varsayılan değer belirli bir ağ için uygun değilse, 1280 ile 1500 aralığında bir değer yazın. Yalnızca ne yaptığınızı biliyorsanız değiştirin.</string>
-    <string name="settingsMtuRangeInvalid">MTU değeri 1280 ile 1500 aralığında olmalıdır</string>
     <string name="settingsAllowNonStandardPortsTitle">Standart olmayan bağlantı noktaları</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[VPN ağı üzerinde standart olmayan bağlantı noktalarından trafik akışına izin vererek herhangi bir özel gereksinim için Proton VPN kullanabilirsiniz. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="settingsModerateNatTitle">Ilımlı NAT</string>
@@ -1088,7 +1084,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Bağlantı bilgileri</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Özellikler</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">IP adresini görüntüle</string>
     <!-- tag(Redesign_2023) -->
@@ -1172,11 +1168,6 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
         %1$s - physical server location country

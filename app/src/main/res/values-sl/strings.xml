@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">LAN povezave</string>
     <string name="settingsDnsLeakProtectionTitle">Zaščita pred uhajanjem DNS</string>
     <string name="settingsDnsLeakDescription">Preprečite razkrivanje podrobnosti o poizvedbi DNS tretjim osebam (vedno vključeno)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU velikost</string>
-    <string name="settingsMtuDescription">Če privzeta vrednost ni primerna za določeno omrežje, vnesite vrednost v območju 1280-1500. Spremenite ga le, če veste, kaj počnete.</string>
-    <string name="settingsMtuRangeInvalid">Vrednost MTU mora biti v območju 1280-1500.</string>
     <string name="settingsAllowNonStandardPortsTitle">Nestandardna vrata</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Uporabite Proton VPN za kakršne koli posebne potrebe, tako da omogočite promet do nestandardnih vrat prek omrežja VPN. <a href="%1$s">Več o tem</a>]]></string>
     <string name="settingsModerateNatTitle">Zmerni NAT</string>
@@ -1212,11 +1208,6 @@
     <string name="connection_feature_streaming_title">Pretakanje</string>
     <string name="connection_feature_streaming_description">Ta strežnik je optimiziran za predvajanje televizije in filmov.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Povezuje vas z vašo ciljno državo prek strežnikov, ki so fizično nameščeni drugje.</string>
     <!--
         %1$s - physical server location country
