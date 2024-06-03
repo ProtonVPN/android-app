@@ -21,7 +21,6 @@ package com.protonvpn.android.vpn
 import android.os.Build
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.MutableLiveData
 import com.proton.gopenpgp.localAgent.AgentConnection
 import com.proton.gopenpgp.localAgent.Features
 import com.proton.gopenpgp.localAgent.LocalAgent
@@ -317,7 +316,7 @@ abstract class VpnBackend(
                 closeVpnTunnel(withStateChange = false)
             }
 
-            selfStateObservable.setValue(VpnState.Error(error, description, isFinal = disconnectVPN))
+            selfStateFlow.value = VpnState.Error(error, description, isFinal = disconnectVPN)
         }
     }
 
@@ -328,7 +327,7 @@ abstract class VpnBackend(
             if (hasChanged) onVpnProtocolStateChange(value)
         }
 
-    final override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
+    final override val selfStateFlow = MutableStateFlow<VpnState?>(VpnState.Disabled)
     private var agent: AgentConnectionInterface? = null
     private var agentConnectionJob: Job? = null
     private var reconnectionJob: Job? = null
@@ -411,7 +410,7 @@ abstract class VpnBackend(
                 vpnState
             }
         } else vpnState
-        selfStateObservable.postValue(newSelfState)
+        selfStateFlow.value = newSelfState
     }
 
     private fun handleLocalAgentStates(localAgentState: String?): VpnState {
@@ -456,7 +455,7 @@ abstract class VpnBackend(
 
     private fun reconnectLocalAgent(reason: String, needNewCertificate: Boolean) {
         ProtonLogger.log(UserCertRefresh, "reason: $reason")
-        selfStateObservable.postValue(VpnState.Connecting)
+        selfStateFlow.value = VpnState.Connecting
         // Remember current cert before it's cleared by closing connection.
         val connectionCert = agent?.certInfo
         closeAgentConnection()
@@ -475,7 +474,7 @@ abstract class VpnBackend(
     }
 
     fun revokeCertificateAndReconnect(reason: String) {
-        selfStateObservable.postValue(VpnState.Connecting)
+        selfStateFlow.value = VpnState.Connecting
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
             currentUser.sessionId()?.let { sessionId ->

@@ -20,17 +20,17 @@ package com.protonvpn.android.vpn
 
 import android.content.Context
 import androidx.annotation.StringRes
-import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.R
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Locale
 
 interface VpnStateSource {
-    // value shouldn't be null
-    val selfStateObservable: MutableLiveData<VpnState>
-    val selfState get() = selfStateObservable.value!!
+    // null value should only be initial
+    val selfStateFlow: MutableStateFlow<VpnState?>
+    val selfState get() = selfStateFlow.value
 
     fun setSelfState(value: VpnState) {
-        selfStateObservable.value = value
+        selfStateFlow.value = value
     }
 }
 

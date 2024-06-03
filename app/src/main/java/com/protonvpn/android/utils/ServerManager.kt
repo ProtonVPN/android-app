@@ -99,12 +99,9 @@ class ServerManager @Inject constructor(
     var translationsLang: String? = null
         private set
 
-
     // Expose a version number of the server list so that it can be used in flow operators like
     // combine to react to updates.
     @Transient val serverListVersion = MutableStateFlow(0)
-    // TODO: remove the LiveDatas once there is no more Java code using them.
-    @Transient val serverListVersionLiveData = serverListVersion.asLiveData()
 
     @Deprecated("Use suspending isDownloadedAtLeastOnce instead. Or even better ServerManager2")
     // This method will not wait for the server list to be loaded. Use with caution.
