@@ -20,7 +20,6 @@ package com.protonvpn.android.vpn.wireguard
  */
 
 import android.content.Context
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.ConnError
@@ -148,7 +147,7 @@ class WireguardBackend @Inject constructor(
             }
         } catch (e: SecurityException) {
             if (e.message?.contains("INTERACT_ACROSS_USERS") == true)
-                selfStateObservable.value = VpnState.Error(ErrorType.MULTI_USER_PERMISSION, isFinal = true)
+                selfStateFlow.value = VpnState.Error(ErrorType.MULTI_USER_PERMISSION, isFinal = true)
             else
                 handleConnectException(e)
         } catch (e: IllegalStateException) {
@@ -252,7 +251,7 @@ class WireguardBackend @Inject constructor(
                 StringWriter().apply { e.printStackTrace(PrintWriter(this)) }.toString()
         )
         // TODO do not use generic error here (depends on other branch)
-        selfStateObservable.value = VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = true)
+        selfStateFlow.value = VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = true)
     }
 
     companion object {

@@ -22,11 +22,6 @@ package com.protonvpn.android.vpn
 import android.content.Intent
 import android.os.PowerManager
 import android.os.PowerManager.PARTIAL_WAKE_LOCK
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.distinctUntilChanged
-import androidx.lifecycle.switchMap
 import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppConfig
@@ -57,16 +52,19 @@ import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.utils.eagerMapNotNull
 import com.protonvpn.android.utils.implies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
@@ -125,8 +123,9 @@ class VpnConnectionManager @Inject constructor(
     // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
     private var ongoingConnect: Job? = null
     private var ongoingFallback: Job? = null
-    private val activeBackendObservable = MutableLiveData<VpnBackend?>(null)
-    private val activeBackend: VpnBackend? get() = activeBackendObservable.value
+
+    private val activeBackendFlow = MutableStateFlow<VpnBackend?>(null)
+    private val activeBackend: VpnBackend? get() = activeBackendFlow.value
     private val connectWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect")
     private val fallbackWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:fallback")
 
@@ -134,25 +133,24 @@ class VpnConnectionManager @Inject constructor(
     private var lastConnectIntent: AnyConnectIntent? = null
     private var lastUnreachable = Long.MIN_VALUE
 
-    override val selfStateObservable = MutableLiveData<VpnState>(VpnState.Disabled)
-    private val lastKnownExitIp = activeBackendObservable.asFlow().flatMapLatest { it?.lastKnownExitIp ?: flowOf(null) }
+    override val selfStateFlow = MutableStateFlow<VpnState?>(null)
+    private val lastKnownExitIp = activeBackendFlow.flatMapLatest { it?.lastKnownExitIp ?: flowOf(null) }
     val netShieldStats =
-        activeBackendObservable.asFlow().flatMapLatest { it?.netShieldStatsFlow ?: flowOf(NetShieldStats()) }
+        activeBackendFlow.flatMapLatest { it?.netShieldStatsFlow ?: flowOf(NetShieldStats()) }
 
     // State taken from active backend or from monitor when no active backend, value always != null
-    private val stateInternal: LiveData<VpnState> =
-        activeBackendObservable.eagerMapNotNull { it ?: this }.switchMap(VpnStateSource::selfStateObservable)
+    private val stateInternal: StateFlow<VpnState?> =
+        activeBackendFlow.flatMapLatest {
+            it?.selfStateFlow ?: selfStateFlow
+        }.stateIn(scope, SharingStarted.Eagerly, null)
 
-    private val state get() = stateInternal.value!!
-
-    var initialized = false
+    private val state get() = stateInternal.value ?: VpnState.Disabled
 
     init {
-        stateInternal.observeForever {
-            if (initialized) {
+        stateInternal.onEach { newState ->
+            if (newState != null) {
                 Storage.saveString(STORAGE_KEY_STATE, state.name)
 
-                val newState = it ?: VpnState.Disabled
                 val errorType = (newState as? VpnState.Error)?.type
 
                 if (errorType != null && errorType in RECOVERABLE_ERRORS) {
@@ -191,10 +189,11 @@ class VpnConnectionManager @Inject constructor(
                     isConnectedOrConnecting.implies(connectionParams != null && activeBackend != null)
                 }
             }
-        }
-        stateInternal.distinctUntilChanged().observeForever {
+        }.launchIn(scope)
+
+        stateInternal.onEach {
             if (it == VpnState.Connected) ProtonLogger.log(ConnConnectConnected)
-        }
+        }.launchIn(scope)
 
         vpnErrorHandler.switchConnectionFlow
             .onEach { fallback ->
@@ -205,13 +204,11 @@ class VpnConnectionManager @Inject constructor(
         lastKnownExitIp
             .onEach { vpnStateMonitor.updateLastKnownExitIp(it) }
             .launchIn(scope)
-        activeBackendObservable.observeForever {
+        activeBackendFlow.onEach {
             // Note: it should be CurrentVpnServiceProvider that observes activeBackendObservable but this would cause
             // dependency cycle.
             currentVpnServiceProvider.activeVpnBackend = it?.let { it::class }
-        }
-
-        initialized = true
+        }.launchIn(scope)
     }
 
     private fun skipFallback(errorType: ErrorType) =
@@ -227,7 +224,7 @@ class VpnConnectionManager @Inject constructor(
         }
         if (activeBackend != newBackend) {
             newBackend.setSelfState(VpnState.Connecting)
-            activeBackendObservable.value = newBackend
+            activeBackendFlow.value = newBackend
             setSelfState(VpnState.Disabled)
         }
     }
@@ -554,7 +551,7 @@ class VpnConnectionManager @Inject constructor(
         ConnectionParams.deleteFromStore("disconnect")
         setSelfState(VpnState.Disabled)
         activeBackend?.disconnect()
-        activeBackendObservable.value = null
+        activeBackendFlow.value = null
         connectionParams = null
     }
 
@@ -576,7 +573,7 @@ class VpnConnectionManager @Inject constructor(
         // being established (as opposed to reconnecting to the same server).
         setSelfState(VpnState.Disconnecting)
         val previousBackend = activeBackend
-        activeBackendObservable.value = null
+        activeBackendFlow.value = null
         // CheckingAvailability seems to be the best state without introducing a new one.
         setSelfState(VpnState.CheckingAvailability)
         previousBackend?.disconnect()

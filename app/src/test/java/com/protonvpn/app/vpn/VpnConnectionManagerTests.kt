@@ -22,7 +22,6 @@ package com.protonvpn.app.vpn
 import android.os.PowerManager
 import android.os.PowerManager.PARTIAL_WAKE_LOCK
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -121,7 +120,7 @@ class VpnConnectionManagerTests {
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var serverManager: ServerManager
 
-    private lateinit var mockBackendSelfState: MutableLiveData<VpnState>
+    private lateinit var mockBackendSelfState: MutableStateFlow<VpnState?>
 
     private lateinit var testScope: TestScope
 
@@ -143,7 +142,7 @@ class VpnConnectionManagerTests {
         val clock = testScheduler::currentTime
 
         Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
-        mockBackendSelfState = MutableLiveData()
+        mockBackendSelfState = MutableStateFlow(null)
 
         coEvery { mockCurrentUser.sessionId() } returns SessionId("session id")
         coEvery { mockCurrentUser.vpnUser() } returns vpnUser
@@ -154,7 +153,7 @@ class VpnConnectionManagerTests {
         every { appConfig.getSmartProtocols() } returns ProtocolSelection.REAL_PROTOCOLS
         every { mockNetworkManager.isConnectedToNetwork() } returns true
         every { mockBackend.vpnProtocol } returns connectionParams.protocolSelection!!.vpn
-        every { mockBackend.selfStateObservable } returns mockBackendSelfState
+        every { mockBackend.selfStateFlow } returns mockBackendSelfState
         every { mockBackend.lastKnownExitIp } returns MutableStateFlow(null)
         every { mockVpnUiDelegate.askForPermissions(any(), any(), any()) } answers {
             arg<() -> Unit>(2).invoke()
