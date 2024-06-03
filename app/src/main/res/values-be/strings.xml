@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Падключэнні па лакальнай сетцы</string>
     <string name="settingsDnsLeakProtectionTitle">Абарона ад уцечкі DNS</string>
     <string name="settingsDnsLeakDescription">Прадухіляе ўцечку даных запытаў DNS староннім асобам (заўсёды ўключана)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Памер MTU</string>
-    <string name="settingsMtuDescription">У выпадку, калі значэнне не пасуе для канкрэтнай сеткі, вы можаце ўвесці яго ў дыяпазоне 1280–1500. Змяняйце яго толькі калі ўпэўнены ў сваіх дзеяннях.</string>
-    <string name="settingsMtuRangeInvalid">Значэнне MTU павінна быць у дыяпазоне 1280-1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Нестандартныя парты</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Выкарыстоўвайце Proton VPN для любых адмысловых патрабаванняў, дазваляючы трафік да нестандартных партоў праз сетку VPN. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="settingsModerateNatTitle">Умераны NAT</string>
@@ -1210,11 +1206,6 @@
     <string name="connection_feature_streaming_title">Трансляцыя</string>
     <string name="connection_feature_streaming_description">Гэты сервер аптымізаваны для тэлебачання і ўзнаўлення фільмаў.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Падключае вас да вашай краіны прызначэння праз серверы, якія фізічна знаходзяцца дзе-небудзь у іншым месцы.</string>
     <!--
         %1$s - physical server location country

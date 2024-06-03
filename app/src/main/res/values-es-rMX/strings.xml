@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Conexiones LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Protección contra filtración de DNS</string>
     <string name="settingsDnsLeakDescription">Evita la filtración de detalles de consultas DNS a terceros (siempre activa)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Tamaño MTU</string>
-    <string name="settingsMtuDescription">En caso de que el valor por defecto no sea adecuado para una red en particular, ingrese un valor dentro del rango 1280-1500. Cámbielo sólo si sabe lo que está haciendo.</string>
-    <string name="settingsMtuRangeInvalid">El valor MTU debe estar en el rango 1280-1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Puertos no estándar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use Proton VPN para cualquier necesidad permitiendo el tráfico a puertos no estándar con la red VPN. <a href="%1$s">Más información</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderada</string>
@@ -582,7 +578,7 @@
     <string name="free_connections_info_server_locations">Ubicaciones de servidores gratuitos (%1$d)</string>
     <string name="free_connections_info_banner_text">Obtenga cobertura global con VPN Plus</string>
     <string name="free_connection_info_title">Conexiones gratuitas</string>
-    <string name="search_upsell_banner_title">Transmita desde cualquier lugar</string>
+    <string name="search_upsell_banner_title">Disfrute del streaming dondequiera que esté.</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Desbloquee contenido geobloqueado desde %1$d país con VPN Plus</item>
@@ -1153,10 +1149,10 @@
     <string name="info_dialog_tor_description">Conéctese a un servidor Tor para acceder a servicios ocultos y sitios onion usando cualquier navegador.</string>
     <string name="info_dialog_button_learn_more_tor">Cómo acceder a la red Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Cómo hacer torrent con P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">¿Necesita ayuda con la transmisión?</string>
+    <string name="info_dialog_button_learn_more_streaming">¿Necesita ayuda con el streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Los servidores de streaming están diseñados para una reproducción rápida y segura de películas y TV.</string>
-    <string name="info_dialog_how_to_stream">Cómo transmitir:</string>
+    <string name="info_dialog_streaming_description">Los servidores de streaming están diseñados para una reproducción rápida y segura de películas y programas de televisión.</string>
+    <string name="info_dialog_how_to_stream">Cómo hacer streaming</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Vaya a los ajustes de su teléfono y desactive los servicios de ubicación</string>
     <!-- item 2 in the numbered list -->
@@ -1170,14 +1166,9 @@
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Su actividad está cifrada con dos servidores VPN de alta seguridad.</string>
     <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">Este servidor está optimizado para reproducir películas y TV.</string>
+    <string name="connection_feature_streaming_description">Este servidor está optimizado para reproducir películas y programas de televisión.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
-    <string name="connection_feature_smart_routing_description">Le conecta a su país destino a través de servidores que están ubicados físicamente en algún lugar.</string>
+    <string name="connection_feature_smart_routing_description">Le conecta a su país destino a través de servidores que están ubicados físicamente en otro lugar.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

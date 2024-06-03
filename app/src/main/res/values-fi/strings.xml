@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">LAN-yhteydet</string>
     <string name="settingsDnsLeakProtectionTitle">DNS-vuotosuojaus</string>
     <string name="settingsDnsLeakDescription">Estää DNS-pyyntöjen sisältöä vuotamasta ulkopuolisille tahoille (aina käytössä)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU-koko</string>
-    <string name="settingsMtuDescription">Jos oletusarvo ei jostakin syystä sovellu jollekin verkolle, syötä eri arvo väliltä 1280–1500. Muuta tätä vain, jos tiedät mitä teet.</string>
-    <string name="settingsMtuRangeInvalid">MTU-arvon on oltava väliltä 1280–1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Epätyypilliset portit</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Käytä Proton VPN:ää erityistapauksissa sallimalla VPN-verkon tietoliikenteen kulkea epätyypillisten porttien kautta. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="settingsModerateNatTitle">Keskitasoinen NAT</string>
@@ -508,7 +504,7 @@
     <string name="streaming_title_with_country">Suoratoisto - %1$s</string>
     <string name="streaming_services_description">Yhdistä Plus-palvelimeen tässä maassa aloittaaksesi suoratoiston.\n\nVinkki: Tyhjennä suoratoistosovellusten välimuistit varmistaaksesi uuden sisällön näkymisen.</string>
     <string name="partnership_free_title">Ilmaispalvelimet</string>
-    <string name="partnership_free_description">Suojausta ja yksityisyyttä kaikille. Ilmaisilla palvelimilla ei ole tiedonsiirtorajoituksia, emmekä koskaan hidasta selausnopeuttasi tahallisesti.</string>
+    <string name="partnership_free_description">Suojausta ja yksityisyyttä kaikille. Ilmaispalvelimilla ei ole tiedonsiirtorajoituksia, emmekä koskaan hidasta selausnopeuttasi tahallisesti.</string>
     <string name="partnership_partners_title">Kumppanimme</string>
     <string name="activity_information_learn_more">Lue lisää</string>
     <string name="server_load_low">Matala</string>
@@ -526,7 +522,7 @@
     <string name="dynamic_report_suggestion_didnt_work">Eikö ratkaisu toiminut?</string>
     <string name="dynamic_report_contact_us">Ota yhteyttä</string>
     <string name="dynamic_report_tips_description">Nämä vinkit voivat auttaa ratkaisemaan ongelman nopeammin.</string>
-    <string name="dynamic_report_tips_title">Nopeita korjauksia</string>
+    <string name="dynamic_report_tips_title">Pikaratkaisut</string>
     <string name="dynamic_report_logs_title">Lähetä virhelokit</string>
     <string name="dynamic_report_success_title">Kiitos palautteestasi</string>
     <string name="dynamic_report_success_description">Palaamme asiaan mahdollisimman pian.</string>
@@ -1088,7 +1084,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Yhteyden tiedot</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Ominaisuudet</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Näytä IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1153,31 +1149,26 @@
     <string name="info_dialog_tor_description">Yhdistä Tor-palvelimeen ja käytä piilotettuja palveluita ja onion-sivustoja millä tahansa selaimella.</string>
     <string name="info_dialog_button_learn_more_tor">Miten pääset Tor-verkkoon</string>
     <string name="info_dialog_button_learn_more_p2p">Miten torrentoit P2P:llä</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
-    <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_button_learn_more_streaming">Tarvitseko apua suoratoiston kanssa?</string>
+    <string name="info_dialog_streaming_title">Suoratoisto</string>
+    <string name="info_dialog_streaming_description">Suoratoistopalvelimet on suunniteltu nopeaan ja turvalliseen TV-ohjelmien ja elokuvien toistoon.</string>
+    <string name="info_dialog_how_to_stream">Suoratoisto-ohje:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Mene puhelimesi asetuksiin ja poista sijaintipalvelut käytöstä</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Käynnistä suoratoistopalvelusi uudelleen</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Yhdistä mihin tahansa Plus-palvelimeen ja aloita suoratoistaminen</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">Tiedostojen jako vertaisverkon kautta on käytössä tällä palvelimella.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Voit muodostaa yhteyden .onion-sivustoihin tavallisella selaimellasi.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
-    <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_secure_core_description">Toimintasi on suojattu 2 huipputurvallisella VPN-palvelimella.</string>
+    <string name="connection_feature_streaming_title">Suoratoisto</string>
+    <string name="connection_feature_streaming_description">Tämä palvelin on optimoitu TV-ohjelmien ja elokuvien toistoon.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Yhdistää sinut kohdemaahan, fyysisesti muualla sijaitsevien palvelimien välityksellä.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1188,7 +1179,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">Tiedot</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->

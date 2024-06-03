@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">LAN‐Verbindungen</string>
     <string name="settingsDnsLeakProtectionTitle">DNS-Leakschutz</string>
     <string name="settingsDnsLeakDescription">Verhindert das Weitergeben von Details der DNS‐Abfragen an Dritte (immer aktiv)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU‐Größe</string>
-    <string name="settingsMtuDescription">Falls der Standardwert für ein bestimmtes Netzwerk ungeeignet ist, gib einen Wert zwischen 1280 und 1500 ein. Ändere diesen aber nur, wenn du weißt, was du tust.</string>
-    <string name="settingsMtuRangeInvalid">MTU‐Wert muss zwischen 1280 und 1500 liegen</string>
     <string name="settingsAllowNonStandardPortsTitle">Nicht standardisierte Ports</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Nutze Proton VPN für jeden speziellen Bedarf, indem du Datenverkehr zu nicht standardisierten Ports über das VPN-Netzwerk erlaubst. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="settingsModerateNatTitle">Moderates NAT</string>
@@ -1088,7 +1084,7 @@
     <string name="vpn_status_disabled_location">%1$s • %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Verbindungsdetails</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Funktionen</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">IP anzeigen</string>
     <!-- tag(Redesign_2023) -->
@@ -1153,38 +1149,33 @@
     <string name="info_dialog_tor_description">Verbinde dich mit einem Tor-Server, um mit einem beliebigen Browser auf versteckte Dienste und Onion-Seiten zuzugreifen.</string>
     <string name="info_dialog_button_learn_more_tor">Wie man auf das Tor-Netzwerk zugreift</string>
     <string name="info_dialog_button_learn_more_p2p">Wie man P2P mit Hilfe von Torrent durchführt</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_button_learn_more_streaming">Brauchst du Hilfe beim Streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_streaming_description">Streaming-Server sind für die schnelle und sichere Wiedergabe von Fernsehen und Filmen konzipiert.</string>
+    <string name="info_dialog_how_to_stream">So streamt man etwas:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Gehe in die Einstellungen deines Telefons und deaktiviere die Standortdienste</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Starte deinen Streaming-Dienst neu</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Verbinde dich mit einem beliebigen Plus-Server und fang an zu streamen</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">Peer-to-Peer-Filesharing ist auf diesem Server aktiviert.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Du kannst mit deinem normalen Browser eine Verbindung zu .onion-Websites herstellen.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_secure_core_description">Deine Aktivitäten werden hinter 2 hochsicheren VPN-Servern verschlüsselt.</string>
     <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">Dieser Server ist für die TV- und Filmwiedergabe optimiert.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Verbindet dich mit deinem Zielland über Server, die sich physisch in einem anderen Land befinden.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
         For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
     -->
-    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
+    <string name="country_smart_routing_info">Die Server befinden sich physisch in %1$s, aber es wird so aussehen, als würdest du von %2$s surfen.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->

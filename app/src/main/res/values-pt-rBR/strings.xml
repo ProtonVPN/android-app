@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Conexões LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Proteção de vazamento DNS</string>
     <string name="settingsDnsLeakDescription">Impede o vazamento de detalhes de consulta de DNS para terceiros (sempre ligado)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Tamanho MTU</string>
-    <string name="settingsMtuDescription">No caso em que o valor padrão seja inadequado para uma determinada rede, insira um valor entre 1280-1500. Altere apenas quando você souber o que está fazendo.</string>
-    <string name="settingsMtuRangeInvalid">O valor MTU deve estar entre 1280-1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Portas não padrão</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Use o Proton VPN para qualquer necessidade especial ao permitir o tráfego para portas não padrão através da rede VPN. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderado</string>
@@ -1088,7 +1084,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Detalhes da conexão</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Recursos</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Mostrar IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1153,14 +1149,14 @@
     <string name="info_dialog_tor_description">Conecte-se a um servidor Tor para acessar serviços ocultos e sites da rede onion usando qualquer navegador.</string>
     <string name="info_dialog_button_learn_more_tor">Como acessar a rede Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Como fazer torrent com P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_button_learn_more_streaming">Precisa de ajuda com o streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_how_to_stream">Como fazer streaming:</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Reinicie sua plataforma de streaming</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
     <string name="connection_feature_p2p_title">P2P</string>
@@ -1170,13 +1166,8 @@
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
     <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">Esse servidor está otimizado para reprodução de TV e filme.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
         %1$s - physical server location country
@@ -1188,7 +1179,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">Informações</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->

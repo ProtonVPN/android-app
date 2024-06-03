@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">LAN შეერთებები</string>
     <string name="settingsDnsLeakProtectionTitle">DNS გაპარებისგან დაცვა</string>
     <string name="settingsDnsLeakDescription">DNS მოთხოვნის დეტალების უცხო პირების ხელში ჩავარდნის ხელის შეშლა (ყოველთვის ჩართულია)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU-ის ზომა</string>
-    <string name="settingsMtuDescription">იმ შემთხვევაში, თუ თქვენს ქსელს ნაგულისხმები მნიშვნელობა არ ერგება, შეიყვანეთ მნიშვნელობა დიაპაზონიდან 1280-1500. შეცვალეთ, თუ ზუსტად იცით, რას აკეთებთ.</string>
-    <string name="settingsMtuRangeInvalid">MTU-ის მნიშვნელობის დიაპაზონია 1280-1500</string>
     <string name="settingsAllowNonStandardPortsTitle">არასტანდარტული პორტები</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[გამოიყენეთ Proton VPN ნებისმიერი განსაკუთრებული მოთხოვნის მქონე ამოცანისთვის VPN ქსელში არასტანდარტული პორტების ჩართვის საშუალებით.<a href="%1$s">გაიგეთ მეტი</a>]]></string>
     <string name="settingsModerateNatTitle">საშუალო NAT-ი</string>
@@ -1088,7 +1084,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">მიერთების დეტალები</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">ფუნქციები</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">IP-ის ჩვენება</string>
     <!-- tag(Redesign_2023) -->
@@ -1153,14 +1149,14 @@
     <string name="info_dialog_tor_description">მიუერთდით Tor სერვერს, რომ იქონიოთ წვდომა დამალულ სერვისებთან და .onlion ვებგვერდებთან ნებისმიერი ბრაუზერით.</string>
     <string name="info_dialog_button_learn_more_tor">როგორ შევიდე Tor-ის ქსელში</string>
     <string name="info_dialog_button_learn_more_p2p">როგორ ვიმუშაოთ ტორენტებთან P2P-ით</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
-    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_button_learn_more_streaming">გჭირდებათ დახმარება სტრიმინგში?</string>
+    <string name="info_dialog_streaming_title">სტრიმინგი</string>
     <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_how_to_stream">როგორ დასტრიმოთ:</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">გამორთეთ და ჩართეთ თქვენი სტრიმინგის სერვისი</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
     <string name="connection_feature_p2p_title">P2P</string>
@@ -1169,14 +1165,9 @@
     <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
-    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_title">სტრიმინგი</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
         %1$s - physical server location country
@@ -1188,7 +1179,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">ინფო</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1325,8 +1316,8 @@
     <string name="search_zero_screen_info_countries_title">ქვეყნები</string>
     <string name="search_zero_screen_info_cities_title">ქალაქები</string>
     <string name="search_zero_screen_info_servers_title">სერვერი</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_countries_examples">შვეიცარია, შეერთებული შტატები, იტალია, კანადა…</string>
+    <string name="search_zero_screen_info_cities_examples">ნიუ იორკი, ლონდონი, ტოკიო, სიდნეი…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">ფასების გამოთხოვის შეცდომა.</string>
 </resources>

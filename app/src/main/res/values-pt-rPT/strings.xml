@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Ligações LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Prevenção de fugas de DNS</string>
     <string name="settingsDnsLeakDescription">Impedir a fuga de consultas de DNS para terceiros (sempre ligado)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Tamanho MTU</string>
-    <string name="settingsMtuDescription">Caso o valor padrão não seja adequado para uma rede em particular, introduza um valor dentro do intervalo 1280-1500. Altere só se souber o que está a fazer.</string>
-    <string name="settingsMtuRangeInvalid">O valor MTU deve estar dentro do intervalo 1280-1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Portas incomuns</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilize o Proton VPN para necessidades especiais, permitindo tráfego de portas incomuns na rede VPN.<a href="%1$s">Saiba mais</a>.]]></string>
     <string name="settingsModerateNatTitle">NAT moderado</string>
@@ -1024,7 +1020,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Avalie o Proton VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Restore default settings</string>
+    <string name="settings_restore_defaults_title">Restaurar as definições padrão</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out_title">Terminar sessão</string>
     <!-- tag(Redesign_2023) -->
@@ -1088,7 +1084,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Detalhes da ligação</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Funcionalidades</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Mostrar IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1156,7 +1152,7 @@
     <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_how_to_stream">Como transmitir:</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
     <!-- item 2 in the numbered list -->
@@ -1172,11 +1168,6 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
         %1$s - physical server location country
@@ -1188,7 +1179,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">Informação</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->

@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">LAN 接続</string>
     <string name="settingsDnsLeakProtectionTitle">DNS 漏洩防止</string>
     <string name="settingsDnsLeakDescription">DNS クエリの内容が外部に漏洩するのを防ぎます。(常に有効)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU サイズ</string>
-    <string name="settingsMtuDescription">既定値が特定のネットワークに適合しない場合は、1280〜1500の範囲で値を指定できます。この設定は十分な知識のある場合にのみ変更してください。</string>
-    <string name="settingsMtuRangeInvalid">MTU 値は1280から1500の範囲である必要があります</string>
     <string name="settingsAllowNonStandardPortsTitle">標準的ではないポート</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[標準以外のポートへの VPN ネットワーク経由のトラフィックを許可して、特殊な用途に Proton VPN を使用します。<a href="%1$s">詳細</a>]]></string>
     <string name="settingsModerateNatTitle">モデレート NAT</string>
@@ -1153,11 +1149,6 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
         %1$s - physical server location country

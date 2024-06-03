@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Koneksi LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Perlindungan Kebocoran DNS</string>
     <string name="settingsDnsLeakDescription">Mencegah agar rincian kueri DNS Anda tidak bocor ke pihak ketiga (selalu aktif)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Ukuran MTU</string>
-    <string name="settingsMtuDescription">Apabila nilai bawaan yang tertera tidak sesuai untuk jaringan tertentu, masukkan nilai dalam rentang 1280–1500. Mohon ubah nilai ini hanya apabila Anda paham akan risikonya.</string>
-    <string name="settingsMtuRangeInvalid">Nilai MTU harus dalam kisaran 1280–1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Port non-standar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Alihkan lalu lintas data yang tertuju pada port non-standar melalui jaringan VPN. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="settingsModerateNatTitle">NAT Moderat</string>
@@ -1069,7 +1065,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Rincian koneksi</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Fitur</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Tampilkan IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1134,30 +1130,25 @@
     <string name="info_dialog_tor_description">Hubungkan ke server Tor untuk mengakses layanan tersembunyi dan situs onion melalui browser mana pun.</string>
     <string name="info_dialog_button_learn_more_tor">Cara mengakses jaringan Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Cara menggunakan torrent dengan P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_button_learn_more_streaming">Butuh bantuan streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_streaming_description">Server streaming dirancang untuk pemutaran tayangan TV dan film yang cepat dan aman.</string>
+    <string name="info_dialog_how_to_stream">Cara untuk menonton tayangan streaming:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Tuju pengaturan ponsel Anda dan nonaktifkan layanan lokasi</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Mulai ulang layanan streaming Anda</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Hubungkan diri Anda ke server Plus mana pun dan mulai streaming</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">Pembagian berkas secara peer-to-peer diaktifkan pada server ini.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Anda dapat terhubung ke situs .onion melalui browser yang biasa Anda gunakan.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_secure_core_description">Aktivitas Anda terenkripsi di balik 2 server VPN berkeamanan tinggi.</string>
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">Server ini dioptimalkan untuk pemutaran tayangan TV dan film.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Menghubungkan Anda ke server tujuan Anda melalui rangkaian server yang secara fisik terletak di tempat lain.</string>
     <!--
         %1$s - physical server location country

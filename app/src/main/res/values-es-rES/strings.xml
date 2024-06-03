@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Conexiones LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Protección contra filtración de DNS</string>
     <string name="settingsDnsLeakDescription">Evitar filtraciones sobre detalles de consultas DNS a terceros (siempre activadas)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Tamaño MTU</string>
-    <string name="settingsMtuDescription">En caso de que el valor por defecto no sea adecuado para una red en particular, introduce un valor dentro del rango 1280-1500. Cámbialo sólo si sabes lo que estás haciendo.</string>
-    <string name="settingsMtuRangeInvalid">El valor de MTU debe estar en rango 1280-1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Puertos no estándar</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utiliza Proton VPN para cualquier necesidad especial permitiendo el tráfico a puertos no estándar a través de la red VPN. <a href="%1$s">Más información</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderada</string>
@@ -582,7 +578,7 @@
     <string name="free_connections_info_server_locations">Ubicaciones de servidores gratuitos (%1$d)</string>
     <string name="free_connections_info_banner_text">Disfruta de una cobertura global con VPN Plus</string>
     <string name="free_connection_info_title">Conexiones gratuitas</string>
-    <string name="search_upsell_banner_title">Stream from anywhere</string>
+    <string name="search_upsell_banner_title">Disfruta del streaming dondequiera que estés.</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Desbloquea contenido geobloqueado desde %1$d país con VPN Plus</item>
@@ -1153,31 +1149,26 @@
     <string name="info_dialog_tor_description">Conéctate a un servidor Tor para acceder a servicios ocultos y sitios onion usando cualquier navegador.</string>
     <string name="info_dialog_button_learn_more_tor">Cómo acceder a la red Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Cómo hacer torrent con P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_button_learn_more_streaming">¿Necesitas ayuda con el streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_streaming_description">Los servidores de streaming están diseñados para una reproducción rápida y segura de películas y programas de televisión.</string>
+    <string name="info_dialog_how_to_stream">Cómo hacer streaming:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Ve a los ajustes de tu teléfono y desactiva los servicios de ubicación</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Reinicia tu servicio de streaming</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Conéctate a cualquier servidor Plus e inicie el streaming.</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">El intercambio de archivos P2P está activado en este servidor.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Puedes contectarte a sitios .onion con tu navegador habitual.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_secure_core_description">Tu actividad está cifrada con dos servidores VPN de alta seguridad.</string>
     <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">Este servidor está optimizado para reproducir películas y programas de televisión.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Te conecta a tu país destino a través de servidores que están ubicados físicamente en otro lugar.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country

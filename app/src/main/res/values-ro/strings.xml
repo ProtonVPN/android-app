@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">Conexiuni LAN</string>
     <string name="settingsDnsLeakProtectionTitle">Protecție divulgări DNS</string>
     <string name="settingsDnsLeakDescription">Prevenirea dezvăluirii interogărilor DNS către terți (întotdeauna actvată)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">Dimensiune MTU</string>
-    <string name="settingsMtuDescription">Dacă valoarea implicită este nepotrivită pentru o anumită rețea, introduceți o valoare în intervalul 1280–1500. Modificați doar dacă știiți ce faceți.</string>
-    <string name="settingsMtuRangeInvalid">Valoarea MTU trebuie să fie în intervalul 1280–1500</string>
     <string name="settingsAllowNonStandardPortsTitle">Porturi nonstandard</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Utilizați Proton VPN pentru orice nevoie specială, permițând traficul către porturile nonstandard prin VPN. <a href="%1$s">Detalii</a>]]></string>
     <string name="settingsModerateNatTitle">NAT moderat</string>
@@ -1107,7 +1103,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Detalii conexiune</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Caracteristici</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Afișare IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1172,31 +1168,26 @@
     <string name="info_dialog_tor_description">Conectați-vă la un server Tor pentru a accesa servicii ascunse și site-uri de tip onion folosind orice navigator web.</string>
     <string name="info_dialog_button_learn_more_tor">Cum se accesează rețeaua Tor?</string>
     <string name="info_dialog_button_learn_more_p2p">Cum se folosește partajarea fișierelor prin torrent cu P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
-    <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_button_learn_more_streaming">Aveți nevoie de ajutor pentru vizionare?</string>
+    <string name="info_dialog_streaming_title">Transmisii în flux</string>
+    <string name="info_dialog_streaming_description">Serverele pentru transmisii în flux sunt destinate pentru redarea rapidă și sigură a emisiunilor TV și a filmelor.</string>
+    <string name="info_dialog_how_to_stream">Cum să vizionați:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Accesați setările telefonului și opriți serviciul de localizare.</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Reporniți serviciul de redare în flux.</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Conectați-vă la orice server Plus și începeți vizionarea.</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">Pe acest server este activată partajarea persoană-la-persoană.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Vă puteți conecta la adrese cu domeniul .onion cu navigatorul obișnuit.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
-    <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_secure_core_description">Activitatea vă este criptată de două servere VPN cu securitate ridicată.</string>
+    <string name="connection_feature_streaming_title">Transmisii în flux</string>
+    <string name="connection_feature_streaming_description">Aceste servere este optimizat pentru redare filme și emisiuni TV.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Vă conectează la țara de destinație prin servere care sunt situate fizic în altă parte.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1207,7 +1198,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">Informații</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->

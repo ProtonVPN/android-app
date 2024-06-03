@@ -71,10 +71,6 @@
     <string name="settingsBypassLocalTitle">LAN-forbindelser</string>
     <string name="settingsDnsLeakProtectionTitle">Beskyttelse mot DNS-lekkasje</string>
     <string name="settingsDnsLeakDescription">Forhindre lekkasje av DNS-spørringsdetaljer til tredjeparter (alltid på)</string>
-    <string name="settingsDefaultMtu">1375</string>
-    <string name="settingsMtuSizeTitle">MTU-størrelse</string>
-    <string name="settingsMtuDescription">Hvis standardverdien er uegnet for et bestemt nettverk, angir du en verdi innenfor området 1280–1500. Endre det bare hvis du vet hva du gjør.</string>
-    <string name="settingsMtuRangeInvalid">MTU-verdi må være innenfor området 1280 - 1500.</string>
     <string name="settingsAllowNonStandardPortsTitle">Ikke-standard porter</string>
     <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Bruk Proton VPN for ethvert spesielt behov ved å la trafikk til ikke-standardporter gå gjennom VPN-nettverket. <a href="%1$s">Lær mer</a>]]></string>
     <string name="settingsModerateNatTitle">Moderat NAT</string>
@@ -1172,11 +1168,6 @@
     <string name="connection_feature_streaming_title">Strømming</string>
     <string name="connection_feature_streaming_description">Denne tjeneren er optimalisert for TV- og filmavspilling.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <!--
-        %1$s - physical server location country
-        %2$s - destination country
-        Country names are inserted in the nominative case.
-    -->
     <string name="connection_feature_smart_routing_description">Kobler deg til destinasjonslandet ditt gjennom tjenere som fysisk befinner seg et annet sted.</string>
     <!--
         %1$s - physical server location country
