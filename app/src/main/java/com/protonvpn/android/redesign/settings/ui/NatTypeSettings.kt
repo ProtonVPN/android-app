@@ -28,7 +28,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.redesign.base.ui.SettingsRadioItem
+import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallWeak
 import java.lang.RuntimeException
@@ -53,13 +53,12 @@ fun NatTypeSettings(
             style = ProtonTheme.typography.defaultSmallWeak,
         )
         NatType.entries.forEach { type ->
-            SettingsRadioItem(
-                modifier = Modifier,
-                itemValue = type,
-                selectedValue = nat.value,
-                onSelected = onNatTypeChange,
-                label = stringResource(id = type.labelRes),
+            SettingsRadioItemSmall(
+                title = stringResource(id = type.labelRes),
                 description = stringResource(id = type.descriptionRes),
+                selected = type == nat.value,
+                onSelected = { onNatTypeChange(type) },
+                horizontalContentPadding = 16.dp
             )
         }
     }

@@ -30,11 +30,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
@@ -121,21 +124,34 @@ fun SettingsToggleItem(
 }
 
 @Composable
-fun <T> SettingsRadioItem(
-    modifier: Modifier,
-    itemValue: T,
-    selectedValue: T,
-    onSelected: (T) -> Unit,
-    label: String,
-    description: String
+fun SettingsRadioItemSmall(
+    title: String,
+    description: String,
+    selected: Boolean,
+    onSelected: () -> Unit,
+    modifier: Modifier = Modifier,
+    horizontalContentPadding: Dp = 0.dp,
 ) {
-    SettingsItem(
-        modifier.selectable( selected = itemValue == selectedValue,  onClick = { onSelected(itemValue) }),
-        name = label,
-        subTitle = null,
-        description = description,
+    Row(
+        modifier = modifier
+            .selectable(selected, onClick = onSelected)
+            .padding(vertical = 12.dp, horizontal = horizontalContentPadding),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        RadioButton(selected = itemValue == selectedValue, onClick = null)
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(title, style = ProtonTheme.typography.body2Regular)
+            VerticalSpacer(height = 4.dp)
+            Text(description, style = ProtonTheme.typography.body2Regular, color = ProtonTheme.colors.textWeak)
+        }
+        RadioButton(
+            selected = selected,
+            onClick = null,
+            modifier = Modifier
+                .clearAndSetSemantics {}
+                .padding(start = 8.dp)
+        )
     }
 }
 
@@ -144,13 +160,12 @@ fun <T> SettingsRadioItem(
 fun RadioButtonPreview() {
     VpnTheme(isDark = true) {
         Surface {
-            SettingsRadioItem(
-                modifier = Modifier,
-                itemValue = true,
-                selectedValue = true,
+            SettingsRadioItemSmall(
+                title = "Radio option",
+                description = "Long radio button description. Long radio button description. Long radio button description.",
+                selected = true,
                 onSelected = {},
-                label = "Radio option",
-                description = "Long radio button description. Long radio button description. Long radio button description."
+                horizontalContentPadding = 16.dp,
             )
         }
     }

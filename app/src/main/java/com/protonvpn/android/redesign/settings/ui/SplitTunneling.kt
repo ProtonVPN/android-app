@@ -42,6 +42,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
+import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
@@ -138,7 +139,7 @@ private fun ChangeModeDialog(
                 style = ProtonTheme.typography.body1Bold,
                 modifier = Modifier.padding(bottom = 12.dp)
             )
-            DialogRadioItem(
+            SettingsRadioItemSmall(
                 title = stringResource(R.string.settings_split_tunneling_mode_standard),
                 description = stringResource(R.string.settings_split_tunneling_mode_description_standard),
                 selected = isStandardSelected,
@@ -148,7 +149,7 @@ private fun ChangeModeDialog(
                 },
                 modifier = Modifier.fillMaxWidth(),
             )
-            DialogRadioItem(
+            SettingsRadioItemSmall(
                 title = stringResource(R.string.settings_split_tunneling_mode_inverse),
                 description = stringResource(R.string.settings_split_tunneling_mode_description_inverse),
                 selected = !isStandardSelected,
@@ -159,38 +160,6 @@ private fun ChangeModeDialog(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
-    }
-}
-
-// TODO: this should replace SettingsRadioItem, the current SettingsRadioItem has incorrect layout.
-@Composable
-private fun DialogRadioItem(
-    title: String,
-    description: String,
-    selected: Boolean,
-    onSelected: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier
-            .selectable(selected, onClick = onSelected)
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(title, style = ProtonTheme.typography.body2Regular)
-            VerticalSpacer(height = 4.dp)
-            Text(description, style = ProtonTheme.typography.body2Regular, color = ProtonTheme.colors.textWeak)
-        }
-        RadioButton(
-            selected = selected,
-            onClick = null,
-            modifier = Modifier
-                .clearAndSetSemantics {}
-                .padding(start = 8.dp)
-        )
     }
 }
 
