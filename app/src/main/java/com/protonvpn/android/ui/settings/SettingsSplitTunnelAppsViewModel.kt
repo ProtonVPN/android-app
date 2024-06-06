@@ -51,7 +51,7 @@ import javax.inject.Inject
 private const val APP_ICON_SIZE_DP = 24
 
 @HiltViewModel
-class SettingsExcludeAppsViewModel @Inject constructor(
+class SettingsSplitTunnelAppsViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val installedAppsProvider: InstalledAppsProvider,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
@@ -74,7 +74,7 @@ class SettingsExcludeAppsViewModel @Inject constructor(
     }
 
     private val mode: SplitTunnelingMode = requireNotNull(
-        savedStateHandle[SettingsExcludeAppsActivity.SPLIT_TUNNELING_MODE_KEY]
+        savedStateHandle[SettingsSplitTunnelAppsActivity.SPLIT_TUNNELING_MODE_KEY]
     )
 
     private val shouldLoadSystemApps = MutableStateFlow(false)

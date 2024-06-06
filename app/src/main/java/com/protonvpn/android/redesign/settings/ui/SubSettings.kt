@@ -52,8 +52,8 @@ import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsRegularCarouselFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatHighlightsFragment
-import com.protonvpn.android.ui.settings.SettingsExcludeAppsActivity
-import com.protonvpn.android.ui.settings.SettingsExcludeIpsActivity
+import com.protonvpn.android.ui.settings.SettingsSplitTunnelAppsActivity
+import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.openUrl
@@ -80,9 +80,9 @@ fun SubSettingsRoute(
             viewModel.onSplitTunnelingUpdated(vpnUiDelegate)
     }
     val splitTunnelIpLauncher = rememberLauncherForActivityResult(
-        SettingsExcludeIpsActivity.createContract(), onSplitTunnelUpdated)
+        SettingsSplitTunnelIpsActivity.createContract(), onSplitTunnelUpdated)
     val splitTunnelAppsLauncher = rememberLauncherForActivityResult(
-        SettingsExcludeAppsActivity.createContract(), onSplitTunnelUpdated)
+        SettingsSplitTunnelAppsActivity.createContract(), onSplitTunnelUpdated)
 
     Box(
         modifier = Modifier

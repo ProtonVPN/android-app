@@ -37,13 +37,13 @@ import javax.inject.Inject
 private const val BITS_IN_BYTE = 8
 
 @HiltViewModel
-class SettingsExcludeIpsViewModel @Inject constructor(
+class SettingsSplitTunnelIpsViewModel @Inject constructor(
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     savedStateHandle: SavedStateHandle,
 ) : SaveableSettingsViewModel() {
 
     private val mode: SplitTunnelingMode = requireNotNull(
-        savedStateHandle[SettingsExcludeIpsActivity.SPLIT_TUNNELING_MODE_KEY]
+        savedStateHandle[SettingsSplitTunnelIpsActivity.SPLIT_TUNNELING_MODE_KEY]
     )
     private val ipAddresses = MutableStateFlow<List<String>>(emptyList())
 
