@@ -27,21 +27,12 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">V současné době není pro tento účet povoleno žádné připojení VPN. Chcete-li začít používat Proton VPN, kontaktujte prosím svého správce. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Povolit VPN připojení</string>
     <string name="connectionAllocationHelpLoginAgainButton">Přihlásit se znovu</string>
-    <string name="mapSwitchSecureCore">Secure Core</string>
-    <string name="warning">Varování</string>
     <string name="secureCoreSpeedInfoTitle">Poznámka k rychlosti…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core nabízí nejvyšší úroveň zabezpečení a soukromí, ale může snížit rychlost internetu. Pokud potřebujete vyšší výkon, můžete Secure Core vypnout.</string>
     <string name="secureCoreActivateDialogButton">Aktivovat Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Odhlásit se?</string>
-    <string name="logoutConfirmDialogMessage">Odhlášení odpojí vaše zařízení od VPN.</string>
-    <string name="logoutConfirmDialogButton">Odhlásit se</string>
-    <string name="yes">Ano</string>
-    <string name="no">Ne</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
-    <string name="dialogContinue">Pokračovat</string>
     <string name="dialogLearnMore">Více informací</string>
-    <string name="secureCoreConnectVia">přes %1$s</string>
     <string name="connected">Připojeno</string>
     <string name="buttonConnect">Připojit</string>
     <string name="loaderConnectingTo">Připojování k %1$s</string>
@@ -57,43 +48,16 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
-    <string name="drawerHelp">Nápověda</string>
-    <string name="drawerShowLog">Zobrazit log</string>
     <string name="drawerReportProblem">Nahlásit problém</string>
-    <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Sdílení</string>
     <string name="accountFree">Proton Free</string>
-    <string name="settingsSectionConnection">Připojení</string>
-    <string name="settingsSectionSecurity">Zabezpečení</string>
-    <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Podpora</string>
-    <string name="settingsSectionAdvanced">Pokročilé</string>
-    <string name="settingsBypassLocalTitle">LAN připojení</string>
-    <string name="settingsDnsLeakProtectionTitle">Ochrana proti úniku DNS</string>
-    <string name="settingsDnsLeakDescription">Zabránit únikům dotazů DNS třetím stranám (vždy zapnuto)</string>
-    <string name="settingsAllowNonStandardPortsTitle">Nestandardní porty</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Použijte Proton VPN pro jakékoliv speciální potřeby povolením provozu na nestandardních portech prostřednictvím sítě VPN. <a href="%1$s">Další informace</a>]]></string>
-    <string name="settingsModerateNatTitle">Moderate NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT deaktivuje náhodné mapování místních adres, což může mírně snížit zabezpečení, ale umožňuje techniky, jako je přímé připojení pro aplikace, například online hry. <a href="%1$s">Více informací</a>]]></string>
     <string name="restrictedMaintenanceTitle">Probíhá údržba</string>
     <string name="restrictedMaintenanceDescription">Server, ke kterému se aktuálně pokoušíte připojit, je v údržbě. Zkuste prosím jiný server.</string>
     <string name="errorUserDelinquent"><![CDATA[Váš účet má aktuálně fakturu po splatnosti. Zaplaťte prosím všechny nezaplacené faktury na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Dosáhli jste maximálního počtu souběžných připojení povolených pro váš účet. Pro zvýšení počtu připojení prosíme přejděte na vyšší Proton VPN tarif.</string>
-    <string name="onboardingSignup">Registrace</string>
-    <string name="offerTooltipShowOffer">Zobrazit nabídku</string>
     <string name="listItemMaintenance">Probíhá údržba</string>
-    <string name="listAllCountries">Všechna umístění (%1$d)</string>
-    <string name="listGateways">Brány</string>
-    <string name="listFreeCountries">Bezplatná umístění (%1$d)</string>
-    <string name="listPremiumCountries">Umístění tarifů Basic &amp; Plus (%1$d)</string>
-    <string name="listPremiumCountries_new_plans">Plus lokace (%1$d)</string>
-    <string name="listFastestServer">Nejrychlejší server</string>
-    <string name="listFreeServers">Bezplatné servery (%1$d)</string>
-    <string name="listBasicServers">Basic servery (%1$d)</string>
-    <string name="listPlusServers">Plus servery (%1$d)</string>
     <string name="insufficientPermissionsTitle">Je vyžadována akce uživatele</string>
     <string name="insufficientPermissionsDetails">Nepodařilo se automaticky navázat VPN připojení. Prosíme připojte se tentokrát manuálně pro udělení oprávnění.</string>
-    <string name="tabsCountries">Země</string>
     <string name="log_title">Záznam</string>
     <string name="disconnect">Odpojit</string>
     <string name="state_connecting">Připojování…</string>
@@ -111,15 +75,12 @@
     <string name="connect">Připojit</string>
     <string name="upgrade">Rozšířit</string>
     <string name="retry">Obnovit</string>
-    <string name="secure_core">Secure Core</string>
-    <string name="attachments">Přílohy</string>
     <string name="report_message">Nahlásit zprávu</string>
     <string name="report_bug_email_label">Váš e-mail</string>
     <string name="report_bug_email_hint">Zadejte svou e-mailovou adresu</string>
     <string name="report_bug_message_label">Zpráva</string>
     <string name="report_bug_message_hint">Prosím popište chybu a jak a kde jste ji objevili</string>
     <string name="send_report">Odeslat hlášení</string>
-    <string name="excludeIpTitle">Vyloučit IP adresy</string>
     <string name="discardChanges">Smazat neuložené úpravy?</string>
     <string name="discard">Zahodit</string>
     <string name="done">HOTOVO</string>
@@ -130,7 +91,6 @@
     <string name="try_again">Zkuste to znovu</string>
     <string name="delete">Odstranit</string>
     <string name="remove">Odstranit</string>
-    <string name="doneButton">Hotovo</string>
     <string name="saveButton">Uložit</string>
     <string name="protocolLabel">Protokol</string>
     <string name="protocol">Protokol:</string>
@@ -153,19 +113,14 @@
     <string name="error_prepare_vpn_settings">Přejít do nastavení Android VPN</string>
     <string name="error_prepare_vpn_title">Chyba: Problém s oprávněním VPN</string>
     <string name="error_server_not_set">Server již není k dispozici</string>
-    <string name="bugReportThankYouToast">Děkujeme za Vaši zprávu</string>
     <string name="bugReportErrorEmptyEmail">E-mail nemůže být prázdný</string>
     <string name="bugReportErrorInvalidEmail">Neplatná e-mailová adresa</string>
-    <string name="bugReportErrorEmptyDescription">Napište nám, co se děje</string>
     <string name="bugReportLabelVpnLogsTitle">Přiložit záznamy o chybách</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Toto odešle lokální záznamy o chybách (neukládáme data o aktivitě), které nám pomohou vyřešit váš problém</string>
     <string name="profileFastest">Nejrychlejší</string>
     <string name="profileRandom">Náhodný</string>
-    <string name="settingsSplitTunnelingDescription">Split Tunneling umožňuje vyloučit určité aplikace nebo IP adresy z VPN provozu.</string>
-    <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
     <string name="loaderErrorNoInternet">Bez připojení k Internetu</string>
     <string name="loaderErrorGeneric">Něco se pokazilo</string>
-    <string name="loaderLoadingServers">Načítání serverů…</string>
     <string name="inputIpAddressLabel">IP adresy</string>
     <string name="inputIpAddressHint">Napište IP adresu</string>
     <string name="inputIpAddressErrorInvalid">Neplatná IP adresa</string>
@@ -177,16 +132,6 @@
     <string name="settingsExcludedAppsAvailableRegularHeader">Povolené běžné aplikace (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">Povolené systémové aplikace (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Zobrazit systémové aplikace</string>
-    <string name="listNoItems">Žádné</string>
-    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
-         %2$d - a number of remaining items.
-         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
-    <plurals name="listFewItemsAndMore">
-        <item quantity="one">%1$s a %2$d další</item>
-        <item quantity="few">%1$s a %2$d dalších</item>
-        <item quantity="many">%1$s a %2$d dalších</item>
-        <item quantity="other">%1$s a %2$d další</item>
-    </plurals>
     <string name="excludeAlreadyExcluded">Již vyloučeno</string>
     <string name="removeExcludedIpDialogDescription">Odstranit IP adresu z listu?</string>
     <string name="tileConnected">Připojeno: %1$s</string>
@@ -212,7 +157,6 @@
     <string name="troubleshootGovernmentBlockTitle">Vládní blokování</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaše země může blokovat přístup k Protonu. K přístupu k Protonu zkuste použít <a href=\'%1$s\'>Tor</a>.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Trvalá síť VPN a Kill Switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Nastavte chování Proton VPN při přerušení připojení</string>
     <string name="settingsAlwaysOnWindowHeader">Jak aktivovat Trvalou síť VPN a Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Otevřete <b>Nastavení</b> vašeho zařízení klepnutím na tlačítko níže]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -228,7 +172,6 @@
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Stiskněte přepínač vedle <b>Blokovat připojení bez VPN</b> pro zapnutí Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otevřít nastavení systému Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Zapnutí Kill Switche deaktivuje Split Tunneling, protože Kill Switch blokuje všechna připojení kromě VPN tunelu</string>
-    <string name="settingsSmartProtocolDescription">Automaticky použij protokol a port, který poskytuje nejlepší připojení.</string>
     <string name="settingsEnableTelemetryTitle">Sdílejte anonymní statistiky o používání</string>
     <string name="settingsEnableTelemetryDescription">Údaje o používání nám pomáhají obcházet blokování VPN a vylepšovat výkon aplikace.</string>
     <string name="settingsSendCrashReportsTitle">Sdílet anonymní hlášení o pádech</string>
@@ -255,7 +198,6 @@
     <string name="netshield_trackers_details">Soubory cookie a další sledovací prvky, které ukládají a sdílejí informace o vaší aktivitě na internetu.</string>
     <string name="netshield_data_title">Data</string>
     <string name="netshield_data_details">Množství nežádoucích dat z reklam, sledovacích prvků a malwaru zablokovaných službou NetShield</string>
-    <string name="accessibility_netshield_status_on_click">Přejít do nastavení NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Reklama zablokována</item>
         <item quantity="few">Reklamy zablokovány</item>
@@ -271,25 +213,18 @@
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Ušetřená data</string>
     <string name="netshield_setting_warning">Některé webové stránky se nemusí správně načíst, pokud je blokována reklama a sledovací prvky.</string>
     <string name="dialogDontShowAgain">Příště nezobrazovat</string>
-    <string name="guestHoleActivated">Přístup k Proton VPN může být ve vaší oblasti omezený, takže to bude trvat déle než obvykle. Počkejte prosím, než tento problém vyřešíme.</string>
     <string name="guestHoleNotificationContent">Snažíme se obejít problémy se sítí. Toto vám pomůže připojit se k Proton VPN.</string>
-    <string name="onMaintenanceDetected">VPN server, ke kterému jste byli připojeni právě prochází údržbou. Automaticky jsme vás přepojili na nejrychlejší dostupný server.</string>
     <string name="errorTunMultiUserPermission">Nemohli jsme aktivovat VPN připojení kvůli konfliktu mezi duálními aplikacemi (příklad duální Messenger) a funkcí Split Tunneling. Prosím deaktivujte jednu z těchto funkcí a restartujte vaše zařízení.</string>
     <string name="errorTorrentNotAllowed">P2P není na tomto serveru povoleno</string>
-    <string name="errorWireguardWithPlaceholder">WireGuard chyba %1$s</string>
     <string name="profileProtocolNotAvailable">VPN protokol tohoto profilu není v současné době k dispozici. Chcete-li se připojit, zkuste změnit protokol.</string>
     <string name="stateConnectedTo">Připojeno k %1$s</string>
     <string name="stateNotConnected">Nejste připojeni</string>
-    <string name="recents">Nedávné</string>
-    <string name="tvQuickConnectDescription">Okolní země</string>
-    <string name="tvQuickConnectSubDescription">Streamovací server</string>
     <string name="nameEurope">Evropa</string>
     <string name="nameAmerica">Amerika</string>
     <string name="nameAsia">Asie</string>
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Blízký východ</string>
     <string name="nameOceania">Oceánie</string>
     <string name="tvRowMore">Více</string>
-    <string name="tv_detail_default_connection_checkbox">Moje oblíbená země</string>
     <string name="tv_detail_default_connection_checkbox_short">Oblíbené</string>
     <string name="tv_detail_connect_streaming">Streamujte s Plus</string>
     <string name="tv_detail_connect">Připojit</string>
@@ -331,13 +266,8 @@
     <string name="tv_available_servers">Dostupné servery (%1$d)</string>
     <string name="tv_locked_servers">Uzamčené servery (%1$d)</string>
     <string name="tv_other_servers">Ostatní servery (%1$d)</string>
-    <string name="tv_server_under_maintenance">Probíhá údržba</string>
     <string name="tv_server_list">Seznam serverů</string>
     <string name="tv_server_list_action_unavailable">Nedostupné</string>
-    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsReconnectToApplySettingsDialogContent">Nové nastavení se projeví při příštím připojení.</string>
-    <string name="settingsReconnectToChangeDialogContent">Toto restartuje vaše připojení.</string>
-    <string name="reconnectToEnableNetshield">Toto restartuje vaše připojení.\n\nPoznámka: Některé stránky se nemusí načíst se zapnutou funkcí NetShield.</string>
     <string name="notification_subscription_expired_title">Vaše předplatné Proton VPN vypršelo</string>
     <string name="notification_subscription_expired_content">Museli jsme snížit váš tarif, ale přepojujeme vás na nejrychlejší server dostupný v rámci tohoto tarifu.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaše předplatné bylo sníženo.</string>
@@ -355,7 +285,6 @@
     <string name="notification_cancel_to_free">Používáte bezplatný tarif. Bezplatné servery a funkce jsou k dispozici.</string>
     <string name="notification_cancel_to_basic">Používáte Basic tarif. Basic &amp; bezplatné servery a funkce jsou k dispozici.</string>
     <string name="notification_cancel_to_delinquent">Přístup k prémiovým funkcím získáte opět po uhrazení nezaplacených faktur.</string>
-    <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Ze serveru: </string>
     <string name="reconnect_to_server">Na server: </string>
     <string name="no_thanks">Ne, děkuji</string>
@@ -449,9 +378,7 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odblokujte %1$s v %2$s s <b>VPN Plus</b>.]]></string>
-    <string name="upgrade_plus_countries_subtitle">Po navýšení na tarif Plus</string>
     <string name="upgrade_not_now_button">Nyní ne</string>
-    <string name="upgrade_learn_more">Více informací</string>
     <string name="upsell_card_countries_title">Celosvětové pokrytí</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -536,9 +463,7 @@
     <string name="onboarding_welcome_title">Vítejte v Proton VPN</string>
     <string name="onboarding_welcome_description">Procházejte soukromě, přistupujte k blokovanému obsahu a užívejte si digitální svobody.</string>
     <string name="onboarding_welcome_action">Začínáme</string>
-    <string name="onboarding_available_on_plus">Přístupné s Plus</string>
     <string name="upgrade_success_get_started_button">Začít</string>
-    <string name="upgrade_use_limited_free_button">Použít omezený bezplatný tarif</string>
     <string name="dynamic_report_suggestion_didnt_work">Nefungovalo to?</string>
     <string name="dynamic_report_contact_us">Kontaktujte nás</string>
     <string name="dynamic_report_tips_description">Tyto tipy by mohly pomoci rychleji vyřešit váš problém.</string>
@@ -559,36 +484,10 @@
     <string name="dialog_create_account_action_create">Vytvořit účet</string>
     <string name="dialog_create_account_action_signin">Přihlásit se</string>
     <string name="server_search_menu_title">Hledat</string>
-    <string name="server_search_hint">Země, město, server</string>
-    <string name="server_search_hint_secure_core">Země</string>
-    <!-- The parameter is the number of countries displayed in search results.
-         Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Země (%1$d)</string>
-    <!-- The parameter is the number of Secure Core countries displayed in search results.
-     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core země (%1$d)</string>
-    <!-- The parameter is the number of cities displayed in search results.
-         Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Města (%1$d)</string>
-    <!-- The parameter is the number of server displayed in search results.
-         Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Servery (%1$d)</string>
-    <string name="search_empty_title">Vyhledat jakékoliv umístění</string>
-    <string name="search_empty_hint_countries"><![CDATA[Země: <font color="%1$s">Švýcarsko, Spojené státy, Itálie…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Země: <font color="%1$s">Francie, Spojené státy, Itálie…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Města: <font color="%1$s">New York, Londýn, Tokio…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[Oblasti Ameriky: <font color="%1$s">Kalifornie, Florida, Colorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Servery: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Prosím zkuste jiné klíčové slovo</string>
     <string name="search_empty_result_title">Nebyly nalezeny žádné výsledky</string>
-    <string name="search_recents_header_title">Nedávno viděno (%1$d)</string>
-    <string name="search_clear_history">Vyčistit historii</string>
-    <string name="search_clear_history_dialog">Vaše historie hledání bude ztracena. Pokračovat?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Smazat</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Pro více informací navštivte <a href="https://protonvpn.com/pricing">protonvpn.com</a>.</string>
-    <string name="free_upsell_header_title">Získejte celosvětové pokrytí díky VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Chcete se připojit ke konkrétní zemi?</string>
     <string name="upgrade_country_message"><![CDATA[Odemkněte <b>výběr země</b> s VPN Plus.]]></string>
@@ -909,10 +808,6 @@
         <item quantity="other">Automaticky vybráno z %1$d zemí</item>
     </plurals>
     <!-- tag(Redesign_2023)
-         Help button above the connection card.
-     -->
-    <string name="connection_card_help">Pomoc</string>
-    <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
 
@@ -1038,12 +933,6 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_notifications_title">Upozornění</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_theme_title">Motiv</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Beta přístup</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Widget</string>
-    <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Podpora</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Centrum pomoci</string>
@@ -1057,10 +946,6 @@
     <string name="settings_fight_censorship_title">Pomozte nám v boji proti cenzuře</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Ohodnotit Proton VPN</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Obnovit výchozí nastavení</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Odhlásit se</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">Verze aplikace: %1$s</string>
     <!-- tag(Redesign_2023) -->

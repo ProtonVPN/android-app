@@ -27,21 +27,12 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Er is momenteel geen VPN-verbinding ingeschakeld voor deze account. Om uw reis met Proton VPN te starten, contacteer uw beheerder. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Schakel VPN-verbindingen in</string>
     <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
-    <string name="mapSwitchSecureCore">Secure Core</string>
-    <string name="warning">Waarschuwing</string>
     <string name="secureCoreSpeedInfoTitle">Een opmerking over snelheid…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core biedt het hoogste niveau van beveiliging en privacy, maar het kan uw internetsnelheid verlagen. Als u hogere prestaties wilt, kan u Secure Core uitschakelen.</string>
     <string name="secureCoreActivateDialogButton">Secure Core activeren</string>
-    <string name="logoutConfirmDialogTitle">Uitloggen?</string>
-    <string name="logoutConfirmDialogMessage">Uitloggen zal de verbinding van uw apparaat met de VPN verbreken.</string>
-    <string name="logoutConfirmDialogButton">Uitloggen</string>
-    <string name="yes">Ja</string>
-    <string name="no">Nee</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
-    <string name="dialogContinue">Doorgaan</string>
     <string name="dialogLearnMore">Meer informatie</string>
-    <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Verbonden</string>
     <string name="buttonConnect">Verbinden</string>
     <string name="loaderConnectingTo">Verbinden met %1$s</string>
@@ -57,43 +48,16 @@
     <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Annuleren</string>
     <string name="close">Sluiten</string>
-    <string name="drawerHelp">Hulp</string>
-    <string name="drawerShowLog">Log weergeven</string>
     <string name="drawerReportProblem">Een probleem melden</string>
-    <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Delen</string>
     <string name="accountFree">Proton Free</string>
-    <string name="settingsSectionConnection">Verbinding</string>
-    <string name="settingsSectionSecurity">Beveiliging</string>
-    <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Ondersteuning</string>
-    <string name="settingsSectionAdvanced">Geavanceerd</string>
-    <string name="settingsBypassLocalTitle">LAN-verbindingen</string>
-    <string name="settingsDnsLeakProtectionTitle">DNS-lekbescherming</string>
-    <string name="settingsDnsLeakDescription">Voorkom lekkage van DNS query\'s naar derden (altijd aan)</string>
-    <string name="settingsAllowNonStandardPortsTitle">Niet-standaard poorten</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Gebruik Proton voor elke speciale nood door verkeer naar niet-standaard poorten toe te laten via het VPN-netwerk. <a href="%1$s">Meer leren</a>]]></string>
-    <string name="settingsModerateNatTitle">Gemiddelde NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Moderate NAT schakelt de randomisatie van de lokale adressen mapping uit, wat uw veiligheid enigszins kan verminderen, maar laat technieken toe zoals rechtstreekse verbindingen voor toepassingen zoals online games. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="restrictedMaintenanceTitle">In onderhoud</string>
     <string name="restrictedMaintenanceDescription">De server waarmee u wil verbinden is momenteel in onderhoud. Kies een andere server.</string>
     <string name="errorUserDelinquent"><![CDATA[Uw account heeft momenteel een achterstallige factuur. Gelieve alle onbetaalde facturen te betalen op&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">U heeft het maximum aantal gelijktijdige verbindingen bereikt dat is toegestaan voor uw account. Upgrade uw Proton VPN-abonnement om meer verbindingen te krijgen.</string>
-    <string name="onboardingSignup">Registreren</string>
-    <string name="offerTooltipShowOffer">Bekijk de aanbieding</string>
     <string name="listItemMaintenance">In onderhoud</string>
-    <string name="listAllCountries">Alle locaties (%1$d)</string>
-    <string name="listGateways">Tunnels</string>
-    <string name="listFreeCountries">Gratis locaties (%1$d)</string>
-    <string name="listPremiumCountries">Basic &amp; Plus locaties (%1$d)</string>
-    <string name="listPremiumCountries_new_plans">Plus-locaties (%1$d)</string>
-    <string name="listFastestServer">Snelste server</string>
-    <string name="listFreeServers">Gratis servers (%1$d)</string>
-    <string name="listBasicServers">Basic servers (%1$d)</string>
-    <string name="listPlusServers">Plus servers (%1$d)</string>
     <string name="insufficientPermissionsTitle">Gebruikersactie vereist</string>
     <string name="insufficientPermissionsDetails">Kan geen automatische VPN-verbinding tot stand brengen. Maak één keer handmatig verbinding om machtigingen te verlenen.</string>
-    <string name="tabsCountries">Landen</string>
     <string name="log_title">Logboek</string>
     <string name="disconnect">Verbinding verbreken</string>
     <string name="state_connecting">Verbinden…</string>
@@ -111,15 +75,12 @@
     <string name="connect">Verbind</string>
     <string name="upgrade">Upgraden</string>
     <string name="retry">Opnieuw proberen</string>
-    <string name="secure_core">Secure Core</string>
-    <string name="attachments">Bijlagen</string>
     <string name="report_message">Rapporteer bericht</string>
     <string name="report_bug_email_label">Uw e-mailadres</string>
     <string name="report_bug_email_hint">Voer uw e-mailadres in</string>
     <string name="report_bug_message_label">Bericht</string>
     <string name="report_bug_message_hint">Beschrijf de bug en hoe en waar u die gevonden hebt</string>
     <string name="send_report">Verstuur melding</string>
-    <string name="excludeIpTitle">IP-adressen uitsluiten</string>
     <string name="discardChanges">Niet opgeslagen wijzigingen verwijderen?</string>
     <string name="discard">Weggooien</string>
     <string name="done">KLAAR</string>
@@ -130,7 +91,6 @@
     <string name="try_again">Probeer opnieuw</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijder</string>
-    <string name="doneButton">Klaar</string>
     <string name="saveButton">Opslaan</string>
     <string name="protocolLabel">Protocol</string>
     <string name="protocol">Protocol:</string>
@@ -153,19 +113,14 @@
     <string name="error_prepare_vpn_settings">Ga naar Android VPN instellingen</string>
     <string name="error_prepare_vpn_title">Fout: VPN permissie probleem</string>
     <string name="error_server_not_set">Server niet langer beschikbaar</string>
-    <string name="bugReportThankYouToast">Bedankt voor uw melding</string>
     <string name="bugReportErrorEmptyEmail">E-mail mag niet leeg zijn</string>
     <string name="bugReportErrorInvalidEmail">Ongeldig e-mailadres</string>
-    <string name="bugReportErrorEmptyDescription">Schrijf ons wat er gebeurd is</string>
     <string name="bugReportLabelVpnLogsTitle">Inclusief foutenlogboek</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Hiermee worden lokale foutenlogboeken verzonden (wij registreren geen activiteiten), die ons kunnen helpen het probleem op te lossen</string>
     <string name="profileFastest">Snelste</string>
     <string name="profileRandom">Willekeurig</string>
-    <string name="settingsSplitTunnelingDescription">Split Tunneling laat toe dat bepaalde apps of IP-adressen worden uitgesloten van het VPN-verkeer.</string>
-    <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
     <string name="loaderErrorNoInternet">Geen internetverbinding</string>
     <string name="loaderErrorGeneric">Er is iets fout gegaan</string>
-    <string name="loaderLoadingServers">Servers laden…</string>
     <string name="inputIpAddressLabel">IP-adres</string>
     <string name="inputIpAddressHint">Voer IP-adres in</string>
     <string name="inputIpAddressErrorInvalid">Ongeldig IP-adres</string>
@@ -177,14 +132,6 @@
     <string name="settingsExcludedAppsAvailableRegularHeader">Toegestane normale apps (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">Toegestane systeemapps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Systeemapps weergeven</string>
-    <string name="listNoItems">Geen</string>
-    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
-         %2$d - a number of remaining items.
-         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
-    <plurals name="listFewItemsAndMore">
-        <item quantity="one">%1$s en nog %2$d meer</item>
-        <item quantity="other">%1$s en nog %2$d meer</item>
-    </plurals>
     <string name="excludeAlreadyExcluded">Al uitgesloten</string>
     <string name="removeExcludedIpDialogDescription">IP-adres uit de lijst verwijderen?</string>
     <string name="tileConnected">Verbonden: %1$s</string>
@@ -210,7 +157,6 @@
     <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Altijd-actief VPN &amp; Kill Switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Instellen hoe Proton VPN zich gedraagt als uw verbinding wordt onderbroken</string>
     <string name="settingsAlwaysOnWindowHeader">Hoe zet u Altijd-actief VPN en Kill Switch aan:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open de <b>Instellingen</b> van uw toestel door op de onderstaande knop te tikken]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -226,7 +172,6 @@
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tik op de schakelaar naast <b>Blokkeer verbindingen zonder VPN</b> om kill switch in te schakelen]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android instellingen openen</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Kill switch activeren schakelt split tunneling uit, aangezien kill switch alle verbindingen buiten de VPN-tunnel blokkeert</string>
-    <string name="settingsSmartProtocolDescription">Gebruik automatisch het protocol en poort die de beste verbinding bieden.</string>
     <string name="settingsEnableTelemetryTitle">Anonieme gebruiksstatistieken delen</string>
     <string name="settingsEnableTelemetryDescription">Gebruiksgegevens helpen ons om VPN-blokkering te omzeilen en de prestaties van de app te verbeteren.</string>
     <string name="settingsSendCrashReportsTitle">Anonieme crashrapporten delen</string>
@@ -253,7 +198,6 @@
     <string name="netshield_trackers_details">Cookies en andere trackers die informatie opslaan en delen over uw internetactiviteit</string>
     <string name="netshield_data_title">Gegevens</string>
     <string name="netshield_data_details">De hoeveelheid ongewenste gegevens van advertenties, trackers en malware geblokkeerd door NetShield</string>
-    <string name="accessibility_netshield_status_on_click">NetShield instellingen ingeven</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Advertentie geblokkeerd</item>
         <item quantity="other">Advertenties geblokkeerd</item>
@@ -265,25 +209,18 @@
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data bespaard</string>
     <string name="netshield_setting_warning">Sommige websites worden mogelijk niet correct geladen als advertenties en trackers worden geblokkeerd.</string>
     <string name="dialogDontShowAgain">Niet meer weergeven</string>
-    <string name="guestHoleActivated">De toegang tot Proton VPN is mogelijk beperkt in uw gebied, dus dit duurt langer dan normaal. Wacht alstublieft terwijl we aan dit probleem werken.</string>
     <string name="guestHoleNotificationContent">Proberen om de netwerkproblemen te omzeilen. Dit zal u helpen toegang te verkrijgen tot Proton VPN.</string>
-    <string name="onMaintenanceDetected">De VPN-server waarmee u verbonden was, is in onderhoud. We hebben u automatisch opnieuw verbonden met de snelst beschikbare server.</string>
     <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
     <string name="errorTorrentNotAllowed">P2P is niet toegestaan op deze server</string>
-    <string name="errorWireguardWithPlaceholder">WireGuard fout %1$s</string>
     <string name="profileProtocolNotAvailable">Het VPN-protocol van dit profiel is momenteel niet beschikbaar. Probeer het protocol te veranderen om te verbinden.</string>
     <string name="stateConnectedTo">Verbonden met %1$s</string>
     <string name="stateNotConnected">U bent niet verbonden</string>
-    <string name="recents">Recente oproepen</string>
-    <string name="tvQuickConnectDescription">Nabijgelegen landen</string>
-    <string name="tvQuickConnectSubDescription">Streaming server</string>
     <string name="nameEurope">Europa</string>
     <string name="nameAmerica">Amerika</string>
     <string name="nameAsia">Azië</string>
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Midden-Oosten</string>
     <string name="nameOceania">Oceanië</string>
     <string name="tvRowMore">Meer</string>
-    <string name="tv_detail_default_connection_checkbox">Mijn favoriete land</string>
     <string name="tv_detail_default_connection_checkbox_short">Favoriet</string>
     <string name="tv_detail_connect_streaming">Stream met Plus</string>
     <string name="tv_detail_connect">Verbind</string>
@@ -325,13 +262,8 @@
     <string name="tv_available_servers">Beschikbare servers (%1$d)</string>
     <string name="tv_locked_servers">Vergrendelde servers (%1$d)</string>
     <string name="tv_other_servers">Andere servers (%1$d)</string>
-    <string name="tv_server_under_maintenance">In onderhoud</string>
     <string name="tv_server_list">Serverlijst</string>
     <string name="tv_server_list_action_unavailable">Niet beschikbaar</string>
-    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsReconnectToApplySettingsDialogContent">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
-    <string name="settingsReconnectToChangeDialogContent">Dit zal uw verbinding herstarten.</string>
-    <string name="reconnectToEnableNetshield">Hierdoor wordt uw verbinding opnieuw opgestart.\n\nLet op: Sommige sites worden mogelijk niet geladen als NetShield is ingeschakeld.</string>
     <string name="notification_subscription_expired_title">Uw Proton VPN-abonnement is verlopen</string>
     <string name="notification_subscription_expired_content">We moesten uw plan degraderen, maar we verbinden u opnieuw met de snelste server die beschikbaar is voor dat plan.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Uw abonnement is naar omlaag geschaald.</string>
@@ -347,7 +279,6 @@
     <string name="notification_cancel_to_free">U hebt een Gratis abonnement. Gratis servers en functies zijn beschikbaar.</string>
     <string name="notification_cancel_to_basic">U hebt het Basic abonnement. Basic &amp; Gratis servers en functies zijn beschikbaar.</string>
     <string name="notification_cancel_to_delinquent">U heeft weer toegang tot premium functies nadat openstaande facturen betaald zijn.</string>
-    <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Van server: </string>
     <string name="reconnect_to_server">Naar server: </string>
     <string name="no_thanks">Nee, bedankt</string>
@@ -431,9 +362,7 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Ontgrendel %1$s in %2$s met <b>VPN Plus</b>.]]></string>
-    <string name="upgrade_plus_countries_subtitle">Wanneer u upgrade naar Plus</string>
     <string name="upgrade_not_now_button">Niet nu</string>
-    <string name="upgrade_learn_more">Meer informatie</string>
     <string name="upsell_card_countries_title">Wereldwijde dekking</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -516,9 +445,7 @@
     <string name="onboarding_welcome_title">Welkom bij Proton VPN</string>
     <string name="onboarding_welcome_description">Surf privé, bekijk geblokkeerde content en geniet van digitale vrijheid.</string>
     <string name="onboarding_welcome_action">Aan de slag</string>
-    <string name="onboarding_available_on_plus">Beschikbaar met Plus</string>
     <string name="upgrade_success_get_started_button">Aan de slag</string>
-    <string name="upgrade_use_limited_free_button">Gebruik het beperkte gratis abonnement</string>
     <string name="dynamic_report_suggestion_didnt_work">Niet gelukt?</string>
     <string name="dynamic_report_contact_us">Contacteer ons</string>
     <string name="dynamic_report_tips_description">Deze tips kunnen helpen om uw probleem sneller op te lossen.</string>
@@ -539,36 +466,10 @@
     <string name="dialog_create_account_action_create">Maak account</string>
     <string name="dialog_create_account_action_signin">Log in</string>
     <string name="server_search_menu_title">Zoek</string>
-    <string name="server_search_hint">Land, stad, server</string>
-    <string name="server_search_hint_secure_core">Land</string>
-    <!-- The parameter is the number of countries displayed in search results.
-         Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Landen (%1$d)</string>
-    <!-- The parameter is the number of Secure Core countries displayed in search results.
-     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core landen (%1$d)</string>
-    <!-- The parameter is the number of cities displayed in search results.
-         Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Steden (%1$d)</string>
-    <!-- The parameter is the number of server displayed in search results.
-         Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Servers (%1$d)</string>
-    <string name="search_empty_title">Zoek voor elke locatie</string>
-    <string name="search_empty_hint_countries"><![CDATA[Landen: <font color="%1$s">Zwitserland, Verenigde Staten, Italië…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Landen: <font color="%1$s">Frankrijk, Verenigde Staten, Italië…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Steden: <font color="%1$s">New York, Londen, Tokio…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[VS-regio: <font color="%1$s">Californië, Florida, Colorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Servers: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Probeer een ander sleutelwoord</string>
     <string name="search_empty_result_title">Geen resultaten gevonden</string>
-    <string name="search_recents_header_title">Recent bekeken (%1$d)</string>
-    <string name="search_clear_history">Geschiedenis wissen</string>
-    <string name="search_clear_history_dialog">Uw zoekgeschiedenis zal verloren gaan. Doorgaan?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Wissen</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Bezoek <a href="https://protonvpn.com/pricing">protonvpn.com</a> voor meer informatie.</string>
-    <string name="free_upsell_header_title">Krijg wereldwijde dekking met VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Wilt u verbinding maken met een specifiek land?</string>
     <string name="upgrade_country_message"><![CDATA[Ontgrendel <b>land keuze</b> met VPN Plus.]]></string>
@@ -871,10 +772,6 @@
         <item quantity="other">Automatisch geselecteerd uit %1$d landen</item>
     </plurals>
     <!-- tag(Redesign_2023)
-         Help button above the connection card.
-     -->
-    <string name="connection_card_help">Hulp</string>
-    <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
 
@@ -1000,12 +897,6 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_notifications_title">Meldingen</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_theme_title">Thema</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Bèta-toegang</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Widget</string>
-    <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Ondersteuning</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Helpcentrum</string>
@@ -1019,10 +910,6 @@
     <string name="settings_fight_censorship_title">Help ons censuur te bestrijden</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Beoordeel Proton VPN</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Herstel standaardinstellingen</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Uitloggen</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">App versie: %1$s</string>
     <!-- tag(Redesign_2023) -->
