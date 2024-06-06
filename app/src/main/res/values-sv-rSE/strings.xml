@@ -27,21 +27,12 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Det finns för närvarande ingen VPN-anslutning aktiverad för detta konto. För att starta din resa med Proton VPN, kontakta din administratör. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Aktivera VPN-anslutningar</string>
     <string name="connectionAllocationHelpLoginAgainButton">Logga in igen</string>
-    <string name="mapSwitchSecureCore">Secure Core</string>
-    <string name="warning">Varning</string>
     <string name="secureCoreSpeedInfoTitle">En notis om hastighet…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core erbjuder den högsta nivån av säkerhet och integritet, men det kan minska din Internethastighet. Om du behöver mer prestanda kan du inaktivera Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Aktivera Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Logga ut?</string>
-    <string name="logoutConfirmDialogMessage">Om du loggar ut kopplar du från din enhet från VPN.</string>
-    <string name="logoutConfirmDialogButton">Logga ut</string>
-    <string name="yes">Ja</string>
-    <string name="no">Nej</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
-    <string name="dialogContinue">Fortsätt</string>
     <string name="dialogLearnMore">Lär dig mer</string>
-    <string name="secureCoreConnectVia">via %1$s</string>
     <string name="connected">Ansluten</string>
     <string name="buttonConnect">Anslut</string>
     <string name="loaderConnectingTo">Ansluter till %1$s</string>
@@ -57,43 +48,16 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Avbryt</string>
     <string name="close">Stäng</string>
-    <string name="drawerHelp">Hjälp</string>
-    <string name="drawerShowLog">Visa logg</string>
     <string name="drawerReportProblem">Rapportera ett problem</string>
-    <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Dela</string>
     <string name="accountFree">Proton Free</string>
-    <string name="settingsSectionConnection">Anslutning</string>
-    <string name="settingsSectionSecurity">Säkerhet</string>
-    <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Support</string>
-    <string name="settingsSectionAdvanced">Avancerad</string>
-    <string name="settingsBypassLocalTitle">LAN-anslutningar</string>
-    <string name="settingsDnsLeakProtectionTitle">Skydd mot DNS-läckage</string>
-    <string name="settingsDnsLeakDescription">Förhindra läckage av detaljer kring DNS-frågor till tredje part (alltid på)</string>
-    <string name="settingsAllowNonStandardPortsTitle">Icke-standardiserade portar</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Använd Proton VPN för alla speciella behov genom att tillåta trafik till icke-standardiserade portar via VPN-nätverket. <a href="%1$s">Lär dig mer</a>]]></string>
-    <string name="settingsModerateNatTitle">Måttlig NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Måttlig NAT inaktiverar slumpgenerering av lokala adressöversättningar, vilket kan minska din säkerhet något. Däremot tillåter det tekniker som direktanslutning för vissa applikationer som nätverksspel. <a href="%1$s">Läs mer</a>]]></string>
     <string name="restrictedMaintenanceTitle">Under underhåll</string>
     <string name="restrictedMaintenanceDescription">Servern som du för närvarande försöker ansluta är under underhåll. Försök med en annan server.</string>
     <string name="errorUserDelinquent"><![CDATA[Ditt konto har för närvarande en förfallen faktura. Vänligen betala alla obetalda fakturor på&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har nått det maximala antalet samtidiga anslutningar som tillåts för ditt konto. Uppgradera ditt Proton VPN-paket för att få fler anslutningar.</string>
-    <string name="onboardingSignup">Registrera dig</string>
-    <string name="offerTooltipShowOffer">Se erbjudandet</string>
     <string name="listItemMaintenance">Under underhåll</string>
-    <string name="listAllCountries">Alla platser (%1$d)</string>
-    <string name="listGateways">Gateways</string>
-    <string name="listFreeCountries">Gratis platser (%1$d)</string>
-    <string name="listPremiumCountries">Basic &amp; Plus-platser (%1$d)</string>
-    <string name="listPremiumCountries_new_plans">Plus-platser (%1$d)</string>
-    <string name="listFastestServer">Snabbaste server</string>
-    <string name="listFreeServers">Gratis servrar (%1$d)</string>
-    <string name="listBasicServers">Basic-servrar (%1$d)</string>
-    <string name="listPlusServers">Plus-servrar (%1$d)</string>
     <string name="insufficientPermissionsTitle">Användaråtgärd krävs</string>
     <string name="insufficientPermissionsDetails">Det gick inte att upprätta en VPN-anslutning automatiskt. Anslut manuellt en gång för att bevilja behörigheter.</string>
-    <string name="tabsCountries">Länder</string>
     <string name="log_title">Logg</string>
     <string name="disconnect">Koppla från</string>
     <string name="state_connecting">Ansluter…</string>
@@ -111,15 +75,12 @@
     <string name="connect">Anslut</string>
     <string name="upgrade">Uppgradera</string>
     <string name="retry">Försök igen</string>
-    <string name="secure_core">Secure Core</string>
-    <string name="attachments">Bilagor</string>
     <string name="report_message">Rapportera meddelande</string>
     <string name="report_bug_email_label">Din e-post</string>
     <string name="report_bug_email_hint">Ange din e-postadress</string>
     <string name="report_bug_message_label">Meddelande</string>
     <string name="report_bug_message_hint">Beskriv felet och hur och var du hittade det</string>
     <string name="send_report">Skicka rapport</string>
-    <string name="excludeIpTitle">Exkludera IP-adresser</string>
     <string name="discardChanges">Kasta osparade ändringar?</string>
     <string name="discard">Kasta</string>
     <string name="done">KLAR</string>
@@ -130,7 +91,6 @@
     <string name="try_again">Försök igen</string>
     <string name="delete">Ta bort</string>
     <string name="remove">Ta bort</string>
-    <string name="doneButton">Klar</string>
     <string name="saveButton">Spara</string>
     <string name="protocolLabel">Protokoll</string>
     <string name="protocol">Protokoll:</string>
@@ -153,19 +113,14 @@
     <string name="error_prepare_vpn_settings">Gå till Android VPN-inställningarna</string>
     <string name="error_prepare_vpn_title">Fel: problem med VPN-behörighet</string>
     <string name="error_server_not_set">Servern är inte längre tillgänglig</string>
-    <string name="bugReportThankYouToast">Tack för din rapport</string>
     <string name="bugReportErrorEmptyEmail">E-post kan inte vara tomt</string>
     <string name="bugReportErrorInvalidEmail">Ogiltig e-postadress</string>
-    <string name="bugReportErrorEmptyDescription">Skriv till oss vad som händer</string>
     <string name="bugReportLabelVpnLogsTitle">Inkludera felloggar</string>
     <string name="bugReportErrorLabelVpnLogsDescription">Detta skickar lokala felloggar (vi loggar inte aktivitet) för att hjälpa oss att åtgärda ditt problem</string>
     <string name="profileFastest">Snabbast</string>
     <string name="profileRandom">Slumpmässig</string>
-    <string name="settingsSplitTunnelingDescription">Split Tunneling tillåter att vissa appar eller IP:n exkluderas från VPN-trafiken.</string>
-    <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
     <string name="loaderErrorNoInternet">Ingen Internetanslutning</string>
     <string name="loaderErrorGeneric">Något gick fel</string>
-    <string name="loaderLoadingServers">Laddar servrar…</string>
     <string name="inputIpAddressLabel">IP-adress</string>
     <string name="inputIpAddressHint">Skriv IP-adress</string>
     <string name="inputIpAddressErrorInvalid">Ogiltig IP-adress</string>
@@ -177,14 +132,6 @@
     <string name="settingsExcludedAppsAvailableRegularHeader">Tillåtna vanliga appar (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">Tillåtna systemappar (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Visa systemappar</string>
-    <string name="listNoItems">Ingen</string>
-    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
-         %2$d - a number of remaining items.
-         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
-    <plurals name="listFewItemsAndMore">
-        <item quantity="one">%1$s och %2$d till</item>
-        <item quantity="other">%1$s och %2$d till</item>
-    </plurals>
     <string name="excludeAlreadyExcluded">Redan exkluderad</string>
     <string name="removeExcludedIpDialogDescription">Ta bort IP-adress från listan?</string>
     <string name="tileConnected">Ansluten: %1$s</string>
@@ -210,7 +157,6 @@
     <string name="troubleshootGovernmentBlockTitle">Regeringsblockering</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ditt land kanske blockerar åtkomst till Proton. Testa att använda <a href=\'%1$s\'>Tor</a> för att komma åt Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Alltid-på VPN &amp; kill switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Ställ in hur Proton VPN ska agera om din anslutning avbryts</string>
     <string name="settingsAlwaysOnWindowHeader">Hur man slår på alltid-på VPN och kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Öppna din enhets <b>inställningar</b> genom att trycka på knappen nedan]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -226,7 +172,6 @@
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tryck på knappen bredvid <b>Blockera anslutningar utan VPN</b> för att aktivera kill switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Öppna Android-inställningar</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Aktivering av kill switch kommer inaktivera delad tunnling eftersom kill switch blockerar samtliga anslutningar utanför VPN-tunneln</string>
-    <string name="settingsSmartProtocolDescription">Använd automatiskt protokollet och porten som erbjuder den bästa anslutningen.</string>
     <string name="settingsEnableTelemetryTitle">Dela anonym användningsstatistik</string>
     <string name="settingsEnableTelemetryDescription">Användningsdata hjälper oss att övervinna VPN-blockeringar och förbättra appens prestanda.</string>
     <string name="settingsSendCrashReportsTitle">Dela anonyma kraschrapporter</string>
@@ -253,7 +198,6 @@
     <string name="netshield_trackers_details">Cookies och andra spårare som lagrar och delar information om din internetaktivitet</string>
     <string name="netshield_data_title">Data</string>
     <string name="netshield_data_details">Mängden oönskad data från annonser, spårare och skadlig kod blockerad av NetShield</string>
-    <string name="accessibility_netshield_status_on_click">Ange NetShield-inställningar</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Annons blockerad</item>
         <item quantity="other">Annonser blockerade</item>
@@ -265,25 +209,18 @@
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Data sparad</string>
     <string name="netshield_setting_warning">Vissa webbplatser kanske inte laddas korrekt när annonser och spårare är blockerade.</string>
     <string name="dialogDontShowAgain">Visa inte igen</string>
-    <string name="guestHoleActivated">Åtkomsten till Proton VPN kan vara begränsad i ditt område så detta kommer att ta längre tid än vanligt. Vänta medan vi löser problemet.</string>
     <string name="guestHoleNotificationContent">Försöker kringgå nätverksproblem. Detta kommer att hjälpa dig att komma åt Proton VPN.</string>
-    <string name="onMaintenanceDetected">VPN-servern du var ansluten till genomgår underhåll. Vi återansluter dig automatiskt till den snabbaste tillgängliga servern.</string>
     <string name="errorTunMultiUserPermission">Det gick inte att initiera VPN-anslutningen på grund av en konflikt mellan dual-app (till exempel Dual Messenger) och Split Tunneling. Inaktivera en av dessa och starta om din enhet.</string>
     <string name="errorTorrentNotAllowed">P2P är inte tillåtet på denna server</string>
-    <string name="errorWireguardWithPlaceholder">WireGuard-fel %1$s</string>
     <string name="profileProtocolNotAvailable">Denna profils VPN-protokoll är inte tillgänglig för närvarande. Försök att ändra protokollet för att ansluta.</string>
     <string name="stateConnectedTo">Ansluten till %1$s</string>
     <string name="stateNotConnected">Du är inte ansluten</string>
-    <string name="recents">Senaste</string>
-    <string name="tvQuickConnectDescription">Närliggande länder</string>
-    <string name="tvQuickConnectSubDescription">Streaming-server</string>
     <string name="nameEurope">Europa</string>
     <string name="nameAmerica">Amerika</string>
     <string name="nameAsia">Asien</string>
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Mellanöstern</string>
     <string name="nameOceania">Oceanien</string>
     <string name="tvRowMore">Mer</string>
-    <string name="tv_detail_default_connection_checkbox">Mitt favoritland</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
     <string name="tv_detail_connect_streaming">Streama med Plus</string>
     <string name="tv_detail_connect">Anslut</string>
@@ -325,13 +262,8 @@
     <string name="tv_available_servers">Tillgängliga servrar (%1$d)</string>
     <string name="tv_locked_servers">Låsta servrar (%1$d)</string>
     <string name="tv_other_servers">Andra servrar (%1$d)</string>
-    <string name="tv_server_under_maintenance">Under underhåll</string>
     <string name="tv_server_list">Serverlista</string>
     <string name="tv_server_list_action_unavailable">Inte tillgänglig</string>
-    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsReconnectToApplySettingsDialogContent">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
-    <string name="settingsReconnectToChangeDialogContent">Detta kommer att starta om din anslutning.</string>
-    <string name="reconnectToEnableNetshield">Detta kommer att starta om din anslutning.\n\nObs! Vissa webbplatser kanske inte laddas med NetShield på.</string>
     <string name="notification_subscription_expired_title">Din Proton VPN-prenumerationspaket har löpt ut</string>
     <string name="notification_subscription_expired_content">Vi var tvungna att nedgradera ditt paket, men vi återansluter dig till den snabbaste servern som finns tillgänglig på det paketet.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Din prenumeration har nedgraderats.</string>
@@ -347,7 +279,6 @@
     <string name="notification_cancel_to_free">Du är på Free-paketet. Gratis servrar och funktioner är tillgängliga.</string>
     <string name="notification_cancel_to_basic">Du har Basic-paketet. Basic &amp; Free servrar och funktioner är tillgängliga.</string>
     <string name="notification_cancel_to_delinquent">Du kommer att kunna få åtkomst till premiumfunktioner igen efter att väntande fakturor har betalats.</string>
-    <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Från server: </string>
     <string name="reconnect_to_server">Till server: </string>
     <string name="no_thanks">Nej tack</string>
@@ -431,9 +362,7 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås upp %1$s i %2$s med <b>VPN Plus</b>.]]></string>
-    <string name="upgrade_plus_countries_subtitle">När du uppgraderar till Plus</string>
     <string name="upgrade_not_now_button">Inte nu</string>
-    <string name="upgrade_learn_more">Lär dig mer</string>
     <string name="upsell_card_countries_title">Världsomspännande täckning</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -516,9 +445,7 @@
     <string name="onboarding_welcome_title">Välkommen till Proton VPN</string>
     <string name="onboarding_welcome_description">Surfa privat, åtkomst till blockerat innehåll och njut av digital frihet.</string>
     <string name="onboarding_welcome_action">Kom igång</string>
-    <string name="onboarding_available_on_plus">Tillgängligt med Plus</string>
     <string name="upgrade_success_get_started_button">Kom igång</string>
-    <string name="upgrade_use_limited_free_button">Använd begränsat Free-paket</string>
     <string name="dynamic_report_suggestion_didnt_work">Fungerade det inte?</string>
     <string name="dynamic_report_contact_us">Kontakta oss</string>
     <string name="dynamic_report_tips_description">Dessa tips kan hjälpa dig att lösa ditt problem snabbare.</string>
@@ -539,36 +466,10 @@
     <string name="dialog_create_account_action_create">Skapa konto</string>
     <string name="dialog_create_account_action_signin">Logga in</string>
     <string name="server_search_menu_title">Sök</string>
-    <string name="server_search_hint">Land, ort, server</string>
-    <string name="server_search_hint_secure_core">Land</string>
-    <!-- The parameter is the number of countries displayed in search results.
-         Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Länder (%1$d)</string>
-    <!-- The parameter is the number of Secure Core countries displayed in search results.
-     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Secure Core-länder (%1$d)</string>
-    <!-- The parameter is the number of cities displayed in search results.
-         Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Orter (%1$d)</string>
-    <!-- The parameter is the number of server displayed in search results.
-         Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Servrar (%1$d)</string>
-    <string name="search_empty_title">Sök efter valfri plats</string>
-    <string name="search_empty_hint_countries"><![CDATA[Länder: <font color="%1$s">Schweiz, USA, Italien…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Länder: <font color="%1$s">Frankrike, USA, Italien…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Städer: <font color="%1$s">New York, London, Tokyo…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[Regioner i USA: <font color="%1$s">Kalifornien, Florida, Colorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Servrar: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Försök med ett annat nyckelord</string>
     <string name="search_empty_result_title">Inga resultat hittades</string>
-    <string name="search_recents_header_title">Nyligen visade (%1$d)</string>
-    <string name="search_clear_history">Rensa historik</string>
-    <string name="search_clear_history_dialog">Din sökhistorik kommer att gå förlorad. Fortsätta?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Rensa</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Besök <a href="https://protonvpn.com/pricing">protonvpn.com</a> för mer info.</string>
-    <string name="free_upsell_header_title">Få världsomspännande täckning med VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Vill du ansluta till ett specifikt land?</string>
     <string name="upgrade_country_message"><![CDATA[Lås upp <b>val av land</b> med VPN Plus.]]></string>
@@ -871,10 +772,6 @@
         <item quantity="other">Automatiskt vald från %1$d länder</item>
     </plurals>
     <!-- tag(Redesign_2023)
-         Help button above the connection card.
-     -->
-    <string name="connection_card_help">Hjälp</string>
-    <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
 
@@ -1000,12 +897,6 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_notifications_title">Aviseringar</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_theme_title">Tema</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Beta-åtkomst</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Widget</string>
-    <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Support</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Hjälpcenter</string>
@@ -1019,10 +910,6 @@
     <string name="settings_fight_censorship_title">Hjälp oss att bekämpa censur</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Betygsätt Proton VPN</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Återställ standardinställningar</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Logga ut</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">App-version: %1$s</string>
     <!-- tag(Redesign_2023) -->
@@ -1281,12 +1168,12 @@
     <string name="settings_advanced_allow_lan_description">Låter dig ansluta till skrivare, högtalare och andra enheter i din enhets lokala nätverk.</string>
     <string name="settings_advanced_nat_type_title">NAT-typ</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
+    <string name="settings_advanced_nat_type_description">Välj en nätverksadressöversättningstyp för din anslutning. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Välj en nätverksadressöversättningstyp för din anslutning.</string>
     <string name="settings_advanced_nat_type_strict">Strikt (typ 3)</string>
-    <string name="settings_advanced_nat_type_moderate">Moderate (type 2)</string>
-    <string name="settings_advanced_nat_type_strict_description">Restricts the data entering your network. This option is more secure, but can make peer-to-peer gaming connections more difficult.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
+    <string name="settings_advanced_nat_type_moderate">Moderera (typ 2)</string>
+    <string name="settings_advanced_nat_type_strict_description">Begränsar den data som ankommer till ditt nätverk. Detta alternativ är säkrare, men kan göra peer-to-peer spel-anslutningar svårare.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Restriktioner av data som ankommer till ditt nätverk. vid data Detta alternativ är bäst vid online spel.</string>
     <string name="settings_split_tunneling_description">Anpassa din anslutning genom att bestämma vilka appar och IP-adresser som är skyddade av VPN. %1$s</string>
     <string name="settings_protocol_description">Ett VPN-protokoll avgör hur data flyttas mellan en VPN-server och din enhet. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Exkluderade appar</string>

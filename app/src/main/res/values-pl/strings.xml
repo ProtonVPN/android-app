@@ -27,21 +27,12 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Brak włączonych połączeń VPN na koncie. Skontaktuj się ze swoim administratorem, aby rozpocząć korzystanie z Proton VPN. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Włącz połączenia VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Zaloguj się ponownie</string>
-    <string name="mapSwitchSecureCore">Secure Core</string>
-    <string name="warning">Ostrzeżenie</string>
     <string name="secureCoreSpeedInfoTitle">Uwaga dotycząca prędkości…</string>
     <string name="secureCoreSpeedInfoMessage">Funkcja Secure Core oferuje najwyższy poziom bezpieczeństwa i prywatności, ale może zmniejszyć prędkość połączenia. Jeśli potrzebujesz większej wydajności, wyłącz funkcję Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Aktywuj funkcję Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Wylogować się?</string>
-    <string name="logoutConfirmDialogMessage">Wylogowanie spowoduje rozłączenie połączenia VPN.</string>
-    <string name="logoutConfirmDialogButton">Wyloguj</string>
-    <string name="yes">Tak</string>
-    <string name="no">Nie</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
-    <string name="dialogContinue">Kontynuuj</string>
     <string name="dialogLearnMore">Dowiedz się więcej</string>
-    <string name="secureCoreConnectVia">przez %1$s</string>
     <string name="connected">Połączono</string>
     <string name="buttonConnect">Połącz</string>
     <string name="loaderConnectingTo">Łączenie z %1$s</string>
@@ -57,43 +48,16 @@
     <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Anuluj</string>
     <string name="close">Zamknij</string>
-    <string name="drawerHelp">Pomoc</string>
-    <string name="drawerShowLog">Pokaż logi</string>
     <string name="drawerReportProblem">Zgłoś problem</string>
-    <string name="drawerAppVersion">Wersja %1$s</string>
     <string name="action_share">Udostępnij</string>
     <string name="accountFree">Proton Free</string>
-    <string name="settingsSectionConnection">Połączenie</string>
-    <string name="settingsSectionSecurity">Bezpieczeństwo</string>
-    <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Wsparcie</string>
-    <string name="settingsSectionAdvanced">Zaawansowane</string>
-    <string name="settingsBypassLocalTitle">Połączenia LAN</string>
-    <string name="settingsDnsLeakProtectionTitle">Zabezpieczenie przed wyciekiem zapytań DNS</string>
-    <string name="settingsDnsLeakDescription">Zapobiega wyciekaniu zapytań DNS do stron trzecich (zawsze włączone)</string>
-    <string name="settingsAllowNonStandardPortsTitle">Niestandardowe porty</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Używaj aplikacji Proton VPN do wszelkich specjalnych potrzeb, zezwalając na ruch do niestandardowych portów przez sieć VPN. <a href="%1$s">Dowiedz się więcej</a>]]></string>
-    <string name="settingsModerateNatTitle">Umiarkowany NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Umiarkowany NAT wyłącza losowe mapowanie adresów lokalnych, co może nieco zmniejszyć bezpieczeństwo, ale umożliwia stosowanie technik takich, jak bezpośrednie połączenia aplikacji, np. gier online. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="restrictedMaintenanceTitle">W trakcie przerwy technicznej</string>
     <string name="restrictedMaintenanceDescription">Serwer, z którym próbujesz się połączyć, jest w trakcie przerwy technicznej. Wybierz inny serwer.</string>
     <string name="errorUserDelinquent"><![CDATA[Twoje konto posiada obecnie zaległe faktury. Ureguluj wszystkie zobowiązania na&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Osiągnięto maksymalną liczbę jednoczesnych połączeń, dozwolonych dla Twojego konta. Aby zwiększyć liczbę połączeń, ulepsz swój plan Proton VPN.</string>
-    <string name="onboardingSignup">Zarejestruj się</string>
-    <string name="offerTooltipShowOffer">Zobacz ofertę</string>
     <string name="listItemMaintenance">W trakcie przerwy technicznej</string>
-    <string name="listAllCountries">Wszystkie lokalizacje (%1$d)</string>
-    <string name="listGateways">Bramy</string>
-    <string name="listFreeCountries">Lokalizacje planu Free (%1$d)</string>
-    <string name="listPremiumCountries">Lokalizacje planu Basic i Plus (%1$d)</string>
-    <string name="listPremiumCountries_new_plans">Lokalizacje planu Plus (%1$d)</string>
-    <string name="listFastestServer">Najszybszy serwer</string>
-    <string name="listFreeServers">Serwery planu Free (%1$d)</string>
-    <string name="listBasicServers">Serwery planu Basic (%1$d)</string>
-    <string name="listPlusServers">Serwery planu Plus (%1$d)</string>
     <string name="insufficientPermissionsTitle">Działanie użytkownika jest wymagane</string>
     <string name="insufficientPermissionsDetails">Nie można ustanowić automatycznego połączenia VPN. Połącz się ręcznie, aby przyznać uprawnienia.</string>
-    <string name="tabsCountries">Kraje</string>
     <string name="log_title">Logi</string>
     <string name="disconnect">Rozłącz</string>
     <string name="state_connecting">Łączenie…</string>
@@ -111,15 +75,12 @@
     <string name="connect">Połącz</string>
     <string name="upgrade">Ulepsz</string>
     <string name="retry">Spróbuj ponownie</string>
-    <string name="secure_core">Secure Core</string>
-    <string name="attachments">Załączniki</string>
     <string name="report_message">Treść zgłoszenia</string>
     <string name="report_bug_email_label">Adres e-mail</string>
     <string name="report_bug_email_hint">Wpisz adres e-mail</string>
     <string name="report_bug_message_label">Wiadomość</string>
     <string name="report_bug_message_hint">Opisz błąd i dołącz informację jak i gdzie go znaleźć</string>
     <string name="send_report">Wyślij raport</string>
-    <string name="excludeIpTitle">Wyklucz adresy IP</string>
     <string name="discardChanges">Czy chcesz odrzucić niezapisane zmiany?</string>
     <string name="discard">Odrzuć</string>
     <string name="done">GOTOWE</string>
@@ -130,7 +91,6 @@
     <string name="try_again">Spróbuj ponownie</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
-    <string name="doneButton">Gotowe</string>
     <string name="saveButton">Zapisz</string>
     <string name="protocolLabel">Protokół</string>
     <string name="protocol">Protokół:</string>
@@ -153,19 +113,14 @@
     <string name="error_prepare_vpn_settings">Przejdź do ustawień VPN w systemie Android</string>
     <string name="error_prepare_vpn_title">Błąd: problem z uprawnieniem VPN</string>
     <string name="error_server_not_set">Serwer nie jest już dostępny</string>
-    <string name="bugReportThankYouToast">Dziękujemy za przesłanie zgłoszenia</string>
     <string name="bugReportErrorEmptyEmail">Pole adresu e-mail nie może być puste</string>
     <string name="bugReportErrorInvalidEmail">Adres e-mail jest nieprawidłowy</string>
-    <string name="bugReportErrorEmptyDescription">Napisz, co się stało</string>
     <string name="bugReportLabelVpnLogsTitle">Dołącz logi błędów</string>
     <string name="bugReportErrorLabelVpnLogsDescription">To opcja wysyła lokalne logi błędów, aby pomóc nam rozwiązać problem (nie przechowujemy logów aktywności)</string>
     <string name="profileFastest">Najszybszy</string>
     <string name="profileRandom">Losowy</string>
-    <string name="settingsSplitTunnelingDescription">Funkcja Split Tunneling umożliwia wykluczenie wybranych aplikacji lub adresów IP z połączenia VPN.</string>
-    <string name="settingsSplitTunnelingTitle">Split Tunneling</string>
     <string name="loaderErrorNoInternet">Brak połączenia z Internetem</string>
     <string name="loaderErrorGeneric">Coś poszło nie tak</string>
-    <string name="loaderLoadingServers">Ładowanie serwerów…</string>
     <string name="inputIpAddressLabel">Adres IP</string>
     <string name="inputIpAddressHint">Wpisz adres IP</string>
     <string name="inputIpAddressErrorInvalid">Adres IP jest nieprawidłowy</string>
@@ -177,16 +132,6 @@
     <string name="settingsExcludedAppsAvailableRegularHeader">Dozwolone aplikacje (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">Dozwolone aplikacje systemowe (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Pokaż aplikacje systemowe</string>
-    <string name="listNoItems">Brak</string>
-    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
-         %2$d - a number of remaining items.
-         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
-    <plurals name="listFewItemsAndMore">
-        <item quantity="one">%1$s i %2$d więcej</item>
-        <item quantity="few">%1$s i %2$d więcej</item>
-        <item quantity="many">%1$s i %2$d więcej</item>
-        <item quantity="other">%1$s i %2$d więcej</item>
-    </plurals>
     <string name="excludeAlreadyExcluded">Już wykluczony</string>
     <string name="removeExcludedIpDialogDescription">Usunąć adres IP z listy?</string>
     <string name="tileConnected">Połączono: %1$s</string>
@@ -212,7 +157,6 @@
     <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Stale aktywny VPN i Kill Switch</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Skonfiguruj jak aplikacja Proton VPN ma się zachowywać podczas przerwania połączenia</string>
     <string name="settingsAlwaysOnWindowHeader">Jak włączyć stale aktywny VPN i funkcję Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Otwórz <b>ustawienia</b> urządzenia, klikając poniższy przycisk]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -228,7 +172,6 @@
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Kliknij przycisk <b>Blokuj połączenia bez VPN</b>, aby włączyć funkcję Kill Switch]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otwórz ustawienia systemu Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Włączenie funkcji Kill Switch, która blokuje wszystkie płączenia poza tunelem VPN, spowoduje wyłączenie funkcji Split Tunneling</string>
-    <string name="settingsSmartProtocolDescription">Skorzystaj z protokołu i portu, które oferują najlepsze połączenie.</string>
     <string name="settingsEnableTelemetryTitle">Udostępnij anonimowe statystyki użytkowania</string>
     <string name="settingsEnableTelemetryDescription">Dane użytkowania pomagają nam ominąć blokady VPN i poprawić wydajność aplikacji.</string>
     <string name="settingsSendCrashReportsTitle">Udostępnij anonimowe raporty o awariach</string>
@@ -255,7 +198,6 @@
     <string name="netshield_trackers_details">Pliki cookies i inne elementy śledzące, które przechowują i udostępniają informacje o aktywności użytkownika w Internecie</string>
     <string name="netshield_data_title">Dane</string>
     <string name="netshield_data_details">Ilość niechcianych reklam, elementów śledzących i złośliwego oprogramowania zablokowanych przez funkcję NetShield</string>
-    <string name="accessibility_netshield_status_on_click">Przejdź do ustawień funkcji NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">reklama zablokowana</item>
         <item quantity="few">reklamy zablokowane</item>
@@ -271,25 +213,18 @@
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">zaoszczędzonych danych</string>
     <string name="netshield_setting_warning">Niektóre strony mogą nie działać poprawnie po zablokowaniu reklam i elementów śledzących.</string>
     <string name="dialogDontShowAgain">Nie pokazuj ponownie</string>
-    <string name="guestHoleActivated">Dostęp do usługi Proton VPN może być ograniczony w Twojej lokalizacji, więc połączenie może być wolniejsze. Poczekaj, aż zajmiemy się tym problemem.</string>
     <string name="guestHoleNotificationContent">Próba obejścia problemów z siecią. To pomoże uzyskać dostęp do usługi Proton VPN.</string>
-    <string name="onMaintenanceDetected">Serwer VPN, z którym byłeś połączony, jest w trakcie przerwy technicznej. Zostałeś połączony ponownie z najszybszym dostępnym serwerem.</string>
     <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>
     <string name="errorTorrentNotAllowed">Na tym serwerze ruch P2P nie jest dozwolony</string>
-    <string name="errorWireguardWithPlaceholder">Błąd protokołu WireGuard %1$s</string>
     <string name="profileProtocolNotAvailable">Ten profil protokołu VPN nie jest obecnie dostępny. Aby połączyć się, zmień protokół.</string>
     <string name="stateConnectedTo">Połączono z %1$s</string>
     <string name="stateNotConnected">Nie jesteś połączony</string>
-    <string name="recents">Ostatnie</string>
-    <string name="tvQuickConnectDescription">Pobliskie kraje</string>
-    <string name="tvQuickConnectSubDescription">Serwer streamingu</string>
     <string name="nameEurope">Europa</string>
     <string name="nameAmerica">Ameryka</string>
     <string name="nameAsia">Azja</string>
     <string name="nameAfricaAndMiddleEast">Afryka i Bliski Wschód</string>
     <string name="nameOceania">Oceania</string>
     <string name="tvRowMore">Więcej</string>
-    <string name="tv_detail_default_connection_checkbox">Mój ulubiony kraj</string>
     <string name="tv_detail_default_connection_checkbox_short">Ulubione</string>
     <string name="tv_detail_connect_streaming">Rozpocznij streaming z planem Plus</string>
     <string name="tv_detail_connect">Połącz</string>
@@ -331,13 +266,8 @@
     <string name="tv_available_servers">Dostępne serwery (%1$d)</string>
     <string name="tv_locked_servers">Zablokowane serwery (%1$d)</string>
     <string name="tv_other_servers">Inne serwery (%1$d)</string>
-    <string name="tv_server_under_maintenance">W trakcie przerwy technicznej</string>
     <string name="tv_server_list">Lista serwerów</string>
     <string name="tv_server_list_action_unavailable">Niedostępny</string>
-    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsReconnectToApplySettingsDialogContent">Nowe ustawienia zostaną zastosowane przy kolejnym połączeniu.</string>
-    <string name="settingsReconnectToChangeDialogContent">To spowoduje zresetowanie połączenia.</string>
-    <string name="reconnectToEnableNetshield">To spowoduje zresetowanie połączenia.\n\nUwaga: Niektóre strony mogą nie ładować się przy włączonej funkcji NetShield.</string>
     <string name="notification_subscription_expired_title">Twoja subskrypcja planu Proton VPN wygasła</string>
     <string name="notification_subscription_expired_content">Obniżyliśmy Twój plan, ale ponownie łączymy Cię z najszybszym dostępnym serwerem.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Twoja subskrypcja została obniżona.</string>
@@ -355,7 +285,6 @@
     <string name="notification_cancel_to_free">Posiadasz plan Free. Masz dostęp do serwerów i funkcji planu Free.</string>
     <string name="notification_cancel_to_basic">Posiadasz plan Basic. Masz dostęp do serwerów i funkcji planu Free i Basic.</string>
     <string name="notification_cancel_to_delinquent">Po zapłaceniu faktur, ponownie uzyskasz dostęp do funkcji premium.</string>
-    <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Z serwera: </string>
     <string name="reconnect_to_server">Do serwera: </string>
     <string name="no_thanks">Nie, dziękuję</string>
@@ -449,9 +378,7 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odblokuj %1$s w %2$s w planie <b>VPN Plus</b>.]]></string>
-    <string name="upgrade_plus_countries_subtitle">Po ulepszeniu planu do wersji Plus</string>
     <string name="upgrade_not_now_button">Nie teraz</string>
-    <string name="upgrade_learn_more">Dowiedz się więcej</string>
     <string name="upsell_card_countries_title">Globalny zasięg</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -536,9 +463,7 @@
     <string name="onboarding_welcome_title">Witaj w Proton VPN</string>
     <string name="onboarding_welcome_description">Przeglądaj prywatnie Internet, uzyskaj dostęp do zablokowanych treści i ciesz się cyfrową wolnością.</string>
     <string name="onboarding_welcome_action">Rozpocznij</string>
-    <string name="onboarding_available_on_plus">Funkcja dostępna w planie Plus</string>
     <string name="upgrade_success_get_started_button">Rozpocznij</string>
-    <string name="upgrade_use_limited_free_button">Wybierz ograniczony plan Free</string>
     <string name="dynamic_report_suggestion_didnt_work">Nie działa?</string>
     <string name="dynamic_report_contact_us">Skontaktuj się z nami</string>
     <string name="dynamic_report_tips_description">Te wskazówki mogą rozwiązać problem.</string>
@@ -559,36 +484,10 @@
     <string name="dialog_create_account_action_create">Utwórz konto</string>
     <string name="dialog_create_account_action_signin">Zaloguj się</string>
     <string name="server_search_menu_title">Szukaj</string>
-    <string name="server_search_hint">Kraj, miasto, serwer</string>
-    <string name="server_search_hint_secure_core">Kraj</string>
-    <!-- The parameter is the number of countries displayed in search results.
-         Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Kraje (%1$d)</string>
-    <!-- The parameter is the number of Secure Core countries displayed in search results.
-     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">Kraje Secure Core (%1$d)</string>
-    <!-- The parameter is the number of cities displayed in search results.
-         Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Miasta (%1$d)</string>
-    <!-- The parameter is the number of server displayed in search results.
-         Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Serwery (%1$d)</string>
-    <string name="search_empty_title">Szukaj lokalizacji</string>
-    <string name="search_empty_hint_countries"><![CDATA[Kraje: <font color="%1$s">Szwajcaria, Stany Zjednoczone, Włochy…</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Kraje: <font color="%1$s">Francja, Stany Zjednoczone, Włochy…</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Miasta: <font color="%1$s">Nowy Jork, Londyn, Tokio…</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[Regiony USA: <font color="%1$s">Kalifornia, Floryda, Kolorado…</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Serwery: <font color="%1$s">JP#50, CA#3, IT#14…</font>]]></string>
     <string name="search_empty_result_subtitle">Spróbuj użyć innego słowa kluczowego</string>
     <string name="search_empty_result_title">Nie znaleziono żadnych wyników</string>
-    <string name="search_recents_header_title">Ostatnio oglądane (%1$d)</string>
-    <string name="search_clear_history">Wyczyść historię</string>
-    <string name="search_clear_history_dialog">Twoja historia wyszukiwania zostanie utracona. Kontynuować?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Wyczyść</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Odwiedź <a href="https://protonvpn.com/pricing">protonvpn.com</a>, aby uzyskać więcej informacji.</string>
-    <string name="free_upsell_header_title">Plan VPN Plus zapewnia zasięg na całym świecie</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Chcesz połączyć się z konkretnym krajem?</string>
     <string name="upgrade_country_message"><![CDATA[Odblokuj <b>wybór krajów</b> w planie VPN Plus.]]></string>
@@ -909,10 +808,6 @@
         <item quantity="other">Automatycznie wybrany z %1$d krajów</item>
     </plurals>
     <!-- tag(Redesign_2023)
-         Help button above the connection card.
-     -->
-    <string name="connection_card_help">Pomoc</string>
-    <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
 
@@ -1038,12 +933,6 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_notifications_title">Powiadomienia</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_theme_title">Motyw</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Dostęp beta</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Widżet</string>
-    <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Wsparcie</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Centrum pomocy</string>
@@ -1057,10 +946,6 @@
     <string name="settings_fight_censorship_title">Pomóż nam pokonać cenzurę</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Oceń Proton VPN</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Przywróć ustawienia domyślne</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Wyloguj</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">Wersja aplikacji: %1$s</string>
     <!-- tag(Redesign_2023) -->

@@ -27,21 +27,12 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Za ta račun trenutno ni omogočena povezava VPN. Če želite začeti svojo pot s Proton VPN, se obrnite na skrbnika. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Omogoči povezave VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Ponovno se prijavite</string>
-    <string name="mapSwitchSecureCore">Secure Core</string>
-    <string name="warning">Opozorilo</string>
     <string name="secureCoreSpeedInfoTitle">Opomba o hitrosti…</string>
     <string name="secureCoreSpeedInfoMessage">Secure Core ponuja najvišjo raven varnosti in zasebnosti, vendar lahko zmanjša hitrost interneta. Če potrebujete več zmogljivosti, lahko onemogočite Secure Core.</string>
     <string name="secureCoreActivateDialogButton">Aktivirajte Secure Core</string>
-    <string name="logoutConfirmDialogTitle">Odjava?</string>
-    <string name="logoutConfirmDialogMessage">Če se odjavite, bo vaša naprava prekinjena z omrežjem VPN.</string>
-    <string name="logoutConfirmDialogButton">Odjava</string>
-    <string name="yes">Da</string>
-    <string name="no">Ne</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">V redu</string>
-    <string name="dialogContinue">Nadaljujte</string>
     <string name="dialogLearnMore">Več informacij</string>
-    <string name="secureCoreConnectVia">preko %1$s</string>
     <string name="connected">Povezano</string>
     <string name="buttonConnect">Poveži</string>
     <string name="loaderConnectingTo">Povezovanje z %1$s</string>
@@ -57,43 +48,16 @@
     <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Prekliči</string>
     <string name="close">Zapri</string>
-    <string name="drawerHelp">Pomoč</string>
-    <string name="drawerShowLog">Prikaži dnevnik</string>
     <string name="drawerReportProblem">Prijava napake</string>
-    <string name="drawerAppVersion">v%1$s</string>
     <string name="action_share">Deli</string>
     <string name="accountFree">Proton Free</string>
-    <string name="settingsSectionConnection">Povezava</string>
-    <string name="settingsSectionSecurity">Varnost</string>
-    <!-- tag(Redesign_2023) Support section title in settings screen -->
-    <string name="settingsSectionSupport">Podpora</string>
-    <string name="settingsSectionAdvanced">Napredno</string>
-    <string name="settingsBypassLocalTitle">LAN povezave</string>
-    <string name="settingsDnsLeakProtectionTitle">Zaščita pred uhajanjem DNS</string>
-    <string name="settingsDnsLeakDescription">Preprečite razkrivanje podrobnosti o poizvedbi DNS tretjim osebam (vedno vključeno)</string>
-    <string name="settingsAllowNonStandardPortsTitle">Nestandardna vrata</string>
-    <string name="settingsAllowNonStandardPortsDescription"><![CDATA[Uporabite Proton VPN za kakršne koli posebne potrebe, tako da omogočite promet do nestandardnih vrat prek omrežja VPN. <a href="%1$s">Več o tem</a>]]></string>
-    <string name="settingsModerateNatTitle">Zmerni NAT</string>
-    <string name="settingsModerateNatDescription"><![CDATA[Zmerni NAT onemogoči naključno preslikavo lokalnih naslovov, kar lahko nekoliko zmanjša vašo varnost, vendar omogoča tehnike, kot so neposredne povezave za aplikacije, kot so spletne igre. <a href="%1$s">Več o tem</a>]]></string>
     <string name="restrictedMaintenanceTitle">Vzdrževalna dela v teku</string>
     <string name="restrictedMaintenanceDescription">Strežnik, s katerim se trenutno poskušate povezati, je v vzdrževanju. Poskusite z drugim strežnikom.</string>
     <string name="errorUserDelinquent"><![CDATA[Vaš račun ima trenutno zapadli račun. Vse neplačane račune plačajte na &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Dosegli ste največje dovoljeno število hkratnih povezav za vaš račun. Za več povezav nadgradite svoj paket Proton VPN.</string>
-    <string name="onboardingSignup">Prijavite se</string>
-    <string name="offerTooltipShowOffer">Oglejte si ponudbo</string>
     <string name="listItemMaintenance">Vzdrževalna dela v teku</string>
-    <string name="listAllCountries">Vse lokacije (%1$d)</string>
-    <string name="listGateways">Prehodi</string>
-    <string name="listFreeCountries">Brezplačne lokacije (%1$d)</string>
-    <string name="listPremiumCountries">Osnovne &amp; Plus lokacije (%1$d)</string>
-    <string name="listPremiumCountries_new_plans">Plus lokacije (%1$d)</string>
-    <string name="listFastestServer">Najhitrejši strežnik</string>
-    <string name="listFreeServers">Brezplačni strežniki (%1$d)</string>
-    <string name="listBasicServers">Osnovni strežniki (%1$d)</string>
-    <string name="listPlusServers">Plus strežniki (%1$d)</string>
     <string name="insufficientPermissionsTitle">Potrebno je ukrepanje uporabnika</string>
     <string name="insufficientPermissionsDetails">Povezave VPN ni bilo mogoče samodejno vzpostaviti. Povežite se enkrat ročno, da podelite dovoljenja.</string>
-    <string name="tabsCountries">Države</string>
     <string name="log_title">Dnevnik</string>
     <string name="disconnect">Prekini</string>
     <string name="state_connecting">Povezovanje …</string>
@@ -111,15 +75,12 @@
     <string name="connect">Poveži</string>
     <string name="upgrade">Nadgradi</string>
     <string name="retry">Poskusite znova</string>
-    <string name="secure_core">Secure Core</string>
-    <string name="attachments">Priponke</string>
     <string name="report_message">Prijavi sporočilo</string>
     <string name="report_bug_email_label">Vaš e-poštni naslov</string>
     <string name="report_bug_email_hint">Vnesite svoj e-poštni naslov</string>
     <string name="report_bug_message_label">Sporočilo</string>
     <string name="report_bug_message_hint">Opišite napako ter kako in kje ste jo našli</string>
     <string name="send_report">Pošlji poročilo</string>
-    <string name="excludeIpTitle">Izključi IP naslove</string>
     <string name="discardChanges">Zavržem neshranjene spremembe?</string>
     <string name="discard">Zavrzi</string>
     <string name="done">KONČANO</string>
@@ -130,7 +91,6 @@
     <string name="try_again">Poskusite ponovno</string>
     <string name="delete">Izbriši</string>
     <string name="remove">Odstrani</string>
-    <string name="doneButton">Opravljeno</string>
     <string name="saveButton">Shrani</string>
     <string name="protocolLabel">Protokol</string>
     <string name="protocol">Protokol:</string>
@@ -153,19 +113,14 @@
     <string name="error_prepare_vpn_settings">Pojdite na nastavitve VPN za Android</string>
     <string name="error_prepare_vpn_title">Napaka: Težava z dovoljenjem VPN</string>
     <string name="error_server_not_set">Strežnik ni več na voljo</string>
-    <string name="bugReportThankYouToast">Hvala za vaše poročilo.</string>
     <string name="bugReportErrorEmptyEmail">E-pošta ne sme biti prazna.</string>
     <string name="bugReportErrorInvalidEmail">Neveljaven e-poštni naslov</string>
-    <string name="bugReportErrorEmptyDescription">Prosimo, pišite nam, kaj se je zgodilo</string>
     <string name="bugReportLabelVpnLogsTitle">Vključite dnevnike napak</string>
     <string name="bugReportErrorLabelVpnLogsDescription">To pošilja lokalne dnevnike napak (ne beležimo dejavnosti), ki nam pomagajo odpraviti vašo težavo</string>
     <string name="profileFastest">Najhitrejše</string>
     <string name="profileRandom">Naključno</string>
-    <string name="settingsSplitTunnelingDescription">Razdeljeno tuneliranje omogoča izključitev določenih aplikacij ali naslovov IP iz prometa VPN.</string>
-    <string name="settingsSplitTunnelingTitle">Razdeljeno tuneliranje</string>
     <string name="loaderErrorNoInternet">Ni spletne povezave</string>
     <string name="loaderErrorGeneric">Nekaj je šlo narobe</string>
-    <string name="loaderLoadingServers">Nalaganje strežnikov …</string>
     <string name="inputIpAddressLabel">IP naslov</string>
     <string name="inputIpAddressHint">Napišite IP naslov</string>
     <string name="inputIpAddressErrorInvalid">Neveljaven IP naslov</string>
@@ -177,16 +132,6 @@
     <string name="settingsExcludedAppsAvailableRegularHeader">Dovoljene navadne aplikacije (%1$d)</string>
     <string name="settingsExcludedAppsAvailableSystemHeader">Dovoljene sistemske aplikacije (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Pokaži sistemske aplikacije</string>
-    <string name="listNoItems">Brez</string>
-    <!-- %1$s - a short list of items, e.g. "Facebook, Twitter". Can be a single item.
-         %2$d - a number of remaining items.
-         Examples: "Facebook, Twitter and 2 more", "10.0.0.1, 10.0.0.5 and 1 more" -->
-    <plurals name="listFewItemsAndMore">
-        <item quantity="one">%1$s in %2$d več</item>
-        <item quantity="two">%1$s in %2$d več</item>
-        <item quantity="few">%1$s in %2$d več</item>
-        <item quantity="other">%1$s in %2$d več</item>
-    </plurals>
     <string name="excludeAlreadyExcluded">Že izključeno</string>
     <string name="removeExcludedIpDialogDescription">Želite odstraniti naslov IP s seznama?</string>
     <string name="tileConnected">Povezano: %1$s</string>
@@ -212,7 +157,6 @@
     <string name="troubleshootGovernmentBlockTitle">Blokada s strani države</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša država morda blokira dostop do Protona. Poskusite uporabiti <a href=\'%1$s\'>Tor</a> za dostop do Protona.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Vedno vključen VPN &amp; stikalo za izklop</string>
-    <string name="settingsAlwaysOnKillSwitchDescription">Nastavite, kako se Proton VPN obnaša, če je vaša povezava motena</string>
     <string name="settingsAlwaysOnWindowHeader">Kako vklopiti vedno vključen VPN in stikalo za izklop:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Odprite <b>Nastavitve</b> vaše naprave tako, da tapnete spodnji gumb]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -228,7 +172,6 @@
     <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tapnite stikalo poleg možnosti <b>Blokiraj povezave brez VPN</b>, da omogočite stikalo za izklop]]></string>
     <string name="settingsAlwaysOnWindowAndroidSettingsButton">Odprite nastavitve za Android</string>
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">Če aktivirate stikalo za izklop, boste onemogočili razdeljeno tuneliranje, saj stikalo za izklop blokira vse povezave zunaj tunela VPN</string>
-    <string name="settingsSmartProtocolDescription">Samodejno uporabite protokol in vrata, ki nudijo najboljšo povezljivost.</string>
     <string name="settingsEnableTelemetryTitle">Delite anonimne podatke o uporabi</string>
     <string name="settingsEnableTelemetryDescription">Podatki o uporabi nam pomagajo premagati blokade VPN in izboljšati delovanje aplikacije.</string>
     <string name="settingsSendCrashReportsTitle">Delite anonimna poročila o zrušitvah</string>
@@ -255,7 +198,6 @@
     <string name="netshield_trackers_details">Piškotki in drugi sledilniki, ki shranjujejo in delijo informacije o vaši internetni dejavnosti</string>
     <string name="netshield_data_title">Podatki</string>
     <string name="netshield_data_details">Količina neželenih podatkov iz oglasov, sledilnikov in zlonamerne programske opreme, ki jih blokira NetShield</string>
-    <string name="accessibility_netshield_status_on_click">Nastavitve NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Oglas blokiran</item>
         <item quantity="two">Oglasa blokirana</item>
@@ -271,25 +213,18 @@
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Shranjeni podatki</string>
     <string name="netshield_setting_warning">Nekatere spletne strani se morda ne bodo pravilno naložile, če so oglasi in sledilniki blokirani.</string>
     <string name="dialogDontShowAgain">Ne prikaži več</string>
-    <string name="guestHoleActivated">Dostop do Proton VPN je lahko na vašem območju omejen, zato bo trajalo dlje kot običajno. Počakajte, da rešimo to težavo.</string>
     <string name="guestHoleNotificationContent">Poskušam zaobiti težave z omrežjem. To vam bo pomagalo dostopati do Proton VPN.</string>
-    <string name="onMaintenanceDetected">Strežnik VPN, s katerim ste bili povezani, je v vzdrževalnih delih. Samodejno smo vas ponovno povezali z najhitrejšim razpoložljivim strežnikom.</string>
     <string name="errorTunMultiUserPermission">Povezave VPN ni bilo mogoče zagnati zaradi spora med dvojno aplikacijo (na primer Dual Messenger) in razdeljenim tuneliranjem. Onemogočite enega od teh in znova zaženite napravo.</string>
     <string name="errorTorrentNotAllowed">P2P na tem strežniku ni dovoljen</string>
-    <string name="errorWireguardWithPlaceholder">Napaka WireGuard %1$s</string>
     <string name="profileProtocolNotAvailable">Ta profil protokola VPN trenutno ni na voljo. Če želite vzpostaviti povezavo, spremenite protokol.</string>
     <string name="stateConnectedTo">Povezano z %1$s</string>
     <string name="stateNotConnected">Niste povezani</string>
-    <string name="recents">Nedavne</string>
-    <string name="tvQuickConnectDescription">Bližnje države</string>
-    <string name="tvQuickConnectSubDescription">Pretočni strežnik</string>
     <string name="nameEurope">Evropa</string>
     <string name="nameAmerica">Amerika</string>
     <string name="nameAsia">Azija</string>
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Bližnji vzhod</string>
     <string name="nameOceania">Oceanija</string>
     <string name="tvRowMore">Več</string>
-    <string name="tv_detail_default_connection_checkbox">Moja najljubša država</string>
     <string name="tv_detail_default_connection_checkbox_short">Najljubša</string>
     <string name="tv_detail_connect_streaming">Pretakajte s Plusom</string>
     <string name="tv_detail_connect">Poveži</string>
@@ -331,13 +266,8 @@
     <string name="tv_available_servers">Razpoložljivi strežniki (%1$d)</string>
     <string name="tv_locked_servers">Zaklenjeni strežniki (%1$d)</string>
     <string name="tv_other_servers">Drugi strežniki (%1$d)</string>
-    <string name="tv_server_under_maintenance">Vzdrževalna dela v teku</string>
     <string name="tv_server_list">Seznam strežnikov</string>
     <string name="tv_server_list_action_unavailable">Ni na voljo</string>
-    <string name="settingsSmartReconnectTitle">VPN Accelerator</string>
-    <string name="settingsReconnectToApplySettingsDialogContent">Nove nastavitve bodo veljale ob naslednji povezavi.</string>
-    <string name="settingsReconnectToChangeDialogContent">To bo znova zagnalo vašo povezavo.</string>
-    <string name="reconnectToEnableNetshield">To bo znova zagnalo vašo povezavo.\n\nOpomba: nekatera spletna mesta se morda ne bodo naložila z vklopljenim NetShieldom.</string>
     <string name="notification_subscription_expired_title">Vaš naročniški paket Proton VPN je potekel</string>
     <string name="notification_subscription_expired_content">Vaš paket smo morali znižati, vendar vas ponovno povezujemo z najhitrejšim strežnikom, ki je na voljo v tem paketu.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Vaša naročnina je bila znižana.</string>
@@ -355,7 +285,6 @@
     <string name="notification_cancel_to_free">Ste na brezplačnem paketu. Na voljo so brezplačni strežniki in funkcije.</string>
     <string name="notification_cancel_to_basic">Ste na osnovnem paketu. Osnovni &amp; brezplačni strežniki in funkcije so na voljo.</string>
     <string name="notification_cancel_to_delinquent">Po plačilu čakajočih računov boste lahko znova dostopali do premijskih funkcij.</string>
-    <string name="vpn_accelerator">VPN Accelerator</string>
     <string name="reconnect_from_server">Iz strežnika: </string>
     <string name="reconnect_to_server">Na strežnik: </string>
     <string name="no_thanks">Ne, hvala.</string>
@@ -450,9 +379,7 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odklenite %1$s v %2$s z <b>VPN Plus</b>.]]></string>
-    <string name="upgrade_plus_countries_subtitle">Ko nadgradite na Plus</string>
     <string name="upgrade_not_now_button">Ne zdaj</string>
-    <string name="upgrade_learn_more">Več informacij</string>
     <string name="upsell_card_countries_title">Pokritost po vsem svetu</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -538,9 +465,7 @@
     <string name="onboarding_welcome_title">Dobrodošli v Proton VPN</string>
     <string name="onboarding_welcome_description">Brskajte zasebno, dostopajte do blokirane vsebine in uživajte v digitalni svobodi.</string>
     <string name="onboarding_welcome_action">Začnite</string>
-    <string name="onboarding_available_on_plus">Na voljo s Plus</string>
     <string name="upgrade_success_get_started_button">Začnite</string>
-    <string name="upgrade_use_limited_free_button">Uporabite omejeni brezplačni paket</string>
     <string name="dynamic_report_suggestion_didnt_work">Ni delovalo?</string>
     <string name="dynamic_report_contact_us">Kontaktirajte nas</string>
     <string name="dynamic_report_tips_description">Ti nasveti vam lahko pomagajo rešiti vašo težavo hitreje.</string>
@@ -561,36 +486,10 @@
     <string name="dialog_create_account_action_create">Ustvarite račun</string>
     <string name="dialog_create_account_action_signin">Prijava</string>
     <string name="server_search_menu_title">Išči</string>
-    <string name="server_search_hint">Država, mesto, strežnik</string>
-    <string name="server_search_hint_secure_core">Država</string>
-    <!-- The parameter is the number of countries displayed in search results.
-         Examples: "Countries (5)", "Countries (1)" -->
-    <string name="server_search_countries_header">Države (%1$d)</string>
-    <!-- The parameter is the number of Secure Core countries displayed in search results.
-     Examples: "Secure Core Countries (5)", "Secure Core Countries (1)" -->
-    <string name="server_search_sc_countries_header">„Secure Core” države (%1$d)</string>
-    <!-- The parameter is the number of cities displayed in search results.
-         Examples: "Cities (5)", "Cities (1)" -->
-    <string name="server_search_cities_header">Mesta (%1$d)</string>
-    <!-- The parameter is the number of server displayed in search results.
-         Examples: "Servers (5)", "Servers (1)" -->
-    <string name="server_search_servers_header">Strežniki (%1$d)</string>
-    <string name="search_empty_title">Poiščite poljubno lokacijo</string>
-    <string name="search_empty_hint_countries"><![CDATA[Države: <font color="%1$s">Švica, Združene države, Italija …</font>]]></string>
-    <string name="search_empty_hint_countries_secure_core"><![CDATA[Države: <font color="%1$s">Francija, Združene države, Italija …</font>]]></string>
-    <string name="search_empty_hint_cities"><![CDATA[Mesta: <font color="%1$s">New York, London, Tokio …</font>]]></string>
-    <string name="search_empty_hint_usa_regions"><![CDATA[Regije ZDA: <font color="%1$s">Kalifornija, Florida, Kolorado …</font>]]></string>
-    <string name="search_empty_hint_servers"><![CDATA[Strežniki: <font color="%1$s">JP#50, CA#3, IT#14 …</font>]]></string>
     <string name="search_empty_result_subtitle">Poskusite z drugo ključno besedo</string>
     <string name="search_empty_result_title">Ni najdenih rezultatov</string>
-    <string name="search_recents_header_title">Nedavno pogledano (%1$d)</string>
-    <string name="search_clear_history">Počisti zgodovino</string>
-    <string name="search_clear_history_dialog">Vaša zgodovina iskanja bo izgubljena. Nadaljujem?</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Počisti</string>
-    <!-- Core strings overrides -->
-    <string name="plans_customizable_features">Za več informacij obiščite <a href="https://protonvpn.com/pricing">protonvpn.com</a>.</string>
-    <string name="free_upsell_header_title">Zagotovite si svetovno pokritost z VPN Plus</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Se želite povezati z določeno državo?</string>
     <string name="upgrade_country_message"><![CDATA[Odklenite <b>izbiro držav</b> z VPN Plus.]]></string>
@@ -911,10 +810,6 @@
         <item quantity="other">Samodejno izbrano iz %1$d držav</item>
     </plurals>
     <!-- tag(Redesign_2023)
-         Help button above the connection card.
-     -->
-    <string name="connection_card_help">Pomoč</string>
-    <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          the recommended one.
 
@@ -1040,12 +935,6 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_notifications_title">Obvestila</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_theme_title">Tema</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_beta_access_title">Beta dostop</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_widget_title">Pripomoček</string>
-    <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Podpora</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Center za pomoč</string>
@@ -1059,10 +948,6 @@
     <string name="settings_fight_censorship_title">Pomagajte nam v boju proti cenzuri</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Ocenite Proton VPN</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_restore_defaults_title">Obnovi privzete nastavitve</string>
-    <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out_title">Odjava</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">Različica aplikacije: %1$s</string>
     <!-- tag(Redesign_2023) -->
