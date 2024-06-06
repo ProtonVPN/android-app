@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
-import com.protonvpn.android.databinding.ActivitySettingsExcludeIpsBinding
+import com.protonvpn.android.databinding.ActivitySettingsSplitTunnelIpsBinding
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.SaveableSettingsActivity
@@ -46,10 +46,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
-class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsViewModel>() {
+class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTunnelIpsViewModel>() {
 
-    private val binding by viewBinding(ActivitySettingsExcludeIpsBinding::inflate)
-    override val viewModel: SettingsExcludeIpsViewModel by viewModels()
+    private val binding by viewBinding(ActivitySettingsSplitTunnelIpsBinding::inflate)
+    override val viewModel: SettingsSplitTunnelIpsViewModel by viewModels()
     private lateinit var mode: SplitTunnelingMode
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +82,7 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
             inputIp.setOnEditorActionListener(editorActionListener)
 
             recyclerSelectedIps.adapter = selectedIpsAdapter
-            recyclerSelectedIps.layoutManager = LinearLayoutManager(this@SettingsExcludeIpsActivity)
+            recyclerSelectedIps.layoutManager = LinearLayoutManager(this@SettingsSplitTunnelIpsActivity)
             // Disable change animations for instant header updates.
             (recyclerSelectedIps.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
@@ -154,7 +154,7 @@ class SettingsExcludeIpsActivity : SaveableSettingsActivity<SettingsExcludeIpsVi
     companion object {
         const val SPLIT_TUNNELING_MODE_KEY = "split tunneling mode"
 
-        fun createContract() = createContract<SplitTunnelingMode>(SettingsExcludeIpsActivity::class) { mode ->
+        fun createContract() = createContract<SplitTunnelingMode>(SettingsSplitTunnelIpsActivity::class) { mode ->
             putExtra(SPLIT_TUNNELING_MODE_KEY, mode)
         }
     }

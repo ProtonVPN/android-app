@@ -30,8 +30,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.protonvpn.android.R
 import com.protonvpn.android.databinding.ActivityRecyclerWithToolbarBinding
-import com.protonvpn.android.databinding.ItemExcludedAppsEmptyBinding
-import com.protonvpn.android.databinding.ItemExcludedAppsLoadSystemAppsBinding
+import com.protonvpn.android.databinding.ItemSplitTunnelAppsEmptyBinding
+import com.protonvpn.android.databinding.ItemSplitTunnelAppsLoadSystemAppsBinding
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.HeaderViewHolder
 import com.protonvpn.android.ui.SaveableSettingsActivity
@@ -47,11 +47,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
-class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeAppsViewModel>() {
+class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTunnelAppsViewModel>() {
 
-    override val viewModel: SettingsExcludeAppsViewModel by viewModels()
+    override val viewModel: SettingsSplitTunnelAppsViewModel by viewModels()
 
-    private var previousSystemAppsState: SettingsExcludeAppsViewModel.SystemAppsState? = null
+    private var previousSystemAppsState: SettingsSplitTunnelAppsViewModel.SystemAppsState? = null
 
     private lateinit var mode: SplitTunnelingMode
 
@@ -85,9 +85,9 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
         val actionRemove = { item: LabeledItem -> viewModel.removeApp(item) }
         viewModel.viewState.asLiveData().observe(this, Observer { state ->
             when (state) {
-                is SettingsExcludeAppsViewModel.ViewState.Loading ->
+                is SettingsSplitTunnelAppsViewModel.ViewState.Loading ->
                     binding.progress.isVisible = true
-                is SettingsExcludeAppsViewModel.ViewState.Content -> {
+                is SettingsSplitTunnelAppsViewModel.ViewState.Content -> {
                     binding.progress.isVisible = false
                     updateLists(
                         itemsAdapter,
@@ -104,7 +104,7 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
 
     private fun updateLists(
         adapter: GroupAdapter<GroupieViewHolder>,
-        content: SettingsExcludeAppsViewModel.ViewState.Content,
+        content: SettingsSplitTunnelAppsViewModel.ViewState.Content,
         actionAdd: LabeledItemAction,
         actionRemove: LabeledItemAction,
         layoutManager: LinearLayoutManager
@@ -134,11 +134,11 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
             LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_plus, actionAdd)
         }
         val availableSystemViewHolders = when (availableSystemItems) {
-            is SettingsExcludeAppsViewModel.SystemAppsState.NotLoaded ->
+            is SettingsSplitTunnelAppsViewModel.SystemAppsState.NotLoaded ->
                 listOf(LoadSystemAppsItem(this::loadSystemApps))
-            is SettingsExcludeAppsViewModel.SystemAppsState.Loading ->
+            is SettingsSplitTunnelAppsViewModel.SystemAppsState.Loading ->
                 listOf(LoadSystemAppsSpinnerItem())
-            is SettingsExcludeAppsViewModel.SystemAppsState.Content -> {
+            is SettingsSplitTunnelAppsViewModel.SystemAppsState.Content -> {
                 availableSystemItems.apps.map {
                     LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_plus, actionAdd)
                 }
@@ -153,8 +153,8 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
             systemAppsSection
         )
         val onAsyncFinished =
-            if (previousSystemAppsState is SettingsExcludeAppsViewModel.SystemAppsState.Loading &&
-                availableSystemItems is SettingsExcludeAppsViewModel.SystemAppsState.Content
+            if (previousSystemAppsState is SettingsSplitTunnelAppsViewModel.SystemAppsState.Loading &&
+                availableSystemItems is SettingsSplitTunnelAppsViewModel.SystemAppsState.Content
             ) {
                 OnAsyncUpdateListener {
                     // This only works if there were no changes to the list in the meantime, but that's ok.
@@ -172,40 +172,40 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
         viewModel.triggerLoadSystemApps()
     }
 
-    private fun SettingsExcludeAppsViewModel.SystemAppsState.appCount(): Int = when (this) {
-        is SettingsExcludeAppsViewModel.SystemAppsState.NotLoaded -> packageNames.size
-        is SettingsExcludeAppsViewModel.SystemAppsState.Loading -> packageNames.size
-        is SettingsExcludeAppsViewModel.SystemAppsState.Content -> apps.size
+    private fun SettingsSplitTunnelAppsViewModel.SystemAppsState.appCount(): Int = when (this) {
+        is SettingsSplitTunnelAppsViewModel.SystemAppsState.NotLoaded -> packageNames.size
+        is SettingsSplitTunnelAppsViewModel.SystemAppsState.Loading -> packageNames.size
+        is SettingsSplitTunnelAppsViewModel.SystemAppsState.Content -> apps.size
     }
 
     private class EmptyStateItem(
         @StringRes private val textRes: Int
-    ) : BindableItemEx<ItemExcludedAppsEmptyBinding>() {
-        override fun initializeViewBinding(view: View) = ItemExcludedAppsEmptyBinding.bind(view).apply {
+    ) : BindableItemEx<ItemSplitTunnelAppsEmptyBinding>() {
+        override fun initializeViewBinding(view: View) = ItemSplitTunnelAppsEmptyBinding.bind(view).apply {
             textLabel.setText(textRes)
         }
         override fun clear() = Unit
-        override fun getLayout(): Int = R.layout.item_excluded_apps_empty // TODO: rename
+        override fun getLayout(): Int = R.layout.item_split_tunnel_apps_empty
         override fun getId(): Long = 1L // There's at most 1 such element in the list.
 
     }
 
     private class LoadSystemAppsSpinnerItem : Item<GroupieViewHolder>() {
         override fun bind(viewHolder: GroupieViewHolder, position: Int) = Unit
-        override fun getLayout(): Int = R.layout.item_excluded_apps_spinner // TODO: rename
+        override fun getLayout(): Int = R.layout.item_split_tunnel_apps_spinner
         override fun getId(): Long = 1L // There's at most 1 such element in the list.
     }
 
     private class LoadSystemAppsItem(
         private val onLoad: () -> Unit
-    ) : BindableItem<ItemExcludedAppsLoadSystemAppsBinding>() {
-        override fun bind(viewBinding: ItemExcludedAppsLoadSystemAppsBinding, position: Int) {
+    ) : BindableItem<ItemSplitTunnelAppsLoadSystemAppsBinding>() {
+        override fun bind(viewBinding: ItemSplitTunnelAppsLoadSystemAppsBinding, position: Int) {
             viewBinding.buttonLoadSystemApps.setOnClickListener { onLoad() }
         }
 
-        override fun getLayout(): Int = R.layout.item_excluded_apps_load_system_apps
+        override fun getLayout(): Int = R.layout.item_split_tunnel_apps_load_system_apps
 
-        override fun initializeViewBinding(view: View) = ItemExcludedAppsLoadSystemAppsBinding.bind(view)
+        override fun initializeViewBinding(view: View) = ItemSplitTunnelAppsLoadSystemAppsBinding.bind(view)
 
         override fun getId(): Long = 1L // There's at most 1 such element in the list.
     }
@@ -213,7 +213,7 @@ class SettingsExcludeAppsActivity : SaveableSettingsActivity<SettingsExcludeApps
     companion object {
         const val SPLIT_TUNNELING_MODE_KEY = "split tunneling mode"
 
-        fun createContract() = createContract<SplitTunnelingMode>(SettingsExcludeAppsActivity::class) { mode ->
+        fun createContract() = createContract<SplitTunnelingMode>(SettingsSplitTunnelAppsActivity::class) { mode ->
             putExtra(SPLIT_TUNNELING_MODE_KEY, mode)
         }
     }
