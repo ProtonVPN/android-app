@@ -551,8 +551,10 @@ private suspend fun OkHttpClient.resetSockets() {
                 val original = dispatcher.idleCallback?.unwrapIdleCallback()
                 dispatcher.idleCallback =
                     OkHttpIdleCallbackWrapper(original) {
-                        continuation.resume(Unit)
-                        dispatcher.idleCallback = original
+                        if (continuation.isActive) { // It can be cancelled by the time this gets executed.
+                            continuation.resume(Unit)
+                            dispatcher.idleCallback = original
+                        }
                     }
                 continuation.invokeOnCancellation { dispatcher.idleCallback = original }
             }
