@@ -262,11 +262,13 @@ private fun ConnectionDetailsConnected(
             onOpenUrl = onOpenUrl
         )
 
-        HeaderText(R.string.connection_details_features_title, withInfoIcon = false)
-        ServerFeatures(
-            features = viewState.serverFeatures,
-            onInfoOpen = { infoSheetState.show(it) }
-        )
+        if (viewState.serverFeatures.hasAnyFeatures()) {
+            HeaderText(R.string.connection_details_features_title, withInfoIcon = false)
+            ServerFeatures(
+                features = viewState.serverFeatures,
+                onInfoOpen = { infoSheetState.show(it) }
+            )
+        }
     }
     InfoSheet(infoSheetState, onOpenUrl)
 }
@@ -304,12 +306,9 @@ private fun ServerFeatures(
             )
         }
         if (features.smartRouting != null) {
-            val smartRouting = features.smartRouting
-            val description = stringResource(R.string.connection_feature_smart_routing_description)
-
             FeatureComposable(
                 title = stringResource(id = R.string.connection_feature_smart_routing_title),
-                details = description,
+                details = stringResource(R.string.connection_feature_smart_routing_description),
                 iconId = CoreR.drawable.ic_proton_globe,
                 onClick = { onInfoOpen(InfoType.SmartRouting) },
             )
