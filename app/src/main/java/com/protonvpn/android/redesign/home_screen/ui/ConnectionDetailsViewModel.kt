@@ -84,8 +84,11 @@ class ConnectionDetailsViewModel @Inject constructor(
         val hasSecureCore: Boolean = false,
         val smartRouting: SmartRouting? = null,
         val streamingServices: List<StreamingService>? = null
-    )
-
+    ) {
+        fun hasAnyFeatures(): Boolean {
+            return hasTor || hasP2P || hasSecureCore || smartRouting != null || !streamingServices.isNullOrEmpty()
+        }
+    }
     data class SmartRouting(val entryCountry: CountryId, val exitCountry: CountryId)
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -149,7 +152,7 @@ class ConnectionDetailsViewModel @Inject constructor(
                         SmartRouting(entryCountry = CountryId(server.hostCountry), exitCountry = CountryId(server.exitCountry))
                     else
                         null,
-                    streamingServices = streamingList
+                    streamingServices = if (server.isStreamingServer) streamingList else null
                 )
             )
         }
