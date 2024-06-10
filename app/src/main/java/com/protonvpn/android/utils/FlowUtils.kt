@@ -20,13 +20,18 @@
 package com.protonvpn.android.utils
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.ChannelResult
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -82,3 +87,23 @@ fun tickFlow(step: Duration, clock: () -> Long) = flow {
         lastTick = now
     }
 }
+
+// Util serving as a safer alternative for suspendCancellableCoroutine (where resume throws exception
+// when called after cancellation and need to be guarded with isActive).
+suspend fun <T> suspendForCallback(
+    onClose: () -> Unit,
+    registerCallback: (resume: (T) -> ChannelResult<Unit>) -> Unit
+): T? =
+    callbackFlow {
+        registerCallback { trySend(it) }
+        awaitClose { onClose() }
+    }.first()
+
+suspend fun <T> suspendForCallbackWithTimeout(
+    timeoutMs: Long,
+    onClose: () -> Unit,
+    registerCallback: (resume: (T) -> ChannelResult<Unit>) -> Unit
+): T? =
+    withTimeoutOrNull(timeoutMs) {
+        suspendForCallback(onClose, registerCallback)
+    }

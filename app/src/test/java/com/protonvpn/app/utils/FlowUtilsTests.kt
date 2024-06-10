@@ -20,21 +20,26 @@
 package com.protonvpn.app.utils
 
 import com.protonvpn.android.utils.mapState
+import com.protonvpn.android.utils.suspendForCallback
+import com.protonvpn.android.utils.suspendForCallbackWithTimeout
 import com.protonvpn.android.utils.tickFlow
 import com.protonvpn.android.utils.withPrevious
 import com.protonvpn.test.shared.runWhileCollecting
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -82,5 +87,32 @@ class FlowUtilsTests {
             advanceTimeBy(3001)
         }
         assertEquals(listOf(0L, 1000L, 2000L, 3000L), timestamps)
+    }
+
+    @Test
+    fun `suspendForCallback waits for callback`() = runTest {
+        var closed = false
+        val result = suspendForCallback(onClose = { closed = true }) { resume ->
+            launch {
+                delay(100)
+                resume(1)
+                resume(2) // This should get ignored
+            }
+        }
+        assertEquals(1, result)
+        assertTrue(closed)
+    }
+
+    @Test
+    fun suspendForCallbackWithTimeout() = runTest {
+        var closed = false
+        val result = suspendForCallbackWithTimeout(500, onClose = { closed = true }) { resume ->
+            launch {
+                delay(1000)
+                resume(1)
+            }
+        }
+        assertEquals(null, result)
+        assertTrue(closed)
     }
 }
