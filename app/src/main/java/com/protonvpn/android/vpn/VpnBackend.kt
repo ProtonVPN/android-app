@@ -49,6 +49,7 @@ import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.SyncStateFlow
+import com.protonvpn.android.utils.suspendForCallbackWithTimeout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
@@ -60,7 +61,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.yield
@@ -68,7 +68,6 @@ import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import okhttp3.OkHttpClient
-import kotlin.coroutines.resume
 
 data class PrepareResult(val backend: VpnBackend, val connectionParams: ConnectionParams) : java.io.Serializable
 
@@ -546,19 +545,16 @@ private suspend fun OkHttpClient.resetSockets() {
         // Cancel all running calls
         dispatcher.cancelAll()
 
-        val timedOut = null == withTimeoutOrNull(500) {
-            suspendCancellableCoroutine { continuation ->
-                val original = dispatcher.idleCallback?.unwrapIdleCallback()
-                dispatcher.idleCallback =
-                    OkHttpIdleCallbackWrapper(original) {
-                        if (continuation.isActive) { // It can be cancelled by the time this gets executed.
-                            continuation.resume(Unit)
-                            dispatcher.idleCallback = original
-                        }
-                    }
-                continuation.invokeOnCancellation { dispatcher.idleCallback = original }
+        val original = dispatcher.idleCallback?.unwrapIdleCallback()
+        val timedOut = null == suspendForCallbackWithTimeout(
+            500,
+            onClose = { dispatcher.idleCallback = original },
+            registerCallback = { resume ->
+                dispatcher.idleCallback = OkHttpIdleCallbackWrapper(original) {
+                    resume(Unit)
+                }
             }
-        }
+        )
         if (timedOut)
             ProtonLogger.log(ConnStateChanged, "Tunnel opened: timed-out waiting for OkHttp idle")
     }
