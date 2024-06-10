@@ -21,7 +21,7 @@
     <bool name="core_feature_auth_signup_show_congrats">false</bool>
     <bool name="core_feature_auth_sso_enabled">true</bool>
     <bool name="core_feature_credential_less_enabled">false</bool>
-    <bool name="core_feature_device_recovery_enabled">true</bool>
+    <bool name="core_feature_device_recovery_enabled">false</bool>
     <bool name="core_feature_notifications_enabled">true</bool>
     <!-- VPN already handle the Notification Permission (after successful vpn connection). -->
     <bool name="core_feature_notifications_permission_request_enabled">false</bool>
