@@ -1041,19 +1041,19 @@
     <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
     <string name="info_dialog_how_to_stream">როგორ დასტრიმოთ:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">გადადით ტელეფონის პარამეტრებში და გამორთეთ მდებარეობის სერვისები</string>
     <!-- item 2 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_2">გამორთეთ და ჩართეთ თქვენი სტრიმინგის სერვისი</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">დაუკავშირდით ნებისმიერ Plus სერვერს და დაიწყეთ სტრიმინგი</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">ამ სერვერზე ჩართულია გამჭოლი ფაილი გაზიარება.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">.onion საიტებთან წვდომა ჩეულებრივი ბრაუზერითაც შეგეიძლიათ.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
     <string name="connection_feature_streaming_title">სტრიმინგი</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">ეს სერვერი ოპტიმიზებულია TV-ისა და ფილმების საყურებლად</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--

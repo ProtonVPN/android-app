@@ -1072,33 +1072,33 @@
     <string name="info_dialog_tor_description">Під\'єднайтеся до сервера Tor, щоб отримати доступ до прихованих сервісів і сайтів onion, використовуючи будь-який браузер.</string>
     <string name="info_dialog_button_learn_more_tor">Як отримати доступ до мережі Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Як користуватися торентами за допомогою P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">Потрібна допомога з трансляцією?</string>
+    <string name="info_dialog_button_learn_more_streaming">Потрібна допомога з потоковою трансляцією?</string>
     <string name="info_dialog_streaming_title">Потокова трансляція</string>
-    <string name="info_dialog_streaming_description">Потокові сервери призначені для швидкого та безпечного відтворення телепередач і фільмів.</string>
+    <string name="info_dialog_streaming_description">Сервери з підтримкою потокової трансляції призначені для швидкого та безпечного відтворення телебачення і фільмів.</string>
     <string name="info_dialog_how_to_stream">Як транслювати:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Перейдіть до налаштувань телефону та вимкніть служби визначення місцеперебування</string>
+    <string name="info_dialog_how_to_stream_step_1">Відкрийте налаштування телефона та вимкніть служби визначення розташування</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Перезапустіть ваш потоковий сервіс</string>
+    <string name="info_dialog_how_to_stream_step_2">Перезапустіть сервіс потокової трансляції</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Під\'єднайтеся до будь-якого сервера Plus і почніть трансляцію</string>
+    <string name="info_dialog_how_to_stream_step_3">Під\'єднайтеся до будь-якого сервера Plus і почніть потокову трансляцію</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">На цьому сервері увімкнено піринговий обмін файлами.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">Ви можете підключатися до сайтів .onion за допомогою звичайного браузера.</string>
+    <string name="connection_feature_tor_description">Ви можете під\'єднуватися до сайтів .onion за допомогою свого звичайного браузера.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Ваші дії зашифровані на 2 високозахищених VPN-серверах.</string>
+    <string name="connection_feature_secure_core_description">Ваші дії шифруються за допомогою двох VPN-серверів з високим рівнем безпеки.</string>
     <string name="connection_feature_streaming_title">Потокова трансляція</string>
     <string name="connection_feature_streaming_description">Цей сервер оптимізовано для відтворення телебачення та фільмів.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <string name="connection_feature_smart_routing_description">З\'єднує вас з країною призначення через сервери, які фізично розташовані в іншому місці.</string>
+    <string name="connection_feature_smart_routing_description">Встановлює з\'єднання з країною призначення через сервери, які фізично розташовані в іншому місці.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
         For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
     -->
-    <string name="country_smart_routing_info">Сервери фізично розташовані в %1$s, але вам буде здаватися, що ви переглядаєте сторінки з %2$s.</string>
+    <string name="country_smart_routing_info">Сервери фізично розташовані в %1$s, але вам буде здаватися, що ви користуєтеся інтернетом з %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->

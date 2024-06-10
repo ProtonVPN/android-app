@@ -1075,7 +1075,7 @@
     <string name="info_dialog_button_learn_more_streaming">Патрэбная дапамогай з трансляцыяй?</string>
     <string name="info_dialog_streaming_title">Трансляцыя</string>
     <string name="info_dialog_streaming_description">Серверы трансляцый распрацаваны для хуткага і бяспечнага ўзнаўлення тэлебачання і фільмаў.</string>
-    <string name="info_dialog_how_to_stream">Як глядзець трансляцыі:</string>
+    <string name="info_dialog_how_to_stream">Як трансліраваць:</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Перайдзіце ў налады сваёй прылады і выключыце сэрвіс вызначэння месцазнаходжання</string>
     <!-- item 2 in the numbered list -->
@@ -1089,7 +1089,7 @@
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Ваша актыўнасць зашыфравана двума высокаабароненымі серверамі VPN</string>
     <string name="connection_feature_streaming_title">Трансляцыя</string>
-    <string name="connection_feature_streaming_description">Гэты сервер аптымізаваны для тэлебачання і ўзнаўлення фільмаў.</string>
+    <string name="connection_feature_streaming_description">Гэты сервер аптымізаваны для тэлебачання і прагляду фільмаў.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Падключае вас да вашай краіны прызначэння праз серверы, якія фізічна знаходзяцца дзе-небудзь у іншым месцы.</string>
     <!--
