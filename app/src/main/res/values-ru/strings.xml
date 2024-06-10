@@ -1073,7 +1073,7 @@
     <string name="info_dialog_button_learn_more_tor">Как получить доступ к сети Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Как использовать торренты в P2P</string>
     <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
-    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_title">Трансляция</string>
     <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
     <string name="info_dialog_how_to_stream">How to stream:</string>
     <!-- item 1 in the numbered list -->
@@ -1088,7 +1088,7 @@
     <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
-    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_title">Трансляция</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
@@ -1102,7 +1102,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">Информация</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->

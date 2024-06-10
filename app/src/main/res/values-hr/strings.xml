@@ -179,7 +179,7 @@
     <string name="settingsTelemetryScreenTitle">Usage statistics</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
-    <string name="learn_more">Learn more</string>
+    <string name="learn_more">Saznajte više</string>
     <string name="netshield_state_on" comment="Describes state, not action">Oključeno</string>
     <string name="netshield_state_off" comment="Describes state, not action">Isključeno</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Oključeno</string>
@@ -473,7 +473,7 @@
     <string name="update_screen_description">You’re more likely to have issues on older versions of Proton VPN.</string>
     <string name="dialog_create_account_title">Create an account to continue</string>
     <string name="dialog_create_account_action_create">Create account</string>
-    <string name="dialog_create_account_action_signin">Sign in</string>
+    <string name="dialog_create_account_action_signin">Prijava</string>
     <string name="server_search_menu_title">Pretraga</string>
     <string name="search_empty_result_subtitle">Please try a different keyword</string>
     <string name="search_empty_result_title">Nema rezultata</string>
@@ -616,7 +616,7 @@
     <string name="no_logs_banner_title">Certified no-logs VPN</string>
     <string name="no_logs_banner_description">Your VPN activity is protected by Swiss privacy laws. We’ll never track you online or share your information with third parties.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
-    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_home">Početna</string>
     <string name="bottom_nav_gateways">Gateways</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Countries</string>
@@ -873,7 +873,7 @@
          State description of a pinned recent item.
          Only used by accessibility service.
     -->
-    <string name="recent_action_accessibility_state_pinned">Pinned</string>
+    <string name="recent_action_accessibility_state_pinned">Prikvačeno</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -909,7 +909,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_advanced_settings_title">Advanced Settings</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_general">Općenito</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_account">Račun</string>
     <!-- tag(Redesign_2023) -->
@@ -941,10 +941,10 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_action">Sign out</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_action_cancel">Cancel</string>
+    <string name="dialog_action_cancel">Poništi</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">All</string>
-    <string name="country_filter_cities">Cities</string>
+    <string name="country_filter_cities">Gradovi</string>
     <string name="country_filter_states">States</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
@@ -1084,11 +1084,11 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">Informacije</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
-    <string name="connection_details_learn_more">Learn more</string>
+    <string name="connection_details_learn_more">Saznajte više</string>
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
@@ -1189,7 +1189,7 @@
     <string name="settings_account_recovery_email">Recovery email</string>
     <string name="settings_account_recovery_email_not_set">Nije postavljeno</string>
     <!-- Label of a button that opens user's account page -->
-    <string name="settings_account_button_my_account">My account</string>
+    <string name="settings_account_button_my_account">Moj račun</string>
     <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Alternativno usmjeravanje</string>
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
@@ -1207,7 +1207,7 @@
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
     <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
     <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
-    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
+    <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ništa</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
     <string name="settings_dialog_reconnect">New settings will apply next time you connect.</string>
     <string name="info_secure_core_standard_high_privacy">High privacy</string>
