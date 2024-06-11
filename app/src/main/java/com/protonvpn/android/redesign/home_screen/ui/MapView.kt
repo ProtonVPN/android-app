@@ -224,7 +224,9 @@ class MapView @JvmOverloads constructor(
                 w = sqrt(BITMAP_MAX_PIXELS / normalH).roundToInt()
                 h = (w * normalH).roundToInt()
             }
-            mapRenderer.updateSize(w, h, targetRenderData?.id ?: 0)
+            val newId = mapRenderer.updateSize(w, h)
+            if (newId != null)
+                targetRenderData = targetRenderData?.copy(id = newId)
         }
     }
 
@@ -241,13 +243,11 @@ class MapView @JvmOverloads constructor(
     ) = mainScope.launch {
         val viewportNormalH = height / width.toFloat()
         val newRegion = focusRegion.expandToAspectRatio(viewportNormalH, bias)
-        val renderId = (currentRenderData?.id ?: 0) + 1
-        targetRenderData = RenderData(newRegion, newPins, highlightStage, renderId)
-        mapRenderer.update(
+        val id = mapRenderer.update(
             newMapRegion = newRegion,
             newHighlights = newHighlights,
-            id = renderId,
         )
+        targetRenderData = RenderData(newRegion, newPins, highlightStage, id)
     }
 
     companion object {
