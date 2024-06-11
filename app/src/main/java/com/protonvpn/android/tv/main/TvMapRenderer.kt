@@ -76,6 +76,7 @@ class TvMapRenderer(
     }
 
     private val renderContext = newSingleThreadContext("tv.map_renderer")
+    private var currentId = 0L // ID relating render requests with their results
 
     private val mapSvg: Deferred<SVG> = scope.async(renderContext) {
         SVG.getFromAsset(context.resources.assets, ASSET_NAME)
@@ -88,13 +89,16 @@ class TvMapRenderer(
 
     private var renderJob: Job? = null
 
-    fun updateSize(w: Int, h: Int, id: Long = 0) {
+    fun updateSize(w: Int, h: Int) : Long? {
         if (renderTarget?.isSize(w, h) != true) {
+            val id = ++currentId
             renderTarget = RenderTarget(w, h)
             scope.launch {
                 renderTarget?.render(id)
             }
+            return id
         }
+        return null
     }
 
     private val CountryHighlight.cssColor get() = when(this) {
@@ -154,18 +158,21 @@ class TvMapRenderer(
     fun update(
         newHighlights: List<CountryHighlightInfo>? = null,
         newMapRegion: MapRegion? = null,
-        id: Long = 0L,
-    ) {
-        if ((newMapRegion != null && newMapRegion != mapRegion)
-                || (newHighlights != null && newHighlights != highlights)) {
+    ) : Long {
+        val regionChanged = newMapRegion != null && newMapRegion != mapRegion
+        val highlightsChanged = newHighlights != null && newHighlights != highlights
+        if (highlightsChanged || regionChanged) {
             if (newMapRegion != null)
                 mapRegion = newMapRegion
             if (newHighlights != null)
                 highlights = newHighlights
+            val id = ++currentId
             scope.launch {
                 renderTarget?.render(id)
             }
+            return id
         }
+        return currentId
     }
 
     companion object {
