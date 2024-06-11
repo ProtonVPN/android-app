@@ -56,11 +56,14 @@ import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.AgentConnectionInterface
+import com.protonvpn.android.vpn.CAPABILITY_NOT_VPN
+import com.protonvpn.android.vpn.CAPABILITY_VALIDATED
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
+import com.protonvpn.android.vpn.NetworkCapabilitiesFlow
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
@@ -138,6 +141,7 @@ class VpnConnectionTests {
     private lateinit var monitor: VpnStateMonitor
     private lateinit var manager: VpnConnectionManager
     private lateinit var networkManager: MockNetworkManager
+    private lateinit var networkCapabilitiesFlow: MutableStateFlow<Map<String, Boolean>?>
     private lateinit var serverManager: ServerManager
 
     private lateinit var currentUserProvider: TestCurrentUserProvider
@@ -241,6 +245,10 @@ class VpnConnectionTests {
         every { certificateRepository.currentCertUpdateFlow } returns emptyFlow()
 
         networkManager = MockNetworkManager()
+        networkCapabilitiesFlow = MutableStateFlow(mapOf(
+            CAPABILITY_VALIDATED to true,
+            CAPABILITY_NOT_VPN to false
+        ))
 
         mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.OpenVPN))
         mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.WireGuard))
@@ -953,6 +961,7 @@ class VpnConnectionTests {
             scope.backgroundScope,
             testDispatcherProvider,
             networkManager,
+            NetworkCapabilitiesFlow(networkCapabilitiesFlow),
             certificateRepository,
             userSettings,
             protocol,
