@@ -63,13 +63,14 @@ import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.EnumSet
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val NOT_VPN = "NOT_VPN"
+const val CAPABILITY_NOT_VPN = "NOT_VPN"
+const val CAPABILITY_VALIDATED = "VALIDATED"
 private const val UNSUPPORTED_TRANSPORT: Int = -1 // The TRANSPORT_* constants are non-negative.
 
 @Singleton
@@ -90,7 +91,7 @@ class ConnectivityMonitor @Inject constructor(
     val defaultNetworkTransports: Set<Transport>
         get() = defaultNetwork?.transports ?: emptySet()
 
-    val networkCapabilitiesFlow = MutableSharedFlow<Map<String, Boolean>>()
+    val networkCapabilitiesFlow = MutableStateFlow<Map<String, Boolean>?>(null)
 
     private val capabilitiesConstantMap = mutableMapOf(
         "MMS" to NET_CAPABILITY_MMS,
@@ -103,13 +104,13 @@ class ConnectivityMonitor @Inject constructor(
         "XCAP" to NET_CAPABILITY_XCAP,
         "NOT_METERED" to NET_CAPABILITY_NOT_METERED,
         "INTERNET" to NET_CAPABILITY_INTERNET,
-        NOT_VPN to NET_CAPABILITY_NOT_VPN,
+        CAPABILITY_NOT_VPN to NET_CAPABILITY_NOT_VPN,
         "TRUSTED" to NET_CAPABILITY_TRUSTED,
         "TEMP NOT METERED" to NET_CAPABILITY_TEMPORARILY_NOT_METERED,
         "NOT SUSPENDED" to NET_CAPABILITY_MCX,
     ).apply {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            put("VALIDATED", NET_CAPABILITY_VALIDATED)
+            put(CAPABILITY_VALIDATED, NET_CAPABILITY_VALIDATED)
             put("CAPTIVE PORTAL", NET_CAPABILITY_CAPTIVE_PORTAL)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

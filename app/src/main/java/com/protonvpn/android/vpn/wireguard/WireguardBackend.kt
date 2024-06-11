@@ -42,6 +42,7 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
+import com.protonvpn.android.vpn.NetworkCapabilitiesFlow
 import com.protonvpn.android.vpn.PrepareForConnection
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.VpnBackend
@@ -71,6 +72,7 @@ import javax.inject.Singleton
 class WireguardBackend @Inject constructor(
     @ApplicationContext val context: Context,
     networkManager: NetworkManager,
+    networkCapabilitiesFlow: NetworkCapabilitiesFlow,
     effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     certificateRepository: CertificateRepository,
     dispatcherProvider: VpnDispatcherProvider,
@@ -82,7 +84,7 @@ class WireguardBackend @Inject constructor(
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
-    effectiveCurrentUserSettings, certificateRepository, networkManager, VpnProtocol.WireGuard, mainScope,
+    effectiveCurrentUserSettings, certificateRepository, networkManager, networkCapabilitiesFlow, VpnProtocol.WireGuard, mainScope,
     dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, foregroundActivityTracker, okHttp
 ) {
     private val wireGuardIo = dispatcherProvider.newSingleThreadDispatcherForInifiniteIo()

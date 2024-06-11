@@ -21,7 +21,6 @@ package com.protonvpn.android.vpn.openvpn
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.logging.LogCategory
@@ -40,6 +39,7 @@ import com.protonvpn.android.utils.Log
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
+import com.protonvpn.android.vpn.NetworkCapabilitiesFlow
 import com.protonvpn.android.vpn.PrepareForConnection
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.VpnBackend
@@ -60,6 +60,7 @@ import javax.inject.Singleton
 class OpenVpnBackend @Inject constructor(
     @ApplicationContext private val appContext: Context,
     networkManager: NetworkManager,
+    networkCapabilitiesFlow: NetworkCapabilitiesFlow,
     effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     certificateRepository: CertificateRepository,
     mainScope: CoroutineScope,
@@ -74,6 +75,7 @@ class OpenVpnBackend @Inject constructor(
     effectiveCurrentUserSettings,
     certificateRepository,
     networkManager,
+    networkCapabilitiesFlow,
     VpnProtocol.OpenVPN,
     mainScope,
     dispatcherProvider,

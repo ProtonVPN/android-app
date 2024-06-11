@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.vpn
 
+import android.os.Build
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
@@ -57,6 +58,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -105,6 +108,7 @@ abstract class VpnBackend(
     val userSettings: EffectiveCurrentUserSettings,
     val certificateRepository: CertificateRepository,
     val networkManager: NetworkManager,
+    val networkCapabilitiesFlow: NetworkCapabilitiesFlow,
     val vpnProtocol: VpnProtocol,
     val mainScope: CoroutineScope,
     val dispatcherProvider: VpnDispatcherProvider,
@@ -113,6 +117,7 @@ abstract class VpnBackend(
     val getNetZone: GetNetZone,
     val foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient val okHttp: OkHttpClient? = null,
+    val shouldWaitForTunnelVerified: Boolean = true,
 ) : VpnStateSource {
 
     inner class VpnAgentClient : NativeClient {
@@ -364,11 +369,25 @@ abstract class VpnBackend(
                     // OkHttp to reset all sockets so that we avoid timeout for next request.
                     okHttp?.resetSockets()
                 }
+                if (shouldWaitForTunnelVerified && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                    waitForTunnelVerified()
                 lastKnownExitIp.value = lastConnectionParams?.connectingDomain?.getExitIP()
             } else {
                 lastKnownExitIp.value = null
             }
             processCombinedState(value, agent?.state)
+        }
+    }
+
+    // Wait for VPN tunnel to be ready according to system before proceeding. Otherwise
+    // subsequent TLS connections might be still failing on newer Android versions.
+    private suspend fun waitForTunnelVerified(timeoutMs: Long = 500L) {
+        withTimeoutOrNull(timeoutMs) {
+            networkCapabilitiesFlow.filterNotNull().first { capabilities ->
+                // If capability "VALIDATED" is present it need to be true (it's not present on
+                // older androids)
+                capabilities[CAPABILITY_NOT_VPN] == false && capabilities[CAPABILITY_VALIDATED] != false
+            }
         }
     }
 

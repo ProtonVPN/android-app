@@ -49,6 +49,7 @@ import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
+import com.protonvpn.android.vpn.NetworkCapabilitiesFlow
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
 import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnBackendProvider
@@ -196,6 +197,7 @@ class SharedTestAppModule {
         userSettings: EffectiveCurrentUserSettings,
         appConfig: AppConfig,
         networkManager: NetworkManager,
+        networkCapabilitiesFlow: NetworkCapabilitiesFlow,
         certificateRepository: CertificateRepository,
         openVpnBackend: OpenVpnBackend,
         wireguardBackend: WireguardBackend,
@@ -212,6 +214,7 @@ class SharedTestAppModule {
                     scope,
                     dispatcherProvider,
                     networkManager,
+                    networkCapabilitiesFlow,
                     certificateRepository,
                     userSettings,
                     VpnProtocol.OpenVPN,
@@ -225,6 +228,7 @@ class SharedTestAppModule {
                     scope,
                     dispatcherProvider,
                     networkManager,
+                    networkCapabilitiesFlow,
                     certificateRepository,
                     userSettings,
                     VpnProtocol.WireGuard,
