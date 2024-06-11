@@ -18,9 +18,6 @@
  */
 package com.protonvpn.android.models.profiles
 
-import android.content.Context
-import androidx.annotation.DrawableRes
-import com.protonvpn.android.R
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.Server
@@ -29,7 +26,6 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import java.io.Serializable
 import java.util.Locale
 import java.util.UUID
-import me.proton.core.presentation.R as CoreR
 
 data class Profile @JvmOverloads constructor(
     val name: String,
@@ -42,8 +38,6 @@ data class Profile @JvmOverloads constructor(
     val id: UUID? = UUID.randomUUID(),
     var isGuestHoleProfile: Boolean = false
 ) : Serializable {
-
-    val profileColor: ProfileColor? = colorId?.let { ProfileColor.byId(it) }
 
     fun migrateFromOlderVersion(uuid: UUID?): Profile =
         migrateColor().migrateSecureCore().migrateUUID(uuid)
@@ -75,23 +69,10 @@ data class Profile @JvmOverloads constructor(
     fun migrateProtocol(): Profile =
         if (protocol == PROTOCOL_IKEv2) copy(protocol = VpnProtocol.Smart.name, transmissionProtocol = null) else this
 
-    fun getDisplayName(context: Context): String = if (isPreBakedProfile)
-        context.getString(if (wrapper.isPreBakedFastest) R.string.profileFastest else R.string.profileRandom)
-    else
-        name
-
-    @get:DrawableRes val profileSpecialIcon: Int? get() = when {
-        wrapper.isPreBakedFastest -> CoreR.drawable.ic_proton_bolt
-        wrapper.isPreBakedRandom -> CoreR.drawable.ic_proton_arrows_swap_right
-        else -> null
-    }
-
     val isPreBakedProfile: Boolean
         get() = wrapper.isPreBakedProfile
     val isPreBakedFastest: Boolean
         get() = wrapper.isPreBakedFastest
-    val isDirectServer: Boolean
-        get() = !directServerId.isNullOrBlank()
 
     val country: String get() = wrapper.country
     val directServerId: String? get() = wrapper.serverId
@@ -106,8 +87,6 @@ data class Profile @JvmOverloads constructor(
         this.protocol = protocol.vpn.toString()
         this.transmissionProtocol = protocol.transmission?.toString()
     }
-
-    fun hasCustomProtocol() = protocol != null
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
