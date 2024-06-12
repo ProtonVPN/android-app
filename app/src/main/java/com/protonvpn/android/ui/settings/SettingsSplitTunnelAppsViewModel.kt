@@ -53,103 +53,34 @@ private const val APP_ICON_SIZE_DP = 24
 @HiltViewModel
 class SettingsSplitTunnelAppsViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val installedAppsProvider: InstalledAppsProvider,
+    installedAppsProvider: InstalledAppsProvider,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     savedStateHandle: SavedStateHandle,
 ) : SaveableSettingsViewModel() {
-
-    sealed class SystemAppsState {
-        class NotLoaded(val packageNames: List<String>) : SystemAppsState()
-        class Loading(val packageNames: List<String>) : SystemAppsState()
-        class Content(val apps: List<LabeledItem>) : SystemAppsState()
-    }
-
-    sealed class ViewState {
-        object Loading : ViewState()
-        data class Content(
-            val selectedApps: List<LabeledItem>,
-            val availableRegularApps: List<LabeledItem>,
-            val availableSystemApps: SystemAppsState
-        ) : ViewState()
-    }
 
     private val mode: SplitTunnelingMode = requireNotNull(
         savedStateHandle[SettingsSplitTunnelAppsActivity.SPLIT_TUNNELING_MODE_KEY]
     )
 
-    private val shouldLoadSystemApps = MutableStateFlow(false)
-
     private val selectedPackages = MutableStateFlow<Set<String>>(emptySet())
 
-    private val regularAppPackages = flow {
-        emit(installedAppsProvider.getInstalledInternetApps(true))
-    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+    private val helper = SplitTunnelingAppsViewModelHelper(
+        viewModelScope,
+        dispatcherProvider,
+        installedAppsProvider,
+        selectedPackages,
+    )
 
-    private val regularApps = regularAppPackages.map { packageNames ->
-        loadApps(packageNames)
-    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
-
-    private val systemAppPackages = flow {
-        emit(installedAppsProvider.getInstalledInternetApps(false))
-    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
-
-    private val selectedNonRegularApps = MutableSharedFlow<List<LabeledItem>>(replay = 1)
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val systemAppsState: Flow<SystemAppsState> = shouldLoadSystemApps.flatMapLatest { load ->
-        if (load) {
-            flow<SystemAppsState> {
-                val packageNames = systemAppPackages.first()
-                emit(SystemAppsState.Loading(packageNames))
-                emit(SystemAppsState.Content(loadApps(packageNames)))
-            }
-        } else {
-            systemAppPackages.map { SystemAppsState.NotLoaded(it) }
-        }
-    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+    val viewState = helper.viewState
 
     init {
         viewModelScope.launch {
             selectedPackages.value = valueInSettings()
-            val packageNames = selectedPackages.first() - regularAppPackages.first()
-            selectedNonRegularApps.emit(loadApps(packageNames.toList()))
         }
     }
-
-    val viewState: Flow<ViewState> = combine(
-        regularApps,
-        systemAppsState,
-        selectedPackages,
-        selectedNonRegularApps
-    ) { regularApps, systemAppsState, selectedPackages, selectedNonRegularApps ->
-        val allAppsByPackage =
-            (regularApps.toSet() + systemAppsState.getApps() + selectedNonRegularApps).associateBy { it.id }
-        val selectedApps = selectedPackages.mapNotNullTo(mutableSetOf()) { packageName ->
-            allAppsByPackage.getOrDefault(packageName, null)
-        }
-        val availableRegularApps = regularApps.filterNot { selectedApps.containsWithId(it.id) }
-        val availableSystemAppsState = when (systemAppsState) {
-            is SystemAppsState.Loading ->
-                SystemAppsState.Loading(systemAppsState.packageNames.filterNot { selectedPackages.contains(it) })
-            is SystemAppsState.NotLoaded ->
-                SystemAppsState.NotLoaded(systemAppsState.packageNames.filterNot { selectedPackages.contains(it) })
-            is SystemAppsState.Content ->
-                SystemAppsState.Content(
-                    systemAppsState.apps.filterNot { selectedApps.containsWithId(it.id) }
-                        .sortedByLocaleAware { it.label }
-                )
-        }
-        ViewState.Content(
-            selectedApps.toList().sortedByLocaleAware { it.label },
-            availableRegularApps.toList().sortedByLocaleAware { it.label },
-            availableSystemAppsState
-        ) as ViewState
-    }
-        .flowOn(dispatcherProvider.Comp)
-        .onStart { emit(ViewState.Loading) }
 
     fun triggerLoadSystemApps() {
-        shouldLoadSystemApps.value = true
+        helper.triggerLoadSystemApps()
     }
 
     fun addApp(item: LabeledItem) {
@@ -165,30 +96,6 @@ class SettingsSplitTunnelAppsViewModel @Inject constructor(
     }
 
     override suspend fun hasUnsavedChanges() = selectedPackages.value != valueInSettings()
-
-    private suspend fun loadApps(packageNames: List<String>): List<LabeledItem> {
-        if (packageNames.isEmpty()) return emptyList()
-
-        val iconSizePx = APP_ICON_SIZE_DP.toPx()
-        return installedAppsProvider.getAppInfos(iconSizePx, packageNames).map {
-            LabeledItem(
-                id = it.packageName,
-                label = it.name,
-                iconDrawable = it.icon.mutate().apply { setBounds(0, 0, iconSizePx, iconSizePx) }
-            )
-        }
-    }
-
-    private fun SystemAppsState.getApps(): List<LabeledItem> =
-        if (this is SystemAppsState.Content) {
-            apps
-        } else {
-            emptyList()
-        }
-
-    private fun Iterable<LabeledItem>.containsWithId(id: String): Boolean {
-        return find { it.id == id } != null
-    }
 
     private suspend fun valueInSettings(): Set<String> =
         with(userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling) {
