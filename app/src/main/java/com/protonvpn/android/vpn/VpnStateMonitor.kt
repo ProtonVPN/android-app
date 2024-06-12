@@ -19,7 +19,6 @@
 package com.protonvpn.android.vpn
 
 import com.protonvpn.android.models.vpn.ConnectionParams
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.vpn.VpnState.Connected
@@ -53,15 +52,6 @@ abstract class VpnStatusProvider {
 
     val connectionIntent
         get() = connectionParams?.connectIntent
-
-    val connectionProtocol
-        get() = connectionParams?.protocolSelection
-
-    fun isConnectedTo(server: Server?) =
-        isConnected && connectionParams?.server?.serverId == server?.serverId
-
-    fun isConnectedTo(connectIntent: ConnectIntent) =
-        isConnected && connectionIntent == connectIntent
 
     fun isConnectingToCountry(country: String) =
         connectingToServer?.exitCountry == country

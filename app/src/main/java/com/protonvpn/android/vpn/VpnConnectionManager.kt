@@ -22,6 +22,7 @@ package com.protonvpn.android.vpn
 import android.content.Intent
 import android.os.PowerManager
 import android.os.PowerManager.PARTIAL_WAKE_LOCK
+import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppConfig
@@ -52,27 +53,24 @@ import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.utils.implies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.session.SessionId
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.coroutineContext
 
 private val UNREACHABLE_MIN_INTERVAL_MS = StuckConnectionHandler.STUCK_DURATION_MS + TimeUnit.SECONDS.toMillis(10)
 
@@ -98,6 +96,33 @@ fun interface VpnConnect {
         connect(uiDelegate, connectIntent, triggerAction)
 }
 
+private sealed class InternalState {
+    data object Disabled : InternalState()
+
+    // backend != null means we're pinging during active connection (to switch to another server)
+    data class ScanningPorts(val activeParams: ConnectionParams?, val newParams: ConnectionParams, val activeBackend: VpnBackend?) : InternalState()
+
+    data class SwitchingConnection(val activeParams: ConnectionParams?, val newParams: ConnectionParams?, val activeBackend: VpnBackend?) : InternalState()
+    data class Active(val params: ConnectionParams, val activeBackend: VpnBackend) : InternalState()
+    data class Error(val params: ConnectionParams, val error: VpnState.Error, val activeBackend: VpnBackend?) : InternalState()
+
+    val activeBackendOrNull : VpnBackend? get() = when(this) {
+        is ScanningPorts -> activeBackend
+        is SwitchingConnection -> activeBackend
+        is Active -> activeBackend
+        is Error -> activeBackend
+        Disabled -> null
+    }
+
+    val activeConnectionParamsOrNull : ConnectionParams? get() = when(this) {
+        is ScanningPorts -> activeParams
+        is SwitchingConnection -> activeParams
+        is Active -> params
+        is Error -> params
+        Disabled -> null
+    }
+}
+
 @OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
 class VpnConnectionManager @Inject constructor(
@@ -118,81 +143,83 @@ class VpnConnectionManager @Inject constructor(
     private val supportsProtocol: SupportsProtocol,
     powerManager: PowerManager,
     private val vpnConnectionTelemetry: VpnConnectionTelemetry
-) : VpnStateSource, VpnConnect {
+) : VpnConnect {
 
     // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
     private var ongoingConnect: Job? = null
     private var ongoingFallback: Job? = null
 
-    private val activeBackendFlow = MutableStateFlow<VpnBackend?>(null)
-    private val activeBackend: VpnBackend? get() = activeBackendFlow.value
     private val connectWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:connect")
     private val fallbackWakeLock = powerManager.newWakeLock(PARTIAL_WAKE_LOCK, "ch.protonvpn:fallback")
 
-    private var connectionParams: ConnectionParams? = null
     private var lastConnectIntent: AnyConnectIntent? = null
     private var lastUnreachable = Long.MIN_VALUE
 
-    override val selfStateFlow = MutableStateFlow<VpnState?>(null)
+    // null is only for initial value and is needed for process restore logic
+    private val internalState = MutableStateFlow<InternalState?>(null)
+    private val activeBackend: VpnBackend? get() = internalState.value?.activeBackendOrNull
+    private val activeBackendFlow = internalState.map { it?.activeBackendOrNull }
+
+    // Connection params for active connection (there might be newer params for upcoming connection)
+    private val activeConnectionParams: ConnectionParams? get() = internalState.value?.activeConnectionParamsOrNull
+
     private val lastKnownExitIp = activeBackendFlow.flatMapLatest { it?.lastKnownExitIp ?: flowOf(null) }
     val netShieldStats =
         activeBackendFlow.flatMapLatest { it?.netShieldStatsFlow ?: flowOf(NetShieldStats()) }
 
-    // State taken from active backend or from monitor when no active backend, value always != null
-    private val stateInternal: StateFlow<VpnState?> =
-        activeBackendFlow.flatMapLatest {
-            it?.selfStateFlow ?: selfStateFlow
-        }.stateIn(scope, SharingStarted.Eagerly, null)
-
-    private val state get() = stateInternal.value ?: VpnState.Disabled
+    // Helper flow to produce states for VpnStateMonitor
+    private val monitorStatus: Flow<VpnStateMonitor.Status> =
+        internalState.filterNotNull().flatMapLatest { internalState ->
+            when(internalState) {
+                InternalState.Disabled ->
+                    flowOf(VpnStateMonitor.Status(VpnState.Disabled, null))
+                is InternalState.ScanningPorts ->
+                    flowOf(VpnStateMonitor.Status(VpnState.ScanningPorts, internalState.newParams))
+                is InternalState.SwitchingConnection ->
+                    flowOf(VpnStateMonitor.Status(VpnState.Connecting, internalState.newParams))
+                is InternalState.Error ->
+                    flowOf(VpnStateMonitor.Status(internalState.error, internalState.params))
+                is InternalState.Active ->
+                    internalState.activeBackend.selfStateFlow.filterNotNull().map { backendState ->
+                        VpnStateMonitor.Status(backendState, internalState.params)
+                    }
+            }
+        }
 
     init {
-        stateInternal.onEach { newState ->
-            if (newState != null) {
-                Storage.saveString(STORAGE_KEY_STATE, state.name)
+        monitorStatus.onEach { newStatus ->
+            val newState = newStatus.state
+            Storage.saveString(STORAGE_KEY_STATE, newState.name)
 
-                val errorType = (newState as? VpnState.Error)?.type
+            val errorType = (newState as? VpnState.Error)?.type
 
-                if (errorType != null && errorType in RECOVERABLE_ERRORS) {
-                    if (ongoingFallback?.isActive != true) {
-                        if (!skipFallback(errorType)) {
-                            launchFallback {
-                                handleRecoverableError(errorType, connectionParams!!)
-                            }
-                        }
-                    }
-                } else {
-                    if (errorType != null && ongoingFallback?.isActive != true) {
+            if (errorType != null && errorType in RECOVERABLE_ERRORS) {
+                if (ongoingFallback?.isActive != true) {
+                    if (!skipFallback(errorType)) {
                         launchFallback {
-                            handleUnrecoverableError(errorType)
+                            handleRecoverableError(activeBackend, errorType, newStatus.connectionParams!!)
                         }
                     }
-
-                    // After auth failure OpenVPN will automatically enter DISABLED state, don't clear fallback to allow
-                    // it to finish even when we entered DISABLED state.
-                    if (state == VpnState.Connected)
-                        clearOngoingFallback()
-
-                    vpnStateMonitor.updateStatus(VpnStateMonitor.Status(newState, connectionParams))
+                }
+            } else {
+                if (errorType != null && ongoingFallback?.isActive != true) {
+                    launchFallback {
+                        handleUnrecoverableError(errorType)
+                    }
                 }
 
-                ProtonLogger.log(
-                    ConnStateChanged,
-                    "${unifiedState(newState)}, internal state: $newState, backend: ${activeBackend?.vpnProtocol}, fallback active: ${ongoingFallback?.isActive}"
-                )
-                DebugUtils.debugAssert {
-                    val isConnectedOrConnecting = state in arrayOf(
-                        VpnState.Connecting,
-                        VpnState.Connected,
-                        VpnState.Reconnecting
-                    )
-                    isConnectedOrConnecting.implies(connectionParams != null && activeBackend != null)
-                }
+                // After auth failure OpenVPN will automatically enter DISABLED state, don't clear fallback to allow
+                // it to finish even when we entered DISABLED state.
+                if (newState == VpnState.Connected)
+                    clearOngoingFallback()
+
+                vpnStateMonitor.updateStatus(newStatus)
             }
-        }.launchIn(scope)
-
-        stateInternal.onEach {
-            if (it == VpnState.Connected) ProtonLogger.log(ConnConnectConnected)
+            ProtonLogger.log(
+                ConnStateChanged,
+                "${unifiedState(newState)}, internal state: $newState, backend: ${activeBackend?.vpnProtocol}, fallback active: ${ongoingFallback?.isActive}"
+            )
+            if (newState == VpnState.Connected) ProtonLogger.log(ConnConnectConnected)
         }.launchIn(scope)
 
         vpnErrorHandler.switchConnectionFlow
@@ -211,6 +238,10 @@ class VpnConnectionManager @Inject constructor(
         }.launchIn(scope)
     }
 
+    private fun setInternalState(newState: InternalState) {
+        internalState.value = newState
+    }
+
     private fun skipFallback(errorType: ErrorType) =
         errorType == ErrorType.UNREACHABLE_INTERNAL &&
             (lastUnreachable > now() - UNREACHABLE_MIN_INTERVAL_MS).also { skip ->
@@ -218,22 +249,11 @@ class VpnConnectionManager @Inject constructor(
                     lastUnreachable = now()
             }
 
-    private fun activateBackend(newBackend: VpnBackend) {
-        DebugUtils.debugAssert {
-            activeBackend == null || activeBackend == newBackend
-        }
-        if (activeBackend != newBackend) {
-            newBackend.setSelfState(VpnState.Connecting)
-            activeBackendFlow.value = newBackend
-            setSelfState(VpnState.Disabled)
-        }
-    }
-
-    private suspend fun handleRecoverableError(errorType: ErrorType, params: ConnectionParams) {
+    private suspend fun handleRecoverableError(backend: VpnBackend?, errorType: ErrorType, params: ConnectionParams) {
         ProtonLogger.logCustom(LogCategory.CONN, "Attempting to recover from error: $errorType")
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.CheckingAvailability, params))
         val result = when (errorType) {
-            ErrorType.UNREACHABLE_INTERNAL, ErrorType.LOOKUP_FAILED_INTERNAL ->
+            ErrorType.UNREACHABLE_INTERNAL ->
                 vpnErrorHandler.onUnreachableError(params)
             ErrorType.SERVER_ERROR ->
                 vpnErrorHandler.onServerError(params)
@@ -253,7 +273,7 @@ class VpnConnectionManager @Inject constructor(
                     clearOngoingConnection(clearFallback = false)
                     disconnectBlocking(DisconnectTrigger.Error("max sessions reached"))
                 } else {
-                    activeBackend?.setSelfState(VpnState.Error(result.type, isFinal = false))
+                    backend?.setSelfState(VpnState.Error(result.type, isFinal = false))
                 }
             }
         }
@@ -326,8 +346,7 @@ class VpnConnectionManager @Inject constructor(
         ProtonLogger.log(ConnConnectTrigger, switch.log)
         vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Fallback(switch.log))
         launchConnect {
-            disconnectForNewConnection(isFallback = true, oldConnectionParams = connectionParams)
-            preparedConnect(switch.preparedConnection)
+            preparedConnect(switch.preparedConnection, isFallback = true)
         }
     }
 
@@ -337,18 +356,8 @@ class VpnConnectionManager @Inject constructor(
         server: Server,
         isFallback: Boolean
     ) {
-        val oldConnectionParams = connectionParams
-        connectionParams = ConnectionParams(connectIntent, server, null, null)
-
-        if (activeBackend != null) {
-            ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnecting first...")
-            disconnectForNewConnection(connectIntent is AnyConnectIntent.GuestHole, oldConnectionParams, isFallback)
-            if (!coroutineContext.isActive)
-                return // Don't connect if the scope has been cancelled.
-            ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Disconnected, start connecting to new server.")
-        }
-
-        setSelfState(VpnState.ScanningPorts)
+        val newConnectionParams = ConnectionParams(connectIntent, server, null, null)
+        setInternalState(InternalState.ScanningPorts(activeConnectionParams, newConnectionParams, activeBackend))
 
         var protocol = preferredProtocol
         val hasNetwork = networkManager.isConnectedToNetwork()
@@ -359,7 +368,7 @@ class VpnConnectionManager @Inject constructor(
         if (preparedConnection == null) {
             if (connectIntent is AnyConnectIntent.GuestHole) {
                 // If scanning failed for GH, just try another server to speed things up.
-                setSelfState(VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = true))
+                setInternalState(InternalState.Error(newConnectionParams, VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = true), activeBackend))
                 return
             }
             protocol = if (protocol.vpn == VpnProtocol.Smart)
@@ -374,11 +383,9 @@ class VpnConnectionManager @Inject constructor(
         }
 
         if (preparedConnection == null) {
-            setSelfState(
-                VpnState.Error(ErrorType.GENERIC_ERROR, "Server doesn't support selected protocol", isFinal = true)
-            )
+            setInternalState(InternalState.Error(newConnectionParams, VpnState.Error(ErrorType.GENERIC_ERROR, "Server doesn't support selected protocol", isFinal = true), activeBackend))
         } else {
-            preparedConnect(preparedConnection)
+            preparedConnect(preparedConnection, isFallback)
         }
     }
 
@@ -405,29 +412,35 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    private suspend fun preparedConnect(preparedConnection: PrepareResult) {
+    private suspend fun preparedConnect(preparedConnection: PrepareResult, isFallback: Boolean) {
         // If smart profile fails we need this to handle reconnect request
         lastConnectIntent = preparedConnection.connectionParams.connectIntent
 
-        val newBackend = preparedConnection.backend
-        if (activeBackend != null && activeBackend != newBackend)
-            disconnectBlocking(DisconnectTrigger.NewConnection)
+        val currentBackend = activeBackend
+        if (currentBackend != null) {
+            setInternalState(InternalState.SwitchingConnection(activeConnectionParams, preparedConnection.connectionParams, currentBackend))
+            val disconnectTrigger = if (isFallback) DisconnectTrigger.Fallback else DisconnectTrigger.NewConnection
+            disconnectForNewConnection(activeConnectionParams, disconnectTrigger)
+            setInternalState(InternalState.SwitchingConnection(activeConnectionParams, preparedConnection.connectionParams, null))
+        }
 
-        val sessionId = currentUser.sessionId()
-        if (newBackend.vpnProtocol == VpnProtocol.OpenVPN && sessionId != null &&
+        val newBackend = preparedConnection.backend
+        if (newBackend.vpnProtocol == VpnProtocol.OpenVPN &&
             preparedConnection.connectionParams.connectIntent !is AnyConnectIntent.GuestHole
         ) {
-            // OpenVPN needs a certificate to connect, make sure there is one available (it can be expired, it'll be
-            // refreshed via the VPN tunnel if needed).
-            if (!ensureCertificateAvailable(sessionId)) {
-                // Report LOCAL_AGENT_ERROR, same as other places where CertificateResult.Error is handled.
-                val error = VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate", isFinal = true)
-                setSelfState(error)
-                return
+            val sessionId = currentUser.sessionId()
+            if (sessionId != null) {
+                // OpenVPN needs a certificate to connect, make sure there is one available (it can be expired, it'll be
+                // refreshed via the VPN tunnel if needed).
+                if (!ensureCertificateAvailable(sessionId)) {
+                    // Report LOCAL_AGENT_ERROR, same as other places where CertificateResult.Error is handled.
+                    val error = VpnState.Error(ErrorType.LOCAL_AGENT_ERROR, "Failed to obtain certificate", isFinal = true)
+                    setInternalState(InternalState.Error(preparedConnection.connectionParams, error, newBackend))
+                    return
+                }
             }
         }
 
-        connectionParams = preparedConnection.connectionParams
         with(preparedConnection) {
             val connectIntentInfo = connectionParams.connectIntent.toLog()
             ProtonLogger.log(
@@ -436,9 +449,10 @@ class VpnConnectionManager @Inject constructor(
             )
         }
 
-        ConnectionParams.store(connectionParams)
-        activateBackend(newBackend)
-        activeBackend?.connect(preparedConnection.connectionParams)
+        ConnectionParams.store(preparedConnection.connectionParams)
+        newBackend.setSelfState(VpnState.Connecting)
+        newBackend.connect(preparedConnection.connectionParams)
+        setInternalState(InternalState.Active(preparedConnection.connectionParams, newBackend))
     }
 
     private suspend fun ensureCertificateAvailable(sessionId: SessionId): Boolean {
@@ -467,7 +481,7 @@ class VpnConnectionManager @Inject constructor(
         val shouldReconnect = stateKey != VpnState.Disabled.name &&
             stateKey != VpnState.Disconnecting.name &&
             connectIntent !is AnyConnectIntent.GuestHole
-        if (state == VpnState.Disabled && shouldReconnect) {
+        if (internalState.value == null && shouldReconnect) {
             connect(vpnBackgroundUiDelegate, connectIntent, ConnectTrigger.Auto("Process restore: $reason, previous state was: $stateKey"))
             return true
         }
@@ -547,35 +561,24 @@ class VpnConnectionManager @Inject constructor(
 
     private suspend fun disconnectBlocking(trigger: DisconnectTrigger) {
         ProtonLogger.log(ConnDisconnectTrigger, "reason: ${trigger.description}")
-        vpnConnectionTelemetry.onDisconnectionTrigger(trigger, connectionParams)
+        vpnConnectionTelemetry.onDisconnectionTrigger(trigger, activeConnectionParams)
         ConnectionParams.deleteFromStore("disconnect")
-        setSelfState(VpnState.Disabled)
         activeBackend?.disconnect()
-        activeBackendFlow.value = null
-        connectionParams = null
+        setInternalState(InternalState.Disabled)
     }
 
     private suspend fun disconnectForNewConnection(
-        isGuestHoleConnection: Boolean = false,
         oldConnectionParams: ConnectionParams?,
-        isFallback: Boolean
+        trigger: DisconnectTrigger,
+        isGuestHoleConnection: Boolean = false,
     ) {
         ProtonLogger.log(ConnDisconnectTrigger, "reason: new connection")
-        vpnConnectionTelemetry.onDisconnectionTrigger(
-            if (isFallback) DisconnectTrigger.Fallback else DisconnectTrigger.NewConnection,
-            oldConnectionParams
-        )
+        vpnConnectionTelemetry.onDisconnectionTrigger(trigger, oldConnectionParams)
         // GuestHole connections should not emit disconnect events to not trigger self canceling for guest hole
         if (!isGuestHoleConnection)
             vpnStateMonitor.onDisconnectedByReconnection.emit(Unit)
         ConnectionParams.deleteFromStore("disconnect for new connection")
-        // The UI relies on going through this state to properly show that a new connection is
-        // being established (as opposed to reconnecting to the same server).
-        setSelfState(VpnState.Disconnecting)
         val previousBackend = activeBackend
-        activeBackendFlow.value = null
-        // CheckingAvailability seems to be the best state without introducing a new one.
-        setSelfState(VpnState.CheckingAvailability)
         previousBackend?.disconnect()
     }
 
@@ -596,7 +599,7 @@ class VpnConnectionManager @Inject constructor(
     fun reconnectWithCurrentParams(uiDelegate: VpnUiDelegate) = scope.launch {
         clearOngoingConnection(clearFallback = true)
         if (activeBackend != null) {
-            vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.Reconnect("reconnect"), connectionParams)
+            vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.Reconnect("reconnect"), activeConnectionParams)
             vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect)
             activeBackend?.reconnect()
         } else {
@@ -608,14 +611,24 @@ class VpnConnectionManager @Inject constructor(
     // if compared to original connection
     fun reconnect(triggerAction: String, uiDelegate: VpnUiDelegate) {
         scope.launch {
-            disconnectBlocking(DisconnectTrigger.Reconnect("reconnect: $triggerAction"))
-            lastConnectIntent?.let { connect(uiDelegate, it, ConnectTrigger.Reconnect) }
+            val currentConnectionParams = activeConnectionParams
+            if (currentConnectionParams != null) {
+                setInternalState(
+                    InternalState.SwitchingConnection(currentConnectionParams, currentConnectionParams, activeBackend))
+                disconnectForNewConnection(
+                    currentConnectionParams,
+                    DisconnectTrigger.Reconnect(triggerAction)
+                )
+                lastConnectIntent?.let { connect(uiDelegate, it, ConnectTrigger.Reconnect) }
+            } else {
+                ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.CONN, "Reconnect called without active connection")
+            }
         }
     }
 
     fun onVpnServiceDestroyed() {
-        ConnectionParams.readIntentFromStore(expectedUuid = connectionParams?.uuid)?.let {
-            vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.ServiceDestroyed, connectionParams)
+        ConnectionParams.readIntentFromStore(expectedUuid = activeConnectionParams?.uuid)?.let {
+            vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.ServiceDestroyed, activeConnectionParams)
             ProtonLogger.logCustom(
                 LogCategory.CONN_DISCONNECT, "onDestroy called for current VpnService, deleting ConnectionParams"
             )
@@ -669,13 +682,12 @@ class VpnConnectionManager @Inject constructor(
     }
 
     companion object {
-        private const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
+        @VisibleForTesting const val STORAGE_KEY_STATE = "VpnStateMonitor.VPN_STATE_NAME"
         // 2 minutes should be enough even on an unstable network when some requests fail.
         private val WAKELOCK_MAX_MS = TimeUnit.MINUTES.toMillis(2)
 
         private val RECOVERABLE_ERRORS = listOf(
             ErrorType.AUTH_FAILED_INTERNAL,
-            ErrorType.LOOKUP_FAILED_INTERNAL,
             ErrorType.UNREACHABLE_INTERNAL,
             ErrorType.POLICY_VIOLATION_LOW_PLAN,
             ErrorType.SERVER_ERROR
