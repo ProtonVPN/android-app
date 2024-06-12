@@ -481,12 +481,18 @@ abstract class VpnBackend(
         if (agent == null && agentConnectionJob == null) {
             val hostname = lastConnectionParams?.connectingDomain?.entryDomain
             agentConnectionJob = mainScope.launch {
-                val certInfo = certificateRepository.getCertificate(currentUser.sessionId()!!)
-                if (certInfo is CertificateRepository.CertificateResult.Success) {
-                    prepareFeaturesForAgentConnection()
-                    agent = createAgentConnection(certInfo, hostname, createNativeClient())
-                } else {
-                    setError(ErrorType.LOCAL_AGENT_ERROR, description = "Failed to get certificate")
+                val sessionId = currentUser.sessionId()
+                if (sessionId != null) { // null can happen if user just logged out
+                    val certInfo = certificateRepository.getCertificate(sessionId)
+                    if (certInfo is CertificateRepository.CertificateResult.Success) {
+                        prepareFeaturesForAgentConnection()
+                        agent = createAgentConnection(certInfo, hostname, createNativeClient())
+                    } else {
+                        setError(
+                            ErrorType.LOCAL_AGENT_ERROR,
+                            description = "Failed to get certificate"
+                        )
+                    }
                 }
             }
         }
