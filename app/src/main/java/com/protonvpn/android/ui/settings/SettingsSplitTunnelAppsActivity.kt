@@ -51,7 +51,7 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
 
     override val viewModel: SettingsSplitTunnelAppsViewModel by viewModels()
 
-    private var previousSystemAppsState: SettingsSplitTunnelAppsViewModel.SystemAppsState? = null
+    private var previousSystemAppsState: SplitTunnelingAppsViewModelHelper.SystemAppsState? = null
 
     private lateinit var mode: SplitTunnelingMode
 
@@ -85,9 +85,9 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
         val actionRemove = { item: LabeledItem -> viewModel.removeApp(item) }
         viewModel.viewState.asLiveData().observe(this, Observer { state ->
             when (state) {
-                is SettingsSplitTunnelAppsViewModel.ViewState.Loading ->
+                is SplitTunnelingAppsViewModelHelper.ViewState.Loading ->
                     binding.progress.isVisible = true
-                is SettingsSplitTunnelAppsViewModel.ViewState.Content -> {
+                is SplitTunnelingAppsViewModelHelper.ViewState.Content -> {
                     binding.progress.isVisible = false
                     updateLists(
                         itemsAdapter,
@@ -104,7 +104,7 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
 
     private fun updateLists(
         adapter: GroupAdapter<GroupieViewHolder>,
-        content: SettingsSplitTunnelAppsViewModel.ViewState.Content,
+        content: SplitTunnelingAppsViewModelHelper.ViewState.Content,
         actionAdd: LabeledItemAction,
         actionRemove: LabeledItemAction,
         layoutManager: LinearLayoutManager
@@ -134,11 +134,11 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
             LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_plus, actionAdd)
         }
         val availableSystemViewHolders = when (availableSystemItems) {
-            is SettingsSplitTunnelAppsViewModel.SystemAppsState.NotLoaded ->
+            is SplitTunnelingAppsViewModelHelper.SystemAppsState.NotLoaded ->
                 listOf(LoadSystemAppsItem(this::loadSystemApps))
-            is SettingsSplitTunnelAppsViewModel.SystemAppsState.Loading ->
+            is SplitTunnelingAppsViewModelHelper.SystemAppsState.Loading ->
                 listOf(LoadSystemAppsSpinnerItem())
-            is SettingsSplitTunnelAppsViewModel.SystemAppsState.Content -> {
+            is SplitTunnelingAppsViewModelHelper.SystemAppsState.Content -> {
                 availableSystemItems.apps.map {
                     LabeledItemActionViewHolder(it, CoreR.drawable.ic_proton_plus, actionAdd)
                 }
@@ -153,8 +153,8 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
             systemAppsSection
         )
         val onAsyncFinished =
-            if (previousSystemAppsState is SettingsSplitTunnelAppsViewModel.SystemAppsState.Loading &&
-                availableSystemItems is SettingsSplitTunnelAppsViewModel.SystemAppsState.Content
+            if (previousSystemAppsState is SplitTunnelingAppsViewModelHelper.SystemAppsState.Loading &&
+                availableSystemItems is SplitTunnelingAppsViewModelHelper.SystemAppsState.Content
             ) {
                 OnAsyncUpdateListener {
                     // This only works if there were no changes to the list in the meantime, but that's ok.
@@ -172,10 +172,10 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
         viewModel.triggerLoadSystemApps()
     }
 
-    private fun SettingsSplitTunnelAppsViewModel.SystemAppsState.appCount(): Int = when (this) {
-        is SettingsSplitTunnelAppsViewModel.SystemAppsState.NotLoaded -> packageNames.size
-        is SettingsSplitTunnelAppsViewModel.SystemAppsState.Loading -> packageNames.size
-        is SettingsSplitTunnelAppsViewModel.SystemAppsState.Content -> apps.size
+    private fun SplitTunnelingAppsViewModelHelper.SystemAppsState.appCount(): Int = when (this) {
+        is SplitTunnelingAppsViewModelHelper.SystemAppsState.NotLoaded -> packageNames.size
+        is SplitTunnelingAppsViewModelHelper.SystemAppsState.Loading -> packageNames.size
+        is SplitTunnelingAppsViewModelHelper.SystemAppsState.Content -> apps.size
     }
 
     private class EmptyStateItem(
