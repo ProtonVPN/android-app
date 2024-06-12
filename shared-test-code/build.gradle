@@ -20,10 +20,10 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
 }
 
 apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.protonvpn.test.shared'
@@ -91,11 +91,11 @@ android {
 }
 
 dependencies {
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    ksp "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "com.google.dagger:hilt-android-testing:$hilt_version"
     implementation 'androidx.hilt:hilt-work:1.2.0'
-    kapt 'androidx.hilt:hilt-compiler:1.1.0'
+    ksp 'androidx.hilt:hilt-compiler:1.1.0'
 
     implementation project(':app')
     implementation project(path: ':openvpn')

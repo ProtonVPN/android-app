@@ -27,7 +27,9 @@ buildscript {
     ext.datastore_version = '1.1.0-alpha06'
     ext.detekt_version = '1.23.5'
     ext.hilt_version = '2.49'
+    // When updating kotlin version KSP needs to be updated as well to matching version
     ext.kotlin_version = '1.9.22'
+    ext.ksp_version = '1.9.22-1.0.17'
     ext.kotlinx_coroutines_version = '1.8.0'
     ext.kotlinx_serialization_json_version = '1.6.3'
     ext.mockk_version = '1.13.8'
@@ -50,7 +52,9 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
+plugins {
+    id 'com.google.devtools.ksp' version "$ksp_version" apply false
+}
 project.ext {
     minSdkVersion = 23
     compileSdkVersion = 34
