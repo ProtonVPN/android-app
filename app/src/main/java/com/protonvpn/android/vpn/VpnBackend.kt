@@ -327,7 +327,7 @@ abstract class VpnBackend(
             if (hasChanged) onVpnProtocolStateChange(value)
         }
 
-    final override val selfStateFlow = MutableStateFlow<VpnState?>(VpnState.Disabled)
+    final override val selfStateFlow = MutableStateFlow<VpnState>(VpnState.Disabled)
     private var agent: AgentConnectionInterface? = null
     private var agentConnectionJob: Job? = null
     private var reconnectionJob: Job? = null

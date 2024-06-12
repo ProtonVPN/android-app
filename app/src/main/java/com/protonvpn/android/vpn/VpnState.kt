@@ -25,8 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Locale
 
 interface VpnStateSource {
-    // null value should only be initial
-    val selfStateFlow: MutableStateFlow<VpnState?>
+    val selfStateFlow: MutableStateFlow<VpnState>
     val selfState get() = selfStateFlow.value
 
     fun setSelfState(value: VpnState) {
@@ -63,7 +62,6 @@ enum class ErrorType {
     AUTH_FAILED_INTERNAL,
     AUTH_FAILED,
     PEER_AUTH_FAILED,
-    LOOKUP_FAILED_INTERNAL,
     UNREACHABLE,
     UNREACHABLE_INTERNAL,
     MAX_SESSIONS,

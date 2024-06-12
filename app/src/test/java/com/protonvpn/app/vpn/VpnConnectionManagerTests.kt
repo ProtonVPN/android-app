@@ -27,6 +27,7 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
+import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
@@ -34,6 +35,7 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
+import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -45,6 +47,7 @@ import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnBackendProvider
 import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnConnectionManager.Companion.STORAGE_KEY_STATE
 import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -56,11 +59,14 @@ import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifyOrder
@@ -113,6 +119,8 @@ class VpnConnectionManagerTests {
     @MockK
     private lateinit var mockVpnUiDelegate: VpnUiDelegate
     @MockK
+    private lateinit var mockVpnBackgroundUiDelegate: VpnBackgroundUiDelegate
+    @MockK
     private lateinit var appConfig: AppConfig
     @RelaxedMockK
     private lateinit var mockVpnConnectionTelemetry: VpnConnectionTelemetry
@@ -120,9 +128,13 @@ class VpnConnectionManagerTests {
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var serverManager: ServerManager
 
-    private lateinit var mockBackendSelfState: MutableStateFlow<VpnState?>
+    private lateinit var mockBackendSelfState: MutableStateFlow<VpnState>
 
+    private lateinit var testScheduler: TestCoroutineScheduler
     private lateinit var testScope: TestScope
+    private lateinit var supportsProtocol: SupportsProtocol
+
+    private val clock get() = testScheduler::currentTime
 
     private val vpnUser = TestVpnUser.create(maxTier = 2)
     private val connectionParams = ConnectionParams(
@@ -137,12 +149,11 @@ class VpnConnectionManagerTests {
     fun setup() {
         MockKAnnotations.init(this)
 
-        val testScheduler = TestCoroutineScheduler()
+        testScheduler = TestCoroutineScheduler()
         testScope = TestScope(UnconfinedTestDispatcher(testScheduler))
-        val clock = testScheduler::currentTime
 
         Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
-        mockBackendSelfState = MutableStateFlow(null)
+        mockBackendSelfState = MutableStateFlow(VpnState.Disabled)
 
         coEvery { mockCurrentUser.sessionId() } returns SessionId("session id")
         coEvery { mockCurrentUser.vpnUser() } returns vpnUser
@@ -160,21 +171,29 @@ class VpnConnectionManagerTests {
         }
         every { mockVpnErrorHandler.switchConnectionFlow } returns MutableSharedFlow()
         every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false
+        every { mockVpnBackgroundUiDelegate.shouldSkipAccessRestrictions() } returns false
+        every { mockVpnBackgroundUiDelegate.showInfoNotification(any()) } just Runs
+        every { mockVpnBackgroundUiDelegate.askForPermissions(any(), any(), any()) } answers {
+            arg<() -> Unit>(2).invoke()
+        }
 
-        val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, flowOf(LocalUserSettings.Default))
         val userSettingsCached = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
 
         Storage.setPreferences(MockSharedPreference())
         vpnStateMonitor = VpnStateMonitor()
-        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
+        supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
         serverManager = ServerManager(testScope.backgroundScope, userSettingsCached, mockCurrentUser, clock, supportsProtocol, createInMemoryServersStore(), profileManager)
         runBlocking {
             serverManager.setServers(MockedServers.serverList, null)
         }
 
-        val serverManager2 = ServerManager2(serverManager, userSettings, supportsProtocol)
+        createManager()
+    }
 
+    private fun createManager() {
+        val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, flowOf(LocalUserSettings.Default))
+        val serverManager2 = ServerManager2(serverManager, userSettings, supportsProtocol)
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
             userSettings = userSettings,
@@ -183,7 +202,7 @@ class VpnConnectionManagerTests {
             networkManager = mockNetworkManager,
             vpnErrorHandler = mockVpnErrorHandler,
             vpnStateMonitor = vpnStateMonitor,
-            vpnBackgroundUiDelegate = mockk(relaxed = true),
+            vpnBackgroundUiDelegate = mockVpnBackgroundUiDelegate,
             serverManager = serverManager2,
             certificateRepository = mockk(),
             currentVpnServiceProvider = mockk(relaxed = true),
@@ -326,4 +345,48 @@ class VpnConnectionManagerTests {
             mockVpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect)
         }
     }
+
+    @Test
+    fun `connection is initiated after process restore`() = testScope.runTest {
+        Storage.saveString(STORAGE_KEY_STATE, VpnState.Connected.name)
+        createManager() // Recreate manager to make sure it doesn't override previously set state
+        advanceUntilIdle()
+
+        coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+            PrepareResult(mockBackend, connectionParams)
+        }
+
+        vpnConnectionManager.onRestoreProcess(ConnectIntent.Default, "process restore")
+
+        coVerify { mockBackend.connect(connectionParams) }
+    }
+
+    @Test
+    fun `when connecting to different server pinging happens before disconnecting`() =
+        testScope.runTest {
+            val server1 = MockedServers.serverList[0]
+            val server2 = MockedServers.serverList[1]
+            val intent1 = ConnectIntent.Server(server1.serverId, emptySet())
+            val intent2 = ConnectIntent.Server(server2.serverId, emptySet())
+            coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
+                val intent = arg<ConnectIntent>(1)
+                val server = arg<Server>(2)
+                PrepareResult(mockBackend, ConnectionParams(intent, server, server.connectingDomains.first(), VpnProtocol.WireGuard))
+            }
+
+            vpnConnectionManager.connect(mockVpnUiDelegate, intent1, trigger)
+            mockBackendSelfState.value = VpnState.Connected
+            advanceUntilIdle()
+
+            vpnConnectionManager.connect(mockVpnUiDelegate, intent2, trigger)
+            mockBackendSelfState.value = VpnState.Connected
+            advanceUntilIdle()
+
+            coVerifyOrder {
+                mockBackend.connect(any())
+                mockBackendProvider.prepareConnection(any(), intent2, server2, any())
+                mockBackend.disconnect()
+                mockBackend.connect(any())
+            }
+        }
 }

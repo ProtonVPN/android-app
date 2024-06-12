@@ -689,6 +689,7 @@ class VpnConnectionTests {
             },
             expectedVpnStates = listOf(
                 VpnState.Disabled,
+                VpnState.ScanningPorts,
                 VpnState.Connecting,
                 VpnState.Disconnecting,
                 VpnState.Disabled, // Full reconnection.
@@ -709,6 +710,7 @@ class VpnConnectionTests {
             },
             expectedVpnStates = listOf(
                 VpnState.Disabled,
+                VpnState.ScanningPorts,
                 VpnState.Connecting,
                 VpnState.Disconnecting,
                 VpnState.Disabled, // Full reconnection.
@@ -728,6 +730,7 @@ class VpnConnectionTests {
             },
             expectedVpnStates = listOf(
                 VpnState.Disabled,
+                VpnState.ScanningPorts,
                 VpnState.Connecting,
                 VpnState.Connected
             )
@@ -744,6 +747,7 @@ class VpnConnectionTests {
             },
             expectedVpnStates = listOf(
                 VpnState.Disabled,
+                VpnState.ScanningPorts,
                 VpnState.Connecting,
                 VpnState.Connected
             )
@@ -764,6 +768,7 @@ class VpnConnectionTests {
             },
             expectedVpnStates = listOf(
                 VpnState.Disabled,
+                VpnState.ScanningPorts,
                 VpnState.Connecting,
                 VpnState.Connected
             ),
@@ -781,6 +786,7 @@ class VpnConnectionTests {
             },
             expectedVpnStates = listOf(
                 VpnState.Disabled,
+                VpnState.ScanningPorts,
                 VpnState.Connecting,
                 VpnState.Connected
             )
