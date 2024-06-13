@@ -84,7 +84,7 @@ fun OnboardingScreen(
                     .align(Alignment.CenterHorizontally)
                     .padding(horizontal = 16.dp),
                 text = stringResource(id = R.string.onboarding_welcome_title),
-                style = ProtonTheme.typography.heroNorm
+                style = ProtonTheme.typography.hero,
             )
             Text(
                 modifier = Modifier
@@ -168,13 +168,3 @@ private fun OnboardingScreenPreviewDark() {
         OnboardingScreen({}) {}
     }
 }
-
-//TODO: remove when added to core
-val ProtonTypography.heroNorm: TextStyle
-    @Composable get() = TextStyle(
-        fontSize = 28.sp,
-        fontWeight = FontWeight.W700,
-        letterSpacing = 0.45.sp,
-        lineHeight = 34.sp,
-        color = ProtonTheme.colors.textNorm
-    )

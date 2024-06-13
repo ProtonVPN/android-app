@@ -79,6 +79,12 @@ class CurrentUserLocalSettingsManager @Inject constructor(
             current.copy(splitTunneling = current.splitTunneling.copy(isEnabled = !current.splitTunneling.isEnabled))
         }
 
+    suspend fun updateSplitTunnelingMode(mode: SplitTunnelingMode) {
+        update { current ->
+            current.copy(splitTunneling = current.splitTunneling.copy(mode = mode))
+        }
+    }
+
     suspend fun toggleVpnAccelerator() =
         update { current -> current.copy(vpnAccelerator = !current.vpnAccelerator) }
 
@@ -90,6 +96,9 @@ class CurrentUserLocalSettingsManager @Inject constructor(
 
     suspend fun setRandomizedNat(value: Boolean) =
         update { current -> current.copy(randomizedNat = value) }
+
+    suspend fun updateSplitTunnelSettings(transform: (SplitTunnelingSettings) -> (SplitTunnelingSettings)) =
+        update { current -> current.copy(splitTunneling = transform(current.splitTunneling)) }
 
     suspend fun updateSplitTunnelApps(selectedApps: List<String>, mode: SplitTunnelingMode) =
         update { current ->

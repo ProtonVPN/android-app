@@ -23,32 +23,17 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.logging.Setting
+import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.SaveableSettingsViewModel
-import com.protonvpn.android.utils.ViewUtils.toPx
-import com.protonvpn.android.utils.sortedByLocaleAware
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.DispatcherProvider
 import javax.inject.Inject
-
-private const val APP_ICON_SIZE_DP = 24
 
 @HiltViewModel
 class SettingsSplitTunnelAppsViewModel @Inject constructor(
@@ -69,6 +54,7 @@ class SettingsSplitTunnelAppsViewModel @Inject constructor(
         dispatcherProvider,
         installedAppsProvider,
         selectedPackages,
+        forTv = false,
     )
 
     val viewState = helper.viewState
@@ -79,8 +65,8 @@ class SettingsSplitTunnelAppsViewModel @Inject constructor(
         }
     }
 
-    fun triggerLoadSystemApps() {
-        helper.triggerLoadSystemApps()
+    fun toggleLoadSystemApps() {
+        helper.toggleLoadSystemApps()
     }
 
     fun addApp(item: LabeledItem) {

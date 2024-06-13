@@ -27,6 +27,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.protonvpn.android.R
 import com.protonvpn.base.BaseRobot
+import com.protonvpn.data.Timeouts
 import com.protonvpn.testsTv.verification.ConnectionVerify
 
 /**
@@ -57,11 +58,12 @@ class TvCountryListRobot : BaseRobot() {
     }
 
     fun signOut() : TvCountryListRobot {
-        view.waitForCondition(watchTimeout = 20_000) {
+        view.waitForCondition(watchTimeout = Timeouts.TWENTY_SECONDS_MS) {
             uiDevice.pressDPadDown()
             onView(withText(R.string.tv_signout_label)).check(matches(isDisplayed()))
         }
         uiDevice.pressDPadDown()
+        uiDevice.pressDPadRight() // Note: ideally we would move until the sign-out button is focused.
         uiDevice.pressDPadCenter()
         return TvCountryListRobot()
     }
