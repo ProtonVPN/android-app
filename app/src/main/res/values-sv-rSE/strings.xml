@@ -124,16 +124,16 @@
     <string name="inputIpAddressLabel">IP-adress</string>
     <string name="inputIpAddressHint">Skriv IP-adress</string>
     <string name="inputIpAddressErrorInvalid">Ogiltig IP-adress</string>
-    <string name="settingsExcludedIPAddresses">Exkluderade IP-adresser</string>
     <string name="settingsExcludedIPAddressesListHeader">Exkluderade IP-adresser (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Inkluderade IP-adresser (%1$d)</string>
     <string name="settingsExcludedApps">Exkluderade appar</string>
     <string name="settingsExcludedAppsEmpty">Lägg till appar att exkludera från VPN-trafiken.</string>
+    <string name="settingsIncludedAppsEmpty">Lägg till appar att inkludera i VPN-trafiken.</string>
     <string name="settingsExcludedAppsSelectedHeader">Exkluderade appar (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Tillåtna vanliga appar (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Tillåtna systemappar (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Inkluderade appar (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Alla andra vanliga appar (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Alla andra systemappar (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Visa systemappar</string>
-    <string name="excludeAlreadyExcluded">Redan exkluderad</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Ta bort IP-adress från listan?</string>
     <string name="tileConnected">Ansluten: %1$s</string>
     <string name="openUrlError">%1$s kunde inte öppnas. Webbläsaren upptäcktes inte på din enhet.</string>
     <string name="loaderErrorTimeout">Anslutning gjorde timeout. Försök igen.</string>
@@ -1176,10 +1176,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Restriktioner av data som ankommer till ditt nätverk. vid data Detta alternativ är bäst vid online spel.</string>
     <string name="settings_split_tunneling_description">Anpassa din anslutning genom att bestämma vilka appar och IP-adresser som är skyddade av VPN. %1$s</string>
     <string name="settings_protocol_description">Ett VPN-protokoll avgör hur data flyttas mellan en VPN-server och din enhet. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Läge</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Omvänd</string>
+    <string name="settings_split_tunneling_mode_description_standard">Valda appar och IP-adresser är exkluderade från VPN-anslutning.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Endast valda appar och IP-adresser ansluter via VPN, all annan trafik är oskyddad.</string>
     <string name="settings_split_tunneling_excluded_apps">Exkluderade appar</string>
     <string name="settings_split_tunneling_excluded_ips">Exkluderade IP-adresser</string>
+    <string name="settings_split_tunneling_included_apps">Inkluderade appar</string>
+    <string name="settings_split_tunneling_included_ips">Inkluderade IP-adresser</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ingen</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s och %3$d till</string>
+    <string name="settings_split_tunneling_already_excluded">Redan exkluderad</string>
+    <string name="settings_split_tunneling_already_included">Redan inkluderad</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Ta bort IP-adress från listan?</string>
     <string name="settings_dialog_reconnect">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
     <string name="info_secure_core_standard_high_privacy">Hög integritet</string>
     <string name="info_secure_core_standard_lower_latency">Lägre latens</string>

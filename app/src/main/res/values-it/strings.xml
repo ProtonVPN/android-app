@@ -124,16 +124,16 @@
     <string name="inputIpAddressLabel">Indirizzo IP</string>
     <string name="inputIpAddressHint">Scrivi indirizzo IP</string>
     <string name="inputIpAddressErrorInvalid">Indirizzo IP non valido</string>
-    <string name="settingsExcludedIPAddresses">Indirizzi IP Esclusi</string>
-    <string name="settingsExcludedIPAddressesListHeader">Indirizzi IP Esclusi (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Indirizzi IP esclusi (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Indirizzi IP inclusi (%1$d)</string>
     <string name="settingsExcludedApps">App escluse</string>
     <string name="settingsExcludedAppsEmpty">Aggiungi app da escludere dal traffico VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Aggiungi app da includere nel traffico VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">App escluse (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">App Normali Consentite (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">App di Sistema Consentite (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">App incluse (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Tutte le altre app utente (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Tutte le altre app di sistema (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Mostra app di sistema</string>
-    <string name="excludeAlreadyExcluded">Già escluso</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Rimuovere l\'indirizzo IP dall\'elenco?</string>
     <string name="tileConnected">Connesso: %1$s</string>
     <string name="openUrlError">Impossibile aprire %1$s. Il browser non è stato rilevato sul tuo dispositivo.</string>
     <string name="loaderErrorTimeout">Connessione scaduta. Riprova.</string>
@@ -1176,10 +1176,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Limita alcuni dei dati che entrano nella tua rete. Questa opzione è la migliore per i videogiochi online.</string>
     <string name="settings_split_tunneling_description">Personalizza la tua connessione decidendo quali app e indirizzi IP vengono protetti dalla VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocollo VPN determina il modo in cui i dati si spostano tra un server VPN e il tuo dispositivo. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Modalità</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverso</string>
+    <string name="settings_split_tunneling_mode_description_standard">Le app e gli indirizzi IP selezionati sono esclusi dalla connessione VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Solamente le app e gli indirizzi IP selezionati si connettono tramite VPN, tutto il resto del traffico non è protetto.</string>
     <string name="settings_split_tunneling_excluded_apps">Applicazioni escluse</string>
     <string name="settings_split_tunneling_excluded_ips">Indirizzi IP esclusi</string>
+    <string name="settings_split_tunneling_included_apps">App incluse</string>
+    <string name="settings_split_tunneling_included_ips">Indirizzi IP inclusi</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nessuno</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, +%3$d</string>
+    <string name="settings_split_tunneling_already_excluded">Già escluso</string>
+    <string name="settings_split_tunneling_already_included">Già incluso</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Rimuovere l\'indirizzo IP dall\'elenco?</string>
     <string name="settings_dialog_reconnect">Le nuove impostazioni verranno applicate la prossima volta che ti connetti alla VPN.</string>
     <string name="info_secure_core_standard_high_privacy">Privacy elevata</string>
     <string name="info_secure_core_standard_lower_latency">Minore latenza</string>

@@ -121,19 +121,19 @@
     <string name="profileRandom">Zufällig</string>
     <string name="loaderErrorNoInternet">Keine Internetverbindung</string>
     <string name="loaderErrorGeneric">Ein Problem ist aufgetreten</string>
-    <string name="inputIpAddressLabel">IP-Adresse</string>
+    <string name="inputIpAddressLabel">IP address</string>
     <string name="inputIpAddressHint">IP-Adresse eingeben</string>
     <string name="inputIpAddressErrorInvalid">Ungültige IP-Adresse</string>
-    <string name="settingsExcludedIPAddresses">IP‐Adressen ausschließen</string>
-    <string name="settingsExcludedIPAddressesListHeader">IP‐Adressen ausschließen (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">Ausgeschlossene Apps</string>
     <string name="settingsExcludedAppsEmpty">Apps hinzufügen, die vom VPN-Datenverkehr ausgeschlossen werden sollen.</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">Ausgeschlossene Apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Erlaubte reguläre Apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Erlaubte System-Apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">System-Apps anzeigen</string>
-    <string name="excludeAlreadyExcluded">Bereits ausgeschlossen</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">IP-Adresse aus der Liste entfernen?</string>
     <string name="tileConnected">Verbunden: %1$s</string>
     <string name="openUrlError">%1$s konnte nicht geöffnet werden. Auf deinem Gerät wurde kein Webbrowser gefunden.</string>
     <string name="loaderErrorTimeout">Zeitüberschreitung der Verbindung. Bitte versuche es erneut.</string>
@@ -1176,10 +1176,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Gewisse Beschränkungen für den Datenverkehr in deinem Netz. Diese Option eignet sich am besten für Online-Videospiele.</string>
     <string name="settings_split_tunneling_description">Passe deine Verbindung an, indem du entscheidest, welche Anwendungen und IP-Adressen durch VPN geschützt werden. %1$s</string>
     <string name="settings_protocol_description">Ein VPN-Protokoll bestimmt, wie Daten zwischen einem VPN-Server und deinem Gerät übertragen werden. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_description_standard">Selected apps and IP addresses are excluded from VPN connection.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Ausgeschlossene Apps</string>
     <string name="settings_split_tunneling_excluded_ips">Ausgeschlossene IP-Adressen</string>
+    <string name="settings_split_tunneling_included_apps">Included apps</string>
+    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Keine</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s und %3$d mehr</string>
+    <string name="settings_split_tunneling_already_excluded">Bereits ausgeschlossen</string>
+    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">IP-Adresse aus der Liste entfernen?</string>
     <string name="settings_dialog_reconnect">Die neuen Einstellungen werden erst nach dem nächsten Verbindungsaufbau übernommen.</string>
     <string name="info_secure_core_standard_high_privacy">Hohe Privatsphäre</string>
     <string name="info_secure_core_standard_lower_latency">Niedrigere Latenz</string>

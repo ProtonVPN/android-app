@@ -124,16 +124,16 @@
     <string name="inputIpAddressLabel">Endereço IP</string>
     <string name="inputIpAddressHint">Gravar endereço IP</string>
     <string name="inputIpAddressErrorInvalid">O endereço de IP não é válido.</string>
-    <string name="settingsExcludedIPAddresses">Endereços IP excluídos</string>
     <string name="settingsExcludedIPAddressesListHeader">Endereços IP excluídos (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Endereços IP incluídos (%1$d)</string>
     <string name="settingsExcludedApps">Aplicativos excluídos</string>
     <string name="settingsExcludedAppsEmpty">Adicione aplicativos a serem excluídos do tráfego VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicativos excluídos (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Aplicativos comuns permitidos (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Aplicativos do sistema permitidos (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Aplicativos incluídos (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar aplicativos do sistema</string>
-    <string name="excludeAlreadyExcluded">Já excluído</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Remover o endereço IP da lista?</string>
     <string name="tileConnected">Conectado: %1$s</string>
     <string name="openUrlError">Não foi possível abrir %1$s. O navegador de internet não foi detectado no seu dispositivo.</string>
     <string name="loaderErrorTimeout">A conexão expirou. Tente novamente.</string>
@@ -1176,10 +1176,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Alguma restrição na entrada de dados na sua rede. Esta opção é melhor para jogos on-line.</string>
     <string name="settings_split_tunneling_description">Customize sua conexão decidindo quais aplicativos e endereços IP serão protegidos pela VPN. %1$s</string>
     <string name="settings_protocol_description">Um protocolo VPN determina como os dados trafegam entre um servidor VPN e o seu dispositivo. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Modo</string>
+    <string name="settings_split_tunneling_mode_standard">Padrão</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverso</string>
+    <string name="settings_split_tunneling_mode_description_standard">Aplicativos e endereços IP selecionados são excluídos da conexão VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicativos excluídos</string>
     <string name="settings_split_tunneling_excluded_ips">Endereços de IP excluídos</string>
+    <string name="settings_split_tunneling_included_apps">Aplicativos incluídos</string>
+    <string name="settings_split_tunneling_included_ips">Endereços IP incluídos</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nenhum</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s e mais %3$d</string>
+    <string name="settings_split_tunneling_already_excluded">Já excluído</string>
+    <string name="settings_split_tunneling_already_included">Já incluído</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Remover o endereço IP da lista?</string>
     <string name="settings_dialog_reconnect">As novas configurações serão aplicadas na próxima vez que você se conectar.</string>
     <string name="info_secure_core_standard_high_privacy">Privacidade alta</string>
     <string name="info_secure_core_standard_lower_latency">Baixa latência</string>
