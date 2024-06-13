@@ -38,8 +38,9 @@ import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
-import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.ui.settings.BuildConfigInfo
+import com.protonvpn.android.ui.settings.currentModeApps
+import com.protonvpn.android.ui.settings.currentModeIps
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -121,7 +122,7 @@ class SettingsViewModel @Inject constructor(
         class SplitTunneling(
             isEnabled: Boolean,
             val mode: SplitTunnelingMode,
-            val currentModeAppNames: List<String>,
+            val currentModeAppNames: List<CharSequence>,
             val currentModeIps: List<String>,
             isFreeUser: Boolean,
             override val iconRes: Int = if (isEnabled) R.drawable.feature_splittunneling_on else R.drawable.feature_splittunneling_off
@@ -229,7 +230,6 @@ class SettingsViewModel @Inject constructor(
             }
             val currentModeAppNames =
                 installedAppsProvider.getNamesOfInstalledApps(settings.splitTunneling.currentModeApps())
-                    .map { it.toString() }
 
             val defaultConnectionSetting = if (isFree)
                 null
@@ -427,15 +427,3 @@ private fun UserRecovery.State?.passwordHint(): Int? = when(this) {
     UserRecovery.State.Grace -> AccountManagerR.string.account_settings_list_item_password_hint_grace
     UserRecovery.State.Insecure -> AccountManagerR.string.account_settings_list_item_password_hint_insecure
 }
-
-private fun SplitTunnelingSettings.currentModeApps() =
-    when(mode) {
-        SplitTunnelingMode.INCLUDE_ONLY -> includedApps
-        SplitTunnelingMode.EXCLUDE_ONLY -> excludedApps
-    }
-
-private fun SplitTunnelingSettings.currentModeIps() =
-    when(mode) {
-        SplitTunnelingMode.INCLUDE_ONLY -> includedIps
-        SplitTunnelingMode.EXCLUDE_ONLY -> excludedIps
-    }

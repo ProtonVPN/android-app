@@ -833,6 +833,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.1.0-beta02"
     implementation "androidx.core:core-splashscreen:1.0.1"
     implementation 'com.github.seancfoley:ipaddress:5.4.0'
+    implementation 'com.caverock:androidsvg-aar:1.4'
 
     // Compose
     def composeBom = platform('androidx.compose:compose-bom:2024.05.00')
@@ -894,6 +895,7 @@ dependencies {
     implementation "me.proton.core:util-kotlin:$core_version"
     implementation "me.proton.core:presentation:$core_version"
     implementation "me.proton.core:presentation-compose:$core_version"
+    implementation "me.proton.core:presentation-compose-tv:$core_version"
     implementation "me.proton.core:push:$core_version"
     implementation "me.proton.core:human-verification-data:$core_version"
     implementation "me.proton.core:human-verification-domain:$core_version"
@@ -973,7 +975,6 @@ dependencies {
     // TV
     implementation "androidx.leanback:leanback:1.1.0-rc02"
     implementation "androidx.leanback:leanback-preference:1.1.0-rc01"
-    implementation 'com.caverock:androidsvg-aar:1.4'
 
     // Wireguard
     implementation 'me.proton.vpn:wireguard-android:1.0.20230512.17'

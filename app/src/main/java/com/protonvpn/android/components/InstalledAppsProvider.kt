@@ -59,14 +59,16 @@ class InstalledAppsProvider @Inject constructor(
         val icon: Drawable
     )
 
-    suspend fun getInstalledInternetApps(withLaunchIntent: Boolean): List<String> =
+    suspend fun getInstalledInternetApps(withLaunchIntent: Boolean, forTv: Boolean): List<String> =
         withContext(dispatcherProvider.Io) {
             packageManager.getInstalledApplications(
                 0
             ).map {
                 it.packageName
             }.filter { packageName ->
-                val hasLaunchIntent = packageManager.getLaunchIntentForPackage(packageName) != null
+                // On TV include also apps with regular launch intent (e.g. browser on Firestick).
+                val hasLaunchIntent = packageManager.getLaunchIntentForPackage(packageName) != null ||
+                    forTv && packageManager.getLeanbackLaunchIntentForPackage(packageName) != null
                 val hasInternetPermission =
                     (packageManager.checkPermission(Manifest.permission.INTERNET, packageName)
                             == PackageManager.PERMISSION_GRANTED)

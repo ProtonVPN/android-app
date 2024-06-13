@@ -59,8 +59,11 @@ abstract class Screen<A : Any, N : BaseNav<N>>(val route: String) {
         else
             routePattern.replace("{$ARG_NAME}", Uri.encode(arg.serialize()))
 
-    inline fun <reified T : A> getArgs(entry: NavBackStackEntry): A =
-        requireNotNull(entry.arguments?.getString(ARG_NAME)?.deserialize<T>())
+    inline fun <reified T : A> getArgs(entry: NavBackStackEntry): T =
+        decodeArg(requireNotNull(entry.arguments?.getString(ARG_NAME)))
+
+    inline fun <reified T : A> decodeArg(arg: String): T =
+        Uri.decode(arg).deserialize<T>()
 
     companion object {
         const val ARG_NAME = "arg"

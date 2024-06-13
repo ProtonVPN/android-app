@@ -44,6 +44,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.ui.settings.formatSplitTunnelingItems
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
@@ -99,14 +100,14 @@ fun SplitTunnelingSubSetting(
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_mobile,
                     title = stringResource(id = appsLabel),
-                    subtitle = formatExcludedItems(splitTunneling.currentModeAppNames),
+                    subtitle = formatSplitTunnelingItems(splitTunneling.currentModeAppNames),
                     onClick = { onAppsClick(splitTunnelingMode) }
                 )
 
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_window_terminal,
                     title = stringResource(id = ipsLabel),
-                    subtitle = formatExcludedItems(splitTunneling.currentModeIps),
+                    subtitle = formatSplitTunnelingItems(splitTunneling.currentModeIps),
                     onClick = { onIpsClick(splitTunnelingMode) }
                 )
             }
@@ -160,18 +161,5 @@ private fun ChangeModeDialog(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
-    }
-}
-
-@Composable
-private fun formatExcludedItems(excludedItems: List<String>): String {
-    return when {
-        excludedItems.isEmpty() -> stringResource(id = R.string.settings_split_tunneling_empty)
-        excludedItems.size == 1 -> excludedItems.first()
-        excludedItems.size == 2 -> "${excludedItems[0]}, ${excludedItems[1]}"
-        else -> stringResource(
-            id = R.string.settings_split_tunneling_excluded_format,
-            excludedItems[0], excludedItems[1], excludedItems.size - 2
-        )
     }
 }

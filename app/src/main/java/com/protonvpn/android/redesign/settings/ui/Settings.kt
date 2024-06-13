@@ -92,7 +92,6 @@ import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
-import com.protonvpn.android.ui.onboarding.heroNorm
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
@@ -287,7 +286,7 @@ fun CollapsibleToolbarScaffold(
                     title = {
                             Text(
                                 text = stringResource(id = titleResId),
-                                style = ProtonTheme.typography.heroNorm,
+                                style = ProtonTheme.typography.hero,
                                 fontSize = topAppBarTextSize
                             )
                     },

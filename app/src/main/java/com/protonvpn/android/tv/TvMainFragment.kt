@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
@@ -54,8 +53,10 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
+import com.protonvpn.android.tv.models.SettingsSplitTunnelingCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.tv.settings.splittunneling.TvSettingsSplitTunnelingActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
 import com.protonvpn.android.utils.CountryTools
@@ -148,6 +149,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 is QuickConnectCard -> {
                     viewModel.onQuickConnectAction(requireActivity() as BaseTvActivity)
                 }
+                is SettingsSplitTunnelingCard -> {
+                    startActivity(Intent(context, TvSettingsSplitTunnelingActivity::class.java))
+                }
                 is LogoutCard -> {
                     logout()
                 }
@@ -213,9 +217,13 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
 
         val settingsRow = CardRow(
-            title = R.string.tvRowMore,
+            title = R.string.tv_row_settings,
             icon = R.drawable.ic_proton_three_dots_horizontal_32,
-            cards = listOf(LogoutCard(getString(R.string.tv_signout_label)), ReportBugCard(getString(R.string.drawerReportProblem))),
+            cards = listOf(
+                SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label)),
+                LogoutCard(getString(R.string.tv_signout_label)),
+                ReportBugCard(getString(R.string.drawerReportProblem))
+            ),
             tintIcon = true
         )
         addOrReplace(index, createRow(settingsRow, index))

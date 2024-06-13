@@ -169,7 +169,7 @@ class SettingsSplitTunnelAppsActivity : SaveableSettingsActivity<SettingsSplitTu
     }
 
     private fun loadSystemApps() {
-        viewModel.triggerLoadSystemApps()
+        viewModel.toggleLoadSystemApps()
     }
 
     private fun SplitTunnelingAppsViewModelHelper.SystemAppsState.appCount(): Int = when (this) {

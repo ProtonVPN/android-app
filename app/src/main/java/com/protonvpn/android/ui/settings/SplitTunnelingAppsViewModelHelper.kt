@@ -37,16 +37,18 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.DispatcherProvider
 
 private const val APP_ICON_SIZE_DP = 24
 
 class SplitTunnelingAppsViewModelHelper(
-    private val viewModelScope: CoroutineScope,
+    viewModelScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     private val installedAppsProvider: InstalledAppsProvider,
-    private val selectedPackages: StateFlow<Set<String>>,
+    private val selectedPackages: Flow<Set<String>>,
+    private val forTv: Boolean,
 ) {
 
     sealed class SystemAppsState {
@@ -67,7 +69,7 @@ class SplitTunnelingAppsViewModelHelper(
     private val shouldLoadSystemApps = MutableStateFlow(false)
 
     private val regularAppPackages = flow {
-        emit(installedAppsProvider.getInstalledInternetApps(true))
+        emit(installedAppsProvider.getInstalledInternetApps(true, forTv))
     }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     private val regularApps = regularAppPackages.map { packageNames ->
@@ -75,7 +77,7 @@ class SplitTunnelingAppsViewModelHelper(
     }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     private val systemAppPackages = flow {
-        emit(installedAppsProvider.getInstalledInternetApps(false))
+        emit(installedAppsProvider.getInstalledInternetApps(false, forTv))
     }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     private val selectedNonRegularApps = MutableSharedFlow<List<LabeledItem>>(replay = 1)
@@ -95,6 +97,7 @@ class SplitTunnelingAppsViewModelHelper(
 
     init {
         viewModelScope.launch {
+            // TODO: now that checkbox can be unchecked, the selectedNonRegularApps needs to be updated.
             val packageNames = selectedPackages.first() - regularAppPackages.first()
             selectedNonRegularApps.emit(loadApps(packageNames.toList()))
         }
@@ -132,8 +135,8 @@ class SplitTunnelingAppsViewModelHelper(
         .flowOn(dispatcherProvider.Comp)
         .stateIn(viewModelScope, SharingStarted.Lazily, ViewState.Loading)
 
-    fun triggerLoadSystemApps() {
-        shouldLoadSystemApps.value = true
+    fun toggleLoadSystemApps() {
+        shouldLoadSystemApps.update { !it }
     }
 
     private suspend fun loadApps(packageNames: List<String>): List<LabeledItem> {
