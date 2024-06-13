@@ -124,16 +124,16 @@
     <string name="inputIpAddressLabel">IP 주소</string>
     <string name="inputIpAddressHint">IP 주소 입력</string>
     <string name="inputIpAddressErrorInvalid">유효하지 않은 IP 주소</string>
-    <string name="settingsExcludedIPAddresses">제외된 IP 주소</string>
     <string name="settingsExcludedIPAddressesListHeader">제외된 IP 주소 (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">포함된 IP 주소 (%1$d)</string>
     <string name="settingsExcludedApps">제외된 앱</string>
     <string name="settingsExcludedAppsEmpty">VPN 트래픽에서 제외하고 싶은 앱을 추가하세요.</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">제외된 앱 (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">허용된 일반 앱 (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">허용된 시스템 앱 (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">포함된 앱 (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">시스템 앱 표시</string>
-    <string name="excludeAlreadyExcluded">이미 제외됨</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">IP 주소를 목록에서 삭제하시겠습니까?</string>
     <string name="tileConnected">연결됨: %1$s</string>
     <string name="openUrlError">%1$s 를 열 수 없습니다. 기기에서 웹 브라우저가 탐지되지 않았습니다.</string>
     <string name="loaderErrorTimeout">연결 시간 초과. 다시 시도하십시오.</string>
@@ -1147,10 +1147,20 @@
     <string name="settings_advanced_nat_type_moderate_description">네트워크에 들어오는 데이터를 약간 통제합니다. 온라인 비디오 게이밍에 최적입니다.</string>
     <string name="settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 커스텀할 수 있습니다. %1$s</string>
     <string name="settings_protocol_description">VPN 프로토콜은 서버와 여러분의 장치 사이에서 데이터가 이동하는 방식을 정의합니다. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">모드</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_description_standard">Selected apps and IP addresses are excluded from VPN connection.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">제외된 앱</string>
     <string name="settings_split_tunneling_excluded_ips">제외된 IP 주소</string>
+    <string name="settings_split_tunneling_included_apps">Included apps</string>
+    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">없음</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s 외 %3$d개</string>
+    <string name="settings_split_tunneling_already_excluded">이미 제외됨</string>
+    <string name="settings_split_tunneling_already_included">이미 포함됨</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">IP 주소를 목록에서 삭제하시겠습니까?</string>
     <string name="settings_dialog_reconnect">다음에 연결할 때 새 설정이 적용됩니다.</string>
     <string name="info_secure_core_standard_high_privacy">강화된 개인정보 보호</string>
     <string name="info_secure_core_standard_lower_latency">낮은 레이턴시</string>

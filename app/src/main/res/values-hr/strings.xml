@@ -121,19 +121,19 @@
     <string name="profileRandom">Nasumično</string>
     <string name="loaderErrorNoInternet">Nema internetske veze</string>
     <string name="loaderErrorGeneric">Nešto je pošlo po zlu</string>
-    <string name="inputIpAddressLabel">IP adresa</string>
+    <string name="inputIpAddressLabel">IP address</string>
     <string name="inputIpAddressHint">Write IP address</string>
     <string name="inputIpAddressErrorInvalid">Nevažeća IP adresa</string>
-    <string name="settingsExcludedIPAddresses">Excluded IP Addresses</string>
-    <string name="settingsExcludedIPAddressesListHeader">Excluded IP Addresses (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">Excluded Apps</string>
     <string name="settingsExcludedAppsEmpty">Add apps to be excluded from the VPN traffic.</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">Excluded Apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Allowed Regular Apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Allowed System Apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Show system apps</string>
-    <string name="excludeAlreadyExcluded">Već izuzeto</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Remove IP address from the list?</string>
     <string name="tileConnected">Povezan: %1$s</string>
     <string name="openUrlError">%1$s se ne može otvoriti. Web preglednik nije otkriven na vašem uređaju.</string>
     <string name="loaderErrorTimeout">Veza je istekla. Molimo pokušajte ponovno.</string>
@@ -1205,10 +1205,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_description_standard">Selected apps and IP addresses are excluded from VPN connection.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
     <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
+    <string name="settings_split_tunneling_included_apps">Included apps</string>
+    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Ništa</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_split_tunneling_already_excluded">Već izuzeto</string>
+    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Remove IP address from the list?</string>
     <string name="settings_dialog_reconnect">New settings will apply next time you connect.</string>
     <string name="info_secure_core_standard_high_privacy">High privacy</string>
     <string name="info_secure_core_standard_lower_latency">Lower latency</string>

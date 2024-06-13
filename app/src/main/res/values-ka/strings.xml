@@ -124,16 +124,16 @@
     <string name="inputIpAddressLabel">IP მისამართი</string>
     <string name="inputIpAddressHint">ჩაწერეთ IP მისამართი</string>
     <string name="inputIpAddressErrorInvalid">არასწორი IP მისამართი</string>
-    <string name="settingsExcludedIPAddresses">გამორიცხული IP მისამართები</string>
-    <string name="settingsExcludedIPAddressesListHeader">გამორიცხული IP მისამართები (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">გამორიცხული აპები</string>
     <string name="settingsExcludedAppsEmpty">VPN-ის ტრაფიკიდან ამოღებული აპები.</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">გამორიცხული აპები (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">ნებადართული ჩვეულებრივი აპლიკაციები (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">ნებადართული სისტემური აპლიკაციები (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">ჩასმული აპები (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">სისტემური აპების ჩვენება</string>
-    <string name="excludeAlreadyExcluded">უკვე გამორიცხულია</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">წავშალო IP მისამართი სიიდან?</string>
     <string name="tileConnected">მიერთებულია: %1$s</string>
     <string name="openUrlError">%1$s-ის გახსნის შეცდომა. თქვენს მოწყობილობაზე ვებ ბრაუზერი ვერ ვიპოვე.</string>
     <string name="loaderErrorTimeout">მოლოდინის დრო გავიდა. თავიდან სცადეთ.</string>
@@ -1176,10 +1176,20 @@
     <string name="settings_advanced_nat_type_moderate_description">მცირე შეზღუდვები თქვენს ქსელში შემომავალი მონაცემებისთვის. ეს პარამეტრი საუკეთესოა ონლაინ-თამაშებისთვის.</string>
     <string name="settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები და IP მისამართები იქნებიან VPN-ით დაცული. %1$s</string>
     <string name="settings_protocol_description">VPN პროტოკოლი განსაზღვრავს, როგორ მოძრაობს მონაცემები VPN სერვერსა და თქვენს მოწყობილობას შორის.%1$s</string>
+    <string name="settings_split_tunneling_mode_title">რეჟიმი</string>
+    <string name="settings_split_tunneling_mode_standard">სტანდარტული</string>
+    <string name="settings_split_tunneling_mode_inverse">შებრუნება</string>
+    <string name="settings_split_tunneling_mode_description_standard">მონიშნული აპები და IP მისამართები ამოღებულია VPN მიერთებიდან.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">გამორიცხული აპები</string>
     <string name="settings_split_tunneling_excluded_ips">გამორიცხული IP მისამართები</string>
+    <string name="settings_split_tunneling_included_apps">ჩასმული აპები</string>
+    <string name="settings_split_tunneling_included_ips">ჩასმული IP მისამართები</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">არცერთი</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s და კიდევ %3$d</string>
+    <string name="settings_split_tunneling_already_excluded">უკვე გამორიცხულია</string>
+    <string name="settings_split_tunneling_already_included">უკვე ჩასმულია</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">წავშალო IP მისამართი სიიდან?</string>
     <string name="settings_dialog_reconnect">ახალი პარამეტრები ძალაში შემდეგი შეერთებისას შევა.</string>
     <string name="info_secure_core_standard_high_privacy">მაღალი კონფიდენციალობა</string>
     <string name="info_secure_core_standard_lower_latency">დაბალი შეყოვნება</string>

@@ -121,19 +121,19 @@
     <string name="profileRandom">ランダム</string>
     <string name="loaderErrorNoInternet">インターネットに接続されていません</string>
     <string name="loaderErrorGeneric">不具合が発生しました</string>
-    <string name="inputIpAddressLabel">IP アドレス</string>
+    <string name="inputIpAddressLabel">IP address</string>
     <string name="inputIpAddressHint">IP アドレスを記載</string>
     <string name="inputIpAddressErrorInvalid">無効な IP アドレスです</string>
-    <string name="settingsExcludedIPAddresses">除外する IP アドレス</string>
-    <string name="settingsExcludedIPAddressesListHeader">除外する IP アドレス (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">除外するアプリ</string>
     <string name="settingsExcludedAppsEmpty">VPN トラフィックからアプリを追加して除外することができます。</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">除外するアプリ (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">許可されたアプリ (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">許可されたシステムアプリ (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">システムアプリを表示</string>
-    <string name="excludeAlreadyExcluded">既に除外されています</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">リストから IP アドレスを削除しますか?</string>
     <string name="tileConnected">接続済み: %1$s</string>
     <string name="openUrlError">%1$s が開けません。このデバイス内にウェブブラウザが見つかりません。</string>
     <string name="loaderErrorTimeout">接続が時間切れになりました。もう一度やり直してください。</string>
@@ -953,7 +953,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">接続の詳細</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">機能</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">IP を表示</string>
     <!-- tag(Redesign_2023) -->
@@ -1019,7 +1019,7 @@
     <string name="info_dialog_button_learn_more_tor">Tor ネットワークにアクセスする方法</string>
     <string name="info_dialog_button_learn_more_p2p">P2Pでトレントする方法</string>
     <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
-    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_title">ストリーミング</string>
     <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
     <string name="info_dialog_how_to_stream">How to stream:</string>
     <!-- item 1 in the numbered list -->
@@ -1034,7 +1034,7 @@
     <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
-    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_title">ストリーミング</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
@@ -1048,7 +1048,7 @@
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">情報</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1147,10 +1147,20 @@
     <string name="settings_advanced_nat_type_moderate_description">ネットワークに入るデータにはいくつかの制限があります。 このオプションはオンライン ビデオ ゲームに最適です。</string>
     <string name="settings_split_tunneling_description">どのアプリと IP アドレスを VPN によって保護するかを決定して、接続をカスタマイズします。 %1$s</string>
     <string name="settings_protocol_description">VPN プロトコルは、VPN サーバーとデバイスの間でデータがどのように移動するかを決定します。 %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_description_standard">選択したアプリと IP アドレスは VPN 接続から除外されます.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">除外されたアプリ</string>
     <string name="settings_split_tunneling_excluded_ips">除外されるIPアドレス</string>
+    <string name="settings_split_tunneling_included_apps">Included apps</string>
+    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">なし</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s、%2$s、%3$d その他</string>
+    <string name="settings_split_tunneling_already_excluded">既に除外されています</string>
+    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">リストから IP アドレスを削除しますか?</string>
     <string name="settings_dialog_reconnect">新しい設定は次の接続から適用されます。</string>
     <string name="info_secure_core_standard_high_privacy">高いプライバシー</string>
     <string name="info_secure_core_standard_lower_latency">低レイテンシー</string>

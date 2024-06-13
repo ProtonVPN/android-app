@@ -121,19 +121,19 @@
     <string name="profileRandom">Aleator</string>
     <string name="loaderErrorNoInternet">Nu există conexiune la internet</string>
     <string name="loaderErrorGeneric">Ceva nu a funcționat corect</string>
-    <string name="inputIpAddressLabel">Adresa IP</string>
+    <string name="inputIpAddressLabel">IP address</string>
     <string name="inputIpAddressHint">Scrieți adresa IP</string>
     <string name="inputIpAddressErrorInvalid">Adresă IP nevalidă</string>
-    <string name="settingsExcludedIPAddresses">Adrese IP excluse</string>
-    <string name="settingsExcludedIPAddressesListHeader">Adrese IP excluse (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">Aplicații excluse</string>
     <string name="settingsExcludedAppsEmpty">Adăugare aplicații pentru excluderea de la traficul prin VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicații excluse (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Aplicații normale permise (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Aplicații de sistem permise (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Afișare aplicații de sistem</string>
-    <string name="excludeAlreadyExcluded">Deja exclus</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Eliminați adresa IP din listă?</string>
     <string name="tileConnected">Conectat: %1$s</string>
     <string name="openUrlError">%1$s nu a putut fi deschisă. Navigatorul web nu a fost detectat pe dispozitiv.</string>
     <string name="loaderErrorTimeout">Conexiunea a expirat. Mai reîncercați.</string>
@@ -227,7 +227,7 @@
     <string name="tv_detail_connect_streaming">Transmisii în flux cu Plus</string>
     <string name="tv_detail_connect">Conectare</string>
     <string name="tv_detail_description_streaming_country">Vizionați conținutul preferat de transmisii în flux. Accesați mai multe aplicații cu un plan Proton VPN Plus.</string>
-    <string name="tv_detail_description_no_streaming_country">Vizionați conținutul preferat de trasmisii în flux cu un plan Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Vizionați conținutul preferat de transmisii în flux cu un plan Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Această țară nu este disponibilă. Obțineți mai multe opțiuni de vizionare a conținutului transmis în flux cu un plan Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Vizionați videoclipurile, filme sau sporturile favorite cu aplicațiile dvs.</string>
     <string name="tv_login_title_signin">Conectare la Proton VPN</string>
@@ -289,7 +289,7 @@
     <string name="notification_smart_protocol_disabled_title">Smart Protocol este acum dezactivat</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN a detectat că rețeaua curentă împiedică o conexiune la VPN. Activarea funcției Smart Protocol ar putea ocoli aceste limitări.</string>
     <string name="upsell_advanced_features">Funcții avansate: NetShield, Secure Core, Tor, P2P</string>
-    <string name="upsell_streaming_services">Accesați serviciile de trasmisie în flux (Netflix, Disney+, etc.) de oriunde în lume</string>
+    <string name="upsell_streaming_services">Accesați serviciile de transmisie în flux (Netflix, Disney+, etc.) de oriunde în lume</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
@@ -431,7 +431,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Această tehnologie permite ca Proton VPN să ofere viteză și securitate mai mare în țările dificil de accesat.</string>
     <string name="streaming_title">Transmisie în flux</string>
-    <string name="streaming_description">Serverele Plus suportă trasmisii în flux (Netflix, Disney+ etc.) de oriunde din lume.</string>
+    <string name="streaming_description">Serverele Plus suportă transmisii în flux (Netflix, Disney+ etc.) de oriunde din lume.</string>
     <string name="p2p_title">P2P/BitTorrent</string>
     <string name="p2p_description">Aceste servere oferă cea mai bună performanță pentru BitTorrent și partajarea de fișiere.</string>
     <string name="tor_title">Tor</string>
@@ -439,8 +439,8 @@
     <string name="info_performance">Performanță</string>
     <string name="server_load_title">Încărcare server</string>
     <string name="server_load_description">Serverele mai încărcate sunt mai lente decât serverele mai puțin încărcate.</string>
-    <string name="streaming_title_with_country">Trasmisii în flux - %1$s</string>
-    <string name="streaming_services_description">Conectați-vă la un server Plus din această țară pentru a viziona transmisii în flux.\n\nIndiciu: Ștergeți bufferul aplicațiilor de trasmisii în flux pentru a vă asigura că apare un conținut nou.</string>
+    <string name="streaming_title_with_country">Transmisii în flux - %1$s</string>
+    <string name="streaming_services_description">Conectați-vă la un server Plus din această țară pentru a viziona transmisii în flux.\n\nIndiciu: Ștergeți bufferul aplicațiilor de transmisii în flux pentru a vă asigura că apare un conținut nou.</string>
     <string name="partnership_free_title">Servere gratuite</string>
     <string name="partnership_free_description">Securitate și confidențialitate pentru oricine. Serverele gratuite nu au limite de date și nu vă vom reduce niciodată deliberat viteza de navigare.</string>
     <string name="partnership_partners_title">Partenerii noștri</string>
@@ -1205,10 +1205,20 @@
     <string name="settings_advanced_nat_type_moderate_description">O anumită restricție la datele care intră în rețeaua personală. Această opțiune este cea mai bună pentru jocurile video online.</string>
     <string name="settings_split_tunneling_description">Personalizați-vă conexiunea decizând ce aplicații și adrese IP sunt protejate de VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocol VPN determină modul în care datele se mută între un server VPN și dispozitivul personal. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_description_standard">Aplicațiile selectate și adresele IP sunt excluse din conexiunea VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicații excluse</string>
     <string name="settings_split_tunneling_excluded_ips">Adrese IP excluse</string>
+    <string name="settings_split_tunneling_included_apps">Included apps</string>
+    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Niciuna</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s și încă %3$d</string>
+    <string name="settings_split_tunneling_already_excluded">Deja exclus</string>
+    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Eliminați adresa IP din listă?</string>
     <string name="settings_dialog_reconnect">Noile setări vor fi aplicate la următoarea conectare.</string>
     <string name="info_secure_core_standard_high_privacy">Intimitate mare</string>
     <string name="info_secure_core_standard_lower_latency">Latență scăzută</string>

@@ -121,19 +121,19 @@
     <string name="profileRandom">تصادفی</string>
     <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
     <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
-    <string name="inputIpAddressLabel">نشانی IP</string>
+    <string name="inputIpAddressLabel">IP address</string>
     <string name="inputIpAddressHint">نشانی IP را بنویسید</string>
     <string name="inputIpAddressErrorInvalid">نشانی IP نامعتبر</string>
-    <string name="settingsExcludedIPAddresses">نشانی‌های IP مستثنی شده</string>
-    <string name="settingsExcludedIPAddressesListHeader">نشانی‌های IP مستثنی شده (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">برنامه‌های مستثنی شده</string>
     <string name="settingsExcludedAppsEmpty">برنامه‌هایی که می‌خواهید از ترافیک VPN جدا شوند را اضافه کنید.</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">برنامه‌های استثنا شده (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">برنامه‌های مجاز عادی (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">برنامه‌های مجاز سیستم (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">نمایش برنامه‌های سیستم</string>
-    <string name="excludeAlreadyExcluded">قبلاً جدا شده است</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">حذف نشانی IP از لیست؟</string>
     <string name="tileConnected">متصل: %1$s</string>
     <string name="openUrlError">%1$s باز نمی‌شود. مرورگر وب روی دستگاه شما شناسایی نشد.</string>
     <string name="loaderErrorTimeout">زمان اتصال گذشت. لطفاً دوباره سعی کنید.</string>
@@ -1176,10 +1176,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_description_standard">برنامه‌ها و نشانی‌های IP انتخاب شده از اتصال VPN مستثنی می‌شوند.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Excluded apps</string>
     <string name="settings_split_tunneling_excluded_ips">Excluded IP addresses</string>
+    <string name="settings_split_tunneling_included_apps">Included apps</string>
+    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">None</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s and %3$d more</string>
+    <string name="settings_split_tunneling_already_excluded">قبلاً جدا شده است</string>
+    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">حذف نشانی IP از لیست؟</string>
     <string name="settings_dialog_reconnect">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
     <string name="info_secure_core_standard_high_privacy">High privacy</string>
     <string name="info_secure_core_standard_lower_latency">Lower latency</string>

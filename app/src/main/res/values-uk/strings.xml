@@ -121,19 +121,19 @@
     <string name="profileRandom">Випадковий</string>
     <string name="loaderErrorNoInternet">Немає з\'єднання з інтернетом</string>
     <string name="loaderErrorGeneric">Щось пішло не так</string>
-    <string name="inputIpAddressLabel">IP-адреса</string>
+    <string name="inputIpAddressLabel">IP address</string>
     <string name="inputIpAddressHint">Напишіть IP-адресу</string>
     <string name="inputIpAddressErrorInvalid">Недійсна IP-адреса</string>
-    <string name="settingsExcludedIPAddresses">Виключені IP-адреси</string>
-    <string name="settingsExcludedIPAddressesListHeader">Виключені IP-адреси (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">Виключені програми</string>
     <string name="settingsExcludedAppsEmpty">Додайте програми, які потрібно виключити з вашого трафіку VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">Виключені програми (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Дозволені звичайні програми (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Дозволені системні програми (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Показати системні програми</string>
-    <string name="excludeAlreadyExcluded">Уже виключено</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Вилучити IP-адресу зі списку?</string>
     <string name="tileConnected">Під\'єднано: %1$s</string>
     <string name="openUrlError">Не вдалося відкрити %1$s. Не вдалося знайти браузер на вашому пристрої.</string>
     <string name="loaderErrorTimeout">Час очікування з\'єднання завершився. Будь ласка, спробуйте ще раз.</string>
@@ -1234,10 +1234,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Обмеження щодо даних, які входять до вашої мережі. Цей параметр найкраще використовувати для відеоігор онлайн.</string>
     <string name="settings_split_tunneling_description">Налаштуйте з\'єднання, вирішивши, які програми та IP-адреси захищаються VPN. %1$s</string>
     <string name="settings_protocol_description">Протокол VPN визначає спосіб обміну даними між VPN-сервером і вашим пристроєм. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_description_standard">Вибрані програми та IP-адреси виключаються з VPN-з\'єднання.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Винятки програм</string>
     <string name="settings_split_tunneling_excluded_ips">Винятки IP-адрес</string>
+    <string name="settings_split_tunneling_included_apps">Included apps</string>
+    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Немає</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, і ще %3$d</string>
+    <string name="settings_split_tunneling_already_excluded">Уже виключено</string>
+    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Вилучити IP-адресу зі списку?</string>
     <string name="settings_dialog_reconnect">Нові налаштування застосуються при наступному з\'єднанні.</string>
     <string name="info_secure_core_standard_high_privacy">Високий рівень приватності</string>
     <string name="info_secure_core_standard_lower_latency">Нижча затримка</string>

@@ -124,16 +124,16 @@
     <string name="inputIpAddressLabel">Adresse IP</string>
     <string name="inputIpAddressHint">Écrire l\'adresse IP</string>
     <string name="inputIpAddressErrorInvalid">L\'adresse IP n’est pas valide.</string>
-    <string name="settingsExcludedIPAddresses">Adresses IP exclues</string>
     <string name="settingsExcludedIPAddressesListHeader">Adresses IP exclues (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Adresses IP incluses (%1$d)</string>
     <string name="settingsExcludedApps">Applications exclues</string>
     <string name="settingsExcludedAppsEmpty">Ajoutez les applications que vous voulez exclure de votre trafic VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Ajoutez les applications à inclure dans le trafic VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Applications exclues (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Applications usuelles autorisées (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Applications système autorisées (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Applications incluses (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Toutes les autres applications régulières (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Toutes les autres applications du système (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Afficher les applications système</string>
-    <string name="excludeAlreadyExcluded">Déjà exclue</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Retirer l’adresse IP de la liste ?</string>
     <string name="tileConnected">Connecté : %1$s</string>
     <string name="openUrlError">%1$s ne peut être ouvert. Le navigateur web n\'a pas été détecté sur votre appareil.</string>
     <string name="loaderErrorTimeout">La connexion a expiré. Nous vous invitons à réessayer.</string>
@@ -1176,10 +1176,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Certaines restrictions sur les données entrant dans votre réseau. Cette option est préférable pour les jeux vidéo en ligne.</string>
     <string name="settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications et adresses IP sont protégées par le VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocole VPN détermine la manière dont les données circulent entre un serveur VPN et votre appareil. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_description_standard">Les applications et adresses IP sélectionnées sont exclues de la connexion VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Seules les applications et adresses IP sélectionnées se connectent au travers du VPN, tout le reste du trafic n\'est pas protégé.</string>
     <string name="settings_split_tunneling_excluded_apps">Applications exclues</string>
     <string name="settings_split_tunneling_excluded_ips">Adresses IP exclues</string>
+    <string name="settings_split_tunneling_included_apps">Applications inclues</string>
+    <string name="settings_split_tunneling_included_ips">Adresses IP incluses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Aucune</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s et %3$d autres</string>
+    <string name="settings_split_tunneling_already_excluded">Déjà exclue</string>
+    <string name="settings_split_tunneling_already_included">Déjà inclus</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Retirer l’adresse IP de la liste ?</string>
     <string name="settings_dialog_reconnect">Les nouveaux paramètres s\'appliqueront lors de votre prochaine connexion.</string>
     <string name="info_secure_core_standard_high_privacy">Confidentialité élevée</string>
     <string name="info_secure_core_standard_lower_latency">Latence plus faible</string>

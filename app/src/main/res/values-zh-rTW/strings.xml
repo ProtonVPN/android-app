@@ -121,19 +121,19 @@
     <string name="profileRandom">隨機</string>
     <string name="loaderErrorNoInternet">沒有網際網路連線</string>
     <string name="loaderErrorGeneric">發生錯誤</string>
-    <string name="inputIpAddressLabel">IP 位址</string>
+    <string name="inputIpAddressLabel">IP address</string>
     <string name="inputIpAddressHint">編寫 IP 位址</string>
     <string name="inputIpAddressErrorInvalid">IP 位址無效</string>
-    <string name="settingsExcludedIPAddresses">排除的IP位址</string>
-    <string name="settingsExcludedIPAddressesListHeader">排除的IP位址 (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">排除的應用程式</string>
     <string name="settingsExcludedAppsEmpty">加入您要從 VPN 流量排除的應用程式。</string>
+    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">排除的應用程式 (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">已允許的一般應用程式 (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">已允許的系統應用程式 (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">顯示系統應用程式</string>
-    <string name="excludeAlreadyExcluded">已經被排除</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">要從清單中移除 IP 位址嗎？</string>
     <string name="tileConnected">已連線 %1$s</string>
     <string name="openUrlError">無法開啟 %1$s。裝置上未偵測到網頁瀏覽器。</string>
     <string name="loaderErrorTimeout">連線逾時，請重試。</string>
@@ -1147,10 +1147,20 @@
     <string name="settings_advanced_nat_type_moderate_description">部分限制數據流入您的網路。此選項最適合線上視訊遊戲。</string>
     <string name="settings_split_tunneling_description">自訂您的連線，決定哪些應用程式和 IP 位址受 VPN 保護。%1$s</string>
     <string name="settings_protocol_description">VPN 通訊協定乃斷定數據如何在 VPN 伺服器與您的裝置之間流動。%1$s</string>
+    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_description_standard">已選的應用程式及 IP 位址會被排除在 VPN 連線之外.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">不包括所有應用</string>
     <string name="settings_split_tunneling_excluded_ips">排除的IP2地址</string>
+    <string name="settings_split_tunneling_included_apps">Included apps</string>
+    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">無</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s、%2$s 及另 %3$d 個</string>
+    <string name="settings_split_tunneling_already_excluded">已經被排除</string>
+    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">要從清單中移除 IP 位址嗎？</string>
     <string name="settings_dialog_reconnect">新的設定將於下次連線時套用。</string>
     <string name="info_secure_core_standard_high_privacy">高隱私</string>
     <string name="info_secure_core_standard_lower_latency">低延遲</string>

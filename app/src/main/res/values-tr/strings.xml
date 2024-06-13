@@ -124,16 +124,16 @@
     <string name="inputIpAddressLabel">IP adresi</string>
     <string name="inputIpAddressHint">IP adresini yazın</string>
     <string name="inputIpAddressErrorInvalid">IP adresi geçersiz</string>
-    <string name="settingsExcludedIPAddresses">Katılmayacak IP adresleri</string>
     <string name="settingsExcludedIPAddressesListHeader">Katılmayacak IP adresleri (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Katılacak IP adresleri (%1$d)</string>
     <string name="settingsExcludedApps">Katılmayacak uygulamalar</string>
     <string name="settingsExcludedAppsEmpty">VPN trafiğine katılmayacak uygulamaları ekleyin.</string>
+    <string name="settingsIncludedAppsEmpty">VPN trafiğine katılacak uygulamaları ekleyin.</string>
     <string name="settingsExcludedAppsSelectedHeader">Katılmayacak uygulamalar (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">İzin verilen normal ugulamalar (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">İzin verilen sistem ugulamaları (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Katılacak uygulamalar (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Tüm diğer normal ugulamalar (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Tüm diğer sistem ugulamaları (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Sistem uygulamalarını görüntüle</string>
-    <string name="excludeAlreadyExcluded">Zaten katılmamış</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">IP adresi listeden kaldırılsın mı?</string>
     <string name="tileConnected">Bağlandı: %1$s</string>
     <string name="openUrlError">%1$s açılamadı. Aygıtınızda bir tarayıcı uygulaması bulunamadı.</string>
     <string name="loaderErrorTimeout">Bağlantı zaman aşımına uğradı. Lütfen yeniden deneyin.</string>
@@ -1176,10 +1176,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Ağınıza giren bazı verileri kısıtlar. Bu seçenek çevrim içi video oyunları için en iyisidir.</string>
     <string name="settings_split_tunneling_description">Hangi uygulamaların ve IP adreslerinin VPN tarafından korunacağına karar vererek bağlantınızı özelleştirin. %1$s</string>
     <string name="settings_protocol_description">Bir VPN iletişim kuralı, VPN sunucu ile aygıtınız arasında verilerin nasıl aktarılacağını belirler. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Kip</string>
+    <string name="settings_split_tunneling_mode_standard">Standart</string>
+    <string name="settings_split_tunneling_mode_inverse">Ters</string>
+    <string name="settings_split_tunneling_mode_description_standard">Seçilmiş uygulamalar ve IP adresleri VPN bağlantısına katılmaz.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Yalnızca seçilmiş uygulamalar ve IP adresleri VPN üzerinden bağlanır, diğer tüm trafik korumasızdır.</string>
     <string name="settings_split_tunneling_excluded_apps">Katılmayacak uygulamalar</string>
     <string name="settings_split_tunneling_excluded_ips">Katılmayacak IP adresleri</string>
+    <string name="settings_split_tunneling_included_apps">Katılacak uygulamalar</string>
+    <string name="settings_split_tunneling_included_ips">Katılacak IP adresleri</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Yok</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s ve %3$d diğer</string>
+    <string name="settings_split_tunneling_already_excluded">Zaten katılmamış</string>
+    <string name="settings_split_tunneling_already_included">Zaten katılmış</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">IP adresi listeden kaldırılsın mı?</string>
     <string name="settings_dialog_reconnect">Yeni ayarlar kurulacak bir sonraki bağlantıya uygulanacak.</string>
     <string name="info_secure_core_standard_high_privacy">Yüksek gizlilik</string>
     <string name="info_secure_core_standard_lower_latency">Düşük gecikme</string>

@@ -124,16 +124,16 @@
     <string name="inputIpAddressLabel">Διεύθυνση IP</string>
     <string name="inputIpAddressHint">Καταχωρήστε την IP Διεύθυνση</string>
     <string name="inputIpAddressErrorInvalid">Μη έγκυρη IP Διεύθυνση</string>
-    <string name="settingsExcludedIPAddresses">Εξαιρούμενες IP διευθύνσεις</string>
     <string name="settingsExcludedIPAddressesListHeader">Εξαιρούμενες IP διευθύνσεις (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Συμπεριλαμβανόμενες διευθύνσεις IP (%1$d)</string>
     <string name="settingsExcludedApps">Εξαιρούμενες εφαρμογές</string>
     <string name="settingsExcludedAppsEmpty">Προσθέστε τις εφαρμογές που θέλετε να εξαιρέσετε από την ροή δεδομένων του δικτύου VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Προσθέστε εφαρμογές που θα συμπεριληφθούν στην κίνηση VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Εξαιρούμενες εφαρμογές (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Επιτρεπόμενες τακτικές εφαρμογές (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Επιτρεπόμενες εφαρμογές συστήματος (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Συμπεριλαμβανόμενες Εφαρμογές (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Όλες οι άλλες κανονικές εφαρμογές (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Όλες οι άλλες εφαρμογές συστήματος (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Προβολή εφαρμογών συστήματος</string>
-    <string name="excludeAlreadyExcluded">Έχει ήδη αποκλειστεί</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Κατάργηση IP Διευθύνσης από τη λίστα;</string>
     <string name="tileConnected">Συνδέθηκε: %1$s</string>
     <string name="openUrlError">%1$s δεν μπόρεσε να ανοίξει. Δεν εντοπίστηκε πρόγραμμα περιήγησης στη συσκευή σας.</string>
     <string name="loaderErrorTimeout">Λήξη χρονικού ορίου σύνδεσης. Παρακαλώ προσπαθήστε ξανά.</string>
@@ -1176,10 +1176,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Ορισμένοι περιορισμοί στα δεδομένα που εισέρχονται στο δίκτυό σας. Αυτή η επιλογή είναι καλύτερη για διαδικτυακά βιντεοπαιχνίδια.</string>
     <string name="settings_split_tunneling_description">Προσαρμόστε τη σύνδεσή σας αποφασίζοντας ποιες εφαρμογές και διευθύνσεις IP προστατεύονται από VPN. %1$s</string>
     <string name="settings_protocol_description">Ένα πρωτόκολλο VPN καθορίζει τον τρόπο με τον οποίο μετακινούνται τα δεδομένα μεταξύ ενός διακομιστή VPN και της συσκευής σας. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Λειτουργία</string>
+    <string name="settings_split_tunneling_mode_standard">Τυπικό</string>
+    <string name="settings_split_tunneling_mode_inverse">Αντίστροφο</string>
+    <string name="settings_split_tunneling_mode_description_standard">Επιλεγμένες εφαρμογές και διευθύνσεις IP εξαιρούνται από τη σύνδεση VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Μόνο επιλεγμένες εφαρμογές και διευθύνσεις IP συνδέονται μέσω VPN, όλη η άλλη κίνηση είναι απροστάτευτη.</string>
     <string name="settings_split_tunneling_excluded_apps">Αποκλεισμένες εφαρμογές</string>
     <string name="settings_split_tunneling_excluded_ips">Εξαιρούμενες IP διευθύνσεις</string>
+    <string name="settings_split_tunneling_included_apps">Συμπεριλαμβανόμενες εφαρμογές</string>
+    <string name="settings_split_tunneling_included_ips">Συμπεριλαμβανόμενες διευθύνσεις IP</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Κανένα</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s και %3$d ακόμη</string>
+    <string name="settings_split_tunneling_already_excluded">Έχει ήδη αποκλειστεί</string>
+    <string name="settings_split_tunneling_already_included">Περιλαμβάνεται ήδη</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Κατάργηση IP Διευθύνσης από τη λίστα;</string>
     <string name="settings_dialog_reconnect">Οι νέες ρυθμίσεις θα εφαρμοστούν την επόμενη φορά που θα συνδεθείτε.</string>
     <string name="info_secure_core_standard_high_privacy">Υψηλή ιδιωτικότητα</string>
     <string name="info_secure_core_standard_lower_latency">Χαμηλότερη αδράνεια</string>

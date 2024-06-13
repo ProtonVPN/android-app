@@ -121,19 +121,19 @@
     <string name="profileRandom">Náhodný</string>
     <string name="loaderErrorNoInternet">Žiadne internetové pripojenie</string>
     <string name="loaderErrorGeneric">Niečo sa pokazilo</string>
-    <string name="inputIpAddressLabel">Adresa IP</string>
+    <string name="inputIpAddressLabel">IP adresa</string>
     <string name="inputIpAddressHint">Napíšte IP adresu</string>
     <string name="inputIpAddressErrorInvalid">Neplatná IP adresa</string>
-    <string name="settingsExcludedIPAddresses">Vylúčené IP adresy</string>
     <string name="settingsExcludedIPAddressesListHeader">Vylúčené IP adresy (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Zahrnuté IP adresy (%1$d)</string>
     <string name="settingsExcludedApps">Vylúčené aplikácie</string>
     <string name="settingsExcludedAppsEmpty">Pridajte aplikácie, ktoré chcete vylúčiť z prevádzky VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Pridajte aplikácie, ktoré chcete zahrnúť do prevádzky VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Vylúčené aplikácie (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Povolené bežné aplikácie (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Povolené systémové aplikácie (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Zahrnuté aplikácie (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Všetky ostatné bežné aplikácie (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Všetky ostatné systémové aplikácie (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Zobraziť systémové aplikácie</string>
-    <string name="excludeAlreadyExcluded">Už je vylúčené</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Odstrániť IP adresu zo zoznamu?</string>
     <string name="tileConnected">Pripojené: %1$s</string>
     <string name="openUrlError">%1$s sa nepodarilo otvoriť. Vo vašom zariadení sa nezistil webový prehliadač.</string>
     <string name="loaderErrorTimeout">Časový limit pripojenia vypršal, skúste to prosím znovu</string>
@@ -1234,10 +1234,20 @@
     <string name="settings_advanced_nat_type_moderate_description">Niektoré obmedzenia dát vstupujúcich do vašej siete. Táto voľba je najlepšia pre hranie online video hier.</string>
     <string name="settings_split_tunneling_description">Prispôsobte si pripojenie tým, že sa rozhodnete, ktoré aplikácie a IP adresy budú chránené pomocou VPN. %1$s</string>
     <string name="settings_protocol_description">VPN protokol určuje spôsob prenosu dát medzi VPN serverom a vaším zariadením. %1$s</string>
+    <string name="settings_split_tunneling_mode_title">Režim</string>
+    <string name="settings_split_tunneling_mode_standard">Štandardný</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverzný</string>
+    <string name="settings_split_tunneling_mode_description_standard">Vybrané aplikácie a IP adresy sú vylúčené z pripojenia VPN.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Cez VPN sa pripájajú len vybrané aplikácie a IP adresy, všetka ostatná prevádzka je nechránená.</string>
     <string name="settings_split_tunneling_excluded_apps">Vylúčené aplikácie</string>
     <string name="settings_split_tunneling_excluded_ips">Vylúčené IP adresy</string>
+    <string name="settings_split_tunneling_included_apps">Zahrnuté aplikácie</string>
+    <string name="settings_split_tunneling_included_ips">Zahrnuté IP adresy</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Žiadne</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s a %3$d ďalšie</string>
+    <string name="settings_split_tunneling_already_excluded">Už je vylúčené</string>
+    <string name="settings_split_tunneling_already_included">Už je zahrnutá</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Odstrániť IP adresu zo zoznamu?</string>
     <string name="settings_dialog_reconnect">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
     <string name="info_secure_core_standard_high_privacy">Väčšie súkromie</string>
     <string name="info_secure_core_standard_lower_latency">Nižšia latencia</string>
