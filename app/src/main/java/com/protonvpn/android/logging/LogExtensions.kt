@@ -25,6 +25,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.vpn.ProtocolSelection
 
 enum class Setting(val logName: String) {
@@ -91,3 +92,8 @@ fun Boolean?.toLog() = when(this) {
 fun List<*>.itemCountToLog() = if (isEmpty()) "None" else "$size items"
 
 fun CountryId.toLog() = if (isFastest) "fastest" else countryCode
+
+fun SplitTunnelingMode.toLog() = when (this) {
+    SplitTunnelingMode.INCLUDE_ONLY -> "inverse"
+    SplitTunnelingMode.EXCLUDE_ONLY -> "standard"
+}
