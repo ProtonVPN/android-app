@@ -19,10 +19,14 @@
 
 package com.protonvpn.android.tv.settings.splittunneling
 
-import androidx.compose.foundation.focusGroup
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -33,18 +37,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.tv.material3.Button
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.tv.settings.TvSettingsHeader
 import com.protonvpn.android.tv.settings.TvSettingsItem
@@ -53,6 +58,8 @@ import com.protonvpn.android.tv.settings.TvSettingsItemSwitch
 import com.protonvpn.android.tv.ui.ProtonTvDialogBasic
 import com.protonvpn.android.tv.ui.TvUiConstants
 import com.protonvpn.android.ui.settings.formatSplitTunnelingItems
+import com.protonvpn.android.userstorage.DontShowAgainStore
+import com.protonvpn.android.utils.DebugUtils
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 import me.proton.core.presentation.R as CoreR
@@ -60,27 +67,41 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun TvSettingsSplitTunnelingMainRoute(
     navigateEditApps: (SplitTunnelingMode) -> Unit,
+    navigateBack: () -> Unit,
     viewModel: TvSettingsSplitTunnelingMainVM = hiltViewModel(),
 ) {
+    val vpnUiDelegate = LocalVpnUiDelegate.current
     val viewState = viewModel.mainViewState.collectAsStateWithLifecycle().value
+    val showReconnectDialog = viewModel.showReconnectDialogFlow.collectAsStateWithLifecycle().value
+
+    BackHandler {
+        viewModel.onNavigateBack(vpnUiDelegate)
+    }
+    viewModel.eventNavigateBack.collectAsEffect { navigateBack() }
+
     if (viewState != null) {
         TvSettingsSplitTunnelingMain(
             viewState = viewState,
-            onToggleEnabled = viewModel::onToggleEnabled,
+            showReconnectDialog = showReconnectDialog,
+            onToggleEnabled = { viewModel.onToggleEnabled(vpnUiDelegate) },
             onModeChanged = viewModel::onModeChanged,
             onClickApps = navigateEditApps,
+            onReconnectNow = { viewModel.onReconnectClicked(vpnUiDelegate, false) },
+            onReconnectDismissed = { viewModel.dismissReconnectDialog(false) },
             modifier = Modifier.widthIn(max = TvUiConstants.SingleColumnWidth)
         )
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun TvSettingsSplitTunnelingMain(
     viewState: TvSettingsSplitTunnelingMainVM.MainViewState,
+    showReconnectDialog: DontShowAgainStore.Type?,
     onToggleEnabled: () -> Unit,
     onModeChanged: (SplitTunnelingMode) -> Unit,
     onClickApps: (SplitTunnelingMode) -> Unit,
+    onReconnectNow: () -> Unit,
+    onReconnectDismissed: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var changeModeDialogShown by rememberSaveable { mutableStateOf(false) }
@@ -148,6 +169,12 @@ private fun TvSettingsSplitTunnelingMain(
             onDismissRequest = { changeModeDialogShown = false }
         )
     }
+    if (showReconnectDialog != null) {
+        DebugUtils.debugAssert("Unsupported dialog type") {
+            showReconnectDialog == DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected
+        }
+        ReconnectDialog(onReconnectNow = onReconnectNow, onDismissRequest = onReconnectDismissed)
+    }
 }
 
 @Composable
@@ -189,6 +216,41 @@ private fun ChangeModeDialog(
     }
 }
 
+@Composable
+private fun ReconnectDialog(
+    onReconnectNow: () -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    ProtonTvDialogBasic(
+        onDismissRequest = onDismissRequest
+    ) { focusRequester ->
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                stringResource(R.string.settings_dialog_reconnect),
+                style = ProtonTheme.typography.headline
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Button(onClick = onDismissRequest) {
+                    Text(stringResource(R.string.ok))
+                }
+                Spacer(Modifier.width(16.dp))
+                Button(
+                    onClick = onReconnectNow,
+                    modifier = Modifier.focusRequester(focusRequester)
+                ) {
+                    Text(stringResource(R.string.reconnect_now))
+                }
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun PreviewTvSettingsSplitTunneling() {
@@ -199,9 +261,12 @@ private fun PreviewTvSettingsSplitTunneling() {
                 mode = SplitTunnelingMode.EXCLUDE_ONLY,
                 currentModeApps = listOf("App1", "app2")
             ),
+            showReconnectDialog = null,
             onToggleEnabled = {},
             onModeChanged = {},
             onClickApps = {},
+            onReconnectNow = {},
+            onReconnectDismissed = {},
         )
     }
 }

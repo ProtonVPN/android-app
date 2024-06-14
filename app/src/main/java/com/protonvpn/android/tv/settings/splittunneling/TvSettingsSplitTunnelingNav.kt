@@ -32,16 +32,15 @@ class TvSplitTunnelingNav(
     selfNav: NavHostController,
 ) : BaseNav<TvSplitTunnelingNav>(selfNav, "TvSettingsSplitTunnelingActivity") {
 
-
-
     @Composable
     fun NavHost(
+        navigateBack: () -> Unit,
         modifier: Modifier = Modifier,
     ) {
         SafeNavHost(startScreen = MainScreen, modifier = modifier) {
             val navigateEditApps = { mode: SplitTunnelingMode -> navigateInternal(AppsScreen, mode) }
             MainScreen.addToGraph(this) {
-                TvSettingsSplitTunnelingMainRoute(navigateEditApps)
+                TvSettingsSplitTunnelingMainRoute(navigateEditApps, navigateBack)
             }
             AppsScreen.addToGraph(this) { entry ->
                 TvSettingsSplitTunnelingAppsRoute(AppsScreen.getArgs<SplitTunnelingMode>(entry))
