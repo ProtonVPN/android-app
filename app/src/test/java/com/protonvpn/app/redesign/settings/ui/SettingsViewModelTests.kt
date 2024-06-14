@@ -33,12 +33,12 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
-import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
@@ -70,7 +70,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -156,9 +155,8 @@ class SettingsViewModelTests {
         vpnStateMonitor = VpnStateMonitor()
         dontShowAgainStore = DontShowAgainStore(currentUser, DontShowAgainStateStoreProvider(InMemoryDataStoreFactory()))
 
-
+        val savedStateHandle = SavedStateHandle()
         settingsViewModel = SettingsViewModel(
-            SavedStateHandle(),
             currentUser,
             mockObserveUserSettings,
             settingsManager,
@@ -166,10 +164,14 @@ class SettingsViewModelTests {
             mockBuildConfigInfo,
             mockRecentManager,
             mockInstalledAppsProvider,
-            mockConnectionManager,
-            VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor),
-            dontShowAgainStore,
-            mockGetQuickIntent
+            SettingsReconnectHandler(
+                testScope.backgroundScope,
+                mockConnectionManager,
+                VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor),
+                dontShowAgainStore,
+                savedStateHandle,
+            ),
+            mockGetQuickIntent,
         )
     }
 

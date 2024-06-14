@@ -23,11 +23,13 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.components.BaseTvActivity
+import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
 
@@ -38,13 +40,15 @@ class TvSettingsSplitTunnelingActivity : BaseTvActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ProtonThemeTv {
-                Box(
-                    contentAlignment = Alignment.TopCenter,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    val navHostController = rememberNavController()
-                    val navigator = remember { TvSplitTunnelingNav(navHostController) }
-                    navigator.NavHost()
+                CompositionLocalProvider(LocalVpnUiDelegate provides getVpnUiDelegate()) {
+                    Box(
+                        contentAlignment = Alignment.TopCenter,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        val navHostController = rememberNavController()
+                        val navigator = remember { TvSplitTunnelingNav(navHostController) }
+                        navigator.NavHost(::finish)
+                    }
                 }
             }
         }

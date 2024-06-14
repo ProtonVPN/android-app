@@ -76,12 +76,9 @@ enum class NatType(val labelRes: Int, val descriptionRes: Int) {
    )
 }
 
-private const val ReconnectDialogStateKey = "reconnect_dialog"
-
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     currentUser: CurrentUser,
     accountUserSettings: ObserveUserSettings,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
@@ -89,9 +86,7 @@ class SettingsViewModel @Inject constructor(
     buildConfigInfo: BuildConfigInfo,
     private val recentsManager: RecentsManager,
     private val installedAppsProvider: InstalledAppsProvider,
-    private val vpnConnectionManager: VpnConnectionManager,
-    private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val dontShowAgainStore: DontShowAgainStore,
+    private val reconnectHandler: SettingsReconnectHandler,
     private val getConnectIntentViewState: GetConnectIntentViewState,
 ) : ViewModel() {
 
@@ -209,8 +204,7 @@ class SettingsViewModel @Inject constructor(
     // The configuration doesn't change during runtime.
     private val buildConfigText = if (BuildConfigUtils.displayInfo()) buildConfigInfo() else null
 
-    private var showReconnectDialog by savedStateHandle.state<DontShowAgainStore.Type?>(null, ReconnectDialogStateKey)
-    val showReconnectDialogFlow = savedStateHandle.getStateFlow<DontShowAgainStore.Type?>(ReconnectDialogStateKey, null)
+    val showReconnectDialogFlow = reconnectHandler.showReconnectDialogFlow
 
     val viewState =
         combine(
@@ -387,36 +381,14 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun reconnect(uiDelegate: VpnUiDelegate) {
-        vpnConnectionManager.reconnect("user via settings change", uiDelegate)
-    }
+    private suspend fun reconnectionCheck(uiDelegate: VpnUiDelegate, type: DontShowAgainStore.Type) =
+        reconnectHandler.reconnectionCheck(uiDelegate, type)
 
-    private suspend fun reconnectionCheck(uiDelegate: VpnUiDelegate, type: DontShowAgainStore.Type) {
-        if (vpnStatusProviderUI.isEstablishingOrConnected) {
-            when (dontShowAgainStore.getChoice(type)) {
-                DontShowAgainStore.Choice.Positive -> reconnect(uiDelegate)
-                DontShowAgainStore.Choice.Negative -> {} // No action
-                DontShowAgainStore.Choice.ShowDialog -> showReconnectDialog = type
-            }
-        }
-    }
+    fun onReconnectClicked(uiDelegate: VpnUiDelegate, dontShowAgain: Boolean, type: DontShowAgainStore.Type) =
+        reconnectHandler.onReconnectClicked(uiDelegate, dontShowAgain, type)
 
-    fun onReconnectClicked(uiDelegate: VpnUiDelegate, dontShowAgain: Boolean, type: DontShowAgainStore.Type) {
-        showReconnectDialog = null
-        viewModelScope.launch {
-            if (dontShowAgain)
-                dontShowAgainStore.setChoice(type, DontShowAgainStore.Choice.Positive)
-            reconnect(uiDelegate)
-        }
-    }
-
-    fun dismissReconnectDialog(dontShowAgain: Boolean, type: DontShowAgainStore.Type) {
-        showReconnectDialog = null
-        viewModelScope.launch {
-            if (dontShowAgain)
-                dontShowAgainStore.setChoice(type, DontShowAgainStore.Choice.Negative)
-        }
-    }
+    fun dismissReconnectDialog(dontShowAgain: Boolean, type: DontShowAgainStore.Type) =
+        reconnectHandler.dismissReconnectDialog(dontShowAgain, type)
 }
 
 private fun UserRecovery.State?.passwordHint(): Int? = when(this) {

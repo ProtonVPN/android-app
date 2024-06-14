@@ -19,12 +19,14 @@
 
 package com.protonvpn.android.settings.data
 
+import android.os.Parcelable
 import com.protonvpn.android.logging.itemCountToLog
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.userstorage.UUIDSerializer
 import com.protonvpn.android.vpn.ProtocolSelection
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
@@ -33,6 +35,7 @@ enum class SplitTunnelingMode {
     EXCLUDE_ONLY
 }
 
+@Parcelize
 @Serializable
 data class SplitTunnelingSettings(
     val isEnabled: Boolean = false,
@@ -41,7 +44,7 @@ data class SplitTunnelingSettings(
     val excludedApps: List<String> = emptyList(),
     val includedIps: List<String> = emptyList(),
     val includedApps: List<String> = emptyList(),
-) {
+): Parcelable {
     fun isEffectivelySameAs(other: SplitTunnelingSettings): Boolean {
         fun excludesEqual() = this.excludedIps == other.excludedIps && this.excludedApps == other.excludedApps
         fun includesEqual() = this.includedIps == other.includedIps && this.includedApps == other.includedApps
