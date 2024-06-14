@@ -62,7 +62,11 @@ data class SplitTunnelingSettings(
 
 @Serializable
 data class LocalUserSettings(
-    val version: Int = 2, // Version of the LocalUserSettings structure. Only increase when needed for migration.
+    // Version of the LocalUserSettings structure. Only increase when needed for migration.
+    // Set it to 3 next time a migration is needed.
+    // The current version is in fact 2 but because it's a newly added field it starts with value of 1 to always force a
+    // migration of split tunneling settings.
+    val version: Int = 1,
     val apiUseDoh: Boolean = true,
     @Serializable(with = UUIDSerializer::class)
     val defaultProfileId: UUID? = null,
