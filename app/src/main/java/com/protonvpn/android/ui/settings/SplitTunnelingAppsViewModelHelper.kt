@@ -80,7 +80,16 @@ class SplitTunnelingAppsViewModelHelper(
         emit(installedAppsProvider.getInstalledInternetApps(false, forTv))
     }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
-    private val selectedNonRegularApps = MutableSharedFlow<List<LabeledItem>>(replay = 1)
+    private val selectedNonRegularApps = combine(
+        selectedPackages, regularAppPackages
+    ) { selected, regular ->
+        val loadedSystemApps = systemAppsState.first().getApps()
+        val packageNames = selected - regular
+        val packagesToLoad = packageNames.filterNot { loadedSystemApps.containsWithId(it) }
+
+        // Prefer already loaded
+        loadedSystemApps.filter { it.id in packageNames } + loadApps(packagesToLoad)
+    }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val systemAppsState: Flow<SystemAppsState> = shouldLoadSystemApps.flatMapLatest { load ->
@@ -94,14 +103,6 @@ class SplitTunnelingAppsViewModelHelper(
             systemAppPackages.map { SystemAppsState.NotLoaded(it) }
         }
     }.shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
-
-    init {
-        viewModelScope.launch {
-            // TODO: now that checkbox can be unchecked, the selectedNonRegularApps needs to be updated.
-            val packageNames = selectedPackages.first() - regularAppPackages.first()
-            selectedNonRegularApps.emit(loadApps(packageNames.toList()))
-        }
-    }
 
     val viewState: StateFlow<ViewState> = combine(
         regularApps,
