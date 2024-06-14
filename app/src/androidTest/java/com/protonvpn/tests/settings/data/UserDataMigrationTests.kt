@@ -68,7 +68,7 @@ class UserDataMigrationTests {
 
         val settings = userSettingsManager.rawCurrentUserSettingsFlow.first()
 
-        assertEquals(LocalUserSettings.Default.copy(mtuSize = TEST_MTU_SIZE), settings)
+        assertEquals(LocalUserSettings.Default.copy(version = 2, mtuSize = TEST_MTU_SIZE), settings)
 
         val userDataAfterMigration = Storage.load(UserData::class.java)
         Assert.assertNull(userDataAfterMigration)
