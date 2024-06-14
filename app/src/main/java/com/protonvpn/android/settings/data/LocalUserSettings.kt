@@ -96,8 +96,9 @@ fun LocalUserSettings.toLogList(profileManager: ProfileManager): List<String> {
         "Protocol: ${protocol.apiName}",
         "Restricted NAT: ${randomizedNat.toLog()}",
         with(splitTunneling) {
-            "Split tunneling: ${isEnabled.toLog()}," +
-                " excluded apps: ${excludedApps.itemCountToLog()}, excluded IPs: ${excludedIps.itemCountToLog()}"
+            "Split tunneling: ${isEnabled.toLog()}, mode: ${mode.toLog()}," +
+                " excluded apps: ${excludedApps.itemCountToLog()}, excluded IPs: ${excludedIps.itemCountToLog()}" +
+                " included apps: ${includedApps.itemCountToLog()}, included IPs: ${includedIps.itemCountToLog()}"
         },
         "Telemetry: ${telemetry.toLog()}",
         "Use DoH for API: ${apiUseDoh.toLog()}",
