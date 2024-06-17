@@ -428,7 +428,7 @@ class VpnConnectionManager @Inject constructor(
         if (newBackend.vpnProtocol == VpnProtocol.OpenVPN &&
             preparedConnection.connectionParams.connectIntent !is AnyConnectIntent.GuestHole
         ) {
-            val sessionId = currentUser.sessionId()
+            val sessionId = currentUser.sessionIdCached()
             if (sessionId != null) {
                 // OpenVPN needs a certificate to connect, make sure there is one available (it can be expired, it'll be
                 // refreshed via the VPN tunnel if needed).
