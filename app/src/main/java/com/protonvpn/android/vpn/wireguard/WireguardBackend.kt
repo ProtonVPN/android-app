@@ -53,6 +53,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -123,12 +124,16 @@ class WireguardBackend @Inject constructor(
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
+
+        // We need to start ignoring state changes for the old connection
+        monitoringJob?.cancel()
+
         vpnProtocolState = VpnState.Connecting
         val wireguardParams = connectionParams as ConnectionParamsWireguard
         try {
             val settings = userSettings.effectiveSettings.first()
             val config = wireguardParams.getTunnelConfig(
-                context, settings, currentUser.sessionId(), certificateRepository
+                context, settings, currentUser.sessionIdCached(), certificateRepository
             )
             val transmission = wireguardParams.protocolSelection?.transmission ?: TransmissionProtocol.UDP
             val transmissionStr = transmission.toString().lowercase()
@@ -208,7 +213,8 @@ class WireguardBackend @Inject constructor(
                             VpnState.Error(ErrorType.GENERIC_ERROR, isFinal = true)
                         }
                     }
-                    mainScope.launch {
+                    ensureActive()
+                    launch (dispatcherProvider.Main) {
                         newState?.let { state ->
                             if (state != vpnProtocolState ||
                                     (state as? VpnState.Error)?.type == ErrorType.UNREACHABLE_INTERNAL)
