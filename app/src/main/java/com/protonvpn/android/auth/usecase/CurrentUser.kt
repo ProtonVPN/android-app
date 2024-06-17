@@ -112,6 +112,11 @@ class CurrentUser @Inject constructor(
 
     @Deprecated("use suspending version of this fun")
     fun isLoggedInCached() = vpnUserState.value != null
+
+    //TODO: suspending implementation is pretty slow, let's used cached version in
+    // performance-critical places for now (to be addressed with VPNAND-1798)
+    @Deprecated("use suspending version of this fun")
+    fun sessionIdCached() = vpnUserState.value?.sessionId
 }
 
 fun User.uiName() =
