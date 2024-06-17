@@ -36,7 +36,7 @@ class SplitTunnelingSettingsTests {
     fun `effectively same - both disabled are always equal`() {
         val a = SplitTunnelingSettings(includedIps = ips1, includedApps = apps1)
         val b = SplitTunnelingSettings(includedApps = apps2, excludedIps = ips2)
-        assertTrue(a.isEffectivelySameAs(b))
+        assertSameBothWays(a, b)
     }
 
     @Test
@@ -49,7 +49,7 @@ class SplitTunnelingSettingsTests {
             excludedApps = apps2
         )
         val b = a.copy()
-        assertTrue(a.isEffectivelySameAs(b))
+        assertSameBothWays(a, b)
     }
 
     @Test
@@ -61,7 +61,7 @@ class SplitTunnelingSettingsTests {
             excludedApps = apps1
         )
         val b = a.copy(isEnabled = false)
-        assertFalse(a.isEffectivelySameAs(b))
+        assertDifferBothWays(a, b)
     }
 
     @Test
@@ -73,7 +73,7 @@ class SplitTunnelingSettingsTests {
             includedApps = apps1,
         )
         val b = a.copy(isEnabled = false)
-        assertFalse(a.isEffectivelySameAs(b))
+        assertDifferBothWays(a, b)
     }
 
     @Test
@@ -87,7 +87,7 @@ class SplitTunnelingSettingsTests {
             excludedApps = apps1
         )
         val b = a.copy(mode = SplitTunnelingMode.INCLUDE_ONLY)
-        assertFalse(a.isEffectivelySameAs(b))
+        assertDifferBothWays(a, b)
     }
 
     @Test
@@ -99,7 +99,7 @@ class SplitTunnelingSettingsTests {
             excludedApps = apps1
         )
         val b = a.copy(excludedApps = apps2)
-        assertFalse(a.isEffectivelySameAs(b))
+        assertDifferBothWays(a, b)
     }
 
     @Test
@@ -111,7 +111,7 @@ class SplitTunnelingSettingsTests {
             includedApps = apps1
         )
         val b = a.copy(includedApps = apps2)
-        assertFalse(a.isEffectivelySameAs(b))
+        assertDifferBothWays(a, b)
     }
 
     @Test
@@ -123,7 +123,7 @@ class SplitTunnelingSettingsTests {
             includedApps = apps1
         )
         val b = a.copy(excludedApps = apps2)
-        assertTrue(a.isEffectivelySameAs(b))
+        assertSameBothWays(a, b)
     }
 
     @Test
@@ -135,7 +135,7 @@ class SplitTunnelingSettingsTests {
             excludedApps = apps1
         )
         val b = a.copy(includedApps = apps2)
-        assertTrue(a.isEffectivelySameAs(b))
+        assertSameBothWays(a, b)
     }
 
     @Test
@@ -145,7 +145,7 @@ class SplitTunnelingSettingsTests {
             mode = SplitTunnelingMode.EXCLUDE_ONLY,
         )
         val b = a.copy(isEnabled = false)
-        assertTrue(a.isEffectivelySameAs(b))
+        assertSameBothWays(a, b)
     }
 
     @Test
@@ -155,6 +155,26 @@ class SplitTunnelingSettingsTests {
             mode = SplitTunnelingMode.INCLUDE_ONLY,
         )
         val b = a.copy(isEnabled = false)
+        assertSameBothWays(a, b)
+    }
+
+    @Test
+    fun `effectively same - empty includes on one side only are unequal`() {
+        val a = SplitTunnelingSettings(
+            isEnabled = true,
+            mode = SplitTunnelingMode.INCLUDE_ONLY,
+        )
+        val b = a.copy(includedApps = listOf("apps"))
+        assertDifferBothWays(a, b)
+    }
+
+    private fun assertSameBothWays(a: SplitTunnelingSettings, b: SplitTunnelingSettings) {
         assertTrue(a.isEffectivelySameAs(b))
+        assertTrue(b.isEffectivelySameAs(a))
+    }
+
+    private fun assertDifferBothWays(a: SplitTunnelingSettings, b: SplitTunnelingSettings) {
+        assertFalse(a.isEffectivelySameAs(b))
+        assertFalse(b.isEffectivelySameAs(a))
     }
 }

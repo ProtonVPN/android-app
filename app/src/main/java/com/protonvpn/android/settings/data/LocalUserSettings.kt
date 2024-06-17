@@ -48,8 +48,6 @@ data class SplitTunnelingSettings(
     fun isEffectivelySameAs(other: SplitTunnelingSettings): Boolean {
         fun excludesEqual() = this.excludedIps == other.excludedIps && this.excludedApps == other.excludedApps
         fun includesEqual() = this.includedIps == other.includedIps && this.includedApps == other.includedApps
-        fun excludesEmpty() = this.excludedIps.isEmpty() && this.excludedApps.isEmpty()
-        fun includesEmpty() = this.includedIps.isEmpty() && this.includedApps.isEmpty()
 
         return this == other
             || !this.isEnabled && !other.isEnabled
@@ -57,10 +55,13 @@ data class SplitTunnelingSettings(
                 mode == SplitTunnelingMode.EXCLUDE_ONLY && excludesEqual()
                     || mode == SplitTunnelingMode.INCLUDE_ONLY && includesEqual()
             )
-            // Both INCLUDE_ONLY and EXCLUDE_ONLY behave the same as split tunneling disabled:
-            || this.mode == other.mode && mode == SplitTunnelingMode.EXCLUDE_ONLY && excludesEmpty()
-            || this.mode == other.mode && mode == SplitTunnelingMode.INCLUDE_ONLY && includesEmpty()
+            // Both INCLUDE_ONLY and EXCLUDE_ONLY with empty values behave the same as split tunneling disabled:
+            || this.mode == other.mode && mode == SplitTunnelingMode.EXCLUDE_ONLY && this.excludesEmpty() && other.excludesEmpty()
+            || this.mode == other.mode && mode == SplitTunnelingMode.INCLUDE_ONLY && this.includesEmpty() && other.includesEmpty()
     }
+
+    private fun excludesEmpty() = excludedIps.isEmpty() && excludedApps.isEmpty()
+    private fun includesEmpty() = includedIps.isEmpty() && includedApps.isEmpty()
 }
 
 @Serializable
