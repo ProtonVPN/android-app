@@ -39,7 +39,9 @@ import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.telemetry.NoopSnapshotScheduler
 import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
+import com.protonvpn.android.telemetry.SnapshotScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
 import com.protonvpn.android.tv.login.TvLoginViewModel
@@ -298,6 +300,9 @@ class SharedTestAppModule {
 
         @Binds
         fun bindTelemetryUploadScheduler(scheduler: NoopTelemetryUploadScheduler): TelemetryUploadScheduler
+
+        @Binds
+        fun bindSnapshotScheduler(scheduler: NoopSnapshotScheduler): SnapshotScheduler
 
         @Binds
         @Singleton

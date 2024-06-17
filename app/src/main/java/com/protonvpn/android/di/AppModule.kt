@@ -53,6 +53,8 @@ import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapte
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
+import com.protonvpn.android.telemetry.SettingsSnapshotScheduler
+import com.protonvpn.android.telemetry.SnapshotScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
@@ -207,7 +209,8 @@ object AppModuleProd {
 
         @Binds
         fun bindTelemetryUploadScheduler(scheduler: TelemetryUploadWorkerScheduler): TelemetryUploadScheduler
-
+        @Binds
+        fun bindSnapshotScheduler(scheduler: SettingsSnapshotScheduler): SnapshotScheduler
         @Singleton
         @Binds
         fun provideLocalDataStoreFactory(factory: DefaultLocalDataStoreFactory): LocalDataStoreFactory

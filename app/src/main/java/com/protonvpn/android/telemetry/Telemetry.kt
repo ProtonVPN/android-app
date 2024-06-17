@@ -20,7 +20,6 @@
 package com.protonvpn.android.telemetry
 
 import com.protonvpn.android.BuildConfig
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.LogLevel
@@ -55,11 +54,18 @@ interface TelemetryUploadScheduler {
     fun scheduleTelemetryUpload()
     fun scheduleImmediateTelemetryUpload()
 }
+interface SnapshotScheduler {
+    fun scheduleSettingsSnapshot()
+}
 
 @Reusable
 class NoopTelemetryUploadScheduler @Inject constructor() : TelemetryUploadScheduler {
     override fun scheduleTelemetryUpload() = Unit
     override fun scheduleImmediateTelemetryUpload() = Unit
+}
+@Reusable
+class NoopSnapshotScheduler @Inject constructor() : SnapshotScheduler {
+    override fun scheduleSettingsSnapshot() = Unit
 }
 
 @Singleton
@@ -70,7 +76,7 @@ class Telemetry(
     private val cache: TelemetryCache,
     private val uploader: TelemetryUploader,
     private val uploadScheduler: TelemetryUploadScheduler,
-    private val currentUser: CurrentUser,
+    snapshotScheduler: SnapshotScheduler,
     private val discardAge: Duration,
     private val eventCountLimit: Int,
 ) {
@@ -88,6 +94,7 @@ class Telemetry(
         mainScope.launch {
             loadCache()
         }
+        snapshotScheduler.scheduleSettingsSnapshot()
     }
 
     @Inject constructor(
@@ -97,9 +104,9 @@ class Telemetry(
         cache: TelemetryCache,
         uploader: TelemetryUploader,
         uploadScheduler: TelemetryUploadScheduler,
-        user: CurrentUser
+        snapshotScheduler: SnapshotScheduler,
     ) : this(
-        mainScope, wallClock, userSettings, cache, uploader, uploadScheduler, user, DISCARD_AGE, MAX_EVENT_COUNT
+        mainScope, wallClock, userSettings, cache, uploader, uploadScheduler, snapshotScheduler, DISCARD_AGE, MAX_EVENT_COUNT
     )
 
     fun event(

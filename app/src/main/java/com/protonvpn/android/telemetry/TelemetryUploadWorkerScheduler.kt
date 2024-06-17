@@ -44,7 +44,6 @@ import javax.inject.Inject
 
 private val DEFAULT_UPLOAD_DELAY_MS = TimeUnit.MINUTES.toMillis(10)
 private const val UNIQUE_WORK_NAME = "TelemetryUploadWorker"
-
 @Reusable
 class TelemetryUploadWorkerScheduler @Inject constructor(
     @ApplicationContext private val appContext: Context

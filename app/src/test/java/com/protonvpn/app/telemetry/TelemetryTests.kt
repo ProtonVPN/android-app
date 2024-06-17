@@ -20,9 +20,9 @@
 package com.protonvpn.app.telemetry
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.telemetry.SettingsSnapshotScheduler
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryCache
 import com.protonvpn.android.telemetry.TelemetryEvent
@@ -31,7 +31,6 @@ import com.protonvpn.android.telemetry.TelemetryUploader
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -69,8 +68,8 @@ class TelemetryTests {
     @RelaxedMockK
     private lateinit var mockScheduler: TelemetryUploadScheduler
 
-    @MockK
-    private lateinit var mockCurrentUser: CurrentUser
+    @RelaxedMockK
+    private lateinit var mockSnapshotScheduler: SettingsSnapshotScheduler
 
     private lateinit var effectiveUserSettings: EffectiveCurrentUserSettings
     private lateinit var userSettings: MutableStateFlow<LocalUserSettings>
@@ -83,8 +82,6 @@ class TelemetryTests {
         testScope = TestScope(UnconfinedTestDispatcher())
         userSettings = MutableStateFlow(LocalUserSettings.Default.copy(telemetry = true))
         effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettings)
-
-        coEvery { mockCurrentUser.isLoggedIn() } returns true
 
         coEvery { mockUploader.uploadEvents(any()) } returns Telemetry.UploadResult.Success(false)
     }
@@ -114,16 +111,6 @@ class TelemetryTests {
         verify(exactly = 0) {
             mockCache.save(any())
         }
-    }
-
-    @Test
-    fun `when no user is logged in events are uploaded`() = testScope.runTest {
-        val telemetry = createNewTelemetryObject()
-        telemetry.event(MEASUREMENT_GROUP, "event", VALUES, DIMENSIONS)
-        coEvery { mockCurrentUser.isLoggedIn() } returns false
-
-        telemetry.uploadPendingEvents()
-        coVerify(exactly = 1) { mockUploader.uploadEvents(any()) }
     }
 
     @Test
@@ -341,7 +328,7 @@ class TelemetryTests {
             mockCache,
             mockUploader,
             mockScheduler,
-            mockCurrentUser,
+            mockSnapshotScheduler,
             DISCARD_AGE,
             MAX_EVENTS
         )
