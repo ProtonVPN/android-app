@@ -62,6 +62,7 @@ sealed class DefaultConnection(
     data object FastestConnection : DefaultConnection()
     data object LastConnection : DefaultConnection()
     data class Recent(val recentId: Long) : DefaultConnection()
+
 }
 fun DefaultConnection.getRecentIdOrNull(): Long? = (this as? DefaultConnection.Recent)?.recentId
 fun DefaultConnectionEntity.toDefaultConnection(): DefaultConnection {
