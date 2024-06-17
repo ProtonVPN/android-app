@@ -59,13 +59,17 @@ class InstalledAppsProvider @Inject constructor(
         val icon: Drawable
     )
 
+    // Ignores Proton VPN itself.
     suspend fun getInstalledInternetApps(withLaunchIntent: Boolean, forTv: Boolean): List<String> =
         withContext(dispatcherProvider.Io) {
+            val protonVpn = appContext.packageName
             packageManager.getInstalledApplications(
                 0
             ).map {
                 it.packageName
             }.filter { packageName ->
+                if (packageName == protonVpn) return@filter false
+
                 // On TV include also apps with regular launch intent (e.g. browser on Firestick).
                 val hasLaunchIntent = packageManager.getLaunchIntentForPackage(packageName) != null ||
                     forTv && packageManager.getLeanbackLaunchIntentForPackage(packageName) != null
@@ -117,7 +121,6 @@ class InstalledAppsProvider @Inject constructor(
         return results
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun getAppInfosChannel(
         context: Context,
         iconSizePx: Int,
