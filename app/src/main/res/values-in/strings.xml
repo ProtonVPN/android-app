@@ -121,7 +121,7 @@
     <string name="profileRandom">Acak</string>
     <string name="loaderErrorNoInternet">Tidak ada koneksi internet</string>
     <string name="loaderErrorGeneric">Ada yang salah</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">Alamat IP</string>
     <string name="inputIpAddressHint">Tulis alamat IP</string>
     <string name="inputIpAddressErrorInvalid">Alamat IP tidak valid</string>
     <string name="settingsExcludedIPAddressesListHeader">Alamat IP yang dikecualikan (%1$d)</string>
@@ -1148,18 +1148,18 @@
     <string name="settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi dan alamat IP mana saja yang akan terlindung oleh VPN. %1$s</string>
     <string name="settings_protocol_description">Protokol VPN menentukan bagaimana data antara server VPN dan perangkat Anda akan saling berpindah. %1$s</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
-    <string name="settings_split_tunneling_mode_standard">Standard</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_standard">Standar</string>
+    <string name="settings_split_tunneling_mode_inverse">Berkebalikan</string>
     <string name="settings_split_tunneling_mode_description_standard">Aplikasi dan alamat IP yang terpilih dikecualikan dari koneksi VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplikasi yang dikecualikan</string>
     <string name="settings_split_tunneling_excluded_ips">Alamat IP yang dikecualikan</string>
-    <string name="settings_split_tunneling_included_apps">Included apps</string>
-    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
+    <string name="settings_split_tunneling_included_apps">Aplikasi yang disertakan</string>
+    <string name="settings_split_tunneling_included_ips">Alamat IP yang disertakan</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Tidak ada</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, dan %3$d lainnya</string>
     <string name="settings_split_tunneling_already_excluded">Sudah dikecualikan</string>
-    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_already_included">Telah disertakan</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Hapus alamat IP dari daftar?</string>
     <string name="settings_dialog_reconnect">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
     <string name="info_secure_core_standard_high_privacy">Privasi tinggi</string>

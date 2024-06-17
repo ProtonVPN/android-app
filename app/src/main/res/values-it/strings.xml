@@ -128,7 +128,7 @@
     <string name="settingsIncludedIPAddressesListHeader">Indirizzi IP inclusi (%1$d)</string>
     <string name="settingsExcludedApps">App escluse</string>
     <string name="settingsExcludedAppsEmpty">Aggiungi app da escludere dal traffico VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Aggiungi app da includere nel traffico VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Aggiungi applicazioni da includere nel traffico VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">App escluse (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">App incluse (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Tutte le altre app utente (%1$d)</string>
@@ -1039,23 +1039,23 @@
     <string name="info_dialog_button_learn_more_streaming">Hai bisogno di aiuto per lo streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">I server di streaming sono progettati per una riproduzione rapida e sicura di programmi TV e film.</string>
-    <string name="info_dialog_how_to_stream">Come fare streaming:</string>
+    <string name="info_dialog_how_to_stream">Come guardare in streaming:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Vai alle impostazioni del tuo telefono e disattiva i servizi di localizzazione</string>
+    <string name="info_dialog_how_to_stream_step_1">Vai nelle impostazioni del telefono e disabilita la localizzazione</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Riavvia il tuo servizio di streaming</string>
+    <string name="info_dialog_how_to_stream_step_2">Riavvia il servizio di streaming</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connettiti a qualsiasi server Plus e inizia lo streaming</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">La condivisione di file peer-to-peer è abilitata su questo server.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">Puoi connetterti ai siti .onion con il tuo browser abituale.</string>
+    <string name="connection_feature_tor_description">Puoi connetterti ai siti .onion con un normale browser.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">La tua attività è criptata tramite 2 server VPN ad alta sicurezza.</string>
+    <string name="connection_feature_secure_core_description">La tua attività online è nascosta tramite 2 server VPN ad alta sicurezza.</string>
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">Questo server è ottimizzato per la riproduzione di programmi TV e film.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <string name="connection_feature_smart_routing_description">Ti connette al paese di destinazione tramite server che sono fisicamente situati altrove.</string>
+    <string name="connection_feature_smart_routing_description">Connette il tuo dispositivo al paese scelto tramite server che sono fisicamente situati altrove.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1178,7 +1178,7 @@
     <string name="settings_protocol_description">Un protocollo VPN determina il modo in cui i dati si spostano tra un server VPN e il tuo dispositivo. %1$s</string>
     <string name="settings_split_tunneling_mode_title">Modalità</string>
     <string name="settings_split_tunneling_mode_standard">Standard</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverso</string>
+    <string name="settings_split_tunneling_mode_inverse">Inversa</string>
     <string name="settings_split_tunneling_mode_description_standard">Le app e gli indirizzi IP selezionati sono esclusi dalla connessione VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Solamente le app e gli indirizzi IP selezionati si connettono tramite VPN, tutto il resto del traffico non è protetto.</string>
     <string name="settings_split_tunneling_excluded_apps">Applicazioni escluse</string>
@@ -1189,7 +1189,7 @@
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, +%3$d</string>
     <string name="settings_split_tunneling_already_excluded">Già escluso</string>
     <string name="settings_split_tunneling_already_included">Già incluso</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">Rimuovere l\'indirizzo IP dall\'elenco?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">Vuoi rimuovere questo indirizzo IP dalla lista?</string>
     <string name="settings_dialog_reconnect">Le nuove impostazioni verranno applicate la prossima volta che ti connetti alla VPN.</string>
     <string name="info_secure_core_standard_high_privacy">Privacy elevata</string>
     <string name="info_secure_core_standard_lower_latency">Minore latenza</string>

@@ -131,8 +131,8 @@
     <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicativos excluídos (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Aplicativos incluídos (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Todos os outros aplicativos regulares (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Todos os outros aplicativos do sistema (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar aplicativos do sistema</string>
     <string name="tileConnected">Conectado: %1$s</string>
     <string name="openUrlError">Não foi possível abrir %1$s. O navegador de internet não foi detectado no seu dispositivo.</string>

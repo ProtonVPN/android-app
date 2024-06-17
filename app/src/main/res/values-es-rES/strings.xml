@@ -128,7 +128,7 @@
     <string name="settingsIncludedIPAddressesListHeader">Direcciones IP incluidas (%1$d)</string>
     <string name="settingsExcludedApps">Apps excluidas</string>
     <string name="settingsExcludedAppsEmpty">Añade aplicaciones para que sean excluidas del tráfico de la VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
+    <string name="settingsIncludedAppsEmpty">Añade aplicaciones para ser incluidas en el tráfico VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicaciones excluidas (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Aplicaciones incluidas (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Todas las demás aplicaciones regulares (%1$d)</string>
