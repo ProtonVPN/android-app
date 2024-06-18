@@ -107,9 +107,14 @@ class TvSettingsSplitTunnelingMainVM @Inject constructor(
 
     fun onNavigateBack(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
-            val currentSettings = userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling
-            if (initialValue != null && initialValue?.isEffectivelySameAs(currentSettings) == false) {
+            val newSplitTunneling = userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling
+            if (initialValue != null && initialValue?.isEffectivelySameAs(newSplitTunneling) == false) {
+                initialValue = newSplitTunneling
                 reconnectionCheck(uiDelegate)
+            }
+            val showsDialog = showReconnectDialogFlow.value != null
+            if (showsDialog) {
+                navigateBackAfterDialog = true
             } else {
                 eventNavigateBack.tryEmit(Unit)
             }

@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 
+@Deprecated("Use turbine instead")
 fun <T> TestScope.runWhileCollecting(flow: Flow<T>, block: suspend () -> Unit): List<T> {
     val collectedValues = mutableListOf<T>()
     val collectJob = backgroundScope.launch {

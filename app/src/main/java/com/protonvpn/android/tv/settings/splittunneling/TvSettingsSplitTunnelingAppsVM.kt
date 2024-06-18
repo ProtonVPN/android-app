@@ -28,7 +28,6 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.settings.LabeledItem
 import com.protonvpn.android.ui.settings.SplitTunnelingAppsViewModelHelper
-import com.protonvpn.android.ui.settings.currentModeApps
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
