@@ -164,7 +164,6 @@ class TvMainViewModelTests {
             getCountryCard = mockk(),
             currentUser = mockCurrentUser,
             logoutUseCase = mockk(relaxed = true),
-            userPlanManager = mockk(relaxed = true),
             purchaseEnabled = mockk(relaxed = true)
         )
     }

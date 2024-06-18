@@ -36,9 +36,10 @@ import androidx.leanback.widget.OnItemViewSelectedListener
 import androidx.leanback.widget.PresenterSelector
 import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.components.BaseTvBrowseFragment
@@ -63,6 +64,9 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.relativePadding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TvMainFragment : BaseTvBrowseFragment() {
@@ -91,13 +95,11 @@ class TvMainFragment : BaseTvBrowseFragment() {
         postponeEnterTransition()
         rowsAdapter = ArrayObjectAdapter(FadeTopListRowPresenter())
         adapter = rowsAdapter
-        setupRowAdapter()
-        viewModel.listVersion.asLiveData().observe(viewLifecycleOwner, Observer {
-            setupRowAdapter()
-        })
-        lifecycleScope.launchWhenResumed {
-            viewModel.userPlanChangeEvent.collect {
-                setupRowAdapter()
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.mainViewState
+                    .onEach { setupRowAdapter(it.showSettings) }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
     }
@@ -162,8 +164,8 @@ class TvMainFragment : BaseTvBrowseFragment() {
         }
     }
 
-    private fun setupRowAdapter() {
-        rowsAdapter?.createRows()
+    private fun setupRowAdapter(showSettings: Boolean) {
+        rowsAdapter?.createRows(showSettings)
         view?.doOnPreDraw {
             startPostponedEnterTransition()
         }
@@ -195,7 +197,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         addOrReplace(0, createRow(recentsRow, 0))
     }
 
-    private fun ArrayObjectAdapter.createRows() {
+    private fun ArrayObjectAdapter.createRows(showSettings: Boolean) {
         var index = 1
         updateRecentsRow()
         val continentMap = viewModel.getCountryCardMap()
@@ -216,14 +218,18 @@ class TvMainFragment : BaseTvBrowseFragment() {
             }
         }
 
+        val settingsCards = buildList {
+            if (showSettings) {
+                add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label)))
+            }
+            add(LogoutCard(getString(R.string.tv_signout_label)))
+            add(ReportBugCard(getString(R.string.drawerReportProblem)))
+        }
+
         val settingsRow = CardRow(
             title = R.string.tv_row_settings,
             icon = R.drawable.ic_proton_three_dots_horizontal_32,
-            cards = listOf(
-                SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label)),
-                LogoutCard(getString(R.string.tv_signout_label)),
-                ReportBugCard(getString(R.string.drawerReportProblem))
-            ),
+            cards = settingsCards,
             tintIcon = true
         )
         addOrReplace(index, createRow(settingsRow, index))
