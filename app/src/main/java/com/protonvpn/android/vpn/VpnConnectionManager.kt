@@ -609,9 +609,11 @@ class VpnConnectionManager @Inject constructor(
 
     // Will do complete reconnection, which may result in different protocol or server
     // if compared to original connection
-    fun reconnect(triggerAction: String, uiDelegate: VpnUiDelegate) = scope.launch {
-        disconnectBlocking(DisconnectTrigger.Reconnect("reconnect: $triggerAction"))
-        lastConnectIntent?.let { connect(uiDelegate, it, ConnectTrigger.Reconnect) }
+    fun reconnect(triggerAction: String, uiDelegate: VpnUiDelegate) {
+        scope.launch {
+            disconnectBlocking(DisconnectTrigger.Reconnect("reconnect: $triggerAction"))
+            lastConnectIntent?.let { connect(uiDelegate, it, ConnectTrigger.Reconnect) }
+        }
     }
 
     fun onVpnServiceDestroyed() {

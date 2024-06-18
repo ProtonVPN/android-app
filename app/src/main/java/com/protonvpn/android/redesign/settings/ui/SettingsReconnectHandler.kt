@@ -43,10 +43,6 @@ class SettingsReconnectHandler @Inject constructor(
     private var showReconnectDialog by savedStateHandle.state<DontShowAgainStore.Type?>(null, ReconnectDialogStateKey)
     val showReconnectDialogFlow = savedStateHandle.getStateFlow<DontShowAgainStore.Type?>(ReconnectDialogStateKey, null)
 
-    fun show(type: DontShowAgainStore.Type) {
-        showReconnectDialog = type
-    }
-
     fun onReconnectClicked(uiDelegate: VpnUiDelegate, dontShowAgain: Boolean, type: DontShowAgainStore.Type) {
         showReconnectDialog = null
         mainScope.launch {
@@ -64,6 +60,7 @@ class SettingsReconnectHandler @Inject constructor(
         }
     }
 
+    // Returns if dialog is shown or not.
     suspend fun reconnectionCheck(uiDelegate: VpnUiDelegate, type: DontShowAgainStore.Type) {
         if (vpnStatusProviderUI.isEstablishingOrConnected) {
             when (dontShowAgainStore.getChoice(type)) {

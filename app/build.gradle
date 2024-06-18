@@ -992,6 +992,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation 'app.cash.turbine:turbine:1.1.0'
     testImplementation 'org.robolectric:robolectric:4.12.1'
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version") {
