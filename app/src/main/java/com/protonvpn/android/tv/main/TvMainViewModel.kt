@@ -21,11 +21,13 @@ package com.protonvpn.android.tv.main
 import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.CachedPurchaseEnabled
 import com.protonvpn.android.appconfig.GetFeatureFlags
+import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.components.BaseTvActivity
@@ -46,7 +48,6 @@ import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
-import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.RecentsManager
@@ -61,14 +62,14 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import me.proton.core.presentation.R as CoreR
 import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
+import me.proton.core.presentation.R as CoreR
 
 @HiltViewModel
 class TvMainViewModel @Inject constructor(
     private val serverManager: ServerManager,
-    mainScope: CoroutineScope,
+    private val mainScope: CoroutineScope,
     serverListUpdater: ServerListUpdater,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     vpnStateMonitor: VpnStateMonitor,
@@ -76,16 +77,10 @@ class TvMainViewModel @Inject constructor(
     private val recentsManager: RecentsManager,
     private val featureFlags: GetFeatureFlags,
     private val getCountryCard: GetCountryCard,
-    currentUser: CurrentUser,
-    logoutUseCase: Logout,
-    userPlanManager: UserPlanManager,
+    private val currentUser: CurrentUser,
+    private val logoutUseCase: Logout,
     val purchaseEnabled: CachedPurchaseEnabled,
-) : MainViewModel(
-    mainScope,
-    userPlanManager,
-    logoutUseCase,
-    currentUser,
-) {
+) : ViewModel() {
 
     data class VpnViewState(val vpnStatus: VpnStateMonitor.Status, val ipToDisplay: String?)
 
@@ -128,7 +123,20 @@ class TvMainViewModel @Inject constructor(
         }
     }
 
-    val listVersion = serverManager.serverListVersion
+    // serverListVersion and userTier are only included to trigger UI refresh when they change.
+    // The UI pulls all data by calling various functions on the viewmodel, it doesn't use any kind of view state.
+    data class MainViewState(val showSettings: Boolean, val serverListVersion: Int, val userTier: Int)
+
+    val mainViewState = combine(
+        serverManager.serverListVersion,
+        currentUser.vpnUserFlow
+    ) { serverListVersion, vpnUser ->
+        MainViewState(
+            showSettings = vpnUser?.isFreeUser == false,
+            serverListVersion = serverListVersion,
+            userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER
+        )
+    }
 
     fun setSelectedCountry(flag: String?) {
         selectedCountryFlag.value = flag
@@ -279,6 +287,10 @@ class TvMainViewModel @Inject constructor(
 
     fun resetMap() {
         mapRegion.value = TvMapRenderer.FULL_REGION
+    }
+
+    fun logout() = mainScope.launch {
+        logoutUseCase()
     }
 
     fun onLastRowSelection(selected: Boolean) {
