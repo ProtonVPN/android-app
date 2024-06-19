@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.tv.settings.splittunneling
 
+import android.content.Context
+import android.media.AudioManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,6 +60,7 @@ import com.protonvpn.android.tv.settings.TvSettingsItemRadioSmall
 import com.protonvpn.android.tv.settings.TvSettingsItemSwitch
 import com.protonvpn.android.tv.ui.ProtonTvDialogBasic
 import com.protonvpn.android.tv.ui.TvUiConstants
+import com.protonvpn.android.tv.ui.onFocusLost
 import com.protonvpn.android.ui.settings.formatSplitTunnelingItems
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.DebugUtils
@@ -201,6 +205,7 @@ private fun ChangeModeDialog(
                     onStandardSelected()
                     onDismissRequest()
                 },
+                clickSound = false, // Closing the dialog removes focus and produces an additional sound.
                 modifier = Modifier.focusRequester(focusRequester)
             )
             TvSettingsItemRadioSmall(
@@ -210,7 +215,8 @@ private fun ChangeModeDialog(
                 onClick = {
                     onInverseSelected()
                     onDismissRequest()
-                }
+                },
+                clickSound = false, // Closing the dialog removes focus and produces an additional sound.
             )
         }
     }
@@ -232,17 +238,29 @@ private fun ReconnectDialog(
                 style = ProtonTheme.typography.headline
             )
 
+            // Remove when implemented in Compose TV: https://issuetracker.google.com/issues/268268856
+            // (can't use the suggestion from issuetracker with `clickable` modifier because it breaks the `Surface`
+            // selection).
+            val context = LocalContext.current
+            val audioManager = remember { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
+            val focusSoundModifier = Modifier.onFocusLost {
+                audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP)
+            }
+
             Row(
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Button(onClick = onDismissRequest) {
+                Button(
+                    onClick = onDismissRequest,
+                    modifier = focusSoundModifier
+                ) {
                     Text(stringResource(R.string.ok))
                 }
                 Spacer(Modifier.width(16.dp))
                 Button(
                     onClick = onReconnectNow,
-                    modifier = Modifier.focusRequester(focusRequester)
+                    modifier = focusSoundModifier.focusRequester(focusRequester)
                 ) {
                     Text(stringResource(R.string.reconnect_now))
                 }
