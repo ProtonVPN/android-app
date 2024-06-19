@@ -322,6 +322,7 @@ private fun AppItemRow(
 ) {
     TvListRow(
         onClick = onClick,
+        clickSound = false, // Clicking moves focus which also produces sound.
         verticalAlignment = Alignment.CenterVertically,
         verticalContentPadding = 16.dp ,
         modifier = modifier.semantics {

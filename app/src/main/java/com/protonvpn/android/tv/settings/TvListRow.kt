@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.tv.settings
 
+import android.content.Context
+import android.media.AudioManager
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Row
@@ -27,18 +29,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ClickableSurfaceDefaults
 import androidx.tv.material3.ClickableSurfaceScale
 import androidx.tv.material3.LocalContentColor
 import androidx.tv.material3.Surface
+import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.tv.ui.TvUiConstants
+import com.protonvpn.android.tv.ui.onFocusLost
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.isNightMode
 import me.proton.core.presentation.compose.tv.theme.ProtonThemeTv
@@ -50,6 +59,7 @@ fun ProtonTvFocusableSurface(
     shape: Shape,
     modifier: Modifier = Modifier,
     color: @Composable () -> Color = { Color.Transparent },
+    clickSound: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -57,8 +67,17 @@ fun ProtonTvFocusableSurface(
     ProtonThemeTv(
         isDark = if (focused) !isNightMode() else isNightMode()
     ) {
+        // Remove when implemented in Compose TV: https://issuetracker.google.com/issues/268268856
+        // (can't use the suggestion from issuetracker with `clickable` modifier because it breaks the `Surface`
+        // selection).
+        val context = LocalContext.current
+        val audioManager = remember { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
+
         Surface(
-            onClick = onClick,
+            onClick = {
+                if (clickSound) audioManager.playSoundEffect(AudioManager.FX_KEY_CLICK)
+                onClick()
+            },
             colors = ClickableSurfaceDefaults.colors(
                 containerColor = color(),
                 contentColor = LocalContentColor.current,
@@ -68,7 +87,8 @@ fun ProtonTvFocusableSurface(
             shape = ClickableSurfaceDefaults.shape(shape),
             scale = ClickableSurfaceScale.None,
             interactionSource = interactionSource,
-            modifier = modifier,
+            modifier = modifier
+                .onFocusLost { audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP) }
         ) {
             content()
         }
@@ -81,12 +101,14 @@ fun TvListRow(
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     verticalContentPadding: Dp = 12.dp,
+    clickSound: Boolean = true,
     content: @Composable RowScope.() -> Unit
 ) {
     ProtonTvFocusableSurface(
         onClick = onClick,
         shape = ProtonTheme.shapes.large,
         focusedColor = { ProtonTheme.colors.backgroundNorm },
+        clickSound = clickSound,
         modifier = modifier.fillMaxWidth(),
     ) {
         Row(

@@ -124,11 +124,13 @@ fun TvSettingsItemRadioSmall(
     checked: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    clickSound: Boolean = true,
     description: String? = null,
 ) {
     TvListRow(
         onClick,
         verticalAlignment = Alignment.CenterVertically,
+        clickSound = clickSound,
         modifier = modifier.semantics {
             toggleableState = ToggleableState(checked)
         },
