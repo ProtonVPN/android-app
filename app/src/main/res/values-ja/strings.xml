@@ -475,6 +475,11 @@
     <plurals name="search_upsell_banner_message">
         <item quantity="other">VPN Plus を使用して、%1$d か国の地理的にブロックされたコンテンツのロックを解除します</item>
     </plurals>
+    <string name="select_default_connection">Select your default connection</string>
+    <string name="settings_default_connection_title">デフォルト接続</string>
+    <string name="fastest_country_description">あなたの所在地に基づいた最適なサーバー</string>
+    <string name="settings_last_connection_title">最後の接続</string>
+    <string name="settings_last_connection_description">最近使用した接続</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">バナーを却下</string>
@@ -765,6 +770,11 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">最後の接続</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">デフォルト接続</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->

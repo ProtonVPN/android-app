@@ -485,6 +485,11 @@
         <item quantity="one">Lås upp geoblockerat innehåll från %1$d land med VPN Plus</item>
         <item quantity="other">Lås upp geoblockerat innehåll från %1$d länder med VPN Plus</item>
     </plurals>
+    <string name="select_default_connection">Välj din standardanslutning</string>
+    <string name="settings_default_connection_title">Standardanslutning</string>
+    <string name="fastest_country_description">Den bästa servern baserat på din plats</string>
+    <string name="settings_last_connection_title">Senaste anslutning</string>
+    <string name="settings_last_connection_description">Din senast använda anslutning</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Avfärda banner</string>
@@ -783,6 +788,11 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Senast ansluten till</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Standardanslutning</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->

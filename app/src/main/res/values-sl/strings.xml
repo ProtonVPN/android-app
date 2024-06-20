@@ -507,6 +507,11 @@
         <item quantity="few">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
         <item quantity="other">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
     </plurals>
+    <string name="select_default_connection">Select your default connection</string>
+    <string name="settings_default_connection_title">Privzeta povezava</string>
+    <string name="fastest_country_description">Najboljši strežnik glede na vašo lokacijo</string>
+    <string name="settings_last_connection_title">Zadnja povezava</string>
+    <string name="settings_last_connection_description">Vaša nazadnje uporabljena povezava</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Opusti pasico</string>
@@ -821,6 +826,11 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Nazadnje povezan z</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Privzeta povezava</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->

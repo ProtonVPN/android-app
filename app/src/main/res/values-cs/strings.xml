@@ -121,18 +121,18 @@
     <string name="profileRandom">Náhodný</string>
     <string name="loaderErrorNoInternet">Bez připojení k Internetu</string>
     <string name="loaderErrorGeneric">Něco se pokazilo</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">IP adresa</string>
     <string name="inputIpAddressHint">Napište IP adresu</string>
     <string name="inputIpAddressErrorInvalid">Neplatná IP adresa</string>
-    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Vyloučené IP adresy (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Zahrnuté IP adresy (%1$d)</string>
     <string name="settingsExcludedApps">Vyloučené aplikace</string>
     <string name="settingsExcludedAppsEmpty">Přidejte aplikace, které chcete vyloučit z vašeho VPN provozu.</string>
-    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
+    <string name="settingsIncludedAppsEmpty">Přidejte aplikace, které chcete zahrnout do vašeho VPN provozu.</string>
     <string name="settingsExcludedAppsSelectedHeader">Vyloučené aplikace (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Zahrnuté aplikace (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Všechny ostatní běžné aplikace (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Všechny ostatní systémové aplikace (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Zobrazit systémové aplikace</string>
     <string name="tileConnected">Připojeno: %1$s</string>
     <string name="openUrlError">%1$s nelze otevřít. Na vašem zařízení nebyl detekován webový prohlížeč.</string>
@@ -505,6 +505,11 @@
         <item quantity="many">Odemkněte geograficky blokovaný obsah z %1$d zemí pomocí VPN Plus</item>
         <item quantity="other">Odemkněte geograficky blokovaný obsah z %1$d zemí pomocí VPN Plus</item>
     </plurals>
+    <string name="select_default_connection">Select your default connection</string>
+    <string name="settings_default_connection_title">Výchozí připojení</string>
+    <string name="fastest_country_description">Nejlepší server na základě vaší polohy</string>
+    <string name="settings_last_connection_title">Poslední připojení</string>
+    <string name="settings_last_connection_description">Vaše poslední použité připojení</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Schovat banner</string>
@@ -819,6 +824,11 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Naposledy připojeno k</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Výchozí připojení</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
@@ -1060,26 +1070,26 @@
     <string name="info_dialog_tor_description">Připojte se k serveru Tor a získejte přístup ke skrytým službám a onion webům pomocí libovolného prohlížeče.</string>
     <string name="info_dialog_button_learn_more_tor">Jak získat přístup k síti Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Jak používat torrenty pomocí P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_button_learn_more_streaming">Potřebujete pomoc se streamováním?</string>
     <string name="info_dialog_streaming_title">Streamování</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
+    <string name="info_dialog_streaming_description">Streamovací servery jsou navrženy pro rychlé a bezpečné přehrávání televizních pořadů a filmů.</string>
     <string name="info_dialog_how_to_stream">Jak streamovat:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Jděte do nastavení vašeho telefonu a vypněte služby určování polohy</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Restartujte svou streamovací službu</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Připojte se ke kterémukoli serveru Plus a spusťte streamování</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">Na tomto serveru je zapnuté peer-to-peer sdílení souborů.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Můžete se připojit ke stránkám .onion pomocí běžného prohlížeče.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_secure_core_description">Vaše aktivita je šifrována za 2 VPN servery s vysokým zabezpečením.</string>
     <string name="connection_feature_streaming_title">Streamování</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">Tento server je optimalizován pro přehrávání TV a filmů.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Připojí vás k vaší cílové zemi skrze servery, které jsou fyzicky umístěné jinde.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1222,19 +1232,19 @@
     <string name="settings_advanced_nat_type_moderate_description">Nějaké omezení dat vstupujících do vaší sítě. Toto je nejlepší volba pro hraní online video her.</string>
     <string name="settings_split_tunneling_description">Přizpůsobte si připojení tím, že se rozhodnete, které aplikace a IP adresy budou chráněny pomocí VPN. %1$s</string>
     <string name="settings_protocol_description">VPN protokol určuje způsob přenosu dat mezi VPN serverem a vaším zařízením. %1$s</string>
-    <string name="settings_split_tunneling_mode_title">Mode</string>
-    <string name="settings_split_tunneling_mode_standard">Standard</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_title">Režim</string>
+    <string name="settings_split_tunneling_mode_standard">Standardní</string>
+    <string name="settings_split_tunneling_mode_inverse">Obrácený</string>
     <string name="settings_split_tunneling_mode_description_standard">Vybrané aplikace a IP adresy jsou vyloučeny z připojení VPN.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Jen vybrané aplikace a IP adresy se připojí skrze VPN, ostatní síťový provoz nebude chráněn.</string>
     <string name="settings_split_tunneling_excluded_apps">Vyloučené aplikace</string>
     <string name="settings_split_tunneling_excluded_ips">Vyloučené IP adresy</string>
-    <string name="settings_split_tunneling_included_apps">Included apps</string>
-    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
+    <string name="settings_split_tunneling_included_apps">Zahrnuté aplikace</string>
+    <string name="settings_split_tunneling_included_ips">Zahrnuté IP adresy</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Žádné</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s a %3$d další</string>
     <string name="settings_split_tunneling_already_excluded">Již vyloučeno</string>
-    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_already_included">Již zahrnuto</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Odebrat IP adresu ze seznamu?</string>
     <string name="settings_dialog_reconnect">Nové nastavení se projeví při příštím připojení.</string>
     <string name="info_secure_core_standard_high_privacy">Vysoký stupeň soukromí</string>

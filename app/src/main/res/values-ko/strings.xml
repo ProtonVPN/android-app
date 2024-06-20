@@ -475,6 +475,11 @@
     <plurals name="search_upsell_banner_message">
         <item quantity="other">VPN Plus로 %1$d개 국가서 차단된 컨텐츠를 해제하세요</item>
     </plurals>
+    <string name="select_default_connection">Select your default connection</string>
+    <string name="settings_default_connection_title">기본 연결</string>
+    <string name="fastest_country_description">현재 회원님 위치에 기반한 최상의 서버</string>
+    <string name="settings_last_connection_title">최근 연결</string>
+    <string name="settings_last_connection_description">회원님이 주로 사용한 연결</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">배너 무시</string>
@@ -765,6 +770,11 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">마지막 연결:</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">기본 연결</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
