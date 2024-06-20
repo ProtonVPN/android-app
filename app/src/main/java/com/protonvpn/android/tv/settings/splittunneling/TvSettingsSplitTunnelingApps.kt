@@ -71,6 +71,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.tv.settings.TvListRow
+import com.protonvpn.android.tv.settings.TvSettingsHeader
 import com.protonvpn.android.tv.ui.TvSpinner
 import com.protonvpn.android.tv.ui.TvUiConstants
 import com.protonvpn.android.ui.settings.LabeledItem
@@ -111,11 +112,7 @@ private fun TvSettingsSplitTunnelingApps(
             SplitTunnelingMode.INCLUDE_ONLY -> R.string.settings_split_tunneling_included_apps
             SplitTunnelingMode.EXCLUDE_ONLY -> R.string.settings_split_tunneling_excluded_apps
         }
-        Text(
-            stringResource(titleRes),
-            style = ProtonTheme.typography.hero,
-            modifier = Modifier.padding(horizontal = TvUiConstants.SelectionPaddingHorizontal, vertical = 24.dp)
-        )
+        TvSettingsHeader(stringResource(titleRes))
 
         when (viewState) {
             SplitTunnelingAppsViewModelHelper.ViewState.Loading ->

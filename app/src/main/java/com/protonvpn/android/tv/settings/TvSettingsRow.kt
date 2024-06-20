@@ -22,7 +22,10 @@ package com.protonvpn.android.tv.settings
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -126,6 +129,7 @@ fun TvSettingsItemRadioSmall(
     modifier: Modifier = Modifier,
     clickSound: Boolean = true,
     description: String? = null,
+    trailingTitleContent: (@Composable () -> Unit)? = null
 ) {
     TvListRow(
         onClick,
@@ -138,7 +142,13 @@ fun TvSettingsItemRadioSmall(
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(title, style = ProtonTheme.typography.body2Regular)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(title, style = ProtonTheme.typography.body2Regular)
+                if (trailingTitleContent != null) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    trailingTitleContent()
+                }
+            }
             if (description != null) {
                 VerticalSpacer(height = 4.dp)
                 Text(description, style = ProtonTheme.typography.body2Regular, color = ProtonTheme.colors.textWeak)
@@ -147,7 +157,9 @@ fun TvSettingsItemRadioSmall(
         RadioButton(
             selected = checked,
             onClick = null,
-            modifier = Modifier.clearAndSetSemantics { }
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .clearAndSetSemantics { }
         )
     }
 }

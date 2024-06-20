@@ -61,7 +61,10 @@ class TvCountryListRobot : BaseRobot() {
             onView(withText(R.string.tv_signout_label)).check(matches(isDisplayed()))
         }
         uiDevice.pressDPadDown()
-        uiDevice.pressDPadRight() // Note: ideally we would move until the sign-out button is focused.
+
+        // Note: ideally we would move right until the sign-out button is focused.
+        uiDevice.pressDPadRight()
+        uiDevice.pressDPadRight()
         uiDevice.pressDPadCenter()
         return TvCountryListRobot()
     }

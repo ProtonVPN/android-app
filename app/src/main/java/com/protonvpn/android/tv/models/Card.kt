@@ -65,6 +65,7 @@ open class IconCard(title: String, @DrawableRes image: Int) : Card(
 
 class LogoutCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_arrow_out_from_rectangle)
 class ReportBugCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_bug)
+class SettingsProtocolCard(title: String) : IconCard(title, R.drawable.ic_proton_shield_2_bolt) // TODO: switch to flag in Core.
 class SettingsSplitTunnelingCard(title: String) : IconCard(title, CoreR.drawable.ic_proton_arrows_swap_right)
 
 class Title(

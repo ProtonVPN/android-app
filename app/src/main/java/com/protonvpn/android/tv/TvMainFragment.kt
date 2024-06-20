@@ -54,9 +54,11 @@ import com.protonvpn.android.tv.models.CountryCard
 import com.protonvpn.android.tv.models.LogoutCard
 import com.protonvpn.android.tv.models.QuickConnectCard
 import com.protonvpn.android.tv.models.ReportBugCard
+import com.protonvpn.android.tv.models.SettingsProtocolCard
 import com.protonvpn.android.tv.models.SettingsSplitTunnelingCard
 import com.protonvpn.android.tv.presenters.CardPresenterSelector
 import com.protonvpn.android.tv.presenters.TvItemCardView
+import com.protonvpn.android.tv.settings.protocol.TvSettingsProtocolActivity
 import com.protonvpn.android.tv.settings.splittunneling.TvSettingsSplitTunnelingActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.utils.AndroidUtils.isRtl
@@ -151,6 +153,9 @@ class TvMainFragment : BaseTvBrowseFragment() {
                 is QuickConnectCard -> {
                     viewModel.onQuickConnectAction(requireActivity() as BaseTvActivity)
                 }
+                is SettingsProtocolCard -> {
+                    startActivity(Intent(context, TvSettingsProtocolActivity::class.java))
+                }
                 is SettingsSplitTunnelingCard -> {
                     startActivity(Intent(context, TvSettingsSplitTunnelingActivity::class.java))
                 }
@@ -221,6 +226,7 @@ class TvMainFragment : BaseTvBrowseFragment() {
         val settingsCards = buildList {
             if (showSettings) {
                 add(SettingsSplitTunnelingCard(getString(R.string.tv_card_split_tunneling_label)))
+                add(SettingsProtocolCard(getString(R.string.tv_card_protocol_label)))
             }
             add(LogoutCard(getString(R.string.tv_signout_label)))
             add(ReportBugCard(getString(R.string.drawerReportProblem)))
