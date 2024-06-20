@@ -95,7 +95,6 @@
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
     <string name="saveButton">Save</string>
-    <string name="protocolLabel">Protocol</string>
     <string name="protocol">Protocol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Third party licenses</string>

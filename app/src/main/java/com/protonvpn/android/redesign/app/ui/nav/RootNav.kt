@@ -20,7 +20,10 @@
 package com.protonvpn.android.redesign.app.ui.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.Screen
@@ -32,6 +35,8 @@ import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen.mainScreen
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainTarget
 import com.protonvpn.android.redesign.main_screen.ui.nav.rememberMainNav
+import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
+import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen.subSettings
 
@@ -71,9 +76,17 @@ class RootNav(
                         connectionStatus(onClosePanel = ::popBackStack)
                     }
                     RootTarget.SubSettings -> {
+                        // Share the main settings view model with all sub-settings screens.
+                        val settingsViewModel = @Composable { entry: NavBackStackEntry ->
+                            val settingsEntry = remember(entry) {
+                                mainNav.controller.getBackStackEntry(SettingsScreen.route)
+                            }
+                            hiltViewModel<SettingsViewModel>(settingsEntry)
+                        }
                         subSettings(
                             onClose = ::popBackStack,
-                            onNavigateToSubSetting = { navigate(SubSettingsScreen, it) }
+                            onNavigateToSubSetting = { navigate(SubSettingsScreen, it) },
+                            settingsViewModelProvider = settingsViewModel
                         )
                     }
                 }

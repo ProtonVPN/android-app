@@ -264,6 +264,7 @@ class SettingsViewModel @Inject constructor(
     private val altRouting = viewState.map { it.altRouting }.distinctUntilChanged()
     private val lanConnections = viewState.map { it.lanConnections }.distinctUntilChanged()
     val natType = viewState.map { it.natType }.distinctUntilChanged()
+    val protocol = viewState.map { it.protocol }.distinctUntilChanged()
     val splitTunneling = viewState.map { it.splitTunneling }.distinctUntilChanged()
 
     data class AdvancedSettingsViewState(

@@ -19,23 +19,28 @@
 
 package com.protonvpn.android.redesign.settings.ui.nav
 
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavBackStackEntry
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.Screen
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
+import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.settings.ui.SubSettingsRoute
 
 object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsScreen") {
 
     enum class Type {
-        Account, Advanced, DefaultConnection, NatType, NetShield, SplitTunneling, VpnAccelerator
+        Account, Advanced, DefaultConnection, NatType, NetShield, Protocol, SplitTunneling, VpnAccelerator
     }
 
     fun SafeNavGraphBuilder<RootNav>.subSettings(
         onClose: () -> Unit,
         onNavigateToSubSetting: (Type) -> Unit,
+        settingsViewModelProvider: @Composable (NavBackStackEntry) -> SettingsViewModel,
     ) = addToGraph(this) { entry ->
         val type = getArgs<Type>(entry)
-        SubSettingsRoute(type, onClose, onNavigateToSubSetting)
+        val viewModel = settingsViewModelProvider(entry)
+        SubSettingsRoute(viewModel, type, onClose, onNavigateToSubSetting)
     }
 }

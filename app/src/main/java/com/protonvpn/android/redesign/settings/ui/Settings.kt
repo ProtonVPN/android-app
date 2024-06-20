@@ -26,7 +26,6 @@ import android.os.Build
 import android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
 import android.provider.Settings.EXTRA_APP_PACKAGE
 import android.provider.Settings.EXTRA_CHANNEL_ID
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
@@ -59,7 +58,6 @@ import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -74,8 +72,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.heading
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -89,7 +85,6 @@ import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.label
-import com.protonvpn.android.ui.ProtocolSelectionActivity
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
@@ -139,12 +134,6 @@ fun SettingsRoute(
     val context = LocalContext.current
     val vpnUiDelegate = LocalVpnUiDelegate.current
 
-    val protocolLauncher =
-        rememberLauncherForActivityResult(contract = ProtocolSelectionActivity.createContract()) { protocol ->
-            if (protocol != null)
-                viewModel.updateProtocol(vpnUiDelegate, protocol)
-        }
-
     CompositionLocalProvider(
         LocalProductMetricsDelegateOwner provides ProductMetricsDelegateOwner(accountSettingsViewModel)
     ) {
@@ -174,7 +163,7 @@ fun SettingsRoute(
                     context.startActivity(Intent(context, SettingsAlwaysOnActivity::class.java))
             },
             onProtocolClick = {
-                protocolLauncher.launch(viewState.protocol.value)
+                onNavigateToSubSetting(SubSettingsScreen.Type.Protocol)
             },
             onDefaultConnectionClick = {
                 onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
@@ -309,7 +298,6 @@ fun CollapsibleToolbarScaffold(
     )
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 private fun SettingsView(
     modifier: Modifier = Modifier,
@@ -567,14 +555,7 @@ private fun ColumnScope.Category(
     title: String,
     content: (@Composable ColumnScope.() -> Unit),
 ) {
-    Text(
-        text = title,
-        color = ProtonTheme.colors.textAccent,
-        style = ProtonTheme.typography.body2Medium,
-        modifier = modifier
-            .semantics { heading() }
-            .padding(bottom = 8.dp, top = 16.dp)
-    )
+    SettingsSectionHeading(title, modifier)
     content()
 }
 
