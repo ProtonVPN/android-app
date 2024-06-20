@@ -485,6 +485,11 @@
         <item quantity="one">Accédez au contenu bloqué géographiquement dans %1$d pays en passant à VPN Plus.</item>
         <item quantity="other">Accédez au contenu bloqué géographiquement dans %1$d pays en passant à VPN Plus.</item>
     </plurals>
+    <string name="select_default_connection">Sélectionnez votre connexion par défaut</string>
+    <string name="settings_default_connection_title">Connexion par défaut</string>
+    <string name="fastest_country_description">Le meilleur serveur selon votre emplacement</string>
+    <string name="settings_last_connection_title">Dernière connexion</string>
+    <string name="settings_last_connection_description">Votre connexion récente la plus utilisée</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Fermer la bannière</string>
@@ -783,6 +788,11 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Dernière connexion :</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Connexion par défaut</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->

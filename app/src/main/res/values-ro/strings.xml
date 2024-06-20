@@ -495,6 +495,11 @@
         <item quantity="few">Deblocați conținutul blocat geografic din %1$d țări cu VPN Plus</item>
         <item quantity="other">Deblocați conținutul blocat geografic din %1$d de țări cu VPN Plus</item>
     </plurals>
+    <string name="select_default_connection">Select your default connection</string>
+    <string name="settings_default_connection_title">Conexiune implicită</string>
+    <string name="fastest_country_description">Cel mai bun server disponibil</string>
+    <string name="settings_last_connection_title">Ultima conexiune</string>
+    <string name="settings_last_connection_description">Ultima conexiune folosită</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Ascundere banner</string>
@@ -801,6 +806,11 @@
          Fastest country
          -->
     <string name="connection_card_label_last_connected">Ultima conexiune la</string>
+    <!--
+        Label above the connection card indicating text which acts as a button and leads to
+        customization bottom sheet of default connection
+     -->
+    <string name="connection_card_label_default_connection">Conexiune implicită</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
