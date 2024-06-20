@@ -91,6 +91,8 @@
             android:name=".tv.TvUpgradeActivity"
             android:theme="@style/AppTheme.TV.Browse" />
         <activity
+            android:name=".tv.settings.protocol.TvSettingsProtocolActivity" />
+        <activity
             android:name=".tv.settings.splittunneling.TvSettingsSplitTunnelingActivity" />
 
         <activity

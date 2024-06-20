@@ -58,6 +58,7 @@ import com.protonvpn.android.tv.settings.TvSettingsHeader
 import com.protonvpn.android.tv.settings.TvSettingsItem
 import com.protonvpn.android.tv.settings.TvSettingsItemRadioSmall
 import com.protonvpn.android.tv.settings.TvSettingsItemSwitch
+import com.protonvpn.android.tv.settings.TvSettingsReconnectDialog
 import com.protonvpn.android.tv.ui.ProtonTvDialogBasic
 import com.protonvpn.android.tv.ui.TvUiConstants
 import com.protonvpn.android.tv.ui.onFocusLost
@@ -177,7 +178,7 @@ private fun TvSettingsSplitTunnelingMain(
         DebugUtils.debugAssert("Unsupported dialog type") {
             showReconnectDialog == DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected
         }
-        ReconnectDialog(onReconnectNow = onReconnectNow, onDismissRequest = onReconnectDismissed)
+        TvSettingsReconnectDialog(onReconnectNow = onReconnectNow, onDismissRequest = onReconnectDismissed)
     }
 }
 
@@ -218,53 +219,6 @@ private fun ChangeModeDialog(
                 },
                 clickSound = false, // Closing the dialog removes focus and produces an additional sound.
             )
-        }
-    }
-}
-
-@Composable
-private fun ReconnectDialog(
-    onReconnectNow: () -> Unit,
-    onDismissRequest: () -> Unit,
-) {
-    ProtonTvDialogBasic(
-        onDismissRequest = onDismissRequest
-    ) { focusRequester ->
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Text(
-                stringResource(R.string.settings_dialog_reconnect),
-                style = ProtonTheme.typography.headline
-            )
-
-            // Remove when implemented in Compose TV: https://issuetracker.google.com/issues/268268856
-            // (can't use the suggestion from issuetracker with `clickable` modifier because it breaks the `Surface`
-            // selection).
-            val context = LocalContext.current
-            val audioManager = remember { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
-            val focusSoundModifier = Modifier.onFocusLost {
-                audioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_UP)
-            }
-
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Button(
-                    onClick = onDismissRequest,
-                    modifier = focusSoundModifier
-                ) {
-                    Text(stringResource(R.string.ok))
-                }
-                Spacer(Modifier.width(16.dp))
-                Button(
-                    onClick = onReconnectNow,
-                    modifier = focusSoundModifier.focusRequester(focusRequester)
-                ) {
-                    Text(stringResource(R.string.reconnect_now))
-                }
-            }
         }
     }
 }

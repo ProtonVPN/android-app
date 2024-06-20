@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
+import com.protonvpn.android.tv.ui.TvUiConstants
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
@@ -48,4 +49,16 @@ fun TvSettingsHeader(
         )
         Text(title, style = ProtonTheme.typography.hero)
     }
+}
+
+@Composable
+fun TvSettingsHeader(
+    title: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        title,
+        style = ProtonTheme.typography.hero,
+        modifier = modifier.padding(horizontal = TvUiConstants.SelectionPaddingHorizontal, vertical = 24.dp)
+    )
 }
