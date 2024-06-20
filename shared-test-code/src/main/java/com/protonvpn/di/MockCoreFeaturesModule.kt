@@ -13,10 +13,13 @@ import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryEnabled
 import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryResetEnabled
 import me.proton.core.auth.dagger.CoreAuthFeaturesModule
 import me.proton.core.auth.domain.IsCommonPasswordCheckEnabled
+import me.proton.core.auth.domain.feature.IsFido2Enabled
 import me.proton.core.auth.domain.usecase.IsCredentialLessEnabled
 import me.proton.core.auth.domain.usecase.IsSsoCustomTabEnabled
 import me.proton.core.auth.domain.usecase.IsSsoEnabled
+import me.proton.core.auth.test.fake.FakeIsCommonPasswordCheckEnabled
 import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
+import me.proton.core.auth.test.fake.FakeIsFido2Enabled
 import me.proton.core.auth.test.fake.FakeIsSsoCustomTabEnabled
 import me.proton.core.auth.test.fake.FakeIsSsoEnabled
 import me.proton.core.notification.domain.usecase.IsNotificationsEnabled
@@ -60,6 +63,10 @@ interface MockCoreFeaturesModule {
     @Binds
     @Singleton
     fun bindIsCommonPasswordCheckEnabled(impl: FakeIsCommonPasswordCheckEnabled): IsCommonPasswordCheckEnabled
+
+    @Binds
+    @Singleton
+    fun bindIsFido2Enabled(impl: FakeIsFido2Enabled): IsFido2Enabled
 
     companion object {
         @Provides
