@@ -40,7 +40,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
@@ -67,11 +66,11 @@ import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun SubSettingsRoute(
+    viewModel: SettingsViewModel,
     type: SubSettingsScreen.Type,
     onClose: () -> Unit,
     onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
 ) {
-    val viewModel: SettingsViewModel = hiltViewModel()
     val context = LocalContext.current
     val vpnUiDelegate = LocalVpnUiDelegate.current
 
@@ -164,6 +163,22 @@ fun SubSettingsRoute(
                         onClose = onClose,
                         nat = nat,
                         onNatTypeChange = viewModel::setNatType,
+                    )
+                }
+            }
+
+            SubSettingsScreen.Type.Protocol -> {
+                val protocolSettings = viewModel.protocol.collectAsStateWithLifecycle(initialValue = null).value
+                if (protocolSettings != null) {
+                    ProtocolSettings(
+                        onClose = onClose,
+                        protocolViewState = protocolSettings,
+                        onLearnMore = { context.openUrl(Constants.PROTOCOL_INFO_URL) },
+                        onProtocolSelected = { newProtocol ->
+                            onClose()
+                            // Update may trigger the reconnect dialog in the main settings screen (viewModel is shared)
+                            viewModel.updateProtocol(vpnUiDelegate, newProtocol)
+                        }
                     )
                 }
             }

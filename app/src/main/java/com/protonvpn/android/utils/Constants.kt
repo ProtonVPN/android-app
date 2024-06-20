@@ -79,6 +79,7 @@ object Constants {
     const val SPLIT_TUNNELING_INFO_URL = "https://protonvpn.com/support/protonvpn-split-tunneling"
     const val DEDICATED_IPS_INFO_URL = "https://protonvpn.com/support/dedicated-ips/"
     const val NO_LOGS_AUDIT_URL = "https://protonvpn.com/blog/no-logs-audit/"
+    const val PROTOCOL_INFO_URL = "https://protonvpn.com/blog/whats-the-best-vpn-protocol/"
 
     const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
     const val SERVER_SPEED_UP_TO_GBPS = 10

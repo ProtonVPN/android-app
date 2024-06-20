@@ -21,7 +21,9 @@ package com.protonvpn.android.redesign.base.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.RadioButton
@@ -131,6 +133,7 @@ fun SettingsRadioItemSmall(
     onSelected: () -> Unit,
     modifier: Modifier = Modifier,
     horizontalContentPadding: Dp = 0.dp,
+    trailingTitleContent: (@Composable () -> Unit)? = null,
 ) {
     Row(
         modifier = modifier
@@ -141,7 +144,13 @@ fun SettingsRadioItemSmall(
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(title, style = ProtonTheme.typography.body2Regular)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(title, style = ProtonTheme.typography.body2Regular)
+                if (trailingTitleContent != null) {
+                    Spacer(Modifier.width(8.dp))
+                    trailingTitleContent()
+                }
+            }
             VerticalSpacer(height = 4.dp)
             Text(description, style = ProtonTheme.typography.body2Regular, color = ProtonTheme.colors.textWeak)
         }

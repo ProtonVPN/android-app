@@ -183,9 +183,6 @@
             android:exported="false"/>
 
         <activity
-            android:name=".ui.ProtocolSelectionActivity"
-            android:label="@string/protocolLabel"/>
-        <activity
             android:name=".ui.settings.OssLicensesActivity"
             android:label="@string/activityLicensesTitle" />
         <activity

@@ -35,8 +35,8 @@ fun AnnotatedClickableText(
     fullText: String,
     annotatedPart: String,
     onAnnotatedClick: () -> Unit,
-    onAnnotatedOutsideClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
+    onAnnotatedOutsideClick: (() -> Unit)? = null,
     style: TextStyle = ProtonTheme.typography.body1Regular,
     color: Color = Color.Unspecified,
 ) {

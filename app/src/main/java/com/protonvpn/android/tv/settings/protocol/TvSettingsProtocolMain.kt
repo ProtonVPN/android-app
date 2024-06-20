@@ -33,6 +33,8 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.lazy.list.TvLazyColumn
 import com.protonvpn.android.R
@@ -180,6 +182,7 @@ private fun TvSettingSectionHeading(
         style = ProtonTheme.typography.body2Medium,
         color = ProtonTheme.colors.textAccent,
         modifier = modifier
+            .semantics { heading() }
             .padding(horizontal = TvUiConstants.SelectionPaddingHorizontal)
             .padding(top = 24.dp, bottom = 8.dp)
     )
