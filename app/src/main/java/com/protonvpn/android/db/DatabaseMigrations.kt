@@ -223,4 +223,12 @@ object DatabaseMigrations {
             VpnRecentsDatabase.MIGRATION_0.migrate(db)
         }
     }
+
+    val MIGRATION_32_33 = object : Migration(32, 33) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            AccountDatabase.MIGRATION_8.migrate(db)
+            UserSettingsDatabase.MIGRATION_7.migrate(db)
+            EventMetadataDatabase.MIGRATION_3.migrate(db)
+        }
+    }
 }
