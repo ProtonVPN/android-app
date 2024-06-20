@@ -41,28 +41,33 @@ object CountryTools {
     }
 
     @JvmStatic
-    fun getFlagResource(context: Context, flag: String?): Int {
-        val desiredFlag = flag?.let {
-            val flagResName = "flag_${flagCode(it)}"
-            context.resources.getIdentifier(flagResName, "drawable", context.packageName)
-        } ?: 0
-        return if (desiredFlag > 0)
-            desiredFlag
-        else
-            context.resources.getIdentifier("zz", "drawable", context.packageName)
-    }
+    fun getFlagResource(context: Context, flag: String?): Int =
+        flag?.let {
+            getDrawableRes(context, "flag_${flagCode(flag)}")
+                ?: fallbackFlagCode(flag)?.let { getDrawableRes(context, "flag_$it") }
+        } ?: getDrawableRes(context, "zz") ?: 0
 
     /**
      * Returns a large and detailed flag resource.
      * Falls back to getFlagResource which returns drawables of a different size so don't rely on the intrinsic size of
      * the returned drawable.
      */
-    fun getLargeFlagResource(context: Context, flag: String?): Int {
-        val flagResId = if (flag != null) {
-            val flagResName = "flag_large_${flagCode(flag)}"
-            context.resources.getIdentifier(flagResName, "drawable", context.packageName)
-        } else 0
-        return flagResId.takeIf { it > 0 } ?: getFlagResource(context, flag)
+    fun getLargeFlagResource(context: Context, flag: String?): Int =
+        flag?.let { getDrawableRes(context, "flag_large_${flagCode(flag)}") }
+            ?: getFlagResource(context, flag)
+
+    private fun getDrawableRes(context: Context, resString: String): Int? =
+        context.resources.getIdentifier(resString, "drawable", context.packageName).takeIf { it > 0 }
+
+    private fun flagCode(flag: String) = when (val code = flag.lowercase(Locale.ROOT)) {
+        "uk" -> "gb"
+        else -> code
+    }
+
+    //TODO: remove once flag_dom is renamed to flag_do in core
+    private fun fallbackFlagCode(flag: String) = when (flag.lowercase(Locale.ROOT)) {
+        "do" -> "dom"
+        else -> null
     }
 
     fun getPreferredLocale(): Locale {
@@ -103,14 +108,13 @@ object CountryTools {
 
     data class CountryData(val x: Double, val y: Double, val continent: Continent)
 
-    private fun flagCode(flag: String) =
-        if (flag.lowercase(Locale.ROOT) == "uk") "gb" else flag.lowercase(Locale.ROOT)
-
     // TODO: old map is now gone, we'll need to translate those to new map coordinates
     //   for (-1, -1) coordinates new map will use center of bounding box instead
     val oldMapLocations = mapOf(
         "AE" to CountryData(3103.0, 976.0, Continent.AfricaAndMiddleEast),
+        "AF" to CountryData(-1.0, -1.0, Continent.Asia),
         "AL" to CountryData(2560.0, 665.0, Continent.Europe),
+        "AO" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "AR" to CountryData(1300.0, 2000.0, Continent.America),
         "AT" to CountryData(2485.0, 550.0, Continent.Europe),
         "AU" to CountryData(4355.0, 1855.0, Continent.Oceania),
@@ -119,6 +123,8 @@ object CountryTools {
         "BD" to CountryData(-1.0, -1.0, Continent.Asia),
         "BE" to CountryData(2343.0, 495.0, Continent.Europe),
         "BG" to CountryData(2660.0, 631.0, Continent.Europe),
+        "BH" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
+        "BN" to CountryData(-1.0, -1.0, Continent.Asia),
         "BR" to CountryData(1469.0, 1577.0, Continent.America),
         "BT" to CountryData(-1.0, -1.0, Continent.Asia),
         "BY" to CountryData(-1.0, -1.0, Continent.Europe),
@@ -127,21 +133,27 @@ object CountryTools {
         "CL" to CountryData(1170.0, 1951.0, Continent.America),
         "CO" to CountryData(1100.0, 1339.0, Continent.America),
         "CR" to CountryData(925.0, 1231.0, Continent.America),
+        "CU" to CountryData(-1.0, -1.0, Continent.America),
         "CY" to CountryData(2759.0, 777.0, Continent.Europe),
         "CZ" to CountryData(2482.0, 509.0, Continent.Europe),
         "DE" to CountryData(2420.0, 495.0, Continent.Europe),
         "DK" to CountryData(2413.0, 401.0, Continent.Europe),
+        "DO" to CountryData(-1.0, -1.0, Continent.America),
         "DZ" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "EC" to CountryData(1010.0, 1440.0, Continent.America),
         "EE" to CountryData(2615.0, 356.0, Continent.Europe),
         "EG" to CountryData(2742.0, 863.0, Continent.AfricaAndMiddleEast),
+        "ER" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "ES" to CountryData(2215.0, 690.0, Continent.Europe),
+        "ET" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "FI" to CountryData(2615.0, 295.0, Continent.Europe),
         "FR" to CountryData(2310.0, 567.0, Continent.Europe),
         "GB" to CountryData(2265.0, 475.0, Continent.Europe),
         "GE" to CountryData(2915.0, 648.0, Continent.Asia),
         "GR" to CountryData(2600.0, 720.0, Continent.Europe),
+        "GT" to CountryData(-1.0, -1.0, Continent.America),
         "HK" to CountryData(4033.0, 999.0, Continent.Asia),
+        "HN" to CountryData(-1.0, -1.0, Continent.America),
         "HR" to CountryData(2495.0, 608.0, Continent.Europe),
         "HU" to CountryData(2550.0, 558.0, Continent.Europe),
         "ID" to CountryData(4159.0, 1481.0, Continent.Asia),
@@ -150,16 +162,23 @@ object CountryTools {
         "IN" to CountryData(3483.0, 1071.0, Continent.Asia),
         "IS" to CountryData(2080.0, 260.0, Continent.Europe),
         "IT" to CountryData(2456.0, 647.0, Continent.Europe),
+        "IQ" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
+        "JO" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "JP" to CountryData(4330.0, 755.0, Continent.Asia),
+        "KE" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "KH" to CountryData(3911.0, 1194.0, Continent.Asia),
         "KM" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "KR" to CountryData(4171.0, 743.0, Continent.Asia),
+        "KZ" to CountryData(-1.0, -1.0, Continent.Asia),
+        "LA" to CountryData(-1.0, -1.0, Continent.Asia),
         "LK" to CountryData(-1.0, -1.0, Continent.Asia),
         "LT" to CountryData(2604.0, 420.0, Continent.Europe),
         "LU" to CountryData(2363.0, 513.0, Continent.Europe),
         "LV" to CountryData(2612.0, 388.0, Continent.Europe),
+        "LY" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "MA" to CountryData(2145.0, 860.0, Continent.AfricaAndMiddleEast),
         "MD" to CountryData(2679.0, 561.0, Continent.Europe),
+        "ME" to CountryData(-1.0, -1.0, Continent.Europe),
         "MK" to CountryData(2585.0, 657.0, Continent.Europe),
         "MM" to CountryData(3755.0, 1032.0, Continent.Asia),
         "MR" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
@@ -173,6 +192,7 @@ object CountryTools {
         "NO" to CountryData(2411.0, 311.0, Continent.Europe),
         "NP" to CountryData(-1.0, -1.0, Continent.Asia),
         "NZ" to CountryData(4760.0, 2171.0, Continent.Oceania),
+        "OM" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "PE" to CountryData(1056.0, 1589.0, Continent.America),
         "PH" to CountryData(4159.0, 1135.0, Continent.Asia),
         "PK" to CountryData(3330.0, 860.0, Continent.Asia),
@@ -184,6 +204,8 @@ object CountryTools {
         "RS" to CountryData(2569.0, 607.0, Continent.Europe),
         "RU" to CountryData(2833.0, 366.0, Continent.Europe),
         "RW" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
+        "SA" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
+        "SD" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "SE" to CountryData(2485.0, 300.0, Continent.Europe),
         "SG" to CountryData(3905.0, 1379.0, Continent.Asia),
         "SI" to CountryData(2481.0, 578.0, Continent.Europe),
@@ -192,17 +214,25 @@ object CountryTools {
         "SN" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "SO" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "SS" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
+        "SY" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "SV" to CountryData(-1.0, -1.0, Continent.America),
         "TD" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "TG" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "TH" to CountryData(3848.0, 1128.0, Continent.Asia),
+        "TJ" to CountryData(-1.0, -1.0, Continent.Asia),
+        "TM" to CountryData(-1.0, -1.0, Continent.Asia),
+        "TN" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "TR" to CountryData(2779.0, 696.0, Continent.AfricaAndMiddleEast),
         "TW" to CountryData(4135.0, 975.0, Continent.Asia),
+        "TZ" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "UA" to CountryData(2715.0, 517.0, Continent.Europe),
+        "UG" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "UK" to CountryData(2265.0, 475.0, Continent.Europe),
         "US" to CountryData(760.0, 700.0, Continent.America),
+        "UZ" to CountryData(-1.0, -1.0, Continent.Asia),
         "VE" to CountryData(-1.0, -1.0, Continent.America),
         "VN" to CountryData(3961.0, 1144.0, Continent.Asia),
+        "YE" to CountryData(-1.0, -1.0, Continent.AfricaAndMiddleEast),
         "ZA" to CountryData(2629.0, 1950.0, Continent.AfricaAndMiddleEast),
     )
 
