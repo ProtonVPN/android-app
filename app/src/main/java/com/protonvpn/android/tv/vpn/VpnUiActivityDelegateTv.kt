@@ -25,7 +25,6 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import androidx.activity.ComponentActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.TvUpgradeActivity
@@ -34,13 +33,14 @@ import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.HtmlTools
+import com.protonvpn.android.utils.haveVpnSettings
 
 class VpnUiActivityDelegateTv(
     activity: ComponentActivity
 ) : VpnUiActivityDelegate(activity) {
 
     override fun onPermissionDenied(connectIntent: AnyConnectIntent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (activity.haveVpnSettings()) {
             showNoVpnPermissionDialog()
         }
     }

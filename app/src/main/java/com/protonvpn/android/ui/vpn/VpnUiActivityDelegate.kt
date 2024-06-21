@@ -25,10 +25,13 @@ import android.os.Build
 import androidx.activity.ComponentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.protonvpn.android.R
+import com.protonvpn.android.logging.ConnError
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
+import com.protonvpn.android.utils.haveVpnSettings
 import com.protonvpn.android.vpn.PermissionContract
 import com.protonvpn.android.vpn.ReasonRestricted
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -44,6 +47,7 @@ abstract class VpnUiActivityDelegate(
             if (permissionGranted) {
                 onPermissionGranted()
             } else {
+                ProtonLogger.log(ConnError, "VPN permission denied. have_vpn_settings=${activity.haveVpnSettings()}")
                 onPermissionDenied(connectIntent)
             }
         }
