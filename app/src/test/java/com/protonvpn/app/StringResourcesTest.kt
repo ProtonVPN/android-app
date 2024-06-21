@@ -29,8 +29,12 @@ import com.protonvpn.android.R
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.util.Locale
+
+// This selection should cover all variants (one, other, few, many etc).
+private val PLURAL_QUANTITIES = intArrayOf(0, 1, 2, 4, 5, 7, 12, 16, 30)
 
 @RunWith(RobolectricTestRunner::class)
 class StringResourcesTest {
@@ -48,6 +52,7 @@ class StringResourcesTest {
     }
 
     private data class StringResource(val id: Int, val text: String, val name: String)
+    private data class PluralResource(val id: Int, val texts: Map<Int, String>, val name: String)
 
     private val paramRegex = Regex("""%(\d+)\$([0-9.]*[a-z])""")
 
@@ -56,14 +61,25 @@ class StringResourcesTest {
         val locales = BuildConfig.SUPPORTED_LOCALES
         val app = ApplicationProvider.getApplicationContext<Application>()
 
-        val resourcesClass = R.string::class.java
+        val stringResourcesClass = R.string::class.java
+        val pluralsResourcesClass = R.plurals::class.java
         val usResources = resourcesForLocale("us", app)
-        val referenceParamTypes = getStringResources(resourcesClass, usResources)
+        val referenceStringParamTypes = getStringResources(stringResourcesClass, usResources)
             .associate { it.id to extractParamTypes(it.text) }
+        val referencePluralParamTypes = getPluralResources(pluralsResourcesClass, usResources)
+            .associate {
+                val pluralParamTypes = it.texts.mapValues { (_, text) -> extractParamTypes(text) }
+                it.id to pluralParamTypes
+            }
 
         val errors = locales.map { localeString ->
             try {
-                val errors = validateStrings(resourcesClass, resourcesForLocale(localeString, app), referenceParamTypes)
+                val localizedResources = resourcesForLocale(localeString, app)
+                val errors = buildMap {
+                    putAll(validateStrings(stringResourcesClass, localizedResources, referenceStringParamTypes))
+                    putAll(validatePlurals(pluralsResourcesClass, localizedResources, referencePluralParamTypes))
+                }
+
                 localeString to errors
             } catch (e: Throwable) {
                 throw ValidationException("Locale: $localeString", e)
@@ -119,6 +135,52 @@ class StringResourcesTest {
         return null
     }
 
+    private fun validatePlurals(
+        clazz: Class<*>,
+        resources: Resources,
+        referencePluralParamTypes: Map<Int, Map<Int, List<String>>>,
+    ): Map<String, String> = buildMap {
+        getPluralResources(clazz, resources)
+            .forEach { plural ->
+                val referenceParamTypes = referencePluralParamTypes[plural.id]!!
+                plural.texts.forEach { (quantity, text) ->
+                    try {
+                        val error = validatePlural(plural, text, quantity, resources, referenceParamTypes[quantity])
+                        if (error != null) {
+                            put("${plural.name} (${quantity})", error)
+                        }
+                    } catch (e: Throwable) {
+                        throw ValidationException("pluralId: ${plural.name} with $quantity", e)
+                    }
+                }
+            }
+    }
+
+    private fun validatePlural(
+        plural: PluralResource,
+        text: String,
+        quantity: Int,
+        resources: Resources,
+        referenceParamTypes: List<String>?,
+    ): String? {
+        fun error(message: String) = "$message - '${text}'"
+
+        val paramTypes = extractParamTypes(text)
+
+        if (referenceParamTypes != null && !referenceParamTypes.startsWith(paramTypes)) {
+            return error("mismatched params, expected $paramTypes to be equal or prefix of $referenceParamTypes")
+        }
+
+        try {
+            if (paramTypes.isNotEmpty()) {
+                resources.getQuantityString(plural.id, quantity, *paramTypes.toValuesArray(quantity))
+            }
+            return null
+        } catch (e: Exception) {
+            return error("getQuantityString() throws: $e")
+        }
+    }
+
     private fun <T> List<T>.startsWith(other: List<T>): Boolean {
         if (size < other.size) return false
         return other.indices.all { this[it] == other[it] }
@@ -138,12 +200,22 @@ class StringResourcesTest {
     }
 
     private fun getStringResources(clazz: Class<*>, resources: Resources): Iterable<StringResource> =
+        getResources(clazz) { resField ->
+            val resId = resField.getInt(clazz)
+            StringResource(id = resId, text = resources.getString(resId), name = resField.name)
+        }
+
+    private fun getPluralResources(clazz: Class<*>, resources: Resources): Iterable<PluralResource> =
+        getResources(clazz) { resField ->
+            val resId = resField.getInt(clazz)
+            val texts = PLURAL_QUANTITIES.associateWith { quantity -> resources.getQuantityString(resId, quantity) }
+            PluralResource(id = resId, texts = texts, name = resField.name)
+        }
+
+    private  fun <T> getResources(clazz: Class<*>, extractor: (Field) -> T): Iterable<T> =
         clazz.declaredFields
             .filter { Modifier.isPublic(it.modifiers) && Modifier.isStatic(it.modifiers) }
-            .map { resField ->
-                val resId = resField.getInt(clazz)
-                StringResource(id = resId, text = resources.getString(resId), name = resField.name)
-            }
+            .map(extractor)
 
     private fun resourcesForLocale(localeString: String, appContext: Context): Resources {
         val parts = localeString.split("-r")
@@ -153,10 +225,11 @@ class StringResourcesTest {
         return context.resources
     }
 
-    private fun Iterable<String>.toValuesArray() = map { valueForType(it) }.toTypedArray()
+    private fun Iterable<String>.toValuesArray(intValue: Int = 5) = map { valueForType(it, intValue) }.toTypedArray()
 
-    private fun valueForType(typeString: String): Any = when (typeString) {
-        "d" -> 5
+    // Use quantity for int value in plurals to make them less confusing when an error is reported.
+    private fun valueForType(typeString: String, intValue: Int): Any = when (typeString) {
+        "d" -> intValue
         "s" -> "text"
         "f" -> 1.123f
         else -> throw IllegalArgumentException("Unknown parameter type: $typeString")
