@@ -53,6 +53,9 @@ class StringResourcesTest {
 
     private data class StringResource(val id: Int, val text: String, val name: String)
     private data class PluralResource(val id: Int, val texts: Map<Int, String>, val name: String)
+    private data class StringParam(val position: Int, val type: String) {
+        override fun toString(): String = "%$position\$$type"
+    }
 
     private val paramRegex = Regex("""%(\d+)\$([0-9.]*[a-z])""")
 
@@ -98,12 +101,12 @@ class StringResourcesTest {
     private fun validateStrings(
         clazz: Class<*>,
         resources: Resources,
-        referenceParamTypes: Map<Int, List<String>>,
+        referenceParamTypes: Map<Int, Set<StringParam>>,
     ): Map<String, String> = buildMap {
         getStringResources(clazz, resources)
             .forEach { stringResource ->
                 try {
-                    val error = validateString(stringResource, resources, referenceParamTypes[stringResource.id])
+                    val error = validateString(stringResource, resources, referenceParamTypes[stringResource.id]!!)
                     if (error != null)
                         put(stringResource.name, error)
                 } catch (e: Throwable) {
@@ -115,19 +118,19 @@ class StringResourcesTest {
     private fun validateString(
         string: StringResource,
         resources: Resources,
-        referenceParamTypes: List<String>?,
+        referenceParamTypes: Set<StringParam>,
     ): String? {
         fun error(message: String) = "$message - '${string.text}'"
 
         val paramTypes = extractParamTypes(string.text)
 
-        if (referenceParamTypes != null && !referenceParamTypes.startsWith(paramTypes)) {
-            return error("mismatched params, expected $paramTypes to be equal or prefix of $referenceParamTypes")
+        if (!referenceParamTypes.containsAll(paramTypes)) {
+            return error("mismatched params, expected subset of $referenceParamTypes but got $paramTypes")
         }
 
         try {
             if (paramTypes.isNotEmpty()) {
-                resources.getString(string.id, *paramTypes.toValuesArray())
+                resources.getString(string.id, *referenceParamTypes.toValuesArray())
             }
         } catch (e: Exception) {
             return error("getString() throws: $e")
@@ -138,14 +141,14 @@ class StringResourcesTest {
     private fun validatePlurals(
         clazz: Class<*>,
         resources: Resources,
-        referencePluralParamTypes: Map<Int, Map<Int, List<String>>>,
+        referencePluralParamTypes: Map<Int, Map<Int, Set<StringParam>>>,
     ): Map<String, String> = buildMap {
         getPluralResources(clazz, resources)
             .forEach { plural ->
                 val referenceParamTypes = referencePluralParamTypes[plural.id]!!
                 plural.texts.forEach { (quantity, text) ->
                     try {
-                        val error = validatePlural(plural, text, quantity, resources, referenceParamTypes[quantity])
+                        val error = validatePlural(plural, text, quantity, resources, referenceParamTypes[quantity]!!)
                         if (error != null) {
                             put("${plural.name} (${quantity})", error)
                         }
@@ -161,19 +164,19 @@ class StringResourcesTest {
         text: String,
         quantity: Int,
         resources: Resources,
-        referenceParamTypes: List<String>?,
+        referenceParamTypes: Set<StringParam>,
     ): String? {
         fun error(message: String) = "$message - '${text}'"
 
         val paramTypes = extractParamTypes(text)
 
-        if (referenceParamTypes != null && !referenceParamTypes.startsWith(paramTypes)) {
-            return error("mismatched params, expected $paramTypes to be equal or prefix of $referenceParamTypes")
+        if (!referenceParamTypes.containsAll(paramTypes)) {
+            return error("mismatched params, expected subset of $referenceParamTypes but got $paramTypes")
         }
 
         try {
             if (paramTypes.isNotEmpty()) {
-                resources.getQuantityString(plural.id, quantity, *paramTypes.toValuesArray(quantity))
+                resources.getQuantityString(plural.id, quantity, *referenceParamTypes.toValuesArray(quantity))
             }
             return null
         } catch (e: Exception) {
@@ -181,20 +184,14 @@ class StringResourcesTest {
         }
     }
 
-    private fun <T> List<T>.startsWith(other: List<T>): Boolean {
-        if (size < other.size) return false
-        return other.indices.all { this[it] == other[it] }
-    }
-
-    private fun extractParamTypes(text: String): List<String> {
+    private fun extractParamTypes(text: String): Set<StringParam> {
         val matches = paramRegex.findAll(text)
-        return buildList {
+        return buildSet {
             matches.forEach { match ->
                 val (_, positionString, typeString) = match.groupValues
 
-                val index = Integer.parseInt(positionString) - 1
-                while (size - 1 < index) add("")
-                set(index, typeString)
+                val position = Integer.parseInt(positionString)
+                add(StringParam(position, typeString))
             }
         }
     }
@@ -225,7 +222,10 @@ class StringResourcesTest {
         return context.resources
     }
 
-    private fun Iterable<String>.toValuesArray(intValue: Int = 5) = map { valueForType(it, intValue) }.toTypedArray()
+    private fun Set<StringParam>.toValuesArray(intValue: Int = 5) =
+        sortedBy { it.position }
+            .map { valueForType(it.type, intValue) }
+            .toTypedArray()
 
     // Use quantity for int value in plurals to make them less confusing when an error is reported.
     private fun valueForType(typeString: String, intValue: Int): Any = when (typeString) {
