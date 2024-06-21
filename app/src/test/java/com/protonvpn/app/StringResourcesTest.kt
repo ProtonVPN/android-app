@@ -24,8 +24,8 @@ import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
 import androidx.test.core.app.ApplicationProvider
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
-import com.protonvpn.android.utils.CountryTools
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -53,7 +53,7 @@ class StringResourcesTest {
 
     @Test
     fun `validate string resources`() {
-        val locales = CountryTools.supportedLanguages
+        val locales = BuildConfig.SUPPORTED_LOCALES
         val app = ApplicationProvider.getApplicationContext<Application>()
 
         val resourcesClass = R.string::class.java
@@ -146,7 +146,9 @@ class StringResourcesTest {
             }
 
     private fun resourcesForLocale(localeString: String, appContext: Context): Resources {
-        val configuration = Configuration().apply { setLocale(Locale(localeString)) }
+        val parts = localeString.split("-r")
+        val locale = if (parts.size >= 2) Locale(parts[0], parts[1]) else Locale(parts[0])
+        val configuration = Configuration().apply { setLocale(locale) }
         val context = appContext.createConfigurationContext(configuration)
         return context.resources
     }
