@@ -164,6 +164,10 @@ fun Activity.openVpnSettings() =
         }
     )
 
+fun Activity.haveVpnSettings() =
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+        && Intent(Settings.ACTION_VPN_SETTINGS).resolveActivity(packageManager) != null
+
 fun ImageView.setColorTint(@ColorInt colorValue: Int) {
     this.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(colorValue, BlendModeCompat.SRC_OVER)
 }
