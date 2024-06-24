@@ -92,7 +92,6 @@
     <string name="delete">Izbriši</string>
     <string name="remove">Odstrani</string>
     <string name="saveButton">Shrani</string>
-    <string name="protocolLabel">Protokol</string>
     <string name="protocol">Protokol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licence tretjih oseb</string>
@@ -133,7 +132,39 @@
     <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Pokaži sistemske aplikacije</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Pokaži sistemske aplikacije</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Add to Excluded apps</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Remove from Excluded apps</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Add to Included apps</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Remove from Included apps</string>
     <string name="tileConnected">Povezano: %1$s</string>
     <string name="openUrlError">%1$s ni bilo mogoče odpreti. Na vaši napravi ni zaznati spletnega brskalnika.</string>
     <string name="loaderErrorTimeout">Povezava je potekla, prosimo poskusite znova.</string>
@@ -224,7 +255,9 @@
     <string name="nameAsia">Azija</string>
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Bližnji vzhod</string>
     <string name="nameOceania">Oceanija</string>
-    <string name="tvRowMore">Več</string>
+    <string name="tv_row_settings">Settings</string>
+    <string name="tv_card_split_tunneling_label">Razdeljeno tuneliranje</string>
+    <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Najljubša</string>
     <string name="tv_detail_connect_streaming">Pretakajte s Plusom</string>
     <string name="tv_detail_connect">Poveži</string>
@@ -1235,6 +1268,21 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_advanced_nat_type_moderate_description">Nekatere omejitve podatkov, ki vstopajo v vaše omrežje. Ta možnost je najboljša za spletne video igre.</string>
     <string name="settings_split_tunneling_description">Prilagodite povezavo tako, da določite, katere aplikacije in IP naslovi so zaščiteni z omrežjem VPN. %1$s</string>
     <string name="settings_protocol_description">VPN protokol določa način prenosa podatkov med strežnikom VPN in vašo napravo. %1$s</string>
+    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Recommended</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
     <string name="settings_split_tunneling_mode_standard">Standard</string>
     <string name="settings_split_tunneling_mode_inverse">Inverse</string>
@@ -1276,4 +1324,6 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney, …</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14, …</string>
     <string name="error_fetching_prices">Napaka pri pridobivanju cen.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">Prilagodite svojo povezavo tako, da se odločite, katere aplikacije in naslove IP so zaščiteni z VPN.</string>
 </resources>

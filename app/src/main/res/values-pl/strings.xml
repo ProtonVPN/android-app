@@ -92,7 +92,6 @@
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="saveButton">Zapisz</string>
-    <string name="protocolLabel">Protokół</string>
     <string name="protocol">Protokół:</string>
     <string name="ipWithPlaceholder">Adres IP: %1$s</string>
     <string name="activityLicensesTitle">Licencje stron trzecich</string>
@@ -128,12 +127,44 @@
     <string name="settingsIncludedIPAddressesListHeader">Uwzględnione adresy IP (%1$d)</string>
     <string name="settingsExcludedApps">Wykluczone aplikacje</string>
     <string name="settingsExcludedAppsEmpty">Dodaj aplikacje, które chcesz wykluczyć z ruchu VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Dodaj aplikacje, które mają być uwzględnione w ruchu VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Dodaj aplikacje, które chcesz uwzględnić w ruchu VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Wykluczone aplikacje (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Uwzględnione aplikacje (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Pozostałe aplikacje (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Pozostałe aplikacje systemowe (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Pozostałe aplikacje (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Pokaż aplikacje systemowe</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Pokaż aplikacje systemowe</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Dodaj do wykluczonych aplikacji</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Usuń z wykluczonych aplikacji</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Dodaj do uwzględnionych aplikacji</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Usuń z uwzględnionych aplikacji</string>
     <string name="tileConnected">Połączono: %1$s</string>
     <string name="openUrlError">Adres %1$s nie może zostać otwarty. Przeglądarka internetowa nie została wykryta na urządzeniu.</string>
     <string name="loaderErrorTimeout">Upłynął limit czasu połączenia. Spróbuj ponownie.</string>
@@ -224,7 +255,9 @@
     <string name="nameAsia">Azja</string>
     <string name="nameAfricaAndMiddleEast">Afryka i Bliski Wschód</string>
     <string name="nameOceania">Oceania</string>
-    <string name="tvRowMore">Więcej</string>
+    <string name="tv_row_settings">Ustawienia</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_protocol_label">Protokół</string>
     <string name="tv_detail_default_connection_checkbox_short">Ulubione</string>
     <string name="tv_detail_connect_streaming">Rozpocznij streaming z planem Plus</string>
     <string name="tv_detail_connect">Połącz</string>
@@ -1232,11 +1265,26 @@
     <string name="settings_advanced_nat_type_moderate_description">Ogranicza dane wychodzące. Ta opcja jest najlepsza dla gier online.</string>
     <string name="settings_split_tunneling_description">Dostosuj połączenie, decydując, które aplikacje i adresy IP są chronione przez VPN. %1$s</string>
     <string name="settings_protocol_description">Protokół VPN określa sposób przesyłania danych między serwerem VPN a urządzeniem. %1$s</string>
+    <string name="settings_protocol_description_no_link">Protokół VPN określa sposób przesyłania danych między serwerem VPN a urządzeniem.</string>
+    <string name="settings_protocol_section_speed">Prędkość (UDP)</string>
+    <string name="settings_protocol_section_reliability">Niezawodność (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Automatycznie wybiera najlepszy protokół dla połączenia.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">Szybki, bezpieczny i wydajny. Protokół WireGuard jest bardziej energooszczędny niż inne protokoły.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Sprawdzony, przetestowany i bezpieczny. Protokół OpenVPN jest mniej energooszczędny niż inne protokoły.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Sprawdzony, przetestowany i bezpieczny. Protokół OpenVPN jest niezawodny, ale może nie być tak szybki, jak inne protokoły.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Recommended</string>
     <string name="settings_split_tunneling_mode_title">Tryb</string>
     <string name="settings_split_tunneling_mode_standard">Standardowy</string>
     <string name="settings_split_tunneling_mode_inverse">Odwrócony</string>
     <string name="settings_split_tunneling_mode_description_standard">Wybrane aplikacje i adresy IP zostaną wykluczone z połączenia VPN.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Tylko wybrane aplikacje i adresy IP łączą się przez VPN, cały pozostały ruch jest niezabezpieczony.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Tylko wybrane aplikacje i adresy IP zostaną uwzględnione w połączeniu VPN. Pozostały ruch sieciowy będzie niechroniony.</string>
     <string name="settings_split_tunneling_excluded_apps">Wykluczone aplikacje</string>
     <string name="settings_split_tunneling_excluded_ips">Wykluczone adresy IP</string>
     <string name="settings_split_tunneling_included_apps">Uwzględnione aplikacje</string>
@@ -1244,7 +1292,7 @@
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Brak</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s i %3$d więcej</string>
     <string name="settings_split_tunneling_already_excluded">Już wykluczony</string>
-    <string name="settings_split_tunneling_already_included">Już uwzględnione</string>
+    <string name="settings_split_tunneling_already_included">Już uwzględniony</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Usunąć adres IP z listy?</string>
     <string name="settings_dialog_reconnect">Nowe ustawienia zostaną zastosowane przy kolejnym połączeniu.</string>
     <string name="info_secure_core_standard_high_privacy">Wysoki poziom prywatności</string>
@@ -1273,4 +1321,6 @@
     <string name="search_zero_screen_info_cities_examples">Nowy Jork, Londyn, Tokio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Pobieranie cen nie powiodło się.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">Dostosuj połączenie, decydując, które aplikacje i adresy IP są chronione przez VPN.</string>
 </resources>

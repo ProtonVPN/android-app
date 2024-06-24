@@ -92,7 +92,6 @@
     <string name="delete">Выдаліць</string>
     <string name="remove">Выдаліць</string>
     <string name="saveButton">Захаваць</string>
-    <string name="protocolLabel">Пратакол</string>
     <string name="protocol">Пратакол:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Ліцэнзіі старонніх бакоў</string>
@@ -133,7 +132,39 @@
     <string name="settingsIncludedAppsSelectedHeader">Уключаныя праграмы (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Усе іншыя звычайныя праграмы (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Усе іншыя сістэмныя праграмы (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Усе іншыя праграмы (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Паказаць сістэмныя праграмы</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Паказаць сістэмныя праграмы</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Гэтыя праграмы выключаны з вашага падключэння па VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Толькі гэтыя праграмы падключаюцца праз VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Дадаць у выключаныя праграмы</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Выдаліць выключаных праграм</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Дадаць ва ўключаныя праграмы</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Выдаліць з уключаных праграм</string>
     <string name="tileConnected">Падключана: %1$s</string>
     <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
     <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
@@ -224,7 +255,9 @@
     <string name="nameAsia">Азія</string>
     <string name="nameAfricaAndMiddleEast">Афрыка і Сярэдні Усход</string>
     <string name="nameOceania">Акіянія</string>
-    <string name="tvRowMore">Больш</string>
+    <string name="tv_row_settings">Налады</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_protocol_label">Пратакол</string>
     <string name="tv_detail_default_connection_checkbox_short">Абраная</string>
     <string name="tv_detail_connect_streaming">Трансляцыя з Plus</string>
     <string name="tv_detail_connect">Падключыцца</string>
@@ -509,7 +542,7 @@
     <string name="settings_default_connection_title">Прадвызначанае падключэнне</string>
     <string name="fastest_country_description">Лепшыя серверы на падставе вашага размяшчэння</string>
     <string name="settings_last_connection_title">Апошняе падключэнне</string>
-    <string name="settings_last_connection_description">Апошняе выкарыстанае падключэнне</string>
+    <string name="settings_last_connection_description">Ваша апошняе выкарыстанае падключэнне</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Ігнараваць банер</string>
@@ -1232,6 +1265,21 @@
     <string name="settings_advanced_nat_type_moderate_description">Некаторыя абмежаванні на даныя, якія трапляюць у вашу сетку. Гэты параметр найлепш пасуе для сеткавых гульняў.</string>
     <string name="settings_split_tunneling_description">Наладзьце падключэнне вырашыўшы, якія праграмы і IP-адрасы будуць абаронены VPN. %1$s</string>
     <string name="settings_protocol_description">Пратакол VPN вызначае, як даныя перамяшчаюцца паміж серверам VPN і вашай прыладай. %1$s</string>
+    <string name="settings_protocol_description_no_link">Пратакол VPN вызначае, як даныя перамяшчаюцца паміж серверам VPN і вашай прыладай.</string>
+    <string name="settings_protocol_section_speed">Хуткасць (UDP)</string>
+    <string name="settings_protocol_section_reliability">Надзейнасць (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Аўтаматычна выбірае лепшы пратакол для вашага падключэння.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">Хуткі, бяспечны і эфектыўны. WireGuard найбольш эфектыўна выкарыстоўвае акумулятар у параўнанні з іншымі пратаколамі.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Хуткі, бяспечны і эфектыўны. WireGuard складана вызначыць і заблакіраваць.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Правераны, добра пратэсціраваны і бяспечны. OpenVPN менш эфектыўна выкарыстоўвае акумулятар у параўнанні з іншымі пратаколамі.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Правераны, добра пратэсціраваны і бяспечны. OpenVPN надзейна працуе нават у сетках з дрэнным злучэннем, але можа быць менш хуткім за іншыя пратаколы.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Пераадольвае блакіроўкі VPN хаваючы ваша падключэнне па VPN ад рэгулятара. Гэты пратакол устойлівы да тэхналогіі DPI (deep packet inspection), але можа саступаць іншым пратаколам па хуткасці перадачы даных. Stealth з\'яўляецца эксклюзіўным пратаколам Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Рэкамендавана</string>
     <string name="settings_split_tunneling_mode_title">Рэжым</string>
     <string name="settings_split_tunneling_mode_standard">Стандартны</string>
     <string name="settings_split_tunneling_mode_inverse">Зваротны</string>
@@ -1240,7 +1288,7 @@
     <string name="settings_split_tunneling_excluded_apps">Выключаныя праграмы</string>
     <string name="settings_split_tunneling_excluded_ips">Выключаныя IP-адрасы</string>
     <string name="settings_split_tunneling_included_apps">Уключаныя праграмы</string>
-    <string name="settings_split_tunneling_included_ips">Уключаючы IP-адрасы</string>
+    <string name="settings_split_tunneling_included_ips">Уключаныя IP-адрасы</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Няма</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s і яшчэ %3$d</string>
     <string name="settings_split_tunneling_already_excluded">Ужо выключана</string>
@@ -1273,4 +1321,6 @@
     <string name="search_zero_screen_info_cities_examples">Нью-Ёрк, Лондан, Токіа, Сіднэй...</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Памылка атрымання цэн.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">Наладзьце падключэнне вырашыўшы, якія праграмы і IP-адрасы будуць абаронены VPN.</string>
 </resources>

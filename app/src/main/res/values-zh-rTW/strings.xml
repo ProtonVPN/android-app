@@ -92,7 +92,6 @@
     <string name="delete">刪除</string>
     <string name="remove">移除</string>
     <string name="saveButton">儲存</string>
-    <string name="protocolLabel">協定</string>
     <string name="protocol">協定：</string>
     <string name="ipWithPlaceholder">IP：%1$s</string>
     <string name="activityLicensesTitle">第三方授權</string>
@@ -133,7 +132,39 @@
     <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">顯示系統應用程式</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">顯示系統應用程式</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Add to Excluded apps</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Remove from Excluded apps</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Add to Included apps</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Remove from Included apps</string>
     <string name="tileConnected">已連線 %1$s</string>
     <string name="openUrlError">無法開啟 %1$s。裝置上未偵測到網頁瀏覽器。</string>
     <string name="loaderErrorTimeout">連線逾時，請重試。</string>
@@ -218,7 +249,9 @@
     <string name="nameAsia">亞洲</string>
     <string name="nameAfricaAndMiddleEast">非洲與中東</string>
     <string name="nameOceania">大洋洲</string>
-    <string name="tvRowMore">更多</string>
+    <string name="tv_row_settings">Settings</string>
+    <string name="tv_card_split_tunneling_label">拆分隧道</string>
+    <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">最愛</string>
     <string name="tv_detail_connect_streaming">以 Plus 串流</string>
     <string name="tv_detail_connect">連線</string>
@@ -1145,6 +1178,21 @@
     <string name="settings_advanced_nat_type_moderate_description">部分限制數據流入您的網路。此選項最適合線上視訊遊戲。</string>
     <string name="settings_split_tunneling_description">自訂您的連線，決定哪些應用程式和 IP 位址受 VPN 保護。%1$s</string>
     <string name="settings_protocol_description">VPN 通訊協定乃斷定數據如何在 VPN 伺服器與您的裝置之間流動。%1$s</string>
+    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Recommended</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
     <string name="settings_split_tunneling_mode_standard">Standard</string>
     <string name="settings_split_tunneling_mode_inverse">Inverse</string>
@@ -1186,4 +1234,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">收取價格時發生錯誤。</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">透過決定哪些應用程式和 IP 位址受到 VPN 保護，來自訂您的連線設定。</string>
 </resources>
