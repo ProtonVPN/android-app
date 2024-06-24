@@ -201,7 +201,7 @@ private fun ChangeModeDialog(
             TvSettingsItemRadioSmall(
                 checked = isStandardSelected,
                 title = stringResource(R.string.settings_split_tunneling_mode_standard),
-                description = stringResource(R.string.settings_split_tunneling_mode_description_standard),
+                description = stringResource(R.string.tv_settings_split_tunneling_mode_description_standard),
                 onClick = {
                     onStandardSelected()
                     onDismissRequest()
@@ -212,7 +212,7 @@ private fun ChangeModeDialog(
             TvSettingsItemRadioSmall(
                 checked = !isStandardSelected,
                 title = stringResource(R.string.settings_split_tunneling_mode_inverse),
-                description = stringResource(R.string.settings_split_tunneling_mode_description_inverse),
+                description = stringResource(R.string.tv_settings_split_tunneling_mode_description_inverse),
                 onClick = {
                     onInverseSelected()
                     onDismissRequest()
