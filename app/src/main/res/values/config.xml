@@ -18,6 +18,7 @@
 
 <resources>
     <bool name="core_feature_account_recovery_enabled">true</bool>
+    <bool name="core_feature_account_recovery_reset_enabled">false</bool>
     <bool name="core_feature_auth_signup_show_congrats">false</bool>
     <bool name="core_feature_auth_sso_enabled">true</bool>
     <bool name="core_feature_credential_less_enabled">false</bool>
