@@ -92,7 +92,6 @@
     <string name="delete">Διαγραφή</string>
     <string name="remove">Αφαίρεση</string>
     <string name="saveButton">Αποθήκευση</string>
-    <string name="protocolLabel">Πρωτόκολλο</string>
     <string name="protocol">Πρωτόκολλο:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Άδειες τρίτων</string>
@@ -133,7 +132,39 @@
     <string name="settingsIncludedAppsSelectedHeader">Συμπεριλαμβανόμενες Εφαρμογές (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Όλες οι άλλες κανονικές εφαρμογές (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Όλες οι άλλες εφαρμογές συστήματος (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Όλες οι άλλες εφαρμογές (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Προβολή εφαρμογών συστήματος</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Προβολή εφαρμογών συστήματος</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Αυτές οι εφαρμογές εξαιρούνται από τη σύνδεσή σας VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Μόνο αυτές οι εφαρμογές συνδέονται μέσω VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Προσθήκη στις Εξαιρούμενες εφαρμογές</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Αφαίρεση από τις Εξαιρούμενες εφαρμογές</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Προσθήκη στις Συμπεριλαμβανόμενες Εφαρμογές</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Αφαίρεση από τις Συμπεριλαμβανόμενες Εφαρμογές</string>
     <string name="tileConnected">Συνδέθηκε: %1$s</string>
     <string name="openUrlError">%1$s δεν μπόρεσε να ανοίξει. Δεν εντοπίστηκε πρόγραμμα περιήγησης στη συσκευή σας.</string>
     <string name="loaderErrorTimeout">Λήξη χρονικού ορίου σύνδεσης. Παρακαλώ προσπαθήστε ξανά.</string>
@@ -220,7 +251,9 @@
     <string name="nameAsia">Ασία</string>
     <string name="nameAfricaAndMiddleEast">Αφρική &amp; Μέση Ανατολή</string>
     <string name="nameOceania">Ωκεανία</string>
-    <string name="tvRowMore">Περισσότερα</string>
+    <string name="tv_row_settings">Ρυθμίσεις</string>
+    <string name="tv_card_split_tunneling_label">Διαίρεση σήραγγας</string>
+    <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Αγαπημένο</string>
     <string name="tv_detail_connect_streaming">Stream με Plus</string>
     <string name="tv_detail_connect">Σύνδεση</string>
@@ -485,7 +518,7 @@
         <item quantity="one">Ξεκλειδώστε περιεχόμενο με γεωγραφικούς περιορισμούς από %1$d χώρα με το VPN Plus</item>
         <item quantity="other">Ξεκλειδώστε περιεχόμενο με γεωγραφικούς περιορισμούς από %1$d χώρες με το VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Select your default connection</string>
+    <string name="select_default_connection">Επιλέξτε την προεπιλεγμένη σύνδεσή σας</string>
     <string name="settings_default_connection_title">Προεπιλεγμένη σύνδεση</string>
     <string name="fastest_country_description">Ο καλύτερος διακομιστής με βάση την τοποθεσία σας</string>
     <string name="settings_last_connection_title">Τελευταία σύνδεση</string>
@@ -1174,6 +1207,21 @@
     <string name="settings_advanced_nat_type_moderate_description">Ορισμένοι περιορισμοί στα δεδομένα που εισέρχονται στο δίκτυό σας. Αυτή η επιλογή είναι καλύτερη για διαδικτυακά βιντεοπαιχνίδια.</string>
     <string name="settings_split_tunneling_description">Προσαρμόστε τη σύνδεσή σας αποφασίζοντας ποιες εφαρμογές και διευθύνσεις IP προστατεύονται από VPN. %1$s</string>
     <string name="settings_protocol_description">Ένα πρωτόκολλο VPN καθορίζει τον τρόπο με τον οποίο μετακινούνται τα δεδομένα μεταξύ ενός διακομιστή VPN και της συσκευής σας. %1$s</string>
+    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Recommended</string>
     <string name="settings_split_tunneling_mode_title">Λειτουργία</string>
     <string name="settings_split_tunneling_mode_standard">Τυπικό</string>
     <string name="settings_split_tunneling_mode_inverse">Αντίστροφο</string>
@@ -1215,4 +1263,6 @@
     <string name="search_zero_screen_info_cities_examples">Νέα Υόρκη, Λονδίνο, Τόκιο, Σίδνεϊ…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Σφάλμα κατά την ανάκτηση τιμών.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">Προσαρμόστε τη σύνδεσή σας αποφασίζοντας ποιες εφαρμογές και διευθύνσεις IP προστατεύονται από VPN.</string>
 </resources>

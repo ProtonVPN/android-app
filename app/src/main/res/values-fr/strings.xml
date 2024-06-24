@@ -92,7 +92,6 @@
     <string name="delete">Supprimer</string>
     <string name="remove">Retirer</string>
     <string name="saveButton">Enregistrer</string>
-    <string name="protocolLabel">Protocole</string>
     <string name="protocol">Protocole :</string>
     <string name="ipWithPlaceholder">IP : %1$s</string>
     <string name="activityLicensesTitle">Licences tierces</string>
@@ -133,7 +132,39 @@
     <string name="settingsIncludedAppsSelectedHeader">Applications incluses (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Toutes les autres applications régulières (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Toutes les autres applications du système (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Toutes les autres applications (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Afficher les applications système</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Afficher les applications système</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Ces applications sont exclues de la connexion VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Seules ces applications se connectent par VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Ajouter aux applications exclues</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Retirer des applications exclues</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Ajouter aux applications inclues</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Retirer des applications inclues</string>
     <string name="tileConnected">Connecté : %1$s</string>
     <string name="openUrlError">%1$s ne peut être ouvert. Le navigateur web n\'a pas été détecté sur votre appareil.</string>
     <string name="loaderErrorTimeout">La connexion a expiré. Nous vous invitons à réessayer.</string>
@@ -220,7 +251,9 @@
     <string name="nameAsia">Asie</string>
     <string name="nameAfricaAndMiddleEast">Afrique &amp; Moyen-Orient</string>
     <string name="nameOceania">Océanie</string>
-    <string name="tvRowMore">Plus</string>
+    <string name="tv_row_settings">Paramètres</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_protocol_label">Protocole</string>
     <string name="tv_detail_default_connection_checkbox_short">Favori</string>
     <string name="tv_detail_connect_streaming">Profitez du streaming avec Plus</string>
     <string name="tv_detail_connect">Connecter</string>
@@ -1174,6 +1207,21 @@
     <string name="settings_advanced_nat_type_moderate_description">Certaines restrictions sur les données entrant dans votre réseau. Cette option est préférable pour les jeux vidéo en ligne.</string>
     <string name="settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications et adresses IP sont protégées par le VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocole VPN détermine la manière dont les données circulent entre un serveur VPN et votre appareil. %1$s</string>
+    <string name="settings_protocol_description_no_link">Un protocole VPN détermine la manière dont les données circulent entre un serveur VPN et votre appareil.</string>
+    <string name="settings_protocol_section_speed">Vitesse (UDP)</string>
+    <string name="settings_protocol_section_reliability">Fiabilité (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Sélectionne automatiquement le meilleur protocole pour votre connexion.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">Rapide, sûr et efficace. WireGuard est plus économe en batterie que les autres protocoles.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Rapide, sécurisé et efficace. WireGuard est difficile à détecter et bloquer.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Reconnu, éprouvé et sécurisé. OpenVPN est moins économe en batterie que d\'autres protocoles.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Établi, testé et sécurisé. OpenVPN est fiable dans de mauvaises conditions de réseau, mais peut ne pas être aussi rapide que d\'autres protocoles.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Contourne les blocages VPN en masquant votre connexion VPN aux censeurs. Ce protocole résiste à l\'inspection approfondie des paquets (DPI), mais peut ne pas être aussi rapide que d\'autres protocoles. Stealth est un protocole réservé à Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Recommandé</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
     <string name="settings_split_tunneling_mode_standard">Standard</string>
     <string name="settings_split_tunneling_mode_inverse">Inverse</string>
@@ -1215,4 +1263,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, Londres, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Une erreur s\'est produite lors de la récupération des tarifs.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications et adresses IP sont protégées par le VPN.</string>
 </resources>

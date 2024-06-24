@@ -92,7 +92,6 @@
     <string name="delete">წაშლა</string>
     <string name="remove">წაშლა</string>
     <string name="saveButton">შენახვა</string>
-    <string name="protocolLabel">პროტოკოლი</string>
     <string name="protocol">პროტოკოლი:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">მესამე პირების ლიცენზიები</string>
@@ -133,7 +132,39 @@
     <string name="settingsIncludedAppsSelectedHeader">ჩასმული აპები (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">ყველა ხვა ჩვეულებრივი აპი (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">ყველა სხვა სისტემური აპი (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">ყველა სხვა აპი (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">სისტემური აპების ჩვენება</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">სისტემური აპების ჩვენება</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">ეს აპბი არ გაივლიან VPN-ით.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">VPN-ით, მხოლოდ, ეს აპები გაივლიან</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">დამატება ამოღებულ აპებში</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">წაშლა ამოღებული აპებიდან</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">დამატება ჩასმულ აპებში</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">წაშლა ჩასმული აპებიდან</string>
     <string name="tileConnected">მიერთებულია: %1$s</string>
     <string name="openUrlError">%1$s-ის გახსნის შეცდომა. თქვენს მოწყობილობაზე ვებ ბრაუზერი ვერ ვიპოვე.</string>
     <string name="loaderErrorTimeout">მოლოდინის დრო გავიდა. თავიდან სცადეთ.</string>
@@ -220,7 +251,9 @@
     <string name="nameAsia">აზია</string>
     <string name="nameAfricaAndMiddleEast">აფრიკა და ახლო აღმოსავლეთი</string>
     <string name="nameOceania">ოკეანეთი</string>
-    <string name="tvRowMore">მეტი</string>
+    <string name="tv_row_settings">მორგება</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">რჩეული</string>
     <string name="tv_detail_connect_streaming">Plus-ით სტრიმინგი</string>
     <string name="tv_detail_connect">დაკავშირება</string>
@@ -1174,6 +1207,21 @@
     <string name="settings_advanced_nat_type_moderate_description">მცირე შეზღუდვები თქვენს ქსელში შემომავალი მონაცემებისთვის. ეს პარამეტრი საუკეთესოა ონლაინ-თამაშებისთვის.</string>
     <string name="settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები და IP მისამართები იქნებიან VPN-ით დაცული. %1$s</string>
     <string name="settings_protocol_description">VPN პროტოკოლი განსაზღვრავს, როგორ მოძრაობს მონაცემები VPN სერვერსა და თქვენს მოწყობილობას შორის.%1$s</string>
+    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Recommended</string>
     <string name="settings_split_tunneling_mode_title">რეჟიმი</string>
     <string name="settings_split_tunneling_mode_standard">სტანდარტული</string>
     <string name="settings_split_tunneling_mode_inverse">შებრუნება</string>
@@ -1215,4 +1263,6 @@
     <string name="search_zero_screen_info_cities_examples">ნიუ იორკი, ლონდონი, ტოკიო, სიდნეი…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">ფასების გამოთხოვის შეცდომა.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები და IP მისამართები იქნებიან VPN-ით დაცული.</string>
 </resources>

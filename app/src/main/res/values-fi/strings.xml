@@ -92,7 +92,6 @@
     <string name="delete">Poista</string>
     <string name="remove">Poista</string>
     <string name="saveButton">Tallenna</string>
-    <string name="protocolLabel">Protokolla</string>
     <string name="protocol">Protokolla:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Kolmansien osapuolten lisenssit</string>
@@ -133,7 +132,39 @@
     <string name="settingsIncludedAppsSelectedHeader">Sisällytetyt sovellukset (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Kaikki muut tavalliset sovellukset (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Kaikki muut järjestelmäsovellukset (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Kaikki muut sovellukset (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Näytä järjestelmäsovellukset</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Näytä järjestelmäsovellukset</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Nämä sovellukset on suljettu VPN-yhteyden ulkopuolelle.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Vain nämä sovellukset muodostavat yhteyden VPN:n kautta.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Lisää pois suljettuihin sovelluksiin</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Poista pois suljetuista sovelluksista</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Lisää sisällytettyihin sovelluksiin</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Poista sisällytetyistä sovelluksista</string>
     <string name="tileConnected">Yhdistetty: %1$s</string>
     <string name="openUrlError">Osoitetta %1$s ei voitu avata, koska laitteella ei havaittu verkkoselainta.</string>
     <string name="loaderErrorTimeout">Yhteys aikakatkaistiin. Yritä uudelleen.</string>
@@ -220,7 +251,9 @@
     <string name="nameAsia">Aasia</string>
     <string name="nameAfricaAndMiddleEast">Afrikka ja Lähi-Itä</string>
     <string name="nameOceania">Oseania</string>
-    <string name="tvRowMore">Muut</string>
+    <string name="tv_row_settings">Asetukset</string>
+    <string name="tv_card_split_tunneling_label">Jaettu tunnelointi</string>
+    <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Suosikki</string>
     <string name="tv_detail_connect_streaming">Suoratoista Plus-tilauksella</string>
     <string name="tv_detail_connect">Yhdistä</string>
@@ -1174,6 +1207,21 @@
     <string name="settings_advanced_nat_type_moderate_description">Joitakin rajoituksia verkkoon saapuvalle tiedonsiirrolle. Tämä vaihtoehto sopii parhaiten verkkopelaamiseen.</string>
     <string name="settings_split_tunneling_description">Mukauta yhteyttäsi päättämällä, mitkä sovellukset ja IP-osoitteet suojataan VPN:llä. %1$s</string>
     <string name="settings_protocol_description">VPN-protokolla määrittää, miten tiedonsiirto VPN-palvelimen ja laitteesi välillä tapahtuu. %1$s</string>
+    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Recommended</string>
     <string name="settings_split_tunneling_mode_title">Tila</string>
     <string name="settings_split_tunneling_mode_standard">Tavallinen</string>
     <string name="settings_split_tunneling_mode_inverse">Käänteinen</string>
@@ -1215,4 +1263,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, Lontoo, Tokio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Virhe noudettaessa hintoja.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">Mukauta yhteyttäsi määrittämällä, mitkä sovellukset ja IP-osoitteet suojataan VPN:llä.</string>
 </resources>

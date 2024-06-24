@@ -92,7 +92,6 @@
     <string name="delete">Hapus</string>
     <string name="remove">Hapus</string>
     <string name="saveButton">Simpan</string>
-    <string name="protocolLabel">Protokol</string>
     <string name="protocol">Protokol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Lisensi pihak ketiga</string>
@@ -133,7 +132,39 @@
     <string name="settingsIncludedAppsSelectedHeader">Aplikasi yang Disertakan (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Seluruh aplikasi reguler lainnya (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Seluruh aplikasi sistem lainnya (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Seluruh aplikasi lainnya (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Tampilkan aplikasi sistem</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Tampilkan aplikasi sistem</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">Tambah ke Aplikasi yang dikecualikan</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">Hapus dari Aplikasi yang dikecualikan</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">Tambah ke Aplikasi yang disertakan</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">Hapus dari Aplikasi yang disertakan</string>
     <string name="tileConnected">Terhubung: %1$s</string>
     <string name="openUrlError">%1$s tidak dapat dibuka. Aplikasi browser tidak terdeteksi pada perangkat Anda.</string>
     <string name="loaderErrorTimeout">Waktu sambungan habis. Mohon coba lagi.</string>
@@ -218,7 +249,9 @@
     <string name="nameAsia">Asia</string>
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Timur Tengah</string>
     <string name="nameOceania">Oseania</string>
-    <string name="tvRowMore">Lainnya</string>
+    <string name="tv_row_settings">Pengaturan</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
     <string name="tv_detail_connect_streaming">Tonton dengan Plus</string>
     <string name="tv_detail_connect">Hubungkan</string>
@@ -1145,6 +1178,21 @@
     <string name="settings_advanced_nat_type_moderate_description">Menerapkan beberapa pembatasan bagi data yang memasuki jaringan Anda. Opsi ini merupakan opsi terbaik untuk permainan video online.</string>
     <string name="settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi dan alamat IP mana saja yang akan terlindung oleh VPN. %1$s</string>
     <string name="settings_protocol_description">Protokol VPN menentukan bagaimana data antara server VPN dan perangkat Anda akan saling berpindah. %1$s</string>
+    <string name="settings_protocol_description_no_link">Protokol VPN menentukan bagaimana data antara server VPN dan perangkat Anda akan saling berpindah.</string>
+    <string name="settings_protocol_section_speed">Kecepatan (UDP)</string>
+    <string name="settings_protocol_section_reliability">Keterandalan (TCP)</string>
+    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_description">Memilih protokol terbaik secara otomatis untuk koneksi Anda.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">Cepat, aman, dan efisien. WireGuard lebih efisien dalam hal penggunaan baterai dibanding protokol lainnya.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Cepat, aman, dan efisien. WireGuard sulit untuk dideteksi dan diblokir.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">Mapan, teruji, dan aman. OpenVPN tidak seefisien sebagian protokol lainnya dalam hal penggunaan baterai.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Mapan, teruji, dan aman. OpenVPN dapat diandalkan dalam kondisi jaringan yang buruk, namun dapat tidak berfungsi secepat protokol lainnya.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">Menangkal pemblokiran VPN dengan menyembunyikan koneksi VPN Anda dari sensor. Protokol ini tahan terhadap DPI (inspeksi paket mendalam/deep packet inspection), namun dapat tidak berfungsi secepat protokol lainnya. Stealth tersedia khusus pada Proton VPN.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">Direkomendasikan</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
     <string name="settings_split_tunneling_mode_standard">Standar</string>
     <string name="settings_split_tunneling_mode_inverse">Berkebalikan</string>
@@ -1186,4 +1234,6 @@
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Gagal memperoleh harga.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi dan alamat IP mana saja yang akan terlindung oleh VPN.</string>
 </resources>

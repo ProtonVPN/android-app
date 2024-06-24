@@ -92,7 +92,6 @@
     <string name="delete">삭제</string>
     <string name="remove">제거</string>
     <string name="saveButton">저장</string>
-    <string name="protocolLabel">프로토콜</string>
     <string name="protocol">프로토콜:</string>
     <string name="ipWithPlaceholder">아이피: %1$s</string>
     <string name="activityLicensesTitle">제3자 라이선스</string>
@@ -128,12 +127,44 @@
     <string name="settingsIncludedIPAddressesListHeader">포함된 IP 주소 (%1$d)</string>
     <string name="settingsExcludedApps">제외된 앱</string>
     <string name="settingsExcludedAppsEmpty">VPN 트래픽에서 제외하고 싶은 앱을 추가하세요.</string>
-    <string name="settingsIncludedAppsEmpty">VPN 트래픽에서 포함하고 싶은 앱을 추가하세요.</string>
+    <string name="settingsIncludedAppsEmpty">VPN 트래픽에 포함시킬 앱을 추가해 주세요.</string>
     <string name="settingsExcludedAppsSelectedHeader">제외된 앱 (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">포함된 앱 (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">전체 기타 일반 앱 (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">전체 기타 시스템 앱 (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">전체 기타 앱 (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">시스템 앱 표시</string>
+    <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">시스템 앱 표시</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">해당 앱들은 VPN 연결에서 제외됩니다.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">이 앱들만 VPN을 통해 연결됩니다.</string>
+    <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to excluded apps"
+    -->
+    <string name="accessibility_action_add_excluded_app">제외된 앱에 추가</string>
+    <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from excluded apps"
+    -->
+    <string name="accessibility_action_remove_excluded_app">제외된 앱에서 삭제</string>
+    <!-- Description for action to add an application to "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to add to included apps"
+    -->
+    <string name="accessibility_action_add_included_app">포함된 앱에 추가</string>
+    <!-- Description for action to remove an application from "included apps" in split tunneling settings.
+         Only used by accessibility services.
+         Example:
+         an item for app "Internet Browser" will be ready by a screen reader as:
+         "Internet Browser, double tap to remove from included apps"
+    -->
+    <string name="accessibility_action_remove_included_app">포함된 앱에서 삭제</string>
     <string name="tileConnected">연결됨: %1$s</string>
     <string name="openUrlError">%1$s 를 열 수 없습니다. 기기에서 웹 브라우저가 탐지되지 않았습니다.</string>
     <string name="loaderErrorTimeout">연결 시간 초과. 다시 시도하십시오.</string>
@@ -218,7 +249,9 @@
     <string name="nameAsia">아시아</string>
     <string name="nameAfricaAndMiddleEast">아프리카 &amp; 중동</string>
     <string name="nameOceania">오세아니아</string>
-    <string name="tvRowMore">더보기</string>
+    <string name="tv_row_settings">설정</string>
+    <string name="tv_card_split_tunneling_label">분할 터널링</string>
+    <string name="tv_card_protocol_label">프로토콜</string>
     <string name="tv_detail_default_connection_checkbox_short">선호</string>
     <string name="tv_detail_connect_streaming">Plus 플랜으로 스트리밍을</string>
     <string name="tv_detail_connect">연결</string>
@@ -475,11 +508,11 @@
     <plurals name="search_upsell_banner_message">
         <item quantity="other">VPN Plus로 %1$d개 국가서 차단된 컨텐츠를 해제하세요</item>
     </plurals>
-    <string name="select_default_connection">Select your default connection</string>
+    <string name="select_default_connection">기본 연결을 선택하세요</string>
     <string name="settings_default_connection_title">기본 연결</string>
-    <string name="fastest_country_description">현재 회원님 위치에 기반한 최상의 서버</string>
+    <string name="fastest_country_description">지역에 기반한 최적의 서버</string>
     <string name="settings_last_connection_title">최근 연결</string>
-    <string name="settings_last_connection_description">회원님이 주로 사용한 연결</string>
+    <string name="settings_last_connection_description">가장 최근에 사용한 연결</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">배너 무시</string>
@@ -1145,11 +1178,27 @@
     <string name="settings_advanced_nat_type_moderate_description">네트워크에 들어오는 데이터를 약간 통제합니다. 온라인 비디오 게이밍에 최적입니다.</string>
     <string name="settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 커스텀할 수 있습니다. %1$s</string>
     <string name="settings_protocol_description">VPN 프로토콜은 서버와 여러분의 장치 사이에서 데이터가 이동하는 방식을 정의합니다. %1$s</string>
+    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_section_speed">속도 (UDP)</string>
+    <string name="settings_protocol_section_reliability">안정성 (TCP)</string>
+    <string name="settings_protocol_smart_title">스마트</string>
+    <string name="settings_protocol_smart_description">연결 환경에 최적인 프로토콜을 자동으로 선택합니다.</string>
+    <string name="settings_protocol_wireguard_title">WireGuard</string>
+    <string name="settings_protocol_wireguard_udp_description">빠르고, 안전하며 효율적입니다. WireGuard는 다른 프로토콜보다 배터리 효율이 좋습니다.</string>
+    <string name="settings_protocol_wireguard_tcp_description">빠르고, 안전하며 효율적입니다. WireGuard는 탐지하고 차단하기 어렵습니다.</string>
+    <string name="settings_protocol_openvpn_title">OpenVPN</string>
+    <string name="settings_protocol_openvpn_udp_description">확립되었고, 잘 시험되었으며 안전합니다. OpenVPN은 다른 프로토콜만큼 배터리 효율이 좋지는 않습니다.</string>
+    <string name="settings_protocol_openvpn_tcp_description">확립되었고, 잘 시험되었으며 안전합니다. OpenVPN은 부족한 네트워크 컨디션에서도 안정적이지만 다른 프로토콜만큼 빠르지는 않습니다.</string>
+    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_description">검열로부터 VPN 연결을 숨겨서 차단을 극복합니다. 이 프로토콜은 DPI(Deep Packet Insptection)에 내성이 있으나 다른 프로토콜만큼 빠르지는 않습니다.
+Stealth는 Proton VPN만의 기능입니다.</string>
+    <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
+    <string name="settings_protocol_badge_recommended">권장</string>
     <string name="settings_split_tunneling_mode_title">모드</string>
     <string name="settings_split_tunneling_mode_standard">표준</string>
     <string name="settings_split_tunneling_mode_inverse">반전</string>
-    <string name="settings_split_tunneling_mode_description_standard">선택된 앱 및 IP 주소가 VPN 연결에서 제외됩니다.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">선택된 앱과 IP 주소만이 VPN에 연결되고 그 외 트래픽은 보호되지 않습니다.</string>
+    <string name="settings_split_tunneling_mode_description_standard">선택한 앱과 IP 주소가 VPN 연결에서 제외됩니다.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">선택한 앱과 IP 주소만이 VPN에 연결되고 그 외 트래픽은 보호되지 않습니다.</string>
     <string name="settings_split_tunneling_excluded_apps">제외된 앱</string>
     <string name="settings_split_tunneling_excluded_ips">제외된 IP 주소</string>
     <string name="settings_split_tunneling_included_apps">포함된 앱</string>
@@ -1186,4 +1235,6 @@
     <string name="search_zero_screen_info_cities_examples">뉴욕, 런던, 도쿄, 시드니…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">가격을 불러오던 중 오류가 발생했습니다.</string>
+    <!-- TV settings -->
+    <string name="tv_settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 커스텀할 수 있습니다.</string>
 </resources>
