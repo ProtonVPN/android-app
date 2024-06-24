@@ -21,6 +21,7 @@ package com.protonvpn.app.tv.settings.splittunneling
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
+import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -37,6 +38,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
+import com.protonvpn.test.shared.awaitMatchingItem
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -46,6 +48,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -54,6 +57,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -98,6 +102,7 @@ class TvSettingsSplitTunnelingMainVMTests {
 
         coEvery { mockDontShowAgainStore.getChoice(any()) } returns DontShowAgainStore.Choice.ShowDialog
         every { mockVpnConnectionManager.reconnect(any(), any()) } just Runs
+        coEvery { mockAppsProvider.getNamesOfInstalledApps(any()) } answers { firstArg() }
 
         viewModel = TvSettingsSplitTunnelingMainVM(
             testScope.backgroundScope,
@@ -110,7 +115,9 @@ class TvSettingsSplitTunnelingMainVMTests {
                 mockDontShowAgainStore,
                 savedStateHandle,
             ),
-            savedStateHandle
+            mockVpnConnectionManager,
+            vpnStatusProviderUi,
+            savedStateHandle,
         )
     }
 
@@ -160,7 +167,7 @@ class TvSettingsSplitTunnelingMainVMTests {
             advanceUntilIdle()
             backEvents.expectNoEvents()
 
-            viewModel.onReconnectClicked(mockVpnUiDelegate, false)
+            viewModel.onDialogReconnectClicked(mockVpnUiDelegate, false)
             assertEquals(Unit, backEvents.awaitItem())
         }
     }
@@ -179,19 +186,42 @@ class TvSettingsSplitTunnelingMainVMTests {
             it.copy(mode = SplitTunnelingMode.INCLUDE_ONLY, includedApps = listOf("app"))
         }
         testBackAndDialog(expectedDialog = false, expectedNavigateBack = false) {
-            viewModel.onToggleEnabled(mockVpnUiDelegate)
+            viewModel.onToggleEnabled()
         }
     }
 
     @Test
-    fun `toggling split tunneling while connected triggers reconnect dialog`() = testScope.runTest {
+    fun `toggling split tunneling while connected triggers reconnect banner`() = testScope.runTest {
         userSettingsManager.updateSplitTunnelSettings {
             it.copy(mode = SplitTunnelingMode.INCLUDE_ONLY, includedApps = listOf("app"))
         }
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
-        testBackAndDialog(expectedDialog = true, expectedNavigateBack = false) {
-            viewModel.onToggleEnabled(mockVpnUiDelegate)
+        viewModel.mainViewState
+            .filterNotNull()
+            .test {
+                viewModel.onToggleEnabled()
+
+                awaitMatchingItem { it.needsReconnect }
+                assertNull(viewModel.showReconnectDialogFlow.value)
+            }
+    }
+
+    @Test
+    fun `reconnecting hides the reconnect banner`() = testScope.runTest {
+        userSettingsManager.updateSplitTunnelSettings {
+            it.copy(mode = SplitTunnelingMode.INCLUDE_ONLY, isEnabled = true, includedApps = listOf("app"))
         }
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+        viewModel.mainViewState
+            .filterNotNull()
+            .test {
+                // Show the connect banner
+                viewModel.onModeChanged(SplitTunnelingMode.EXCLUDE_ONLY)
+                awaitMatchingItem { it.needsReconnect }
+
+                viewModel.onBannerReconnect(mockVpnUiDelegate)
+                awaitMatchingItem { !it.needsReconnect }
+            }
     }
 
     private suspend fun TestScope.testBackAndDialog(

@@ -29,13 +29,18 @@ import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.ui.settings.currentModeApps
 import com.protonvpn.android.userstorage.DontShowAgainStore
+import com.protonvpn.android.vpn.VpnConnectionManager
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.android.vpn.isConnectedOrConnecting
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -52,50 +57,55 @@ class TvSettingsSplitTunnelingMainVM @Inject constructor(
     private val mainScope: CoroutineScope,
     private val installedAppsProvider: InstalledAppsProvider,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
-    private val reconnectHandler: SettingsReconnectHandler,
+    private val reconnectDialogHandler: SettingsReconnectHandler,
+    private val vpnConnectionManager: VpnConnectionManager,
+    vpnStatusProviderUI: VpnStatusProviderUI,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     data class MainViewState(
         val isEnabled: Boolean,
+        val needsReconnect: Boolean,
         val mode: SplitTunnelingMode,
         val currentModeApps: List<CharSequence>?,
     )
 
-    private var initialValue: SplitTunnelingSettings? by savedStateHandle.state(null, InitialSettingsStateKey)
+    private var appliedSettings: SplitTunnelingSettings? by savedStateHandle.state(null, InitialSettingsStateKey)
+    private val appliedSettingsFlow: StateFlow<SplitTunnelingSettings?> =
+        savedStateHandle.getStateFlow(InitialSettingsStateKey, null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val mainViewState: StateFlow<MainViewState?> = userSettingsManager
-        .rawCurrentUserSettingsFlow
-        .map { it.splitTunneling }
-        .flatMapLatest { splitTunneling ->
-            flow {
-                val appPackages = splitTunneling.currentModeApps()
-                emit(mainState(splitTunneling, appPackages.takeIf { it.isEmpty() }))
-                if (appPackages.isNotEmpty()) {
-                    val appNames = installedAppsProvider.getNamesOfInstalledApps(appPackages)
-                    emit(mainState(splitTunneling, appNames))
-                }
+    val mainViewState: StateFlow<MainViewState?> = combine(
+        userSettingsManager.rawCurrentUserSettingsFlow.map { it.splitTunneling }.distinctUntilChanged(),
+        appliedSettingsFlow,
+        vpnStatusProviderUI.uiStatus
+    ) { settings, appliedSettings, vpnStatus ->
+        // Combine to triple to be able to use flatMapLatest
+        // Convert to combineTransformLatest if it gets implemented: https://github.com/Kotlin/kotlinx.coroutines/issues/1484
+        Triple(settings, appliedSettings, vpnStatus.state.isConnectedOrConnecting())
+    }.flatMapLatest { (splitTunneling, appliedSettings, isConnected) ->
+        flow {
+            val appPackages = splitTunneling.currentModeApps()
+            val needsReconnect =
+                isConnected && appliedSettings != null && !appliedSettings.isEffectivelySameAs(splitTunneling)
+            emit(mainState(splitTunneling, needsReconnect, appPackages.takeIf { it.isEmpty() }))
+            if (appPackages.isNotEmpty()) {
+                val appNames = installedAppsProvider.getNamesOfInstalledApps(appPackages)
+                emit(mainState(splitTunneling, needsReconnect, appNames))
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+        }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
-    val showReconnectDialogFlow = reconnectHandler.showReconnectDialogFlow
+    val showReconnectDialogFlow = reconnectDialogHandler.showReconnectDialogFlow
     val eventNavigateBack = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
-    private var navigateBackAfterDialog = false
 
     init {
-        viewModelScope.launch {
-            initialValue = userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling
-        }
+        updateInitialSettings()
     }
 
-    fun onToggleEnabled(uiDelegate: VpnUiDelegate) {
+    fun onToggleEnabled() {
         mainScope.launch {
-            val newSplitTunneling = userSettingsManager.toggleSplitTunneling()?.splitTunneling
-            if (newSplitTunneling != null && initialValue?.isEffectivelySameAs(newSplitTunneling) == false) {
-                reconnectionCheck(uiDelegate)
-                initialValue = newSplitTunneling
-            }
+            userSettingsManager.toggleSplitTunneling()?.splitTunneling
         }
     }
 
@@ -108,47 +118,55 @@ class TvSettingsSplitTunnelingMainVM @Inject constructor(
     fun onNavigateBack(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
             val newSplitTunneling = userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling
-            if (initialValue != null && initialValue?.isEffectivelySameAs(newSplitTunneling) == false) {
-                initialValue = newSplitTunneling
+            if (appliedSettings != null && appliedSettings?.isEffectivelySameAs(newSplitTunneling) == false) {
                 reconnectionCheck(uiDelegate)
             }
             val showsDialog = showReconnectDialogFlow.value != null
-            if (showsDialog) {
-                navigateBackAfterDialog = true
-            } else {
+            if (!showsDialog) {
                 eventNavigateBack.tryEmit(Unit)
             }
         }
     }
 
-    fun onReconnectClicked(uiDelegate: VpnUiDelegate, dontShowAgain: Boolean) {
-        reconnectHandler.onReconnectClicked(
+    fun onBannerReconnect(uiDelegate: VpnUiDelegate) {
+        vpnConnectionManager.reconnect("user via settings change", uiDelegate)
+        updateInitialSettings()
+    }
+
+    fun onDialogReconnectClicked(uiDelegate: VpnUiDelegate, dontShowAgain: Boolean) {
+        reconnectDialogHandler.onReconnectClicked(
             uiDelegate,
             dontShowAgain,
             DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected
         )
-        if (navigateBackAfterDialog) {
-            eventNavigateBack.tryEmit(Unit)
-        }
+        eventNavigateBack.tryEmit(Unit)
     }
 
     fun dismissReconnectDialog(dontShowAgain: Boolean) {
-        reconnectHandler.dismissReconnectDialog(
+        reconnectDialogHandler.dismissReconnectDialog(
             dontShowAgain,
             DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected
         )
-        if (navigateBackAfterDialog) {
-            eventNavigateBack.tryEmit(Unit)
-        }
+        eventNavigateBack.tryEmit(Unit)
     }
 
     private suspend fun reconnectionCheck(uiDelegate: VpnUiDelegate) =
-        reconnectHandler.reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
+        reconnectDialogHandler.reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
 
-    private fun mainState(splitTunneling: SplitTunnelingSettings, appNames: List<CharSequence>?) =
-        MainViewState(
-            isEnabled = splitTunneling.isEnabled,
-            mode = splitTunneling.mode,
-            currentModeApps = appNames
-        )
+    private fun updateInitialSettings() {
+        viewModelScope.launch {
+            appliedSettings = userSettingsManager.rawCurrentUserSettingsFlow.first().splitTunneling
+        }
+    }
+
+    private fun mainState(
+        splitTunneling: SplitTunnelingSettings,
+        needsReconnect: Boolean,
+        appNames: List<CharSequence>?
+    ) = MainViewState(
+        isEnabled = splitTunneling.isEnabled,
+        needsReconnect = needsReconnect,
+        mode = splitTunneling.mode,
+        currentModeApps = appNames
+    )
 }

@@ -1294,6 +1294,7 @@
     <string name="settings_split_tunneling_already_included">Already included</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Remove IP address from the list?</string>
     <string name="settings_dialog_reconnect">New settings will apply next time you connect.</string>
+    <string name="settings_needs_reconnect_banner">New settings will apply next time you connect.</string>
     <string name="info_secure_core_standard_high_privacy">High privacy</string>
     <string name="info_secure_core_standard_lower_latency">Lower latency</string>
     <string name="info_secure_core_advanced_privacy">Advanced privacy</string>

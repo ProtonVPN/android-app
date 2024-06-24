@@ -22,7 +22,6 @@ package com.protonvpn.app.tv.settings.splittunneling
 import android.graphics.drawable.ColorDrawable
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
-import app.cash.turbine.TurbineTestContext
 import app.cash.turbine.test
 import com.protonvpn.android.components.InstalledAppsProvider
 import com.protonvpn.android.redesign.base.ui.nav.Screen
@@ -34,6 +33,7 @@ import com.protonvpn.android.ui.settings.LabeledItem
 import com.protonvpn.android.ui.settings.SplitTunnelingAppsViewModelHelper
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestDispatcherProvider
+import com.protonvpn.test.shared.awaitMatchingItem
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -185,7 +185,7 @@ class TvSettingsSplitTunnelingAppsVPMTests {
 
                 // Hide system apps, the included app should still be in the UI.
                 viewModel.toggleLoadSystemApps()
-                val systemAppsHiddenState = awaitItemUntil {
+                val systemAppsHiddenState = awaitMatchingItem {
                     it.availableSystemApps is SplitTunnelingAppsViewModelHelper.SystemAppsState.NotLoaded
                 }
                 assertEquals(listOf(selectedApp), systemAppsHiddenState.selectedApps)
@@ -207,12 +207,4 @@ class TvSettingsSplitTunnelingAppsVPMTests {
 
     private fun pkg(appName: String) = requireNotNull(appNames.entries.find { (_, name) -> name == appName }).key
     private fun Iterable<LabeledItem>.mapToNames() = map { it.label }
-
-    private suspend fun <T> TurbineTestContext<T>.awaitItemUntil(predicate: (T) -> Boolean): T {
-        var item: T
-        do {
-            item = awaitItem()
-        } while(!predicate(item))
-        return item
-    }
 }
