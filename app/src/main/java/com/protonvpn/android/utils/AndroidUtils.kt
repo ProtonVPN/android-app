@@ -21,6 +21,7 @@ package com.protonvpn.android.utils
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.Application
+import android.app.ApplicationExitInfo
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -213,7 +214,12 @@ fun Context.getAppExitReasonForLog(): String? =
         am.getHistoricalProcessExitReasons(packageName, 0, 5)
             .firstOrNull { it.processName == packageName } // Filter out non-main processes.
             ?.let {
-                "${it.description}; reason: ${it.reason}; importance: ${it.importance}; " +
+                val reason = if (it.reason == ApplicationExitInfo.REASON_SIGNALED) {
+                    "signal ${it.status}"
+                } else {
+                    "${it.reason}"
+                }
+                "${it.description}; reason: $reason; importance: ${it.importance}; " +
                     "time: ${ProtonLogger.formatTime(it.timestamp)}"
             }
     } else {
