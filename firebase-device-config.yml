@@ -4,7 +4,7 @@ mobileTest:
   - model: MediumPhone.arm
     version: 34
   - model: Nexus5X
-    version: 24
+    version: 26
 smokeTest:
   timeout: 30m
   device:
