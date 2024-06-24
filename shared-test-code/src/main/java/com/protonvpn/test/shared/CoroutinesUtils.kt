@@ -19,6 +19,7 @@
 
 package com.protonvpn.test.shared
 
+import app.cash.turbine.TurbineTestContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -40,4 +41,17 @@ fun <T> TestScope.runWhileCollecting(flow: Flow<T>, block: suspend () -> Unit): 
     } finally {
         collectJob.cancel()
     }
+}
+
+/** Calls awaitItem in a loop until a matching value is returned.
+ *
+ * Prefer awaitItem where possible. Use awaitItemThatMatches when testing state flows that can emit multiple values in
+ * response to update.
+ */
+suspend fun <T> TurbineTestContext<T>.awaitMatchingItem(predicate: (T) -> Boolean): T {
+    var item: T
+    do {
+        item = awaitItem()
+    } while(!predicate(item))
+    return item
 }

@@ -19,16 +19,14 @@
 
 package com.protonvpn.android.tv.settings.splittunneling
 
-import android.content.Context
-import android.media.AudioManager
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -39,16 +37,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Button
+import androidx.tv.material3.Surface
+import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
@@ -61,7 +61,6 @@ import com.protonvpn.android.tv.settings.TvSettingsItemSwitch
 import com.protonvpn.android.tv.settings.TvSettingsReconnectDialog
 import com.protonvpn.android.tv.ui.ProtonTvDialogBasic
 import com.protonvpn.android.tv.ui.TvUiConstants
-import com.protonvpn.android.tv.ui.onFocusLost
 import com.protonvpn.android.ui.settings.formatSplitTunnelingItems
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.DebugUtils
@@ -88,11 +87,12 @@ fun TvSettingsSplitTunnelingMainRoute(
         TvSettingsSplitTunnelingMain(
             viewState = viewState,
             showReconnectDialog = showReconnectDialog,
-            onToggleEnabled = { viewModel.onToggleEnabled(vpnUiDelegate) },
+            onToggleEnabled = viewModel::onToggleEnabled,
             onModeChanged = viewModel::onModeChanged,
             onClickApps = navigateEditApps,
-            onReconnectNow = { viewModel.onReconnectClicked(vpnUiDelegate, false) },
-            onReconnectDismissed = { viewModel.dismissReconnectDialog(false) },
+            onReconnectBannerReconnect = { viewModel.onBannerReconnect(vpnUiDelegate) },
+            onReconnectDialogReconnect = { viewModel.onDialogReconnectClicked(vpnUiDelegate, false) },
+            onReconnectDialogDismissed = { viewModel.dismissReconnectDialog(false) },
             modifier = Modifier.widthIn(max = TvUiConstants.SingleColumnWidth)
         )
     }
@@ -105,8 +105,9 @@ private fun TvSettingsSplitTunnelingMain(
     onToggleEnabled: () -> Unit,
     onModeChanged: (SplitTunnelingMode) -> Unit,
     onClickApps: (SplitTunnelingMode) -> Unit,
-    onReconnectNow: () -> Unit,
-    onReconnectDismissed: () -> Unit,
+    onReconnectBannerReconnect: () -> Unit,
+    onReconnectDialogReconnect: () -> Unit,
+    onReconnectDialogDismissed: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var changeModeDialogShown by rememberSaveable { mutableStateOf(false) }
@@ -130,6 +131,15 @@ private fun TvSettingsSplitTunnelingMain(
                 .verticalScroll(rememberScrollState())
                 .weight(1f)
         ) {
+            AnimatedVisibility(visible = viewState.needsReconnect) {
+                ReconnectBanner(
+                    onClick = onReconnectBannerReconnect,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp)
+                )
+            }
+
             TvSettingsItemSwitch(
                 stringResource(R.string.settings_split_tunneling_title),
                 checked = viewState.isEnabled,
@@ -178,7 +188,10 @@ private fun TvSettingsSplitTunnelingMain(
         DebugUtils.debugAssert("Unsupported dialog type") {
             showReconnectDialog == DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected
         }
-        TvSettingsReconnectDialog(onReconnectNow = onReconnectNow, onDismissRequest = onReconnectDismissed)
+        TvSettingsReconnectDialog(
+            onReconnectNow = onReconnectDialogReconnect,
+            onDismissRequest = onReconnectDialogDismissed
+        )
     }
 }
 
@@ -223,6 +236,38 @@ private fun ChangeModeDialog(
     }
 }
 
+@Composable
+private fun ReconnectBanner(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        colors = SurfaceDefaults.colors(
+            containerColor = ProtonTheme.colors.backgroundSecondary,
+            contentColor = ProtonTheme.colors.textWeak,
+        ),
+        modifier = modifier
+            .border(1.dp, ProtonTheme.colors.separatorNorm, ProtonTheme.shapes.medium)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
+        ) {
+            Text(
+                stringResource(R.string.settings_needs_reconnect_banner),
+                style = ProtonTheme.typography.body2Regular,
+                modifier = Modifier.weight(1f)
+            )
+            Button(
+                onClick = onClick,
+                modifier = Modifier.padding(start = 16.dp)
+            ) {
+                Text(stringResource(R.string.reconnect))
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun PreviewTvSettingsSplitTunneling() {
@@ -230,6 +275,7 @@ private fun PreviewTvSettingsSplitTunneling() {
         TvSettingsSplitTunnelingMain(
             viewState = TvSettingsSplitTunnelingMainVM.MainViewState(
                 isEnabled = false,
+                needsReconnect = true,
                 mode = SplitTunnelingMode.EXCLUDE_ONLY,
                 currentModeApps = listOf("App1", "app2")
             ),
@@ -237,8 +283,9 @@ private fun PreviewTvSettingsSplitTunneling() {
             onToggleEnabled = {},
             onModeChanged = {},
             onClickApps = {},
-            onReconnectNow = {},
-            onReconnectDismissed = {},
+            onReconnectBannerReconnect = {},
+            onReconnectDialogReconnect = {},
+            onReconnectDialogDismissed = {},
         )
     }
 }
