@@ -20,7 +20,6 @@ package com.protonvpn.android.ui.home
 
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.api.NetworkLoader
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.RestrictionsConfig
@@ -56,7 +55,6 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Reusable
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -120,8 +118,7 @@ class ServerListUpdater @Inject constructor(
     private val serverListUpdate =
         UpdateAction(
             "server_list",
-            { input -> PeriodicApiCallResult(updateServers(input)) },
-            { null }
+            { PeriodicApiCallResult(updateServers()) },
         )
     private val locationUpdate = periodicUpdateManager.registerAction(
         "location",
@@ -255,7 +252,6 @@ class ServerListUpdater @Inject constructor(
     suspend fun updateServerList(forceFreshUpdate: Boolean = false): ApiResult<ServerList?> {
         if (forceFreshUpdate) {
             // Force update regardless of the timestamp.
-            // TODO: after removing network loader replace with forceRefresh input
             prefs.serverListLastModified = 0
             prefs.lastFullUpdateTimestamp = 0
         }
@@ -312,16 +308,7 @@ class ServerListUpdater @Inject constructor(
         }
 
     @VisibleForTesting
-    suspend fun updateServers(networkLoader: NetworkLoader?): ApiResult<ServerList?> {
-        val loaderUI = networkLoader?.networkFrameLayout
-
-        loaderUI?.setRetryListener {
-            scope.launch(Dispatchers.Main) {
-                updateServerList()
-            }
-        }
-        loaderUI?.switchToLoading()
-
+    suspend fun updateServers(): ApiResult<ServerList?> {
         val lang = Locale.getDefault().language
         val netzone = getNetZone()
 
@@ -353,7 +340,6 @@ class ServerListUpdater @Inject constructor(
             if (serverListResult.lastModified != null)
                 prefs.serverListLastModified = serverListResult.lastModified.time
         }
-        loaderUI?.switchToEmpty()
         return serverListResult.apiResult
     }
 

@@ -249,17 +249,17 @@ class ServerListUpdaterTests {
     fun `free user gets light list refresh`() = testScope.runTest {
         // First update is full
         assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
-        serverListUpdater.updateServers(null)
+        serverListUpdater.updateServers()
 
         // Not enough time passed for full refresh
         advanceTimeBy(1)
         assertTrue(serverListUpdater.freeOnlyUpdateNeeded())
-        serverListUpdater.updateServers(null)
+        serverListUpdater.updateServers()
 
         // Full update needed again
         advanceTimeBy(ServerListUpdater.FULL_SERVER_LIST_CALL_DELAY)
         assertFalse(serverListUpdater.freeOnlyUpdateNeeded())
-        serverListUpdater.updateServers(null)
+        serverListUpdater.updateServers()
 
         coVerifyOrder {
             mockApi.getServerList(any(), any(), any(), freeOnly = false, any())
@@ -274,13 +274,13 @@ class ServerListUpdaterTests {
 
     @Test
     fun `no refresh if client already have newest version`() = testScope.runTest {
-        val result1 = serverListUpdater.updateServers(null)
+        val result1 = serverListUpdater.updateServers()
         assertTrue(result1 is ApiResult.Success && result1.value != null)
 
         // Version will not change for the next call
         lastModifiedOverride = serverListUpdaterPrefs.serverListLastModified
 
-        val result2 = serverListUpdater.updateServers(null)
+        val result2 = serverListUpdater.updateServers()
         assertTrue(result2 is ApiResult.Success && result2.value == null)
 
         // Make sure 304 will update server list refresh timestamp
@@ -290,7 +290,7 @@ class ServerListUpdaterTests {
 
         // Make new version available
         lastModifiedOverride = lastModifiedOverride?.let { it + TimeUnit.HOURS.toMillis(1) }
-        val result3 = serverListUpdater.updateServers(null)
+        val result3 = serverListUpdater.updateServers()
         assertTrue(result3 is ApiResult.Success && result3.value != null)
         assertEquals(lastModifiedOverride, serverListUpdaterPrefs.serverListLastModified)
 
