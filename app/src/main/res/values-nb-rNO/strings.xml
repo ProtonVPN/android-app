@@ -1266,6 +1266,6 @@
     <string name="error_fetching_prices">Feil ved henting av priser.</string>
     <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Tilpass tilkoblingen din ved å bestemme hvilke apper som er beskyttet av VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Valgte apper er ekskludert fra VPN-tilkobling.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Bare valgte apper kobles til gjennom VPN, all annen trafikk er ubeskyttet.</string>
 </resources>

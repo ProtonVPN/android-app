@@ -120,7 +120,7 @@
     <string name="profileRandom">Випадковий</string>
     <string name="loaderErrorNoInternet">Немає з\'єднання з інтернетом</string>
     <string name="loaderErrorGeneric">Щось пішло не так</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">IP-адреса</string>
     <string name="inputIpAddressHint">Напишіть IP-адресу</string>
     <string name="inputIpAddressErrorInvalid">Недійсна IP-адреса</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
@@ -257,7 +257,7 @@
     <string name="nameOceania">Океанія</string>
     <string name="tv_row_settings">Налаштування</string>
     <string name="tv_card_split_tunneling_label">Роздільне тунелювання</string>
-    <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_card_protocol_label">Протокол</string>
     <string name="tv_detail_default_connection_checkbox_short">Улюблені</string>
     <string name="tv_detail_connect_streaming">Транслюйте з Plus</string>
     <string name="tv_detail_connect">З\'єднатися</string>
@@ -1281,7 +1281,7 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recommended</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
-    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_standard">Стандартний</string>
     <string name="settings_split_tunneling_mode_inverse">Inverse</string>
     <string name="settings_split_tunneling_mode_description_standard">Вибрані програми та IP-адреси виключаються з VPN-з\'єднання.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
