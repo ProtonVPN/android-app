@@ -311,7 +311,6 @@ android {
         dev {
             dimension "distribution"
             applicationIdSuffix '.dev'
-            versionNameSuffix '-dev'
             buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "Boolean", "ALLOW_LOGCAT", "true"
         }
