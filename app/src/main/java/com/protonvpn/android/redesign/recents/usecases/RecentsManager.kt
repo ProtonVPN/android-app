@@ -98,12 +98,7 @@ class RecentsManager @Inject constructor(
 
     fun remove(itemId: Long) {
         mainScope.launch {
-            val isConnected = getMostRecentConnection().first()?.id == itemId
-            if (isConnected) {
-                recentsDao.unpin(itemId)
-            } else {
-                recentsDao.delete(itemId)
-            }
+            recentsDao.delete(itemId)
         }
     }
 }

@@ -101,16 +101,6 @@ class RecentsManagerTests {
         coVerify { mockRecentsDao.delete(1) }
     }
 
-    @Test
-    fun `when pinned connected item is removed it is unpinned`() = testScope.runTest {
-        val id = 1L
-        val recent = RecentConnection(id, true, TestConnectIntent)
-        coEvery { mockRecentsDao.getMostRecentConnection(any()) } returns flowOf(recent)
-
-        recentsManager.remove(id)
-        coVerify { mockRecentsDao.unpin(id) }
-    }
-
     companion object {
         private val TestConnectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
     }
