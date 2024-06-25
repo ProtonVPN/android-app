@@ -135,8 +135,8 @@
     <string name="settingsSplitTunnelingAvailableHeader">Seluruh aplikasi lainnya (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Tampilkan aplikasi sistem</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Tampilkan aplikasi sistem</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Rangkaian aplikasi berikut dikecualikan dari koneksi VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Hanya aplikasi berikut yang terhubung melalui VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -1208,6 +1208,7 @@
     <string name="settings_split_tunneling_already_included">Telah disertakan</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Hapus alamat IP dari daftar?</string>
     <string name="settings_dialog_reconnect">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
+    <string name="settings_needs_reconnect_banner">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
     <string name="info_secure_core_standard_high_privacy">Privasi tinggi</string>
     <string name="info_secure_core_standard_lower_latency">Latensi rendah</string>
     <string name="info_secure_core_advanced_privacy">Privasi lanjutan</string>
@@ -1235,5 +1236,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Gagal memperoleh harga.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi dan alamat IP mana saja yang akan terlindung oleh VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi mana saja yang terlindung oleh VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Aplikasi yang dipilih dikecualikan dari koneksi VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Hanya aplikasi yang dipilih yang akan terhubung melalui VPN, lalu lintas lainnya tidak terlindungi.</string>
 </resources>

@@ -1295,6 +1295,7 @@
     <string name="settings_split_tunneling_already_included">Ужо ўключаны</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Выдаліць IP-адрас са спіса?</string>
     <string name="settings_dialog_reconnect">Новыя налады будуць ужыты пры наступным падключэнні.</string>
+    <string name="settings_needs_reconnect_banner">Новыя налады будуць ужыты пры наступным падключэнні.</string>
     <string name="info_secure_core_standard_high_privacy">Высокая прыватнасць</string>
     <string name="info_secure_core_standard_lower_latency">Ніжэйшая затрымка</string>
     <string name="info_secure_core_advanced_privacy">Пашыраная прыватнасць</string>
@@ -1322,5 +1323,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Памылка атрымання цэн.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Наладзьце падключэнне вырашыўшы, якія праграмы і IP-адрасы будуць абаронены VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Наладзьце падключэнне вырашыўшы, якія праграмы будуць абаронены VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Выбраныя праграмы выключаны з вашага падключэння па VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Толькі выбраныя праграмы будуць падключаны праз VPN. Увесь астатні трафік застанецца неабароненым.</string>
 </resources>

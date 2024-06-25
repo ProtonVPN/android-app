@@ -1178,7 +1178,7 @@
     <string name="settings_advanced_nat_type_moderate_description">네트워크에 들어오는 데이터를 약간 통제합니다. 온라인 비디오 게이밍에 최적입니다.</string>
     <string name="settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 커스텀할 수 있습니다. %1$s</string>
     <string name="settings_protocol_description">VPN 프로토콜은 서버와 여러분의 장치 사이에서 데이터가 이동하는 방식을 정의합니다. %1$s</string>
-    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_description_no_link">VPN 프로토콜은 서버와 여러분의 장치 사이에서 데이터가 이동하는 방식을 정의합니다.</string>
     <string name="settings_protocol_section_speed">속도 (UDP)</string>
     <string name="settings_protocol_section_reliability">안정성 (TCP)</string>
     <string name="settings_protocol_smart_title">스마트</string>
@@ -1209,6 +1209,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="settings_split_tunneling_already_included">이미 포함됨</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP 주소를 목록에서 삭제하시겠습니까?</string>
     <string name="settings_dialog_reconnect">다음에 연결할 때 새 설정이 적용됩니다.</string>
+    <string name="settings_needs_reconnect_banner">다음에 연결할 때 새 설정이 적용됩니다.</string>
     <string name="info_secure_core_standard_high_privacy">강화된 개인정보 보호</string>
     <string name="info_secure_core_standard_lower_latency">낮은 레이턴시</string>
     <string name="info_secure_core_advanced_privacy">향상된 개인정보 보호</string>
@@ -1236,5 +1237,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">가격을 불러오던 중 오류가 발생했습니다.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 커스텀할 수 있습니다.</string>
+    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
 </resources>

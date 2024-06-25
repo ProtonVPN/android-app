@@ -1207,17 +1207,17 @@
     <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
-    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_description_no_link">یک پروتکل VPN تشخیص می‌دهد چگونه داده‌ها بین یک سرور VPN و دستگاهتان تبادل شوند.</string>
     <string name="settings_protocol_section_speed">Speed (UDP)</string>
-    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_section_reliability">پایداری (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
-    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_smart_description">به‌طور خودکار بهترین پروتکل را برای اتصالتان انتخاب می‌کند.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_udp_description">سریع، امن و مؤثر. WireGuard نسبت به سایر پروتکل‌ها در مصرف باتری به‌صرفه‌تر است.</string>
     <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_openvpn_udp_description">پا بر جا، آزمایش شده و امن. OpenVPN در مصرف باتری به خوبی بعضی پروتکل‌های دیگر عمل نمی‌کند.</string>
+    <string name="settings_protocol_openvpn_tcp_description">پا بر جا، آزمایش شده و امن. OpenVPN در شرایط نابه‌سامان شبکه‌ای قابل اطمینان است، ولی به سرعت پروتکل‌های دیگر نمی‌رسد.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1237,6 +1237,7 @@
     <string name="settings_split_tunneling_already_included">Already included</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">حذف نشانی IP از لیست؟</string>
     <string name="settings_dialog_reconnect">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
+    <string name="settings_needs_reconnect_banner">تنظیمات جدید هنگام اتصال بعدی شما اعمال خواهند شد.</string>
     <string name="info_secure_core_standard_high_privacy">High privacy</string>
     <string name="info_secure_core_standard_lower_latency">Lower latency</string>
     <string name="info_secure_core_advanced_privacy">حریم خصوصی پیشرفته</string>
@@ -1264,5 +1265,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Error fetching prices.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">اتصالتان را با تصمیم بر این‌که چه برنامه‌ها و نشانی‌های IP با VPN محافظت شوند سفارشی کنید.</string>
+    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
 </resources>

@@ -135,8 +135,8 @@
     <string name="settingsSplitTunnelingAvailableHeader">Pozostałe aplikacje (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Pokaż aplikacje systemowe</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Pokaż aplikacje systemowe</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Te aplikacje zostaną wykluczone z połączenia VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Tyle te aplikacje zostaną uwzględnione w ruchu VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -538,7 +538,7 @@
         <item quantity="many">Odblokuj zablokowane treści z %1$d krajów w planie VPN Plus</item>
         <item quantity="other">Odblokuj zablokowane treści z %1$d krajów w planie VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Select your default connection</string>
+    <string name="select_default_connection">Wybierz domyślne połączenie</string>
     <string name="settings_default_connection_title">Domyślne połączenie</string>
     <string name="fastest_country_description">Najlepszy serwer dla Twojej lokalizacji</string>
     <string name="settings_last_connection_title">Ostatnie połączenie</string>
@@ -1272,14 +1272,14 @@
     <string name="settings_protocol_smart_description">Automatycznie wybiera najlepszy protokół dla połączenia.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">Szybki, bezpieczny i wydajny. Protokół WireGuard jest bardziej energooszczędny niż inne protokoły.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Szybki, bezpieczny i wydajny. Protokół WireGuard jest trudny do wykrycia i zablokowania.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Sprawdzony, przetestowany i bezpieczny. Protokół OpenVPN jest mniej energooszczędny niż inne protokoły.</string>
     <string name="settings_protocol_openvpn_tcp_description">Sprawdzony, przetestowany i bezpieczny. Protokół OpenVPN jest niezawodny, ale może nie być tak szybki, jak inne protokoły.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Pokonuje blokady VPN, ukrywając połączenie VPN przed cenzorami. Protokół jest odporny na DPI (głęboką inspekcję pakietów), ale może nie być tak szybki jak inne protokoły. Protokół Stealth jest dostępny wyłącznie w Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Recommended</string>
+    <string name="settings_protocol_badge_recommended">Zalecany</string>
     <string name="settings_split_tunneling_mode_title">Tryb</string>
     <string name="settings_split_tunneling_mode_standard">Standardowy</string>
     <string name="settings_split_tunneling_mode_inverse">Odwrócony</string>
@@ -1295,6 +1295,7 @@
     <string name="settings_split_tunneling_already_included">Już uwzględniony</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Usunąć adres IP z listy?</string>
     <string name="settings_dialog_reconnect">Nowe ustawienia zostaną zastosowane przy kolejnym połączeniu.</string>
+    <string name="settings_needs_reconnect_banner">Nowe ustawienia zostaną zastosowane przy kolejnym połączeniu.</string>
     <string name="info_secure_core_standard_high_privacy">Wysoki poziom prywatności</string>
     <string name="info_secure_core_standard_lower_latency">Niższe opóźnienie</string>
     <string name="info_secure_core_advanced_privacy">Zaawansowana prywatność</string>
@@ -1322,5 +1323,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Pobieranie cen nie powiodło się.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Dostosuj połączenie, decydując, które aplikacje i adresy IP są chronione przez VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Dostosuj połączenie, decydując, które aplikacje będą chronione przez VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Wybrane aplikacje zostaną wykluczone z połączenia VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Tylko wybrane aplikacje zostaną uwzględnione w połączeniu VPN. Pozostały ruch sieciowy będzie niechroniony.</string>
 </resources>

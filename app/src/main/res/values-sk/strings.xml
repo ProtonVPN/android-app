@@ -1265,17 +1265,17 @@
     <string name="settings_advanced_nat_type_moderate_description">Niektoré obmedzenia dát vstupujúcich do vašej siete. Táto voľba je najlepšia pre hranie online video hier.</string>
     <string name="settings_split_tunneling_description">Prispôsobte si pripojenie tým, že sa rozhodnete, ktoré aplikácie a IP adresy budú chránené pomocou VPN. %1$s</string>
     <string name="settings_protocol_description">VPN protokol určuje spôsob prenosu dát medzi VPN serverom a vaším zariadením. %1$s</string>
-    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_description_no_link">VPN protokol určuje spôsob prenosu dát medzi VPN serverom a vaším zariadením.</string>
     <string name="settings_protocol_section_speed">Speed (UDP)</string>
-    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_section_reliability">Spoľahlivosť (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
-    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_smart_description">Automaticky vyberie najlepší protokol pre vaše pripojenie.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_udp_description">Rýchly, bezpečný a efektívny. WireGuard je energeticky účinnejší ako ostatné protokoly.</string>
     <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_openvpn_udp_description">Zavedený, dobre otestovaný a bezpečný. Oproti iným protokolom je OpenVPN menej energeticky úsporný.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Zavedený, dobre otestovaný a bezpečný. OpenVPN je spoľahlivý v zlých sieťových podmienkach, ale nemusí byť tak rýchly ako iné protokoly.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1295,6 +1295,7 @@
     <string name="settings_split_tunneling_already_included">Už je zahrnutá</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Odstrániť IP adresu zo zoznamu?</string>
     <string name="settings_dialog_reconnect">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
+    <string name="settings_needs_reconnect_banner">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
     <string name="info_secure_core_standard_high_privacy">Väčšie súkromie</string>
     <string name="info_secure_core_standard_lower_latency">Nižšia latencia</string>
     <string name="info_secure_core_advanced_privacy">Pokročilé súkromie</string>
@@ -1322,5 +1323,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Chyba pri načítavaní cien.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Prispôsobte si pripojenie tým, že sa rozhodnete, ktoré aplikácie a IP adresy budú chránené pomocou VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
 </resources>

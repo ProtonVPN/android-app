@@ -1265,17 +1265,17 @@
     <string name="settings_advanced_nat_type_moderate_description">Некоторое ограничение на поступление данных в вашу сеть. Этот вариант лучше всего подходит для сетевых видеоигр.</string>
     <string name="settings_split_tunneling_description">Настройте свое подключение, определив, какие приложения и адреса IP будут защищены VPN. %1$s</string>
     <string name="settings_protocol_description">Протокол VPN определяет, как данные перемещаются между сервером VPN и вашим устройством. %1$s</string>
-    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_description_no_link">Протокол VPN определяет способ передачи данных между сервером VPN и вашим устройством.</string>
     <string name="settings_protocol_section_speed">Speed (UDP)</string>
-    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_section_reliability">Надёжность (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
-    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_smart_description">Автоматически выбирает лучший протокол для вашего подключения.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_udp_description">Быстрый, безопасный и эффективный. WireGuard более энергоэффективен, чем другие протоколы.</string>
     <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_openvpn_udp_description">Зарекомендовавший себя, хорошо проверенный и безопасный. OpenVPN менее энергоэффективен, чем некоторые другие протоколы.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Зарекомендовавший себя, хорошо проверенный и безопасный. OpenVPN надёжен в условиях плохой сети, но может быть медленнее других протоколов.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1295,6 +1295,7 @@
     <string name="settings_split_tunneling_already_included">Уже добавлено</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Удалить IP-адреса из списка?</string>
     <string name="settings_dialog_reconnect">Новые настройки будут применены при следующем подключении.</string>
+    <string name="settings_needs_reconnect_banner">Новые настройки будут применены при следующем подключении.</string>
     <string name="info_secure_core_standard_high_privacy">Высокая степень приватности</string>
     <string name="info_secure_core_standard_lower_latency">Меньшая задержка</string>
     <string name="info_secure_core_advanced_privacy">Продвинутая конфиденциальность</string>
@@ -1322,5 +1323,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Ошибка загрузки цен.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Настройте своё подключение, определив, какие приложения и IP-адреса будут защищены VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
 </resources>
