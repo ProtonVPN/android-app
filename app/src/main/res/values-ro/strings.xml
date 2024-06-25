@@ -1236,17 +1236,17 @@
     <string name="settings_advanced_nat_type_moderate_description">O anumită restricție la datele care intră în rețeaua personală. Această opțiune este cea mai bună pentru jocurile video online.</string>
     <string name="settings_split_tunneling_description">Personalizați-vă conexiunea decizând ce aplicații și adrese IP sunt protejate de VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocol VPN determină modul în care datele se mută între un server VPN și dispozitivul personal. %1$s</string>
-    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_description_no_link">Un protocol VPN determină modul în care datele se mută între un server VPN și dispozitivul personal.</string>
     <string name="settings_protocol_section_speed">Speed (UDP)</string>
-    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_section_reliability">Fiabilitate (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
-    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_smart_description">Autoselectează cel mai bun protocol pentru conexiune.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_udp_description">Rapid, sigur și eficient. WireGuard este mai eficient din punct de vedere al bateriei decât alte protocoale.</string>
     <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_openvpn_udp_description">Răspândit, bine testat și sigur. OpenVPN este mai puțin eficient din punct de vedere al bateriei decât alte protocoale.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Răspândit, bine testat și sigur. OpenVPN este fiabil în condiții de rețea precare, dar poate să nu fie la fel de rapid ca alte protocoale.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1266,6 +1266,7 @@
     <string name="settings_split_tunneling_already_included">Deja inclusă</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Eliminați adresa IP din listă?</string>
     <string name="settings_dialog_reconnect">Noile setări vor fi aplicate la următoarea conectare.</string>
+    <string name="settings_needs_reconnect_banner">Noile setări vor fi aplicate la următoarea conectare.</string>
     <string name="info_secure_core_standard_high_privacy">Intimitate mare</string>
     <string name="info_secure_core_standard_lower_latency">Latență scăzută</string>
     <string name="info_secure_core_advanced_privacy">Intimitate avansată</string>
@@ -1293,5 +1294,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Eroare la preluarea prețurilor.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Personalizați-vă conexiunea decizând ce aplicații și adrese IP sunt protejate de VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
 </resources>

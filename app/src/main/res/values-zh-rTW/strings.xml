@@ -1178,17 +1178,17 @@
     <string name="settings_advanced_nat_type_moderate_description">部分限制數據流入您的網路。此選項最適合線上視訊遊戲。</string>
     <string name="settings_split_tunneling_description">自訂您的連線，決定哪些應用程式和 IP 位址受 VPN 保護。%1$s</string>
     <string name="settings_protocol_description">VPN 通訊協定乃斷定數據如何在 VPN 伺服器與您的裝置之間流動。%1$s</string>
-    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_description_no_link">VPN 通訊協定決定了資料交換的方式。</string>
     <string name="settings_protocol_section_speed">Speed (UDP)</string>
-    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_section_reliability">可靠性 (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
-    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_smart_description">自動為您選擇最適合的通訊協定。</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_udp_description">快速、安全且高效能。WireGuard 比其他通訊協定更節能。</string>
     <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_openvpn_udp_description">穩定、經過完善測試且安全的。OpenVPN 消耗較多的電力。</string>
+    <string name="settings_protocol_openvpn_tcp_description">穩定、經過完善測試且安全的。OpenVPN 在網路狀況不佳時依然可靠，但可能不如其他通訊協定快速。</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1208,6 +1208,7 @@
     <string name="settings_split_tunneling_already_included">Already included</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">要從清單中移除 IP 位址嗎？</string>
     <string name="settings_dialog_reconnect">新的設定將於下次連線時套用。</string>
+    <string name="settings_needs_reconnect_banner">新的設定將於下次連線時套用。</string>
     <string name="info_secure_core_standard_high_privacy">高隱私</string>
     <string name="info_secure_core_standard_lower_latency">低延遲</string>
     <string name="info_secure_core_advanced_privacy">進階隱私</string>
@@ -1235,5 +1236,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">收取價格時發生錯誤。</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">透過決定哪些應用程式和 IP 位址受到 VPN 保護，來自訂您的連線設定。</string>
+    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
 </resources>

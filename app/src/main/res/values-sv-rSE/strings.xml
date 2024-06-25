@@ -1237,6 +1237,7 @@
     <string name="settings_split_tunneling_already_included">Redan inkluderad</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Ta bort IP-adress från listan?</string>
     <string name="settings_dialog_reconnect">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
+    <string name="settings_needs_reconnect_banner">Nya inställningar kommer tillämpas nästa gång du ansluter.</string>
     <string name="info_secure_core_standard_high_privacy">Hög integritet</string>
     <string name="info_secure_core_standard_lower_latency">Lägre latens</string>
     <string name="info_secure_core_advanced_privacy">Avancerad integritet</string>
@@ -1264,5 +1265,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Fel vid hämtning av priser.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Anpassa din anslutning genom att bestämma vilka appar och IP-adresser som är skyddade av VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Anpassa din anslutning genom att bestämma vilka appar som är skyddade av VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Valda appar är exkluderade från VPN-anslutning.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Endast valda appar ansluter genom VPN, all annan trafik är oskyddad.</string>
 </resources>

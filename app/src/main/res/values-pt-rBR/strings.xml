@@ -1237,6 +1237,7 @@
     <string name="settings_split_tunneling_already_included">Já incluído</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Remover o endereço IP da lista?</string>
     <string name="settings_dialog_reconnect">As novas configurações serão aplicadas na próxima vez que você se conectar.</string>
+    <string name="settings_needs_reconnect_banner">As novas configurações serão aplicadas na próxima vez que você se conectar.</string>
     <string name="info_secure_core_standard_high_privacy">Privacidade alta</string>
     <string name="info_secure_core_standard_lower_latency">Baixa latência</string>
     <string name="info_secure_core_advanced_privacy">Privacidade avançada</string>
@@ -1264,5 +1265,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Erro ao buscar preços.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Personalize sua conexão decidindo quais aplicativos e endereços IP são protegidos por VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Aplicativos selecionados são excluídos da conexão VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
 </resources>

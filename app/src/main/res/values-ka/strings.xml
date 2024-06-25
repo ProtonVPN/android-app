@@ -253,7 +253,7 @@
     <string name="nameOceania">ოკეანეთი</string>
     <string name="tv_row_settings">მორგება</string>
     <string name="tv_card_split_tunneling_label">Split Tunneling</string>
-    <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_card_protocol_label">პროტოკოლი</string>
     <string name="tv_detail_default_connection_checkbox_short">რჩეული</string>
     <string name="tv_detail_connect_streaming">Plus-ით სტრიმინგი</string>
     <string name="tv_detail_connect">დაკავშირება</string>
@@ -1207,21 +1207,21 @@
     <string name="settings_advanced_nat_type_moderate_description">მცირე შეზღუდვები თქვენს ქსელში შემომავალი მონაცემებისთვის. ეს პარამეტრი საუკეთესოა ონლაინ-თამაშებისთვის.</string>
     <string name="settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები და IP მისამართები იქნებიან VPN-ით დაცული. %1$s</string>
     <string name="settings_protocol_description">VPN პროტოკოლი განსაზღვრავს, როგორ მოძრაობს მონაცემები VPN სერვერსა და თქვენს მოწყობილობას შორის.%1$s</string>
-    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
-    <string name="settings_protocol_section_speed">Speed (UDP)</string>
-    <string name="settings_protocol_section_reliability">Reliability (TCP)</string>
+    <string name="settings_protocol_description_no_link">VPN პროტოკოლი განსაზღვრავს, როგორ მოძრაობს მონაცემები VPN სერვერსა და თქვენს მოწყობილობას შორის.</string>
+    <string name="settings_protocol_section_speed">სიჩქარე (UDP)</string>
+    <string name="settings_protocol_section_reliability">საიმედოობა (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
-    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_smart_description">ავტომატურად აირჩევს საუკეთესო პროტოკოლს თქვენი მიერთებისთვის.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
+    <string name="settings_protocol_wireguard_udp_description">სწრაფი, დაცული და ეფექტური. WireGuard უფრო ნაკლებ ელემენტს ხარჯავს, ვიდრე სხვა პროტოკოლები.</string>
     <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_openvpn_udp_description">ცნობილი, დატესტილი და დაცული. OpenVPN ნაკლებად მეგობრობს ელემენტთან, ვიდრე სხვა პროტოკოლები.</string>
+    <string name="settings_protocol_openvpn_tcp_description">გამოცდილი, დატესტილი და დაცული. OpenVPN სანდოა ნელი ქსელის პირობებში, მაგრამ ის ისეთი სწრაფი არაა, როგორც სხვა პროტოკოლები.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Recommended</string>
+    <string name="settings_protocol_badge_recommended">რეკომენდებულია</string>
     <string name="settings_split_tunneling_mode_title">რეჟიმი</string>
     <string name="settings_split_tunneling_mode_standard">სტანდარტული</string>
     <string name="settings_split_tunneling_mode_inverse">შებრუნება</string>
@@ -1237,6 +1237,7 @@
     <string name="settings_split_tunneling_already_included">უკვე ჩასმულია</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">წავშალო IP მისამართი სიიდან?</string>
     <string name="settings_dialog_reconnect">ახალი პარამეტრები ძალაში შემდეგი შეერთებისას შევა.</string>
+    <string name="settings_needs_reconnect_banner">ახალი პარამეტრები ძალაში შემდეგი შეერთებისას შევა.</string>
     <string name="info_secure_core_standard_high_privacy">მაღალი კონფიდენციალობა</string>
     <string name="info_secure_core_standard_lower_latency">დაბალი შეყოვნება</string>
     <string name="info_secure_core_advanced_privacy">დამატებითი პირადულობა</string>
@@ -1264,5 +1265,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">ფასების გამოთხოვის შეცდომა.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები და IP მისამართები იქნებიან VPN-ით დაცული.</string>
+    <string name="tv_settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები იქნებიან VPN-ით დაცული.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">მონიშნული აპები ამოღებულია VPN მიერთებიდან.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">მხოლოდ, არჩეული აპები გამოიყენებენ VPN-ს. დანარჩენი ყველაფერი დაუცველი იქნება.</string>
 </resources>
