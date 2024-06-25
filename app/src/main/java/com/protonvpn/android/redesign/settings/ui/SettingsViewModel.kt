@@ -39,8 +39,6 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.settings.BuildConfigInfo
-import com.protonvpn.android.ui.settings.currentModeApps
-import com.protonvpn.android.ui.settings.currentModeIps
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.vpn.ProtocolSelection

@@ -46,22 +46,26 @@ data class SplitTunnelingSettings(
     val includedApps: List<String> = emptyList(),
 ): Parcelable {
     fun isEffectivelySameAs(other: SplitTunnelingSettings): Boolean {
-        fun excludesEqual() = this.excludedIps == other.excludedIps && this.excludedApps == other.excludedApps
-        fun includesEqual() = this.includedIps == other.includedIps && this.includedApps == other.includedApps
-
-        return this == other
-            || !this.isEnabled && !other.isEnabled
-            || this.mode == other.mode && this.isEnabled == other.isEnabled && (
-                mode == SplitTunnelingMode.EXCLUDE_ONLY && excludesEqual()
-                    || mode == SplitTunnelingMode.INCLUDE_ONLY && includesEqual()
-            )
+        return !isEnabled && !other.isEnabled
+            || mode == other.mode && effectiveApps() == other.effectiveApps() && effectiveIps() == other.effectiveIps()
             // Both INCLUDE_ONLY and EXCLUDE_ONLY with empty values behave the same as split tunneling disabled:
-            || this.mode == other.mode && mode == SplitTunnelingMode.EXCLUDE_ONLY && this.excludesEmpty() && other.excludesEmpty()
-            || this.mode == other.mode && mode == SplitTunnelingMode.INCLUDE_ONLY && this.includesEmpty() && other.includesEmpty()
+            || isEmpty() && other.isEmpty()
     }
 
-    private fun excludesEmpty() = excludedIps.isEmpty() && excludedApps.isEmpty()
-    private fun includesEmpty() = includedIps.isEmpty() && includedApps.isEmpty()
+    fun currentModeApps() = when (mode) {
+        SplitTunnelingMode.INCLUDE_ONLY -> includedApps
+        SplitTunnelingMode.EXCLUDE_ONLY -> excludedApps
+    }
+
+    fun currentModeIps() = when (mode) {
+        SplitTunnelingMode.INCLUDE_ONLY -> includedIps
+        SplitTunnelingMode.EXCLUDE_ONLY -> excludedIps
+    }
+
+    fun isEmpty() = currentModeApps().isEmpty() && currentModeIps().isEmpty()
+
+    private fun effectiveApps() = if (isEnabled) currentModeApps() else emptyList()
+    private fun effectiveIps() = if (isEnabled) currentModeIps() else emptyList()
 }
 
 @Serializable

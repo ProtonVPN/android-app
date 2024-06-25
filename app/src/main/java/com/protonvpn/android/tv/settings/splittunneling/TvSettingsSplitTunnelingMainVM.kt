@@ -27,7 +27,6 @@ import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
-import com.protonvpn.android.ui.settings.currentModeApps
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.Quadruple
 import com.protonvpn.android.vpn.VpnConnectionManager
