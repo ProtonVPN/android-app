@@ -39,15 +39,3 @@ fun formatSplitTunnelingItems(items: List<CharSequence>?): String {
         )
     }
 }
-
-fun SplitTunnelingSettings.currentModeApps() =
-    when(mode) {
-        SplitTunnelingMode.INCLUDE_ONLY -> includedApps
-        SplitTunnelingMode.EXCLUDE_ONLY -> excludedApps
-    }
-
-fun SplitTunnelingSettings.currentModeIps() =
-    when(mode) {
-        SplitTunnelingMode.INCLUDE_ONLY -> includedIps
-        SplitTunnelingMode.EXCLUDE_ONLY -> excludedIps
-    }

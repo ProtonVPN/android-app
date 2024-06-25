@@ -168,6 +168,18 @@ class SplitTunnelingSettingsTests {
         assertDifferBothWays(a, b)
     }
 
+    @Test
+    fun `effectively same - difference in mode with empty apps and ips is ignored`() {
+        val a = SplitTunnelingSettings(
+            isEnabled = true,
+            mode = SplitTunnelingMode.INCLUDE_ONLY
+        )
+        val b = a.copy(isEnabled = false, mode = SplitTunnelingMode.EXCLUDE_ONLY)
+        val c = a.copy(mode = SplitTunnelingMode.EXCLUDE_ONLY)
+        assertSameBothWays(a, b)
+        assertSameBothWays(a, c)
+    }
+
     private fun assertSameBothWays(a: SplitTunnelingSettings, b: SplitTunnelingSettings) {
         assertTrue(a.isEffectivelySameAs(b))
         assertTrue(b.isEffectivelySameAs(a))
