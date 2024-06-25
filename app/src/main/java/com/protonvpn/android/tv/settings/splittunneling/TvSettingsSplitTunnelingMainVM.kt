@@ -28,7 +28,6 @@ import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.userstorage.DontShowAgainStore
-import com.protonvpn.android.utils.Quadruple
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
@@ -93,11 +92,8 @@ class TvSettingsSplitTunnelingMainVM @Inject constructor(
         appliedSettingsFlow,
         selectedAppNames,
         vpnStatusProviderUI.uiStatus
-    ) { settings, appliedSettings, selectedAppNames, vpnStatus ->
-        // Combine to be able to use flatMapLatest
-        // Convert to combineTransformLatest if it gets implemented: https://github.com/Kotlin/kotlinx.coroutines/issues/1484
-        Quadruple(settings, appliedSettings, selectedAppNames, vpnStatus.state.isConnectedOrConnecting())
-    }.map { (splitTunneling, appliedSettings, selectedAppNames, isConnected) ->
+    ) { splitTunneling, appliedSettings, selectedAppNames, vpnStatus ->
+        val isConnected = vpnStatus.state.isConnectedOrConnecting()
         val needsReconnect =
             isConnected && appliedSettings != null && !appliedSettings.isEffectivelySameAs(splitTunneling)
         mainState(splitTunneling, needsReconnect, selectedAppNames)
