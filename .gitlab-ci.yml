@@ -264,6 +264,29 @@ build google play dev (monitoring release):
       - app/build/outputs/apk
       - release_tests/build/outputs/apk
 
+build payments black google dev:
+  stage: build
+  when: manual
+  tags:
+    - xlarge-k8s
+  script:
+    - ./gradlew openvpn:assembleRelease
+    - ./gradlew assembleBlackGoogleDevRelease
+    - ./gradlew bundleBlackGoogleDevRelease
+  interruptible: false
+  variables:
+    TEST_ENV_DOMAIN: "payments.proton.black"
+  after_script:
+    # Avoid build files clashing with the test ones.
+    - mkdir paymentsBlack
+    - mv app/build/outputs/apk/* paymentsBlack
+    - mv app/build/outputs/bundle/* paymentsBlack
+  except:
+    - schedules
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - paymentsBlack
 
 .build amazon release:
   stage: build

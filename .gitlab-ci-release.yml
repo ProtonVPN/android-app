@@ -68,6 +68,32 @@ sign-bundle:
   script:
     - "true"
 
+sign-payment-black-bundle:
+  stage: deploy
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: $CI_COMMIT_BRANCH == "development"
+      when: manual
+    - if: $CI_COMMIT_BRANCH =~ /^hotfix/
+      when: never
+    - if: $CI_COMMIT_BRANCH =~ /^release/
+      when: never
+  needs: ["build payments black google dev"]
+  tags:
+    - signing
+  variables:
+    ARTIFACT_SIGNATURE_KIND: android-app-bundle
+    ARTIFACT_SIGNATURE_PROFILE: android-vpn
+    ARTIFACT_SIGNATURE_REF_TYPE: protected-branch
+    ARTIFACT_SIGNATURE_FILES: paymentsBlack/blackGoogleDevRelease/${ARCHIVES_BASE_NAME}-black-google-dev-release.aab
+    ARTIFACT_SIGNATURE_DEST: signedBundle/
+  id_tokens:
+    SIGNING_ID_TOKEN:
+      aud: https://gitlab.protontech.ch
+  script:
+    - "true"
+
 sync-app:
   cache: {}
   stage: mirror
