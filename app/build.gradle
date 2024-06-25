@@ -56,14 +56,14 @@ jacoco {
 
 // There is no dependency on unit tests because coverage is run in a separate CI job and we want to
 // avoid building and running the tests again.
-task jacocoTestReport(type: JacocoReport) {
+tasks.register("jacocoTestReport", JacocoReport) {
 
     reports {
         xml.required = true
         html.required = true
     }
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', 'ch.protonmail.android.utils.nativelib']
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
     def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/blackGooglePlayStoreDebug", excludes: fileFilter)
     def mainSrc = files(["src/main/java","src/google/java"])
     sourceDirectories.setFrom files([mainSrc])
@@ -72,13 +72,8 @@ task jacocoTestReport(type: JacocoReport) {
             "**/*.exec",
             "**/*.ec"
     ])
-    afterEvaluate {
-        classDirectories.setFrom files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: '**/ch/protonmail/**')
-        })
-    }
 }
-task coverageReport() {
+tasks.register("coverageReport") {
     dependsOn jacocoTestReport
 
     def reportFile = project.file("build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
@@ -103,12 +98,13 @@ task coverageReport() {
     }
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     jacoco.includeNoLocationClasses = true
     jacoco.excludes = ['jdk.internal.*']
 }
 
-task updateLicensesJson(dependsOn: 'licenseProductionGooglePlayStoreReleaseReport') {
+tasks.register("updateLicensesJson") {
+    dependsOn 'licenseProductionGooglePlayStoreReleaseReport'
     doLast {
         File json = new File("$project.projectDir/build/reports/licenses/licenseProductionGooglePlayStoreReleaseReport.json")
         File out = new File("$project.projectDir/src/main/assets/open_source_licenses.js")
@@ -464,7 +460,7 @@ tasks.withType(Detekt).configureEach {
     }
 }
 
-task downloadDetektConfig {
+tasks.register("downloadDetektConfig") {
     doLast {
         def srcConfigFilePath = "config/detekt/config.yml"
         def dstConfigFile = file(commonDetektConfigPath)
@@ -497,7 +493,7 @@ task downloadDetektConfig {
     }
 }
 
-task generateReleaseNotesForPublishing {
+tasks.register("generateReleaseNotesForPublishing") {
     doLast {
         File releaseNotesDir = new File("$project.projectDir/src/main/play/release-notes/en-US")
         releaseNotesDir.mkdirs()
@@ -509,7 +505,7 @@ task generateReleaseNotesForPublishing {
     }
 }
 
-task prepareGuestHoleServers {
+tasks.register("prepareGuestHoleServers") {
     doLast {
         def guestHoleUrl = System.getenv("GUEST_HOLE_URL")
         if (guestHoleUrl == null)
