@@ -512,26 +512,22 @@ task generateReleaseNotesForPublishing {
 task prepareGuestHoleServers {
     doLast {
         def guestHoleUrl = System.getenv("GUEST_HOLE_URL")
-        if (guestHoleUrl == null) {
-            copy {
-                from "$project.projectDir/config/GuestHoleServers.json"
-                into "$project.projectDir/src/main/assets"
-            }
-        } else {
-            def allServers = new JsonSlurper().parse(new URL(guestHoleUrl))["LogicalServers"]
-            def candidateServers = allServers.stream().filter { s ->
-                def country = s["ExitCountry"]
-                def secureCore = (s["Features"] & 1) == 1
-                !secureCore && s["Status"] == 1 && !country.equalsIgnoreCase("se") && !country.equalsIgnoreCase("is")
-            }.collect()
-            Collections.shuffle(candidateServers)
-            def servers = candidateServers.take(10)
+        if (guestHoleUrl == null)
+            throw new GradleException("GUEST_HOLE_URL needs to be set for prepareGuestHoleServers")
 
-            File dir = new File("$project.projectDir/src/main/assets")
-            File serversFile = new File(dir, "GuestHoleServers.json")
-            serversFile.newWriter().withWriter { w ->
-                w << JsonOutput.prettyPrint(new JsonOutput().toJson(servers))
-            }
+        def allServers = new JsonSlurper().parse(new URL(guestHoleUrl))["LogicalServers"]
+        def candidateServers = allServers.stream().filter { s ->
+            def country = s["ExitCountry"]
+            def secureCore = (s["Features"] & 1) == 1
+            !secureCore && s["Status"] == 1 && !country.equalsIgnoreCase("se") && !country.equalsIgnoreCase("is")
+        }.collect()
+        Collections.shuffle(candidateServers)
+        def servers = candidateServers.take(10)
+
+        File dir = new File("$project.projectDir/src/main/assets")
+        File serversFile = new File(dir, "GuestHoleServers.json")
+        serversFile.newWriter().withWriter { w ->
+            w << JsonOutput.prettyPrint(new JsonOutput().toJson(servers))
         }
     }
 }
@@ -543,8 +539,6 @@ tasks.withType(Test).configureEach {
         showExceptions true
     }
 }
-
-preBuild.dependsOn prepareGuestHoleServers
 
 import org.gradle.internal.extensibility.DefaultExtraPropertiesExtension
 

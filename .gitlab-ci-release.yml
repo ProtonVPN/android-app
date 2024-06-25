@@ -26,10 +26,9 @@ make release branch:
     - export VERSION_NAME=$(./gradlew -q getVersionName | tail -n 1)
     - export VERSION_CODE=$(./gradlew -q getVersionCode | tail -n 1)
     # Make new release branch and add guestholes
-    - ./gradlew :app:prepareGuestHoleServers
-    - mv app/src/main/assets/GuestHoleServers.json app/config/
     - git checkout -b release/${VERSION_NAME}
-    - git add app/config/GuestHoleServers.json
+    - ./gradlew :app:prepareGuestHoleServers
+    - git add app/src/main/assets/GuestHoleServers.json
     - git commit -m "Update guesthole servers"
     # Add f-droid metadata
     - echo -e "What's new\n${RELEASE_NOTES}" > metadata/en-US/changelogs/${VERSION_CODE}.txt
