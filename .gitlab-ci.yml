@@ -273,6 +273,9 @@ build payments black google dev:
     - ./gradlew openvpn:assembleRelease
     - ./gradlew assembleBlackGoogleDevRelease
     - ./gradlew bundleBlackGoogleDevRelease
+    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
+    - echo ${ARCHIVES_BASE_NAME}
+    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
   interruptible: false
   variables:
     TEST_ENV_DOMAIN: "payments.proton.black"
@@ -287,6 +290,8 @@ build payments black google dev:
     expire_in: 1 week
     paths:
       - paymentsBlack
+    reports:
+      dotenv: deploy.env
 
 .build amazon release:
   stage: build
