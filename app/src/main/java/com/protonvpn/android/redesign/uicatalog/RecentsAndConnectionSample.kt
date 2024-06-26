@@ -44,8 +44,7 @@ class RecentsAndConnectionSample : SampleScreen("Connection+Recents", "connectio
                 onDisconnectClicked = viewModel::disconnect,
                 onOpenConnectionPanelClicked = {},
                 onRecentClicked = viewModel::connectRecent,
-                onRecentPinToggle = viewModel::togglePinned,
-                onRecentRemove = viewModel::removeRecent,
+                onRecentOpen = {},
                 expandState = null,
                 errorSnackBar = null
             )

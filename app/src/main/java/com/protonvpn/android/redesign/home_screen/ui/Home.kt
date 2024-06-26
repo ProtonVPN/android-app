@@ -77,8 +77,10 @@ import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.extraPaddingForWindowSize
 import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
+import com.protonvpn.android.redesign.recents.ui.RecentBottomSheetDialog
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
+import com.protonvpn.android.redesign.recents.ui.rememberRecentBottomSheetState
 import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
 import com.protonvpn.android.redesign.settings.ui.DefaultConnectionSelection
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
@@ -150,6 +152,7 @@ fun HomeView(
     val prominentPromoBannerState = viewModel.prominentPromoBannerStateFlow.collectAsStateWithLifecycle().value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val coroutineScope = rememberCoroutineScope()
+    val recentBottomSheetStateState = rememberRecentBottomSheetState()
 
     val context = LocalContext.current
     val fullyDrawn by remember { derivedStateOf { recentsViewState.value != null } }
@@ -329,8 +332,7 @@ fun HomeView(
                     onOpenConnectionPanelClicked = onConnectionCardClick,
                     onOpenDefaultConnection = onDefaultConnectionOpen,
                     onRecentClicked = recentClickedAction,
-                    onRecentPinToggle = viewModel::togglePinned,
-                    onRecentRemove = viewModel::removeRecent,
+                    onRecentOpen = { recentBottomSheetStateState.onRecentSettingOpen(it) },
                     horizontalPadding = horizontalPadding,
                     topPadding = listBgGradientOffset,
                     errorSnackBar = snackbarHostState,
@@ -350,6 +352,12 @@ fun HomeView(
                 )
             }
         }
+
+        RecentBottomSheetDialog(
+            state = recentBottomSheetStateState,
+            onRecentPinToggle = viewModel::togglePinned,
+            onRecentRemove = viewModel::removeRecent
+        )
 
         val vpnStatusTopMinHeight = 48.dp
         val fullCoverThresholdPx = LocalDensity.current.run {
