@@ -162,7 +162,10 @@ fun ServerDetailsRow(
                 needsBullet = true
             }
             features.forEach { feature ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
                     if (needsBullet) {
                         SeparatorBullet()
                         Spacer(Modifier.width(bulletPadding))
