@@ -977,7 +977,7 @@ dependencies {
     kspAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
     // Hilt for WorkManager
     implementation 'androidx.hilt:hilt-work:1.2.0'
-    ksp 'androidx.hilt:hilt-compiler:1.2.0'
+    ksp "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:$mockk_version"
