@@ -95,7 +95,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "com.google.dagger:hilt-android-testing:$hilt_version"
     implementation 'androidx.hilt:hilt-work:1.2.0'
-    ksp 'androidx.hilt:hilt-compiler:1.1.0'
+    ksp "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
     implementation project(':app')
     implementation project(path: ':openvpn')

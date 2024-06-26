@@ -27,6 +27,7 @@ buildscript {
     ext.datastore_version = '1.1.0-alpha06'
     ext.detekt_version = '1.23.5'
     ext.hilt_version = '2.49'
+    ext.hilt_compiler_version = '1.2.0'
     // When updating kotlin version KSP needs to be updated as well to matching version
     ext.kotlin_version = '1.9.22'
     ext.ksp_version = '1.9.22-1.0.17'
