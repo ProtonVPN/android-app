@@ -42,8 +42,6 @@ import com.protonvpn.android.redesign.recents.ui.RecentRow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
@@ -64,23 +62,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
                     RecentRow(
                         item = item,
                         onClick = {},
-                        onTogglePin = {
-                            coroutineScope.launch {
-                                delay(100) // Simulate DB overhead.
-                                val recentsWithoutItem = recents - item
-                                if (item.isPinned) {
-                                    recents = recentsWithoutItem + item.copy(isPinned = false)
-                                } else {
-                                    recents = listOf(item.copy(isPinned = true)) + recentsWithoutItem
-                                }
-                            }
-                        },
-                        onRemove = {
-                            coroutineScope.launch {
-                                delay(100) // Simulate DB overhead.
-                                recents = recents.filterNot { it.id == item.id }
-                            }
-                        },
+                        onRecentSettingOpen = {},
                         modifier = Modifier
                             .fillMaxSize()
                             .animateItemPlacement()

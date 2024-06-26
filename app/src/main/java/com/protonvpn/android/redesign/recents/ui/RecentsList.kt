@@ -28,33 +28,49 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.boundsInParent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.SimpleModalBottomSheet
+import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
+import com.protonvpn.android.redesign.vpn.ui.label
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.defaultNorm
 import kotlin.math.roundToInt
+import me.proton.core.presentation.R as CoreR
 
 data class ItemIds(
     val connectionCard: Long?,
@@ -76,8 +92,7 @@ fun RecentsList(
     onDisconnectClicked: () -> Unit,
     onOpenConnectionPanelClicked: () -> Unit,
     onRecentClicked: (item: RecentItemViewState) -> Unit,
-    onRecentPinToggle: (item: RecentItemViewState) -> Unit,
-    onRecentRemove: (item: RecentItemViewState) -> Unit,
+    onRecentOpen: (item: RecentItemViewState) -> Unit,
     onOpenDefaultConnection: (() -> Unit)? = null,
     errorSnackBar: androidx.compose.material.SnackbarHostState?,
     modifier: Modifier = Modifier,
@@ -113,6 +128,7 @@ fun RecentsList(
         viewState.recents.isNotEmpty() || upsellContent != null -> PeekThresholdItem.Header
         else -> PeekThresholdItem.ConnectionCard
     }
+
     LazyColumn(
         state = listState,
         modifier = listModifier
@@ -207,8 +223,7 @@ fun RecentsList(
                 RecentRow(
                     item = item,
                     onClick = { onRecentClicked(item) },
-                    onTogglePin = { onRecentPinToggle(item) },
-                    onRemove = { onRecentRemove(item) },
+                    onRecentSettingOpen = onRecentOpen
                 )
             }
             if (index < viewState.recents.lastIndex) {
@@ -219,6 +234,145 @@ fun RecentsList(
             }
         }
     }
+}
+
+class RecentBottomSheetState {
+    var recentSettingModalShown by mutableStateOf(false)
+    var selectedRecentItem by mutableStateOf<RecentItemViewState?>(null)
+
+    val onRecentSettingOpen: (RecentItemViewState) -> Unit = {
+        selectedRecentItem = it
+        recentSettingModalShown = true
+    }
+
+    fun dismiss() {
+        recentSettingModalShown = false
+        selectedRecentItem = null
+    }
+    companion object {
+        val Saver: Saver<RecentBottomSheetState, Pair<Boolean, RecentItemViewState?>> = Saver(
+            save = { state ->
+                Pair(state.recentSettingModalShown, state.selectedRecentItem)
+            },
+            restore = { pair ->
+                RecentBottomSheetState().apply {
+                    recentSettingModalShown = pair.first
+                    selectedRecentItem =  pair.second
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun rememberRecentBottomSheetState(): RecentBottomSheetState {
+    return rememberSaveable(saver = RecentBottomSheetState.Saver) { RecentBottomSheetState() }
+}
+
+@Composable
+fun RecentBottomSheetDialog(
+    state: RecentBottomSheetState,
+    onRecentPinToggle: (item: RecentItemViewState) -> Unit,
+    onRecentRemove: (item: RecentItemViewState) -> Unit,
+) {
+    if (state.recentSettingModalShown) {
+        state.selectedRecentItem?.let {
+            RecentSettingBottomSheetContent(
+                item = it,
+                onRecentPinToggle = {
+                    onRecentPinToggle(it)
+                    state.dismiss()
+                },
+                onRecentRemove = {
+                    onRecentRemove(it)
+                    state.dismiss()
+                },
+                onDismiss = state::dismiss
+            )
+        }
+    }
+}
+
+@Composable
+private fun RecentSettingBottomSheetContent(
+    item: RecentItemViewState,
+    onRecentPinToggle: (item: RecentItemViewState) -> Unit,
+    onRecentRemove: (item: RecentItemViewState) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    SimpleModalBottomSheet(
+        onDismissRequest = onDismiss,
+    ) {
+        Column {
+            RecentBlankRow(
+                leadingComposable = { FlagOrGatewayIndicator(item.connectIntent.primaryLabel) },
+                title = item.connectIntent.primaryLabel.label(),
+                subTitle = item.connectIntent.secondaryLabel?.label(),
+                serverFeatures = item.connectIntent.serverFeatures,
+                isConnected = item.isConnected,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            VpnDivider()
+            IconedButton(
+                title = stringResource(id = if (item.isPinned) R.string.recent_action_unpin else R.string.recent_action_pin),
+                iconRes = if (item.isPinned) CoreR.drawable.ic_proton_pin_slash_filled else CoreR.drawable.ic_proton_pin_filled,
+                onClick = {
+                    onRecentPinToggle(item)
+                }
+            )
+            VpnDivider()
+            IconedButton(
+                title = stringResource(id = R.string.recent_action_remove),
+                iconRes = CoreR.drawable.ic_proton_trash_cross_filled,
+                onClick = {
+                    onRecentRemove(item)
+                }
+            )
+        }
+    }
+}
+@Composable
+private fun IconedButton(
+    modifier: Modifier = Modifier,
+    title: String,
+    iconRes: Int,
+    onClick: () -> Unit
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .heightIn(64.dp)
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp)
+    ) {
+        Icon(
+            painter = painterResource(id = iconRes),
+            contentDescription = null,
+            tint = ProtonTheme.colors.iconWeak,
+            modifier = Modifier
+                .padding(end = 8.dp)
+        )
+        Text(
+            text = title,
+            style = ProtonTheme.typography.defaultNorm,
+        )
+    }
+}
+@Preview
+@Composable
+fun IconedButtonsPreview() {
+    IconedButton(
+        title = stringResource(id = R.string.recent_action_pin),
+        iconRes = CoreR.drawable.ic_proton_pin_filled,
+        onClick =  {}
+    )
+    IconedButton(
+        title = stringResource(id = R.string.recent_action_remove),
+        iconRes = CoreR.drawable.ic_proton_trash_cross_filled,
+        onClick =  {}
+    )
 }
 
 private fun RecentsListViewState.toItemIds() =

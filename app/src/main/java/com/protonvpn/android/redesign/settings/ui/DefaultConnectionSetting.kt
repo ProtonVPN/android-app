@@ -19,19 +19,16 @@
 package com.protonvpn.android.redesign.settings.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,9 +41,9 @@ import com.protonvpn.android.redesign.base.ui.FlagFastest
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.FlagRecentConnection
 import com.protonvpn.android.redesign.recents.ui.DefaultConnectionViewModel
+import com.protonvpn.android.redesign.recents.ui.RecentBlankRow
 import com.protonvpn.android.redesign.recents.usecases.DefaultConnItem
 import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.redesign.vpn.ui.ServerDetailsRow
 import com.protonvpn.android.redesign.vpn.ui.label
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -126,47 +123,27 @@ fun DefaultConnectionSelection(
 
 @Composable
 fun DefaultSelectionRow(
-    leadingIcon: @Composable () -> Unit,
+    leadingIcon: @Composable RowScope.() -> Unit,
     title: String,
     subTitle: AnnotatedString?,
     serverFeatures: Set<ServerFeature>,
     isSelected: Boolean,
     onSelected: () -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .heightIn(min = 42.dp)
-            .selectable(isSelected, onClick = onSelected)
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .semantics(mergeDescendants = true) {},
-        verticalAlignment = if (subTitle != null || serverFeatures.isNotEmpty()) Alignment.Top else Alignment.CenterVertically,
-    ) {
-        leadingIcon()
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 16.dp)
-        ) {
-            Text(
-                text = title,
-                style = ProtonTheme.typography.body1Regular,
-            )
-            if (subTitle != null || serverFeatures.isNotEmpty()) {
-                ServerDetailsRow(
-                    subTitle,
-                    null,
-                    serverFeatures,
-                    detailsStyle = ProtonTheme.typography.body2Regular,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-        }
-        RadioButton(
+    RecentBlankRow(
+        leadingComposable = leadingIcon,
+        trailingComposable = { RadioButton(
             selected = isSelected,
             onClick = onSelected,
             modifier = Modifier.clearAndSetSemantics { }
-        )
-    }
+        ) },
+        title = title,
+        subTitle = subTitle,
+        serverFeatures = serverFeatures,
+        modifier = Modifier
+            .selectable(isSelected, onClick = onSelected)
+            .padding(horizontal = 16.dp)
+    )
 }
 
 @Preview
