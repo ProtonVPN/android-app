@@ -1219,7 +1219,7 @@
     <string name="settings_protocol_openvpn_udp_description">Yerleşik, iyi test edilmiş ve güvenli. OpenVPN diğer iletişim kurallarından daha fazla pil harcayabilir.</string>
     <string name="settings_protocol_openvpn_tcp_description">Oturmuş, iyi sınanmış ve güvenli. OpenVPN zayıf ağ koşullarında güvenilirdir ancak diğer iletişim kuralları kadar hızlı olmayabilir.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Sansürlerden VPN bağlantınızı gizleyerek VPN engellemelerini aşar. Bu protokol DPİ\'ye karşı dirençlidir (Derin Paket İnceleme) ancak diğer protokoller kadar hızlı olmayabilir. Stealth sadece Proton VPN\'e özeldir.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Önerilen</string>
     <string name="settings_split_tunneling_mode_title">Kip</string>
@@ -1266,6 +1266,6 @@
     <string name="error_fetching_prices">Fiyatlar alınırken sorun çıktı.</string>
     <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Hangi uygulamaların VPN tarafından korunacağını seçerek bağlantınızı özelleştirin.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Seçilen uygulamalar VPN bağlantısına katılmaz.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Yalnızca seçilen uygulamalar VPN üzerinden bağlantı kurar, diğer tüm trafik korumasızdır.</string>
 </resources>

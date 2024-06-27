@@ -120,51 +120,51 @@
     <string name="profileRandom">Случайный</string>
     <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
     <string name="loaderErrorGeneric">Что-то пошло не так</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">Адрес IP</string>
     <string name="inputIpAddressHint">Напишите IP-адрес</string>
     <string name="inputIpAddressErrorInvalid">Недействительный IP-адрес</string>
-    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Исключенные адреса IP (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Выбранные адреса IP (%1$d)</string>
     <string name="settingsExcludedApps">Исключенные приложения</string>
     <string name="settingsExcludedAppsEmpty">Добавьте приложения, трафик которых должен идти в обход VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
+    <string name="settingsIncludedAppsEmpty">Добавьте приложения, которые будут включены в трафик VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Исключенные приложения (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Включенные приложения (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Все другие обычные приложения (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Все другие системные приложения (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Все остальные приложения (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Показать системные приложения</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Показать системные приложения</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Эти приложения исключены из подключения к VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Только эти приложения подключаются через VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to Excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">Добавить в исключенные приложения</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from Excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">Удалить из исключенных приложений</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to Included apps</string>
+    <string name="accessibility_action_add_included_app">Добавление во включенные приложения</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from Included apps</string>
+    <string name="accessibility_action_remove_included_app">Удалить из включенных приложений</string>
     <string name="tileConnected">Подключено: %1$s</string>
     <string name="openUrlError">%1$s не может быть открыт. Веб-браузер не был обнаружен на вашем устройстве.</string>
     <string name="loaderErrorTimeout">Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.</string>
@@ -255,9 +255,9 @@
     <string name="nameAsia">Азия</string>
     <string name="nameAfricaAndMiddleEast">Африка и Ближний и Средний Восток</string>
     <string name="nameOceania">Океания</string>
-    <string name="tv_row_settings">Settings</string>
+    <string name="tv_row_settings">Настройки</string>
     <string name="tv_card_split_tunneling_label">Раздельное туннелирование</string>
-    <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_card_protocol_label">Протокол</string>
     <string name="tv_detail_default_connection_checkbox_short">Избранная</string>
     <string name="tv_detail_connect_streaming">Стримить с Plus</string>
     <string name="tv_detail_connect">Подключиться</string>
@@ -513,7 +513,7 @@
     <string name="dynamic_report_your_issue_headline">В чем ваша проблема</string>
     <string name="update_screen_title">Обновить Proton VPN</string>
     <string name="update_screen_description">Вероятность возникновения проблем выше на старых версиях Proton VPN.</string>
-    <string name="dialog_create_account_title">Create an account to continue</string>
+    <string name="dialog_create_account_title">Создайте аккаунт, чтобы продолжить</string>
     <string name="dialog_create_account_action_create">Создать аккаунт</string>
     <string name="dialog_create_account_action_signin">Войти</string>
     <string name="server_search_menu_title">Поиск</string>
@@ -538,7 +538,7 @@
         <item quantity="many">Разблокируйте содержимое, заблокированное по географическому признаку из %1$d стран с помощью VPN Plus</item>
         <item quantity="other">Разблокируйте содержимое, заблокированное по географическому признаку из %1$d стран с помощью VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Select your default connection</string>
+    <string name="select_default_connection">Выберите ваше подключение по умолчанию</string>
     <string name="settings_default_connection_title">Подключение по умолчанию</string>
     <string name="fastest_country_description">Лучший сервер на основе вашего местоположения</string>
     <string name="settings_last_connection_title">Последнее соединение</string>
@@ -1103,26 +1103,26 @@
     <string name="info_dialog_tor_description">Подключайтесь к серверу Tor для доступа к скрытым сервисам и сайтам onion через любой браузер.</string>
     <string name="info_dialog_button_learn_more_tor">Как получить доступ к сети Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Как использовать торренты в P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_button_learn_more_streaming">Нужна помощь по просмотру?</string>
     <string name="info_dialog_streaming_title">Трансляция</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_streaming_description">Потоковые серверы предназначены для быстрого и безопасного воспроизведения телепрограмм и фильмов.</string>
+    <string name="info_dialog_how_to_stream">Как смотреть:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Зайдите в настройки телефона и отключите службы определения местоположения</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Перезапустите службу трансляции</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Подключитесь к любому серверу Plus и начните просмотр трансляции</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">На этом сервере включен одноранговый обмен файлами.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Вы можете подключиться к сайтам onion с помощью обычного браузера.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_secure_core_description">Ваши действия шифруются на двух высокозащищенных серверах VPN.</string>
     <string name="connection_feature_streaming_title">Трансляция</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">Этот сервер оптимизирован для воспроизведения телепрограмм и фильмов.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Подключает вас к стране назначения через серверы, физически расположенные в другом месте.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1247,7 +1247,7 @@
     <string name="settings_account_settings_title">Настройки учётной записи</string>
     <string name="settings_account_change_password">Изменить пароль</string>
     <string name="settings_account_recovery_email">Резервный адрес электронной почты</string>
-    <string name="settings_account_recovery_email_not_set">Not set</string>
+    <string name="settings_account_recovery_email_not_set">Не установлен</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Мой аккаунт</string>
     <string name="settings_account_button_delete_account">Удалить аккаунт</string>
@@ -1266,20 +1266,20 @@
     <string name="settings_split_tunneling_description">Настройте свое подключение, определив, какие приложения и адреса IP будут защищены VPN. %1$s</string>
     <string name="settings_protocol_description">Протокол VPN определяет, как данные перемещаются между сервером VPN и вашим устройством. %1$s</string>
     <string name="settings_protocol_description_no_link">Протокол VPN определяет способ передачи данных между сервером VPN и вашим устройством.</string>
-    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_speed">Скорость (UDP)</string>
     <string name="settings_protocol_section_reliability">Надёжность (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Автоматически выбирает лучший протокол для вашего подключения.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">Быстрый, безопасный и эффективный. WireGuard более энергоэффективен, чем другие протоколы.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Быстрый, безопасный и эффективный WireGuard трудно обнаружить и заблокировать.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Зарекомендовавший себя, хорошо проверенный и безопасный. OpenVPN менее энергоэффективен, чем некоторые другие протоколы.</string>
     <string name="settings_protocol_openvpn_tcp_description">Зарекомендовавший себя, хорошо проверенный и безопасный. OpenVPN надёжен в условиях плохой сети, но может быть медленнее других протоколов.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Преодолевает блокировки VPN, скрывая ваше подключение к VPN от цензоров. Этот протокол устойчив к DPI (глубокой проверке пакетов), но может быть не таким быстрым, как другие протоколы. Stealth является уникальным для Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Recommended</string>
+    <string name="settings_protocol_badge_recommended">Рекомендуется</string>
     <string name="settings_split_tunneling_mode_title">Режим</string>
     <string name="settings_split_tunneling_mode_standard">Стандартный</string>
     <string name="settings_split_tunneling_mode_inverse">Обратный</string>
@@ -1323,7 +1323,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Ошибка загрузки цен.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_description">Настройте свое подключение, определив, какие приложения будут защищены VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Выбранные приложения исключаются из подключения к VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Через VPN подключаются только выбранные приложения, весь остальной трафик остается незащищенным.</string>
 </resources>

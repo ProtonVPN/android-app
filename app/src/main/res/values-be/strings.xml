@@ -150,7 +150,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Выдаліць выключаных праграм</string>
+    <string name="accessibility_action_remove_excluded_app">Выдаліць з выключаных праграм</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:

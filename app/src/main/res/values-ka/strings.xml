@@ -1214,7 +1214,7 @@
     <string name="settings_protocol_smart_description">ავტომატურად აირჩევს საუკეთესო პროტოკოლს თქვენი მიერთებისთვის.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">სწრაფი, დაცული და ეფექტური. WireGuard უფრო ნაკლებ ელემენტს ხარჯავს, ვიდრე სხვა პროტოკოლები.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_tcp_description">სწრაფი, დაცული და ეფექტური. WireGuard-ის აღმოჩენა და დაბლოკვა რთულია.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">ცნობილი, დატესტილი და დაცული. OpenVPN ნაკლებად მეგობრობს ელემენტთან, ვიდრე სხვა პროტოკოლები.</string>
     <string name="settings_protocol_openvpn_tcp_description">გამოცდილი, დატესტილი და დაცული. OpenVPN სანდოა ნელი ქსელის პირობებში, მაგრამ ის ისეთი სწრაფი არაა, როგორც სხვა პროტოკოლები.</string>
