@@ -132,7 +132,7 @@ release tests:
   extends: .tests_preparation_script
   dependencies:
     - build google play dev (monitoring release)
-    - build google debug # For ARCHIVES_BASE_NAME
+    - export archive name # For ARCHIVES_BASE_NAME
   variables:
     TESTS_TYPE: smokeTest
     APP_LOCATION: "app/build/outputs/apk/productionGoogleDev/release/"
@@ -148,7 +148,7 @@ robo tests:
   timeout: 2h
   needs:
     - build google play dev (monitoring release)
-    - build google debug # For ARCHIVES_BASE_NAME
+    - export archive name # For ARCHIVES_BASE_NAME
   tags:
     - shared-small
   rules:

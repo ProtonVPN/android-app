@@ -110,6 +110,20 @@ detekt analysis:
     reports:
       codequality: app/build/reports/detekt/detekt.json
 
+# Any jobs which needs ARCHIVES_BASE_NAME should add this job as dependency
+# Unless the job is building the app from gradle, then it will be calculated on it's own
+export archive name:
+  stage: prepare
+  tags:
+    - shared-large
+  script:
+    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
+    - echo ${ARCHIVES_BASE_NAME}
+    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
+  artifacts:
+    reports:
+      dotenv: deploy.env
+
 build google debug:
   stage: build
   rules:
@@ -125,15 +139,10 @@ build google debug:
   script:
     - ./gradlew assembleProductionGooglePlayStoreDebug
     - ./gradlew assembleProductionGooglePlayStoreDebugAndroidTest
-    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
-    - echo ${ARCHIVES_BASE_NAME}
-    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
   artifacts:
     expire_in: 1 week
     paths:
     - app/build/outputs/apk
-    reports:
-      dotenv: deploy.env
 
 .build test:
   stage: build
@@ -214,16 +223,11 @@ build google play bundle:
     # Build openvpn first, otherwise ovpnassets are not copied to app's assets.
     - ./gradlew :openvpn:assembleRelease
     - ./gradlew :app:bundleProductionGooglePlayStoreRelease
-    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
-    - echo ${ARCHIVES_BASE_NAME}
-    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
   interruptible: false
   artifacts:
     expire_in: 1 week
     paths:
     - app/build/outputs/
-    reports:
-      dotenv: deploy.env
 
 build google play release:
   stage: build
@@ -273,9 +277,6 @@ build payments black google dev:
     - ./gradlew openvpn:assembleRelease
     - ./gradlew assembleBlackGoogleDevRelease
     - ./gradlew bundleBlackGoogleDevRelease
-    - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
-    - echo ${ARCHIVES_BASE_NAME}
-    - echo "ARCHIVES_BASE_NAME=${ARCHIVES_BASE_NAME}" >> deploy.env
   interruptible: false
   variables:
     TEST_ENV_DOMAIN: "payments.proton.black"
@@ -290,8 +291,6 @@ build payments black google dev:
     expire_in: 1 week
     paths:
       - paymentsBlack
-    reports:
-      dotenv: deploy.env
 
 .build amazon release:
   stage: build
@@ -428,6 +427,7 @@ startReview:
     - export REVIEW_APP_ARTIFACT_PATH="app/build/outputs/apk/productionGooglePlayStore/debug/"${ARCHIVES_BASE_NAME}-production-google-playStore-debug.apk
     - echo ${REVIEW_APP_ARTIFACT_PATH}
   extends: .startReview
+  needs: ["build google debug", "export archive name"]
   except:
     - schedules
 

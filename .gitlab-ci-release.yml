@@ -52,7 +52,7 @@ sign-bundle:
       when: always
     - if: $CI_COMMIT_BRANCH =~ /^release/
       when: always
-  needs: ["build google play bundle", "build google debug"]
+  needs: ["build google play bundle", "export archive name"]
   tags:
     - signing
   variables:
@@ -70,15 +70,9 @@ sign-bundle:
 sign-payment-black-bundle:
   stage: deploy
   rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: never
-    - if: $CI_COMMIT_BRANCH == "development"
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
       when: manual
-    - if: $CI_COMMIT_BRANCH =~ /^hotfix/
-      when: never
-    - if: $CI_COMMIT_BRANCH =~ /^release/
-      when: never
-  needs: ["build payments black google dev"]
+  needs: ["build payments black google dev", "export archive name"]
   tags:
     - signing
   variables:
