@@ -27,6 +27,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.hasAccessToServer
+import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ConnConnectConnected
@@ -142,7 +143,8 @@ class VpnConnectionManager @Inject constructor(
     private val currentUser: CurrentUser,
     private val supportsProtocol: SupportsProtocol,
     powerManager: PowerManager,
-    private val vpnConnectionTelemetry: VpnConnectionTelemetry
+    private val vpnConnectionTelemetry: VpnConnectionTelemetry,
+    private val autoLoginManager: AutoLoginManager
 ) : VpnConnect {
 
     // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
@@ -515,6 +517,7 @@ class VpnConnectionManager @Inject constructor(
     ) {
         clearOngoingConnection(clearFallback)
         launchConnect {
+            autoLoginManager.waitForAutoLogin()
             connectWithPermissionSync(delegate, connectIntent, triggerAction, disconnectTrigger, preferredServer)
         }
     }

@@ -37,8 +37,12 @@ data class VpnInfoResponse(
     @SerialName(value = "HasPaymentMethod") val hasPaymentMethod: Boolean?
 ) : java.io.Serializable
 
-fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId, timestamp: Long) =
-    VpnUser(
+fun VpnInfoResponse.toVpnUserEntity(
+    userId: UserId,
+    sessionId: SessionId,
+    timestamp: Long,
+    autoLoginName: String?
+) = VpnUser(
         userId = userId,
         subscribed = subscribed,
         services = services,
@@ -55,5 +59,6 @@ fun VpnInfoResponse.toVpnUserEntity(userId: UserId, sessionId: SessionId, timest
         groupId = vpnInfo.groupId.orEmpty(),
         password = vpnInfo.password,
         updateTime = timestamp,
-        sessionId = sessionId
+        sessionId = sessionId,
+        autoLoginName = autoLoginName,
     )

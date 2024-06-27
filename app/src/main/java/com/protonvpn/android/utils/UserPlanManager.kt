@@ -88,7 +88,7 @@ class UserPlanManager @Inject constructor(
         val changes = result.valueOrNull?.let { vpnInfoResponse ->
             currentUser.vpnUser()?.let { currentUserInfo ->
                 val newUserInfo =
-                    with(currentUserInfo) { vpnInfoResponse.toVpnUserEntity(userId, sessionId, wallClock()) }
+                    with(currentUserInfo) { vpnInfoResponse.toVpnUserEntity(userId, sessionId, wallClock(), autoLoginName) }
                 setVpnUser(newUserInfo)
                 computeUserInfoChanges(currentUserInfo, newUserInfo)
             }

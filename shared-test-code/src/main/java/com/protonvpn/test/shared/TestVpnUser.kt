@@ -46,6 +46,7 @@ object TestVpnUser {
         groupId = "",
         updateTime = 0,
         expirationTime = Integer.MAX_VALUE,
-        sessionId = SessionId("session id")
+        sessionId = SessionId("session id"),
+        autoLoginName = null,
     )
 }

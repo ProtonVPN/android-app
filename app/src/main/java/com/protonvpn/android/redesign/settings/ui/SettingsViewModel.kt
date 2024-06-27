@@ -25,6 +25,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.components.InstalledAppsProvider
+import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.netshield.NetShieldAvailability
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
@@ -77,7 +78,8 @@ class SettingsViewModel @Inject constructor(
     private val recentsManager: RecentsManager,
     private val installedAppsProvider: InstalledAppsProvider,
     private val getConnectIntentViewState: GetConnectIntentViewState,
-    private val appIconManager: AppIconManager
+    private val appIconManager: AppIconManager,
+    private val managedConfig: ManagedConfig,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -189,6 +191,7 @@ class SettingsViewModel @Inject constructor(
         val natType: SettingViewState.Nat,
         val buildInfo: String?,
         val showSignOut: Boolean,
+        val accountScreenEnabled: Boolean,
     )
 
     // The configuration doesn't change during runtime.
@@ -243,7 +246,8 @@ class SettingsViewModel @Inject constructor(
                 lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
                 natType = SettingViewState.Nat(if (settings.randomizedNat) NatType.Strict else NatType.Moderate, isFree),
                 buildInfo = buildConfigText,
-                showSignOut = !isCredentialLess
+                showSignOut = !isCredentialLess && !managedConfig.isManaged,
+                accountScreenEnabled = !managedConfig.isManaged
             )
         }
 
@@ -291,7 +295,7 @@ class SettingsViewModel @Inject constructor(
                     planDisplayName = vpnUser.planDisplayName,
                     recoveryEmail = accountUserSettings?.email?.value,
                     passwordHint = accountUser.recovery?.state?.enum.passwordHint(),
-                    upgradeToPlusBanner = vpnUser.isFreeUser
+                    upgradeToPlusBanner = vpnUser.isFreeUser,
                 )
             }
         }.distinctUntilChanged()

@@ -30,6 +30,7 @@ import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanChanged
 import com.protonvpn.android.logging.toLog
+import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.vpn.CertificateRepository
@@ -53,7 +54,8 @@ class VpnLogin @Inject constructor(
     private val serverListUpdater: ServerListUpdater,
     private val guestHole: GuestHole,
     private val setVpnUser: SetVpnUser,
-    @WallClock private val wallClock: () -> Long
+    @WallClock private val wallClock: () -> Long,
+    private val managedConfig: ManagedConfig
 ) {
     sealed class Result {
         class Success(val vpnUser: VpnUser) : Result()
@@ -69,6 +71,7 @@ class VpnLogin @Inject constructor(
         val vpnInfoDeferred = async { api.getVPNInfo(sessionId) }
         val appConfigDeferred = async { appConfig.forceUpdate(user.userId) }
         val certificateDeferred = async { fetchCertificate(sessionId) }
+        val autoLoginName = managedConfig.value?.username
 
         when (val vpnResult = vpnInfoDeferred.await()) {
             is ApiResult.Error.Http -> {
@@ -91,7 +94,7 @@ class VpnLogin @Inject constructor(
                         val appConfigResult = appConfigDeferred.await()
                         val certificateFetched = certificateDeferred.await()
                         if (certificateFetched && appConfigResult.isSuccess) {
-                            val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId, wallClock())
+                            val vpnUser = vpnResult.value.toVpnUserEntity(user.userId, sessionId, wallClock(), autoLoginName)
                             finalizeLogin(vpnUser)
                             Result.Success(vpnUser)
                         } else {

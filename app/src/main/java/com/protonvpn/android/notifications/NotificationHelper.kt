@@ -39,10 +39,10 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.speedBytesToString
 import com.protonvpn.android.base.ui.volumeBytesToString
 import com.protonvpn.android.bus.TrafficUpdate
+import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.home.vpn.SwitchDialogActivity.Companion.EXTRA_NOTIFICATION_DETAILS
-import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.HtmlTools
@@ -74,7 +74,7 @@ class NotificationHelper @Inject constructor(
     private val vpnStateMonitor: VpnStateMonitor,
     private val trafficMonitor: TrafficMonitor,
     private val isTv: IsTvCheck,
-    private val iconManager: AppIconManager
+    private val createLaunchIntent: CreateLaunchIntent,
 ) {
 
     init {
@@ -196,7 +196,7 @@ class NotificationHelper @Inject constructor(
         }
 
         if (notificationInfo.fullScreenDialog != null) {
-            val intent = createMainActivityIntent(appContext)
+            val intent = createLaunchIntent.forNotification(appContext)
             intent.putExtra(EXTRA_NOTIFICATION_DETAILS, notificationInfo)
             val pending = PendingIntent.getActivity(appContext, PENDING_REQUEST_OTHER, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             notificationBuilder.setContentIntent(pending)
@@ -252,7 +252,7 @@ class NotificationHelper @Inject constructor(
             else -> { /* Nothing */ }
         }
 
-        val intent = createMainActivityIntent(context)
+        val intent = createLaunchIntent.forNotification(context)
         intent.putExtra("OpenStatus", true)
         val pending =
             PendingIntent.getActivity(
@@ -350,7 +350,7 @@ class NotificationHelper @Inject constructor(
             builder.setContentIntent(
                 PendingIntent.getActivity(
                     appContext, 0,
-                    createMainActivityIntent(appContext),
+                    createLaunchIntent.forNotification(appContext),
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
 
             action?.let {
@@ -377,17 +377,6 @@ class NotificationHelper @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         is ActionItem.BgAction -> action.pendingIntent
-    }
-
-    // Use NEW_TASK flag to bring back the existing task to foreground.
-    fun createMainActivityIntent(context: Context): Intent {
-        val intent = if (isTv())
-            Intent(context, Constants.TV_MAIN_ACTIVITY_CLASS)
-        else
-            Intent().apply {
-                component = iconManager.getCurrentIconData().getComponentName(context)
-            }
-        return intent.apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
     }
 
     companion object {

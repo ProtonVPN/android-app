@@ -19,6 +19,10 @@
 
 package com.protonvpn.android.api
 
+import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
+import com.protonvpn.android.managed.ManagedConfig
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import me.proton.core.humanverification.data.HumanVerificationListenerImpl
 import me.proton.core.humanverification.domain.repository.HumanVerificationRepository
 import me.proton.core.network.domain.client.ClientId
@@ -30,10 +34,20 @@ import javax.inject.Singleton
 @Singleton
 class VpnHumanVerificationListener @Inject constructor(
     humanVerificationRepository: HumanVerificationRepository,
-    val guestHole: GuestHole
+    val guestHole: GuestHole,
+    @IsInForeground private val isInForeground: Flow<Boolean>,
+    private val managedConfig: ManagedConfig,
 ) : HumanVerificationListenerImpl(humanVerificationRepository) {
 
-    override suspend fun onHumanVerificationNeeded(clientId: ClientId, methods: HumanVerificationAvailableMethods): HumanVerificationListener.HumanVerificationResult {
+    override suspend fun onHumanVerificationNeeded(
+        clientId: ClientId,
+        methods: HumanVerificationAvailableMethods
+    ): HumanVerificationListener.HumanVerificationResult {
+        // If the app is managed and in background user should get notified about the failure and
+        // retry in foreground.
+        if (managedConfig.isManaged && !isInForeground.first())
+            return HumanVerificationListener.HumanVerificationResult.Failure
+
         guestHole.onBeforeHumanVerification()
         return super.onHumanVerificationNeeded(clientId, methods)
     }

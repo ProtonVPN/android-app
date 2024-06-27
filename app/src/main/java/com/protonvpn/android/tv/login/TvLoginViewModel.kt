@@ -33,6 +33,7 @@ import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.login.LoginResponse
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.tv.login.TvLoginViewState.Companion.toLoginError
@@ -73,7 +74,8 @@ class TvLoginViewModel @Inject constructor(
     private val guestHole: GuestHole,
     @TvLoginPollDelayMs val pollDelayMs: Long = POLL_DELAY_MS,
     @ElapsedRealtimeClock private val monoClockMs: () -> Long,
-    @WallClock private val wallClock: () -> Long
+    @WallClock private val wallClock: () -> Long,
+    private val managedConfig: ManagedConfig
 ) : ViewModel() {
 
     val state = MutableLiveData<TvLoginViewState>()
@@ -184,7 +186,7 @@ class TvLoginViewModel @Inject constructor(
                     }
                     else -> {
                         setVpnUser(
-                            infoResult.value.toVpnUserEntity(userId, loginResponse.sessionId, wallClock()))
+                            infoResult.value.toVpnUserEntity(userId, loginResponse.sessionId, wallClock(), managedConfig.value?.username))
                         currentUser.invalidateCache()
                         loadInitialConfig(userId)
                     }

@@ -47,6 +47,8 @@ import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
+import com.protonvpn.android.managed.usecase.AutoLogin
+import com.protonvpn.android.managed.usecase.AutoLoginImpl
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
@@ -330,5 +332,8 @@ object AppModule {
         @Singleton
         @Binds
         fun provideVpnConnect(impl: VpnConnectionManager): VpnConnect
+
+        @Binds
+        fun provideAutoLogin(autoLogin: AutoLoginImpl): AutoLogin
     }
 }
