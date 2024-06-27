@@ -175,7 +175,6 @@ fun SubSettingsRoute(
                         protocolViewState = protocolSettings,
                         onLearnMore = { context.openUrl(Constants.PROTOCOL_INFO_URL) },
                         onProtocolSelected = { newProtocol ->
-                            onClose()
                             // Update may trigger the reconnect dialog in the main settings screen (viewModel is shared)
                             viewModel.updateProtocol(vpnUiDelegate, newProtocol)
                         }

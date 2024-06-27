@@ -19,8 +19,7 @@
 
 package com.protonvpn.android.redesign.settings.ui.nav
 
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavBackStackEntry
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.Screen
@@ -37,10 +36,9 @@ object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsS
     fun SafeNavGraphBuilder<RootNav>.subSettings(
         onClose: () -> Unit,
         onNavigateToSubSetting: (Type) -> Unit,
-        settingsViewModelProvider: @Composable (NavBackStackEntry) -> SettingsViewModel,
     ) = addToGraph(this) { entry ->
         val type = getArgs<Type>(entry)
-        val viewModel = settingsViewModelProvider(entry)
+        val viewModel = hiltViewModel<SettingsViewModel>()
         SubSettingsRoute(viewModel, type, onClose, onNavigateToSubSetting)
     }
 }

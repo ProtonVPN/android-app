@@ -76,17 +76,9 @@ class RootNav(
                         connectionStatus(onClosePanel = ::popBackStack)
                     }
                     RootTarget.SubSettings -> {
-                        // Share the main settings view model with all sub-settings screens.
-                        val settingsViewModel = @Composable { entry: NavBackStackEntry ->
-                            val settingsEntry = remember(entry) {
-                                mainNav.controller.getBackStackEntry(SettingsScreen.route)
-                            }
-                            hiltViewModel<SettingsViewModel>(settingsEntry)
-                        }
                         subSettings(
                             onClose = ::popBackStack,
                             onNavigateToSubSetting = { navigate(SubSettingsScreen, it) },
-                            settingsViewModelProvider = settingsViewModel
                         )
                     }
                 }
