@@ -715,7 +715,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">País más rápido</string>
@@ -1010,7 +1010,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Mi IP</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip">IP de VPN</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
     -->
@@ -1056,7 +1056,7 @@
     -->
     <string name="connection_details_download">Descarga</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_section_vpn_speed">Velocidad de la VPN</string>
+    <string name="connection_details_section_vpn_speed">Velocidad de VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">¿Qué es la velocidad de la VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
