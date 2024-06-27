@@ -68,5 +68,7 @@ abstract class MainActivityHelper(val activity: FragmentActivity) {
         AccountViewModel.State.Initial -> {}
         AccountViewModel.State.Processing -> {}
         AccountViewModel.State.StepNeeded -> {}
+        AccountViewModel.State.AutoLoginInProgress -> {}
+        is AccountViewModel.State.AutoLoginError -> {}
     }
 }

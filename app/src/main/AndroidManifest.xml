@@ -75,6 +75,10 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="android.content.APP_RESTRICTIONS"
+            android:resource="@xml/app_restrictions" />
+
         <activity android:name=".ui.home.vpn.SwitchDialogActivity" />
         <activity
             android:name=".tv.main.TvMainActivity"

@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.app.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
@@ -41,6 +42,7 @@ class MainActivityViewModel @Inject constructor(
     vpnStatusViewStateFlow: VpnStatusViewStateFlow,
     private val vpnConnectionManager: VpnConnectionManager,
     serverManager2: ServerManager2,
+    private val autoLoginManager: AutoLoginManager,
 ) : ViewModel() {
 
     val vpnStateViewFlow: StateFlow<VpnStatusViewState> = vpnStatusViewStateFlow
@@ -62,5 +64,9 @@ class MainActivityViewModel @Inject constructor(
 
     fun connect(vpnUiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, trigger: ConnectTrigger) {
         vpnConnectionManager.connect(vpnUiDelegate, connectIntent, trigger)
+    }
+
+    fun retryAutoLogin() {
+        autoLoginManager.retry()
     }
 }

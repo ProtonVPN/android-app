@@ -211,7 +211,8 @@ class VpnConnectionManagerTests {
             now = clock,
             powerManager = mockPowerManager,
             supportsProtocol = supportsProtocol,
-            vpnConnectionTelemetry = mockVpnConnectionTelemetry
+            vpnConnectionTelemetry = mockVpnConnectionTelemetry,
+            autoLoginManager = mockk(relaxed = true),
         )
     }
 

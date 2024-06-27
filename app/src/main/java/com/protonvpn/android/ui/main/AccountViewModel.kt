@@ -17,6 +17,8 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.protonvpn.android.ui.main
 
 import androidx.fragment.app.FragmentActivity
@@ -30,6 +32,8 @@ import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.VpnUserCheck
+import com.protonvpn.android.managed.AutoLoginManager
+import com.protonvpn.android.managed.AutoLoginState
 import com.protonvpn.android.auth.usecase.HumanVerificationGuestHoleCheck
 import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.auth.usecase.VpnLogin.Companion.GUEST_HOLE_ID
@@ -41,12 +45,15 @@ import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -93,14 +100,18 @@ class AccountViewModel @Inject constructor(
     private val isInAppUpgradeAllowedUseCase: IsInAppUpgradeAllowedUseCase,
     private val getDynamicSubscription: GetDynamicSubscription,
     private val authFlowTriggerHelper: AuthFlowStartHelper,
+    autoLoginManager: AutoLoginManager,
 ) : ViewModel() {
 
     sealed class State {
-        object Initial : State()
-        object LoginNeeded : State()
-        object StepNeeded : State()
-        object Ready : State()
-        object Processing : State()
+        data object Initial : State()
+        data object LoginNeeded : State()
+        data object StepNeeded : State()
+        data object Ready : State()
+        data object Processing : State()
+
+        data object AutoLoginInProgress : State()
+        data class AutoLoginError(val e: Throwable) : State()
     }
 
     sealed class OnboardingEvent {
@@ -138,16 +149,26 @@ class AccountViewModel @Inject constructor(
     var onAddAccountClosed: (() -> Unit)? = null
     var onAssignConnectionHandler: (() -> Unit)? = null
 
-    val state = accountManager.getAccounts()
-        .map { accounts ->
-            when {
-                accounts.isEmpty() || accounts.all { it.isDisabled() } -> {
-                    setupGuestHoleForLoginAndSignup()
-                    State.LoginNeeded
+    val state =
+        autoLoginManager.state.flatMapLatest { autoLoginState ->
+            when (autoLoginState) {
+                AutoLoginState.Ongoing -> flowOf(State.AutoLoginInProgress)
+                AutoLoginState.Success -> flowOf(State.Ready)
+                is AutoLoginState.Error -> flowOf(State.AutoLoginError(autoLoginState.e))
+                AutoLoginState.Disabled -> {
+                    accountManager.getAccounts().map { accounts ->
+                        when {
+                            accounts.isEmpty() || accounts.all { it.isDisabled() } -> {
+                                setupGuestHoleForLoginAndSignup()
+                                State.LoginNeeded
+                            }
+
+                            accounts.any { it.isReady() } -> State.Ready
+                            accounts.any { it.isStepNeeded() } -> State.StepNeeded
+                            else -> State.Processing
+                        }
+                    }
                 }
-                accounts.any { it.isReady() } -> State.Ready
-                accounts.any { it.isStepNeeded() } -> State.StepNeeded
-                else -> State.Processing
             }
         }
         .stateIn(

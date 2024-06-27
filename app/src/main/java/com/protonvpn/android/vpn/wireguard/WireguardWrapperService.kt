@@ -23,6 +23,7 @@ import android.net.VpnService
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.managed.ManagedConfig
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
@@ -48,6 +49,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
     @Inject lateinit var vpnStateMonitor: VpnStateMonitor
     @Inject lateinit var quickConnectIntent: dagger.Lazy<GetQuickConnectIntent>
     @Inject lateinit var mainScope: CoroutineScope
+    @Inject lateinit var managedConfig: ManagedConfig
 
     override fun onCreate() {
         super.onCreate()
@@ -71,7 +73,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
             }
             intent.action == VpnService.SERVICE_INTERFACE -> {
-                if (currentUser.vpnUserBlocking() != null && handleAlwaysOn())
+                if ((managedConfig.isManaged || currentUser.vpnUserBlocking() != null) && handleAlwaysOn())
                     return START_STICKY
             }
             else ->

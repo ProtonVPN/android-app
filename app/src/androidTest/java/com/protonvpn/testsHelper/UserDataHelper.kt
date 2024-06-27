@@ -123,7 +123,7 @@ class UserDataHelper {
                 AccountDetails(null, null)),
             Session.Authenticated(userId, sessionId, "accessToken", "refreshToken", emptyList()))
 
-        vpnUserDao.insertOrUpdate(user.vpnInfoResponse.toVpnUserEntity(userId, sessionId, 0))
+        vpnUserDao.insertOrUpdate(user.vpnInfoResponse.toVpnUserEntity(userId, sessionId, 0, null))
         userRepository.setMockUser(getUser(userId, user))
     }
 

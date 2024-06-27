@@ -33,6 +33,7 @@ enum class LogCategory(private val categoryName: String) {
     CONN_WIREGUARD("CONN.WIREGUARD"),
     HV("HV"),
     LOCAL_AGENT("LOCAL_AGENT"),
+    MANAGED_CONFIG("MANAGED_CONFIG"),
     NETWORK("NETWORK"),
     OS("OS"),
     OS_POWER("OS.POWER"),

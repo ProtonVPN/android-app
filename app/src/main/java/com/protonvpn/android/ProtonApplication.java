@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.protonvpn.android.api.DohEnabled;
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager;
+import com.protonvpn.android.managed.AutoLoginManager;
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout;
 import com.protonvpn.android.auth.usecase.LogoutOnForceUpdate;
 import com.protonvpn.android.logging.CurrentStateLogger;
@@ -101,6 +102,7 @@ public class ProtonApplication extends Application {
     @InstallIn(SingletonComponent.class)
     interface DependencyEntryPoints {
         AccountStateHandler getAccountStateHandler();
+        AutoLoginManager getAutoLoginManager();
         CertificateRepository getCertificateRepository();
         CloseSessionOnForceLogout getCloseSessionOnForceLogout();
         ConnectingUpdatesRecents getConnectingUpdatesRecents();
@@ -172,6 +174,7 @@ public class ProtonApplication extends Application {
         dependencies.getSettingChangesLogger();
 
         dependencies.getAccountStateHandler().start();
+        dependencies.getAutoLoginManager();
         dependencies.getCertificateRepository();
         dependencies.getConnectingUpdatesRecents();
         dependencies.getCloseSessionOnForceLogout();

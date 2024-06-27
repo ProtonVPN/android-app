@@ -141,7 +141,8 @@ fun SettingsRoute(
             onSignInClick = onSignInClick,
             onSignOutClick = onSignOutClick,
             onAccountClick = {
-                onNavigateToSubSetting(SubSettingsScreen.Type.Account)
+                if (viewState.accountScreenEnabled)
+                    onNavigateToSubSetting(SubSettingsScreen.Type.Account)
             },
             onNetShieldClick = {
                 onNavigateToSubSetting(SubSettingsScreen.Type.NetShield)

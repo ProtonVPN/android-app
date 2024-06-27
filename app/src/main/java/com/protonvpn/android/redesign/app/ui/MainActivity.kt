@@ -47,6 +47,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.VpnUiDelegateProvider
+import com.protonvpn.android.managed.ui.AutoLoginErrorView
+import com.protonvpn.android.managed.ui.AutoLoginView
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
@@ -169,13 +171,17 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
             val coroutineScope = rememberCoroutineScope()
             VpnTheme {
                 val isMinimalStateReady by activityViewModel.isMinimalStateReadyFlow.collectAsStateWithLifecycle()
-                when (accountState) {
+                when (val state = accountState) {
                     AccountViewModel.State.Initial,
                     AccountViewModel.State.LoginNeeded -> {}
-
                     AccountViewModel.State.Processing,
                     AccountViewModel.State.StepNeeded ->
                         ProtonCenteredProgress(Modifier.fillMaxSize())
+
+                    AccountViewModel.State.AutoLoginInProgress ->
+                        AutoLoginView()
+                    is AccountViewModel.State.AutoLoginError ->
+                        AutoLoginErrorView(state.e.message, activityViewModel::retryAutoLogin)
 
                     AccountViewModel.State.Ready -> {
                         val showSignOutDialog = rememberSaveable { mutableStateOf(false) }

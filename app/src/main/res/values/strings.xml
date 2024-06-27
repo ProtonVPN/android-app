@@ -1346,4 +1346,13 @@
     <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+
+    <!-- Temporary strings for auto-login feature -->
+    <string name="auto_login_error_title" translatable="false">Setup failed</string>
+    <string name="auto_login_loading_description" translatable="false">Setting up ProtonVPN…</string>
+    <string name="notification_auto_login_start" translatable="false">@string/auto_login_loading_description</string>
+    <string name="notification_auto_login_success" translatable="false">ProtonVPN setup successfully.</string>
+    <string name="notification_auto_login_error" translatable="false">There was a problem setting up ProtonVPN. Click to open the app.</string>
+    <string name="app_restrictions_username_title" translatable="false">Username</string>
+    <string name="app_restrictions_password_title" translatable="false">Password</string>
 </resources>
