@@ -1207,21 +1207,21 @@
     <string name="settings_advanced_nat_type_moderate_description">Ağınıza giren bazı verileri kısıtlar. Bu seçenek çevrim içi video oyunları için en iyisidir.</string>
     <string name="settings_split_tunneling_description">Hangi uygulamaların ve IP adreslerinin VPN tarafından korunacağına karar vererek bağlantınızı özelleştirin. %1$s</string>
     <string name="settings_protocol_description">Bir VPN iletişim kuralı, VPN sunucu ile aygıtınız arasında verilerin nasıl aktarılacağını belirler. %1$s</string>
-    <string name="settings_protocol_description_no_link">Bir VPN iletişim kuralı, VPN sunucu ile aygıtınız arasında verilerin nasıl aktarılacağını belirler.</string>
+    <string name="settings_protocol_description_no_link">Bir VPN iletişim kuralı, VPN sunucusu ile aygıtınız arasında verilerin nasıl aktarılacağını belirler.</string>
     <string name="settings_protocol_section_speed">Hız (UDP)</string>
     <string name="settings_protocol_section_reliability">Güvenilirlik (TCP)</string>
-    <string name="settings_protocol_smart_title">Akıllı</string>
+    <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Bağlantınız için en iyi iletişim kuralını otomatik olarak seçer.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">Hızlı, güvenli ve verimli. WireGuard diğer iletişim kurallarına göre daha az pil harcar.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Hızlı, güvenli, etkili. WireGuard\'ın tespit edilip engellenmesi zordur.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Hızlı, güvenli ve etkili. WireGuard iletişim kuralının farkedilip engellenmesi zordur.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Yerleşik, iyi test edilmiş ve güvenli. OpenVPN diğer iletişim kurallarından daha fazla pil harcayabilir.</string>
+    <string name="settings_protocol_openvpn_udp_description">Yerleşik, iyi sınanmış ve güvenli. OpenVPN diğer iletişim kurallarından daha fazla pil harcayabilir.</string>
     <string name="settings_protocol_openvpn_tcp_description">Oturmuş, iyi sınanmış ve güvenli. OpenVPN zayıf ağ koşullarında güvenilirdir ancak diğer iletişim kuralları kadar hızlı olmayabilir.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Sansürlerden VPN bağlantınızı gizleyerek VPN engellemelerini aşar. Bu protokol DPİ\'ye karşı dirençlidir (Derin Paket İnceleme) ancak diğer protokoller kadar hızlı olmayabilir. Stealth sadece Proton VPN\'e özeldir.</string>
+    <string name="settings_protocol_stealth_description">VPN bağlantınızı sansür uygulamalarından gizleyerek VPN engellemelerini aşar. Bu iletişim kuralı DPİ (derin paket inceleme) uygulamalarına karşı dirençlidir ancak diğer iletişim kuralları kadar hızlı olmayabilir. Stealth, Proton VPN uygulamasına özel bir iletişim kuralıdır.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Önerilen</string>
+    <string name="settings_protocol_badge_recommended">Önerilir</string>
     <string name="settings_split_tunneling_mode_title">Kip</string>
     <string name="settings_split_tunneling_mode_standard">Standart</string>
     <string name="settings_split_tunneling_mode_inverse">Ters</string>
@@ -1266,6 +1266,6 @@
     <string name="error_fetching_prices">Fiyatlar alınırken sorun çıktı.</string>
     <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Hangi uygulamaların VPN tarafından korunacağını seçerek bağlantınızı özelleştirin.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Seçilen uygulamalar VPN bağlantısına katılmaz.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Yalnızca seçilen uygulamalar VPN üzerinden bağlantı kurar, diğer tüm trafik korumasızdır.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Seçilmiş uygulamalar VPN bağlantısına katılmaz.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Yalnızca seçilmiş uygulamalar VPN üzerinden bağlantı kurar, diğer tüm trafik korumasızdır.</string>
 </resources>

@@ -136,7 +136,7 @@
     <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar aplicativos do sistema</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Mostrar aplicativos do sistema</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Esses aplicativos serão excluídos da sua conexão VPN</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Somente esses aplicativos se conectam por meio da VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -1214,7 +1214,7 @@
     <string name="settings_protocol_smart_description">Seleciona automaticamente o melhor protocolo para sua conexão.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">Rápido, seguro e eficiente. WireGuard é mais eficiente em termos de bateria do que outros protocolos.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Rápido, seguro e eficiente. O WireGuard é difícil de detectar e bloquear.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Estabelecido, bem testado e seguro. OpenVPN consome menos bateria do que alguns outros protocolos.</string>
     <string name="settings_protocol_openvpn_tcp_description">Estabelecido, bem testado e seguro. O OpenVPN é confiável em condições de rede ruins, mas pode não ser tão rápido quanto outros protocolos.</string>
@@ -1226,7 +1226,7 @@
     <string name="settings_split_tunneling_mode_standard">Padrão</string>
     <string name="settings_split_tunneling_mode_inverse">Inverso</string>
     <string name="settings_split_tunneling_mode_description_standard">Aplicativos e endereços IP selecionados são excluídos da conexão VPN.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Apenas aplicativos e endereços IP selecionados se conectam por meio da VPN, o restante do tráfego fica desprotegido.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicativos excluídos</string>
     <string name="settings_split_tunneling_excluded_ips">Endereços de IP excluídos</string>
     <string name="settings_split_tunneling_included_apps">Aplicativos incluídos</string>
@@ -1265,7 +1265,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Erro ao buscar preços.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Personalize sua conexão decidindo quais aplicativos são protegidos por VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplicativos selecionados são excluídos da conexão VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Apenas aplicativos selecionados se conectam por meio da VPN, o restante do tráfego fica desprotegido.</string>
 </resources>

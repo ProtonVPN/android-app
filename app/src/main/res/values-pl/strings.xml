@@ -136,7 +136,7 @@
     <string name="settingsExcludedAppsLoadSystemAppsButton">Pokaż aplikacje systemowe</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Pokaż aplikacje systemowe</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Te aplikacje zostaną wykluczone z połączenia VPN.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Tyle te aplikacje zostaną uwzględnione w ruchu VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Tylko te aplikacje zostaną uwzględnione w ruchu VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:

@@ -958,7 +958,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Alle</string>
     <string name="country_filter_cities">Städte</string>
-    <string name="country_filter_states">Bundesstaaten</string>
+    <string name="country_filter_states">Bundesländer</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_secure_core">Secure Core</string>
     <!-- tag(Redesign_2023) -->
@@ -969,7 +969,7 @@
     <string name="country_filter_all_list_header_free">Plus-Länder (%1$d)</string>
     <string name="country_filter_countries_list_header">Länder (%1$d)</string>
     <string name="country_filter_cities_list_header">Städte (%1$d)</string>
-    <string name="country_filter_states_list_header">Staaten (%1$d)</string>
+    <string name="country_filter_states_list_header">Bundesländer (%1$d)</string>
     <string name="country_filter_servers_list_header">Server (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Secure Core-Länder (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P-Länder (%1$d)</string>
