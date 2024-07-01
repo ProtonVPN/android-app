@@ -23,12 +23,14 @@ import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
+import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
 import com.protonvpn.android.redesign.settings.ui.SettingsRoute
 
 object SettingsScreen : ScreenNoArg<MainNav>("settings") {
 
     fun SafeNavGraphBuilder<MainNav>.settings(
+        settingsChangeViewModel: SettingsChangeViewModel,
         coreNavigation: CoreNavigation,
         onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
     ) = addToGraph(this) {

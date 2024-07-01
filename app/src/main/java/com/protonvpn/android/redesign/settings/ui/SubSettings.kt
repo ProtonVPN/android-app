@@ -42,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
@@ -67,6 +68,7 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun SubSettingsRoute(
     viewModel: SettingsViewModel,
+    settingsChangeViewModel: SettingsChangeViewModel,
     type: SubSettingsScreen.Type,
     onClose: () -> Unit,
     onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
@@ -76,7 +78,7 @@ fun SubSettingsRoute(
 
     val onSplitTunnelUpdated = { savedChange: Boolean? ->
         if (savedChange == true)
-            viewModel.onSplitTunnelingUpdated(vpnUiDelegate)
+            settingsChangeViewModel.onSplitTunnelingUpdated(vpnUiDelegate)
     }
     val splitTunnelIpLauncher = rememberLauncherForActivityResult(
         SettingsSplitTunnelIpsActivity.createContract(), onSplitTunnelUpdated)
@@ -99,7 +101,7 @@ fun SubSettingsRoute(
                         onClose,
                         vpnAccelerator,
                         { context.openUrl(Constants.VPN_ACCELERATOR_INFO_URL) },
-                        viewModel::toggleVpnAccelerator,
+                        settingsChangeViewModel::toggleVpnAccelerator,
                     )
                 }
             }
@@ -111,7 +113,7 @@ fun SubSettingsRoute(
                         onClose = onClose,
                         netShield = netShield,
                         onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
-                        onNetShieldToggle = { viewModel.toggleNetShield() }
+                        onNetShieldToggle = settingsChangeViewModel::toggleNetShield
                     )
                 }
             }
@@ -146,8 +148,8 @@ fun SubSettingsRoute(
                         altRouting = advancedViewState.altRouting,
                         allowLan = advancedViewState.lanConnections,
                         natType = advancedViewState.natType,
-                        onAltRoutingChange = viewModel::toggleAltRouting,
-                        onAllowLanChange = { viewModel.toggleLanConnections(vpnUiDelegate) },
+                        onAltRoutingChange = settingsChangeViewModel::toggleAltRouting,
+                        onAllowLanChange = { settingsChangeViewModel.toggleLanConnections(vpnUiDelegate) },
                         onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
                         onNavigateToNatType = { onNavigateToSubSetting(SubSettingsScreen.Type.NatType) },
                         onAllowLanRestricted = { UpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
@@ -162,7 +164,7 @@ fun SubSettingsRoute(
                     NatTypeSettings(
                         onClose = onClose,
                         nat = nat,
-                        onNatTypeChange = viewModel::setNatType,
+                        onNatTypeChange = settingsChangeViewModel::setNatType,
                     )
                 }
             }
@@ -176,7 +178,7 @@ fun SubSettingsRoute(
                         onLearnMore = { context.openUrl(Constants.PROTOCOL_INFO_URL) },
                         onProtocolSelected = { newProtocol ->
                             // Update may trigger the reconnect dialog in the main settings screen (viewModel is shared)
-                            viewModel.updateProtocol(vpnUiDelegate, newProtocol)
+                            settingsChangeViewModel.updateProtocol(vpnUiDelegate, newProtocol)
                         }
                     )
                 }
@@ -185,12 +187,14 @@ fun SubSettingsRoute(
             SubSettingsScreen.Type.SplitTunneling -> {
                 val splitTunnelingSettings = viewModel.splitTunneling.collectAsStateWithLifecycle(initialValue = null).value
                 if (splitTunnelingSettings != null) {
-                    val onModeSet = { mode: SplitTunnelingMode -> viewModel.setSplitTunnelingMode(vpnUiDelegate, mode) }
+                    val onModeSet = { mode: SplitTunnelingMode ->
+                        settingsChangeViewModel.setSplitTunnelingMode(vpnUiDelegate, mode)
+                    }
                     SplitTunnelingSubSetting(
                         onClose = onClose,
                         splitTunneling = splitTunnelingSettings,
                         onLearnMore = { context.openUrl(Constants.SPLIT_TUNNELING_INFO_URL) },
-                        onSplitTunnelToggle = { viewModel.toggleSplitTunneling(vpnUiDelegate) },
+                        onSplitTunnelToggle = { settingsChangeViewModel.toggleSplitTunneling(vpnUiDelegate) },
                         onSplitTunnelModeSelected = onModeSet,
                         onAppsClick = { mode -> splitTunnelAppsLauncher.launch(mode) },
                         onIpsClick = { mode -> splitTunnelIpLauncher.launch(mode) }
@@ -202,14 +206,6 @@ fun SubSettingsRoute(
                 DefaultConnectionSetting(onClose)
             }
         }
-    }
-
-    val showReconnectDialogType = viewModel.showReconnectDialogFlow.collectAsStateWithLifecycle().value
-    if (showReconnectDialogType != null) {
-        ReconnectDialog(
-            onOk = { notShowAgain -> viewModel.dismissReconnectDialog(notShowAgain, showReconnectDialogType) },
-            onReconnect = { notShowAgain -> viewModel.onReconnectClicked(vpnUiDelegate, notShowAgain, showReconnectDialogType) }
-        )
     }
 }
 

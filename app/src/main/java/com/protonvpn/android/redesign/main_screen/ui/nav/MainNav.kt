@@ -36,6 +36,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
+import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
@@ -119,6 +120,7 @@ class MainNav(
 
     @Composable
     fun NavHost(
+        settingsChangeViewModel: SettingsChangeViewModel,
         modifier: Modifier,
     ) {
         val mainScreenViewModel = hiltViewModel<MainScreenViewModel>()
@@ -146,6 +148,7 @@ class MainNav(
                     )
 
                     MainTarget.Settings -> settings(
+                        settingsChangeViewModel,
                         coreNavigation,
                         onNavigateToSubSetting = { type -> rootNav.navigate(SubSettingsScreen, type) }
                     )
@@ -161,6 +164,7 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
     private fun MainScreenNavigation(
         modifier: Modifier,
         mainNav: MainNav,
+        settingsChangeViewModel: SettingsChangeViewModel,
     ) {
         val bottomTarget = mainNav.currentBottomBarTargetAsState()
         val activity = LocalContext.current as ComponentActivity
@@ -177,6 +181,7 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
             }
         ) { paddingValues ->
             mainNav.NavHost(
+                settingsChangeViewModel,
                 modifier
                     .fillMaxSize()
                     .padding(paddingValues),
@@ -186,7 +191,8 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
 
     fun SafeNavGraphBuilder<RootNav>.mainScreen(
         mainNav: MainNav,
+        settingsChangeViewModel: SettingsChangeViewModel,
     ) = addToGraph(this) {
-        MainScreenNavigation(Modifier, mainNav)
+        MainScreenNavigation(Modifier, mainNav, settingsChangeViewModel)
     }
 }

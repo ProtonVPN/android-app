@@ -99,12 +99,6 @@ class SettingsViewModelTests {
     private lateinit var mockInstalledAppsProvider: InstalledAppsProvider
 
     @RelaxedMockK
-    private lateinit var mockConnectionManager: VpnConnectionManager
-
-    @RelaxedMockK
-    private lateinit var mockUiDelegate: VpnUiDelegate
-
-    @RelaxedMockK
     private lateinit var mockGetQuickIntent: GetConnectIntentViewState
     @RelaxedMockK
     private lateinit var mockRecentManager: RecentsManager
@@ -113,8 +107,6 @@ class SettingsViewModelTests {
     private lateinit var settingsManager: CurrentUserLocalSettingsManager
     private lateinit var testScope: TestScope
     private lateinit var testUserProvider: TestCurrentUserProvider
-    private lateinit var vpnStateMonitor: VpnStateMonitor
-    private lateinit var dontShowAgainStore: DontShowAgainStore
 
     private lateinit var settingsViewModel: SettingsViewModel
 
@@ -152,25 +144,14 @@ class SettingsViewModelTests {
         effectiveSettings = EffectiveCurrentUserSettings(
             testScope.backgroundScope, effectiveCurrentUserSettingsFlow
         )
-        vpnStateMonitor = VpnStateMonitor()
-        dontShowAgainStore = DontShowAgainStore(currentUser, DontShowAgainStateStoreProvider(InMemoryDataStoreFactory()))
 
-        val savedStateHandle = SavedStateHandle()
         settingsViewModel = SettingsViewModel(
             currentUser,
             mockObserveUserSettings,
-            settingsManager,
             effectiveSettings,
             mockBuildConfigInfo,
             mockRecentManager,
             mockInstalledAppsProvider,
-            SettingsReconnectHandler(
-                testScope.backgroundScope,
-                mockConnectionManager,
-                VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor),
-                dontShowAgainStore,
-                savedStateHandle,
-            ),
             mockGetQuickIntent,
         )
     }
@@ -264,100 +245,6 @@ class SettingsViewModelTests {
             false, R.string.settings_vpn_accelerator_title, R.string.vpn_accelerator_state_off, false, null,
             state.vpnAccelerator
         )
-    }
-
-    @Test
-    fun `lan connection triggers reconnect dialog`() = testScope.runTest {
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        settingsViewModel.toggleLanConnections(mockUiDelegate)
-        assertEquals(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, settingsViewModel.showReconnectDialogFlow.first())
-    }
-
-    @Test
-    fun `protocol update triggers reconnect dialog`() = testScope.runTest {
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        settingsViewModel.updateProtocol(mockUiDelegate, ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
-        assertEquals(DontShowAgainStore.Type.ProtocolChangeWhenConnected, settingsViewModel.showReconnectDialogFlow.first())
-    }
-
-    @Test
-    fun `split tunnel update triggers reconnect dialog`() = testScope.runTest {
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        settingsViewModel.onSplitTunnelingUpdated(mockUiDelegate)
-        assertEquals(DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected, settingsViewModel.showReconnectDialogFlow.first())
-    }
-
-    @Test
-    fun `split tunnel toggle with exclusions triggers reconnect dialog`() = testScope.runTest {
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        settingsManager.update { current ->
-            val newSplitTunnelingSettings = SplitTunnelingSettings(
-                isEnabled = false,
-                mode = SplitTunnelingMode.EXCLUDE_ONLY,
-                excludedApps = listOf("app1")
-            )
-            current.copy(splitTunneling = newSplitTunnelingSettings)
-        }
-        settingsViewModel.onSplitTunnelingUpdated(mockUiDelegate)
-        assertEquals(DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected, settingsViewModel.showReconnectDialogFlow.first())
-    }
-
-    @Test
-    fun `split tunnel toggle with empty exclusions don't triggers reconnect dialog`() = testScope.runTest {
-        settingsManager.update { current ->
-            val newSplitTunnelingSettings = SplitTunnelingSettings(
-                isEnabled = false,
-                mode = SplitTunnelingMode.EXCLUDE_ONLY
-            )
-            current.copy(splitTunneling = newSplitTunnelingSettings)
-        }
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        settingsViewModel.toggleSplitTunneling(mockUiDelegate)
-        assertEquals(null, settingsViewModel.showReconnectDialogFlow.first())
-    }
-
-    @Test
-    fun `no reconnection dialog when not connected`() = testScope.runTest {
-        settingsViewModel.toggleLanConnections(mockUiDelegate)
-        assertEquals(null, settingsViewModel.showReconnectDialogFlow.first())
-    }
-
-    @Test
-    fun `saved reconnection 'yes' choice reconnects automatically`() = testScope.runTest {
-        dontShowAgainStore.setChoice(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, DontShowAgainStore.Choice.Positive)
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        settingsViewModel.toggleLanConnections(mockUiDelegate)
-        assertEquals(null, settingsViewModel.showReconnectDialogFlow.first())
-        coVerify(exactly = 1) { mockConnectionManager.reconnect(any(), any()) }
-    }
-
-    @Test
-    fun `saved reconnection 'no' don't reconnects automatically`() = testScope.runTest {
-        dontShowAgainStore.setChoice(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, DontShowAgainStore.Choice.Negative)
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        settingsViewModel.toggleLanConnections(mockUiDelegate)
-        assertEquals(null, settingsViewModel.showReconnectDialogFlow.first())
-        coVerify(exactly = 0) { mockConnectionManager.reconnect(any(), any()) }
-    }
-
-    @Test
-    fun `reconnect & save reconnection dialog`() = testScope.runTest {
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        settingsViewModel.toggleLanConnections(mockUiDelegate)
-        assertEquals(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, settingsViewModel.showReconnectDialogFlow.first())
-        settingsViewModel.onReconnectClicked(mockUiDelegate, true, DontShowAgainStore.Type.LanConnectionsChangeWhenConnected)
-        assertEquals(DontShowAgainStore.Choice.Positive, dontShowAgainStore.getChoice(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected))
-        coVerify(exactly = 1) { mockConnectionManager.reconnect(any(), any()) }
-    }
-
-    @Test
-    fun `dismiss & save reconnection dialog`() = testScope.runTest {
-        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, mockk(relaxed = true)))
-        settingsViewModel.toggleLanConnections(mockUiDelegate)
-        assertEquals(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected, settingsViewModel.showReconnectDialogFlow.first())
-        settingsViewModel.dismissReconnectDialog(true, DontShowAgainStore.Type.LanConnectionsChangeWhenConnected)
-        assertEquals(DontShowAgainStore.Choice.Negative, dontShowAgainStore.getChoice(DontShowAgainStore.Type.LanConnectionsChangeWhenConnected))
-        coVerify(exactly = 0) { mockConnectionManager.reconnect(any(), any()) }
     }
 
     @Suppress("LongParameterList")
