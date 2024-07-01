@@ -164,7 +164,10 @@ fun SubSettingsRoute(
                     NatTypeSettings(
                         onClose = onClose,
                         nat = nat,
-                        onNatTypeChange = settingsChangeViewModel::setNatType,
+                        onNatTypeChange = { newValue ->
+                            settingsChangeViewModel.setNatType(newValue)
+                            onClose()
+                        },
                     )
                 }
             }
@@ -177,8 +180,8 @@ fun SubSettingsRoute(
                         protocolViewState = protocolSettings,
                         onLearnMore = { context.openUrl(Constants.PROTOCOL_INFO_URL) },
                         onProtocolSelected = { newProtocol ->
-                            // Update may trigger the reconnect dialog in the main settings screen (viewModel is shared)
                             settingsChangeViewModel.updateProtocol(vpnUiDelegate, newProtocol)
+                            onClose()
                         }
                     )
                 }
