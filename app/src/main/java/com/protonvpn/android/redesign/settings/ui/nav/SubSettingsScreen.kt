@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.settings.ui.nav
 
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.Screen
@@ -34,11 +35,12 @@ object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsS
     }
 
     fun SafeNavGraphBuilder<RootNav>.subSettings(
+        settingsChangeViewModel: SettingsChangeViewModel,
         onClose: () -> Unit,
         onNavigateToSubSetting: (Type) -> Unit,
     ) = addToGraph(this) { entry ->
         val type = getArgs<Type>(entry)
         val viewModel = hiltViewModel<SettingsViewModel>()
-        SubSettingsRoute(viewModel, type, onClose, onNavigateToSubSetting)
+        SubSettingsRoute(viewModel, settingsChangeViewModel, type, onClose, onNavigateToSubSetting)
     }
 }

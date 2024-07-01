@@ -80,8 +80,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
-import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
-import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -132,7 +130,6 @@ fun SettingsRoute(
     }
 
     val context = LocalContext.current
-    val vpnUiDelegate = LocalVpnUiDelegate.current
 
     CompositionLocalProvider(
         LocalProductMetricsDelegateOwner provides ProductMetricsDelegateOwner(accountSettingsViewModel)
@@ -205,37 +202,8 @@ fun SettingsRoute(
             },
         )
     }
-
-    val showReconnectDialogType = viewModel.showReconnectDialogFlow.collectAsStateWithLifecycle().value
-    if (showReconnectDialogType != null) {
-        ReconnectDialog(
-            onOk = { notShowAgain -> viewModel.dismissReconnectDialog(notShowAgain, showReconnectDialogType) },
-            onReconnect = { notShowAgain -> viewModel.onReconnectClicked(vpnUiDelegate, notShowAgain, showReconnectDialogType)
-        })
-    }
 }
 
-@Composable
-fun ReconnectDialog(
-    onOk: (notShowAgain: Boolean) -> Unit,
-    onReconnect: (notShowAgain: Boolean) -> Unit
-) {
-    ProtonAlert(
-        title = null,
-        text = stringResource(id = R.string.settings_dialog_reconnect),
-        checkBox = stringResource(id = R.string.dialogDontShowAgain),
-        confirmLabel = stringResource(id = R.string.reconnect_now),
-        onConfirm = { notShowAgain ->
-            onReconnect(notShowAgain)
-        },
-        dismissLabel = stringResource(id = R.string.ok),
-        onDismissButton = { notShowAgain ->
-            onOk(notShowAgain)
-        },
-        checkBoxInitialValue = false,
-        onDismissRequest = { onOk(false) }
-    )
-}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CollapsibleToolbarScaffold(

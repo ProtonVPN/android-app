@@ -76,6 +76,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     private val accountViewModel: AccountViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by viewModels()
+    private val settingsChangeViewModel: SettingsChangeViewModel by viewModels()
 
     @Inject
     lateinit var showUpgradeSuccess: ShowUpgradeSuccess
@@ -183,7 +184,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                             CompositionLocalProvider(
                                 LocalVpnUiDelegate provides this@MainActivity.vpnActivityDelegate
                             ) {
-                                VpnApp(coreNavigation = coreNavigation)
+                                VpnApp(coreNavigation, settingsChangeViewModel)
                             }
                         }
 
@@ -192,6 +193,21 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                                 hide = { showSignOutDialog.value = false },
                                 signOut = accountViewModel::signOut
                             )
+                        }
+                        val showReconnectDialogType =
+                            settingsChangeViewModel.showReconnectDialogFlow.collectAsStateWithLifecycle().value
+                        if (showReconnectDialogType != null) {
+                            ReconnectDialog(
+                                onOk = { dontShowAgain ->
+                                    settingsChangeViewModel.dismissReconnectDialog(dontShowAgain, showReconnectDialogType)
+                                },
+                                onReconnect = { dontShowAgain ->
+                                    settingsChangeViewModel.onReconnectClicked(
+                                        this@MainActivity.vpnActivityDelegate,
+                                        dontShowAgain,
+                                        showReconnectDialogType
+                                    )
+                                })
                         }
                     }
                 }
@@ -235,7 +251,7 @@ class CoreNavigation(
 )
 
 @Composable
-fun SignOutDialog(hide: () -> Unit, signOut: (notShowAgain: Boolean) -> Unit) {
+private fun SignOutDialog(hide: () -> Unit, signOut: (notShowAgain: Boolean) -> Unit) {
     ProtonAlert(
         title = stringResource(id = R.string.dialog_sign_out_title),
         text = stringResource(id = R.string.dialog_sign_out_message),
@@ -249,6 +265,28 @@ fun SignOutDialog(hide: () -> Unit, signOut: (notShowAgain: Boolean) -> Unit) {
         onDismissButton = { hide() },
         checkBoxInitialValue = false,
         onDismissRequest = hide
+    )
+}
+
+@Composable
+private fun ReconnectDialog(
+    onOk: (notShowAgain: Boolean) -> Unit,
+    onReconnect: (notShowAgain: Boolean) -> Unit
+) {
+    ProtonAlert(
+        title = null,
+        text = stringResource(id = R.string.settings_dialog_reconnect),
+        checkBox = stringResource(id = R.string.dialogDontShowAgain),
+        confirmLabel = stringResource(id = R.string.reconnect_now),
+        onConfirm = { notShowAgain ->
+            onReconnect(notShowAgain)
+        },
+        dismissLabel = stringResource(id = R.string.ok),
+        onDismissButton = { notShowAgain ->
+            onOk(notShowAgain)
+        },
+        checkBoxInitialValue = false,
+        onDismissRequest = { onOk(false) }
     )
 }
 

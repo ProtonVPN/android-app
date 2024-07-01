@@ -20,10 +20,7 @@
 package com.protonvpn.android.redesign.app.ui.nav
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.Screen
@@ -31,12 +28,11 @@ import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.countries.ui.nav.SearchRouteScreen.searchScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.ConnectionDetailsScreen.connectionStatus
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
+import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainScreen.mainScreen
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainTarget
 import com.protonvpn.android.redesign.main_screen.ui.nav.rememberMainNav
-import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
-import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen.subSettings
 
@@ -50,6 +46,7 @@ class RootNav(
 
     @Composable
     fun NavHost(
+        settingsChangeViewModel: SettingsChangeViewModel,
         modifier: Modifier,
         coreNavigation: CoreNavigation
     ) {
@@ -61,7 +58,7 @@ class RootNav(
             RootTarget.entries.forEach { target ->
                 when (target) {
                     RootTarget.Main -> {
-                        mainScreen(mainNav)
+                        mainScreen(mainNav, settingsChangeViewModel)
                     }
                     RootTarget.SearchScreen -> {
                         searchScreen(
@@ -77,6 +74,7 @@ class RootNav(
                     }
                     RootTarget.SubSettings -> {
                         subSettings(
+                            settingsChangeViewModel = settingsChangeViewModel,
                             onClose = ::popBackStack,
                             onNavigateToSubSetting = { navigate(SubSettingsScreen, it) },
                         )

@@ -26,17 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.protonvpn.android.R
-import com.protonvpn.android.redesign.app.ui.CoreNavigation
-import com.protonvpn.android.redesign.app.ui.FullScreenError
-import com.protonvpn.android.redesign.app.ui.FullScreenLoading
-import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel
 import com.protonvpn.android.redesign.app.ui.ServerLoadingViewModel.LoaderState
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 
 @Composable
 fun VpnApp(
-    modifier: Modifier = Modifier,
     coreNavigation: CoreNavigation,
+    settingsChangeViewModel: SettingsChangeViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val rootController = rememberNavController()
     val viewModel: ServerLoadingViewModel = hiltViewModel()
@@ -55,7 +52,8 @@ fun VpnApp(
         LoaderState.Loaded -> {
             RootNav(rootController).NavHost(
                 modifier = modifier,
-                coreNavigation = coreNavigation
+                coreNavigation = coreNavigation,
+                settingsChangeViewModel = settingsChangeViewModel,
             )
         }
         null -> { /* Nothing */ }

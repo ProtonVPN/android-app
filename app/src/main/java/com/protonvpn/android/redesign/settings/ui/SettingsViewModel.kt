@@ -79,12 +79,10 @@ enum class NatType(val labelRes: Int, val descriptionRes: Int) {
 class SettingsViewModel @Inject constructor(
     currentUser: CurrentUser,
     accountUserSettings: ObserveUserSettings,
-    private val userSettingsManager: CurrentUserLocalSettingsManager,
     effectiveUserSettings: EffectiveCurrentUserSettings,
     buildConfigInfo: BuildConfigInfo,
     private val recentsManager: RecentsManager,
     private val installedAppsProvider: InstalledAppsProvider,
-    private val reconnectHandler: SettingsReconnectHandler,
     private val getConnectIntentViewState: GetConnectIntentViewState,
 ) : ViewModel() {
 
@@ -202,8 +200,6 @@ class SettingsViewModel @Inject constructor(
     // The configuration doesn't change during runtime.
     private val buildConfigText = if (BuildConfigUtils.displayInfo()) buildConfigInfo() else null
 
-    val showReconnectDialogFlow = reconnectHandler.showReconnectDialogFlow
-
     val viewState =
         combine(
             currentUser.jointUserFlow,
@@ -306,88 +302,6 @@ class SettingsViewModel @Inject constructor(
             }
         }.distinctUntilChanged()
 
-    fun toggleNetShield() {
-        viewModelScope.launch {
-            userSettingsManager.toggleNetShield()
-        }
-    }
-
-    fun updateProtocol(uiDelegate: VpnUiDelegate, newProtocol: ProtocolSelection) {
-        viewModelScope.launch {
-            userSettingsManager.update { current ->
-                if (current.protocol != newProtocol) viewModelScope.launch {
-                    reconnectionCheck(uiDelegate, DontShowAgainStore.Type.ProtocolChangeWhenConnected)
-                }
-                current.copy(protocol = newProtocol)
-            }
-        }
-    }
-
-    fun setNatType(type: NatType) {
-        viewModelScope.launch {
-            userSettingsManager.setRandomizedNat(type == NatType.Strict)
-        }
-    }
-
-    fun toggleVpnAccelerator() {
-        viewModelScope.launch {
-            userSettingsManager.toggleVpnAccelerator()
-        }
-    }
-
-    fun toggleAltRouting() {
-        viewModelScope.launch {
-            userSettingsManager.toggleAltRouting()
-        }
-    }
-
-    fun toggleLanConnections(uiDelegate: VpnUiDelegate) {
-        viewModelScope.launch {
-            userSettingsManager.toggleLanConnections()
-            reconnectionCheck(uiDelegate, DontShowAgainStore.Type.LanConnectionsChangeWhenConnected)
-        }
-    }
-
-    fun toggleSplitTunneling(uiDelegate: VpnUiDelegate) {
-        viewModelScope.launch {
-            userSettingsManager.update { current ->
-                val oldValue = current.splitTunneling
-                val newValue = oldValue.copy(isEnabled = !oldValue.isEnabled)
-                if (!oldValue.isEffectivelySameAs(newValue)) viewModelScope.launch {
-                    reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
-                }
-                current.copy(splitTunneling = newValue)
-            }
-        }
-    }
-
-    fun setSplitTunnelingMode(uiDelegate: VpnUiDelegate, newMode: SplitTunnelingMode) {
-        viewModelScope.launch {
-            userSettingsManager.update { current ->
-                val oldValue = current.splitTunneling
-                val newValue = oldValue.copy(mode = newMode)
-                if (!oldValue.isEffectivelySameAs(newValue)) viewModelScope.launch {
-                    reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
-                }
-                current.copy(splitTunneling = newValue)
-            }
-        }
-    }
-
-    fun onSplitTunnelingUpdated(uiDelegate: VpnUiDelegate) {
-        viewModelScope.launch {
-            reconnectionCheck(uiDelegate, DontShowAgainStore.Type.SplitTunnelingChangeWhenConnected)
-        }
-    }
-
-    private suspend fun reconnectionCheck(uiDelegate: VpnUiDelegate, type: DontShowAgainStore.Type) =
-        reconnectHandler.reconnectionCheck(uiDelegate, type)
-
-    fun onReconnectClicked(uiDelegate: VpnUiDelegate, dontShowAgain: Boolean, type: DontShowAgainStore.Type) =
-        reconnectHandler.onReconnectClicked(uiDelegate, dontShowAgain, type)
-
-    fun dismissReconnectDialog(dontShowAgain: Boolean, type: DontShowAgainStore.Type) =
-        reconnectHandler.dismissReconnectDialog(dontShowAgain, type)
 }
 
 private fun UserRecovery.State?.passwordHint(): Int? = when(this) {
