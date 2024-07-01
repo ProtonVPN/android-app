@@ -36,10 +36,6 @@ import com.protonvpn.android.redesign.main_screen.ui.nav.rememberMainNav
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen.subSettings
 
-enum class RootTarget {
-    Main, ConnectionDetails, SearchScreen, SubSettings;
-}
-
 class RootNav(
     selfNav: NavHostController,
 ) : BaseNav<RootNav>(selfNav, "rootNav") {
@@ -55,32 +51,23 @@ class RootNav(
             modifier = modifier,
             startScreen = MainScreen,
         ) {
-            RootTarget.entries.forEach { target ->
-                when (target) {
-                    RootTarget.Main -> {
-                        mainScreen(mainNav, settingsChangeViewModel)
-                    }
-                    RootTarget.SearchScreen -> {
-                        searchScreen(
-                            onBackIconClick = ::popBackStack,
-                            onNavigateToHomeOnConnect = {
-                                popBackStack()
-                                mainNav.navigate(MainTarget.Home)
-                            }
-                        )
-                    }
-                    RootTarget.ConnectionDetails -> {
-                        connectionStatus(onClosePanel = ::popBackStack)
-                    }
-                    RootTarget.SubSettings -> {
-                        subSettings(
-                            settingsChangeViewModel = settingsChangeViewModel,
-                            onClose = ::popBackStack,
-                            onNavigateToSubSetting = { navigate(SubSettingsScreen, it) },
-                        )
-                    }
+            mainScreen(mainNav, settingsChangeViewModel)
+
+            searchScreen(
+                onBackIconClick = ::popBackStack,
+                onNavigateToHomeOnConnect = {
+                    popBackStack()
+                    mainNav.navigate(MainTarget.Home)
                 }
-            }
+            )
+
+            connectionStatus(onClosePanel = ::popBackStack)
+
+            subSettings(
+                settingsChangeViewModel = settingsChangeViewModel,
+                onClose = ::popBackStack,
+                onNavigateToSubSetting = { navigate(SubSettingsScreen, it) },
+            )
         }
     }
 
