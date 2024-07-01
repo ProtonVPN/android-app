@@ -1237,7 +1237,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">가격을 불러오던 중 오류가 발생했습니다.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_description">VPN이 보호할 앱을 지정하여 연결을 커스텀할 수 있습니다.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">선택된 앱들이 VPN 연결에서 제외됩니다.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">오직 선택된 앱만이 VPN을 통해 연결됩니다. 제외된 항목은 보호되지 않습니다.</string>
 </resources>

@@ -1280,7 +1280,7 @@
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recommended</string>
-    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_title">Режим</string>
     <string name="settings_split_tunneling_mode_standard">Стандартний</string>
     <string name="settings_split_tunneling_mode_inverse">Inverse</string>
     <string name="settings_split_tunneling_mode_description_standard">Вибрані програми та IP-адреси виключаються з VPN-з\'єднання.</string>
