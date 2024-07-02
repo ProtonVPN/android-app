@@ -302,6 +302,7 @@ class VpnConnectionManager @Inject constructor(
                     fallback.toConnectIntent,
                     preferredServer = fallback.toServer,
                     triggerAction = ConnectTrigger.Fallback(fallback.log),
+                    disconnectTrigger = DisconnectTrigger.Fallback,
                     clearFallback = false,
                 )
             is VpnFallbackResult.Switch.SwitchServer -> {
@@ -346,7 +347,7 @@ class VpnConnectionManager @Inject constructor(
         ProtonLogger.log(ConnConnectTrigger, switch.log)
         vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Fallback(switch.log))
         launchConnect {
-            preparedConnect(switch.preparedConnection, isFallback = true)
+            preparedConnect(switch.preparedConnection, DisconnectTrigger.Fallback)
         }
     }
 
@@ -354,7 +355,7 @@ class VpnConnectionManager @Inject constructor(
         connectIntent: AnyConnectIntent,
         preferredProtocol: ProtocolSelection,
         server: Server,
-        isFallback: Boolean
+        disconnectTrigger: DisconnectTrigger,
     ) {
         val newConnectionParams = ConnectionParams(connectIntent, server, null, null)
         setInternalState(InternalState.ScanningPorts(activeConnectionParams, newConnectionParams, activeBackend))
@@ -385,7 +386,7 @@ class VpnConnectionManager @Inject constructor(
         if (preparedConnection == null) {
             setInternalState(InternalState.Error(newConnectionParams, VpnState.Error(ErrorType.GENERIC_ERROR, "Server doesn't support selected protocol", isFinal = true), activeBackend))
         } else {
-            preparedConnect(preparedConnection, isFallback)
+            preparedConnect(preparedConnection, disconnectTrigger)
         }
     }
 
@@ -412,14 +413,13 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    private suspend fun preparedConnect(preparedConnection: PrepareResult, isFallback: Boolean) {
+    private suspend fun preparedConnect(preparedConnection: PrepareResult, disconnectTrigger: DisconnectTrigger) {
         // If smart profile fails we need this to handle reconnect request
         lastConnectIntent = preparedConnection.connectionParams.connectIntent
 
         val currentBackend = activeBackend
         if (currentBackend != null) {
             setInternalState(InternalState.SwitchingConnection(activeConnectionParams, preparedConnection.connectionParams, currentBackend))
-            val disconnectTrigger = if (isFallback) DisconnectTrigger.Fallback else DisconnectTrigger.NewConnection
             disconnectForNewConnection(activeConnectionParams, disconnectTrigger)
             setInternalState(InternalState.SwitchingConnection(activeConnectionParams, preparedConnection.connectionParams, null))
         }
@@ -490,14 +490,15 @@ class VpnConnectionManager @Inject constructor(
 
     override fun connect(uiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, triggerAction: ConnectTrigger) {
         val intent = permissionDelegate.prepareVpnPermission()
+        val disconnectTrigger = DisconnectTrigger.NewConnection
         if (connectIntent !is AnyConnectIntent.GuestHole)
             scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
         if (intent != null) {
             uiDelegate.askForPermissions(intent, connectIntent) {
-                connectWithPermission(uiDelegate, connectIntent, triggerAction, clearFallback = true)
+                connectWithPermission(uiDelegate, connectIntent, triggerAction, disconnectTrigger, clearFallback = true)
             }
         } else {
-            connectWithPermission(uiDelegate, connectIntent, triggerAction, clearFallback = true)
+            connectWithPermission(uiDelegate, connectIntent, triggerAction, disconnectTrigger, clearFallback = true)
         }
     }
 
@@ -508,12 +509,13 @@ class VpnConnectionManager @Inject constructor(
         delegate: VpnUiDelegate,
         connectIntent: AnyConnectIntent,
         triggerAction: ConnectTrigger,
+        disconnectTrigger: DisconnectTrigger,
         clearFallback: Boolean,
         preferredServer: Server? = null,
     ) {
         clearOngoingConnection(clearFallback)
         launchConnect {
-            connectWithPermissionSync(delegate, connectIntent, triggerAction, preferredServer)
+            connectWithPermissionSync(delegate, connectIntent, triggerAction, disconnectTrigger, preferredServer)
         }
     }
 
@@ -521,6 +523,7 @@ class VpnConnectionManager @Inject constructor(
         delegate: VpnUiDelegate,
         connectIntent: AnyConnectIntent,
         trigger: ConnectTrigger,
+        disconnectTrigger: DisconnectTrigger,
         preferredServer: Server? = null
     ) {
         val settings = userSettings.effectiveSettings.first()
@@ -534,7 +537,7 @@ class VpnConnectionManager @Inject constructor(
             val protocol = if (connectIntent is AnyConnectIntent.GuestHole) GuestHole.PROTOCOL else settings.protocol
             val protocolAllowed = trigger is ConnectTrigger.GuestHole || protocol.isSupported(appConfig.getFeatureFlags())
             if (supportsProtocol(server, protocol.vpn) && protocolAllowed) {
-                smartConnect(connectIntent, protocol, server, trigger is ConnectTrigger.Fallback)
+                smartConnect(connectIntent, protocol, server, disconnectTrigger)
             } else {
                 vpnConnectionTelemetry.onConnectionAbort(sentryInfo = "no protocol supported")
                 delegate.onProtocolNotSupported()
@@ -598,12 +601,13 @@ class VpnConnectionManager @Inject constructor(
     // Will reconnect to current connection params, skipping pinging procedures
     fun reconnectWithCurrentParams(uiDelegate: VpnUiDelegate) = scope.launch {
         clearOngoingConnection(clearFallback = true)
+        val disconnectTrigger = DisconnectTrigger.Reconnect("reconnect")
         if (activeBackend != null) {
-            vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.Reconnect("reconnect"), activeConnectionParams)
+            vpnConnectionTelemetry.onDisconnectionTrigger(disconnectTrigger, activeConnectionParams)
             vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect)
             activeBackend?.reconnect()
         } else {
-            lastConnectIntent?.let { connect(uiDelegate, it, ConnectTrigger.Reconnect) }
+            lastConnectIntent?.let { connectWithPermission(uiDelegate, it, ConnectTrigger.Reconnect, disconnectTrigger, clearFallback = true) }
         }
     }
 
@@ -613,13 +617,7 @@ class VpnConnectionManager @Inject constructor(
         scope.launch {
             val currentConnectionParams = activeConnectionParams
             if (currentConnectionParams != null) {
-                setInternalState(
-                    InternalState.SwitchingConnection(currentConnectionParams, currentConnectionParams, activeBackend))
-                disconnectForNewConnection(
-                    currentConnectionParams,
-                    DisconnectTrigger.Reconnect(triggerAction)
-                )
-                lastConnectIntent?.let { connect(uiDelegate, it, ConnectTrigger.Reconnect) }
+                lastConnectIntent?.let { connectWithPermission(uiDelegate, it, ConnectTrigger.Reconnect, DisconnectTrigger.Reconnect(triggerAction), clearFallback = true) }
             } else {
                 ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.CONN, "Reconnect called without active connection")
             }
