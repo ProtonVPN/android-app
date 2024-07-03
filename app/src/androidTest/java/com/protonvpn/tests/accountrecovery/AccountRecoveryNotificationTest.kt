@@ -82,11 +82,6 @@ class AccountRecoveryNotificationTest : MinimalAccountRecoveryNotificationTest {
 
     override val quark: Quark = TestSetup.quark
 
-    @Before
-    fun setUp() {
-        TestSetup.setCompletedOnboarding()
-    }
-
     override fun verifyAfterLogin() {
         HomeRobot.verify { isLoggedIn() }
     }

@@ -40,7 +40,6 @@ class LoginTestRule(
 
     override fun starting(description: Description?) {
         super.starting(description)
-        TestSetup.setCompletedOnboarding()
         val entryPoint: ProtonTestEntryPoint = EntryPointAccessors.fromApplication(
             ApplicationProvider.getApplicationContext<Application>(),
             ProtonTestEntryPoint::class.java
