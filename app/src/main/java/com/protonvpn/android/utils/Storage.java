@@ -21,16 +21,12 @@ package com.protonvpn.android.utils;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Objects;
 
 import kotlin.jvm.functions.Function0;
@@ -43,7 +39,6 @@ public final class Storage {
             .enableComplexMapKeySerialization()
             .registerTypeAdapter(ClientId.class, new ClientIdGsonSerializer())
             .create();
-    private final static Type STRING_LIST_TYPE = new TypeToken<List<String>>() {}.getType();
 
     private static SharedPreferences preferences;
 
@@ -54,26 +49,12 @@ public final class Storage {
         Storage.preferences = preferences;
     }
 
-    public static void saveStringList(@NonNull String key, @Nullable List<String> list) {
-        preferences.edit().putString(key, GSON.toJson(list, STRING_LIST_TYPE)).apply();
-    }
-
-    @NonNull
-    public static List<String> getStringList(@NonNull String key) {
-        String valueJson = preferences.getString(key, "[]");
-        return GSON.fromJson(valueJson, STRING_LIST_TYPE);
-    }
-
     public static void saveBoolean(String key, boolean value) {
         preferences.edit().putBoolean(key, value).apply();
     }
 
     public static boolean getBoolean(String key, Boolean defaultValue) {
         return preferences.getBoolean(key, defaultValue);
-    }
-
-    public static boolean getBoolean(String key) {
-        return preferences.getBoolean(key, false);
     }
 
     public static void saveInt(String key, int value) {
@@ -88,14 +69,6 @@ public final class Storage {
             DebugUtils.INSTANCE.fail("Int format exception for key: " + key + ": " + e.getMessage());
             return 0;
         }
-    }
-
-    public static void saveLong(String key, long value) {
-        preferences.edit().putLong(key, value).apply();
-    }
-
-    public static long getLong(String key, long defValue) {
-        return preferences.getLong(key, defValue);
     }
 
     public static void saveString(String key, String value) {
@@ -114,10 +87,6 @@ public final class Storage {
         } else {
             preferences.edit().remove(as.getName()).apply();
         }
-    }
-
-    public static <T> T toObject(Class<T> objClass, @NonNull String json) {
-        return GSON.fromJson(json, objClass);
     }
 
     @Nullable
@@ -154,7 +123,6 @@ public final class Storage {
 
     @Deprecated // use load() with lambda defaultValue
     public static <T> T load(Class<T> objClass, T defaultValue) {
-
         String key = objClass.getName();
         if (key.equals("com.protonvpn.android.models.config.UserData") && !preferences.contains(key)) {
             key = "com.protonvpn.android.models.config.UserPreferences";

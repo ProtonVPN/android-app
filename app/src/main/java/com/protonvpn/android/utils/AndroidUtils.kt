@@ -56,6 +56,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.logging.ProtonLogger
 import me.proton.core.util.kotlin.times
 import okhttp3.internal.toHexString
+import java.io.File
 import java.io.Serializable
 import java.nio.CharBuffer
 import java.nio.charset.StandardCharsets
@@ -132,6 +133,22 @@ object AndroidUtils {
 
     fun Context.isChromeOS() =
             packageManager.hasSystemFeature("org.chromium.arc.device_management")
+
+    fun deleteSharedPrefs(appContext: Context, name: String) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            appContext.deleteSharedPreferences(name)
+        } else {
+            sharedPrefsFile(appContext, name).delete()
+        }
+    }
+
+    fun sharedPrefsExists(appContext: Context, name: String) =
+        sharedPrefsFile(appContext, name).exists()
+
+    private fun sharedPrefsFile(appContext: Context, name: String): File {
+        val dir = File(appContext.applicationInfo.dataDir, "shared_prefs")
+        return File(dir, "$name.xml")
+    }
 }
 
 fun Context.openUrl(url: String) = openUrl(Uri.parse(url))
