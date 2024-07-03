@@ -29,6 +29,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserCertStoreError
 import com.protonvpn.android.observability.CertificateStorageCreateMetric
+import com.protonvpn.android.utils.AndroidUtils
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -143,12 +144,7 @@ class CertificateStorage @Inject constructor(
     )
 
     private fun deleteEncryptedPrefs() {
-        if (Build.VERSION.SDK_INT >= 24) {
-            appContext.deleteSharedPreferences(PREFS_NAME)
-        } else {
-            val dir = File(appContext.applicationInfo.dataDir, "shared_prefs")
-            File(dir, "$PREFS_NAME.xml").delete()
-        }
+        AndroidUtils.deleteSharedPrefs(appContext, PREFS_NAME)
     }
 
     private fun enqueueObservabilityEvent(storageType: CertificateStorageCreateMetric.StorageType) {

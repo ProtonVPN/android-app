@@ -24,6 +24,7 @@ import static kotlinx.coroutines.CoroutineScopeKt.MainScope;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -56,6 +57,7 @@ import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess;
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger;
 import com.protonvpn.android.utils.AndroidUtilsKt;
 import com.protonvpn.android.utils.ProtonPreferences;
+import com.protonvpn.android.utils.ProtonPreferencesMigrationKt;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
 import com.protonvpn.android.utils.VpnCoreLogger;
@@ -204,8 +206,9 @@ public class ProtonApplication extends Application {
     }
 
     private void initPreferences() {
-        ProtonPreferences preferences =
-            new ProtonPreferences(this, BuildConfig.PREF_SALT, BuildConfig.PREF_KEY, "Proton-Secured");
+        String storagePrefsName = "Storage";
+        ProtonPreferencesMigrationKt.migrateProtonPreferences(this, "Proton-Secured", storagePrefsName);
+        SharedPreferences preferences = getSharedPreferences(storagePrefsName, Context.MODE_PRIVATE);
         Storage.setPreferences(preferences);
     }
 
