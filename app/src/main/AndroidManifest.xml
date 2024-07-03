@@ -213,9 +213,6 @@
         <activity
             android:name=".ui.drawer.bugreport.DropdownSelectionActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.home.SecureCoreSpeedInfoActivity"
-            android:exported="false" />
 
         <activity android:name=".ui.onboarding.WhatsNewActivity" />
         <activity android:name=".ui.planupgrade.UpgradeDialogActivity" />
