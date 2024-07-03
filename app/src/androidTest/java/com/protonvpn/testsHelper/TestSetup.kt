@@ -20,8 +20,6 @@
 package com.protonvpn.testsHelper
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.protonvpn.android.ui.onboarding.OnboardingPreferences
-import com.protonvpn.android.utils.Storage
 import me.proton.core.test.quark.Quark
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.configuration.EnvironmentConfigurationDefaults
@@ -42,10 +40,5 @@ object TestSetup {
                 .bufferedReader()
                 .use { it.readText() }
                 .deserialize())
-    }
-
-    fun setCompletedOnboarding() {
-        //set flag to slide show to be visible
-        Storage.saveBoolean(OnboardingPreferences.FLOATING_BUTTON_USED, true)
     }
 }

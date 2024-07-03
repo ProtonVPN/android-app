@@ -62,7 +62,6 @@ class BugReportTests {
 
     @Before
     fun setUp() {
-        TestSetup.setCompletedOnboarding()
         hiltRule.inject()
         reportBugRobot = BugReportRobot()
         categories = runBlocking { api.getDynamicReportConfig(currentUser.sessionId()).valueOrThrow.categories }
