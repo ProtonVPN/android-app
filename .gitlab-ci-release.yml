@@ -70,6 +70,8 @@ sign-bundle:
 sign-payment-black-bundle:
   stage: deploy
   rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
     - if: $CI_COMMIT_REF_PROTECTED == "true"
       when: manual
   needs: ["build payments black google dev", "export archive name"]
