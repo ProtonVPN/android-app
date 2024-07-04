@@ -20,8 +20,11 @@ package com.protonvpn.android.tv.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
@@ -30,12 +33,14 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseTvActivity
 import com.protonvpn.android.databinding.ActivityTvMainBinding
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.tv.TvLoginActivity
 import com.protonvpn.android.tv.TvMainFragment
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
 import com.protonvpn.android.utils.CountryTools
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 const val MAP_SHOW_DELAY = 500L
 const val MAP_FADE_IN_DURATION = 400L
@@ -45,6 +50,9 @@ class TvMainActivity : BaseTvActivity() {
 
     private val viewModel: TvMainViewModel by viewModels()
     private val accountViewModel: AccountViewModel by viewModels()
+
+    @Inject
+    lateinit var isTv: IsTvCheck
 
     private val helper = object : MainActivityHelper(this) {
 
@@ -108,6 +116,9 @@ class TvMainActivity : BaseTvActivity() {
                 animate().alpha(if (show) 1f else 0f)
             })
         }
+
+        val isTvIntent = intent.hasCategory(Intent.CATEGORY_LEANBACK_LAUNCHER)
+        isTv.onUiLaunched(isTvIntent)
     }
 
     private fun updateMapSelection(binding: ActivityTvMainBinding) {
