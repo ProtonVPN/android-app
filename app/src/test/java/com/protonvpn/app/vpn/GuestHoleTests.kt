@@ -87,7 +87,7 @@ class GuestHoleTests {
             val id = firstArg<String>()
             ghServers.find { it.serverId == id }
         }
-        coEvery { serverManager.isDownloadedAtLeastOnce() } returns false
+        coEvery { serverManager.isDownloadedAtLeastOnce } returns false
         every { vpnConnectionManager.connect(any(), any(), any()) } answers {
             val connectIntent = secondArg<AnyConnectIntent>()
             val goodId = (connectIntent as AnyConnectIntent.GuestHole).serverId == goodServer.serverId

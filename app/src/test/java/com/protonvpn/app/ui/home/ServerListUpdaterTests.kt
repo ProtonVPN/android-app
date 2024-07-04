@@ -155,7 +155,7 @@ class ServerListUpdaterTests {
         coEvery { mockCurrentUser.isLoggedIn() } returns true
         coEvery { mockCurrentUser.eventVpnLogin } returns emptyFlow()
         coEvery { mockCurrentUser.vpnUser() } returns TestUser.freeUser.vpnUser
-        coEvery { mockServerManager.isDownloadedAtLeastOnce() } returns true
+        coEvery { mockServerManager.isDownloadedAtLeastOnce } returns true
         coEvery { mockServerManager.needsUpdate() } returns false
         var allServers = emptyList<Server>()
         coEvery { mockServerManager.setServers(any(), any()) } answers { allServers = firstArg() }
