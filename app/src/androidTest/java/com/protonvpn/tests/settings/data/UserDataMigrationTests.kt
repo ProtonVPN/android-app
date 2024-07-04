@@ -54,7 +54,7 @@ class UserDataMigrationTests {
         Storage.setPreferences(MockSharedPreference())
 
         testScope = TestScope(UnconfinedTestDispatcher())
-        val currentUser = CurrentUser(testScope.backgroundScope, TestCurrentUserProvider(TestUser.plusUser.vpnUser))
+        val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.plusUser.vpnUser))
         val storeProvider = LocalUserSettingsStoreProvider(
             DefaultLocalDataStoreFactory(InstrumentationRegistry.getInstrumentation().targetContext)
         )

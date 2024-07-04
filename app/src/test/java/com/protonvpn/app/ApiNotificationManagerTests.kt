@@ -127,7 +127,7 @@ class ApiNotificationManagerTests {
         )
 
         testUserProvider = TestCurrentUserProvider(plusUser, createAccountUser(plusUser.userId))
-        currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        currentUser = CurrentUser(testUserProvider)
 
         every { mockAppConfig.appConfigUpdateEvent } returns MutableSharedFlow()
         every { mockAppConfig.appConfigFlow } returns appConfigFlow

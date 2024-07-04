@@ -42,7 +42,6 @@ import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.slot
@@ -110,7 +109,7 @@ class TvLoginViewModelTests {
     fun setup() {
         MockKAnnotations.init(this)
         testScope = TestScope()
-        currentUser = CurrentUser(testScope.backgroundScope, TestCurrentUserProvider(null))
+        currentUser = CurrentUser(TestCurrentUserProvider(null))
 
         coEvery { api.getAvailableDomains() } returns ApiResult.Success(GenericResponse(1000))
 

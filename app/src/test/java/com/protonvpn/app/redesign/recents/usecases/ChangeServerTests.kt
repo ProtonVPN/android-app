@@ -46,7 +46,6 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -100,7 +99,7 @@ class ChangeServerTests {
         testScope = TestScope()
         changeServerPrefs = ChangeServerPrefs(MockSharedPreferencesProvider())
         testUserProvider = TestCurrentUserProvider(vpnUser = freeUser)
-        currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        currentUser = CurrentUser(testUserProvider)
         vpnStateMonitor = VpnStateMonitor()
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
 

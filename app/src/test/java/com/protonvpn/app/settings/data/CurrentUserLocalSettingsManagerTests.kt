@@ -57,7 +57,7 @@ class CurrentUserLocalSettingsManagerTests {
         val testDispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(testDispatcher)
         currentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
-        val currentUser = CurrentUser(testScope.backgroundScope, currentUserProvider)
+        val currentUser = CurrentUser(currentUserProvider)
         val localUserSettingsStoreProvider = LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
 
         currentUserSettings = CurrentUserLocalSettingsManager(localUserSettingsStoreProvider)

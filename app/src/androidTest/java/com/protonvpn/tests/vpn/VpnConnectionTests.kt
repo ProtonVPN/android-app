@@ -226,7 +226,7 @@ class VpnConnectionTests {
 
         supportsProtocol = SupportsProtocol(createGetSmartProtocols(smartProtocolsConfig.getSmartProtocols()))
         currentUserProvider = TestCurrentUserProvider(vpnUser = TestUser.badUser.vpnUser)
-        val currentUser = CurrentUser(scope.backgroundScope, currentUserProvider)
+        val currentUser = CurrentUser(currentUserProvider)
 
         every { mockGhSuppressor.disableGh() } returns false
         every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false

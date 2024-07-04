@@ -123,7 +123,7 @@ class MigrateProfileTests {
             userSettingsManager = mockk(relaxed = true)
         )
 
-        currentUser = CurrentUser(testScope.backgroundScope, TestCurrentUserProvider(vpnUser))
+        currentUser = CurrentUser(TestCurrentUserProvider(vpnUser))
 
         serverManager = ServerManager(
             testScope.backgroundScope,

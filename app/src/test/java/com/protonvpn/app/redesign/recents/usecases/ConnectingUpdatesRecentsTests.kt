@@ -71,7 +71,7 @@ class ConnectingUpdatesRecentsTests {
 
         testScope = TestScope(UnconfinedTestDispatcher())
         testUserProvider = TestCurrentUserProvider(vpnUser = plusUser)
-        currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        currentUser = CurrentUser(testUserProvider)
         vpnStateMonitor = VpnStateMonitor()
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
 

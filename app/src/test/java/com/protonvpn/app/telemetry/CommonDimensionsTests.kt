@@ -57,7 +57,6 @@ class CommonDimensionsTests {
         prefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         vpnStateMonitor = VpnStateMonitor()
         val currentUser = CurrentUser(
-            scope.backgroundScope,
             TestCurrentUserProvider(TestUser.plusUser.vpnUser, createAccountUser())
         )
 

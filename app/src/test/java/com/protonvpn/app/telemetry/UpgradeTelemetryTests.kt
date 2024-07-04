@@ -79,7 +79,7 @@ class UpgradeTelemetryTests {
         every { mockTelemetry.event(UPSELL_GROUP, any(), any(), any()) } just runs
 
         testUserProvider = TestCurrentUserProvider(freeVpnUser, createAccountUser(createdAtUtc = 100L))
-        val currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        val currentUser = CurrentUser(testUserProvider)
 
         featureFlagsFlow = MutableStateFlow(FeatureFlags())
         val getFeatureFlags = GetFeatureFlags(featureFlagsFlow)

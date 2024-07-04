@@ -114,7 +114,6 @@ class DefaultCurrentUserProvider @Inject constructor(
 // with async access to user.
 @Singleton
 class CurrentUser @Inject constructor(
-    scope: CoroutineScope, //TODO: remove
     private val provider: CurrentUserProvider
 ) {
     val vpnUserFlow = provider.partialJointUserFlow.map { it.vpnUser }.distinctUntilChanged()

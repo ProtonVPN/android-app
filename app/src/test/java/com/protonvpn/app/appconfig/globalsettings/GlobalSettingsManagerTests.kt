@@ -51,7 +51,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.session.SessionId
 import me.proton.core.user.domain.UserManager
@@ -106,7 +105,7 @@ class GlobalSettingsManagerTests {
             coEvery { mockUserManager.getUser(accountUser.userId) } returns accountUser
         }
         testUserProvider = TestCurrentUserProvider(vpnUser1, accountUser1)
-        currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        currentUser = CurrentUser(testUserProvider)
         userSettingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
         )

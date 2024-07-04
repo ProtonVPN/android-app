@@ -65,7 +65,7 @@ class ShouldShowcaseRecentsTests {
         testScope = TestScope()
 
         testUserProvider = TestCurrentUserProvider(plusUser)
-        val currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        val currentUser = CurrentUser(testUserProvider)
         uiStateStorage = UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser)
 
         recentsFlow = MutableStateFlow(emptyList())

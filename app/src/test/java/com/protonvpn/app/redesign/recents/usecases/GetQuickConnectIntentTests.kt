@@ -69,7 +69,7 @@ class GetQuickConnectIntentTests {
 
         testScope = TestScope()
         testUserProvider = TestCurrentUserProvider(vpnUser = null)
-        currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        currentUser = CurrentUser(testUserProvider)
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
         mostRecentConnectionFlow = MutableStateFlow(null)

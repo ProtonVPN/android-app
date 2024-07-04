@@ -111,7 +111,7 @@ class ReviewTrackerTests {
             { CURRENT_TIME },
             testScope.backgroundScope,
             appConfig,
-            CurrentUser(testScope.backgroundScope, testCurrentUserProvider),
+            CurrentUser(testCurrentUserProvider),
             vpnStateMonitor,
             foregroundActivityTracker,
             trackerPrefs,

@@ -98,7 +98,7 @@ class RecentsListValidatorTests {
         IdlingRegistry.getInstance().register(idlingResource)
 
         currentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
-        currentUser = CurrentUser(testScope.backgroundScope, currentUserProvider)
+        currentUser = CurrentUser(currentUserProvider)
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
