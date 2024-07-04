@@ -34,6 +34,7 @@ import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.redesign.base.ui.SettingsItem
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.VpnDivider
+import me.proton.core.accountmanager.presentation.compose.SecurityKeysSettingsItemHint
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.domain.entity.UserId
 
@@ -42,6 +43,7 @@ fun AccountSettings(
     viewState: SettingsViewModel.AccountSettingsViewState,
     onChangePassword: () -> Unit,
     onChangeRecoveryEmail: () -> Unit,
+    onSecurityKeysClicked: () -> Unit,
     onOpenMyAccount: () -> Unit,
     onDeleteAccount: () -> Unit,
     onUpgrade: () -> Unit,
@@ -78,6 +80,14 @@ fun AccountSettings(
             actionComposable = {},
             modifier = Modifier.clickable(onClick = onChangeRecoveryEmail),
         )
+        if (viewState.isFido2Enabled) {
+            SettingsItem(
+                name = stringResource(R.string.settings_account_security_keys),
+                subTitle = SecurityKeysSettingsItemHint(viewState.registeredSecurityKeys),
+                actionComposable = {},
+                modifier = Modifier.clickable(onClick = onSecurityKeysClicked),
+            )
+        }
 
         VpnSolidButton(
             text = stringResource(R.string.settings_account_button_my_account),
@@ -106,9 +116,11 @@ private fun PreviewAccountSettings() {
             recoveryEmail = null,
             passwordHint = null,
             upgradeToPlusBanner = true,
+            isFido2Enabled = true,
+            registeredSecurityKeys = emptyList()
         )
         Surface(color = ProtonTheme.colors.backgroundNorm) {
-            AccountSettings(viewState = state, {}, {}, {}, {}, {},        {})
+            AccountSettings(viewState = state, {}, {}, {}, {}, {}, {}, {})
         }
     }
 }
