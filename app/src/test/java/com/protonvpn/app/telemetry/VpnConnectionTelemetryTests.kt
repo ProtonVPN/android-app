@@ -117,7 +117,6 @@ class VpnConnectionTelemetryTests {
 
         telemetryScope = TestScope(UnconfinedTestDispatcher(testScheduler))
         currentUser = CurrentUser(
-            telemetryScope.backgroundScope,
             TestCurrentUserProvider(TestUser.plusUser.vpnUser, createAccountUser())
         )
         val commonDimensions = CommonDimensions(currentUser, vpnStateMonitor, prefs, FakeIsCredentialLessEnabled(true))

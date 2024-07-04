@@ -82,7 +82,7 @@ class UpgradeDialogSuccessTests {
         userPlanManager = UserPlanManager(
             mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true), { 0L }, mockk(), mockk()
         )
-        currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        currentUser = CurrentUser(testUserProvider)
         every { foregroundActivityTracker.foregroundActivityFlow } returns foregroundActivityFlow
         coEvery { purchaseManager.getPurchase(any()) } returns null
 

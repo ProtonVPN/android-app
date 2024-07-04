@@ -89,7 +89,7 @@ class OnboardingTelemetryTests {
 
         appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
         testUserProvider = TestCurrentUserProvider(vpnUser = null)
-        currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        currentUser = CurrentUser(testUserProvider)
         serverListPrefs =  ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         vpnStateMonitor = VpnStateMonitor()
     }

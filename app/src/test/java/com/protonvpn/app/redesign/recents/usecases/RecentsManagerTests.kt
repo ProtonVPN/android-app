@@ -66,7 +66,7 @@ class RecentsManagerTests {
 
         currentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
         val currentUser =
-            CurrentUser(testScope.backgroundScope, currentUserProvider)
+            CurrentUser(currentUserProvider)
         recentsManager =
             RecentsManager(testScope.backgroundScope, mockRecentsDao, mockDefaultDao, currentUser, { testScope.currentTime }, mockMigrateProfiles)
     }

@@ -128,7 +128,7 @@ class RecentsListViewStateFlowTests {
         val testDispatcher = UnconfinedTestDispatcher(testCoroutineScheduler)
         testScope = TestScope(testDispatcher)
         Dispatchers.setMain(testDispatcher) // Remove this when ServerManager no longer uses asLiveData().
-        val currentUser = CurrentUser(testScope.backgroundScope, currentUserProvider)
+        val currentUser = CurrentUser(currentUserProvider)
         val clock = { testCoroutineScheduler.currentTime }
 
         vpnStateMonitor = VpnStateMonitor()

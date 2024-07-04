@@ -48,7 +48,7 @@ class WhatsNewFreeControllerTests {
         testScope = TestScope(UnconfinedTestDispatcher())
 
         testUserProvider = TestCurrentUserProvider(TestUser.freeUser.vpnUser)
-        currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        currentUser = CurrentUser(testUserProvider)
         prefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
         prefs.showWhatsNew = true
     }

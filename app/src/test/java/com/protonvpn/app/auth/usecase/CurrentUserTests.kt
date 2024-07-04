@@ -76,7 +76,7 @@ class CurrentUserTests {
             flowOf(createAccountUser(firstArg<SessionUserId>()))
         }
         val currentUserProvider = DefaultCurrentUserProvider(scope.backgroundScope, mockAccountManager, mockVpnUserDao, mockUserManager)
-        currentUser = CurrentUser(scope.backgroundScope, currentUserProvider)
+        currentUser = CurrentUser(currentUserProvider)
     }
 
     @Test

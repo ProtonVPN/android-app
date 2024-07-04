@@ -70,7 +70,7 @@ class ProfileManagerTests {
     @Before
     fun setup() {
         testScope = TestScope(UnconfinedTestDispatcher())
-        val currentUser = CurrentUser(testScope.backgroundScope, TestCurrentUserProvider(TestUser.plusUser.vpnUser))
+        val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.plusUser.vpnUser))
 
         effectiveUserSettings = MutableStateFlow(LocalUserSettings.Default)
         val currentUserSettings = EffectiveCurrentUserSettingsCached(effectiveUserSettings)

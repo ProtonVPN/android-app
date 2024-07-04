@@ -104,7 +104,7 @@ class VpnStatusViewStateFlowTest {
         every { vpnConnectionManager.netShieldStats } returns netShieldStatsFlow
 
         testUserProvider = TestCurrentUserProvider(plusUser)
-        val currentUser = CurrentUser(testScope.backgroundScope, testUserProvider)
+        val currentUser = CurrentUser(testUserProvider)
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         changeServerFlow = MutableStateFlow(null)
         promoBannerFlow = MutableStateFlow(null)

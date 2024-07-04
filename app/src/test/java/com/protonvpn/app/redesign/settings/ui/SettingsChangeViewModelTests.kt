@@ -81,7 +81,7 @@ class SettingsChangeViewModelTests {
         val testDispatcher = UnconfinedTestDispatcher()
         Dispatchers.setMain(testDispatcher)
         testScope = TestScope(testDispatcher)
-        val currentUser = CurrentUser(testScope.backgroundScope, TestCurrentUserProvider(TestUser.plusUser.vpnUser))
+        val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.plusUser.vpnUser))
         dontShowAgainStore = DontShowAgainStore(currentUser, DontShowAgainStateStoreProvider(InMemoryDataStoreFactory()))
         vpnStateMonitor = VpnStateMonitor()
         settingsManager = CurrentUserLocalSettingsManager(
