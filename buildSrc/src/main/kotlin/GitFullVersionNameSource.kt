@@ -21,9 +21,10 @@ import org.gradle.api.provider.ValueSource
 import org.gradle.api.provider.ValueSourceParameters
 import org.gradle.process.ExecOperations
 import java.io.ByteArrayOutputStream
+import java.io.File
 import javax.inject.Inject
 
-abstract class GitFullVersionNameSource : ValueSource<String, ValueSourceParameters.None> {
+abstract class GitFullVersionNameSource : ValueSource<String, GitFullVersionNameSource.Parameters> {
 
     @get:Inject
     abstract val execOperations: ExecOperations
@@ -75,11 +76,16 @@ abstract class GitFullVersionNameSource : ValueSource<String, ValueSourceParamet
             execOperations.exec {
                 commandLine = commandArgs.toList()
                 standardOutput = output
+                workingDir = parameters.workingDir
             }
         } catch (e: Exception) {
             if (throwOnError) throw e
             else return null
         }
         return String(output.toByteArray())
+    }
+
+    interface Parameters : ValueSourceParameters {
+        var workingDir: File
     }
 }
