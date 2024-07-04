@@ -586,7 +586,11 @@ class Helpers {
         if (override != null)
             return override
 
-        def gitVersionProvider = providers.of(GitFullVersionNameSource.class) {}
+        def gitVersionProvider = providers.of(GitFullVersionNameSource.class) {
+            parameters {
+                workingDir = this.workingDir
+            }
+        }
         return gitVersionProvider.get()
     }
 
