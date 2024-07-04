@@ -20,7 +20,6 @@ package com.protonvpn.android.redesign.settings.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
@@ -42,8 +41,6 @@ import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.vpn.ProtocolSelection
-import com.protonvpn.android.vpn.VpnConnectionManager
-import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -55,7 +52,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import me.proton.core.domain.entity.UserId
-import me.proton.core.presentation.savedstate.state
 import me.proton.core.user.domain.entity.UserRecovery
 import me.proton.core.user.domain.extension.isCredentialLess
 import me.proton.core.usersettings.domain.usecase.ObserveUserSettings
@@ -207,9 +203,9 @@ class SettingsViewModel @Inject constructor(
             effectiveUserSettings.effectiveSettings,
             recentsManager.getDefaultConnectionFlow()
         ) { user, settings, defaultConnection ->
-            val isFree = user?.second?.isFreeUser == true
-            val isCredentialLess = user?.first?.isCredentialLess() == true
-            val netShieldSetting = when (val netShieldAvailability = user?.second.getNetShieldAvailability()) {
+            val isFree = user?.vpnUser?.isFreeUser == true
+            val isCredentialLess = user?.user?.isCredentialLess() == true
+            val netShieldSetting = when (val netShieldAvailability = user?.vpnUser.getNetShieldAvailability()) {
                 NetShieldAvailability.HIDDEN -> null
                 else -> SettingViewState.NetShield(
                     settings.netShield != NetShieldProtocol.DISABLED,

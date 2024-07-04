@@ -58,7 +58,7 @@ class UpgradeDialogViewModel(
     userId: Flow<UserId?>,
     authOrchestrator: AuthOrchestrator,
     plansOrchestrator: PlansOrchestrator,
-    isInAppUpgradeAllowed: () -> Boolean,
+    isInAppUpgradeAllowed: suspend () -> Boolean,
     upgradeTelemetry: UpgradeTelemetry,
     private val loadDefaultGiapPlan: suspend () -> GiapPlanInfo?,
     private val oneClickPaymentsEnabled: suspend () -> Boolean,
@@ -118,13 +118,15 @@ class UpgradeDialogViewModel(
     }
 
     fun loadPlans() {
-        if (!isInAppUpgradeAllowed())
-            state.value = State.UpgradeDisabled
-        else viewModelScope.launch {
-            if (!oneClickPaymentsEnabled()) {
-                state.value = State.PlansFallback
-            } else {
-                loadGiapPlans()
+        viewModelScope.launch {
+            if (!isInAppUpgradeAllowed())
+                state.value = State.UpgradeDisabled
+            else {
+                if (!oneClickPaymentsEnabled()) {
+                    state.value = State.PlansFallback
+                } else {
+                    loadGiapPlans()
+                }
             }
         }
     }

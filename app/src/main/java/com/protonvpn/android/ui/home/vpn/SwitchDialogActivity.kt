@@ -26,6 +26,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
@@ -35,6 +36,7 @@ import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.SnackType
 import javax.inject.Inject
 
@@ -55,10 +57,12 @@ class SwitchDialogActivity : BaseActivityV2() {
         val binding = ActivitySwitchDialogBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initUI(binding)
+        lifecycleScope.launch {
+            initUI(binding)
+        }
     }
 
-    private fun initUI(binding: ActivitySwitchDialogBinding) = with(binding) {
+    private suspend fun initUI(binding: ActivitySwitchDialogBinding) = with(binding) {
         val informationNotification =
             intent.getParcelableExtra<NotificationHelper.InformationNotification>(EXTRA_NOTIFICATION_DETAILS)!!
         informationNotification.reconnectionInformation?.let {
@@ -95,7 +99,7 @@ class SwitchDialogActivity : BaseActivityV2() {
         viewModel.onInit(informationNotification.action)
     }
 
-    private fun initActionButton(binding: ActivitySwitchDialogBinding, actionItem: NotificationHelper.ActionItem) =
+    private suspend fun initActionButton(binding: ActivitySwitchDialogBinding, actionItem: NotificationHelper.ActionItem) =
         with(binding) {
             buttonUpgrade.text = actionItem.title
             when (actionItem) {

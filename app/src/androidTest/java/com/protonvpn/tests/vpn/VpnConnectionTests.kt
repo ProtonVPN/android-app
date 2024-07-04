@@ -188,6 +188,7 @@ class VpnConnectionTests {
     private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
 
     private val connectIntentFastest = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
+    private val guestHoleIntent = AnyConnectIntent.GuestHole(MockedServers.server.serverId)
     private val connectIntentCountry =
         ConnectIntent.FastestInCountry(CountryId(MockedServers.server.exitCountry), emptySet())
     private val connectIntentGuestHole = AnyConnectIntent.GuestHole(MockedServers.server.serverId)
@@ -203,6 +204,7 @@ class VpnConnectionTests {
         CertificateRepository.CertificateResult.Success("good_cert", "good_key")
     private lateinit var currentCert: CertificateRepository.CertificateResult.Success
     private val trigger = ConnectTrigger.Auto("test")
+    private val guestHoleUiDelegate: VpnUiDelegate = GuestHole.GuestHoleVpnUiDelegate(mockk())
 
     @Before
     fun setup() {
@@ -223,7 +225,7 @@ class VpnConnectionTests {
         every { appConfig.getSmartProtocolConfig() } returns smartProtocolsConfig
 
         supportsProtocol = SupportsProtocol(createGetSmartProtocols(smartProtocolsConfig.getSmartProtocols()))
-        currentUserProvider = TestCurrentUserProvider(vpnUser = TestUser.badUser.vpnUser, sessionId = SessionId("1"))
+        currentUserProvider = TestCurrentUserProvider(vpnUser = TestUser.badUser.vpnUser)
         val currentUser = CurrentUser(scope.backgroundScope, currentUserProvider)
 
         every { mockGhSuppressor.disableGh() } returns false
@@ -410,8 +412,8 @@ class VpnConnectionTests {
     @Test
     fun localAgentIsNotUsedForGuesthole() = scope.runTest {
         MockNetworkManager.currentStatus = NetworkStatus.Disconnected
-        currentUserProvider.sessionId = null
-        manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
+        currentUserProvider.set(null, null)
+        manager.connect(guestHoleUiDelegate, guestHoleIntent, ConnectTrigger.GuestHole)
 
         coVerify(exactly = 1) {
             mockWireguard.prepareForConnection(any(), any(), any(),false)
@@ -425,7 +427,7 @@ class VpnConnectionTests {
     @Test
     fun whenGuestholeIsTriggeredVpnConnectionIsEstablishedOnlyForTheCall() = scope.runTest {
         // Guest Hole requires no user is logged in.
-        currentUserProvider.sessionId = null
+        currentUserProvider.set(null, null)
 
         mockOpenVpn.stateOnConnect = VpnState.Connected
         val guestHole = GuestHole(

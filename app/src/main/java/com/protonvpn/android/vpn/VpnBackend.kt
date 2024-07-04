@@ -460,7 +460,7 @@ abstract class VpnBackend(
         val connectionCert = agent?.certInfo
         closeAgentConnection()
         reconnectionJob = mainScope.launch {
-            currentUser.sessionIdCached()?.let { sessionId ->
+            currentUser.sessionId()?.let { sessionId ->
                 if (needNewCertificate) {
                     val certInfo = certificateRepository.getCertificate(sessionId)
                     val haveNewCert = certInfo is CertificateRepository.CertificateResult.Success &&
@@ -499,7 +499,7 @@ abstract class VpnBackend(
         if (agent == null && agentConnectionJob == null) {
             val hostname = lastConnectionParams?.connectingDomain?.entryDomain
             agentConnectionJob = mainScope.launch {
-                val sessionId = currentUser.sessionIdCached()
+                val sessionId = currentUser.sessionId()
                 if (sessionId != null) { // null can happen if user just logged out
                     val certInfo = certificateRepository.getCertificate(sessionId)
                     if (certInfo is CertificateRepository.CertificateResult.Success) {

@@ -23,6 +23,7 @@ import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.models.login.VpnInfoResponse
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
@@ -40,7 +41,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.ApiResult
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -74,7 +74,7 @@ class UserPlanManagerTests {
         manager = UserPlanManager(
             apiRetroFit,
             currentUser,
-            vpnUserDao,
+            SetVpnUser(vpnUserDao, currentUser),
             mockk(relaxed = true),
             wallClock = { 0 },
             flowOf(true),

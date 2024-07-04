@@ -31,7 +31,7 @@ class IsInAppUpgradeAllowedUseCase @Inject constructor(
     private val purchaseEnabled: CachedPurchaseEnabled,
     private val isTv: IsTvCheck
 ) {
-    operator fun invoke() = !isTv() && purchaseEnabled() && currentUser.vpnUserCached()?.let { user ->
+    suspend operator fun invoke() = !isTv() && purchaseEnabled() && currentUser.vpnUser()?.let { user ->
         user.subscribed == 0 && user.credit == 0
     } ?: false
 }

@@ -47,12 +47,12 @@ import me.proton.core.auth.presentation.R as AuthR
 class VpnLogin @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val sessionProvider: SessionProvider,
-    private val vpnUserDao: VpnUserDao,
     private val certificateRepository: CertificateRepository,
     private val purchaseEnabled: CachedPurchaseEnabled,
     private val appConfig: AppConfig,
     private val serverListUpdater: ServerListUpdater,
     private val guestHole: GuestHole,
+    private val setVpnUser: SetVpnUser,
     @WallClock private val wallClock: () -> Long
 ) {
     sealed class Result {
@@ -112,7 +112,7 @@ class VpnLogin @Inject constructor(
 
     private suspend fun finalizeLogin(vpnUser: VpnUser) {
         ProtonLogger.log(UserPlanChanged, "logged in: ${vpnUser.toLog()}")
-        vpnUserDao.insertOrUpdate(vpnUser)
+        setVpnUser(vpnUser)
         if (guestHole.isGuestHoleActive)
             serverListUpdater.updateServerList()
         guestHole.releaseNeedGuestHole(GUEST_HOLE_ID)

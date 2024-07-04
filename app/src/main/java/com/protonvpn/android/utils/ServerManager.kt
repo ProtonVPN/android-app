@@ -318,16 +318,9 @@ class ServerManager @Inject constructor(
         return map[true] ?: map[false]
     }
 
-    @Deprecated(
-        "This method uses a cached VpnUser that could be stale.",
-        ReplaceWith("getBestScoreServer(serverList, vpnUser)")
-    )
-    fun getBestScoreServer(serverList: List<Server>): Server? =
-        getBestScoreServer(serverList, currentUser.vpnUserCached())
-
     fun getRandomServer(vpnUser: VpnUser?): Server? {
         val allCountries = getExitCountries(secureCore = false)
-        val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
+        val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(vpnUser) }
         return accessibleCountries.ifEmpty { allCountries }.randomNullable()?.let { getRandomServer(it, vpnUser) }
     }
 
@@ -439,13 +432,6 @@ class ServerManager @Inject constructor(
         }
     }
 
-    @Deprecated(
-        "This method uses a cached VpnUser that could be stale.",
-        ReplaceWith("vpnUser.hasAccessToServer(server)")
-    )
-    fun hasAccessToServer(server: Server): Boolean =
-        currentUser.vpnUserCached().hasAccessToServer(server)
-
     fun setStreamingServices(value: StreamingServicesResponse) {
         if (streamingServices != value) {
             streamingServices = value
@@ -455,11 +441,6 @@ class ServerManager @Inject constructor(
 
     private fun haveWireGuardSupport() =
         serversStore.allServers.any { server -> server.connectingDomains.any { it.publicKeyX25519 != null } }
-
-    @Suppress("ClassOrdering")
-    @get:TestOnly val firstNotAccessibleVpnCountry get() =
-        getVpnCountries().firstOrNull { !it.hasAccessibleOnlineServer(currentUser.vpnUserCached()) }
-            ?: throw UnsupportedOperationException("Should only use this method on free tiers")
 }
 
 class GroupedServers(

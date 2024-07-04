@@ -63,7 +63,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     override fun getProfile(): VpnProfile? {
         val connectionParams = Storage.load(ConnectionParams::class.java, ConnectionParamsOpenVpn::class.java)
         return connectionParams?.let {
-            val userSessionId = currentUser.vpnUserCached()?.sessionId
+            val userSessionId = currentUser.vpnUserBlocking()?.sessionId
             val certificateResult = runBlocking {
                 // In most cases this should access preferences that are already in memory and should be fast.
                 userSessionId?.let { certificateRepository.getCertificateWithoutRefresh(it) }

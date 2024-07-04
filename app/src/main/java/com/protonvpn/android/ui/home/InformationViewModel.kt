@@ -34,7 +34,7 @@ class InformationViewModel @Inject constructor(
     private val partnershipsRepository: PartnershipsRepository
 ) : ViewModel() {
 
-    fun isPlusUser() = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
+    suspend fun isPlusUser() = currentUser.vpnUser()?.isUserPlusOrAbove == true
 
     fun getPartnerTypes() = partnershipsRepository.getPartnerTypes()
 

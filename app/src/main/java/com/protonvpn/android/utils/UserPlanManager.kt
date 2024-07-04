@@ -27,7 +27,7 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateSpec
 import com.protonvpn.android.appconfig.periodicupdates.registerApiCall
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanChanged
@@ -47,7 +47,7 @@ import javax.inject.Singleton
 class UserPlanManager @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val currentUser: CurrentUser,
-    private val vpnUserDao: VpnUserDao,
+    private val setVpnUser: SetVpnUser,
     private val periodicUpdateManager: PeriodicUpdateManager,
     @WallClock private val wallClock: () -> Long,
     @IsLoggedIn loggedIn: Flow<Boolean>,
@@ -89,7 +89,7 @@ class UserPlanManager @Inject constructor(
             currentUser.vpnUser()?.let { currentUserInfo ->
                 val newUserInfo =
                     with(currentUserInfo) { vpnInfoResponse.toVpnUserEntity(userId, sessionId, wallClock()) }
-                vpnUserDao.insertOrUpdate(newUserInfo)
+                setVpnUser(newUserInfo)
                 computeUserInfoChanges(currentUserInfo, newUserInfo)
             }
         }

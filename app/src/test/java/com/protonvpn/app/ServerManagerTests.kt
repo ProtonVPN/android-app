@@ -124,10 +124,10 @@ class ServerManagerTests {
     }
 
     @Test
-    fun doNotChooseOfflineServerFromCountry() {
+    fun doNotChooseOfflineServerFromCountry() = testScope.runTest {
         val country = manager.getVpnExitCountry("CA", false)
-        val countryBestServer = manager.getBestScoreServer(country!!.serverList)
-        Assert.assertEquals("CA#2", countryBestServer!!.serverName)
+        val countryBestServer = manager.getBestScoreServer(country!!.serverList, currentUser.vpnUser())
+        assertEquals("CA#2", countryBestServer!!.serverName)
     }
 
     @Test

@@ -21,21 +21,19 @@ package com.protonvpn.test.shared
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
+import com.protonvpn.android.auth.usecase.PartialJointUserInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import me.proton.core.network.domain.session.SessionId
 import me.proton.core.user.domain.entity.User
 
 class TestCurrentUserProvider(
     vpnUser: VpnUser?,
     user: User? = null,
-    sessionId: SessionId? = null
 ) : CurrentUserProvider {
 
     private val mutableVpnUserFlow = MutableStateFlow(vpnUser)
     private val mutableUserFlow = MutableStateFlow(user)
-    private val mutableSessionIdFlow = MutableStateFlow(sessionId)
 
     var vpnUser: VpnUser?
         set(value) { mutableVpnUserFlow.value = value }
@@ -45,21 +43,16 @@ class TestCurrentUserProvider(
         set(value) { mutableUserFlow.value = value }
         get() = mutableUserFlow.value
 
-    var sessionId: SessionId?
-        set(value) { mutableSessionIdFlow.value = value }
-        get() = mutableSessionIdFlow.value
+    override fun invalidateCache() {
+        // No-op
+    }
 
-    override val vpnUserFlow: Flow<VpnUser?> = mutableVpnUserFlow
-    override val userFlow: Flow<User?> = mutableUserFlow
-    override val sessionIdFlow: Flow<SessionId?> = mutableSessionIdFlow
-    override val jointUserFlow: Flow<Pair<User, VpnUser>?> = combine(userFlow, vpnUserFlow) { accountUser, vpnUser ->
-        if (accountUser == null || vpnUser == null) null
-        else Pair(accountUser, vpnUser)
+    override val partialJointUserFlow: Flow<PartialJointUserInfo> = combine(mutableUserFlow, mutableVpnUserFlow) { accountUser, vpnUser ->
+        PartialJointUserInfo(accountUser, vpnUser, vpnUser?.sessionId)
     }
 
     fun set(vpnUser: VpnUser?, user: User?) {
         this.vpnUser = vpnUser
         this.user = user
     }
-
 }

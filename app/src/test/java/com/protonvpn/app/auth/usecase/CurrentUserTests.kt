@@ -19,48 +19,85 @@
 
 package com.protonvpn.app.auth.usecase
 
+import app.cash.turbine.turbineScope
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
 import com.protonvpn.test.shared.TestVpnUser
+import com.protonvpn.test.shared.createAccountUser
+import com.protonvpn.testsHelper.AccountTestHelper
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.accountmanager.domain.AccountManager
+import me.proton.core.domain.entity.SessionUserId
 import me.proton.core.domain.entity.UserId
+import me.proton.core.user.domain.UserManager
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
 class CurrentUserTests {
 
-    @RelaxedMockK
+    @MockK
     private lateinit var mockAccountManager: AccountManager
     @MockK
+    private lateinit var mockUserManager: UserManager
+    @MockK
     private lateinit var mockVpnUserDao: VpnUserDao
+
+    private val primaryUserIdFlow = MutableSharedFlow<UserId?>()
+
+    private lateinit var scope: TestScope
+    private lateinit var currentUser: CurrentUser
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        scope = TestScope(UnconfinedTestDispatcher())
+
+        every { mockAccountManager.getPrimaryUserId() } returns primaryUserIdFlow
+        every { mockAccountManager.getAccount(any<UserId>()) } answers {
+            val userId = firstArg<UserId>()
+            when (userId) {
+                AccountTestHelper.UserId1 -> flowOf(AccountTestHelper.TestAccount1)
+                AccountTestHelper.UserId2 -> flowOf(AccountTestHelper.TestAccount2)
+                else -> flowOf(null)
+            }
+        }
+        coEvery { mockVpnUserDao.getByUserId(any()) } answers { flowOf(TestVpnUser.create(firstArg<UserId>().id)) }
+        coEvery { mockUserManager.observeUser(any<SessionUserId>()) } answers {
+            flowOf(createAccountUser(firstArg<SessionUserId>()))
+        }
+        val currentUserProvider = DefaultCurrentUserProvider(scope.backgroundScope, mockAccountManager, mockVpnUserDao, mockUserManager)
+        currentUser = CurrentUser(scope.backgroundScope, currentUserProvider)
     }
 
     @Test
-    fun `eventVpnLogin emits login events`() = runTest {
-        every { mockAccountManager.getPrimaryUserId() } returns
-            flowOf(null, UserId("1"), UserId("1"), null, null, UserId("2"))
-        coEvery { mockVpnUserDao.getByUserId(any()) } answers { flowOf(TestVpnUser.create(firstArg<UserId>().id)) }
-        val currentUserProvider = DefaultCurrentUserProvider(mockAccountManager, mockVpnUserDao, mockk(relaxed = true))
-        val currentUser = CurrentUser(this, currentUserProvider)
+    fun `eventVpnLogin emits login events`() = scope.runTest {
+        turbineScope {
+            val loginEvents = currentUser.eventVpnLogin.testIn(backgroundScope)
+            primaryUserIdFlow.emit(null)
+            primaryUserIdFlow.emit(AccountTestHelper.UserId1)
+            primaryUserIdFlow.emit(null)
+            primaryUserIdFlow.emit(AccountTestHelper.UserId2)
+            assertEquals(AccountTestHelper.UserId1, loginEvents.awaitItem()?.userId)
+            assertEquals(AccountTestHelper.UserId2, loginEvents.awaitItem()?.userId)
+        }
+    }
 
-        val loginEvents = currentUser.eventVpnLogin.toList()
-        val expected = listOf(TestVpnUser.create("1"), TestVpnUser.create("2"))
-        assertEquals(expected, loginEvents)
+    @Test
+    fun `eventVpnLogin doesn't emit when logged-in`() = scope.runTest {
+        turbineScope {
+            val loginEvents = currentUser.eventVpnLogin.testIn(backgroundScope)
+            primaryUserIdFlow.emit(AccountTestHelper.UserId1)
+            loginEvents.expectNoEvents()
+        }
     }
 }

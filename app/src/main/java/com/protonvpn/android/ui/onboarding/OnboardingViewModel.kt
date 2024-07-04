@@ -29,5 +29,5 @@ class OnboardingViewModel @Inject constructor(
     private val isInAppUpgradeAllowedUseCase: IsInAppUpgradeAllowedUseCase,
 ) : ViewModel() {
 
-    val isInAppUpgradeAllowed get() = isInAppUpgradeAllowedUseCase()
+    suspend fun isInAppUpgradeAllowed() = isInAppUpgradeAllowedUseCase()
 }
