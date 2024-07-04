@@ -156,7 +156,7 @@ class RecentsListViewStateFlowTests {
             createInMemoryServersStore(),
             mockk(),
         )
-        val serverManager2 = ServerManager2(serverManager, effectiveUserSettings, supportsProtocol)
+        val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         runBlocking {
             serverManager.setServers(listOf(serverCh, serverIs, serverSe, serverSecureCore), null)
         }

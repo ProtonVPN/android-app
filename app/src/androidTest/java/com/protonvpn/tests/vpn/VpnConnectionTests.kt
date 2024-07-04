@@ -293,7 +293,7 @@ class VpnConnectionTests {
         serverManager.setBuiltInGuestHoleServersForTesting(
             MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
         )
-        val serverManager2 = ServerManager2(serverManager, userSettings, supportsProtocol)
+        val serverManager2 = ServerManager2(serverManager, supportsProtocol)
 
         manager = VpnConnectionManager(permissionDelegate, appConfig, userSettings, backendProvider, networkManager, vpnErrorHandler, monitor,
             mockVpnBackgroundUiDelegate, serverManager2, certificateRepository, scope.backgroundScope, clock,

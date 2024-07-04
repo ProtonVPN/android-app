@@ -124,11 +124,7 @@ class RecentsListValidatorTests {
             serversStore = createInMemoryServersStore(),
             profileManager = mockk(),
         )
-        serverManager2 = ServerManager2(
-            serverManager,
-            EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow),
-            supportsProtocol
-        )
+        serverManager2 = ServerManager2(serverManager, supportsProtocol)
     }
 
     @After

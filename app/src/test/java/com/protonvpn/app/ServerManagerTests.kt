@@ -120,8 +120,7 @@ class ServerManagerTests {
         runBlocking {
             manager.setServers(allServers, null)
         }
-        serverManager2 =
-            ServerManager2(manager, EffectiveCurrentUserSettings(bgScope, currentSettings), supportsProtocol)
+        serverManager2 = ServerManager2(manager, supportsProtocol)
     }
 
     @Test

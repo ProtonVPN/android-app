@@ -193,7 +193,7 @@ class VpnConnectionManagerTests {
 
     private fun createManager() {
         val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, flowOf(LocalUserSettings.Default))
-        val serverManager2 = ServerManager2(serverManager, userSettings, supportsProtocol)
+        val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
             userSettings = userSettings,

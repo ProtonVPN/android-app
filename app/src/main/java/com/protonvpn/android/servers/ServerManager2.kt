@@ -29,11 +29,9 @@ import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -49,7 +47,6 @@ import javax.inject.Singleton
 @Singleton
 class ServerManager2 @Inject constructor(
     private val serverManager: ServerManager,
-    private val currentUserSettings: EffectiveCurrentUserSettings,
     private val supportsProtocol: SupportsProtocol,
 ) {
 
@@ -59,12 +56,12 @@ class ServerManager2 @Inject constructor(
         emitAll(serverManager.serverListVersion)
     }
 
-    val isDownloadedAtLeastOnceFlow = serverListVersion.map {
-        serverManager.isDownloadedAtLeastOnce()
-    }
+    /** The first value is emitted before servers are loaded */
+    val isDownloadedAtLeastOnceFlow = serverManager.isDownloadedAtLeastOnceFlow
+    /** The first value is emitted before servers are loaded */
+    val hasAnyGatewaysFlow = serverManager.hasGatewaysFlow
 
-    val allServersFlow get() = serverListVersion.map { serverManager.allServers }
-    val gatewaysFlow get() = serverListVersion.map { serverManager.getGateways() }
+    val allServersFlow = serverListVersion.map { serverManager.allServers }
 
     suspend fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
         serverManager.ensureLoaded()

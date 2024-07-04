@@ -19,7 +19,6 @@
 package com.protonvpn.android.utils
 
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.asLiveData
 import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.GuestHole
@@ -51,7 +50,9 @@ import io.sentry.SentryLevel
 import io.sentry.protocol.Message
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.serialization.builtins.ListSerializer
 import org.jetbrains.annotations.TestOnly
@@ -103,15 +104,17 @@ class ServerManager @Inject constructor(
     // combine to react to updates.
     @Transient val serverListVersion = MutableStateFlow(0)
 
-    @Deprecated("Use suspending isDownloadedAtLeastOnce instead. Or even better ServerManager2")
-    // This method will not wait for the server list to be loaded. Use with caution.
-    val haveLoadedServersAlready get() =
-        lastUpdateTimestamp > 0L && serversStore.allServers.isNotEmpty()
+    /** Can be checked even before servers are loaded from storage */
+    private var hasDownloadedServers: Boolean = false
+    /** Can be checked even before servers are loaded from storage */
+    private var hasGateways: Boolean = false
+    /** Can be checked even before servers are loaded from storage */
+    val isDownloadedAtLeastOnce get() = lastUpdateTimestamp > 0 && hasDownloadedServers
 
-    suspend fun isDownloadedAtLeastOnce(): Boolean {
-        ensureLoaded()
-        return haveLoadedServersAlready
-    }
+    @Transient
+    val isDownloadedAtLeastOnceFlow = serverListVersion.map { isDownloadedAtLeastOnce }.distinctUntilChanged()
+    @Transient
+    val hasGatewaysFlow = serverListVersion.map { hasGateways }.distinctUntilChanged()
 
     suspend fun needsUpdate() : Boolean {
         ensureLoaded()
@@ -138,6 +141,10 @@ class ServerManager @Inject constructor(
             lastUpdateTimestamp = oldManager.lastUpdateTimestamp
             serverListAppVersionCode = oldManager.serverListAppVersionCode
             translationsLang = oldManager.translationsLang
+            hasDownloadedServers = oldManager.hasDownloadedServers
+            hasGateways = oldManager.hasGateways
+
+            serverListVersion.value = 1
         }
 
         mainScope.launch {
@@ -164,7 +171,7 @@ class ServerManager @Inject constructor(
                 }
             }
 
-            grouped.update()
+            updateInternal()
 
             // Notify of loaded state and update after everything has been updated.
             isLoaded.value = true
@@ -183,6 +190,12 @@ class ServerManager @Inject constructor(
     fun getExitCountries(secureCore: Boolean) = if (secureCore)
         grouped.secureCoreExitCountries else grouped.vpnCountries
 
+    private fun updateInternal() {
+        grouped.update()
+        hasGateways = grouped.gateways.isNotEmpty()
+        hasDownloadedServers = true
+    }
+
     private fun onServersUpdate() {
         ++serverListVersion.value
     }
@@ -197,7 +210,7 @@ class ServerManager @Inject constructor(
     fun clearCache() {
         lastUpdateTimestamp = 0L
         Storage.delete(ServerManager::class.java)
-        grouped.update()
+        updateInternal()
         // The server list itself is not deleted.
     }
 
@@ -228,7 +241,7 @@ class ServerManager @Inject constructor(
         translationsLang = language
         Storage.save(this, ServerManager::class.java)
 
-        grouped.update()
+        updateInternal()
         onServersUpdate()
     }
 

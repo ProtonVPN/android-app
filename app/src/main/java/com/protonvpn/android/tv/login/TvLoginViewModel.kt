@@ -42,6 +42,7 @@ import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import me.proton.core.account.domain.entity.Account
@@ -82,7 +83,9 @@ class TvLoginViewModel @Inject constructor(
     suspend fun onEnterScreen(scope: CoroutineScope) {
         val user = currentUser.user()
         if (user != null) {
-            if (serverManager.isDownloadedAtLeastOnce())
+            // Ensure servers are loaded, isDownloadedAtLeastOnce doesn't do this.
+            serverManager.ensureLoaded()
+            if (serverManager.isDownloadedAtLeastOnce)
                 state.value = TvLoginViewState.Success
             else scope.launch {
                 loadInitialConfig(user.userId)
