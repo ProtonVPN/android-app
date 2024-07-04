@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.protonvpn.actions.compose.HomeRobot
 import com.protonvpn.actions.compose.interfaces.verify
-import com.protonvpn.android.ui.onboarding.SplashActivity
+import com.protonvpn.android.redesign.app.ui.MainActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.ProtonHiltInjectRule
@@ -52,7 +52,7 @@ class AccountRecoveryNotificationTest : MinimalAccountRecoveryNotificationTest {
     }
 
     @get:Rule(order = 4)
-    val composeTestRule: ComposeTestRule = createAndroidComposeRule<SplashActivity>().apply {
+    val composeTestRule: ComposeTestRule = createAndroidComposeRule<MainActivity>().apply {
         FusionConfig.Compose.testRule.set(this)
     }
 

@@ -51,6 +51,8 @@ import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.tv.main.TvMainActivity
+import com.protonvpn.android.ui.deeplinks.DeepLinkHandler
 import com.protonvpn.android.ui.login.AssignVpnConnectionActivity
 import com.protonvpn.android.ui.main.AccountViewModel
 import com.protonvpn.android.ui.main.MainActivityHelper
@@ -69,6 +71,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.compose.component.ProtonCenteredProgress
+import me.proton.core.notification.presentation.deeplink.HandleDeeplinkIntent
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -88,6 +91,10 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     lateinit var whatsNewDialogController: WhatsNewDialogController
     @Inject
     lateinit var isTv: IsTvCheck
+    @Inject
+    lateinit var deepLinkHandler: DeepLinkHandler
+    @Inject
+    lateinit var handleCoreDeepLink: HandleDeeplinkIntent
 
     // public for now until there is need to bridge old code, as LocalVpnUiDelegate is not available in non-compose
     val vpnActivityDelegate = VpnUiActivityDelegateMobile(this) {
@@ -111,6 +118,13 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (isTv()) {
+            startActivity(Intent(this, TvMainActivity::class.java))
+            finish()
+            return
+        }
+
         val splashScreen = installSplashScreen()
         helper.onCreate(accountViewModel)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -229,11 +243,15 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                 }
             }
         }
+
+        processDeepLink()
+        handleCoreDeepLink(intent)
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         helper.onNewIntent(accountViewModel)
+        handleCoreDeepLink(intent)
     }
 
     private fun retryConnectionAfterPermissions(connectIntent: AnyConnectIntent) {
@@ -242,6 +260,13 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     }
 
     override fun getVpnUiDelegate(): VpnUiActivityDelegate = vpnActivityDelegate
+
+    private fun processDeepLink() {
+        val intentUri = intent.data
+        if (intent.action == Intent.ACTION_VIEW && intentUri != null) {
+            deepLinkHandler.processDeepLink(intentUri)
+        }
+    }
 }
 
 class CoreNavigation(
