@@ -92,7 +92,6 @@
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="saveButton">Zapisz</string>
-    <string name="protocol">Protokół:</string>
     <string name="ipWithPlaceholder">Adres IP: %1$s</string>
     <string name="activityLicensesTitle">Licencje stron trzecich</string>
     <string name="stateFragmentUnknownIp">Nieznany</string>

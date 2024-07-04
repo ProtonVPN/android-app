@@ -92,7 +92,6 @@
     <string name="delete">Sil</string>
     <string name="remove">Kaldır</string>
     <string name="saveButton">Kaydet</string>
-    <string name="protocol">İletişim kuralı:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Üçüncü taraf lisansları</string>
     <string name="stateFragmentUnknownIp">Bilinmiyor</string>
@@ -1255,7 +1254,7 @@
     <string name="secure_core_upsell_banner_description">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
     <string name="p2p_upsell_banner_description">Dosyaları BitTorrent ve diğer dosya paylaşım iletişim kuralları üzerinden indirin</string>
     <string name="tor_upsell_banner_description">Ek gizlilik sağlamak için VPN bağlantınızı Tor ağından geçirin</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">VPN Plus paketine yükselt</string>
     <string name="search_zero_screen_title">Şunun için aramayı dene…</string>
     <string name="search_zero_screen_info_countries_title">Ülkeler</string>
     <string name="search_zero_screen_info_cities_title">İller</string>

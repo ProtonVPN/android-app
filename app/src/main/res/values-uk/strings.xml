@@ -92,7 +92,6 @@
     <string name="delete">Видалити</string>
     <string name="remove">Вилучити</string>
     <string name="saveButton">Зберегти</string>
-    <string name="protocol">Протокол:</string>
     <string name="ipWithPlaceholder">IP-адреса: %1$s</string>
     <string name="activityLicensesTitle">Ліцензії третіх сторін</string>
     <string name="stateFragmentUnknownIp">Невідомо</string>
@@ -123,15 +122,15 @@
     <string name="inputIpAddressLabel">IP-адреса</string>
     <string name="inputIpAddressHint">Напишіть IP-адресу</string>
     <string name="inputIpAddressErrorInvalid">Недійсна IP-адреса</string>
-    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Виключені IP-адреси (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Включені IP-адреси (%1$d)</string>
     <string name="settingsExcludedApps">Виключені програми</string>
     <string name="settingsExcludedAppsEmpty">Додайте програми, які потрібно виключити з вашого трафіку VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
+    <string name="settingsIncludedAppsEmpty">Додайте програми, які потрібно включити до трафіку VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Виключені програми (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Включені програми (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Всі інші звичайні програми (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Всі інші системні програми (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Усі інші програми (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Показати системні програми</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Показати системні програми</string>
@@ -539,8 +538,8 @@
         <item quantity="other">Отримайте доступ до географічно заблокованих матеріалів у %1$d країнах з VPN Plus</item>
     </plurals>
     <string name="select_default_connection">Виберіть типове підключення</string>
-    <string name="settings_default_connection_title">З\'єднання за замовчуванням</string>
-    <string name="fastest_country_description">Кращий сервер на основі вашого місцеперебування</string>
+    <string name="settings_default_connection_title">Типове з\'єднання</string>
+    <string name="fastest_country_description">Найкращий сервер на основі вашого розташування</string>
     <string name="settings_last_connection_title">Останнє з\'єднання</string>
     <string name="settings_last_connection_description">Ваше нещодавно використане з\'єднання</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -861,7 +860,7 @@
         Label above the connection card indicating text which acts as a button and leads to
         customization bottom sheet of default connection
      -->
-    <string name="connection_card_label_default_connection">З\'єднання за замовчуванням</string>
+    <string name="connection_card_label_default_connection">Типове з\'єднання</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
@@ -1265,34 +1264,34 @@
     <string name="settings_advanced_nat_type_moderate_description">Обмеження щодо даних, які входять до вашої мережі. Цей параметр найкраще використовувати для відеоігор онлайн.</string>
     <string name="settings_split_tunneling_description">Налаштуйте з\'єднання, вирішивши, які програми та IP-адреси захищаються VPN. %1$s</string>
     <string name="settings_protocol_description">Протокол VPN визначає спосіб обміну даними між VPN-сервером і вашим пристроєм. %1$s</string>
-    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
-    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_description_no_link">Протокол VPN визначає спосіб обміну даними між VPN-сервером і вашим пристроєм.</string>
+    <string name="settings_protocol_section_speed">Швидкість (UDP)</string>
     <string name="settings_protocol_section_reliability">Надійність (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
-    <string name="settings_protocol_smart_description">Автоматично вибирає найкращий протокол для вашого з\'єднання.</string>
+    <string name="settings_protocol_smart_description">Автоматичний вибір найкращого протоколу для вашого з\'єднання.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">Швидкий, безпечний та ефективний. WireGuard є більш енергоефективним, ніж інші протоколи.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Швидкий, безпечний та ефективний. WireGuard важко виявити та блокувати.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Налагоджений, перевірений і безпечний. OpenVPN менш енергоефективний, ніж деякі інші протоколи.</string>
     <string name="settings_protocol_openvpn_tcp_description">Налагоджений, перевірений і безпечний. OpenVPN надійний в поганих умовах мережі, але може бути не таким швидким, як інші протоколи.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Долає блокування VPN, приховуючи ваше VPN-з’єднання від цензури. Цей протокол стійкий до DPI (глибока перевірка пакетів), але може бути не таким швидким, як інші протоколи. Stealth є ексклюзивним для Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Recommended</string>
+    <string name="settings_protocol_badge_recommended">Рекомендовано</string>
     <string name="settings_split_tunneling_mode_title">Режим</string>
     <string name="settings_split_tunneling_mode_standard">Стандартний</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_inverse">Інвертувати</string>
     <string name="settings_split_tunneling_mode_description_standard">Вибрані програми та IP-адреси виключаються з VPN-з\'єднання.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Лише вибрані програми та IP-адреси під\'єднуються через VPN, а весь інший трафік є незахищеним.</string>
     <string name="settings_split_tunneling_excluded_apps">Винятки програм</string>
     <string name="settings_split_tunneling_excluded_ips">Винятки IP-адрес</string>
-    <string name="settings_split_tunneling_included_apps">Included apps</string>
-    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
+    <string name="settings_split_tunneling_included_apps">Включені програми</string>
+    <string name="settings_split_tunneling_included_ips">Включені IP-адреси</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Немає</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, і ще %3$d</string>
     <string name="settings_split_tunneling_already_excluded">Уже виключено</string>
-    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_already_included">Уже включено</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Вилучити IP-адресу зі списку?</string>
     <string name="settings_dialog_reconnect">Нові налаштування застосуються при наступному з\'єднанні.</string>
     <string name="settings_needs_reconnect_banner">Нові налаштування застосуються при наступному з\'єднанні.</string>
@@ -1323,7 +1322,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Помилка отримання цін.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_description">Налаштуйте з\'єднання, вибравши програми, які захищаються VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Вибрані програми не захищатимуться VPN-з\'єднанням.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Лише вибрані програми під\'єднуються через VPN, а весь інший трафік є незахищеним.</string>
 </resources>

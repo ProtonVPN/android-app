@@ -92,7 +92,6 @@
     <string name="delete">Выдаліць</string>
     <string name="remove">Выдаліць</string>
     <string name="saveButton">Захаваць</string>
-    <string name="protocol">Пратакол:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Ліцэнзіі старонніх бакоў</string>
     <string name="stateFragmentUnknownIp">Невядома</string>

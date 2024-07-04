@@ -92,7 +92,6 @@
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
     <string name="saveButton">Speichern</string>
-    <string name="protocol">Protokoll:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Drittanbieter-Lizenzen</string>
     <string name="stateFragmentUnknownIp">Unbekannt</string>

@@ -92,7 +92,6 @@
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
     <string name="saveButton">Guardar</string>
-    <string name="protocol">Protocolo:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licenças de terceiros</string>
     <string name="stateFragmentUnknownIp">Desconhecido</string>
@@ -120,7 +119,7 @@
     <string name="profileRandom">Aleatória</string>
     <string name="loaderErrorNoInternet">Sem ligação à Internet</string>
     <string name="loaderErrorGeneric">Algo correu mal</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">Endereço IP</string>
     <string name="inputIpAddressHint">Guardar endereço IP</string>
     <string name="inputIpAddressErrorInvalid">O endereço IP não é válido.</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
@@ -251,9 +250,9 @@
     <string name="nameAsia">Ásia</string>
     <string name="nameAfricaAndMiddleEast">África &amp; Médio Oriente</string>
     <string name="nameOceania">Oceania</string>
-    <string name="tv_row_settings">Settings</string>
+    <string name="tv_row_settings">Configurações</string>
     <string name="tv_card_split_tunneling_label">Tunelamento dividido</string>
-    <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_card_protocol_label">Protocolo</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorito</string>
     <string name="tv_detail_connect_streaming">Assista com o Plus</string>
     <string name="tv_detail_connect">Ligar</string>
@@ -1222,9 +1221,9 @@
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recommended</string>
-    <string name="settings_split_tunneling_mode_title">Mode</string>
-    <string name="settings_split_tunneling_mode_standard">Standard</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_title">Modo</string>
+    <string name="settings_split_tunneling_mode_standard">Padrão</string>
+    <string name="settings_split_tunneling_mode_inverse">Inverso</string>
     <string name="settings_split_tunneling_mode_description_standard">Selected apps and IP addresses are excluded from VPN connection.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicativos excluídos</string>

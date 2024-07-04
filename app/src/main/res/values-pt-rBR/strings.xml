@@ -92,7 +92,6 @@
     <string name="delete">Excluir</string>
     <string name="remove">Remover</string>
     <string name="saveButton">Salvar</string>
-    <string name="protocol">Protocolo:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licenças de terceiros</string>
     <string name="stateFragmentUnknownIp">Desconhecido</string>
@@ -1205,7 +1204,7 @@
     <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Restringe a entrada de dados na sua rede. Esta opção é mais segura, mas pode dificultar as conexões de jogos ponto a ponto.</string>
     <string name="settings_advanced_nat_type_moderate_description">Alguma restrição na entrada de dados na sua rede. Esta opção é melhor para jogos on-line.</string>
-    <string name="settings_split_tunneling_description">Customize sua conexão decidindo quais aplicativos e endereços IP serão protegidos pela VPN. %1$s</string>
+    <string name="settings_split_tunneling_description">Personalize sua conexão decidindo quais aplicativos e endereços IP serão protegidos pela VPN. %1$s</string>
     <string name="settings_protocol_description">Um protocolo VPN determina como os dados trafegam entre um servidor VPN e o seu dispositivo. %1$s</string>
     <string name="settings_protocol_description_no_link">Um protocolo VPN determina como os dados trafegam entre um servidor VPN e o seu dispositivo.</string>
     <string name="settings_protocol_section_speed">Velocidade (UDP)</string>

@@ -92,7 +92,6 @@
     <string name="delete">Vymazať</string>
     <string name="remove">Odstrániť</string>
     <string name="saveButton">Uložiť</string>
-    <string name="protocol">Protokol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licencie tretích strán</string>
     <string name="stateFragmentUnknownIp">Neznáme</string>

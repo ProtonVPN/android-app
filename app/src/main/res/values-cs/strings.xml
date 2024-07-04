@@ -92,7 +92,6 @@
     <string name="delete">Odstranit</string>
     <string name="remove">Odstranit</string>
     <string name="saveButton">Uložit</string>
-    <string name="protocol">Protokol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licence třetích stran</string>
     <string name="stateFragmentUnknownIp">Neznámý</string>
@@ -132,39 +131,39 @@
     <string name="settingsIncludedAppsSelectedHeader">Zahrnuté aplikace (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Všechny ostatní běžné aplikace (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Všechny ostatní systémové aplikace (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Všechny ostatní aplikace (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Zobrazit systémové aplikace</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Zobrazit systémové aplikace</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Tyto aplikace jsou vyloučeny z připojení VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Pouze tyto aplikace se připojují přes VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to Excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">Přidat do Vyloučených aplikací</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from Excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">Odebrat z Vyloučených aplikací</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to Included apps</string>
+    <string name="accessibility_action_add_included_app">Přidat do Zahrnutých aplikací</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from Included apps</string>
+    <string name="accessibility_action_remove_included_app">Odebrat ze Zahrnutých aplikací</string>
     <string name="tileConnected">Připojeno: %1$s</string>
     <string name="openUrlError">%1$s nelze otevřít. Na vašem zařízení nebyl detekován webový prohlížeč.</string>
     <string name="loaderErrorTimeout">Připojení vypršelo. Zkuste to prosím znovu.</string>
@@ -255,9 +254,9 @@
     <string name="nameAsia">Asie</string>
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Blízký východ</string>
     <string name="nameOceania">Oceánie</string>
-    <string name="tv_row_settings">Settings</string>
+    <string name="tv_row_settings">Nastavení</string>
     <string name="tv_card_split_tunneling_label">Split Tunneling</string>
-    <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Oblíbené</string>
     <string name="tv_detail_connect_streaming">Streamujte s Plus</string>
     <string name="tv_detail_connect">Připojit</string>
@@ -538,7 +537,7 @@
         <item quantity="many">Odemkněte geograficky blokovaný obsah z %1$d zemí pomocí VPN Plus</item>
         <item quantity="other">Odemkněte geograficky blokovaný obsah z %1$d zemí pomocí VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Select your default connection</string>
+    <string name="select_default_connection">Vyberte vaše výchozí připojení</string>
     <string name="settings_default_connection_title">Výchozí připojení</string>
     <string name="fastest_country_description">Nejlepší server na základě vaší polohy</string>
     <string name="settings_last_connection_title">Poslední připojení</string>
@@ -1266,20 +1265,20 @@
     <string name="settings_split_tunneling_description">Přizpůsobte si připojení tím, že se rozhodnete, které aplikace a IP adresy budou chráněny pomocí VPN. %1$s</string>
     <string name="settings_protocol_description">VPN protokol určuje způsob přenosu dat mezi VPN serverem a vaším zařízením. %1$s</string>
     <string name="settings_protocol_description_no_link">VPN protokol určuje způsob přenosu dat mezi VPN serverem a vaším zařízením.</string>
-    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_speed">Rychlost (UDP)</string>
     <string name="settings_protocol_section_reliability">Spolehlivost (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Automaticky vybere nejlepší protokol pro vaše připojení.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">Rychlý, bezpečný a efektivní. WireGuard je energeticky účinnější než ostatní protokoly.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Rychlé, bezpečné a efektivní. WireGuard je obtížné detekovat a blokovat.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Zavedený, dobře otestovaný a bezpečný. Oproti jiným protokolům je OpenVPN méně energeticky úsporný.</string>
     <string name="settings_protocol_openvpn_tcp_description">Zavedený, dobře otestovaný a bezpečný. OpenVPN je spolehlivý ve špatných síťových podmínkách, ale nemusí být tak rychlý jako jiné protokoly.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Překonává blokování VPN tím, že skrývá připojení VPN před cenzory. Tento protokol je odolný proti DPI (hloubkové kontrole paketů), ale nemusí být tak rychlý jako jiné protokoly. Stealth je exkluzivní pro Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Recommended</string>
+    <string name="settings_protocol_badge_recommended">Doporučené</string>
     <string name="settings_split_tunneling_mode_title">Režim</string>
     <string name="settings_split_tunneling_mode_standard">Standardní</string>
     <string name="settings_split_tunneling_mode_inverse">Inverzní</string>
@@ -1323,7 +1322,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Chyba získávání cen.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_description">Přizpůsobte si připojení tím, že se rozhodnete, které aplikace budou chráněny pomocí VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Vybrané aplikace jsou vyloučeny z připojení VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Pouze vybrané aplikace se připojí skrze VPN, ostatní provoz nebude chráněn.</string>
 </resources>

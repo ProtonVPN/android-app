@@ -92,7 +92,6 @@
     <string name="delete">Izbriši</string>
     <string name="remove">Ukloni</string>
     <string name="saveButton">Spremi</string>
-    <string name="protocol">Protokol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licence trećih strana</string>
     <string name="stateFragmentUnknownIp">Nepoznato</string>

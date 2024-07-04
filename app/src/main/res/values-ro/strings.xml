@@ -92,7 +92,6 @@
     <string name="delete">Ștergere</string>
     <string name="remove">Eliminare</string>
     <string name="saveButton">Salvare</string>
-    <string name="protocol">Protocol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licențe terțe</string>
     <string name="stateFragmentUnknownIp">Necunoscut</string>
