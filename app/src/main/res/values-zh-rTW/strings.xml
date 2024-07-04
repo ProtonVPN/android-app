@@ -92,7 +92,6 @@
     <string name="delete">刪除</string>
     <string name="remove">移除</string>
     <string name="saveButton">儲存</string>
-    <string name="protocol">協定：</string>
     <string name="ipWithPlaceholder">IP：%1$s</string>
     <string name="activityLicensesTitle">第三方授權</string>
     <string name="stateFragmentUnknownIp">未知</string>

@@ -92,7 +92,6 @@
     <string name="delete">حذف</string>
     <string name="remove">حذف</string>
     <string name="saveButton">ذخیره</string>
-    <string name="protocol">پروتکل:</string>
     <string name="ipWithPlaceholder">نشانی IP: %1$s</string>
     <string name="activityLicensesTitle">گواهینامه‌های شخص ثالث</string>
     <string name="stateFragmentUnknownIp">ناشناخته</string>

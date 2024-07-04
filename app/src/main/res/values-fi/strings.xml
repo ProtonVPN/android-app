@@ -92,7 +92,6 @@
     <string name="delete">Poista</string>
     <string name="remove">Poista</string>
     <string name="saveButton">Tallenna</string>
-    <string name="protocol">Protokolla:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Kolmansien osapuolten lisenssit</string>
     <string name="stateFragmentUnknownIp">Tuntematon</string>

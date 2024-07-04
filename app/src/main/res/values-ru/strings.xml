@@ -92,7 +92,6 @@
     <string name="delete">Удалить</string>
     <string name="remove">Удалить</string>
     <string name="saveButton">Сохранить</string>
-    <string name="protocol">Протокол:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Лицензии третьих сторон</string>
     <string name="stateFragmentUnknownIp">Неизвестно</string>

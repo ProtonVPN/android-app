@@ -92,7 +92,6 @@
     <string name="delete">Slett</string>
     <string name="remove">Fjern</string>
     <string name="saveButton">Lagre</string>
-    <string name="protocol">Protokoll:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Tredjepartslisenser</string>
     <string name="stateFragmentUnknownIp">Ukjent</string>

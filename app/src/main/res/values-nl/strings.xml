@@ -92,7 +92,6 @@
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijder</string>
     <string name="saveButton">Opslaan</string>
-    <string name="protocol">Protocol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licenties van derden</string>
     <string name="stateFragmentUnknownIp">Onbekend</string>

@@ -92,7 +92,6 @@
     <string name="delete">削除</string>
     <string name="remove">削除</string>
     <string name="saveButton">保存</string>
-    <string name="protocol">プロトコル:</string>
     <string name="ipWithPlaceholder">IP アドレス: %1$s</string>
     <string name="activityLicensesTitle">サードパーティライセンス</string>
     <string name="stateFragmentUnknownIp">不明</string>

@@ -92,7 +92,6 @@
     <string name="delete">Ta bort</string>
     <string name="remove">Ta bort</string>
     <string name="saveButton">Spara</string>
-    <string name="protocol">Protokoll:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Tredjepartslicenser</string>
     <string name="stateFragmentUnknownIp">Okänd</string>

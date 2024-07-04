@@ -92,7 +92,6 @@
     <string name="delete">Διαγραφή</string>
     <string name="remove">Αφαίρεση</string>
     <string name="saveButton">Αποθήκευση</string>
-    <string name="protocol">Πρωτόκολλο:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Άδειες τρίτων</string>
     <string name="stateFragmentUnknownIp">Άγνωστο</string>

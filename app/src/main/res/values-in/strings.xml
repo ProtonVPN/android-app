@@ -92,7 +92,6 @@
     <string name="delete">Hapus</string>
     <string name="remove">Hapus</string>
     <string name="saveButton">Simpan</string>
-    <string name="protocol">Protokol:</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Lisensi pihak ketiga</string>
     <string name="stateFragmentUnknownIp">Tidak diketahui</string>
