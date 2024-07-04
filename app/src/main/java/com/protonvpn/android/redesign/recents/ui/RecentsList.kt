@@ -249,24 +249,14 @@ class RecentBottomSheetState {
         recentSettingModalShown = false
         selectedRecentItem = null
     }
-    companion object {
-        val Saver: Saver<RecentBottomSheetState, Pair<Boolean, RecentItemViewState?>> = Saver(
-            save = { state ->
-                Pair(state.recentSettingModalShown, state.selectedRecentItem)
-            },
-            restore = { pair ->
-                RecentBottomSheetState().apply {
-                    recentSettingModalShown = pair.first
-                    selectedRecentItem =  pair.second
-                }
-            }
-        )
-    }
 }
 
 @Composable
 fun rememberRecentBottomSheetState(): RecentBottomSheetState {
-    return rememberSaveable(saver = RecentBottomSheetState.Saver) { RecentBottomSheetState() }
+    // Note: it should be saveable but RecentBottomSheetState requires a RecentItemViewState which is a complex object
+    // that should not be serialized but instead fetched by recent ID. This would require going through the ViewModel
+    // and is not worth the effort for a small, short-lived dialog.
+    return remember { RecentBottomSheetState() }
 }
 
 @Composable
@@ -338,7 +328,6 @@ private fun IconedButton(
     iconRes: Int,
     onClick: () -> Unit
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier

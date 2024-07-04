@@ -152,7 +152,7 @@ fun HomeView(
     val prominentPromoBannerState = viewModel.prominentPromoBannerStateFlow.collectAsStateWithLifecycle().value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val coroutineScope = rememberCoroutineScope()
-    val recentBottomSheetStateState = rememberRecentBottomSheetState()
+    val recentBottomSheetState = rememberRecentBottomSheetState()
 
     val context = LocalContext.current
     val fullyDrawn by remember { derivedStateOf { recentsViewState.value != null } }
@@ -332,7 +332,7 @@ fun HomeView(
                     onOpenConnectionPanelClicked = onConnectionCardClick,
                     onOpenDefaultConnection = onDefaultConnectionOpen,
                     onRecentClicked = recentClickedAction,
-                    onRecentOpen = { recentBottomSheetStateState.onRecentSettingOpen(it) },
+                    onRecentOpen = { recentBottomSheetState.onRecentSettingOpen(it) },
                     horizontalPadding = horizontalPadding,
                     topPadding = listBgGradientOffset,
                     errorSnackBar = snackbarHostState,
@@ -354,7 +354,7 @@ fun HomeView(
         }
 
         RecentBottomSheetDialog(
-            state = recentBottomSheetStateState,
+            state = recentBottomSheetState,
             onRecentPinToggle = viewModel::togglePinned,
             onRecentRemove = viewModel::removeRecent
         )
