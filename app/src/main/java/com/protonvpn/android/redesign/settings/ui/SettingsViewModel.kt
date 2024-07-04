@@ -49,9 +49,13 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import me.proton.core.auth.domain.feature.IsFido2Enabled
+import me.proton.core.auth.fido.domain.entity.Fido2RegisteredKey
 import me.proton.core.domain.entity.UserId
 import me.proton.core.user.domain.entity.UserRecovery
 import me.proton.core.user.domain.extension.isCredentialLess
+import me.proton.core.usersettings.domain.usecase.ObserveRegisteredSecurityKeys
 import me.proton.core.usersettings.domain.usecase.ObserveUserSettings
 import javax.inject.Inject
 import me.proton.core.accountmanager.presentation.R as AccountManagerR
@@ -80,6 +84,8 @@ class SettingsViewModel @Inject constructor(
     private val getConnectIntentViewState: GetConnectIntentViewState,
     private val appIconManager: AppIconManager,
     private val managedConfig: ManagedConfig,
+    private val isFido2Enabled: IsFido2Enabled,
+    private val observeRegisteredSecurityKeys: ObserveRegisteredSecurityKeys
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -283,12 +289,17 @@ class SettingsViewModel @Inject constructor(
         val recoveryEmail: String?,
         @StringRes val passwordHint: Int?,
         val upgradeToPlusBanner: Boolean,
+        val isFido2Enabled: Boolean,
+        val registeredSecurityKeys: List<Fido2RegisteredKey>?
     )
 
     val accountSettings: Flow<AccountSettingsViewState?> = currentUser.jointUserFlow
         .filterNotNull()
         .flatMapLatest { (accountUser, vpnUser) ->
-            accountUserSettings(accountUser.userId).map { accountUserSettings ->
+            combine(
+                accountUserSettings(accountUser.userId),
+                observeRegisteredSecurityKeys(accountUser.userId)
+            ) { accountUserSettings, registeredSecurityKeys ->
                 AccountSettingsViewState(
                     userId = accountUser.userId,
                     displayName = accountUser.uiName() ?: "",
@@ -296,6 +307,8 @@ class SettingsViewModel @Inject constructor(
                     recoveryEmail = accountUserSettings?.email?.value,
                     passwordHint = accountUser.recovery?.state?.enum.passwordHint(),
                     upgradeToPlusBanner = vpnUser.isFreeUser,
+                    isFido2Enabled = isFido2Enabled(accountUser.userId),
+                    registeredSecurityKeys = registeredSecurityKeys
                 )
             }
         }.distinctUntilChanged()

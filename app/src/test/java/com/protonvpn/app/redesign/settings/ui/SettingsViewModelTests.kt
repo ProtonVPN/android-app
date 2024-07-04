@@ -61,6 +61,8 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import me.proton.core.auth.domain.feature.IsFido2Enabled
+import me.proton.core.usersettings.domain.usecase.ObserveRegisteredSecurityKeys
 import me.proton.core.usersettings.domain.usecase.ObserveUserSettings
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -90,6 +92,10 @@ class SettingsViewModelTests {
     private lateinit var mockGetQuickIntent: GetConnectIntentViewState
     @RelaxedMockK
     private lateinit var mockRecentManager: RecentsManager
+    @RelaxedMockK
+    private lateinit var isFido2Enabled: IsFido2Enabled
+    @RelaxedMockK
+    private lateinit var observeRegisteredSecurityKeys: ObserveRegisteredSecurityKeys
 
     private lateinit var effectiveSettings: EffectiveCurrentUserSettings
     private lateinit var settingsManager: CurrentUserLocalSettingsManager
@@ -142,7 +148,9 @@ class SettingsViewModelTests {
             mockInstalledAppsProvider,
             mockGetQuickIntent,
             mockAppIconManager,
-            ManagedConfig(MutableStateFlow(null))
+            ManagedConfig(MutableStateFlow(null)),
+            isFido2Enabled,
+            observeRegisteredSecurityKeys
         )
     }
 
