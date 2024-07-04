@@ -165,7 +165,7 @@ class VpnErrorUIManager @Inject constructor(
         }
     }
 
-    private fun buildNotificationInformation(switch: VpnFallbackResult): InformationNotification? {
+    private suspend fun buildNotificationInformation(switch: VpnFallbackResult): InformationNotification? {
         return when (switch) {
             is VpnFallbackResult.Switch -> {
                 when (val reason = switch.reason) {
@@ -202,7 +202,7 @@ class VpnErrorUIManager @Inject constructor(
             }
             is VpnFallbackResult.Error -> {
                 if (switch.type == ErrorType.MAX_SESSIONS) {
-                    val isUserPlusOrAbove = currentUser.vpnUserCached()?.isUserPlusOrAbove == true
+                    val isUserPlusOrAbove = currentUser.vpnUser()?.isUserPlusOrAbove == true
                     val content = if (isUserPlusOrAbove) {
                         appContext.getString(R.string.notification_max_sessions_content)
                     } else {

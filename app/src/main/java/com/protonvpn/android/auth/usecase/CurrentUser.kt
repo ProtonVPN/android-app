@@ -21,18 +21,24 @@ package com.protonvpn.android.auth.usecase
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
-import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.utils.withPrevious
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.accountmanager.domain.getPrimaryAccount
 import me.proton.core.domain.entity.SessionUserId
@@ -43,80 +49,98 @@ import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
 import javax.inject.Singleton
 
+data class PartialJointUserInfo(val user: User?, val vpnUser: VpnUser?, val sessionId: SessionId?)
+data class FullJointUserInfo(val user: User, val vpnUser: VpnUser, val sessionId: SessionId)
+fun PartialJointUserInfo.toJointUserInfo() =
+    if (user == null || vpnUser == null || sessionId == null) null
+    else FullJointUserInfo(user, vpnUser, sessionId)
+
 interface CurrentUserProvider {
-    val vpnUserFlow: Flow<VpnUser?>
-    val userFlow: Flow<User?>
-    val sessionIdFlow: Flow<SessionId?>
-    val jointUserFlow: Flow<Pair<User, VpnUser>?>
+    fun invalidateCache()
+    val partialJointUserFlow: Flow<PartialJointUserInfo>
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
 class DefaultCurrentUserProvider @Inject constructor(
+    mainScope: CoroutineScope,
     accountManager: AccountManager,
     vpnUserDao: VpnUserDao,
-    private val userManager: UserManager
+    userManager: UserManager
 ) : CurrentUserProvider {
 
-    override val jointUserFlow: Flow<Pair<User, VpnUser>?> = accountManager.getPrimaryUserId().flatMapLatest { userId ->
-        when (userId) {
-            null -> flowOf(null)
-            else -> combine(
-                userManager.observeUser(SessionUserId(userId.id)),
-                vpnUserDao.getByUserId(userId)
-            ) { accountUser, vpnUser ->
-                if (accountUser == null || vpnUser == null) null
-                else Pair(accountUser, vpnUser)
+    private val invalidate = MutableStateFlow(0L)
+    private val cachedInfoFlow = MutableStateFlow<PartialJointUserInfo?>(null)
+
+    init {
+        mainScope.launch {
+            // Each time invalidate emits we'll restart collection of flow that will provide
+            // cached values to cachedInfoFlow (for which null value means there's no cached
+            // value atm)
+            invalidate.collectLatest { version ->
+                accountManager.getPrimaryAccount()
+                    .map { account -> account?.userId to account?.sessionId }
+                    .distinctUntilChanged()
+                    .flatMapLatest { (userId, sessionId) ->
+                        when (userId) {
+                            null -> flowOf(PartialJointUserInfo(null, null, null))
+                            else -> combine(
+                                userManager.observeUser(SessionUserId(userId.id)),
+                                vpnUserDao.getByUserId(userId)
+                            ) { accountUser, vpnUser ->
+                                PartialJointUserInfo(accountUser, vpnUser, sessionId)
+                            }
+                        }
+                    }
+                    .distinctUntilChanged()
+                    .cancellable()
+                    .collect {
+                        if (invalidate.value == version)
+                            cachedInfoFlow.value = it
+                    }
             }
         }
-    }.distinctUntilChanged()
+    }
 
-    override val vpnUserFlow = accountManager.getPrimaryUserId().flatMapLatest { userId ->
-        userId?.let { vpnUserDao.getByUserId(it) } ?: flowOf(null)
-    }.distinctUntilChanged()
+    override val partialJointUserFlow: Flow<PartialJointUserInfo> = cachedInfoFlow.filterNotNull()
 
-    override val userFlow = accountManager.getPrimaryUserId().flatMapLatest { userId ->
-        when (userId) {
-            null -> flowOf(null)
-            else -> userManager.observeUser(SessionUserId(userId.id))
-        }
-    }.distinctUntilChanged()
-
-    override val sessionIdFlow = accountManager.getPrimaryAccount().map { it?.sessionId }
+    override fun invalidateCache() {
+        cachedInfoFlow.value = null
+        invalidate.update { it + 1 }
+    }
 }
 
 // Class allowing to access user-related data synchronously - current VPN code requires broad refactoring to deal
 // with async access to user.
 @Singleton
 class CurrentUser @Inject constructor(
-    mainScope: CoroutineScope,
-    provider: CurrentUserProvider
+    scope: CoroutineScope, //TODO: remove
+    private val provider: CurrentUserProvider
 ) {
-    val vpnUserFlow = provider.vpnUserFlow
-    val userFlow = provider.userFlow
-    val sessionIdFlow = provider.sessionIdFlow
-    val jointUserFlow = provider.jointUserFlow
+    val vpnUserFlow = provider.partialJointUserFlow.map { it.vpnUser }.distinctUntilChanged()
+    val userFlow = provider.partialJointUserFlow.map { it.user }.distinctUntilChanged()
+    val sessionIdFlow = provider.partialJointUserFlow.map { it.sessionId }.distinctUntilChanged()
+
+    // Will serve only users that have non-null user and vpnUser and sessionId
+    val jointUserFlow = provider.partialJointUserFlow.map { it.toJointUserInfo() }.distinctUntilChanged()
 
     val eventVpnLogin =
         vpnUserFlow.withPrevious().filter { (previous, new) -> previous == null && new != null }.map { (_, new) -> new }
-
-    private val vpnUserState = SyncStateFlow(mainScope, vpnUserFlow)
 
     suspend fun vpnUser() = vpnUserFlow.first()
     suspend fun user() = userFlow.first()
     suspend fun sessionId() = sessionIdFlow.first()
     suspend fun isLoggedIn() = sessionIdFlow.first() != null
 
-    @Deprecated("use suspending version of this fun")
-    fun vpnUserCached() = vpnUserState.value
+    @Deprecated("use suspending version of this fun", replaceWith = ReplaceWith("vpnUser"))
+    fun vpnUserBlocking() = runBlocking { vpnUserFlow.first() }
 
-    @Deprecated("use suspending version of this fun")
-    fun isLoggedInCached() = vpnUserState.value != null
+    @Deprecated("use suspending version of this fun", replaceWith = ReplaceWith("vpnUser"))
+    fun vpnUserCached() = vpnUserBlocking()
 
-    //TODO: suspending implementation is pretty slow, let's used cached version in
-    // performance-critical places for now (to be addressed with VPNAND-1798)
-    @Deprecated("use suspending version of this fun")
-    fun sessionIdCached() = vpnUserState.value?.sessionId
+    fun invalidateCache() {
+        provider.invalidateCache()
+    }
 }
 
 fun User.uiName() =

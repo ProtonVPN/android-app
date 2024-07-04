@@ -87,12 +87,15 @@ class InformationActivity : BaseActivityV2() {
         initToolbarWithUpEnabled(binding.appbar.toolbar)
 
         val info = intent.getParcelableExtra<InfoType>(EXTRA_INFO_TYPE)
-        when(info) {
-            is InfoType.Generic -> setupGenericInfo()
-            is InfoType.Streaming -> setupStreamingInfo(info.countryCode)
-            is InfoType.Partners -> setupPartnershipInfo(info)
-            is InfoType.Gateways -> setupGatewaysInfo()
-            null -> Unit
+        lifecycleScope.launch {
+            val isPlusUser = viewModel.isPlusUser()
+            when (info) {
+                is InfoType.Generic -> setupGenericInfo()
+                is InfoType.Streaming -> setupStreamingInfo(info.countryCode, isPlusUser)
+                is InfoType.Partners -> setupPartnershipInfo(info)
+                is InfoType.Gateways -> setupGatewaysInfo()
+                null -> Unit
+            }
         }
     }
 
@@ -139,7 +142,7 @@ class InformationActivity : BaseActivityV2() {
         partners.forEach { addItem(it.iconUrl, it.name, it.description) }
     }
 
-    private fun setupStreamingInfo(country: String) {
+    private fun setupStreamingInfo(country: String, isPlusUser: Boolean) {
         val countryName = CountryTools.getFullName(country)
         title = getString(R.string.activity_information_plus_title, countryName)
 
@@ -147,7 +150,7 @@ class InformationActivity : BaseActivityV2() {
         addItem(CoreR.drawable.ic_proton_play, 0, R.string.streaming_services_description,
             Constants.STREAMING_INFO_URL,
             titleString = getString(R.string.streaming_title_with_country, countryName),
-            customViewProvider = { parent -> createStreamingServicesCustomView(country, parent) })
+            customViewProvider = { parent -> createStreamingServicesCustomView(country, parent, isPlusUser) })
     }
 
     private fun setupGatewaysInfo() {
@@ -162,12 +165,12 @@ class InformationActivity : BaseActivityV2() {
     private fun createServerLoadCustomView(parent: ViewGroup) =
         InfoServerLoadBinding.inflate(LayoutInflater.from(binding.root.context), parent, false).root
 
-    private fun createStreamingServicesCustomView(country: String, parent: ViewGroup): View {
+    private fun createStreamingServicesCustomView(country: String, parent: ViewGroup, isPlusUser: Boolean): View {
         val flexbox =
             StreamingInfoBinding.inflate(LayoutInflater.from(binding.root.context), parent, false)
                 .streamingIconsContainer
 
-        val dimStreamingIcons = !viewModel.isPlusUser()
+        val dimStreamingIcons = !isPlusUser
         viewModel.getStreamingServices(country).let { services ->
             for (service in services) {
                 val icon = StreamingIcon(this)

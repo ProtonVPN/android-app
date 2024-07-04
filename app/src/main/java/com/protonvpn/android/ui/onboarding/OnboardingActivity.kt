@@ -21,6 +21,7 @@ package com.protonvpn.android.ui.onboarding
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.core.view.WindowCompat
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.BaseActivityV2
@@ -28,6 +29,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OnboardingActivity : BaseActivityV2() {
@@ -38,15 +40,18 @@ class OnboardingActivity : BaseActivityV2() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
+            val scope = rememberCoroutineScope()
             VpnTheme {
                 OnboardingScreen(
                     bannerAction = {
                         openUrl(Constants.NO_LOGS_AUDIT_URL)
                     },
                     action = {
-                        if (viewModel.isInAppUpgradeAllowed)
-                            UpgradeOnboardingDialogActivity.launch(this@OnboardingActivity)
-                        finish()
+                        scope.launch {
+                            if (viewModel.isInAppUpgradeAllowed())
+                                UpgradeOnboardingDialogActivity.launch(this@OnboardingActivity)
+                            finish()
+                        }
                     }
                 )
             }

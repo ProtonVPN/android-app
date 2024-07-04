@@ -48,7 +48,7 @@ abstract class CommonUpgradeDialogViewModel(
     protected val userId: Flow<UserId?>,
     private val authOrchestrator: AuthOrchestrator,
     private val plansOrchestrator: PlansOrchestrator,
-    protected val isInAppUpgradeAllowed: () -> Boolean,
+    protected val isInAppUpgradeAllowed: suspend () -> Boolean,
     private val upgradeTelemetry: UpgradeTelemetry,
     private val userPlanManager: UserPlanManager,
     private val waitForSubscription: WaitForSubscription

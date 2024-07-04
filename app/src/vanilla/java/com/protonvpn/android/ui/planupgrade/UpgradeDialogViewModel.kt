@@ -19,12 +19,14 @@
 
 package com.protonvpn.android.ui.planupgrade
 
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.UserPlanManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.plan.presentation.PlansOrchestrator
 import javax.inject.Inject
@@ -48,9 +50,11 @@ class UpgradeDialogViewModel @Inject constructor(
     waitForSubscription
 ) {
     init {
-        state.value = if (isInAppUpgradeAllowed())
-            State.PlansFallback
-        else
-            State.UpgradeDisabled
+        viewModelScope.launch {
+            state.value = if (isInAppUpgradeAllowed())
+                State.PlansFallback
+            else
+                State.UpgradeDisabled
+        }
     }
 }

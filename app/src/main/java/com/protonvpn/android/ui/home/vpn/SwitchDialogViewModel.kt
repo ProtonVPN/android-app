@@ -38,5 +38,5 @@ class SwitchDialogViewModel @Inject constructor(
         }
     }
 
-    fun showUpgrade() = isInAppUpgradeAllowed()
+    suspend fun showUpgrade() = isInAppUpgradeAllowed()
 }

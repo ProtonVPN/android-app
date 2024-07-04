@@ -29,7 +29,7 @@ import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.ForkedSessionResponse
 import com.protonvpn.android.appconfig.SessionForkSelectorResponse
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.auth.usecase.SetVpnUser
 import com.protonvpn.android.auth.usecase.VpnLogin
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.di.WallClock
@@ -64,7 +64,7 @@ annotation class TvLoginPollDelayMs
 @HiltViewModel
 class TvLoginViewModel @Inject constructor(
     private val currentUser: CurrentUser,
-    private val vpnUserDao: VpnUserDao,
+    private val setVpnUser: SetVpnUser,
     private val appConfig: AppConfig,
     private val api: ProtonApiRetroFit,
     private val serverListUpdater: ServerListUpdater,
@@ -183,8 +183,9 @@ class TvLoginViewModel @Inject constructor(
                         state.value = TvLoginViewState.Error(R.string.loaderErrorGeneric, R.string.try_again)
                     }
                     else -> {
-                        vpnUserDao.insertOrUpdate(
+                        setVpnUser(
                             infoResult.value.toVpnUserEntity(userId, loginResponse.sessionId, wallClock()))
+                        currentUser.invalidateCache()
                         loadInitialConfig(userId)
                     }
                 }

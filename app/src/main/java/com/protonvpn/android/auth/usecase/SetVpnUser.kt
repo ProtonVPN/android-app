@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Proton Technologies AG
+ * Copyright (c) 2024 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,21 +17,20 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.onboarding
+package com.protonvpn.android.auth.usecase
 
-import androidx.lifecycle.ViewModel
-import com.protonvpn.android.ui.planupgrade.IsInAppUpgradeAllowedUseCase
-import com.protonvpn.android.vpn.VpnStatusProviderUI
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.protonvpn.android.auth.data.VpnUser
+import com.protonvpn.android.auth.data.VpnUserDao
+import dagger.Reusable
 import javax.inject.Inject
 
-@HiltViewModel
-class CongratsViewModel @Inject constructor(
-    private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val isInAppUpgradeAllowedUseCase: IsInAppUpgradeAllowedUseCase,
-) : ViewModel() {
-
-    val server get() = vpnStatusProviderUI.connectingToServer
-
-    val inAppUpgradeAllowed get() = isInAppUpgradeAllowedUseCase()
+@Reusable
+class SetVpnUser @Inject constructor(
+    private val vpnUserDao: VpnUserDao,
+    private val currentUser: CurrentUser
+) {
+    suspend operator fun invoke(vpnUser: VpnUser) {
+        vpnUserDao.insertOrUpdate(vpnUser)
+        currentUser.invalidateCache()
+    }
 }

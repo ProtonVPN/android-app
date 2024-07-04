@@ -66,12 +66,12 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
         when {
             intent == null -> {
-                if (currentUser.isLoggedInCached() && handleProcessRestore())
+                if (currentUser.vpnUserBlocking() != null && handleProcessRestore())
                     return START_STICKY
 
             }
             intent.action == VpnService.SERVICE_INTERFACE -> {
-                if (currentUser.isLoggedInCached() && handleAlwaysOn())
+                if (currentUser.vpnUserBlocking() != null && handleAlwaysOn())
                     return START_STICKY
             }
             else ->

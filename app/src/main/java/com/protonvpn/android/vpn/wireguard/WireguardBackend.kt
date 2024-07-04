@@ -133,7 +133,7 @@ class WireguardBackend @Inject constructor(
         try {
             val settings = userSettings.effectiveSettings.first()
             val config = wireguardParams.getTunnelConfig(
-                context, settings, currentUser.sessionIdCached(), certificateRepository
+                context, settings, currentUser.sessionId(), certificateRepository
             )
             val transmission = wireguardParams.protocolSelection?.transmission ?: TransmissionProtocol.UDP
             val transmissionStr = transmission.toString().lowercase()

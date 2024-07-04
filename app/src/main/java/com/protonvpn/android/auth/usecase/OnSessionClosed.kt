@@ -36,7 +36,8 @@ class OnSessionClosed @Inject constructor(
     private val accountManager: AccountManager,
     private val vpnConnectionManager: VpnConnectionManager,
     private val certificateRepository: CertificateRepository,
-    private val serverManager: ServerManager
+    private val serverManager: ServerManager,
+    private val currentUser: CurrentUser
 ) {
     val logoutFlow = MutableSharedFlow<Account>()
 
@@ -44,6 +45,7 @@ class OnSessionClosed @Inject constructor(
         Storage.saveString(LAST_USER, account.username)
         vpnConnectionManager.disconnectAndWait(DisconnectTrigger.Logout)
         accountManager.disableAccount(account.userId)
+        currentUser.invalidateCache()
         account.sessionId?.let { certificateRepository.clear(it) }
         serverManager.clearCache()
         logoutFlow.emit(account)
