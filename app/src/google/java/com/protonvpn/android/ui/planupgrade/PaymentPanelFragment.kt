@@ -89,6 +89,8 @@ class PaymentPanelFragment : Fragment() {
                 }
                 CommonUpgradeDialogViewModel.State.UpgradeDisabled ->
                     currentViewState.value = ViewState.UpgradeDisabled
+                is CommonUpgradeDialogViewModel.State.GiapBillingClientError ->
+                    onError(null, state.error)
                 is CommonUpgradeDialogViewModel.State.GiapPurchaseError -> {
                     onError(null, null)
                 }
