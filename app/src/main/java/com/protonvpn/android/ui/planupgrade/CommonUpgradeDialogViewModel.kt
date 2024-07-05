@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.domain.entity.UserId
+import me.proton.core.payment.domain.repository.BillingClientError
 import me.proton.core.plan.presentation.PlansOrchestrator
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.plan.presentation.onUpgradeResult
@@ -73,7 +74,8 @@ abstract class CommonUpgradeDialogViewModel(
             val inProgress: Boolean = false,
         ) : State()
         object PlansFallback : State() // Conditions for short flow were not met, start normal account flow
-        object GiapPurchaseError: State()
+        data class GiapBillingClientError(val error: BillingClientError) : State()
+        object GiapPurchaseError : State()
         data class PurchaseSuccess(
             val newPlanName: String,
             val upgradeFlowType: UpgradeFlowType

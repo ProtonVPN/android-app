@@ -23,6 +23,8 @@ import android.app.Activity
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
@@ -174,12 +176,22 @@ class UpgradeDialogViewModel(
             plan.dynamicPlan,
             userId
         )
+        val resultLog = when (purchaseResult) {
+            is PerformGiapPurchase.Result.GiapSuccess -> "Success" // Don't log any details, like tokens.
+            is PerformGiapPurchase.Result.Error.GiapUnredeemed -> "GiapUnredeemed"  // Don't log any details.
+            is PerformGiapPurchase.Result.Error -> purchaseResult.toString()
+        }
+        ProtonLogger.logCustom(LogCategory.APP, "GIAP purchase result: $resultLog")
         when (purchaseResult) {
             is PerformGiapPurchase.Result.Error.GiapUnredeemed -> {
                 emit(State.PlansFallback)
                 onStartFallbackUpgrade()
             }
             is PerformGiapPurchase.Result.Error.UserCancelled -> emit(currentState.copy(inProgress = false))
+            is PerformGiapPurchase.Result.Error.RecoverableBillingError ->
+                emit(State.GiapBillingClientError(purchaseResult.error))
+            is PerformGiapPurchase.Result.Error.UnrecoverableBillingError ->
+                emit(State.GiapBillingClientError(purchaseResult.error))
             is PerformGiapPurchase.Result.Error -> emit(State.GiapPurchaseError)
             is PerformGiapPurchase.Result.GiapSuccess -> {
                 onPaymentFinished(plan.name, flowType)

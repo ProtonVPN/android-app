@@ -74,6 +74,7 @@ open class UpgradeDialogActivity : BaseActivityV2() {
                 is CommonUpgradeDialogViewModel.State.LoadError -> {}
                 is CommonUpgradeDialogViewModel.State.PurchaseReady -> {}
                 CommonUpgradeDialogViewModel.State.PlansFallback -> {}
+                is CommonUpgradeDialogViewModel.State.GiapBillingClientError -> {}
                 is CommonUpgradeDialogViewModel.State.GiapPurchaseError -> {}
                 is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
                     onPaymentSuccess(state.newPlanName, state.upgradeFlowType)
