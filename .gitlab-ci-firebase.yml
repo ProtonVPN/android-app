@@ -53,30 +53,6 @@
     paths:
       - app/build/outputs/
 
-publish-apk-firebase:
-  stage: startReview
-  allow_failure: true
-  tags:
-    - shared-medium
-  needs:
-    - job: "build release firebase distribution"
-    - job: "build google debug"
-  only:
-    - redesign-main
-  except:
-    - schedules
-  script:
-    - *firebase_authenticate_script
-    - ./gradlew -q getReleaseNotes > release-notes.txt
-    - cat release-notes.txt
-    - wget --quiet --output-document=/tmp/firebase https://firebase.tools/bin/linux/latest
-    - chmod +x /tmp/firebase
-    - export GOOGLE_APPLICATION_CREDENTIALS=/tmp/service-account.json
-    - /tmp/firebase appdistribution:distribute app/build/outputs/apk/productionGooglePlayStore/release/${ARCHIVES_BASE_NAME}-production-google-playStore-release.apk
-      --app $FIREBASE_APP_ID
-      --release-notes-file release-notes.txt
-      --groups "dev-team"
-
 mobile tests mocked api:
   extends: .tests_preparation_script
   variables:

@@ -330,22 +330,6 @@ build amazon release (manual):
     - schedules
   when: manual # this implies allow_failure
 
-build release firebase distribution:
-  stage: build
-  rules:
-    - if: $CI_COMMIT_BRANCH == "redesign-main"
-      when: always
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: never
-  tags:
-    - xlarge-k8s
-  script:
-    - ./gradlew assembleProductionGooglePlayStoreRelease -PredesignTestBuild=true
-  artifacts:
-    expire_in: 3 week
-    paths:
-      - app/build/outputs/apk
-
 build release (auto):
   stage: build
   rules:
@@ -487,9 +471,3 @@ i18n-commit-locales:
       I18N_COMMIT_BRANCH_ALLOWED: development
       I18N_COMMIT_CROWDIN_PROJECT: 'android-vpn'
   extends: .i18n-commit-locales-shared
-
-i18n-sync-crowdin-redesign:
-  variables:
-    I18N_SYNC_BRANCH: redesign-main
-    I18N_SYNC_CROWDIN_PROJECT: 'android-vpn'
-  extends: .i18n-sync-crowdin-shared
