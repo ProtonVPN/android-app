@@ -137,10 +137,11 @@ build google debug:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew assembleProductionGooglePlayStoreDebug
-    - ./gradlew assembleProductionGooglePlayStoreDebugAndroidTest
     # Build additionally the vanilla flavor to check that it compiles. Don't include it in artifacts.
-    - ./gradlew assembleProductionVanillaOpenSourceDebug
+    - >
+      ./gradlew assembleProductionGooglePlayStoreDebug \
+                assembleProductionVanillaOpenSourceDebug \
+                assembleProductionGooglePlayStoreDebugAndroidTest
   artifacts:
     expire_in: 1 week
     paths:
@@ -164,8 +165,9 @@ build google debug:
       fi
     - mkdir -p app/src/androidTest/assets/sensitive
     - cat $TEST_INTERNAL_API > app/src/androidTest/assets/sensitive/internal_apis.json
-    - ./gradlew assembleBlackGooglePlayStoreDebug
-    - ./gradlew assembleBlackGooglePlayStoreDebugAndroidTest
+    - >
+      ./gradlew assembleBlackGooglePlayStoreDebug \
+                  assembleBlackGooglePlayStoreDebugAndroidTest
   artifacts:
     expire_in: 1 week
     paths:
@@ -224,8 +226,9 @@ build google play bundle:
     - xlarge-k8s
   script:
     # Build openvpn first, otherwise ovpnassets are not copied to app's assets.
-    - ./gradlew :openvpn:assembleRelease
-    - ./gradlew :app:bundleProductionGooglePlayStoreRelease
+    - >
+      ./gradlew :openvpn:assembleRelease \
+                :app:bundleProductionGooglePlayStoreRelease
   interruptible: false
   artifacts:
     expire_in: 1 week
@@ -238,8 +241,9 @@ build google play release:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew openvpn:assembleRelease
-    - ./gradlew assembleProductionGooglePlayStoreRelease
+    - >
+      ./gradlew openvpn:assembleRelease \
+                assembleProductionGooglePlayStoreRelease
   except:
     - schedules
   interruptible: false
@@ -261,9 +265,10 @@ build google play dev (monitoring release):
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew openvpn:assembleRelease
-    - ./gradlew assembleProductionGoogleDevRelease
-    - ./gradlew :release_tests:assembleRelease
+    - >
+      ./gradlew openvpn:assembleRelease \
+                assembleProductionGoogleDevRelease \
+                :release_tests:assembleRelease
   interruptible: false
   artifacts:
     expire_in: 1 week
@@ -277,9 +282,10 @@ build payments black google dev:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew openvpn:assembleRelease
-    - ./gradlew assembleBlackGoogleDevRelease
-    - ./gradlew bundleBlackGoogleDevRelease
+    - >
+      ./gradlew openvpn:assembleRelease \
+                assembleBlackGoogleDevRelease \
+                bundleBlackGoogleDevRelease
   interruptible: false
   variables:
     TEST_ENV_DOMAIN: "payments.proton.black"
@@ -300,8 +306,9 @@ build payments black google dev:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew openvpn:assembleRelease
-    - ./gradlew assembleProductionVanillaAmazonRelease
+    - >
+      ./gradlew openvpn:assembleRelease \
+                assembleProductionVanillaAmazonRelease
   artifacts:
     expire_in: 3 week
     paths:
@@ -349,8 +356,7 @@ build release (auto):
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew openvpn:assembleRelease
-    - ./gradlew assembleProductionVanillaDirectRelease
+    - ./gradlew openvpn:assembleRelease assembleProductionVanillaDirectRelease
   artifacts:
     expire_in: 3 week
     paths:
