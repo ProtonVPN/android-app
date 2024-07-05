@@ -139,10 +139,13 @@ build google debug:
   script:
     - ./gradlew assembleProductionGooglePlayStoreDebug
     - ./gradlew assembleProductionGooglePlayStoreDebugAndroidTest
+    # Build additionally the vanilla flavor to check that it compiles. Don't include it in artifacts.
+    - ./gradlew assembleProductionVanillaOpenSourceDebug
   artifacts:
     expire_in: 1 week
     paths:
-    - app/build/outputs/apk
+    - app/build/outputs/apk/productionGooglePlayStore
+    - app/build/outputs/apk/androidTest/productionGooglePlayStore
 
 .build test:
   stage: build
