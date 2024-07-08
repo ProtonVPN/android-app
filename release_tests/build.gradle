@@ -80,8 +80,8 @@ android {
 dependencies {
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
-    implementation "androidx.test.ext:junit:1.1.5"
-    implementation "androidx.test:runner:1.5.2"
+    implementation 'androidx.test.ext:junit:1.2.1'
+    implementation 'androidx.test:runner:1.6.1'
     implementation "androidx.test.uiautomator:uiautomator:2.3.0"
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation "me.proton.test:fusion:0.9.62"

@@ -741,10 +741,9 @@ configurations.configureEach {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    debugImplementation 'androidx.test.espresso.idling:idling-concurrent:3.5.1'
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.12'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-object-watcher-android:2.14'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
 
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
     detektPlugins project(":detekt-gitlab-output-plugin")
@@ -752,26 +751,25 @@ dependencies {
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlin_version"))
 
-    implementation 'androidx.test.espresso:espresso-idling-resource:3.5.1'
     implementation 'commons-codec:commons-codec:1.15'
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
-    implementation 'androidx.core:core-ktx:1.13.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
     implementation "androidx.datastore:datastore:$datastore_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
     implementation 'androidx.activity:activity-ktx:1.9.0'
-    implementation 'androidx.fragment:fragment-ktx:1.6.2'
-    implementation 'androidx.window:window:1.2.0'
+    implementation 'androidx.fragment:fragment-ktx:1.8.1'
+    implementation 'androidx.window:window:1.3.0'
     implementation 'io.sentry:sentry-android:6.34.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.scottyab:aes-crypto:0.0.5'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
     implementation 'me.relex:circleindicator:2.1.6@aar'
     implementation 'androidx.work:work-runtime:2.9.0'
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
@@ -785,17 +783,17 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_json_version"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-cbor:$kotlinx_serialization_json_version"
     implementation 'androidx.preference:preference-ktx:1.2.1'
-    implementation 'com.airbnb.android:lottie:6.2.0'
-    implementation "com.airbnb.android:lottie-compose:6.2.0"
+    implementation 'com.airbnb.android:lottie:6.4.1'
+    implementation 'com.airbnb.android:lottie-compose:6.4.1'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation "androidx.security:security-crypto:1.0.0"
-    implementation "androidx.viewpager2:viewpager2:1.1.0-beta02"
+    implementation 'androidx.viewpager2:viewpager2:1.1.0'
     implementation "androidx.core:core-splashscreen:1.0.1"
     implementation 'com.github.seancfoley:ipaddress:5.4.0'
     implementation 'com.caverock:androidsvg-aar:1.4'
 
     // Compose
-    def composeBom = platform('androidx.compose:compose-bom:2024.05.00')
+    def composeBom = platform('androidx.compose:compose-bom:2024.06.00')
     implementation composeBom
     androidTestImplementation composeBom
     def composeNavigationVersion = '2.7.7'
@@ -806,15 +804,14 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata"
     implementation 'androidx.compose.ui:ui'
     implementation "androidx.compose.ui:ui-viewbinding"
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.8.3"
     implementation "androidx.navigation:navigation-compose:$composeNavigationVersion"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.30.1"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.31.3-beta"
+    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.34.0'
 
     implementation 'androidx.constraintlayout:constraintlayout-compose-android:1.1.0-alpha13'
 
     implementation("com.patrykandpatrick.vico:core:2.0.0-alpha.14")
-    implementation("com.patrykandpatrick.vico:compose:2.0.0-alpha.14")
+    implementation('com.patrykandpatrick.vico:compose:2.0.0-alpha.14')
 
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
@@ -962,10 +959,7 @@ dependencies {
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
 
-    androidTestImplementation 'androidx.lifecycle:lifecycle-runtime-testing:2.7.0'
-    androidTestImplementation('androidx.test.espresso:espresso-idling-resource:3.5.1') {
-        exclude module: 'support-annotations'
-    }
+    androidTestImplementation 'androidx.lifecycle:lifecycle-runtime-testing:2.8.3'
 
     // Core library
     testImplementation "androidx.arch.core:core-testing:2.2.0"
@@ -973,7 +967,7 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version"
     // debugImplementation as a workaround for ActivityScenario problem:
     // https://github.com/android/android-test/issues/940#issuecomment-934406022
-    debugImplementation 'androidx.test:core:1.5.0'
+    debugImplementation 'androidx.test:core:1.6.1'
 
     testImplementation project(':shared-test-code')
     androidTestImplementation project(':shared-test-code')
@@ -981,14 +975,14 @@ dependencies {
     androidTestImplementation 'com.squareup.okhttp3:okhttp-tls:4.12.0'
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.5.2'
-    androidTestImplementation 'androidx.test:rules:1.5.0'
-    androidTestUtil 'androidx.test:orchestrator:1.4.2'
-    androidTestUtil 'androidx.test.services:test-services:1.4.2'
+    androidTestImplementation 'androidx.test:runner:1.6.1'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
+    androidTestUtil 'androidx.test:orchestrator:1.5.0'
+    androidTestUtil 'androidx.test.services:test-services:1.5.0'
 
     // Assertions
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.ext:truth:1.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.ext:truth:1.6.0'
     androidTestImplementation 'com.google.truth:truth:1.1.5'
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
@@ -996,12 +990,17 @@ dependencies {
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit"
 
     // Espresso dependencies
-    testImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.5.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-web:3.5.1'
+    testImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-web:$espresso_version"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espresso_version"
+    androidTestImplementation("androidx.test.espresso:espresso-idling-resource:$espresso_version") {
+        exclude module: 'support-annotations'
+    }
+
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0'
 
     // Fusion

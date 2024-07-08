@@ -88,7 +88,7 @@ class ServerLoadingViewModelTests {
         every { serverManager.isDownloadedAtLeastOnceFlow } returns flowOf(true)
         val viewModel = ServerLoadingViewModel(serverManager, serverListUpdater)
 
-        coVerify { serverListUpdater.updateServerList() wasNot Called }
+        coVerify(exactly = 0) { serverListUpdater.updateServerList() }
 
         val state = viewModel.serverLoadingState.first()
         assertIs<ServerLoadingViewModel.LoaderState.Loaded>(state)
