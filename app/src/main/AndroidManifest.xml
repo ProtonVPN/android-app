@@ -56,22 +56,10 @@
         <activity
             android:name=".redesign.app.ui.MainActivity"
             android:theme="@style/ProtonTheme.Splash.Vpn.Dark"
-            android:exported="true"
+            android:exported="false"
+            android:enabled="false"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="protonvpn" />
-                <!-- See DeepLinkHandler -->
-                <data android:host="refresh-account"/>
-            </intent-filter>
         </activity>
 
         <activity android:name=".ui.home.vpn.SwitchDialogActivity" />
@@ -122,6 +110,137 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.vpn.NoVpnPermissionActivity" />
+        <activity-alias android:name="ch.protonvpn.android.RoutingActivity"
+            android:targetActivity=".redesign.app.ui.MainActivity"
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="protonvpn" />
+                <!-- See DeepLinkHandler -->
+                <data android:host="refresh-account"/>
+            </intent-filter>
+
+        </activity-alias>
+        <activity-alias android:name="ch.protonvpn.android.RoutingDark"
+            android:targetActivity=".redesign.app.ui.MainActivity"
+            android:label="@string/app_name"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_dark"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="protonvpn" />
+                <!-- See DeepLinkHandler -->
+                <data android:host="refresh-account"/>
+            </intent-filter>
+
+        </activity-alias>
+        <activity-alias android:name="ch.protonvpn.android.RoutingRetro"
+            android:targetActivity=".redesign.app.ui.MainActivity"
+            android:label="@string/app_name"
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher_retro"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="protonvpn" />
+                <!-- See DeepLinkHandler -->
+                <data android:host="refresh-account"/>
+            </intent-filter>
+
+        </activity-alias>
+        <activity-alias
+            android:name="ch.protonvpn.android.RoutingWeather"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/app_icon_name_weather"
+            android:icon="@mipmap/ic_launcher_weather"
+            android:targetActivity=".redesign.app.ui.MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="protonvpn" />
+                <!-- See DeepLinkHandler -->
+                <data android:host="refresh-account"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="ch.protonvpn.android.RoutingNotes"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/app_icon_name_notes"
+            android:icon="@mipmap/ic_launcher_notes"
+            android:targetActivity=".redesign.app.ui.MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="protonvpn" />
+                <!-- See DeepLinkHandler -->
+                <data android:host="refresh-account"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="ch.protonvpn.android.RoutingCalculator"
+            android:enabled="false"
+            android:exported="true"
+            android:label="@string/app_icon_name_calculator"
+            android:icon="@mipmap/ic_launcher_calculator"
+            android:targetActivity=".redesign.app.ui.MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="protonvpn" />
+                <!-- See DeepLinkHandler -->
+                <data android:host="refresh-account"/>
+            </intent-filter>
+
+        </activity-alias>
 
         <service
             android:name=".vpn.wireguard.WireguardWrapperService"

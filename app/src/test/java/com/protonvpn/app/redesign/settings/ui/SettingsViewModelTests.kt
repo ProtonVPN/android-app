@@ -37,6 +37,7 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
@@ -78,6 +79,8 @@ class SettingsViewModelTests {
 
     @MockK
     private lateinit var mockIsTvCheck: IsTvCheck
+    @MockK
+    private lateinit var mockAppIconManager: AppIconManager
 
     @RelaxedMockK
     private lateinit var mockInstalledAppsProvider: InstalledAppsProvider
@@ -137,6 +140,7 @@ class SettingsViewModelTests {
             mockRecentManager,
             mockInstalledAppsProvider,
             mockGetQuickIntent,
+            mockAppIconManager
         )
     }
 

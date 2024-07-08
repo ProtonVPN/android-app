@@ -1,0 +1,44 @@
+<!--
+  Copyright (c) 2024. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+  <group android:scaleX="0.506"
+      android:scaleY="0.506"
+      android:translateX="8.204"
+      android:translateY="7.904">
+    <path
+        android:pathData="M12,24H20C20.378,24 20.694,23.872 20.95,23.617C21.205,23.361 21.333,23.044 21.333,22.667C21.333,22.289 21.205,21.972 20.95,21.717C20.694,21.461 20.378,21.333 20,21.333H12C11.622,21.333 11.306,21.461 11.05,21.717C10.794,21.972 10.667,22.289 10.667,22.667C10.667,23.044 10.794,23.361 11.05,23.617C11.306,23.872 11.622,24 12,24ZM12,18.667H20C20.378,18.667 20.694,18.539 20.95,18.283C21.205,18.028 21.333,17.711 21.333,17.333C21.333,16.955 21.205,16.639 20.95,16.383C20.694,16.128 20.378,16 20,16H12C11.622,16 11.306,16.128 11.05,16.383C10.794,16.639 10.667,16.955 10.667,17.333C10.667,17.711 10.794,18.028 11.05,18.283C11.306,18.539 11.622,18.667 12,18.667ZM8,29.333C7.267,29.333 6.639,29.072 6.117,28.55C5.594,28.028 5.333,27.4 5.333,26.667V5.333C5.333,4.6 5.594,3.972 6.117,3.45C6.639,2.928 7.267,2.667 8,2.667H17.567C17.922,2.667 18.261,2.733 18.583,2.867C18.906,3 19.189,3.189 19.433,3.433L25.9,9.9C26.144,10.144 26.333,10.428 26.467,10.75C26.6,11.072 26.667,11.411 26.667,11.767V26.667C26.667,27.4 26.406,28.028 25.883,28.55C25.361,29.072 24.733,29.333 24,29.333H8ZM17.333,10.667C17.333,11.044 17.461,11.361 17.717,11.617C17.972,11.872 18.289,12 18.667,12H24L17.333,5.333V10.667Z">
+      <aapt:attr name="android:fillColor">
+        <gradient 
+            android:startX="16"
+            android:startY="2.667"
+            android:endX="16"
+            android:endY="29.333"
+            android:type="linear">
+          <item android:offset="0" android:color="#FFA7751C"/>
+          <item android:offset="1" android:color="#FFA75814"/>
+        </gradient>
+      </aapt:attr>
+    </path>
+  </group>
+</vector>

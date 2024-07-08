@@ -194,6 +194,9 @@ fun SettingsRoute(
             onHelpFightClick = {
                 context.startActivity(Intent(context, SettingsTelemetryActivity::class.java))
             },
+            onIconChangeClick = {
+                onNavigateToSubSetting(SubSettingsScreen.Type.IconChange)
+            },
             onRateUsClick = {
                 context.openMarketLink()
             },
@@ -286,6 +289,7 @@ private fun SettingsView(
     onVpnAcceleratorUpgrade: () -> Unit,
     onAdvancedSettingsClick: () -> Unit,
     onNotificationsClick: () -> Unit,
+    onIconChangeClick: () -> Unit,
     onOnHelpCenterClick: () -> Unit,
     onReportBugClick: () -> Unit,
     onDebugLogsClick: () -> Unit,
@@ -319,6 +323,7 @@ private fun SettingsView(
                 onNetShieldUpgrade = onNetShieldUpgradeClick,
                 onSplitTunnelClick = onSplitTunnelClick,
                 onSplitTunnelUpgrade = onSplitTunnelUpgrade,
+                onIconChangeClick = onIconChangeClick,
                 onAlwaysOnClick = onAlwaysOnClick
             )
             Category(
@@ -356,17 +361,26 @@ private fun SettingsView(
                     onClick = onAdvancedSettingsClick,
                 )
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Category(
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                    stringResource(id = R.string.settings_category_general)
-                ) {
+
+            Category(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                stringResource(id = R.string.settings_category_general)
+            ) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     SettingRowWithIcon(
                         icon = CoreR.drawable.ic_proton_bell,
                         title = stringResource(id = R.string.settings_notifications_title),
                         onClick = onNotificationsClick,
                     )
                 }
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_grid_2,
+                    title = stringResource(id = R.string.settings_change_icon_title),
+                    subtitle = null,
+                    trailingIcon = null,
+                    trailingIconTint = false,
+                    onClick = onIconChangeClick
+                )
             }
             Category(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
@@ -457,6 +471,7 @@ private fun ColumnScope.FeatureCategory(
     onNetShieldUpgrade: () -> Unit,
     onSplitTunnelClick: () -> Unit,
     onSplitTunnelUpgrade: () -> Unit,
+    onIconChangeClick: () -> Unit,
     onAlwaysOnClick: () -> Unit,
 ) {
     Category(
