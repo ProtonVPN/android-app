@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Αυτήν τη στιγμή δεν υπάρχει ενεργοποιημένη σύνδεση VPN για αυτόν τον λογαριασμό. Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, επικοινωνήστε με τον διαχειριστή σας. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Ενεργοποίηση συνδέσεων VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Προσπαθήστε ξανά</string>
-    <string name="secureCoreSpeedInfoTitle">Σημείωση για την ταχύτητα…</string>
-    <string name="secureCoreSpeedInfoMessage">Η επιλογή \"Secure Core\" προσφέρει το υψηλότερο επίπεδο ασφάλειας και ιδιωτικότητας αλλά μπορεί να επηρεάσει την ταχύτητα πρόσβασής σας στο Internet. Αν χρειάζεστε καλύτερη απόδοση, μπορείτε να απενεργοποιήσετε την επιλογή \"Secure Core\".</string>
-    <string name="secureCoreActivateDialogButton">Ενεργοποίηση Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">ΟΚ</string>
     <string name="dialogLearnMore">Μάθετε περισσότερα</string>

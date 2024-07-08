@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Наразі для цього облікового запису не ввімкнено VPN-з\'єднання. Щоб почати свою подорож з Proton VPN, зв\'яжіться з вашим адміністратором. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Увімкнути VPN-з\'єднання</string>
     <string name="connectionAllocationHelpLoginAgainButton">Увійдіть знову</string>
-    <string name="secureCoreSpeedInfoTitle">Примітка про швидкість…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core пропонує найвищий рівень безпеки та приватності, але це може знизити швидкість роботи інтернету. Якщо вам потрібна додаткова швидкодія, ви можете вимкнути Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Активувати Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">Докладніше</string>

@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN activada para esta cuenta. Para comenzar tu viaje en Proton VPN, ponte en contacto con tu administrador. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activar conexiones VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sesión de nuevo</string>
-    <string name="secureCoreSpeedInfoTitle">Una nota sobre la velocidad…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core ofrece el máximo nivel de seguridad y privacidad, pero podría reducir la velocidad de internet. Si necesitas más rendimiento, puedes desactivar Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Activar Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">Aceptar</string>
     <string name="dialogLearnMore">Más información</string>

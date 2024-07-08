@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Il n\'y a actuellement aucune connexion VPN activée pour ce compte. Pour commencer à utiliser Proton VPN, nous vous invitons à contacter votre administrateur. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activer les connexions VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Se reconnecter</string>
-    <string name="secureCoreSpeedInfoTitle">Une précision à propos de la vitesse…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core offre le meilleur niveau de sécurité et de confidentialité, mais peut réduire la vitesse de votre connexion. Si vous avez besoin de plus de performances, vous pouvez désactiver Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Activer Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">En savoir plus</string>
@@ -149,7 +146,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Retirer des applications exclues</string>
+    <string name="accessibility_action_remove_excluded_app">Retirer de la liste des applications exclues</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -163,7 +160,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Retirer des applications inclues</string>
+    <string name="accessibility_action_remove_included_app">Retirer de la liste des applications inclues</string>
     <string name="tileConnected">Connecté : %1$s</string>
     <string name="openUrlError">%1$s ne peut être ouvert. Le navigateur web n\'a pas été détecté sur votre appareil.</string>
     <string name="loaderErrorTimeout">La connexion a expiré. Nous vous invitons à réessayer.</string>
@@ -1232,7 +1229,7 @@
     <string name="settings_split_tunneling_included_ips">Adresses IP incluses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Aucune</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s et %3$d autres</string>
-    <string name="settings_split_tunneling_already_excluded">Déjà exclue</string>
+    <string name="settings_split_tunneling_already_excluded">Déjà exclu</string>
     <string name="settings_split_tunneling_already_included">Déjà inclus</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Retirer l’adresse IP de la liste ?</string>
     <string name="settings_dialog_reconnect">Les nouveaux paramètres s\'appliqueront lors de votre prochaine connexion.</string>

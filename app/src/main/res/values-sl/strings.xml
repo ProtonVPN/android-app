@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Za ta račun trenutno ni omogočena povezava VPN. Če želite začeti svojo pot s Proton VPN, se obrnite na skrbnika. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Omogoči povezave VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Ponovno se prijavite</string>
-    <string name="secureCoreSpeedInfoTitle">Opomba o hitrosti…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core ponuja najvišjo raven varnosti in zasebnosti, vendar lahko zmanjša hitrost interneta. Če potrebujete več zmogljivosti, lahko onemogočite Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Aktivirajte Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">V redu</string>
     <string name="dialogLearnMore">Več informacij</string>

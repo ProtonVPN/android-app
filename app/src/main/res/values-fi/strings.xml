@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Tilille ei ole tällä hetkellä määritetty VPN-yhteyttä. Aloita Proton VPN -matkasi olemalla yhteydessä ylläpitoosi.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Määritä VPN-yhteydet</string>
     <string name="connectionAllocationHelpLoginAgainButton">Kirjaudu sisään uudelleen</string>
-    <string name="secureCoreSpeedInfoTitle">Huomautus nopeudesta…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core tarjoaa korkeimman suojauksen ja yksityisyyden, mutta se voi hidastaa yhteysnopeuttasi. Jos tarvitset enemmän suorituskykyä, voit poistaa Secure Coren käytöstä.</string>
-    <string name="secureCoreActivateDialogButton">Aktivoi Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">Lue lisää</string>
