@@ -138,7 +138,7 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp-tls:4.12.0'
     implementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
-    implementation 'com.google.guava:guava:33.1.0-android'
+    implementation 'com.google.guava:guava:33.2.1-android'
 
     implementation "me.proton.test:fusion:0.9.62"
     implementation 'me.proton.vpn:go-vpn-lib:0.1.39'

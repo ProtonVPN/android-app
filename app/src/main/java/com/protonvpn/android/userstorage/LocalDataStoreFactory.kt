@@ -23,7 +23,6 @@ import android.content.Context
 import androidx.datastore.core.DataMigration
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.core.ExperimentalMultiProcessDataStore
 import androidx.datastore.core.MultiProcessDataStoreFactory
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStoreFile
@@ -47,7 +46,6 @@ interface LocalDataStoreFactory {
     ): DataStore<T>
 }
 
-@OptIn(ExperimentalMultiProcessDataStore::class)
 @Singleton
 class DefaultLocalDataStoreFactory @Inject constructor(
     @ApplicationContext private val context: Context
