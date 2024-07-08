@@ -1,0 +1,2 @@
+What's new
+- You can now select your preferred connection setting. Choose what you want the default connection to be from Fastest country, Last or Recent connection. - Introducing Split Tunneling for Android TV, allowing you to selectively route your app traffic. You can also now select your preferred protocol for a customised streaming and browsing experience. - New Inverse Split Tunneling feature available. This option allows only selected apps and IP addresses to connect through the VPN.
