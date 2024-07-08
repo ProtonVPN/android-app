@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">В настоящее время для этого аккаунта не активировано подключение к VPN. Чтобы начать свое путешествие с Proton VPN, пожалуйста, свяжитесь с вашим администратором. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Разрешить подключения к VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Войти снова</string>
-    <string name="secureCoreSpeedInfoTitle">Замечание о скорости…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core обеспечивает наивысший уровень безопасности и конфиденциальности, но может снизить скорость вашего Интернета. Если вам нужна более высокая производительность, вы можете отключить Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Активировать Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">ОК</string>
     <string name="dialogLearnMore">Подробнее</string>
@@ -104,8 +101,8 @@
     <string name="noVpnPermissionProtonAppLabel">Приложение ProtonVPN</string>
     <string name="noVpnPermissionOtherAppLabel">Другие приложения VPN</string>
     <string name="noVpnPermissionOpenSettings">Открыть настройки Android VPN</string>
-    <string name="noNotificationPermissionGrantTitle">Не пропустите ничего</string>
-    <string name="noNotificationPermissionGrantDescription">Включите уведомления, чтобы получать информацию об изменениях состояния подключения.</string>
+    <string name="noNotificationPermissionGrantTitle">Не пропустите важное…</string>
+    <string name="noNotificationPermissionGrantDescription">Включите уведомления, чтобы получать оповещения об изменениях статуса вашего подключения.</string>
     <string name="noNotificationPermissionGrantNowTitle">Включить уведомления</string>
     <string name="error_prepare_vpn_description"><![CDATA[Пожалуйста, отключите постоянно включенное включение VPN во всех других приложениях VPN в настройках системы Android, так как это мешает Proton VPN устанавливать подключение к VPN. Также предоставьте разрешение VPN, если появится диалоговое окно, запрашивающее разрешение VPN. Другие приложения VPN, возможно, понадобится удалить для предотвращения конфликтов. После этого попробуйте еще раз. <a href="%1$s">Подробнее</a>]]></string>
     <string name="error_prepare_vpn_settings">Перейти к настройкам VPN для Android</string>
@@ -119,22 +116,22 @@
     <string name="profileRandom">Случайный</string>
     <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
     <string name="loaderErrorGeneric">Что-то пошло не так</string>
-    <string name="inputIpAddressLabel">Адрес IP</string>
+    <string name="inputIpAddressLabel">IP-адрес</string>
     <string name="inputIpAddressHint">Напишите IP-адрес</string>
     <string name="inputIpAddressErrorInvalid">Недействительный IP-адрес</string>
-    <string name="settingsExcludedIPAddressesListHeader">Исключенные адреса IP (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Выбранные адреса IP (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Исключённые IP-адреса (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Выбранные IP-адреса (%1$d)</string>
     <string name="settingsExcludedApps">Исключенные приложения</string>
     <string name="settingsExcludedAppsEmpty">Добавьте приложения, трафик которых должен идти в обход VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Добавьте приложения, которые будут включены в трафик VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Добавьте приложения, которые будут включены в VPN-трафик.</string>
     <string name="settingsExcludedAppsSelectedHeader">Исключенные приложения (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Включенные приложения (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">Все другие обычные приложения (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">Все другие системные приложения (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Выбранные приложения (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Все остальные обычные приложения (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Все остальные системные приложения (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Все остальные приложения (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Показать системные приложения</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Показать системные приложения</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">Эти приложения исключены из подключения к VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Эти приложения исключены из подключения через VPN.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Только эти приложения подключаются через VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
@@ -142,28 +139,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Добавить в исключенные приложения</string>
+    <string name="accessibility_action_add_excluded_app">Добавить в исключённые приложения</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Удалить из исключенных приложений</string>
+    <string name="accessibility_action_remove_excluded_app">Удалить из исключённых приложений</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Добавление во включенные приложения</string>
+    <string name="accessibility_action_add_included_app">Добавить в выбранные приложения</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Удалить из включенных приложений</string>
+    <string name="accessibility_action_remove_included_app">Удалить из выбранных приложений</string>
     <string name="tileConnected">Подключено: %1$s</string>
     <string name="openUrlError">%1$s не может быть открыт. Веб-браузер не был обнаружен на вашем устройстве.</string>
     <string name="loaderErrorTimeout">Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.</string>

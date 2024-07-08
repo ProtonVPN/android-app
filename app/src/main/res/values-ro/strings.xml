@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Momentan nu există nici o conexiune VPN activată pentru acest cont. Pentru a începe să utilizați Proton VPN, contactați-vă administratorul contului.</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Activare conexiuni VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Reconectați-vă</string>
-    <string name="secureCoreSpeedInfoTitle">Observație privind viteza…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core oferă cel mai înalt nivel de securitate și confidențialitate, dar vă poate reduce viteza pe internet. Dacă aveți nevoie de mai multe performanțe, puteți dezactiva Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Activare Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">Detalii</string>

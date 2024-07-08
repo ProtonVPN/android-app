@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Não há conexões VPN ativadas para esta conta. Para iniciar sua jornada no Proton VPN, entre em contato com seu administrador. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Ativar conexões VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Iniciar sessão novamente</string>
-    <string name="secureCoreSpeedInfoTitle">Uma nota sobre velocidade…</string>
-    <string name="secureCoreSpeedInfoMessage">O Secure Core oferece o mais alto nível de segurança e privacidade, mas pode reduzir a velocidade da sua internet. Se precisar de mais desempenho, você pode desabilitar o Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Ativar Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">Saiba mais</string>
@@ -134,15 +131,15 @@
     <string name="settingsSplitTunnelingAvailableHeader">Todos os outros aplicativos (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar aplicativos do sistema</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Mostrar aplicativos do sistema</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">Esses aplicativos serão excluídos da sua conexão VPN</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Somente esses aplicativos se conectam por meio da VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Esses aplicativos serão excluídos da sua conexão VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Somente esses aplicativos se conectam por meio de VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Adicionar para aplicativos excluídos</string>
+    <string name="accessibility_action_add_excluded_app">Adicionar aos aplicativos excluídos</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -156,7 +153,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Adicionar para aplicativos incluídos</string>
+    <string name="accessibility_action_add_included_app">Adicionar aos aplicativos incluídos</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -517,11 +514,11 @@
         <item quantity="one">Desbloqueie conteúdo bloqueado geograficamente de %1$d país com VPN Plus</item>
         <item quantity="other">Desbloqueie conteúdo bloqueado geograficamente de %1$d países com VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Selecione sua conexão atual</string>
+    <string name="select_default_connection">Selecione sua conexão padrão</string>
     <string name="settings_default_connection_title">Conexão padrão</string>
     <string name="fastest_country_description">O melhor servidor baseado na sua localização</string>
     <string name="settings_last_connection_title">Última conexão</string>
-    <string name="settings_last_connection_description">Sua conexão mais usada recentemente</string>
+    <string name="settings_last_connection_description">Sua conexão usada mais recentemente</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Dispensar banner</string>
@@ -1068,7 +1065,7 @@
     <string name="info_dialog_button_learn_more_p2p">Como fazer torrent com P2P</string>
     <string name="info_dialog_button_learn_more_streaming">Precisa de ajuda com o streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Servidores de “streaming” são projetados para reprodução rápida e segura de TV e filmes.</string>
+    <string name="info_dialog_streaming_description">Servidores de streaming são projetados para reprodução rápida e segura de TV e filmes.</string>
     <string name="info_dialog_how_to_stream">Como fazer streaming:</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Vá para as configurações do seu celular e desative os serviços de localização</string>
@@ -1077,9 +1074,9 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Conecte-se a qualquer servidor Plus e comece a usar “streaming”</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Transferência ponto a ponto de arquivos está habilitada nesse servidor.</string>
+    <string name="connection_feature_p2p_description">O compartilhamento de arquivos ponto a ponto está habilitado neste servidor.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">Você pode se conectar a sites .onion através do seu navegador convencional.</string>
+    <string name="connection_feature_tor_description">Você pode se conectar a sites .onion através do seu navegador normal.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Sua atividade é criptografada através de 2 servidores de VPN altamente seguros.</string>
     <string name="connection_feature_streaming_title">Streaming</string>
@@ -1216,9 +1213,9 @@
     <string name="settings_protocol_wireguard_tcp_description">Rápido, seguro e eficiente. O WireGuard é difícil de detectar e bloquear.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Estabelecido, bem testado e seguro. OpenVPN consome menos bateria do que alguns outros protocolos.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Estabelecido, bem testado e seguro. O OpenVPN é confiável em condições de rede ruins, mas pode não ser tão rápido quanto outros protocolos.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Estabelecido, bem testado e seguro. OpenVPN é confiável em condições de rede ruins, mas pode não ser tão rápido quanto outros protocolos.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Supera bloqueios de VPN ocultando sua conexão VPN dos censores. Esse protocolo é resistente à DPI (inspeção profunda de pacotes), mas pode não ser tão rápido quanto outros protocolos. O Stealth é exclusivo do Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recomendado</string>
     <string name="settings_split_tunneling_mode_title">Modo</string>

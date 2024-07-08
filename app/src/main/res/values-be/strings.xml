@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">У дадзены момант не выяўлена ўключаных падключэнняў па VPN для гэтага ўліковага запісу. Звяжыцеся са сваім адміністратарам, каб пачаць знаёмства з Proton VPN. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Уключыць падключэнні па VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Увайсці яшчэ раз</string>
-    <string name="secureCoreSpeedInfoTitle">Нататка аб хуткасці...</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core прапануе высокі ўзровень бяспекі і прыватнасці, але можа запаволіць ваша падключэнне. Калі вам неабходна большая прадукцыйнасць, рэкамендуецца адключыць Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Актываваць Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">Добра</string>
     <string name="dialogLearnMore">Даведацца больш</string>

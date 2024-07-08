@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Brak włączonych połączeń VPN na koncie. Skontaktuj się ze swoim administratorem, aby rozpocząć korzystanie z Proton VPN. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Włącz połączenia VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Zaloguj się ponownie</string>
-    <string name="secureCoreSpeedInfoTitle">Uwaga dotycząca prędkości…</string>
-    <string name="secureCoreSpeedInfoMessage">Funkcja Secure Core oferuje najwyższy poziom bezpieczeństwa i prywatności, ale może zmniejszyć prędkość połączenia. Jeśli potrzebujesz większej wydajności, wyłącz funkcję Secure Core.</string>
-    <string name="secureCoreActivateDialogButton">Aktywuj funkcję Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">Dowiedz się więcej</string>

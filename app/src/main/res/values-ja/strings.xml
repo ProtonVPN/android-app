@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">現在、このアカウントでは VPN 接続が有効になっていません。Proton VPN を使い始めるには、管理者にご連絡ください。</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN 接続を有効にする</string>
     <string name="connectionAllocationHelpLoginAgainButton">再度ログイン</string>
-    <string name="secureCoreSpeedInfoTitle">速度について…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core は最高レベルのセキュリティとプライバシーを実現しますが、インターネットのスピードに影響する可能性があります。パフォーマンスを重視する場合は、Secure Core を無効にできます。</string>
-    <string name="secureCoreActivateDialogButton">Secure Core を有効にする</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">詳細</string>

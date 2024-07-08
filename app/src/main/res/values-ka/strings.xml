@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">ამ ანგარიშისთვის ამჟამად არ არის ჩართული VPN კავშირი. Proton VPN-ით თქვენი მოგზაურობის დასაწყებად, გთხოვთ, დაუკავშირდეთ თქვენს ადმინისტრატორს. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN შეერთებების ჩართვა</string>
     <string name="connectionAllocationHelpLoginAgainButton">თავიდან შესვლა</string>
-    <string name="secureCoreSpeedInfoTitle">შენიშვნა სიჩქარის შესახებ…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core უსაფრთხოებისა და კონფიდენციალობის უმაღლეს დონეს გთავაზობთ, მაგრამ მან ასევე საგრძნობლად შეიძლება, შეამციროს ინტერნეტის სიჩქარე. თუ გესაჭიროებათ მეტი წარმადობა, შეგიძლიათ, სცადოთ გამორთოთ ის.</string>
-    <string name="secureCoreActivateDialogButton">Secure Core-ის აქტივაცია</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">დიახ</string>
     <string name="dialogLearnMore">გაიგეთ მეტი</string>
@@ -1218,7 +1215,7 @@
     <string name="settings_protocol_openvpn_udp_description">ცნობილი, დატესტილი და დაცული. OpenVPN ნაკლებად მეგობრობს ელემენტთან, ვიდრე სხვა პროტოკოლები.</string>
     <string name="settings_protocol_openvpn_tcp_description">გამოცდილი, დატესტილი და დაცული. OpenVPN სანდოა ნელი ქსელის პირობებში, მაგრამ ის ისეთი სწრაფი არაა, როგორც სხვა პროტოკოლები.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">თავიდან აიცილებს VPN ბლოკებს თქვენი VPN მიერთების ცენსზორებისგან დამალვით. ეს პროტოკოლ DPI-სგან (პაკეტები ღრმა ინსპექცია) დაცულია, მაგრამ შეიძლება, სხვა პროტოკოლებისნაირი ჩქარი არ იყოს. ფუნქცია \'Stealth\' Proton VPN-ის ექსკლუზიურ ფუნქციას წარმოადგენს.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">რეკომენდებულია</string>
     <string name="settings_split_tunneling_mode_title">რეჟიმი</string>

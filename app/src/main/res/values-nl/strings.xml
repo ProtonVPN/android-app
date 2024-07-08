@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Er is momenteel geen VPN-verbinding ingeschakeld voor deze account. Om uw reis met Proton VPN te starten, contacteer uw beheerder. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Schakel VPN-verbindingen in</string>
     <string name="connectionAllocationHelpLoginAgainButton">Opnieuw inloggen</string>
-    <string name="secureCoreSpeedInfoTitle">Een opmerking over snelheid…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core biedt het hoogste niveau van beveiliging en privacy, maar het kan uw internetsnelheid verlagen. Als u hogere prestaties wilt, kan u Secure Core uitschakelen.</string>
-    <string name="secureCoreActivateDialogButton">Secure Core activeren</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">Meer informatie</string>

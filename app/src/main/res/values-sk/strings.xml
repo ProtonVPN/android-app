@@ -27,9 +27,6 @@
     <string name="connectionAllocationHelpDescription1AskAdmin">Pre tento účet momentálne nie je povolené žiadne pripojenie VPN. Ak chcete začať používať Proton VPN, kontaktujte svojho správcu. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Povoliť VPN pripojenia</string>
     <string name="connectionAllocationHelpLoginAgainButton">Prihláste sa znovu</string>
-    <string name="secureCoreSpeedInfoTitle">Poznámka k rýchlosti…</string>
-    <string name="secureCoreSpeedInfoMessage">Secure Core ponúka najvyššiu úroveň zabezpečenia a súkromia, ale môže znížiť rýchlosť internetového pripojenia. Ak požadujete lepší výkon, môžete Secure Core vypnúť.</string>
-    <string name="secureCoreActivateDialogButton">Aktivovať Secure Core</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">Zistiť viac</string>
