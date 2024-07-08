@@ -208,6 +208,14 @@ fun SubSettingsRoute(
             SubSettingsScreen.Type.DefaultConnection -> {
                 DefaultConnectionSetting(onClose)
             }
+
+            SubSettingsScreen.Type.IconChange -> {
+                IconSelectionSetting(
+                    activeIcon = viewModel.getCurrentAppIcon(),
+                    onIconChange = { viewModel.setNewAppIcon(it) },
+                    onClose = onClose
+                )
+            }
         }
     }
 }

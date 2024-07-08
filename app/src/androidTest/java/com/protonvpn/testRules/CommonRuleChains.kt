@@ -21,8 +21,11 @@
 
 package com.protonvpn.testRules
 
+import android.content.ComponentName
+import android.content.pm.PackageManager
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.redesign.app.ui.MainActivity
 import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
@@ -32,6 +35,7 @@ import org.junit.rules.RuleChain
 object CommonRuleChains {
 
     fun Any.realBackendRule(): RuleChain {
+        enableNonAliasActivityForTests()
         val hiltRule = ProtonHiltAndroidRule(this, TestApiConfig.Backend)
 
         return RuleChain
@@ -41,6 +45,7 @@ object CommonRuleChains {
     }
 
     fun Any.realBackendComposeRule(): RuleChain {
+        enableNonAliasActivityForTests()
         val composeRule = createAndroidComposeRule<MainActivity>()
         FusionConfig.Compose.testRule.set(composeRule)
 
@@ -54,6 +59,7 @@ object CommonRuleChains {
         // Not using generics to allow for default value.
         activityClass: Class<out ComponentActivity> = MainActivity::class.java
     ): RuleChain {
+        enableNonAliasActivityForTests(activityClass)
         val hiltRule = ProtonHiltAndroidRule(this, mockedBackend)
         val composeRule = createAndroidComposeRule(activityClass)
         FusionConfig.Compose.testRule.set(composeRule)
@@ -63,5 +69,11 @@ object CommonRuleChains {
             .around(SetLoggedInUserRule(testUser))
             .around(ProtonHiltInjectRule(hiltRule))
             .around(composeRule)
+    }
+
+    private fun enableNonAliasActivityForTests(activityClass: Class<out ComponentActivity> = MainActivity::class.java) {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        context.packageManager.setComponentEnabledSetting(ComponentName(context, activityClass), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+
     }
 }

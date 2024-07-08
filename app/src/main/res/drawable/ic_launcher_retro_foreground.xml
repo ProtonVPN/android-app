@@ -1,0 +1,32 @@
+<!--
+  Copyright (c) 2024. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+  <group android:scaleX="0.5175"
+      android:scaleY="0.5175"
+      android:translateX="7.32"
+      android:translateY="7.92">
+    <path
+        android:pathData="M27.5,5.933C27.5,5.548 27.427,5.166 27.286,4.811C27.144,4.455 26.937,4.131 26.676,3.859C26.414,3.587 26.104,3.371 25.763,3.223C25.421,3.076 25.056,3 24.686,3C23.94,3 23.224,3.309 22.697,3.859C22.169,4.409 21.872,5.155 21.872,5.933V6.026L9.635,10.098C9.211,9.46 8.564,9.022 7.832,8.879C7.101,8.736 6.345,8.9 5.728,9.335C5.426,9.545 5.167,9.816 4.965,10.131C4.764,10.446 4.623,10.8 4.553,11.172C4.482,11.543 4.482,11.926 4.554,12.297C4.625,12.669 4.765,13.022 4.967,13.337C4.974,13.347 4.981,13.358 4.987,13.367C5.252,13.768 5.609,14.093 6.025,14.314C6.441,14.535 6.904,14.644 7.37,14.631C7.661,14.63 7.95,14.578 8.225,14.477L16.268,24.961C15.979,25.666 15.97,26.462 16.244,27.173C16.517,27.885 17.051,28.454 17.727,28.756L17.751,28.767C18.434,29.069 19.204,29.078 19.893,28.792C20.583,28.506 21.136,27.948 21.434,27.24C21.666,26.672 21.718,26.041 21.581,25.44C21.444,24.839 21.125,24.3 20.672,23.902L24.945,8.818C25.638,8.756 26.284,8.425 26.754,7.89C27.225,7.355 27.485,6.656 27.484,5.93L27.5,5.933ZM18.807,23.141C18.374,23.147 17.948,23.257 17.562,23.461L9.707,13.196C9.924,12.83 10.06,12.417 10.103,11.989L22.608,7.869C22.742,8.017 22.886,8.154 23.04,8.278L18.818,23.135H18.805L18.807,23.141Z"
+        android:fillColor="#ffffff"/>
+  </group>
+</vector>

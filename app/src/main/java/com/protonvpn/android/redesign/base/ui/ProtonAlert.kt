@@ -19,14 +19,17 @@
 
 package com.protonvpn.android.redesign.base.ui
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BasicAlertDialog
@@ -40,16 +43,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
+import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonTextButton
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
-import me.proton.core.compose.theme.defaultUnspecified
 import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.compose.theme.headlineSmallUnspecified
 
@@ -63,7 +70,9 @@ object ProtonAlertDefaults {
 @Composable
 fun ProtonAlert(
     title: String?,
+    @DrawableRes detailsImage: Int? = null,
     text: String,
+    textColor: Color = ProtonTheme.colors.textNorm,
     confirmLabel: String,
     onConfirm: (checkBoxValue: Boolean) -> Unit,
     dismissLabel: String? = null,
@@ -73,6 +82,7 @@ fun ProtonAlert(
     checkBoxInitialValue: Boolean = false,
 ) {
     val checkBoxValue = rememberSaveable { mutableStateOf(checkBoxInitialValue) }
+    val isWideDialog = detailsImage != null
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
@@ -88,9 +98,19 @@ fun ProtonAlert(
         },
         text = {
             Column {
+                detailsImage?.let {
+                    Image(
+                        painter = painterResource(id = it),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(bottom = 16.dp, top = 8.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+                }
                 Text(
                     text = text,
-                    style = ProtonTheme.typography.defaultUnspecified
+                    style = ProtonTheme.typography.body2Regular,
+                    color = textColor
                 )
                 if (checkBox != null) {
                     Spacer(modifier = Modifier.height(20.dp))
@@ -105,6 +125,10 @@ fun ProtonAlert(
         tonalElevation = ProtonAlertDefaults.tonalElevation,
         containerColor = ProtonAlertDefaults.containerColor,
         shape = ProtonAlertDefaults.shape,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = !isWideDialog
+        ),
+        modifier = if (isWideDialog) Modifier.widthIn(max = 480.dp).padding(16.dp) else Modifier
     )
 }
 
@@ -189,6 +213,22 @@ fun PreviewProtonAlert() {
     )
 }
 
+@Composable
+fun PreviewAlertWithImageDetails() {
+    ProtonAlert(
+        title = "Title",
+        text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
+                "tempor incididunt ut labore et dolore magna aliqua.",
+        detailsImage = R.drawable.app_icon_preview_notes,
+        confirmLabel = "Confirm",
+        onConfirm = {},
+        dismissLabel = "Dismiss",
+        onDismissButton = {},
+        checkBox = "Check me",
+        checkBoxInitialValue = false,
+    )
+}
+
 @Preview
 @Composable
 fun PreviewProtonAlertLight() {
@@ -202,5 +242,21 @@ fun PreviewProtonAlertLight() {
 fun PreviewProtonAlertDark() {
     VpnTheme(isDark = true) {
         PreviewProtonAlert()
+    }
+}
+
+@Preview
+@Composable
+fun PreviewAlertWithImageDetailsLight() {
+    VpnTheme(isDark = false) {
+        PreviewAlertWithImageDetails()
+    }
+}
+
+@Preview
+@Composable
+fun PreviewAlertWithImageDetailsDark() {
+    VpnTheme(isDark = true) {
+        PreviewAlertWithImageDetails()
     }
 }
