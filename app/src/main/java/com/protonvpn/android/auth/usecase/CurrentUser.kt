@@ -21,6 +21,7 @@ package com.protonvpn.android.auth.usecase
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDao
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.utils.withPrevious
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -64,6 +65,7 @@ interface CurrentUserProvider {
 @Singleton
 class DefaultCurrentUserProvider @Inject constructor(
     mainScope: CoroutineScope,
+    dispatcherProvider: VpnDispatcherProvider,
     accountManager: AccountManager,
     vpnUserDao: VpnUserDao,
     userManager: UserManager
@@ -73,7 +75,7 @@ class DefaultCurrentUserProvider @Inject constructor(
     private val cachedInfoFlow = MutableStateFlow<PartialJointUserInfo?>(null)
 
     init {
-        mainScope.launch {
+        mainScope.launch(dispatcherProvider.infiniteIo) {
             // Each time invalidate emits we'll restart collection of flow that will provide
             // cached values to cachedInfoFlow (for which null value means there's no cached
             // value atm)

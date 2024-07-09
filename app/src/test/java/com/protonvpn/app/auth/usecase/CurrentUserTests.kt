@@ -23,6 +23,7 @@ import app.cash.turbine.turbineScope
 import com.protonvpn.android.auth.data.VpnUserDao
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createAccountUser
 import com.protonvpn.testsHelper.AccountTestHelper
@@ -60,7 +61,8 @@ class CurrentUserTests {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        scope = TestScope(UnconfinedTestDispatcher())
+        val dispatcher = UnconfinedTestDispatcher()
+        scope = TestScope(dispatcher)
 
         every { mockAccountManager.getPrimaryUserId() } returns primaryUserIdFlow
         every { mockAccountManager.getAccount(any<UserId>()) } answers {
@@ -75,7 +77,13 @@ class CurrentUserTests {
         coEvery { mockUserManager.observeUser(any<SessionUserId>()) } answers {
             flowOf(createAccountUser(firstArg<SessionUserId>()))
         }
-        val currentUserProvider = DefaultCurrentUserProvider(scope.backgroundScope, mockAccountManager, mockVpnUserDao, mockUserManager)
+        val currentUserProvider = DefaultCurrentUserProvider(
+            scope.backgroundScope,
+            TestDispatcherProvider(dispatcher),
+            mockAccountManager,
+            mockVpnUserDao,
+            mockUserManager
+        )
         currentUser = CurrentUser(currentUserProvider)
     }
 
