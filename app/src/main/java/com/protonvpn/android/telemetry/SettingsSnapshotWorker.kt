@@ -25,6 +25,8 @@ import androidx.work.WorkerParameters
 import com.protonvpn.android.components.AppInUseMonitor
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.ui.settings.AppIconManager
+import com.protonvpn.android.ui.settings.CustomAppIconData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
@@ -36,6 +38,7 @@ class SettingsSnapshotWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters,
     private val commonDimensions: CommonDimensions,
     private val recentsManager: RecentsManager,
+    private val appIconManager: AppIconManager,
     private val helper: TelemetryFlowHelper,
     private val appInUseMonitor: AppInUseMonitor,
 ) : CoroutineWorker(context, params) {
@@ -43,9 +46,11 @@ class SettingsSnapshotWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         if (appInUseMonitor.wasInUseIn(TimeUnit.DAYS.toDays(2))) {
             val defaultValue = recentsManager.getDefaultConnectionFlow().first().getTelemetryName()
+            val currentIcon = appIconManager.getCurrentIconData().getTelemetryName()
             helper.event(sendImmediately = true) {
                 val dimensions = buildMap {
                     this["default_connection_type"] = defaultValue
+                    this["app_icon"] = currentIcon
                     commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 }
                 TelemetryEventData(
@@ -61,6 +66,17 @@ class SettingsSnapshotWorker @AssistedInject constructor(
             is DefaultConnection.FastestConnection -> "fastest"
             is DefaultConnection.LastConnection -> "last_connection"
             is DefaultConnection.Recent -> "recent"
+        }
+    }
+
+    private fun CustomAppIconData.getTelemetryName(): String {
+        return when (this) {
+            CustomAppIconData.DEFAULT -> "default"
+            CustomAppIconData.DARK -> "dark"
+            CustomAppIconData.RETRO -> "retro"
+            CustomAppIconData.WEATHER -> "weather"
+            CustomAppIconData.NOTES -> "notes"
+            CustomAppIconData.CALCULATOR -> "calculator"
         }
     }
 
