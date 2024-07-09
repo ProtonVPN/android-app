@@ -38,7 +38,7 @@ import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
 import okhttp3.RequestBody
-import java.util.Date
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,7 +47,6 @@ open class ProtonApiRetroFit @Inject constructor(
     private val manager: VpnApiManager,
     private val userCountryProvider: UserCountryProvider,
 ) {
-
     open suspend fun getAppConfig(sessionId: SessionId?, netzone: String?): ApiResult<AppConfigResponse> =
         manager(sessionId) { getAppConfig(createNetZoneHeaders(netzone)) }
 
@@ -71,7 +70,7 @@ open class ProtonApiRetroFit @Inject constructor(
         getServers(
             TimeoutOverride(readTimeoutSeconds = 20),
             createNetZoneHeaders(netzone) +
-                mapOf("If-Modified-Since" to Date(lastModified).toGMTString()),
+                mapOf("If-Modified-Since" to httpHeaderDateFormatter.format(Instant.ofEpochMilli(lastModified))),
             lang,
             protocols.joinToString(","),
             withPartners = true,
