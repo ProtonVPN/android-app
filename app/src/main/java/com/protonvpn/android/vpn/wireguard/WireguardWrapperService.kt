@@ -22,7 +22,6 @@ import android.content.Intent
 import android.net.VpnService
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.LogCategory
-import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.notifications.NotificationHelper
@@ -58,13 +57,6 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         ProtonLogger.logCustom(LogCategory.CONN_CONNECT, "Wireguard service started with intent: $intent")
-
-        // If vpn permission is missing on process restore don't do anything.
-        if (intent == null && prepare(applicationContext) != null) {
-            ProtonLogger.logCustom(LogLevel.WARN, LogCategory.CONN, "Wireguard service restored without VPN permission.")
-            stopSelf()
-            return START_NOT_STICKY
-        }
 
         // Decision whether to keep the service running might take a moment (e.g. due to Smart Protocol pings) so
         // let's keep it in foreground to protect it from being killed by the system.
