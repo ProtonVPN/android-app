@@ -51,14 +51,11 @@ fun migrateProtonPreferences(appContext: Context, protonPrefsName: String, desti
 private fun migrateData(src: ProtonPreferences, dst: SharedPreferences) {
     dst.edit {
         // Integers.
-        listOf("VERSION_CODE").forEach { key ->
-            if (src.contains(key)) putInt(key, src.getInt(key, 0))
-        }
+        val versionCode = src.getInt("VERSION_CODE", 0)
+        if (versionCode > 0) putInt("VERSION_CODE", versionCode)
 
         // Booleans.
-        listOf("sentry_is_enabled").forEach { key ->
-            if (src.contains(key)) putBoolean(key, src.getBoolean(key, false))
-        }
+        putBoolean("sentry_is_enabled", src.getBoolean("sentry_is_enabled", true))
 
         // Strings and serialized objects.
         listOf(
@@ -76,7 +73,8 @@ private fun migrateData(src: ProtonPreferences, dst: SharedPreferences) {
             "com.protonvpn.android.utils.ServerManager",
             "com.protonvpn.android.vpn.RecentsManager",
         ).forEach { key ->
-            if (src.contains(key)) putString(key, src.getString(key, ""))
+            val value = src.getString(key, null)
+            if (value != null) putString(key, value)
         }
     }
 }
