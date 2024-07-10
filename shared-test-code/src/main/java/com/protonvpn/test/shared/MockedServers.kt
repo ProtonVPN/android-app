@@ -66,7 +66,6 @@ object MockedServers {
     "Domain": "ca-01.protonvpn.com",
     "Load": 22.0,
     "Tier": 1,
-    "Region": "Ontario",
     "City": "Toronto",
     "Features": 0,
     "Location": {
@@ -93,7 +92,6 @@ object MockedServers {
     "Domain": "ca-02.protonvpn.com",
     "Load": 22.0,
     "Tier": 1,
-    "Region": null,
     "City": "Toronto",
     "Features": 0,
     "Location": {
@@ -120,7 +118,6 @@ object MockedServers {
     "Domain": "us-ny-01.protonvpn.com",
     "Load": 22.0,
     "Tier": 1,
-    "Region": null,
     "City": "New York City",
     "Features": 0,
     "Location": {
@@ -147,7 +144,6 @@ object MockedServers {
     "Domain": "se-01.protonvpn.com",
     "Load": 10.0,
     "Tier": 1,
-    "Region": null,
     "City": "Stockholm",
     "Features": 4,
     "Location": {
@@ -174,7 +170,6 @@ object MockedServers {
     "Domain": "fr-01.protonvpn.com",
     "Load": 10.0,
     "Tier": 2,
-    "Region": null,
     "City": "Paris",
     "Features": 0,
     "Location": {
@@ -204,7 +199,6 @@ object MockedServers {
     "Domain": "se-fr-01.protonvpn.com",
     "Load": 10.0,
     "Tier": 2,
-    "Region": null,
     "City": null,
     "Features": 1,
     "Location": {
@@ -231,7 +225,6 @@ object MockedServers {
     "Domain": "se-fi-01.protonvpn.com",
     "Load": 10.0,
     "Tier": 2,
-    "Region": null,
     "City": null,
     "Features": 1,
     "Location": {
@@ -258,7 +251,6 @@ object MockedServers {
     "Domain": "ch-fi-01.protonvpn.com",
     "Load": 10.0,
     "Tier": 2,
-    "Region": null,
     "City": null,
     "Features": 1,
     "Location": {
@@ -285,7 +277,6 @@ object MockedServers {
     "Domain": "fi-01.protonvpn.com",
     "Load": 10.0,
     "Tier": 1,
-    "Region": null,
     "City": null,
     "Features": 0,
     "Location": {
@@ -312,7 +303,6 @@ object MockedServers {
     "Domain": "se-03.protonvpn.com",
     "Load": 10.0,
     "Tier": 0,
-    "Region": null,
     "City": "Stockholm",
     "Features": 4,
     "Location": {
@@ -329,7 +319,6 @@ object MockedServers {
     "Domain": "hk-01.protonvpn.net",
     "Tier": 1,
     "Features": 4,
-    "Region": null,
     "City": "Hong Kong",
     "Score": 2.5216639000000001,
     "HostCountry": null,
@@ -362,7 +351,6 @@ object MockedServers {
     "Domain": "ua-09.protonvpn.net",
     "Tier": 1,
     "Features": 0,
-    "Region": null,
     "City": "Kyiv",
     "Score": 2.2122074299999999,
     "HostCountry": null,
@@ -395,7 +383,6 @@ object MockedServers {
     "Domain": "ua-09.protonvpn.net",
     "Tier": 0,
     "Features": 0,
-    "Region": null,
     "City": "Kyiv",
     "Score": 2.30711003,
     "HostCountry": null,
@@ -428,7 +415,6 @@ object MockedServers {
       "Domain": "node-eg-01.protonvpn.net",
       "Tier": 2,
       "Features": 0,
-      "Region": null,
       "City": "Cairo",
       "Score": 1.28381163,
       "HostCountry": "RO",
@@ -465,7 +451,6 @@ object MockedServers {
         "Features": 64,
         "LocationResponse": null,
         "Status": 1,
-        "Region": null,
         "Location": {
             "Lat": 46.8182,
             "Long": 8.2275

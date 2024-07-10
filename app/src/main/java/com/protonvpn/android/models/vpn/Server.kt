@@ -46,7 +46,6 @@ data class Server(
     @SerialName(value = "Domain") val domain: String,
     @SerialName(value = "Load") var load: Float,
     @SerialName(value = "Tier") val tier: Int,
-    @SerialName(value = "Region") val region: String?,
     @SerialName(value = "State") val state: String? = null,
     @SerialName(value = "City") val city: String?,
     @SerialName(value = "Features") val features: Int,
@@ -102,10 +101,8 @@ data class Server(
         get() = features.hasFlag(SERVER_FEATURE_STREAMING)
 
     fun getCityTranslation() = translations?.get("City")
-    fun getRegionTranslation() = translations?.get("Region")
     fun getStateTranslation() = translations?.get("State")
     val displayCity get() = getCityTranslation() ?: city
-    val displayRegion get() = getRegionTranslation() ?: region
     val displayState get() = getStateTranslation() ?: state
 
     @Transient
