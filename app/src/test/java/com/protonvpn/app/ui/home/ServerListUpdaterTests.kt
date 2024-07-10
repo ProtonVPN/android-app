@@ -83,10 +83,9 @@ private const val OLD_IP = "10.0.0.1"
 private const val BACKGROUND_DELAY_MS = 1000L
 private const val FOREGROUND_DELAY_MS = 100L
 
-private const val MODIFIED_REGION = "NEW REGION"
 private val FULL_LIST = MockedServers.serverList
 private val FREE_LIST_MODIFIED = listOf(
-    MockedServers.serverList.first { it.serverName == "SE#3" }.copy(region = MODIFIED_REGION)
+    MockedServers.serverList.first { it.serverName == "SE#3" }.copy(load = 50f)
 )
 private val RESPONSE_304 : Response<ServerList> = Response.error("".toResponseBody(),
     okhttp3.Response.Builder()

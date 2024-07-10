@@ -56,13 +56,13 @@ private val testServer = Server(
     "id", "DE", "DE", "DE#1", listOf(
     connectingDomainTlsOnly,
     connectingDomainDedicatedTcp,
-), domain = "de1.protonvpn.ch", load = 1f, tier = 3, region = "", city = "", features = 0,
+), domain = "de1.protonvpn.ch", load = 1f, tier = 3, city = "", features = 0,
     location = Location("", ""), score = 1.0, isOnline = true
 )
 private val tlsOnlyServer = Server(
     "id", "DE", "DE", "DE#1", listOf(
     connectingDomainTlsOnly,
-), domain = "de1.protonvpn.ch", load = 1f, tier = 3, region = "", city = "", features = 0,
+), domain = "de1.protonvpn.ch", load = 1f, tier = 3, city = "", features = 0,
     location = Location("", ""), score = 1.0, isOnline = true
 )
 
