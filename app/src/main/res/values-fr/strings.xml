@@ -1229,8 +1229,8 @@
     <string name="settings_split_tunneling_included_ips">Adresses IP incluses</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Aucune</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s et %3$d autres</string>
-    <string name="settings_split_tunneling_already_excluded">Déjà exclu</string>
-    <string name="settings_split_tunneling_already_included">Déjà inclus</string>
+    <string name="settings_split_tunneling_already_excluded">Déjà exclue</string>
+    <string name="settings_split_tunneling_already_included">Déjà inclue</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Retirer l’adresse IP de la liste ?</string>
     <string name="settings_dialog_reconnect">Les nouveaux paramètres s\'appliqueront lors de votre prochaine connexion.</string>
     <string name="settings_needs_reconnect_banner">Les nouveaux paramètres s\'appliqueront lors de votre prochaine connexion.</string>

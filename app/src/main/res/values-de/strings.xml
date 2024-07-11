@@ -131,36 +131,36 @@
     <string name="settingsSplitTunnelingAvailableHeader">Alle anderen Apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">System-Apps anzeigen</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">System-Apps anzeigen</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Diese Anwendungen sind von deiner VPN-Verbindung ausgeschlossen.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Nur diese Anwendungen verbinden sich über VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to Excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">Zu ausgeschlossenen Anwendungen hinzufügen</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from Excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">Von ausgeschlossenen Anwendungen entfernen</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to Included apps</string>
+    <string name="accessibility_action_add_included_app">Zu einbezogenen Anwendungen hinzufügen</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from Included apps</string>
+    <string name="accessibility_action_remove_included_app">Von einbezogenen Anwendungen entfernen</string>
     <string name="tileConnected">Verbunden: %1$s</string>
     <string name="openUrlError">%1$s konnte nicht geöffnet werden. Auf deinem Gerät wurde kein Webbrowser gefunden.</string>
     <string name="loaderErrorTimeout">Zeitüberschreitung der Verbindung. Bitte versuche es erneut.</string>
@@ -514,7 +514,7 @@
         <item quantity="one">Entsperre geoblockierte Inhalte aus %1$d Land mit VPN Plus</item>
         <item quantity="other">Entsperre geoblockierte Inhalte aus %1$d Ländern mit VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Select your default connection</string>
+    <string name="select_default_connection">Standardverbindung auswählen</string>
     <string name="settings_default_connection_title">Standardverbindung</string>
     <string name="fastest_country_description">Der beste Server für deinen Standort</string>
     <string name="settings_last_connection_title">Letzte Verbindung</string>
@@ -1210,12 +1210,12 @@
     <string name="settings_protocol_smart_description">Wählt automatisch das beste Protokoll für deine Verbindung aus.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">Schnell, sicher und effizient. WireGuard ist Akku-effizienter als andere Protokolle.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Schnell, sicher und effizient. WireGuard ist schwer zu erkennen und zu blockieren.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Bewährt, gut getestet und sicher. OpenVPN ist weniger Akku-effizient als einige andere Protokolle.</string>
     <string name="settings_protocol_openvpn_tcp_description">Bewährt, gut getestet und sicher. OpenVPN ist bei schlechten Netzwerkbedingungen zuverlässig, aber möglicherweise nicht so schnell wie andere Protokolle.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Umgeht VPN-Sperren, indem es deine VPN-Verbindung vor Zensoren versteckt. Dieses Protokoll ist resistent gegen DPI (Deep Packet Inspection), ist aber möglicherweise nicht so schnell wie andere Protokolle. Stealth gibt es nur bei Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Empfohlen</string>
     <string name="settings_split_tunneling_mode_title">Modus</string>

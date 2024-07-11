@@ -1215,7 +1215,7 @@
     <string name="settings_protocol_openvpn_udp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN:n virrankulutus ei ole yhtä hyvä kuin joidenkin muiden protokollien.</string>
     <string name="settings_protocol_openvpn_tcp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN on luotettava huonoissa verkko-olosuhteissa, mutta ei välttämättä ole yhtä nopea kuin muut protokollat.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Kiertää VPN-estot piilottamalla VPN-yhteytesi sensuureilta. Tämä protokolla on DPI-vastustuskykyinen (Deep Packet Inspection), mutta ei välttämättä yhtä nopea kuin muut protokollat. Stealth on Proton VPN:n yksinoikeus.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Suositus</string>
     <string name="settings_split_tunneling_mode_title">Tila</string>
