@@ -107,7 +107,7 @@ class RecentsListViewStateFlow @Inject constructor(
                     ?: when (defaultConnection) {
                         DefaultConnection.FastestConnection -> defaultConnectIntent
                         DefaultConnection.LastConnection -> mostRecentAvailableIntent
-                        is DefaultConnection.Recent -> recents.first { it.id == defaultConnection.recentId }.connectIntent
+                        is DefaultConnection.Recent -> recents.firstOrNull { it.id == defaultConnection.recentId }?.connectIntent
                     } ?: defaultConnectIntent
 
                 val connectIntentViewState = getConnectIntentViewState(
