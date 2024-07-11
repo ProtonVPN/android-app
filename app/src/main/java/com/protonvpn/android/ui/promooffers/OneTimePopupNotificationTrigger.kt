@@ -24,7 +24,6 @@ import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.ui.ForegroundActivityTracker
-import com.protonvpn.android.utils.withPrevious
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,6 +31,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.stateIn
 import me.proton.core.accountmanager.domain.AccountManager
 import javax.inject.Inject
@@ -63,7 +63,10 @@ class OneTimePopupNotificationTrigger @Inject constructor(
         combine(
             isLoggedIn,
             // Don't use withPrevious() with foregroundActivityFlow because it will leak activities.
-            foregroundActivityTracker.isInForegroundFlow.withPrevious()
+            foregroundActivityTracker.isInForegroundFlow
+                .scan(Pair(false, false)) { (_, wasInForeground), inForeground ->
+                    Pair(wasInForeground, inForeground)
+                }
         ) { loggedIn, (wasInForeground, isInForeground) ->
             val foregroundActiviy = foregroundActivityTracker.foregroundActivity
             if (loggedIn && !wasInForeground && isInForeground && foregroundActiviy != null) {

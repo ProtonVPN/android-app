@@ -25,13 +25,13 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.DefaultActivityLifecycleCallbacks
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -43,7 +43,7 @@ import javax.inject.Singleton
 @Singleton
 class ForegroundActivityTracker(
     mainScope: CoroutineScope,
-    foregroundActivityFlow: Flow<Activity?>
+    internalForegroundActivityFlow: Flow<Activity?>
 ) {
     @Inject constructor(
         mainScope: CoroutineScope,
@@ -52,7 +52,7 @@ class ForegroundActivityTracker(
 
     private val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
 
-    val foregroundActivityFlow = foregroundActivityFlow
+    val foregroundActivityFlow = internalForegroundActivityFlow
         .stateIn(mainScope, SharingStarted.Eagerly, null)
     val isInForegroundFlow = foregroundActivityFlow.map {
         it != null
@@ -75,25 +75,24 @@ class ForegroundActivityTracker(
     }
 
     companion object {
-        private fun createForegroundActivityFlow(app: Application) = callbackFlow {
+        private fun createForegroundActivityFlow(app: Application): Flow<Activity?> {
+            // Don't use a callbackFlow because it attaches lifecycleCallbacks only when collection
+            // starts. This may be too late even when collected with stateIn + SharingStarted.Eagerly.
+            val flow = MutableStateFlow<Activity?>(null)
             val lifecycleCallbacks = object : DefaultActivityLifecycleCallbacks {
-                private var currentActivity: Activity? = null
-                override fun onActivityStarted(activity: Activity) {
-                    currentActivity = activity
-                    trySend(activity)
+                override fun onActivityStarted(startedActivity: Activity) {
+                    flow.update { startedActivity }
                 }
 
-                override fun onActivityStopped(activity: Activity) {
-                    if (activity == currentActivity) {
-                        trySend(null)
-                        currentActivity = null
+                override fun onActivityStopped(stoppedActivity: Activity) {
+                    flow.update { currentActivity ->
+                        if (currentActivity == stoppedActivity) null else currentActivity
                     }
                 }
             }
+            // It's never unregistered - there should be only one global observer created.
             app.registerActivityLifecycleCallbacks(lifecycleCallbacks)
-            awaitClose {
-                app.unregisterActivityLifecycleCallbacks(lifecycleCallbacks)
-            }
+            return flow
         }
     }
 }
