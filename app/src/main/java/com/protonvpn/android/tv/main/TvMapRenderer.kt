@@ -62,9 +62,10 @@ data class MapRendererConfig(
 
 class TvMapRenderer(
     context: Context,
-    val scope: CoroutineScope,
-    val config: MapRendererConfig,
-    val bitmapCallback: (RenderedMap, Long) -> Unit
+    private val scope: CoroutineScope,
+    private val config: MapRendererConfig,
+    private val fuzzyBorderCountries: Set<String>,
+    private val bitmapCallback: (RenderedMap, Long) -> Unit
 ) {
     class RenderTarget(w: Int, h: Int) {
         val map: Bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
@@ -112,15 +113,19 @@ class TvMapRenderer(
 
         renderJob?.cancelAndJoin()
         renderJob = scope.launch(renderContext) {
-            val highlightsCss = highlights.joinToString { (country, highlight) ->
-                "#$country { fill: ${highlight.cssColor}; } "
-            }
+            val highlightsCss = highlights
+                .filter { it.country !in fuzzyBorderCountries }
+                .joinToString { (country, highlight) ->
+                    "#$country { fill: ${highlight.cssColor}; } "
+                }
             val borderWidth = if (config.zoomIndependentBorderWidth) {
                 config.borderWidth * regionToRender.w // Borders will be the same regardless of zoom level
             } else {
                 config.borderWidth
             }
-            val css = "$highlightsCss path { fill: ${toCssColor(config.country)}; stroke: ${toCssColor(config.border)}; stroke-width: $borderWidth; }"
+            val noBorder = highlights.any { it.country in fuzzyBorderCountries }
+            val borderColor = if (noBorder) config.country else config.border
+            val css = "$highlightsCss path { fill: ${toCssColor(config.country)}; stroke: ${toCssColor(borderColor)}; stroke-width: $borderWidth; }"
             val width = map.width.toFloat()
             val height = map.height.toFloat()
 
