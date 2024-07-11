@@ -48,6 +48,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
+private val FUZZY_BORDER_COUNTRIES = setOf("India")
 
 data class PinInfo(val pos: MapRegion, val highlight: CountryHighlight)
 
@@ -96,7 +97,12 @@ class MapView @JvmOverloads constructor(
             context.contentResolver,
             Settings.Global.ANIMATOR_DURATION_SCALE, 1f
         ) != 0f
-        mapRenderer = TvMapRenderer(context, (context as ComponentActivity).lifecycleScope, config) { map, id ->
+        mapRenderer = TvMapRenderer(
+            context,
+            (context as ComponentActivity).lifecycleScope,
+            config,
+            FUZZY_BORDER_COUNTRIES
+        ) { map, id ->
             targetRenderData?.let { renderData ->
                 if (id == renderData.id) {
                     if (renderedMap == null) {

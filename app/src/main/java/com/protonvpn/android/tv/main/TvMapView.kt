@@ -62,7 +62,7 @@ class TvMapView @JvmOverloads constructor(
         fadeInDurationMs: Long = 0,
     ) {
         alpha = 0f
-        mapRenderer = TvMapRenderer(context, (context as ComponentActivity).lifecycleScope, config) { map, id ->
+        mapRenderer = TvMapRenderer(context, (context as ComponentActivity).lifecycleScope, config, emptySet()) { map, id ->
             if (renderedMap == null) {
                 animate()
                     .alpha(1f)
