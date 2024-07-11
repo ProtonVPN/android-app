@@ -56,7 +56,6 @@ import com.protonvpn.android.ui.onboarding.ReviewTracker;
 import com.protonvpn.android.ui.planupgrade.ShowUpgradeSuccess;
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger;
 import com.protonvpn.android.utils.AndroidUtilsKt;
-import com.protonvpn.android.utils.ProtonPreferences;
 import com.protonvpn.android.utils.ProtonPreferencesMigrationKt;
 import com.protonvpn.android.utils.SentryIntegration;
 import com.protonvpn.android.utils.Storage;
