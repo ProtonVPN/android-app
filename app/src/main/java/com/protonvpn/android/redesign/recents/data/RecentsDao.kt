@@ -112,6 +112,7 @@ abstract class RecentsDao {
             connectIntentData.exitCountry,
             connectIntentData.entryCountry,
             connectIntentData.city,
+            connectIntentData.region,
             connectIntentData.serverId,
             connectIntentData.features,
             timestamp
@@ -162,6 +163,7 @@ abstract class RecentsDao {
           AND exitCountry IS :exitCountry
           AND entryCountry IS :entryCountry
           AND city IS :city
+          AND region IS :region
           AND serverId IS :serverId
           AND features = :features
         """)
@@ -171,6 +173,7 @@ abstract class RecentsDao {
         exitCountry: String?,
         entryCountry: String?,
         city: String?,
+        region: String?,
         serverId: String?,
         features: Set<ServerFeature>,
         timestamp: Long,

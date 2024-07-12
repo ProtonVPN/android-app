@@ -35,6 +35,7 @@ enum class ConnectIntentType {
     GUEST_HOLE
 }
 
+// Note: when adding new fields add them to RecentDao.updateConnectionTimestamp.
 data class ConnectIntentData(
     val connectIntentType: ConnectIntentType,
     val exitCountry: String?,
