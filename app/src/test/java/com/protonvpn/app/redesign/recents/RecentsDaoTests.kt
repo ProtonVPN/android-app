@@ -108,6 +108,20 @@ class RecentsDaoTests {
     }
 
     @Test
+    fun connectionToExistingRecentForStateMovesItToTop() = runTest {
+        val connectionNy = ConnectIntent.FastestInState(CountryId("US"), "New York", emptySet())
+        val connectionTx = ConnectIntent.FastestInState(CountryId("US"), "Texas", emptySet())
+        val connectionCa = ConnectIntent.FastestInState(CountryId("US"), "California", emptySet())
+        // Include "fastest" for reference
+        val connectionFastest = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
+        insertIntents(userId1, connectionNy to 1, connectionTx to 2, connectionCa to 3, connectionFastest to 4)
+
+        recentsDao.insertOrUpdateForConnection(userId1, connectionNy, 10)
+        val recents = recentsDao.getRecentsList(userId1).first()
+        assertEquals(listOf(connectionNy, connectionFastest, connectionCa, connectionTx), recents.map { it.connectIntent })
+    }
+
+    @Test
     fun pinnedItemsAreReturnedOnTop() = runTest {
         val recent1 = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
         val recent2 = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
