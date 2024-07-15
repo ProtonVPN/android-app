@@ -21,18 +21,20 @@
 
 package com.protonvpn.tests.connection
 
+import android.content.Context
+import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.actions.LoginRobot
 import com.protonvpn.actions.compose.ConnectionPanelRobot
 import com.protonvpn.actions.compose.ConnectionRobot
 import com.protonvpn.actions.compose.HomeRobot
+import com.protonvpn.actions.compose.SettingsRobot
 import com.protonvpn.actions.compose.interfaces.verify
 import com.protonvpn.android.R
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.utils.openVpnSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStateMonitor
-import com.protonvpn.data.DefaultData
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.CommonRuleChains.realBackendComposeRule
 import com.protonvpn.testsHelper.ServerManagerHelper
@@ -40,7 +42,6 @@ import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import me.proton.core.test.android.robots.auth.AddAccountRobot
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -57,12 +58,14 @@ class RealConnectionTests {
     private val loginRobot = LoginRobot()
     private val addAccountRobot = AddAccountRobot()
     private lateinit var userDataHelper: UserDataHelper
+    private lateinit var context: Context
 
     @Before
     fun setUp() {
         userDataHelper = UserDataHelper()
         userDataHelper.logoutUser()
         ServerManagerHelper().serverManager.clearCache()
+        context = InstrumentationRegistry.getInstrumentation().context
     }
 
     @Test
@@ -106,6 +109,23 @@ class RealConnectionTests {
         )
     }
 
+    @Test
+    fun alwaysOnAutomaticallyConnectsUserToVPN() {
+        setupAlwaysOn()
+        SettingsRobot.enableAlwaysOn()
+        // Always ON settings UI is different per device/android versions, so we use back button to go back
+        repeat(2) { SettingsRobot.goBack() }
+        HomeRobot.navigateToHome()
+        ConnectionRobot.verify { isConnected() }
+    }
+
+    @Test
+    fun alwaysOnScreenSuccessfullyNavigatesBackToClient() {
+        setupAlwaysOn()
+        SettingsRobot.alwaysOnOpenProtonVpn()
+        HomeRobot.verify { isLoggedIn() }
+    }
+
     private fun realConnection(protocol: ProtocolSelection, expectedProtocolName: Int) {
         userDataHelper.setProtocol(protocol.vpn, protocol.transmission)
         addAccountRobot.signIn()
@@ -122,5 +142,18 @@ class RealConnectionTests {
         ConnectionPanelRobot.goBack()
         ConnectionRobot.disconnect()
             .verify { isDisconnected() }
+    }
+
+    private fun setupAlwaysOn(){
+        addAccountRobot.signIn()
+        loginRobot.signIn(TestUser.anyPaidUser)
+        HomeRobot.verify { isLoggedIn() }
+        ConnectionRobot.quickConnect()
+            .allowVpnPermission()
+            .dissmissNotifications()
+            .verify { isConnected() }
+        ConnectionRobot.disconnect()
+            .verify { isDisconnected() }
+        context.openVpnSettings()
     }
 }

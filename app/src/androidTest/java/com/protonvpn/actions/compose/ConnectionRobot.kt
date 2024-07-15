@@ -18,9 +18,11 @@ object ConnectionRobot : Robot {
 
     private val connectButton get() = node.withText(R.string.connect)
     private val disconnectButton get() = node.withText(R.string.disconnect)
+    private val noThanksButton get() = node.withText(R.string.no_thanks)
 
     fun quickConnect() = connectButton.clickTo(this)
     fun disconnect() = disconnectButton.clickTo(this)
+    fun dissmissNotifications() = noThanksButton.clickTo(this)
 
     fun allowVpnPermission(): ConnectionRobot {
         if (isAllowVpnRequestVisible()) {
