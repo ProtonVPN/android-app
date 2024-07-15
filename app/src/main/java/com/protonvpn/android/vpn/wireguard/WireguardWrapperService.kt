@@ -46,7 +46,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var vpnStateMonitor: VpnStateMonitor
-    @Inject lateinit var quickConnectIntent: GetQuickConnectIntent
+    @Inject lateinit var quickConnectIntent: dagger.Lazy<GetQuickConnectIntent>
     @Inject lateinit var mainScope: CoroutineScope
 
     override fun onCreate() {
@@ -92,7 +92,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
         return if (vpnStateMonitor.isDisabled) {
             mainScope.launch {
                 connectionManager.connectInBackground(
-                    quickConnectIntent(),
+                    quickConnectIntent.get().invoke(),
                     ConnectTrigger.Auto("always-on")
                 )
             }
