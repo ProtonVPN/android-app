@@ -49,6 +49,8 @@ class QuickTileActionReceiver : BroadcastReceiver() {
     lateinit var mainScope: CoroutineScope
     @Inject
     lateinit var quickConnectIntent: GetQuickConnectIntent
+    @Inject
+    lateinit var notificationHelper: NotificationHelper
 
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
@@ -57,7 +59,7 @@ class QuickTileActionReceiver : BroadcastReceiver() {
                 val pendingResult = goAsync()
                 mainScope.launch {
                     if (currentUser.user() == null) {
-                        context.startActivity(NotificationHelper.createMainActivityIntent(context, isTv()))
+                        context.startActivity(notificationHelper.createMainActivityIntent(context))
                     } else {
                         vpnConnectionManager.connectInBackground(
                             quickConnectIntent(),

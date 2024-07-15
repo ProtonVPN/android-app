@@ -37,6 +37,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -208,6 +209,7 @@ fun AppIcon(
 ) {
     val imageModifier = modifier
         .size(64.dp)
+        .clip(CircleShape)
         .border(1.dp, ProtonTheme.colors.separatorNorm, CircleShape)
         .clickable(onClick = onClick)
     GlideImage(
