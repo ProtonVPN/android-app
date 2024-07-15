@@ -18,6 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string name="app_icon_name_classic">Classic</string>
+    <string name="app_icon_name_dark">Dark</string>
+    <string name="app_icon_name_retro">Retro</string>
+    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_notes">Notes</string>
+    <string name="app_icon_name_calculator">Calculator</string>
     <!-- Strings related to login -->
     <string name="login">Prihlásiť sa</string>
     <string name="menuActionSignOut">Odhlásiť sa</string>
@@ -206,6 +212,8 @@
     <string name="settingsTelemetryScreenTitle">Štatistiky používania</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tieto štatistiky neobsahujú vašu IP adresu a nemôžu byť použité na vašu identifikáciu. Nikdy ich nebudeme zdieľať s tretími stranami. <a href="%1$s">Zistiť viac</a>]]></string>
     <string name="netshield_settings_description_not_html">Chráňte sa pred reklamou, malware a sledovacími prvkami na webových stránkach a v aplikáciách. Ak sa stránky nenačítajú, skúste vypnúť NetShield. %1$s</string>
+    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
+    <string name="settings_icon_change_learn_more">Learn more</string>
     <string name="learn_more">Zistiť viac</string>
     <string name="netshield_state_on" comment="Describes state, not action">Zap.</string>
     <string name="netshield_state_off" comment="Describes state, not action">Vyp.</string>
@@ -539,6 +547,12 @@
     <string name="fastest_country_description">Najlepší server na základe vašej polohy</string>
     <string name="settings_last_connection_title">Posledné pripojenie</string>
     <string name="settings_last_connection_description">Vaše naposledy použité pripojenie</string>
+    <string name="settings_change_icon_title">App icon</string>
+    <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
+    <string name="settings_change_icon_confirmation_title">Change app icon?</string>
+    <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
+    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Odstrániť banner</string>
@@ -987,6 +1001,7 @@
     <string name="dialog_sign_out_action">Odhlásiť sa</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Zrušiť</string>
+    <string name="dialog_action_change_icon">Change icon</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Všetko</string>
     <string name="country_filter_cities">Mestá</string>

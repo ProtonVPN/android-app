@@ -18,6 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string name="app_icon_name_classic">Classic</string>
+    <string name="app_icon_name_dark">Dark</string>
+    <string name="app_icon_name_retro">Retro</string>
+    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_notes">Notes</string>
+    <string name="app_icon_name_calculator">Calculator</string>
     <!-- Strings related to login -->
     <string name="login">登入</string>
     <string name="menuActionSignOut">登出</string>
@@ -206,6 +212,8 @@
     <string name="settingsTelemetryScreenTitle">使用統計資料</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計資料不包含您的 IP 位址，且其無法用於識別您的身份。我們永遠不會將它們與第三方分享。<a href="%1$s">取得更多資訊</a>]]></string>
     <string name="netshield_settings_description_not_html">保護您免受網站與應用程式中的廣告、惡意程式與追蹤器騷擾。若網站無法載入，請嘗試停用 NetShield。%1$s</string>
+    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
+    <string name="settings_icon_change_learn_more">Learn more</string>
     <string name="learn_more">了解更多</string>
     <string name="netshield_state_on" comment="Describes state, not action">開</string>
     <string name="netshield_state_off" comment="Describes state, not action">關閉</string>
@@ -509,6 +517,12 @@
     <string name="fastest_country_description">The best server based on your location</string>
     <string name="settings_last_connection_title">最後一次連接</string>
     <string name="settings_last_connection_description">Your most recently used connection</string>
+    <string name="settings_change_icon_title">App icon</string>
+    <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
+    <string name="settings_change_icon_confirmation_title">Change app icon?</string>
+    <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
+    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">關閉橫幅</string>
@@ -933,6 +947,7 @@
     <string name="dialog_sign_out_action">登出</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">取消</string>
+    <string name="dialog_action_change_icon">Change icon</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">全部</string>
     <string name="country_filter_cities">城市</string>

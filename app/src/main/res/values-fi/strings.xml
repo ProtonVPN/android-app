@@ -18,6 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string name="app_icon_name_classic">Klassinen</string>
+    <string name="app_icon_name_dark">Tumma</string>
+    <string name="app_icon_name_retro">Retro</string>
+    <string name="app_icon_name_weather">Sää</string>
+    <string name="app_icon_name_notes">Muistiinpanot</string>
+    <string name="app_icon_name_calculator">Laskin</string>
     <!-- Strings related to login -->
     <string name="login">Kirjaudu sisään</string>
     <string name="menuActionSignOut">Kirjaudu ulos</string>
@@ -206,6 +212,8 @@
     <string name="settingsTelemetryScreenTitle">Käyttötilastot</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Nämä tilastot eivät sisällä IP-osoitettasi, eikä sinua ole mahdollista tunnistaa niiden perusteella. Emme koskaa jaa niitä ulkopuolisille tahoille. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="netshield_settings_description_not_html">Suojaudu mainoksilta, haittaohjelmilta ja seurannoilta verkkosivustoilla ja sovelluksissa. Jos verkkosivut eivät lataudu, kokeile auttaako NetShieldin käytöstäpoisto. %1$s</string>
+    <string name="settings_icon_change_description">Naamioi Proton VPN -sovellus huomaamattomalla kuvakkeella. Ilmoituksissa näkyy edelleen Proton VPN:n alkuperäinen nimi ja kuvake. %1$s</string>
+    <string name="settings_icon_change_learn_more">Lue lisää</string>
     <string name="learn_more">Lue lisää</string>
     <string name="netshield_state_on" comment="Describes state, not action">Käytössä</string>
     <string name="netshield_state_off" comment="Describes state, not action">Ei käytössä</string>
@@ -519,6 +527,12 @@
     <string name="fastest_country_description">Sijaintisi perusteella paras palvelin</string>
     <string name="settings_last_connection_title">Edellinen yhteys</string>
     <string name="settings_last_connection_description">Viimeksi käyttämäsi yhteys</string>
+    <string name="settings_change_icon_title">Sovelluksen kuvake</string>
+    <string name="settings_change_icon_details">Mukauta miten Proton VPN -sovellus näkyy laitteessasi. Miksi?</string>
+    <string name="settings_change_icon_confirmation_title">Vaihdetaanko sovelluksen kuvake?</string>
+    <string name="settings_change_icon_confirmation_details">Tämän seurauksena Proton VPN suljetaan. Avaa se napauttamalla uutta sovelluskuvaketta.</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
+    <string name="settings_change_icon_header_discreet">Huomaamaton sovelluskuvake</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Piilota banneri</string>
@@ -951,6 +965,7 @@
     <string name="dialog_sign_out_action">Kirjaudu ulos</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Peruuta</string>
+    <string name="dialog_action_change_icon">Vaihda kuvake</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Kaikki</string>
     <string name="country_filter_cities">Kaupungit</string>
