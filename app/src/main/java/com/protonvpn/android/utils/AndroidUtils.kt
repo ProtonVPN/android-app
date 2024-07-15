@@ -175,7 +175,7 @@ fun Context.openProtonUrl(url: String) =
     openUrl(Uri.parse(url).buildUpon().appendQueryParameter("utm_source", Constants.PROTON_URL_UTM_SOURCE).build())
 
 @RequiresApi(24)
-fun Activity.openVpnSettings() =
+fun Context.openVpnSettings() =
     startActivity(
         Intent(Settings.ACTION_VPN_SETTINGS).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
