@@ -28,6 +28,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val ACTIVITY_ALIAS_PREFIX = "ch.protonvpn.android"
+
 @Singleton
 class AppIconManager @Inject constructor(
     @ApplicationContext private val appContext: Context
@@ -62,7 +64,7 @@ enum class CustomAppIconData(
 
     fun getComponentName(context: Context): ComponentName {
         val applicationContext = context.applicationContext
-        return ComponentName(applicationContext, applicationContext.packageName + componentName)
+        return ComponentName(applicationContext, ACTIVITY_ALIAS_PREFIX + componentName)
     }
     enum class IconCategory {
         ProtonVPN,
