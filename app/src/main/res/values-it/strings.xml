@@ -18,6 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string name="app_icon_name_classic">Classica</string>
+    <string name="app_icon_name_dark">Scura</string>
+    <string name="app_icon_name_retro">Retro</string>
+    <string name="app_icon_name_weather">Meteo</string>
+    <string name="app_icon_name_notes">Note</string>
+    <string name="app_icon_name_calculator">Calcolatrice</string>
     <!-- Strings related to login -->
     <string name="login">Accedi</string>
     <string name="menuActionSignOut">Esci</string>
@@ -206,6 +212,8 @@
     <string name="settingsTelemetryScreenTitle">Statistiche di utilizzo</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Queste statistiche non contengono il tuo indirizzo IP e non possono essere utilizzate per identificarti. Non le condivideremo mai con terze parti. <a href="%1$s">Scopri di più</a>]]></string>
     <string name="netshield_settings_description_not_html">Proteggiti da annunci, malware e tracker su siti web e app. Se i siti web non si caricano, prova a disabilitare NetShield. %1$s</string>
+    <string name="settings_icon_change_description">Maschera l\'app Proton VPN con un\'icona più discreta. Le notifiche continueranno a visualizzare il nome e l\'icona Proton VPN predefiniti. %1$s</string>
+    <string name="settings_icon_change_learn_more">Scopri di più</string>
     <string name="learn_more">Scopri di più</string>
     <string name="netshield_state_on" comment="Describes state, not action">Abilitato</string>
     <string name="netshield_state_off" comment="Describes state, not action">Disabilitato</string>
@@ -519,6 +527,12 @@
     <string name="fastest_country_description">Il miglior server in base alla tua posizione</string>
     <string name="settings_last_connection_title">Ultima connessione</string>
     <string name="settings_last_connection_description">La connessione utilizzata più recentemente</string>
+    <string name="settings_change_icon_title">Icona dell\'app</string>
+    <string name="settings_change_icon_details">Personalizza il modo in cui l\'app Proton VPN appare sul tuo dispositivo. Perché?</string>
+    <string name="settings_change_icon_confirmation_title">Cambia l\'icona dell\'app</string>
+    <string name="settings_change_icon_confirmation_details">Sei sicuro di voler cambiare l\'icona dell\'app? Dopo che l\'app verrà chiusa, tocca sulla nuova icona per riavviarla.</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
+    <string name="settings_change_icon_header_discreet">Icona dell\'app discreta</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Ignora il banner</string>
@@ -951,6 +965,7 @@
     <string name="dialog_sign_out_action">Esci</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Annulla</string>
+    <string name="dialog_action_change_icon">Cambia l\'icona</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Tutto</string>
     <string name="country_filter_cities">Città</string>

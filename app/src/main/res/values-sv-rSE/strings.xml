@@ -18,6 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string name="app_icon_name_classic">Klassisk</string>
+    <string name="app_icon_name_dark">Mörk</string>
+    <string name="app_icon_name_retro">Retro</string>
+    <string name="app_icon_name_weather">Väder</string>
+    <string name="app_icon_name_notes">Anteckningar</string>
+    <string name="app_icon_name_calculator">Kalkylator</string>
     <!-- Strings related to login -->
     <string name="login">Logga in</string>
     <string name="menuActionSignOut">Logga ut</string>
@@ -206,6 +212,8 @@
     <string name="settingsTelemetryScreenTitle">Användningsstatistik</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Denna statistik innehåller inte din IP-adress och den kan inte användas för att identifiera dig. Vi kommer aldrig att dela den med tredje part. <a href="%1$s">Lär dig mer</a>]]></string>
     <string name="netshield_settings_description_not_html">Skydda dig mot annonser, skadlig kod och spårare på webbplatser och appar. Om webbplatser inte laddas, prova inaktivera NetShield. %1$s</string>
+    <string name="settings_icon_change_description">Maskera Proton VPN-appen med en diskret ikon. Aviseringar kommer fortfarande visa standardnamnet och ikonen för Proton VPN. %1$s</string>
+    <string name="settings_icon_change_learn_more">Lär dig mer</string>
     <string name="learn_more">Lär dig mer</string>
     <string name="netshield_state_on" comment="Describes state, not action">På</string>
     <string name="netshield_state_off" comment="Describes state, not action">Av</string>
@@ -519,6 +527,12 @@
     <string name="fastest_country_description">Den bästa servern baserat på din plats</string>
     <string name="settings_last_connection_title">Senaste anslutning</string>
     <string name="settings_last_connection_description">Din senast använda anslutning</string>
+    <string name="settings_change_icon_title">Appikon</string>
+    <string name="settings_change_icon_details">Anpassa hur Proton VPN-appen visas på din enhet. Varför?</string>
+    <string name="settings_change_icon_confirmation_title">Ändra appikon?</string>
+    <string name="settings_change_icon_confirmation_details">Detta gör att Proton VPN-appen stängs. För att starta om Proton VPN, tryck bara på din nya appikon.</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
+    <string name="settings_change_icon_header_discreet">Diskret appikon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Avfärda banner</string>
@@ -951,6 +965,7 @@
     <string name="dialog_sign_out_action">Logga ut</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Avbryt</string>
+    <string name="dialog_action_change_icon">Ändra ikon</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Alla</string>
     <string name="country_filter_cities">Orter</string>
