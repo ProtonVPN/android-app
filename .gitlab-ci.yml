@@ -1,5 +1,5 @@
 default:
-  image: harbor.protontech.ch/android-shared/docker-android/oci-ndk:v2.1.1
+  image: ${PROTON_CI_REGISTRY}/android-shared/docker-android/oci-ndk:v2.1.1
   tags:
     - shared-small
   before_script:
