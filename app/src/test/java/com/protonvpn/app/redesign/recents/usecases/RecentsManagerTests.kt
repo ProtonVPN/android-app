@@ -27,11 +27,14 @@ import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.usecases.MigrateProfiles
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -53,6 +56,8 @@ class RecentsManagerTests {
     private lateinit var mockDefaultDao: DefaultConnectionDao
     @RelaxedMockK
     private lateinit var mockMigrateProfiles: MigrateProfiles
+    @MockK
+    private lateinit var mockIsTv: IsTvCheck
 
     private lateinit var currentUserProvider: TestCurrentUserProvider
     private lateinit var testScope: TestScope
@@ -64,11 +69,19 @@ class RecentsManagerTests {
         val testDispatcher =  UnconfinedTestDispatcher()
         testScope = TestScope(testDispatcher)
 
+        every { mockIsTv.invoke() } returns false
         currentUserProvider = TestCurrentUserProvider(TestUser.plusUser.vpnUser)
         val currentUser =
             CurrentUser(currentUserProvider)
-        recentsManager =
-            RecentsManager(testScope.backgroundScope, mockRecentsDao, mockDefaultDao, currentUser, { testScope.currentTime }, mockMigrateProfiles)
+        recentsManager = RecentsManager(
+            testScope.backgroundScope,
+            mockRecentsDao,
+            mockDefaultDao,
+            currentUser,
+            { testScope.currentTime },
+            mockMigrateProfiles,
+            mockIsTv,
+        )
     }
 
     @Test

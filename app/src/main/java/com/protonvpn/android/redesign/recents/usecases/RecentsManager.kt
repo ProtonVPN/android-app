@@ -28,6 +28,7 @@ import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.data.toDefaultConnection
+import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -52,9 +53,12 @@ class RecentsManager @Inject constructor(
     currentUser: CurrentUser,
     @WallClock private val clock: () -> Long,
     private val migrateProfiles: MigrateProfiles,
+    private val isTv: IsTvCheck,
 ) {
     private val currentVpnUser = flow {
-        migrateProfiles()
+        // RecentsManager should not be used by TV (until we switch from custom TV recents to this RecentManager) but
+        // it's difficult to ensure that it's not created.
+        if (!isTv()) migrateProfiles()
         emitAll(currentUser.vpnUserFlow)
     }.shareIn(mainScope, SharingStarted.Eagerly, 1)
 
