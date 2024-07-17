@@ -19,17 +19,21 @@
  *
  */
 
-package com.protonvpn.android.release_tests.data
+package com.protonvpn.android.release_tests.rules
 
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
+import com.protonvpn.android.release_tests.helpers.BtiScenarios
+import com.protonvpn.android.release_tests.helpers.TestApiClient
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
-object TestConstants {
-    const val TEST_PACKAGE = "ch.protonvpn.android.dev"
-    val TWENTY_SECOND_TIMEOUT = 20000.milliseconds
-    val TWO_MINUTES_TIMEOUT = 2.minutes
+class BtiScenarioRule(scenarios: List<String>) : TestWatcher() {
+    private var btiScenarios = scenarios
 
-    val FIVE_SECONDS_TIMEOUT_MS = 5.seconds.inWholeMilliseconds
-    val TWENTY_SECOND_TIMEOUT_MS = TWENTY_SECOND_TIMEOUT.inWholeMilliseconds
+    override fun starting(description: Description?) {
+        super.starting(description)
+        TestApiClient.setBtiScenario(BtiScenarios.RESET)
+        for (scenario in btiScenarios){
+            TestApiClient.setBtiScenario(scenario)
+        }
+    }
 }

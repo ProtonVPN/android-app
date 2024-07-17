@@ -19,17 +19,17 @@
  *
  */
 
-package com.protonvpn.android.release_tests.data
+package com.protonvpn.android.release_tests.suites
 
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.protonvpn.android.release_tests.tests.AltRoutingSli
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
 
-object TestConstants {
-    const val TEST_PACKAGE = "ch.protonvpn.android.dev"
-    val TWENTY_SECOND_TIMEOUT = 20000.milliseconds
-    val TWO_MINUTES_TIMEOUT = 2.minutes
-
-    val FIVE_SECONDS_TIMEOUT_MS = 5.seconds.inWholeMilliseconds
-    val TWENTY_SECOND_TIMEOUT_MS = TWENTY_SECOND_TIMEOUT.inWholeMilliseconds
-}
+@RunWith(Suite::class)
+@RequiresApi(Build.VERSION_CODES.O)
+@Suite.SuiteClasses(
+    AltRoutingSli::class,
+)
+class SliBtiMeasurements

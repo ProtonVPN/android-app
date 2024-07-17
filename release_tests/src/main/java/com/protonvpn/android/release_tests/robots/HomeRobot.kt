@@ -44,13 +44,8 @@ object HomeRobot {
         return this
     }
 
-    fun verifyIfConnected(): HomeRobot {
-        device.wait(Until.hasObject(By.text("Protected")), TestConstants.TWENTY_SECOND_TIMEOUT_MS)
-        return this
-    }
-
     fun waitForNotificationPermissionRequest(): HomeRobot {
-        byObject.withText("No thanks").waitForExists()
+        byObject.withText("No thanks").waitForExists(TestConstants.TWENTY_SECOND_TIMEOUT)
         return this
     }
 

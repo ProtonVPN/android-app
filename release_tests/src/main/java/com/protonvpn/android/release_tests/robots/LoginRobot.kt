@@ -52,7 +52,7 @@ object LoginRobot {
     }
 
     fun waitUntilLoggedIn(): LoginRobot {
-        byObject.withText("Connect").waitForExists(TestConstants.ONE_MINUTE_TIMEOUT)
+        byObject.withText("Connect").waitForExists(TestConstants.TWO_MINUTES_TIMEOUT)
         byObject.withText("You are unprotected").waitForExists()
         return this
     }

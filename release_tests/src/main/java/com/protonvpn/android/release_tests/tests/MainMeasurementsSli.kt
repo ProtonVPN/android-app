@@ -26,7 +26,7 @@ import androidx.annotation.RequiresApi
 import com.protonvpn.android.release_tests.BuildConfig
 import com.protonvpn.android.release_tests.data.LokiConfig
 import com.protonvpn.android.release_tests.data.TestConstants
-import com.protonvpn.android.release_tests.helpers.ProdApiClient
+import com.protonvpn.android.release_tests.helpers.TestApiClient
 import com.protonvpn.android.release_tests.robots.CountriesRobot
 import com.protonvpn.android.release_tests.robots.HomeRobot
 import com.protonvpn.android.release_tests.robots.LoginRobot
@@ -42,7 +42,7 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 
 @RequiresApi(Build.VERSION_CODES.O)
-class MainSliMeasurements {
+class MainMeasurementsSli {
 
     private lateinit var profile: MeasurementProfile
     private val measurementRule = MeasurementRule()
@@ -100,7 +100,7 @@ class MainSliMeasurements {
             .setServiceLevelIndicator("specific_server_connect")
             .setLogcatFilter(LokiConfig.logcatFilter)
 
-        val server: String = ProdApiClient().getRandomServer()
+        val server: String = TestApiClient.getRandomServer()
 
         LoginRobot.waitUntilLoggedIn()
         HomeRobot.navigateToCountries()

@@ -46,10 +46,12 @@ android {
         versionCode 1
         versionName "1.0"
         def lokiEndpoint = System.getenv("LOKI_ENDPOINT")
+        def btiControllerUrl = System.getenv("BTI_CONTROLLER_URL")
         def lokiPrivateKey = System.getenv("LOKI_PRIVATE_KEY_ANDROID")
         def lokiCertificate = System.getenv("LOKI_CERTIFICATE_ANDROID")
         def commitSha = System.getenv("CI_COMMIT_SHORT_SHA")
         buildConfigField "String", "LOKI_ENDPOINT",  "\"${StringEscapeUtils.escapeJava(lokiEndpoint)}\""
+        buildConfigField "String", "BTI_CONTROLLER_URL",  "\"${StringEscapeUtils.escapeJava(btiControllerUrl)}\""
         buildConfigField "String", "LOKI_PRIVATE_KEY_ANDROID",  "\"${StringEscapeUtils.escapeJava(lokiPrivateKey)}\""
         buildConfigField "String", "LOKI_CERTIFICATE_ANDROID",  "\"${StringEscapeUtils.escapeJava(lokiCertificate)}\""
         buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
