@@ -19,17 +19,9 @@
  *
  */
 
-package com.protonvpn.android.release_tests.data
+package com.protonvpn.android.release_tests.helpers
 
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
-
-object TestConstants {
-    const val TEST_PACKAGE = "ch.protonvpn.android.dev"
-    val TWENTY_SECOND_TIMEOUT = 20000.milliseconds
-    val TWO_MINUTES_TIMEOUT = 2.minutes
-
-    val FIVE_SECONDS_TIMEOUT_MS = 5.seconds.inWholeMilliseconds
-    val TWENTY_SECOND_TIMEOUT_MS = TWENTY_SECOND_TIMEOUT.inWholeMilliseconds
+object BtiScenarios {
+    const val BLOCK_PROD_ENDPOINT: String = "enable/block_vpn_prod_api_endpoint"
+    const val RESET: String = "reset"
 }

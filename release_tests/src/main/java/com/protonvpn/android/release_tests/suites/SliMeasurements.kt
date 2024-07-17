@@ -21,12 +21,15 @@
 
 package com.protonvpn.android.release_tests.suites
 
-import com.protonvpn.android.release_tests.tests.MainSliMeasurements
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.protonvpn.android.release_tests.tests.MainMeasurementsSli
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 @RunWith(Suite::class)
+@RequiresApi(Build.VERSION_CODES.O)
 @Suite.SuiteClasses(
-    MainSliMeasurements::class,
+    MainMeasurementsSli::class,
 )
 class SliMeasurements
