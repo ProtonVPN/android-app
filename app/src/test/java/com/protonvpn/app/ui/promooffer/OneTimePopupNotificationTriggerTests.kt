@@ -23,6 +23,7 @@ import android.app.Activity
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger
 import com.protonvpn.android.ui.promooffers.PromoActivityOpener
@@ -32,6 +33,8 @@ import com.protonvpn.test.shared.ApiNotificationTestHelper.mockFullScreenImagePa
 import com.protonvpn.test.shared.ApiNotificationTestHelper.mockOffer
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
+import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -43,8 +46,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import me.proton.core.accountmanager.domain.AccountManager
-import me.proton.core.domain.entity.UserId
 import org.junit.Before
 import org.junit.Test
 
@@ -55,16 +56,14 @@ class OneTimePopupNotificationTriggerTests {
 
     @MockK
     private lateinit var mockApiNotificationManager: ApiNotificationManager
-    @MockK
-    private lateinit var mockAccountManager: AccountManager
     @RelaxedMockK
     private lateinit var mockPromoActivityOpener: PromoActivityOpener
 
     private lateinit var activeNotificationsFlow: MutableStateFlow<List<ApiNotification>>
-    private lateinit var primaryUserIdFlow: MutableStateFlow<UserId?>
     private lateinit var foregroundActivityFlow: MutableStateFlow<Activity?>
     private lateinit var promoOffersPrefs: PromoOffersPrefs
     private lateinit var testScope: TestScope
+    private lateinit var testUserProvider: TestCurrentUserProvider
 
     private lateinit var oneTimePopupNotificationTrigger: OneTimePopupNotificationTrigger
 
@@ -75,8 +74,7 @@ class OneTimePopupNotificationTriggerTests {
         promoOffersPrefs = PromoOffersPrefs(MockSharedPreferencesProvider())
         testScope = TestScope(UnconfinedTestDispatcher())
 
-        primaryUserIdFlow = MutableStateFlow(UserId("user"))
-        every { mockAccountManager.getPrimaryUserId() } returns primaryUserIdFlow
+        testUserProvider = TestCurrentUserProvider(TestUser.freeUser.vpnUser)
 
         activeNotificationsFlow = MutableStateFlow(emptyList())
         every { mockApiNotificationManager.activeListFlow } returns activeNotificationsFlow
@@ -88,7 +86,7 @@ class OneTimePopupNotificationTriggerTests {
             mainScope = testScope.backgroundScope,
             foregroundActivityTracker = foregroundActivityTracker,
             apiNotificationManager = mockApiNotificationManager,
-            accountManager = mockAccountManager,
+            currentUser = CurrentUser(testUserProvider),
             promoOffersPrefs = promoOffersPrefs,
             promoActivityOpener = mockPromoActivityOpener
         )
@@ -114,11 +112,25 @@ class OneTimePopupNotificationTriggerTests {
 
     @Test
     fun `when no user is logged in then notification is not triggered`() = testScope.runTest {
-        primaryUserIdFlow.value = null
+        testUserProvider.vpnUser = null
         activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
 
         foregroundActivityFlow.value = mockk()
         verify(exactly = 0) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
+    }
+
+    @Test
+    fun `when user logs in then no notification is triggered`() = testScope.runTest {
+        testUserProvider.vpnUser = null
+        activeNotificationsFlow.value = listOf(createTestNotification(NOTIFICATION_ID))
+
+        foregroundActivityFlow.value = mockk()
+        testUserProvider.vpnUser = TestUser.freeUser.vpnUser
+        verify(exactly = 0) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
+
+        foregroundActivityFlow.value = null
+        foregroundActivityFlow.value = mockk()
+        verify(exactly = 1) { mockPromoActivityOpener.open(any(), NOTIFICATION_ID) }
     }
 
     @Test
