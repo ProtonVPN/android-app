@@ -23,17 +23,15 @@ import android.app.Activity
 import com.protonvpn.android.appconfig.ApiNotification
 import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.scan
-import kotlinx.coroutines.flow.stateIn
-import me.proton.core.accountmanager.domain.AccountManager
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -49,30 +47,25 @@ class OneTimePopupNotificationTrigger @Inject constructor(
     mainScope: CoroutineScope,
     foregroundActivityTracker: ForegroundActivityTracker,
     private val apiNotificationManager: ApiNotificationManager,
-    accountManager: AccountManager,
+    currentUser: CurrentUser,
     private val promoOffersPrefs: PromoOffersPrefs,
     private val promoActivityOpener: PromoActivityOpener
 ) {
-
-    // Cache the logged in status for it to be instantly available.
-    private val isLoggedIn = accountManager.getPrimaryUserId()
-        .map { it != null }
-        .stateIn(mainScope, SharingStarted.Eagerly, false)
-
     init {
-        combine(
-            isLoggedIn,
-            // Don't use withPrevious() with foregroundActivityFlow because it will leak activities.
-            foregroundActivityTracker.isInForegroundFlow
-                .scan(Pair(false, false)) { (_, wasInForeground), inForeground ->
-                    Pair(wasInForeground, inForeground)
-                }
-        ) { loggedIn, (wasInForeground, isInForeground) ->
-            val foregroundActiviy = foregroundActivityTracker.foregroundActivity
-            if (loggedIn && !wasInForeground && isInForeground && foregroundActiviy != null) {
-                onOneTimeNotificationOpportunity(foregroundActiviy)
+        // Don't use scan() with foregroundActivityFlow because it will leak activities.
+        foregroundActivityTracker.isInForegroundFlow
+            .scan(Pair(false, false)) { (_, wasInForeground), inForeground ->
+                Pair(wasInForeground, inForeground)
             }
-        }.launchIn(mainScope)
+            .drop(1) // Scan's initial value can be ignored.
+            .onEach { (wasInForeground, isInForeground) ->
+                val loggedIn = currentUser.isLoggedIn()
+                val foregroundActiviy = foregroundActivityTracker.foregroundActivity
+                if (loggedIn && !wasInForeground && isInForeground && foregroundActiviy != null) {
+                    onOneTimeNotificationOpportunity(foregroundActiviy)
+                }
+            }
+            .launchIn(mainScope)
     }
 
     private suspend fun onOneTimeNotificationOpportunity(activity: Activity) {
