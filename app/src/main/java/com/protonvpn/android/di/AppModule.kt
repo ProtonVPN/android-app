@@ -143,8 +143,9 @@ object AppModuleProd {
 
     @Provides
     @AlternativeApiPins
-    fun provideAlternativeApiPins(): List<String> = when {
+    fun provideAlternativeApiPins(environmentConfiguration: EnvironmentConfiguration): List<String> = when {
         BuildConfig.API_ALT_TLS_PINS != null -> BuildConfig.API_ALT_TLS_PINS.toList()
+        environmentConfiguration.useDefaultPins -> Constants.ALTERNATIVE_API_SPKI_PINS
         else -> emptyList()
     }
 
