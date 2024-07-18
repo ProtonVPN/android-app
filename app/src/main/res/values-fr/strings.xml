@@ -1245,7 +1245,7 @@
     <string name="settings_split_tunneling_mode_standard">Standard</string>
     <string name="settings_split_tunneling_mode_inverse">Inverse</string>
     <string name="settings_split_tunneling_mode_description_standard">Les applications et adresses IP sélectionnées sont exclues de la connexion VPN.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Seules les applications et adresses IP sélectionnées se connectent au travers du VPN, tout le reste du trafic n\'est pas protégé.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Seules les applications et adresses IP sélectionnées se connectent par VPN. Tout le reste du trafic n\'est pas protégé.</string>
     <string name="settings_split_tunneling_excluded_apps">Applications exclues</string>
     <string name="settings_split_tunneling_excluded_ips">Adresses IP exclues</string>
     <string name="settings_split_tunneling_included_apps">Applications inclues</string>
