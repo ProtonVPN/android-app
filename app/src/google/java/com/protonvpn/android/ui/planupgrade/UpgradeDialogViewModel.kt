@@ -30,6 +30,7 @@ import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
 import com.protonvpn.android.ui.planupgrade.usecase.LoadDefaultGooglePlan
 import com.protonvpn.android.ui.planupgrade.usecase.OneClickPaymentsEnabled
+import com.protonvpn.android.ui.planupgrade.usecase.PaymentDisplayRenewPriceKillSwitch
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.formatPrice
@@ -64,10 +65,11 @@ class UpgradeDialogViewModel(
     upgradeTelemetry: UpgradeTelemetry,
     private val loadDefaultGiapPlan: suspend () -> GiapPlanInfo?,
     private val oneClickPaymentsEnabled: suspend () -> Boolean,
-    private val loadOnStart: Boolean,
+    loadOnStart: Boolean,
     private val performGiapPurchase: PerformGiapPurchase<Activity>,
     userPlanManager: UserPlanManager,
-    waitForSubscription: WaitForSubscription
+    waitForSubscription: WaitForSubscription,
+    private val paymentDisplayRenewPriceKillSwitch: suspend () -> Boolean,
 ) : CommonUpgradeDialogViewModel(
     userId,
     authOrchestrator,
@@ -89,7 +91,8 @@ class UpgradeDialogViewModel(
         oneClickPaymentsEnabled: OneClickPaymentsEnabled,
         performGiapPurchase: PerformGiapPurchase<Activity>,
         userPlanManager: UserPlanManager,
-        waitForSubscription: WaitForSubscription
+        waitForSubscription: WaitForSubscription,
+        paymentDisplayRenewPriceKillSwitch: PaymentDisplayRenewPriceKillSwitch,
     ) : this(
         currentUser.userFlow.map { it?.userId },
         authOrchestrator,
@@ -101,7 +104,8 @@ class UpgradeDialogViewModel(
         true,
         performGiapPurchase,
         userPlanManager,
-        waitForSubscription
+        waitForSubscription,
+        paymentDisplayRenewPriceKillSwitch::invoke,
     )
 
     private lateinit var loadedPlan : GiapPlanInfo
@@ -137,13 +141,14 @@ class UpgradeDialogViewModel(
         state.value = State.LoadingPlans
         suspend {
             val giapPlan = loadDefaultGiapPlan()
+            val showRenewPrice = !paymentDisplayRenewPriceKillSwitch()
             if (giapPlan != null) {
                 loadedPlan = giapPlan
                 val prices = calculatePriceInfos(loadedPlan.cycles, loadedPlan.dynamicPlan)
                 if (prices.isEmpty())
                     state.value = State.LoadError(R.string.error_fetching_prices)
                 else {
-                    state.value = State.PurchaseReady(GiapPlanModel(loadedPlan), prices)
+                    state.value = State.PurchaseReady(GiapPlanModel(loadedPlan), prices, showRenewPrice)
                     selectedCycle.value = giapPlan.preselectedCycle
                 }
             } else {
@@ -244,8 +249,10 @@ class UpgradeDialogViewModel(
                 val info = dynamicPlan.instances[cycleInfo.cycle.cycleDurationMonths]?.let { planInstance ->
                     val perMonthPrice = perMonthPrices[cycleInfo.cycle]
                     val priceAmount = planInstance.price.getValue(currency).current.centsToUnits()
+                    val renewPriceAmount = planInstance.price.getValue(currency).default?.centsToUnits()
                     PriceInfo(
                         formattedPrice = formatPrice(priceAmount, currency),
+                        formattedRenewPrice = renewPriceAmount?.let { formatPrice(it, currency) },
                         savePercent = calculateSavingsPercentage(perMonthPrice, maxPerMonthPrice),
                         formattedPerMonthPrice =
                         if (perMonthPrice != null && cycleInfo.cycle.cycleDurationMonths != 1)

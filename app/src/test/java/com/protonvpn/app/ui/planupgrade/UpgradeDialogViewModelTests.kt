@@ -106,7 +106,8 @@ class UpgradeDialogViewModelTests {
             loadOnStart = false,
             performGiapPurchase = performGiapPurchase,
             userPlanManager = mockk(relaxed = true),
-            waitForSubscription = mockk(relaxed = true)
+            waitForSubscription = mockk(relaxed = true),
+            { true }
         )
     }
 
@@ -189,7 +190,7 @@ class UpgradeDialogViewModelTests {
                             cycle = 12,
                             description = "12 month",
                             periodEnd = Instant.MAX,
-                            price = mapOf("USD" to DynamicPlanPrice(id = "id", currency = "USD", current = 100_00))
+                            price = mapOf("USD" to DynamicPlanPrice(id = "id", currency = "USD", current = 100_00, default = 120_00))
                         )
                     )
                 )
@@ -201,7 +202,8 @@ class UpgradeDialogViewModelTests {
                 PlanCycle.YEARLY to CommonUpgradeDialogViewModel.PriceInfo(
                     formattedPrice = formatPrice(100.0, "USD"),
                     savePercent = -16,
-                    formattedPerMonthPrice = formatPrice(8.33, "USD")
+                    formattedPerMonthPrice = formatPrice(8.33, "USD"),
+                    formattedRenewPrice = formatPrice(120.0, "USD")
                 ),
                 PlanCycle.MONTHLY to CommonUpgradeDialogViewModel.PriceInfo(
                     formattedPrice = formatPrice(10.0, "USD"),
