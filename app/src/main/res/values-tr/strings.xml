@@ -18,12 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_icon_name_classic">Classic</string>
-    <string name="app_icon_name_dark">Dark</string>
+    <string name="app_icon_name_classic">Klasik</string>
+    <string name="app_icon_name_dark">Koyu</string>
     <string name="app_icon_name_retro">Retro</string>
-    <string name="app_icon_name_weather">Weather</string>
-    <string name="app_icon_name_notes">Notes</string>
-    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="app_icon_name_weather">Hava durumu</string>
+    <string name="app_icon_name_notes">Notlar</string>
+    <string name="app_icon_name_calculator">Hesap makinesi</string>
     <!-- Strings related to login -->
     <string name="login">Oturum aç</string>
     <string name="menuActionSignOut">Oturumu kapat</string>
@@ -213,7 +213,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="netshield_settings_description_not_html">Siteler ile uygulamalarda bulunabilecek reklam, kötü amaçlı yazılım ve izleyicilerden korunun. Siteler yüklenmiyorsa NetShield özelliğini kapatmayı deneyin. %1$s</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">Learn more</string>
+    <string name="settings_icon_change_learn_more">Ayrıntılı bilgi alın</string>
     <string name="learn_more">Ayrıntılı bilgi alın</string>
     <string name="netshield_state_on" comment="Describes state, not action">Açık</string>
     <string name="netshield_state_off" comment="Describes state, not action">Kapalı</string>
@@ -450,6 +450,14 @@
     <string name="payment_price_cycle_2years_label">2 yıl</string>
     <string name="payment_select_your_plan">Tarifenizi seçin</string>
     <string name="payment_button_get_vpn_plus">VPN Plus edinin</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
+    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
+    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
+    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
     <!-- Information activity -->
     <string name="activity_information_title">Bilgiler</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -527,9 +535,9 @@
     <string name="fastest_country_description">Konumunuza uygun en iyi sunucu</string>
     <string name="settings_last_connection_title">Son bağlantı</string>
     <string name="settings_last_connection_description">Son kullandığınız bağlantı</string>
-    <string name="settings_change_icon_title">App icon</string>
+    <string name="settings_change_icon_title">Uygulama simgesi</string>
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
-    <string name="settings_change_icon_confirmation_title">Change app icon?</string>
+    <string name="settings_change_icon_confirmation_title">Uygulama simgesi değiştirilsin mi?</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
     <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>

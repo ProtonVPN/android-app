@@ -253,9 +253,9 @@
     <string name="nameAsia">アジア</string>
     <string name="nameAfricaAndMiddleEast">アフリカ &amp; 中東</string>
     <string name="nameOceania">オセアニア</string>
-    <string name="tv_row_settings">Settings</string>
+    <string name="tv_row_settings">設定</string>
     <string name="tv_card_split_tunneling_label">スプリットトンネル</string>
-    <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_card_protocol_label">プロトコル</string>
     <string name="tv_detail_default_connection_checkbox_short">お気に入り</string>
     <string name="tv_detail_connect_streaming">PLUS でストリーミング</string>
     <string name="tv_detail_connect">接続</string>
@@ -441,6 +441,14 @@
     <string name="payment_price_cycle_2years_label">2年</string>
     <string name="payment_select_your_plan">プランを選択してください</string>
     <string name="payment_button_get_vpn_plus">VPN Plusを入手</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
+    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
+    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
+    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
     <!-- Information activity -->
     <string name="activity_information_title">情報</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -1204,7 +1212,7 @@
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recommended</string>
-    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_title">モード</string>
     <string name="settings_split_tunneling_mode_standard">Standard</string>
     <string name="settings_split_tunneling_mode_inverse">Inverse</string>
     <string name="settings_split_tunneling_mode_description_standard">選択したアプリと IP アドレスは VPN 接続から除外されます.</string>
