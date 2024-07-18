@@ -21,8 +21,8 @@
     <string name="app_icon_name_classic">Clásico</string>
     <string name="app_icon_name_dark">Oscuro</string>
     <string name="app_icon_name_retro">Retro</string>
-    <string name="app_icon_name_weather">Weather</string>
-    <string name="app_icon_name_notes">Notes</string>
+    <string name="app_icon_name_weather">Tiempo</string>
+    <string name="app_icon_name_notes">Notas</string>
     <string name="app_icon_name_calculator">Calculadora</string>
     <!-- Strings related to login -->
     <string name="login">Iniciar sesión</string>
@@ -212,7 +212,7 @@
     <string name="settingsTelemetryScreenTitle">Estadísticas de uso</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estadísticas no contienen tu dirección IP y no pueden ser utilizadas para identificarte. Nosotros nunca las compartiremos con terceros. <a href="%1$s">Más información</a>]]></string>
     <string name="netshield_settings_description_not_html">Protégete contra anuncios, malware y rastreadores en sitios web y aplicaciones. Si los sitios web no cargan, intenta desactivar NetShield. %1$s</string>
-    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
+    <string name="settings_icon_change_description">Personaliza Proton VPN con un icono más discreto. Las notificaciones seguirán mostrando el nombre Proton VPN y el icono predeterminado. %1$s</string>
     <string name="settings_icon_change_learn_more">Más información</string>
     <string name="learn_more">Más información</string>
     <string name="netshield_state_on" comment="Describes state, not action">Activado</string>
@@ -450,6 +450,14 @@
     <string name="payment_price_cycle_2years_label">2 años</string>
     <string name="payment_select_your_plan">Elige tu suscripción</string>
     <string name="payment_button_get_vpn_plus">Obtener VPN Plus</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
+    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
+    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
+    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
     <!-- Information activity -->
     <string name="activity_information_title">Información</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -528,11 +536,11 @@
     <string name="settings_last_connection_title">Última conexión</string>
     <string name="settings_last_connection_description">Conexión más usada últimamente</string>
     <string name="settings_change_icon_title">Icono de la aplicación</string>
-    <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
+    <string name="settings_change_icon_details">¿Por qué personalizar como Proton VPN aparece en tu dispositivo?</string>
     <string name="settings_change_icon_confirmation_title">¿Cambiar el icono de la aplicación?</string>
     <string name="settings_change_icon_confirmation_details">Esto causará que se cierre Proton VPN. Para reiniciar Proton VPN solo toca el nuevo icono de la aplicación.</string>
     <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
-    <string name="settings_change_icon_header_discreet">Discreet app icon</string>
+    <string name="settings_change_icon_header_discreet">Ícono discreto de la aplicación</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Descartar el banner</string>
@@ -940,7 +948,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Soporte</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_help_center_title">Centro de Ayuda</string>
+    <string name="settings_help_center_title">Centro de ayuda</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Notificar un problema</string>
     <!-- tag(Redesign_2023) -->
@@ -965,7 +973,7 @@
     <string name="dialog_sign_out_action">Cerrar sesión</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Cancelar</string>
-    <string name="dialog_action_change_icon">Cambiar icono</string>
+    <string name="dialog_action_change_icon">Cambiar el icono</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Todos</string>
     <string name="country_filter_cities">Ciudades</string>

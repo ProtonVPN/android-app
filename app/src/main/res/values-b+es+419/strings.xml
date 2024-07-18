@@ -450,6 +450,14 @@
     <string name="payment_price_cycle_2years_label">2 años</string>
     <string name="payment_select_your_plan">Elija el plan</string>
     <string name="payment_button_get_vpn_plus">Obtener VPN Plus</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Oferta de bienvenida. Renovación automática por %1$s/mes</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Oferta de bienvenida. Renovación automática por %1$s/año</string>
+    <string name="payment_auto_renew_message_monthly">La suscripción se renueva automáticamente por %1$s/mes</string>
+    <string name="payment_auto_renew_message_annual">La suscripción se renueva automáticamente por %1$s/año</string>
+    <string name="payment_welcome_price_message_monthly_fallback">La suscripción se renueva automáticamente cada mes</string>
+    <string name="payment_welcome_price_message_annual_fallback">La suscripción se renueva automáticamente cada año</string>
     <!-- Information activity -->
     <string name="activity_information_title">Información</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->

@@ -212,7 +212,7 @@
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм і праграм сачэння на вэб-сайтах і ў праграмах. Калі вэб-сайты не грузяцца, паспрабуйце адключыць NetShield. %1$s</string>
-    <string name="settings_icon_change_description">Замаскіраваць праграму Proton VPN з дапамогай непрымектнага значка. Апавяшчэнні як і раней будуць адлюстроўваць прадвызначаную назву Proton VPN і значок. %1$s</string>
+    <string name="settings_icon_change_description">Замаскіраваць праграму Proton VPN з дапамогай непрыметнага значка. Апавяшчэнні як і раней будуць адлюстроўваць прадвызначаную назву Proton VPN і значок. %1$s</string>
     <string name="settings_icon_change_learn_more">Даведацца больш</string>
     <string name="learn_more">Даведацца больш</string>
     <string name="netshield_state_on" comment="Describes state, not action">Уключана</string>
@@ -468,6 +468,14 @@
     <string name="payment_price_cycle_2years_label">2 гады</string>
     <string name="payment_select_your_plan">Выберыце тарыфны план</string>
     <string name="payment_button_get_vpn_plus">Атрымаць VPN Plus</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Вітальная прапанова. Аўтаматычнае падаўжэнне за %1$s у месяц</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Вітальная прапанова. Аўтаматычнае падаўжэнне за %1$s у год</string>
+    <string name="payment_auto_renew_message_monthly">Падпіска будзе аўтаматычна падаўжацца за %1$s у месяц</string>
+    <string name="payment_auto_renew_message_annual">Падпіска будзе аўтаматычна падаўжацца за %1$s у год</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Падпіска будзе аўтаматычна падаўжацца штомесяц</string>
+    <string name="payment_welcome_price_message_annual_fallback">Падпіска будзе аўтаматычна падаўжацца штогод</string>
     <!-- Information activity -->
     <string name="activity_information_title">Інфармацыя</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -548,7 +556,7 @@
     <string name="settings_last_connection_title">Апошняе падключэнне</string>
     <string name="settings_last_connection_description">Ваша апошняе выкарыстанае падключэнне</string>
     <string name="settings_change_icon_title">Значок праграмы</string>
-    <string name="settings_change_icon_details">Наладзіць, як праграма Proton VPN з\'яўляецца на вашай прыладзе. Навошта?</string>
+    <string name="settings_change_icon_details">Наладзьце, як праграма Proton VPN з\'яўляецца на вашай прыладзе. Навошта?</string>
     <string name="settings_change_icon_confirmation_title">Змяніць значок праграмы?</string>
     <string name="settings_change_icon_confirmation_details">Гэта прывядзе да закрыцця праграмы Proton VPN. Проста націсніце на новы значок праграмы, каб перазапусціць Proton VPN.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>

@@ -450,6 +450,14 @@
     <string name="payment_price_cycle_2years_label">2 år</string>
     <string name="payment_select_your_plan">Velg din plan</string>
     <string name="payment_button_get_vpn_plus">Få VPN Plus</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Velkomsttilbud. Fornyes automatisk til %1$s/måned</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Velkomsttilbud. Fornyes automatisk til %1$s/år</string>
+    <string name="payment_auto_renew_message_monthly">Abonnementet fornyes automatisk til %1$s/måned</string>
+    <string name="payment_auto_renew_message_annual">Abonnementet fornyes automatisk til %1$s/år</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Abonnementet fornyes automatisk månedlig</string>
+    <string name="payment_welcome_price_message_annual_fallback">Abonnementet fornyes automatisk årlig</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informasjon</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->

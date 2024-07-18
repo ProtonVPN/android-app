@@ -18,12 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_icon_name_classic">Classic</string>
-    <string name="app_icon_name_dark">Dark</string>
-    <string name="app_icon_name_retro">Retro</string>
-    <string name="app_icon_name_weather">Weather</string>
-    <string name="app_icon_name_notes">Notes</string>
-    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="app_icon_name_classic">클래식</string>
+    <string name="app_icon_name_dark">다크</string>
+    <string name="app_icon_name_retro">레트로</string>
+    <string name="app_icon_name_weather">날씨</string>
+    <string name="app_icon_name_notes">메모</string>
+    <string name="app_icon_name_calculator">계산기</string>
     <!-- Strings related to login -->
     <string name="login">로그인</string>
     <string name="menuActionSignOut">로그아웃</string>
@@ -212,8 +212,9 @@
     <string name="settingsTelemetryScreenTitle">사용 통계</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[이 통계에는 당신의 IP 주소가 담기지 않으며 식별에 사용할 수 없습니다. 제 3자에게 공유하지도 않습니다. <a href="%1$s">더 알아보기</a>]]></string>
     <string name="netshield_settings_description_not_html">웹사이트와 앱에서 광고와 멀웨어, 그리고 트래커로부터 보호받으세요. 웹사이트를 불러오는 데 문제가 있다면 NetShield를 비활성화해보세요. %1$s</string>
-    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">Learn more</string>
+    <string name="settings_icon_change_description">분별 있는 아이콘으로 Proton VPN 앱을 위장하세요.
+알림은 여전히 기본값의 Proton VPN 이름 및 아이콘으로 표시됩니다. %1$s</string>
+    <string name="settings_icon_change_learn_more">더 알아보기</string>
     <string name="learn_more">더 알아보기</string>
     <string name="netshield_state_on" comment="Describes state, not action">켬</string>
     <string name="netshield_state_off" comment="Describes state, not action">끔</string>
@@ -441,6 +442,14 @@
     <string name="payment_price_cycle_2years_label">2년</string>
     <string name="payment_select_your_plan">플랜을 선택하세요.</string>
     <string name="payment_button_get_vpn_plus">VPN Plus 구매</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
+    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
+    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
+    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
+    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
     <!-- Information activity -->
     <string name="activity_information_title">정보</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -517,12 +526,12 @@
     <string name="fastest_country_description">지역에 기반한 최적의 서버</string>
     <string name="settings_last_connection_title">최근 연결</string>
     <string name="settings_last_connection_description">가장 최근에 사용한 연결</string>
-    <string name="settings_change_icon_title">App icon</string>
-    <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
-    <string name="settings_change_icon_confirmation_title">Change app icon?</string>
-    <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
+    <string name="settings_change_icon_title">앱 아이콘</string>
+    <string name="settings_change_icon_details">사용자의 기기에서 어떻게 Proton VPN이 표시될지 사용자화하세요. 왜죠?</string>
+    <string name="settings_change_icon_confirmation_title">앱 아이콘을 변경하시겠어요?</string>
+    <string name="settings_change_icon_confirmation_details">이 작업은 Proton VPN 앱을 종료시킵니다. Proton VPN을 재시작하려면, 새 앱 아이콘을 탭 하세요.</string>
     <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
-    <string name="settings_change_icon_header_discreet">Discreet app icon</string>
+    <string name="settings_change_icon_header_discreet">위장 앱 아이콘</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">배너 무시</string>
@@ -947,7 +956,7 @@
     <string name="dialog_sign_out_action">로그아웃</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">취소</string>
-    <string name="dialog_action_change_icon">Change icon</string>
+    <string name="dialog_action_change_icon">아이콘 변경</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">전체</string>
     <string name="country_filter_cities">도시</string>
