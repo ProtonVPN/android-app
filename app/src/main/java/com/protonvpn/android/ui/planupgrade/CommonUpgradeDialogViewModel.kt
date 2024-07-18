@@ -57,6 +57,7 @@ abstract class CommonUpgradeDialogViewModel(
 
     data class PriceInfo(
         val formattedPrice: String,
+        val formattedRenewPrice: String? = null,
         val savePercent: Int? = null,
         val formattedPerMonthPrice: String? = null,
     )
@@ -71,6 +72,7 @@ abstract class CommonUpgradeDialogViewModel(
         data class PurchaseReady(
             val plan: PlanModel,
             val priceInfo: Map<PlanCycle, PriceInfo>,
+            val showRenewPrice: Boolean,
             val inProgress: Boolean = false,
         ) : State()
         object PlansFallback : State() // Conditions for short flow were not met, start normal account flow

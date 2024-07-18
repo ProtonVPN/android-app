@@ -72,7 +72,8 @@ class PaymentPanelFragment : Fragment() {
                                     priceInfo
                                 )
                             },
-                            state.inProgress
+                            showRenewPrice = state.showRenewPrice,
+                            inProgress = state.inProgress,
                         )
                 }
                 is CommonUpgradeDialogViewModel.State.LoadError -> {

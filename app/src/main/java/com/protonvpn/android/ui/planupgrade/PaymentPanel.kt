@@ -20,6 +20,7 @@
 package com.protonvpn.android.ui.planupgrade
 
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -74,6 +75,7 @@ sealed class ViewState(val inProgress: Boolean) {
     class PlanReady(
         val planName: String,
         val cycles: List<CycleViewInfo>,
+        val showRenewPrice: Boolean,
         inProgress: Boolean
     ) : ViewState(inProgress)
     object FallbackFlowReady : ViewState(false)
@@ -128,6 +130,15 @@ fun PaymentPanel(
                         viewState.cycles.forEach { cycle ->
                             CycleComposable(cycle, cycle.cycle == selectedCycle, onCycleSelected)
                         }
+
+                        val selectedCycleInfo = viewState.cycles.firstOrNull { it.cycle == selectedCycle }
+                        if (selectedCycleInfo != null) {
+                            RenewInfo(
+                                viewState.showRenewPrice,
+                                selectedCycleInfo = selectedCycleInfo,
+                                Modifier.padding(top = 4.dp).align(Alignment.CenterHorizontally)
+                            )
+                        }
                     }
                 }
                 is ViewState.Error,
@@ -165,6 +176,42 @@ fun PaymentPanel(
             }
         }
     }
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+@Composable
+fun RenewInfo(
+    showRenewPrice: Boolean,
+    selectedCycleInfo: ViewState. CycleViewInfo,
+    modifier: Modifier = Modifier
+) {
+    val price = selectedCycleInfo.priceInfo.formattedPrice
+    val renewPrice = selectedCycleInfo.priceInfo.formattedRenewPrice
+    val renewInfoText = when (selectedCycleInfo.cycle) {
+        PlanCycle.MONTHLY -> when {
+            !showRenewPrice ->
+                stringResource(R.string.payment_welcome_price_message_monthly_fallback)
+            renewPrice != null ->
+                stringResource(R.string.payment_welcome_price_message_monthly, renewPrice)
+            else ->
+                stringResource(R.string.payment_auto_renew_message_monthly, price)
+        }
+        PlanCycle.YEARLY -> when {
+            !showRenewPrice ->
+                stringResource(R.string.payment_welcome_price_message_annual_fallback)
+            renewPrice != null ->
+                stringResource(R.string.payment_welcome_price_message_annual, renewPrice)
+            else ->
+                stringResource(R.string.payment_auto_renew_message_annual, price)
+        }
+        else -> return
+    }
+
+    Text(
+        text = renewInfoText,
+        style = ProtonTheme.typography.captionWeak,
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -309,7 +356,7 @@ private fun PreviewPlan() {
                         PlanCycle.YEARLY,
                         R.string.payment_price_per_year,
                         R.string.payment_price_cycle_year_label,
-                        CommonUpgradeDialogViewModel.PriceInfo("$120.00", formattedPerMonthPrice = "$10.00", savePercent = -37)
+                        CommonUpgradeDialogViewModel.PriceInfo("$120.00", formattedPerMonthPrice = "$10.00", savePercent = -37, formattedRenewPrice = "$150")
                     ),
                     ViewState.CycleViewInfo(
                         PlanCycle.MONTHLY,
@@ -318,7 +365,9 @@ private fun PreviewPlan() {
                         CommonUpgradeDialogViewModel.PriceInfo("$15.99")
                     ),
                 ),
-                false),
+                showRenewPrice = true,
+                inProgress = false
+            ),
             selectedCycle = PlanCycle.YEARLY,
             {}, {}, {}, {}, {}
         )

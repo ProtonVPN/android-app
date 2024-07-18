@@ -28,6 +28,7 @@ import com.protonvpn.tests.redesign.recents.RecentsListValidatorTests
 import com.protonvpn.tests.redesign.vpn.ui.ConnectionDetailsTests
 import com.protonvpn.tests.redesign.vpn.ui.GetConnectIntentViewStateTests
 import com.protonvpn.tests.redesign.vpn.ui.VpnStatusViewTests
+import com.protonvpn.tests.upgrade.PaymentPanelUiTests
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -40,6 +41,7 @@ import org.junit.runners.Suite
     GetConnectIntentViewStateTests::class,
     NavigationTests::class,
     NetShieldComponentTests::class,
+    PaymentPanelUiTests::class,
     PromoOfferCountDownTests::class,
     ProtonTextFieldTests::class,
     RecentsListUiTests::class,
