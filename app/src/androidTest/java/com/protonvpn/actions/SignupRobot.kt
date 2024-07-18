@@ -27,7 +27,7 @@ import me.proton.core.auth.presentation.R as AuthR
 class SignupRobot : BaseRobot(){
     fun enterRecoveryEmail(email: String) : SignupRobot {
         replaceText<SignupRobot>(AuthR.id.email, email)
-        view.withId(AuthR.id.next).hasSibling(view.withId(AuthR.id.terms)).click()
+        view.withId(AuthR.id.next).click()
         return this
     }
 }
