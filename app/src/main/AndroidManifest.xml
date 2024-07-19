@@ -60,6 +60,19 @@
             android:enabled="false"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="protonvpn" />
+                <!-- See DeepLinkHandler -->
+                <data android:host="refresh-account"/>
+            </intent-filter>
         </activity>
 
         <activity android:name=".ui.home.vpn.SwitchDialogActivity" />
