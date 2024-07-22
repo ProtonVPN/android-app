@@ -451,13 +451,13 @@
     <string name="payment_select_your_plan">Επιλέξτε το πλάνο σας</string>
     <string name="payment_button_get_vpn_plus">Αποκτήστε το VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Προσφορά καλωσορίσματος. Αυτόματη ανανέωση στα %1$s/μήνα</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Προσφορά καλωσορίσματος. Αυτόματη ανανέωση στα %1$s/χρόνο</string>
+    <string name="payment_auto_renew_message_monthly">Η συνδρομή ανανεώνεται αυτόματα στα %1$s/μήνα</string>
+    <string name="payment_auto_renew_message_annual">Η συνδρομή ανανεώνεται αυτόματα στα %1$s/χρόνο</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Η συνδρομή ανανεώνεται αυτόματα μηνιαία</string>
+    <string name="payment_welcome_price_message_annual_fallback">Η συνδρομή ανανεώνεται αυτόματα κάθε χρόνο</string>
     <!-- Information activity -->
     <string name="activity_information_title">Πληροφορίες</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->

@@ -443,13 +443,13 @@
     <string name="payment_select_your_plan">플랜을 선택하세요.</string>
     <string name="payment_button_get_vpn_plus">VPN Plus 구매</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">환영 할인. 매월 %1$s(으)로 갱신됩니다.</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">환영 할인. 매월 %1$s(으)로 갱신됩니다.</string>
+    <string name="payment_auto_renew_message_monthly">구독이 매월 %1$s(으)로 자동 갱신됩니다.</string>
+    <string name="payment_auto_renew_message_annual">구독이 매년 %1$s(으)로 갱신됩니다.</string>
+    <string name="payment_welcome_price_message_monthly_fallback">구독이 매월 자동으로 갱신됩니다.</string>
+    <string name="payment_welcome_price_message_annual_fallback">구독이 매년 자동으로 갱신됩니다.</string>
     <!-- Information activity -->
     <string name="activity_information_title">정보</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->

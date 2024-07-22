@@ -212,7 +212,7 @@
     <string name="settingsTelemetryScreenTitle">Kullanım istatistikleri</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Bu istatistikler IP adresinizi içermez ve kim olduğunuzu belirlemek için kullanılamaz. Bu verileri asla üçüncü taraflar ile paylaşmayız. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="netshield_settings_description_not_html">Siteler ile uygulamalarda bulunabilecek reklam, kötü amaçlı yazılım ve izleyicilerden korunun. Siteler yüklenmiyorsa NetShield özelliğini kapatmayı deneyin. %1$s</string>
-    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
+    <string name="settings_icon_change_description">Proton VPN uygulamasını farklı bir simge ile gizleyin. Bildirimlerde hala varsayılan Proton VPN adı ve simgesi görüntülenir. %1$s</string>
     <string name="settings_icon_change_learn_more">Ayrıntılı bilgi alın</string>
     <string name="learn_more">Ayrıntılı bilgi alın</string>
     <string name="netshield_state_on" comment="Describes state, not action">Açık</string>
@@ -451,13 +451,13 @@
     <string name="payment_select_your_plan">Tarifenizi seçin</string>
     <string name="payment_button_get_vpn_plus">VPN Plus edinin</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Karşılama teklifi. %1$s/ay tutar ile otomatik olarak yenilenir</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Karşılama teklifi. %1$s/yıl tutar ile otomatik olarak yenilenir</string>
+    <string name="payment_auto_renew_message_monthly">Abonelik %1$s/ay tutar ile otomatik olarak yenilenir</string>
+    <string name="payment_auto_renew_message_annual">Abonelik %1$s/yıl tutar ile otomatik yenilenir</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Abonelik her ay otomatik olarak yenilenir</string>
+    <string name="payment_welcome_price_message_annual_fallback">Abonelik her yıl otomatik olarak yenilenir</string>
     <!-- Information activity -->
     <string name="activity_information_title">Bilgiler</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -536,11 +536,11 @@
     <string name="settings_last_connection_title">Son bağlantı</string>
     <string name="settings_last_connection_description">Son kullandığınız bağlantı</string>
     <string name="settings_change_icon_title">Uygulama simgesi</string>
-    <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
+    <string name="settings_change_icon_details">Proton VPN uygulamasının aygıtınızda nasıl görüntüleneeğini ayarlayın. Neden?</string>
     <string name="settings_change_icon_confirmation_title">Uygulama simgesi değiştirilsin mi?</string>
-    <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
+    <string name="settings_change_icon_confirmation_details">Bu işlem, Proton VPN uygulamasının kapanmasına neden olur. Proton VPN uygulamasını yeniden başlatmak için yeni uygulama simgesine dokunmanız yeterlidir.</string>
     <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
-    <string name="settings_change_icon_header_discreet">Discreet app icon</string>
+    <string name="settings_change_icon_header_discreet">Gizli uygulama simgesi</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Uyarıyı yok say</string>
@@ -973,7 +973,7 @@
     <string name="dialog_sign_out_action">Oturumu kapat</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">İptal</string>
-    <string name="dialog_action_change_icon">Change icon</string>
+    <string name="dialog_action_change_icon">Simgeyi değiştir</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Tümü</string>
     <string name="country_filter_cities">İlçeler</string>
