@@ -1257,7 +1257,7 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">¿Borrar la dirección IP de la lista?</string>
     <string name="settings_dialog_reconnect">La nueva configuración se aplicará la próxima vez que te conectes.</string>
     <string name="settings_needs_reconnect_banner">La nueva configuración se aplicará la próxima vez que te conectes.</string>
-    <string name="info_secure_core_standard_high_privacy">Gran privacidad</string>
+    <string name="info_secure_core_standard_high_privacy">Privacidad alta</string>
     <string name="info_secure_core_standard_lower_latency">Latencia baja</string>
     <string name="info_secure_core_advanced_privacy">Privacidad avanzada</string>
     <string name="info_secure_core_higher_latency">Latencia mayor</string>

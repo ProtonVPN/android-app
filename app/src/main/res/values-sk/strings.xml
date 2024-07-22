@@ -469,13 +469,13 @@
     <string name="payment_select_your_plan">Vyberte svoj plán</string>
     <string name="payment_button_get_vpn_plus">Získajte VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Uvítacia ponuka. Automatické obnovenie za %1$s/mesiac</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Uvítacia ponuka. Automatické obnovenie za %1$s/rok</string>
+    <string name="payment_auto_renew_message_monthly">Predplatné sa automaticky obnovuje za %1$s/mesiac</string>
+    <string name="payment_auto_renew_message_annual">Predplatné sa automaticky obnovuje za %1$s/rok</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Predplatné sa automaticky obnovuje každý mesiac</string>
+    <string name="payment_welcome_price_message_annual_fallback">Predplatné sa automaticky obnovuje každý rok</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informácia</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->

@@ -451,13 +451,13 @@
     <string name="payment_select_your_plan">Choisissez votre abonnement</string>
     <string name="payment_button_get_vpn_plus">Obtenir VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Offre de bienvenue. Se renouvelle à %1$s par mois</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Offre de bienvenue. Se renouvelle à %1$s par an</string>
+    <string name="payment_auto_renew_message_monthly">L\'abonnement est renouvelé automatiquement à %1$s par mois</string>
+    <string name="payment_auto_renew_message_annual">L\'abonnement est renouvelé automatiquement à %1$s par an</string>
+    <string name="payment_welcome_price_message_monthly_fallback">L\'abonnement est renouvelé automatiquement tous les mois</string>
+    <string name="payment_welcome_price_message_annual_fallback">L\'abonnement est renouvelé automatiquement tous les ans</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informations</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -1226,7 +1226,7 @@
     <string name="settings_advanced_nat_type_moderate_description">Certaines restrictions sur les données entrant dans votre réseau. Cette option est préférable pour les jeux vidéo en ligne.</string>
     <string name="settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications et adresses IP sont protégées par le VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocole VPN détermine la manière dont les données circulent entre un serveur VPN et votre appareil. %1$s</string>
-    <string name="settings_protocol_description_no_link">Un protocole VPN détermine la manière dont les données circulent entre un serveur VPN et votre appareil.</string>
+    <string name="settings_protocol_description_no_link">Un protocole VPN détermine la façon dont les données transitent entre un serveur VPN et votre appareil.</string>
     <string name="settings_protocol_section_speed">Vitesse (UDP)</string>
     <string name="settings_protocol_section_reliability">Fiabilité (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
@@ -1286,5 +1286,5 @@
     <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications sont protégées par le VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Les applications sélectionnées sont exclues de la connexion VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Seules les applications sélectionnées se connectent via VPN, tout autre trafic n\'est pas protégé.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Seules les applications sélectionnées se connectent via VPN. Tout autre trafic n\'est pas protégé.</string>
 </resources>

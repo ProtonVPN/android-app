@@ -137,36 +137,36 @@
     <string name="settingsSplitTunnelingAvailableHeader">Усі інші програми (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Показати системні програми</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Показати системні програми</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">Ці програми виключені з вашого VPN-підключення.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Лише ці додатки підключаються через VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Ці програми виключені з вашого VPN-з\'єднання.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Лише ці програми під\'єднуються до інтернету через VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Додати до Виключених програм</string>
+    <string name="accessibility_action_add_excluded_app">Додати до виключених програм</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Видалити зі списку Виключених програм</string>
+    <string name="accessibility_action_remove_excluded_app">Вилучити з виключених програм</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Додати до Включених програм</string>
+    <string name="accessibility_action_add_included_app">Додати до включених програм</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Видалити з Включених програм</string>
+    <string name="accessibility_action_remove_included_app">Вилучити з включених програм</string>
     <string name="tileConnected">Під\'єднано: %1$s</string>
     <string name="openUrlError">Не вдалося відкрити %1$s. Не вдалося знайти браузер на вашому пристрої.</string>
     <string name="loaderErrorTimeout">Час очікування з\'єднання завершився. Будь ласка, спробуйте ще раз.</string>
@@ -550,7 +550,7 @@
         <item quantity="many">Отримайте доступ до географічно заблокованих матеріалів у %1$d країнах з VPN Plus</item>
         <item quantity="other">Отримайте доступ до географічно заблокованих матеріалів у %1$d країнах з VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Виберіть типове підключення</string>
+    <string name="select_default_connection">Виберіть типове з\'єднання</string>
     <string name="settings_default_connection_title">Типове з\'єднання</string>
     <string name="fastest_country_description">Найкращий сервер на основі вашого розташування</string>
     <string name="settings_last_connection_title">Останнє з\'єднання</string>
@@ -1296,7 +1296,7 @@
     <string name="settings_protocol_openvpn_udp_description">Налагоджений, перевірений і безпечний. OpenVPN менш енергоефективний, ніж деякі інші протоколи.</string>
     <string name="settings_protocol_openvpn_tcp_description">Налагоджений, перевірений і безпечний. OpenVPN надійний в поганих умовах мережі, але може бути не таким швидким, як інші протоколи.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Долає блокування VPN, приховуючи ваше VPN-з’єднання від цензури. Цей протокол стійкий до DPI (глибока перевірка пакетів), але може бути не таким швидким, як інші протоколи. Stealth є ексклюзивним для Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Обходить блокування VPN, приховуючи ваше VPN-з\'єднання від цензури. Цей протокол стійкий до DPI (глибока перевірка пакетів), але може бути не таким швидким, як інші протоколи. Stealth – ексклюзивний протокол, доступний лише з Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Рекомендовано</string>
     <string name="settings_split_tunneling_mode_title">Режим</string>
