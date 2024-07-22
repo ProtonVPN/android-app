@@ -433,7 +433,7 @@ include:
     ref: master
     file: '/jobs/sync-crowdin.gitlab-ci.yml'
 
-  - component: gitlab.protontech.ch/proton/devops/cicd-components/devsecops/gitleaks/scan-repository@0.0.12
+  - component: gitlab.protontech.ch/proton/devops/cicd-components/devsecops/gitleaks/scan-repository@0.0.17
     inputs:
       stage: prepare
 
