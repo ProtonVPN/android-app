@@ -1,0 +1,3 @@
+What's new
+- Bug fixes and performance improvements
+- Improves reliability on restricted networks
