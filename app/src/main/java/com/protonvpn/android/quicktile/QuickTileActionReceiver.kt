@@ -21,7 +21,6 @@ package com.protonvpn.android.quicktile
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
@@ -45,8 +44,6 @@ class QuickTileActionReceiver : BroadcastReceiver() {
     @Inject
     lateinit var isTv: IsTvCheck
     @Inject
-    lateinit var currentUser: CurrentUser
-    @Inject
     lateinit var mainScope: CoroutineScope
     @Inject
     lateinit var quickConnectIntent: GetQuickConnectIntent
@@ -61,14 +58,10 @@ class QuickTileActionReceiver : BroadcastReceiver() {
                 ProtonLogger.log(UiConnect, "quick tile")
                 val pendingResult = goAsync()
                 mainScope.launch {
-                    if (currentUser.user() == null) {
-                        context.startActivity(createLaunchIntent.forNotification(context))
-                    } else {
-                        vpnConnectionManager.connectInBackground(
-                            quickConnectIntent(),
-                            ConnectTrigger.QuickTile
-                        )
-                    }
+                    vpnConnectionManager.connectInBackground(
+                        quickConnectIntent(),
+                        ConnectTrigger.QuickTile
+                    )
                     pendingResult.finish()
                 }
             }

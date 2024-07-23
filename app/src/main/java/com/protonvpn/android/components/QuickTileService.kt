@@ -19,8 +19,10 @@
 package com.protonvpn.android.components
 
 import android.app.ActivityManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
@@ -105,12 +107,27 @@ class QuickTileService : TileService() {
     private fun onClickInternal() {
         val isActive = qsTile.state == Tile.STATE_ACTIVE
         mainScope.launch {
+            val isLoggedIn = dataStore.isLoggedIn()
+            if (!isLoggedIn) {
+                launchApp()
+            } else {
                 broadcastTileAction(
                     if (isActive)
                         QuickTileActionReceiver.ACTION_DISCONNECT
                     else
                         QuickTileActionReceiver.ACTION_CONNECT
                 )
+            }
+        }
+    }
+
+    private fun launchApp() {
+        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
+        if (Build.VERSION.SDK_INT >= 34) {
+            startActivityAndCollapse(
+                PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_IMMUTABLE))
+        } else {
+            startActivityAndCollapse(launchIntent)
         }
     }
 
