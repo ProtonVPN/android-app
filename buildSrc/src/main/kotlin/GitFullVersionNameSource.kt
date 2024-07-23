@@ -59,7 +59,6 @@ abstract class GitFullVersionNameSource : ValueSource<String, GitFullVersionName
                 // add #commits from branch point to HEAD to release
                 release += exec("git", "rev-list", "--count", "origin/development..HEAD").trim().toInt()
             } else { // Tag is on current branch
-                println("### tag: $tag")
                 release += exec("git", "rev-list", "--count", "${tag}..HEAD").trim().toInt()
             }
         }
