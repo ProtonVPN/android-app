@@ -5,7 +5,7 @@ make release branch:
   stage: deploy
   when: manual
   tags:
-    - shared-small
+    - shared-medium
   only:
     - development
     - /^hotfix/
