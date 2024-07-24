@@ -21,6 +21,8 @@ package com.protonvpn.tests.bugReport
 
 import androidx.test.core.app.ActivityScenario
 import com.protonvpn.actions.BugReportRobot
+import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.bugreport.Category
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.config.bugreport.InputField
@@ -29,21 +31,28 @@ import com.protonvpn.mocks.TestApiConfig
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
+import com.protonvpn.testsHelper.UserDataHelper
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
+import javax.inject.Inject
 
 @HiltAndroidTest
 class MockedBugReportTests {
+    @Inject
+    lateinit var appConfig: AppConfig
 
+    private val user = TestUser.plusUser
     private val inputFieldList: List<InputField> =
         listOf(InputField("Problem:", "Problem", true, "submit", type = "TextSingleLine"))
     private val dynamicReportModel: List<Category> =
         listOf(Category(inputFieldList, "VPN Not working", "Send", emptyList()))
 
-    private val mockApiConfig = TestApiConfig.Mocked(TestUser.plusUser) {
+    private val mockApiConfig = TestApiConfig.Mocked(user) {
         rule(get, path eq "/vpn/v1/featureconfig/dynamic-bug-reports") {
             respond(DynamicReportModel(dynamicReportModel))
         }
@@ -56,13 +65,14 @@ class MockedBugReportTests {
     @get:Rule
     var rules = RuleChain
         .outerRule(hiltRule)
-        .around(SetLoggedInUserRule(TestUser.plusUser))
+        .around(SetLoggedInUserRule(user))
 
     @Before
     fun setUp() {
         reportBugRobot = BugReportRobot()
         bugCategory = dynamicReportModel.first()
         hiltRule.inject()
+        runBlocking { appConfig.forceUpdate(user.vpnUser.userId) }
         ActivityScenario.launch(DynamicReportActivity::class.java)
     }
 

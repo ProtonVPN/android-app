@@ -116,8 +116,8 @@ class UserDataHelper {
     )
 
     fun setUserData(user: TestUser) = runBlocking(Main) {
-        val sessionId = SessionId("sessionId")
-        val userId = UserId("userId")
+        val sessionId = user.vpnUser.sessionId
+        val userId = user.vpnUser.userId
         accountManager.addAccount(
             Account(userId, user.email, user.email, AccountState.Ready, sessionId, SessionState.Authenticated,
                 AccountDetails(null, null)),
