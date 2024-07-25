@@ -1267,6 +1267,7 @@
     <string name="settings_account_change_password">Změnit heslo</string>
     <string name="settings_account_recovery_email">E-mail pro obnovení</string>
     <string name="settings_account_recovery_email_not_set">Nenastaveno</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Můj účet</string>
     <string name="settings_account_button_delete_account">Smazat účet</string>
@@ -1345,4 +1346,5 @@
     <string name="tv_settings_split_tunneling_description">Přizpůsobte si připojení tím, že se rozhodnete, které aplikace budou chráněny pomocí VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Vybrané aplikace jsou vyloučeny z připojení VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Pouze vybrané aplikace se připojí skrze VPN, ostatní provoz nebude chráněn.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

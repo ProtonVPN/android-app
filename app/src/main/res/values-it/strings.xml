@@ -1209,6 +1209,7 @@
     <string name="settings_account_change_password">Cambia la password</string>
     <string name="settings_account_recovery_email">Indirizzo email di recupero</string>
     <string name="settings_account_recovery_email_not_set">Non impostato</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Il mio account</string>
     <string name="settings_account_button_delete_account">Elimina l\'account</string>
@@ -1287,4 +1288,5 @@
     <string name="tv_settings_split_tunneling_description">Personalizza la tua connessione decidendo quali app sono protette dalla VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Le app selezionate sono escluse dalla tua connessione VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Solamente le app selezionate si connettono tramite VPN, tutto il resto del traffico non è protetto.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

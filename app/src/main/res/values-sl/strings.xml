@@ -1270,6 +1270,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_account_change_password">Spremeni geslo</string>
     <string name="settings_account_recovery_email">E-poštni naslov za obnovitev</string>
     <string name="settings_account_recovery_email_not_set">Ni nastavljeno</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Moj račun</string>
     <string name="settings_account_button_delete_account">Izbrišite račun</string>
@@ -1348,4 +1349,5 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

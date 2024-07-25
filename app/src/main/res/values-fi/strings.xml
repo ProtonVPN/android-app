@@ -1209,6 +1209,7 @@
     <string name="settings_account_change_password">Vaihda salasana</string>
     <string name="settings_account_recovery_email">Palautusosoite</string>
     <string name="settings_account_recovery_email_not_set">Ei asetettu</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Oma tili</string>
     <string name="settings_account_button_delete_account">Poista tili</string>
@@ -1287,4 +1288,5 @@
     <string name="tv_settings_split_tunneling_description">Mukauta yhteyttäsi määrittämällä, mitkä sovellukset suojataan VPN:llä.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Valitut sovellukset suljetaan VPN-yhteyden ulkopuolelle.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Vain valitut sovellukset muodostavat yhteyden VPN:n kautta, kaikki muu tietoliikenne on suojaamatonta.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

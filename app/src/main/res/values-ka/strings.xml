@@ -1209,6 +1209,7 @@
     <string name="settings_account_change_password">პაროლის შეცვლა</string>
     <string name="settings_account_recovery_email">აღდგენის ელფოსტა</string>
     <string name="settings_account_recovery_email_not_set">დაყენებული არაა</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">ჩემი ანგარიში</string>
     <string name="settings_account_button_delete_account">ანგარიშის წაშლა</string>
@@ -1287,4 +1288,5 @@
     <string name="tv_settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები იქნებიან VPN-ით დაცული.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">მონიშნული აპები ამოღებულია VPN მიერთებიდან.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">მხოლოდ, არჩეული აპები გამოიყენებენ VPN-ს. დანარჩენი ყველაფერი დაუცველი იქნება.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

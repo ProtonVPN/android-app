@@ -1238,6 +1238,7 @@
     <string name="settings_account_change_password">Schimbare parolă</string>
     <string name="settings_account_recovery_email">E-mail de recuperare</string>
     <string name="settings_account_recovery_email_not_set">Nesetat</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Contul meu</string>
     <string name="settings_account_button_delete_account">Ștergere cont</string>
@@ -1316,4 +1317,5 @@
     <string name="tv_settings_split_tunneling_description">Personalizați-vă conexiunea decizând care aplicații sunt protejate de VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplicațiile selectate sunt excluse de la conexiunea prin VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Doar aplicațiile selectate se conectează prin VPN, orice alt trafic nefiind protejat.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

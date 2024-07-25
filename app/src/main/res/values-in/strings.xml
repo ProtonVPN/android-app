@@ -442,13 +442,13 @@
     <string name="payment_select_your_plan">Pilih paket Anda</string>
     <string name="payment_button_get_vpn_plus">Dapatkan VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Penawaran kedatangan. Diperbarui secara otomatis seharga %1$s/bulan</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Penawaran kedatangan. Diperbarui secara otomatis seharga %1$s/tahun</string>
+    <string name="payment_auto_renew_message_monthly">Langganan diperbarui secara otomatis seharga %1$s/bulan</string>
+    <string name="payment_auto_renew_message_annual">Langganan diperbarui secara otomatis seharga %1$s/tahun</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Langganan diperbarui secara otomatis setiap bulan</string>
+    <string name="payment_welcome_price_message_annual_fallback">Langganan diperbarui secara otomatis setiap tahun</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informasi</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -1180,6 +1180,7 @@
     <string name="settings_account_change_password">Ubah kata sandi</string>
     <string name="settings_account_recovery_email">Email pemulihan</string>
     <string name="settings_account_recovery_email_not_set">Belum diatur</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Akun saya</string>
     <string name="settings_account_button_delete_account">Hapus akun</string>
@@ -1258,4 +1259,5 @@
     <string name="tv_settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi mana saja yang terlindung oleh VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplikasi yang dipilih dikecualikan dari koneksi VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Hanya aplikasi yang dipilih yang akan terhubung melalui VPN, lalu lintas lainnya tidak terlindungi.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>
