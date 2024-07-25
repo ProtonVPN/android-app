@@ -451,11 +451,11 @@
     <string name="payment_select_your_plan">Välj ditt paket</string>
     <string name="payment_button_get_vpn_plus">Skaffa VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Välkomsterbjudande. Förnyas automatiskt med %1$s/månad</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
+    <string name="payment_welcome_price_message_annual">Välkomsterbjudande. Förnyas automatiskt med %1$s/år</string>
+    <string name="payment_auto_renew_message_monthly">Prenumerationen förnyas automatiskt med %1$s/månad</string>
+    <string name="payment_auto_renew_message_annual">Prenumeration förnyas automatiskt med %1$s/år</string>
     <string name="payment_welcome_price_message_monthly_fallback">Prenumeration förnyas automatiskt varje månad</string>
     <string name="payment_welcome_price_message_annual_fallback">Prenumeration förnyas automatiskt varje år</string>
     <!-- Information activity -->
@@ -1209,6 +1209,7 @@
     <string name="settings_account_change_password">Ändra lösenord</string>
     <string name="settings_account_recovery_email">E-post för återställning</string>
     <string name="settings_account_recovery_email_not_set">Inte inställd</string>
+    <string name="settings_account_security_keys">Säkerhetsnycklar</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Mitt konto</string>
     <string name="settings_account_button_delete_account">Ta bort konto</string>
@@ -1287,4 +1288,5 @@
     <string name="tv_settings_split_tunneling_description">Anpassa din anslutning genom att bestämma vilka appar som är skyddade av VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Valda appar är exkluderade från VPN-anslutning.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Endast valda appar ansluter genom VPN, all annan trafik är oskyddad.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

@@ -1209,6 +1209,7 @@
     <string name="settings_account_change_password">Αλλαγή κωδικού πρόσβασης</string>
     <string name="settings_account_recovery_email">Διεύθυνση ανάκτησης</string>
     <string name="settings_account_recovery_email_not_set">Μη ορισμένο</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Ο λογαριασμός μου</string>
     <string name="settings_account_button_delete_account">Διαγραφή λογαριασμού</string>
@@ -1287,4 +1288,5 @@
     <string name="tv_settings_split_tunneling_description">Προσαρμόστε τη σύνδεσή σας αποφασίζοντας ποιες εφαρμογές προστατεύονται από VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Οι επιλεγμένες εφαρμογές εξαιρούνται από τη σύνδεση VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Μόνο επιλεγμένες εφαρμογές συνδέονται μέσω VPN, όλη η άλλη κίνηση είναι απροστάτευτη.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

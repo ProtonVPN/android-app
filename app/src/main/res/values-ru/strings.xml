@@ -1267,6 +1267,7 @@
     <string name="settings_account_change_password">Изменить пароль</string>
     <string name="settings_account_recovery_email">Резервный адрес электронной почты</string>
     <string name="settings_account_recovery_email_not_set">Не установлен</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Мой аккаунт</string>
     <string name="settings_account_button_delete_account">Удалить аккаунт</string>
@@ -1345,4 +1346,5 @@
     <string name="tv_settings_split_tunneling_description">Настройте свое подключение, определив, какие приложения будут защищены VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Выбранные приложения исключаются из подключения к VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Через VPN подключаются только выбранные приложения, весь остальной трафик остается незащищенным.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

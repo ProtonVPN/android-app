@@ -451,13 +451,13 @@
     <string name="payment_select_your_plan">Choisissez votre abonnement</string>
     <string name="payment_button_get_vpn_plus">Obtenir VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Offre de bienvenue. Se renouvelle à %1$s par mois</string>
+    <string name="payment_welcome_price_message_monthly">Offre de bienvenue. Elle se renouvelle à %1$s par mois.</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Offre de bienvenue. Se renouvelle à %1$s par an</string>
-    <string name="payment_auto_renew_message_monthly">L\'abonnement est renouvelé automatiquement à %1$s par mois</string>
-    <string name="payment_auto_renew_message_annual">L\'abonnement est renouvelé automatiquement à %1$s par an</string>
-    <string name="payment_welcome_price_message_monthly_fallback">L\'abonnement est renouvelé automatiquement tous les mois</string>
-    <string name="payment_welcome_price_message_annual_fallback">L\'abonnement est renouvelé automatiquement tous les ans</string>
+    <string name="payment_welcome_price_message_annual">Offre de bienvenue. Elle se renouvelle à %1$s par an.</string>
+    <string name="payment_auto_renew_message_monthly">L\'abonnement est renouvelé automatiquement à %1$s par mois.</string>
+    <string name="payment_auto_renew_message_annual">L\'abonnement est renouvelé automatiquement à %1$s par an.</string>
+    <string name="payment_welcome_price_message_monthly_fallback">L\'abonnement est renouvelé automatiquement tous les mois.</string>
+    <string name="payment_welcome_price_message_annual_fallback">L\'abonnement est renouvelé automatiquement tous les ans.</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informations</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -1209,6 +1209,7 @@
     <string name="settings_account_change_password">Changer le mot de passe</string>
     <string name="settings_account_recovery_email">E-mail de récupération</string>
     <string name="settings_account_recovery_email_not_set">Non défini</string>
+    <string name="settings_account_security_keys">Clés de sécurité</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Mon compte</string>
     <string name="settings_account_button_delete_account">Supprimer le compte</string>
@@ -1287,4 +1288,5 @@
     <string name="tv_settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications sont protégées par le VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Les applications sélectionnées sont exclues de la connexion VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Seules les applications sélectionnées se connectent via VPN. Tout autre trafic n\'est pas protégé.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>

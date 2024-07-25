@@ -1209,6 +1209,7 @@
     <string name="settings_account_change_password">Parolayı değiştir</string>
     <string name="settings_account_recovery_email">Kurtarma e-postası adresi</string>
     <string name="settings_account_recovery_email_not_set">Ayarlanmamış</string>
+    <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Hesabım</string>
     <string name="settings_account_button_delete_account">Hesabı sil</string>
@@ -1287,4 +1288,5 @@
     <string name="tv_settings_split_tunneling_description">Hangi uygulamaların VPN tarafından korunacağını seçerek bağlantınızı özelleştirin.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Seçilmiş uygulamalar VPN bağlantısına katılmaz.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Yalnızca seçilmiş uygulamalar VPN üzerinden bağlantı kurar, diğer tüm trafik korumasızdır.</string>
+    <!-- Temporary strings for auto-login feature -->
 </resources>
