@@ -45,6 +45,12 @@ class ServersStore(
         }
     }
 
+    @Deprecated("Use save() with immutable data that can be serialized on another thread.")
+    fun saveMutable() {
+        val data = ServersSerializationData(allServers)
+        store.storeMutable(data)
+    }
+
     fun save() {
         val data = ServersSerializationData(allServers)
         store.store(data)

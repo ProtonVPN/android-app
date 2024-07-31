@@ -25,7 +25,9 @@ import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetSmartProtocols
+import com.protonvpn.android.servers.IsImmutableServerListEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 
@@ -37,6 +39,11 @@ fun createGetSmartProtocols(
 ): GetSmartProtocols = mockk<GetSmartProtocols>().also {
     every { it.invoke() } returns protocols
 }
+
+fun createIsImmutableServerListEnabled(isEnabled: Boolean) =
+    mockk<IsImmutableServerListEnabled>().also {
+        coEvery { it.invoke() } returns isEnabled
+    }
 
 @Suppress("LongParameterList")
 fun createServer(

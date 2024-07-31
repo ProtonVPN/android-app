@@ -36,6 +36,8 @@ import java.io.File
 /** Generic interface for storing and retrieving objects of type [T]. */
 interface ObjectStore<T> {
     suspend fun read(): T?
+    @Deprecated("Use store() with data that is immutable and can be serialized on another thread.")
+    fun storeMutable(data: T)
     fun store(data: T)
     fun clear()
 }
@@ -110,19 +112,31 @@ class FileObjectStore<T, S> constructor(
         }
     }
 
-    override fun store(data: T) {
+    @Deprecated("Use store() with data that is immutable and can be serialized on another thread.")
+    override fun storeMutable(data: T) {
         // Serialize on current thread, save to file on IO in the background
         val serialized = serializer.serialize(data)
         mainScope.launch(ioDispatcher) {
-            if (tmpFile.exists()) {
-                tmpFile.delete()
-            }
-            // Store file is assumed to never be corrupted, tmp might be corrupted if we crash while
-            // writing to it.
-            fileWriter.write(tmpFile, serialized)
-            storeFile.delete()
-            tmpFile.renameTo(storeFile)
+            storeSync(serialized)
         }
+    }
+
+    override fun store(data: T) {
+        mainScope.launch(ioDispatcher) {
+            val serialized = serializer.serialize(data)
+            storeSync(serialized)
+        }
+    }
+
+    private fun storeSync(serialized: S) {
+        if (tmpFile.exists()) {
+            tmpFile.delete()
+        }
+        // Store file is assumed to never be corrupted, tmp might be corrupted if we crash while
+        // writing to it.
+        fileWriter.write(tmpFile, serialized)
+        storeFile.delete()
+        tmpFile.renameTo(storeFile)
     }
 
     companion object {

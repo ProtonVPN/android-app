@@ -42,6 +42,7 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.testsHelper.AccountTestHelper
 import com.protonvpn.testsHelper.IdlingResourceDispatcher
@@ -113,16 +114,16 @@ class RecentsListValidatorTests {
             accountManager.addAccount(AccountTestHelper.TestAccount2, AccountTestHelper.TestSession2)
         }
 
-
+        val bgScope = testScope.backgroundScope
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         recentsDao = db.recentsDao()
         serverManager = ServerManager(
-            testScope.backgroundScope,
+            bgScope,
             EffectiveCurrentUserSettingsCached(settingsFlow),
             currentUser = mockk(relaxed = true),
             wallClock = { 0 },
             supportsProtocol = supportsProtocol,
-            serversData = ServersDataManager(createInMemoryServersStore()),
+            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
             profileManager = mockk(),
         )
         serverManager2 = ServerManager2(serverManager, supportsProtocol)

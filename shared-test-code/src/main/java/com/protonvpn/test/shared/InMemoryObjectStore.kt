@@ -25,6 +25,7 @@ import com.protonvpn.android.utils.ObjectStore
 class InMemoryObjectStore<T> : ObjectStore<T> {
     private var value: T? = null
     override suspend fun read(): T? = value
+    override fun storeMutable(data: T) { value = data }
     override fun store(data: T) { value = data }
     override fun clear() { value = null }
 }

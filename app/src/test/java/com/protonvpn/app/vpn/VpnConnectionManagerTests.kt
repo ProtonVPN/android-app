@@ -59,6 +59,7 @@ import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -184,14 +185,15 @@ class VpnConnectionManagerTests {
         vpnStateMonitor = VpnStateMonitor()
         supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
+        val bgScope = testScope.backgroundScope
         serverManager = ServerManager(
-            testScope.backgroundScope,
+            bgScope,
             userSettingsCached,
             mockCurrentUser,
             clock,
             supportsProtocol,
-            ServersDataManager(createInMemoryServersStore()),
-            profileManager
+            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            profileManager,
         )
         runBlocking {
             serverManager.setServers(MockedServers.serverList, null)

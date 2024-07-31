@@ -38,6 +38,7 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,15 +79,16 @@ class ProfileManagerTests {
         settingsManager =
             CurrentUserLocalSettingsManager(LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
 
+        val bgScope = testScope.backgroundScope
         profileManager =
-            ProfileManager(SavedProfilesV3.defaultProfiles(), testScope.backgroundScope, currentUserSettings, settingsManager)
+            ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, currentUserSettings, settingsManager)
         serverManager = ServerManager(
-            testScope.backgroundScope,
+            bgScope,
             currentUserSettings,
             currentUser,
             { 0 },
             SupportsProtocol(createGetSmartProtocols()),
-            ServersDataManager(createInMemoryServersStore()),
+            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
             profileManager,
         )
     }

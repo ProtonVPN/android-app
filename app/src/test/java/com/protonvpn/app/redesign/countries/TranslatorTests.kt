@@ -28,6 +28,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -56,14 +57,15 @@ class TranslatorTests {
         testScope = TestScope(UnconfinedTestDispatcher())
         val settings = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
 
+        val bgScope = testScope.backgroundScope
         serverManager = ServerManager(
-            testScope.backgroundScope,
+            bgScope,
             settings,
             mockk(),
             { 0 },
             mockk(relaxed = true),
-            ServersDataManager(createInMemoryServersStore()),
-            mockk()
+            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            mockk(),
         )
     }
 
