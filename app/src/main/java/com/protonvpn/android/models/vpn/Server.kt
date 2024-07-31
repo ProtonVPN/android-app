@@ -129,6 +129,7 @@ data class Server(
     else
         serverName
 
+    @Deprecated("Servers should be immutable")
     fun setOnline(value: Boolean) {
         isOnline = value
         connectingDomains.forEach {

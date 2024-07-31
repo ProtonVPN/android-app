@@ -47,6 +47,7 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.testsHelper.AccountTestHelper
 import io.mockk.mockk
@@ -99,6 +100,7 @@ class MigrateProfileTests {
     fun setup() {
         val testDispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(testDispatcher)
+        val bgScope = testScope.backgroundScope
 
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
@@ -115,11 +117,11 @@ class MigrateProfileTests {
 
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val userSettingsCached = EffectiveCurrentUserSettingsCached(settingsFlow)
-        val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
+        val userSettings = EffectiveCurrentUserSettings(bgScope, settingsFlow)
 
         profileManager = ProfileManager(
             SavedProfilesV3.defaultProfiles(),
-            testScope.backgroundScope,
+            bgScope,
             userSettingsCached,
             userSettingsManager = mockk(relaxed = true)
         )
@@ -127,13 +129,13 @@ class MigrateProfileTests {
         currentUser = CurrentUser(TestCurrentUserProvider(vpnUser))
 
         serverManager = ServerManager(
-            testScope.backgroundScope,
+            bgScope,
             userSettingsCached,
             currentUser,
             { 0 },
             SupportsProtocol(createGetSmartProtocols()),
-            ServersDataManager(createInMemoryServersStore()),
-            profileManager
+            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            profileManager,
         )
         runBlocking {
             serverManager.setServers(servers, null)

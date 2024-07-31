@@ -23,6 +23,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.profiles.SavedProfilesV3
+import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
@@ -34,7 +35,6 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.userstorage.ProfileManager
@@ -45,6 +45,7 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
@@ -111,29 +112,16 @@ class ServerManagerTests {
         currentSettings = MutableStateFlow(LocalUserSettings.Default)
         val currentUserSettings = EffectiveCurrentUserSettingsCached(currentSettings)
 
-        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         profileManager = ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, currentUserSettings, mockk())
-        manager = ServerManager(
-            bgScope,
-            currentUserSettings,
-            currentUser,
-            { 0L },
-            supportsProtocol,
-            ServersDataManager(createInMemoryServersStore()),
-            profileManager
-        )
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 
-        val allServers = regularServers + gatewayServer
-        runBlocking {
-            manager.setServers(allServers, null)
-        }
-        serverManager2 = ServerManager2(manager, supportsProtocol)
+        // Note: use createServerManagers in each test
     }
 
     @Test
     fun doNotChooseOfflineServerFromCountry() = testScope.runTest {
+        createServerManagers(immutableServerList = true)
         val country = manager.getVpnExitCountry("CA", false)
         val countryBestServer = manager.getBestScoreServer(country!!.serverList, currentUser.vpnUser())
         assertEquals("CA#2", countryBestServer!!.serverName)
@@ -141,6 +129,7 @@ class ServerManagerTests {
 
     @Test
     fun doNotChooseOfflineServerFromAll() = testScope.runTest {
+        createServerManagers(immutableServerList = true)
         val server = manager.getBestScoreServer(false, serverFeatures = emptySet(), currentUser.vpnUser())
         assertNotNull(server)
         assertEquals("DE#1", server.serverName)
@@ -148,6 +137,7 @@ class ServerManagerTests {
 
     @Test
     fun testOnlineAccessibleServersSeparatesGatewaysFromRegular() = testScope.runTest {
+        createServerManagers(immutableServerList = true)
         val gatewayName = gatewayServer.gatewayName
         val gatewayServers = serverManager2.getOnlineAccessibleServers(false, gatewayName, vpnUser, ProtocolSelection.SMART)
         val regularServers = serverManager2.getOnlineAccessibleServers(false, null, vpnUser, ProtocolSelection.SMART)
@@ -158,6 +148,7 @@ class ServerManagerTests {
 
     @Test
     fun testGetServerById() {
+        testScope.createServerManagers(immutableServerList = true)
         val server = manager.getServerById(
             "1H8EGg3J1QpSDL6K8hGsTvwmHXdtQvnxplUMePE7Hruen5JsRXvaQ75-sXptu03f0TCO-he3ymk0uhrHx6nnGQ=="
         )
@@ -183,6 +174,7 @@ class ServerManagerTests {
             assertEquals(expectedServerId, server?.serverId)
         }
 
+        createServerManagers(immutableServerList = true)
         val servers = listOf(
             // The best server has no features.
             createSeattleServer("1", score = .1, features = 0),
@@ -207,4 +199,58 @@ class ServerManagerTests {
         testIntent("SC", ConnectIntent.SecureCore(CountryId("US"), entryCountry = CountryId("CH")))
         testIntent("SC", ConnectIntent.SecureCore(CountryId("US"), entryCountry = CountryId.fastest))
     }
+
+    @Test
+    fun updatedLoadsAreReflectedInGroupedServersLegacy() = testScope.runTest {
+        updatedLoadsAreReflectedInGroupedServers(immutableServerList = false)
+    }
+
+    @Test
+    fun updatedLoadsAreReflectedInGroupedServers() = testScope.runTest {
+        updatedLoadsAreReflectedInGroupedServers(immutableServerList = true)
+    }
+
+    private suspend fun TestScope.updatedLoadsAreReflectedInGroupedServers(immutableServerList: Boolean) {
+        val server1 = createServer("server1", exitCountry = "PL", loadPercent = 50f, score = 1.5, isOnline = true)
+        val server2 = createServer("server2", exitCountry = "PL", loadPercent = 10f, score = 1.0, isOnline = false)
+        val newLoads = listOf(
+            LoadUpdate("server1", load = 100f, score = 0.0, status = 1),
+            LoadUpdate("server2", load = 25f, score = 5.0, status = 1),
+        )
+        createServerManagers(servers = listOf(server1, server2), immutableServerList = immutableServerList)
+        manager.updateLoads(newLoads)
+
+        val country = serverManager2.getVpnExitCountry("PL", secureCoreCountry = false)
+        val expectedServers = setOf(
+            server1.copy(load = 100f, score = 0.0),
+            server2.copy(load = 25f, score = 5.0, isOnline = true)
+        )
+        assertEquals(expectedServers, country?.serverList?.toSet())
+    }
+
+    private fun TestScope.createServerManagers(
+        servers: List<Server> = regularServers + gatewayServer,
+        immutableServerList: Boolean = true,
+    ) {
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
+        manager = ServerManager(
+            backgroundScope,
+            EffectiveCurrentUserSettingsCached(currentSettings),
+            currentUser,
+            { 0L },
+            supportsProtocol,
+            ServersDataManager(
+                backgroundScope,
+                createInMemoryServersStore(),
+                { createIsImmutableServerListEnabled(immutableServerList) }
+            ),
+            profileManager,
+        )
+
+        runBlocking {
+            manager.setServers(servers, null)
+        }
+        serverManager2 = ServerManager2(manager, supportsProtocol)
+    }
+
 }

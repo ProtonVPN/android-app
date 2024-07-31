@@ -59,6 +59,7 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -131,9 +132,10 @@ class RecentsListViewStateFlowTests {
         Dispatchers.setMain(testDispatcher) // Remove this when ServerManager no longer uses asLiveData().
         val currentUser = CurrentUser(currentUserProvider)
         val clock = { testCoroutineScheduler.currentTime }
+        val bgScope = testScope.backgroundScope
 
         vpnStateMonitor = VpnStateMonitor()
-        val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
+        val vpnStatusProviderUI = VpnStatusProviderUI(bgScope, vpnStateMonitor)
 
         coEvery { mockRecentsManager.getRecentsList() } returns flowOf(emptyList())
         coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(null)
@@ -142,19 +144,19 @@ class RecentsListViewStateFlowTests {
         every { mockChangeServerManager.isChangingServer } returns MutableStateFlow(false)
 
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
+        val effectiveUserSettings = EffectiveCurrentUserSettings(bgScope, settingsFlow)
         val effectiveUserSettingsCached = EffectiveCurrentUserSettingsCached(settingsFlow)
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
 
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
         serverManager = ServerManager(
-            testScope.backgroundScope,
+            bgScope,
             effectiveUserSettingsCached,
             currentUser,
             clock,
             supportsProtocol,
-            ServersDataManager(createInMemoryServersStore()),
+            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
             mockk(),
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)

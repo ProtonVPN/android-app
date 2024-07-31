@@ -136,3 +136,7 @@ fun <K,V> MutableMap<K, MutableList<V>>.addToList(k: K, v: V) {
 fun <K,V> MutableMap<K, MutableSet<V>>.addToSet(k: K, v: V) {
     getOrPut(k) { mutableSetOf() }.add(v)
 }
+
+fun <T> Iterable<T>.replace(newItem: T, predicate: (T) -> Boolean) = map {
+    if (predicate(it)) newItem else it
+}

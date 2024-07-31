@@ -57,6 +57,7 @@ import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -139,8 +140,8 @@ class TvMainViewModelTests {
             mockCurrentUser,
             { 0 },
             supportsProtocol,
-            ServersDataManager(createInMemoryServersStore()),
-            profileManager
+            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            profileManager,
         )
         runBlocking {
             serverManager.setServers(MockedServers.serverList, "us")

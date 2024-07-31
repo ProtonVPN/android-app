@@ -88,6 +88,7 @@ import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
+import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -213,12 +214,13 @@ class VpnConnectionTests {
         val testScheduler = TestCoroutineScheduler()
         val testDispatcher = UnconfinedTestDispatcher(testScheduler)
         scope = TestScope(testDispatcher)
+        val bgScope = scope.backgroundScope
         testDispatcherProvider = TestDispatcherProvider(testDispatcher)
         Dispatchers.setMain(testDispatcher)
         val clock = { testScheduler.currentTime }
 
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
-        val userSettings = EffectiveCurrentUserSettings(scope.backgroundScope, userSettingsFlow)
+        val userSettings = EffectiveCurrentUserSettings(bgScope, userSettingsFlow)
         val userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
 
         val smartProtocolsConfig = SmartProtocolConfig(
@@ -287,7 +289,7 @@ class VpnConnectionTests {
             currentUser,
             clock,
             supportsProtocol,
-            ServersDataManager(createInMemoryServersStore()),
+            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
             profileManager,
         )
         runBlocking {
