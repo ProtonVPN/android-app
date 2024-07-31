@@ -35,13 +35,16 @@ class GetQuickConnectIntent @Inject constructor(
     private val userSettings: EffectiveCurrentUserSettings,
 ) {
     suspend operator fun invoke(): ConnectIntent {
-        val isPaidUser = currentUser.vpnUser()?.isFreeUser == false
-        val quickIntent = when (val defaultConnection = recentsManager.getDefaultConnectionFlow().first()) {
-            DefaultConnection.LastConnection ->
-                recentsManager.getMostRecentConnection().first()?.connectIntent?.takeIf { isPaidUser }
-            DefaultConnection.FastestConnection -> ConnectIntent.Fastest
-            is DefaultConnection.Recent ->
-                recentsManager.getRecentById(defaultConnection.recentId)?.connectIntent
+        val quickIntent: ConnectIntent? = if (currentUser.vpnUser()?.isFreeUser != false) {
+            ConnectIntent.Default
+        } else {
+            when (val defaultConnection = recentsManager.getDefaultConnectionFlow().first()) {
+                DefaultConnection.LastConnection ->
+                    recentsManager.getMostRecentConnection().first()?.connectIntent
+                DefaultConnection.FastestConnection -> ConnectIntent.Fastest
+                is DefaultConnection.Recent ->
+                    recentsManager.getRecentById(defaultConnection.recentId)?.connectIntent
+            }
         }
 
         return quickIntent?.takeIf {

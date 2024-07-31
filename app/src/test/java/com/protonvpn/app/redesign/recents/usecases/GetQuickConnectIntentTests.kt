@@ -96,6 +96,7 @@ class GetQuickConnectIntentTests {
 
         assertEquals(connectIntent, getQuickConnectIntent())
     }
+
     @Test
     fun `when recent is offline fastest connection is returned instead`() = testScope.runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
@@ -106,11 +107,23 @@ class GetQuickConnectIntentTests {
 
         assertEquals(ConnectIntent.Fastest, getQuickConnectIntent())
     }
+
     @Test
     fun `when there is connection history return fastest for free user`() = testScope.runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
         testUserProvider.vpnUser = freeUser
         mostRecentConnectionFlow.value = RecentConnection(0, false, connectIntent)
+
+        assertEquals(ConnectIntent.Fastest, getQuickConnectIntent())
+    }
+
+    @Test
+    fun `when specific recent is selected return fastest for free user`() = testScope.runTest {
+        val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
+        val recent = RecentConnection(0, false, connectIntent)
+        coEvery { mockRecentsManager.getRecentById(recent.id) } returns recent
+        coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.Recent(recent.id))
+        testUserProvider.vpnUser = freeUser
 
         assertEquals(ConnectIntent.Fastest, getQuickConnectIntent())
     }
