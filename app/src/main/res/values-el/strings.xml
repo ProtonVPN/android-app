@@ -1209,7 +1209,7 @@
     <string name="settings_account_change_password">Αλλαγή κωδικού πρόσβασης</string>
     <string name="settings_account_recovery_email">Διεύθυνση ανάκτησης</string>
     <string name="settings_account_recovery_email_not_set">Μη ορισμένο</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Κλειδιά Ασφαλείας</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Ο λογαριασμός μου</string>
     <string name="settings_account_button_delete_account">Διαγραφή λογαριασμού</string>
@@ -1275,7 +1275,7 @@
     <string name="secure_core_upsell_banner_description">Επιπρόσθετο επίπεδο κρυπτογράφησης στη σύνδεση VPN σας</string>
     <string name="p2p_upsell_banner_description">Λήψη αρχείων μέσω BitTorrent και άλλων πρωτοκόλλων κοινής χρήσης αρχείων</string>
     <string name="tor_upsell_banner_description">Χρησιμοποιήστε το δίκτυο Tor μέσω της σύνδεσής σας VPN για επιπλέον ιδιωτικότητα</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">Αναβαθμίστε στο VPN Plus</string>
     <string name="search_zero_screen_title">Δοκιμάστε να αναζητήσετε για…</string>
     <string name="search_zero_screen_info_countries_title">Χώρες</string>
     <string name="search_zero_screen_info_cities_title">Πόλεις</string>

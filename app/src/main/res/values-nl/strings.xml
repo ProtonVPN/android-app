@@ -19,10 +19,10 @@
 -->
 <resources>
     <string name="app_icon_name_classic">Classic</string>
-    <string name="app_icon_name_dark">Dark</string>
+    <string name="app_icon_name_dark">Donker</string>
     <string name="app_icon_name_retro">Retro</string>
     <string name="app_icon_name_weather">Weather</string>
-    <string name="app_icon_name_notes">Notes</string>
+    <string name="app_icon_name_notes">Notities</string>
     <string name="app_icon_name_calculator">Calculator</string>
     <!-- Strings related to login -->
     <string name="login">Log in</string>
@@ -122,7 +122,7 @@
     <string name="profileRandom">Willekeurig</string>
     <string name="loaderErrorNoInternet">Geen internetverbinding</string>
     <string name="loaderErrorGeneric">Er is iets fout gegaan</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">IP-adres</string>
     <string name="inputIpAddressHint">Voer IP-adres in</string>
     <string name="inputIpAddressErrorInvalid">Ongeldig IP-adres</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
@@ -213,7 +213,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Deze statistieken bevatten uw IP-adres niet, en kunnen niet gebruikt worden om u te identificeren. We zullen deze nooit delen met derden. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="netshield_settings_description_not_html">Bescherm uzelf tegen advertenties, malware en trackers op websites en apps. Als websites niet laden, probeer NetShield uit te schakelen. %1$s</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">Learn more</string>
+    <string name="settings_icon_change_learn_more">Lees meer</string>
     <string name="learn_more">Lees meer</string>
     <string name="netshield_state_on" comment="Describes state, not action">Aan</string>
     <string name="netshield_state_off" comment="Describes state, not action">Uit</string>
@@ -255,7 +255,7 @@
     <string name="nameAsia">Azië</string>
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Midden-Oosten</string>
     <string name="nameOceania">Oceanië</string>
-    <string name="tv_row_settings">Settings</string>
+    <string name="tv_row_settings">Instellingen</string>
     <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favoriet</string>
@@ -1087,7 +1087,7 @@
     <string name="info_dialog_button_learn_more_tor">Hoe krijgt u toegang tot het Tor-netwerk</string>
     <string name="info_dialog_button_learn_more_p2p">Hoe torrent met P2P</string>
     <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
-    <string name="info_dialog_streaming_title">Streaming</string>
+    <string name="info_dialog_streaming_title">Streamen</string>
     <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
     <string name="info_dialog_how_to_stream">How to stream:</string>
     <!-- item 1 in the numbered list -->
@@ -1102,7 +1102,7 @@
     <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
-    <string name="connection_feature_streaming_title">Streaming</string>
+    <string name="connection_feature_streaming_title">Streamen</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
@@ -1209,7 +1209,7 @@
     <string name="settings_account_change_password">Wachtwoord wijzigen</string>
     <string name="settings_account_recovery_email">Herstel-e-mailadres</string>
     <string name="settings_account_recovery_email_not_set">Niet ingesteld</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Beveiligingssleutels</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Mijn account</string>
     <string name="settings_account_button_delete_account">Account verwijderen</string>
@@ -1228,7 +1228,7 @@
     <string name="settings_split_tunneling_description">Pas uw verbinding aan door te beslissen welke apps en IP-adressen worden beschermd door VPN. %1$s</string>
     <string name="settings_protocol_description">Een VPN-protocol bepaalt hoe data beweegt tussen een VPN-server en uw apparaat. %1$s</string>
     <string name="settings_protocol_description_no_link">Een VPN-protocol bepaalt hoe gegevens zich bewegen tussen een VPN-server en uw apparaat.</string>
-    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_speed">Snelheid (UDP)</string>
     <string name="settings_protocol_section_reliability">Betrouwbaarheid (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Selecteert automatisch het beste protocol voor uw verbinding.</string>
@@ -1241,10 +1241,10 @@
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Recommended</string>
+    <string name="settings_protocol_badge_recommended">Aanbevolen</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
-    <string name="settings_split_tunneling_mode_standard">Standard</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_standard">Standaard</string>
+    <string name="settings_split_tunneling_mode_inverse">Omgekeerd</string>
     <string name="settings_split_tunneling_mode_description_standard">Bepaalde apps en IP-adressen zijn uitgesloten van de VPN-verbinding.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Uitgesloten apps</string>

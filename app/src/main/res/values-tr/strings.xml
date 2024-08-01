@@ -1209,7 +1209,7 @@
     <string name="settings_account_change_password">Parolayı değiştir</string>
     <string name="settings_account_recovery_email">Kurtarma e-postası adresi</string>
     <string name="settings_account_recovery_email_not_set">Ayarlanmamış</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Güvenlik anahtarları</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Hesabım</string>
     <string name="settings_account_button_delete_account">Hesabı sil</string>
@@ -1275,7 +1275,7 @@
     <string name="secure_core_upsell_banner_description">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
     <string name="p2p_upsell_banner_description">Dosyaları BitTorrent ve diğer dosya paylaşım iletişim kuralları üzerinden indirin</string>
     <string name="tor_upsell_banner_description">Ek gizlilik sağlamak için VPN bağlantınızı Tor ağından geçirin</string>
-    <string name="vpnplus_upsell_banner_description">VPN Plus paketine yükselt</string>
+    <string name="vpnplus_upsell_banner_description">VPN Plus tarifesine yükselt</string>
     <string name="search_zero_screen_title">Şunun için aramayı dene…</string>
     <string name="search_zero_screen_info_countries_title">Ülkeler</string>
     <string name="search_zero_screen_info_cities_title">İller</string>

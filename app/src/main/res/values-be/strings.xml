@@ -1267,7 +1267,7 @@
     <string name="settings_account_change_password">Змяніць пароль</string>
     <string name="settings_account_recovery_email">Электронная пошта для аднаўлення доступу</string>
     <string name="settings_account_recovery_email_not_set">Не зададзена</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Ключы бяспекі</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Мой уліковы запіс</string>
     <string name="settings_account_button_delete_account">Выдаліць уліковы запіс</string>

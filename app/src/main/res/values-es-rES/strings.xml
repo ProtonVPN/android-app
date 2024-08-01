@@ -427,7 +427,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Navega a velocidades aún mayores (hasta %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Tunelización dividida</string>
+    <string name="upsell_card_split_tunneling_title">Túnel dividido</string>
     <string name="upsell_card_split_tunneling_description">Navega desde dos ubicaciones a la vez</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Mira tus películas y programas favoritos</string>
@@ -451,13 +451,13 @@
     <string name="payment_select_your_plan">Elige tu suscripción</string>
     <string name="payment_button_get_vpn_plus">Obtener VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Oferta de bienvenida. Renovación automática por %1$s/mes</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Oferta de bienvenida. Renovación automática por %1$s/año</string>
+    <string name="payment_auto_renew_message_monthly">La suscripción se renueva automáticamente por %1$s/mes.</string>
+    <string name="payment_auto_renew_message_annual">La suscripción se renueva automáticamente por %1$s/año.</string>
+    <string name="payment_welcome_price_message_monthly_fallback">La suscripción se renueva automáticamente cada mes.</string>
+    <string name="payment_welcome_price_message_annual_fallback">La suscripción se renueva automáticamente cada año.</string>
     <!-- Information activity -->
     <string name="activity_information_title">Información</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -610,7 +610,7 @@
     <string name="welcome_plus_feature_security">Funciones de seguridad avanzadas</string>
     <string name="welcome_unlimited_title">Te damos la bienvenida a Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[¡Felicitaciones! Has desbloqueado seguridad premium y funciones de rendimiento en todos los servicios de Proton además de <b>%1$d&#160; GB</b> de almacenamiento total.<br><br>Disfruta lo mejor de la privacidad de Proton.]]></string>
-    <string name="welcome_generic_title">Enhorabuena</string>
+    <string name="welcome_generic_title">Felicitaciones</string>
     <string name="welcome_generic_description">Has mejorado tu suscripción. Disfruta funciones de privacidad avanzadas y rendimiento de otro nivel.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
@@ -1089,7 +1089,7 @@
     <string name="info_dialog_button_learn_more_streaming">¿Necesitas ayuda con el streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">Los servidores de streaming están diseñados para una reproducción rápida y segura de películas y programas de televisión.</string>
-    <string name="info_dialog_how_to_stream">Cómo hacer streaming:</string>
+    <string name="info_dialog_how_to_stream">Cómo ver contenido en streaming</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Ve a los ajustes de tu teléfono y desactiva los servicios de ubicación</string>
     <!-- item 2 in the numbered list -->

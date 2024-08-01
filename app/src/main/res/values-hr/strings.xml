@@ -19,10 +19,10 @@
 -->
 <resources>
     <string name="app_icon_name_classic">Classic</string>
-    <string name="app_icon_name_dark">Dark</string>
+    <string name="app_icon_name_dark">Tamno</string>
     <string name="app_icon_name_retro">Retro</string>
     <string name="app_icon_name_weather">Weather</string>
-    <string name="app_icon_name_notes">Notes</string>
+    <string name="app_icon_name_notes">Bilješke</string>
     <string name="app_icon_name_calculator">Calculator</string>
     <!-- Strings related to login -->
     <string name="login">Prijavite se</string>
@@ -122,7 +122,7 @@
     <string name="profileRandom">Nasumično</string>
     <string name="loaderErrorNoInternet">Nema internetske veze</string>
     <string name="loaderErrorGeneric">Nešto je pošlo po zlu</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">IP adresa</string>
     <string name="inputIpAddressHint">Write IP address</string>
     <string name="inputIpAddressErrorInvalid">Nevažeća IP adresa</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
@@ -213,7 +213,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[These statistics do not contain your IP address, and they cannot be used to identify you. We\'ll never share them with third parties. <a href="%1$s">Learn more</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">Learn more</string>
+    <string name="settings_icon_change_learn_more">Više informacija</string>
     <string name="learn_more">Saznajte više</string>
     <string name="netshield_state_on" comment="Describes state, not action">Oključeno</string>
     <string name="netshield_state_off" comment="Describes state, not action">Isključeno</string>
@@ -257,9 +257,9 @@
     <string name="nameAsia">Azija</string>
     <string name="nameAfricaAndMiddleEast">Afrika i Bliski istok</string>
     <string name="nameOceania">Oceanija</string>
-    <string name="tv_row_settings">Settings</string>
+    <string name="tv_row_settings">Postavke</string>
     <string name="tv_card_split_tunneling_label">Podijeljeno tuneliranje</string>
-    <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Omiljeno</string>
     <string name="tv_detail_connect_streaming">Streamajte s Plus</string>
     <string name="tv_detail_connect">Poveži</string>
@@ -440,7 +440,7 @@
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
-    <string name="upsell_card_tor_title">Tor over VPN</string>
+    <string name="upsell_card_tor_title">Tor preko VPN-a</string>
     <string name="upsell_card_tor_description">Use the Tor network over your VPN connection for extra privacy</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
@@ -517,7 +517,7 @@
     <string name="update_screen_title">Ažuriraj Proton VPN</string>
     <string name="update_screen_description">You’re more likely to have issues on older versions of Proton VPN.</string>
     <string name="dialog_create_account_title">Create an account to continue</string>
-    <string name="dialog_create_account_action_create">Create account</string>
+    <string name="dialog_create_account_action_create">Stvori račun</string>
     <string name="dialog_create_account_action_signin">Prijava</string>
     <string name="server_search_menu_title">Pretraga</string>
     <string name="search_empty_result_subtitle">Please try a different keyword</string>
@@ -673,9 +673,9 @@
     <string name="no_logs_banner_description">Your VPN activity is protected by Swiss privacy laws. We’ll never track you online or share your information with third parties.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Početna</string>
-    <string name="bottom_nav_gateways">Gateways</string>
+    <string name="bottom_nav_gateways">Pristupnici</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
-    <string name="bottom_nav_countries">Countries</string>
+    <string name="bottom_nav_countries">Države</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
     <string name="botton_nav_settings">Postavke</string>
     <!-- tag(Redesign_2023)
@@ -694,7 +694,7 @@
          a list item for country Switzerland will be read by a screen reader as:
          "Switzerland. Double tap to connect"
         -->
-    <string name="accessibility_action_connect">connect</string>
+    <string name="accessibility_action_connect">poveži</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that redirect the user to upgrade their subscription plan.
          Only used by accessibility services.
@@ -703,12 +703,12 @@
          available will be read by a screen reader as:
          "Unavailable, Switzerland. Double tap to upgrade"
         -->
-    <string name="accessibility_action_upgrade">upgrade</string>
+    <string name="accessibility_action_upgrade">nadogradi</string>
     <!-- tag(Redesign_2023)
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">search</string>
+    <string name="accessibility_action_search">pretraga</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -735,7 +735,7 @@
          reader as:
          "unavailable, Switzerland"
      -->
-    <string name="accessibility_item_unavailable">unavailable</string>
+    <string name="accessibility_item_unavailable">nedostupno</string>
     <!-- tag(Redesign_2023)
          Text added on an item in a list (server or country) when there is active connection to it.
          Only used by accessibility services.
@@ -744,7 +744,7 @@
          will be read by a screen reader as:
          "Switzerland, connected"
      -->
-    <string name="accessibility_item_connected">connected</string>
+    <string name="accessibility_item_connected">povezano</string>
     <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
@@ -815,7 +815,7 @@
          %1$s - entry country name in nominative case
          Example: via Switzerland
     -->
-    <string name="connection_info_secure_core_entry_other">via %1$s</string>
+    <string name="connection_info_secure_core_entry_other">putem %1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          three countries. Displayed directly below fastest_free_server.
@@ -869,7 +869,7 @@
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
-    <string name="connection_card_label_connecting">Connecting to…</string>
+    <string name="connection_card_label_connecting">Povezivanje s…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
          being established. It's shown only in response to user clicking the "Change server" button.
@@ -909,11 +909,11 @@
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
-    <string name="recents_headline">Recents</string>
+    <string name="recents_headline">Nedavno</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
     <string name="home_upsell_carousel_headline">Discover VPN Plus</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">Pin</string>
+    <string name="recent_action_pin">Prikvači</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_unpin">Odkvači</string>
     <!-- tag(Redesign_2023) -->
@@ -926,7 +926,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">All servers in this city are under maintenance</string>
+    <string name="message_city_servers_in_maintenance">Svi poslužitelji u ovom gradu su na održavanju.</string>
     <!-- State means here US state, like California -->
     <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -936,11 +936,11 @@
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out">Sign out</string>
+    <string name="settings_sign_out">Odjava</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Postavke</string>
     <string name="gateways_title">Pristupnici</string>
-    <string name="countries_title">Countries</string>
+    <string name="countries_title">Države</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Značajke</string>
     <!-- tag(Redesign_2023) -->
@@ -948,9 +948,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Podijeljeno tuneliranje</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_connection_category">Connection</string>
+    <string name="settings_connection_category">Veza</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_protocol_title">Protokol</string>
     <!-- tag(Redesign_2023) -->
@@ -962,7 +962,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_account">Račun</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_notifications_title">Notifications</string>
+    <string name="settings_notifications_title">Obavijesti</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_support">Podrška</string>
     <!-- tag(Redesign_2023) -->
@@ -982,18 +982,18 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Licence trećih strana</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Sign out?</string>
+    <string name="dialog_sign_out_title">Odjavite se?</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">Ne pitaj ponovno</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_action">Sign out</string>
+    <string name="dialog_sign_out_action">Odjava</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Poništi</string>
     <string name="dialog_action_change_icon">Change icon</string>
     <!-- tag(Redesign_2023) -->
-    <string name="country_filter_all">All</string>
+    <string name="country_filter_all">Sve</string>
     <string name="country_filter_cities">Gradovi</string>
     <string name="country_filter_states">States</string>
     <!-- tag(Redesign_2023) -->
@@ -1005,14 +1005,14 @@
     <string name="country_filter_all_list_header">All countries (%1$d)</string>
     <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
     <string name="country_filter_countries_list_header">Countries (%1$d)</string>
-    <string name="country_filter_cities_list_header">Cities (%1$d)</string>
+    <string name="country_filter_cities_list_header">Gradova (%1$d)</string>
     <string name="country_filter_states_list_header">States (%1$d)</string>
     <string name="country_filter_servers_list_header">Servers (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Secure Core countries (%1$d)</string>
-    <string name="country_filter_p2p_list_header">P2P countries (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">P2P cities (%1$d)</string>
+    <string name="country_filter_p2p_list_header">P2P država (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P gradova (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P states (%1$d)</string>
-    <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
+    <string name="country_filter_tor_list_header">Tor država (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
     <string name="country_filter_info_label">Informacije</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
@@ -1039,7 +1039,7 @@
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Connection details</string>
-    <string name="connection_details_features_title">Features</string>
+    <string name="connection_details_features_title">Značajke</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Show IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1063,7 +1063,7 @@
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">Server load</string>
+    <string name="connection_details_server_load">Opterećenje poslužitelja</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">What is server load?</string>
     <!-- tag(Redesign_2023) -->
@@ -1223,11 +1223,11 @@
         <item quantity="other">%1$d dana</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_hours_shortened">%1$d hr</string>
+    <string name="connection_details_hours_shortened">%1$d sata</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_minutes_shortened">%1$d min</string>
+    <string name="connection_details_minutes_shortened">%1$d min.</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_seconds_shortened">%1$d sec</string>
+    <string name="connection_details_seconds_shortened">%1$d sek.</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Neuspjela veza</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
@@ -1236,12 +1236,12 @@
     <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">Postavke računa</string>
     <string name="settings_account_change_password">Promjena lozinke</string>
-    <string name="settings_account_recovery_email">Recovery email</string>
+    <string name="settings_account_recovery_email">Adresa e-pošte za oporavak</string>
     <string name="settings_account_recovery_email_not_set">Nije postavljeno</string>
     <string name="settings_account_security_keys">Security Keys</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Moj račun</string>
-    <string name="settings_account_button_delete_account">Delete account</string>
+    <string name="settings_account_button_delete_account">Ukloni račun</string>
     <string name="settings_advanced_alternative_routing_title">Alternativno usmjeravanje</string>
     <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
     <string name="settings_advanced_allow_lan_title">LAN connections</string>
@@ -1270,9 +1270,9 @@
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Recommended</string>
+    <string name="settings_protocol_badge_recommended">Preporučeno</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
-    <string name="settings_split_tunneling_mode_standard">Standard</string>
+    <string name="settings_split_tunneling_mode_standard">Standardno</string>
     <string name="settings_split_tunneling_mode_inverse">Inverse</string>
     <string name="settings_split_tunneling_mode_description_standard">Selected apps and IP addresses are excluded from VPN connection.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
@@ -1306,7 +1306,7 @@
     <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
     <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
     <string name="search_zero_screen_title">Try searching for…</string>
-    <string name="search_zero_screen_info_countries_title">Countries</string>
+    <string name="search_zero_screen_info_countries_title">Države</string>
     <string name="search_zero_screen_info_cities_title">Gradovi</string>
     <string name="search_zero_screen_info_servers_title">Serveri</string>
     <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>

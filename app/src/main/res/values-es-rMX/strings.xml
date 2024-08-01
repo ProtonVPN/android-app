@@ -1089,7 +1089,7 @@
     <string name="info_dialog_button_learn_more_streaming">¿Necesita ayuda con el streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">Los servidores de streaming están diseñados para una reproducción rápida y segura de películas y programas de televisión.</string>
-    <string name="info_dialog_how_to_stream">Cómo hacer streaming</string>
+    <string name="info_dialog_how_to_stream">Cómo ver contenido en streaming</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Vaya a los ajustes de su teléfono y desactive los servicios de ubicación</string>
     <!-- item 2 in the numbered list -->

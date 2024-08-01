@@ -469,13 +469,13 @@
     <string name="payment_select_your_plan">Vyberte tarif</string>
     <string name="payment_button_get_vpn_plus">Získat VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Uvítací nabídka. Obnovuje se automaticky za %1$s/měsíc</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Uvítací nabídka. Obnovuje se automaticky za %1$s/rok</string>
+    <string name="payment_auto_renew_message_monthly">Předplatné se automaticky obnovuje za %1$s/měsíc</string>
+    <string name="payment_auto_renew_message_annual">Předplatné se automaticky obnovuje za %1$s/rok</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Předplatné se automaticky obnovuje každý měsíc.</string>
+    <string name="payment_welcome_price_message_annual_fallback">Předplatné se automaticky obnovuje každý rok.</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informace</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -1267,7 +1267,7 @@
     <string name="settings_account_change_password">Změnit heslo</string>
     <string name="settings_account_recovery_email">E-mail pro obnovení</string>
     <string name="settings_account_recovery_email_not_set">Nenastaveno</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Bezpečnostní klíče</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Můj účet</string>
     <string name="settings_account_button_delete_account">Smazat účet</string>
