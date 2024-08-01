@@ -43,6 +43,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createIsImmutableServerListEnabled
@@ -83,6 +84,7 @@ class ServerManagerTests {
 
     private lateinit var currentSettings: MutableStateFlow<LocalUserSettings>
     private lateinit var profileManager: ProfileManager
+    private lateinit var testDispatcherProvider: TestDispatcherProvider
     private lateinit var testScope: TestScope
 
     private val gatewayServer = createServer(
@@ -106,7 +108,9 @@ class ServerManagerTests {
         every { vpnUser.userTier } returns 2
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
-        testScope = TestScope(UnconfinedTestDispatcher())
+        val dispatcher = UnconfinedTestDispatcher()
+        testDispatcherProvider = TestDispatcherProvider(dispatcher)
+        testScope = TestScope(dispatcher)
         val bgScope = testScope.backgroundScope
 
         currentSettings = MutableStateFlow(LocalUserSettings.Default)
@@ -241,6 +245,7 @@ class ServerManagerTests {
             supportsProtocol,
             ServersDataManager(
                 backgroundScope,
+                testDispatcherProvider,
                 createInMemoryServersStore(),
                 { createIsImmutableServerListEnabled(immutableServerList) }
             ),

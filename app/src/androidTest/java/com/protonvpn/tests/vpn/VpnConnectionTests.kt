@@ -283,13 +283,19 @@ class VpnConnectionTests {
 
         val profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), scope.backgroundScope, userSettingsCached, mockk())
+        val serversData = ServersDataManager(
+            bgScope,
+            testDispatcherProvider,
+            createInMemoryServersStore(),
+            { createIsImmutableServerListEnabled(true) }
+        )
         serverManager = ServerManager(
             scope.backgroundScope,
             userSettingsCached,
             currentUser,
             clock,
             supportsProtocol,
-            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            serversData,
             profileManager,
         )
         runBlocking {

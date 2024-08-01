@@ -44,6 +44,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -128,13 +129,19 @@ class MigrateProfileTests {
 
         currentUser = CurrentUser(TestCurrentUserProvider(vpnUser))
 
+        val serversDataManager = ServersDataManager(
+            bgScope,
+            TestDispatcherProvider(testDispatcher),
+            createInMemoryServersStore(),
+            { createIsImmutableServerListEnabled(true) }
+        )
         serverManager = ServerManager(
             bgScope,
             userSettingsCached,
             currentUser,
             { 0 },
             SupportsProtocol(createGetSmartProtocols()),
-            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            serversDataManager,
             profileManager,
         )
         runBlocking {

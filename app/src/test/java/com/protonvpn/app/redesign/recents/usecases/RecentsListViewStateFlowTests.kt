@@ -56,6 +56,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -150,13 +151,19 @@ class RecentsListViewStateFlowTests {
 
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
+        val serversDataManager = ServersDataManager(
+            bgScope,
+            TestDispatcherProvider(testDispatcher),
+            createInMemoryServersStore(),
+            { createIsImmutableServerListEnabled(true) }
+        )
         serverManager = ServerManager(
             bgScope,
             effectiveUserSettingsCached,
             currentUser,
             clock,
             supportsProtocol,
-            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            serversDataManager,
             mockk(),
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)

@@ -56,6 +56,7 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.app.userstorage.createDummyProfilesManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -152,9 +153,10 @@ class VpnConnectionManagerTests {
         MockKAnnotations.init(this)
 
         testScheduler = TestCoroutineScheduler()
-        testScope = TestScope(UnconfinedTestDispatcher(testScheduler))
+        val testDispatcher = UnconfinedTestDispatcher(testScheduler)
+        testScope = TestScope(testDispatcher)
 
-        Dispatchers.setMain(UnconfinedTestDispatcher(testScheduler))
+        Dispatchers.setMain(testDispatcher)
         mockBackendSelfState = MutableStateFlow(VpnState.Disabled)
 
         coEvery { mockCurrentUser.sessionId() } returns SessionId("session id")
@@ -185,14 +187,19 @@ class VpnConnectionManagerTests {
         vpnStateMonitor = VpnStateMonitor()
         supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
-        val bgScope = testScope.backgroundScope
+        val serversDataManager = ServersDataManager(
+            testScope.backgroundScope,
+            TestDispatcherProvider(testDispatcher),
+            createInMemoryServersStore(),
+            { createIsImmutableServerListEnabled(true) }
+        )
         serverManager = ServerManager(
-            bgScope,
+            testScope.backgroundScope,
             userSettingsCached,
             mockCurrentUser,
             clock,
             supportsProtocol,
-            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            serversDataManager,
             profileManager,
         )
         runBlocking {
