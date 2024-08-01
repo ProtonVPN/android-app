@@ -35,6 +35,7 @@ import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.TestCurrentUserProvider
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -71,7 +72,8 @@ class ProfileManagerTests {
 
     @Before
     fun setup() {
-        testScope = TestScope(UnconfinedTestDispatcher())
+        val testDispatcher = UnconfinedTestDispatcher()
+        testScope = TestScope(testDispatcher)
         val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.plusUser.vpnUser))
 
         effectiveUserSettings = MutableStateFlow(LocalUserSettings.Default)
@@ -80,6 +82,12 @@ class ProfileManagerTests {
             CurrentUserLocalSettingsManager(LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
 
         val bgScope = testScope.backgroundScope
+        val serversDataManager = ServersDataManager(
+            bgScope,
+            TestDispatcherProvider(testDispatcher),
+            createInMemoryServersStore(),
+            { createIsImmutableServerListEnabled(true) }
+        )
         profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, currentUserSettings, settingsManager)
         serverManager = ServerManager(
@@ -88,7 +96,7 @@ class ProfileManagerTests {
             currentUser,
             { 0 },
             SupportsProtocol(createGetSmartProtocols()),
-            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            serversDataManager,
             profileManager,
         )
     }

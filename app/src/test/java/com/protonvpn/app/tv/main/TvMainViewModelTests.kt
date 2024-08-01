@@ -54,6 +54,7 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
@@ -134,13 +135,19 @@ class TvMainViewModelTests {
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, userSettingsCached, userSettingsManager)
+        val serversDataManager = ServersDataManager(
+            bgScope,
+            TestDispatcherProvider(testDispatcher),
+            createInMemoryServersStore(),
+            { createIsImmutableServerListEnabled(true) }
+        )
         serverManager = ServerManager(
             mainScope = TestScope(UnconfinedTestDispatcher()).backgroundScope, // Don't care about full initialization.
             userSettingsCached,
             mockCurrentUser,
             { 0 },
             supportsProtocol,
-            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            serversDataManager,
             profileManager,
         )
         runBlocking {

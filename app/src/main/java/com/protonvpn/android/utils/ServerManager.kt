@@ -113,7 +113,7 @@ class ServerManager @Inject constructor(
 
     val allServers get() = serversData.allServers
 
-    /** Get the number of all servers. Not very efficient. */
+    /** Get the number of all servers. */
     val allServerCount get() = allServers.count()
 
     val defaultConnection: Profile get() = profileManager.getDefaultOrFastest()

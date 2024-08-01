@@ -27,6 +27,7 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.MockSharedPreference
+import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
@@ -54,17 +55,23 @@ class TranslatorTests {
     @Before
     fun setup() {
         Storage.setPreferences(MockSharedPreference())
-        testScope = TestScope(UnconfinedTestDispatcher())
+        val dispatcher = UnconfinedTestDispatcher()
+        testScope = TestScope(dispatcher)
         val settings = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
 
-        val bgScope = testScope.backgroundScope
+        val serversDataManager = ServersDataManager(
+            testScope.backgroundScope,
+            TestDispatcherProvider(dispatcher),
+            createInMemoryServersStore(),
+            { createIsImmutableServerListEnabled(true) }
+        )
         serverManager = ServerManager(
-            bgScope,
+            testScope.backgroundScope,
             settings,
             mockk(),
             { 0 },
             mockk(relaxed = true),
-            ServersDataManager(bgScope, createInMemoryServersStore(), { createIsImmutableServerListEnabled(true) }),
+            serversDataManager,
             mockk(),
         )
     }
