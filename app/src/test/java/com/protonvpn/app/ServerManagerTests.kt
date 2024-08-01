@@ -33,6 +33,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -112,7 +113,15 @@ class ServerManagerTests {
 
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         profileManager = ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, currentUserSettings, mockk())
-        manager = ServerManager(bgScope, currentUserSettings, currentUser, { 0L }, supportsProtocol, createInMemoryServersStore(), profileManager)
+        manager = ServerManager(
+            bgScope,
+            currentUserSettings,
+            currentUser,
+            { 0L },
+            supportsProtocol,
+            ServersDataManager(createInMemoryServersStore()),
+            profileManager
+        )
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 

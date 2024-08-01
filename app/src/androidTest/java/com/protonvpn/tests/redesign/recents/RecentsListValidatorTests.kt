@@ -33,6 +33,7 @@ import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -121,7 +122,7 @@ class RecentsListValidatorTests {
             currentUser = mockk(relaxed = true),
             wallClock = { 0 },
             supportsProtocol = supportsProtocol,
-            serversStore = createInMemoryServersStore(),
+            serversData = ServersDataManager(createInMemoryServersStore()),
             profileManager = mockk(),
         )
         serverManager2 = ServerManager2(serverManager, supportsProtocol)

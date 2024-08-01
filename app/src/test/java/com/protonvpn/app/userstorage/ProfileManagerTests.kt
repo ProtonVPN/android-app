@@ -26,6 +26,7 @@ import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -85,7 +86,7 @@ class ProfileManagerTests {
             currentUser,
             { 0 },
             SupportsProtocol(createGetSmartProtocols()),
-            createInMemoryServersStore(),
+            ServersDataManager(createInMemoryServersStore()),
             profileManager,
         )
     }

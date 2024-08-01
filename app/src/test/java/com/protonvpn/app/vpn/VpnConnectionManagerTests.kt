@@ -31,6 +31,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -183,7 +184,15 @@ class VpnConnectionManagerTests {
         vpnStateMonitor = VpnStateMonitor()
         supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         val profileManager = createDummyProfilesManager()
-        serverManager = ServerManager(testScope.backgroundScope, userSettingsCached, mockCurrentUser, clock, supportsProtocol, createInMemoryServersStore(), profileManager)
+        serverManager = ServerManager(
+            testScope.backgroundScope,
+            userSettingsCached,
+            mockCurrentUser,
+            clock,
+            supportsProtocol,
+            ServersDataManager(createInMemoryServersStore()),
+            profileManager
+        )
         runBlocking {
             serverManager.setServers(MockedServers.serverList, null)
         }
