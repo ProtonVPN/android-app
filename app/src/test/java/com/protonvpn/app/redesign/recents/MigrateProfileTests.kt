@@ -142,7 +142,6 @@ class MigrateProfileTests {
             { 0 },
             SupportsProtocol(createGetSmartProtocols()),
             serversDataManager,
-            profileManager,
         )
         runBlocking {
             serverManager.setServers(servers, null)

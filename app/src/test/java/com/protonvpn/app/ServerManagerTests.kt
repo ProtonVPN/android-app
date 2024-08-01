@@ -83,7 +83,6 @@ class ServerManagerTests {
     @RelaxedMockK private lateinit var vpnUser: VpnUser
 
     private lateinit var currentSettings: MutableStateFlow<LocalUserSettings>
-    private lateinit var profileManager: ProfileManager
     private lateinit var testDispatcherProvider: TestDispatcherProvider
     private lateinit var testScope: TestScope
 
@@ -111,16 +110,12 @@ class ServerManagerTests {
         val dispatcher = UnconfinedTestDispatcher()
         testDispatcherProvider = TestDispatcherProvider(dispatcher)
         testScope = TestScope(dispatcher)
-        val bgScope = testScope.backgroundScope
-
         currentSettings = MutableStateFlow(LocalUserSettings.Default)
-        val currentUserSettings = EffectiveCurrentUserSettingsCached(currentSettings)
 
-        profileManager = ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, currentUserSettings, mockk())
         val serversFile = File(javaClass.getResource("/Servers.json")?.path)
         regularServers = serversFile.readText().deserialize(ListSerializer(Server.serializer()))
 
-        // Note: use createServerManagers in each test
+        // Note: use createServerManagers in each test.
     }
 
     @Test
@@ -249,7 +244,6 @@ class ServerManagerTests {
                 createInMemoryServersStore(),
                 { createIsImmutableServerListEnabled(immutableServerList) }
             ),
-            profileManager,
         )
 
         runBlocking {

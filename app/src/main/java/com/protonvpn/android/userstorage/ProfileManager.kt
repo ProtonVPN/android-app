@@ -20,7 +20,6 @@
 package com.protonvpn.android.userstorage
 
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.asLiveData
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.SavedProfilesV3
@@ -41,7 +40,6 @@ class ProfileManager @VisibleForTesting constructor(
     private val effectiveUserSettings: EffectiveCurrentUserSettingsCached,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
 ) {
-
     val profiles = MutableStateFlow(savedProfiles.profileList.toList())
 
     @Inject

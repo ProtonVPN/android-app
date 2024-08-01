@@ -281,8 +281,6 @@ class VpnConnectionTests {
             TelemetryFlowHelper(scope.backgroundScope, mockTelemetry)
         ).apply { start() }
 
-        val profileManager =
-            ProfileManager(SavedProfilesV3.defaultProfiles(), scope.backgroundScope, userSettingsCached, mockk())
         val serversData = ServersDataManager(
             bgScope,
             testDispatcherProvider,
@@ -296,7 +294,6 @@ class VpnConnectionTests {
             clock,
             supportsProtocol,
             serversData,
-            profileManager,
         )
         runBlocking {
             serverManager.setServers(MockedServers.serverList, null)

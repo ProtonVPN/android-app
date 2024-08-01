@@ -53,7 +53,6 @@ import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
-import com.protonvpn.app.userstorage.createDummyProfilesManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestDispatcherProvider
@@ -186,7 +185,6 @@ class VpnConnectionManagerTests {
         Storage.setPreferences(MockSharedPreference())
         vpnStateMonitor = VpnStateMonitor()
         supportsProtocol = SupportsProtocol(createGetSmartProtocols())
-        val profileManager = createDummyProfilesManager()
         val serversDataManager = ServersDataManager(
             testScope.backgroundScope,
             TestDispatcherProvider(testDispatcher),
@@ -200,7 +198,6 @@ class VpnConnectionManagerTests {
             clock,
             supportsProtocol,
             serversDataManager,
-            profileManager,
         )
         runBlocking {
             serverManager.setServers(MockedServers.serverList, null)

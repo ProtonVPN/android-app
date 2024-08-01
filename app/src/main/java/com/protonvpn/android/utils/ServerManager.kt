@@ -41,7 +41,6 @@ import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
-import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,7 +63,6 @@ class ServerManager @Inject constructor(
     @Transient @WallClock private val wallClock: () -> Long,
     @Transient val supportsProtocol: SupportsProtocol,
     @Transient val serversData: ServersDataManager,
-    @Transient private val profileManager: ProfileManager,
 ) : Serializable {
 
     private var serverListAppVersionCode = 0
@@ -115,8 +113,6 @@ class ServerManager @Inject constructor(
 
     /** Get the number of all servers. */
     val allServerCount get() = allServers.count()
-
-    val defaultConnection: Profile get() = profileManager.getDefaultOrFastest()
 
     val freeCountries
         get() = getVpnCountries()
@@ -257,6 +253,7 @@ class ServerManager @Inject constructor(
         return map[true] ?: map[false]
     }
 
+    @VisibleForTesting
     fun getBestScoreServer(serverList: List<Server>, vpnUser: VpnUser?): Server? {
         val map = serverList.asSequence()
             .filter { it.online && supportsProtocol(it, protocolCached) }

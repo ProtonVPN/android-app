@@ -33,14 +33,15 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
+import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createIsImmutableServerListEnabled
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -53,9 +54,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.util.UUID
-
-fun createDummyProfilesManager() =
-    ProfileManager(SavedProfilesV3.defaultProfiles(), mockk(relaxed = true), mockk(relaxed = true), mockk(relaxed = true))
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProfileManagerTests {
@@ -72,6 +70,7 @@ class ProfileManagerTests {
 
     @Before
     fun setup() {
+        Storage.setPreferences(MockSharedPreference())
         val testDispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(testDispatcher)
         val currentUser = CurrentUser(TestCurrentUserProvider(TestUser.plusUser.vpnUser))
@@ -97,7 +96,6 @@ class ProfileManagerTests {
             { 0 },
             SupportsProtocol(createGetSmartProtocols()),
             serversDataManager,
-            profileManager,
         )
     }
 
@@ -122,7 +120,7 @@ class ProfileManagerTests {
     @Test
     fun `when defaultProfileId is invalid then defaultConnection falls back to saved profiles`() = testScope.runTest {
         effectiveUserSettings.update { settings -> settings.copy(defaultProfileId = UUID.randomUUID()) }
-        val profile = serverManager.defaultConnection
+        val profile = profileManager.getDefaultOrFastest()
         Assert.assertEquals(profileManager.getSavedProfiles().first(), profile)
     }
 }
