@@ -43,6 +43,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -153,7 +154,7 @@ class RecentsListViewStateFlowTests {
             currentUser,
             clock,
             supportsProtocol,
-            createInMemoryServersStore(),
+            ServersDataManager(createInMemoryServersStore()),
             mockk(),
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)

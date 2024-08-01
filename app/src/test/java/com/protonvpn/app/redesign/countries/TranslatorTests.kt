@@ -21,6 +21,7 @@ package com.protonvpn.app.redesign.countries
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.ServerManager
@@ -61,7 +62,7 @@ class TranslatorTests {
             mockk(),
             { 0 },
             mockk(relaxed = true),
-            createInMemoryServersStore(),
+            ServersDataManager(createInMemoryServersStore()),
             mockk()
         )
     }

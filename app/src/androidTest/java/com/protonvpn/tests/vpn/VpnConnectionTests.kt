@@ -42,6 +42,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -286,7 +287,7 @@ class VpnConnectionTests {
             currentUser,
             clock,
             supportsProtocol,
-            createInMemoryServersStore(),
+            ServersDataManager(createInMemoryServersStore()),
             profileManager,
         )
         runBlocking {

@@ -33,6 +33,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
@@ -138,7 +139,7 @@ class TvMainViewModelTests {
             mockCurrentUser,
             { 0 },
             supportsProtocol,
-            createInMemoryServersStore(),
+            ServersDataManager(createInMemoryServersStore()),
             profileManager
         )
         runBlocking {

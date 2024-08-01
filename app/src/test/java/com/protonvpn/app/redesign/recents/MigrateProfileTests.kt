@@ -35,6 +35,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.usecases.MigrateProfiles
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -131,7 +132,7 @@ class MigrateProfileTests {
             currentUser,
             { 0 },
             SupportsProtocol(createGetSmartProtocols()),
-            createInMemoryServersStore(),
+            ServersDataManager(createInMemoryServersStore()),
             profileManager
         )
         runBlocking {
