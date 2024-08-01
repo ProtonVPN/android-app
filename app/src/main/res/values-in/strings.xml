@@ -1180,7 +1180,7 @@
     <string name="settings_account_change_password">Ubah kata sandi</string>
     <string name="settings_account_recovery_email">Email pemulihan</string>
     <string name="settings_account_recovery_email_not_set">Belum diatur</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Kunci Keamanan</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Akun saya</string>
     <string name="settings_account_button_delete_account">Hapus akun</string>

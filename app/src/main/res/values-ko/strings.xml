@@ -1181,7 +1181,7 @@
     <string name="settings_account_change_password">비밀번호 변경</string>
     <string name="settings_account_recovery_email">복구 이메일</string>
     <string name="settings_account_recovery_email_not_set">설정하지 않음</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">보안 키</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">내 계정</string>
     <string name="settings_account_button_delete_account">계정 삭제</string>

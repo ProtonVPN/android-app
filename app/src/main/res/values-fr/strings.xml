@@ -1237,9 +1237,9 @@
     <string name="settings_protocol_wireguard_tcp_description">Rapide, sécurisé et efficace. WireGuard est difficile à détecter et bloquer.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Reconnu, éprouvé et sécurisé. OpenVPN est moins économe en batterie que d\'autres protocoles.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Établi, testé et sécurisé. OpenVPN est fiable dans de mauvaises conditions de réseau, mais peut ne pas être aussi rapide que d\'autres protocoles.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Éprouvé, rigoureusement testé et sécurisé. OpenVPN est un protocole fiable dans de mauvaises conditions de réseau, mais il peut ne pas être aussi rapide que d\'autres protocoles.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Contourne les blocages VPN en masquant votre connexion VPN aux censeurs. Ce protocole résiste à l\'inspection approfondie des paquets (DPI), mais peut ne pas être aussi rapide que d\'autres protocoles. Stealth est un protocole réservé à Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Contourne les blocages VPN en dissimulant votre connexion VPN aux autorités de contrôle. Ce protocole résiste à l\'inspection approfondie des paquets (DPI), mais peut ne pas être aussi rapide que d\'autres protocoles. Stealth est un protocole réservé à Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recommandé</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>

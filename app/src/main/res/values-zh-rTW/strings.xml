@@ -19,10 +19,10 @@
 -->
 <resources>
     <string name="app_icon_name_classic">Classic</string>
-    <string name="app_icon_name_dark">Dark</string>
+    <string name="app_icon_name_dark">深色</string>
     <string name="app_icon_name_retro">Retro</string>
     <string name="app_icon_name_weather">Weather</string>
-    <string name="app_icon_name_notes">Notes</string>
+    <string name="app_icon_name_notes">備註</string>
     <string name="app_icon_name_calculator">Calculator</string>
     <!-- Strings related to login -->
     <string name="login">登入</string>
@@ -122,7 +122,7 @@
     <string name="profileRandom">隨機</string>
     <string name="loaderErrorNoInternet">沒有網際網路連線</string>
     <string name="loaderErrorGeneric">發生錯誤</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">IP 位址</string>
     <string name="inputIpAddressHint">編寫 IP 位址</string>
     <string name="inputIpAddressErrorInvalid">IP 位址無效</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
@@ -213,7 +213,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[這些統計資料不包含您的 IP 位址，且其無法用於識別您的身份。我們永遠不會將它們與第三方分享。<a href="%1$s">取得更多資訊</a>]]></string>
     <string name="netshield_settings_description_not_html">保護您免受網站與應用程式中的廣告、惡意程式與追蹤器騷擾。若網站無法載入，請嘗試停用 NetShield。%1$s</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">Learn more</string>
+    <string name="settings_icon_change_learn_more">了解更多</string>
     <string name="learn_more">了解更多</string>
     <string name="netshield_state_on" comment="Describes state, not action">開</string>
     <string name="netshield_state_off" comment="Describes state, not action">關閉</string>
@@ -1215,7 +1215,7 @@
     <string name="settings_protocol_badge_recommended">推薦使用</string>
     <string name="settings_split_tunneling_mode_title">模式</string>
     <string name="settings_split_tunneling_mode_standard">標準</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_inverse">反轉選取</string>
     <string name="settings_split_tunneling_mode_description_standard">已選的應用程式及 IP 位址會被排除在 VPN 連線之外.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">不包括所有應用</string>

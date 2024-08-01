@@ -19,10 +19,10 @@
 -->
 <resources>
     <string name="app_icon_name_classic">Classic</string>
-    <string name="app_icon_name_dark">Dark</string>
+    <string name="app_icon_name_dark">Escuro</string>
     <string name="app_icon_name_retro">Retro</string>
     <string name="app_icon_name_weather">Weather</string>
-    <string name="app_icon_name_notes">Notes</string>
+    <string name="app_icon_name_notes">Notas</string>
     <string name="app_icon_name_calculator">Calculator</string>
     <!-- Strings related to login -->
     <string name="login">Iniciar sessão</string>
@@ -213,7 +213,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm o seu endereço IP e não podem ser utilizadas para o identificar. Nunca as partilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">Learn more</string>
+    <string name="settings_icon_change_learn_more">Mais informação</string>
     <string name="learn_more">Saiba mais</string>
     <string name="netshield_state_on" comment="Describes state, not action">Ligado</string>
     <string name="netshield_state_off" comment="Describes state, not action">Desligado</string>
@@ -488,7 +488,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Boas vindas ao Proton VPN</string>
-    <string name="onboarding_welcome_description">Browse privately, access blocked content, and enjoy digital freedom.</string>
+    <string name="onboarding_welcome_description">Navegue em privado, aceda a conteúdos bloqueados e desfrute da liberdade digital.</string>
     <string name="onboarding_welcome_action">Começar</string>
     <string name="upgrade_success_get_started_button">Começar</string>
     <string name="dynamic_report_suggestion_didnt_work">Não funcionou?</string>
@@ -1084,7 +1084,7 @@
     <string name="info_secure_core_standard_header">Ligação VPN padrão</string>
     <string name="info_secure_core_secure_header">Secure Core VPN connection</string>
     <string name="info_dialog_tor_description">Connect to a Tor server to access hidden services and onion sites using any browser.</string>
-    <string name="info_dialog_button_learn_more_tor">How to access the Tor network</string>
+    <string name="info_dialog_button_learn_more_tor">Como acessar a rede Tor</string>
     <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
     <string name="info_dialog_button_learn_more_streaming">Precisa de ajuda com o streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
@@ -1209,7 +1209,7 @@
     <string name="settings_account_change_password">Alterar a palavra-passe</string>
     <string name="settings_account_recovery_email">E-mail de recuperação</string>
     <string name="settings_account_recovery_email_not_set">Não definido</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Chaves de segurança</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">A minha conta</string>
     <string name="settings_account_button_delete_account">Eliminar a conta</string>
@@ -1228,7 +1228,7 @@
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
     <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
     <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
-    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_speed">Velocidade (UDP)</string>
     <string name="settings_protocol_section_reliability">Fiabilidade (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
@@ -1241,7 +1241,7 @@
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Recommended</string>
+    <string name="settings_protocol_badge_recommended">Recomendado</string>
     <string name="settings_split_tunneling_mode_title">Modo</string>
     <string name="settings_split_tunneling_mode_standard">Padrão</string>
     <string name="settings_split_tunneling_mode_inverse">Inverso</string>

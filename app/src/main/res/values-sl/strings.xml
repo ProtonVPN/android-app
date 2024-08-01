@@ -122,7 +122,7 @@
     <string name="profileRandom">Naključno</string>
     <string name="loaderErrorNoInternet">Ni spletne povezave</string>
     <string name="loaderErrorGeneric">Nekaj je šlo narobe</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">IP naslov</string>
     <string name="inputIpAddressHint">Napišite IP naslov</string>
     <string name="inputIpAddressErrorInvalid">Neveljaven IP naslov</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
@@ -213,7 +213,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ti statistični podatki ne vsebujejo vašega naslova IP in jih ni mogoče uporabiti za vašo identifikacijo. Nikoli jih ne bomo delili s tretjimi osebami. <a href="%1$s">Več o tem</a>]]></string>
     <string name="netshield_settings_description_not_html">Zaščitite se pred oglasi, zlonamerno programsko opremo in sledilniki na spletnih mestih in v aplikacijah. Če se spletne strani ne naložijo, poskusite onemogočiti NetShield. %1$s</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">Learn more</string>
+    <string name="settings_icon_change_learn_more">Več informacij</string>
     <string name="learn_more">Izvedi več</string>
     <string name="netshield_state_on" comment="Describes state, not action">Vključeno</string>
     <string name="netshield_state_off" comment="Describes state, not action">Izključeno</string>
@@ -259,9 +259,9 @@
     <string name="nameAsia">Azija</string>
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Bližnji vzhod</string>
     <string name="nameOceania">Oceanija</string>
-    <string name="tv_row_settings">Settings</string>
+    <string name="tv_row_settings">Nastavitve</string>
     <string name="tv_card_split_tunneling_label">Razdeljeno tuneliranje</string>
-    <string name="tv_card_protocol_label">Protocol</string>
+    <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Najljubša</string>
     <string name="tv_detail_connect_streaming">Pretakajte s Plusom</string>
     <string name="tv_detail_connect">Poveži</string>
@@ -1270,7 +1270,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_account_change_password">Spremeni geslo</string>
     <string name="settings_account_recovery_email">E-poštni naslov za obnovitev</string>
     <string name="settings_account_recovery_email_not_set">Ni nastavljeno</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Varnostni ključi</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Moj račun</string>
     <string name="settings_account_button_delete_account">Izbrišite račun</string>
@@ -1289,7 +1289,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_split_tunneling_description">Prilagodite povezavo tako, da določite, katere aplikacije in IP naslovi so zaščiteni z omrežjem VPN. %1$s</string>
     <string name="settings_protocol_description">VPN protokol določa način prenosa podatkov med strežnikom VPN in vašo napravo. %1$s</string>
     <string name="settings_protocol_description_no_link">Protokol VPN določa, kako se podatki premikajo med strežnikom VPN in vašo napravo.</string>
-    <string name="settings_protocol_section_speed">Speed (UDP)</string>
+    <string name="settings_protocol_section_speed">Hitrost (UDP)</string>
     <string name="settings_protocol_section_reliability">Zanesljivost (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Samodejno izbere najboljši protokol za vašo povezavo.</string>
@@ -1302,10 +1302,10 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
-    <string name="settings_protocol_badge_recommended">Recommended</string>
+    <string name="settings_protocol_badge_recommended">Priporočeno</string>
     <string name="settings_split_tunneling_mode_title">Mode</string>
-    <string name="settings_split_tunneling_mode_standard">Standard</string>
-    <string name="settings_split_tunneling_mode_inverse">Inverse</string>
+    <string name="settings_split_tunneling_mode_standard">Standardno</string>
+    <string name="settings_split_tunneling_mode_inverse">Obratno</string>
     <string name="settings_split_tunneling_mode_description_standard">Izbrane aplikacije in naslovi IP so izključeni iz povezave VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
     <string name="settings_split_tunneling_excluded_apps">Izvzete aplikacije</string>

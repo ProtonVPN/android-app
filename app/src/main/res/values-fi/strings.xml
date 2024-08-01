@@ -1209,7 +1209,7 @@
     <string name="settings_account_change_password">Vaihda salasana</string>
     <string name="settings_account_recovery_email">Palautusosoite</string>
     <string name="settings_account_recovery_email_not_set">Ei asetettu</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Todennuslaitteet</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Oma tili</string>
     <string name="settings_account_button_delete_account">Poista tili</string>

@@ -18,12 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_icon_name_classic">Classic</string>
-    <string name="app_icon_name_dark">Dark</string>
-    <string name="app_icon_name_retro">Retro</string>
-    <string name="app_icon_name_weather">Weather</string>
-    <string name="app_icon_name_notes">Notes</string>
-    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="app_icon_name_classic">Класика</string>
+    <string name="app_icon_name_dark">Темна</string>
+    <string name="app_icon_name_retro">Ретро</string>
+    <string name="app_icon_name_weather">Погода</string>
+    <string name="app_icon_name_notes">Нотатки</string>
+    <string name="app_icon_name_calculator">Калькулятор</string>
     <!-- Strings related to login -->
     <string name="login">Увійти</string>
     <string name="menuActionSignOut">Вийти</string>
@@ -212,8 +212,8 @@
     <string name="settingsTelemetryScreenTitle">Статистика використання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ця статистика не містить вашої IP-адреси та не може бути використана для вашої ідентифікації. Ми ніколи не передаємо ці дані третім сторонам. <a href="%1$s">Докладніше</a>]]></string>
     <string name="netshield_settings_description_not_html">Захистіться від реклами, зловмисних програм і елементів стеження на вебсайтах і в програмах. Якщо вебсайти не завантажуються, спробуйте вимкнути NetShield. %1$s</string>
-    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">Learn more</string>
+    <string name="settings_icon_change_description">Замаскуйте програму Proton VPN за допомогою стриманої піктограми. Сповіщення й надалі показуватимуться зі звичайною назвою та піктограмою Proton VPN. %1$s</string>
+    <string name="settings_icon_change_learn_more">Докладніше</string>
     <string name="learn_more">Докладніше</string>
     <string name="netshield_state_on" comment="Describes state, not action">Увімкнено</string>
     <string name="netshield_state_off" comment="Describes state, not action">Вимкнено</string>
@@ -469,13 +469,13 @@
     <string name="payment_select_your_plan">Оберіть тарифний план</string>
     <string name="payment_button_get_vpn_plus">Отримати VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Пропозиція для нових користувачів. Автоматично поновлюється за %1$s/місяць</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Пропозиція для нових користувачів. Автоматично поновлюється за %1$s/рік</string>
+    <string name="payment_auto_renew_message_monthly">Передплата автоматично поновлюється за %1$s/місяць</string>
+    <string name="payment_auto_renew_message_annual">Передплата автоматично поновлюється за %1$s/рік</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Передплата автоматично поновлюється щомісяця</string>
+    <string name="payment_welcome_price_message_annual_fallback">Передплата автоматично поновлюється щороку</string>
     <!-- Information activity -->
     <string name="activity_information_title">Відомості</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -555,12 +555,12 @@
     <string name="fastest_country_description">Найкращий сервер на основі вашого розташування</string>
     <string name="settings_last_connection_title">Останнє з\'єднання</string>
     <string name="settings_last_connection_description">Ваше нещодавно використане з\'єднання</string>
-    <string name="settings_change_icon_title">App icon</string>
-    <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
-    <string name="settings_change_icon_confirmation_title">Change app icon?</string>
-    <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
+    <string name="settings_change_icon_title">Піктограма програми</string>
+    <string name="settings_change_icon_details">Налаштуйте вигляд піктограми Proton VPN на своєму пристрої. Навіщо?</string>
+    <string name="settings_change_icon_confirmation_title">Змінити піктограму?</string>
+    <string name="settings_change_icon_confirmation_details">Ця дія призведе до закриття програми Proton VPN. Щоб перезапустити, просто торкніться нової піктограми.</string>
     <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
-    <string name="settings_change_icon_header_discreet">Discreet app icon</string>
+    <string name="settings_change_icon_header_discreet">Стримана піктограма</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Відхилити банер</string>
@@ -1009,7 +1009,7 @@
     <string name="dialog_sign_out_action">Вийти</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Скасувати</string>
-    <string name="dialog_action_change_icon">Change icon</string>
+    <string name="dialog_action_change_icon">Змінити піктограму</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Всі</string>
     <string name="country_filter_cities">Міста</string>
@@ -1267,7 +1267,7 @@
     <string name="settings_account_change_password">Змінити пароль</string>
     <string name="settings_account_recovery_email">Резервна е-пошта</string>
     <string name="settings_account_recovery_email_not_set">Не налаштовано</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">Ключі безпеки</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Мій обліковий запис</string>
     <string name="settings_account_button_delete_account">Видалити обліковий запис</string>
@@ -1333,7 +1333,7 @@
     <string name="secure_core_upsell_banner_description">Додайте ще один рівень шифрування до свого VPN-з\'єднання</string>
     <string name="p2p_upsell_banner_description">Завантажуйте файли через BitTorrent й інші протоколи обміну файлами</string>
     <string name="tor_upsell_banner_description">Користуйтеся мережею Tor через VPN-з\'єднання для додаткової приватності</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">Передплатити VPN Plus</string>
     <string name="search_zero_screen_title">Спробуйте пошукати…</string>
     <string name="search_zero_screen_info_countries_title">Країни</string>
     <string name="search_zero_screen_info_cities_title">Міста</string>

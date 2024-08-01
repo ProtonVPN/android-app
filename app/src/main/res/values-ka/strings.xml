@@ -538,7 +538,7 @@
     <string name="settings_change_icon_title">აპის ხატულა</string>
     <string name="settings_change_icon_details">მოირგეთ, როგორ გამოჩნდება აპი Proton VPN თქვენს მოწყობილობაზე. რატომ?</string>
     <string name="settings_change_icon_confirmation_title">შევცვალო აპის ხატულა?</string>
-    <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
+    <string name="settings_change_icon_confirmation_details">ეს Proton VPN-ის აპს დახურავს.იმისათვის, რომ გადატვირთოთ Proton VPN, უბრალოდ დაატყაპუნეთ ახალი აპის ხატულაზე.</string>
     <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
     <string name="settings_change_icon_header_discreet">დისკრეტული აპლიკაციის ხატულა</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -1209,7 +1209,7 @@
     <string name="settings_account_change_password">პაროლის შეცვლა</string>
     <string name="settings_account_recovery_email">აღდგენის ელფოსტა</string>
     <string name="settings_account_recovery_email_not_set">დაყენებული არაა</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">უსაფრთხოების გასაღებები</string>
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">ჩემი ანგარიში</string>
     <string name="settings_account_button_delete_account">ანგარიშის წაშლა</string>
@@ -1275,7 +1275,7 @@
     <string name="secure_core_upsell_banner_description">დაამატეთ თქვენს VPN-ს უსაფრთხოების კიდევ ერთი დონე</string>
     <string name="p2p_upsell_banner_description">გადმოწერეთ ფაილები BitTorrent-ით და სხვა ფაილების გაზიარების პროტოკოლებით</string>
     <string name="tor_upsell_banner_description">გამოიყენეთ Tor-ის ქსელი თქვენი VPN მიერთების ზემოდან, დამატებითი კონფიდენციალობისთვის</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">VPN Plus-მდე აწევა</string>
     <string name="search_zero_screen_title">მოსინჯეთ ძიება…</string>
     <string name="search_zero_screen_info_countries_title">ქვეყნები</string>
     <string name="search_zero_screen_info_cities_title">ქალაქები</string>
