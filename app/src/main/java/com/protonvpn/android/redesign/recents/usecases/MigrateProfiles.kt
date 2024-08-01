@@ -71,7 +71,7 @@ class MigrateProfiles @Inject constructor(
 
         suspend {
             val defaultProfileConnectIntent =
-                serverManager.defaultConnection.toConnectIntent(serverManager, isGlobalSecureCoreEnabled)
+                profileManager.getDefaultOrFastest().toConnectIntent(serverManager, isGlobalSecureCoreEnabled)
             val connectIntents = customProfiles.mapNotNullTo(LinkedHashSet()) { profile ->
                 val migrated = profile.toConnectIntent(serverManager, isGlobalSecureCoreEnabled)
                 if (migrated != null) {

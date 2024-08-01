@@ -130,7 +130,6 @@ class RecentsListValidatorTests {
             wallClock = { 0 },
             supportsProtocol = supportsProtocol,
             serversDataManager,
-            profileManager = mockk(),
         )
         serverManager2 = ServerManager2(serverManager, supportsProtocol)
     }

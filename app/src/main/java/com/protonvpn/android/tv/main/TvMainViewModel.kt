@@ -44,6 +44,7 @@ import com.protonvpn.android.tv.models.Title
 import com.protonvpn.android.tv.usecases.GetCountryCard
 import com.protonvpn.android.tv.usecases.TvUiConnectDisconnectHelper
 import com.protonvpn.android.ui.home.ServerListUpdater
+import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.AndroidUtils.toInt
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.DebugUtils
@@ -69,6 +70,7 @@ import me.proton.core.presentation.R as CoreR
 @HiltViewModel
 class TvMainViewModel @Inject constructor(
     private val serverManager: ServerManager,
+    private val profileManager: ProfileManager,
     private val mainScope: CoroutineScope,
     serverListUpdater: ServerListUpdater,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
@@ -160,8 +162,8 @@ class TvMainViewModel @Inject constructor(
         val recentsList = mutableListOf<Card>()
         recentsList.add(constructQuickConnect(context))
 
-        val defaultConnection = createIntentForDefaultProfile(serverManager.defaultConnection)
-        val defaultConnectCountry = getConnectCountry(serverManager.defaultConnection)
+        val defaultConnection = createIntentForDefaultProfile(profileManager.getDefaultOrFastest())
+        val defaultConnectCountry = getConnectCountry(profileManager.getDefaultOrFastest())
         val shouldAddFavorite = (isConnected() || isEstablishingConnection()) &&
             !vpnStatusProviderUI.isConnectingToCountry(defaultConnectCountry)
 
@@ -169,7 +171,7 @@ class TvMainViewModel @Inject constructor(
             recentsList.add(
                 ConnectIntentCard(
                     title = context.getString(
-                        if (serverManager.defaultConnection.isPreBakedProfile)
+                        if (profileManager.getDefaultOrFastest().isPreBakedProfile)
                             R.string.tv_quick_connect_recommened
                         else
                             R.string.tv_quick_connect_favourite
@@ -184,7 +186,7 @@ class TvMainViewModel @Inject constructor(
         recentsManager.getRecentCountries()
             .filterNot { country ->
                 vpnStatusProviderUI.isConnectingToCountry(country) ||
-                    getConnectCountry(serverManager.defaultConnection) == country
+                    getConnectCountry(profileManager.getDefaultOrFastest()) == country
             }
             .take(RecentsManager.RECENT_MAX_SIZE - shouldAddFavorite.toInt())
             .forEach { country ->
@@ -204,7 +206,7 @@ class TvMainViewModel @Inject constructor(
 
     @DrawableRes
     private fun profileCardTitleIcon(connectIntent: ConnectIntent): Int {
-        val defaultConnection = serverManager.defaultConnection
+        val defaultConnection = profileManager.getDefaultOrFastest()
         val server = serverManager.getServerForConnectIntent(connectIntent, currentUser.vpnUserCached())
         return when {
             server == null -> CoreR.drawable.ic_proton_lock_filled
@@ -217,7 +219,7 @@ class TvMainViewModel @Inject constructor(
 
     @DrawableRes
     private fun quickConnectTitleIcon(): Int {
-        val defaultConnection = serverManager.defaultConnection
+        val defaultConnection = profileManager.getDefaultOrFastest()
         val server = serverManager.getServerForProfile(defaultConnection, currentUser.vpnUserCached())
         return when {
             isConnected() || isEstablishingConnection() -> 0
@@ -231,7 +233,7 @@ class TvMainViewModel @Inject constructor(
         val labelRes = when {
             isConnected() -> R.string.disconnect
             isEstablishingConnection() -> R.string.cancel
-            serverManager.defaultConnection.isPreBakedProfile -> R.string.tv_quick_connect_recommened
+            profileManager.getDefaultOrFastest().isPreBakedProfile -> R.string.tv_quick_connect_recommened
             else -> R.string.tv_quick_connect_favourite
         }
         return QuickConnectCard(
@@ -256,7 +258,7 @@ class TvMainViewModel @Inject constructor(
     val quickConnectFlag get() = if (isConnected() || isEstablishingConnection())
         vpnStatusProviderUI.connectingToServer?.flag
     else
-        getConnectCountry(serverManager.defaultConnection)
+        getConnectCountry(profileManager.getDefaultOrFastest())
 
     private fun quickConnectBackground(context: Context) =
         CountryTools.getLargeFlagResource(context, quickConnectFlag)
@@ -267,7 +269,7 @@ class TvMainViewModel @Inject constructor(
         } else {
             connectHelper.connect(
                 activity,
-                createIntentForDefaultProfile(serverManager.defaultConnection),
+                createIntentForDefaultProfile(profileManager.getDefaultOrFastest()),
                 ConnectTrigger.QuickConnect("quick connect (TV)")
             )
         }

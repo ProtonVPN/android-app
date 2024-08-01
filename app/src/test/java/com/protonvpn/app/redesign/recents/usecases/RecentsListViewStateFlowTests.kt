@@ -164,7 +164,6 @@ class RecentsListViewStateFlowTests {
             clock,
             supportsProtocol,
             serversDataManager,
-            mockk(),
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         runBlocking {

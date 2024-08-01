@@ -72,7 +72,6 @@ class TranslatorTests {
             { 0 },
             mockk(relaxed = true),
             serversDataManager,
-            mockk(),
         )
     }
 
