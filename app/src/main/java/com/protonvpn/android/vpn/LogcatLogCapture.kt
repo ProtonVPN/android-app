@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.vpn
 
+import com.protonvpn.android.GoLangCrashLogger
+import com.protonvpn.android.GoLangSendCrashesToSentryEnabled
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.logging.LogCategory
@@ -42,28 +44,31 @@ private const val TAG_MESSAGE_SEPARATOR = ": " // This is what logcat uses.
  */
 @Singleton
 class LogcatLogCapture @Inject constructor(
-    private val mainScope: CoroutineScope,
-    private val dispatcherProvider: VpnDispatcherProvider,
+    mainScope: CoroutineScope,
+    dispatcherProvider: VpnDispatcherProvider,
+    private val goLangCrashLogger: dagger.Lazy<GoLangCrashLogger>,
+    private val goLangSendCrashesToSentryEnabled: GoLangSendCrashesToSentryEnabled,
     @ElapsedRealtimeClock private val monoClock: () -> Long
 ) {
 
     init {
         mainScope.launch(dispatcherProvider.infiniteIo) {
-            captureCharonWireguardLogs()
+            captureCharonWireguardAndGoLogs()
         }
     }
 
-    private suspend fun captureCharonWireguardLogs() {
+    private suspend fun captureCharonWireguardAndGoLogs() {
         do {
             val start = monoClock()
             try {
                 val wireguardTag = "WireGuard/GoBackend/${Constants.WIREGUARD_TUNNEL_NAME}"
                 val process = Runtime.getRuntime().exec(
-                    "logcat -v brief -s $wireguardTag:* charon:* ${Constants.SECONDARY_PROCESS_TAG}:* -T 1"
+                    "logcat -v brief -s $wireguardTag:* charon:* Go:E ${Constants.SECONDARY_PROCESS_TAG}:* -T 1"
                 )
+                val goLangLoggerEnabled = goLangSendCrashesToSentryEnabled()
                 BufferedReader(InputStreamReader(process.inputStream)).useLines { lines ->
                     lines.forEach {
-                        parseAndLog(it)
+                        parseAndLog(it, goLangLoggerEnabled)
                     }
                 }
                 ProtonLogger.logCustom(LogLevel.WARN, LogCategory.APP, "Logcat streaming ended")
@@ -81,13 +86,17 @@ class LogcatLogCapture @Inject constructor(
         } while (true)
     }
 
-    private fun parseAndLog(line: String) {
+    private fun parseAndLog(line: String, goLangLoggerEnabled: Boolean) {
         if (line.isEmpty() || line.startsWith("--------- beginning")) return
         val split = line.split(TAG_MESSAGE_SEPARATOR, limit = 2)
         if (split.size == 2) {
             val level = toLogLevel(split[0][0])
             val category = toCategory(split[0])
-            ProtonLogger.logCustom(level, category, split[1])
+            val log = split[1]
+            if (category == LogCategory.GO_ERROR && goLangLoggerEnabled) {
+                goLangCrashLogger.get().onErrorLine(log)
+            }
+            ProtonLogger.logCustom(level, category, log)
         } else {
             ProtonLogger.logCustom(LogCategory.APP, line)
         }
@@ -102,8 +111,9 @@ class LogcatLogCapture @Inject constructor(
     }
 
     private fun toCategory(lineBeginning: String): LogCategory =
-        if (lineBeginning.contains(Constants.SECONDARY_PROCESS_TAG))
-            LogCategory.APP
-        else
-            LogCategory.PROTOCOL
+        when {
+            lineBeginning.startsWith("E/Go") -> LogCategory.GO_ERROR
+            lineBeginning.contains(Constants.SECONDARY_PROCESS_TAG) -> LogCategory.APP
+            else -> LogCategory.PROTOCOL
+        }
 }

@@ -109,7 +109,6 @@ open class ProtonLoggerImpl(
         writers.forEach { it.write(getTimestampNow(), level, category, eventName, truncatedMessage, blocking) }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun getLogFilesForUpload() = fileLogWriter.getLogFilesForUpload()
 
     override fun getLogLinesForDisplay(): Flow<List<String>> = fileLogWriter.getLogLinesForDisplay().map { lines ->
