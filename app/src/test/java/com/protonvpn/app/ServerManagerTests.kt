@@ -22,7 +22,6 @@ package com.protonvpn.app
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
@@ -37,13 +36,13 @@ import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
-import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestDispatcherProvider
+import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createIsImmutableServerListEnabled
@@ -52,7 +51,6 @@ import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -80,11 +78,13 @@ class ServerManagerTests {
     private lateinit var serverManager2: ServerManager2
 
     @RelaxedMockK private lateinit var currentUser: CurrentUser
-    @RelaxedMockK private lateinit var vpnUser: VpnUser
 
     private lateinit var currentSettings: MutableStateFlow<LocalUserSettings>
     private lateinit var testDispatcherProvider: TestDispatcherProvider
     private lateinit var testScope: TestScope
+
+    private val plusUser = TestUser.plusUser.vpnUser
+    private val freeUser = TestUser.freeUser.vpnUser
 
     private val gatewayServer = createServer(
         "dedicated",
@@ -103,8 +103,7 @@ class ServerManagerTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
         mockkObject(CountryTools)
-        currentUser.mockVpnUser { vpnUser }
-        every { vpnUser.userTier } returns 2
+        currentUser.mockVpnUser { plusUser }
         every { CountryTools.getPreferredLocale() } returns Locale.US
 
         val dispatcher = UnconfinedTestDispatcher()
@@ -138,8 +137,8 @@ class ServerManagerTests {
     fun testOnlineAccessibleServersSeparatesGatewaysFromRegular() = testScope.runTest {
         createServerManagers(immutableServerList = true)
         val gatewayName = gatewayServer.gatewayName
-        val gatewayServers = serverManager2.getOnlineAccessibleServers(false, gatewayName, vpnUser, ProtocolSelection.SMART)
-        val regularServers = serverManager2.getOnlineAccessibleServers(false, null, vpnUser, ProtocolSelection.SMART)
+        val gatewayServers = serverManager2.getOnlineAccessibleServers(false, gatewayName, plusUser, ProtocolSelection.SMART)
+        val regularServers = serverManager2.getOnlineAccessibleServers(false, null, plusUser, ProtocolSelection.SMART)
 
         assertEquals(listOf(gatewayServer), gatewayServers)
         assertFalse(regularServers.contains(gatewayServer))
@@ -156,7 +155,7 @@ class ServerManagerTests {
     }
 
     @Test
-    fun testGetBestServerWithFeatures() = testScope.runTest {
+    fun testGetServerForConnectIntentWithFeatures() = testScope.runTest {
         fun createSeattleServer(serverId: String, score: Double, features: Int, entryCountry: String? = null) =
             createServer(
                 serverId,
@@ -169,11 +168,10 @@ class ServerManagerTests {
             )
 
         suspend fun testIntent(expectedServerId: String, connectIntent: ConnectIntent) {
-            val server = serverManager2.getServerForConnectIntent(connectIntent, vpnUser)
+            val server = serverManager2.getServerForConnectIntent(connectIntent, plusUser)
             assertEquals(expectedServerId, server?.serverId)
         }
 
-        createServerManagers(immutableServerList = true)
         val servers = listOf(
             // The best server has no features.
             createSeattleServer("1", score = .1, features = 0),
@@ -182,6 +180,7 @@ class ServerManagerTests {
             createSeattleServer("4", score = 1.0, features = SERVER_FEATURE_TOR or SERVER_FEATURE_P2P),
             createSeattleServer("SC", score = .1, features = SERVER_FEATURE_SECURE_CORE, entryCountry = "CH")
         )
+        createServerManagers(immutableServerList = true)
         manager.setServers(servers, null)
 
         testIntent("2", ConnectIntent.FastestInCountry(CountryId.fastest, EnumSet.of(ServerFeature.P2P)))
@@ -197,6 +196,39 @@ class ServerManagerTests {
         // Secure Core is a bit special but also uses features, make sure it's not filtered out.
         testIntent("SC", ConnectIntent.SecureCore(CountryId("US"), entryCountry = CountryId("CH")))
         testIntent("SC", ConnectIntent.SecureCore(CountryId("US"), entryCountry = CountryId.fastest))
+    }
+
+    @Test
+    fun testGetServerForConnectIntentWithUnavailableServers() = testScope.runTest {
+        suspend fun testIntent(expectedServerId: String?, connectIntent: ConnectIntent, vpnUser: VpnUser) {
+            val server = serverManager2.getServerForConnectIntent(connectIntent, vpnUser)
+            assertEquals(expectedServerId, server?.serverId)
+        }
+
+        val servers = listOf(
+            createServer("US plus online", score = 2.0, exitCountry = "US", tier = 2),
+            createServer("US plus online second", score = 3.0, exitCountry = "US", tier = 2),
+            createServer("US plus offline", score = 3.0, exitCountry = "US", isOnline = false, tier = 2),
+            createServer("PL plus offline", score = 3.0, exitCountry = "PL", isOnline = false, tier = 2),
+            createServer("PL free offline", score = 4.0, exitCountry = "PL", isOnline = false, tier = 0),
+            createServer("CH free online", score = 5.0, exitCountry = "CH", tier = 0),
+            createServer("PL SC plus online", score = 1.0, exitCountry = "PL", tier = 2, isSecureCore = true),
+            createServer("US SC plus online", score = 3.0, exitCountry = "US", tier = 2, isSecureCore = true),
+        )
+        createServerManagers(immutableServerList = true)
+        manager.setServers(servers, null)
+
+        val fastestPl = ConnectIntent.FastestInCountry(CountryId("PL"), emptySet())
+        val fastestCh = ConnectIntent.FastestInCountry(CountryId("CH"), emptySet())
+        val secureCorePl = ConnectIntent.SecureCore(CountryId("PL"), CountryId.fastest)
+        val secureCoreUs = ConnectIntent.SecureCore(CountryId("US"), CountryId.fastest)
+        testIntent("US plus online", ConnectIntent.Fastest, plusUser)
+        testIntent("CH free online", ConnectIntent.Fastest, freeUser)
+        testIntent(null, fastestPl, plusUser)
+        testIntent(null, fastestPl, freeUser)
+        testIntent("CH free online", fastestCh, plusUser)
+        testIntent("PL SC plus online", secureCorePl, plusUser)
+        testIntent("US SC plus online", secureCoreUs, plusUser)
     }
 
     @Test
