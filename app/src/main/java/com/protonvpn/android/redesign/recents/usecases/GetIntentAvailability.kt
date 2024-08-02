@@ -69,7 +69,7 @@ class GetIntentAvailability @Inject constructor(
                 .last()
                 .also {
                     // The list of servers may be long and most of them should be online. Finish the loop early.
-                    if (it == RecentAvailability.ONLINE) return@maxOfOrNull RecentAvailability.ONLINE
+                    if (it == RecentAvailability.ONLINE) return@getAvailability RecentAvailability.ONLINE
                 }
         } ?: RecentAvailability.UNAVAILABLE_PLAN
     }
