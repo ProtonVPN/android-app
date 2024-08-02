@@ -95,16 +95,6 @@ class ServersStoreTests {
     }
 
     @Test
-    fun `migration from old store`() = testScope.runTest {
-        val store = createAndLoadServersStore(testFile)
-        store.migrate(emptyList(), countries, emptyList())
-
-        val store2 = createAndLoadServersStore(testFile)
-        val countriesServers = countries.map { it.serverList }.flatten()
-        assertEquals(countriesServers, store2.allServers)
-    }
-
-    @Test
     fun `recover from interrupted rename`() = testScope.runTest {
         val store = createAndLoadServersStore(testFile)
         store.allServers += servers

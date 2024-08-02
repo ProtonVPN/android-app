@@ -79,11 +79,6 @@ class ServerManager @Inject constructor(
 
     private var serverListAppVersionCode = 0
 
-    // Exist only for migration
-    @SerializedName("vpnCountries") private val migrateVpnCountries: MutableList<VpnCountry>? = null
-    @SerializedName("secureCoreEntryCountries") private val migrateSecureCoreEntryCountries: MutableList<VpnCountry>? = null
-    @SerializedName("secureCoreExitCountries") private val migrateSecureCoreExitCountries: MutableList<VpnCountry>? = null
-
     @Transient private var grouped = GroupedServers(serversStore)
     @Transient private var guestHoleServers: List<Server>? = null
     @Transient private val isLoaded = MutableStateFlow(false)
@@ -149,37 +144,11 @@ class ServerManager @Inject constructor(
 
         mainScope.launch {
             serversStore.load()
-            if (oldManager?.migrateVpnCountries?.isEmpty() == false && serversStore.allServers.isEmpty()) {
-                // Migrate from old server store
-                try {
-                    serversStore.migrate(
-                        vpnCountries = oldManager.migrateVpnCountries,
-                        secureCoreEntryCountries = oldManager.migrateSecureCoreEntryCountries
-                            ?: emptyList(),
-                        secureCoreExitCountries = oldManager.migrateSecureCoreExitCountries
-                            ?: emptyList(),
-                    )
-                } catch (e: Exception) {
-                    // With some old/corrupted Storage we can get e.g. NullPointerException on
-                    // migration, let's start with empty list in that case
-                    serversStore.clear()
-                    val event = SentryEvent(e).apply {
-                        message = Message().apply { message = "Unable to migrate server list" }
-                        level = SentryLevel.ERROR
-                    }
-                    Sentry.captureEvent(event)
-                }
-            }
-
             updateInternal()
 
             // Notify of loaded state and update after everything has been updated.
             isLoaded.value = true
             onServersUpdate()
-
-            if (oldManager?.migrateVpnCountries?.isEmpty() == false) {
-                Storage.save(this@ServerManager, ServerManager::class.java)
-            }
         }
     }
 

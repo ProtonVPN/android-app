@@ -50,15 +50,6 @@ class ServersStore(
         store.store(data)
     }
 
-    fun migrate(
-        vpnCountries: List<VpnCountry>,
-        secureCoreEntryCountries: List<VpnCountry>,
-        secureCoreExitCountries: List<VpnCountry>,
-    ) {
-        allServers = extractServers(vpnCountries, secureCoreEntryCountries, secureCoreExitCountries)
-        save()
-    }
-
     fun clear() {
         allServers = emptyList()
         store.clear()
