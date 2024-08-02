@@ -36,10 +36,6 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val serverComparator = compareBy<Server> { !it.isFreeServer }
-    .thenBy { it.serverNumber >= 100 }
-    .thenBy { it.serverNumber }
-
 @Singleton
 class ServersDataManager @Inject constructor(
     mainScope: CoroutineScope,
@@ -49,7 +45,7 @@ class ServersDataManager @Inject constructor(
 ) {
     private data class ServerLists(
         val allServers: List<Server> = emptyList(),
-        val allServersByScore: List<Server>? = null,
+        val allServersByScore: List<Server>? = null, // VPNAND-1865: change to non-null and update all usage.
         val vpnCountries: List<VpnCountry> = emptyList(),
         val secureCoreExitCountries: List<VpnCountry> = emptyList(),
         val gateways: List<GatewayGroup> = emptyList(),
@@ -72,7 +68,11 @@ class ServersDataManager @Inject constructor(
 
     suspend fun load() {
         serversStore.load()
-        serverLists = updateServerLists(serversStore.allServers)
+        if (immutableServerListEnabled.await()) {
+            updateWithMutex(serversStore.allServers, saveToStorage = false)
+        } else {
+            serverLists = updateServerLists(serversStore.allServers)
+        }
     }
 
     suspend fun replaceServers(serverList: List<Server>) {
@@ -162,6 +162,7 @@ class ServersDataManager @Inject constructor(
 
     private suspend fun updateWithMutex(
         servers: List<Server>,
+        saveToStorage: Boolean = true,
         updateBlock: suspend (List<Server>) -> List<Server> = { it }
     ) {
         updateMutex.withLock {
@@ -172,8 +173,10 @@ class ServersDataManager @Inject constructor(
                 groupedServers.await()
                     .copy(allServersByScore = sortedServers.await())
             }
-            serversStore.allServers = newServerLists.allServers
-            serversStore.save()
+            if (saveToStorage) {
+                serversStore.allServers = newServerLists.allServers
+                serversStore.save()
+            }
             serverLists = newServerLists
         }
     }
@@ -190,7 +193,7 @@ class ServersDataManager @Inject constructor(
             }
 
             fun MutableMap<String, MutableList<Server>>.toVpnCountries() =
-                map { (country, servers) -> VpnCountry(country, servers.sortedWith(serverComparator)) }
+                map { (country, servers) -> VpnCountry(country, servers) }
 
             val vpnCountries = mutableMapOf<String, MutableList<Server>>()
             val gateways = mutableMapOf<String, MutableList<Server>>()
