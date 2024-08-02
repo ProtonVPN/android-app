@@ -47,11 +47,12 @@ class ServersDataManager @Inject constructor(
     private val serversStore: ServersStore,
     private val immutableServerList: dagger.Lazy<IsImmutableServerListEnabled>
 ) {
-    private class ServerLists(
+    private data class ServerLists(
         val allServers: List<Server> = emptyList(),
+        val allServersByScore: List<Server>? = null,
         val vpnCountries: List<VpnCountry> = emptyList(),
         val secureCoreExitCountries: List<VpnCountry> = emptyList(),
-        val gateways: List<GatewayGroup> = emptyList()
+        val gateways: List<GatewayGroup> = emptyList(),
     )
 
     // Use the same value for the whole process lifetime.
@@ -64,6 +65,7 @@ class ServersDataManager @Inject constructor(
     private var serverLists = ServerLists()
 
     val allServers: List<Server> get() = serverLists.allServers
+    val allServersByScore: List<Server> get() = serverLists.allServersByScore ?: allServers.sortedBy { it.score }
     val vpnCountries: List<VpnCountry> get() = serverLists.vpnCountries
     val secureCoreExitCountries: List<VpnCountry> get() = serverLists.secureCoreExitCountries
     val gateways: List<GatewayGroup> get() = serverLists.gateways
@@ -75,9 +77,7 @@ class ServersDataManager @Inject constructor(
 
     suspend fun replaceServers(serverList: List<Server>) {
         if (immutableServerListEnabled.await()) {
-            updateWithMutex {
-                serverList
-            }
+            updateWithMutex(serverList)
         } else {
             serversStore.allServers = serverList
             serversStore.saveMutable()
@@ -87,9 +87,9 @@ class ServersDataManager @Inject constructor(
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
         if (immutableServerListEnabled.await()) {
-            updateWithMutex {
-                buildList(allServers.size) {
-                    allServers.forEach { currentServer ->
+            updateWithMutex(allServers) { servers ->
+                buildList(servers.size) {
+                    servers.forEach { currentServer ->
                         val server = if (currentServer.connectingDomains.any { it.id == connectingDomain.id }) {
                             val updatedConnectingDomains = currentServer.connectingDomains.replace(
                                 connectingDomain,
@@ -113,10 +113,10 @@ class ServersDataManager @Inject constructor(
 
     suspend fun updateLoads(loadsList: List<LoadUpdate>) {
         if (immutableServerListEnabled.await()) {
-            updateWithMutex {
+            updateWithMutex(allServers) { servers ->
                 val loadsMap: Map<String, LoadUpdate> = loadsList.associateBy { it.id }
-                buildList(allServers.size) {
-                    allServers.forEach { currentServer ->
+                buildList(servers.size) {
+                    servers.forEach { currentServer ->
                         val newValues = loadsMap[currentServer.serverId]
                         val server = if (newValues != null) {
                             val updatedConnectingDomains = with(currentServer) {
@@ -160,14 +160,21 @@ class ServersDataManager @Inject constructor(
         }
     }
 
-    private suspend fun updateWithMutex(updateBlock: suspend () -> List<Server>) {
+    private suspend fun updateWithMutex(
+        servers: List<Server>,
+        updateBlock: suspend (List<Server>) -> List<Server> = { it }
+    ) {
         updateMutex.withLock {
-            val newServers = withContext(dispatcherProvider.Comp) {
-                updateServerLists(updateBlock())
+            val newServerLists = withContext(dispatcherProvider.Comp) {
+                val newServers = updateBlock(servers)
+                val groupedServers = async { updateServerLists(newServers) }
+                val sortedServers = async { newServers.sortedBy { it.score } }
+                groupedServers.await()
+                    .copy(allServersByScore = sortedServers.await())
             }
-            serversStore.allServers = newServers.allServers
+            serversStore.allServers = newServerLists.allServers
             serversStore.save()
-            serverLists = newServers
+            serverLists = newServerLists
         }
     }
 

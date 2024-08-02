@@ -244,22 +244,22 @@ class ServerManager @Inject constructor(
         getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
 
     fun getBestScoreServer(secureCore: Boolean, serverFeatures: Set<ServerFeature>, vpnUser: VpnUser?): Server? {
-        val countries = getExitCountries(secureCore)
-        val map = countries.asSequence()
-            .map { country -> country.serverList.filter { it.satisfiesFeatures(serverFeatures) } }
-            .mapNotNull { getBestScoreServer(it, vpnUser) }
-            .groupBy { vpnUser.hasAccessToServer(it) }
-            .mapValues { it.value.minByOrNull(Server::score) }
-        return map[true] ?: map[false]
+        val eligibleServers = serversData.allServersByScore.asSequence()
+            .filter {
+                it.online
+                    && supportsProtocol(it, protocolCached)
+                    && it.isSecureCoreServer == secureCore
+                    && it.satisfiesFeatures(serverFeatures)
+                    && !it.isGatewayServer
+            }
+        return with(eligibleServers) { firstOrNull { vpnUser.hasAccessToServer(it) } ?: firstOrNull() }
     }
 
     @VisibleForTesting
     fun getBestScoreServer(serverList: List<Server>, vpnUser: VpnUser?): Server? {
-        val map = serverList.asSequence()
+        val eligibleServers = serverList.sortedBy { it.score }.asSequence()
             .filter { it.online && supportsProtocol(it, protocolCached) }
-            .groupBy { vpnUser.hasAccessToServer(it) }
-            .mapValues { it.value.minByOrNull(Server::score) }
-        return map[true] ?: map[false]
+        return with(eligibleServers) { firstOrNull { vpnUser.hasAccessToServer(it) } ?: firstOrNull() }
     }
 
     fun getRandomServer(vpnUser: VpnUser?): Server? {
