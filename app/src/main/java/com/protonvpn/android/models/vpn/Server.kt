@@ -44,7 +44,7 @@ data class Server(
     @SerialName(value = "Servers") val connectingDomains: List<ConnectingDomain>,
     @SerialName(value = "HostCountry") val hostCountry: String? = null,
     @SerialName(value = "Domain") val domain: String,
-    @SerialName(value = "Load") var load: Float,
+    @SerialName(value = "Load") var load: Float, // VPNAND-1865: change to 'val'
     @SerialName(value = "Tier") val tier: Int,
     @SerialName(value = "State") val state: String? = null,
     @SerialName(value = "City") val city: String?,
@@ -53,13 +53,14 @@ data class Server(
     @SerialName(value = "Translations") private val translations: Map<String, String?>? = null,
     @SerialName(value = "GatewayName") val rawGatewayName: String? = null,
 
-    @SerialName(value = "Score") var score: Double,
+    @SerialName(value = "Score") var score: Double, // VPNAND-1865: change to 'val'
 
     @Serializable(with = VpnIntToBoolSerializer::class)
     @SerialName(value = "Status")
-    private var isOnline: Boolean
+    private var isOnline: Boolean // VPNAND-1865: change to 'val'
 ) : java.io.Serializable {
 
+    // VPNAND-1865: consider making it a @Transient member precomputed on creation
     val online: Boolean get() = isOnline && connectingDomains.any { it.isOnline }
 
     val isTor get() = features.hasFlag(SERVER_FEATURE_TOR)
@@ -129,6 +130,7 @@ data class Server(
     else
         serverName
 
+    // VPNAND-1865: remove
     @Deprecated("Servers should be immutable")
     fun setOnline(value: Boolean) {
         isOnline = value

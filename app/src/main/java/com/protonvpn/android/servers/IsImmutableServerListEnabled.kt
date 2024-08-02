@@ -26,9 +26,7 @@ import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
 import javax.inject.Inject
 
-/*
- *  Note: when removing this feature flag change the fields on Server and ConnectingDomain from `var` to `val`
- */
+// VPNAND-1865: remove
 @OptIn(ExperimentalProtonFeatureFlag::class)
 @Reusable
 class IsImmutableServerListEnabled @Inject constructor(
