@@ -34,7 +34,6 @@ import io.sentry.SentryEvent
 import io.sentry.protocol.Message
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.awaitClose
@@ -298,7 +297,6 @@ class FileLogWriter(
 
     fun getLogLinesForDisplay() = backgroundLogger.getLogLines()
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     @Throws(IOException::class)
     suspend fun getLogFilesForUpload(): List<LogFile> = backgroundLogger.getFilesForUpload()
 

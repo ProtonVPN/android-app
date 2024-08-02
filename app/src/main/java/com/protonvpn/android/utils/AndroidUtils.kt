@@ -225,23 +225,11 @@ fun Editable.overrideMemoryClear() {
     clear()
 }
 
-fun Context.getAppExitReasonForLog(): String? =
-    if (Build.VERSION.SDK_INT >= 30) {
-        val am = getSystemService(ActivityManager::class.java)
-        am.getHistoricalProcessExitReasons(packageName, 0, 5)
-            .firstOrNull { it.processName == packageName } // Filter out non-main processes.
-            ?.let {
-                val reason = if (it.reason == ApplicationExitInfo.REASON_SIGNALED) {
-                    "signal ${it.status}"
-                } else {
-                    "${it.reason}"
-                }
-                "${it.description}; reason: $reason; importance: ${it.importance}; " +
-                    "time: ${ProtonLogger.formatTime(it.timestamp)}"
-            }
-    } else {
-        null
-    }
+@RequiresApi(30)
+fun Context.getAppMainProcessExitReason(): ApplicationExitInfo? =
+    getSystemService(ActivityManager::class.java)
+        .getHistoricalProcessExitReasons(packageName, 0, 5)
+        .firstOrNull { it.processName == packageName } // Filter out non-main processes.
 
 fun Context.isMainProcess() = packageName == getCurrentProcessName()
 

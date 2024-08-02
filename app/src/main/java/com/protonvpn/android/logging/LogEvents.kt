@@ -31,6 +31,7 @@ enum class LogCategory(private val categoryName: String) {
     CONN_GUEST_HOLE("CONN.GUEST_HOLE"),
     CONN_SERVER_SWITCH("CONN.SERVER_SWITCH"),
     CONN_WIREGUARD("CONN.WIREGUARD"),
+    GO_ERROR("GO.ERROR"),
     HV("HV"),
     LOCAL_AGENT("LOCAL_AGENT"),
     MANAGED_CONFIG("MANAGED_CONFIG"),

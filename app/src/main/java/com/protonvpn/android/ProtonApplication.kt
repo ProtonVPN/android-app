@@ -19,7 +19,10 @@
 package com.protonvpn.android
 
 import android.app.Application
+import android.app.ApplicationExitInfo
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
@@ -52,7 +55,7 @@ import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger
 import com.protonvpn.android.utils.SentryIntegration.initSentry
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.VpnCoreLogger
-import com.protonvpn.android.utils.getAppExitReasonForLog
+import com.protonvpn.android.utils.getAppMainProcessExitReason
 import com.protonvpn.android.utils.initPurchaseHandler
 import com.protonvpn.android.utils.isMainProcess
 import com.protonvpn.android.utils.migrateProtonPreferences
@@ -64,7 +67,7 @@ import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange
 import com.protonvpn.android.vpn.VpnConnectionObservability
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
-import dagger.hilt.android.EntryPointAccessors.fromApplication
+import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import go.Seq
 import kotlinx.coroutines.MainScope
@@ -75,7 +78,7 @@ import me.proton.core.humanverification.presentation.HumanVerificationStateHandl
 import me.proton.core.plan.data.PurchaseStateHandler
 import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryHandler
 import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryNotificationSetup
-import me.proton.core.util.kotlin.CoreLogger.set
+import me.proton.core.util.kotlin.CoreLogger
 import java.util.concurrent.Executors
 
 /**
@@ -121,7 +124,10 @@ open class ProtonApplication : Application() {
         val updateSettingsOnFeatureFlagChange: UpdateSettingsOnFeatureFlagChange?
         val vpnConnectionObservability: VpnConnectionObservability?
         val vpnConnectionTelemetry: VpnConnectionTelemetry
+        val goLangCrashReporter: dagger.Lazy<GoLangCrashReporter>
     }
+
+    protected var lastMainProcessExitReason: Int? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -132,10 +138,16 @@ open class ProtonApplication : Application() {
 
         if (isMainProcess()) {
             initLogger()
-            val exitReason = this.getAppExitReasonForLog()
+            val exitReasonLog = if (Build.VERSION.SDK_INT >= 30) {
+                val reason = getAppMainProcessExitReason()
+                lastMainProcessExitReason = reason?.reason
+                reason?.toLogString()
+            } else {
+                null
+            }
             ProtonLogger.log(
                 AppProcessStart,
-                "version: " + BuildConfig.VERSION_NAME + (if ((exitReason != null)) "; last exit cause: $exitReason" else "")
+                "version: " + BuildConfig.VERSION_NAME + (if (exitReasonLog != null) "; last exit cause: $exitReasonLog" else "")
             )
 
             initNotificationChannel(this)
@@ -145,12 +157,12 @@ open class ProtonApplication : Application() {
             // Initialize go-libraries early
             Seq.touch()
 
-            set(VpnCoreLogger())
+            CoreLogger.set(VpnCoreLogger())
         }
     }
 
     fun initDependencies() {
-        val dependencies = fromApplication(this, DependencyEntryPoints::class.java)
+        val dependencies = EntryPointAccessors.fromApplication(this, DependencyEntryPoints::class.java)
 
         // Start the EventLoop for all logged in Users.
         dependencies.coreEventManagerStarter.start()
@@ -189,10 +201,14 @@ open class ProtonApplication : Application() {
         dependencies.periodicUpdateManager.start()
 
         dependencies.isTv.logDebugInfo()
-        if (!dependencies.isTv.invoke()) {
+        if (!dependencies.isTv()) {
             dependencies.oneTimePopupNotificationTrigger
         }
         initPurchaseHandler(this)
+
+        if (lastMainProcessExitReason in listOf(ApplicationExitInfo.REASON_CRASH, ApplicationExitInfo.REASON_CRASH_NATIVE)) {
+            dependencies.goLangCrashReporter.get().start()
+        }
     }
 
     private fun initPreferences() {
@@ -240,4 +256,15 @@ open class ProtonApplication : Application() {
             appContext = context
         }
     }
+}
+
+@RequiresApi(30)
+private fun ApplicationExitInfo.toLogString(): String {
+    val reason = if (reason == ApplicationExitInfo.REASON_SIGNALED) {
+        "signal $status"
+    } else {
+        reason
+    }
+    return "$description; reason: $reason; importance: $importance; " +
+        "time: ${ProtonLogger.formatTime(timestamp)}"
 }

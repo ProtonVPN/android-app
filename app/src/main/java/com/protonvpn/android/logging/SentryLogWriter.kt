@@ -67,13 +67,8 @@ class GlobalSentryLogWriter(appContext: Context) : LogWriter {
 
 @Singleton
 class SentryLogWriter @Inject constructor(
-    mainScope: CoroutineScope,
-    currentUser: CurrentUser
+    private val sentryLogScrubber: SentryLogScrubber,
 ) : LogWriter {
-
-    private val cachedUser: StateFlow<User?> = currentUser.userFlow.stateIn(
-        mainScope, SharingStarted.Eagerly, initialValue = null
-    )
 
     override fun write(
         timestamp: String,
@@ -94,18 +89,9 @@ class SentryLogWriter @Inject constructor(
                 val eventPart = eventName?.let { ":$it" }.orEmpty()
                 this.category = "${category.toLog()}$eventPart"
                 this.level = level.toSentryLevel()
-                this.message = scrubMessage(message.take(MAX_MESSAGE_LENGTH))
+                this.message = sentryLogScrubber.scrubMessage(message.take(MAX_MESSAGE_LENGTH))
             }
         )
-    }
-
-    private fun scrubMessage(message: String): String {
-        var scrubbed = message.maskAnyIP()
-        val user = cachedUser.value
-        user?.name?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<username>") }
-        user?.displayName?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<username>") }
-        user?.email?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<email>") }
-        return scrubbed
     }
 
     private fun LogLevel.toSentryLevel() = when (this) {
@@ -115,5 +101,24 @@ class SentryLogWriter @Inject constructor(
         LogLevel.WARN -> SentryLevel.WARNING
         LogLevel.ERROR -> SentryLevel.ERROR
         LogLevel.FATAL -> SentryLevel.FATAL
+    }
+}
+
+@Singleton
+class SentryLogScrubber @Inject constructor(
+    mainScope: CoroutineScope,
+    currentUser: CurrentUser
+) {
+    private val cachedUser: StateFlow<User?> = currentUser.userFlow.stateIn(
+        mainScope, SharingStarted.Eagerly, initialValue = null
+    )
+
+    fun scrubMessage(message: String): String {
+        var scrubbed = message.maskAnyIP()
+        val user = cachedUser.value
+        user?.name?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<username>") }
+        user?.displayName?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<username>") }
+        user?.email?.takeIfNotBlank()?.let { scrubbed = scrubbed.replace(it, "<email>") }
+        return scrubbed
     }
 }
