@@ -309,11 +309,11 @@ private fun UpsellCard(
             )
             Text(
                 title,
-                style = ProtonTheme.typography.defaultSmallNorm,
+                style = ProtonTheme.typography.body1Medium,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(bottom = 4.dp),
             )
-            Text(description, style = ProtonTheme.typography.captionWeak)
+            Text(description, style = ProtonTheme.typography.body1Regular, color = ProtonTheme.colors.textWeak)
         }
     }
 }

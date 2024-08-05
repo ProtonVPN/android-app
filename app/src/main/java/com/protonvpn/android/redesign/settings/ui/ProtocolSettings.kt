@@ -158,7 +158,7 @@ private fun ProtocolBadge(
         color = textColor,
         modifier = Modifier
             .border(width = 1.dp, color = borderColor, shape = ProtonTheme.shapes.small)
-            .padding(horizontal = 6.dp, vertical = 2.dp)
+            .padding(horizontal = 6.dp, vertical = 3.dp)
             .background(ProtonTheme.colors.backgroundSecondary),
         )
 }
