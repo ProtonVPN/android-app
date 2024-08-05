@@ -563,7 +563,7 @@
     </plurals>
     <string name="server_change_max_reached">현재 무료 서버 최대 변경 횟수에 도달했습니다.</string>
     <string name="server_change_upsell">VPN Plus로 무제한 변경 기능 사용</string>
-    <string name="server_change_button_title">서버 번경</string>
+    <string name="server_change_button_title">서버 변경</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services.
 

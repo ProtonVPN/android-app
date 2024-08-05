@@ -212,7 +212,7 @@
     <string name="settingsTelemetryScreenTitle">გამოყენების სტატისტიკა</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[ეს სტატისტიკა თქვენს IP-ს არ შეიცავს და ის თქვენს ამოსაცნობად გამოყენებული ვერ იქნება. ჩვენ მას მესამე პირებს არასოდეს ვუზიარებთ. <a href="%1$s">გაიგეთ მეტი</a>]]></string>
     <string name="netshield_settings_description_not_html">დაიცავით თავი რეკლამებისგან, ბოროტი პროგრამებისგან და ტრეკერებისგან, რომლებიც ვებგვერდებზე და აპებშია ჩაშენებული. თუ ვვებგვერდი არ იტვირთება, სცადეთ, NetSheld-ი გამორთოთ. %1$s</string>
-    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
+    <string name="settings_icon_change_description">დამალეთ Proton VPN განხვავებული ხატულით. გაფრთხილებები ნაგულისხმევ Proton VPN სახელს და ხატულა გაჩვენებთ. %1$s</string>
     <string name="settings_icon_change_learn_more">გაიგეთ მეტი</string>
     <string name="learn_more">გაიგეთ მეტი</string>
     <string name="netshield_state_on" comment="Describes state, not action">ჩართ</string>

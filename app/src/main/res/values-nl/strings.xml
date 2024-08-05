@@ -18,12 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_icon_name_classic">Classic</string>
+    <string name="app_icon_name_classic">Klassiek</string>
     <string name="app_icon_name_dark">Donker</string>
     <string name="app_icon_name_retro">Retro</string>
-    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_weather">Weer</string>
     <string name="app_icon_name_notes">Notities</string>
-    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="app_icon_name_calculator">Rekenmachine</string>
     <!-- Strings related to login -->
     <string name="login">Log in</string>
     <string name="menuActionSignOut">Uitloggen</string>
@@ -125,48 +125,48 @@
     <string name="inputIpAddressLabel">IP-adres</string>
     <string name="inputIpAddressHint">Voer IP-adres in</string>
     <string name="inputIpAddressErrorInvalid">Ongeldig IP-adres</string>
-    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Uitgesloten IP-adressen (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Inbegrepen IP-adressen (%1$d)</string>
     <string name="settingsExcludedApps">Uitgesloten apps</string>
     <string name="settingsExcludedAppsEmpty">Voeg apps toe die moeten worden uitgesloten van het VPN-verkeer.</string>
-    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
+    <string name="settingsIncludedAppsEmpty">Voeg apps toe die in het VPN-verkeer moeten worden opgenomen.</string>
     <string name="settingsExcludedAppsSelectedHeader">Uitgesloten apps (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Inbegrepen Apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Alle andere gebruikelijke apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Alle andere systeemapplicaties (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Alle andere apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Systeemapps weergeven</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Systeemapps weergeven</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Deze apps zijn uitgesloten van uw VPN-verbinding.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Alleen deze apps maken verbinding via VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to Excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">Toevoegen aan Uitgesloten apps</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from Excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">Verwijderen uit Uitgesloten apps</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to Included apps</string>
+    <string name="accessibility_action_add_included_app">Toevoegen aan Inbegrepen apps</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from Included apps</string>
+    <string name="accessibility_action_remove_included_app">Verwijderen uit Inbegrepen apps</string>
     <string name="tileConnected">Verbonden: %1$s</string>
     <string name="openUrlError">%1$s kon niet worden geopend. Webbrowser is niet gedetecteerd op uw apparaat.</string>
     <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
@@ -212,7 +212,7 @@
     <string name="settingsTelemetryScreenTitle">Gebruiksstatistieken</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Deze statistieken bevatten uw IP-adres niet, en kunnen niet gebruikt worden om u te identificeren. We zullen deze nooit delen met derden. <a href="%1$s">Meer informatie</a>]]></string>
     <string name="netshield_settings_description_not_html">Bescherm uzelf tegen advertenties, malware en trackers op websites en apps. Als websites niet laden, probeer NetShield uit te schakelen. %1$s</string>
-    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
+    <string name="settings_icon_change_description">Vermom de Proton VPN app met een discreet icoon. Notificaties zullen nog steeds de standaard Proton VPN naam en icoon tonen. %1$s</string>
     <string name="settings_icon_change_learn_more">Lees meer</string>
     <string name="learn_more">Lees meer</string>
     <string name="netshield_state_on" comment="Describes state, not action">Aan</string>
@@ -451,13 +451,13 @@
     <string name="payment_select_your_plan">Kies uw abonnement</string>
     <string name="payment_button_get_vpn_plus">Kies VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Welkomstaanbod. Verlengt automatisch voor %1$s per maand</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">Welkomstaanbod. Verlengt automatisch voor %1$s per jaar</string>
+    <string name="payment_auto_renew_message_monthly">Abonnement wordt automatisch verlengd voor %1$s per maand</string>
+    <string name="payment_auto_renew_message_annual">Abonnement wordt automatisch verlengd voor %1$s per jaar</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Abonnement wordt maandelijks automatisch verlengd</string>
+    <string name="payment_welcome_price_message_annual_fallback">Abonnement wordt jaarlijks automatisch verlengd</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informatie</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -530,17 +530,17 @@
         <item quantity="one">Ontgrendel geografisch geblokkeerde contenten vanuit %1$d land met VPN Plus</item>
         <item quantity="other">Ontgrendel geografisch geblokkeerde contenten vanuit %1$d landen met VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Select your default connection</string>
-    <string name="settings_default_connection_title">Default connection</string>
-    <string name="fastest_country_description">The best server based on your location</string>
-    <string name="settings_last_connection_title">Last connection</string>
-    <string name="settings_last_connection_description">Your most recently used connection</string>
-    <string name="settings_change_icon_title">App icon</string>
-    <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
-    <string name="settings_change_icon_confirmation_title">Change app icon?</string>
-    <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
+    <string name="select_default_connection">Selecteer uw standaardverbinding</string>
+    <string name="settings_default_connection_title">Standaardverbinding</string>
+    <string name="fastest_country_description">De beste server op basis van uw locatie</string>
+    <string name="settings_last_connection_title">Laatste verbinding</string>
+    <string name="settings_last_connection_description">Uw meest recent gebruikte verbinding</string>
+    <string name="settings_change_icon_title">App-icoon</string>
+    <string name="settings_change_icon_details">Aanpassen hoe de Proton VPN app op uw apparaat wordt weergeven. Waarom?</string>
+    <string name="settings_change_icon_confirmation_title">App-icoon wijzigen?</string>
+    <string name="settings_change_icon_confirmation_details">Hierdoor wordt de Proton VPN-app afgesloten. Om Proton VPN opnieuw op te starten, tikt u op uw nieuwe app-icoon.</string>
     <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
-    <string name="settings_change_icon_header_discreet">Discreet app icon</string>
+    <string name="settings_change_icon_header_discreet">Discreet app-icoon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Banner negeren</string>
@@ -843,7 +843,7 @@
         Label above the connection card indicating text which acts as a button and leads to
         customization bottom sheet of default connection
      -->
-    <string name="connection_card_label_default_connection">Default connection</string>
+    <string name="connection_card_label_default_connection">Standaardverbinding</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
@@ -973,7 +973,7 @@
     <string name="dialog_sign_out_action">Uitloggen</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Annuleren</string>
-    <string name="dialog_action_change_icon">Change icon</string>
+    <string name="dialog_action_change_icon">Wijzig icoon</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Alle</string>
     <string name="country_filter_cities">Steden</string>
@@ -1086,33 +1086,33 @@
     <string name="info_dialog_tor_description">Maak verbinding met een Tor-server om via een willekeurige browser toegang te krijgen tot verborgen services en privé(onion)sites.</string>
     <string name="info_dialog_button_learn_more_tor">Hoe krijgt u toegang tot het Tor-netwerk</string>
     <string name="info_dialog_button_learn_more_p2p">Hoe torrent met P2P</string>
-    <string name="info_dialog_button_learn_more_streaming">Need streaming help?</string>
+    <string name="info_dialog_button_learn_more_streaming">Hulp nodig bij streamen?</string>
     <string name="info_dialog_streaming_title">Streamen</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
-    <string name="info_dialog_how_to_stream">How to stream:</string>
+    <string name="info_dialog_streaming_description">Streamingservers zijn ontworpen voor snelle en veilige TV-- en filmweergave.</string>
+    <string name="info_dialog_how_to_stream">Hoe te streamen:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Ga naar uw telefooninstellingen en schakel locatievoorzieningen uit</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Herstart uw streamingdienst</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Maak verbinding met een Plus-server en begin met streamen</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">Peer-to-peer bestanden delen is ingeschakeld op deze server.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">U kunt via uw reguliere browser verbinden met .onion sites.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_secure_core_description">Uw activiteit is versleuteld achter 2 hoog beveiligde VPN-servers.</string>
     <string name="connection_feature_streaming_title">Streamen</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">Deze server is geoptimaliseerd voor het afspelen van TV en films.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Verbindt u met uw bestemmingsland via servers die zich fysiek op een andere locatie bevinden.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
         For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
     -->
-    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
+    <string name="country_smart_routing_info">Servers bevinden zich fysiek in %1$s, maar u zult vanuit %2$s lijken te surfen.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1234,15 +1234,15 @@
     <string name="settings_protocol_smart_description">Selecteert automatisch het beste protocol voor uw verbinding.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">Snel, veilig en efficiënt. WireGuard is batterij-efficiënter dan andere protocollen.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Snel, veilig en efficiënt. WireGuard is moeilijk te detecteren en te blokkeren.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Gevestigd, goed getest en veilig. OpenVPN is minder batterij-efficiënt dan sommige andere protocollen.</string>
     <string name="settings_protocol_openvpn_tcp_description">Gevestigd, goed getest en veilig. OpenVPN is betrouwbaar bij slechte netwerkomstandigheden, maar is mogelijk niet zo snel als andere protocollen.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Negeert VPN-blokkades door uw VPN-verbinding te verbergen voor censors. Dit protocol is bestand tegen DPI (Deep Packet Inspection), maar is niet altijd even snel als andere protocollen. Stealth is exclusief voor Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Aanbevolen</string>
-    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_title">Modus</string>
     <string name="settings_split_tunneling_mode_standard">Standaard</string>
     <string name="settings_split_tunneling_mode_inverse">Omgekeerd</string>
     <string name="settings_split_tunneling_mode_description_standard">Bepaalde apps en IP-adressen zijn uitgesloten van de VPN-verbinding.</string>

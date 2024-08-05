@@ -106,7 +106,7 @@
     <string name="noVpnPermissionDisableAlwaysOnMessage">Android no soporta varias aplicaciones VPN al mismo tiempo. Desactiva la opción "VPN siempre activa" para cualquier aplicación VPN que no sea Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Aplicación Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Otras aplicaciones de VPN</string>
-    <string name="noVpnPermissionOpenSettings">Abrir configuración de VPN de Android</string>
+    <string name="noVpnPermissionOpenSettings">Abrir los ajustes de VPN para Android</string>
     <string name="noNotificationPermissionGrantTitle">No te dejes sorprender…</string>
     <string name="noNotificationPermissionGrantDescription">Activa las notificaciones para recibir alertas cuando ocurran cambios en tu conexión.</string>
     <string name="noNotificationPermissionGrantNowTitle">Activar las notificaciones</string>
@@ -188,7 +188,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Enrutado alternativo</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permite que la aplicación intente rutas alternativas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueo gubernamental</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Tu país puede estar bloqueando el acceso a Proton. Prueba utilizando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Tu país puede estar bloqueando el acceso a Proton. Prueba usando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN siempre activa y Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Cómo activar la opción VPN siempre activa y Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Abre la sección <b>Configuración</b> de tu dispositivo pulsando el botón siguiente]]></string>
@@ -576,7 +576,7 @@
     </plurals>
     <string name="server_change_max_reached">Has alcanzado el número máximo de cambios de servidores gratuitos por ahora.</string>
     <string name="server_change_upsell">Obtén cambios ilimitados con VPN Plus.</string>
-    <string name="server_change_button_title">Cambiar servidor</string>
+    <string name="server_change_button_title">Cambiar de servidor</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services.
 
@@ -1089,7 +1089,7 @@
     <string name="info_dialog_button_learn_more_streaming">¿Necesitas ayuda con el streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">Los servidores de streaming están diseñados para una reproducción rápida y segura de películas y programas de televisión.</string>
-    <string name="info_dialog_how_to_stream">Cómo ver contenido en streaming</string>
+    <string name="info_dialog_how_to_stream">Cómo ver contenido en streaming:</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Ve a los ajustes de tu teléfono y desactiva los servicios de ubicación</string>
     <!-- item 2 in the numbered list -->
