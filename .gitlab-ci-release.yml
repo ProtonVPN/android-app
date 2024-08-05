@@ -130,23 +130,20 @@ publish-apk-internal:
 
 publish-github:
   stage: publish
-  only:
-    - /^release/
-  except:
-    - schedules
-  interruptible: false
-  before_script:
-    - |
-      # if not a tag pipeline and job is running on top of a release branch release/<version> we extract <version>
-      if [ -z "$CI_COMMIT_TAG" ] && [ "${CI_COMMIT_REF_NAME#release/}" != "$CI_COMMIT_REF_NAME" ]; then
-        export CI_COMMIT_TAG="$(echo "$CI_COMMIT_REF_NAME" | cut -d '/' -f 2)"
-        echo "extract tag from release branch ($CI_COMMIT_REF_NAME) -> $CI_COMMIT_TAG"
-      fi
-      echo "version: $CI_COMMIT_TAG"
+  dependencies: [ "build release (auto)", "export archive name" ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: $CI_COMMIT_BRANCH =~ /^release/
+      when: always
   variables:
-    RELEASE_APP: android-vpn
-    RELEASE_GITHUB_REPOSITORY: $PUBLIC_REPO_URL
-  extends: .release-make-release
+    RELEASE_NOTES: "metadata/en-US/changelogs/${VERSION_CODE}.txt"
+    GH_TOKEN: "${GITHUB_CLI_TOKEN}"
+    OAUTH_URL: "https://oauth2:${GH_TOKEN}@github.com/ProtonVPN/android-app.git"
+    ARTIFACT_PATH: "app/build/outputs/apk/productionVanillaDirect/release/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
+  script:
+    - gh release delete $VERSION_NAME -y || true
+    - gh release create $VERSION_NAME $ARTIFACT_PATH --title $VERSION_NAME --notes-file "$RELEASE_NOTES" --repo "${OAUTH_URL}"
 
 publish downloads:
   extends: .publish-download-base
