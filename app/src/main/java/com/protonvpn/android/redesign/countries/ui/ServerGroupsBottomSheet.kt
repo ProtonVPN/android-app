@@ -90,7 +90,9 @@ fun ServerGroupsBottomSheet(
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     val headerAreaColor by animateColorAsState(
-        targetValue = if (sheetState.targetValue == SheetValue.Expanded) ProtonTheme.colors.backgroundSecondary else ProtonTheme.colors.backgroundNorm,
+        targetValue =
+            if (sheetState.targetValue == SheetValue.Expanded) ProtonTheme.colors.backgroundSecondary
+            else ProtonTheme.colors.backgroundNorm,
         animationSpec = tween(durationMillis = 500),
         label = "BottomSheetTopColorAnimation"
     )
