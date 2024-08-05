@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -288,19 +289,13 @@ private fun SubDetailsComposableP2P(modifier: Modifier) {
             R.drawable.p2p_servers,
             R.string.info_p2p_what_title,
         ) {
-            Text(
-                text = stringResource(id = R.string.info_p2p_what_description),
-                style = ProtonTheme.typography.captionRegular,
-            )
+            Text(text = stringResource(id = R.string.info_p2p_what_description))
         }
         P2PContentBullet(
             R.drawable.p2p_download,
             R.string.info_p2p_torrenting_title,
         ) {
-            Text(
-                text = stringResource(id = R.string.info_p2p_torrenting_description),
-                style = ProtonTheme.typography.captionRegular,
-            )
+            Text(text = stringResource(id = R.string.info_p2p_torrenting_description))
         }
         P2PContentBullet(
             R.drawable.p2p_speed,
@@ -318,13 +313,9 @@ private fun P2PBulletRow(@StringRes textRes: Int) {
     Row(Modifier.semantics(mergeDescendants = true) {}) {
         Text(
             text = "•",
-            style = ProtonTheme.typography.captionRegular,
             modifier = Modifier.padding(horizontal = 5.dp)
         )
-        Text(
-            text = stringResource(id = textRes),
-            style = ProtonTheme.typography.captionRegular,
-        )
+        Text(text = stringResource(id = textRes))
     }
 }
 
@@ -348,7 +339,9 @@ private fun P2PContentBullet(
                 style = ProtonTheme.typography.body2Medium,
                 modifier = Modifier.padding(bottom = 2.dp)
             )
-            description()
+            ProvideTextStyle(value = ProtonTheme.typography.body2Regular) {
+                description()
+            }
         }
     }
 }

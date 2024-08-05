@@ -223,7 +223,7 @@ fun HomeView(
                 countriesCount = state.countryCount,
                 horizontalMargin = paddingValues + 16.dp,
                 onOpenUpgradeScreen = { focus, upgradeSource -> launchUpgradeDialog(context, focus, upgradeSource) },
-                modifier = modifier.padding(bottom = 8.dp),
+                modifier = modifier.padding(bottom = 24.dp),
             )
         }
     }
