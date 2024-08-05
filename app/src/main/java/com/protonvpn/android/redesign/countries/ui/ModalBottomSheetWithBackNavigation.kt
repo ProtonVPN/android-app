@@ -46,6 +46,7 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.SecureFlagPolicy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -73,6 +74,7 @@ fun ModalBottomSheetWithBackNavigation(
     ModalBottomSheet(
         onDismissRequest = onClose,
         containerColor = containerColor,
+        tonalElevation = 0.dp,
         sheetState = sheetState,
         windowInsets = WindowInsets.navigationBars,
         modifier = modifier
