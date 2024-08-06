@@ -120,9 +120,6 @@ licenseReport {
     copyJsonReportToAssets = false
 }
 
-def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias : 'proton'
-def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
-def storeKeyPass = project.hasProperty('keyStoreKeyPassword') ? keyStoreKeyPassword : "\"Store key password\""
 def sentryDsn = project.hasProperty('sentryDsn') ? sentryDsn : ""
 def accountSentryDsn = System.getenv("ACCOUNT_SENTRY_DSN") ?: ""
 def preferencesSalt = project.hasProperty('preferencesSalt') ? preferencesSalt : "\"Salt\""
@@ -144,10 +141,10 @@ android {
     useLibrary 'org.apache.http.legacy'
     signingConfigs {
         release {
-            storeFile file(rootProject.ext.keyStoreFilePath)
-            storePassword storePass
-            keyAlias storeKeyAlias
-            keyPassword storeKeyPass
+            storeFile file('/root/.android/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
     }
     buildFeatures {

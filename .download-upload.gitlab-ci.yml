@@ -3,6 +3,8 @@
   tags:
     - shared-small
   script:
+    # Verify that uploaded artifact is signed with prod key
+    - ./verify_apk_signature.sh "${ARTIFACT_PATH}"
     - git config user.email "$GIT_CI_EMAIL"
     - git config user.name "$GIT_CI_USERNAME"
     - git remote add gitlab_origin "$ORIGIN_OAUTH_URL"
