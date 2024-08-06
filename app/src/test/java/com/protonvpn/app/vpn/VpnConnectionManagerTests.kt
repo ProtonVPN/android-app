@@ -355,10 +355,12 @@ class VpnConnectionManagerTests {
             PrepareResult(mockBackend, connectionParams)
         }
         vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
-        vpnConnectionManager.reconnectWithCurrentParams(mockVpnUiDelegate)
+        vpnConnectionManager.reconnect(triggerAction = "test", mockVpnUiDelegate)
         verifyOrder {
-            mockVpnConnectionTelemetry.onDisconnectionTrigger(ofType<DisconnectTrigger.Reconnect>(), connectionParams)
+            mockVpnConnectionTelemetry.onConnectionStart(trigger)
+            // Reconnect and scanning starts before disconnecting.
             mockVpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect)
+            mockVpnConnectionTelemetry.onDisconnectionTrigger(ofType<DisconnectTrigger.Reconnect>(), connectionParams)
         }
     }
 

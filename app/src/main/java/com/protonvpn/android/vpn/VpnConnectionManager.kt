@@ -612,19 +612,6 @@ class VpnConnectionManager @Inject constructor(
         disconnectBlocking(trigger)
     }
 
-    // Will reconnect to current connection params, skipping pinging procedures
-    fun reconnectWithCurrentParams(uiDelegate: VpnUiDelegate) = scope.launch {
-        clearOngoingConnection(clearFallback = true)
-        val disconnectTrigger = DisconnectTrigger.Reconnect("reconnect")
-        if (activeBackend != null) {
-            vpnConnectionTelemetry.onDisconnectionTrigger(disconnectTrigger, activeConnectionParams)
-            vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.Reconnect)
-            activeBackend?.reconnect()
-        } else {
-            lastConnectIntent?.let { connectWithPermission(uiDelegate, it, ConnectTrigger.Reconnect, disconnectTrigger, clearFallback = true) }
-        }
-    }
-
     // Will do complete reconnection, which may result in different protocol or server
     // if compared to original connection
     fun reconnect(triggerAction: String, uiDelegate: VpnUiDelegate) {
