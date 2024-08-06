@@ -24,10 +24,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-// TODO: share these with project :app?
-def storeKeyAlias = project.hasProperty('keyStoreKeyAlias') ? keyStoreKeyAlias : 'proton'
-def storePass = project.hasProperty('keyStorePassword') ? keyStorePassword : "\"Store password\""
-def storeKeyPass = project.hasProperty('keyStoreKeyPassword') ? keyStoreKeyPassword : "\"Store key password\""
 def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccountPassword : "\"Pass\""
 
 android {
@@ -36,10 +32,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(rootProject.ext.keyStoreFilePath)
-            storePassword storePass
-            keyAlias storeKeyAlias
-            keyPassword storeKeyPass
+            storeFile file('/root/.android/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
     }
 

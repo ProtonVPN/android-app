@@ -6,9 +6,7 @@ default:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
     - mkdir -p app
-    - base64 -d - < "$PROTON_KEY_FILE2" > protonkey.jks
     - base64 -d -  < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
-    - md5sum protonkey.jks
     - md5sum app/service_account.json
     - echo "" >> gradle.properties # ensure a new line
     - base64 -d - < "$GRADLE_PROPERTIES_FILE2" >> gradle.properties
@@ -115,7 +113,7 @@ detekt analysis:
 export archive name:
   stage: prepare
   tags:
-    - shared-large
+    - shared-medium
   script:
     - export ARCHIVES_BASE_NAME=$(./gradlew -q getArchivesName | tail -n 1)
     - echo ${ARCHIVES_BASE_NAME}
@@ -217,30 +215,6 @@ build BTI:
     paths:
       - artifactsBti
 
-build google play bundle:
-  stage: build
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: $CI_COMMIT_BRANCH == "development"
-      when: always
-    - if: $CI_COMMIT_BRANCH =~ /^hotfix/
-      when: always
-    - if: $CI_COMMIT_BRANCH =~ /^release/
-      when: always
-  tags:
-    - xlarge-k8s
-  script:
-    # Build openvpn first, otherwise ovpnassets are not copied to app's assets.
-    - >
-      ./gradlew :openvpn:assembleRelease \
-                :app:bundleProductionGooglePlayStoreRelease
-  interruptible: false
-  artifacts:
-    expire_in: 1 week
-    paths:
-    - app/build/outputs/
-
 build google play release:
   stage: build
   when: manual
@@ -281,76 +255,6 @@ build google play dev (monitoring release):
     paths:
       - app/build/outputs/apk
       - release_tests/build/outputs/apk
-
-build payments black google dev:
-  stage: build
-  when: manual
-  tags:
-    - xlarge-k8s
-  script:
-    - >
-      ./gradlew openvpn:assembleRelease \
-                assembleBlackGoogleDevRelease \
-                bundleBlackGoogleDevRelease
-  interruptible: false
-  variables:
-    TEST_ENV_DOMAIN: "payments.proton.black"
-  after_script:
-    # Avoid build files clashing with the test ones.
-    - mkdir paymentsBlack
-    - mv app/build/outputs/apk/* paymentsBlack
-    - mv app/build/outputs/bundle/* paymentsBlack
-  except:
-    - schedules
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - paymentsBlack
-
-.build amazon release:
-  stage: build
-  tags:
-    - xlarge-k8s
-  script:
-    - >
-      ./gradlew openvpn:assembleRelease \
-                assembleProductionVanillaAmazonRelease
-  artifacts:
-    expire_in: 3 week
-    paths:
-      - app/build/outputs/apk
-
-build amazon release (auto):
-  extends: .build amazon release
-  stage: build
-  only:
-    - /^release/
-  except:
-    - schedules
-
-build amazon release (manual):
-  extends: .build amazon release
-  stage: build
-  except:
-    - /^release/
-    - schedules
-  when: manual # this implies allow_failure
-
-build release (auto):
-  stage: build
-  rules:
-    - if: $CI_COMMIT_BRANCH =~ /^release/
-      when: always
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: never
-  tags:
-    - xlarge-k8s
-  script:
-    - ./gradlew openvpn:assembleRelease assembleProductionVanillaDirectRelease
-  artifacts:
-    expire_in: 3 week
-    paths:
-      - app/build/outputs/apk
 
 unit tests:
   stage: test
@@ -460,6 +364,10 @@ include:
   - project: 'proton/devops/atlas-deploy'
     ref: main
     file: '/scenarios/pipeline-env.yml'
+
+  - project: 'proton/devops/tooling/templates'
+    ref: main
+    file: '/packaging/signing/artifact-signing.gitlab-ci.yml'
 
 i18n-sync-crowdin:
   variables:

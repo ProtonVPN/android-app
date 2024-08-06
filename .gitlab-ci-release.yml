@@ -41,53 +41,146 @@ make release branch:
     - git push self_origin ${VERSION_NAME}
     - git push self_origin release/${VERSION_NAME}
 
-sign-bundle:
-  stage: deploy
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: never
-    - if: $CI_COMMIT_BRANCH == "development"
-      when: always
-    - if: $CI_COMMIT_BRANCH =~ /^hotfix/
-      when: always
-    - if: $CI_COMMIT_BRANCH =~ /^release/
-      when: always
-  needs: ["build google play bundle", "export archive name"]
-  tags:
-    - signing
-  variables:
-    ARTIFACT_SIGNATURE_KIND: android-app-bundle
-    ARTIFACT_SIGNATURE_PROFILE: android-vpn
-    ARTIFACT_SIGNATURE_REF_TYPE: protected-branch
-    ARTIFACT_SIGNATURE_FILES: app/build/outputs/bundle/productionGooglePlayStoreRelease/${ARCHIVES_BASE_NAME}-production-google-playStore-release.aab
-    ARTIFACT_SIGNATURE_DEST: signedBundle/
-  id_tokens:
-    SIGNING_ID_TOKEN:
-      aud: https://gitlab.protontech.ch
-  script:
-    - "true"
+## Rules are shared between build and corresponding sign job
+## If the job can be triggered manually, allow_failure=true must be added to the build job
+.amazon_build_rules: &amazon_build_rules
+  - if: $CI_PIPELINE_SOURCE == "schedule"
+    when: never
+  - if: $CI_COMMIT_BRANCH =~ /^release/
+    when: always
+  - if: $CI_COMMIT_REF_PROTECTED == "true"
+    when: manual
 
-sign-payment-black-bundle:
-  stage: deploy
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: never
-    - if: $CI_COMMIT_REF_PROTECTED == "true"
-      when: manual
-  needs: ["build payments black google dev", "export archive name"]
+.vanilla_build_rules: &vanilla_build_rules
+  - if: $CI_PIPELINE_SOURCE == "schedule"
+    when: never
+  - if: $CI_COMMIT_BRANCH =~ /^release/
+    when: always
+
+.bundle_build_rules: &bundle_build_rules
+  - if: $CI_PIPELINE_SOURCE == "schedule"
+    when: never
+  - if: $CI_COMMIT_BRANCH == "development"
+    when: always
+  - if: $CI_COMMIT_BRANCH =~ /^release/
+    when: always
+  - if: $CI_COMMIT_BRANCH =~ /^hotfix/
+    when: always
+
+.payments_black_build_rules: &payments_black_build_rules
+  - if: $CI_PIPELINE_SOURCE == "schedule"
+    when: never
+  - if: $CI_COMMIT_REF_PROTECTED == "true"
+    when: manual
+
+## Only place build jobs  in gitlab-ci-release.yml file if artifacts needs to be signed with release key.
+## For all other debug/release jobs, use different .yml
+
+build amazon release:
+  stage: build
+  rules: *amazon_build_rules
+  allow_failure: true
   tags:
-    - signing
+    - xlarge-k8s
+  script:
+    - >
+      ./gradlew openvpn:assembleRelease \
+                assembleProductionVanillaAmazonRelease
+  artifacts:
+    expire_in: 3 week
+    paths:
+      - app/build/outputs/apk
+
+build google play bundle:
+  stage: build
+  rules: *bundle_build_rules
+  tags:
+    - xlarge-k8s
+  script:
+    # Build openvpn first, otherwise ovpnassets are not copied to app's assets.
+    - >
+      ./gradlew :openvpn:assembleRelease \
+                :app:bundleProductionGooglePlayStoreRelease
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - app/build/outputs/
+
+build vanilla release:
+  stage: build
+  rules: *vanilla_build_rules
+  tags:
+    - xlarge-k8s
+  script:
+    - ./gradlew openvpn:assembleRelease assembleProductionVanillaDirectRelease
+  artifacts:
+    expire_in: 3 week
+    paths:
+      - app/build/outputs/apk
+
+build payments black google dev:
+  stage: build
+  rules: *payments_black_build_rules
+  allow_failure: true
+  tags:
+    - xlarge-k8s
+  script:
+    - >
+      ./gradlew openvpn:assembleRelease \
+                assembleBlackGoogleDevRelease \
+                bundleBlackGoogleDevRelease
+  variables:
+    TEST_ENV_DOMAIN: "payments.proton.black"
+  after_script:
+    # Avoid build files clashing with the test ones.
+    - mkdir paymentsBlack
+    - mv app/build/outputs/apk/* paymentsBlack
+    - mv app/build/outputs/bundle/* paymentsBlack
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - paymentsBlack
+
+.sign_base:
+  extends: .artifact-signing
+  stage: deploy
+  variables:
+    ARTIFACT_SIGNATURE_KIND: android-app
+    ARTIFACT_SIGNATURE_PROFILE: android
+    ARTIFACT_SIGNATURE_REF_TYPE: protected-branch
+    ARTIFACT_SIGNATURE_DEST: signedArtifacts/
+
+sign google bundle:
+  extends: .sign_base
+  rules: *bundle_build_rules
+  needs: ["build google play bundle", "export archive name"]
   variables:
     ARTIFACT_SIGNATURE_KIND: android-app-bundle
-    ARTIFACT_SIGNATURE_PROFILE: android-vpn
-    ARTIFACT_SIGNATURE_REF_TYPE: protected-branch
+    ARTIFACT_SIGNATURE_FILES: app/build/outputs/bundle/productionGooglePlayStoreRelease/${ARCHIVES_BASE_NAME}-production-google-playStore-release.aab
+
+sign payments-black bundle:
+  extends: .sign_base
+  rules: *payments_black_build_rules
+  needs: ["build payments black google dev", "export archive name"]
+  variables:
+    ARTIFACT_SIGNATURE_KIND: android-app-bundle
     ARTIFACT_SIGNATURE_FILES: paymentsBlack/blackGoogleDevRelease/${ARCHIVES_BASE_NAME}-black-google-dev-release.aab
-    ARTIFACT_SIGNATURE_DEST: signedBundle/
-  id_tokens:
-    SIGNING_ID_TOKEN:
-      aud: https://gitlab.protontech.ch
-  script:
-    - "true"
+
+sign amazon:
+  extends: .sign_base
+  rules: *amazon_build_rules
+  needs: ["build amazon release", "export archive name"]
+  variables:
+    ARTIFACT_SIGNATURE_KIND: android-package-kit
+    ARTIFACT_SIGNATURE_FILES: app/build/outputs/apk/productionVanillaAmazon/release/${ARCHIVES_BASE_NAME}-production-vanilla-amazon-release.apk
+
+sign vanilla apk:
+  extends: .sign_base
+  rules: *vanilla_build_rules
+  needs: ["build vanilla release", "export archive name"]
+  variables:
+    ARTIFACT_SIGNATURE_KIND: android-package-kit
+    ARTIFACT_SIGNATURE_FILES: app/build/outputs/apk/productionVanillaDirect/release/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk
 
 sync-app:
   cache: {}
@@ -118,7 +211,7 @@ publish-apk-internal:
     - if: $CI_COMMIT_BRANCH == "development"
       when: always
   needs:
-    - job: sign-bundle
+    - job: sign google bundle
     # Make sure tests pass before publishing. The dependency is on coverage report to avoid listing
     # all test jobs here.
     - job: coverage report
@@ -130,7 +223,7 @@ publish-apk-internal:
 
 publish-github:
   stage: publish
-  dependencies: [ "build release (auto)", "export archive name" ]
+  dependencies: ["sign vanilla apk", "export archive name"]
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
@@ -140,10 +233,13 @@ publish-github:
     RELEASE_NOTES: "metadata/en-US/changelogs/${VERSION_CODE}.txt"
     GH_TOKEN: "${GITHUB_CLI_TOKEN}"
     OAUTH_URL: "https://oauth2:${GH_TOKEN}@github.com/ProtonVPN/android-app.git"
-    ARTIFACT_PATH: "app/build/outputs/apk/productionVanillaDirect/release/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
+    ARTIFACT_PATH: "signedArtifacts/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
   script:
+    # Verify that uploaded artifact is signed with prod key
+    - ./verify_apk_signature.sh "${ARTIFACT_PATH}"
     - gh release delete $VERSION_NAME -y || true
     - gh release create $VERSION_NAME $ARTIFACT_PATH --title $VERSION_NAME --notes-file "$RELEASE_NOTES" --repo "${OAUTH_URL}"
+
 
 publish downloads:
   extends: .publish-download-base
@@ -152,10 +248,11 @@ publish downloads:
       when: never
     - if: $CI_COMMIT_BRANCH =~ /^release/
       when: always
+  dependencies: ["sign vanilla apk", "export archive name"]
   interruptible: false
   variables:
     ORIGIN_OAUTH_URL: "${OAUTH_DOWNLOADS_REPO_URL}"
-    ARTIFACT_PATH: "app/build/outputs/apk/productionVanillaDirect/release/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
+    ARTIFACT_PATH: "signedArtifacts/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
     ARTIFACT_OUTPUT_NAME: "ProtonVPN.apk"
     SLACK_HOOK: "${SLACK_HOOK_DEPLOY_CHANNEL}"
     SLACK_MESSAGE: '{"text":"Updated ProtonVPN.apk. Can someone deploy downloads? Thanks :)"}'

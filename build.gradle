@@ -63,8 +63,6 @@ project.ext {
     minSdkVersion = 23
     compileSdkVersion = 34
     compileNdkVersion = "23.1.7779620"
-
-    keyStoreFilePath = project.hasProperty('keyStoreFilePath') ? keyStoreFilePath : "${rootProject.rootDir}/protonkey.jks"
 }
 
 allprojects {
