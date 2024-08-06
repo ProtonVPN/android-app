@@ -118,7 +118,7 @@ class GoLangCrashLogger @Inject constructor(
     fun onErrorLine(line: String) {
         if (consumer == null) {
             // Ignore lines before panic
-            if (!line.isPanic()) return
+            if (!line.isCrashHeader()) return
 
             startConsumer()
         }
@@ -131,13 +131,18 @@ class GoLangCrashLogger @Inject constructor(
             var output: FileOutputStream? = null
             var charsWritten = 0
             try {
+                // In GoLang callstacks there can be couple of header lines,
+                // let's capture them all.
+                var wasHeader = false
                 while (true) {
                     val line = channel.receive()
-                    if (line.isPanic()) {
+                    val isHeader = line.isCrashHeader()
+                    if (!wasHeader && isHeader) {
                         output?.closeQuietly()
                         output = FileOutputStream(appContext.goErrorLogFile(), false)
                         charsWritten = 0
                     }
+                    wasHeader = isHeader
                     output?.let {
                         val newCharsWritten = charsWritten + line.length + 1
                         if (newCharsWritten < MAX_CHARS) {
@@ -158,7 +163,8 @@ class GoLangCrashLogger @Inject constructor(
         }
     }
 
-    private fun String.isPanic() = startsWith("panic: ")
+    private fun String.isCrashHeader() =
+        startsWith("panic: ") || startsWith("runtime: ") || startsWith("fatal error: ") || startsWith("throw: ")
 }
 
 private fun Context.goErrorLogFile() = File(applicationInfo.dataDir + "/log", "go_errors.log")
