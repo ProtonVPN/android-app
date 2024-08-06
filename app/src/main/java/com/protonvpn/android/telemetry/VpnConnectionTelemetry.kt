@@ -75,7 +75,7 @@ class VpnConnectionTelemetry @Inject constructor(
     fun onConnectionStart(trigger: ConnectTrigger) {
         if (trigger !is ConnectTrigger.Fallback || connectionInProgress == null) {
             connectionInProgress?.let {
-                reportImmediateAutoAbortToSentry("new connection start")
+                reportImmediateAbortToSentry("new connection start")
                 sendConnectionEvent(Outcome.ABORTED, it, null)
             }
             connectionInProgress = ConnectionInitInfo(trigger, clock(), vpnStateMonitor.isConnected)
@@ -84,7 +84,7 @@ class VpnConnectionTelemetry @Inject constructor(
 
     fun onConnectionAbort(isFailure: Boolean = false, report: Boolean = true, sentryInfo: String? = null) {
         if (report) {
-            if (!isFailure && sentryInfo != null) reportImmediateAutoAbortToSentry(sentryInfo)
+            if (!isFailure && sentryInfo != null) reportImmediateAbortToSentry(sentryInfo)
             onConnectingFinished(if (isFailure) Outcome.FAILURE else Outcome.ABORTED, null)
         } else {
             connectionInProgress = null
@@ -104,7 +104,7 @@ class VpnConnectionTelemetry @Inject constructor(
             trigger !is DisconnectTrigger.Fallback
         ) {
             val outcome = if (trigger.isSuccess) Outcome.ABORTED else Outcome.FAILURE
-            if (outcome == Outcome.ABORTED) reportImmediateAutoAbortToSentry("disconnect")
+            if (outcome == Outcome.ABORTED) reportImmediateAbortToSentry("disconnect")
             onConnectingFinished(outcome, connectionParams)
         } else if (lastConnectTimestampMs != null) { // Only log events when previously connected.
             sendDisconnectEvent(trigger, connectionParams)
@@ -195,10 +195,11 @@ class VpnConnectionTelemetry @Inject constructor(
 
     private fun Boolean.toOutcome() = if (this) Outcome.SUCCESS else Outcome.FAILURE
 
-    private fun reportImmediateAutoAbortToSentry(sentryInfo: String) {
+    private fun reportImmediateAbortToSentry(sentryInfo: String) {
         val inProgress = connectionInProgress
-        if (inProgress != null && inProgress.trigger is ConnectTrigger.Auto && clock() - inProgress.timestampMs < 150) {
-            Sentry.captureException(ConnectionTelemetryDebug("'auto' connection aborted: $sentryInfo"))
+        if (inProgress != null && clock() - inProgress.timestampMs < 150) {
+            val trigger = inProgress.trigger.statsName
+            Sentry.captureException(ConnectionTelemetryDebug("'$trigger' connection aborted: $sentryInfo"))
         }
     }
 
