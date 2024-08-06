@@ -90,13 +90,9 @@ class WireguardWrapperService : GoBackend.VpnService() {
     }
 
     private fun handleAlwaysOn(): Boolean {
-        // It's possible to get the always-on intent twice which causes a reconnection. Let's prevent this.
         return if (vpnStateMonitor.isDisabled) {
             mainScope.launch {
-                connectionManager.connectInBackground(
-                    quickConnectIntent.get().invoke(),
-                    ConnectTrigger.Auto("always-on")
-                )
+                connectionManager.onAlwaysOn(quickConnectIntent.get().invoke())
             }
             true
         } else {

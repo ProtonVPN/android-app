@@ -483,11 +483,22 @@ class VpnConnectionManager @Inject constructor(
         val shouldReconnect = stateKey != VpnState.Disabled.name &&
             stateKey != VpnState.Disconnecting.name &&
             connectIntent !is AnyConnectIntent.GuestHole
-        if (internalState.value == null && shouldReconnect) {
+        // Check both state and ongoingConnect because state is not set immediately.
+        val isNotConnecting = internalState.value == null && ongoingConnect?.isActive != true
+        if (isNotConnecting && shouldReconnect) {
             connect(vpnBackgroundUiDelegate, connectIntent, ConnectTrigger.Auto("Process restore: $reason, previous state was: $stateKey"))
             return true
         }
         return false
+    }
+
+    fun onAlwaysOn(connectIntent: AnyConnectIntent) {
+        // Check both state and ongoingConnect because state is not set immediately.
+        val vpnState = internalState.value
+        val isNotConnecting = vpnState == null || vpnState == InternalState.Disabled && ongoingConnect?.isActive != true
+        if (isNotConnecting) {
+            connect(vpnBackgroundUiDelegate, connectIntent, ConnectTrigger.Auto("always-on"))
+        }
     }
 
     override fun connect(uiDelegate: VpnUiDelegate, connectIntent: AnyConnectIntent, triggerAction: ConnectTrigger) {
