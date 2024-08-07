@@ -23,6 +23,7 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -41,8 +42,9 @@ class QuickTileDataStoreUpdater @Inject constructor(
             vpnStatusProviderUI.status,
         ) { isLoggedIn, vpnStatus ->
             QuickTileDataStore.Data(vpnStatus.state.toTileState(), isLoggedIn, vpnStatus.server?.serverName)
-        }.onEach { data ->
-            dataStore.store(data)
-        }.launchIn(mainScope)
+        }
+        .distinctUntilChanged()
+        .onEach { data -> dataStore.store(data) }
+        .launchIn(mainScope)
     }
 }

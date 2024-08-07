@@ -27,6 +27,7 @@ import android.os.Build.VERSION_CODES
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.core.content.getSystemService
 import com.protonvpn.android.R
 import com.protonvpn.android.quicktile.QuickTileActionReceiver
@@ -35,11 +36,21 @@ import com.protonvpn.android.utils.tickFlow
 import com.protonvpn.android.utils.vpnProcessRunning
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 @AndroidEntryPoint
@@ -51,7 +62,8 @@ class QuickTileService : TileService() {
     @Inject lateinit var dataStore: QuickTileDataStore
     @Inject lateinit var mainScope: CoroutineScope
 
-    private var listeningScope : CoroutineScope? = null
+    private var listeningScope: CoroutineScope? = null
+    private val stateOverrideFlow by lazy(LazyThreadSafetyMode.NONE) { ConnectStateOverride(mainScope) }
 
     override fun onStartListening() {
         super.onStartListening()
@@ -73,18 +85,34 @@ class QuickTileService : TileService() {
     private fun bindToListener() {
         val activityManager = getSystemService<ActivityManager>()
         listeningScope?.launch {
-            combine(
-                dataStore.getDataFlow(),
-                tickFlow(10.seconds, System::currentTimeMillis)
-            ) { data, _ ->
-                val vpnProcessRunning = activityManager?.vpnProcessRunning(this@QuickTileService)
-                if (vpnProcessRunning == true)
-                    data
-                else
-                    data.copy(state = QuickTileDataStore.TileState.Disabled)
-            }.collect {
-                stateChanged(it)
-            }
+            val vpnStateFlow =
+                combine(
+                    dataStore.getDataFlow(),
+                    tickFlow(10.seconds, System::currentTimeMillis)
+                ) { data, _ ->
+                    val vpnProcessRunning = activityManager?.vpnProcessRunning(this@QuickTileService)
+                    if (vpnProcessRunning == true) {
+                        data
+                    } else {
+                        data.copy(state = QuickTileDataStore.TileState.Disabled)
+                    }
+                }
+                // The main process will emit Disabled state while starting. Only react to distinct states.
+                .distinctUntilChanged()
+
+            val cancelOverrideFlow = vpnStateFlow
+                // When tray is reopened it will restart the flows. Don't stop the override on the initial state.
+                .drop(1)
+                .onEach { stateOverrideFlow.stop() }
+
+            val updateTileFlow =
+                combine(vpnStateFlow, stateOverrideFlow) { vpnState, override ->
+                    override ?: vpnState
+                }
+                .onEach { stateChanged(it) }
+
+            cancelOverrideFlow.launchIn(this)
+            updateTileFlow.launchIn(this)
         }
     }
 
@@ -105,17 +133,22 @@ class QuickTileService : TileService() {
     }
 
     private fun onClickInternal() {
-        val isActive = qsTile.state == Tile.STATE_ACTIVE
+        val shouldConnect = qsTile.state != Tile.STATE_ACTIVE
         mainScope.launch {
             val isLoggedIn = dataStore.isLoggedIn()
             if (!isLoggedIn) {
                 launchApp()
             } else {
+                if (shouldConnect) { // Set state immediately in case it takes long to launch the main process.
+                    stateOverrideFlow.start(
+                        QuickTileDataStore.Data(QuickTileDataStore.TileState.Connecting, isLoggedIn = true)
+                    )
+                }
                 broadcastTileAction(
-                    if (isActive)
-                        QuickTileActionReceiver.ACTION_DISCONNECT
-                    else
+                    if (shouldConnect)
                         QuickTileActionReceiver.ACTION_CONNECT
+                    else
+                        QuickTileActionReceiver.ACTION_DISCONNECT
                 )
             }
         }
@@ -133,31 +166,51 @@ class QuickTileService : TileService() {
 
     private fun stateChanged(data: QuickTileDataStore.Data) {
         when (data.state) {
-            QuickTileDataStore.TileState.Disabled -> {
-                qsTile.label = getString(if (data.isLoggedIn) R.string.quickConnect else R.string.login)
-                qsTile.state = Tile.STATE_INACTIVE
-            }
-            QuickTileDataStore.TileState.Connecting -> {
-                qsTile.label = getString(R.string.state_connecting)
-                qsTile.state = Tile.STATE_ACTIVE
-            }
-            QuickTileDataStore.TileState.WaitingForNetwork -> {
-                qsTile.label = getString(R.string.loaderReconnectNoNetwork)
-                qsTile.state = Tile.STATE_ACTIVE
-            }
-            QuickTileDataStore.TileState.Error -> {
-                qsTile.label = getString(R.string.state_error)
-                qsTile.state = Tile.STATE_UNAVAILABLE
-            }
-            QuickTileDataStore.TileState.Connected -> {
-                qsTile.label = getString(R.string.tileConnected, data.serverName)
-                qsTile.state = Tile.STATE_ACTIVE
-            }
-            QuickTileDataStore.TileState.Disconnecting -> {
-                qsTile.label = getString(R.string.state_disconnecting)
-                qsTile.state = Tile.STATE_UNAVAILABLE
+            QuickTileDataStore.TileState.Disabled ->
+                updateTileState(Tile.STATE_INACTIVE, if (data.isLoggedIn) R.string.quickConnect else R.string.login)
+            QuickTileDataStore.TileState.Connecting ->
+                updateTileState(Tile.STATE_ACTIVE, R.string.state_connecting)
+            QuickTileDataStore.TileState.WaitingForNetwork ->
+                updateTileState(Tile.STATE_ACTIVE, R.string.loaderReconnectNoNetwork)
+            QuickTileDataStore.TileState.Error ->
+                updateTileState(Tile.STATE_UNAVAILABLE, R.string.state_error)
+            QuickTileDataStore.TileState.Connected ->
+                updateTileState(Tile.STATE_ACTIVE, getString(R.string.tileConnected, data.serverName))
+            QuickTileDataStore.TileState.Disconnecting ->
+                updateTileState(Tile.STATE_UNAVAILABLE, R.string.state_disconnecting)
+        }
+    }
+
+    private fun updateTileState(state: Int, @StringRes labelRes: Int) {
+        updateTileState(state, getString(labelRes))
+    }
+
+    private fun updateTileState(state: Int, label: String) {
+        qsTile.state = state
+        qsTile.label = label
+        qsTile.updateTile()
+    }
+
+    private class ConnectStateOverride(private val scope: CoroutineScope): Flow<QuickTileDataStore.Data?> {
+        private val state = MutableStateFlow<QuickTileDataStore.Data?>(null)
+        private var job: Job? = null
+
+        fun start(overrideState: QuickTileDataStore.Data, timeout: Duration = 10.seconds) {
+            job?.cancel()
+            job = scope.launch {
+                try {
+                    state.value = overrideState
+                    delay(timeout)
+                } finally {
+                    state.value = null
+                }
             }
         }
-        qsTile.updateTile()
+
+        fun stop() {
+            job?.cancel()
+        }
+
+        override suspend fun collect(collector: FlowCollector<QuickTileDataStore.Data?>) = state.collect(collector)
     }
 }
