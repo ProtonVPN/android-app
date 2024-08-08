@@ -33,6 +33,7 @@ import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import com.protonvpn.android.redesign.app.ui.isMainActivity
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.utils.getValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
@@ -55,16 +56,24 @@ sealed class AutoLoginState {
 class AutoLoginManager @Inject constructor(
     private val mainScope: CoroutineScope,
     private val managedConfig: ManagedConfig,
-    private val autoLogin: dagger.Lazy<AutoLogin>,
-    private val currentUser: dagger.Lazy<CurrentUser>,
-    private val foregroundActivityTracker: dagger.Lazy<ForegroundActivityTracker>,
-    private val notificationHelper: dagger.Lazy<NotificationHelper>,
-    private val resetUiForAutoLogin: dagger.Lazy<ResetUiForAutoLogin>,
-    private val logout: dagger.Lazy<Logout>,
+    lazyAutoLogin: dagger.Lazy<AutoLogin>,
+    lazyCurrentUser: dagger.Lazy<CurrentUser>,
+    private val lazyForegroundActivityTracker: dagger.Lazy<ForegroundActivityTracker>,
+    lazyNotificationHelper: dagger.Lazy<NotificationHelper>,
+    lazyResetUiForAutoLogin: dagger.Lazy<ResetUiForAutoLogin>,
+    lazyLogout: dagger.Lazy<Logout>,
 ) {
     private var ongoingLogin : Job? = null
     private val _state = MutableStateFlow<AutoLoginState?>(null)
-    private val isInForeground get() = foregroundActivityTracker.get().foregroundActivity != null
+    private val isInForeground get() = lazyForegroundActivityTracker.get().foregroundActivity != null
+
+    // Note: it's probably better to wrap the login functionality into a separate lazy object that uses non-lazy
+    // dependencies.
+    private val currentUser by lazyCurrentUser
+    private val autoLogin by lazyAutoLogin
+    private val notificationHelper by lazyNotificationHelper
+    private val resetUiForAutoLogin by lazyResetUiForAutoLogin
+    private val logout by lazyLogout
 
     val state = _state.filterNotNull()
 
@@ -79,7 +88,7 @@ class AutoLoginManager @Inject constructor(
                         }
                         _state.value = AutoLoginState.Disabled
                     } else {
-                        currentUser.get().vpnUserFlow.collect { vpnUser ->
+                        currentUser.vpnUserFlow.collect { vpnUser ->
                             if (vpnUser != null && vpnUser.autoLoginName == config.username) {
                                 _state.value = AutoLoginState.Success
                             } else {
@@ -98,12 +107,12 @@ class AutoLoginManager @Inject constructor(
         val job = mainScope.launch {
             notifyIfInBackground(R.string.notification_auto_login_start)
             _state.value = AutoLoginState.Ongoing
-            resetUiForAutoLogin.get().onAutoLoginStarted()
+            resetUiForAutoLogin.onAutoLoginStarted()
             oldLogin?.cancelAndJoin()
             if (current != null) {
-                logout.get().invoke()
+                logout()
             }
-            val result = autoLogin.get().execute(config)
+            val result = autoLogin.execute(config)
             if (result.isSuccess) {
                 notifyIfInBackground(R.string.notification_auto_login_success)
                 ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "Auto-login successful")
@@ -126,7 +135,7 @@ class AutoLoginManager @Inject constructor(
 
     private fun notifyIfInBackground(@StringRes messageRes: Int) {
         if (!isInForeground)
-            notificationHelper.get().showInformationNotification(messageRes)
+            notificationHelper.showInformationNotification(messageRes)
     }
 
     fun retry() {
@@ -135,7 +144,7 @@ class AutoLoginManager @Inject constructor(
             if (config == null)
                 _state.value = AutoLoginState.Disabled
             else
-                login(currentUser.get().vpnUser(), config)
+                login(currentUser.vpnUser(), config)
         }
     }
 }
