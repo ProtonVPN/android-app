@@ -44,6 +44,7 @@ import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
 import java.io.IOException
 import java.security.GeneralSecurityException
+import java.security.KeyStore
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -89,8 +90,9 @@ class CertificateStorage @Inject constructor(
     private suspend fun getCertPrefs() = certPreferences.await()
 
     private fun createStorageWithClearOnError(): SharedPreferences {
-        fun recreatePrefsOnError(e: Throwable): SharedPreferences {
-            ProtonLogger.log(UserCertStoreError, e.toString())
+        fun recreateKeyAndPrefsOnError(e: Throwable): SharedPreferences {
+            ProtonLogger.log(UserCertStoreError, "Recreating master key and storage: $e")
+            deleteMasterKey()
             deleteEncryptedPrefs()
             return createEncryptedPrefs().also {
                 enqueueObservabilityEvent(CertificateStorageCreateMetric.StorageType.EncryptedFallback)
@@ -102,9 +104,9 @@ class CertificateStorage @Inject constructor(
                 enqueueObservabilityEvent(CertificateStorageCreateMetric.StorageType.Encrypted)
             }
         } catch (e: GeneralSecurityException) {
-            recreatePrefsOnError(e)
+            recreateKeyAndPrefsOnError(e)
         } catch (e: IOException) {
-            recreatePrefsOnError(e)
+            recreateKeyAndPrefsOnError(e)
         }
     }
 
@@ -147,6 +149,16 @@ class CertificateStorage @Inject constructor(
     private fun enqueueObservabilityEvent(storageType: CertificateStorageCreateMetric.StorageType) {
         mainScope.launch {
             observability.enqueue(CertificateStorageCreateMetric(storageType))
+        }
+    }
+
+    @Throws(GeneralSecurityException::class, IOException::class)
+    private fun deleteMasterKey() {
+        with(KeyStore.getInstance("AndroidKeyStore")) {
+            load(null)
+            val masterKeyAlias = "_androidx_security_master_key_" // The alias in MasterKeys.
+            if (containsAlias(masterKeyAlias))
+                deleteEntry(masterKeyAlias)
         }
     }
 
