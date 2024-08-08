@@ -21,7 +21,6 @@ package com.protonvpn.android.vpn
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
@@ -43,12 +42,10 @@ import me.proton.core.observability.domain.ObservabilityManager
 import me.proton.core.util.kotlin.DispatcherProvider
 import me.proton.core.util.kotlin.deserialize
 import me.proton.core.util.kotlin.serialize
-import java.io.File
 import java.io.IOException
 import java.security.GeneralSecurityException
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 @Singleton
 class CertificateStorage @Inject constructor(
