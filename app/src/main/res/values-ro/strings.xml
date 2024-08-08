@@ -1262,8 +1262,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Autoselectează cel mai bun protocol pentru conexiune.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Rapid, sigur și eficient. WireGuard este mai eficient din punct de vedere al bateriei decât alte protocoale.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Rapid, sigur și eficient. WireGuard este greu de detectat și blocat.</string>
+    <string name="settings_protocol_wireguard_udp_description">Protocol de ultimă generație pentru securitate și performanță.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Protocol de ultimă generație pentru securitate și performanță.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Răspândit, bine testat și sigur. OpenVPN este mai puțin eficient din punct de vedere al bateriei decât alte protocoale.</string>
     <string name="settings_protocol_openvpn_tcp_description">Răspândit, bine testat și sigur. OpenVPN este fiabil în condiții de rețea precare, dar poate să nu fie la fel de rapid ca alte protocoale.</string>

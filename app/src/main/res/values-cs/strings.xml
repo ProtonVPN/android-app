@@ -1291,8 +1291,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Automaticky vybere nejlepší protokol pro vaše připojení.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Rychlý, bezpečný a efektivní. WireGuard je energeticky účinnější než ostatní protokoly.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Rychlé, bezpečné a efektivní. WireGuard je obtížné detekovat a blokovat.</string>
+    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Zavedený, dobře otestovaný a bezpečný. Oproti jiným protokolům je OpenVPN méně energeticky úsporný.</string>
     <string name="settings_protocol_openvpn_tcp_description">Zavedený, dobře otestovaný a bezpečný. OpenVPN je spolehlivý ve špatných síťových podmínkách, ale nemusí být tak rychlý jako jiné protokoly.</string>

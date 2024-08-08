@@ -1205,8 +1205,8 @@
     <string name="settings_protocol_smart_title">스마트</string>
     <string name="settings_protocol_smart_description">연결 환경에 최적인 프로토콜을 자동으로 선택합니다.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">빠르고, 안전하며 효율적입니다. WireGuard는 다른 프로토콜보다 배터리 효율이 좋습니다.</string>
-    <string name="settings_protocol_wireguard_tcp_description">빠르고, 안전하며 효율적입니다. WireGuard는 탐지하고 차단하기 어렵습니다.</string>
+    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">확립되었고, 잘 시험되었으며 안전합니다. OpenVPN은 다른 프로토콜만큼 배터리 효율이 좋지는 않습니다.</string>
     <string name="settings_protocol_openvpn_tcp_description">확립되었고, 잘 시험되었으며 안전합니다. OpenVPN은 부족한 네트워크 컨디션에서도 안정적이지만 다른 프로토콜만큼 빠르지는 않습니다.</string>

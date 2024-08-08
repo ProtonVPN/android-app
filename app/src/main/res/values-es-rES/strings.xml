@@ -856,7 +856,7 @@
          Label above the connection card indicating that a connection to a different server is
          being established. It's shown only in response to user clicking the "Change server" button.
      -->
-    <string name="connection_card_label_changing_server">Cambiando el servidor…</string>
+    <string name="connection_card_label_changing_server">Cambiando de servidor…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is established and the user
          is safely browsing as if they were in the location indicated in the connection card.
@@ -914,7 +914,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Servidores en mantenimiento</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_not_available">Servidor no disponible</string>
+    <string name="message_server_not_available">El servidor no está disponible.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Puerta de enlace en mantenimiento</string>
     <!-- tag(Redesign_2023) -->
@@ -1008,7 +1008,7 @@
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->
-    <string name="vpn_status_disabled">No estás protegido</string>
+    <string name="vpn_status_disabled">No estás protegido.</string>
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
@@ -1020,7 +1020,7 @@
     -->
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_subtitle">Detalles de conexión</string>
+    <string name="connection_details_subtitle">Detalles de la conexión</string>
     <string name="connection_details_features_title">Funciones</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Mostrar IP</string>
@@ -1187,7 +1187,7 @@
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
-    <string name="error_vpn_waiting_for_network">Esperando una red utilizable</string>
+    <string name="error_vpn_waiting_for_network">Esperando una red</string>
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="one">%1$d día</item>
@@ -1205,7 +1205,7 @@
          (this doesn't apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Aumenta la velocidad de tu conexión hasta 400%% con tecnologías que mejoran el rendimiento. %1$s</string>
-    <string name="settings_account_settings_title">Configuración de la cuenta</string>
+    <string name="settings_account_settings_title">Ajustes de cuenta</string>
     <string name="settings_account_change_password">Cambiar la contraseña</string>
     <string name="settings_account_recovery_email">Correo electrónico de recuperación</string>
     <string name="settings_account_recovery_email_not_set">No establecido</string>
@@ -1222,7 +1222,7 @@
     <string name="settings_advanced_nat_type_description">Selecciona un tipo de traducción de dirección de red para tu conexión. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Selecciona un tipo de traducción de dirección de red para tu conexión.</string>
     <string name="settings_advanced_nat_type_strict">Estricta (tipo 3)</string>
-    <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
+    <string name="settings_advanced_nat_type_moderate">Moderada (tipo 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Restringe los datos que entran en la red. Esta opción es más segura pero puede dificultar más las conexiones de juegos por pares.</string>
     <string name="settings_advanced_nat_type_moderate_description">Alguna restricción en los datos que entran en tu red. Esta opción es mejor para juegos en línea.</string>
     <string name="settings_split_tunneling_description">Personaliza tu conexión al decidir cuáles aplicaciones y direcciones IP serán protegidas con VPN. %1$s</string>
@@ -1233,8 +1233,8 @@
     <string name="settings_protocol_smart_title">Inteligente</string>
     <string name="settings_protocol_smart_description">Selecciona automáticamente el mejor protocolo para la conexión.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Rápido seguro y eficiente. WireGuard es más eficiente con la batería que otros protocolos.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Rápido, seguro y eficiente. WireGuard es difícil de detectar y bloquear.</string>
+    <string name="settings_protocol_wireguard_udp_description">Protocolo más novedoso en seguridad y rendimiento.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Protocolo más novedoso en seguridad y rendimiento.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Establecido, comprobado y seguro. OpenVPN es menos eficiente con la batería que otros protocolos.</string>
     <string name="settings_protocol_openvpn_tcp_description">Establecido, comprobado y seguro. OpenVPN es confiable en condiciones de red pobres pero podría no ser rápido como otros protocolos.</string>

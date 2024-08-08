@@ -1233,8 +1233,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Selecteert automatisch het beste protocol voor uw verbinding.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Snel, veilig en efficiënt. WireGuard is batterij-efficiënter dan andere protocollen.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Snel, veilig en efficiënt. WireGuard is moeilijk te detecteren en te blokkeren.</string>
+    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Gevestigd, goed getest en veilig. OpenVPN is minder batterij-efficiënt dan sommige andere protocollen.</string>
     <string name="settings_protocol_openvpn_tcp_description">Gevestigd, goed getest en veilig. OpenVPN is betrouwbaar bij slechte netwerkomstandigheden, maar is mogelijk niet zo snel als andere protocollen.</string>
@@ -1246,15 +1246,15 @@
     <string name="settings_split_tunneling_mode_standard">Standaard</string>
     <string name="settings_split_tunneling_mode_inverse">Omgekeerd</string>
     <string name="settings_split_tunneling_mode_description_standard">Bepaalde apps en IP-adressen zijn uitgesloten van de VPN-verbinding.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Alleen geselecteerde apps en IP-adressen verbinden via VPN, al het andere verkeer is onbeschermd.</string>
     <string name="settings_split_tunneling_excluded_apps">Uitgesloten apps</string>
     <string name="settings_split_tunneling_excluded_ips">Uitgesloten IP-adressen</string>
-    <string name="settings_split_tunneling_included_apps">Included apps</string>
-    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
+    <string name="settings_split_tunneling_included_apps">Inbegrepen apps</string>
+    <string name="settings_split_tunneling_included_ips">Inbegrepen IP-adressen</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Geen</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s en %3$d meer</string>
     <string name="settings_split_tunneling_already_excluded">Al uitgesloten</string>
-    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_already_included">Al inbegrepen</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP-adres uit de lijst verwijderen?</string>
     <string name="settings_dialog_reconnect">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
     <string name="settings_needs_reconnect_banner">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
@@ -1285,8 +1285,8 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Fout bij het ophalen van de prijzen.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_description">Pas uw verbinding aan door te kiezen welke apps worden beschermd door VPN.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">Geselecteerde apps zijn uitgesloten van VPN-verbinding.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Alleen geselecteerde apps verbinden via VPN, al het andere verkeer is onbeschermd.</string>
     <!-- Temporary strings for auto-login feature -->
 </resources>

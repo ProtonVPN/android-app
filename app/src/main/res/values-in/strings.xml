@@ -1204,8 +1204,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Memilih protokol terbaik secara otomatis untuk koneksi Anda.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Cepat, aman, dan efisien. WireGuard lebih efisien dalam hal penggunaan baterai dibanding protokol lainnya.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Cepat, aman, dan efisien. WireGuard sulit untuk dideteksi dan diblokir.</string>
+    <string name="settings_protocol_wireguard_udp_description">Protokol mutakhir untuk keamanan dan performa.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Protokol mutakhir untuk keamanan dan performa.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Mapan, teruji, dan aman. OpenVPN tidak seefisien sebagian protokol lainnya dalam hal penggunaan baterai.</string>
     <string name="settings_protocol_openvpn_tcp_description">Mapan, teruji, dan aman. OpenVPN dapat diandalkan dalam kondisi jaringan yang buruk, namun dapat tidak berfungsi secepat protokol lainnya.</string>

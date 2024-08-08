@@ -1233,8 +1233,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Väljer automatiskt det bästa protokollet för din anslutning.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Snabbt, säkert och effektivt. WireGuard är mer batterieffektivt än andra protokoll.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Snabbt, säkert och effektivt. WireGuard är svårt att upptäcka och blockera.</string>
+    <string name="settings_protocol_wireguard_udp_description">Toppmodernt protokoll för säkerhet och prestanda.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Toppmodernt protokoll för säkerhet och prestanda.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Etablerad, väl beprövad och säker. OpenVPN är mindre batterieffektivt än vissa andra protokoll.</string>
     <string name="settings_protocol_openvpn_tcp_description">Etablerad, väl beprövad och säker. OpenVPN är pålitligt i dåliga nätverksförhållanden, men kanske inte är lika snabba som andra protokoll.</string>

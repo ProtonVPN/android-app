@@ -1233,8 +1233,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Bağlantınız için en iyi iletişim kuralını otomatik olarak seçer.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Hızlı, güvenli ve verimli. WireGuard diğer iletişim kurallarına göre daha az pil harcar.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Hızlı, güvenli ve etkili. WireGuard iletişim kuralının farkedilip engellenmesi zordur.</string>
+    <string name="settings_protocol_wireguard_udp_description">Güvenlik ve başarım için son teknoloji iletişim kuralı.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Güvenlik ve başarım için son teknoloji iletişim kuralı.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Yerleşik, iyi sınanmış ve güvenli. OpenVPN diğer iletişim kurallarından daha fazla pil harcayabilir.</string>
     <string name="settings_protocol_openvpn_tcp_description">Oturmuş, iyi sınanmış ve güvenli. OpenVPN zayıf ağ koşullarında güvenilirdir ancak diğer iletişim kuralları kadar hızlı olmayabilir.</string>

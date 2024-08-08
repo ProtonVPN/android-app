@@ -1294,8 +1294,8 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Samodejno izbere najboljši protokol za vašo povezavo.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Hitro, varno in učinkovito. WireGuard je bolj učinkovit pri porabi baterije kot drugi protokoli.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Uveljavljeno, dobro preizkušeno in varno. OpenVPN je manj učinkovit pri porabi baterije kot nekateri drugi protokoli.</string>
     <string name="settings_protocol_openvpn_tcp_description">Uveljavljeno, dobro preizkušeno in varno. OpenVPN je zanesljiv v slabih omrežnih pogojih, vendar morda ni tako hiter kot drugi protokoli.</string>

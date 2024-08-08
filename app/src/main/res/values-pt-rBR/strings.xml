@@ -1233,8 +1233,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Seleciona automaticamente o melhor protocolo para sua conexão.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Rápido, seguro e eficiente. WireGuard é mais eficiente em termos de bateria do que outros protocolos.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Rápido, seguro e eficiente. O WireGuard é difícil de detectar e bloquear.</string>
+    <string name="settings_protocol_wireguard_udp_description">Protocolo de última geração em segurança e desempenho.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Protocolo de última geração em segurança e desempenho.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Estabelecido, bem testado e seguro. OpenVPN consome menos bateria do que alguns outros protocolos.</string>
     <string name="settings_protocol_openvpn_tcp_description">Estabelecido, bem testado e seguro. OpenVPN é confiável em condições de rede ruins, mas pode não ser tão rápido quanto outros protocolos.</string>

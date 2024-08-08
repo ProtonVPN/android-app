@@ -1204,8 +1204,8 @@
     <string name="settings_protocol_smart_title">智慧</string>
     <string name="settings_protocol_smart_description">自動為您選擇最適合的通訊協定。</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">快速、安全且高效能。WireGuard 比其他通訊協定更節能。</string>
-    <string name="settings_protocol_wireguard_tcp_description">快快速安全及經濟。WireGuard難以偵測及阻擋。</string>
+    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">穩定、經過完善測試且安全的。OpenVPN 消耗較多的電力。</string>
     <string name="settings_protocol_openvpn_tcp_description">穩定、經過完善測試且安全的。OpenVPN 在網路狀況不佳時依然可靠，但可能不如其他通訊協定快速。</string>
