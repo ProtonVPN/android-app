@@ -1233,8 +1233,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">به‌طور خودکار بهترین پروتکل را برای اتصالتان انتخاب می‌کند.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">سریع، امن و مؤثر. WireGuard نسبت به سایر پروتکل‌ها در مصرف باتری به‌صرفه‌تر است.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">پا بر جا، آزمایش شده و امن. OpenVPN در مصرف باتری به خوبی بعضی پروتکل‌های دیگر عمل نمی‌کند.</string>
     <string name="settings_protocol_openvpn_tcp_description">پا بر جا، آزمایش شده و امن. OpenVPN در شرایط نابه‌سامان شبکه‌ای قابل اطمینان است، ولی به سرعت پروتکل‌های دیگر نمی‌رسد.</string>

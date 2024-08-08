@@ -1233,8 +1233,8 @@
     <string name="settings_protocol_smart_title">Έξυπνο</string>
     <string name="settings_protocol_smart_description">Επιλέγει αυτόματα το καλύτερο πρωτόκολλο για τη σύνδεσή σας.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Γρήγορο, ασφαλές και αποτελεσματικό. Το WireGuard είναι πιο αποδοτικό για την μπαταρία από άλλα πρωτόκολλα.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Γρήγορο, ασφαλές και αποτελεσματικό. Το WireGuard είναι δύσκολο να εντοπιστεί και να αποκλειστεί.</string>
+    <string name="settings_protocol_wireguard_udp_description">Πρωτόκολλο τελευταίας τεχνολογίας για ασφάλεια και απόδοση.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Πρωτόκολλο τελευταίας τεχνολογίας για ασφάλεια και απόδοση.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Καθιερωμένο, καλά δοκιμασμένο και ασφαλές. Το OpenVPN είναι λιγότερο αποδοτικό στην μπαταρία από ορισμένα άλλα πρωτόκολλα.</string>
     <string name="settings_protocol_openvpn_tcp_description">Καθιερωμένο, καλά δοκιμασμένο και ασφαλές. Το OpenVPN είναι αξιόπιστο σε κακές συνθήκες δικτύου, αλλά μπορεί να μην είναι τόσο γρήγορο όσο άλλα πρωτόκολλα.</string>

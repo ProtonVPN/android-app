@@ -1291,8 +1291,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Автоматически выбирает лучший протокол для вашего подключения.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Быстрый, безопасный и эффективный. WireGuard более энергоэффективен, чем другие протоколы.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Быстрый, безопасный и эффективный WireGuard трудно обнаружить и заблокировать.</string>
+    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Зарекомендовавший себя, хорошо проверенный и безопасный. OpenVPN менее энергоэффективен, чем некоторые другие протоколы.</string>
     <string name="settings_protocol_openvpn_tcp_description">Зарекомендовавший себя, хорошо проверенный и безопасный. OpenVPN надёжен в условиях плохой сети, но может быть медленнее других протоколов.</string>

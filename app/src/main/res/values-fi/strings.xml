@@ -1233,8 +1233,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Valitsee automaattisesti yhteydellesi sopivimman protokollan.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Nopea, turvallinen ja tehokas. WireGuard kuluttaa muita protokollia vähemmän virtaa.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Nopea, turvallinen ja tehokas. WireGuardia on vaikea havaita ja estää.</string>
+    <string name="settings_protocol_wireguard_udp_description">Uusinta tekniikkaa hyödyntävä turvallisuus- ja suorituskykyprotokolla.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Uusinta tekniikkaa hyödyntävä turvallisuus- ja suorituskykyprotokolla.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN:n virrankulutus ei ole yhtä hyvä kuin joidenkin muiden protokollien.</string>
     <string name="settings_protocol_openvpn_tcp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN on luotettava huonoissa verkko-olosuhteissa, mutta ei välttämättä ole yhtä nopea kuin muut protokollat.</string>

@@ -732,7 +732,7 @@
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
-    <string name="server_feature_content_description_p2p">peer-to-peer</string>
+    <string name="server_feature_content_description_p2p">ponto-a-ponto</string>
     <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
@@ -745,21 +745,21 @@
          %1$s - exit country name in nominative case
          Example: United States via Iceland
      -->
-    <string name="connection_info_secure_core_full_iceland">%1$s via a Islândia</string>
+    <string name="connection_info_secure_core_full_iceland">%1$s via Islândia</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Sweden.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Sweden
      -->
-    <string name="connection_info_secure_core_full_sweden">%1$s via a Suécia</string>
+    <string name="connection_info_secure_core_full_sweden">%1$s via Suécia</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Switzerland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
          %1$s - exit country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_switzerland">%1$s via a Suíça</string>
+    <string name="connection_info_secure_core_full_switzerland">%1$s via Suíça</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection.
          This text will only be used if a new entry country is added and the application is not
@@ -843,7 +843,7 @@
         Label above the connection card indicating text which acts as a button and leads to
         customization bottom sheet of default connection
      -->
-    <string name="connection_card_label_default_connection">Ligação padrão</string>
+    <string name="connection_card_label_default_connection">Ligação predefinida</string>
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
@@ -918,7 +918,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_sign_out">Encerrar sessão</string>
+    <string name="settings_sign_out">Terminar sessão</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Definições</string>
     <string name="gateways_title">Gateways</string>
@@ -964,7 +964,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Licenças de terceiros</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Encerrar sessão?</string>
+    <string name="dialog_sign_out_title">Terminar sessão?</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
     <!-- tag(Redesign_2023) -->
@@ -1230,11 +1230,11 @@
     <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
     <string name="settings_protocol_section_speed">Velocidade (UDP)</string>
     <string name="settings_protocol_section_reliability">Fiabilidade (TCP)</string>
-    <string name="settings_protocol_smart_title">Smart</string>
+    <string name="settings_protocol_smart_title">Inteligente</string>
     <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Fast, secure, and efficient. WireGuard is more battery-efficient than other protocols.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Fast, secure, and efficient. WireGuard is difficult to detect and block.</string>
+    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
     <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
@@ -1247,7 +1247,7 @@
     <string name="settings_split_tunneling_mode_inverse">Inverso</string>
     <string name="settings_split_tunneling_mode_description_standard">Selected apps and IP addresses are excluded from VPN connection.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
-    <string name="settings_split_tunneling_excluded_apps">Aplicativos excluídos</string>
+    <string name="settings_split_tunneling_excluded_apps">Aplicações excluídas</string>
     <string name="settings_split_tunneling_excluded_ips">Endereços IP excluídos</string>
     <string name="settings_split_tunneling_included_apps">Aplicações incluídas</string>
     <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
@@ -1268,14 +1268,14 @@
     <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
     <string name="info_p2p_why_title">Why use a P2P server when torrenting?</string>
     <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
-    <string name="info_p2p_why_description_logs">Sem diário de actividade</string>
+    <string name="info_p2p_why_description_logs">Sem registos de atividade</string>
     <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
     <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
     <string name="countries_upsell_banner_description">Obtenha uma cobertura global com a VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Adicione outra camada de encriptação à sua ligação VPN</string>
     <string name="p2p_upsell_banner_description">Download files through BitTorrent and other file sharing protocols</string>
     <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
-    <string name="vpnplus_upsell_banner_description">Melhorar para VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">Atualizar para VPN Plus</string>
     <string name="search_zero_screen_title">Tente pesquisar por…</string>
     <string name="search_zero_screen_info_countries_title">Países</string>
     <string name="search_zero_screen_info_cities_title">Cidades</string>
