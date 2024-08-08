@@ -85,7 +85,7 @@ class CertificateKeyProvider @Inject constructor() {
 @OptIn(kotlin.time.ExperimentalTime::class)
 class CertificateRepository @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val certificateStorage: CertificateStorage,
+    lazyCertificateStorage: dagger.Lazy<CertificateStorage>,
     private val keyProvider: CertificateKeyProvider,
     private val api: ProtonApiRetroFit,
     private val serverClock: ServerClock,
@@ -100,6 +100,13 @@ class CertificateRepository @Inject constructor(
     }
 
     private val certRequests = mutableMapOf<SessionId, Deferred<PeriodicActionResult<out CertificateResult>>>()
+
+    private val certificateStorage by lazy(LazyThreadSafetyMode.NONE) {
+        mainScope.launch {
+            logCurrentCert()
+        }
+        lazyCertificateStorage.get()
+    }
 
     private val guestX25519Key by lazy { keyProvider.generateX25519Base64() }
 
@@ -116,20 +123,6 @@ class CertificateRepository @Inject constructor(
     )
 
     init {
-        mainScope.launch {
-            currentUser.sessionId()?.let {
-                val certInfo = getCertInfo(it)
-                val certString =
-                    if (certInfo?.certificatePem == null) {
-                        "none"
-                    } else {
-                        val expires = ProtonLogger.formatTime(certInfo.expiresAt)
-                        val refreshes = ProtonLogger.formatTime(certInfo.refreshAt)
-                        "expires $expires (refresh at $refreshes)"
-                    }
-                ProtonLogger.log(UserCertCurrentState, "Current cert: $certString")
-            }
-        }
         userPlanManager.infoChangeFlow.onEach { changes ->
             for (change in changes) when (change) {
                 is UserPlanManager.InfoChange.PlanChange,
@@ -290,6 +283,21 @@ class CertificateRepository @Inject constructor(
                 privateKeyPem = it.privateKeyPem,
                 publicKeyPem = it.publicKeyPem,
                 x25519Base64 = it.x25519Base64))
+        }
+    }
+
+    private suspend fun logCurrentCert() {
+        currentUser.sessionId()?.let {
+            val certInfo = getCertInfo(it)
+            val certString =
+                if (certInfo?.certificatePem == null) {
+                    "none"
+                } else {
+                    val expires = ProtonLogger.formatTime(certInfo.expiresAt)
+                    val refreshes = ProtonLogger.formatTime(certInfo.refreshAt)
+                    "expires $expires (refresh at $refreshes)"
+                }
+            ProtonLogger.log(UserCertCurrentState, "Current cert: $certString")
         }
     }
 }

@@ -178,7 +178,7 @@ class CertificateRefreshTests {
     private fun createRepository(scope: CoroutineScope) =
         CertificateRepository(
             scope,
-            mockStorage,
+            { mockStorage },
             mockKeyProvider,
             mockApi,
             mockServerClock,
