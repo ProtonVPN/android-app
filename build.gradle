@@ -31,8 +31,8 @@ buildscript {
     ext.hilt_version = '2.50'
     ext.hilt_compiler_version = '1.2.0'
     // When updating kotlin version KSP needs to be updated as well to matching version
-    ext.kotlin_version = '1.9.22'
-    ext.ksp_version = '1.9.22-1.0.17'
+    ext.kotlin_version = '1.9.25'
+    ext.ksp_version = '1.9.25-1.0.20'
     ext.kotlinx_coroutines_version = '1.8.1'
     ext.kotlinx_serialization_json_version = '1.6.3'
     ext.mockk_version = '1.13.12'
@@ -45,7 +45,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.android.tools.build:gradle:8.5.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'org.owasp:dependency-check-gradle:6.2.2'
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.91'
