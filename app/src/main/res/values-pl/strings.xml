@@ -1291,8 +1291,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Automatycznie wybiera najlepszy protokół dla połączenia.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
-    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_udp_description">Najnowocześniejszy protokół zapewniający bezpieczeństwo i wydajność.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Najnowocześniejszy protokół zapewniający bezpieczeństwo i wydajność.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Sprawdzony, przetestowany i bezpieczny. Protokół OpenVPN jest mniej energooszczędny niż inne protokoły.</string>
     <string name="settings_protocol_openvpn_tcp_description">Sprawdzony, przetestowany i bezpieczny. Protokół OpenVPN jest niezawodny, ale może nie być tak szybki, jak inne protokoły.</string>

@@ -1140,8 +1140,8 @@
     <string name="gigabytes_per_second">GB/s</string>
     <string name="terabytes_per_second">TB/s</string>
     <plurals name="full_name_speed_bytes_per_second">
-        <item quantity="one">%1$s Byte por segundo</item>
-        <item quantity="other">%1$s Bytes por segundo</item>
+        <item quantity="one">%1$s byte por segundo</item>
+        <item quantity="other">%1$s bytes por segundo</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
         <item quantity="one">%1$s Kilobyte por segundo</item>
