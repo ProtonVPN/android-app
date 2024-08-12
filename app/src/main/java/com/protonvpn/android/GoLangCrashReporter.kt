@@ -81,12 +81,13 @@ class GoLangCrashReporter @Inject constructor(
                 val file = appContext.goErrorLogFile()
                 if (file.exists()) {
                     try {
-                        val content = file.readText()
-                        if (content.isNotBlank()) {
-                            val firstLine = content.takeWhile { it != '\n' }
+                        val content = file.readLines()
+                        if (content.isNotEmpty()) {
+                            val firstLine = content.first()
                             val event = SentryEvent(GoLangCrash(firstLine))
-                            event.setExtra("stack", content)
+                            event.setExtra("stack", content.joinToString("\n"))
                             event.setExtra("stack_time", Date(file.lastModified()).toGMTString())
+                            event.fingerprints = extractFingerprints(content)
                             Sentry.captureEvent(event)
                             ProtonLogger.log(AppCrash, "GoLang crash report: $firstLine")
                         }
@@ -103,6 +104,16 @@ class GoLangCrashReporter @Inject constructor(
         }
     }
 
+    private fun extractFingerprints(content: List<String>): List<String> = buildList {
+        add(content.first())
+        if (content.first().endsWith("send on closed channel")) {
+            val channelCloseFrame = content
+                .drop(1)
+                .find { it.isNotBlank() && !it.startsWith("goroutine") }
+            if (channelCloseFrame != null)
+                add(channelCloseFrame)
+        }
+    }
 }
 
 @Singleton
