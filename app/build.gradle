@@ -401,7 +401,7 @@ android {
 play {
     serviceAccountCredentials.set(file(serviceAccountCredentialsPath))
     track.set('internal')
-    artifactDir.set(file("signedBundle/"))
+    artifactDir.set(file("signedArtifacts/"))
     defaultToAppBundles.set(true)
     releaseName.set(helpers.fullVersionName)
 }
