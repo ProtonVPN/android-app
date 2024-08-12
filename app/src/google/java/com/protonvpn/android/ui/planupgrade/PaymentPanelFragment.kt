@@ -41,9 +41,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
+import me.proton.core.network.presentation.util.getUserMessage
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.presentation.utils.errorSnack
-import me.proton.core.presentation.utils.getUserMessage
 import me.proton.core.payment.presentation.R as PaymentR
 
 @AndroidEntryPoint
