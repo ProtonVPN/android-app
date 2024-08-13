@@ -20,11 +20,13 @@
 package com.protonvpn.android.ui.home
 
 import android.content.SharedPreferences
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.android.sharedpreferences.PreferencesProvider
+import me.proton.core.util.android.sharedpreferences.int
 import me.proton.core.util.android.sharedpreferences.long
 import me.proton.core.util.android.sharedpreferences.observe
 import me.proton.core.util.android.sharedpreferences.string
@@ -47,6 +49,8 @@ class ServerListUpdaterPrefs @Inject constructor(
     var lastNetzoneForLogicals: String? by string()
     var lastFullUpdateTimestamp: Long by long(0)
     var serverListLastModified: Long by long(0)
+    var vpnServerCount: Int by int(Constants.FALLBACK_SERVER_COUNT)
+    var vpnCountryCount: Int by int(Constants.FALLBACK_COUNTRY_COUNT)
 
     // Removed (keeping for reference to avoid reusing names by mistake):
     // var loadsUpdateTimestamp: Long by long(0)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Proton AG
+ * Copyright (c) 2024. Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,19 +17,13 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.ui.planupgrade
+package com.protonvpn.android.models.vpn
 
-import androidx.lifecycle.ViewModel
-import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@HiltViewModel
-class PlanHighlightsViewModel @Inject constructor(
-    private val serverListUpdaterPrefs: ServerListUpdaterPrefs
-) : ViewModel() {
-
-    fun countriesCount() = serverListUpdaterPrefs.vpnCountryCount
-
-    fun allServersCount() = serverListUpdaterPrefs.vpnServerCount
-}
+@Serializable
+data class ServersCountResponse(
+    @SerialName("Countries") val countryCount: Int,
+    @SerialName("Servers") val serverCount: Int,
+)

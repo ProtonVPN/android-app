@@ -42,8 +42,7 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
     private val translator: Translator,
 ) : ServerListViewModelDataAdapter {
 
-    override suspend fun countriesCount(): Int =
-        serverManager2.getCountriesAndServersCount().first
+    override suspend fun countriesCount(): Int = serverManager2.getCountriesCount()
 
     override suspend fun availableTypesFor(country: CountryId?): Set<ServerFilterType> {
         val servers = serverManager2.allServersFlow.first()
@@ -241,4 +240,3 @@ private fun EnumSet<ServerFilterType>.update(server: Server) {
 }
 
 private fun EnumSet<ServerFilterType>.update(servers: List<Server>) = servers.forEach { update(it) }
-

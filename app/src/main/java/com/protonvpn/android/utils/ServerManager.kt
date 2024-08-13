@@ -111,9 +111,6 @@ class ServerManager @Inject constructor(
 
     val allServers get() = serversData.allServers
 
-    /** Get the number of all servers. */
-    val allServerCount get() = allServers.count()
-
     val freeCountries
         get() = getVpnCountries()
             .filter { country -> country.serverList.any { server -> server.isFreeServer } }

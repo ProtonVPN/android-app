@@ -37,6 +37,7 @@ import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.PartnersResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
+import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
@@ -80,6 +81,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("vpn/v1/servers/{serverId}")
     suspend fun getServerDomain(@Path(value = "serverId", encoded = true) serverId: String): ConnectingDomainResponse
+
+    @GET("vpn/v1/servers-count")
+    suspend fun getServersCount(): ServersCountResponse
 
     @DELETE("auth/v4")
     suspend fun postLogout(): GenericResponse

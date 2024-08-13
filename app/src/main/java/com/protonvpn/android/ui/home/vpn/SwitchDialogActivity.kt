@@ -32,9 +32,9 @@ import com.protonvpn.android.R
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivitySwitchDialogBinding
 import com.protonvpn.android.notifications.NotificationHelper
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.snackbar.DelegatedSnackManager
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.ServerManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.SnackType
@@ -45,7 +45,7 @@ class SwitchDialogActivity : BaseActivityV2() {
 
     private val viewModel: SwitchDialogViewModel by viewModels()
 
-    @Inject lateinit var serverManager: ServerManager
+    @Inject lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
 
     class CloseOnSuccessContract(val intent: Intent) : ActivityResultContract<Unit, Boolean>() {
         override fun createIntent(context: Context, input: Unit) = intent
@@ -162,13 +162,13 @@ class SwitchDialogActivity : BaseActivityV2() {
     private fun getManyServersInManyCountriesText(): String {
         val serversText = resources.getQuantityString(
             R.plurals.upsell_many_servers,
-            serverManager.allServerCount,
-            serverManager.allServerCount
+            serverListUpdaterPrefs.vpnServerCount,
+            serverListUpdaterPrefs.vpnServerCount,
         )
         val countriesText = resources.getQuantityString(
             R.plurals.upsell_many_countries,
-            serverManager.getVpnCountries().size,
-            serverManager.getVpnCountries().size
+            serverListUpdaterPrefs.vpnCountryCount,
+            serverListUpdaterPrefs.vpnCountryCount,
         )
         return "$serversText, $countriesText"
     }

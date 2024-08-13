@@ -90,6 +90,9 @@ open class ProtonApiRetroFit @Inject constructor(
     open suspend fun getStreamingServices() =
         manager { getStreamingServices() }
 
+    open suspend fun getServerCountryCount() =
+        manager { getServersCount() }
+
     open suspend fun getSessionForkSelector() =
         manager { getSessionForkSelector() }
 

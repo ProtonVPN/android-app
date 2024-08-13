@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.planupgrade
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.displayText
@@ -36,14 +37,13 @@ private const val FALLBACK_STORAGE_BYTES = 536_870_912_000L
 @HiltViewModel
 class CongratsPlanViewModel @Inject constructor(
     private val userPlanManager: UserPlanManager,
-    private val serverManager: ServerManager,
+    private val serverListUpdaterPrefs: ServerListUpdaterPrefs,
     private val currentUser: CurrentUser,
 ) : ViewModel() {
 
     val state = MutableStateFlow<State>(State.Processing)
 
-    val serverCount get() = serverManager.allServerCount
-    val countriesCount get() = serverManager.getVpnCountries().size
+    val countriesCount get() = serverListUpdaterPrefs.vpnCountryCount
 
     sealed class State {
         object Processing : State()

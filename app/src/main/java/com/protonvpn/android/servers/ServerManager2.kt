@@ -88,9 +88,9 @@ class ServerManager2 @Inject constructor(
         return serverManager.getRandomServer(vpnUser)
     }
 
-    suspend fun getCountriesAndServersCount(): Pair<Int, Int> {
+    suspend fun getCountriesCount(): Int {
         serverManager.ensureLoaded()
-        return Pair(serverManager.getVpnCountries().size, serverManager.allServerCount)
+        return serverManager.getVpnCountries().size
     }
 
     /*
