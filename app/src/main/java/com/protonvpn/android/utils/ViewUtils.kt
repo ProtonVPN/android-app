@@ -31,6 +31,7 @@ import android.view.LayoutInflater
 import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewPropertyAnimator
+import android.view.ViewTreeObserver
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -45,6 +46,9 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.RequestBuilder
@@ -212,6 +216,19 @@ fun NestedScrollView.scrollToShowView(child: View) {
         else -> 0
     }
     smoothScrollBy(0, scrollByVertically)
+}
+
+fun ViewTreeObserver.addOnGlobalLayoutListenerWithLifecycle(
+    lifecycle: Lifecycle,
+    listener: ViewTreeObserver.OnGlobalLayoutListener
+) {
+    addOnGlobalLayoutListener(listener)
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onDestroy(owner: LifecycleOwner) {
+            if (isAlive)
+                removeOnGlobalLayoutListener(listener)
+        }
+    })
 }
 
 private fun Rect.expandTo(minWidth: Int, minHeight: Int): Boolean {
