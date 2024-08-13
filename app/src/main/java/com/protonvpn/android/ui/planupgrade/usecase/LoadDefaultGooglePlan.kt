@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.ui.planupgrade.usecase
 
-import android.content.res.Resources
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.utils.Constants
@@ -34,7 +33,6 @@ import me.proton.core.plan.domain.entity.DynamicPlan
 import me.proton.core.plan.domain.entity.DynamicPlanState
 import me.proton.core.plan.domain.usecase.GetDynamicPlansAdjustedPrices
 import me.proton.core.plan.presentation.entity.PlanCycle
-import me.proton.core.plan.presentation.entity.getSelectedPlan
 import javax.inject.Inject
 
 data class CycleInfo(
@@ -47,10 +45,7 @@ data class GiapPlanInfo(
     val displayName: String,
     val cycles: List<CycleInfo>,
     val preselectedCycle: PlanCycle,
-) {
-    fun getSelectedPlan(resources: Resources, cycleDurationMonths: Int) =
-        dynamicPlan.getSelectedPlan(resources, cycleDurationMonths, null)
-}
+)
 
 @Reusable
 class LoadDefaultGooglePlan(
