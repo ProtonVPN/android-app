@@ -79,6 +79,8 @@ object Constants {
 
     const val MAX_CONNECTIONS_IN_PLUS_PLAN = 10
     const val SERVER_SPEED_UP_TO_GBPS = 10
+    const val FALLBACK_SERVER_COUNT = 6500
+    const val FALLBACK_COUNTRY_COUNT = 110
 
     const val TLS_AUTH_KEY_HEX =
             "6acef03f62675b4b1bbd03e53b187727\n" +

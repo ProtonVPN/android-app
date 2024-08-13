@@ -41,6 +41,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.partnerships.PartnershipsRepository
@@ -152,6 +153,11 @@ class ServerListUpdater @Inject constructor(
 
         periodicUpdateManager.registerApiCall(
             "server_loads", ::updateLoads, PeriodicUpdateSpec(LOADS_CALL_DELAY, setOf(loggedIn, inForeground))
+        )
+        periodicUpdateManager.registerApiCall(
+            "server_country_count",
+            ::updateServerCountryCount,
+            PeriodicUpdateSpec(SERVER_COUNT_CALL_DELAY, SERVER_COUNT_ERROR_DELAY, setOf(inForeground))
         )
 
         vpnStateMonitor.onDisconnectedByUser.onEach {
@@ -307,6 +313,14 @@ class ServerListUpdater @Inject constructor(
             valueOrNull?.let { serverManager.setStreamingServices(it) }
         }
 
+    private suspend fun updateServerCountryCount(): ApiResult<ServersCountResponse> =
+        api.getServerCountryCount().also { response ->
+            response.valueOrNull?.let {
+                prefs.vpnServerCount = it.serverCount
+                prefs.vpnCountryCount = it.countryCount
+            }
+        }
+
     @VisibleForTesting
     suspend fun updateServers(): ApiResult<ServerList?> {
         val lang = Locale.getDefault().language
@@ -360,6 +374,8 @@ class ServerListUpdater @Inject constructor(
         private val LOADS_CALL_DELAY = TimeUnit.MINUTES.toMillis(15)
         val FULL_SERVER_LIST_CALL_DELAY = TimeUnit.DAYS.toMillis(2)
         private val STREAMING_CALL_DELAY = TimeUnit.DAYS.toMillis(2)
+        private val SERVER_COUNT_CALL_DELAY = TimeUnit.DAYS.toMillis(7)
+        private val SERVER_COUNT_ERROR_DELAY = TimeUnit.DAYS.toMillis(1)
         private const val HTTP_NOT_MODIFIED_304 = 304
     }
 }

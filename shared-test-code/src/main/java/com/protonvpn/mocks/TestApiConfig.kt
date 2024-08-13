@@ -23,6 +23,7 @@ import com.protonvpn.android.appconfig.ApiNotificationsResponse
 import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import me.proton.core.featureflag.data.remote.response.GetUnleashTogglesResponse
@@ -86,6 +87,10 @@ sealed class TestApiConfig {
 
                 rule(get, path eq "/feature/v2/frontend") {
                     respond(GetUnleashTogglesResponse(ResponseCodes.OK, emptyList()))
+                }
+
+                rule(get, path eq "/vpn/v1/servers-count") {
+                    respond(ServersCountResponse(countryCount = 100, serverCount = 6000))
                 }
 
                 // Endpoints that require a simple 1000 response code
