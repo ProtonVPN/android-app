@@ -495,7 +495,8 @@ class VpnConnectionManager @Inject constructor(
     fun onAlwaysOn(connectIntent: AnyConnectIntent) {
         // Check both state and ongoingConnect because state is not set immediately.
         val vpnState = internalState.value
-        val isNotConnecting = vpnState == null || vpnState == InternalState.Disabled && ongoingConnect?.isActive != true
+        val isNotConnecting =
+            (vpnState == null || vpnState == InternalState.Disabled) && ongoingConnect?.isActive != true
         if (isNotConnecting) {
             connect(vpnBackgroundUiDelegate, connectIntent, ConnectTrigger.Auto("always-on"))
         }
