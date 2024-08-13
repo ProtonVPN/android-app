@@ -51,6 +51,7 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
+import com.protonvpn.android.utils.addOnGlobalLayoutListenerWithLifecycle
 import com.protonvpn.android.utils.getSerializableCompat
 import com.protonvpn.android.utils.getThemeColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -173,7 +174,7 @@ abstract class UpgradeHighlightsCarouselFragment(
             adapter = slideAdapter
 
             // Update ViewPager's height to match the largest slide.
-            viewTreeObserver.addOnGlobalLayoutListener {
+            viewTreeObserver.addOnGlobalLayoutListenerWithLifecycle(viewLifecycleOwner.lifecycle) {
                 val pagerChildren = (getChildAt(0) as RecyclerView).children
                 val maxMeasuredChildHeight = pagerChildren.maxOf {
                     it.measure(
