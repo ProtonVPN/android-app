@@ -108,7 +108,6 @@ class UpgradeDialogViewModel(
         paymentDisplayRenewPriceKillSwitch::invoke,
     )
 
-    private lateinit var loadedPlan : GiapPlanInfo
     val selectedCycle = MutableStateFlow<PlanCycle?>(null)
 
     data class GiapPlanModel(
@@ -143,12 +142,11 @@ class UpgradeDialogViewModel(
             val giapPlan = loadDefaultGiapPlan()
             val showRenewPrice = !paymentDisplayRenewPriceKillSwitch()
             if (giapPlan != null) {
-                loadedPlan = giapPlan
-                val prices = calculatePriceInfos(loadedPlan.cycles, loadedPlan.dynamicPlan)
+                val prices = calculatePriceInfos(giapPlan.cycles, giapPlan.dynamicPlan)
                 if (prices.isEmpty())
                     state.value = State.LoadError(R.string.error_fetching_prices)
                 else {
-                    state.value = State.PurchaseReady(GiapPlanModel(loadedPlan), prices, showRenewPrice)
+                    state.value = State.PurchaseReady(GiapPlanModel(giapPlan), prices, showRenewPrice)
                     selectedCycle.value = giapPlan.preselectedCycle
                 }
             } else {
