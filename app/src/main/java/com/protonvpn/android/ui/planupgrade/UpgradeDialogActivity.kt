@@ -39,6 +39,7 @@ import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.edgeToEdge
@@ -78,6 +79,10 @@ open class UpgradeDialogActivity : BaseActivityV2() {
                     onPaymentSuccess(state.newPlanName, state.upgradeFlowType)
                 }
             }
+        }
+
+        if (savedInstanceState == null) {
+            viewModel.loadPlans(listOf(Constants.CURRENT_PLUS_PLAN))
         }
     }
 

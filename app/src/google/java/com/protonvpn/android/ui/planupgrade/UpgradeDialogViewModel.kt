@@ -64,9 +64,8 @@ class UpgradeDialogViewModel(
     plansOrchestrator: PlansOrchestrator,
     isInAppUpgradeAllowed: suspend () -> Boolean,
     upgradeTelemetry: UpgradeTelemetry,
-    private val loadDefaultGiapPlan: suspend () -> GiapPlanInfo?,
+    private val loadDefaultGiapPlan: suspend (planNames: List<String>) -> List<GiapPlanInfo>,
     private val oneClickPaymentsEnabled: suspend () -> Boolean,
-    loadOnStart: Boolean,
     private val performGiapPurchase: PerformGiapPurchase<Activity>,
     userPlanManager: UserPlanManager,
     waitForSubscription: WaitForSubscription,
@@ -102,28 +101,32 @@ class UpgradeDialogViewModel(
         upgradeTelemetry,
         loadDefaultGiapPlan::invoke,
         oneClickPaymentsEnabled::invoke,
-        true,
         performGiapPurchase,
         userPlanManager,
         waitForSubscription,
         paymentDisplayRenewPriceKillSwitch::invoke,
     )
 
+    private var loadPlanNames: List<String>? = null
+
+    private lateinit var loadedPlans: List<GiapPlanModel>
+    private var showRenewPrice = true // Initialized in loadPlans()
     val selectedCycle = MutableStateFlow<PlanCycle?>(null)
 
     data class GiapPlanModel(
         val giapPlanInfo: GiapPlanInfo,
+        val prices: Map<PlanCycle, PriceInfo>
     ) : PlanModel {
         override val name get() = giapPlanInfo.name
         override val cycles get() = giapPlanInfo.cycles
     }
 
-    init {
-        if (loadOnStart)
-            loadPlans()
+    fun reloadPlans() {
+        loadPlanNames?.let { loadPlans(it) }
     }
 
-    fun loadPlans() {
+    fun loadPlans(planNames: List<String>) {
+        loadPlanNames = planNames
         viewModelScope.launch {
             if (!isInAppUpgradeAllowed())
                 state.value = State.UpgradeDisabled
@@ -131,24 +134,26 @@ class UpgradeDialogViewModel(
                 if (!oneClickPaymentsEnabled()) {
                     state.value = State.PlansFallback
                 } else {
-                    loadGiapPlans()
+                    showRenewPrice = !paymentDisplayRenewPriceKillSwitch()
+                    loadGiapPlans(planNames)
                 }
             }
         }
     }
 
-    private suspend fun loadGiapPlans() {
+    // The plan first on the list is mandatory and will be preselected.
+    private suspend fun loadGiapPlans(planNames: List<String>) {
         state.value = State.LoadingPlans
         suspend {
-            val giapPlan = loadDefaultGiapPlan()
-            val showRenewPrice = !paymentDisplayRenewPriceKillSwitch()
-            if (giapPlan != null) {
-                val prices = calculatePriceInfos(giapPlan.cycles, giapPlan.dynamicPlan)
-                if (prices.isEmpty())
+            loadedPlans = loadDefaultGiapPlan(planNames).map { planInfo ->
+                GiapPlanModel(planInfo, calculatePriceInfos(planInfo.cycles, planInfo.dynamicPlan))
+            }
+            val preselectedPlan = loadedPlans.find { it.name == planNames.first() }
+            if (loadedPlans.isNotEmpty() && preselectedPlan != null) {
+                if (loadedPlans.any { it.prices.isEmpty() }) {
                     state.value = State.LoadError(R.string.error_fetching_prices)
-                else {
-                    state.value = State.PurchaseReady(GiapPlanModel(giapPlan), prices, showRenewPrice)
-                    selectedCycle.value = giapPlan.preselectedCycle
+                } else {
+                    selectPlan(preselectedPlan)
                 }
             } else {
                 state.value = State.PlansFallback
@@ -163,12 +168,26 @@ class UpgradeDialogViewModel(
         state.update { if (it is State.PurchaseReady) it.copy(inProgress = false) else it }
     }
 
+    fun selectPlan(plan: PlanModel) {
+        val giapPlan = plan as GiapPlanModel
+        state.value = State.PurchaseReady(
+            allPlans = loadedPlans,
+            selectedPlan = plan,
+            selectedPlanPriceInfo = giapPlan.prices,
+            showRenewPrice = showRenewPrice,
+            inProgress = false
+        )
+        if (plan.cycles.none { it.cycle == selectedCycle.value }) {
+            selectedCycle.value = giapPlan.giapPlanInfo.preselectedCycle
+        }
+    }
+
     fun pay(activity: Activity, flowType: UpgradeFlowType) = flow {
         val currentState = state.value
         require(currentState is State.PurchaseReady)
         val cycle = requireNotNull(selectedCycle.value) { "Missing plan cycle." }
         val userId = requireNotNull(userId.first()) { "Missing user ID."}
-        val plan = (currentState.plan as GiapPlanModel).giapPlanInfo
+        val plan = (currentState.selectedPlan as GiapPlanModel).giapPlanInfo
 
         val purchaseResult = performGiapPurchase(
             activity,
@@ -230,7 +249,7 @@ class UpgradeDialogViewModel(
 
             // Temporary workaround for issue in core returning wrong prices if there was an issue
             // fetching prices from google billing library.
-            if (currencies.size > 1)
+            if (currencies.isEmpty() || currencies.size > 1)
                 return emptyMap()
 
             // The prices coming from Google Play will have a single currency:

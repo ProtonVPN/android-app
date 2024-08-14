@@ -49,7 +49,7 @@ class UpgradeDialogViewModel @Inject constructor(
     userPlanManager,
     waitForSubscription
 ) {
-    init {
+    fun loadPlans(planNames: List<String>) {
         viewModelScope.launch {
             state.value = if (isInAppUpgradeAllowed())
                 State.PlansFallback

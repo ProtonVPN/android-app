@@ -746,6 +746,8 @@ dependencies {
     detektPlugins project(":detekt-gitlab-output-plugin")
     detektPlugins project(":detekt-custom-rules")
 
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_version"
+
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlin_version"))
 
     implementation 'commons-codec:commons-codec:1.15'
@@ -934,7 +936,6 @@ dependencies {
 
     // Wireguard
     implementation 'me.proton.vpn:wireguard-android:1.0.20230512.19'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
     // Hilt
     ksp "com.google.dagger:hilt-compiler:$hilt_version"
