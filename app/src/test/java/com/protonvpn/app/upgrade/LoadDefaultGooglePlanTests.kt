@@ -20,7 +20,10 @@ package com.protonvpn.app.upgrade
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.ui.planupgrade.usecase.LoadDefaultGooglePlan
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.test.shared.TestVpnUser
+import com.protonvpn.test.shared.createDynamicPlan
+import com.protonvpn.test.shared.toProductId
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
@@ -29,20 +32,13 @@ import kotlinx.coroutines.test.runTest
 import me.proton.core.domain.entity.AppStore
 import me.proton.core.payment.domain.usecase.PaymentProvider
 import me.proton.core.plan.domain.entity.DynamicPlan
-import me.proton.core.plan.domain.entity.DynamicPlanInstance
-import me.proton.core.plan.domain.entity.DynamicPlanPrice
-import me.proton.core.plan.domain.entity.DynamicPlanState
-import me.proton.core.plan.domain.entity.DynamicPlanVendor
 import me.proton.core.plan.presentation.entity.PlanCycle
 import org.junit.Before
 import org.junit.Test
-import java.time.Instant
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 private val DEFAULT_CYCLES = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
 private val PRESELECTED_CYCLE = PlanCycle.YEARLY
-private fun PlanCycle.toProductId(appStore: AppStore) = "productId-$appStore-$cycleDurationMonths"
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoadDefaultGooglePlanTests {
@@ -60,7 +56,7 @@ class LoadDefaultGooglePlanTests {
         currentVpnUser = MutableStateFlow(createVpnUser(subscribed = 0))
         availablePaymentProviders = setOf(PaymentProvider.GoogleInAppPurchase)
         dynamicPlans = listOf(
-            createDynamicPlan(LoadDefaultGooglePlan.DEFAULT_PLAN_NAME_VPN)
+            createDynamicPlan(Constants.CURRENT_PLUS_PLAN, DEFAULT_CYCLES)
         )
         loadDefaultGooglePlan = LoadDefaultGooglePlan(
             currentVpnUser,
@@ -73,51 +69,57 @@ class LoadDefaultGooglePlanTests {
 
     @Test
     fun `load default plans and cycles if available`() = testScope.runTest {
-        val plan = loadDefaultGooglePlan()
-        assertEquals(LoadDefaultGooglePlan.DEFAULT_PLAN_NAME_VPN, plan?.name)
-        assertEquals(DEFAULT_CYCLES, plan?.cycles?.map { it.cycle })
-        assertEquals(DEFAULT_CYCLES.map { it.toProductId(AppStore.GooglePlay) }, plan?.cycles?.map { it.productId })
-        assertEquals(PRESELECTED_CYCLE, plan?.preselectedCycle)
+        val plans = loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN))
+        assertEquals(1, plans.size)
+        val plan = plans.first()
+        assertEquals(Constants.CURRENT_PLUS_PLAN, plan.name)
+        assertEquals(DEFAULT_CYCLES, plan.cycles.map { it.cycle })
+        assertEquals(DEFAULT_CYCLES.map { it.toProductId(AppStore.GooglePlay) }, plan.cycles.map { it.productId })
+        assertEquals(PRESELECTED_CYCLE, plan.preselectedCycle)
     }
 
     @Test
     fun `don't load plans if other payment methods available`() = testScope.runTest {
         availablePaymentProviders = setOf(PaymentProvider.CardPayment, PaymentProvider.GoogleInAppPurchase)
-        assertNull(loadDefaultGooglePlan())
+        assertEquals(emptyList(), loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN)))
     }
 
     @Test
     fun `don't load plan if user has subscription`() = testScope.runTest {
         currentVpnUser.value = createVpnUser(subscribed = VpnUser.VPN_SUBSCRIBED_FLAG)
-        assertNull(loadDefaultGooglePlan())
+        assertEquals(emptyList(), loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN)))
     }
 
     @Test
     fun `don't load other plans`() = testScope.runTest {
-        dynamicPlans = listOf(createDynamicPlan("other-plan"))
-        assertNull(loadDefaultGooglePlan())
+        dynamicPlans = listOf(createDynamicPlan("other-plan", DEFAULT_CYCLES))
+        assertEquals(emptyList(), loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN)))
     }
 
     @Test
     fun `don't load plan if no default cycle is available`() = testScope.runTest {
         dynamicPlans = listOf(
-            createDynamicPlan(LoadDefaultGooglePlan.DEFAULT_PLAN_NAME_VPN, listOf(
-                PlanCycle.TWO_YEARS to AppStore.GooglePlay,
-            ))
+            createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.TWO_YEARS)),
+            createDynamicPlan(Constants.CURRENT_BUNDLE_PLAN, DEFAULT_CYCLES)
         )
-        assertNull(loadDefaultGooglePlan())
+        val loadedPlans = loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
+        // Plus plan ignored.
+        assertEquals(listOf(Constants.CURRENT_BUNDLE_PLAN), loadedPlans.map { it.name})
     }
 
     @Test
     fun `fallback to available cycles`() = testScope.runTest {
         dynamicPlans = listOf(
-            createDynamicPlan(LoadDefaultGooglePlan.DEFAULT_PLAN_NAME_VPN, listOf(
-                PlanCycle.TWO_YEARS to AppStore.GooglePlay,
-                PlanCycle.MONTHLY to AppStore.GooglePlay,
-            ))
+            createDynamicPlan(
+                Constants.CURRENT_PLUS_PLAN,
+                listOf(PlanCycle.TWO_YEARS, PlanCycle.MONTHLY)
+            )
         )
-        assertEquals(listOf(PlanCycle.MONTHLY), loadDefaultGooglePlan()?.cycles?.map { it.cycle })
-        assertEquals(PlanCycle.MONTHLY, loadDefaultGooglePlan()?.preselectedCycle)
+        val loadedPlans = loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN))
+        assertEquals(1, loadedPlans.size)
+        val plan = loadedPlans.first()
+        assertEquals(listOf(PlanCycle.MONTHLY), plan.cycles.map { it.cycle })
+        assertEquals(PlanCycle.MONTHLY, plan.preselectedCycle)
     }
 }
 
@@ -125,24 +127,10 @@ private fun createVpnUser(subscribed: Int) = TestVpnUser.create(subscribed = sub
 
 fun createDynamicPlan(
     name: String,
-    instances: List<Pair<PlanCycle, AppStore>> = DEFAULT_CYCLES.map { it to AppStore.GooglePlay },
-    prices: Map</*cycle-months*/Int, Map</*currency*/String, DynamicPlanPrice>> = emptyMap()
-) = DynamicPlan(
-    name,
-    0,
-    DynamicPlanState.Available,
-    "$name title",
-    null,
-    instances = instances.associate { (cycle, appStore) ->
-        cycle.cycleDurationMonths to createDynamicPlanInstance(cycle, appStore, prices[cycle.cycleDurationMonths])
-    }
-)
-
-private fun createDynamicPlanInstance(
-    cycle: PlanCycle,
-    appStore: AppStore,
-    currencyToPrice: Map<String, DynamicPlanPrice>?
-) = DynamicPlanInstance(
-    cycle.cycleDurationMonths, "", Instant.MAX, currencyToPrice ?: emptyMap(),
-    mapOf(appStore to DynamicPlanVendor(cycle.toProductId(appStore), ""))
+    cycles: List<PlanCycle>,
+    appStore: AppStore = AppStore.GooglePlay
+) = createDynamicPlan(
+    name = name,
+    prices = cycles.associateWith { emptyMap() },
+    appStore = appStore
 )

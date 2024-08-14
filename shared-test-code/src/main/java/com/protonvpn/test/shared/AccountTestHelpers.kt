@@ -19,9 +19,17 @@
 
 package com.protonvpn.test.shared
 
+import me.proton.core.domain.entity.AppStore
 import me.proton.core.domain.entity.UserId
+import me.proton.core.plan.domain.entity.DynamicPlan
+import me.proton.core.plan.domain.entity.DynamicPlanInstance
+import me.proton.core.plan.domain.entity.DynamicPlanPrice
+import me.proton.core.plan.domain.entity.DynamicPlanState
+import me.proton.core.plan.domain.entity.DynamicPlanVendor
+import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.user.domain.entity.Type
 import me.proton.core.user.domain.entity.User
+import java.time.Instant
 
 // We should upstream such helpers to Account modules.
 fun createAccountUser(id: UserId = UserId("id"), type: Type = Type.Proton, createdAtUtc: Long = 0L, name: String? = null) = User(
@@ -43,4 +51,38 @@ fun createAccountUser(id: UserId = UserId("id"), type: Type = Type.Proton, creat
     delinquent = null,
     recovery = null,
     keys = emptyList()
+)
+
+fun PlanCycle.toProductId(appStore: AppStore) = "productId-$appStore-$cycleDurationMonths"
+
+fun createDynamicPlan(
+    name: String,
+    prices: Map<PlanCycle, Map</*currency*/String, DynamicPlanPrice>> = emptyMap(),
+    appStore: AppStore = AppStore.GooglePlay
+) = createDynamicPlan(
+    name = name,
+    instances = prices.map { (cycle, cyclePrices) ->
+        cycle.cycleDurationMonths to createDynamicPlanInstance(cycle, appStore, cyclePrices)
+    }.toMap()
+)
+
+fun createDynamicPlan(
+    name: String,
+    instances: Map<Int, DynamicPlanInstance>,
+) = DynamicPlan(
+    name,
+    0,
+    DynamicPlanState.Available,
+    "$name title",
+    null,
+    instances = instances
+)
+
+fun createDynamicPlanInstance(
+    cycle: PlanCycle,
+    appStore: AppStore,
+    currencyToPrice: Map<String, DynamicPlanPrice>?
+) = DynamicPlanInstance(
+    cycle.cycleDurationMonths, "", Instant.MAX, currencyToPrice ?: emptyMap(),
+    mapOf(appStore to DynamicPlanVendor(cycle.toProductId(appStore), ""))
 )

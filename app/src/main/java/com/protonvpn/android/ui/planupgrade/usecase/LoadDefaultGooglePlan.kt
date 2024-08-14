@@ -21,7 +21,6 @@ package com.protonvpn.android.ui.planupgrade.usecase
 
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.utils.Constants
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -47,6 +46,7 @@ data class GiapPlanInfo(
     val preselectedCycle: PlanCycle,
 )
 
+// TODO: rename
 @Reusable
 class LoadDefaultGooglePlan(
     private val vpnUserFlow: Flow<VpnUser?>,
@@ -68,13 +68,13 @@ class LoadDefaultGooglePlan(
         DEFAULT_PRESELECTED_CYCLE
     )
 
-    private suspend fun defaultDynamicPlan() : DynamicPlan? {
-        val vpnUser = vpnUserFlow.first() ?: return null
+    private suspend fun availableDynamicPlans(planNames: List<String>) : List<DynamicPlan> {
+        val vpnUser = vpnUserFlow.first() ?: return emptyList()
         if (vpnUser.hasSubscription)
-            return null
-        return dynamicPlans(vpnUser.userId).firstOrNull {
-            it.name == DEFAULT_PLAN_NAME_VPN && it.state == DynamicPlanState.Available
-        }
+            return emptyList()
+        return dynamicPlans(vpnUser.userId)
+            .filter { it.name in planNames && it.state == DynamicPlanState.Available }
+            .distinctBy { it.name }
     }
 
     private fun DynamicPlan.toPlanInfo(): GiapPlanInfo? {
@@ -99,17 +99,17 @@ class LoadDefaultGooglePlan(
         )
     }
 
-    suspend operator fun invoke(): GiapPlanInfo? {
+    suspend operator fun invoke(planNames: List<String>): List<GiapPlanInfo> {
         if (availablePaymentProviders().any { it != PaymentProvider.GoogleInAppPurchase })
-            return null
+            return emptyList()
 
-        return defaultDynamicPlan()?.toPlanInfo()
+        return availableDynamicPlans(planNames)
+            .mapNotNull { it.toPlanInfo() }
     }
 
     companion object {
         // TODO: in future this should come from API
         private val DEFAULT_CYCLES = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
         private val DEFAULT_PRESELECTED_CYCLE = PlanCycle.YEARLY
-        const val DEFAULT_PLAN_NAME_VPN = Constants.CURRENT_PLUS_PLAN
     }
 }

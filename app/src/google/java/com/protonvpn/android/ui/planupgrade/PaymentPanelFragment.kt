@@ -64,8 +64,8 @@ class PaymentPanelFragment : Fragment() {
                 is CommonUpgradeDialogViewModel.State.PurchaseReady -> {
                     panelViewState?.value =
                         ViewState.PlanReady(
-                            state.plan.name,
-                            state.priceInfo.map { (cycle, priceInfo) ->
+                            state.selectedPlan.name,
+                            state.selectedPlanPriceInfo.map { (cycle, priceInfo) ->
                                 ViewState.CycleViewInfo(
                                     cycle,
                                     planPerCycleResId(cycle),
@@ -130,7 +130,7 @@ class PaymentPanelFragment : Fragment() {
     }
 
     private fun onErrorButtonClicked() {
-        viewModel.loadPlans()
+        viewModel.reloadPlans()
     }
 
     private fun onCloseClicked() {

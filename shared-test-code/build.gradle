@@ -81,6 +81,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
@@ -91,6 +92,8 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_jdk_version"
+
     ksp "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "com.google.dagger:hilt-android-testing:$hilt_version"
@@ -120,6 +123,8 @@ dependencies {
     implementation "me.proton.core:observability-data:$core_version"
     implementation "me.proton.core:payment-data:$core_version"
     implementation "me.proton.core:presentation:$core_version"
+    implementation "me.proton.core:plan-domain:$core_version"
+    implementation "me.proton.core:plan-presentation:$core_version"
     implementation "me.proton.core:push-data:$core_version"
     implementation "me.proton.core:telemetry-data:$core_version"
     implementation "me.proton.core:test-kotlin:$core_version"

@@ -75,8 +75,9 @@ abstract class CommonUpgradeDialogViewModel(
             val error: Throwable? = null
         ) : State()
         data class PurchaseReady(
-            val plan: PlanModel,
-            val priceInfo: Map<PlanCycle, PriceInfo>,
+            val allPlans: List<PlanModel>,
+            val selectedPlan: PlanModel,
+            val selectedPlanPriceInfo: Map<PlanCycle, PriceInfo>,
             val showRenewPrice: Boolean,
             val inProgress: Boolean = false,
         ) : State()
