@@ -267,8 +267,8 @@
     <string name="tv_detail_description_plus">Mira tus videos, películas o deportes favoritos con tus aplicaciones.</string>
     <string name="tv_login_title_signin">Inicia sesión en Proton VPN</string>
     <string name="tv_login_title_welcome">Mira tu contenido de vídeo favorito</string>
-    <string name="tv_login_welcome_description">Ve contenido de video de más de 50 países, incluidos YouTube y Twitch. Mira Netflix, Amazon Prime y Hulu con Proton VPN Plus.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Obtén tu cuenta Proton VPN en<b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description">Ve contenido de vídeo de más de 50 países, incluidos YouTube y Twitch. Ve Netflix, Amazon Prime y Hulu en streaming con Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Obtén tu cuenta de Proton VPN en<b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Iniciar sesión</string>
     <string name="tv_login_step1_description"><![CDATA[Ve a <b>%1$s</b> en tu dispositivo móvil u ordenador]]></string>
     <string name="tv_login_step2_description">Inicia sesión en Proton VPN</string>
@@ -276,7 +276,7 @@
     <string name="tv_login_timer_label">Este código expira en:</string>
     <string name="tv_login_refresh">Actualizar</string>
     <string name="tv_login_title_loading">Cargando…</string>
-    <string name="tv_login_title_refresh">Tu sesión ha caducado. Haz clic en actualizar para volver a empezar.</string>
+    <string name="tv_login_title_refresh">Tu sesión ha expirado. Haz clic en actualizar para volver a empezar.</string>
     <string name="tv_upgrade_title">Iniciar el streaming con Plus</string>
     <string name="back">Volver</string>
     <string name="tv_upgrade_url_details"><![CDATA[Visita <b>%1$s</b> para actualizar a Proton VPN Plus ahora.]]></string>
@@ -349,16 +349,16 @@
     </plurals>
     <string name="upgrade_devices_text">Proton VPN está disponible en 8 plataformas diferentes.</string>
     <string name="upgrade_plus_title">Mejora tu privacidad</string>
-    <string name="upgrade_plus_message">Obtén funciones de privacidad avanzadas y velocidades altas con VPN Plus.</string>
-    <string name="upgrade_netshield_title">Disfruta una navegación sin anuncios</string>
-    <string name="upgrade_netshield_message"><![CDATA[Bloquee anuncios, rastreadores y malware con <b>Escudo de Red</b>.]]></string>
+    <string name="upgrade_plus_message">Obtén funciones de privacidad avanzadas y una mayor velocidad con VPN Plus.</string>
+    <string name="upgrade_netshield_title">Disfruta de una navegación sin anuncios</string>
+    <string name="upgrade_netshield_message"><![CDATA[Bloquea anuncios, rastreadores y malware con <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Duplica el cifrado</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Añade otra capa de protección a tu conexión VPN con <b>Núcleo Seguro</b>.]]></string>
-    <string name="upgrade_p2p_title">Desbloquea las descargas entre pares (P2P) e intercambio de archivos </string>
+    <string name="upgrade_secure_core_message"><![CDATA[Añade otra capa de cifrado a tu conexión VPN con <b>Secure Core</b>.]]></string>
+    <string name="upgrade_p2p_title">Accede a descargas entre pares (P2P) e intercambio de archivos </string>
     <string name="upgrade_p2p_text">Aumenta las velocidades de carga y descarga mientras ocultas tu dirección IP.</string>
     <string name="upgrade_streaming_title">Streaming en 4K</string>
-    <string name="upgrade_streaming_text">Disfruta tus películas y series favoritas desde cualquier lugar en el mundo.</string>
-    <string name="upgrade_tor_title">Accede a la red Tor con un toque</string>
+    <string name="upgrade_streaming_text">Disfruta de tus películas y series favoritas en cualquier lugar del mundo.</string>
+    <string name="upgrade_tor_title">Accede a la red Tor con una pulsación</string>
     <string name="upgrade_tor_text">Conéctate a servicios ocultos y sitios onion con tu navegador habitual.</string>
     <string name="upgrade_vpn_accelerator_title">Navegue a velocidades aún más altas</string>
     <!--
@@ -366,11 +366,11 @@
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Desbloquea servidores rápidos y menos concurridos con velocidades de hasta %1$d Gbps.</string>
+    <string name="upgrade_vpn_accelerator_message">Accede a servidores rápidos y menos concurridos con velocidades de hasta %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Obtén lo mejor de ambas opciones</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Divida su tráfico en túneles VPN y no VPN con <b>túneles divididos</b>.]]></string>
-    <string name="upgrade_customization_title">Desbloquea personalizaciones VPN avanzadas</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Acceda a dispositivos en su <b>red de área local (LAN)</b> con VPN Plus.]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Divide tu tráfico en túneles VPN y no VPN con <b>túneles divididos</b>.]]></string>
+    <string name="upgrade_customization_title">Desbloquea personalizaciones de VPN avanzadas</string>
+    <string name="upgrade_lan_access_message"><![CDATA[Accede a dispositivos en tu <b>red de área local (LAN)</b> con VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Accede a todos los países</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -398,9 +398,9 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloquea %1$s en %2$s con <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Accede a %1$s en %2$s con <b>VPN Plus</b>.]]></string>
     <string name="upgrade_not_now_button">Ahora no</string>
-    <string name="upsell_card_countries_title">Cobertura global</string>
+    <string name="upsell_card_countries_title">Cobertura mundial</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
         %2$s - replaced with "upgrade_plus_countries"
@@ -409,7 +409,7 @@
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">Más de %1$d ubicaciones de servidores en %2$s</string>
     <string name="upsell_card_customization_title">Y mucho más…</string>
-    <string name="upsell_card_customization_description">Desbloquea más funciones de privacidad y rendimiento</string>
+    <string name="upsell_card_customization_description">Accede a más funciones de privacidad y rendimiento</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Protege hasta %1$d dispositivos</item>
         <item quantity="other">Protege hasta %1$d dispositivos</item>
@@ -419,7 +419,7 @@
     <string name="upsell_card_netshield_description">Bloquea anuncios, malware y rastreadores</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Añade otra capa de cifrado a tu conexión VPN</string>
-    <string name="upsell_card_p2p_title">Soporte P2P</string>
+    <string name="upsell_card_p2p_title">Compatibilidad con P2P</string>
     <string name="upsell_card_p2p_description">Descarga archivos con BitTorrent y otros protocolos de intercambio de archivos</string>
     <string name="upsell_card_speed_title">Navegación más rápida</string>
     <!-- Parameters:
@@ -430,9 +430,9 @@
     <string name="upsell_card_split_tunneling_title">Túnel dividido</string>
     <string name="upsell_card_split_tunneling_description">Navega desde dos ubicaciones a la vez</string>
     <string name="upsell_card_streaming_title">Streaming</string>
-    <string name="upsell_card_streaming_description">Mira tus películas y programas favoritos</string>
-    <string name="upsell_card_tor_title">Tor sobre VPN</string>
-    <string name="upsell_card_tor_description">Usa la red Tor sobre tu conexión VPN para más privacidad</string>
+    <string name="upsell_card_streaming_description">Ve tus películas y programas favoritos</string>
+    <string name="upsell_card_tor_title">Tor a través de VPN</string>
+    <string name="upsell_card_tor_description">Usa la red Tor a través de tu conexión VPN para más privacidad</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -448,7 +448,7 @@
     <string name="payment_price_cycle_month_label">1 mes</string>
     <string name="payment_price_cycle_year_label">1 año</string>
     <string name="payment_price_cycle_2years_label">2 años</string>
-    <string name="payment_select_your_plan">Elige tu suscripción</string>
+    <string name="payment_select_your_plan">Elige tu plan</string>
     <string name="payment_button_get_vpn_plus">Obtener VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Oferta de bienvenida. Renovación automática por %1$s/mes</string>
@@ -456,8 +456,8 @@
     <string name="payment_welcome_price_message_annual">Oferta de bienvenida. Renovación automática por %1$s/año</string>
     <string name="payment_auto_renew_message_monthly">La suscripción se renueva automáticamente por %1$s/mes.</string>
     <string name="payment_auto_renew_message_annual">La suscripción se renueva automáticamente por %1$s/año.</string>
-    <string name="payment_welcome_price_message_monthly_fallback">La suscripción se renueva automáticamente cada mes.</string>
-    <string name="payment_welcome_price_message_annual_fallback">La suscripción se renueva automáticamente cada año.</string>
+    <string name="payment_welcome_price_message_monthly_fallback">La suscripción se renueva automáticamente cada mes</string>
+    <string name="payment_welcome_price_message_annual_fallback">La suscripción se renueva automáticamente cada año</string>
     <!-- Information activity -->
     <string name="activity_information_title">Información</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -517,7 +517,7 @@
     <string name="search_clear_query_content_description">Borrar</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">¿Quieres conectarte a un país específico?</string>
-    <string name="upgrade_country_message"><![CDATA[Desbloquea la <b>selección de países</b> con VPN Plus.]]></string>
+    <string name="upgrade_country_message"><![CDATA[Accede a la <b>selección de países</b> con VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Mejora tu experiencia de juego</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Mejora el rendimiento de las videollamadas y juegos en línea con <b>NAT tipo 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free te conecta automáticamente al servidor más rápido disponible. Normalmente es el servidor más cercano a tu ubicación.</string>
@@ -596,7 +596,7 @@
     <string name="server_change_button_time_left_seconds_content_description">Disponible en %1$s</string>
     <string name="server_change_progress_finished_contend_description">Disponible ahora</string>
     <string name="not_wanted_country_title">¿No es el país que deseas?</string>
-    <string name="not_wanted_country_description">Mejora para elegir cualquier servidor</string>
+    <string name="not_wanted_country_description">Cambia de plan para elegir cualquier servidor</string>
     <string name="whats_new_title">Novedades</string>
     <string name="whats_new_new_look_title">Nuevo aspecto, misma protección</string>
     <string name="whats_new_new_look_description">Hemos actualizado nuestros diseños y movimos algunas cosas para que la aplicación sea fácil de usar.</string>
@@ -604,14 +604,14 @@
     <string name="whats_new_recents_description">Ahora es mucho más fácil restablecer la conexión a tus servidores favoritos. Ve las conexiones más recientes en la pantalla de inicio o fíjalas para un acceso más rápido. Recientes es la funcionalidad que reemplaza los Perfiles.</string>
     <string name="whats_new_dismiss_button">Echa un vistazo</string>
     <string name="whats_new_added_countries_title">Nuevos países gratuitos</string>
-    <string name="whats_new_added_countries_description">Ahora hay servidores gratuitos en Polonia y Rumania. Para evitar la saturación de servidores, eliminamos la selección manual de países e hicimos mejoras importantes en la selección automática de servidores.</string>
+    <string name="whats_new_added_countries_description">Ahora hay servidores gratuitos en Polonia y Rumanía. Para evitar la saturación de servidores, hemos eliminado la selección manual de países y hecho mejoras importantes en la selección automática de servidores.</string>
     <string name="welcome_plus_title">Te damos la bienvenida a VPN Plus</string>
-    <string name="welcome_plus_description">Disfruta de funciones de privacidad adicionales, rendimiento recargado y una personalización VPN de otro nivel.</string>
+    <string name="welcome_plus_description">Disfruta de funciones de privacidad adicionales, rendimiento excepcional y una personalización de VPN de otro nivel.</string>
     <string name="welcome_plus_feature_security">Funciones de seguridad avanzadas</string>
     <string name="welcome_unlimited_title">Te damos la bienvenida a Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[¡Felicitaciones! Has desbloqueado seguridad premium y funciones de rendimiento en todos los servicios de Proton además de <b>%1$d&#160; GB</b> de almacenamiento total.<br><br>Disfruta lo mejor de la privacidad de Proton.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[¡Felicidades! Has desbloqueado la seguridad prémium y funciones de rendimiento en todos los servicios de Proton, además de <b>%1$d&#160; GB</b> de almacenamiento total.<br><br>Disfruta de lo mejor de la privacidad de Proton.]]></string>
     <string name="welcome_generic_title">Felicitaciones</string>
-    <string name="welcome_generic_description">Has mejorado tu suscripción. Disfruta funciones de privacidad avanzadas y rendimiento de otro nivel.</string>
+    <string name="welcome_generic_description">Has mejorado tu suscripción. Disfruta de funciones de privacidad avanzadas y rendimiento a otro nivel.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
@@ -653,7 +653,7 @@
      -->
     <string name="accessibility_external_link_suffix">enlace externo</string>
     <string name="no_logs_banner_title">VPN certificada sin registros</string>
-    <string name="no_logs_banner_description">Su actividad VPN está protegida por las leyes de privacidad suizas. Nunca lo rastrearemos en línea ni compartiremos su información con terceros.</string>
+    <string name="no_logs_banner_description">Tu actividad VPN está protegida por las leyes de privacidad suizas. Nunca te rastrearemos en línea ni compartiremos tu información con terceros.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Inicio</string>
     <string name="bottom_nav_gateways">Puertas de enlace</string>
@@ -912,11 +912,11 @@
     <!-- State means here US state, like California -->
     <string name="message_state_servers_in_maintenance">Todos los servidores de este estado están en mantenimiento.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_in_maintenance">Servidores en mantenimiento</string>
+    <string name="message_server_in_maintenance">El servidor está en mantenimiento.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">El servidor no está disponible.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">Puerta de enlace en mantenimiento</string>
+    <string name="message_gateway_in_maintenance">La puerta de enlace está en mantenimiento.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Cerrar sesión</string>
     <!-- tag(Redesign_2023) -->
@@ -1213,7 +1213,7 @@
     <!-- Label of a button that opens user's account page -->
     <string name="settings_account_button_my_account">Mi cuenta</string>
     <string name="settings_account_button_delete_account">Eliminar la cuenta</string>
-    <string name="settings_advanced_alternative_routing_title">Enrutado alternativo</string>
+    <string name="settings_advanced_alternative_routing_title">Enrutamiento alternativo</string>
     <string name="settings_advanced_alternative_routing_description">Si los servicios de Proton están bloqueados debido a restricciones de red, intentaremos usar enrutamiento de red alternativo para conectarte a nuestros sitios.</string>
     <string name="settings_advanced_allow_lan_title">Conexiones LAN</string>
     <string name="settings_advanced_allow_lan_description">Te permite conectarte a impresoras, altavoces y otros dispositivos en tu red local.</string>
