@@ -39,47 +39,15 @@ data class Profile @JvmOverloads constructor(
     var isGuestHoleProfile: Boolean = false
 ) : Serializable {
 
-    fun migrateFromOlderVersion(uuid: UUID?): Profile =
-        migrateColor().migrateSecureCore().migrateUUID(uuid)
-
-    private fun migrateColor(): Profile =
-        if (color != null && colorId == null && !isPreBakedProfile) {
-            val profileColor = ProfileColor.legacyColors.getOrElse(color.uppercase(Locale.US)) {
-                ProfileColor.random() // Should not happen.
-            }
-            copy(color = null, colorId = profileColor.id)
-        } else if (color != null && isPreBakedProfile) {
-            copy(color = null, colorId = null)
-        } else if (color == null && colorId != null && ProfileColor.byId(colorId) == null) {
-            // Internal tester migration.
-            copy(color = null, colorId = ProfileColor.values().first().id)
-        } else {
-            this
-        }
-
-    private fun migrateSecureCore(): Profile =
-        if (isSecureCore == null && !isPreBakedProfile && !isPreBakedFastest) {
-            copy(isSecureCore = wrapper.migrateSecureCoreCountry)
-        } else {
-            this
-        }
-
-    private fun migrateUUID(uuid: UUID?): Profile = if (id == null) copy(id = uuid ?: UUID.randomUUID()) else this
-
-    fun migrateProtocol(): Profile =
-        if (protocol == PROTOCOL_IKEv2) copy(protocol = VpnProtocol.Smart.name, transmissionProtocol = null) else this
-
     val isPreBakedProfile: Boolean
         get() = wrapper.isPreBakedProfile
     val isPreBakedFastest: Boolean
         get() = wrapper.isPreBakedFastest
 
     val country: String get() = wrapper.country
-    val directServerId: String? get() = wrapper.serverId
 
     fun getProtocol(settings: LocalUserSettings) = protocol?.let { protocol ->
-        val vpnProtocol = if (protocol == PROTOCOL_IKEv2)
-            VpnProtocol.Smart else VpnProtocol.valueOf(protocol)
+        val vpnProtocol = VpnProtocol.entries.firstOrNull { it.name == protocol } ?: VpnProtocol.Smart
         ProtocolSelection(vpnProtocol, transmissionProtocol?.let(TransmissionProtocol::valueOf))
     } ?: settings.protocol
 
@@ -98,7 +66,6 @@ data class Profile @JvmOverloads constructor(
     }
 
     override fun hashCode(): Int = id.hashCode()
-    fun isUnsupportedIKEv2() = protocol == PROTOCOL_IKEv2
 
     companion object {
         @JvmStatic
@@ -107,7 +74,5 @@ data class Profile @JvmOverloads constructor(
             getTempProfile(ServerWrapper.makeWithServer(server), isSecureCore)
         fun getTempProfile(serverWrapper: ServerWrapper, isSecureCore: Boolean? = null) =
             Profile("", null, serverWrapper, null, isSecureCore)
-
-        const val PROTOCOL_IKEv2 = "IKEv2"
     }
 }

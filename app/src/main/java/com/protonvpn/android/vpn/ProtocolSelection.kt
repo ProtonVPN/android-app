@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.vpn
 
-import com.google.gson.annotations.SerializedName
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -31,20 +30,6 @@ data class ProtocolSelection private constructor(
     val vpn: VpnProtocol,
     val transmission: TransmissionProtocol?
 ) : Serializable {
-
-    @SerializedName("protocol") private val migrateVpn: VpnProtocol? = null
-
-    fun migratingFromIKEv2() = vpn == null
-
-    // Migrate from custom test builds and after removing IKEv2.
-    fun migrate(): ProtocolSelection =
-        when {
-            vpn == null && migrateVpn != null -> invoke(migrateVpn, transmission)
-            migratingFromIKEv2() -> invoke(VpnProtocol.Smart) // Unsupported protocol, fallback to Smart
-            else -> this
-        }
-
-    fun localAgentEnabled() = vpn.localAgentEnabled()
 
     fun isSupported(featureFlags: FeatureFlags): Boolean {
         return when (vpn) {

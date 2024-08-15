@@ -21,7 +21,6 @@ package com.protonvpn.android.settings.data
 
 import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataMigration
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
