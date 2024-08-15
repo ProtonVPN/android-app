@@ -267,7 +267,7 @@
     <string name="tv_detail_description_plus">Transmita sus videos, películas o deportes favoritos con sus aplicaciones.</string>
     <string name="tv_login_title_signin">Iniciar sesión en Proton VPN</string>
     <string name="tv_login_title_welcome">Transmita su contenido de video favorito</string>
-    <string name="tv_login_welcome_description">Vea contenido de video de más de 50 países, incluyendo YouTube y Twitch. Transmita Netflix, Amazon Prime, y Hulu con Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description">Vea contenido de video de más de 50 países, incluyendo YouTube y Twitch. Transmita Netflix, Amazon Prime y Hulu con Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Obtenga la cuenta de Proton VPN en <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Iniciar sesión</string>
     <string name="tv_login_step1_description"><![CDATA[Ir a <b>%1$s</b> en el dispositivo móvil o computadora]]></string>
@@ -353,22 +353,22 @@
     <string name="upgrade_netshield_title">Disfrute una navegación sin anuncios</string>
     <string name="upgrade_netshield_message"><![CDATA[Bloquee anuncios, rastreadores y malware con <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Duplique el cifrado</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Añada otra capa de protección a la conexión VPN con <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Desbloquee las descargas entre pares (P2P) e intercambio de archivos </string>
+    <string name="upgrade_secure_core_message"><![CDATA[Agregue otra capa de cifrado a la conexión VPN con <b>Secure Core</b>.]]></string>
+    <string name="upgrade_p2p_title">Desbloquee las descargas entre pares (P2P) y el intercambio de archivos </string>
     <string name="upgrade_p2p_text">Aumente las velocidades de carga y descarga mientras oculta la dirección IP.</string>
     <string name="upgrade_streaming_title">Transmita en 4K</string>
     <string name="upgrade_streaming_text">Disfrute sus películas y shows favoritos desde cualquier lugar en el mundo.</string>
-    <string name="upgrade_tor_title">Acceda a la red Tor con un toque</string>
+    <string name="upgrade_tor_title">Acceda a la red Tor con una pulsación</string>
     <string name="upgrade_tor_text">Conéctese a servicios ocultos y sitios onion con el navegador habitual.</string>
-    <string name="upgrade_vpn_accelerator_title">Navegue incluso a velocidades máximas</string>
+    <string name="upgrade_vpn_accelerator_title">Navegue a velocidades aún más altas</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Desbloquee servidores rápidos y menos concurridos con velocidades de hasta %1$d Gbps.</string>
+    <string name="upgrade_vpn_accelerator_message">Desbloquee servidores más rápidos y menos concurridos con velocidades de hasta %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Obtenga lo mejor de ambas opciones</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Divida el tráfico en túneles VPN y de no VPN con <b>túnel dividido</b>.]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Divida el tráfico en túneles VPN y no VPN con <b>túnel dividido</b>.]]></string>
     <string name="upgrade_customization_title">Desbloquee personalizaciones VPN avanzadas</string>
     <string name="upgrade_lan_access_message"><![CDATA[Acceda a dispositivos en su <b>red local (LAN)</b> con VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Acceda a todos los países</string>
@@ -418,7 +418,7 @@
     <string name="upsell_card_netshield_title">NetShield</string>
     <string name="upsell_card_netshield_description">Bloquee anuncios, malware y rastreadores</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Añada otra capa de cifrado a la conexión VPN</string>
+    <string name="upsell_card_secure_core_description">Agregue otra capa de cifrado a la conexión VPN</string>
     <string name="upsell_card_p2p_title">Soporte P2P</string>
     <string name="upsell_card_p2p_description">Descargue archivos con BitTorrent y otros protocolos de intercambio de archivos</string>
     <string name="upsell_card_speed_title">Navegación más rápida</string>
@@ -432,7 +432,7 @@
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Mire sus películas y programas favoritos</string>
     <string name="upsell_card_tor_title">Tor sobre VPN</string>
-    <string name="upsell_card_tor_description">Use la red Tor sobre la conexión VPN para privacidad adicional</string>
+    <string name="upsell_card_tor_description">Use la red Tor sobre la conexión VPN para obtener privacidad adicional</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -487,7 +487,7 @@
     <string name="info_gateways_description">Una puerta de enlace VPN es una conexión segura que proporciona acceso controlado a los datos y servicios de su empresa con servidores dedicados.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Bienvenido a Proton VPN</string>
+    <string name="onboarding_welcome_title">Le damos la bienvenida a Proton VPN</string>
     <string name="onboarding_welcome_description">Navegue de forma privada, acceda a contenido bloqueado y disfrute de la libertad digital.</string>
     <string name="onboarding_welcome_action">Comenzar</string>
     <string name="upgrade_success_get_started_button">Comenzar</string>
@@ -652,7 +652,7 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">enlace externo</string>
-    <string name="no_logs_banner_title">VPN sin registros certificada</string>
+    <string name="no_logs_banner_title">VPN certificada sin registros</string>
     <string name="no_logs_banner_description">Su actividad de VPN está protegida por las leyes de privacidad suizas. Nunca le rastrearemos en línea ni compartiremos su información con terceros.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Inicio</string>
@@ -912,7 +912,7 @@
     <!-- State means here US state, like California -->
     <string name="message_state_servers_in_maintenance">Todos los servidores de este estado están en mantenimiento.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_server_in_maintenance">Servidor en mantenimiento</string>
+    <string name="message_server_in_maintenance">El servidor está en mantenimiento.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Servidor no disponible</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->

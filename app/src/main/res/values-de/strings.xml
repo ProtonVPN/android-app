@@ -359,7 +359,7 @@
     <string name="upgrade_streaming_title">Streame in 4K</string>
     <string name="upgrade_streaming_text">Genieße deine Lieblingsfilme und Fernsehsendungen von überall aus auf der Welt.</string>
     <string name="upgrade_tor_title">Zugriff auf das Tor-Netzwerk mit einem Fingertipp</string>
-    <string name="upgrade_tor_text">Verbinde dich mit versteckten Diensten und Onion-Websites mit deinem normalen Browser.</string>
+    <string name="upgrade_tor_text">Verbinde dich mit ausgeblendeten Diensten und Onion-Websites mit deinem normalen Browser.</string>
     <string name="upgrade_vpn_accelerator_title">Surfe mit noch höherer Geschwindigkeit</string>
     <!--
         %1$s - speed in Gbps
@@ -420,7 +420,7 @@
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Füge deiner VPN-Verbindung eine weitere Verschlüsselungsebene hinzu</string>
     <string name="upsell_card_p2p_title">P2P‐Unterstützung</string>
-    <string name="upsell_card_p2p_description">Herunterladen von Dateien über BitTorrent und andere Dateifreigabeprotokolle</string>
+    <string name="upsell_card_p2p_description">Lade Dateien über BitTorrent und andere Dateifreigabeprotokolle herunter</string>
     <string name="upsell_card_speed_title">Schneller surfen</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -448,7 +448,7 @@
     <string name="payment_price_cycle_month_label">1 Monat</string>
     <string name="payment_price_cycle_year_label">1 Jahr</string>
     <string name="payment_price_cycle_2years_label">2 Jahre</string>
-    <string name="payment_select_your_plan">Wähle dein Abonnement</string>
+    <string name="payment_select_your_plan">Wähle dein Abonnement aus</string>
     <string name="payment_button_get_vpn_plus">VPN Plus holen</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Willkommensangebot. Wird automatisch für %1$s/Monat verlängert.</string>
@@ -609,7 +609,7 @@
     <string name="welcome_plus_description">Genieße zusätzliche Datenschutzfunktionen, eine verbesserte Leistung und die Möglichkeit, VPN auf höchstem Niveau anzupassen.</string>
     <string name="welcome_plus_feature_security">Erweiterte Sicherheitsfunktionen</string>
     <string name="welcome_unlimited_title">Willkommen bei Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Herzlichen Glückwunsch! Du hast die Premium Sicherheits- und Performance-Features auf allen Proton Services freigeschaltet, plus <b>%1$d&#160;GB</b> Gesamtspeicherplatz.<br><br>Genieße das Beste von Proton\'s Privatsphäre.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Herzlichen Glückwunsch! Du hast die Premium Sicherheits- und Performance-Features für alle Proton Services freigeschaltet, plus <b>%1$d&#160;GB</b> Gesamtspeicherplatz.<br><br>Genieße das Beste von Protons Privatsphäre.]]></string>
     <string name="welcome_generic_title">Herzlichen Glückwunsch</string>
     <string name="welcome_generic_description">Du hast dein Abonnement upgegradet. Genieße erweiterte Privatsphäre und Next-Level Performance.</string>
     <!-- Example: Up to 10 devices at once

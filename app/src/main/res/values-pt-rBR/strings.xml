@@ -348,7 +348,7 @@
         <item quantity="other">Proteja %1$d dispositivos de uma só vez</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN está disponível em 8 plataformas diferentes.</string>
-    <string name="upgrade_plus_title">Atualize sua privacidade</string>
+    <string name="upgrade_plus_title">Aumente sua privacidade</string>
     <string name="upgrade_plus_message">Obtenha recursos avançados de privacidade e maior velocidade com VPN Plus.</string>
     <string name="upgrade_netshield_title">Aproveite a navegação sem anúncios</string>
     <string name="upgrade_netshield_message"><![CDATA[Bloqueie anúncios, rastreadores e malware com o <b>NetShield</b>.]]></string>
@@ -356,11 +356,11 @@
     <string name="upgrade_secure_core_message"><![CDATA[Adicione outra camada de criptografia à sua conexão VPN com o <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Desbloqueie downloads peer-to-peer (P2P) e compartilhamento de arquivos </string>
     <string name="upgrade_p2p_text">Melhore suas velocidades de upload e download enquanto oculta seu endereço IP.</string>
-    <string name="upgrade_streaming_title">Faça transmissão em 4K</string>
+    <string name="upgrade_streaming_title">Faça streaming em 4K</string>
     <string name="upgrade_streaming_text">Aproveite seus filmes e programas favoritos de qualquer lugar do mundo.</string>
-    <string name="upgrade_tor_title">Acesse a rede Tor com um toque</string>
+    <string name="upgrade_tor_title">Acesse a rede Tor em um toque</string>
     <string name="upgrade_tor_text">Conecte-se a serviços ocultos e sites onion com seu navegador normal.</string>
-    <string name="upgrade_vpn_accelerator_title">Navegue nas velocidades mais altas</string>
+    <string name="upgrade_vpn_accelerator_title">Navegue em velocidades ainda mais altas</string>
     <!--
         %1$s - speed in Gbps
         Example:
@@ -409,7 +409,7 @@
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">%1$d+ locais de servidores em %2$s</string>
     <string name="upsell_card_customization_title">E muito mais…</string>
-    <string name="upsell_card_customization_description">Desbloqueie ainda mais performance e recursos de privacidade</string>
+    <string name="upsell_card_customization_description">Desbloqueie ainda mais recursos de desempenho e privacidade</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Proteja até %1$d dispositivo</item>
         <item quantity="other">Proteja até %1$d dispositivos</item>
@@ -426,11 +426,11 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Navegue em velocidades ainda mais altas(até %1$d Gbps)</string>
+    <string name="upsell_card_speed_description">Navegue em velocidades ainda mais altas (até %1$d Gbps)</string>
     <string name="upsell_card_split_tunneling_title">Tunelamento dividido</string>
     <string name="upsell_card_split_tunneling_description">Navegue de dois locais ao mesmo tempo</string>
     <string name="upsell_card_streaming_title">Streaming</string>
-    <string name="upsell_card_streaming_description">Assista seus filmes programas favoritos</string>
+    <string name="upsell_card_streaming_description">Assista seus filmes e programas favoritos</string>
     <string name="upsell_card_tor_title">Tor sobre VPN</string>
     <string name="upsell_card_tor_description">Use a rede Tor sobre sua conexão VPN para privacidade extra</string>
     <!-- Format for price per period of time.
@@ -518,7 +518,7 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Quer conectar a um país específico?</string>
     <string name="upgrade_country_message"><![CDATA[Desbloqueie a <b>seleção de países</b> com VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">Leve sua experiência de jogo ao próximo nível</string>
+    <string name="upgrade_moderate_nat_title2">Leve sua experiência com jogos ao próximo nível</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Melhore o desempenho de jogos on-line e videochamadas com <b>NAT tipo 2</b>.]]></string>
     <string name="free_connections_info_message">O Proton Free automaticamente se conecta ao servidor grátis mais rápido. Normalmente será o servidor mais próximo da sua localização.</string>
     <string name="free_connections_info_server_locations">Localizações dos servidores gratuitos (%1$d)</string>
@@ -608,7 +608,7 @@
     <string name="welcome_plus_title">Boas-vindas ao VPN Plus</string>
     <string name="welcome_plus_description">Aproveite recursos extras de privacidade, desempenho aprimorado e customização de VPN de próximo nível.</string>
     <string name="welcome_plus_feature_security">Recursos avançados de segurança</string>
-    <string name="welcome_unlimited_title">Boas-vindas à Proton Unlimited</string>
+    <string name="welcome_unlimited_title">Boas-vindas ao Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Parabéns! Você desbloqueou recursos premium de segurança e desempenho em todos os serviços da Proton, além de <b>%1$d&#160;GB</b> de armazenamento total.<br><br>Aproveite o melhor da privacidade da Proton.]]></string>
     <string name="welcome_generic_title">Parabéns</string>
     <string name="welcome_generic_description">Você fez o upgrade da sua assinatura. Desfrute dos recursos avançados de privacidade e do desempenho de próximo nível.</string>

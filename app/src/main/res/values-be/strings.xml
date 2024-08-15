@@ -1291,8 +1291,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Аўтаматычна выбірае лепшы пратакол для вашага падключэння.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
-    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_udp_description">Перадавы пратакол для бяспекі і прадукцыйнасці.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Перадавы пратакол для бяспекі і прадукцыйнасці.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Правераны, добра пратэсціраваны і бяспечны. OpenVPN менш эфектыўна выкарыстоўвае акумулятар у параўнанні з іншымі пратаколамі.</string>
     <string name="settings_protocol_openvpn_tcp_description">Правераны, добра пратэсціраваны і бяспечны. OpenVPN надзейна працуе нават у сетках з дрэнным злучэннем, але можа быць менш хуткім за іншыя пратаколы.</string>

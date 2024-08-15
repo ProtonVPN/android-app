@@ -349,13 +349,13 @@
     </plurals>
     <string name="upgrade_devices_text">Proton VPN est disponible sur 8 plateformes différentes.</string>
     <string name="upgrade_plus_title">Faites passer le respect de votre vie privée au niveau supérieur</string>
-    <string name="upgrade_plus_message">Bénéficiez de fonctionnalités avancées de protection de la vie privée et gagnez en vitesse avec VPN Plus.</string>
+    <string name="upgrade_plus_message">Bénéficiez de fonctionnalités avancées de protection de la vie privée et gagnez en vitesse avec VPN Plus.</string>
     <string name="upgrade_netshield_title">Profitez d\'une navigation sans publicité</string>
     <string name="upgrade_netshield_message"><![CDATA[Bloquez les publicités, les traqueurs et les logiciels malveillants avec <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Doublez le chiffrement</string>
     <string name="upgrade_secure_core_message"><![CDATA[Ajoutez une couche de chiffrement à votre connexion VPN avec <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Débloquez les téléchargements peer-to-peer (P2P) et le partage de fichiers </string>
-    <string name="upgrade_p2p_text">Améliorez vos vitesses de téléchargement tout en masquant votre adresse IP.</string>
+    <string name="upgrade_p2p_text">Améliorez vos vitesses de téléchargement et d\'envoi tout en masquant votre adresse IP.</string>
     <string name="upgrade_streaming_title">Streaming en 4K</string>
     <string name="upgrade_streaming_text">Profitez de vos films et séries préférés partout dans le monde.</string>
     <string name="upgrade_tor_title">Accédez au réseau Tor en un clin d\'œil</string>
@@ -369,9 +369,9 @@
     <string name="upgrade_vpn_accelerator_message">Accédez à des serveurs plus rapides et moins encombrés qui offrent des vitesses allant jusqu\'à %1$d Gbit/s.</string>
     <string name="upgrade_split_tunneling_title">Utilisez votre VPN sur mesure</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Grâce au <b>Split tunneling</b>, répartissez votre trafic entre ce qui doit passer par le VPN et ce qui ne le doit pas.]]></string>
-    <string name="upgrade_customization_title">Accédez à la personnalisation avancée du VPN</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Accédez aux appareils de votre <b>réseau local (LAN)</b> en passant à VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Accès à tous les pays</string>
+    <string name="upgrade_customization_title">Personnalisez le VPN dans les moindres détails</string>
+    <string name="upgrade_lan_access_message"><![CDATA[Accédez aux appareils de votre <b>réseau local (LAN)</b> en passant à VPN Plus.]]></string>
+    <string name="upgrade_all_countries_title">Accédez à tous les pays</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -398,7 +398,7 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Accédez à %1$s dans %2$s en passant à <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Accédez à %1$s dans %2$s en passant à <b>VPN Plus</b>.]]></string>
     <string name="upgrade_not_now_button">Plus tard</string>
     <string name="upsell_card_countries_title">Couverture mondiale</string>
     <!-- Parameters:
@@ -428,7 +428,7 @@
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Naviguez à des vitesses encore plus élevées (jusqu\'à %1$d Gbit/s).</string>
     <string name="upsell_card_split_tunneling_title">Split tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Naviguez depuis 2 emplacements à la fois.</string>
+    <string name="upsell_card_split_tunneling_description">Naviguez depuis deux emplacements à la fois.</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Regardez vos films et séries préférés.</string>
     <string name="upsell_card_tor_title">Tor via VPN</string>
@@ -451,9 +451,9 @@
     <string name="payment_select_your_plan">Choisissez votre abonnement</string>
     <string name="payment_button_get_vpn_plus">Obtenir VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Offre de bienvenue. Elle se renouvelle à %1$s par mois.</string>
+    <string name="payment_welcome_price_message_monthly">Offre de bienvenue. Renouvellement automatique à %1$s par mois.</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Offre de bienvenue. Elle se renouvelle à %1$s par an.</string>
+    <string name="payment_welcome_price_message_annual">Offre de bienvenue. Renouvellement automatique à %1$s par an.</string>
     <string name="payment_auto_renew_message_monthly">L\'abonnement est renouvelé automatiquement à %1$s par mois.</string>
     <string name="payment_auto_renew_message_annual">L\'abonnement est renouvelé automatiquement à %1$s par an.</string>
     <string name="payment_welcome_price_message_monthly_fallback">L\'abonnement est renouvelé automatiquement tous les mois.</string>
@@ -609,7 +609,7 @@
     <string name="welcome_plus_description">Profitez de fonctionnalités supplémentaires de protection de la vie privée, de meilleures performances et d\'une personnalisation poussée de votre VPN.</string>
     <string name="welcome_plus_feature_security">Fonctionnalités de sécurité avancées</string>
     <string name="welcome_unlimited_title">Bienvenue dans Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Félicitations ! Vous disposez maintenant de fonctionnalités de sécurité et de performance premium pour tous les services Proton, avec un espace de stockage total de <b>%1$d&#160; Go</b>.<br><br>Profitez de ce que Proton a de mieux à offrir en matière de protection de la vie privée.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Félicitations ! Vous disposez maintenant de fonctionnalités de sécurité et de performance premium pour tous les services Proton, avec un espace de stockage total de <b>%1$d&#160; Go</b>.<br><br>Profitez de ce que Proton a de mieux à offrir en matière de protection de la vie privée.]]></string>
     <string name="welcome_generic_title">Félicitations</string>
     <string name="welcome_generic_description">Vous avez modifié votre abonnement. Profitez de fonctionnalités avancées pour protéger votre vie privée et de meilleures performances.</string>
     <!-- Example: Up to 10 devices at once

@@ -271,7 +271,7 @@
     <string name="tv_detail_description_plus">Odtwarzaj swoje ulubione nagrania, filmy i wydarzenia sportowe w swoich aplikacjach.</string>
     <string name="tv_login_title_signin">Zaloguj się do Proton VPN</string>
     <string name="tv_login_title_welcome">Odtwarzaj ulubione treści wideo</string>
-    <string name="tv_login_welcome_description">Oglądaj treści wideo z serwisów takich jak YouTube, Twitch, Netflix, Amazon Prime i Hulu z planem Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description">Oglądaj treści wideo z ponad 50 krajów na platformach takich jak YouTube, Twitch, Netflix, Amazon Prime i Hulu z planem Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Załóż konto Proton VPN na <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Zaloguj się</string>
     <string name="tv_login_step1_description"><![CDATA[Przejdź do strony <b>%1$s</b> na telefonie lub komputerze]]></string>
@@ -357,7 +357,7 @@
         <item quantity="one">Ochrona %1$d urządzenia jednocześnie</item>
         <item quantity="few">Ochrona %1$d urządzeń jednocześnie</item>
         <item quantity="many">Ochrona %1$d urządzeń jednocześnie</item>
-        <item quantity="other">Ochrona %1$d urządzenia jednocześnie</item>
+        <item quantity="other">Ochrona %1$d urządzeń jednocześnie</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN jest dostępny na 8 platformach.</string>
     <string name="upgrade_plus_title">Zwiększ swoją prywatność</string>
@@ -370,7 +370,7 @@
     <string name="upgrade_p2p_text">Zwiększ prędkość wysyłania i pobierania, ukrywając swój adres IP.</string>
     <string name="upgrade_streaming_title">Streamuj w 4K</string>
     <string name="upgrade_streaming_text">Ciesz się ulubionymi filmami i programami telewizyjnymi, gdziekolwiek jesteś.</string>
-    <string name="upgrade_tor_title">Dostęp do sieci Tor jednym kliknięciem</string>
+    <string name="upgrade_tor_title">Dostęp do sieci Tor za jednym dotknięciem</string>
     <string name="upgrade_tor_text">Połącz się z ukrytymi usługami i stronami onion za pomocą normalnej przeglądarki.</string>
     <string name="upgrade_vpn_accelerator_title">Przeglądaj Internet z najwyższą prędkością</string>
     <!--
@@ -391,8 +391,8 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d bezpiecznego serwera</item>
-        <item quantity="few">%d bezpiecznych serwerów</item>
+        <item quantity="one">%d bezpieczny serwer</item>
+        <item quantity="few">%d bezpieczne serwery</item>
         <item quantity="many">%d bezpiecznych serwerów</item>
         <item quantity="other">%d bezpiecznych serwerów</item>
     </plurals>
@@ -423,14 +423,14 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
-    <string name="upsell_card_customization_title">i wiele więcej…</string>
+    <string name="upsell_card_countries_description">Ponad %1$d lokalizacji serwerów w %2$s</string>
+    <string name="upsell_card_customization_title">I wiele więcej…</string>
     <string name="upsell_card_customization_description">Odblokuj więcej funkcji wydajności i prywatności</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Ochrona %1$d urządzenia</item>
         <item quantity="few">Ochrona %1$d urządzeń</item>
         <item quantity="many">Ochrona %1$d urządzeń</item>
-        <item quantity="other">Ochrona %1$d urządzenia</item>
+        <item quantity="other">Ochrona %1$d urządzeń</item>
     </plurals>
     <string name="upsell_card_devices_description">Bezpieczeństwo i prywatność na wszystkich urządzeniach</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -446,7 +446,7 @@
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Przeglądaj Internet z najwyższą prędkością (do %1$d Gb/s)</string>
     <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Przeglądaj Internet z 2 lokalizacji jednocześnie</string>
+    <string name="upsell_card_split_tunneling_description">Przeglądaj Internet z dwóch lokalizacji jednocześnie</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Oglądaj ulubione filmy i programy telewizyjne</string>
     <string name="upsell_card_tor_title">Tor przez VPN</string>
@@ -469,12 +469,12 @@
     <string name="payment_select_your_plan">Wybierz swój plan</string>
     <string name="payment_button_get_vpn_plus">Pobierz VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Oferta powitana. Automatyczne odnowienie w kwocie %1$s miesięcznie</string>
+    <string name="payment_welcome_price_message_monthly">Oferta powitalna. Automatyczne odnowienie w kwocie %1$s miesięcznie</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_annual">Oferta powitana. Automatyczne odnowienie w kwocie %1$s rocznie</string>
     <string name="payment_auto_renew_message_monthly">Subskrypcja odnowi się automatycznie w kwocie %1$s miesięcznie</string>
     <string name="payment_auto_renew_message_annual">Subskrypcja odnowi się automatycznie w kwocie %1$s rocznie</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subskrypcja odnowi się automatycznie co miesięc.</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Subskrypcja odnowi się automatycznie co miesiąc</string>
     <string name="payment_welcome_price_message_annual_fallback">Subskrypcja odnowi się automatycznie co rok</string>
     <!-- Information activity -->
     <string name="activity_information_title">Informacje</string>
@@ -624,7 +624,7 @@
     <string name="server_change_button_time_left_seconds_content_description">Dostępny za: %1$s</string>
     <string name="server_change_progress_finished_contend_description">Dostępny</string>
     <string name="not_wanted_country_title">Chcesz wybrać inny kraj?</string>
-    <string name="not_wanted_country_description">Ulepsz konto, aby wybrać inny serwer</string>
+    <string name="not_wanted_country_description">Ulepsz plan, aby wybrać inny serwer</string>
     <string name="whats_new_title">Co nowego</string>
     <string name="whats_new_new_look_title">Nowy wygląd, ta sama ochrona</string>
     <string name="whats_new_new_look_description">Zaktualizowaliśmy interfejs i przenieśliśmy kilka rzeczy, aby ułatwić korzystanie z aplikacji.</string>

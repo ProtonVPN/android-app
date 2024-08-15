@@ -352,14 +352,14 @@
     <string name="upgrade_plus_message">Krijg geavanceerde privacyfuncties en hogere snelheid met VPN Plus.</string>
     <string name="upgrade_netshield_title">Geniet van advertentievrij browsen</string>
     <string name="upgrade_netshield_message"><![CDATA[Blokkeer advertenties, trackers en malware met <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Verdubbel de encryptie</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Voeg nog een laag van encryptie toe aan uw VPN-verbinding met <b>Secure Core</b>.]]></string>
+    <string name="upgrade_secure_core_title">Verdubbel de versleuteling</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Voeg nog een laag versleuteling toe aan uw VPN-verbinding met <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Ontgrendel peer-to-peer (P2P) downloads en delen van bestanden </string>
-    <string name="upgrade_p2p_text">Verbeter uw upload en download snelheden tijdens het verbergen van uw IP-adres.</string>
+    <string name="upgrade_p2p_text">Verbeter uw upload- en downloadsnelheden tijdens het verbergen van uw IP-adres.</string>
     <string name="upgrade_streaming_title">Stream in 4K</string>
     <string name="upgrade_streaming_text">Geniet van uw favoriete films en tv-series van overal ter wereld.</string>
     <string name="upgrade_tor_title">Open het Tor-netwerk in één tik</string>
-    <string name="upgrade_tor_text">Maak verbinding met verborgen services en privé(onion) websites met uw normale browser.</string>
+    <string name="upgrade_tor_text">Maak verbinding met verborgen services en privé (onion) websites met uw normale browser.</string>
     <string name="upgrade_vpn_accelerator_title">Surf met nog hogere snelheden</string>
     <!--
         %1$s - speed in Gbps
@@ -368,7 +368,7 @@
     -->
     <string name="upgrade_vpn_accelerator_message">Ontgrendel snellere, minder volle servers met snelheid tot %1$dGbps.</string>
     <string name="upgrade_split_tunneling_title">Krijg het beste van beide werelden</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Verdeel uw verkeer in VPN- en niet-VPN-tunnels met <b>splitsing tunneling</b>.]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Verdeel uw verkeer in VPN- en niet-VPN-tunnels met <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Ontgrendel geavanceerde VPN-aanpassingen</string>
     <string name="upgrade_lan_access_message"><![CDATA[Toegang tot apparaten op uw <b>lokaal netwerk (LAN)</b> met VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Toegang tot alle landen</string>
@@ -409,7 +409,7 @@
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">%1$d+ serverlocaties in %2$s</string>
     <string name="upsell_card_customization_title">En nog veel meer…</string>
-    <string name="upsell_card_customization_description">Ontgrendel nog meer prestaties en privacy functies</string>
+    <string name="upsell_card_customization_description">Ontgrendel nog meer prestaties en privacyfuncties</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Bescherm %1$d apparaat</item>
         <item quantity="other">Bescherm %1$d apparaten</item>
@@ -420,15 +420,15 @@
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Voeg een extra laag encryptie toe aan uw VPN-verbinding</string>
     <string name="upsell_card_p2p_title">P2P-ondersteuning</string>
-    <string name="upsell_card_p2p_description">Download bestanden via BitTorrent en andere bestanden delen protocollen</string>
+    <string name="upsell_card_p2p_description">Download bestanden via BitTorrent en andere protocollen voor bestandsdeling</string>
     <string name="upsell_card_speed_title">Sneller browsen</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Blader met nog hogere snelheden (tot %1$dGbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Bladeren vanaf twee locaties tegelijk</string>
+    <string name="upsell_card_speed_description">Surf met nog hogere snelheden (tot %1$dGbps)</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_description">Surf vanaf twee locaties tegelijk</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Bekijk uw favoriete films en tv-series</string>
     <string name="upsell_card_tor_title">Tor via VPN</string>
@@ -517,9 +517,9 @@
     <string name="search_clear_query_content_description">Wissen</string>
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Wilt u verbinding maken met een specifiek land?</string>
-    <string name="upgrade_country_message"><![CDATA[Ontgrendel <b>land keuze</b> met VPN Plus.]]></string>
+    <string name="upgrade_country_message"><![CDATA[Ontgrendel <b>landkeuze</b> met VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Verbeter uw game-ervaring</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Verbeter online gaming en video oproep prestaties met <b>NAT type 2</b>.]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Verbeter online gaming- en video-oproep-prestaties met <b>NAT type 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free connecteert u automatisch met de snelste beschikbare server. Dit zal normaal gezien de dichtstbijzijnde server zijn.</string>
     <string name="free_connections_info_server_locations">Gratis serverlocaties (%1$d)</string>
     <string name="free_connections_info_banner_text">Krijg wereldwijde dekking met VPN Plus</string>
@@ -606,12 +606,12 @@
     <string name="whats_new_added_countries_title">Nieuwe gratis landen</string>
     <string name="whats_new_added_countries_description">Er zijn nu gratis servers in Polen en Roemenië. Om overbelasting te voorkomen, hebben we handmatige landselectie verwijderd en hebben we belangrijke verbeteringen aangebracht in de automatische serverselectie.</string>
     <string name="welcome_plus_title">Welkom bij VPN Plus</string>
-    <string name="welcome_plus_description">Geniet van extra privacy functies, supercharged prestaties en next-level VPN aanpassingen.</string>
+    <string name="welcome_plus_description">Geniet van de extra privacyfuncties, verhoogde prestaties en geoptimaliseerde VPN-aanpassingen.</string>
     <string name="welcome_plus_feature_security">Geavanceerde beveiligingsfuncties</string>
     <string name="welcome_unlimited_title">Welkom bij Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Proficiat! U heeft premium beveiliging en prestaties functies op alle Proton diensten, plus <b>%1$d&#160;GB</b> totale opslag. <br><br>Geniet van het beste van Proton privacy.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Proficiat! U heeft premiumfuncties voor beveiliging en prestaties op alle Proton diensten, plus <b>%1$d&#160;GB</b> totale opslag. <br><br>Geniet van het beste van Proton-privacy.]]></string>
     <string name="welcome_generic_title">Gefeliciteerd</string>
-    <string name="welcome_generic_description">U heeft uw abonnement geüpgraded. Geniet van geavanceerde privacy-kenmerken en next-level prestaties.</string>
+    <string name="welcome_generic_description">U heeft uw abonnement geüpgraded. Geniet van geavanceerde privacyfuncties en next-level prestaties.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
@@ -652,7 +652,7 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">externe link</string>
-    <string name="no_logs_banner_title">Gecertifieerd niet-gelogde VPN</string>
+    <string name="no_logs_banner_title">Gecertifieerde VPN zonder logboeken</string>
     <string name="no_logs_banner_description">Uw activiteit via VPN is beschermd door Zwitserse privacy-wetgeving. We zullen u nooit volgen of uw informatie delen met derden.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Start</string>

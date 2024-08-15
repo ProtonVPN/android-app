@@ -267,7 +267,7 @@
     <string name="tv_detail_description_plus">Trasmetti i tuoi video, film o sport preferiti con le tue app.</string>
     <string name="tv_login_title_signin">Accedi a Proton VPN</string>
     <string name="tv_login_title_welcome">Trasmetti i tuoi contenuti video preferiti</string>
-    <string name="tv_login_welcome_description">Guarda i contenuti video di oltre 50 paesi, inclusi YouTube e Twitch. Guarda in streaming Netflix, Amazon Prime Video e Disney+ con Proton VPN Plus.</string>
+    <string name="tv_login_welcome_description">Guarda i contenuti video di oltre 50 Paesi, inclusi YouTube e Twitch. Guarda in streaming Netflix, Amazon Prime Video e Disney+ con Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Ottieni il tuo account Proton VPN su <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Accedi</string>
     <string name="tv_login_step1_description"><![CDATA[Vai a <b>%1$s</b> sul tuo dispositivo mobile o computer]]></string>
@@ -354,12 +354,12 @@
     <string name="upgrade_netshield_message"><![CDATA[Blocca annunci, tracker e malware con <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Aumenta la crittografia</string>
     <string name="upgrade_secure_core_message"><![CDATA[Aggiungi un altro livello di crittografia alla tua connessione VPN con <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Sblocca lo scaricamento peer-to-peer (P2P) e la condivisione dei file </string>
+    <string name="upgrade_p2p_title">Sblocca i download peer-to-peer (P2P) e la condivisione di file </string>
     <string name="upgrade_p2p_text">Migliora la velocità di upload e download e nascondi il tuo indirizzo IP.</string>
     <string name="upgrade_streaming_title">Streaming in 4K</string>
     <string name="upgrade_streaming_text">Guarda i tuoi film e le tue serie TV preferite da qualsiasi parte del mondo.</string>
     <string name="upgrade_tor_title">Accedi alla rete Tor con un solo tocco</string>
-    <string name="upgrade_tor_text">Connettiti a servizi nascosti e siti onion con il tuo normale browser.</string>
+    <string name="upgrade_tor_text">Connettiti a servizi nascosti e siti onion con il tuo browser.</string>
     <string name="upgrade_vpn_accelerator_title">Naviga ad altissima velocità</string>
     <!--
         %1$s - speed in Gbps
@@ -371,7 +371,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Separa il tuo traffico in tunnel VPN e non-VPN con lo <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Sblocca la personalizzazione VPN avanzata</string>
     <string name="upgrade_lan_access_message"><![CDATA[Accedi ai dispositivi sulla tua <b>rete locale (LAN)</b> con VPN Plus.]]></string>
-    <string name="upgrade_all_countries_title">Accedi a tutti i paesi</string>
+    <string name="upgrade_all_countries_title">Accedi a tutti i Paesi</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -407,7 +407,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">Oltre %1$d località in %2$s</string>
+    <string name="upsell_card_countries_description">Oltre %1$d posizioni di server in %2$s</string>
     <string name="upsell_card_customization_title">E molto altro...</string>
     <string name="upsell_card_customization_description">Sblocca più funzionalità di prestazioni e privacy</string>
     <plurals name="upsell_card_devices_title">
@@ -427,8 +427,8 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Naviga ad altissima velocità (fino a %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
-    <string name="upsell_card_split_tunneling_description">Naviga da due località nello stesso momento</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_description">Naviga da due posizioni contemporaneamente</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Guarda i tuoi film e le tue serie TV preferite</string>
     <string name="upsell_card_tor_title">Tor tramite VPN</string>
@@ -516,7 +516,7 @@
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Cancella</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Vuoi connetterti a un paese specifico?</string>
+    <string name="upgrade_country_title">Vuoi connetterti a un Paese specifico?</string>
     <string name="upgrade_country_message"><![CDATA[Sblocca la <b>selezione del paese</b> con VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Migliora la tua esperienza di gioco</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Migliora le prestazioni dei giochi online e delle videochiamate con <b>NAT di tipo 2</b>.]]></string>
@@ -595,7 +595,7 @@
       -->
     <string name="server_change_button_time_left_seconds_content_description">Disponibile tra %1$s</string>
     <string name="server_change_progress_finished_contend_description">Disponibile ora</string>
-    <string name="not_wanted_country_title">Non è il paese che vuoi?</string>
+    <string name="not_wanted_country_title">Non è il Paese che cercavi?</string>
     <string name="not_wanted_country_description">Effettua l\'upgrade per scegliere qualsiasi server</string>
     <string name="whats_new_title">Cosa c\'è di nuovo</string>
     <string name="whats_new_new_look_title">Nuovo aspetto, stessa protezione</string>
@@ -604,14 +604,14 @@
     <string name="whats_new_recents_description">Ora è ancora più semplice riconnettersi ai server preferiti. Visualizza le tue connessioni più recenti nella schermata iniziale o fissale per accedere velocemente. \"Recenti\" sostituisce \"Profili\".</string>
     <string name="whats_new_dismiss_button">Dai un\'occhiata</string>
     <string name="whats_new_added_countries_title">Nuovi Paesi gratuiti</string>
-    <string name="whats_new_added_countries_description">Ora ci sono server gratuiti in Polonia e Romania. Per evitare l\'affollamento dei server, abbiamo rimosso la selezione manuale del paese e apportato importanti miglioramenti alla selezione automatica del server.</string>
+    <string name="whats_new_added_countries_description">Ora ci sono server gratuiti in Polonia e Romania. Per evitare l\'affollamento dei server, abbiamo rimosso la selezione manuale del Paese e apportato importanti miglioramenti alla selezione automatica del server.</string>
     <string name="welcome_plus_title">Benvenuto in VPN Plus</string>
     <string name="welcome_plus_description">Approfitta di funzioni aggiuntive per la privacy, di prestazioni potenziate e di una personalizzazione della VPN di livello superiore.</string>
     <string name="welcome_plus_feature_security">Funzioni di sicurezza avanzate</string>
-    <string name="welcome_unlimited_title">Benvenuto in Proton Unlimited</string>
+    <string name="welcome_unlimited_title">Ti diamo il benvenuto in Proton Unlimited</string>
     <string name="welcome_unlimited_description"><![CDATA[Congratulazioni! Hai sbloccato funzionalità premium di sicurezza e prestazioni su tutti i servizi Proton, oltre a <b>%1$d&#160;GB</b> di spazio di archiviazione totale.<br><br>Goditi il ​​meglio della privacy di Proton.]]></string>
     <string name="welcome_generic_title">Congratulazioni</string>
-    <string name="welcome_generic_description">Hai aggiornato il tuo abbonamento. Approfitta di funzionalità per la privacy avanzate e prestazioni di livello superiore.</string>
+    <string name="welcome_generic_description">Hai effettuato l\'upgrade del tuo abbonamento. Approfitta di funzionalità per la privacy avanzate e prestazioni di livello superiore.</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
@@ -652,7 +652,7 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">link esterno</string>
-    <string name="no_logs_banner_title">VPN certificata senza log</string>
+    <string name="no_logs_banner_title">VPN certificata senza conservazione dei log</string>
     <string name="no_logs_banner_description">Con la nostra VPN, la tua attività online è protetta dalle leggi svizzere sulla privacy. Non tracceremo mai ciò che fai online e non condivideremo le tue informazioni con terze parti.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Home</string>

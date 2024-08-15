@@ -365,14 +365,14 @@
     <string name="upgrade_netshield_title">Пользуйтесь просмотром веб-страниц без рекламы</string>
     <string name="upgrade_netshield_message"><![CDATA[Блокируйте рекламу, трекеры и вредоносные программы с помощью <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Double the encryption</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Добавьте еще один уровень шифрования к вашему VPN-подключению с помощью <b>Secure Core</b>.]]></string>
+    <string name="upgrade_secure_core_message"><![CDATA[Добавьте ещё один уровень шифрования к VPN-подключению с помощью <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Разблокировать одноранговые загрузки (P2P) и обмен файлами </string>
     <string name="upgrade_p2p_text">Улучшите скорость загрузки и скачивания, скрывая при этом свой IP-адрес.</string>
     <string name="upgrade_streaming_title">Трансляция в 4K</string>
     <string name="upgrade_streaming_text">Наслаждайтесь любимыми фильмами и телепередачами из любой точки мира.</string>
     <string name="upgrade_tor_title">Доступ к сети Tor одним нажатием</string>
     <string name="upgrade_tor_text">Подключайтесь к скрытым службам и сайтам onion с помощью обычного браузера.</string>
-    <string name="upgrade_vpn_accelerator_title">Просматривайте веб-страницы на еще более высоких скоростях</string>
+    <string name="upgrade_vpn_accelerator_title">Просматривайте веб-страницы на ещё более высоких скоростях</string>
     <!--
         %1$s - speed in Gbps
         Example:
@@ -425,7 +425,7 @@
         1700+ server locations in 63 countries -->
     <string name="upsell_card_countries_description">%1$d+ серверов в %2$s</string>
     <string name="upsell_card_customization_title">И многое другое…</string>
-    <string name="upsell_card_customization_description">Разблокируйте еще большую производительность и функции приватности</string>
+    <string name="upsell_card_customization_description">Разблокируйте ещё большую производительность и функции приватности</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Защитите %1$d устройство</item>
         <item quantity="few">Защитите %1$d устройства</item>
@@ -436,7 +436,7 @@
     <string name="upsell_card_netshield_title">NetShield</string>
     <string name="upsell_card_netshield_description">Блокировать рекламу, вредоносные программы и трекеры</string>
     <string name="upsell_card_secure_core_title">Secure Core</string>
-    <string name="upsell_card_secure_core_description">Добавьте еще один уровень шифрования к своему подключению к VPN</string>
+    <string name="upsell_card_secure_core_description">Добавьте ещё один уровень шифрования к VPN-подключению</string>
     <string name="upsell_card_p2p_title">Поддержка P2P</string>
     <string name="upsell_card_p2p_description">Скачивайте файлы через BitTorrent и другие протоколы обмена файлами</string>
     <string name="upsell_card_speed_title">Более быстрый просмотр</string>
@@ -444,13 +444,13 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Просматривайте веб-страницы на еще более высоких скоростях (до %1$d Гбит/с)</string>
+    <string name="upsell_card_speed_description">Просматривайте веб-страницы на ещё более высоких скоростях (до %1$d Гбит/с)</string>
     <string name="upsell_card_split_tunneling_title">Раздельное туннелирование</string>
     <string name="upsell_card_split_tunneling_description">Просматривайте веб-страницы из двух мест одновременно</string>
     <string name="upsell_card_streaming_title">Стриминг</string>
     <string name="upsell_card_streaming_description">Смотрите свои любимые фильмы и телепрограммы</string>
     <string name="upsell_card_tor_title">Tor через VPN</string>
-    <string name="upsell_card_tor_description">Используйте сеть Tor через свое подключение к VPN для обеспечения дополнительной приватности</string>
+    <string name="upsell_card_tor_description">Используйте сеть Tor через VPN-подключение для дополнительной приватности</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -469,13 +469,13 @@
     <string name="payment_select_your_plan">Выберете себе план</string>
     <string name="payment_button_get_vpn_plus">Получить VPN Plus</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">Приветственное предложение. Автоматическое продление по цене %1$s/в месяц</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
+    <string name="payment_welcome_price_message_annual">Приветственное предложение. Автоматическое продление по цене %1$s/в год</string>
     <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
     <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_monthly_fallback">Подписка автоматически обновляется каждый месяц</string>
+    <string name="payment_welcome_price_message_annual_fallback">Подписка автоматически продлевается ежегодно</string>
     <!-- Information activity -->
     <string name="activity_information_title">Информация</string>
     <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
@@ -534,7 +534,7 @@
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Очистить</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Хотите подключиться к определенной стране?</string>
+    <string name="upgrade_country_title">Хотите подключиться к определённой стране?</string>
     <string name="upgrade_country_message"><![CDATA[Разблокируйте <b>выбор страны</b> с помощью VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Level up your gaming experience</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Повысьте производительность онлайн-игр и видеозвонков благодаря <b>NAT типа 2</b>.]]></string>
@@ -637,7 +637,7 @@
     <string name="welcome_plus_description">Используйте расширенные функции конфиденциальности, максимальную производительность и настройку VPN нового уровня.</string>
     <string name="welcome_plus_feature_security">Расширенные функции безопасности</string>
     <string name="welcome_unlimited_title">Добро пожаловать в Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Поздравляем! Вы разблокировали премиальные функции безопасности и производительности на всех службах Proton, а также <b>%1$d&#160;GB</b> все хранилище <br><br> Используйте все возможности Proton Privacy.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Поздравляем! Вы разблокировали премиальные функции безопасности и производительности на всех службах Proton, а также <b>%1$d&#160;ГБ</b> все хранилище. <br><br> Используйте всё возможности Proton Privacy.]]></string>
     <string name="welcome_generic_title">Поздравляем</string>
     <string name="welcome_generic_description">Вы обновили свою подписку. Воспользуйтесь расширенными функциями конфиденциальности и производительностью нового уровня.</string>
     <!-- Example: Up to 10 devices at once
@@ -686,7 +686,7 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">внешняя ссылка</string>
-    <string name="no_logs_banner_title">Сертифицированная VPN без журналов</string>
+    <string name="no_logs_banner_title">Сертифицированный VPN без журналов</string>
     <string name="no_logs_banner_description">Работа вашей VPN защищена швейцарскими законами о частной жизни. Мы никогда не будем отслеживать вас в сети или передавать вашу информацию третьим лицам.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Главная</string>
