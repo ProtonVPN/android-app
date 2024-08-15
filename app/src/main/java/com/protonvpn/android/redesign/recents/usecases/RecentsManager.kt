@@ -45,16 +45,16 @@ class RecentsManager @Inject constructor(
     private val mainScope: CoroutineScope,
     private val recentsDao: RecentsDao,
     private val defaultConnectionDao: DefaultConnectionDao,
-    currentUser: CurrentUser,
+    private val currentUser: CurrentUser,
     @WallClock private val clock: () -> Long,
 ) {
-    private val currentVpnUser = currentUser.vpnUserFlow
+    private val currentVpnUserFlow = currentUser.vpnUserFlow
 
-    fun getRecentsList(limit: Int = -1): Flow<List<RecentConnection>> = currentVpnUser.flatMapLatestNotNull { user ->
+    fun getRecentsList(limit: Int = -1): Flow<List<RecentConnection>> = currentVpnUserFlow.flatMapLatestNotNull { user ->
         recentsDao.getRecentsList(user.userId, limit)
     }
     suspend fun setDefaultConnection(defaultConnection: DefaultConnection) {
-        currentVpnUser.first()?.let {
+        currentVpnUserFlow.first()?.let {
             val defaultConnectionEntity = when (defaultConnection) {
                 DefaultConnection.FastestConnection -> DefaultConnectionEntity(userId = it.userId.id, recentId = null, connectionType = ConnectionType.FASTEST)
                 DefaultConnection.LastConnection -> DefaultConnectionEntity(userId = it.userId.id, recentId = null, connectionType = ConnectionType.LAST_CONNECTION)
@@ -64,13 +64,13 @@ class RecentsManager @Inject constructor(
         }
     }
 
-    fun getDefaultConnectionFlow(): Flow<DefaultConnection> = currentVpnUser.flatMapLatestNotNull { user ->
+    fun getDefaultConnectionFlow(): Flow<DefaultConnection> = currentVpnUserFlow.flatMapLatestNotNull { user ->
         defaultConnectionDao.getDefaultConnectionFlow(user.userId).map { entity ->
             entity?.toDefaultConnection() ?: DefaultConnection.FastestConnection
         }
     }
 
-    fun getMostRecentConnection(): Flow<RecentConnection?> = currentVpnUser.flatMapLatestNotNull { user ->
+    fun getMostRecentConnection(): Flow<RecentConnection?> = currentVpnUserFlow.flatMapLatestNotNull { user ->
         recentsDao.getMostRecentConnection(user.userId)
     }
 

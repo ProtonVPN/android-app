@@ -23,6 +23,5 @@ enum class VpnProtocol {
     WireGuard,
     Smart;
 
-    fun localAgentEnabled(): Boolean = this in arrayOf(OpenVPN, WireGuard)
     fun displayName() = toString()
 }

@@ -40,9 +40,6 @@ class AppFeaturesPrefs @Inject constructor(
     override val preferences: SharedPreferences get() = prefsProvider.getPrefs(PREFS_NAME)
 
     var purchaseEnabled: Boolean by boolean(false)
-    var lastAppStartTimestamp: Long by long(0)
-
-    var showIKEv2Migration: Boolean by boolean(false)
 
     var lastSuccessfulGuestHoleServerId: String? by string(null)
 
