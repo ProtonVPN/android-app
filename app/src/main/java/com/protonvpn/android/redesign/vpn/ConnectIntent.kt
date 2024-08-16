@@ -20,17 +20,22 @@
 package com.protonvpn.android.redesign.vpn
 
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import java.util.EnumSet
 
 sealed interface AnyConnectIntent {
 
+    val profileId: Long?
     val features: Set<ServerFeature>
+    val settingsOverrides: SettingsOverrides?
 
     // GuestHole is special, it doesn't get saved to recents nor shown in the UI.
     data class GuestHole(
-        val serverId: String
+        val serverId: String,
     ) : AnyConnectIntent {
+        override val profileId: Long? get() = null
         override val features: Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
+        override val settingsOverrides: SettingsOverrides? = null
     }
 }
 
@@ -40,23 +45,31 @@ sealed interface ConnectIntent : AnyConnectIntent {
     data class FastestInCountry(
         val country: CountryId,
         override val features: Set<ServerFeature>,
+        override val profileId: Long? = null,
+        override val settingsOverrides: SettingsOverrides? = null,
     ) : ConnectIntent
 
     data class FastestInCity(
         val country: CountryId,
         val cityEn: String, // Not translated.
         override val features: Set<ServerFeature>,
+        override val profileId: Long? = null,
+        override val settingsOverrides: SettingsOverrides? = null,
     ) : ConnectIntent
 
     data class FastestInState(
         val country: CountryId,
         val stateEn: String, // Not translated.
         override val features: Set<ServerFeature>,
+        override val profileId: Long? = null,
+        override val settingsOverrides: SettingsOverrides? = null,
     ) : ConnectIntent
 
     data class SecureCore(
         val exitCountry: CountryId,
         val entryCountry: CountryId,
+        override val profileId: Long? = null,
+        override val settingsOverrides: SettingsOverrides? = null,
     ) : ConnectIntent {
         override val features: Set<ServerFeature> = EnumSet.noneOf(ServerFeature::class.java)
     }
@@ -64,6 +77,8 @@ sealed interface ConnectIntent : AnyConnectIntent {
     data class Gateway(
         val gatewayName: String,
         val serverId: String?,
+        override val profileId: Long? = null,
+        override val settingsOverrides: SettingsOverrides? = null,
     ) : ConnectIntent {
         val fastest = serverId == null
 
@@ -75,6 +90,8 @@ sealed interface ConnectIntent : AnyConnectIntent {
     data class Server(
         val serverId: String,
         override val features: Set<ServerFeature>,
+        override val profileId: Long? = null,
+        override val settingsOverrides: SettingsOverrides? = null,
     ) : ConnectIntent
 
     companion object {

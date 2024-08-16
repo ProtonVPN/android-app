@@ -24,14 +24,15 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.recents.data.ConnectionType
 import com.protonvpn.android.redesign.recents.data.DefaultConnectionDao
 import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
-import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentsDao
-import com.protonvpn.android.redesign.recents.data.toData
+import com.protonvpn.android.redesign.recents.data.toConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.test.shared.createProfileEntity
 import com.protonvpn.testsHelper.AccountTestHelper
 import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount1
 import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount2
@@ -50,6 +51,7 @@ import org.robolectric.RobolectricTestRunner
 class RecentsDaoTests {
 
     private lateinit var recentsDao: RecentsDao
+    private lateinit var profilesDao: ProfilesDao
     private lateinit var defaultConnectionDao: DefaultConnectionDao
 
     private val intentFastest = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
@@ -72,15 +74,17 @@ class RecentsDaoTests {
         }
 
         recentsDao = db.recentsDao()
+        profilesDao = db.profilesDao()
         defaultConnectionDao = db.defaultConnectionDao()
     }
 
     @Test
     fun defaultConnectionIsDeletedAlongsideRecent() = runTest {
         val connection = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        recentsDao.insert(listOf(RecentConnectionEntity(2, userId1, false, 0,0, connection.toData())))
-        defaultConnectionDao.insert(DefaultConnectionEntity(userId = userId1.id, connectionType = ConnectionType.RECENT, recentId = 2))
-        recentsDao.delete(2)
+        recentsDao.insertOrUpdateForConnection(userId1, connection, 0)
+        // Assume added recent have id = 1 (should be the case with autoincrement)
+        defaultConnectionDao.insert(DefaultConnectionEntity(userId = userId1.id, connectionType = ConnectionType.RECENT, recentId = 1))
+        recentsDao.delete(1)
         assertEquals(null, defaultConnectionDao.getDefaultConnectionFlow(userId1).first())
     }
 
@@ -238,6 +242,59 @@ class RecentsDaoTests {
         val recents = recentsDao.getRecentsList(userId1).first()
         val recentIntents = recents.map { it.connectIntent }
         assertEquals(connectIntents.reversed(), recentIntents)
+    }
+
+    @Test
+    fun addingRecentForRemovedProfileDoesNothing() = runTest {
+        recentsDao.insertOrUpdateForConnection(userId1, ConnectIntent.FastestInCountry(CountryId.fastest, emptySet(), profileId = 10L), 15)
+        val recents = recentsDao.getRecentsList(userId1).first()
+        assertEquals(0, recents.size)
+    }
+
+    @Test
+    fun whenProfileRecentIsRemovedProfileIsRetained() = runTest {
+        // Add profile and recent
+        val profileEntity = createProfileEntity(userId = userId1, connectIntent = ConnectIntent.Fastest)
+        profilesDao.upsert(profileEntity)
+        recentsDao.insertOrUpdateForConnection(userId1, profileEntity.connectIntentData.toConnectIntent(), 0L)
+
+        // Remove recent
+        val recents = recentsDao.getRecentsList(userId1).first()
+        assertEquals(1, recents.size)
+        recentsDao.delete(recents.first().id)
+
+        // Profile is retained
+        assertEquals(1, profilesDao.getProfiles(userId1).first().size)
+    }
+
+    @Test
+    fun getRecentEntityListReturnsProfilesAndUnnamedRecents() = runTest {
+        // Add profile with recent
+        val profileEntity = createProfileEntity(userId = userId1, id = 1L, connectIntent = ConnectIntent.Fastest)
+        profilesDao.upsert(profileEntity)
+        recentsDao.insertOrUpdateForConnection(userId1, profileEntity.connectIntentData.toConnectIntent(), 1L)
+
+        // Add unnamed recent
+        recentsDao.insertOrUpdateForConnection(userId1, ConnectIntent.FastestInCountry(CountryId("PL"), emptySet()), 0L)
+
+        val recents = recentsDao.getRecentsList(userId1).first()
+        assertEquals(listOf(1L, null), recents.map { it.connectIntent.profileId })
+    }
+
+    @Test
+    fun getUnnamedRecentsIntentsByTypeForAllUsersDontReturnProfiles() = runTest {
+        val serverIntent = ConnectIntent.Server("server1", emptySet())
+
+        // Add profile with recent
+        val profileEntity = createProfileEntity(userId = userId1, id = 1L, connectIntent = serverIntent)
+        profilesDao.upsert(profileEntity)
+        recentsDao.insertOrUpdateForConnection(userId1, profileEntity.connectIntentData.toConnectIntent(), 0L)
+
+        // Add unnamed recent
+        recentsDao.insertOrUpdateForConnection(userId1, serverIntent, 0L)
+
+        val unnamedServerRecents = recentsDao.getUnnamedServerRecentsForAllUsers().first()
+        assertEquals(listOf(null), unnamedServerRecents.map { it.connectIntent.profileId })
     }
 
     private suspend fun insertIntents(userId: UserId, vararg intentsWithTime: Pair<ConnectIntent, Long>) {

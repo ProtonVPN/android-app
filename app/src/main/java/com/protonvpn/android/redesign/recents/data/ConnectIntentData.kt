@@ -19,10 +19,15 @@
 
 package com.protonvpn.android.redesign.recents.data
 
+import androidx.room.Embedded
+import com.protonvpn.android.models.config.TransmissionProtocol
+import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.util.kotlin.takeIfNotBlank
 
 enum class ConnectIntentType {
@@ -44,47 +49,77 @@ data class ConnectIntentData(
     val region: String?,
     val gatewayName: String?,
     val serverId: String?,
-    val features: Set<ServerFeature>
+    val features: Set<ServerFeature>,
+    val profileId: Long?,
+    @Embedded val settingsOverrides: SettingsOverrides?
 ) : java.io.Serializable
+
+data class SettingsOverrides(
+    @Embedded val protocolData: ProtocolSelectionData? = null,
+    val netShield: NetShieldProtocol? = null,
+    val randomizedNat: Boolean? = null,
+    val lanConnections: Boolean? = null,
+) {
+    val protocol get() = protocolData?.toProtocolSelection()
+}
+
+data class ProtocolSelectionData(
+    val vpn: VpnProtocol,
+    val transmission: TransmissionProtocol?
+) {
+    fun toProtocolSelection(): ProtocolSelection = ProtocolSelection(vpn, transmission)
+}
 
 fun ConnectIntentData.toConnectIntent(): ConnectIntent =
     when (connectIntentType) {
         ConnectIntentType.FASTEST ->
             ConnectIntent.FastestInCountry(
                 country = exitCountry.toCountryId(),
-                features = features
+                features = features,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
 
         ConnectIntentType.FASTEST_IN_CITY ->
             ConnectIntent.FastestInCity(
                 country = exitCountry.toCountryId(),
                 cityEn = requireNotNull(city),
-                features = features
+                features = features,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
 
         ConnectIntentType.FASTEST_IN_REGION ->
             ConnectIntent.FastestInState(
                 country = exitCountry.toCountryId(),
                 stateEn = requireNotNull(region),
-                features = features
+                features = features,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
 
         ConnectIntentType.SECURE_CORE ->
             ConnectIntent.SecureCore(
                 exitCountry = exitCountry.toCountryId(),
                 entryCountry = entryCountry.toCountryId(),
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
 
         ConnectIntentType.GATEWAY ->
             ConnectIntent.Gateway(
                 gatewayName = gatewayName!!,
-                serverId = serverId
+                serverId = serverId,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
 
         ConnectIntentType.SPECIFIC_SERVER ->
             ConnectIntent.Server(
                 serverId = requireNotNull(serverId),
-                features = features
+                features = features,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
         ConnectIntentType.GUEST_HOLE -> throw IllegalArgumentException("GUEST_HOLE is not a regular ConnectIntent type")
     }
@@ -106,6 +141,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 serverId = null,
                 features = features,
                 region = null,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
         is ConnectIntent.FastestInCity ->
             ConnectIntentData(
@@ -117,6 +154,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 serverId = null,
                 features = features,
                 region = null,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
         is ConnectIntent.FastestInState ->
             ConnectIntentData(
@@ -128,6 +167,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 serverId = null,
                 features = features,
                 region = stateEn,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
         is ConnectIntent.SecureCore ->
             ConnectIntentData(
@@ -139,6 +180,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 serverId = null,
                 features = features,
                 region = null,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
         is ConnectIntent.Gateway ->
             ConnectIntentData(
@@ -150,6 +193,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 serverId = serverId,
                 features = features,
                 region = null,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
         is ConnectIntent.Server ->
             ConnectIntentData(
@@ -161,6 +206,8 @@ fun ConnectIntent.toData(): ConnectIntentData =
                 serverId = serverId,
                 features = features,
                 region = null,
+                profileId = profileId,
+                settingsOverrides = settingsOverrides,
             )
     }
 
@@ -174,6 +221,8 @@ fun AnyConnectIntent.toData() = when (this) {
         gatewayName = null,
         features = emptySet(),
         region = null,
+        profileId = profileId,
+        settingsOverrides = settingsOverrides,
     )
     is ConnectIntent -> this.toData()
 }

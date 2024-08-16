@@ -41,9 +41,10 @@ class RecentsListValidator @Inject constructor(
     currentUser: CurrentUser
 ) {
 
-    private val removeRecentsWithNoServer = combine(
+    // When server is missing remove only unnamed recents. Profiles should stay.
+    private val removeUnnamedRecentsIntentsWithNoServer = combine(
         serverManager.serverListVersion,
-        recentsDao.getServerRecentsForAllUsers()
+        recentsDao.getUnnamedServerRecentsForAllUsers()
     ) { _, serverRecents ->
         serverRecents.filterNot {
             val intent = it.connectIntent
@@ -67,7 +68,7 @@ class RecentsListValidator @Inject constructor(
     }
 
     init {
-        removeRecentsWithNoServer.launchIn(mainScope)
+        removeUnnamedRecentsIntentsWithNoServer.launchIn(mainScope)
         removeUnpinnedRecentsOverLimit.launchIn(mainScope)
     }
 }
