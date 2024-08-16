@@ -1,5 +1,5 @@
 default:
-  image: ${PROTON_CI_REGISTRY}/android-shared/docker-android/oci-ndk:v2.1.3
+  image: ${PROTON_CI_REGISTRY}/android-shared/docker-android/oci-ndk:v2.1.5
   tags:
     - shared-small
   before_script:
