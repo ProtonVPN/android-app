@@ -367,6 +367,12 @@ android {
         }
     }
 
+    bundle {
+        storeArchive {
+            enable = false
+        }
+    }
+
     buildFeatures {
         compose true
     }
