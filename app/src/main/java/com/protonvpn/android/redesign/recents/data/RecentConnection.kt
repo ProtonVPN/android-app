@@ -27,13 +27,15 @@ data class RecentConnection(
     val connectIntent: ConnectIntent,
 )
 
-fun RecentConnectionEntity.toRecentConnection(): RecentConnection {
+fun RecentConnectionWithIntent.toRecentConnection(): RecentConnection {
     // TODO: what to do when data cannot be deserialized because it's invalid?
     //  Currently this code may throw exceptions but it's probably best not to crash the app because it'll become
-    //  useless until the user cleares the data or reinstalls.
+    //  useless until the user clears the data or reinstalls.
     return RecentConnection(
-        id = id,
-        isPinned = isPinned,
-        connectIntent = connectIntentData.toConnectIntent()
+        id = recent.id,
+        isPinned = recent.isPinned,
+        connectIntent = requireNotNull(
+            unnamedRecent?.connectIntentData?.toConnectIntent() ?: profile?.connectIntentData?.toConnectIntent()
+        )
     )
 }

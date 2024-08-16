@@ -19,15 +19,30 @@
 
 package com.protonvpn.android.redesign.recents.data
 
+import androidx.annotation.VisibleForTesting
 import androidx.room.Dao
+import androidx.room.Embedded
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Relation
 import androidx.room.Transaction
+import com.protonvpn.android.profiles.data.ProfileEntity
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.utils.DebugUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.domain.entity.UserId
+
+data class RecentConnectionWithIntent(
+    @Embedded val recent: RecentConnectionEntity,
+
+    // Exactly one of below will be != null
+    @Relation(parentColumn = "id", entityColumn = "recentId")
+    val unnamedRecent: UnnamedRecentIntentEntity?,
+    @Relation(parentColumn = "profileId", entityColumn = "id")
+    val profile: ProfileEntity?
+)
 
 @Dao
 abstract class RecentsDao {
@@ -74,6 +89,13 @@ abstract class RecentsDao {
         insertOrUpdateForConnection(userId, connectIntent.toData(), timestamp)
 
     @Query("""
+         UPDATE recents
+          SET lastConnectionAttemptTimestamp = :timestamp
+        WHERE profileId = :profileId
+    """)
+    protected abstract suspend fun updateProfileRecentTimestamp(profileId: Long, timestamp: Long): Int
+
+    @Query("""
         DELETE FROM recents WHERE id IN (
             SELECT id FROM recents
             WHERE isPinned = 0 AND userId = :userId AND id != COALESCE((
@@ -91,14 +113,10 @@ abstract class RecentsDao {
     @Query("DELETE FROM recents WHERE id in (:recentIds)")
     abstract suspend fun delete(recentIds: List<Long>)
 
-    @Insert
-    abstract suspend fun insert(recents: List<RecentConnectionEntity>)
-
-    fun getServerRecentsForAllUsers(): Flow<List<RecentConnection>> =
-        getRecentEntitiesByTypeForAllUsers(ConnectIntentType.SPECIFIC_SERVER).map { recents ->
+    fun getUnnamedServerRecentsForAllUsers(): Flow<List<RecentConnection>> =
+        getUnnamedRecentsIntentsByTypeForAllUsers(ConnectIntentType.SPECIFIC_SERVER).map { recents ->
             recents.map { it.toRecentConnection() }
         }
-
 
     @Transaction
     protected open suspend fun insertOrUpdateForConnection(
@@ -106,7 +124,24 @@ abstract class RecentsDao {
         connectIntentData: ConnectIntentData,
         timestamp: Long
     ) {
-        val updatedRows = updateConnectionTimestamp(
+        val profileId = connectIntentData.profileId
+        if (profileId != null) {
+            insertOrUpdateProfileRecentForConnection(userId, profileId, timestamp)
+        } else {
+            insertOrUpdateUnnamedRecentForConnection(userId, connectIntentData, timestamp)
+        }
+    }
+
+    @Transaction
+    protected open suspend fun insertOrUpdateUnnamedRecentForConnection(
+        userId: UserId,
+        connectIntentData: ConnectIntentData,
+        timestamp: Long
+    ) {
+        DebugUtils.debugAssert("setting overrides should be defined only for profiles") {
+            connectIntentData.settingsOverrides == null
+        }
+        val updatedRows = updateUnnamedRecentConnectionTimestamp(
             userId,
             connectIntentData.connectIntentType,
             connectIntentData.exitCountry,
@@ -118,18 +153,47 @@ abstract class RecentsDao {
             timestamp
         )
         if (updatedRows == 0) {
-            insert(
+            val recentId = insert(
                 RecentConnectionEntity(
                     userId = userId,
                     isPinned = false,
-                    connectIntentData = connectIntentData,
                     lastPinnedTimestamp = 0,
                     lastConnectionAttemptTimestamp = timestamp
+                )
+            )
+            insert(
+                UnnamedRecentIntentEntity(
+                    recentId = recentId,
+                    connectIntentData = connectIntentData,
                 )
             )
         }
     }
 
+    @Transaction
+    protected open suspend fun insertOrUpdateProfileRecentForConnection(
+        userId: UserId,
+        profileId: Long,
+        timestamp: Long
+    ) {
+        val updatedRows = updateProfileRecentTimestamp(profileId, timestamp)
+        if (updatedRows == 0) {
+            insertProfileRecentWhenProfileExists(
+                userId = userId,
+                profileId = profileId,
+                timestamp = timestamp
+            )
+        }
+    }
+
+    @Query("""
+        INSERT INTO recents (userId, profileId, isPinned, lastPinnedTimestamp, lastConnectionAttemptTimestamp)
+        SELECT :userId, :profileId, 0, 0, :timestamp
+        WHERE EXISTS (SELECT 1 FROM profiles WHERE id = :profileId)
+    """)
+    protected abstract suspend fun insertProfileRecentWhenProfileExists(userId: UserId, profileId: Long, timestamp: Long): Long
+
+    @Transaction
     @Query("""
         SELECT * FROM recents
          WHERE userId = :userId
@@ -139,35 +203,47 @@ abstract class RecentsDao {
                  END ASC
          LIMIT :limit
         """)
-    protected abstract fun getRecentsEntityList(userId: UserId, limit: Int = -1): Flow<List<RecentConnectionEntity>>
+    protected abstract fun getRecentsEntityList(userId: UserId, limit: Int = -1): Flow<List<RecentConnectionWithIntent>>
 
+    @Transaction
     @Query("SELECT * FROM recents WHERE userId = :userId ORDER BY lastConnectionAttemptTimestamp DESC LIMIT 1")
-    protected abstract fun getMostRecentConnectionEntity(userId: UserId): Flow<RecentConnectionEntity?>
+    protected abstract fun getMostRecentConnectionEntity(userId: UserId): Flow<RecentConnectionWithIntent?>
 
-    @Query("SELECT * FROM recents WHERE connectIntentType = :type")
-    protected abstract fun getRecentEntitiesByTypeForAllUsers(
+    @Transaction
+    @Query("""
+        SELECT * FROM recents
+        WHERE (id IN (SELECT recentId FROM unnamedRecentsIntents WHERE connectIntentType = :type))
+    """)
+    protected abstract fun getUnnamedRecentsIntentsByTypeForAllUsers(
         type: ConnectIntentType
-    ): Flow<List<RecentConnectionEntity>>
+    ): Flow<List<RecentConnectionWithIntent>>
 
+    @Transaction
     @Query("SELECT * FROM recents WHERE id = :id")
-    protected abstract suspend fun getSync(id: Long): RecentConnectionEntity?
+    protected abstract suspend fun getSync(id: Long): RecentConnectionWithIntent?
 
     @Insert
-    protected abstract suspend fun insert(recent: RecentConnectionEntity)
+    protected abstract suspend fun insert(recent: RecentConnectionEntity): Long
+
+    @Insert
+    protected abstract suspend fun insert(unnamedRecentIntentEntity: UnnamedRecentIntentEntity)
 
     @Query("""
         UPDATE recents
           SET lastConnectionAttemptTimestamp = :timestamp
         WHERE userId = :userId 
-          AND connectIntentType = :connectIntentType
-          AND exitCountry IS :exitCountry
-          AND entryCountry IS :entryCountry
-          AND city IS :city
-          AND region IS :region
-          AND serverId IS :serverId
-          AND features = :features
+          AND (id IN (SELECT recentId FROM unnamedRecentsIntents
+                       WHERE connectIntentType = :connectIntentType
+                         AND exitCountry IS :exitCountry
+                         AND entryCountry IS :entryCountry
+                         AND city IS :city
+                         AND region IS :region
+                         AND serverId IS :serverId
+                         AND features = :features
+                     )
+              )
         """)
-    protected abstract suspend fun updateConnectionTimestamp(
+    protected abstract suspend fun updateUnnamedRecentConnectionTimestamp(
         userId: UserId,
         connectIntentType: ConnectIntentType,
         exitCountry: String?,

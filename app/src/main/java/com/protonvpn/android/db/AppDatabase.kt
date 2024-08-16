@@ -26,7 +26,10 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicCallInfo
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDatabase
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.VpnUserDatabase
+import com.protonvpn.android.profiles.data.ProfileEntity
+import com.protonvpn.android.profiles.data.VpnProfilesDatabase
 import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
+import com.protonvpn.android.redesign.recents.data.UnnamedRecentIntentEntity
 import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentsTypeConverters
 import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
@@ -130,7 +133,9 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         AuthDeviceEntity::class,
         // vpn
         PeriodicCallInfo::class,
+        ProfileEntity::class,
         RecentConnectionEntity::class,
+        UnnamedRecentIntentEntity::class,
         DefaultConnectionEntity::class,
         VpnUser::class
     ],
@@ -179,12 +184,13 @@ abstract class AppDatabase :
     TelemetryDatabase,
     UserDatabase,
     UserSettingsDatabase,
+    VpnProfilesDatabase,
     VpnRecentsDatabase,
     VpnUserDatabase,
     AuthDatabase {
 
     companion object {
-        const val version = 35
+        const val version = 36
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Proton AG
+ * Copyright (c) 2024 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -17,25 +17,21 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.redesign.recents.data
+package com.protonvpn.android.profiles.data
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.protonvpn.android.profiles.data.ProfileEntity
+import com.protonvpn.android.redesign.recents.data.ConnectIntentData
 import me.proton.core.account.data.entity.AccountEntity
 import me.proton.core.domain.entity.UserId
 
 @Entity(
-    tableName = "recents",
+    tableName = "profiles",
     indices = [
         Index(value = ["userId"]),
-        Index(value = ["isPinned"]),
-        Index(value = ["lastConnectionAttemptTimestamp"]),
-        Index(value = ["lastPinnedTimestamp"]),
-        Index(value = ["profileId"])
     ],
     foreignKeys = [
         ForeignKey(
@@ -44,37 +40,23 @@ import me.proton.core.domain.entity.UserId
             childColumns = ["userId"],
             onDelete = ForeignKey.CASCADE
         ),
-        ForeignKey(
-            entity = ProfileEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["profileId"],
-            onDelete = ForeignKey.CASCADE
-        )
     ]
 )
-data class RecentConnectionEntity(
+data class ProfileEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val userId: UserId,
-    val isPinned: Boolean,
-    val lastConnectionAttemptTimestamp: Long,
-    val lastPinnedTimestamp: Long,
-    val profileId: Long? = null
-)
-
-@Entity(
-    tableName = "unnamedRecentsIntents",
-    foreignKeys = [
-        ForeignKey(
-            entity = RecentConnectionEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["recentId"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],
-)
-data class UnnamedRecentIntentEntity(
-    @PrimaryKey val recentId: Long,
+    val name: String,
+    val color: ProfileColor,
+    val icon: ProfileIcon,
+    val createdAt: Long,
     @Embedded
     val connectIntentData: ConnectIntentData
-    // Note: whenever adding new fields to this class make sure to update RecentsDao.updateConnectionTimestamp query.
 )
+
+enum class ProfileIcon {
+    Icon1, Icon2, Icon3, Icon4, Icon5, Icon6, Icon7, Icon8, Icon9, Icon10, Icon11, Icon12
+}
+
+enum class ProfileColor {
+    Color1, Color2, Color3, Color4, Color5, Color6
+}

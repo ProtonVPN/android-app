@@ -29,7 +29,9 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.recents.data.RecentsDao
+import com.protonvpn.android.redesign.recents.data.toConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
@@ -44,6 +46,7 @@ import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createIsImmutableServerListEnabled
+import com.protonvpn.test.shared.createProfileEntity
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.testsHelper.AccountTestHelper
 import com.protonvpn.testsHelper.IdlingResourceDispatcher
@@ -68,6 +71,7 @@ import org.junit.Before
 import org.junit.Test
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
+import kotlin.test.assertNotNull
 
 // These tests use mocking of final classes that's not available on API < 28
 @SdkSuppress(minSdkVersion = 28)
@@ -77,6 +81,7 @@ class RecentsListValidatorTests {
     private lateinit var currentUserProvider: TestCurrentUserProvider
     private lateinit var currentUser: CurrentUser
     private lateinit var recentsDao: RecentsDao
+    private lateinit var profilesDao: ProfilesDao
     private lateinit var serverManager: ServerManager
     private lateinit var serverManager2: ServerManager2
     private lateinit var testScope: TestScope
@@ -123,6 +128,7 @@ class RecentsListValidatorTests {
         )
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         recentsDao = db.recentsDao()
+        profilesDao = db.profilesDao()
         serverManager = ServerManager(
             testScope.backgroundScope,
             EffectiveCurrentUserSettingsCached(settingsFlow),
@@ -140,7 +146,7 @@ class RecentsListValidatorTests {
     }
 
     @Test
-    fun whenServersAreRemovedThenRecentsPointingToTheseSpecificServersAreRemoved() = testScope.runTest {
+    fun whenServersAreRemovedThenUnnamedRecentsPointingToTheseSpecificServersAreRemoved() = testScope.runTest {
         RecentsListValidator(backgroundScope, recentsDao, serverManager2, currentUser)
 
         val servers = (1..4).map { number -> createServer("server$number") }
@@ -150,7 +156,10 @@ class RecentsListValidatorTests {
         connectIntentsForServers.forEach {
             recentsDao.insertOrUpdateForConnection(userId1, it, 0L)
         }
-        assertEquals(connectIntentsForServers.size, recentsDao.getRecentsList(userId1).first().size)
+        val profileEntity = createProfileEntity(userId = userId1, connectIntent = ConnectIntent.Server(servers[1].serverId, emptySet()))
+        profilesDao.upsert(profileEntity)
+        recentsDao.insertOrUpdateForConnection(userId1, profileEntity.connectIntentData.toConnectIntent(), 0L)
+        assertEquals(connectIntentsForServers.size + 1, recentsDao.getRecentsList(userId1).first().size)
 
         val newServerList = listOf(servers[0], servers[3], createServer("server10"))
         serverManager.setServers(newServerList, null)
@@ -159,12 +168,15 @@ class RecentsListValidatorTests {
         idlingResource.waitUntilIdle()
 
         println("Finishing test")
-        val remainingServers = newServerList.intersect(servers)
+        // server 1 is present as it's referenced by a profile
+        val remainingServers = newServerList.intersect(servers.toSet()) + servers[1]
         val recents = recentsDao.getRecentsList(userId1).first()
         assertEquals(
-            remainingServers.map { it.serverId },
-            recents.map { (it.connectIntent as? ConnectIntent.Server)?.serverId ?: "invalid intent type" }
+            remainingServers.map { it.serverId }.toSet(),
+            recents.map { (it.connectIntent as? ConnectIntent.Server)?.serverId ?: "invalid intent type" }.toSet()
         )
+        // Profile was not removed from recents
+        assertNotNull(recents.find { it.connectIntent.profileId == profileEntity.id })
     }
 
     @Test
