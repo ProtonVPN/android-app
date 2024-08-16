@@ -34,7 +34,7 @@ buildscript {
 
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '3.7.0'
+    id 'com.github.triplet.play' version '3.10.1'
     id 'io.sentry.android.gradle' version '3.14.0'
     id 'org.jetbrains.kotlin.plugin.serialization'
     id 'me.proton.core.gradle-plugins.environment-config' version '1.3.1'
