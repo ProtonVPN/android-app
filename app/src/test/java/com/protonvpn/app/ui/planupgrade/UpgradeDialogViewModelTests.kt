@@ -109,7 +109,7 @@ class UpgradeDialogViewModelTests {
             plansOrchestrator = mockk(relaxed = true),
             isInAppUpgradeAllowed = { isInAppAllowed },
             upgradeTelemetry = mockk(relaxed = true),
-            loadDefaultGiapPlan = { giapPlans },
+            loadGoogleSubscriptionPlans = { giapPlans },
             oneClickPaymentsEnabled = { oneClickPaymentsEnabled },
             performGiapPurchase = performGiapPurchase,
             userPlanManager = mockk(relaxed = true),

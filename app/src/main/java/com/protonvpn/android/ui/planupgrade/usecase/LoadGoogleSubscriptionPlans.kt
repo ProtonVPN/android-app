@@ -46,9 +46,8 @@ data class GiapPlanInfo(
     val preselectedCycle: PlanCycle,
 )
 
-// TODO: rename
 @Reusable
-class LoadDefaultGooglePlan(
+class LoadGoogleSubscriptionPlans(
     private val vpnUserFlow: Flow<VpnUser?>,
     private val dynamicPlans: suspend (UserId?) -> List<DynamicPlan>,
     private val availablePaymentProviders: suspend () -> Set<PaymentProvider>,
