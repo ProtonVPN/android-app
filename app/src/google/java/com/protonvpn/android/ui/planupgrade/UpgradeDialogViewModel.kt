@@ -28,7 +28,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
-import com.protonvpn.android.ui.planupgrade.usecase.LoadDefaultGooglePlan
+import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.OneClickPaymentsEnabled
 import com.protonvpn.android.ui.planupgrade.usecase.PaymentDisplayRenewPriceKillSwitch
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
@@ -64,7 +64,7 @@ class UpgradeDialogViewModel(
     plansOrchestrator: PlansOrchestrator,
     isInAppUpgradeAllowed: suspend () -> Boolean,
     upgradeTelemetry: UpgradeTelemetry,
-    private val loadDefaultGiapPlan: suspend (planNames: List<String>) -> List<GiapPlanInfo>,
+    private val loadGoogleSubscriptionPlans: suspend (planNames: List<String>) -> List<GiapPlanInfo>,
     private val oneClickPaymentsEnabled: suspend () -> Boolean,
     private val performGiapPurchase: PerformGiapPurchase<Activity>,
     userPlanManager: UserPlanManager,
@@ -87,7 +87,7 @@ class UpgradeDialogViewModel(
         plansOrchestrator: PlansOrchestrator,
         isInAppUpgradeAllowed: IsInAppUpgradeAllowedUseCase,
         upgradeTelemetry: UpgradeTelemetry,
-        loadDefaultGiapPlan: LoadDefaultGooglePlan,
+        loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans,
         oneClickPaymentsEnabled: OneClickPaymentsEnabled,
         performGiapPurchase: PerformGiapPurchase<Activity>,
         userPlanManager: UserPlanManager,
@@ -99,7 +99,7 @@ class UpgradeDialogViewModel(
         plansOrchestrator,
         isInAppUpgradeAllowed::invoke,
         upgradeTelemetry,
-        loadDefaultGiapPlan::invoke,
+        loadGoogleSubscriptionPlans::invoke,
         oneClickPaymentsEnabled::invoke,
         performGiapPurchase,
         userPlanManager,
@@ -145,7 +145,7 @@ class UpgradeDialogViewModel(
     private suspend fun loadGiapPlans(planNames: List<String>) {
         state.value = State.LoadingPlans
         suspend {
-            loadedPlans = loadDefaultGiapPlan(planNames).map { planInfo ->
+            loadedPlans = loadGoogleSubscriptionPlans(planNames).map { planInfo ->
                 GiapPlanModel(planInfo, calculatePriceInfos(planInfo.cycles, planInfo.dynamicPlan))
             }
             val preselectedPlan = loadedPlans.find { it.name == planNames.first() }
@@ -159,7 +159,7 @@ class UpgradeDialogViewModel(
                 state.value = State.PlansFallback
             }
         }.runCatchingCheckedExceptions { e ->
-            // loadDefaultGiapPlan throws errors.
+            // loadGoogleSubscriptionPlans throws errors.
             state.value = State.LoadError(error = e)
         }
     }

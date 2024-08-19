@@ -19,7 +19,7 @@
 package com.protonvpn.app.upgrade
 
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.ui.planupgrade.usecase.LoadDefaultGooglePlan
+import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createDynamicPlan
@@ -41,14 +41,14 @@ private val DEFAULT_CYCLES = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
 private val PRESELECTED_CYCLE = PlanCycle.YEARLY
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class LoadDefaultGooglePlanTests {
+class LoadGoogleSubscriptionPlansTests {
 
     private lateinit var testScope: TestScope
 
     private lateinit var currentVpnUser: MutableStateFlow<VpnUser?>
     private lateinit var dynamicPlans: List<DynamicPlan>
     private lateinit var availablePaymentProviders: Set<PaymentProvider>
-    private lateinit var loadDefaultGooglePlan: LoadDefaultGooglePlan
+    private lateinit var loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans
 
     @Before
     fun setup() {
@@ -58,7 +58,7 @@ class LoadDefaultGooglePlanTests {
         dynamicPlans = listOf(
             createDynamicPlan(Constants.CURRENT_PLUS_PLAN, DEFAULT_CYCLES)
         )
-        loadDefaultGooglePlan = LoadDefaultGooglePlan(
+        loadGoogleSubscriptionPlans = LoadGoogleSubscriptionPlans(
             currentVpnUser,
             { dynamicPlans },
             { availablePaymentProviders },
@@ -69,7 +69,7 @@ class LoadDefaultGooglePlanTests {
 
     @Test
     fun `load default plans and cycles if available`() = testScope.runTest {
-        val plans = loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN))
+        val plans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN))
         assertEquals(1, plans.size)
         val plan = plans.first()
         assertEquals(Constants.CURRENT_PLUS_PLAN, plan.name)
@@ -81,19 +81,19 @@ class LoadDefaultGooglePlanTests {
     @Test
     fun `don't load plans if other payment methods available`() = testScope.runTest {
         availablePaymentProviders = setOf(PaymentProvider.CardPayment, PaymentProvider.GoogleInAppPurchase)
-        assertEquals(emptyList(), loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN)))
+        assertEquals(emptyList(), loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN)))
     }
 
     @Test
     fun `don't load plan if user has subscription`() = testScope.runTest {
         currentVpnUser.value = createVpnUser(subscribed = VpnUser.VPN_SUBSCRIBED_FLAG)
-        assertEquals(emptyList(), loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN)))
+        assertEquals(emptyList(), loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN)))
     }
 
     @Test
     fun `don't load other plans`() = testScope.runTest {
         dynamicPlans = listOf(createDynamicPlan("other-plan", DEFAULT_CYCLES))
-        assertEquals(emptyList(), loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN)))
+        assertEquals(emptyList(), loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN)))
     }
 
     @Test
@@ -102,7 +102,7 @@ class LoadDefaultGooglePlanTests {
             createDynamicPlan(Constants.CURRENT_PLUS_PLAN, listOf(PlanCycle.TWO_YEARS)),
             createDynamicPlan(Constants.CURRENT_BUNDLE_PLAN, DEFAULT_CYCLES)
         )
-        val loadedPlans = loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
+        val loadedPlans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
         // Plus plan ignored.
         assertEquals(listOf(Constants.CURRENT_BUNDLE_PLAN), loadedPlans.map { it.name})
     }
@@ -115,7 +115,7 @@ class LoadDefaultGooglePlanTests {
                 listOf(PlanCycle.TWO_YEARS, PlanCycle.MONTHLY)
             )
         )
-        val loadedPlans = loadDefaultGooglePlan(listOf(Constants.CURRENT_PLUS_PLAN))
+        val loadedPlans = loadGoogleSubscriptionPlans(listOf(Constants.CURRENT_PLUS_PLAN))
         assertEquals(1, loadedPlans.size)
         val plan = loadedPlans.first()
         assertEquals(listOf(PlanCycle.MONTHLY), plan.cycles.map { it.cycle })
