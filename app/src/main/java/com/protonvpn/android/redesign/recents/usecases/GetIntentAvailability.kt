@@ -38,8 +38,9 @@ class GetIntentAvailability @Inject constructor(
     suspend operator fun invoke(
         connectIntent: ConnectIntent,
         vpnUser: VpnUser?,
-        protocol: ProtocolSelection
+        settingsProtocol: ProtocolSelection
     ): RecentAvailability {
+        val protocol = connectIntent.settingsOverrides?.protocol ?: settingsProtocol
         return serverManager.forConnectIntent(
             connectIntent,
             onFastest = { isSecureCore, _ ->

@@ -34,7 +34,6 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -121,14 +120,16 @@ class ServerManagerTests {
     fun doNotChooseOfflineServerFromCountry() = testScope.runTest {
         createServerManagers(immutableServerList = true)
         val country = manager.getVpnExitCountry("CA", false)
-        val countryBestServer = manager.getBestScoreServer(country!!.serverList, currentUser.vpnUser())
+        val protocol = currentSettings.value.protocol
+        val countryBestServer = manager.getBestScoreServer(country!!.serverList, currentUser.vpnUser(), protocol)
         assertEquals("CA#2", countryBestServer!!.serverName)
     }
 
     @Test
     fun doNotChooseOfflineServerFromAll() = testScope.runTest {
         createServerManagers(immutableServerList = true)
-        val server = manager.getBestScoreServer(false, serverFeatures = emptySet(), currentUser.vpnUser())
+        val protocol = currentSettings.value.protocol
+        val server = manager.getBestScoreServer(false, serverFeatures = emptySet(), currentUser.vpnUser(), protocol)
         assertNotNull(server)
         assertEquals("DE#1", server.serverName)
     }
@@ -168,7 +169,8 @@ class ServerManagerTests {
             )
 
         suspend fun testIntent(expectedServerId: String, connectIntent: ConnectIntent) {
-            val server = serverManager2.getServerForConnectIntent(connectIntent, plusUser)
+            val protocol = currentSettings.value.protocol
+            val server = serverManager2.getServerForConnectIntent(connectIntent, plusUser, protocol)
             assertEquals(expectedServerId, server?.serverId)
         }
 
@@ -201,7 +203,8 @@ class ServerManagerTests {
     @Test
     fun testGetServerForConnectIntentWithUnavailableServers() = testScope.runTest {
         suspend fun testIntent(expectedServerId: String?, connectIntent: ConnectIntent, vpnUser: VpnUser) {
-            val server = serverManager2.getServerForConnectIntent(connectIntent, vpnUser)
+            val protocol = currentSettings.value.protocol
+            val server = serverManager2.getServerForConnectIntent(connectIntent, vpnUser, protocol)
             assertEquals(expectedServerId, server?.serverId)
         }
 
@@ -266,7 +269,6 @@ class ServerManagerTests {
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         manager = ServerManager(
             backgroundScope,
-            EffectiveCurrentUserSettingsCached(currentSettings),
             currentUser,
             { 0L },
             supportsProtocol,

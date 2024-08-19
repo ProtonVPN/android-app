@@ -26,7 +26,7 @@ import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
 import com.protonvpn.android.notifications.NotificationHelper
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnectionCached
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
@@ -42,7 +42,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OpenVPNWrapperService : OpenVPNService(), StateListener {
 
-    @Inject lateinit var userSettings: EffectiveCurrentUserSettingsCached
+    @Inject lateinit var settingsForConnection: SettingsForConnectionCached
     @Inject lateinit var vpnConnectionManager: VpnConnectionManager
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var certificateRepository: CertificateRepository
@@ -71,7 +71,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
             val certificate = (certificateResult as? CertificateRepository.CertificateResult.Success)?.let {
                 CertificateData(it.privateKeyPem, it.certificate)
             }
-            connectionParams.openVpnProfile(packageName, userSettings.value, certificate)
+            connectionParams.openVpnProfile(packageName, settingsForConnection.getFor(it.connectIntent), certificate)
         }
     }
 

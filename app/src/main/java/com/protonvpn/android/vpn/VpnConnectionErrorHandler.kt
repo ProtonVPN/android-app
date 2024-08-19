@@ -39,8 +39,8 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.UserPlanManager
@@ -49,7 +49,6 @@ import com.protonvpn.android.utils.UserPlanManager.InfoChange.UserBecameDelinque
 import com.protonvpn.android.utils.UserPlanManager.InfoChange.VpnCredentials
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import me.proton.core.network.domain.ApiResult
@@ -144,7 +143,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     scope: CoroutineScope,
     private val api: ProtonApiRetroFit,
     private val appConfig: AppConfig,
-    private val userSettings: EffectiveCurrentUserSettings,
+    private val settingsForConnection: SettingsForConnection,
     private val userPlanManager: UserPlanManager,
     private val serverManager: ServerManager2,
     private val stateMonitor: VpnStateMonitor,
@@ -189,7 +188,8 @@ class VpnConnectionErrorHandler @Inject constructor(
         vpnUser: VpnUser?
     ): VpnFallbackResult.Switch? {
         val fallbackIntent = ConnectIntent.Default
-        val fallbackServer = serverManager.getServerForConnectIntent(fallbackIntent, vpnUser) ?: return null
+        val protocol = settingsForConnection.getFor(fallbackIntent).protocol
+        val fallbackServer = serverManager.getServerForConnectIntent(fallbackIntent, vpnUser, protocol) ?: return null
         for (change in changes) when {
             change is PlanChange && change.isDowngrade -> {
                 return VpnFallbackResult.Switch.SwitchConnectIntent(
@@ -269,7 +269,7 @@ class VpnConnectionErrorHandler @Inject constructor(
             serverListUpdater.updateServerList()
         }
 
-        val settings = userSettings.effectiveSettings.first()
+        val settings = settingsForConnection.getFor(orgIntent)
         val vpnUser = currentUser.vpnUser()
         val orgPhysicalServer =
             orgParams?.connectingDomain?.let { PhysicalServer(orgParams.server, it) }?.takeIf { it.exists() }

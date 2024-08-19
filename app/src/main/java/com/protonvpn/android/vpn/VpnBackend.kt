@@ -43,7 +43,9 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.redesign.vpn.usecases.applyOverrides
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Constants
@@ -104,7 +106,7 @@ interface AgentConnectionInterface {
 }
 
 abstract class VpnBackend(
-    val userSettings: EffectiveCurrentUserSettings,
+    val settingsForConnection: SettingsForConnection,
     val certificateRepository: CertificateRepository,
     val networkManager: NetworkManager,
     val networkCapabilitiesFlow: NetworkCapabilitiesFlow,
@@ -268,7 +270,8 @@ abstract class VpnBackend(
     open fun createAgentConnection(
         certInfo: CertificateRepository.CertificateResult.Success,
         hostname: String?,
-        nativeClient: VpnAgentClient
+        nativeClient: VpnAgentClient,
+        features: Features,
     ) = object : AgentConnectionInterface {
         val agent = AgentConnection(
             certInfo.certificate,
@@ -331,7 +334,6 @@ abstract class VpnBackend(
     private var agent: AgentConnectionInterface? = null
     private var agentConnectionJob: Job? = null
     private var reconnectionJob: Job? = null
-    private val features: Features = Features()
     private val agentConstants = LocalAgent.constants()
 
     init {
@@ -350,14 +352,21 @@ abstract class VpnBackend(
     }
 
     private fun initFeatures() {
-        userSettings.effectiveSettings
-            .onEach { settings ->
-                features.setInt(FEATURES_NETSHIELD, settings.netShield.ordinal.toLong())
-                features.setBool(FEATURES_RANDOMIZED_NAT, settings.randomizedNat)
-                features.setBool(FEATURES_SPLIT_TCP, settings.vpnAccelerator)
-                agent?.setFeatures(features)
-            }
+        settingsForConnection
+            .originalEffectiveSettings()
+            .map { it.applyOverrides(lastConnectionParams?.connectIntent?.settingsOverrides) }
+            .onEach { settings -> agent?.setFeatures(getFeatures(settings)) }
             .launchIn(mainScope)
+    }
+
+    private fun getFeatures(settings: LocalUserSettings) = Features().apply {
+        setInt(FEATURES_NETSHIELD, settings.netShield.ordinal.toLong())
+        setBool(FEATURES_RANDOMIZED_NAT, settings.randomizedNat)
+        setBool(FEATURES_SPLIT_TCP, settings.vpnAccelerator)
+
+        val bouncing = lastConnectionParams?.bouncing
+        if (bouncing != null)
+            setString(FEATURES_BOUNCING, bouncing)
     }
 
     private fun onVpnProtocolStateChange(value: VpnState) {
@@ -388,14 +397,6 @@ abstract class VpnBackend(
                 capabilities[CAPABILITY_NOT_VPN] == false && capabilities[CAPABILITY_VALIDATED] != false
             }
         }
-    }
-
-    private fun prepareFeaturesForAgentConnection() {
-        val bouncing = lastConnectionParams?.bouncing
-        if (bouncing == null)
-            features.remove(FEATURES_BOUNCING)
-        else
-            features.setString(FEATURES_BOUNCING, bouncing)
     }
 
     // Handle updates to both VpnState and local agent's state.
@@ -504,8 +505,9 @@ abstract class VpnBackend(
                 if (sessionId != null) { // null can happen if user just logged out
                     val certInfo = certificateRepository.getCertificate(sessionId)
                     if (certInfo is CertificateRepository.CertificateResult.Success) {
-                        prepareFeaturesForAgentConnection()
-                        agent = createAgentConnection(certInfo, hostname, createNativeClient())
+                        val settings = settingsForConnection.getFor(lastConnectionParams?.connectIntent)
+                        val features = getFeatures(settings)
+                        agent = createAgentConnection(certInfo, hostname, createNativeClient(), features)
                     } else {
                         setError(
                             ErrorType.LOCAL_AGENT_ERROR,

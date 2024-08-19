@@ -27,6 +27,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.userstorage.ProfileManager
@@ -95,7 +96,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         every { mockProfileManager.getDefaultOrFastest() } returns defaultProfile
         every { mockDefaultServer.tier } returns 0
         every { mockPlanManager.planChangeFlow } returns planFlow
-        coEvery { mockServerManager2.getServerForProfile(defaultProfile, any()) } answers {
+        coEvery { mockServerManager2.getServerForProfile(defaultProfile, any(), any()) } answers {
             mockDefaultServer.takeIf { (arg<VpnUser>(1).maxTier ?: 0) >= it.tier }
         }
 
@@ -113,6 +114,7 @@ class UpdateSettingsOnVpnUserChangeTests {
             userSettingsManager,
             mockPlanManager,
             mockIsTv,
+            EffectiveCurrentUserSettings(testScope.backgroundScope, userSettingsManager.rawCurrentUserSettingsFlow),
         )
     }
     @Test
@@ -164,7 +166,7 @@ class UpdateSettingsOnVpnUserChangeTests {
         every { mockDefaultServer.tier } returns 2
 
         // The real ServerManager may return a server that the user has no access too, see getBestScoreServer.
-        coEvery { mockServerManager2.getServerForProfile(defaultProfile, any()) } answers {
+        coEvery { mockServerManager2.getServerForProfile(defaultProfile, any(), any()) } answers {
             mockDefaultServer
         }
 

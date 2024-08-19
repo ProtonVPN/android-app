@@ -63,9 +63,9 @@ class ServerManager2 @Inject constructor(
 
     val allServersFlow = serverListVersion.map { serverManager.allServers }
 
-    suspend fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
+    suspend fun getServerForProfile(profile: Profile, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         serverManager.ensureLoaded()
-        return serverManager.getServerForProfile(profile, vpnUser)
+        return serverManager.getServerForProfile(profile, vpnUser, protocol)
     }
 
     suspend fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? {
@@ -78,9 +78,10 @@ class ServerManager2 @Inject constructor(
         return serverManager.freeCountries
     }
 
-    suspend fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?): Server? {
+    suspend fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         serverManager.ensureLoaded()
-        return serverManager.getServerForConnectIntent(connectIntent, vpnUser)
+        val protocolOverride = connectIntent.settingsOverrides?.protocol
+        return serverManager.getServerForConnectIntent(connectIntent, vpnUser, protocolOverride ?: protocol)
     }
 
     suspend fun getRandomServer(vpnUser: VpnUser?): Server? {

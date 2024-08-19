@@ -91,7 +91,6 @@ class ProfileManagerTests {
             ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, currentUserSettings, settingsManager)
         serverManager = ServerManager(
             bgScope,
-            currentUserSettings,
             currentUser,
             { 0 },
             SupportsProtocol(createGetSmartProtocols()),

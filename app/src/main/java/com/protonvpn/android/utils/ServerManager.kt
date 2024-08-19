@@ -40,7 +40,6 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.ServersDataManager
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,7 +57,6 @@ import javax.inject.Singleton
 @Singleton
 class ServerManager @Inject constructor(
     @Transient private val mainScope: CoroutineScope,
-    @Transient private val currentUserSettingsCached: EffectiveCurrentUserSettingsCached,
     @Transient val currentUser: CurrentUser,
     @Transient @WallClock private val wallClock: () -> Long,
     @Transient val supportsProtocol: SupportsProtocol,
@@ -69,8 +67,6 @@ class ServerManager @Inject constructor(
 
     @Transient private var guestHoleServers: List<Server>? = null
     @Transient private val isLoaded = MutableStateFlow(false)
-
-    private val protocolCached get() = currentUserSettingsCached.value.protocol
 
     private var streamingServices: StreamingServicesResponse? = null
     val streamingServicesModel: StreamingServicesModel?
@@ -180,7 +176,7 @@ class ServerManager @Inject constructor(
     }
 
     fun getDownloadedServersForGuestHole(serverCount: Int, protocol: ProtocolSelection) =
-        (listOfNotNull(getBestScoreServer(false, emptySet(), null)) +
+        (listOfNotNull(getBestScoreServer(false, emptySet(), null, protocol)) +
             getExitCountries(false).flatMap { country ->
                 country.serverList.filter { it.online && supportsProtocol(it, protocol) }
             }.takeRandomStable(serverCount).shuffled()
@@ -240,11 +236,11 @@ class ServerManager @Inject constructor(
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
         getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
 
-    fun getBestScoreServer(secureCore: Boolean, serverFeatures: Set<ServerFeature>, vpnUser: VpnUser?): Server? {
+    fun getBestScoreServer(secureCore: Boolean, serverFeatures: Set<ServerFeature>, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         val eligibleServers = serversData.allServersByScore.asSequence()
             .filter {
                 it.online
-                    && supportsProtocol(it, protocolCached)
+                    && supportsProtocol(it, protocol)
                     && it.isSecureCoreServer == secureCore
                     && it.satisfiesFeatures(serverFeatures)
                     && !it.isGatewayServer
@@ -253,9 +249,9 @@ class ServerManager @Inject constructor(
     }
 
     @VisibleForTesting
-    fun getBestScoreServer(serverList: List<Server>, vpnUser: VpnUser?): Server? {
+    fun getBestScoreServer(serverList: List<Server>, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         val eligibleServers = serverList.sortedBy { it.score }.asSequence()
-            .filter { it.online && supportsProtocol(it, protocolCached) }
+            .filter { it.online && supportsProtocol(it, protocol) }
         return with(eligibleServers) { firstOrNull { vpnUser.hasAccessToServer(it) } ?: firstOrNull() }
     }
 
@@ -275,12 +271,12 @@ class ServerManager @Inject constructor(
         serversData.secureCoreExitCountries.sortedByLocaleAware { it.countryName }
 
     @Deprecated("Use getServerForConnectIntent")
-    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?): Server? {
+    fun getServerForProfile(profile: Profile, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         val wrapper = profile.wrapper
         val needsSecureCore = profile.isSecureCore ?: false
         return when (wrapper.type) {
             ProfileType.FASTEST ->
-                getBestScoreServer(needsSecureCore, emptySet(), vpnUser)
+                getBestScoreServer(needsSecureCore, emptySet(), vpnUser, protocol)
 
             ProfileType.RANDOM ->
                 getRandomServer(vpnUser)
@@ -292,7 +288,7 @@ class ServerManager @Inject constructor(
 
             ProfileType.FASTEST_IN_COUNTRY ->
                 getVpnExitCountry(wrapper.country, needsSecureCore)?.let {
-                    getBestScoreServer(it.serverList, vpnUser)
+                    getBestScoreServer(it.serverList, vpnUser, protocol)
                 }
 
             ProfileType.DIRECT ->
@@ -300,11 +296,11 @@ class ServerManager @Inject constructor(
         }
     }
 
-    fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?): Server? =
+    fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? =
         forConnectIntent(
             connectIntent,
-            onFastest = { isSecureCore, serverFeatures -> getBestScoreServer(isSecureCore, serverFeatures, vpnUser) },
-            onFastestInGroup = { servers -> getBestScoreServer(servers, vpnUser) },
+            onFastest = { isSecureCore, serverFeatures -> getBestScoreServer(isSecureCore, serverFeatures, vpnUser, protocol) },
+            onFastestInGroup = { servers -> getBestScoreServer(servers, vpnUser, protocol) },
             onServer = { server -> server },
             fallbackResult = null
         )
