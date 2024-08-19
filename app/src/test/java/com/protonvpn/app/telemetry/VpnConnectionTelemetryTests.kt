@@ -32,6 +32,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
@@ -49,6 +50,7 @@ import com.protonvpn.test.shared.createAccountUser
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -74,8 +76,9 @@ class VpnConnectionTelemetryTests {
     private lateinit var mockConnectivityMonitor: ConnectivityMonitor
 
     @MockK
-    private lateinit var currentUser: CurrentUser
+    private lateinit var mockConnectionTelemetrySentryDebugEnabled: ConnectionTelemetrySentryDebugEnabled
 
+    private lateinit var currentUser: CurrentUser
     private lateinit var telemetryScope: TestScope
     private lateinit var prefs: ServerListUpdaterPrefs
     private lateinit var vpnStateMonitor: VpnStateMonitor
@@ -114,6 +117,7 @@ class VpnConnectionTelemetryTests {
             mockConnectivityMonitor.defaultNetworkTransports
         } returns EnumSet.of(ConnectivityMonitor.Transport.WIFI)
         every { mockTelemetry.event(any(), any(), any(), any()) } returns Unit
+        coEvery { mockConnectionTelemetrySentryDebugEnabled.invoke() } returns true
 
         telemetryScope = TestScope(UnconfinedTestDispatcher(testScheduler))
         currentUser = CurrentUser(
@@ -126,7 +130,8 @@ class VpnConnectionTelemetryTests {
             commonDimensions,
             vpnStateMonitor,
             mockConnectivityMonitor,
-            TelemetryFlowHelper(telemetryScope.backgroundScope, mockTelemetry)
+            TelemetryFlowHelper(telemetryScope.backgroundScope, mockTelemetry),
+            mockConnectionTelemetrySentryDebugEnabled,
         )
         vpnConnectionTelemetry.start()
     }

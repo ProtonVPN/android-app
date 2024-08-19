@@ -47,6 +47,7 @@ import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
@@ -181,6 +182,9 @@ class VpnConnectionTests {
     @RelaxedMockK
     lateinit var mockLocalAgentUnreachableTracker: LocalAgentUnreachableTracker
 
+    @MockK
+    private lateinit var mockConnectionTelemetrySentryDebugEnabled: ConnectionTelemetrySentryDebugEnabled
+
     @RelaxedMockK
     lateinit var mockTelemetry: Telemetry
 
@@ -272,13 +276,15 @@ class VpnConnectionTests {
         val serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         val mockConnectivityMonitor = mockk<ConnectivityMonitor>()
         every { mockConnectivityMonitor.defaultNetworkTransports } returns setOf(ConnectivityMonitor.Transport.WIFI)
+        coEvery { mockConnectionTelemetrySentryDebugEnabled.invoke() } returns true
         val vpnConnectionTelemetry = VpnConnectionTelemetry(
             scope.backgroundScope,
             clock,
             CommonDimensions(currentUser, monitor, serverListUpdaterPrefs, FakeIsCredentialLessEnabled(true)),
             monitor,
             mockConnectivityMonitor,
-            TelemetryFlowHelper(scope.backgroundScope, mockTelemetry)
+            TelemetryFlowHelper(scope.backgroundScope, mockTelemetry),
+            mockConnectionTelemetrySentryDebugEnabled,
         ).apply { start() }
 
         val serversData = ServersDataManager(
