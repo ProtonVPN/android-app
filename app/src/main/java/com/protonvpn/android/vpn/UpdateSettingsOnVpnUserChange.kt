@@ -25,12 +25,14 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -45,13 +47,15 @@ class UpdateSettingsOnVpnUserChange @Inject constructor(
     private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val userPlanManager: UserPlanManager,
     private val isTv: IsTvCheck,
+    private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
 ) {
     init {
         mainScope.launch {
             currentUser.vpnUserFlow.collect { vpnUser ->
                 if (vpnUser != null) {
                     val defaultProfileServer =
-                        serverManager.getServerForProfile(profileManager.getDefaultOrFastest(), vpnUser)
+                        serverManager.getServerForProfile(
+                            profileManager.getDefaultOrFastest(), vpnUser, effectiveCurrentUserSettings.protocol.first())
                     userSettingsManager.update { current ->
                         // Note: when a different user logs in they will initially have the other user's server list
                         // so it's likely the defaultProfileServer isn't found and the default profile gets reset.

@@ -94,13 +94,13 @@ class TvMainViewModelTests {
     private lateinit var mockCurrentUser: CurrentUser
     @MockK
     private lateinit var mockContext: Context
-
     private lateinit var profileManager: ProfileManager
     private lateinit var serverManager: ServerManager
     private lateinit var testScope: TestScope
     private lateinit var vpnUserFlow: MutableStateFlow<VpnUser?>
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var vpnStatusProviderUI: VpnStatusProviderUI
+    private lateinit var userSettingsCached: EffectiveCurrentUserSettingsCached
 
     private lateinit var viewModel: TvMainViewModel
     private lateinit var setFavoriteCountry: SetFavoriteCountry
@@ -127,7 +127,7 @@ class TvMainViewModelTests {
             mockk(relaxed = true),
             RestrictionsConfig(testScope, flowOf(Restrictions(false, mockk()))),
         ).stateIn(bgScope, SharingStarted.Eagerly, LocalUserSettings.Default)
-        val userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
+        userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
 
         vpnStateMonitor = VpnStateMonitor()
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
@@ -144,7 +144,6 @@ class TvMainViewModelTests {
         )
         serverManager = ServerManager(
             mainScope = TestScope(UnconfinedTestDispatcher()).backgroundScope, // Don't care about full initialization.
-            userSettingsCached,
             mockCurrentUser,
             { 0 },
             supportsProtocol,
@@ -174,7 +173,8 @@ class TvMainViewModelTests {
             getCountryCard = mockk(),
             currentUser = mockCurrentUser,
             logoutUseCase = mockk(relaxed = true),
-            purchaseEnabled = mockk(relaxed = true)
+            purchaseEnabled = mockk(relaxed = true),
+            effectiveCurrentUserSettingsCached = userSettingsCached,
         )
     }
 
@@ -272,7 +272,7 @@ class TvMainViewModelTests {
 
         // Note: this assumes that defaultConnection is for the fastest server.
         val firstDefaultServer =
-            serverManager.getServerForProfile(profileManager.getDefaultOrFastest(), vpnUserFlow.value)!!
+            serverManager.getServerForProfile(profileManager.getDefaultOrFastest(), vpnUserFlow.value, userSettingsCached.value.protocol)!!
         val firstConnectionParams = ConnectionParams(ConnectIntent.Default, firstDefaultServer, null, null)
         val firstCountry = firstDefaultServer.exitCountry
 
@@ -287,7 +287,7 @@ class TvMainViewModelTests {
             serverManager.setServers(listOf(server2), null)
         }
         val secondDefaultServer =
-            serverManager.getServerForProfile(profileManager.getDefaultOrFastest(), vpnUserFlow.value)!!
+            serverManager.getServerForProfile(profileManager.getDefaultOrFastest(), vpnUserFlow.value, userSettingsCached.value.protocol)!!
         val secondConnectionParams = ConnectionParams(ConnectIntent.Default, secondDefaultServer, null, null)
 
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, secondConnectionParams))

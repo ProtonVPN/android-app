@@ -27,7 +27,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.data.hasAccessToServer
-import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.logging.ConnConnectConnected
@@ -41,6 +40,7 @@ import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UserPlanMaxSessionsReached
 import com.protonvpn.android.logging.toLog
+import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -48,8 +48,8 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.DebugUtils
@@ -60,7 +60,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
@@ -129,7 +128,7 @@ private sealed class InternalState {
 class VpnConnectionManager @Inject constructor(
     private val permissionDelegate: VpnPermissionDelegate,
     private val appConfig: AppConfig,
-    private val userSettings: EffectiveCurrentUserSettings,
+    private val settingsForConnection: SettingsForConnection,
     private val backendProvider: VpnBackendProvider,
     private val networkManager: NetworkManager,
     private val vpnErrorHandler: VpnConnectionErrorHandler,
@@ -542,11 +541,11 @@ class VpnConnectionManager @Inject constructor(
         disconnectTrigger: DisconnectTrigger,
         preferredServer: Server? = null
     ) {
-        val settings = userSettings.effectiveSettings.first()
+        val settings = settingsForConnection.getFor(connectIntent)
         ProtonLogger.log(ConnConnectTrigger, "${connectIntent.toLog()}, reason: ${trigger.description}")
         vpnConnectionTelemetry.onConnectionStart(trigger)
         val vpnUser = currentUser.vpnUser()
-        val server = preferredServer ?: serverManager.getServerForConnectIntent(connectIntent, vpnUser)
+        val server = preferredServer ?: serverManager.getServerForConnectIntent(connectIntent, vpnUser, settings.protocol)
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {

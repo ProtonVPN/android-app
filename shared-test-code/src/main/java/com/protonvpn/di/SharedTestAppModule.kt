@@ -38,7 +38,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.telemetry.NoopSnapshotScheduler
 import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
 import com.protonvpn.android.telemetry.SnapshotScheduler
@@ -196,7 +196,7 @@ class SharedTestAppModule {
     fun provideVpnBackendManager(
         scope: CoroutineScope,
         dispatcherProvider: VpnDispatcherProvider,
-        userSettings: EffectiveCurrentUserSettings,
+        settingsForConnection: SettingsForConnection,
         appConfig: AppConfig,
         networkManager: NetworkManager,
         networkCapabilitiesFlow: NetworkCapabilitiesFlow,
@@ -218,7 +218,7 @@ class SharedTestAppModule {
                     networkManager,
                     networkCapabilitiesFlow,
                     certificateRepository,
-                    userSettings,
+                    settingsForConnection,
                     VpnProtocol.OpenVPN,
                     localAgentUnreachableTracker,
                     currentUser,
@@ -232,7 +232,7 @@ class SharedTestAppModule {
                     networkManager,
                     networkCapabilitiesFlow,
                     certificateRepository,
-                    userSettings,
+                    settingsForConnection,
                     VpnProtocol.WireGuard,
                     localAgentUnreachableTracker,
                     currentUser,

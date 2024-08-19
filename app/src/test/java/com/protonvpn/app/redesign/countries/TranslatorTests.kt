@@ -22,8 +22,6 @@ package com.protonvpn.app.redesign.countries
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.servers.ServersDataManager
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
-import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.test.shared.MockSharedPreference
@@ -33,7 +31,6 @@ import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -57,7 +54,6 @@ class TranslatorTests {
         Storage.setPreferences(MockSharedPreference())
         val dispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(dispatcher)
-        val settings = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
 
         val serversDataManager = ServersDataManager(
             testScope.backgroundScope,
@@ -67,7 +63,6 @@ class TranslatorTests {
         )
         serverManager = ServerManager(
             testScope.backgroundScope,
-            settings,
             mockk(),
             { 0 },
             mockk(relaxed = true),

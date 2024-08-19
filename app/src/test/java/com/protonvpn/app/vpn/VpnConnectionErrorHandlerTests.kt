@@ -43,6 +43,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -143,7 +144,7 @@ class VpnConnectionErrorHandlerTests {
         coEvery { serverManager2.getOnlineAccessibleServers(any(), any(), any(), any()) } answers {
             servers.filter { it.gatewayName == secondArg() }
         }
-        coEvery { serverManager2.getServerForConnectIntent(defaultFallbackConnection, any()) } returns defaultFallbackServer
+        coEvery { serverManager2.getServerForConnectIntent(defaultFallbackConnection, any(), any()) } returns defaultFallbackServer
 
         coEvery { serverManager2.getServerById(any()) } answers {
             servers.find { it.serverId == arg(0) }
@@ -191,7 +192,7 @@ class VpnConnectionErrorHandlerTests {
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettingsFlow)
         handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,
-            userSettings, userPlanManager, serverManager2, vpnStateMonitor, serverListUpdater,
+            SettingsForConnection(userSettings), userPlanManager, serverManager2, vpnStateMonitor, serverListUpdater,
             networkManager, vpnBackendProvider, currentUser, getConnectingDomain, testScope::currentTime, errorUIManager)
     }
 

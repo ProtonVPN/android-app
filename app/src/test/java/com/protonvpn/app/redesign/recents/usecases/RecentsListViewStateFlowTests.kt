@@ -45,7 +45,6 @@ import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
@@ -66,7 +65,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -146,7 +144,6 @@ class RecentsListViewStateFlowTests {
 
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val effectiveUserSettings = EffectiveCurrentUserSettings(bgScope, settingsFlow)
-        val effectiveUserSettingsCached = EffectiveCurrentUserSettingsCached(settingsFlow)
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
 
         mockkObject(CountryTools)
@@ -159,7 +156,6 @@ class RecentsListViewStateFlowTests {
         )
         serverManager = ServerManager(
             bgScope,
-            effectiveUserSettingsCached,
             currentUser,
             clock,
             supportsProtocol,

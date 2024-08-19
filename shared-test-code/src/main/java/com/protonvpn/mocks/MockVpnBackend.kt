@@ -29,7 +29,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.vpn.AgentConnectionInterface
@@ -56,7 +56,7 @@ class MockVpnBackend(
     networkManager: NetworkManager,
     networkCapabilitiesFlow: NetworkCapabilitiesFlow,
     certificateRepository: CertificateRepository,
-    userSettings: EffectiveCurrentUserSettings,
+    settingsForConnection: SettingsForConnection,
     val protocol: VpnProtocol,
     localAgentUnreachableTracker: LocalAgentUnreachableTracker,
     currentUser: CurrentUser,
@@ -64,7 +64,7 @@ class MockVpnBackend(
     foregroundActivityTracker: ForegroundActivityTracker,
     val getConnectingDomain: GetConnectingDomain,
 ) : VpnBackend(
-    userSettings = userSettings,
+    settingsForConnection = settingsForConnection,
     networkManager = networkManager,
     networkCapabilitiesFlow = networkCapabilitiesFlow,
     certificateRepository = certificateRepository,
@@ -115,7 +115,8 @@ class MockVpnBackend(
     override fun createAgentConnection(
         certInfo: CertificateRepository.CertificateResult.Success,
         hostname: String?,
-        nativeClient: VpnAgentClient
+        nativeClient: VpnAgentClient,
+        features: Features,
     ) = agentProvider?.invoke(certInfo, hostname, nativeClient) ?: MockAgentConnection(scope, nativeClient, certInfo)
 
     var stateOnConnect: VpnState = VpnState.Connected

@@ -35,6 +35,7 @@ import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.tv.models.Card
 import com.protonvpn.android.tv.models.ConnectIntentCard
 import com.protonvpn.android.tv.models.CountryCard
@@ -81,6 +82,7 @@ class TvMainViewModel @Inject constructor(
     private val getCountryCard: GetCountryCard,
     private val currentUser: CurrentUser,
     private val logoutUseCase: Logout,
+    private val effectiveCurrentUserSettingsCached: EffectiveCurrentUserSettingsCached,
     val purchaseEnabled: CachedPurchaseEnabled,
 ) : ViewModel() {
 
@@ -116,6 +118,8 @@ class TvMainViewModel @Inject constructor(
             else -> ConnectionState.Connected
         }
     }.distinctUntilChanged().asLiveData()
+
+    val settingsProtocol get() = effectiveCurrentUserSettingsCached.value.protocol
 
     init {
         viewModelScope.launch {
@@ -207,7 +211,7 @@ class TvMainViewModel @Inject constructor(
     @DrawableRes
     private fun profileCardTitleIcon(connectIntent: ConnectIntent): Int {
         val defaultConnection = profileManager.getDefaultOrFastest()
-        val server = serverManager.getServerForConnectIntent(connectIntent, currentUser.vpnUserCached())
+        val server = serverManager.getServerForConnectIntent(connectIntent, currentUser.vpnUserCached(), settingsProtocol)
         return when {
             server == null -> CoreR.drawable.ic_proton_lock_filled
             server.online && connectIntent == ConnectIntent.Default -> CoreR.drawable.ic_proton_bolt
@@ -220,7 +224,7 @@ class TvMainViewModel @Inject constructor(
     @DrawableRes
     private fun quickConnectTitleIcon(): Int {
         val defaultConnection = profileManager.getDefaultOrFastest()
-        val server = serverManager.getServerForProfile(defaultConnection, currentUser.vpnUserCached())
+        val server = serverManager.getServerForProfile(defaultConnection, currentUser.vpnUserCached(), settingsProtocol)
         return when {
             isConnected() || isEstablishingConnection() -> 0
             server?.online == true ->
@@ -304,7 +308,7 @@ class TvMainViewModel @Inject constructor(
             profile.wrapper.type != ServerWrapper.ProfileType.RANDOM
         }
         return profile.country.takeIfNotBlank()
-            ?: serverManager.getServerForProfile(profile, currentUser.vpnUserCached())?.exitCountry
+            ?: serverManager.getServerForProfile(profile, currentUser.vpnUserCached(), settingsProtocol)?.exitCountry
             ?: ""
     }
 

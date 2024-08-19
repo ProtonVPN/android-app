@@ -32,10 +32,10 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
@@ -183,8 +183,6 @@ class VpnConnectionManagerTests {
             arg<() -> Unit>(2).invoke()
         }
 
-        val userSettingsCached = EffectiveCurrentUserSettingsCached(MutableStateFlow(LocalUserSettings.Default))
-
         Storage.setPreferences(MockSharedPreference())
         vpnStateMonitor = VpnStateMonitor()
         supportsProtocol = SupportsProtocol(createGetSmartProtocols())
@@ -196,7 +194,6 @@ class VpnConnectionManagerTests {
         )
         serverManager = ServerManager(
             testScope.backgroundScope,
-            userSettingsCached,
             mockCurrentUser,
             clock,
             supportsProtocol,
@@ -214,7 +211,7 @@ class VpnConnectionManagerTests {
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
-            userSettings = userSettings,
+            settingsForConnection = SettingsForConnection(userSettings),
             appConfig = appConfig,
             backendProvider = mockBackendProvider,
             networkManager = mockNetworkManager,

@@ -35,8 +35,10 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.isCompatibleWith
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
+import com.protonvpn.android.redesign.vpn.usecases.applyOverrides
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
@@ -95,13 +97,13 @@ class RecentsListViewStateFlow @Inject constructor(
                 vpnStatusProvider.uiStatus,
                 changeServerManager.isChangingServer,
                 serverManager.serverListVersion, // Update whenever servers change.
-                userSettings.protocol,
+                userSettings.effectiveSettings,
                 recentsManager.getDefaultConnectionFlow(),
-            ) { status, isChangingServer, _, protocol, defaultConnection ->
+            ) { status, isChangingServer, _, settings, defaultConnection ->
                 val connectedIntent = status.connectIntent?.takeIf { status.state.isConnectedOrConnecting() }
                 val connectedServer = status.server?.takeIf { status.state.isConnectedOrConnecting() }
                 val mostRecentAvailableIntent =  mostRecent?.connectIntent?.takeIf {
-                    getIntentAvailability(it, vpnUser, protocol) == RecentAvailability.ONLINE
+                    getIntentAvailability(it, vpnUser, settings.protocol) == RecentAvailability.ONLINE
                 }
                 val connectionCardIntent = connectedIntent
                     ?: when (defaultConnection) {
@@ -129,7 +131,7 @@ class RecentsListViewStateFlow @Inject constructor(
                         connectedServer,
                         connectionCardIntent,
                         vpnUser,
-                        protocol
+                        settings
                     ),
                     recents.find { it.connectIntent == connectionCardIntent }?.id
                 )
@@ -145,14 +147,16 @@ class RecentsListViewStateFlow @Inject constructor(
         connectedServer: Server?,
         connectionCardIntent: ConnectIntent,
         vpnUser: VpnUser?,
-        protocol: ProtocolSelection
+        globalSettings: LocalUserSettings
     ): List<RecentItemViewState> =
         // Note: the loop below calls suspending functions in each iteration making it potentially slow.
         // With the legacy ServerManager this shouldn't be an issue but once we move to a different server storage this
         // code needs to be revised and all the necessary information should be fetched once in a batch instead of
         // querying one by one for each intent.
         recents.mapNotNull { recentConnection ->
-            if (recentConnection.connectIntent != connectionCardIntent || recentConnection.isPinned) {
+            val intent = recentConnection.connectIntent
+            if (intent != connectionCardIntent || recentConnection.isPinned) {
+                val protocol = globalSettings.applyOverrides(intent.settingsOverrides).protocol
                 mapToRecentItemViewState(recentConnection, connectedIntent, connectedServer, vpnUser, protocol)
             } else {
                 null

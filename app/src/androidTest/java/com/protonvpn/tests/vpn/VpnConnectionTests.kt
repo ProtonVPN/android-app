@@ -33,14 +33,16 @@ import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
+import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -55,7 +57,6 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
-import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.AgentConnectionInterface
 import com.protonvpn.android.vpn.CAPABILITY_NOT_VPN
@@ -119,7 +120,6 @@ import kotlinx.coroutines.test.setMain
 import kotlinx.coroutines.yield
 import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import me.proton.core.network.domain.NetworkStatus
-import me.proton.core.network.domain.session.SessionId
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -295,7 +295,6 @@ class VpnConnectionTests {
         )
         serverManager = ServerManager(
             scope.backgroundScope,
-            userSettingsCached,
             currentUser,
             clock,
             supportsProtocol,
@@ -309,9 +308,10 @@ class VpnConnectionTests {
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
 
-        manager = VpnConnectionManager(permissionDelegate, appConfig, userSettings, backendProvider, networkManager, vpnErrorHandler, monitor,
-            mockVpnBackgroundUiDelegate, serverManager2, certificateRepository, scope.backgroundScope, clock,
-            mockk(relaxed = true), currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry, mockk(relaxed = true))
+        manager = VpnConnectionManager(permissionDelegate, appConfig, SettingsForConnection(userSettings),
+            backendProvider, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
+            serverManager2, certificateRepository, scope.backgroundScope, clock, mockk(relaxed = true),
+            currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry, mockk(relaxed = true))
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 
@@ -416,9 +416,24 @@ class VpnConnectionTests {
 
         coVerify(exactly = 1) {
             mockWireguard.prepareForConnection(any(), any(), any(),false)
-            mockWireguard.createAgentConnection(any(), any(), any())
+            mockWireguard.createAgentConnection(any(), any(), any(), any())
         }
         Assert.assertEquals(VpnState.Connected, monitor.state)
+    }
+
+    @Test
+    fun profileProtocolIsRespectedForConnection() = scope.runTest {
+        userSettingsFlow.update {
+            it.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
+        }
+        val overrideProtocol = ProtocolSelectionData(VpnProtocol.OpenVPN, TransmissionProtocol.UDP)
+        manager.connect(
+            mockVpnUiDelegate,
+            connectIntentFastest.copy(settingsOverrides = SettingsOverrides(protocolData = overrideProtocol)),
+            trigger
+        )
+        assertEquals(VpnState.Connected, monitor.state)
+        assertEquals(overrideProtocol.toProtocolSelection(), monitor.status.value.connectionParams?.protocolSelection)
     }
 
     @Test
@@ -983,7 +998,7 @@ class VpnConnectionTests {
             networkManager,
             NetworkCapabilitiesFlow(networkCapabilitiesFlow),
             certificateRepository,
-            userSettings,
+            SettingsForConnection(userSettings),
             protocol,
             mockLocalAgentUnreachableTracker,
             currentUser,
