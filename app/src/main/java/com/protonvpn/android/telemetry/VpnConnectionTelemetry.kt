@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.telemetry
 
+import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.ElapsedRealtimeClock
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
@@ -29,14 +30,29 @@ import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import dagger.Reusable
 import io.sentry.Sentry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
+import me.proton.core.featureflag.domain.FeatureFlagManager
+import me.proton.core.featureflag.domain.entity.FeatureId
 import javax.inject.Inject
 import javax.inject.Singleton
 
 private class ConnectionTelemetryDebug(message: String) : Throwable(message)
+
+@OptIn(ExperimentalProtonFeatureFlag::class)
+@Reusable
+class ConnectionTelemetrySentryDebugEnabled @Inject constructor(
+    private val currentUser: CurrentUser,
+    private val featureFlagManager: FeatureFlagManager
+)  {
+    suspend operator fun invoke(): Boolean =
+        featureFlagManager.getValue(currentUser.user()?.userId, FeatureId("ConnectionTelemetrySentryDebug"))
+}
 
 @Singleton
 class VpnConnectionTelemetry @Inject constructor(
@@ -46,6 +62,7 @@ class VpnConnectionTelemetry @Inject constructor(
     private val vpnStateMonitor: VpnStateMonitor,
     private val connectivityMonitor: ConnectivityMonitor,
     private val helper: TelemetryFlowHelper,
+    private val isSentryDebugEnabled: ConnectionTelemetrySentryDebugEnabled,
 ) {
 
     private enum class Outcome(val statsKeyword: String) {
@@ -198,8 +215,12 @@ class VpnConnectionTelemetry @Inject constructor(
     private fun reportImmediateAbortToSentry(sentryInfo: String) {
         val inProgress = connectionInProgress
         if (inProgress != null && clock() - inProgress.timestampMs < 150) {
-            val trigger = inProgress.trigger.statsName
-            Sentry.captureException(ConnectionTelemetryDebug("'$trigger' connection aborted: $sentryInfo"))
+            mainScope.launch {
+                if (isSentryDebugEnabled()) {
+                    val trigger = inProgress.trigger.statsName
+                    Sentry.captureException(ConnectionTelemetryDebug("'$trigger' connection aborted: $sentryInfo"))
+                }
+            }
         }
     }
 
