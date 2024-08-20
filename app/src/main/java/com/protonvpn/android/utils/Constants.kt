@@ -208,6 +208,7 @@ object Constants {
 
     // Plans
     const val CURRENT_PLUS_PLAN = "vpn2022"
+    const val CURRENT_PLUS_PLAN_LABEL = "VPN Plus"
     const val CURRENT_BUNDLE_PLAN = "bundle2022"
 
     // TV

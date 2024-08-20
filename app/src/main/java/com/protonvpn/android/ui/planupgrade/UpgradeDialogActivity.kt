@@ -23,18 +23,33 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.ViewGroup.MarginLayoutParams
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commitNow
 import androidx.fragment.app.replace
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -46,6 +61,7 @@ import com.protonvpn.android.utils.edgeToEdge
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
 open class UpgradeDialogActivity : BaseActivityV2() {
@@ -64,7 +80,6 @@ open class UpgradeDialogActivity : BaseActivityV2() {
             initPaymentsPanelFragment()
         }
 
-        binding.buttonClose.setOnClickListener { finish() }
         binding.buttonNotNow.setOnClickListener { finish() }
 
         viewModel.state.asLiveData().observe(this) { state ->
@@ -81,8 +96,41 @@ open class UpgradeDialogActivity : BaseActivityV2() {
             }
         }
 
+        binding.composeToolbar.setContent {
+            val state by viewModel.state.collectAsStateWithLifecycle()
+            val purchaseState = state as? CommonUpgradeDialogViewModel.State.PurchaseReady
+            VpnTheme {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .windowInsetsPadding(WindowInsets.statusBars)
+                ) {
+                    Icon(
+                        painter = painterResource(CoreR.drawable.ic_proton_cross),
+                        contentDescription = stringResource(R.string.close),
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .clip(CircleShape)
+                            .clickable { finish() }
+                            .padding(8.dp)
+                    )
+                    if (purchaseState != null && purchaseState.allPlans.size > 1) {
+                        // TODO: what about plan order?
+                        PlanSelector(
+                            purchaseState.allPlans,
+                            purchaseState.selectedPlan,
+                            enabled = !purchaseState.inProgress,
+                            onPlanSelected = viewModel::selectPlan,
+                            modifier = Modifier.padding(horizontal = 8.dp)
+                        )
+                    }
+                }
+            }
+        }
+
         if (savedInstanceState == null) {
-            viewModel.loadPlans(listOf(Constants.CURRENT_PLUS_PLAN))
+            // TODO: change plan list based on FF and dialog type. It belongs in viewmodel.
+            viewModel.loadPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
         }
     }
 
@@ -124,10 +172,8 @@ open class UpgradeDialogActivity : BaseActivityV2() {
     private fun setupEdgeToEdge() = with(binding) {
         edgeToEdge(root) { _, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            fragmentContent.updatePadding(top = 24.toPx() + insets.top)
-            buttonClose.updateLayoutParams<MarginLayoutParams> { topMargin = 8.toPx() + insets.top }
             root.updatePadding(bottom = 16.toPx() + insets.bottom)
-            WindowInsetsCompat.CONSUMED
+            windowInsets
         }
     }
 
@@ -175,7 +221,6 @@ class UpgradeOnboardingDialogActivity : UpgradeDialogActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.buttonClose.isVisible = false
         binding.buttonNotNow.isVisible = true
     }
 

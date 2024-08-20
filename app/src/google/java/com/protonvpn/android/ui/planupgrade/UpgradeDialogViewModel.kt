@@ -116,10 +116,7 @@ class UpgradeDialogViewModel(
     data class GiapPlanModel(
         val giapPlanInfo: GiapPlanInfo,
         val prices: Map<PlanCycle, PriceInfo>
-    ) : PlanModel {
-        override val name get() = giapPlanInfo.name
-        override val cycles get() = giapPlanInfo.cycles
-    }
+    ) : PlanModel(displayName = giapPlanInfo.displayName, planName = giapPlanInfo.name, cycles = giapPlanInfo.cycles)
 
     fun reloadPlans() {
         loadPlanNames?.let { loadPlans(it) }
@@ -145,10 +142,12 @@ class UpgradeDialogViewModel(
     private suspend fun loadGiapPlans(planNames: List<String>) {
         state.value = State.LoadingPlans
         suspend {
-            loadedPlans = loadGoogleSubscriptionPlans(planNames).map { planInfo ->
+            val unorderedPlans = loadGoogleSubscriptionPlans(planNames).map { planInfo ->
                 GiapPlanModel(planInfo, calculatePriceInfos(planInfo.cycles, planInfo.dynamicPlan))
             }
-            val preselectedPlan = loadedPlans.find { it.name == planNames.first() }
+            // Plans order should match order of planNames.
+            loadedPlans = planNames.mapNotNull { planName -> unorderedPlans.find { it.planName == planName } }
+            val preselectedPlan = loadedPlans.find { it.planName == planNames.first() }
             if (loadedPlans.isNotEmpty() && preselectedPlan != null) {
                 if (loadedPlans.any { it.prices.isEmpty() }) {
                     state.value = State.LoadError(R.string.error_fetching_prices)

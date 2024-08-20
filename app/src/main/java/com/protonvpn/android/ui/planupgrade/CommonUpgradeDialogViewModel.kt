@@ -32,9 +32,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -45,10 +43,11 @@ import me.proton.core.plan.presentation.PlansOrchestrator
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.plan.presentation.onUpgradeResult
 
-interface PlanModel {
-    val name: String
+open class PlanModel(
+    val displayName: String,
+    val planName: String,
     val cycles: List<CycleInfo>
-}
+)
 
 abstract class CommonUpgradeDialogViewModel(
     protected val userId: Flow<UserId?>,

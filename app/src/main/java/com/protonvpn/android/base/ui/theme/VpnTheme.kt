@@ -68,12 +68,16 @@ fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
 }
 
 @Composable
-fun LightAndDarkPreview(addSurface: Boolean = true, content: @Composable () -> Unit) {
+fun LightAndDarkPreview(
+    addSurface: Boolean = true,
+    surfaceColor: @Composable () -> Color = { ProtonTheme.colors.backgroundNorm },
+    content: @Composable () -> Unit
+) {
     @Composable
     fun OptionalSurface(surface: Boolean, content: @Composable () -> Unit) {
         if (surface) {
             Surface(
-                color = ProtonTheme.colors.backgroundNorm
+                color = surfaceColor()
             ) {
                 content()
             }
