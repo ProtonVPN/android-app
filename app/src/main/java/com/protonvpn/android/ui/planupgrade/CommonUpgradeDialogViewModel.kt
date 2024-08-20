@@ -28,8 +28,13 @@ import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
 import com.protonvpn.android.utils.UserPlanManager
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -76,13 +81,16 @@ abstract class CommonUpgradeDialogViewModel(
             val inProgress: Boolean = false,
         ) : State()
         object PlansFallback : State() // Conditions for short flow were not met, start normal account flow
-        data class GiapBillingClientError(val error: BillingClientError) : State()
-        object GiapPurchaseError : State()
         data class PurchaseSuccess(
             val newPlanName: String,
             val upgradeFlowType: UpgradeFlowType
         ) : State()
     }
+
+    data class PurchaseError(val billingClientError: BillingClientError?)
+
+    protected val purchaseError = Channel<PurchaseError>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val eventPurchaseError: ReceiveChannel<PurchaseError> = purchaseError
     val state = MutableStateFlow<State>(State.Initializing)
 
     fun reportUpgradeFlowStart(upgradeSource: UpgradeSource) {

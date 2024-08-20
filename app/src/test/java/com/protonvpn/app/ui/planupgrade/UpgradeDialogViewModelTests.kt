@@ -21,6 +21,7 @@ package com.protonvpn.app.ui.planupgrade
 
 import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel.State
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
@@ -34,7 +35,9 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -118,31 +121,41 @@ class UpgradeDialogViewModelTests {
 
     @Test
     fun `load default plan and purchase`() = testScope.runTest {
-        coEvery { performGiapPurchase(any(), any(), any(), any()) } returns
-                mockk<PerformGiapPurchase.Result.GiapSuccess>()
+        val purchaseResult = MutableSharedFlow<PerformGiapPurchase.Result>()
+        coEvery { performGiapPurchase.invoke(any(), any(), any(), any()) } coAnswers {
+            purchaseResult.first()
+        }
 
         viewModel.loadPlans()
 
         Assert.assertEquals(PlanCycle.MONTHLY, viewModel.selectedCycle.value)
 
-        val loadedPlan = assertIs<State.PurchaseReady>(viewModel.state.value).plan
-        Assert.assertEquals("myplan", loadedPlan.name)
-        Assert.assertFalse(assertIs<State.PurchaseReady>(viewModel.state.value).inProgress)
+        viewModel.state.test {
+            val loadedState = awaitItem()
+            assertIs<State.PurchaseReady>(loadedState)
+            val loadedPlan = loadedState.plan
 
-        viewModel.onPaymentStarted(UpgradeFlowType.REGULAR)
-        Assert.assertTrue(assertIs<State.PurchaseReady>(viewModel.state.value).inProgress)
+            Assert.assertEquals("myplan", loadedPlan.name)
+            Assert.assertFalse(loadedState.inProgress)
 
-        // Fail before succeeding
-        viewModel.onErrorInFragment()
-        Assert.assertFalse(assertIs<State.PurchaseReady>(viewModel.state.value).inProgress)
+            viewModel.onPaymentStarted(UpgradeFlowType.REGULAR)
+            viewModel.pay(mockk(), UpgradeFlowType.ONE_CLICK)
+            Assert.assertTrue(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
 
-        // Try again and succeed
-        viewModel.onPaymentStarted(UpgradeFlowType.ONE_CLICK)
-        viewModel.pay(mockk(), UpgradeFlowType.ONE_CLICK)
-        Assert.assertEquals(
-            State.PurchaseSuccess("myplan", UpgradeFlowType.ONE_CLICK),
-            viewModel.state.value
-        )
+            // Fail before succeeding
+            purchaseResult.emit(PerformGiapPurchase.Result.Error.PurchaseNotFound)
+            Assert.assertFalse(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
+
+            // Try again and succeed
+            viewModel.onPaymentStarted(UpgradeFlowType.ONE_CLICK)
+            viewModel.pay(mockk(), UpgradeFlowType.ONE_CLICK)
+            Assert.assertTrue(assertIs<State.PurchaseReady>(awaitItem()).inProgress)
+            purchaseResult.emit(mockk<PerformGiapPurchase.Result.GiapSuccess>())
+            Assert.assertEquals(
+                State.PurchaseSuccess("myplan", UpgradeFlowType.ONE_CLICK),
+                awaitItem()
+            )
+        }
     }
 
     @Test

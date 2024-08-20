@@ -48,6 +48,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.domain.entity.UserId
+import me.proton.core.payment.domain.repository.BillingClientError
 import me.proton.core.plan.domain.entity.DynamicPlan
 import me.proton.core.plan.domain.usecase.PerformGiapPurchase
 import me.proton.core.plan.presentation.PlansOrchestrator
@@ -158,10 +159,6 @@ class UpgradeDialogViewModel(
         }
     }
 
-    fun onErrorInFragment() {
-        removeProgressFromPurchaseReady()
-    }
-
     private fun removeProgressFromPurchaseReady() {
         state.update { if (it is State.PurchaseReady) it.copy(inProgress = false) else it }
     }
@@ -192,10 +189,11 @@ class UpgradeDialogViewModel(
             }
             is PerformGiapPurchase.Result.Error.UserCancelled -> emit(currentState.copy(inProgress = false))
             is PerformGiapPurchase.Result.Error.RecoverableBillingError ->
-                emit(State.GiapBillingClientError(purchaseResult.error))
+                emitError(purchaseResult.error)
             is PerformGiapPurchase.Result.Error.UnrecoverableBillingError ->
-                emit(State.GiapBillingClientError(purchaseResult.error))
-            is PerformGiapPurchase.Result.Error -> emit(State.GiapPurchaseError)
+                emitError(purchaseResult.error)
+            is PerformGiapPurchase.Result.Error ->
+                emitError(billingClientError = null)
             is PerformGiapPurchase.Result.GiapSuccess -> {
                 onPaymentFinished(plan.name, flowType)
                 emit(State.PurchaseSuccess(plan.name, flowType))
@@ -206,6 +204,11 @@ class UpgradeDialogViewModel(
     }.onEach {
         state.value = it
     }.launchIn(viewModelScope)
+
+    private fun emitError(billingClientError: BillingClientError?) {
+        removeProgressFromPurchaseReady()
+        purchaseError.trySend(PurchaseError(billingClientError))
+    }
 
     companion object {
 
