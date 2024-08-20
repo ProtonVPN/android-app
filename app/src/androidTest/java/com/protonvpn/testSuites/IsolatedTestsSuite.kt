@@ -19,6 +19,7 @@
 
 package com.protonvpn.testSuites
 
+import com.protonvpn.tests.db.MigrationTests
 import com.protonvpn.tests.netshield.NetShieldComponentTests
 import com.protonvpn.tests.promooffer.PromoOfferCountDownTests
 import com.protonvpn.tests.redesign.base.ui.ProtonTextFieldTests
@@ -39,6 +40,7 @@ import org.junit.runners.Suite
 @Suite.SuiteClasses(
     ConnectionDetailsTests::class,
     GetConnectIntentViewStateTests::class,
+    MigrationTests::class,
     NavigationTests::class,
     NetShieldComponentTests::class,
     PaymentPanelUiTests::class,

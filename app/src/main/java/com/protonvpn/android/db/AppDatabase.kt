@@ -222,6 +222,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_31_32,
             DatabaseMigrations.MIGRATION_32_33,
             DatabaseMigrations.MIGRATION_34_35,
+            DatabaseMigrations.MIGRATION_35_36,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
