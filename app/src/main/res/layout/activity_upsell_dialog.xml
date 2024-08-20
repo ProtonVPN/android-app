@@ -25,36 +25,25 @@
     android:background="@drawable/update_dialog_bg"
     android:orientation="vertical">
 
-    <FrameLayout
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/composeToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="48dp">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:requiresFadingEdge="vertical"
-            android:fadingEdgeLength="48dp">
+            android:layout_height="wrap_content"/>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </androidx.core.widget.NestedScrollView>
-
-        <ImageView
-            android:id="@+id/buttonClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:contentDescription="@string/close"
-            android:padding="8dp"
-            android:background="@drawable/round_selectable_item_bg"
-            app:srcCompat="@drawable/ic_proton_cross" />
-
-    </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/payment_panel_fragment"

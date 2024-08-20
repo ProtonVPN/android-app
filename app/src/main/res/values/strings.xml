@@ -460,7 +460,12 @@
     <string name="payment_price_cycle_year_label">1 year</string>
     <string name="payment_price_cycle_2years_label">2 years</string>
     <string name="payment_select_your_plan">Select your plan</string>
-    <string name="payment_button_get_vpn_plus">Get VPN Plus</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">Get %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->

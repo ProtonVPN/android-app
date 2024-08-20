@@ -46,6 +46,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.proton.core.domain.entity.AppStore
 import me.proton.core.domain.entity.UserId
+import me.proton.core.plan.domain.entity.DynamicPlan
 import me.proton.core.plan.domain.entity.DynamicPlanInstance
 import me.proton.core.plan.domain.entity.DynamicPlanPrice
 import me.proton.core.plan.domain.usecase.PerformGiapPurchase
@@ -75,15 +76,14 @@ class UpgradeDialogViewModelTests {
     private var oneClickPaymentsEnabled = true
     private var giapPlans: List<GiapPlanInfo> = emptyList()
 
+    private val dummyPrices = mapOf(
+        PlanCycle.MONTHLY to mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 10_00)),
+        PlanCycle.YEARLY to mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 100_00))
+    )
+
     private val testPlanName = "myplan"
     private val testPlan = GiapPlanInfo(
-        createDynamicPlan(
-            testPlanName,
-            prices = mapOf(
-                PlanCycle.MONTHLY to mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 10_00)),
-                PlanCycle.YEARLY to mapOf("USD" to DynamicPlanPrice("", currency = "USD", current = 100_00))
-            )
-        ),
+        createDynamicPlan(testPlanName, prices = dummyPrices),
         testPlanName,
         "My Plan",
         listOf(
@@ -139,7 +139,7 @@ class UpgradeDialogViewModelTests {
             assertIs<State.PurchaseReady>(loadedState)
             val loadedPlan = loadedState.selectedPlan
 
-            Assert.assertEquals("myplan", loadedPlan.name)
+            Assert.assertEquals("myplan", loadedPlan.planName)
             Assert.assertFalse(loadedState.inProgress)
 
             viewModel.onPaymentStarted(UpgradeFlowType.REGULAR)
@@ -194,7 +194,7 @@ class UpgradeDialogViewModelTests {
         viewModel.loadPlans(listOf(testPlanName, "missing plan"))
         val state = viewModel.state.first()
         assertIs<State.PurchaseReady>(state)
-        assertEquals(listOf(testPlanName), state.allPlans.map { it.name })
+        assertEquals(listOf(testPlanName), state.allPlans.map { it.planName })
     }
 
     @Test
@@ -258,13 +258,28 @@ class UpgradeDialogViewModelTests {
             "plan with missing prices",
             prices = mapOf(PlanCycle.MONTHLY to emptyMap())
         )
-        val cycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
-        giapPlans = listOf(plan1, plan2).map {
-            val cycleInfos = cycles.map { CycleInfo(it, it.toProductId(AppStore.GooglePlay) )}
-            GiapPlanInfo(it, it.name ?: "", it.name ?: "", cycleInfos, cycles.first())
-        }
-
+        giapPlans = toGiapPlans(plan1, plan2)
         viewModel.loadPlans(listOf("plan with prices", "plan with missing prices"))
         assertIs<State.LoadError>(viewModel.state.first())
+    }
+
+    @Test
+    fun `plan order matches the order of plan names to loadPlans`() = testScope.runTest {
+        val plan1 = createDynamicPlan("plan1", dummyPrices)
+        val plan2 = createDynamicPlan("plan2", dummyPrices)
+        giapPlans = toGiapPlans(plan1, plan2)
+
+        viewModel.loadPlans(listOf("plan2", "plan1"))
+        val state = viewModel.state.first()
+        assertIs<State.PurchaseReady>(state)
+        assertEquals(listOf("plan2", "plan1"), state.allPlans.map { it.planName })
+    }
+
+    private fun toGiapPlans(vararg plans : DynamicPlan): List<GiapPlanInfo> {
+        val cycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
+        return plans.map { plan ->
+            val cycleInfos = cycles.map { CycleInfo(it, it.toProductId(AppStore.GooglePlay)) }
+            GiapPlanInfo(plan, plan.name ?: "", plan.name ?: "", cycleInfos, cycles.first())
+        }
     }
 }

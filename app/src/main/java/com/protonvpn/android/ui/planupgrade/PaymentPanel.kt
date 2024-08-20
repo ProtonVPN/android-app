@@ -37,7 +37,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +53,7 @@ import com.protonvpn.android.base.ui.PlaceholderRect
 import com.protonvpn.android.base.ui.ProtonSolidButton
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.base.ui.vpnGreen
+import com.protonvpn.android.utils.Constants
 import me.proton.core.compose.theme.ProtonDimens
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionStrongUnspecified
@@ -73,6 +74,7 @@ sealed class ViewState(val inProgress: Boolean) {
         val priceInfo: CommonUpgradeDialogViewModel.PriceInfo
     )
     class PlanReady(
+        val displayName: String,
         val planName: String,
         val cycles: List<CycleViewInfo>,
         val showRenewPrice: Boolean,
@@ -166,9 +168,10 @@ fun PaymentPanel(
             when (viewState) {
                 is ViewState.Initializing,
                 is ViewState.LoadingPlans,
-                is ViewState.FallbackFlowReady,
+                is ViewState.FallbackFlowReady ->
+                    Text(stringResource(R.string.payment_button_get_plan, Constants.CURRENT_PLUS_PLAN_LABEL))
                 is ViewState.PlanReady ->
-                    Text(stringResource(R.string.payment_button_get_vpn_plus))
+                    Text(stringResource(R.string.payment_button_get_plan, viewState.displayName))
                 is ViewState.Error ->
                     Text(stringResource(R.string.try_again))
                 is ViewState.UpgradeDisabled ->
@@ -351,6 +354,7 @@ private fun PreviewPlan() {
         PaymentPanel(
             viewState = ViewState.PlanReady(
                 "VPN Plus",
+                "vpn2022",
                 listOf(
                     ViewState.CycleViewInfo(
                         PlanCycle.YEARLY,

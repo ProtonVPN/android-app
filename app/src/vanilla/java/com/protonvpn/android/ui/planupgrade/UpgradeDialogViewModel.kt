@@ -57,4 +57,6 @@ class UpgradeDialogViewModel @Inject constructor(
                 State.UpgradeDisabled
         }
     }
+
+    fun selectPlan(plan: PlanModel) = Unit
 }
