@@ -38,6 +38,7 @@ import io.sentry.SentryEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
@@ -90,16 +91,15 @@ class PaymentPanelFragment : Fragment() {
                 }
                 CommonUpgradeDialogViewModel.State.UpgradeDisabled ->
                     currentViewState.value = ViewState.UpgradeDisabled
-                is CommonUpgradeDialogViewModel.State.GiapBillingClientError ->
-                    onError(null, state.error)
-                is CommonUpgradeDialogViewModel.State.GiapPurchaseError -> {
-                    onError(null, null)
-                }
                 is CommonUpgradeDialogViewModel.State.PurchaseSuccess -> {
                     // do nothing, will be handled by parent activity
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.eventPurchaseError.receiveAsFlow()
+            .onEach { error -> onError(null, error.billingClientError) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
@@ -152,7 +152,6 @@ class PaymentPanelFragment : Fragment() {
         }
         if (allowReportToSentry && shouldReportToSentry(throwable))
             logToSentry(message, throwable) // Remove this once we know payments are in a good shape.
-        viewModel.onErrorInFragment()
     }
 
     private fun shouldReportToSentry(throwable: Throwable?): Boolean =
