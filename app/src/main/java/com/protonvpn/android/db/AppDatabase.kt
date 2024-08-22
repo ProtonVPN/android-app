@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.db
 
+import androidx.annotation.VisibleForTesting
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.TypeConverters
@@ -192,7 +193,8 @@ abstract class AppDatabase :
     companion object {
         const val version = 36
 
-        private val migrations = listOf(
+        @VisibleForTesting
+        val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
             DatabaseMigrations.MIGRATION_2_3,
             DatabaseMigrations.MIGRATION_4_5,

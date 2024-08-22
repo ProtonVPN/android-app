@@ -193,6 +193,7 @@ abstract class RecentsDao {
     """)
     protected abstract suspend fun insertProfileRecentWhenProfileExists(userId: UserId, profileId: Long, timestamp: Long): Long
 
+    @VisibleForTesting
     @Transaction
     @Query("""
         SELECT * FROM recents
@@ -203,7 +204,7 @@ abstract class RecentsDao {
                  END ASC
          LIMIT :limit
         """)
-    protected abstract fun getRecentsEntityList(userId: UserId, limit: Int = -1): Flow<List<RecentConnectionWithIntent>>
+    abstract fun getRecentsEntityList(userId: UserId, limit: Int = -1): Flow<List<RecentConnectionWithIntent>>
 
     @Transaction
     @Query("SELECT * FROM recents WHERE userId = :userId ORDER BY lastConnectionAttemptTimestamp DESC LIMIT 1")
