@@ -19,7 +19,7 @@
 -->
 <resources>
     <string name="app_icon_name_classic">Класічная</string>
-    <string name="app_icon_name_dark">Цёмная</string>
+    <string name="app_icon_name_dark">Цёмны</string>
     <string name="app_icon_name_retro">Рэтра</string>
     <string name="app_icon_name_weather">Надвор\'е</string>
     <string name="app_icon_name_notes">Нататкі</string>
@@ -988,7 +988,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Паведаміць пра праблему</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Журналы адладак</string>
+    <string name="settings_debug_logs_title">Журналы адладкі</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Удасканаліць Proton</string>
     <!-- tag(Redesign_2023) -->

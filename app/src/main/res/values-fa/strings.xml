@@ -18,12 +18,12 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_icon_name_classic">Classic</string>
+    <string name="app_icon_name_classic">کلاسیک</string>
     <string name="app_icon_name_dark">تاریک</string>
     <string name="app_icon_name_retro">Retro</string>
-    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_weather">آب و هوا</string>
     <string name="app_icon_name_notes">یادداشت ها</string>
-    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="app_icon_name_calculator">ماشین حساب</string>
     <!-- Strings related to login -->
     <string name="login">ورود به حساب</string>
     <string name="menuActionSignOut">خروج</string>
@@ -122,7 +122,7 @@
     <string name="profileRandom">تصادفی</string>
     <string name="loaderErrorNoInternet">اتصال اینترنت برقرار نیست</string>
     <string name="loaderErrorGeneric">مشکلی پیش آمد</string>
-    <string name="inputIpAddressLabel">IP address</string>
+    <string name="inputIpAddressLabel">آدرس IP</string>
     <string name="inputIpAddressHint">نشانی IP را بنویسید</string>
     <string name="inputIpAddressErrorInvalid">نشانی IP نامعتبر</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
@@ -134,7 +134,7 @@
     <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">تمام برنامه های دیگر (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">نمایش برنامه‌های سیستم</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">نمایش برنامه‌های سیستم</string>
     <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
@@ -507,7 +507,7 @@
     <string name="dynamic_report_your_issue_headline">مشکل شما چیست؟</string>
     <string name="update_screen_title">به‌روزرسانی Proton VPN</string>
     <string name="update_screen_description">اگر از نسخه‌های قدیمی‌تر Proton VPN استفاده می‌کنید احتمال برخورد با اشکال برای شما بالاتر است.</string>
-    <string name="dialog_create_account_title">Create an account to continue</string>
+    <string name="dialog_create_account_title">یک حساب کاربری بسازید تا ادامه بدهيد</string>
     <string name="dialog_create_account_action_create">ساختن حساب</string>
     <string name="dialog_create_account_action_signin">ورود به حساب</string>
     <string name="server_search_menu_title">جستجو</string>
@@ -516,7 +516,7 @@
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">پاک کردن</string>
     <!-- Example: Want to connect to Italy? -->
-    <string name="upgrade_country_title">Want to connect to a specific country?</string>
+    <string name="upgrade_country_title">می‌خواهید به یک کشور خاص متصل شوید؟</string>
     <string name="upgrade_country_message"><![CDATA[Unlock <b>country selection</b> with VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">به تجربه بازی کردن خود بهبود ببخشید</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Improve online gaming and video call performance with <b>NAT type 2</b>.]]></string>
@@ -530,10 +530,10 @@
         <item quantity="one">Unlock geoblocked content from %1$d country with VPN Plus</item>
         <item quantity="other">Unlock geoblocked content from %1$d countries with VPN Plus</item>
     </plurals>
-    <string name="select_default_connection">Select your default connection</string>
-    <string name="settings_default_connection_title">Default connection</string>
-    <string name="fastest_country_description">The best server based on your location</string>
-    <string name="settings_last_connection_title">Last connection</string>
+    <string name="select_default_connection">اتصال پیش‌فرض خود را انتخاب کنید</string>
+    <string name="settings_default_connection_title">اتصال پیش‌فرض</string>
+    <string name="fastest_country_description">بهترین سرور بر اساس مکان شما</string>
+    <string name="settings_last_connection_title">آخرین اتصال</string>
     <string name="settings_last_connection_description">Your most recently used connection</string>
     <string name="settings_change_icon_title">App icon</string>
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
@@ -553,7 +553,7 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">%1$s %2$s left</string>
+    <string name="offer_time_left">%1$s %2$s باقی مانده</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d ثانیه</item>
