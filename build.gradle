@@ -60,7 +60,7 @@ plugins {
     id 'com.google.devtools.ksp' version "$ksp_version" apply false
 }
 project.ext {
-    minSdkVersion = 23
+    minSdkVersion = 26
     compileSdkVersion = 34
     compileNdkVersion = "23.1.7779620"
 }
