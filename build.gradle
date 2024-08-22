@@ -38,6 +38,7 @@ buildscript {
     ext.kotlinx_serialization_json_version = '1.6.3'
     ext.mockk_version = '1.13.12'
     ext.robolectric_version = '4.12.1'
+    ext.room_version = '2.6.1'
     ext.turbine_version = '1.1.0'
 
     repositories {
@@ -53,6 +54,7 @@ buildscript {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath "androidx.room:room-gradle-plugin:$room_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
