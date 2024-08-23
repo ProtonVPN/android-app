@@ -33,12 +33,16 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -49,22 +53,25 @@ import androidx.fragment.app.replace
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.edgeToEdge
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.math.roundToInt
+import kotlin.reflect.KClass
 import me.proton.core.presentation.R as CoreR
 
-@AndroidEntryPoint
-open class UpgradeDialogActivity : BaseActivityV2() {
+abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean) : BaseActivityV2() {
 
     protected val viewModel by viewModels<UpgradeDialogViewModel>()
     protected val binding by viewBinding(ActivityUpsellDialogBinding::inflate)
@@ -78,6 +85,8 @@ open class UpgradeDialogActivity : BaseActivityV2() {
         if (savedInstanceState == null) {
             initHighlightsFragment()
             initPaymentsPanelFragment()
+            viewModel.loadPlans(allowMultiplePlans)
+            viewModel.reportUpgradeFlowStart(getTelemetryUpgradeSource())
         }
 
         binding.buttonNotNow.setOnClickListener { finish() }
@@ -100,37 +109,18 @@ open class UpgradeDialogActivity : BaseActivityV2() {
             val state by viewModel.state.collectAsStateWithLifecycle()
             val purchaseState = state as? CommonUpgradeDialogViewModel.State.PurchaseReady
             VpnTheme {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .windowInsetsPadding(WindowInsets.statusBars)
-                ) {
-                    Icon(
-                        painter = painterResource(CoreR.drawable.ic_proton_cross),
-                        contentDescription = stringResource(R.string.close),
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .clip(CircleShape)
-                            .clickable { finish() }
-                            .padding(8.dp)
-                    )
-                    if (purchaseState != null && purchaseState.allPlans.size > 1) {
-                        // TODO: what about plan order?
-                        PlanSelector(
-                            purchaseState.allPlans,
-                            purchaseState.selectedPlan,
-                            enabled = !purchaseState.inProgress,
-                            onPlanSelected = viewModel::selectPlan,
-                            modifier = Modifier.padding(horizontal = 8.dp)
-                        )
-                    }
-                }
+                CloseButtonAndPlanSelectionToolbar(
+                    allPlans = purchaseState?.allPlans ?: emptyList(),
+                    selectedPlan = purchaseState?.selectedPlan,
+                    inProgress = purchaseState?.inProgress ?: false,
+                    onClose = ::finish,
+                    onPlanSelected = { plan ->
+                        viewModel.selectPlan(plan)
+                        onPlanSelected(plan.planName)
+                    },
+                    modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars)
+                )
             }
-        }
-
-        if (savedInstanceState == null) {
-            // TODO: change plan list based on FF and dialog type. It belongs in viewmodel.
-            viewModel.loadPlans(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN))
         }
     }
 
@@ -140,27 +130,11 @@ open class UpgradeDialogActivity : BaseActivityV2() {
         finish()
     }
 
-    private fun initHighlightsFragment() {
-        val highlightsFragmentClass: Class<out Fragment>? =
-            intent.getSerializableExtraCompat<Class<out Fragment>>(FRAGMENT_CLASS_EXTRA)
-        val highlightsFragmentArgs = intent.getBundleExtra(FRAGMENT_ARGS_EXTRA)
+    protected abstract fun initHighlightsFragment()
 
-        if (highlightsFragmentClass != null) {
-            supportFragmentManager.commitNow {
-                add(R.id.fragmentContent, highlightsFragmentClass, highlightsFragmentArgs)
-            }
-            val upgradeSource = getUpgradeSourceFromIntent() ?: getUpgradeSourceFromFragment()
-            viewModel.reportUpgradeFlowStart(upgradeSource)
-        }
-    }
+    protected abstract fun onPlanSelected(planName: String)
 
-    private fun getUpgradeSourceFromIntent(): UpgradeSource? =
-        intent.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_EXTRA)
-
-    private fun getUpgradeSourceFromFragment(): UpgradeSource {
-        val fragment = binding.fragmentContent.getFragment<FragmentWithUpgradeSource>()
-        return fragment.upgradeSource
-    }
+    protected abstract fun getTelemetryUpgradeSource(): UpgradeSource
 
     private fun initPaymentsPanelFragment() {
         supportFragmentManager.commitNow {
@@ -176,52 +150,101 @@ open class UpgradeDialogActivity : BaseActivityV2() {
             windowInsets
         }
     }
+}
+
+@AndroidEntryPoint
+class PlusOnlyUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePlans = false) {
+
+    override fun initHighlightsFragment() {
+        val highlightsFragmentClass: Class<out Fragment>? =
+            intent.getSerializableExtraCompat<Class<out Fragment>>(FRAGMENT_CLASS_EXTRA)
+
+        if (highlightsFragmentClass != null) {
+            supportFragmentManager.commitNow {
+                add(R.id.fragmentContent, highlightsFragmentClass, null)
+            }
+        }
+    }
+
+    override fun onPlanSelected(planName: String) {
+        DebugUtils.fail("Not supported")
+    }
+
+    override fun getTelemetryUpgradeSource(): UpgradeSource {
+        // Called after initHighlightsFragment()
+        val fragment = binding.fragmentContent.getFragment<FragmentWithUpgradeSource>()
+        return fragment.upgradeSource
+    }
 
     companion object {
         const val FRAGMENT_CLASS_EXTRA = "highlights fragment"
-        const val FRAGMENT_ARGS_EXTRA = "highlights fragment args"
-        const val UPGRADE_SOURCE_EXTRA = "upgrade source"
 
-        inline fun <reified Activity :UpgradeDialogActivity, reified Fragment : FragmentWithUpgradeSource> createIntent(
-            context: Context,
-            args: Bundle? = null
-        ) = Intent(context, Activity::class.java).apply {
-            putExtra(FRAGMENT_CLASS_EXTRA, Fragment::class.java)
-            putExtra(FRAGMENT_ARGS_EXTRA, args)
-        }
+        inline fun <reified Fragment : FragmentWithUpgradeSource> createIntent( context: Context) =
+            Intent(context, PlusOnlyUpgradeDialogActivity::class.java).apply {
+                putExtra(FRAGMENT_CLASS_EXTRA, Fragment::class.java)
+            }
 
-        inline fun <reified Activity : UpgradeDialogActivity, reified F : Fragment> createIntent(
-            context: Context,
-            upgradeSource: UpgradeSource,
-            args: Bundle? = null
-        ) = Intent(context, Activity::class.java).apply {
-            putExtra(FRAGMENT_CLASS_EXTRA, F::class.java)
-            putExtra(FRAGMENT_ARGS_EXTRA, args)
-            putExtra(UPGRADE_SOURCE_EXTRA, upgradeSource)
-        }
-
-        inline fun <reified Fragment : FragmentWithUpgradeSource> launch(context: Context, args: Bundle? = null) {
-            context.startActivity(createIntent<UpgradeDialogActivity, Fragment>(context, args))
-        }
-
-        inline fun <reified F : Fragment> launch(
-            context: Context,
-            upgradeSource: UpgradeSource,
-            args: Bundle? = null
-        ) {
-            context.startActivity(createIntent<UpgradeDialogActivity, F>(context, upgradeSource, args))
+        inline fun <reified Fragment : FragmentWithUpgradeSource> launch(context: Context) {
+            context.startActivity(createIntent<Fragment>(context))
         }
     }
 }
 
 @AndroidEntryPoint
-class UpgradeOnboardingDialogActivity : UpgradeDialogActivity() {
+class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePlans = true) {
+
+    override fun initHighlightsFragment() {
+        val carouselArgs = intent.getBundleExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA)
+        supportFragmentManager.commitNow {
+            add(R.id.fragmentContent, VPN_PLUS_CAROUSEL, carouselArgs)
+        }
+    }
+
+    override fun onPlanSelected(planName: String) {
+        val fragmentClass = when (planName) {
+            Constants.CURRENT_PLUS_PLAN -> VPN_PLUS_CAROUSEL
+            Constants.CURRENT_BUNDLE_PLAN -> BUNDLE_CAROUSEL
+            else -> null
+        }
+        if (fragmentClass != null) {
+            supportFragmentManager.commitNow {
+                replace(R.id.fragmentContent, fragmentClass, null)
+            }
+        } else {
+            DebugUtils.fail("No highlights fragment for selected plan!")
+        }
+    }
+
+    override fun getTelemetryUpgradeSource(): UpgradeSource =
+        requireNotNull(intent.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_EXTRA))
+
+    companion object {
+        private val VPN_PLUS_CAROUSEL = UpgradeCarouselVpnPlusHighlightsFragment::class.java
+        private val BUNDLE_CAROUSEL = UpgradeCarouselUnlimitedHighlightsFragment::class.java
+        private const val UPGRADE_SOURCE_EXTRA = "upgrade source"
+        private const val CAROUSEL_FRAGMENT_ARGS_EXTRA = "carousel args"
+
+        fun launch(context: Context, upgradeSource: UpgradeSource, focusedFragmentClass: KClass<out Fragment>? = null) {
+            val intent = Intent(context, CarouselUpgradeDialogActivity::class.java).apply {
+                putExtra(UPGRADE_SOURCE_EXTRA, upgradeSource)
+                if (focusedFragmentClass != null) {
+                    putExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA, UpgradeHighlightsCarouselFragment.args(focusedFragmentClass))
+                }
+            }
+            context.startActivity(intent)
+        }
+    }
+}
+
+@AndroidEntryPoint
+class UpgradeOnboardingDialogActivity : BaseUpgradeDialogActivity(allowMultiplePlans = false) {
 
     @Inject lateinit var onboardingTelemetry: OnboardingTelemetry
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.buttonNotNow.isVisible = true
+        binding.composeToolbar.isVisible = false
     }
 
     override fun onPaymentSuccess(newPlanName: String, upgradeFlowType: UpgradeFlowType) {
@@ -229,14 +252,107 @@ class UpgradeOnboardingDialogActivity : UpgradeDialogActivity() {
         onboardingTelemetry.onOnboardingPaymentSuccess(newPlanName)
     }
 
-    companion object {
-        fun launch(context: Context, args: Bundle? = null) {
-            val intent = createIntent<UpgradeOnboardingDialogActivity, UpgradeHighlightsOnboardingFragment>(
-                context,
-                UpgradeSource.ONBOARDING,
-                args
-            )
-            context.startActivity(intent)
+    override fun initHighlightsFragment() {
+        supportFragmentManager.commitNow {
+            add(R.id.fragmentContent, UpgradeHighlightsOnboardingFragment::class.java, null)
         }
     }
+
+    override fun onPlanSelected(planName: String) {
+        DebugUtils.fail("Not supported")
+    }
+
+    override fun getTelemetryUpgradeSource(): UpgradeSource = UpgradeSource.ONBOARDING
+
+    companion object {
+        fun launch(context: Context) {
+            context.startActivity(Intent(context, UpgradeOnboardingDialogActivity::class.java))
+        }
+    }
+}
+
+@Composable
+private fun CloseButtonAndPlanSelectionToolbar(
+    allPlans: List<PlanModel>,
+    selectedPlan: PlanModel?,
+    inProgress: Boolean,
+    onClose: () -> Unit,
+    onPlanSelected: (PlanModel) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        val closeButtonSizeWithPaddings = 56.dp
+        Icon(
+            painter = painterResource(CoreR.drawable.ic_proton_cross),
+            contentDescription = stringResource(R.string.close),
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .clip(CircleShape)
+                .clickable { onClose() }
+                .padding(8.dp)
+        )
+        if (selectedPlan != null && allPlans.size > 1) {
+            PlanSelector(
+                allPlans,
+                selectedPlan,
+                enabled = !inProgress,
+                onPlanSelected = onPlanSelected,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .layout { measurable, constraints ->
+                        // Center the plan selector with respect to the whole row (take close button into
+                        // account). If there's not enough space to center, then align to start and take as
+                        // much available space as needed.
+                        val softEndMargin = closeButtonSizeWithPaddings.toPx()
+                        val placeable = measurable.measure(constraints)
+
+                        val availableWidthWithEndMargin = constraints.maxWidth - softEndMargin
+                        val x = when {
+                            placeable.width <= availableWidthWithEndMargin ->
+                                ((availableWidthWithEndMargin - placeable.width) / 2).roundToInt()
+
+                            else -> 0
+                        }
+                        layout(placeable.width, placeable.height) {
+                            placeable.placeRelative(x, 0)
+                        }
+                    }
+            )
+        }
+    }
+}
+
+@Preview(widthDp = 450)
+@Composable
+private fun PreviewCloseButtonAndPlanSelectionToolbar() {
+    LightAndDarkPreview(
+        surfaceColor = { Color(0xFF3A51A6) }
+    ) {
+        val plans = listOf(
+            PlanModel("VPN Plus", "plus", emptyList()),
+            PlanModel("Proton Unlimited", "bundle", emptyList())
+        )
+        CloseButtonAndPlanSelectionToolbar(
+            allPlans = plans,
+            selectedPlan = plans.first(),
+            inProgress = false,
+            onClose = {},
+            onPlanSelected = {}
+        )
+    }
+}
+
+@Preview(widthDp = 300)
+@Composable
+private fun PreviewNarrowCloseButtonAndPlanSelectionToolbar() {
+    PreviewCloseButtonAndPlanSelectionToolbar()
+}
+
+@Preview(fontScale = 1.5f)
+@Composable
+private fun PreviewLargeFontCloseButtonAndPlanSelectionToolbar() {
+    PreviewCloseButtonAndPlanSelectionToolbar()
 }

@@ -30,7 +30,7 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -131,9 +131,9 @@ class OnboardingTelemetryTests {
     }
 
     @Test
-    fun `onboarding_start reported when UpgradeDialogActivity goes foreground`() = testScope.runTest {
+    fun `onboarding_start reported when any BaseUpgradeDialogActivity goes foreground`() = testScope.runTest {
         createTelemetry()
-        foregroundActivityFlow.value = mockk<UpgradeDialogActivity>()
+        foregroundActivityFlow.value = mockk<UpgradeOnboardingDialogActivity>()
         runCurrent()
 
         verify(exactly = 1) { mockTelemetry.event(GROUP, "onboarding_start", any(), any(), true) }

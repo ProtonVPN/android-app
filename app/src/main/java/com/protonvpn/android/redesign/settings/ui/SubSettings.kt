@@ -48,9 +48,9 @@ import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsRegularCarouselFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatHighlightsFragment
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelAppsActivity
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsActivity
@@ -133,7 +133,7 @@ fun SubSettingsRoute(
                         onOpenMyAccount = { context.openUrl(Constants.URL_ACCOUNT_LOGIN) },
                         onDeleteAccount = { context.openUrl(Constants.URL_ACCOUNT_DELETE) },
                         onUpgrade = {
-                            UpgradeDialogActivity.launch<UpgradeHighlightsRegularCarouselFragment>(
+                            CarouselUpgradeDialogActivity.launch(
                                 context,
                                 UpgradeSource.ACCOUNT
                             )
@@ -154,8 +154,8 @@ fun SubSettingsRoute(
                         onAllowLanChange = { settingsChangeViewModel.toggleLanConnections(vpnUiDelegate) },
                         onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
                         onNavigateToNatType = { onNavigateToSubSetting(SubSettingsScreen.Type.NatType) },
-                        onAllowLanRestricted = { UpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
-                        onNatTypeRestricted = { UpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(context) },
+                        onAllowLanRestricted = { PlusOnlyUpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
+                        onNatTypeRestricted = { PlusOnlyUpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(context) },
                     )
                 }
             }

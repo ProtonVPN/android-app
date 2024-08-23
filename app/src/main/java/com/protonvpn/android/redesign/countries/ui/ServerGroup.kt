@@ -71,7 +71,7 @@ import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
@@ -158,22 +158,22 @@ fun createOnConnectAction(
         item = item,
         filterType = filterType,
         navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) },
-        navigateToUpsell = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
+        navigateToUpsell = { PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
     )
 }
 
 fun navigateToUpsellFromBanner(context: Context, bannerType: ServerGroupUiItem.BannerType) =
     when(bannerType) {
         ServerGroupUiItem.BannerType.Countries ->
-            UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
         ServerGroupUiItem.BannerType.SecureCore ->
-            UpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(context)
+            PlusOnlyUpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(context)
         ServerGroupUiItem.BannerType.P2P ->
-            UpgradeDialogActivity.launch<UpgradeP2PHighlightsFragment>(context)
+            PlusOnlyUpgradeDialogActivity.launch<UpgradeP2PHighlightsFragment>(context)
         ServerGroupUiItem.BannerType.Tor ->
-            UpgradeDialogActivity.launch<UpgradeTorHighlightsFragment>(context)
+            PlusOnlyUpgradeDialogActivity.launch<UpgradeTorHighlightsFragment>(context)
         is ServerGroupUiItem.BannerType.Search ->
-            UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
     }
 
 @Composable

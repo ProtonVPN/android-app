@@ -28,6 +28,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.UpgradeFlowType
 import com.protonvpn.android.ui.planupgrade.usecase.CycleInfo
 import com.protonvpn.android.ui.planupgrade.usecase.GiapPlanInfo
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.formatPrice
 import com.protonvpn.test.shared.createDynamicPlan
 import com.protonvpn.test.shared.toProductId
@@ -74,6 +75,7 @@ class UpgradeDialogViewModelTests {
 
     private var isInAppAllowed = true
     private var oneClickPaymentsEnabled = true
+    private var oneClickUnlimitedEnabled = true
     private var giapPlans: List<GiapPlanInfo> = emptyList()
 
     private val dummyPrices = mapOf(
@@ -111,6 +113,7 @@ class UpgradeDialogViewModelTests {
             upgradeTelemetry = mockk(relaxed = true),
             loadGoogleSubscriptionPlans = { giapPlans },
             oneClickPaymentsEnabled = { oneClickPaymentsEnabled },
+            oneClickUnlimitedEnabled = { oneClickUnlimitedEnabled },
             performGiapPurchase = performGiapPurchase,
             userPlanManager = mockk(relaxed = true),
             waitForSubscription = mockk(relaxed = true),
@@ -258,26 +261,58 @@ class UpgradeDialogViewModelTests {
             "plan with missing prices",
             prices = mapOf(PlanCycle.MONTHLY to emptyMap())
         )
-        giapPlans = toGiapPlans(plan1, plan2)
+        giapPlans = listOf(plan1, plan2).toGiapPlans()
         viewModel.loadPlans(listOf("plan with prices", "plan with missing prices"))
         assertIs<State.LoadError>(viewModel.state.first())
     }
 
     @Test
     fun `plan order matches the order of plan names to loadPlans`() = testScope.runTest {
-        val plan1 = createDynamicPlan("plan1", dummyPrices)
-        val plan2 = createDynamicPlan("plan2", dummyPrices)
-        giapPlans = toGiapPlans(plan1, plan2)
+        giapPlans = createDummyPlans("plan1", "plan2")
 
         viewModel.loadPlans(listOf("plan2", "plan1"))
-        val state = viewModel.state.first()
-        assertIs<State.PurchaseReady>(state)
-        assertEquals(listOf("plan2", "plan1"), state.allPlans.map { it.planName })
+        assertPlanNames(listOf("plan2", "plan1"), viewModel.state.first())
     }
 
-    private fun toGiapPlans(vararg plans : DynamicPlan): List<GiapPlanInfo> {
+    @Test
+    fun `when allowMultiplePlans is true then Plus and Unlimited plans are used`() = testScope.runTest {
+        giapPlans = createDummyPlans(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        viewModel.loadPlans(allowMultiplePlans = true)
+
+        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN), viewModel.state.first())
+    }
+
+    @Test
+    fun `when allowMultiplePlans is false then only the first plan is used`() = testScope.runTest {
+        giapPlans = createDummyPlans(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        viewModel.loadPlans(allowMultiplePlans = false)
+
+        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN), viewModel.state.first())
+    }
+
+    @Test
+    fun `when oneClickUnlimitedEnabled is false then only the first plan is used`() = testScope.runTest {
+        giapPlans = createDummyPlans(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+        oneClickUnlimitedEnabled = false
+
+        viewModel.loadPlans(allowMultiplePlans = true)
+        assertPlanNames(listOf(Constants.CURRENT_PLUS_PLAN), viewModel.state.first())
+    }
+
+    private fun assertPlanNames(expected: List<String>, state: State) {
+        assertIs<State.PurchaseReady>(state)
+        assertEquals(expected, state.allPlans.map { it.planName })
+    }
+
+    private fun createDummyPlans(vararg planNames: String): List<GiapPlanInfo> =
+        planNames
+            .map { createDynamicPlan(it, dummyPrices) }
+            .toGiapPlans()
+
+
+    private fun Collection<DynamicPlan>.toGiapPlans(): List<GiapPlanInfo> {
         val cycles = listOf(PlanCycle.MONTHLY, PlanCycle.YEARLY)
-        return plans.map { plan ->
+        return this.map { plan ->
             val cycleInfos = cycles.map { CycleInfo(it, it.toProductId(AppStore.GooglePlay)) }
             GiapPlanInfo(plan, plan.name ?: "", plan.name ?: "", cycleInfos, cycles.first())
         }

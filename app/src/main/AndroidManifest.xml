@@ -349,7 +349,8 @@
             android:exported="false" />
 
         <activity android:name=".ui.onboarding.WhatsNewActivity" />
-        <activity android:name=".ui.planupgrade.UpgradeDialogActivity" />
+        <activity android:name=".ui.planupgrade.PlusOnlyUpgradeDialogActivity" />
+        <activity android:name=".ui.planupgrade.CarouselUpgradeDialogActivity" />
         <activity android:name=".ui.planupgrade.UpgradeOnboardingDialogActivity" />
         <activity
             android:name=".tv.TvLoginActivity"

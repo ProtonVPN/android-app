@@ -19,5 +19,4 @@
 <androidx.compose.ui.platform.ComposeView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/compose_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:transitionGroup="true" />
+    android:layout_height="wrap_content" />

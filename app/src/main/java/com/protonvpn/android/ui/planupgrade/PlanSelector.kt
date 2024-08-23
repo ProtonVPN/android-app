@@ -20,20 +20,31 @@
 package com.protonvpn.android.ui.planupgrade
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -45,12 +56,16 @@ fun PlanSelector(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
 ) {
+    val selectorContentDescription = stringResource(R.string.upgrade_plan_selection_content_description)
     Row(
         modifier = modifier
             .selectableGroup()
+            .semantics { contentDescription = selectorContentDescription }
             .background(ProtonTheme.colors.backgroundNorm.copy(alpha = 0.4f), CircleShape)
-            .padding(4.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(4.dp)
+            .height(IntrinsicSize.Max),
+        verticalAlignment = Alignment.CenterVertically,
+
     ) {
         ProvideTextStyle(ProtonTheme.typography.body2Medium) {
             plans.forEach { plan ->
@@ -59,6 +74,7 @@ fun PlanSelector(
                     onClick = { onPlanSelected(plan) },
                     selected = plan == selectedPlan,
                     enabled = enabled,
+                    modifier = Modifier.fillMaxHeight(),
                 )
             }
         }
@@ -76,20 +92,25 @@ private fun PlanSelectorButton(
     val surfaceColor = if (selected) ProtonTheme.colors.interactionStrongNorm else Color.Transparent
     val contentColor = if (selected) ProtonTheme.colors.textInverted else ProtonTheme.colors.textNorm
     Surface(
-        onClick = onClick,
-        selected = selected,
-        enabled = enabled,
         color = surfaceColor,
         contentColor = contentColor,
         shape = CircleShape,
-        modifier = modifier,
+        modifier = modifier
+            .clip(CircleShape)
+            .selectable(
+                selected = selected,
+                enabled = enabled,
+                role = Role.RadioButton,
+                onClick = onClick
+            )
     ) {
-        Text(
-            text,
-            modifier = Modifier
-                .minimumInteractiveComponentSize()
-                .padding(horizontal = 15.dp, vertical = 10.dp)
-        )
+        Box {
+            Text(
+                text,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp).align(Alignment.Center)
+            )
+        }
     }
 }
 
