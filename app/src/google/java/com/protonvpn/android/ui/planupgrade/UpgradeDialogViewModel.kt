@@ -32,6 +32,7 @@ import com.protonvpn.android.ui.planupgrade.usecase.LoadGoogleSubscriptionPlans
 import com.protonvpn.android.ui.planupgrade.usecase.OneClickPaymentsEnabled
 import com.protonvpn.android.ui.planupgrade.usecase.PaymentDisplayRenewPriceKillSwitch
 import com.protonvpn.android.ui.planupgrade.usecase.WaitForSubscription
+import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.utils.formatPrice
 import com.protonvpn.android.utils.runCatchingCheckedExceptions
@@ -66,6 +67,7 @@ class UpgradeDialogViewModel(
     upgradeTelemetry: UpgradeTelemetry,
     private val loadGoogleSubscriptionPlans: suspend (planNames: List<String>) -> List<GiapPlanInfo>,
     private val oneClickPaymentsEnabled: suspend () -> Boolean,
+    private val oneClickUnlimitedEnabled: suspend () -> Boolean,
     private val performGiapPurchase: PerformGiapPurchase<Activity>,
     userPlanManager: UserPlanManager,
     waitForSubscription: WaitForSubscription,
@@ -89,6 +91,7 @@ class UpgradeDialogViewModel(
         upgradeTelemetry: UpgradeTelemetry,
         loadGoogleSubscriptionPlans: LoadGoogleSubscriptionPlans,
         oneClickPaymentsEnabled: OneClickPaymentsEnabled,
+        oneClickUnlimitedEnabled: OneClickUnlimitedPlanEnabled,
         performGiapPurchase: PerformGiapPurchase<Activity>,
         userPlanManager: UserPlanManager,
         waitForSubscription: WaitForSubscription,
@@ -101,6 +104,7 @@ class UpgradeDialogViewModel(
         upgradeTelemetry,
         loadGoogleSubscriptionPlans::invoke,
         oneClickPaymentsEnabled::invoke,
+        oneClickUnlimitedEnabled::invoke,
         performGiapPurchase,
         userPlanManager,
         waitForSubscription,
@@ -122,6 +126,21 @@ class UpgradeDialogViewModel(
         loadPlanNames?.let { loadPlans(it) }
     }
 
+    fun loadPlans(allowMultiplePlans: Boolean) {
+        viewModelScope.launch {
+            val unlimitedPlanEnabled = oneClickUnlimitedEnabled()
+            val plans = when {
+                allowMultiplePlans && unlimitedPlanEnabled ->
+                    listOf(Constants.CURRENT_PLUS_PLAN, Constants.CURRENT_BUNDLE_PLAN)
+
+                else ->
+                    listOf(Constants.CURRENT_PLUS_PLAN)
+            }
+            loadPlans(plans)
+        }
+    }
+
+    @VisibleForTesting
     fun loadPlans(planNames: List<String>) {
         loadPlanNames = planNames
         viewModelScope.launch {

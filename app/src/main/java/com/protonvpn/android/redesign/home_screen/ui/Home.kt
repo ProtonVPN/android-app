@@ -90,9 +90,8 @@ import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsCarouselFragment
-import com.protonvpn.android.ui.planupgrade.UpgradeHighlightsRegularCarouselFragment
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.promooffers.PromoOfferBanner
@@ -164,7 +163,7 @@ fun HomeView(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.eventNavigateToUpgrade.collect {
-            UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
         }
     }
     // Not using material3 snackbar because of inability to show multiline correctly
@@ -261,9 +260,9 @@ fun HomeView(
         )
         val netShieldActions = remember {
             NetShieldActions(
-                onChangeServerPromoUpgrade = { UpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) },
+                onChangeServerPromoUpgrade = { PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) },
                 onNetShieldValueChanged = { viewModel.setNetShieldProtocol(it) },
-                onUpgradeNetShield = { UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
+                onUpgradeNetShield = { PlusOnlyUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
                 onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
             )
         }
@@ -457,9 +456,5 @@ private fun calculateOverlayAlpha(offset: Int, fullCoverPx: Float): Float {
 }
 
 private fun launchUpgradeDialog(context: Context, focusFragment: KClass<out Fragment>, upgradeSource: UpgradeSource) {
-    UpgradeDialogActivity.launch<UpgradeHighlightsRegularCarouselFragment>(
-        context,
-        upgradeSource,
-        UpgradeHighlightsCarouselFragment.args(focusFragment),
-    )
+    CarouselUpgradeDialogActivity.launch(context, upgradeSource, focusFragment)
 }

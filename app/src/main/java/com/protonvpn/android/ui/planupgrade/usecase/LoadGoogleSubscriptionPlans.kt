@@ -61,7 +61,7 @@ class LoadGoogleSubscriptionPlans(
         getAvailablePaymentProviders: GetAvailablePaymentProviders
     ) : this(
         vpnUserFlow = currentUser.vpnUserFlow,
-        dynamicPlans = { getDynamicPlans(it).plans },
+        dynamicPlans = { userId -> getDynamicPlans(userId).plans },
         availablePaymentProviders = getAvailablePaymentProviders::invoke,
         DEFAULT_CYCLES,
         DEFAULT_PRESELECTED_CYCLE

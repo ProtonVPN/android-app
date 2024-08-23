@@ -26,7 +26,8 @@ import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.TelemetryEventData
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.BaseUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
 import com.protonvpn.android.vpn.VpnStateMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
@@ -60,7 +61,7 @@ class OnboardingTelemetry @Inject constructor(
             .onEach { activity ->
                 when (activity) {
                     is SignupActivity -> onSignupStart()
-                    is OnboardingActivity, is UpgradeDialogActivity -> onOnboardingStart()
+                    is OnboardingActivity, is BaseUpgradeDialogActivity -> onOnboardingStart()
                 }
             }
             .launchIn(mainScope)

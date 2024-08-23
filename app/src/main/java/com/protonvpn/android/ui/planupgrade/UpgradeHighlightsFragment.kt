@@ -30,6 +30,20 @@ import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.core.view.children
 import androidx.core.view.doOnNextLayout
 import androidx.core.view.isNotEmpty
@@ -41,6 +55,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.databinding.FragmentPlanHighlightsBinding
 import com.protonvpn.android.databinding.FragmentUpgradeHighlightsBinding
 import com.protonvpn.android.databinding.FragmentUpgradeHighlightsCarouselBinding
@@ -55,12 +70,12 @@ import com.protonvpn.android.utils.addOnGlobalLayoutListenerWithLifecycle
 import com.protonvpn.android.utils.getSerializableCompat
 import com.protonvpn.android.utils.getThemeColor
 import dagger.hilt.android.AndroidEntryPoint
+import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.utils.viewBinding
 import kotlin.reflect.KClass
 import me.proton.core.presentation.R as CoreR
 
-
-private val FeatureCarouselFragments = listOf(
+private val VpnPlusCarouselFragments = listOf(
     ::UpgradePlusCountriesHighlightsFragment,
     ::UpgradeVpnAcceleratorHighlightsFragment,
     ::UpgradeStreamingHighlightsFragment,
@@ -71,6 +86,10 @@ private val FeatureCarouselFragments = listOf(
     ::UpgradeTorHighlightsFragment,
     ::UpgradeSplitTunnelingHighlightsFragment,
     ::UpgradeAllowLanHighlightsFragment,
+)
+
+private val UnlimitedCarouselFragments = listOf(
+    ::UpgradeUnlimitedAllAppsFragment,
 )
 
 abstract class PlanHighlightsFragment : Fragment(R.layout.fragment_plan_highlights) {
@@ -228,7 +247,7 @@ abstract class UpgradeHighlightsCarouselFragment(
     }
 
     companion object {
-        const val EXTRA_FOCUSED_FRAGMENT_CLASS = "focusedFragmentClass"
+        private const val EXTRA_FOCUSED_FRAGMENT_CLASS = "focusedFragmentClass"
 
         fun args(focusedFragmentClass: KClass<out Fragment>) = Bundle().apply {
             putSerializable(EXTRA_FOCUSED_FRAGMENT_CLASS, focusedFragmentClass.java)
@@ -238,11 +257,15 @@ abstract class UpgradeHighlightsCarouselFragment(
 
 @AndroidEntryPoint
 class UpgradeHighlightsOnboardingFragment : UpgradeHighlightsCarouselFragment(
-    listOf(::UpgradeVpnPlusHighlightsFragment) + FeatureCarouselFragments
+    listOf(::UpgradeVpnPlusHighlightsFragment) + VpnPlusCarouselFragments
 )
 
 @AndroidEntryPoint
-class UpgradeHighlightsRegularCarouselFragment : UpgradeHighlightsCarouselFragment(FeatureCarouselFragments)
+class UpgradeCarouselVpnPlusHighlightsFragment : UpgradeHighlightsCarouselFragment(VpnPlusCarouselFragments)
+
+@AndroidEntryPoint
+class UpgradeCarouselUnlimitedHighlightsFragment : UpgradeHighlightsCarouselFragment(UnlimitedCarouselFragments)
+
 
 @AndroidEntryPoint
 class UpgradeVpnPlusHighlightsFragment : UpgradeHighlightsFragment() {
@@ -467,5 +490,49 @@ class UpgradeModerateNatHighlightsFragment : UpgradeHighlightsFragmentWithSource
             title = getString(R.string.upgrade_moderate_nat_title2),
             message = HtmlTools.fromHtml(getString(R.string.upgrade_moderate_nat_message2)),
         )
+    }
+}
+
+abstract class UpgradeComposeFragment : Fragment(R.layout.fragment_upgrade_highlights_compose) {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (view as ComposeView).setContent {
+            VpnTheme {
+                Content(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp))
+            }
+        }
+    }
+
+    @Composable
+    protected abstract fun Content(modifier: Modifier)
+}
+
+@AndroidEntryPoint
+class UpgradeUnlimitedAllAppsFragment : UpgradeComposeFragment() {
+
+    @Composable
+    override fun Content(modifier: Modifier) {
+        Column(
+            modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Image(
+                painter = painterResource(R.drawable.upgrade_unlimited_all_apps),
+                contentDescription = null,
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+            Text(
+                text = stringResource(R.string.upgrade_unlimited_all_apps_title),
+                style = ProtonTheme.typography.headline,
+                textAlign = TextAlign.Center,
+            )
+            Text(
+                text = stringResource(R.string.upgrade_unlimited_all_apps_description),
+                style = ProtonTheme.typography.body1Regular,
+                color = ProtonTheme.colors.textWeak,
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }

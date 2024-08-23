@@ -85,7 +85,7 @@ import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragment
@@ -148,13 +148,13 @@ fun SettingsRoute(
                 onNavigateToSubSetting(SubSettingsScreen.Type.NetShield)
             },
             onNetShieldUpgradeClick = {
-                UpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context)
+                PlusOnlyUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context)
             },
             onSplitTunnelClick = {
                 onNavigateToSubSetting(SubSettingsScreen.Type.SplitTunneling)
             },
             onSplitTunnelUpgrade = {
-                UpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(context)
+                PlusOnlyUpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(context)
             },
             onAlwaysOnClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -170,7 +170,7 @@ fun SettingsRoute(
                 onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
             },
             onVpnAcceleratorUpgrade = {
-                UpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(context)
+                PlusOnlyUpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(context)
             },
             onAdvancedSettingsClick = {
                 onNavigateToSubSetting(SubSettingsScreen.Type.Advanced)
