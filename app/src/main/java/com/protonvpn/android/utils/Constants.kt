@@ -82,6 +82,16 @@ object Constants {
     const val FALLBACK_SERVER_COUNT = 6500
     const val FALLBACK_COUNTRY_COUNT = 110
 
+    // Note: ideally these should come from dynamic plans.
+    const val UNLIMITED_PLAN_VPN_CONNECTIONS = MAX_CONNECTIONS_IN_PLUS_PLAN
+    const val UNLIMITED_PLAN_MAIL_ADDRESSES = 15
+    const val UNLIMITED_PLAN_MAIL_DOMAINS = 3
+    const val UNLIMITED_PLAN_MAIL_ATTACHMENT_MBS = 25
+    const val UNLIMITED_PLAN_CALENDARS = 25
+    const val UNLIMITED_PLAN_DRIVE_STORAGE_GB = 500
+    const val UNLIMITED_PLAN_PASS_VAULTS = 50
+    const val UNLIMITED_PLAN_PASS_USERS = 10
+
     const val TLS_AUTH_KEY_HEX =
             "6acef03f62675b4b1bbd03e53b187727\n" +
             "423cea742242106cb2916a8a4c829756\n" +

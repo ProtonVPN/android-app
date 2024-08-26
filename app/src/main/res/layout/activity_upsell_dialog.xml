@@ -22,7 +22,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/update_dialog_bg"
     android:orientation="vertical">
 
     <androidx.compose.ui.platform.ComposeView
