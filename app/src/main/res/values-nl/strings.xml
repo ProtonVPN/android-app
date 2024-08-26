@@ -536,7 +536,7 @@
     <string name="settings_last_connection_title">Laatste verbinding</string>
     <string name="settings_last_connection_description">Uw meest recent gebruikte verbinding</string>
     <string name="settings_change_icon_title">App-icoon</string>
-    <string name="settings_change_icon_details">Aanpassen hoe de Proton VPN app op uw apparaat wordt weergeven. Waarom?</string>
+    <string name="settings_change_icon_details">Aanpassen hoe de Proton VPN-app op uw apparaat wordt weergeven. Waarom?</string>
     <string name="settings_change_icon_confirmation_title">App-icoon wijzigen?</string>
     <string name="settings_change_icon_confirmation_details">Hierdoor wordt de Proton VPN-app afgesloten. Om Proton VPN opnieuw op te starten, tikt u op uw nieuwe app-icoon.</string>
     <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
