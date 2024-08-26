@@ -213,7 +213,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm o seu endereço IP e não podem ser utilizadas para o identificar. Nunca as partilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">Mais informação</string>
+    <string name="settings_icon_change_learn_more">Saiba mais</string>
     <string name="learn_more">Saiba mais</string>
     <string name="netshield_state_on" comment="Describes state, not action">Ligado</string>
     <string name="netshield_state_off" comment="Describes state, not action">Desligado</string>
@@ -255,8 +255,8 @@
     <string name="nameAsia">Ásia</string>
     <string name="nameAfricaAndMiddleEast">África &amp; Médio Oriente</string>
     <string name="nameOceania">Oceania</string>
-    <string name="tv_row_settings">Configurações</string>
-    <string name="tv_card_split_tunneling_label">Tunelamento dividido</string>
+    <string name="tv_row_settings">Definições</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Protocolo</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorito</string>
     <string name="tv_detail_connect_streaming">Assista com o Plus</string>
@@ -1128,10 +1128,10 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
     <string name="speed_bytes_per_second">%1$s B/s</string>
-    <string name="speed_kilobytes_per_second">%1$s KB/seg</string>
-    <string name="speed_megabytes_per_second">%1$s MB/seg</string>
-    <string name="speed_gigabytes_per_second">%1$s GB/seg</string>
-    <string name="speed_terabytes_per_second">%1$s TB/seg</string>
+    <string name="speed_kilobytes_per_second">%1$s KB/s</string>
+    <string name="speed_megabytes_per_second">%1$s MB/s</string>
+    <string name="speed_gigabytes_per_second">%1$s GB/s</string>
+    <string name="speed_terabytes_per_second">%1$s TB/s</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
     <string name="speed_graph_title">Velocidade %1$s</string>
     <string name="bytes_per_second">B/s</string>
@@ -1148,36 +1148,36 @@
         <item quantity="other">%1$s kilobytes por segundo</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
-        <item quantity="one">%1$s megabyte por segundo</item>
-        <item quantity="other">%1$s megabytes por segundo</item>
+        <item quantity="one">%1$s Megabyte por segundo</item>
+        <item quantity="other">%1$s Megabytes por segundo</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
-        <item quantity="one">%1$s gigabyte por segundo</item>
-        <item quantity="other">%1$s gigabytes por segundo</item>
+        <item quantity="one">%1$s Gigabyte por segundo</item>
+        <item quantity="other">%1$s Gigabytes por segundo</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
-        <item quantity="one">%1$s terabyte por segundo</item>
-        <item quantity="other">%1$s terabytes por segundo</item>
+        <item quantity="one">%1$s Terabyte por segundo</item>
+        <item quantity="other">%1$s Terabytes por segundo</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
-        <item quantity="one">%1$s byte</item>
-        <item quantity="other">%1$s bytes</item>
+        <item quantity="one">%1$s Byte</item>
+        <item quantity="other">%1$s Bytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
-        <item quantity="one">%1$s kilobyte</item>
-        <item quantity="other">%1$s kilobytes</item>
+        <item quantity="one">%1$s Kilobyte</item>
+        <item quantity="other">%1$s Kilobytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_megabytes">
-        <item quantity="one">%1$s megabyte</item>
-        <item quantity="other">%1$s megabytes</item>
+        <item quantity="one">%1$s Megabyte</item>
+        <item quantity="other">%1$s Megabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_gigabytes">
-        <item quantity="one">%1$s gigabyte</item>
-        <item quantity="other">%1$s gigabytes</item>
+        <item quantity="one">%1$s Gigabyte</item>
+        <item quantity="other">%1$s Gigabytes</item>
     </plurals>
     <plurals name="full_name_traffic_volume_terabytes">
-        <item quantity="one">%1$s terabyte</item>
-        <item quantity="other">%1$s terabytes</item>
+        <item quantity="one">%1$s Terabyte</item>
+        <item quantity="other">%1$s Terabytes</item>
     </plurals>
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
