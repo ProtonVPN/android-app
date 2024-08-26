@@ -193,8 +193,9 @@ class PlusOnlyUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
             intent.getSerializableExtraCompat<Class<out Fragment>>(FRAGMENT_CLASS_EXTRA)
 
         if (highlightsFragmentClass != null) {
+            val args = intent.getBundleExtra(FRAGMENT_ARGS_EXTRA)
             supportFragmentManager.commitNow {
-                add(R.id.fragmentContent, highlightsFragmentClass, null)
+                add(R.id.fragmentContent, highlightsFragmentClass, args)
             }
         }
     }
@@ -211,14 +212,18 @@ class PlusOnlyUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
 
     companion object {
         const val FRAGMENT_CLASS_EXTRA = "highlights fragment"
+        const val FRAGMENT_ARGS_EXTRA = "fragment args"
 
-        inline fun <reified Fragment : FragmentWithUpgradeSource> createIntent( context: Context) =
+        inline fun <reified Fragment : FragmentWithUpgradeSource> createIntent(context: Context, args: Bundle? = null) =
             Intent(context, PlusOnlyUpgradeDialogActivity::class.java).apply {
                 putExtra(FRAGMENT_CLASS_EXTRA, Fragment::class.java)
+                if (args != null) {
+                    putExtra(FRAGMENT_ARGS_EXTRA, args)
+                }
             }
 
-        inline fun <reified Fragment : FragmentWithUpgradeSource> launch(context: Context) {
-            context.startActivity(createIntent<Fragment>(context))
+        inline fun <reified Fragment : FragmentWithUpgradeSource> launch(context: Context, args: Bundle? = null) {
+            context.startActivity(createIntent<Fragment>(context, args))
         }
     }
 }
@@ -249,13 +254,39 @@ class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
     }
 
     override fun getTelemetryUpgradeSource(): UpgradeSource =
-        requireNotNull(intent.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_EXTRA))
+        requireNotNull(
+            intent.getSerializableExtraCompat<UpgradeSource>(UPGRADE_SOURCE_EXTRA)
+                ?: getUpgradeSourceFromFocusedFragment()
+        )
+
+    private fun getUpgradeSourceFromFocusedFragment(): UpgradeSource? {
+        val carouselArgs = intent.getBundleExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA)
+        val fragment = UpgradeHighlightsCarouselFragment.focusedFragment(carouselArgs)?.newInstance()
+        return (fragment as? FragmentWithUpgradeSource)?.upgradeSource
+    }
 
     companion object {
         private val VPN_PLUS_CAROUSEL = UpgradeCarouselVpnPlusHighlightsFragment::class.java
         private val BUNDLE_CAROUSEL = UpgradeCarouselUnlimitedHighlightsFragment::class.java
-        private const val UPGRADE_SOURCE_EXTRA = "upgrade source"
-        private const val CAROUSEL_FRAGMENT_ARGS_EXTRA = "carousel args"
+        const val UPGRADE_SOURCE_EXTRA = "upgrade source"
+        const val CAROUSEL_FRAGMENT_ARGS_EXTRA = "carousel args"
+
+        inline fun <reified F : FragmentWithUpgradeSource> createIntent(context: Context) =
+            Intent(context, CarouselUpgradeDialogActivity::class.java).apply {
+                putExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA, UpgradeHighlightsCarouselFragment.args(F::class))
+            }
+
+        inline fun <reified F : Fragment> createIntent(context: Context, upgradeSource: UpgradeSource) =
+            Intent(context, CarouselUpgradeDialogActivity::class.java).apply {
+                putExtra(UPGRADE_SOURCE_EXTRA, upgradeSource)
+                putExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA, UpgradeHighlightsCarouselFragment.args(F::class))
+            }
+
+        inline fun <reified F : Fragment> launch(context: Context, upgradeSource: UpgradeSource) =
+            context.startActivity(createIntent<F>(context, upgradeSource))
+
+        inline fun <reified F : FragmentWithUpgradeSource> launch(context: Context) =
+            context.startActivity(createIntent<F>(context))
 
         fun launch(context: Context, upgradeSource: UpgradeSource, focusedFragmentClass: KClass<out Fragment>? = null) {
             val intent = Intent(context, CarouselUpgradeDialogActivity::class.java).apply {
