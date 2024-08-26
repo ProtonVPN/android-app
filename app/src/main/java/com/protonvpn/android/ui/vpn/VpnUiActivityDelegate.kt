@@ -28,7 +28,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.logging.ConnError
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
-import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
 import com.protonvpn.android.utils.haveVpnSettings
@@ -94,11 +94,11 @@ class VpnUiActivityDelegateMobile(
     }
 
     override fun showPlusUpgradeDialog() {
-        PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(activity)
+        CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(activity)
     }
 
     override fun showSecureCoreUpgradeDialog() {
-        PlusOnlyUpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(activity)
+        CarouselUpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(activity)
     }
 
     override fun showMaintenanceDialog() {

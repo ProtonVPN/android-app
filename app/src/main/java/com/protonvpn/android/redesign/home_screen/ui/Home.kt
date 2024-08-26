@@ -91,7 +91,6 @@ import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.promooffers.PromoOfferBanner
@@ -163,7 +162,7 @@ fun HomeView(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.eventNavigateToUpgrade.collect {
-            PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
         }
     }
     // Not using material3 snackbar because of inability to show multiline correctly
@@ -260,9 +259,9 @@ fun HomeView(
         )
         val netShieldActions = remember {
             NetShieldActions(
-                onChangeServerPromoUpgrade = { PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) },
+                onChangeServerPromoUpgrade = { CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) },
                 onNetShieldValueChanged = { viewModel.setNetShieldProtocol(it) },
-                onUpgradeNetShield = { PlusOnlyUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
+                onUpgradeNetShield = { CarouselUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
                 onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
             )
         }

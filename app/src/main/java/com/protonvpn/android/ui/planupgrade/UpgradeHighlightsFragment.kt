@@ -299,6 +299,9 @@ abstract class UpgradeHighlightsCarouselFragment(
         fun args(focusedFragmentClass: KClass<out Fragment>) = Bundle().apply {
             putSerializable(EXTRA_FOCUSED_FRAGMENT_CLASS, focusedFragmentClass.java)
         }
+
+        fun focusedFragment(args: Bundle?) =
+            args?.getSerializableCompat<Class<out Fragment>>(EXTRA_FOCUSED_FRAGMENT_CLASS)
     }
 }
 

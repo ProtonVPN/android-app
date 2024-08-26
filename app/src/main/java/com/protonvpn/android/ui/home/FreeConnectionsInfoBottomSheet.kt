@@ -39,7 +39,7 @@ import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.databinding.FreeConnectionsInfoBinding
 import com.protonvpn.android.databinding.InfoFreeCountryItemBinding
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -89,7 +89,7 @@ private fun FreeConnectionsInfoBinding.setupViews(context: Context, freeCountrie
         context.getString(R.string.free_connections_info_server_locations, freeCountries.size)
     upsellBanner.textTitle.setText(R.string.free_connections_info_banner_text)
     upsellBanner.root.onClick {
-        PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+        CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
     }
     for (country in freeCountries) {
         val item = InfoFreeCountryItemBinding.inflate(

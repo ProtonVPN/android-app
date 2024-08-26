@@ -44,9 +44,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -71,7 +68,9 @@ import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
+import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
+import com.protonvpn.android.ui.planupgrade.UpgradeCountryHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
@@ -158,22 +157,32 @@ fun createOnConnectAction(
         item = item,
         filterType = filterType,
         navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) },
-        navigateToUpsell = { PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
+        navigateToUpsell = {
+            val countryId = item.data.countryId
+            if (countryId != null && !countryId.isFastest) {
+                PlusOnlyUpgradeDialogActivity.launch<UpgradeCountryHighlightsFragment>(
+                    context,
+                    UpgradeCountryHighlightsFragment.args(countryId.countryCode)
+                )
+            } else {
+                PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            }
+        }
     )
 }
 
 fun navigateToUpsellFromBanner(context: Context, bannerType: ServerGroupUiItem.BannerType) =
     when(bannerType) {
         ServerGroupUiItem.BannerType.Countries ->
-            PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
         ServerGroupUiItem.BannerType.SecureCore ->
-            PlusOnlyUpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(context)
+            CarouselUpgradeDialogActivity.launch<UpgradeSecureCoreHighlightsFragment>(context)
         ServerGroupUiItem.BannerType.P2P ->
-            PlusOnlyUpgradeDialogActivity.launch<UpgradeP2PHighlightsFragment>(context)
+            CarouselUpgradeDialogActivity.launch<UpgradeP2PHighlightsFragment>(context)
         ServerGroupUiItem.BannerType.Tor ->
-            PlusOnlyUpgradeDialogActivity.launch<UpgradeTorHighlightsFragment>(context)
+            CarouselUpgradeDialogActivity.launch<UpgradeTorHighlightsFragment>(context)
         is ServerGroupUiItem.BannerType.Search ->
-            PlusOnlyUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+            CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
     }
 
 @Composable

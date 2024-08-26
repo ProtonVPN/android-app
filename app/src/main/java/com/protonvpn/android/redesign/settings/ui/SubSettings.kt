@@ -49,7 +49,6 @@ import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.PlusOnlyUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeModerateNatHighlightsFragment
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelAppsActivity
@@ -135,7 +134,8 @@ fun SubSettingsRoute(
                         onUpgrade = {
                             CarouselUpgradeDialogActivity.launch(
                                 context,
-                                UpgradeSource.ACCOUNT
+                                UpgradeSource.ACCOUNT,
+                                focusedFragmentClass = null
                             )
                         }
                     )
@@ -154,8 +154,8 @@ fun SubSettingsRoute(
                         onAllowLanChange = { settingsChangeViewModel.toggleLanConnections(vpnUiDelegate) },
                         onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
                         onNavigateToNatType = { onNavigateToSubSetting(SubSettingsScreen.Type.NatType) },
-                        onAllowLanRestricted = { PlusOnlyUpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
-                        onNatTypeRestricted = { PlusOnlyUpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(context) },
+                        onAllowLanRestricted = { CarouselUpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
+                        onNatTypeRestricted = { CarouselUpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(context) },
                     )
                 }
             }
