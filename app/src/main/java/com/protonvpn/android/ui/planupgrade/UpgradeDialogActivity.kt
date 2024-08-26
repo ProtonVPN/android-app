@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.planupgrade
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
@@ -52,6 +53,8 @@ import androidx.fragment.app.commitNow
 import androidx.fragment.app.replace
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -66,6 +69,8 @@ import com.protonvpn.android.utils.ViewUtils.viewBinding
 import com.protonvpn.android.utils.edgeToEdge
 import com.protonvpn.android.utils.getSerializableExtraCompat
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
@@ -75,11 +80,15 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
 
     protected val viewModel by viewModels<UpgradeDialogViewModel>()
     protected val binding by viewBinding(ActivityUpsellDialogBinding::inflate)
+    private val carouselViewModel: UpgradeHighlightsCarouselViewModel by viewModels()
+
+    private lateinit var backgroundGradient: GradientDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupEdgeToEdge()
+        setupGradientBackground()
 
         viewModel.setupOrchestrators(this)
         if (savedInstanceState == null) {
@@ -122,12 +131,25 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
                 )
             }
         }
+
+        carouselViewModel.gradientOverride
+            .flowWithLifecycle(lifecycle)
+            .onEach { colors ->
+                if (colors != null) setGradientColors(colors.first, colors.second, colors.third)
+                else setDefaultGradient()
+            }
+            .launchIn(lifecycleScope)
     }
 
     @CallSuper
     protected open fun onPaymentSuccess(newPlanName: String, upgradeFlowType: UpgradeFlowType) {
         setResult(Activity.RESULT_OK)
         finish()
+    }
+
+    protected fun setGradientColors(top: Int, mid: Int, bottom: Int) {
+        backgroundGradient.colors = intArrayOf(top, mid, bottom, 0x00000000, 0x00000000)
+        backgroundGradient.invalidateSelf()
     }
 
     protected abstract fun initHighlightsFragment()
@@ -149,6 +171,17 @@ abstract class BaseUpgradeDialogActivity(private val allowMultiplePlans: Boolean
             root.updatePadding(bottom = 16.toPx() + insets.bottom)
             windowInsets
         }
+    }
+
+    private fun setupGradientBackground() {
+        backgroundGradient =
+            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(0x00000000, 0x00000000))
+        binding.root.background = backgroundGradient
+        setDefaultGradient()
+    }
+
+    private fun setDefaultGradient() {
+        setGradientColors(0xFF2E737B.toInt(), 0x802E737B.toInt(), 0x002E737B)
     }
 }
 

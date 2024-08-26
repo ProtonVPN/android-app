@@ -31,18 +31,27 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.core.view.children
 import androidx.core.view.doOnNextLayout
@@ -54,6 +63,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.databinding.FragmentPlanHighlightsBinding
@@ -75,22 +85,26 @@ import me.proton.core.presentation.utils.viewBinding
 import kotlin.reflect.KClass
 import me.proton.core.presentation.R as CoreR
 
+// Convenience functions
+private fun carouselItem(fragmentFactory: () -> Fragment, backgroundGradientOverride: Triple<Int, Int, Int>? = null) =
+    UpgradeHighlightsCarouselFragment.CarouselItem(fragmentFactory, backgroundGradientOverride)
+
 private val VpnPlusCarouselFragments = listOf(
-    ::UpgradePlusCountriesHighlightsFragment,
-    ::UpgradeVpnAcceleratorHighlightsFragment,
-    ::UpgradeStreamingHighlightsFragment,
-    ::UpgradeNetShieldHighlightsFragment,
-    ::UpgradeSecureCoreHighlightsFragment,
-    ::UpgradeP2PHighlightsFragment,
-    ::UpgradeDevicesHighlightsFragment,
-    ::UpgradeTorHighlightsFragment,
-    ::UpgradeSplitTunnelingHighlightsFragment,
-    ::UpgradeAllowLanHighlightsFragment,
+    carouselItem(::UpgradePlusCountriesHighlightsFragment),
+    carouselItem(::UpgradeVpnAcceleratorHighlightsFragment),
+    carouselItem(::UpgradeStreamingHighlightsFragment),
+    carouselItem(::UpgradeNetShieldHighlightsFragment),
+    carouselItem(::UpgradeSecureCoreHighlightsFragment),
+    carouselItem(::UpgradeP2PHighlightsFragment),
+    carouselItem(::UpgradeDevicesHighlightsFragment),
+    carouselItem(::UpgradeTorHighlightsFragment),
+    carouselItem(::UpgradeSplitTunnelingHighlightsFragment),
+    carouselItem(::UpgradeAllowLanHighlightsFragment),
 )
 
 private val UnlimitedCarouselFragments = listOf(
-    ::UpgradeUnlimitedAllAppsFragment,
-)
+    carouselItem(::UpgradeUnlimitedAllAppsFragment, UnlimitedPlanBenefits.defaultGradient),
+) + UnlimitedPlanBenefits.apps.map { app -> carouselItem({ UpgradeUnlimitedAppFragment(app) }, app.backgroundGradient) }
 
 abstract class PlanHighlightsFragment : Fragment(R.layout.fragment_plan_highlights) {
 
@@ -170,9 +184,15 @@ abstract class UpgradeHighlightsFragment : Fragment(R.layout.fragment_upgrade_hi
 
 @AndroidEntryPoint
 abstract class UpgradeHighlightsCarouselFragment(
-    private val carouselFragments: List<() -> Fragment>,
+    private val carouselFragments: List<CarouselItem>,
 ) : Fragment(R.layout.fragment_upgrade_highlights_carousel) {
 
+    class CarouselItem(
+        val fragmentFactory: () -> Fragment,
+        val backgroundGradientOverride: Triple<Int, Int, Int>? = null
+    )
+
+    private val viewModel: UpgradeHighlightsCarouselViewModel by viewModels(ownerProducer = { requireActivity() })
     private val binding by viewBinding(FragmentUpgradeHighlightsCarouselBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -185,12 +205,13 @@ abstract class UpgradeHighlightsCarouselFragment(
             )
         }
 
-        val slideAdapter = SlideAdapter(this, carouselFragments)
+        val slideAdapter = SlideAdapter(this, carouselFragments.map { it.fragmentFactory })
         with(binding.viewPager) {
             visibility = View.INVISIBLE
             // Keep all slides so their heights can be measured.
             offscreenPageLimit = slideAdapter.itemCount
             adapter = slideAdapter
+            registerOnPageChangeCallback(PagerGradientUpdater(carouselFragments, viewModel::setGradientOverride))
 
             // Update ViewPager's height to match the largest slide.
             viewTreeObserver.addOnGlobalLayoutListenerWithLifecycle(viewLifecycleOwner.lifecycle) {
@@ -246,6 +267,32 @@ abstract class UpgradeHighlightsCarouselFragment(
         override fun createFragment(position: Int): Fragment = fragmentConstructors[position]()
     }
 
+    private class PagerGradientUpdater(
+        private val carouselFragments: List<CarouselItem>,
+        private val onGradientChanged: (Triple<Int, Int, Int>?) -> Unit
+    ) : ViewPager2.OnPageChangeCallback() {
+        private val interpolator = ArgbEvaluatorCompat()
+
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            if (positionOffset == 0f) {
+                onGradientChanged(carouselFragments[position].backgroundGradientOverride)
+            } else {
+                val prev = carouselFragments[position].backgroundGradientOverride
+                val next = carouselFragments[position + 1].backgroundGradientOverride
+                if (prev != null && next != null) {
+                    val gradient = Triple(
+                        interpolator.evaluate(positionOffset, prev.first, next.first),
+                        interpolator.evaluate(positionOffset, prev.second, next.second),
+                        interpolator.evaluate(positionOffset, prev.third, next.third),
+                    )
+                    onGradientChanged(gradient)
+                } else {
+                    onGradientChanged(null)
+                }
+            }
+        }
+    }
+
     companion object {
         private const val EXTRA_FOCUSED_FRAGMENT_CLASS = "focusedFragmentClass"
 
@@ -257,7 +304,7 @@ abstract class UpgradeHighlightsCarouselFragment(
 
 @AndroidEntryPoint
 class UpgradeHighlightsOnboardingFragment : UpgradeHighlightsCarouselFragment(
-    listOf(::UpgradeVpnPlusHighlightsFragment) + VpnPlusCarouselFragments
+    listOf(CarouselItem(::UpgradeVpnPlusHighlightsFragment)) + VpnPlusCarouselFragments
 )
 
 @AndroidEntryPoint
@@ -499,7 +546,9 @@ abstract class UpgradeComposeFragment : Fragment(R.layout.fragment_upgrade_highl
         super.onViewCreated(view, savedInstanceState)
         (view as ComposeView).setContent {
             VpnTheme {
-                Content(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp))
+                Content(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp))
             }
         }
     }
@@ -526,6 +575,7 @@ class UpgradeUnlimitedAllAppsFragment : UpgradeComposeFragment() {
                 text = stringResource(R.string.upgrade_unlimited_all_apps_title),
                 style = ProtonTheme.typography.headline,
                 textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 8.dp),
             )
             Text(
                 text = stringResource(R.string.upgrade_unlimited_all_apps_description),
@@ -533,6 +583,63 @@ class UpgradeUnlimitedAllAppsFragment : UpgradeComposeFragment() {
                 color = ProtonTheme.colors.textWeak,
                 textAlign = TextAlign.Center,
             )
+        }
+    }
+}
+
+@AndroidEntryPoint
+class UpgradeUnlimitedAppFragment(private val app: AppBenefits) : UpgradeComposeFragment() {
+
+    @Composable
+    override fun Content(modifier: Modifier) {
+        Column(
+            modifier.padding(horizontal = 16.dp)
+        ) {
+            Image(
+                painter = painterResource(id = app.logo),
+                contentDescription = stringResource(app.logoContentDescription),
+                modifier = Modifier
+                    .padding(bottom = 24.dp)
+                    .height(36.dp)
+            )
+            val itemModifier = Modifier.padding(bottom = 8.dp)
+            app.mainBenefits.forEach { benefitText ->
+                Row(itemModifier) {
+                    Icon(
+                        painterResource(CoreR.drawable.ic_proton_checkmark),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(16.dp)
+                    )
+                    Text(planStringResource(benefitText))
+                }
+            }
+            var showMoreInfoBottomSheet by rememberSaveable { mutableStateOf(false)}
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(start = 20.dp)
+                    .clickable { showMoreInfoBottomSheet = true }
+            ) {
+                Text(
+                    stringResource(R.string.upgrade_unlimited_more),
+                    textDecoration = TextDecoration.Underline,
+                    color = ProtonTheme.colors.textWeak
+                )
+                Icon(
+                    painterResource(CoreR.drawable.ic_proton_info_circle_filled),
+                    contentDescription = null,
+                    tint = ProtonTheme.colors.iconWeak,
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .size(16.dp)
+                )
+            }
+
+            if (showMoreInfoBottomSheet) {
+                UnlimitedPlanBenefitsBottomSheet(onDismissRequest = { showMoreInfoBottomSheet = false }, app)
+            }
         }
     }
 }
