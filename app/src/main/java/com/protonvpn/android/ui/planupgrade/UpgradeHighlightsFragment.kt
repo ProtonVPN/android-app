@@ -54,6 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.core.view.children
+import androidx.core.view.doOnLayout
 import androidx.core.view.doOnNextLayout
 import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
@@ -76,7 +77,6 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.HtmlTools
 import com.protonvpn.android.utils.ViewUtils.toPx
-import com.protonvpn.android.utils.addOnGlobalLayoutListenerWithLifecycle
 import com.protonvpn.android.utils.getSerializableCompat
 import com.protonvpn.android.utils.getThemeColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -214,7 +214,7 @@ abstract class UpgradeHighlightsCarouselFragment(
             registerOnPageChangeCallback(PagerGradientUpdater(carouselFragments, viewModel::setGradientOverride))
 
             // Update ViewPager's height to match the largest slide.
-            viewTreeObserver.addOnGlobalLayoutListenerWithLifecycle(viewLifecycleOwner.lifecycle) {
+            doOnLayout {
                 val pagerChildren = (getChildAt(0) as RecyclerView).children
                 val maxMeasuredChildHeight = pagerChildren.maxOf {
                     it.measure(
