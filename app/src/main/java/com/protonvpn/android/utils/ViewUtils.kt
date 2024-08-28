@@ -218,19 +218,6 @@ fun NestedScrollView.scrollToShowView(child: View) {
     smoothScrollBy(0, scrollByVertically)
 }
 
-fun ViewTreeObserver.addOnGlobalLayoutListenerWithLifecycle(
-    lifecycle: Lifecycle,
-    listener: ViewTreeObserver.OnGlobalLayoutListener
-) {
-    addOnGlobalLayoutListener(listener)
-    lifecycle.addObserver(object : DefaultLifecycleObserver {
-        override fun onDestroy(owner: LifecycleOwner) {
-            if (isAlive)
-                removeOnGlobalLayoutListener(listener)
-        }
-    })
-}
-
 private fun Rect.expandTo(minWidth: Int, minHeight: Int): Boolean {
     var hasChanged = false
     if (width() < minWidth) {
