@@ -235,20 +235,17 @@ abstract class UpgradeHighlightsCarouselFragment(
                 }
             }
         }
-        binding.indicator.setViewPager(binding.viewPager)
+        // The indicator doesn't implement saved state handling, therefore postpone its initialization till after
+        // view pager's state is restored - otherwise they get out of sync.
+        binding.indicator.doOnNextLayout { binding.indicator.setViewPager(binding.viewPager) }
 
-        binding.viewPager.doOnNextLayout {
-            focusFragment(binding.viewPager)
-        }
+        focusFragment(binding.viewPager, slideAdapter)
     }
 
-    private fun focusFragment(viewPager: ViewPager2) {
-        val focusedFragmentClass =
-            arguments?.getSerializableCompat<Class<out Fragment>>(EXTRA_FOCUSED_FRAGMENT_CLASS)
+    private fun focusFragment(viewPager: ViewPager2, slideAdapter: SlideAdapter) {
+        val focusedFragmentClass = focusedFragment(arguments)
         if (focusedFragmentClass != null) {
-            val index = childFragmentManager.fragments.indexOfFirst { fragment ->
-                focusedFragmentClass.isInstance(fragment)
-            }
+            val index = slideAdapter.indexOf(focusedFragmentClass)
             if (index >= 0) {
                 viewPager.setCurrentItem(index, false)
             }
@@ -257,14 +254,20 @@ abstract class UpgradeHighlightsCarouselFragment(
 
     private class SlideAdapter(
         fragment: Fragment,
-        private val fragmentConstructors: List<() -> Fragment>,
+        fragmentConstructors: List<() -> Fragment>,
     ) : FragmentStateAdapter(
         fragment.childFragmentManager,
         fragment.viewLifecycleOwner.lifecycle
     ) {
-        override fun getItemCount(): Int = fragmentConstructors.size
+        // The ViewPager is configured to create all fragments anyway for proper sizing, therefore it's safe to
+        // store the fragments.
+        private val fragments = fragmentConstructors.map { it() }
 
-        override fun createFragment(position: Int): Fragment = fragmentConstructors[position]()
+        override fun getItemCount(): Int = fragments.size
+
+        override fun createFragment(position: Int): Fragment = fragments[position]
+
+        fun indexOf(fragmentClass: Class<out Fragment>) = fragments.indexOfFirst { fragmentClass.isInstance(it) }
     }
 
     private class PagerGradientUpdater(

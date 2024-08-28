@@ -26,6 +26,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
+import androidx.collection.ArraySet
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -231,6 +232,9 @@ class PlusOnlyUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
 @AndroidEntryPoint
 class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePlans = true) {
 
+    // Detach and reattach fragments so that they retain their saved state, like carousel position.
+    private val carouselFragments = ArraySet<Fragment>()
+
     override fun initHighlightsFragment() {
         val carouselArgs = intent.getBundleExtra(CAROUSEL_FRAGMENT_ARGS_EXTRA)
         supportFragmentManager.commitNow {
@@ -246,7 +250,17 @@ class CarouselUpgradeDialogActivity : BaseUpgradeDialogActivity(allowMultiplePla
         }
         if (fragmentClass != null) {
             supportFragmentManager.commitNow {
-                replace(R.id.fragmentContent, fragmentClass, null)
+                val currentFragment = binding.fragmentContent.getFragment<Fragment?>()
+                if (currentFragment != null) {
+                    detach(currentFragment)
+                    carouselFragments.add(currentFragment)
+                }
+                val existingFragment = carouselFragments.find { it::class.java == fragmentClass }
+                if (existingFragment != null) {
+                    attach(existingFragment)
+                } else {
+                    add(R.id.fragmentContent, fragmentClass, null)
+                }
             }
         } else {
             DebugUtils.fail("No highlights fragment for selected plan!")
