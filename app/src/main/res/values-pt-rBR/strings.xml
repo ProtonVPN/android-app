@@ -399,7 +399,74 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloqueie %1$s em %2$s com <b>VPN Plus</b>.]]></string>
+    <string name="mail_app_name" translateable="false">Proton Mail</string>
+    <string name="upgrade_unlimited_all_apps_title">Todos os serviços premium da Proton com uma assinatura fácil.</string>
+    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
+    <string name="upgrade_unlimited_more">E mais</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
+    <string name="upgrade_unlimited_vpn_all_features">Todos os outros recursos do Proton VPN Plus</string>
+    <string name="upgrade_unlimited_vpn_any_location">Escolha qualquer local</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <plurals name="upgrade_unlimited_vpn_many_devices">
+        <item quantity="one">Proteja %1$d dispositivo de uma só vez</item>
+        <item quantity="other">Proteja %1$d dispositivos de uma só vez</item>
+    </plurals>
+    <string name="upgrade_unlimited_vpn_streaming">Streaming seguro</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Bloqueador de anúncios e proteção contra malware</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">VPN dupla</string>
+    <string name="upgrade_unlimited_vpn_p2p">Suporte P2P</string>
+    <plurals name="upgrade_unlimited_mail_custom_domains">
+        <item quantity="one">%1$d domínio de e-mail personalizado</item>
+        <item quantity="other">%1$d domínios de e-mail personalizados</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_attachments">
+        <item quantity="one">%1$d MB attachment</item>
+        <item quantity="other">%1$d MB attachments</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_many_addresses">
+        <item quantity="one">%1$d endereço de e-mail</item>
+        <item quantity="other">%1$d endereços de e-mail</item>
+    </plurals>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Pastas e filtros ilimitados</string>
+    <string name="upgrade_unlimited_mail_dark_web">Monitoramento da Dark Web</string>
+    <string name="upgrade_unlimited_mail_aliases">Aliases do Hide-my-email ilimitados</string>
+    <string name="upgrade_unlimited_mail_autoreply">Resposta automática</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Envio agendado</string>
+    <plurals name="upgrade_unlimited_calendar_calendars">
+        <item quantity="one">%1$d calendário pessoal</item>
+        <item quantity="other">%1$d calendários pessoais</item>
+    </plurals>
+    <string name="upgrade_unlimited_calendar_sharing">Calendários compartilhados</string>
+    <string name="upgrade_unlimited_calendar_invites">Envie e receba convites</string>
+    <string name="upgrade_unlimited_drive_encryption">Armazenamento criptografado de arquivos</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
+    <string name="upgrade_unlimited_drive_link_share">Compartilhe fotos e arquivos por link</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Segurança avançada de compartilhamento</string>
+    <string name="upgrade_unlimited_drive_version_history">Histórico de versões</string>
+    <string name="upgrade_unlimited_pass_manager">Gerenciador de senhas criptografado</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
+    <plurals name="upgrade_unlimited_pass_vaults">
+        <item quantity="one">%1$d cofre</item>
+        <item quantity="other">%1$d cofre</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_logins">Inícios de sessão ilimitados</string>
+    <string name="upgrade_unlimited_pass_aliases">Aliases do Hide-my-email ilimitados</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Cartões de crédito ilimitados</string>
+    <string name="upgrade_unlimited_pass_devices">Dispositivos ilimitados</string>
+    <plurals name="upgrade_unlimited_pass_users">
+        <item quantity="one">Compartilhe com até %1$d outro</item>
+        <item quantity="other">Compartilhe com até %1$d outros</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_2fa_auth">Autenticador A2F integrado</string>
     <string name="upgrade_not_now_button">Agora não</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">Opções de upgrade</string>
     <string name="upsell_card_countries_title">Cobertura global</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -449,7 +516,12 @@
     <string name="payment_price_cycle_year_label">1 ano</string>
     <string name="payment_price_cycle_2years_label">2 anos</string>
     <string name="payment_select_your_plan">Selecione seu plano</string>
-    <string name="payment_button_get_vpn_plus">Obter o VPN Plus</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">Obter %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Oferta de boas-vindas. Renovação automática por %1$s/mês</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->

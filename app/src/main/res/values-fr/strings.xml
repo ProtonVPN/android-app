@@ -399,7 +399,74 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Accédez à %1$s dans %2$s en passant à <b>VPN Plus</b>.]]></string>
+    <string name="mail_app_name" translateable="false">Proton Mail</string>
+    <string name="upgrade_unlimited_all_apps_title">Tous les services premium de Proton avec un seul abonnement.</string>
+    <string name="upgrade_unlimited_all_apps_description">Profitez d\'une protection totale de votre vie privée avec Proton Unlimited.</string>
+    <string name="upgrade_unlimited_more">Et bien plus encore</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Accès à tous les pays</string>
+    <string name="upgrade_unlimited_vpn_all_features">Toutes les autres fonctionnalités de Proton VPN Plus</string>
+    <string name="upgrade_unlimited_vpn_any_location">Choisissez n\'importe quel emplacement.</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Débits VPN encore plus élevés</string>
+    <plurals name="upgrade_unlimited_vpn_many_devices">
+        <item quantity="one">Protégez %1$d appareil</item>
+        <item quantity="other">Protégez %1$d appareils en même temps</item>
+    </plurals>
+    <string name="upgrade_unlimited_vpn_streaming">Streaming sécurisé</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Bloqueur de publicité et protection contre les logiciels malveillants</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">Support P2P</string>
+    <plurals name="upgrade_unlimited_mail_custom_domains">
+        <item quantity="one">%1$d domaine de messagerie personnalisé</item>
+        <item quantity="other">%1$d domaines de messagerie personnalisés</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_attachments">
+        <item quantity="one">Pièce jointe de %1$d Mo</item>
+        <item quantity="other">Pièces jointes de %1$d Mo</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_many_addresses">
+        <item quantity="one">%1$d adresse e-mail</item>
+        <item quantity="other">%1$d adresses e-mail</item>
+    </plurals>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Nombre illimité de filtres et de dossiers</string>
+    <string name="upgrade_unlimited_mail_dark_web">Surveillance du dark web</string>
+    <string name="upgrade_unlimited_mail_aliases">Nombre illimité d\'alias « hide-my-email »</string>
+    <string name="upgrade_unlimited_mail_autoreply">Réponse automatique</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Envois programmés</string>
+    <plurals name="upgrade_unlimited_calendar_calendars">
+        <item quantity="one">%1$d calendrier personnel</item>
+        <item quantity="other">%1$d calendriers personnels</item>
+    </plurals>
+    <string name="upgrade_unlimited_calendar_sharing">Partage de calendrier</string>
+    <string name="upgrade_unlimited_calendar_invites">Envoi et réception d\'invitations</string>
+    <string name="upgrade_unlimited_drive_encryption">Stockage de fichiers chiffrés</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d Go d\'espace de stockage total pour vos photos, fichiers et messages</string>
+    <string name="upgrade_unlimited_drive_link_share">Partage de fichiers et de photos via un lien</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Sécurité avancée pour le partage</string>
+    <string name="upgrade_unlimited_drive_version_history">Historique des versions</string>
+    <string name="upgrade_unlimited_pass_manager">Gestionnaire de mots de passe chiffré</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Nombre illimité d\'identifiants et d\'alias « hide-my-email »</string>
+    <plurals name="upgrade_unlimited_pass_vaults">
+        <item quantity="one">%1$d coffre-fort</item>
+        <item quantity="other">%1$d coffres-forts</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_logins">Nombre illimité de connexions</string>
+    <string name="upgrade_unlimited_pass_aliases">Nombre illimité d\'alias « hide-my-email »</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Nombre illimité de cartes de paiement</string>
+    <string name="upgrade_unlimited_pass_devices">Nombre illimité d\'appareils</string>
+    <plurals name="upgrade_unlimited_pass_users">
+        <item quantity="one">Partage avec %1$d autre personne</item>
+        <item quantity="other">Partage avec jusqu\'à %1$d autres personnes</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_2fa_auth">Authentification A2F intégrée</string>
     <string name="upgrade_not_now_button">Plus tard</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">Option d\'amélioration de l\'abonnement</string>
     <string name="upsell_card_countries_title">Couverture mondiale</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -449,7 +516,12 @@
     <string name="payment_price_cycle_year_label">1 an</string>
     <string name="payment_price_cycle_2years_label">2 ans</string>
     <string name="payment_select_your_plan">Choisissez votre abonnement</string>
-    <string name="payment_button_get_vpn_plus">Obtenir VPN Plus</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">Obtenir %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Offre de bienvenue. Renouvellement automatique à %1$s par mois.</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->

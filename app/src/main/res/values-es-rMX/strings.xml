@@ -399,7 +399,74 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloquee %1$s en %2$s con <b>VPN Plus</b>.]]></string>
+    <string name="mail_app_name" translateable="false">Proton Mail</string>
+    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
+    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
+    <string name="upgrade_unlimited_more">Y mucho más</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Desbloquee todos los países</string>
+    <string name="upgrade_unlimited_vpn_all_features">Todas las otras funciones del plan VPN Plus</string>
+    <string name="upgrade_unlimited_vpn_any_location">Elija cualquier ubicación.</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Velocidades VPN aún mayores</string>
+    <plurals name="upgrade_unlimited_vpn_many_devices">
+        <item quantity="one">Proteja %1$d dispositivo a la vez</item>
+        <item quantity="other">Protege %1$d dispositivos a la vez</item>
+    </plurals>
+    <string name="upgrade_unlimited_vpn_streaming">Streaming seguro</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Bloqueador de anuncios y protección contra malware</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Doble VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">Compatibilidad con P2P</string>
+    <plurals name="upgrade_unlimited_mail_custom_domains">
+        <item quantity="one">%1$d dominio de correo electrónico personalizado</item>
+        <item quantity="other">%1$d dominios de correo electrónico personalizados</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_attachments">
+        <item quantity="one">Archivo adjunto de %1$d MB</item>
+        <item quantity="other">Archivos adjuntos de %1$d MB</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_many_addresses">
+        <item quantity="one">%1$d dirección de correo electrónico</item>
+        <item quantity="other">%1$d direcciones de correo electrónico</item>
+    </plurals>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Número ilimitado de filtros y carpetas</string>
+    <string name="upgrade_unlimited_mail_dark_web">Monitoreo de la Dark Web</string>
+    <string name="upgrade_unlimited_mail_aliases">Número ilimitado de alias de Hide-my-email</string>
+    <string name="upgrade_unlimited_mail_autoreply">Respuesta automática</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Envíos programados</string>
+    <plurals name="upgrade_unlimited_calendar_calendars">
+        <item quantity="one">%1$d calendario personal</item>
+        <item quantity="other">%1$d calendarios personales</item>
+    </plurals>
+    <string name="upgrade_unlimited_calendar_sharing">Calendarios compartidos</string>
+    <string name="upgrade_unlimited_calendar_invites">Envíe y reciba invitaciones</string>
+    <string name="upgrade_unlimited_drive_encryption">Almacenamiento cifrado de archivos</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
+    <string name="upgrade_unlimited_drive_link_share">Compartir fotos y archivos con un enlace</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Seguridad avanzada para compartir archivos</string>
+    <string name="upgrade_unlimited_drive_version_history">Historial de versiones</string>
+    <string name="upgrade_unlimited_pass_manager">Gestor de contraseñas cifrado</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Número ilimitado de inicios de sesión y de alias de Hide-my-email</string>
+    <plurals name="upgrade_unlimited_pass_vaults">
+        <item quantity="one">%1$d bóveda</item>
+        <item quantity="other">%1$d bóvedas</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_logins">Número ilimitado de inicios de sesión</string>
+    <string name="upgrade_unlimited_pass_aliases">Número ilimitado de alias de Hide-my-email</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Número ilimitado de tarjetas de crédito</string>
+    <string name="upgrade_unlimited_pass_devices">Número ilimitado de dispositivos</string>
+    <plurals name="upgrade_unlimited_pass_users">
+        <item quantity="one">Compartir con hasta %1$d persona más.</item>
+        <item quantity="other">Compartir con hasta %1$d personas más.</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_2fa_auth">Autenticación 2FA integrada</string>
     <string name="upgrade_not_now_button">Ahora no</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">Opciones de mejora</string>
     <string name="upsell_card_countries_title">Cobertura global</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -449,7 +516,12 @@
     <string name="payment_price_cycle_year_label">1 año</string>
     <string name="payment_price_cycle_2years_label">2 años</string>
     <string name="payment_select_your_plan">Elija el plan</string>
-    <string name="payment_button_get_vpn_plus">Obtener VPN Plus</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">Obtenga %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Oferta de bienvenida. Renovación automática por %1$s/mes</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
