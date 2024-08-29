@@ -240,7 +240,7 @@ object UnlimitedPlanBenefits {
                     PlanBenefitText.String(R.string.upgrade_unlimited_mail_autoreply)
                 ),
                 PlanBenefit(
-                    CoreR.drawable.ic_proton_clock_paper_plane,
+                    R.drawable.ic_proton_paper_plane_clock, // TODO: replace with Core icon
                     PlanBenefitText.String(R.string.upgrade_unlimited_mail_scheduled_send)
                 )
             )
@@ -309,7 +309,7 @@ object UnlimitedPlanBenefits {
                     PlanBenefitText.Plural(R.plurals.upgrade_unlimited_pass_vaults, Constants.UNLIMITED_PLAN_PASS_VAULTS)
                 ),
                 PlanBenefit(
-                    CoreR.drawable.ic_proton_pen,
+                    R.drawable.ic_proton_pen_sparks, // TODO: replace with Core icon
                     PlanBenefitText.String(R.string.upgrade_unlimited_pass_logins)
                 ),
                 PlanBenefit(
