@@ -1,0 +1,28 @@
+<!--
+  Copyright (c) 2024. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:autoMirrored="true" android:height="24dp" android:viewportHeight="24" android:viewportWidth="24" android:width="24dp">
+      
+    <path android:fillColor="@color/icon_norm" android:fillType="evenOdd" android:pathData="M18.472,7.262L20.625,9.502L22.229,7.842C22.248,7.822 22.248,7.792 22.229,7.772L20.146,5.616C20.139,5.608 20.133,5.605 20.128,5.603C20.122,5.6 20.114,5.598 20.104,5.598C20.095,5.598 20.087,5.6 20.08,5.603C20.075,5.605 20.069,5.608 20.062,5.616L18.472,7.262ZM17.469,8.301L7.672,18.447C7.453,18.673 7.307,18.963 7.251,19.276L6.839,21.601L9.041,21.13C9.334,21.067 9.603,20.917 9.813,20.699L19.622,10.541L17.469,8.301ZM21.146,4.572C20.57,3.977 19.638,3.977 19.063,4.572L6.673,17.403C6.25,17.841 5.967,18.401 5.859,19.009L5.263,22.37C5.168,22.902 5.624,23.364 6.136,23.255L9.326,22.573C9.889,22.452 10.406,22.163 10.813,21.742L23.228,8.885C23.803,8.29 23.803,7.324 23.228,6.729L21.146,4.572Z"/>
+      
+    <path android:fillColor="@color/icon_norm" android:pathData="M11.21,0.5L10.606,1.907C10.493,2.173 10.281,2.384 10.016,2.498L8.608,3.101C8.305,3.231 8.305,3.661 8.608,3.79L10.016,4.393C10.281,4.507 10.493,4.719 10.606,4.984L11.21,6.391C11.339,6.695 11.769,6.695 11.899,6.391L12.502,4.984C12.616,4.719 12.827,4.507 13.093,4.393L14.5,3.79C14.803,3.661 14.803,3.231 14.5,3.101L13.093,2.498C12.827,2.384 12.616,2.173 12.502,1.907L11.899,0.5C11.769,0.197 11.339,0.197 11.21,0.5Z"/>
+      
+    <path android:fillColor="@color/icon_norm" android:pathData="M5.085,5.289L4.172,7.572C4.02,7.953 3.718,8.255 3.337,8.407L1.054,9.32C0.74,9.446 0.74,9.891 1.054,10.017L3.337,10.93C3.718,11.082 4.02,11.384 4.172,11.765L5.085,14.048C5.211,14.362 5.656,14.362 5.782,14.048L6.695,11.765C6.847,11.384 7.149,11.082 7.531,10.93L9.813,10.017C10.127,9.891 10.127,9.446 9.813,9.32L7.531,8.407C7.149,8.255 6.847,7.953 6.695,7.572L5.782,5.289C5.656,4.975 5.211,4.975 5.085,5.289Z"/>
+    
+</vector>
