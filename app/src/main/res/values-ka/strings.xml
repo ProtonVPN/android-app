@@ -399,7 +399,74 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[განბლოკეთ %1$s %2$s-ში <b>VPN Plus</b>-თან ერთად.]]></string>
+    <string name="mail_app_name" translateable="false">Proton Mail</string>
+    <string name="upgrade_unlimited_all_apps_title">ყველა ფასიანი Proton-ის სერვისი. ერთი იოლი გამოწერა.</string>
+    <string name="upgrade_unlimited_all_apps_description">მიიღეთ კონფიდენციალობის სრული დაფარვა Proton Unlimited-თან ერთად.</string>
+    <string name="upgrade_unlimited_more">და სხვა</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">ყველა ქვეყნის განბლოკვა</string>
+    <string name="upgrade_unlimited_vpn_all_features">ყველა სხვა VPN Plus-ის ფუნქცია</string>
+    <string name="upgrade_unlimited_vpn_any_location">აირჩიეთ ნებისმიერი მდებარეობა</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">კიდევ უფრო სწრაფი VPN</string>
+    <plurals name="upgrade_unlimited_vpn_many_devices">
+        <item quantity="one">დაიცავით %1$d მოწყობილობა ერთდროულად</item>
+        <item quantity="other">დაიცავით %1$d მოწყობილობა ერთდროულად</item>
+    </plurals>
+    <string name="upgrade_unlimited_vpn_streaming">დაცული სტრიმინგი</string>
+    <string name="upgrade_unlimited_vpn_adblocker">რეკლამების ბლოკირება და არასასურველი პროგრამებისგან დაცვა</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">ორმაგი VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">P2P-ის მხარდაჭერა</string>
+    <plurals name="upgrade_unlimited_mail_custom_domains">
+        <item quantity="one">ელფოსტის %1$d ხელით მითითებული დომენი</item>
+        <item quantity="other">ელფოსტის %1$d ხელით მითითებული დომენი</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_attachments">
+        <item quantity="one">%1$d მბ მიმაგრებული ფაილი</item>
+        <item quantity="other">%1$d მბ მიმაგრებული ფაილი</item>
+    </plurals>
+    <plurals name="upgrade_unlimited_mail_many_addresses">
+        <item quantity="one">%1$d ელფოსტის მისამართი</item>
+        <item quantity="other">%1$d ელფოსტის მისამართი</item>
+    </plurals>
+    <string name="upgrade_unlimited_mail_unlimited_folders">შეუზღუდავი საქაღალდეები და ფილტრები</string>
+    <string name="upgrade_unlimited_mail_dark_web">Dark Web-ის მონიტორინგი</string>
+    <string name="upgrade_unlimited_mail_aliases">განუსაზღვრელი რაოდენობის მეტსახელი Hide-my-email-სთვის</string>
+    <string name="upgrade_unlimited_mail_autoreply">თვითმოპასუხე</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">დაგეგმილი გაგზავნა</string>
+    <plurals name="upgrade_unlimited_calendar_calendars">
+        <item quantity="one">%1$d პერსონალური კალენდარი</item>
+        <item quantity="other">%1$d პერსონალური კალენდარი</item>
+    </plurals>
+    <string name="upgrade_unlimited_calendar_sharing">კალენდრის გაზიარება</string>
+    <string name="upgrade_unlimited_calendar_invites">გააგზავნეთ და მიიღეთ მოსაწვევები</string>
+    <string name="upgrade_unlimited_drive_encryption">დაშიფრული ფაილების საცავი</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d გბ ჯამური სივრცე სურათებისთვის, ფაილებისთვის და ელფოსტისთვის</string>
+    <string name="upgrade_unlimited_drive_link_share">გააზიარეთ სურათები და ფაილები ბმულის საშუალებით</string>
+    <string name="upgrade_unlimited_drive_sharing_security">გაზიარების გაუმჯობესებული უსაფრთხოება</string>
+    <string name="upgrade_unlimited_drive_version_history">ვერსიის ისტორია</string>
+    <string name="upgrade_unlimited_pass_manager">დაშიფრული პაროლების მმართველი</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">განუსაზღვრელი შესვლის დეტალები რაოდენობის მეტსახელი Hide-my-email-სთვის</string>
+    <plurals name="upgrade_unlimited_pass_vaults">
+        <item quantity="one">%1$d საცავი</item>
+        <item quantity="other">%1$d საცავი</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_logins">შესვლის დეტალების უსაზღვრო რაოდენობა</string>
+    <string name="upgrade_unlimited_pass_aliases">განუსაზღვრელი რაოდენობის მეტსახელი Hide-my-email-სთვის</string>
+    <string name="upgrade_unlimited_pass_credit_cards">განუსაზღვრელი საკრედიტო ბარათები</string>
+    <string name="upgrade_unlimited_pass_devices">მოწყობილობების უსაზღვრო რაოდენობა</string>
+    <plurals name="upgrade_unlimited_pass_users">
+        <item quantity="one">გაუზიარეთ კიდევ %1$d სხვას</item>
+        <item quantity="other">გაუზიარეთ კიდევ %1$d სხვას</item>
+    </plurals>
+    <string name="upgrade_unlimited_pass_2fa_auth">ჩაშენებული 2FA ავთენტიკატორი</string>
     <string name="upgrade_not_now_button">არა ახლა</string>
+    <!-- Content description for plan selection list.
+         Only used by accessibility services.
+
+         Example:
+         When the plan selection control is focused, and the first plan name is "VPN Plus"
+         TalkBack will read:
+         "VPN Plus, 1 of 2, in list Upgrade options" -->
+    <string name="upgrade_plan_selection_content_description">სატარიფო გეგმის განახლების ვარიანტები</string>
     <string name="upsell_card_countries_title">მთელი დედამიწის დაფარვა</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -449,7 +516,12 @@
     <string name="payment_price_cycle_year_label">1 წელი</string>
     <string name="payment_price_cycle_2years_label">2 წელი</string>
     <string name="payment_select_your_plan">აირჩიეთ ტარიფი</string>
-    <string name="payment_button_get_vpn_plus">მიიღეთ VPN Pus</string>
+    <!-- Label on a button for purchasing a subscription.
+         Parameter: %1$s - plan name
+         Plan names are not translated.
+
+         Example: "Get VPN Plus", "Get Proton Unlimited". -->
+    <string name="payment_button_get_plan">%1$s-ის მიღება</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">შეთავაზება ახალი მომხამრებლებისთვის. ავტომატური განახლება ფასით %1$s/თვეში</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
