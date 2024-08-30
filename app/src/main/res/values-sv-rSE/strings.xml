@@ -400,64 +400,64 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås upp %1$s i %2$s med <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
+    <string name="upgrade_unlimited_all_apps_title">Alla premium Proton-tjänster. En enkel prenumeration.</string>
     <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
-    <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
-    <string name="upgrade_unlimited_vpn_any_location">Choose any location</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_more">Och mer</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Lås upp alla länder</string>
+    <string name="upgrade_unlimited_vpn_all_features">Alla andra VPN Plus-funktioner</string>
+    <string name="upgrade_unlimited_vpn_any_location">Välj valfri plats</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Ännu högre VPN-hastigheter</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Skydda %1$d enhet samtidigt</item>
+        <item quantity="other">Skydda %1$d enheter samtidigt</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
+    <string name="upgrade_unlimited_vpn_streaming">Säker streaming</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Annonsblockerare och skydd mot skadlig kod</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Dubbel VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">P2P-stöd</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d custom email domain</item>
-        <item quantity="other">%1$d custom email domains</item>
+        <item quantity="one">%1$d anpassad e-postdomän</item>
+        <item quantity="other">%1$d anpassade e-postdomäner</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">%1$d MB attachment</item>
         <item quantity="other">%1$d MB attachments</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d email address</item>
-        <item quantity="other">%1$d email addresses</item>
+        <item quantity="one">%1$d e-postadress</item>
+        <item quantity="other">%1$d e-postadresser</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Obegränsat antal mappar och filter</string>
+    <string name="upgrade_unlimited_mail_dark_web">Övervakning mörka webben</string>
+    <string name="upgrade_unlimited_mail_aliases">Obegränsat antal hide-my-email-alias</string>
     <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Schemalagd sändning</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d personal calendar</item>
-        <item quantity="other">%1$d personal calendars</item>
+        <item quantity="one">%1$d personlig kalender</item>
+        <item quantity="other">%1$d personliga kalendrar</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Calendar sharing</string>
-    <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
-    <string name="upgrade_unlimited_drive_version_history">Version history</string>
-    <string name="upgrade_unlimited_pass_manager">Encrypted password manager</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
+    <string name="upgrade_unlimited_calendar_sharing">Kalenderdelning</string>
+    <string name="upgrade_unlimited_calendar_invites">Skicka och ta emot inbjudningar</string>
+    <string name="upgrade_unlimited_drive_encryption">Krypterad fillagring</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB totalt lagringsutrymme för foton, filer och e-post</string>
+    <string name="upgrade_unlimited_drive_link_share">Dela foton och filer via länk</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Avancerad delningssäkerhet</string>
+    <string name="upgrade_unlimited_drive_version_history">Versionshistorik</string>
+    <string name="upgrade_unlimited_pass_manager">Krypterad lösenordshanterare</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Obegränsat antal inloggningar och hide-my-email-alias</string>
     <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d vault</item>
-        <item quantity="other">%1$d vaults</item>
+        <item quantity="one">%1$d valv</item>
+        <item quantity="other">%1$d valv</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
-    <string name="upgrade_unlimited_pass_devices">Unlimited devices</string>
+    <string name="upgrade_unlimited_pass_logins">Obegränsat antal inloggningar</string>
+    <string name="upgrade_unlimited_pass_aliases">Obegränsat antal hide-my-email-alias</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Obegränsat antal kreditkort</string>
+    <string name="upgrade_unlimited_pass_devices">Obegränsat antal enheter</string>
     <plurals name="upgrade_unlimited_pass_users">
         <item quantity="one">Share with up to %1$d other</item>
         <item quantity="other">Share with up to %1$d others</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Integrated 2FA authenticator</string>
+    <string name="upgrade_unlimited_pass_2fa_auth">Integrerad 2FA-autentisering</string>
     <string name="upgrade_not_now_button">Inte nu</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -466,7 +466,7 @@
          When the plan selection control is focused, and the first plan name is "VPN Plus"
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
-    <string name="upgrade_plan_selection_content_description">Upgrade options</string>
+    <string name="upgrade_plan_selection_content_description">Uppgraderingsalternativ</string>
     <string name="upsell_card_countries_title">Världsomspännande täckning</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -521,7 +521,7 @@
          Plan names are not translated.
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
-    <string name="payment_button_get_plan">Get %1$s</string>
+    <string name="payment_button_get_plan">Skaffa %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Välkomsterbjudande. Förnyas automatiskt med %1$s/månad</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->

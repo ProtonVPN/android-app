@@ -400,37 +400,37 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås opp %1$s i %2$s med <b>VPN Plus</b>]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
-    <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
-    <string name="upgrade_unlimited_vpn_any_location">Choose any location</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_all_apps_title">Alle premium Proton-tjenester. Ett enkelt abonnement.</string>
+    <string name="upgrade_unlimited_all_apps_description">Få fullstendig personverndekning med Proton Unlimited.</string>
+    <string name="upgrade_unlimited_more">Og mer</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Lås opp alle land</string>
+    <string name="upgrade_unlimited_vpn_all_features">Alle andre VPN Plus-funksjoner</string>
+    <string name="upgrade_unlimited_vpn_any_location">Velg en hvilket som helst plassering</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Enda høyere VPN-hastigheter</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Beskytt %1$d enhet om gangen</item>
+        <item quantity="other">Beskytt %1$d enheter om gangen</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
+    <string name="upgrade_unlimited_vpn_streaming">Sikker strømming</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Annonseblokkering og skadevarebeskyttelse</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Dobbel VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">P2P-støtte</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d custom email domain</item>
-        <item quantity="other">%1$d custom email domains</item>
+        <item quantity="one">%1$d egendefinert e-postdomene</item>
+        <item quantity="other">%1$d egendefinerte e-postdomener</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB attachment</item>
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="one">%1$d MB vedlegg</item>
+        <item quantity="other">%1$d MB vedlegg</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d email address</item>
-        <item quantity="other">%1$d email addresses</item>
+        <item quantity="one">%1$d e-postadresse</item>
+        <item quantity="other">%1$d e-postadresser</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Ubegrenset antall mapper og etiketter</string>
+    <string name="upgrade_unlimited_mail_dark_web">Overvåking av mørkt nett</string>
+    <string name="upgrade_unlimited_mail_aliases">Ubegrenset antall hide-my-email-aliaser</string>
+    <string name="upgrade_unlimited_mail_autoreply">Autosvar</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d personal calendar</item>

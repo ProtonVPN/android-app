@@ -393,57 +393,57 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus</b>로 %2$s 내의 %1$s 잠금 해제]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
-    <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
-    <string name="upgrade_unlimited_vpn_any_location">Choose any location</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_all_apps_title">모든 Proton 프리미엄 서비스. 하나의 간단한 구독.</string>
+    <string name="upgrade_unlimited_all_apps_description">Proton Unlimited로 완전한 개인정보 보호 커버리지를 경험하세요.</string>
+    <string name="upgrade_unlimited_more">기타 등등</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">모든 국가 잠금해제</string>
+    <string name="upgrade_unlimited_vpn_all_features">기타 모든 VPN Plus 기능</string>
+    <string name="upgrade_unlimited_vpn_any_location">어떠한 지역이든 선택하세요</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">더 빠른 VPN 속도</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="other">%1$d개의 장치를 한 번에 보호하세요</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
+    <string name="upgrade_unlimited_vpn_streaming">보안 스트리밍</string>
+    <string name="upgrade_unlimited_vpn_adblocker">광고 차단기 및 멀웨어 보호</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">더블 VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">P2P 지원</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">%1$d custom email domains</item>
+        <item quantity="other">사용자 지정 이메일 도메인 %1$d개</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="other">첨부 파일 %1$d MB</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="other">%1$d email addresses</item>
+        <item quantity="other">이메일 주소 %1$d개</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">무제한 폴더 및 필터</string>
+    <string name="upgrade_unlimited_mail_dark_web">다크 웹 모니터링</string>
+    <string name="upgrade_unlimited_mail_aliases">무제한 hide-my-email 별칭</string>
+    <string name="upgrade_unlimited_mail_autoreply">자동 회신</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">예약 전송</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="other">%1$d personal calendars</item>
+        <item quantity="other">%1$d개의 개인 캘린더</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Calendar sharing</string>
-    <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
-    <string name="upgrade_unlimited_drive_version_history">Version history</string>
-    <string name="upgrade_unlimited_pass_manager">Encrypted password manager</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
+    <string name="upgrade_unlimited_calendar_sharing">일정 공유</string>
+    <string name="upgrade_unlimited_calendar_invites">전송 및 받은 초대</string>
+    <string name="upgrade_unlimited_drive_encryption">파일 공유 암호화</string>
+    <string name="upgrade_unlimited_drive_storage_size">사진, 파일, 메일을 위한 %1$d GB 총 저장 공간</string>
+    <string name="upgrade_unlimited_drive_link_share">링크로 사진 및 폴더 공유</string>
+    <string name="upgrade_unlimited_drive_sharing_security">향상된 공유 보안</string>
+    <string name="upgrade_unlimited_drive_version_history">버전 기록</string>
+    <string name="upgrade_unlimited_pass_manager">암호화된 비밀번호 관리자</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">무제한 로그인 및 hide-my-email 별칭</string>
     <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="other">%1$d vaults</item>
+        <item quantity="other">%1$d개 금고</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
-    <string name="upgrade_unlimited_pass_devices">Unlimited devices</string>
+    <string name="upgrade_unlimited_pass_logins">무제한 로그인</string>
+    <string name="upgrade_unlimited_pass_aliases">무제한 hide-my-email 별칭</string>
+    <string name="upgrade_unlimited_pass_credit_cards">무제한 신용 카드</string>
+    <string name="upgrade_unlimited_pass_devices">기기 개수 무제한</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="other">최대 %1$d명과 공유하기</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Integrated 2FA authenticator</string>
+    <string name="upgrade_unlimited_pass_2fa_auth">2단계 인증기 내장</string>
     <string name="upgrade_not_now_button">다음에</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -452,7 +452,7 @@
          When the plan selection control is focused, and the first plan name is "VPN Plus"
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
-    <string name="upgrade_plan_selection_content_description">Upgrade options</string>
+    <string name="upgrade_plan_selection_content_description">업그레이드 옵션</string>
     <string name="upsell_card_countries_title">전세계 커버리지</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -506,7 +506,7 @@
          Plan names are not translated.
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
-    <string name="payment_button_get_plan">Get %1$s</string>
+    <string name="payment_button_get_plan">%1$s 구독</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">환영 할인. 매월 %1$s(으)로 갱신됩니다.</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
