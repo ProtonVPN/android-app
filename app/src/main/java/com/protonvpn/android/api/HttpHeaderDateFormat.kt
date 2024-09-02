@@ -26,6 +26,7 @@ import java.util.Locale
 // rfc9110 date format for HTTP headers
 val httpHeaderDateFormatter : DateTimeFormatter =
     DateTimeFormatter
-        .ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.US)
+        // The desugaring library appears to have a bug in how it prints time zone (format character "z").
+        // Use literal GMT instead.
+        .ofPattern("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US)
         .withZone(ZoneId.of("GMT"))
-

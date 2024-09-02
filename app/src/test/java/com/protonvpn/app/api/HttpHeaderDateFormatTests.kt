@@ -23,6 +23,7 @@ import com.protonvpn.android.api.httpHeaderDateFormatter
 import org.junit.Test
 import java.time.Instant
 import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoField
 import kotlin.test.assertEquals
@@ -39,6 +40,16 @@ class HttpHeaderDateFormatTests {
         val dateTime = ZonedDateTime.of(2024, 7, 9, 15, 59, 10, 0, ZoneId.of("GMT"))
         val formatted = httpHeaderDateFormatter.format(dateTime)
         assertEquals("Tue, 09 Jul 2024 15:59:10 GMT", formatted)
+
+        val parsed = httpHeaderDateFormatter.parse(formatted)
+        assertEquals(dateTime.toInstant().epochSecond, parsed.getLong(ChronoField.INSTANT_SECONDS))
+    }
+
+    @Test
+    fun formatSpecificDateWithZone() {
+        val dateTime = ZonedDateTime.of(2024, 7, 9, 15, 59, 10, 0, ZoneOffset.ofHours(1))
+        val formatted = httpHeaderDateFormatter.format(dateTime)
+        assertEquals("Tue, 09 Jul 2024 14:59:10 GMT", formatted)
 
         val parsed = httpHeaderDateFormatter.parse(formatted)
         assertEquals(dateTime.toInstant().epochSecond, parsed.getLong(ChronoField.INSTANT_SECONDS))
