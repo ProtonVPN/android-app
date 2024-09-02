@@ -392,51 +392,51 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Dapatkan akses ke %1$s di %2$s dengan <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
-    <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
+    <string name="upgrade_unlimited_all_apps_title">Seluruh layanan premium Proton. Dalam satu langganan mudah.</string>
+    <string name="upgrade_unlimited_all_apps_description">Dapatkan cakupan privasi yang menyeluruh dengan Proton Unlimited.</string>
+    <string name="upgrade_unlimited_more">Dan masih banyak lagi</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Akses seluruh negara</string>
+    <string name="upgrade_unlimited_vpn_all_features">Seluruh fitur VPN Plus lainnya</string>
     <string name="upgrade_unlimited_vpn_any_location">Pilih lokasi mana pun</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Kecepatan VPN yang jauh lebih tinggi</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
         <item quantity="other">Lindungi %1$d perangkat secara bersamaan</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Streaming aman</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Pemblokir iklan dan perlindungan perangkat lunak jahat</string>
     <string name="upgrade_unlimited_vpn_double_vpn">VPN berganda</string>
     <string name="upgrade_unlimited_vpn_p2p">Dukungan P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">%1$d custom email domains</item>
+        <item quantity="other">%1$d domain email khusus</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="other">Lampiran hingga %1$d MB</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="other">%1$d email addresses</item>
+        <item quantity="other">%1$d alamat email</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Tanpa batasan jumlah folder dan filter</string>
+    <string name="upgrade_unlimited_mail_dark_web">Pemantauan Dark Web</string>
+    <string name="upgrade_unlimited_mail_aliases">Tanpa batasan jumlah alias hide-my-email</string>
+    <string name="upgrade_unlimited_mail_autoreply">Balasan otomatis</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Pengiriman terjadwal</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="other">%1$d personal calendars</item>
+        <item quantity="other">%1$d kalender pribadi</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Calendar sharing</string>
-    <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
-    <string name="upgrade_unlimited_drive_version_history">Version history</string>
-    <string name="upgrade_unlimited_pass_manager">Encrypted password manager</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
+    <string name="upgrade_unlimited_calendar_sharing">Pembagian kalender</string>
+    <string name="upgrade_unlimited_calendar_invites">Kirim dan terima undangan</string>
+    <string name="upgrade_unlimited_drive_encryption">Penyimpanan berkas terenkripsi</string>
+    <string name="upgrade_unlimited_drive_storage_size">Total ruang penyimpanan %1$d GB untuk foto, berkas, dan surat</string>
+    <string name="upgrade_unlimited_drive_link_share">Bagikan foto dan berkas via tautan</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Keamanan berbagi berkas tingkat lanjut</string>
+    <string name="upgrade_unlimited_drive_version_history">Riwayat versi</string>
+    <string name="upgrade_unlimited_pass_manager">Pengelola kata sandi terenkripsi</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Tanpa batasan jumlah entri masuk dan alias hide-my-email</string>
     <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="other">%1$d vaults</item>
+        <item quantity="other">%1$d brankas</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
+    <string name="upgrade_unlimited_pass_logins">Tanpa batasan jumlah entri masuk</string>
+    <string name="upgrade_unlimited_pass_aliases">Tanpa batasan jumlah alias hide-my-email</string>
     <string name="upgrade_unlimited_pass_credit_cards">Tanpa batasan jumlah kartu kredit</string>
     <string name="upgrade_unlimited_pass_devices">Tanpa batasan jumlah perangkat</string>
     <plurals name="upgrade_unlimited_pass_users">
