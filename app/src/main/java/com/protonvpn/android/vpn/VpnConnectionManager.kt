@@ -422,7 +422,8 @@ class VpnConnectionManager @Inject constructor(
         val currentBackend = activeBackend
         if (currentBackend != null) {
             setInternalState(InternalState.SwitchingConnection(activeConnectionParams, preparedConnection.connectionParams, currentBackend))
-            disconnectForNewConnection(activeConnectionParams, disconnectTrigger)
+            val isGuestHoleConnection = preparedConnection.connectionParams.connectIntent is AnyConnectIntent.GuestHole
+            disconnectForNewConnection(activeConnectionParams, disconnectTrigger, isGuestHoleConnection)
             setInternalState(InternalState.SwitchingConnection(activeConnectionParams, preparedConnection.connectionParams, null))
         }
 
@@ -588,11 +589,10 @@ class VpnConnectionManager @Inject constructor(
     private suspend fun disconnectForNewConnection(
         oldConnectionParams: ConnectionParams?,
         trigger: DisconnectTrigger,
-        isGuestHoleConnection: Boolean = false,
+        isGuestHoleConnection: Boolean,
     ) {
         ProtonLogger.log(ConnDisconnectTrigger, "reason: new connection")
         vpnConnectionTelemetry.onDisconnectionTrigger(trigger, oldConnectionParams)
-        // GuestHole connections should not emit disconnect events to not trigger self canceling for guest hole
         if (!isGuestHoleConnection)
             vpnStateMonitor.onDisconnectedByReconnection.emit(Unit)
         ConnectionParams.deleteFromStore("disconnect for new connection")

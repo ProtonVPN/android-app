@@ -22,6 +22,7 @@ package com.protonvpn.app.vpn
 import android.os.PowerManager
 import android.os.PowerManager.PARTIAL_WAKE_LOCK
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -29,6 +30,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
@@ -60,6 +62,7 @@ import com.protonvpn.test.shared.TestVpnUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createIsImmutableServerListEnabled
+import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -407,4 +410,47 @@ class VpnConnectionManagerTests {
                 mockBackend.connect(any())
             }
         }
+
+    @Test
+    fun `when user connects while Guest Hole is connecting then Guest Hole is aborted`() = testScope.runTest {
+        val server = createServer("serverId")
+        serverManager.setGuestHoleServers(listOf(server))
+        val ghIntent = AnyConnectIntent.GuestHole(server.serverId)
+        val ghConnectionParams =
+            ConnectionParams(ghIntent, server, server.connectingDomains.first(), VpnProtocol.WireGuard)
+        val regularIntent = connectionParams.connectIntent
+        coEvery { mockBackendProvider.prepareConnection(any(), ghIntent, any()) } returns
+            PrepareResult(mockBackend, ghConnectionParams)
+        coEvery { mockBackendProvider.prepareConnection(any(), regularIntent, any()) } returns
+            PrepareResult(mockBackend, connectionParams)
+
+        vpnConnectionManager.connect(mockVpnUiDelegate, ghIntent, trigger)
+        mockBackendSelfState.value = VpnState.Connecting
+
+        vpnStateMonitor.onDisconnectedByReconnection.test {
+            vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Fastest, trigger)
+
+            awaitItem()
+        }
+    }
+
+    @Test
+    fun `when reconnecting to a different Guest Hole don't trigger disconnection`() = testScope.runTest {
+        val server = createServer("serverId")
+        serverManager.setGuestHoleServers(listOf(server))
+        val ghIntent = AnyConnectIntent.GuestHole(server.serverId)
+        val ghConnectionParams =
+            ConnectionParams(ghIntent, server, server.connectingDomains.first(), VpnProtocol.WireGuard)
+        coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } returns
+            PrepareResult(mockBackend, ghConnectionParams)
+
+        vpnConnectionManager.connect(mockVpnUiDelegate, ghIntent, trigger)
+        mockBackendSelfState.value = VpnState.Connecting
+
+        vpnStateMonitor.onDisconnectedByReconnection.test {
+            vpnConnectionManager.connect(mockVpnUiDelegate, ghIntent, trigger)
+
+            expectNoEvents()
+        }
+    }
 }
