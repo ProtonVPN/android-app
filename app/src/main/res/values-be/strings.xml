@@ -424,12 +424,12 @@
     <string name="upgrade_unlimited_vpn_any_location">Выбірайце любое месцазнаходжанне</string>
     <string name="upgrade_unlimited_vpn_higher_speeds">Яшчэ больш высокая хуткасць VPN</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Абараніце да %1$d прылады адначасова</item>
-        <item quantity="few">Абараніце да %1$d прылад адначасова</item>
-        <item quantity="many">Абараніце да %1$d прылад адначасова</item>
-        <item quantity="other">Абараніце да %1$d прылад адначасова</item>
+        <item quantity="one">Абараняйце да %1$d прылады адначасова</item>
+        <item quantity="few">Абараняйце да %1$d прылад адначасова</item>
+        <item quantity="many">Абараняйце да %1$d прылад адначасова</item>
+        <item quantity="other">Абараняйце да %1$d прылад адначасова</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Бяспечнае патокавае вяшчанне</string>
+    <string name="upgrade_unlimited_vpn_streaming">Бяспечная трансляцыя</string>
     <string name="upgrade_unlimited_vpn_adblocker">Блакіроўшчык рэкламы і абарона ад шкодных праграм</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">Падтрымка P2P</string>
@@ -465,7 +465,7 @@
     <string name="upgrade_unlimited_calendar_sharing">Абагульванне календара</string>
     <string name="upgrade_unlimited_calendar_invites">Адпраўка і атрыманне запрашэнняў</string>
     <string name="upgrade_unlimited_drive_encryption">Зашыфраванае файлавае сховішча</string>
-    <string name="upgrade_unlimited_drive_storage_size">Сховішча ў памеры %1$d ГБ для фатаграфій, файлаў і лістоў</string>
+    <string name="upgrade_unlimited_drive_storage_size">Сховішча памерам %1$d ГБ для фатаграфій, файлаў і лістоў</string>
     <string name="upgrade_unlimited_drive_link_share">Абагульванне фатаграфій і файлаў праз спасылку</string>
     <string name="upgrade_unlimited_drive_sharing_security">Дадатковая бяспека пры абагульванні</string>
     <string name="upgrade_unlimited_drive_version_history">Гісторыя версій</string>

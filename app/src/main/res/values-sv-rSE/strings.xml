@@ -420,8 +420,8 @@
         <item quantity="other">%1$d anpassade e-postdomäner</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB attachment</item>
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="one">%1$d MB bilaga</item>
+        <item quantity="other">%1$d MB bilagor</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d e-postadress</item>
@@ -430,7 +430,7 @@
     <string name="upgrade_unlimited_mail_unlimited_folders">Obegränsat antal mappar och filter</string>
     <string name="upgrade_unlimited_mail_dark_web">Övervakning mörka webben</string>
     <string name="upgrade_unlimited_mail_aliases">Obegränsat antal hide-my-email-alias</string>
-    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
+    <string name="upgrade_unlimited_mail_autoreply">Autosvar</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Schemalagd sändning</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d personlig kalender</item>
@@ -454,8 +454,8 @@
     <string name="upgrade_unlimited_pass_credit_cards">Obegränsat antal kreditkort</string>
     <string name="upgrade_unlimited_pass_devices">Obegränsat antal enheter</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="one">Dela med upp till %1$d annan</item>
+        <item quantity="other">Dela med upp till %1$d andra</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Integrerad 2FA-autentisering</string>
     <string name="upgrade_not_now_button">Inte nu</string>

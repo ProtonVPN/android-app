@@ -400,64 +400,64 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Avaa %1$s %2$s <b>VPN Plus</b> -tilauksella.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
-    <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
-    <string name="upgrade_unlimited_vpn_any_location">Choose any location</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_all_apps_title">Kaikki premium Proton-palvelut. Yksi helppo tilaus.</string>
+    <string name="upgrade_unlimited_all_apps_description">Saat täydellisen yksityisyyden suojan Proton Unlimitedilla.</string>
+    <string name="upgrade_unlimited_more">Ja muuta</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Avaa kaikki maat</string>
+    <string name="upgrade_unlimited_vpn_all_features">Kaikki muut VPN Plus -ominaisuudet</string>
+    <string name="upgrade_unlimited_vpn_any_location">Valitse mikä tahansa sijainti</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Vielä korkeammat VPN-nopeudet</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Suojaa samanaikaisesti %1$d laite</item>
+        <item quantity="other">Suojaa samanaikaisesti %1$d laitetta</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
+    <string name="upgrade_unlimited_vpn_streaming">Turvallinen suoratoisto</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Mainos- ja haittaohjelmaesto</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Kaksois-VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">P2P-tuki</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d custom email domain</item>
-        <item quantity="other">%1$d custom email domains</item>
+        <item quantity="one">%1$d oma sähköpostiverkkotunnus</item>
+        <item quantity="other">%1$d omaa sähköpostiverkkotunnusta</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB attachment</item>
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="one">%1$d Mt liite</item>
+        <item quantity="other">%1$d Mt liitteitä</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d email address</item>
-        <item quantity="other">%1$d email addresses</item>
+        <item quantity="one">%1$d sähköpostiosoite</item>
+        <item quantity="other">%1$d sähköpostiosoitetta</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Rajattomasti kansioita ja suodattimia</string>
+    <string name="upgrade_unlimited_mail_dark_web">Pimeän verkon valvonta</string>
+    <string name="upgrade_unlimited_mail_aliases">Rajattomasti Hide-my-email-aliaksia</string>
+    <string name="upgrade_unlimited_mail_autoreply">Automaattivastaus</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Ajoitettu lähetys</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d personal calendar</item>
-        <item quantity="other">%1$d personal calendars</item>
+        <item quantity="one">%1$d henkilökohtainen kalenteri</item>
+        <item quantity="other">%1$d henkilökohtaista kalenteria</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Calendar sharing</string>
-    <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
-    <string name="upgrade_unlimited_drive_version_history">Version history</string>
-    <string name="upgrade_unlimited_pass_manager">Encrypted password manager</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
+    <string name="upgrade_unlimited_calendar_sharing">Kalenterien jakaminen</string>
+    <string name="upgrade_unlimited_calendar_invites">Lähetä ja vastaanota kutsuja</string>
+    <string name="upgrade_unlimited_drive_encryption">Salattu tiedostojen tallennustila</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d Gt tallennustilaa kuville, tiedostoille ja sähköposteille</string>
+    <string name="upgrade_unlimited_drive_link_share">Jaa kuvia ja tiedostoja linkin välityksellä</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Edistynyt jakamisen suojaus</string>
+    <string name="upgrade_unlimited_drive_version_history">Versiohistoria</string>
+    <string name="upgrade_unlimited_pass_manager">Salattu salasanahallinta</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Rajattomasti kirjautumistietoja ja Hide-my-email-aliaksia</string>
     <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d vault</item>
-        <item quantity="other">%1$d vaults</item>
+        <item quantity="one">%1$d holvi</item>
+        <item quantity="other">%1$d holvia</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
-    <string name="upgrade_unlimited_pass_devices">Unlimited devices</string>
+    <string name="upgrade_unlimited_pass_logins">Rajattomasti kirjautumistietoja</string>
+    <string name="upgrade_unlimited_pass_aliases">Rajattomasti Hide-my-email-aliaksia</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Rajattomasti maksukortteja</string>
+    <string name="upgrade_unlimited_pass_devices">Rajattomasti laitteita</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="one">Jaa enimmillään %1$d muun kanssa</item>
+        <item quantity="other">Jaa enimmillään %1$d muun kanssa</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Integrated 2FA authenticator</string>
+    <string name="upgrade_unlimited_pass_2fa_auth">Sisäänrakennettu kaksivaiheinen todentaja</string>
     <string name="upgrade_not_now_button">Ei nyt</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -466,7 +466,7 @@
          When the plan selection control is focused, and the first plan name is "VPN Plus"
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
-    <string name="upgrade_plan_selection_content_description">Upgrade options</string>
+    <string name="upgrade_plan_selection_content_description">Päivitysvaihtoehdot</string>
     <string name="upsell_card_countries_title">Maailmalaajuinen kattavuus</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -521,7 +521,7 @@
          Plan names are not translated.
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
-    <string name="payment_button_get_plan">Get %1$s</string>
+    <string name="payment_button_get_plan">Hanki %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Tervetiliaistarjous. Uudistuu automaattisesti hintaan %1$s/kuukausi.</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->

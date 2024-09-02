@@ -29,7 +29,7 @@
     <string name="menuActionSignOut">Odjava</string>
     <string name="connectionAllocationHelpTitle">Hvala za nadgradnjo na\nBusiness\u00a0/\u00a0Visionary</string>
     <string name="connectionAllocationHelpDescription1">Če želite začeti svojo pot s Proton VPN, dodelite povezave VPN svojemu računu ali kateremu koli drugemu pod računu.</string>
-    <string name="connectionAllocationHelpDescription2">Ta korak bo trajal le nekaj minut. Po tem se boste lahko prijavili in zaščitili vse svoje naprave.</string>
+    <string name="connectionAllocationHelpDescription2">Ta korak bo trajal le nekaj minut. Potem se boste lahko prijavili in zaščitili vse svoje naprave.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Za ta račun trenutno ni omogočena povezava VPN. Če želite začeti svojo pot s Proton VPN, se obrnite na skrbnika. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Omogoči povezave VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Ponovno se prijavite</string>
@@ -395,7 +395,7 @@
         <item quantity="one">%d varen strežnik</item>
         <item quantity="two">%d varna strežnika</item>
         <item quantity="few">%d varni strežniki</item>
-        <item quantity="other">%d varni strežniki</item>
+        <item quantity="other">%d varnih strežnikov</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -505,13 +505,13 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ strežniških lokacij v %2$s</string>
+    <string name="upsell_card_countries_description">Več kot %1$d strežniških lokacij v %2$s</string>
     <string name="upsell_card_customization_title">In veliko več …</string>
     <string name="upsell_card_customization_description">Odklenite še več zmogljivosti in funkcij zasebnosti</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Zaščitite %1$d napravo</item>
         <item quantity="two">Zaščitite %1$d napravi</item>
-        <item quantity="few">Zaščitite %1$d naprav</item>
+        <item quantity="few">Zaščitite %1$d naprave</item>
         <item quantity="other">Zaščitite %1$d naprav</item>
     </plurals>
     <string name="upsell_card_devices_description">Varnost in zasebnost na vseh vaših napravah</string>
