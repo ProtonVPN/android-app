@@ -42,10 +42,10 @@ object CountryTools {
 
     @JvmStatic
     fun getFlagResource(context: Context, flag: String?): Int =
-        flag?.let {
-            getDrawableRes(context, "flag_${flagCode(flag)}")
-                ?: fallbackFlagCode(flag)?.let { getDrawableRes(context, "flag_$it") }
-        } ?: getDrawableRes(context, "zz") ?: 0
+        flag
+            ?.let { getDrawableRes(context, "flag_${flagCode(flag)}") }
+            ?: getDrawableRes(context, "zz")
+            ?: 0
 
     /**
      * Returns a large and detailed flag resource.
@@ -62,12 +62,6 @@ object CountryTools {
     private fun flagCode(flag: String) = when (val code = flag.lowercase(Locale.ROOT)) {
         "uk" -> "gb"
         else -> code
-    }
-
-    //TODO: remove once flag_dom is renamed to flag_do in core
-    private fun fallbackFlagCode(flag: String) = when (flag.lowercase(Locale.ROOT)) {
-        "do" -> "dom"
-        else -> null
     }
 
     fun getPreferredLocale(): Locale {
