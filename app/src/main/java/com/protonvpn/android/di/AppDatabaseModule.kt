@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdatesDatabase
 import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
+import com.protonvpn.android.profiles.data.VpnProfilesDatabase
 import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
 import dagger.Binds
 import dagger.Module
@@ -69,6 +70,8 @@ object AppDatabaseDaoModule {
     fun provideVpnUserDao(db: VpnUserDatabase) = db.vpnUserDao()
     @Provides
     fun provideRecentsDao(db: VpnRecentsDatabase) = db.recentsDao()
+    @Provides
+    fun provideProfilesDao(db: VpnProfilesDatabase) = db.profilesDao()
 
     @Provides
     fun provideDefaultConnectionDao(db: VpnRecentsDatabase) = db.defaultConnectionDao()
@@ -127,6 +130,9 @@ abstract class AppDatabaseBindsModule {
 
     @Binds
     abstract fun provideUserSettingsDatabase(appDatabase: AppDatabase): UserSettingsDatabase
+
+    @Binds
+    abstract fun provideVpnProfilesDatabase(appDatabase: AppDatabase): VpnProfilesDatabase
 
     @Binds
     abstract fun provideVpnRecentsDatabase(appDatabase: AppDatabase): VpnRecentsDatabase

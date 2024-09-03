@@ -45,6 +45,7 @@ import me.proton.core.presentation.R as CoreR
 fun BottomBarView(
     modifier: Modifier = Modifier,
     showGateways: Boolean,
+    showProfiles: Boolean,
     selectedTarget: MainTarget? = MainTarget.Home,
     navigateTo: (MainTarget) -> Unit
 ) {
@@ -57,7 +58,8 @@ fun BottomBarView(
         tonalElevation = 0.dp
     ) {
         MainTarget.entries.forEach { target ->
-            if (target == MainTarget.Gateways && !showGateways)
+            if (target == MainTarget.Gateways && !showGateways ||
+                    target == MainTarget.Profiles && !showProfiles)
                 return@forEach
 
             val isSelected = target == selectedTarget
@@ -94,6 +96,7 @@ fun BottomBarView(
 private fun MainTarget.labelRes(): Int = when (this) {
     MainTarget.Home -> R.string.bottom_nav_home
     MainTarget.Gateways -> R.string.bottom_nav_gateways
+    MainTarget.Profiles -> R.string.bottom_nav_profiles
     MainTarget.Countries -> R.string.bottom_nav_countries
     MainTarget.Settings -> R.string.botton_nav_settings
 }
@@ -102,6 +105,8 @@ private fun MainTarget.labelRes(): Int = when (this) {
 private fun MainTarget.getIcon(selected: Boolean): Int = when (this) {
     MainTarget.Home ->
         if (selected) CoreR.drawable.ic_proton_house_filled else CoreR.drawable.ic_proton_house
+    MainTarget.Profiles ->
+        if (selected) CoreR.drawable.ic_proton_window_terminal else CoreR.drawable.ic_proton_window_terminal //TODO: add _filled
     MainTarget.Gateways ->
         if (selected) CoreR.drawable.ic_proton_servers_filled else CoreR.drawable.ic_proton_servers
     MainTarget.Countries ->
@@ -114,6 +119,6 @@ private fun MainTarget.getIcon(selected: Boolean): Int = when (this) {
 @Composable
 fun BottomBarPreviewDark() {
     LightAndDarkPreview {
-        BottomBarView(selectedTarget = MainTarget.Home, showGateways = true) {}
+        BottomBarView(selectedTarget = MainTarget.Home, showGateways = true, showProfiles = true) {}
     }
 }

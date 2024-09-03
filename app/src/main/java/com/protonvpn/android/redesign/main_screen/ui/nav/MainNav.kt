@@ -55,16 +55,19 @@ import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen.home
 import com.protonvpn.android.redesign.main_screen.ui.BottomBarView
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
+import com.protonvpn.android.profiles.ui.nav.ProfilesScreen
+import com.protonvpn.android.profiles.ui.nav.ProfilesScreen.profiles
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen.settings
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 
 enum class MainTarget {
-    Home, Gateways, Countries, Settings;
+    Home, Profiles, Gateways, Countries, Settings;
 
     companion object {
         fun fromRoute(baseRoute: String?) = when (baseRoute) {
             HomeScreen.route -> Home
+            ProfilesScreen.route -> Profiles
             GatewaysScreen.route -> Gateways
             CountryListScreen.route -> Countries
             SettingsScreen.route -> Settings
@@ -98,6 +101,9 @@ class MainNav(
         when (target) {
             MainTarget.Home ->
                 navigateInternal(HomeScreen, navOptions)
+
+            MainTarget.Profiles ->
+                navigateInternal(ProfilesScreen, navOptions)
 
             MainTarget.Gateways ->
                 navigateInternal(GatewaysScreen, navOptions)
@@ -139,6 +145,9 @@ class MainNav(
                         onConnectionCardClick = { rootNav.navigate(ConnectionDetailsScreen) }
                     )
 
+                    MainTarget.Profiles ->
+                        profiles(onNavigateToHomeOnConnect = onNavigateToHomeOnConnect)
+
                     MainTarget.Gateways ->
                         gateways(onNavigateToHomeOnConnect = onNavigateToHomeOnConnect)
 
@@ -170,12 +179,14 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
         val activity = LocalContext.current as ComponentActivity
         val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
         val showGateways = activityViewModel.showGatewaysFlow.collectAsStateWithLifecycle().value ?: false
+        val showProfiles = activityViewModel.showProfilesFlow.collectAsStateWithLifecycle().value ?: false
         Scaffold(
             contentWindowInsets = WindowInsets.navigationBars,
             bottomBar = {
                 BottomBarView(
                     selectedTarget = bottomTarget,
                     showGateways = showGateways,
+                    showProfiles = showProfiles,
                     navigateTo = mainNav::navigate
                 )
             }
