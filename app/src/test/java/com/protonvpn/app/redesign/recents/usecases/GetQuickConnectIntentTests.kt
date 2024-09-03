@@ -23,11 +23,11 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.RecentConnection
-import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.Constants
@@ -74,7 +74,7 @@ class GetQuickConnectIntentTests {
         val effectiveUserSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
         mostRecentConnectionFlow = MutableStateFlow(null)
         every { mockRecentsManager.getMostRecentConnection() } returns mostRecentConnectionFlow
-        coEvery { mockGetIntentAvailability(any(), any(), any()) } returns RecentAvailability.ONLINE
+        coEvery { mockGetIntentAvailability(any(), any(), any()) } returns ConnectIntentAvailability.ONLINE
         coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(Constants.DEFAULT_CONNECTION)
         getQuickConnectIntent = GetQuickConnectIntent(currentUser, mockRecentsManager, mockGetIntentAvailability, effectiveUserSettings)
     }
@@ -100,7 +100,7 @@ class GetQuickConnectIntentTests {
     @Test
     fun `when recent is offline fastest connection is returned instead`() = testScope.runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        coEvery { mockGetIntentAvailability(any(), any(), any()) } returns RecentAvailability.AVAILABLE_OFFLINE
+        coEvery { mockGetIntentAvailability(any(), any(), any()) } returns ConnectIntentAvailability.AVAILABLE_OFFLINE
         coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.LastConnection)
         testUserProvider.vpnUser = plusUser
         mostRecentConnectionFlow.value = RecentConnection(0, false, connectIntent)

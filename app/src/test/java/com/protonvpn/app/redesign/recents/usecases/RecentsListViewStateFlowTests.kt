@@ -31,13 +31,13 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.RecentConnection
-import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
@@ -65,6 +65,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -302,10 +303,10 @@ class RecentsListViewStateFlowTests {
         val viewState = viewStateFlow.first()
 
         val expected = listOf(
-            RecentAvailability.ONLINE,
-            RecentAvailability.ONLINE,
-            RecentAvailability.AVAILABLE_OFFLINE,
-            RecentAvailability.AVAILABLE_OFFLINE,
+            ConnectIntentAvailability.ONLINE,
+            ConnectIntentAvailability.ONLINE,
+            ConnectIntentAvailability.AVAILABLE_OFFLINE,
+            ConnectIntentAvailability.AVAILABLE_OFFLINE,
         )
         assertEquals(expected, viewState.recents.map { it.availability })
     }
@@ -325,8 +326,8 @@ class RecentsListViewStateFlowTests {
         val secureCoreItemAfter = viewStates.last().recents.find { it.isPinned }
         assertNotNull(secureCoreItemBefore)
         assertNotNull(secureCoreItemAfter)
-        assertEquals(RecentAvailability.ONLINE, secureCoreItemBefore.availability)
-        assertEquals(RecentAvailability.AVAILABLE_OFFLINE, secureCoreItemAfter.availability)
+        assertEquals(ConnectIntentAvailability.ONLINE, secureCoreItemBefore.availability)
+        assertEquals(ConnectIntentAvailability.AVAILABLE_OFFLINE, secureCoreItemAfter.availability)
     }
 
     @Test
@@ -351,8 +352,8 @@ class RecentsListViewStateFlowTests {
         val itemAfter = viewStates.last().recents.find { it.isPinned }
         assertNotNull(itemBefore)
         assertNotNull(itemAfter)
-        assertEquals(RecentAvailability.ONLINE, itemBefore.availability)
-        assertEquals(RecentAvailability.UNAVAILABLE_PROTOCOL, itemAfter.availability)
+        assertEquals(ConnectIntentAvailability.ONLINE, itemBefore.availability)
+        assertEquals(ConnectIntentAvailability.UNAVAILABLE_PROTOCOL, itemAfter.availability)
     }
 
     @Test

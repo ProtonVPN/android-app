@@ -20,16 +20,26 @@
 package com.protonvpn.android.redesign.vpn.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
@@ -39,13 +49,18 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
@@ -59,12 +74,14 @@ import com.protonvpn.android.base.ui.replaceWithInlineContent
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ActiveDot
+import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionUnspecified
 import me.proton.core.compose.theme.headlineSmallNorm
 import me.proton.core.presentation.utils.currentLocale
+import me.proton.core.presentation.R as CoreR
 import java.util.EnumSet
 
 private const val FLAGS_TOKEN = "[flags]"
@@ -81,6 +98,143 @@ sealed interface ConnectIntentSecondaryLabel {
     data class Country(val country: CountryId, val serverNumberLabel: String? = null) : ConnectIntentSecondaryLabel
     data class SecureCore(val exit: CountryId?, val entry: CountryId) : ConnectIntentSecondaryLabel
     data class RawText(val text: String) : ConnectIntentSecondaryLabel
+}
+
+enum class ConnectIntentAvailability {
+    // Order is significant, see RecentsListViewStateFlow.getAvailability.
+    UNAVAILABLE_PLAN, UNAVAILABLE_PROTOCOL, AVAILABLE_OFFLINE, ONLINE
+}
+
+@Composable
+private fun ConnectIntentAvailability.accessibilityAction(): String? =
+    when (this) {
+        ConnectIntentAvailability.ONLINE -> R.string.accessibility_action_connect
+        ConnectIntentAvailability.UNAVAILABLE_PLAN -> R.string.accessibility_action_upgrade
+        ConnectIntentAvailability.AVAILABLE_OFFLINE,
+        ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> null
+    }?.let { stringResource(it) }
+
+@Composable
+private fun ConnectIntentAvailability.extraContentDescription(): String? =
+    when(this) {
+        ConnectIntentAvailability.UNAVAILABLE_PLAN,
+        ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> R.string.accessibility_item_unavailable
+        ConnectIntentAvailability.AVAILABLE_OFFLINE -> R.string.accessibility_item_in_maintenance
+        ConnectIntentAvailability.ONLINE -> null
+    }?.let { stringResource(it) }
+
+@Composable
+fun ConnectIntentRow(
+    availability: ConnectIntentAvailability,
+    connectIntent: ConnectIntentViewState,
+    isConnected: Boolean,
+    onClick: () -> Unit,
+    onOpen: () -> Unit,
+    leadingComposable: @Composable RowScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    semanticsStateDescription: String? = null,
+) {
+    val customAccessibilityActions = listOf(
+        CustomAccessibilityAction(stringResource(id = R.string.accessibility_action_open)) { onOpen(); true },
+    )
+    val extraContentDescription = availability.extraContentDescription()
+    val clickActionLabel = availability.accessibilityAction()
+    val semantics = Modifier
+        .clickable(onClick = onClick, onClickLabel = clickActionLabel)
+        .semantics(mergeDescendants = true) {
+            semanticsStateDescription?.let { stateDescription = it }
+            if (extraContentDescription != null) contentDescription = extraContentDescription
+            customActions = customAccessibilityActions
+        }
+    val isDisabled = availability != ConnectIntentAvailability.ONLINE
+    ConnectIntentBlankRow(
+        title = connectIntent.primaryLabel.label(),
+        subTitle = connectIntent.secondaryLabel?.label(),
+        serverFeatures = connectIntent.serverFeatures,
+        isConnected = isConnected,
+        modifier = modifier.then(semantics).unavailableServerAlpha(isDisabled).clickable(onClick = onClick).padding(horizontal = 16.dp),
+        leadingComposable = leadingComposable,
+        trailingComposable = {
+            if (availability == ConnectIntentAvailability.AVAILABLE_OFFLINE) {
+                Icon(
+                    painterResource(id = CoreR.drawable.ic_proton_wrench),
+                    tint = ProtonTheme.colors.iconWeak,
+                    contentDescription = null, // Description is added on the whole row.
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
+            }
+            val interactionSource = remember { MutableInteractionSource() }
+            val iconOverflow = 8.dp // How much the icon sticks out into edgePadding
+            Box(
+                modifier = Modifier
+                    .height(IntrinsicSize.Max)
+                    .clearAndSetSemantics {} // Accessibility handled via semantics on the whole row.
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null, // Indication only on the icon.
+                        onClick = onOpen
+                    )
+                    .padding(end = 16.dp - iconOverflow)
+            ) {
+                Icon(
+                    painterResource(CoreR.drawable.ic_proton_three_dots_horizontal),
+                    tint = ProtonTheme.colors.iconNorm,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .indication(interactionSource, rememberRipple())
+                        .padding(8.dp),
+                    contentDescription = null // Accessibility handled via semantics on the whole row.
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun ConnectIntentBlankRow(
+    modifier: Modifier = Modifier,
+    leadingComposable: @Composable RowScope.() -> Unit,
+    trailingComposable: (@Composable RowScope.() -> Unit)? = null,
+    title: String,
+    subTitle: AnnotatedString?,
+    serverFeatures: Set<ServerFeature>,
+    isConnected: Boolean = false,
+) {
+    val isLargerRecent = subTitle != null || serverFeatures.isNotEmpty()
+    Row(
+        modifier = modifier
+            .heightIn(min = 64.dp)
+            .padding(vertical = 12.dp)
+            .semantics(mergeDescendants = true) {},
+        verticalAlignment = if (isLargerRecent) Alignment.Top else Alignment.CenterVertically,
+    ) {
+        leadingComposable()
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 16.dp)
+        ) {
+            Row {
+                Text(
+                    text = title,
+                    style = ProtonTheme.typography.body1Regular,
+                )
+                if (isConnected) {
+                    ActiveDot(modifier = Modifier.padding(start = 8.dp))
+                }
+            }
+            if (subTitle != null || serverFeatures.isNotEmpty()) {
+                ServerDetailsRow(
+                    subTitle,
+                    null,
+                    serverFeatures,
+                    detailsStyle = ProtonTheme.typography.body2Regular,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
+        }
+        trailingComposable?.invoke(this)
+    }
 }
 
 @Composable

@@ -41,9 +41,9 @@ import com.protonvpn.android.redesign.base.ui.FlagFastest
 import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.FlagRecentConnection
 import com.protonvpn.android.redesign.recents.ui.DefaultConnectionViewModel
-import com.protonvpn.android.redesign.recents.ui.RecentBlankRow
 import com.protonvpn.android.redesign.recents.usecases.DefaultConnItem
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentBlankRow
 import com.protonvpn.android.redesign.vpn.ui.label
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -130,7 +130,7 @@ fun DefaultSelectionRow(
     isSelected: Boolean,
     onSelected: () -> Unit
 ) {
-    RecentBlankRow(
+    ConnectIntentBlankRow(
         leadingComposable = leadingIcon,
         trailingComposable = { RadioButton(
             selected = isSelected,

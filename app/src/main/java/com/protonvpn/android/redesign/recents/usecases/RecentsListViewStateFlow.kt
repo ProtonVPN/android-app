@@ -27,12 +27,12 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.CardLabel
-import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.isCompatibleWith
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.usecases.applyOverrides
@@ -103,7 +103,7 @@ class RecentsListViewStateFlow @Inject constructor(
                 val connectedIntent = status.connectIntent?.takeIf { status.state.isConnectedOrConnecting() }
                 val connectedServer = status.server?.takeIf { status.state.isConnectedOrConnecting() }
                 val mostRecentAvailableIntent =  mostRecent?.connectIntent?.takeIf {
-                    getIntentAvailability(it, vpnUser, settings.protocol) == RecentAvailability.ONLINE
+                    getIntentAvailability(it, vpnUser, settings.protocol) == ConnectIntentAvailability.ONLINE
                 }
                 val connectionCardIntent = connectedIntent
                     ?: when (defaultConnection) {
