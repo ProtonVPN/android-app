@@ -20,8 +20,8 @@ package com.protonvpn.android.redesign.recents.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
-import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
@@ -48,7 +48,7 @@ class GetQuickConnectIntent @Inject constructor(
         }
 
         return quickIntent?.takeIf {
-            getIntentAvailability(it, currentUser.vpnUser(), userSettings.protocol.first()) == RecentAvailability.ONLINE
+            getIntentAvailability(it, currentUser.vpnUser(), userSettings.protocol.first()) == ConnectIntentAvailability.ONLINE
         } ?: ConnectIntent.Default
     }
 }

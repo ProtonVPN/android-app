@@ -36,9 +36,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.VpnDivider
-import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentRow
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
@@ -89,7 +89,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = false,
-            availability = RecentAvailability.ONLINE
+            availability = ConnectIntentAvailability.ONLINE
         )
 
         private val item2 = RecentItemViewState(
@@ -104,7 +104,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = true,
-            availability = RecentAvailability.ONLINE
+            availability = ConnectIntentAvailability.ONLINE
         )
 
         private val item3 = RecentItemViewState(
@@ -119,7 +119,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = false,
-            availability = RecentAvailability.ONLINE
+            availability = ConnectIntentAvailability.ONLINE
         )
 
         private val item4 = RecentItemViewState(
@@ -134,7 +134,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = false,
-            availability = RecentAvailability.AVAILABLE_OFFLINE
+            availability = ConnectIntentAvailability.AVAILABLE_OFFLINE
         )
 
         private val item5 = RecentItemViewState(
@@ -149,7 +149,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = false,
-            availability = RecentAvailability.UNAVAILABLE_PLAN
+            availability = ConnectIntentAvailability.UNAVAILABLE_PLAN
         )
 
         private val item6 = RecentItemViewState(
@@ -164,7 +164,7 @@ class RecentsSample : SampleScreen("Recents", "recents", needsScroll = false) {
             ),
             isPinned = false,
             isConnected = false,
-            availability = RecentAvailability.UNAVAILABLE_PROTOCOL
+            availability = ConnectIntentAvailability.UNAVAILABLE_PROTOCOL
         )
     }
 }

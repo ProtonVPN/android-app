@@ -22,8 +22,8 @@ import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.Reusable
@@ -39,39 +39,39 @@ class GetIntentAvailability @Inject constructor(
         connectIntent: ConnectIntent,
         vpnUser: VpnUser?,
         settingsProtocol: ProtocolSelection
-    ): RecentAvailability {
+    ): ConnectIntentAvailability {
         val protocol = connectIntent.settingsOverrides?.protocol ?: settingsProtocol
         return serverManager.forConnectIntent(
             connectIntent,
             onFastest = { isSecureCore, _ ->
-                if (!isSecureCore || vpnUser?.isFreeUser != true) RecentAvailability.ONLINE
-                else RecentAvailability.UNAVAILABLE_PLAN
+                if (!isSecureCore || vpnUser?.isFreeUser != true) ConnectIntentAvailability.ONLINE
+                else ConnectIntentAvailability.UNAVAILABLE_PLAN
             },
             onFastestInGroup = { servers -> servers.getAvailability(vpnUser, protocol) },
             onServer = { server -> listOf(server).getAvailability(vpnUser, protocol) },
-            fallbackResult = RecentAvailability.UNAVAILABLE_PLAN
+            fallbackResult = ConnectIntentAvailability.UNAVAILABLE_PLAN
         )
     }
 
     private fun Iterable<Server>.getAvailability(
         vpnUser: VpnUser?,
         protocol: ProtocolSelection
-    ): RecentAvailability {
-        fun Server.hasAvailability(availability: RecentAvailability) = when (availability) {
-            RecentAvailability.UNAVAILABLE_PLAN -> true
-            RecentAvailability.UNAVAILABLE_PROTOCOL -> vpnUser.hasAccessToServer(this)
-            RecentAvailability.AVAILABLE_OFFLINE -> supportsProtocol(this, protocol)
-            RecentAvailability.ONLINE -> online
+    ): ConnectIntentAvailability {
+        fun Server.hasAvailability(availability: ConnectIntentAvailability) = when (availability) {
+            ConnectIntentAvailability.UNAVAILABLE_PLAN -> true
+            ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> vpnUser.hasAccessToServer(this)
+            ConnectIntentAvailability.AVAILABLE_OFFLINE -> supportsProtocol(this, protocol)
+            ConnectIntentAvailability.ONLINE -> online
         }
 
         return maxOfOrNull { server ->
-            RecentAvailability.entries.toTypedArray()
+            ConnectIntentAvailability.entries.toTypedArray()
                 .takeWhile { server.hasAvailability(it) }
                 .last()
                 .also {
                     // The list of servers may be long and most of them should be online. Finish the loop early.
-                    if (it == RecentAvailability.ONLINE) return@getAvailability RecentAvailability.ONLINE
+                    if (it == ConnectIntentAvailability.ONLINE) return@getAvailability ConnectIntentAvailability.ONLINE
                 }
-        } ?: RecentAvailability.UNAVAILABLE_PLAN
+        } ?: ConnectIntentAvailability.UNAVAILABLE_PLAN
     }
 }

@@ -29,7 +29,6 @@ import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.RecentConnection
-import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
@@ -38,6 +37,7 @@ import com.protonvpn.android.redesign.vpn.ChangeServerManager
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
@@ -163,10 +163,10 @@ class HomeViewModel @Inject constructor(
         if (recent != null) {
             uiStateStorage.update { it.copy(hasUsedRecents = true) }
             when (item.availability) {
-                RecentAvailability.UNAVAILABLE_PLAN -> eventNavigateToUpgrade.tryEmit(Unit)
-                RecentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable
-                RecentAvailability.AVAILABLE_OFFLINE -> dialogState = recent.toMaintenanceDialogType()
-                RecentAvailability.ONLINE -> {
+                ConnectIntentAvailability.UNAVAILABLE_PLAN -> eventNavigateToUpgrade.tryEmit(Unit)
+                ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable
+                ConnectIntentAvailability.AVAILABLE_OFFLINE -> dialogState = recent.toMaintenanceDialogType()
+                ConnectIntentAvailability.ONLINE -> {
                     val trigger = if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular
                     ProtonLogger.log(UiConnect, "home ${trigger.description}")
                     vpnConnectionManager.connect(vpnUiDelegate, recent.connectIntent, trigger)

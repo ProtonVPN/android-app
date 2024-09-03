@@ -33,13 +33,13 @@ import androidx.compose.ui.unit.IntOffset
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.ui.CardLabel
-import com.protonvpn.android.redesign.recents.ui.RecentAvailability
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.VpnConnectionCardViewState
 import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
@@ -70,7 +70,7 @@ class RecentsListUiTests : FusionComposeTest() {
         val viewState = RecentsListViewState(
             ConnectionCardViewState,
             listOf(
-                RecentItemViewState(0, ConnectIntentViewSwitzerland, false, false, RecentAvailability.ONLINE)
+                RecentItemViewState(0, ConnectIntentViewSwitzerland, false, false, ConnectIntentAvailability.ONLINE)
             ),
             null
         )

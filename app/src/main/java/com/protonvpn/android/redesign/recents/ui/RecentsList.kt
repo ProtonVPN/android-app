@@ -29,7 +29,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -46,7 +45,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -66,6 +64,7 @@ import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentBlankRow
 import com.protonvpn.android.redesign.vpn.ui.label
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
@@ -294,7 +293,7 @@ private fun RecentSettingBottomSheetContent(
         onDismissRequest = onDismiss,
     ) {
         Column {
-            RecentBlankRow(
+            ConnectIntentBlankRow(
                 leadingComposable = { FlagOrGatewayIndicator(item.connectIntent.primaryLabel) },
                 title = item.connectIntent.primaryLabel.label(),
                 subTitle = item.connectIntent.secondaryLabel?.label(),
