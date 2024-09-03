@@ -38,6 +38,7 @@ class BottomBarSample : SampleScreen("Bottom Bar", "bottom bar") {
             BottomBarView(
                 Modifier.align(Alignment.BottomCenter),
                 showGateways = true,
+                showProfiles = true,
                 target.value,
             ) {
                 target.value = it

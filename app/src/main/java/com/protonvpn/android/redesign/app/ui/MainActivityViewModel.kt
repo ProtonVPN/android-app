@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.app.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.managed.AutoLoginManager
+import com.protonvpn.android.profiles.usecases.NewProfilesMvpEnabled
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
@@ -43,6 +44,7 @@ class MainActivityViewModel @Inject constructor(
     private val vpnConnectionManager: VpnConnectionManager,
     serverManager2: ServerManager2,
     private val autoLoginManager: AutoLoginManager,
+    profilesMvpEnabled: NewProfilesMvpEnabled,
 ) : ViewModel() {
 
     val vpnStateViewFlow: StateFlow<VpnStatusViewState> = vpnStatusViewStateFlow
@@ -52,11 +54,15 @@ class MainActivityViewModel @Inject constructor(
         .distinctUntilChanged()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
+    val showProfilesFlow = profilesMvpEnabled.observe()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
+
     val isMinimalStateReadyFlow: StateFlow<Boolean> = combine(
         vpnStateViewFlow,
         showGatewaysFlow,
-    ) { vpnStateView, showGateways ->
-        vpnStateView != VpnStatusViewState.Loading && showGateways != null
+        showProfilesFlow,
+    ) { vpnStateView, showGateways, showProfiles ->
+        vpnStateView != VpnStatusViewState.Loading && showGateways != null && showProfiles != null
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
 
     // Must be fast, it's used in SplashScreen.setKeepOnScreenCondition
