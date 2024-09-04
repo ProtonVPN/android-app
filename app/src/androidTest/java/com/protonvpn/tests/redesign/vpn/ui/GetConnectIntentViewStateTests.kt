@@ -26,6 +26,10 @@ import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
+import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileColor
+import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -93,6 +97,8 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
     private val switzerland = CountryId("ch")
     private val poland = CountryId("pl")
 
+    private lateinit var profiles: MutableMap<Long, Profile>
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -105,7 +111,8 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         every { mockTranslator.getCity(any()) } answers { firstArg() }
         every { mockTranslator.getState(any()) } answers { firstArg() }
 
-        getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, mockTranslator)
+        profiles = mutableMapOf()
+        getConnectIntentViewState = GetConnectIntentViewState(mockServerManager, mockTranslator, getProfileById = { profiles[it] })
     }
 
     @Test
@@ -424,6 +431,50 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
         node.withTag("primaryLabel").assertContainsText("Gateway Name")
         node.withTag("secondaryLabel").hasChild(node.withText("United States #1")).assertIsDisplayed()
+    }
+
+    @Test
+    fun profileWithCountryAndFeature() = runTest {
+        setProfileComposable(1, "CH P2P", ConnectIntent.FastestInCountry(switzerland, p2pServerFeatures, profileId = 1))
+        node.withTag("primaryLabel").assertContainsText("CH P2P")
+        node.withTag("secondaryLabel").hasChild(node.withText("Switzerland")).assertIsDisplayed()
+        node.withTag("secondaryLabel").hasChild(node.withText("P2P")).assertIsDisplayed()
+    }
+
+    @Test
+    fun profileWithCountryAndFeatureConnected() = runTest {
+        setProfileComposable(1, "CH P2P", ConnectIntent.FastestInCountry(switzerland, p2pServerFeatures, profileId = 1))
+        node.withTag("primaryLabel").assertContainsText("CH P2P")
+        node.withTag("secondaryLabel").hasChild(node.withText("Switzerland")).assertIsDisplayed()
+        node.withTag("secondaryLabel").hasChild(node.withText("P2P")).assertIsDisplayed()
+    }
+
+    @Test
+    fun profileServer() = runTest {
+        setProfileComposable(1, "Existing Server", ConnectIntent.Server("serverCh1", switzerland, noServerFeatures, profileId = 1))
+        node.withTag("secondaryLabel").hasChild(node.withText("Switzerland #1")).assertIsDisplayed()
+    }
+
+    @Test
+    fun profileRemovedServer() = runTest {
+        setProfileComposable(1, "Removed Server", ConnectIntent.Server("removedServer", switzerland, noServerFeatures, profileId = 1))
+        node.withTag("primaryLabel").assertContainsText("Removed Server")
+        node.withTag("secondaryLabel").hasChild(node.withText("Switzerland")).assertIsDisplayed()
+    }
+
+    private suspend fun setProfileComposable(id: Long, name: String, intent: ConnectIntent) {
+        val profile = Profile(
+            ProfileInfo(
+                id = id,
+                name = name,
+                color = ProfileColor.Color1,
+                icon = ProfileIcon.Icon1,
+                isGateway = false,
+            ),
+            connectIntent = intent
+        )
+        profiles += profile.info.id to profile
+        setConnectIntentRowComposable(profile.connectIntent, isFreeUser = false)
     }
 
     private suspend fun setConnectIntentRowComposable(

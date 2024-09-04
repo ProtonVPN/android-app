@@ -117,6 +117,7 @@ fun ConnectIntentData.toConnectIntent(): ConnectIntent =
         ConnectIntentType.SPECIFIC_SERVER ->
             ConnectIntent.Server(
                 serverId = requireNotNull(serverId),
+                exitCountry = exitCountry?.let { CountryId(it) },
                 features = features,
                 profileId = profileId,
                 settingsOverrides = settingsOverrides,
@@ -199,7 +200,7 @@ fun ConnectIntent.toData(): ConnectIntentData =
         is ConnectIntent.Server ->
             ConnectIntentData(
                 connectIntentType = ConnectIntentType.SPECIFIC_SERVER,
-                exitCountry = null,
+                exitCountry = exitCountry?.toDataString(),
                 entryCountry = null,
                 city = null,
                 gatewayName = null,

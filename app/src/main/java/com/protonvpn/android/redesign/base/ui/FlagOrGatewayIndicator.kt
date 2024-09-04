@@ -36,5 +36,7 @@ fun FlagOrGatewayIndicator(
             Flag(label.exitCountry, label.entryCountry, modifier = modifier)
         is ConnectIntentPrimaryLabel.Gateway ->
             GatewayIndicator(label.country, modifier = modifier)
+        is ConnectIntentPrimaryLabel.Profile ->
+            Flag(label.country, null, modifier = modifier)
     }
 }

@@ -27,6 +27,10 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileColor
+import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
@@ -65,7 +69,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -119,6 +122,7 @@ class RecentsListViewStateFlowTests {
         createServer("4", exitCountry = "pl", entryCountry = "ch", isSecureCore = true, tier = 2)
 
     private lateinit var viewStateFlow: RecentsListViewStateFlow
+    private lateinit var profiles: MutableMap<Long, Profile>
 
     @Before
     fun setup() {
@@ -168,9 +172,10 @@ class RecentsListViewStateFlowTests {
         }
         val getIntentAvailability = GetIntentAvailability(serverManager2, supportsProtocol)
         val translator = Translator(testScope.backgroundScope, serverManager)
+        profiles = mutableMapOf<Long, Profile>()
         viewStateFlow = RecentsListViewStateFlow(
             mockRecentsManager,
-            GetConnectIntentViewState(serverManager2, translator),
+            GetConnectIntentViewState(serverManager2, translator, getProfileById = { profiles[it] }),
             serverManager2,
             effectiveUserSettings,
             getIntentAvailability,
@@ -364,6 +369,18 @@ class RecentsListViewStateFlowTests {
         assertTrue(viewStateFlow.first().connectionCard.canOpenFreeCountriesPanel)
     }
 
+    @Test
+    fun profileNameIsShownInConnectionCard() = testScope.runTest {
+        profiles[ProfileRecent.profile.info.id] = ProfileRecent.profile
+        coEvery { mockRecentsManager.getMostRecentConnection() } returns flowOf(ProfileRecent)
+        coEvery { mockRecentsManager.getRecentById(any()) } answers { ProfileRecent }
+
+        val viewState = viewStateFlow.first()
+        val connectionCardPrimaryLabel = viewState.connectionCard.connectIntentViewState.primaryLabel
+        assertTrue(connectionCardPrimaryLabel is ConnectIntentPrimaryLabel.Profile)
+        assertEquals(ProfileRecent.profile.info.name, connectionCardPrimaryLabel.name)
+    }
+
     companion object {
         val ConnectIntentSecureCore = ConnectIntent.SecureCore(CountryId("PL"), CountryId.switzerland)
         val ConnectIntentFastest = ConnectIntent.FastestInCountry(CountryId.fastest, setOf(ServerFeature.P2P))
@@ -389,6 +406,12 @@ class RecentsListViewStateFlowTests {
         val RecentFastest = RecentConnection(2, false, ConnectIntentFastest)
         val RecentSweden = RecentConnection(3, false, ConnectIntentSweden)
         val RecentIceland = RecentConnection(4, false, ConnectIntentIceland)
+
+        val Profile = Profile(
+            ProfileInfo(1, "MyProfile", ProfileColor.Color1, ProfileIcon.Icon1, isGateway = false),
+            ConnectIntent.FastestInCountry(CountryId.fastest, emptySet(), profileId = 1)
+        )
+        val ProfileRecent = RecentConnection.ProfileRecent(5, false, Profile)
 
         val DefaultRecents = listOf(RecentSecureCore, RecentFastest, RecentSweden, RecentIceland)
 

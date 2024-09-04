@@ -165,6 +165,7 @@ class HomeViewModel @Inject constructor(
             when (item.availability) {
                 ConnectIntentAvailability.UNAVAILABLE_PLAN -> eventNavigateToUpgrade.tryEmit(Unit)
                 ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable
+                ConnectIntentAvailability.SERVER_REMOVED -> dialogState = DialogState.ServerNotAvailable
                 ConnectIntentAvailability.AVAILABLE_OFFLINE -> dialogState = recent.toMaintenanceDialogType()
                 ConnectIntentAvailability.ONLINE -> {
                     val trigger = if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular

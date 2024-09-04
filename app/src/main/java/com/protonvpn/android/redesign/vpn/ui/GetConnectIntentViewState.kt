@@ -20,11 +20,15 @@
 package com.protonvpn.android.redesign.vpn.ui
 
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.profiles.data.ProfileEntity
+import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
+import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.utils.DebugUtils
 import dagger.Reusable
 import javax.inject.Inject
 
@@ -32,12 +36,73 @@ import javax.inject.Inject
 class GetConnectIntentViewState @Inject constructor(
     private val serverManager: ServerManager2,
     private val translator: Translator,
+    private val getProfileById: GetProfileById,
 ) {
 
     // Note: this is a suspending function being called in a loop which makes it potentially slow.
-    // See RecentListViewStateFlow.createRecentsViewState
-    suspend operator fun invoke(connectIntent: ConnectIntent, isFreeUser: Boolean, connectedServer: Server? = null): ConnectIntentViewState =
-        when (connectIntent) {
+    // See RecentListViewStateFlow.createRecentsViewState and ProfilesViewModel.toItem
+    suspend operator fun invoke(recentConnection: RecentConnection, isFreeUser: Boolean, connectedServer: Server? = null) =
+        when (recentConnection) {
+            is RecentConnection.ProfileRecent -> forProfile(recentConnection.profile)
+            is RecentConnection.UnnamedRecent -> getUnnamedIntentViewState(recentConnection.connectIntent, isFreeUser, connectedServer)
+        }
+
+    suspend fun forProfile(profile: Profile): ConnectIntentViewState {
+        val intent = profile.connectIntent
+        val (exit, secondaryLabel) = when(intent) {
+            is ConnectIntent.FastestInCity ->
+                intent.country to ConnectIntentSecondaryLabel.RawText(translator.getCity(intent.cityEn))
+            is ConnectIntent.FastestInCountry ->
+                intent.country to ConnectIntentSecondaryLabel.Country(intent.country, null)
+            is ConnectIntent.FastestInState ->
+                intent.country to ConnectIntentSecondaryLabel.RawText(translator.getState(intent.stateEn))
+            is ConnectIntent.SecureCore ->
+                intent.exitCountry to ConnectIntentSecondaryLabel.SecureCore(intent.exitCountry, intent.entryCountry)
+            is ConnectIntent.Gateway -> {
+                val exit = intent.serverId?.let { serverManager.getServerById(it) }?.exitCountryId() ?: CountryId.fastest
+                exit to ConnectIntentSecondaryLabel.RawText(intent.gatewayName)
+            }
+            is ConnectIntent.Server -> {
+                val server = serverManager.getServerById(intent.serverId)
+                if (server == null) {
+                    val exit = intent.exitCountry ?: CountryId.fastest
+                    exit to ConnectIntentSecondaryLabel.Country(exit, null)
+                } else {
+                    server.exitCountryId() to server.profileServerSecondaryLabel()
+                }
+            }
+        }
+        val primaryLabel = ConnectIntentPrimaryLabel.Profile(
+            profile.info.name, exit, profile.info.isGateway, profile.info.icon, profile.info.color)
+        return ConnectIntentViewState(
+            primaryLabel, secondaryLabel, effectiveServerFeatures(profile.connectIntent, null))
+    }
+
+    private suspend fun forProfileId(profileId: Long): ConnectIntentViewState? {
+        val profile = getProfileById(profileId) ?: return null
+        return forProfile(profile)
+    }
+
+    private fun Server.profileServerSecondaryLabel() =
+        ConnectIntentSecondaryLabel.Country(CountryId(exitCountry), serverProfileNumberLabel())
+
+    private fun Server.serverProfileNumberLabel() =
+        if (state != null) serverName.substringAfter('-')
+        else serverName.dropWhile { it != '#' }
+
+    suspend fun fromRawIntent(
+        connectIntent: ConnectIntent,
+        isFreeUser: Boolean,
+        connectedServer: Server? = null
+    ): ConnectIntentViewState {
+        val profileId = connectIntent.profileId
+        if (profileId != null) {
+            val result = forProfileId(profileId)
+            if (result != null)
+                return result
+        }
+
+        return when (connectIntent) {
             is ConnectIntent.FastestInCountry -> {
                 if (isFreeUser && connectIntent.country.isFastest) fastestFreeServer(connectedServer)
                 else fastestInCountry(connectIntent, connectedServer)
@@ -48,6 +113,7 @@ class GetConnectIntentViewState @Inject constructor(
             is ConnectIntent.Gateway -> gateway(connectIntent, connectedServer)
             is ConnectIntent.Server -> specificServer(connectIntent, connectedServer)
         }
+    }
 
     private fun fastestInCountry(
         connectIntent: ConnectIntent.FastestInCountry,
@@ -188,15 +254,6 @@ class GetConnectIntentViewState @Inject constructor(
             null
         }
 
-    private fun effectiveServerFeatures(
-        connectIntent: ConnectIntent,
-        connectedServer: Server?
-    ) = if (connectedServer != null) {
-        connectIntent.features.intersect(ServerFeature.fromServer(connectedServer))
-    } else {
-        connectIntent.features
-    }
-
     private fun serverSecondaryLabel(server: Server): ConnectIntentSecondaryLabel.RawText = with(server) {
         val text = if (isFreeServer) {
             val dashIndex = serverName.indexOf('-')
@@ -218,4 +275,13 @@ class GetConnectIntentViewState @Inject constructor(
         ConnectIntentSecondaryLabel.Country(CountryId(server.exitCountry), server.serverName.dropWhile { it != '#' })
 
     private fun Server.exitCountryId() = CountryId(exitCountry)
+}
+
+private fun effectiveServerFeatures(
+    connectIntent: ConnectIntent,
+    connectedServer: Server?
+) = if (connectedServer != null) {
+    connectIntent.features.intersect(ServerFeature.fromServer(connectedServer))
+} else {
+    connectIntent.features
 }
