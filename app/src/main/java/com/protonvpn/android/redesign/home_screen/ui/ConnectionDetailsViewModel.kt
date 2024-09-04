@@ -28,6 +28,7 @@ import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.isVirtualLocation
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
@@ -148,7 +149,7 @@ class ConnectionDetailsViewModel @Inject constructor(
                     server.isTor,
                     server.isP2pServer,
                     server.isSecureCoreServer,
-                    smartRouting = if (!server.hostCountry.isNullOrBlank() && server.hostCountry != server.exitCountry)
+                    smartRouting = if (server.hostCountry != null && server.isVirtualLocation)
                         SmartRouting(entryCountry = CountryId(server.hostCountry), exitCountry = CountryId(server.exitCountry))
                     else
                         null,

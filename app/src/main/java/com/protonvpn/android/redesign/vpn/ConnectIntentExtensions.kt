@@ -41,3 +41,6 @@ fun Server?.isCompatibleWith(intent: ConnectIntent, matchFastest: Boolean): Bool
         is ConnectIntent.Server -> intent.serverId == serverId && gatewayName.isNullOrEmpty() && !isSecureCoreServer
     }
 }
+
+val Server.isVirtualLocation get() =
+    !hostCountry.isNullOrEmpty() && hostCountry != exitCountry
