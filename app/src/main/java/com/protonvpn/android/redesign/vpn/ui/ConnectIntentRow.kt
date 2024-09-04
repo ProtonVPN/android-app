@@ -91,6 +91,7 @@ sealed interface ConnectIntentPrimaryLabel {
     data class Country(val exitCountry: CountryId, val entryCountry: CountryId?) : ConnectIntentPrimaryLabel
 
     data class Gateway(val gatewayName: String, val country: CountryId?) : ConnectIntentPrimaryLabel
+    data class Profile(val name: String, val country: CountryId) : ConnectIntentPrimaryLabel
 }
 
 sealed interface ConnectIntentSecondaryLabel {
@@ -100,11 +101,6 @@ sealed interface ConnectIntentSecondaryLabel {
     data class RawText(val text: String) : ConnectIntentSecondaryLabel
 }
 
-enum class ConnectIntentAvailability {
-    // Order is significant, see RecentsListViewStateFlow.getAvailability.
-    UNAVAILABLE_PLAN, UNAVAILABLE_PROTOCOL, AVAILABLE_OFFLINE, ONLINE
-}
-
 @Composable
 private fun ConnectIntentAvailability.accessibilityAction(): String? =
     when (this) {
@@ -112,6 +108,7 @@ private fun ConnectIntentAvailability.accessibilityAction(): String? =
         ConnectIntentAvailability.UNAVAILABLE_PLAN -> R.string.accessibility_action_upgrade
         ConnectIntentAvailability.AVAILABLE_OFFLINE,
         ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> null
+        ConnectIntentAvailability.SERVER_REMOVED -> null
     }?.let { stringResource(it) }
 
 @Composable
@@ -121,6 +118,7 @@ private fun ConnectIntentAvailability.extraContentDescription(): String? =
         ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> R.string.accessibility_item_unavailable
         ConnectIntentAvailability.AVAILABLE_OFFLINE -> R.string.accessibility_item_in_maintenance
         ConnectIntentAvailability.ONLINE -> null
+        ConnectIntentAvailability.SERVER_REMOVED -> null
     }?.let { stringResource(it) }
 
 @Composable
@@ -338,6 +336,7 @@ fun ConnectIntentPrimaryLabel.label(): String = when (this) {
         stringResource(if (isFree) R.string.fastest_free_server else R.string.fastest_country)
     is ConnectIntentPrimaryLabel.Country -> exitCountry.label()
     is ConnectIntentPrimaryLabel.Gateway -> gatewayName
+    is ConnectIntentPrimaryLabel.Profile -> name
 }
 
 @Composable

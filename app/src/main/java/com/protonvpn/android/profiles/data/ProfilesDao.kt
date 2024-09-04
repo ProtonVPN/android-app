@@ -21,6 +21,7 @@ package com.protonvpn.android.profiles.data
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 import me.proton.core.domain.entity.UserId
@@ -31,9 +32,35 @@ abstract class ProfilesDao {
     @Query("SELECT * FROM profiles WHERE userId = :userId ORDER BY createdAt")
     abstract fun getProfiles(userId: UserId): Flow<List<ProfileEntity>>
 
+    @Query("SELECT * FROM profiles WHERE id = :id")
+    abstract fun getProfileByIdFlow(id: Long): Flow<ProfileEntity?>
+
+    @Query("SELECT * FROM profiles WHERE id = :id")
+    abstract suspend fun getProfileById(id: Long): ProfileEntity?
+
+    @Query("SELECT count(id) FROM profiles WHERE userId = :userId")
+    abstract fun getCount(userId: UserId): Int
+
+    //TOOD: think of something better
+    @Transaction
+    open suspend fun upsert(profile: ProfileEntity) {
+        val id = upsertInternal(profile)
+        updateProfileId(id)
+    }
+
+    @Query("UPDATE profiles SET profileId = :id WHERE id = :id")
+    abstract suspend fun updateProfileId(id: Long)
+
     @Upsert
-    abstract suspend fun upsert(profile: ProfileEntity)
+    protected abstract suspend fun upsertInternal(profile: ProfileEntity): Long
 
     @Query("DELETE FROM profiles WHERE id = :id")
     abstract suspend fun remove(id: Long)
+
+    @Transaction
+    open suspend fun prepopulate(userId: UserId, profiles: () -> List<ProfileEntity>) {
+        if (getCount(userId) == 0)
+            for (profile in profiles())
+                upsert(profile)
+    }
 }

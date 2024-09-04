@@ -52,6 +52,7 @@ sealed class ConnectTrigger(statsKeyword: ConnectStatsKeyword, val description: 
     class QuickConnect(description: String) : ConnectTrigger(ConnectStatsKeyword.QUICK, description)
     object RecentRegular : ConnectTrigger(ConnectStatsKeyword.RECENT, "recent")
     object RecentPinned : ConnectTrigger(ConnectStatsKeyword.PIN, "pinned recent")
+    object Profile : ConnectTrigger(ConnectStatsKeyword.PROFILE, "profile")
     class Onboarding(description: String) : ConnectTrigger(ConnectStatsKeyword.QUICK, description)
     class CountriesCountry(description: String) : ConnectTrigger(ConnectStatsKeyword.COUNTRIES_COUNTRY, description)
     class CountriesState(description: String) : ConnectTrigger(ConnectStatsKeyword.COUNTRIES_STATE, description)

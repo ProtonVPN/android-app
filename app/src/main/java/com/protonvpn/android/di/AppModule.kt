@@ -51,6 +51,8 @@ import com.protonvpn.android.managed.usecase.AutoLogin
 import com.protonvpn.android.managed.usecase.AutoLoginImpl
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.profiles.usecases.GetProfileById
+import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
@@ -335,5 +337,8 @@ object AppModule {
 
         @Binds
         fun provideAutoLogin(autoLogin: AutoLoginImpl): AutoLogin
+
+        @Binds
+        fun provideGetProfileById(getProfileById: GetProfileByIdImpl): GetProfileById
     }
 }

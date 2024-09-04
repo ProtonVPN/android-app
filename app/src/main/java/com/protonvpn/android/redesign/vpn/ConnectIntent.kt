@@ -89,6 +89,7 @@ sealed interface ConnectIntent : AnyConnectIntent {
     // server is removed.
     data class Server(
         val serverId: String,
+        val exitCountry: CountryId?, // To be used as a fallback when available and server is removed.
         override val features: Set<ServerFeature>,
         override val profileId: Long? = null,
         override val settingsOverrides: SettingsOverrides? = null,
@@ -99,3 +100,6 @@ sealed interface ConnectIntent : AnyConnectIntent {
         val Default = Fastest
     }
 }
+
+fun Server.toConnectIntent(features: Set<ServerFeature>) =
+    ConnectIntent.Server(serverId, CountryId(exitCountry), features)

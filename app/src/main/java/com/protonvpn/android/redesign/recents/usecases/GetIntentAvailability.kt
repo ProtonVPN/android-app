@@ -49,7 +49,7 @@ class GetIntentAvailability @Inject constructor(
             },
             onFastestInGroup = { servers -> servers.getAvailability(vpnUser, protocol) },
             onServer = { server -> listOf(server).getAvailability(vpnUser, protocol) },
-            fallbackResult = ConnectIntentAvailability.UNAVAILABLE_PLAN
+            fallbackResult = ConnectIntentAvailability.SERVER_REMOVED
         )
     }
 
@@ -58,7 +58,7 @@ class GetIntentAvailability @Inject constructor(
         protocol: ProtocolSelection
     ): ConnectIntentAvailability {
         fun Server.hasAvailability(availability: ConnectIntentAvailability) = when (availability) {
-            ConnectIntentAvailability.UNAVAILABLE_PLAN -> true
+            ConnectIntentAvailability.SERVER_REMOVED, ConnectIntentAvailability.UNAVAILABLE_PLAN -> true
             ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> vpnUser.hasAccessToServer(this)
             ConnectIntentAvailability.AVAILABLE_OFFLINE -> supportsProtocol(this, protocol)
             ConnectIntentAvailability.ONLINE -> online
