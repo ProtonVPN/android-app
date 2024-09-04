@@ -489,7 +489,7 @@ fun server(
     isSecureCore: Boolean = false,
     isOnline: Boolean = true,
     loadPercent: Float = 50f,
-    hostCountry: String? = null
+    hostCountry: String? = ""
 ) = createServer(
     exitCountry = exitCountry,
     city = city,

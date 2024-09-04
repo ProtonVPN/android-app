@@ -28,6 +28,7 @@ import com.protonvpn.android.redesign.ServerId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.search.ui.TextMatch
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.isVirtualLocation
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.hasFlag
 import kotlinx.coroutines.flow.Flow
@@ -140,7 +141,7 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
             countryId.countryCode,
             secureCoreCountry = false
         )?.serverList?.firstOrNull {
-            it.hostCountry != null && it.hostCountry != it.exitCountry
+            it.isVirtualLocation
         }?.hostCountry
         return hostCountry?.let { CountryId(it) }
     }
@@ -176,7 +177,7 @@ fun Server.toServerItem(match: TextMatch? = null) = ServerGroupItemData.Server(
     name = serverName,
     loadPercent = load.roundToInt(),
     serverFeatures = serverFeatures,
-    isVirtualLocation = hostCountry != null && hostCountry != exitCountry,
+    isVirtualLocation = isVirtualLocation,
     inMaintenance = !online,
     tier = tier,
     entryCountryId = if (isSecureCoreServer) CountryId(entryCountry) else null,

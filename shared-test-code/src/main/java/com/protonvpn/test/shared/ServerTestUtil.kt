@@ -62,7 +62,7 @@ fun createServer(
     connectingDomains: List<ConnectingDomain> = listOf(dummyConnectingDomain),
     isOnline: Boolean = true,
     loadPercent: Float = 50f,
-    hostCountry: String? = null
+    hostCountry: String? = ""
 ) = Server(
         serverId = serverId,
         entryCountry = entryCountry.uppercase(),
