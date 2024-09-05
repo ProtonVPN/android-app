@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Kirjaudu sisään</string>
     <string name="menuActionSignOut">Kirjaudu ulos</string>
-    <string name="connectionAllocationHelpTitle">Kiitos \nBusiness-\u00a0/\u00a0Visionary-päivityksestä</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Aloittaaksesi Proton VPN -matkasi, määritä VPN-yhteydet tilillesi sekä mahdollisille alitileille.</string>
     <string name="connectionAllocationHelpDescription2">Tämä vaihe kestää vain muutaman minuutin. Sen jälkeen voit kirjautua sisään ja suojata kaikki laitteesi.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Tilille ei ole tällä hetkellä määritetty VPN-yhteyttä. Aloita Proton VPN -matkasi olemalla yhteydessä ylläpitoosi.</string>

@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Conectare</string>
     <string name="menuActionSignOut">Deconectare</string>
-    <string name="connectionAllocationHelpTitle">Vă mulțumim pentru trecerea la planul \nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Vă mulțumim pentru achiziționare</string>
     <string name="connectionAllocationHelpDescription1">Pentru a începe utilizarea Proton VPN atribuiți conexiuni VPN contului sau oricărui cont secundar.</string>
     <string name="connectionAllocationHelpDescription2">Acest pas va dura doar câteva minute. După aceasta veți putea să vă conectați și să vă protejați toate dispozitivele.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Momentan nu există nici o conexiune VPN activată pentru acest cont. Pentru a începe să utilizați Proton VPN, contactați-vă administratorul contului.</string>

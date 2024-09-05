@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">登入</string>
     <string name="menuActionSignOut">登出</string>
-    <string name="connectionAllocationHelpTitle">感謝您升級至 \nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">請為您的帳號或任何別的子帳號指派 VPN 連線，以開展您的 Proton VPN 之旅。</string>
     <string name="connectionAllocationHelpDescription2">此步驟只需數分鐘。之後您便能登入並保護您所有的裝置。</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">此帳號目前並未啟用 VPN 連線。如要開始使用 Proton VPN，請聯絡您的管理員。 </string>

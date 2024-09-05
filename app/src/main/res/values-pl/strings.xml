@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Zaloguj się</string>
     <string name="menuActionSignOut">Wyloguj</string>
-    <string name="connectionAllocationHelpTitle">Dziękujemy za ulepszenie planu do wersji\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Dziękujemy za ulepszenie planu</string>
     <string name="connectionAllocationHelpDescription1">Przypisz połączenia VPN do swojego konta Proton VPN.</string>
     <string name="connectionAllocationHelpDescription2">Ten krok zajmie tylko kilka minut. Po tym kroku będziesz mógł zalogować się i chronić wszystkie swoje urządzenia.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Brak włączonych połączeń VPN na koncie. Skontaktuj się ze swoim administratorem, aby rozpocząć korzystanie z Proton VPN. </string>
@@ -416,7 +416,7 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odblokuj %1$s w %2$s w planie <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
+    <string name="upgrade_unlimited_all_apps_title">Wszystkie usługi Proton premium. Jedna prosta subskrypcja.</string>
     <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
     <string name="upgrade_unlimited_more">And more</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Odblokuj wszystkie kraje</string>

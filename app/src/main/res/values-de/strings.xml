@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Anmelden</string>
     <string name="menuActionSignOut">Abmelden</string>
-    <string name="connectionAllocationHelpTitle">Vielen Dank für das Upgrade auf \nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Um damit zu beginnen Proton VPN zu nutzen, weise bitte deinem Konto oder einem anderen Unterkonto VPN-Verbindungen zu.</string>
     <string name="connectionAllocationHelpDescription2">Dieser Schritt dauert nur wenige Minuten. Danach kannst du dich anmelden und alle deine Geräte schützen.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Für dieses Konto ist derzeit keine VPN-Verbindung aktiviert. Um damit zu beginnen, Proton VPN zu nutzen, kontaktiere bitte deinen Administrator. </string>

@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Prijava</string>
     <string name="menuActionSignOut">Odjava</string>
-    <string name="connectionAllocationHelpTitle">Hvala za nadgradnjo na\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Če želite začeti svojo pot s Proton VPN, dodelite povezave VPN svojemu računu ali kateremu koli drugemu pod računu.</string>
     <string name="connectionAllocationHelpDescription2">Ta korak bo trajal le nekaj minut. Potem se boste lahko prijavili in zaščitili vse svoje naprave.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Za ta račun trenutno ni omogočena povezava VPN. Če želite začeti svojo pot s Proton VPN, se obrnite na skrbnika. </string>

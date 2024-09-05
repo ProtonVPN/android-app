@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Войти</string>
     <string name="menuActionSignOut">Выйти</string>
-    <string name="connectionAllocationHelpTitle">Спасибо за улучшение до \nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Чтобы начать свое путешествие в Proton VPN, пожалуйста, назначьте подключения VPN для своего аккаунта или любого другого субаккаунта.</string>
     <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После него вы сможете авторизоваться и защитить все свои устройства.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">В настоящее время для этого аккаунта не активировано подключение к VPN. Чтобы начать свое путешествие с Proton VPN, пожалуйста, свяжитесь с вашим администратором. </string>
@@ -416,7 +416,7 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Разблокируйте %1$s в %2$s с помощью <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
+    <string name="upgrade_unlimited_all_apps_title">Все платные службы Proton. Одна простая подписка.</string>
     <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
     <string name="upgrade_unlimited_more">And more</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
@@ -431,8 +431,8 @@
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
     <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Двойная VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">Поддержка P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="one">%1$d custom email domain</item>
         <item quantity="few">%1$d custom email domains</item>

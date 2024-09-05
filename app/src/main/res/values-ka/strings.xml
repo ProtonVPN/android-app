@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">შესვლა</string>
     <string name="menuActionSignOut">გასვლა</string>
-    <string name="connectionAllocationHelpTitle">მადლობა \nBusiness\u00a0/\u00a0Visionary-ზე განახლებისთვის</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN-ში მოგზაურობის დასაწყებად გთხოვთ, თქვენს ანგარიშს ან ნებისმიერ ქვეანგარიშს VPN შეერთება მიანიჭოთ.</string>
     <string name="connectionAllocationHelpDescription2">ამ ნაბიჯს სულ რამდენიმე წუთი დასჭირდება. ამის შემდეგ თქვენ შეძლებთ, შეხვიდეთ სისტემაში და დაიცვათ თქვენი ყველა მოწყობილობა.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">ამ ანგარიშისთვის ამჟამად არ არის ჩართული VPN კავშირი. Proton VPN-ით თქვენი მოგზაურობის დასაწყებად, გთხოვთ, დაუკავშირდეთ თქვენს ადმინისტრატორს. </string>

@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Увайсці</string>
     <string name="menuActionSignOut">Выйсці</string>
-    <string name="connectionAllocationHelpTitle">Дзякуй, што палепшылі да\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Дзякуй, што палепшылі</string>
     <string name="connectionAllocationHelpDescription1">Пачынаючы знаёмства з Proton VPN, прызначце падключэнні па VPN вашаму ўліковаму запісу або любым іншым падпарадкаваным уліковым запісам.</string>
     <string name="connectionAllocationHelpDescription2">Гэты этап зойме ўсяго некалькі хвілін. Пасля гэтага ў вас будзе магчымасць уваходзіць і абараняць усе вашы прылады.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">У дадзены момант не выяўлена ўключаных падключэнняў па VPN для гэтага ўліковага запісу. Звяжыцеся са сваім адміністратарам, каб пачаць знаёмства з Proton VPN. </string>
@@ -482,10 +482,10 @@
     <string name="upgrade_unlimited_pass_credit_cards">Неабмежаваная колькасць крэдытных картак</string>
     <string name="upgrade_unlimited_pass_devices">Неабмежаваная колькасць прылад</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
-        <item quantity="few">Share with up to %1$d others</item>
-        <item quantity="many">Share with up to %1$d others</item>
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="one">Абагуліце з %1$d іншым карыстальнікам</item>
+        <item quantity="few">Абагуліце з %1$d іншымі карыстальнікамі</item>
+        <item quantity="many">Абагуліце з %1$d іншымі карыстальнікамі</item>
+        <item quantity="other">Абагуліце з %1$d іншымі карыстальнікамі</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Інтэграваная аўтэнтыфікацыя 2ФА</string>
     <string name="upgrade_not_now_button">Не зараз</string>
@@ -519,7 +519,7 @@
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Дадайце яшчэ адзін слой шыфравання ў ваша падключэнне па VPN</string>
     <string name="upsell_card_p2p_title">Падтрымка P2P</string>
-    <string name="upsell_card_p2p_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагулення файлаў</string>
+    <string name="upsell_card_p2p_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагульвання файлаў</string>
     <string name="upsell_card_speed_title">Хуткі прагляд</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1417,7 +1417,7 @@
     <string name="info_dialog_smart_routing_description">Smart Routing выкарыстоўвае віртуальныя серверы, каб забяспечваць пакрыццё VPN у цяжкадаступных краінах.\n\nКалі вы падключаецеся да сервера Smart Routing, то ўсё будзе выглядаць так, быццам вы ажыццяўляеце прагляд з краіны прызначэння, хоць фізічна сервер размяшчаецца ў іншым месцы.\n\nSmart Routing звычайна выкарыстоўваюць для абыходу законаў, якія парушаюць прыватнасць і канфідэнцыяльнасць, а таксама іншых форм цэнзуры.</string>
     <string name="countries_upsell_banner_description">Тарыфны план VPN Plus забяспечвае пакрыццё ўсяго свету</string>
     <string name="secure_core_upsell_banner_description">Дадайце яшчэ адзін слой шыфравання ў ваша падключэнне па VPN</string>
-    <string name="p2p_upsell_banner_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагулення файлаў</string>
+    <string name="p2p_upsell_banner_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагульвання файлаў</string>
     <string name="tor_upsell_banner_description">Выкарыстоўвайце сетку Tor праз ваша падключэнне да VPN для дадатковай прыватнасці</string>
     <string name="vpnplus_upsell_banner_description">Палепшыць да VPN Plus</string>
     <string name="search_zero_screen_title">Паспрабуйце шукаць…</string>

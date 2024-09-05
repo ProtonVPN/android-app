@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Prihlásiť sa</string>
     <string name="menuActionSignOut">Odhlásiť sa</string>
-    <string name="connectionAllocationHelpTitle">Ďakujeme, že ste inovovali na \nBusiness\u00a0/\u00a0 Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Ak chcete používať Proton VPN, priraďte VPN pripojenia k svojmu účtu alebo akémukoľvek inému podúčtu.</string>
     <string name="connectionAllocationHelpDescription2">Tento krok zaberie iba niekoľko minút. Potom sa budete môcť prihlásiť a chrániť všetky svoje zariadenia.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Pre tento účet momentálne nie je povolené žiadne pripojenie VPN. Ak chcete začať používať Proton VPN, kontaktujte svojho správcu. </string>

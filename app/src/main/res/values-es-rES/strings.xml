@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Iniciar sesión</string>
     <string name="menuActionSignOut">Cerrar sesión</string>
-    <string name="connectionAllocationHelpTitle">Gracias por actualizar a\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Gracias por mejorar</string>
     <string name="connectionAllocationHelpDescription1">Para comenzar tu viaje en Proton VPN, asigna conexiones VPN a tu cuenta o a cualquier otra subcuenta.</string>
     <string name="connectionAllocationHelpDescription2">Este paso te llevará sólo unos minutos. Después de eso podrás iniciar sesión y proteger todos tus dispositivos.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Actualmente no hay ninguna conexión VPN activada para esta cuenta. Para comenzar tu viaje en Proton VPN, ponte en contacto con tu administrador. </string>

@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Iniciar sessão</string>
     <string name="menuActionSignOut">Terminar sessão</string>
-    <string name="connectionAllocationHelpTitle">Agradecemos a sua actualização para\nBusiness\u00a0/\u00a0Visionary.</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Para dar início à sua jornada com a Proton VPN, atribua ligações VPN à sua conta ou a qualquer outra sub-conta.</string>
     <string name="connectionAllocationHelpDescription2">Este passo demorará apenas alguns minutos. Em seguida, poderá autenticar-se e proteger todos os seus dispositivos.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Atualmente, não existe uma ligação VPN ativada para esta conta. Para iniciar a sua jornada com o Proton VPN, contacte o seu administrador. </string>

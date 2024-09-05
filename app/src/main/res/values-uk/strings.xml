@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Увійти</string>
     <string name="menuActionSignOut">Вийти</string>
-    <string name="connectionAllocationHelpTitle">Дякуємо за передплату\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Щоб почати свою подорож у Proton VPN, призначте з\'єднання VPN для свого облікового запису або будь-якого іншого підлеглого облікового запису.</string>
     <string name="connectionAllocationHelpDescription2">Цей крок займе всього кілька хвилин. Після цього ви зможете ввійти в систему і захистити всі свої пристрої.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Наразі для цього облікового запису не ввімкнено VPN-з\'єднання. Щоб почати свою подорож з Proton VPN, зв\'яжіться з вашим адміністратором. </string>
