@@ -156,8 +156,8 @@ class VpnConnectionTelemetryTests {
             "vpn_trigger" to "auto",
             "server" to "PLUS#1",
             "server_features" to "partnership,streaming",
-            "vpn_country" to "CH", // TODO: 3-letter country codes?
-            "user_country" to "PL", // TODO: 3-letter country codes?
+            "vpn_country" to "CH",
+            "user_country" to "PL",
             "isp" to "Test ISP",
             "protocol" to "wireguard_udp",
             "port" to "443",
@@ -284,6 +284,15 @@ class VpnConnectionTelemetryTests {
 
     @Test
     fun `when connecting requires disconnecting first then no failure is reported`() {
+        testDisconnectForNewConnection(DisconnectTrigger.NewConnection)
+    }
+
+    @Test
+    fun `when reconnecting requires disconnecting first then no failure is reported`() {
+        testDisconnectForNewConnection(DisconnectTrigger.Reconnect("test"))
+    }
+
+    private fun testDisconnectForNewConnection(disconnectTrigger: DisconnectTrigger) {
         val dimensions = slot<Map<String, String>>()
         every { mockTelemetry.event(any(), any(), any(), capture(dimensions)) } returns Unit
 
@@ -294,7 +303,7 @@ class VpnConnectionTelemetryTests {
         }
 
         vpnConnectionTelemetry.onConnectionStart(ConnectTrigger.QuickConnect("Test"))
-        vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.NewConnection, null)
+        vpnConnectionTelemetry.onDisconnectionTrigger(disconnectTrigger, null)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
         verify { mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_disconnection", any(), any()) }
         verify(exactly = 1) {
@@ -303,7 +312,9 @@ class VpnConnectionTelemetryTests {
 
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
 
-        verify(exactly = 2) { mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any()) }
+        verify(exactly = 2) {
+            mockTelemetry.event(VpnConnectionTelemetry.MEASUREMENT_GROUP, "vpn_connection", any(), any())
+        }
         assertEquals("success", dimensions.captured["outcome"])
         assertEquals("quick", dimensions.captured["vpn_trigger"])
     }
