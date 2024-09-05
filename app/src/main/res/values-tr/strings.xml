@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Oturum aç</string>
     <string name="menuActionSignOut">Oturumu kapat</string>
-    <string name="connectionAllocationHelpTitle">Business\u00a0/\u00a0Visionary tarifesine\nyükselttiğiniz için teşekkürler</string>
+    <string name="connectionAllocationHelpTitle">Tarifenizi yükselttiğiniz için teşekkürler</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN yolculuğunuza başlamak için lütfen hesabınıza ya da başka bir alt hesaba VPN bağlantıları atayın.</string>
     <string name="connectionAllocationHelpDescription2">Bu adım birkaç dakika sürecek. Bundan sonra oturum açabilir ve tüm aygıtlarınızı koruyabilirsiniz.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Şu anda bu hesap için herhangi bir VPN bağlantısı açılmamış. Proton VPN yolcuğunuza başlamak için yöneticinizle görüşün. </string>
@@ -400,64 +400,64 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus tarifesi</b> ile %2$sdeki %1$sya erişin.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
-    <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
-    <string name="upgrade_unlimited_vpn_any_location">Choose any location</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_all_apps_title">Tüm ücretli Proton hizmetleri. Tek bir abonelik.</string>
+    <string name="upgrade_unlimited_all_apps_description">Proton Unlimited ile tam bir gizlilik koruması edinin.</string>
+    <string name="upgrade_unlimited_more">Ve daha fazlası</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Tüm ülkelere erişim</string>
+    <string name="upgrade_unlimited_vpn_all_features">Tüm diğer VPN Plus özellikleri</string>
+    <string name="upgrade_unlimited_vpn_any_location">İstediğiniz konumu seçin</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Daha yüksek VPN hızı</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Aynı anda %1$d aygıtı koruyun</item>
+        <item quantity="other">Aynı anda %1$d aygıtı koruyun</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
+    <string name="upgrade_unlimited_vpn_streaming">Güvenli yayın akışı</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Reklam engelleyici ve kötü amaçlı yazılım koruması</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Çift VPN</string>
+    <string name="upgrade_unlimited_vpn_p2p">P2P desteği</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d custom email domain</item>
-        <item quantity="other">%1$d custom email domains</item>
+        <item quantity="one">%1$d özel e-posta etki alanı</item>
+        <item quantity="other">%1$d özel e-posta etki alanı</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB attachment</item>
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="one">%1$d MB ek dosya boyutu</item>
+        <item quantity="other">%1$d MB ek dosya boyutu</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d email address</item>
-        <item quantity="other">%1$d email addresses</item>
+        <item quantity="one">%1$d e-posta adresi</item>
+        <item quantity="other">%1$d e-posta adresi</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Sınırsız sayıda klasör ve süzgeç</string>
+    <string name="upgrade_unlimited_mail_dark_web">Karanlık ağ izleme</string>
+    <string name="upgrade_unlimited_mail_aliases">Sınırsız sayıda hide-my-email takma adı</string>
+    <string name="upgrade_unlimited_mail_autoreply">Otomatik yanıt</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Zamanlanmış gönderim</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d personal calendar</item>
-        <item quantity="other">%1$d personal calendars</item>
+        <item quantity="one">%1$d kişisel takvim</item>
+        <item quantity="other">%1$d kişisel takvim</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Calendar sharing</string>
-    <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
-    <string name="upgrade_unlimited_drive_version_history">Version history</string>
-    <string name="upgrade_unlimited_pass_manager">Encrypted password manager</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
+    <string name="upgrade_unlimited_calendar_sharing">Takvim paylaşımı</string>
+    <string name="upgrade_unlimited_calendar_invites">Davet gönderme ve alma</string>
+    <string name="upgrade_unlimited_drive_encryption">Şifrelenmiş dosya depolama alanı</string>
+    <string name="upgrade_unlimited_drive_storage_size">Fotoğraflar, dosyalar ve e-postalar için toplam %1$d GB depolama alanı</string>
+    <string name="upgrade_unlimited_drive_link_share">Bağlantı ile fotoğraf ve dosya paylaşma</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Gelişmiş paylaşım güvenliği</string>
+    <string name="upgrade_unlimited_drive_version_history">Sürüm geçmişi</string>
+    <string name="upgrade_unlimited_pass_manager">Şifrelenmiş parola yöneticisi</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Sınırsız sayıda oturum açma kaydı ve hide-my-email takma adı</string>
     <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d vault</item>
-        <item quantity="other">%1$d vaults</item>
+        <item quantity="one">%1$d kasa</item>
+        <item quantity="other">%1$d kasa</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
-    <string name="upgrade_unlimited_pass_devices">Unlimited devices</string>
+    <string name="upgrade_unlimited_pass_logins">Sınırsız sayıda oturum açma kaydı</string>
+    <string name="upgrade_unlimited_pass_aliases">Sınırsız sayıda hide-my-email takma adı</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Sınırsız sayıda kredi kartı</string>
+    <string name="upgrade_unlimited_pass_devices">Sınırsız sayıda aygıt</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="one">%1$d başka kişiyle paylaşım</item>
+        <item quantity="other">%1$d başka kişiyle paylaşım</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Integrated 2FA authenticator</string>
+    <string name="upgrade_unlimited_pass_2fa_auth">Bütünleşik iki adımlı doğrulayıcı</string>
     <string name="upgrade_not_now_button">Şimdi değil</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -466,7 +466,7 @@
          When the plan selection control is focused, and the first plan name is "VPN Plus"
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
-    <string name="upgrade_plan_selection_content_description">Upgrade options</string>
+    <string name="upgrade_plan_selection_content_description">Yükseltme seçenekleri</string>
     <string name="upsell_card_countries_title">Dünya çapında kapsama</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -521,7 +521,7 @@
          Plan names are not translated.
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
-    <string name="payment_button_get_plan">Get %1$s</string>
+    <string name="payment_button_get_plan">%1$s edinin</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Karşılama teklifi. %1$s/ay tutar ile otomatik olarak yenilenir</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
@@ -1076,7 +1076,7 @@
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
-    <string name="vpn_status_connected">Korunmuş</string>
+    <string name="vpn_status_connected">Korunuyor</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is not connected and network is not protected
     -->

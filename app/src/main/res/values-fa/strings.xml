@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">ورود به حساب</string>
     <string name="menuActionSignOut">خروج</string>
-    <string name="connectionAllocationHelpTitle">تشکر برای ارتقا حساب به \nسازمانی\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">برای آغاز سفر خود در Proton VPN لطفاً اتصال‌های VPN خود را به حساب کاربری خود یا هر حساب فرعی دیگری اختصاص دهید.</string>
     <string name="connectionAllocationHelpDescription2">این مرحله فقط چند دقیقه طول می‌کشد. پس از آن شما قادر خواهید بود تا وارد شوید و از همهٔ دستگاه‌های خود حفاظت کنید.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">در حال حاضر هیچ اتصال VPNای برای این حساب کاربری وجود ندارد. برای شروع سفر خود با Proton VPN، لطفاً مدیر خود تماس بگیرید. </string>

@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Se connecter</string>
     <string name="menuActionSignOut">Se déconnecter</string>
-    <string name="connectionAllocationHelpTitle">Merci d\'être passé à l’abonnement \nBusiness\u00a0/\u00a0Visionary.</string>
+    <string name="connectionAllocationHelpTitle">Merci d\'avoir choisi la version supérieure</string>
     <string name="connectionAllocationHelpDescription1">Pour commencer avec Proton VPN, attribuez des connexions VPN à votre compte ou à tout autre sous-compte.</string>
     <string name="connectionAllocationHelpDescription2">Cette étape ne prendra que quelques minutes. Vous pourrez ensuite vous connecter et protéger tous vos appareils.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Il n\'y a actuellement aucune connexion VPN activée pour ce compte. Pour commencer à utiliser Proton VPN, nous vous invitons à contacter votre administrateur. </string>

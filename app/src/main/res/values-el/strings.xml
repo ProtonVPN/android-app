@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Είσοδος</string>
     <string name="menuActionSignOut">Αποσύνδεση</string>
-    <string name="connectionAllocationHelpTitle">Ευχαριστούμε για την αναβάθμιση σε\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Ευχαριστούμε για την αναβάθμιση</string>
     <string name="connectionAllocationHelpDescription1">Για να ξεκινήσετε το ταξίδι σας με το Proton VPN παρακαλούμε αναθέστε τις συνδέσεις VPN στον λογαριασμός σας ή σε δεύτερους συνδεδεμένους λογαριασμούς.</string>
     <string name="connectionAllocationHelpDescription2">Αυτό το βήμα θα πάρει μόνο λίγα λεπτά. Μετά θα μπορείτε να συνδέεστε, προστατεύοντας όλες τις συσκευές σας.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Αυτήν τη στιγμή δεν υπάρχει ενεργοποιημένη σύνδεση VPN για αυτόν τον λογαριασμό. Για να ξεκινήσετε το ταξίδι σας με το Proton VPN, επικοινωνήστε με τον διαχειριστή σας. </string>
@@ -401,7 +401,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Ξεκλειδώστε %1$s σε %2$s με το <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">Όλες οι premium Proton υπηρεσίες . Μια εύκολη συνδρομή.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_description">Αποκτήστε πλήρη κάλυψη απορρήτου με το Proton Unlimited.</string>
     <string name="upgrade_unlimited_more">Και άλλα</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Ξεκλειδώστε όλες τις χώρες</string>
     <string name="upgrade_unlimited_vpn_all_features">Όλα τα άλλα χαρακτηριστικά του VPN Plus</string>
@@ -431,31 +431,31 @@
     <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
     <string name="upgrade_unlimited_mail_aliases">Απεριόριστα hide-my-email ψευδώνυμα</string>
     <string name="upgrade_unlimited_mail_autoreply">Αυτόματη απάντηση</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Προγραμματισμένη αποστολή</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d προσωπικό ημερολόγιο</item>
         <item quantity="other">%1$d προσωπικά ημερολόγια</item>
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">Κοινή χρήση ημερολογίου</string>
     <string name="upgrade_unlimited_calendar_invites">Αποστολή και λήψη προσκλήσεων</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
+    <string name="upgrade_unlimited_drive_encryption">Κρυπτογραφημένη αποθήκευση αρχείων</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB συνολικού χώρου αποθήκευσης για φωτογραφίες, αρχεία και αλληλογραφία</string>
+    <string name="upgrade_unlimited_drive_link_share">Μοιραστείτε φωτογραφίες και αρχεία μέσω συνδέσμου</string>
     <string name="upgrade_unlimited_drive_sharing_security">Προχωρημένη διασφάλιση κοινοποίησης</string>
     <string name="upgrade_unlimited_drive_version_history">Ιστορικό εκδόσεων</string>
     <string name="upgrade_unlimited_pass_manager">Κρυπτογραφημένος διαχειριστής κωδικών πρόσβασης</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Απεριόριστες συνδέσεις και hide-my-email ψευδώνυμα</string>
     <plurals name="upgrade_unlimited_pass_vaults">
         <item quantity="one">%1$d κρύπτη</item>
         <item quantity="other">%1$d κρύπτες</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
+    <string name="upgrade_unlimited_pass_logins">Απεριόριστες συνδέσεις</string>
+    <string name="upgrade_unlimited_pass_aliases">Απεριόριστα hide-my-email ψευδώνυμα</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Απεριόριστες πιστωτικές κάρτες</string>
     <string name="upgrade_unlimited_pass_devices">Απεριόριστες συσκευές</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="one">Κοινή χρήση με έως και %1$d άλλο</item>
+        <item quantity="other">Κοινή χρήση με έως και %1$d άλλους</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Ενσωματωμένος ελεγκτής 2FA</string>
     <string name="upgrade_not_now_button">Όχι τώρα</string>

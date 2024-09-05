@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Logga in</string>
     <string name="menuActionSignOut">Logga ut</string>
-    <string name="connectionAllocationHelpTitle">Tack för att du uppgraderar till\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Tack för att du uppgraderar</string>
     <string name="connectionAllocationHelpDescription1">För att starta din resa i Proton VPN, tilldela VPN-anslutningar till ditt konto eller något annat underkonto.</string>
     <string name="connectionAllocationHelpDescription2">Detta steg tar bara några minuter. Efter det kommer du att kunna logga in och skydda alla dina enheter.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Det finns för närvarande ingen VPN-anslutning aktiverad för detta konto. För att starta din resa med Proton VPN, kontakta din administratör. </string>

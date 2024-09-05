@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Log in</string>
     <string name="menuActionSignOut">Uitloggen</string>
-    <string name="connectionAllocationHelpTitle">Bedankt voor de upgrade naar\nBusiness\u00a0/\u00a0Visionary</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Om uw reis met Proton VPN te beginnen wijst u VPN-verbindingen toe aan uw account of een ander sub-account.</string>
     <string name="connectionAllocationHelpDescription2">Deze stap duurt slechts een paar minuten. Daarna kunt u zich inloggen en al uw apparaten beveiligen.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Er is momenteel geen VPN-verbinding ingeschakeld voor deze account. Om uw reis met Proton VPN te starten, contacteer uw beheerder. </string>

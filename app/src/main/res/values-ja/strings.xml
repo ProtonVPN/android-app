@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">サインイン</string>
     <string name="menuActionSignOut">サインアウト</string>
-    <string name="connectionAllocationHelpTitle">Business\u00a0/\u00a0Visionary\nにアップグレードしていただきありがとうございます</string>
+    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN を始めるには、お客様のアカウントまたはその他のサブアカウントに VPN 接続を割り当ててください。</string>
     <string name="connectionAllocationHelpDescription2">この手順は数分かかります。その後、ログインしてすべてのデバイスを保護することができます。</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">現在、このアカウントでは VPN 接続が有効になっていません。Proton VPN を使い始めるには、管理者にご連絡ください。</string>
