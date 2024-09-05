@@ -118,6 +118,7 @@ class VpnConnectionTelemetry @Inject constructor(
     fun onDisconnectionTrigger(trigger: DisconnectTrigger, connectionParams: ConnectionParams?) {
         if (connectionInProgress != null &&
             trigger !is DisconnectTrigger.NewConnection &&
+            trigger !is DisconnectTrigger.Reconnect &&
             trigger !is DisconnectTrigger.Fallback
         ) {
             val outcome = if (trigger.isSuccess) Outcome.ABORTED else Outcome.FAILURE
