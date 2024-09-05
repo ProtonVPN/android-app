@@ -122,6 +122,7 @@ export archive name:
     - echo ${VERSION_NAME}
     - echo "VERSION_NAME=${VERSION_NAME}" >> deploy.env
     - export VERSION_CODE=$(./gradlew -q getVersionCode | tail -n 1)
+    - if [ $? -ne 0 ] || [ -z "${VERSION_CODE}" ]; then echo "VERSION_CODE is empty, something went wrong"; exit 1; fi
     - echo ${VERSION_CODE}
     - echo "VERSION_CODE=${VERSION_CODE}" >> deploy.env
   artifacts:
