@@ -34,6 +34,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.toConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
@@ -331,7 +332,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun server() = runTest {
-        val connectIntent = ConnectIntent.Server(serverPl.serverId, noServerFeatures)
+        val connectIntent = serverPl.toConnectIntent(noServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -340,7 +341,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverConnected() = runTest {
-        val connectIntent = ConnectIntent.Server(serverPl.serverId, noServerFeatures)
+        val connectIntent = serverPl.toConnectIntent(noServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPl, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -349,7 +350,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverWithFeatures() = runTest {
-        val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
+        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -359,7 +360,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverWithFeaturesConnected() = runTest {
-        val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
+        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPl, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -369,7 +370,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverWithFeaturesConnectedToServerWithNoFeatures() = runTest {
-        val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
+        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPlNoFeatures, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -379,7 +380,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun freeServer() = runTest {
-        val connectIntent = ConnectIntent.Server(serverChFree.serverId, noServerFeatures)
+        val connectIntent = serverChFree.toConnectIntent(noServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = true)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
@@ -388,7 +389,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverConnectedToDifferentServer() = runTest {
-        val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
+        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
@@ -398,7 +399,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverConnectedToDifferentServerWithState() = runTest {
-        val connectIntent = ConnectIntent.Server(serverPl.serverId, p2pServerFeatures)
+        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverChState, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
@@ -482,7 +483,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         connectedServer: Server? = null,
         isFreeUser: Boolean,
     ) {
-        val state = getConnectIntentViewState(connectIntent, isFreeUser, connectedServer)
+        val state = getConnectIntentViewState.fromRawIntent(connectIntent, isFreeUser, connectedServer)
         composeRule.setContent {
             Row {
                 ConnectIntentLabels(

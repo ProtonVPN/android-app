@@ -129,7 +129,7 @@ class RecentsDaoTests {
     fun pinnedItemsAreReturnedOnTop() = runTest {
         val recent1 = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
         val recent2 = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
-        val pinned = ConnectIntent.Server("server1", emptySet())
+        val pinned = ConnectIntent.Server("server1", CountryId.sweden, emptySet())
         val recents = with(recentsDao) {
             insertOrUpdateForConnection(userId1, pinned, 1)
             val pinnedId = getMostRecentConnection(userId1).first()!!.id
@@ -146,7 +146,7 @@ class RecentsDaoTests {
     fun unpinningMovesItemToSecondMostRecent() = runTest {
         val recent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
         val mostRecent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
-        val pinned = ConnectIntent.Server("server1", emptySet())
+        val pinned = ConnectIntent.Server("server1", CountryId.sweden, emptySet())
         val recents = with(recentsDao) {
             insertOrUpdateForConnection(userId1, pinned, 100)
             val pinnedId = getMostRecentConnection(userId1).first()!!.id
@@ -233,8 +233,8 @@ class RecentsDaoTests {
             ConnectIntent.SecureCore(CountryId.fastest, CountryId.fastest),
             ConnectIntent.SecureCore(CountryId("lt"), CountryId.fastest),
             ConnectIntent.SecureCore(CountryId("lt"), CountryId.sweden),
-            ConnectIntent.Server("server1", emptySet()),
-            ConnectIntent.Server("server1", setOf(ServerFeature.Tor))
+            ConnectIntent.Server("server1", CountryId.sweden, emptySet()),
+            ConnectIntent.Server("server1", CountryId.sweden, setOf(ServerFeature.Tor))
         )
         connectIntents.forEachIndexed { index, intent ->
             recentsDao.insertOrUpdateForConnection(userId1, intent, timestamp = index.toLong())
@@ -283,7 +283,7 @@ class RecentsDaoTests {
 
     @Test
     fun getUnnamedRecentsIntentsByTypeForAllUsersDontReturnProfiles() = runTest {
-        val serverIntent = ConnectIntent.Server("server1", emptySet())
+        val serverIntent = ConnectIntent.Server("server1", CountryId.sweden, emptySet())
 
         // Add profile with recent
         val profileEntity = createProfileEntity(userId = userId1, id = 1L, connectIntent = serverIntent)

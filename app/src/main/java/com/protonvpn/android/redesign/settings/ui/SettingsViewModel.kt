@@ -227,7 +227,7 @@ class SettingsViewModel @Inject constructor(
                 null
             else {
                 val defaultRecent = defaultConnection.getRecentIdOrNull()?.let { recentsManager.getRecentById(it) }
-                val recent = defaultRecent?.let { getConnectIntentViewState(it.connectIntent, false) }
+                val recent = defaultRecent?.let { getConnectIntentViewState(it, false) }
                 SettingViewState.DefaultConnectionSettingState(
                     predefinedTitle = when (defaultConnection) {
                         DefaultConnection.LastConnection -> R.string.settings_last_connection_title

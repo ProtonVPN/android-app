@@ -26,13 +26,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.profiles.data.ProfileColor
-import com.protonvpn.android.profiles.data.ProfileEntity
-import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
-import com.protonvpn.android.redesign.recents.data.toConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
@@ -67,10 +65,7 @@ sealed class ProfilesState {
 }
 
 data class ProfileViewItem(
-    val id: Long,
-    val name: String,
-    val icon: ProfileIcon,
-    val color: ProfileColor,
+    val profile: ProfileInfo,
     val isConnected: Boolean,
     val availability: ConnectIntentAvailability,
     val intent: ConnectIntentViewState,
@@ -143,7 +138,7 @@ class ProfilesViewModel @Inject constructor(
                 viewModelScope.launch {
                     val trigger = ConnectTrigger.Profile
                     val connectIntent = if (!item.isConnected)
-                        profilesDao.getProfileById(item.id)?.connectIntentData?.toConnectIntent()
+                        profilesDao.getProfileById(item.profile.id)?.connectIntent
                     else
                         null
 
@@ -156,20 +151,20 @@ class ProfilesViewModel @Inject constructor(
     }
 
     fun onSelect(item: ProfileViewItem) {
-        selectedProfileId = item.id
+        selectedProfileId = item.profile.id
     }
 
     fun onProfileClose() {
         selectedProfileId = null
     }
 
-    private suspend fun ProfileEntity.toItem(
+    private suspend fun Profile.toItem(
         vpnUser: VpnUser,
         connectedProfileId: Long?,
         settingsProtocol: ProtocolSelection
     ): ProfileViewItem {
-        val isConnected = id == connectedProfileId
-        val intent = connectIntentData.toConnectIntent()
+        val isConnected = info.id == connectedProfileId
+        val intent = connectIntent
         val availability = getIntentAvailability(intent, vpnUser, settingsProtocol)
         val intentViewState = getConnectIntentViewState.forProfile(this)
         val netShieldEnabled = intent.settingsOverrides?.netShield == NetShieldProtocol.ENABLED_EXTENDED

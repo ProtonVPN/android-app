@@ -112,7 +112,7 @@ class RecentsListViewStateFlow @Inject constructor(
                         is DefaultConnection.Recent -> recents.firstOrNull { it.id == defaultConnection.recentId }?.connectIntent
                     } ?: defaultConnectIntent
 
-                val connectIntentViewState = getConnectIntentViewState(
+                val connectIntentViewState = getConnectIntentViewState.fromRawIntent(
                     connectionCardIntent,
                     vpnUser.isFreeUser,
                     connectedServer = if (status.state == VpnState.Connected) status.connectionParams?.server else null
@@ -177,7 +177,7 @@ class RecentsListViewStateFlow @Inject constructor(
                 isConnected = connectedIntent == connectIntent &&
                     connectedServer.isCompatibleWith(connectIntent, matchFastest = true),
                 availability = getIntentAvailability(connectIntent, vpnUser, protocol),
-                connectIntent = getConnectIntentViewState(connectIntent, vpnUser?.isFreeUser == true)
+                connectIntent = getConnectIntentViewState(recentConnection, vpnUser?.isFreeUser == true)
             )
         }
 

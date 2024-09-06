@@ -82,7 +82,7 @@ class ShouldShowcaseRecentsTests {
     @Test
     fun `when the only recent is in connection card don't trigger the showcase`() = testScope.runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        val recent = RecentConnection(1, false, connectIntent)
+        val recent = RecentConnection.UnnamedRecent(1, false, connectIntent)
         recentsFlow.value = listOf(recent)
 
         assertFalse(shouldShowcaseRecents(connectIntent))
@@ -91,7 +91,7 @@ class ShouldShowcaseRecentsTests {
     @Test
     fun `when the only recent is different than connection intent then trigger the showcase`() = testScope.runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        val connectCardRecent = RecentConnection(1, false, connectIntent)
+        val connectCardRecent = RecentConnection.UnnamedRecent(1, false, connectIntent)
         recentsFlow.value = listOf(connectCardRecent)
 
         assertTrue(shouldShowcaseRecents(ConnectIntent.Fastest))
@@ -100,8 +100,8 @@ class ShouldShowcaseRecentsTests {
     @Test
     fun `when there are is any recent different than connection card then trigger the showcase`() = testScope.runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        val connectCardRecent = RecentConnection(1, false, connectIntent)
-        val otherRecent = RecentConnection(2, false, ConnectIntent.Fastest)
+        val connectCardRecent = RecentConnection.UnnamedRecent(1, false, connectIntent)
+        val otherRecent = RecentConnection.UnnamedRecent(2, false, ConnectIntent.Fastest)
         recentsFlow.value = listOf(connectCardRecent, otherRecent)
 
         assertTrue(shouldShowcaseRecents(connectIntent))
@@ -111,7 +111,7 @@ class ShouldShowcaseRecentsTests {
     fun `when free user is logged in then don't trigger the showcase`() = testScope.runTest {
         testUserProvider.vpnUser = freeUser
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        val connectCardRecent = RecentConnection(1, false, connectIntent)
+        val connectCardRecent = RecentConnection.UnnamedRecent(1, false, connectIntent)
         recentsFlow.value = listOf(connectCardRecent)
 
         assertFalse(shouldShowcaseRecents(ConnectIntent.Fastest))
@@ -121,7 +121,7 @@ class ShouldShowcaseRecentsTests {
     fun `when user hasa used recents then don't trigger the showcase`() = testScope.runTest {
         uiStateStorage.update { it.copy(hasUsedRecents = true) }
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        val connectCardRecent = RecentConnection(1, false, connectIntent)
+        val connectCardRecent = RecentConnection.UnnamedRecent(1, false, connectIntent)
         recentsFlow.value = listOf(connectCardRecent)
 
         assertFalse(shouldShowcaseRecents(ConnectIntent.Fastest))
