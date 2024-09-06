@@ -109,7 +109,7 @@ fun ProfileItem(
         isConnected = profile.isConnected,
         onClick = { onConnect(profile) },
         onOpen = { onSelect(profile) },
-        leadingComposable = { ProfileItemIcon(profile) },
+        leadingComposable = { FlagOrGatewayIndicator(profile.intent.primaryLabel) },
         modifier = modifier,
     )
 }
@@ -125,7 +125,7 @@ fun ProfileItemPreview() {
                     name = "Profile name",
                     icon = ProfileIcon.Icon1,
                     color = ProfileColor.Color1,
-                    isGateway = false,
+                    isGateway = false
                 ),
                 isConnected = false,
                 availability = ConnectIntentAvailability.ONLINE,

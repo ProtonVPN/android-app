@@ -72,6 +72,8 @@ import androidx.compose.ui.unit.times
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.replaceWithInlineContent
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.profiles.data.ProfileColor
+import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ActiveDot
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
@@ -91,7 +93,7 @@ sealed interface ConnectIntentPrimaryLabel {
     data class Country(val exitCountry: CountryId, val entryCountry: CountryId?) : ConnectIntentPrimaryLabel
 
     data class Gateway(val gatewayName: String, val country: CountryId?) : ConnectIntentPrimaryLabel
-    data class Profile(val name: String, val country: CountryId) : ConnectIntentPrimaryLabel
+    data class Profile(val name: String, val country: CountryId, val isGateway: Boolean, val icon: ProfileIcon, val color: ProfileColor) : ConnectIntentPrimaryLabel
 }
 
 sealed interface ConnectIntentSecondaryLabel {

@@ -87,11 +87,12 @@ private fun ProfileBottomSheetPreview() {
                 name = "Profile name",
                 icon = ProfileIcon.Icon1,
                 color = ProfileColor.Color1,
+                isGateway = false
             ),
             isConnected = false,
             availability = ConnectIntentAvailability.ONLINE,
             intent = ConnectIntentViewState(
-                ConnectIntentPrimaryLabel.Profile("Profile name", CountryId.fastest),
+                ConnectIntentPrimaryLabel.Profile("Profile name", CountryId.fastest, false, ProfileIcon.Icon1, ProfileColor.Color1),
                 ConnectIntentSecondaryLabel.Country(CountryId.fastest),
                 emptySet(),
             )

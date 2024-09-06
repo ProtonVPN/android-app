@@ -21,7 +21,6 @@ package com.protonvpn.android.redesign.base.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 
 @Composable
@@ -37,6 +36,6 @@ fun FlagOrGatewayIndicator(
         is ConnectIntentPrimaryLabel.Gateway ->
             GatewayIndicator(label.country, modifier = modifier)
         is ConnectIntentPrimaryLabel.Profile ->
-            Flag(label.country, null, modifier = modifier)
+            ProfileIconView(label.country, label.icon, label.color, label.isGateway, modifier = modifier)
     }
 }
