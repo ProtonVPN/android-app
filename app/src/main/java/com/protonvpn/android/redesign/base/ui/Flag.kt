@@ -31,6 +31,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.CacheDrawScope
@@ -43,6 +44,7 @@ import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -62,7 +64,13 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isSpecified
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.createHueRotationMatrix
+import com.protonvpn.android.base.ui.rgbToHueInRadians
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.profiles.data.ProfileColor
+import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.profiles.ui.toColor
+import com.protonvpn.android.profiles.ui.toDrawableRes
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
@@ -125,13 +133,14 @@ fun Flag(
     exitCountry: CountryId,
     entryCountry: CountryId? = null,
     modifier: Modifier = Modifier,
+    opaque: Boolean = false
 ) {
     val context = LocalContext.current
     val entryCountryFlag =
         if (entryCountry == null || entryCountry.isFastest) null
-        else entryCountry.flagResource(context)
+        else entryCountry.flagResource(context, opaque)
     Flag(
-        mainFlag = exitCountry.flagResource(context),
+        mainFlag = exitCountry.flagResource(context, opaque),
         secondaryFlag = entryCountryFlag,
         isSecureCore = entryCountry != null,
         isFastest = exitCountry.isFastest,
@@ -145,6 +154,47 @@ fun GatewayIndicator(
     modifier: Modifier = Modifier
 ) {
     GatewayIndicator(countryFlag = country?.flagResource(LocalContext.current), modifier)
+}
+
+// Hue in radians as used in profile icon drawables
+const val profileIconOrgHue = 4.6562896f
+
+@Composable
+fun ProfileIconView(
+    country: CountryId?,
+    icon: ProfileIcon,
+    color: ProfileColor,
+    isGateway: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier
+        .size(48.dp)
+        .padding(vertical = 4.dp)
+    ) {
+        val hueRotationMatrix = remember(color) {
+            val newHue = color.toColor().let { rgbToHueInRadians(it.red, it.green, it.blue) }
+            val hueDelta = newHue - profileIconOrgHue
+            createHueRotationMatrix(hueDelta)
+        }
+        Image(
+            painter = painterResource(id = icon.toDrawableRes()),
+            contentDescription = null,
+            modifier = Modifier
+                .size(width = 36.dp, height = 24.dp)
+                .align(Alignment.TopStart),
+            colorFilter = ColorFilter.colorMatrix(
+                ColorMatrix(hueRotationMatrix)
+            )
+        )
+
+        val frontModifier = Modifier
+            .size(width = 30.dp, height = 20.dp)
+            .align(Alignment.BottomEnd)
+        if (isGateway)
+            GatewayIndicator(countryFlag = null, modifier = frontModifier)
+        else
+            Flag(exitCountry = country ?: CountryId.fastest, modifier = frontModifier, opaque = true)
+    }
 }
 
 @Composable
@@ -371,9 +421,9 @@ private fun DrawScope.drawScUnderlineArc(offset: Offset, path: Path, color: Colo
 
 @Composable
 @DrawableRes
-fun CountryId.flagResource(context: Context): Int =
+fun CountryId.flagResource(context: Context, opaque: Boolean = false): Int =
     if (isFastest || LocalInspectionMode.current) {
-        R.drawable.flag_fastest
+        if (opaque) R.drawable.fastest_flag_opaque else R.drawable.flag_fastest
     } else {
         CountryTools.getFlagResource(context, countryCode)
     }
@@ -381,6 +431,19 @@ fun CountryId.flagResource(context: Context): Int =
 // Note: once context-receivers become stable this can be improved.
 private fun DpOffset.toOffset(density: Density): Offset = with(density) {
     if (isSpecified) Offset(x.toPx(), y.toPx()) else Offset.Unspecified
+}
+
+@Preview
+@Composable
+private fun ProfileIconViewPreview() {
+    VpnTheme {
+        ProfileIconView(
+            country = CountryId("US"),
+            icon = ProfileIcon.Icon2,
+            color = ProfileColor.Color4,
+            isGateway = false
+        )
+    }
 }
 
 @Preview

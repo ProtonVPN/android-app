@@ -27,6 +27,7 @@ data class ProfileInfo(
     val name: String,
     val color: ProfileColor,
     val icon: ProfileIcon,
+    val isGateway: Boolean,
 )
 
 data class Profile(
@@ -40,6 +41,7 @@ fun ProfileEntity.toProfile() = Profile(
         name = name,
         color = color,
         icon = icon,
+        isGateway = connectIntentData.gatewayName != null,
     ),
     connectIntentData.toConnectIntent(),
 )
