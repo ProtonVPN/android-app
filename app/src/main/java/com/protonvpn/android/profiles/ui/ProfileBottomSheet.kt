@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
@@ -65,7 +66,7 @@ private fun ProfileSheetContent(profile: ProfileViewItem, modifier: Modifier) {
         modifier = modifier.padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Text(
-            text = profile.name,
+            text = profile.profile.name,
             style = ProtonTheme.typography.body1Regular
         )
         Text(
@@ -81,10 +82,12 @@ private fun ProfileSheetContent(profile: ProfileViewItem, modifier: Modifier) {
 private fun ProfileBottomSheetPreview() {
     ProfileBottomSheet(
         ProfileViewItem(
-            id = 1,
-            name = "Profile name",
-            icon = ProfileIcon.Icon1,
-            color = ProfileColor.Color1,
+            ProfileInfo(
+                id = 1,
+                name = "Profile name",
+                icon = ProfileIcon.Icon1,
+                color = ProfileColor.Color1,
+            ),
             isConnected = false,
             availability = ConnectIntentAvailability.ONLINE,
             intent = ConnectIntentViewState(

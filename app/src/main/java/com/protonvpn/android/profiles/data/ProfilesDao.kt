@@ -24,19 +24,27 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import me.proton.core.domain.entity.UserId
 
 @Dao
 abstract class ProfilesDao {
 
+    fun getProfiles(userId: UserId) : Flow<List<Profile>> = getEntities(userId).map { entities ->
+        entities.map { it.toProfile() }
+    }
+
+    suspend fun getProfileById(id: Long) : Profile? = getEntityById(id)?.toProfile()
+    fun getProfileByIdFlow(id: Long) : Flow<Profile?> = getEntityByIdFlow(id).map { it?.toProfile() }
+
     @Query("SELECT * FROM profiles WHERE userId = :userId ORDER BY createdAt")
-    abstract fun getProfiles(userId: UserId): Flow<List<ProfileEntity>>
+    protected abstract fun getEntities(userId: UserId): Flow<List<ProfileEntity>>
 
     @Query("SELECT * FROM profiles WHERE id = :id")
-    abstract fun getProfileByIdFlow(id: Long): Flow<ProfileEntity?>
+    protected abstract fun getEntityByIdFlow(id: Long): Flow<ProfileEntity?>
 
     @Query("SELECT * FROM profiles WHERE id = :id")
-    abstract suspend fun getProfileById(id: Long): ProfileEntity?
+    protected abstract suspend fun getEntityById(id: Long): ProfileEntity?
 
     @Query("SELECT count(id) FROM profiles WHERE userId = :userId")
     abstract fun getCount(userId: UserId): Int

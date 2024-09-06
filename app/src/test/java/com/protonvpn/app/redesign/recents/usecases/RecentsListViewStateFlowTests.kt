@@ -402,10 +402,10 @@ class RecentsListViewStateFlowTests {
         val ConnectIntentViewIceland = createViewStateForFastestInCountry(ConnectIntentIceland)
         val ConnectIntentViewSwitzerland = createViewStateForFastestInCountry(ConnectIntentSwitzerland)
 
-        val RecentSecureCore = RecentConnection(1, true, ConnectIntentSecureCore)
-        val RecentFastest = RecentConnection(2, false, ConnectIntentFastest)
-        val RecentSweden = RecentConnection(3, false, ConnectIntentSweden)
-        val RecentIceland = RecentConnection(4, false, ConnectIntentIceland)
+        val RecentSecureCore = RecentConnection.UnnamedRecent(1, true, ConnectIntentSecureCore)
+        val RecentFastest = RecentConnection.UnnamedRecent(2, false, ConnectIntentFastest)
+        val RecentSweden = RecentConnection.UnnamedRecent(3, false, ConnectIntentSweden)
+        val RecentIceland = RecentConnection.UnnamedRecent(4, false, ConnectIntentIceland)
 
         val Profile = Profile(
             ProfileInfo(1, "MyProfile", ProfileColor.Color1, ProfileIcon.Icon1, isGateway = false),

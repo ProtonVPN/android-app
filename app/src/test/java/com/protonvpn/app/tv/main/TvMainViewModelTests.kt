@@ -33,6 +33,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.toConnectIntent
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
@@ -245,7 +246,7 @@ class TvMainViewModelTests {
         assertEquals("Both servers in this test need to be in the same country", server1.exitCountry, server2.exitCountry)
         val countryConnectionParams = ConnectionParams(countryConnectIntent(server1.exitCountry), server1, null, null)
         val server2ConnectionParams =
-            ConnectionParams(ConnectIntent.Server(server2.serverId, emptySet()), server2, null, null)
+            ConnectionParams(server2.toConnectIntent(emptySet()), server2, null, null)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, countryConnectionParams))
 
         val recentsBefore = viewModel.getRecentCardList(mockContext)

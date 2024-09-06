@@ -78,13 +78,13 @@ class RecentsManagerTests {
         val user1 = TestUser.plusUser.vpnUser
         val user2 = TestUser.freeUser.vpnUser
         val user1Recents = listOf(
-            RecentConnection(1, false, TestConnectIntent),
-            RecentConnection(2, true, TestConnectIntent)
+            RecentConnection.UnnamedRecent(1, false, TestConnectIntent),
+            RecentConnection.UnnamedRecent(2, true, TestConnectIntent)
         )
         val user2Recents = listOf(
-            RecentConnection(10, false, TestConnectIntent),
-            RecentConnection(20, true, TestConnectIntent),
-            RecentConnection(30, false, TestConnectIntent)
+            RecentConnection.UnnamedRecent(10, false, TestConnectIntent),
+            RecentConnection.UnnamedRecent(20, true, TestConnectIntent),
+            RecentConnection.UnnamedRecent(30, false, TestConnectIntent)
         )
         coEvery { mockRecentsDao.getRecentsList(user1.userId) } returns flowOf(user1Recents)
         coEvery { mockRecentsDao.getRecentsList(user2.userId) } returns flowOf(user2Recents)

@@ -219,17 +219,18 @@ class HomeViewModel @Inject constructor(
         promoOffersPrefs.addVisitedOffer(notificationId)
     }
 
-    private fun RecentConnection.toMaintenanceDialogType() =
-        when (connectIntent) {
+    private fun RecentConnection.toMaintenanceDialogType() = connectIntent.let { intent ->
+        when (intent) {
             is ConnectIntent.FastestInCountry -> DialogState.CountryInMaintenance
             is ConnectIntent.FastestInCity -> DialogState.CityInMaintenance
             is ConnectIntent.FastestInState -> DialogState.StateInMaintenance
             is ConnectIntent.SecureCore,
             is ConnectIntent.Server -> DialogState.ServerInMaintenance
             is ConnectIntent.Gateway ->
-                if (connectIntent.serverId != null) DialogState.ServerInMaintenance
+                if (intent.serverId != null) DialogState.ServerInMaintenance
                 else DialogState.GatewayInMaintenance
         }
+    }
 }
 
 private fun VpnState.toMapHighlightState() = when {

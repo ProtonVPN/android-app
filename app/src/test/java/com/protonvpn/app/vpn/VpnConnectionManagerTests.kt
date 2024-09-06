@@ -33,6 +33,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.toConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
@@ -381,8 +382,8 @@ class VpnConnectionManagerTests {
         testScope.runTest {
             val server1 = MockedServers.serverList[0]
             val server2 = MockedServers.serverList[1]
-            val intent1 = ConnectIntent.Server(server1.serverId, emptySet())
-            val intent2 = ConnectIntent.Server(server2.serverId, emptySet())
+            val intent1 = server1.toConnectIntent(emptySet())
+            val intent2 = server2.toConnectIntent(emptySet())
             coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
                 val intent = arg<ConnectIntent>(1)
                 val server = arg<Server>(2)

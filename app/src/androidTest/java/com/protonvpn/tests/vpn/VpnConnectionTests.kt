@@ -43,6 +43,7 @@ import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.vpn.toConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
@@ -199,7 +200,7 @@ class VpnConnectionTests {
     private val connectIntentCountry =
         ConnectIntent.FastestInCountry(CountryId(MockedServers.server.exitCountry), emptySet())
     private val connectIntentGuestHole = AnyConnectIntent.GuestHole(MockedServers.server.serverId)
-    private val connectIntentNoServer = ConnectIntent.Server("nonexistent", emptySet())
+    private val connectIntentNoServer = ConnectIntent.Server("nonexistent", CountryId.sweden, emptySet())
 
     private val serverWireguard: Server = MockedServers.serverList[1]
     private val fallbackServer: Server = MockedServers.serverList[2]
@@ -658,7 +659,7 @@ class VpnConnectionTests {
     @Test
     fun whenConnectingToOfflineServerThenSwitchToOtherServer() = scope.runTest {
         val offlineServer = MockedServers.serverList.first { it.serverName == "SE#3" }
-        val offlineServerConnectIntent = ConnectIntent.Server(offlineServer.serverId, emptySet())
+        val offlineServerConnectIntent = offlineServer.toConnectIntent(emptySet())
         coEvery {
             vpnErrorHandler.onServerInMaintenance(offlineServerConnectIntent, null)
         } returns VpnFallbackResult.Switch.SwitchConnectIntent(

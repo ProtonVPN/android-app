@@ -97,7 +97,7 @@ class ConnectIntentExtensionsTests {
 
     @Test
     fun `server matches specific server intent`() {
-        val intent = ConnectIntent.Server(serverId = "A", emptySet())
+        val intent = ConnectIntent.Server(serverId = "A", CountryId("US"), emptySet())
         testIsServerCompatibleWithConnectIntent(
             intent, createServer("A", exitCountry = "US"), true
         )

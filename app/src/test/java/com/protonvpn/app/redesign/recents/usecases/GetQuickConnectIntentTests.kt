@@ -92,7 +92,7 @@ class GetQuickConnectIntentTests {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
         coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.LastConnection)
         testUserProvider.vpnUser = plusUser
-        mostRecentConnectionFlow.value = RecentConnection(0, false, connectIntent)
+        mostRecentConnectionFlow.value = RecentConnection.UnnamedRecent(0, false, connectIntent)
 
         assertEquals(connectIntent, getQuickConnectIntent())
     }
@@ -103,7 +103,7 @@ class GetQuickConnectIntentTests {
         coEvery { mockGetIntentAvailability(any(), any(), any()) } returns ConnectIntentAvailability.AVAILABLE_OFFLINE
         coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.LastConnection)
         testUserProvider.vpnUser = plusUser
-        mostRecentConnectionFlow.value = RecentConnection(0, false, connectIntent)
+        mostRecentConnectionFlow.value = RecentConnection.UnnamedRecent(0, false, connectIntent)
 
         assertEquals(ConnectIntent.Fastest, getQuickConnectIntent())
     }
@@ -112,7 +112,7 @@ class GetQuickConnectIntentTests {
     fun `when there is connection history return fastest for free user`() = testScope.runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
         testUserProvider.vpnUser = freeUser
-        mostRecentConnectionFlow.value = RecentConnection(0, false, connectIntent)
+        mostRecentConnectionFlow.value = RecentConnection.UnnamedRecent(0, false, connectIntent)
 
         assertEquals(ConnectIntent.Fastest, getQuickConnectIntent())
     }
@@ -120,7 +120,7 @@ class GetQuickConnectIntentTests {
     @Test
     fun `when specific recent is selected return fastest for free user`() = testScope.runTest {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.sweden, emptySet())
-        val recent = RecentConnection(0, false, connectIntent)
+        val recent = RecentConnection.UnnamedRecent(0, false, connectIntent)
         coEvery { mockRecentsManager.getRecentById(recent.id) } returns recent
         coEvery { mockRecentsManager.getDefaultConnectionFlow() } returns flowOf(DefaultConnection.Recent(recent.id))
         testUserProvider.vpnUser = freeUser

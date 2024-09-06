@@ -20,7 +20,7 @@
 package com.protonvpn.android.redesign.vpn.ui
 
 import com.protonvpn.android.models.vpn.Server
-import com.protonvpn.android.profiles.data.ProfileEntity
+import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
@@ -28,7 +28,6 @@ import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.utils.DebugUtils
 import dagger.Reusable
 import javax.inject.Inject
 
@@ -101,7 +100,10 @@ class GetConnectIntentViewState @Inject constructor(
             if (result != null)
                 return result
         }
+        return getUnnamedIntentViewState(connectIntent, isFreeUser, connectedServer)
+    }
 
+    private suspend fun getUnnamedIntentViewState(connectIntent: ConnectIntent, isFreeUser: Boolean, connectedServer: Server? = null): ConnectIntentViewState {
         return when (connectIntent) {
             is ConnectIntent.FastestInCountry -> {
                 if (isFreeUser && connectIntent.country.isFastest) fastestFreeServer(connectedServer)

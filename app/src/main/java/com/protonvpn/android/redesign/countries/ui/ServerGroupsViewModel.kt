@@ -467,7 +467,7 @@ private fun ServerGroupItemData.getConnectIntent(filterType: ServerFilterType): 
         when {
             entryCountryId != null -> ConnectIntent.SecureCore(countryId, entryCountryId)
             gatewayName != null -> ConnectIntent.Gateway(gatewayName, serverId.id)
-            else -> ConnectIntent.Server(serverId.id, serverFeatures)
+            else -> ConnectIntent.Server(serverId.id, countryId, serverFeatures)
         }
     is ServerGroupItemData.Country ->
         entryCountryId?.let { ConnectIntent.SecureCore(countryId, it) } ?:

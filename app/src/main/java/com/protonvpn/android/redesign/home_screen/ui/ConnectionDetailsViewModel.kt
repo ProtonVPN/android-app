@@ -145,7 +145,7 @@ class ConnectionDetailsViewModel @Inject constructor(
                 entryCountryId = if (server.isSecureCoreServer) CountryId(server.entryCountry) else null,
                 exitCountryId = CountryId(server.exitCountry),
                 trafficHistory = trafficHistory,
-                connectIntentViewState = getConnectIntentViewState(
+                connectIntentViewState = getConnectIntentViewState.fromRawIntent(
                     connectIntent,
                     vpnUser?.isFreeUser == true,
                     server

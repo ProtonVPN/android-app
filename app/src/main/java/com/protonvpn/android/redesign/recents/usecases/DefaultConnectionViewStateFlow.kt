@@ -162,7 +162,7 @@ class DefaultConnectionViewStateFlow @Inject constructor(
                 isDefaultConnection = isDefaultConnection,
                 connectIntent = connectIntent,
                 connectIntentViewState = getConnectIntentViewState(
-                    connectIntent,
+                    recentConnection,
                     vpnUser?.isFreeUser == true
                 )
             )

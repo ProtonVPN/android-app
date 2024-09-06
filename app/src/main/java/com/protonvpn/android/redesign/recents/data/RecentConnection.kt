@@ -19,23 +19,45 @@
 
 package com.protonvpn.android.redesign.recents.data
 
+import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 
-data class RecentConnection(
-    val id: Long,
-    val isPinned: Boolean,
-    val connectIntent: ConnectIntent,
-)
+sealed class RecentConnection {
+    abstract val id: Long
+    abstract val isPinned: Boolean
+    abstract val connectIntent: ConnectIntent
+
+    data class UnnamedRecent(
+        override val id: Long,
+        override val isPinned: Boolean,
+        override val connectIntent: ConnectIntent,
+    ) : RecentConnection()
+
+    data class ProfileRecent(
+        override val id: Long,
+        override val isPinned: Boolean,
+        val profile: Profile,
+    ) : RecentConnection() {
+        override val connectIntent get() = profile.connectIntent
+    }
+}
 
 fun RecentConnectionWithIntent.toRecentConnection(): RecentConnection {
     // TODO: what to do when data cannot be deserialized because it's invalid?
     //  Currently this code may throw exceptions but it's probably best not to crash the app because it'll become
     //  useless until the user clears the data or reinstalls.
-    return RecentConnection(
-        id = recent.id,
-        isPinned = recent.isPinned,
-        connectIntent = requireNotNull(
-            unnamedRecent?.connectIntentData?.toConnectIntent() ?: profile?.connectIntentData?.toConnectIntent()
+    return if (profile != null) {
+        RecentConnection.ProfileRecent(
+            id = recent.id,
+            isPinned = recent.isPinned,
+            profile = profile.toProfile(),
         )
-    )
+    } else {
+        RecentConnection.UnnamedRecent(
+            id = recent.id,
+            isPinned = recent.isPinned,
+            connectIntent = requireNotNull(unnamedRecent).connectIntentData.toConnectIntent()
+        )
+    }
 }
