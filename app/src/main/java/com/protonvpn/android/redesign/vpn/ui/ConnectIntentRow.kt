@@ -216,6 +216,7 @@ fun ConnectIntentBlankRow(
                 Text(
                     text = title,
                     style = ProtonTheme.typography.body1Regular,
+                    modifier = Modifier.weight(1f, fill = false)
                 )
                 if (isConnected) {
                     ActiveDot(modifier = Modifier.padding(start = 8.dp))
