@@ -36,6 +36,10 @@ import me.proton.core.account.data.entity.AccountEntity
 import me.proton.core.account.data.entity.AccountMetadataEntity
 import me.proton.core.account.data.entity.SessionDetailsEntity
 import me.proton.core.account.data.entity.SessionEntity
+import me.proton.core.auth.data.db.AuthConverters
+import me.proton.core.auth.data.db.AuthDatabase
+import me.proton.core.auth.data.entity.AuthDeviceEntity
+import me.proton.core.auth.data.entity.DeviceSecretEntity
 import me.proton.core.challenge.data.db.ChallengeConverters
 import me.proton.core.challenge.data.db.ChallengeDatabase
 import me.proton.core.challenge.data.entity.ChallengeFrameEntity
@@ -121,6 +125,9 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         EventMetadataEntity::class,
         // user-recovery
         RecoveryFileEntity::class,
+        // auth-data
+        DeviceSecretEntity::class,
+        AuthDeviceEntity::class,
         // vpn
         PeriodicCallInfo::class,
         RecentConnectionEntity::class,
@@ -149,6 +156,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
     NotificationConverters::class,
     PushConverters::class,
     EventManagerConverters::class,
+    AuthConverters::class,
     // Vpn
     RecentsTypeConverters::class
 )
@@ -172,10 +180,11 @@ abstract class AppDatabase :
     UserDatabase,
     UserSettingsDatabase,
     VpnRecentsDatabase,
-    VpnUserDatabase {
+    VpnUserDatabase,
+    AuthDatabase {
 
     companion object {
-        const val version = 34
+        const val version = 35
 
         private val migrations = listOf(
             DatabaseMigrations.MIGRATION_1_2,
@@ -206,6 +215,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_30_31,
             DatabaseMigrations.MIGRATION_31_32,
             DatabaseMigrations.MIGRATION_32_33,
+            DatabaseMigrations.MIGRATION_34_35,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
