@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Masuk</string>
     <string name="menuActionSignOut">Keluar</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
+    <string name="connectionAllocationHelpTitle">Terima kasih atas peningkatan akun</string>
     <string name="connectionAllocationHelpDescription1">Untuk mulai menggunakan Proton VPN, silakan tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
     <string name="connectionAllocationHelpDescription2">Langkah ini hanya akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Akun ini sedang tidak memiliki koneksi VPN yang aktif. Untuk mulai menggunakan Proton VPN, silakan hubungi administrator Anda. </string>

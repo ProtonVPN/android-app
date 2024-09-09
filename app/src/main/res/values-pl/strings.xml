@@ -417,8 +417,8 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Odblokuj %1$s w %2$s w planie <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">Wszystkie usługi Proton premium. Jedna prosta subskrypcja.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
+    <string name="upgrade_unlimited_all_apps_description">Uzyskaj pełną ochronę prywatności w planie Proton Unlimited.</string>
+    <string name="upgrade_unlimited_more">i wiele więcej</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Odblokuj wszystkie kraje</string>
     <string name="upgrade_unlimited_vpn_all_features">Wszystkie inne funkcje planu VPN Plus</string>
     <string name="upgrade_unlimited_vpn_any_location">Wybierz lokalizację</string>
@@ -465,7 +465,7 @@
     <string name="upgrade_unlimited_calendar_sharing">Udostępnianie kalendarza</string>
     <string name="upgrade_unlimited_calendar_invites">Wysyłaj i otrzymuj zaproszenia</string>
     <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB przestrzeni dyskowej na zdjęcia, pliki i wiadomości</string>
     <string name="upgrade_unlimited_drive_link_share">Udostępniaj zdjęcia i pliki za pomocą linku</string>
     <string name="upgrade_unlimited_drive_sharing_security">Zaawansowane bezpieczeństwo udostępniania</string>
     <string name="upgrade_unlimited_drive_version_history">Historia wersji</string>

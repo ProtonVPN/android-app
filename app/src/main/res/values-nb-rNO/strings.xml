@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Logg på</string>
     <string name="menuActionSignOut">Logg av</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
+    <string name="connectionAllocationHelpTitle">Takk for at du oppgraderte</string>
     <string name="connectionAllocationHelpDescription1">For å starte reisen din i Proton VPN, vennligst tildel VPN-tilkoblinger til kontoen din eller en hvilken som helst annen underkonto.</string>
     <string name="connectionAllocationHelpDescription2">Dette trinnet tar bare noen få minutter. Etter det vil du kunne logge på og beskytte alle enhetene dine.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Det er for øyeblikket ingen VPN-tilkobling aktivert for denne kontoen. For å starte reisen din med Proton VPN, vennligst kontakt administratoren din. </string>

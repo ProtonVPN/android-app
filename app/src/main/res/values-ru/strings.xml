@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Войти</string>
     <string name="menuActionSignOut">Выйти</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
+    <string name="connectionAllocationHelpTitle">Спасибо за улучшение тарифа</string>
     <string name="connectionAllocationHelpDescription1">Чтобы начать свое путешествие в Proton VPN, пожалуйста, назначьте подключения VPN для своего аккаунта или любого другого субаккаунта.</string>
     <string name="connectionAllocationHelpDescription2">Этот шаг займет всего несколько минут. После него вы сможете авторизоваться и защитить все свои устройства.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">В настоящее время для этого аккаунта не активировано подключение к VPN. Чтобы начать свое путешествие с Proton VPN, пожалуйста, свяжитесь с вашим администратором. </string>
