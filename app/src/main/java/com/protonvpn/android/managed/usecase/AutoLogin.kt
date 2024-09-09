@@ -52,7 +52,7 @@ class AutoLoginImpl @Inject constructor(
             isTwoPassModeNeeded = sessionInfo.isTwoPassModeNeeded,
             temporaryPassword = sessionInfo.temporaryPassword
         )
-        check(result is PostLoginAccountSetup.Result.UserUnlocked) {
+        check(result is PostLoginAccountSetup.Result.AccountReady) {
             "Unexpected login result: $result"
         }
         Result.success(sessionInfo.userId)

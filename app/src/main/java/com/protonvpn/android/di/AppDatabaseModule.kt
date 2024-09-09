@@ -33,6 +33,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import me.proton.core.account.data.db.AccountDatabase
+import me.proton.core.auth.data.db.AuthDatabase
 import me.proton.core.challenge.data.db.ChallengeDatabase
 import me.proton.core.eventmanager.data.db.EventMetadataDatabase
 import me.proton.core.featureflag.data.db.FeatureFlagDatabase
@@ -132,4 +133,7 @@ abstract class AppDatabaseBindsModule {
 
     @Binds
     abstract fun provideVpnUserDatabase(appDatabase: AppDatabase): VpnUserDatabase
+
+    @Binds
+    abstract fun provideAuthDatabase(appDatabase: AppDatabase): AuthDatabase
 }
