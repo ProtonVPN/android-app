@@ -33,6 +33,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.GetStreamingServices
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.StreamingService
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.TrafficMonitor
@@ -44,8 +45,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -53,6 +56,7 @@ import javax.inject.Inject
 class ConnectionDetailsViewModel @Inject constructor(
     vpnStatusProviderUI: VpnStatusProviderUI,
     private val vpnStateMonitor: VpnStateMonitor,
+    private val serverManager2: ServerManager2,
     private val serverListUpdaterPrefs: ServerListUpdater,
     private val currentUser: CurrentUser,
     private val getConnectIntentViewState: GetConnectIntentViewState,
@@ -119,14 +123,20 @@ class ConnectionDetailsViewModel @Inject constructor(
 
     private fun createConnectedViewState(connectionParams: ConnectionParams): Flow<ConnectionDetailsViewState> {
         val streamingList = streamingServices.invoke(connectionParams.server.entryCountry)
+
+        // connectionParams.server is initialized at connection attempt time, and will be outdated after loads update
+        val serverFlow = serverManager2.serverListVersion
+            .map { serverManager2.getServerById(connectionParams.server.serverId) ?: connectionParams.server }
+            .distinctUntilChanged()
+
         return combine(
             currentUser.vpnUserFlow,
             vpnStateMonitor.exitIp,
             serverListUpdaterPrefs.ipAddress,
             trafficMonitor.trafficHistory.asFlow(),
-        ) { vpnUser, exitIp, userIp, trafficHistory ->
+            serverFlow,
+        ) { vpnUser, exitIp, userIp, trafficHistory, server ->
             val connectIntent = connectionParams.connectIntent as ConnectIntent
-            val server = connectionParams.server
             val vpnIp = exitIp ?: ""
             val protocol = connectionParams.protocolSelection?.displayName ?: 0
             ConnectionDetailsViewState.Connected(
