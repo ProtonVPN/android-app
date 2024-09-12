@@ -60,15 +60,25 @@ import javax.inject.Inject
 import me.proton.core.accountmanager.presentation.R as AccountManagerR
 import me.proton.core.presentation.R as CoreR
 
-enum class NatType(val labelRes: Int, val descriptionRes: Int) {
-   Strict(
-       labelRes = R.string.settings_advanced_nat_type_strict,
-       descriptionRes = R.string.settings_advanced_nat_type_strict_description
-   ),
-   Moderate(
-       labelRes = R.string.settings_advanced_nat_type_moderate,
-       descriptionRes = R.string.settings_advanced_nat_type_moderate_description
-   )
+enum class NatType(
+    val labelRes: Int,
+    @StringRes val shortLabelRes: Int,
+    @StringRes val descriptionRes: Int
+) {
+    Strict(
+        labelRes = R.string.settings_advanced_nat_type_strict,
+        shortLabelRes = R.string.settings_advanced_nat_type_strict_short,
+        descriptionRes = R.string.settings_advanced_nat_type_strict_description
+    ),
+    Moderate(
+        labelRes = R.string.settings_advanced_nat_type_moderate,
+        shortLabelRes = R.string.settings_advanced_nat_type_moderate_short,
+        descriptionRes = R.string.settings_advanced_nat_type_moderate_description
+    );
+
+    companion object {
+        fun fromRandomizedNat(randomizedNat: Boolean) = if (randomizedNat) Strict else Moderate
+    }
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -251,7 +261,7 @@ class SettingsViewModel @Inject constructor(
                 defaultConnection = defaultConnectionSetting,
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
                 lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
-                natType = SettingViewState.Nat(if (settings.randomizedNat) NatType.Strict else NatType.Moderate, isFree),
+                natType = SettingViewState.Nat(NatType.fromRandomizedNat(settings.randomizedNat), isFree),
                 buildInfo = buildConfigText,
                 showDebugTools = displayDebugUi,
                 showSignOut = !isCredentialLess && !managedConfig.isManaged,
