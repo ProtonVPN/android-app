@@ -38,6 +38,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.profiles.data.profileSettingsOverrides
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
@@ -434,7 +435,7 @@ class VpnConnectionTests {
         val overrideProtocol = ProtocolSelectionData(VpnProtocol.OpenVPN, TransmissionProtocol.UDP)
         manager.connect(
             mockVpnUiDelegate,
-            connectIntentFastest.copy(settingsOverrides = SettingsOverrides(protocolData = overrideProtocol)),
+            connectIntentFastest.copy(settingsOverrides = profileSettingsOverrides(protocolData = overrideProtocol)),
             trigger
         )
         assertEquals(VpnState.Connected, monitor.state)

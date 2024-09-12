@@ -72,6 +72,7 @@ data class ProtocolSelection private constructor(
         )
 
         val SMART = ProtocolSelection(VpnProtocol.Smart)
+        val STEALTH = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
         val REAL_PROTOCOLS = listOf(
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
             ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),

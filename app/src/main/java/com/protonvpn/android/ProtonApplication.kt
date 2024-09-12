@@ -42,6 +42,7 @@ import com.protonvpn.android.logging.SettingChangesLogger
 import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.notifications.NotificationHelper.Companion.initNotificationChannel
 import com.protonvpn.android.notifications.NotificationPermissionManager
+import com.protonvpn.android.profiles.usecases.PopulateInitialProfiles
 import com.protonvpn.android.quicktile.QuickTileDataStoreUpdater
 import com.protonvpn.android.redesign.recents.usecases.ConnectingUpdatesRecents
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
@@ -125,6 +126,7 @@ open class ProtonApplication : Application() {
         val vpnConnectionObservability: VpnConnectionObservability?
         val vpnConnectionTelemetry: VpnConnectionTelemetry
         val goLangCrashReporter: dagger.Lazy<GoLangCrashReporter>
+        val populateInitialProfiles: PopulateInitialProfiles
     }
 
     protected var lastMainProcessExitReason: Int? = null
@@ -186,6 +188,7 @@ open class ProtonApplication : Application() {
         dependencies.maintenanceTracker
         dependencies.notificationPermissionManager
         dependencies.quickTileDataStoreUpdater.start()
+        dependencies.populateInitialProfiles.start()
         dependencies.purchasesEnabledUpdater.start()
         dependencies.purchaseStateHandler.start()
         dependencies.recentsValidator
