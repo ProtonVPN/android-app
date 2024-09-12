@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.profiles.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
@@ -26,9 +27,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileColor
@@ -49,13 +56,23 @@ import com.protonvpn.android.vpn.ProtocolSelection
 @Composable
 fun Profiles(
     state: ProfilesState,
+    onAddNew: () -> Unit,
     onConnect: (ProfileViewItem) -> Unit,
     onSelect: (ProfileViewItem) -> Unit,
 ) {
     CollapsibleToolbarScaffold(
         titleResId = R.string.profiles_title,
         contentWindowInsets = WindowInsets.statusBars,
-        toolbarActions = {},
+        toolbarActions = {
+            Icon(
+                painter = painterResource(id = me.proton.core.presentation.R.drawable.ic_proton_plus_circle_filled),
+                contentDescription = stringResource(R.string.accessibility_action_add_new_profile),
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .clickable(onClick = onAddNew)
+                    .padding(12.dp),
+            )
+        },
         toolbarAdditionalContent = {},
     ) { padding ->
         when (state) {
