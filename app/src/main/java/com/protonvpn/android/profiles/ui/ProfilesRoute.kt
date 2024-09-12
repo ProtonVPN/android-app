@@ -60,6 +60,7 @@ fun ProfilesRoute(
             ProfileBottomSheet(
                 profile = selectedProfile,
                 onClose = viewModel::onProfileClose,
+                onProfileDelete = viewModel::onProfileDelete,
             )
         }
     }

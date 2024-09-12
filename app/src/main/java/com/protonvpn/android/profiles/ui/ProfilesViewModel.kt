@@ -26,12 +26,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
+import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
@@ -45,6 +47,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -69,10 +72,15 @@ data class ProfileViewItem(
     val isConnected: Boolean,
     val availability: ConnectIntentAvailability,
     val intent: ConnectIntentViewState,
+    val netShieldEnabled: Boolean,
+    val protocol: ProtocolSelection,
+    val natType: NatType,
+    val lanConnections: Boolean,
 )
 
 @HiltViewModel
 class ProfilesViewModel @Inject constructor(
+    private val mainScope: CoroutineScope,
     savedStateHandle: SavedStateHandle,
     private val profilesDao: ProfilesDao,
     currentUser: CurrentUser,
@@ -135,7 +143,7 @@ class ProfilesViewModel @Inject constructor(
             ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> {}
             ConnectIntentAvailability.AVAILABLE_OFFLINE -> {}
             ConnectIntentAvailability.ONLINE -> {
-                viewModelScope.launch {
+                mainScope.launch {
                     val trigger = ConnectTrigger.Profile
                     val connectIntent = if (!item.isConnected)
                         profilesDao.getProfileById(item.profile.id)?.connectIntent

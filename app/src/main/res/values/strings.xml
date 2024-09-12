@@ -1293,7 +1293,9 @@
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Select a network address translation type for your connection.</string>
     <string name="settings_advanced_nat_type_strict">Strict (type 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">Moderate (type 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Restricts the data entering your network. This option is more secure, but can make peer-to-peer gaming connections more difficult.</string>
     <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
@@ -1367,4 +1369,10 @@
     <string name="notification_auto_login_error" translatable="false">There was a problem setting up ProtonVPN. Click to open the app.</string>
     <string name="app_restrictions_username_title" translatable="false">Username</string>
     <string name="app_restrictions_password_title" translatable="false">Password</string>
+
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
 </resources>
