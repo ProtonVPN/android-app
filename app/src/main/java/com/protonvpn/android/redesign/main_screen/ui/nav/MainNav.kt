@@ -34,6 +34,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.protonvpn.android.profiles.ui.nav.AddEditProfileScreen
+import com.protonvpn.android.profiles.ui.nav.ProfilesScreen
+import com.protonvpn.android.profiles.ui.nav.ProfilesScreen.profiles
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
@@ -55,8 +58,6 @@ import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen
 import com.protonvpn.android.redesign.home_screen.ui.nav.HomeScreen.home
 import com.protonvpn.android.redesign.main_screen.ui.BottomBarView
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
-import com.protonvpn.android.profiles.ui.nav.ProfilesScreen
-import com.protonvpn.android.profiles.ui.nav.ProfilesScreen.profiles
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen.settings
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
@@ -146,7 +147,10 @@ class MainNav(
                     )
 
                     MainTarget.Profiles ->
-                        profiles(onNavigateToHomeOnConnect = onNavigateToHomeOnConnect)
+                        profiles(
+                            onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
+                            onNavigateToAddNew = { rootNav.navigate(AddEditProfileScreen) }
+                        )
 
                     MainTarget.Gateways ->
                         gateways(onNavigateToHomeOnConnect = onNavigateToHomeOnConnect)

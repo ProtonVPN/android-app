@@ -34,6 +34,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragme
 @Composable
 fun ProfilesRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
+    onNavigateToAddNew: () -> Unit
 ) {
     val viewModel : ProfilesViewModel = hiltViewModel()
     Box(
@@ -53,6 +54,7 @@ fun ProfilesRoute(
                 onSelect = { profile ->
                     viewModel.onSelect(profile)
                 },
+                onAddNew = onNavigateToAddNew
             )
         }
 
