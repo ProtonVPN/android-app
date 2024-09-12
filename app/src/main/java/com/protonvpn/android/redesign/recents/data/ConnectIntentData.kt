@@ -55,10 +55,10 @@ data class ConnectIntentData(
 ) : java.io.Serializable
 
 data class SettingsOverrides(
-    @Embedded val protocolData: ProtocolSelectionData? = null,
-    val netShield: NetShieldProtocol? = null,
-    val randomizedNat: Boolean? = null,
-    val lanConnections: Boolean? = null,
+    @Embedded val protocolData: ProtocolSelectionData?,
+    val netShield: NetShieldProtocol?,
+    val randomizedNat: Boolean?,
+    val lanConnections: Boolean?,
 ) {
     val protocol get() = protocolData?.toProtocolSelection()
 }
@@ -69,6 +69,8 @@ data class ProtocolSelectionData(
 ) {
     fun toProtocolSelection(): ProtocolSelection = ProtocolSelection(vpn, transmission)
 }
+
+fun ProtocolSelection.toData() = ProtocolSelectionData(vpn, transmission)
 
 fun ConnectIntentData.toConnectIntent(): ConnectIntent =
     when (connectIntentType) {

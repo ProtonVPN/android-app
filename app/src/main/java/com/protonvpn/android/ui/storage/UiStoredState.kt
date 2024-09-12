@@ -37,6 +37,7 @@ import javax.inject.Singleton
 @Serializable
 data class UiStoredState(
     val hasUsedRecents: Boolean = false,
+    val hasPopulatedDefaultProfiles: Boolean = false,
     val searchHistory: List<String> = emptyList(),
 ) {
     companion object {

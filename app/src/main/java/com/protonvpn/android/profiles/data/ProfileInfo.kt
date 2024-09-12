@@ -19,8 +19,13 @@
 
 package com.protonvpn.android.profiles.data
 
+import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
+import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.recents.data.toConnectIntent
+import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.vpn.ProtocolSelection
 
 data class ProfileInfo(
     val id: Long,
@@ -44,4 +49,16 @@ fun ProfileEntity.toProfile() = Profile(
         isGateway = connectIntentData.gatewayName != null,
     ),
     connectIntentData.toConnectIntent(),
+)
+
+fun profileSettingsOverrides(
+    protocolData: ProtocolSelectionData = ProtocolSelection.SMART.toData(),
+    netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
+    randomizedNat: Boolean = true,
+    lanConnections: Boolean = true,
+) = SettingsOverrides(
+    protocolData = protocolData,
+    netShield = netShield,
+    randomizedNat = randomizedNat,
+    lanConnections = lanConnections,
 )
