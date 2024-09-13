@@ -26,6 +26,7 @@ import com.protonvpn.android.redesign.recents.data.toConnectIntent
 import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.vpn.ProtocolSelection
+import me.proton.core.domain.entity.UserId
 
 data class ProfileInfo(
     val id: Long,
@@ -38,6 +39,16 @@ data class ProfileInfo(
 data class Profile(
     val info: ProfileInfo,
     val connectIntent: ConnectIntent,
+)
+
+fun Profile.toProfileEntity(userId: UserId, createdAt: Long) = ProfileEntity(
+    id = info.id,
+    name = info.name,
+    color = info.color,
+    connectIntentData = connectIntent.toData(),
+    createdAt = createdAt,
+    icon = info.icon,
+    userId = userId
 )
 
 fun ProfileEntity.toProfile() = Profile(

@@ -27,6 +27,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -35,14 +36,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
+import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileColor
+import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.profiles.data.ProfileInfo
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import me.proton.core.compose.theme.ProtonTheme
 
 
 @Composable
 fun CreateNameRoute(
-    onNext: () -> Unit
+    profile: Profile,
+    onNext: (Profile) -> Unit
 ) {
-    var name by rememberSaveable { mutableStateOf("") }
+    // TODO use rememberSaveable
+    var mutableProfile by remember { mutableStateOf(profile) }
     var isError by rememberSaveable { mutableStateOf(false) }
 
     Column(
@@ -53,7 +61,7 @@ fun CreateNameRoute(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             TextField(
-                value = name,
+                value = mutableProfile.info.name,
                 placeholder = {
                     Text(
                         text = stringResource(id = R.string.create_profile_name_hint),
@@ -73,8 +81,12 @@ fun CreateNameRoute(
                 textStyle = ProtonTheme.typography.subheadline,
                 isError = isError,
                 onValueChange = {
-                    name = it
-                    if (isError && name.isNotEmpty()) {
+                    mutableProfile = mutableProfile.copy(
+                        info = mutableProfile.info.copy(
+                            name = it
+                        )
+                    )
+                    if (isError && it.isNotEmpty()) {
                         isError = false
                     }
                 },
@@ -83,10 +95,10 @@ fun CreateNameRoute(
         }
 
         ProfileNavigationButtons(onNext = {
-            if (name.isEmpty()) {
+            if (mutableProfile.info.name.isEmpty()) {
                 isError = true
             } else {
-                onNext()
+                onNext(mutableProfile)
             }
         })
     }
@@ -95,5 +107,17 @@ fun CreateNameRoute(
 @Preview
 @Composable
 fun PreviewProfileNameCreation() {
-    CreateNameRoute({})
+    CreateNameRoute(
+        profile = Profile(
+            ProfileInfo(
+                id = 0,
+                name = "Good profile",
+                color = ProfileColor.Color1,
+                icon = ProfileIcon.Icon2,
+                isGateway = false,
+            ),
+            ConnectIntent.Fastest,
+        ),
+        onNext = {}
+    )
 }

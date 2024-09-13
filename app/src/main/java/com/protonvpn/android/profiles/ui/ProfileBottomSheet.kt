@@ -64,11 +64,12 @@ import me.proton.core.presentation.R as CoreR
 fun ProfileBottomSheet(
     profile: ProfileViewItem?,
     onClose: () -> Unit,
+    onProfileEdit: (ProfileViewItem) -> Unit,
     onProfileDelete: (ProfileViewItem) -> Unit,
 ) {
     if (profile != null) {
         SimpleModalBottomSheet(
-            content = { ProfileSheetContent(profile, onProfileDelete) },
+            content = { ProfileSheetContent(profile, onProfileEdit, onProfileDelete) },
             onDismissRequest = onClose
         )
     }
@@ -77,6 +78,7 @@ fun ProfileBottomSheet(
 @Composable
 private fun ProfileSheetContent(
     profile: ProfileViewItem,
+    onProfileEdit: (ProfileViewItem) -> Unit,
     onProfileDelete: (ProfileViewItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -116,6 +118,11 @@ private fun ProfileSheetContent(
             )
         }
         VpnDivider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp))
+        BottomSheetAction(
+            CoreR.drawable.ic_proton_pencil,
+            R.string.profile_action_edit,
+            { onProfileEdit(profile) }
+        )
         BottomSheetAction(
             CoreR.drawable.ic_proton_trash,
             R.string.profile_action_delete,
@@ -214,6 +221,8 @@ private fun ProfileBottomSheetPreview() {
                 lanConnections = true,
             ),
             {},
+            {},
+            Modifier
         )
     }
 }

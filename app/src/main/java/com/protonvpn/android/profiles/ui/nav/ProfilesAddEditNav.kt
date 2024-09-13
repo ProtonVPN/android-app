@@ -22,6 +22,7 @@ package com.protonvpn.android.profiles.ui.nav
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.ui.AddEditProfileRoute
 import com.protonvpn.android.profiles.ui.CreateNameRoute
 import com.protonvpn.android.profiles.ui.ProfileFeaturesAndSettingsRoute
@@ -33,55 +34,69 @@ import com.protonvpn.android.profiles.ui.nav.ProfileTypeAndLocationScreen.profil
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
+import com.protonvpn.android.redesign.base.ui.nav.Screen
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
 import com.protonvpn.android.redesign.base.ui.nav.addToGraphWithSlideAnim
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainNav
+import kotlinx.serialization.Serializable
 
 object ProfilesScreen : ScreenNoArg<MainNav>("profiles") {
 
     fun SafeNavGraphBuilder<MainNav>.profiles(
         onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
-        onNavigateToAddNew: () -> Unit,
+        onNavigateToAddNew: (Long?) -> Unit,
     ) = addToGraph(this) {
         ProfilesRoute(onNavigateToHomeOnConnect, onNavigateToAddNew)
     }
 }
 
-object AddEditProfileScreen : ScreenNoArg<RootNav>("addNewProfile") {
+object AddEditProfileScreen : Screen<AddEditProfileScreen.ProfileCreationArgs, RootNav>("addNewProfile") {
 
-    fun SafeNavGraphBuilder<RootNav>.newProfile(profileId: Int? = null, onBackIconClick: () -> Unit,) = addToGraphWithSlideAnim(this) {
-        AddEditProfileRoute(profileId, onBackIconClick)
+    @Serializable
+    data class ProfileCreationArgs(
+        val editingProfileId: Long? = null
+    )
+
+    fun SafeNavGraphBuilder<RootNav>.addEditProfile(onBackIconClick: () -> Unit,) = addToGraphWithSlideAnim(this) { entry ->
+        val profileArgs = AddEditProfileScreen.getArgs<ProfileCreationArgs>(entry)
+        AddEditProfileRoute(profileArgs.editingProfileId, onBackIconClick)
     }
 }
 
-object CreateProfileNameScreen : ScreenNoArg<ProfilesNav>("createProfileName") {
+object CreateProfileNameScreen : ScreenNoArg<ProfilesAddEditNav>("createProfileName") {
 
-    fun SafeNavGraphBuilder<ProfilesNav>.createProfileName(
-        onNext: () -> Unit,
+    fun SafeNavGraphBuilder<ProfilesAddEditNav>.createProfileName(
+        profile: Profile,
+        onNext: (Profile) -> Unit,
     ) = addToGraph(this) {
-        CreateNameRoute(onNext = onNext)
+        CreateNameRoute(
+            profile = profile,
+            onNext = onNext
+        )
     }
 }
 
-object ProfileTypeAndLocationScreen : ScreenNoArg<ProfilesNav>("profileTypeAndLocation") {
+object ProfileTypeAndLocationScreen : ScreenNoArg<ProfilesAddEditNav>("profileTypeAndLocation") {
 
-    fun SafeNavGraphBuilder<ProfilesNav>.profileTypeAndLocationScreen(
-        onNext: () -> Unit,
+    fun SafeNavGraphBuilder<ProfilesAddEditNav>.profileTypeAndLocationScreen(
+        profile: Profile,
+        onNext: (Profile) -> Unit,
         onBack: () -> Unit
     ) = addToGraph(this) {
-        ProfileTypeAndLocationRoute(onNext = onNext, onBack = onBack)
+        ProfileTypeAndLocationRoute(profile = profile, onNext = onNext, onBack = onBack)
     }
 }
 
-object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesNav>("profileFeaturesAndSettings") {
+object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditNav>("profileFeaturesAndSettings") {
 
-    fun SafeNavGraphBuilder<ProfilesNav>.profileFeaturesAndSettingsScreen(
-        onNext: () -> Unit,
+    fun SafeNavGraphBuilder<ProfilesAddEditNav>.profileFeaturesAndSettingsScreen(
+        profile: Profile,
+        onNext: (Profile) -> Unit,
         onBack: () -> Unit
     ) = addToGraph(this) {
-        ProfileFeaturesAndSettingsRoute(onNext = onNext, onBack = onBack)
+        ProfileFeaturesAndSettingsRoute(profile = profile, onNext = onNext, onBack = onBack)
     }
 }
 enum class ProfileCreationTarget(val route: String) {
@@ -90,14 +105,15 @@ enum class ProfileCreationTarget(val route: String) {
     FeaturesAndSettings(ProfileFeaturesAndSettingsScreen.route);
 }
 
-class ProfilesNav(
+class ProfilesAddEditNav(
     selfNav: NavHostController,
-) : BaseNav<ProfilesNav>(selfNav, "profilesNav") {
+) : BaseNav<ProfilesAddEditNav>(selfNav, "profilesNav") {
 
     @Composable
     fun NavHost(
-        profileId: Int? = null,
-        onBackIconClick: () -> Unit,
+        profile: Profile,
+        onTempProfileSave: (Profile) -> Unit,
+        onDone: (Profile) -> Unit,
         modifier: Modifier,
     ) {
         SafeNavHost(
@@ -105,15 +121,26 @@ class ProfilesNav(
             startScreen = CreateProfileNameScreen,
         ) {
             createProfileName(
-                onNext = { navigateInternal(ProfileTypeAndLocationScreen) },
+                profile = profile,
+                onNext = {
+                    onTempProfileSave(it)
+                    navigateInternal(ProfileTypeAndLocationScreen)
+                },
             )
             profileTypeAndLocationScreen(
-                onNext = { navigateInternal(ProfileFeaturesAndSettingsScreen) },
+                profile = profile,
+                onNext = {
+                    onTempProfileSave(it)
+                    navigateInternal(ProfileFeaturesAndSettingsScreen)
+                },
                 onBack = { popBackStack() }
             )
 
             profileFeaturesAndSettingsScreen(
-                onNext = onBackIconClick,
+                profile = profile,
+                onNext = {
+                    onDone(it)
+                },
                 onBack = { popBackStack() }
             )
         }
