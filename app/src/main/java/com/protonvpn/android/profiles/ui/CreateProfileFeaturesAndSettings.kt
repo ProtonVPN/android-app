@@ -31,44 +31,62 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
+import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileColor
+import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.profiles.data.ProfileInfo
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import me.proton.core.compose.theme.ProtonTheme
 
-
-    @Composable
-    fun ProfileFeaturesAndSettingsRoute(
-        onNext: () -> Unit,
-        onBack: () -> Unit
+@Composable
+fun ProfileFeaturesAndSettingsRoute(
+    profile: Profile,
+    onNext: (Profile) -> Unit,
+    onBack: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .imePadding()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .imePadding()
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(id = R.string.create_profile_features_and_settings_title),
-                    color = ProtonTheme.colors.textNorm,
-                    style = ProtonTheme.typography.body1Bold
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = stringResource(id = R.string.create_profile_features_and_settings_description),
-                    color = ProtonTheme.colors.textWeak,
-                    style = ProtonTheme.typography.body2Regular
-                )
-            }
-
-            ProfileNavigationButtons(
-                onNext = onNext,
-                onBack = onBack,
-                onNextText = stringResource(id = R.string.create_profile_button_done)
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = stringResource(id = R.string.create_profile_features_and_settings_title),
+                color = ProtonTheme.colors.textNorm,
+                style = ProtonTheme.typography.body1Bold
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = stringResource(id = R.string.create_profile_features_and_settings_description),
+                color = ProtonTheme.colors.textWeak,
+                style = ProtonTheme.typography.body2Regular
             )
         }
+
+        ProfileNavigationButtons(
+            onNext = { onNext(profile) },
+            onBack = onBack,
+            onNextText = stringResource(id = R.string.create_profile_button_done)
+        )
     }
+}
 
 @Preview
 @Composable
 fun PreviewFeaturesAndSettings() {
-    ProfileFeaturesAndSettingsRoute({}, {})
+    ProfileFeaturesAndSettingsRoute(
+        profile = Profile(
+            ProfileInfo(
+                id = 0,
+                name = "Good profile",
+                color = ProfileColor.Color1,
+                icon = ProfileIcon.Icon2,
+                isGateway = false,
+            ),
+            ConnectIntent.Fastest,
+        ),
+        onBack = {},
+        onNext = {}
+    )
 }

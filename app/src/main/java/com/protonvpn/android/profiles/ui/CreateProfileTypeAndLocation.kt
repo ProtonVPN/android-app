@@ -29,11 +29,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
+import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileColor
+import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.profiles.data.ProfileInfo
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun ProfileTypeAndLocationRoute(
-    onNext: () -> Unit,
+    profile: Profile,
+    onNext: (Profile) -> Unit,
     onBack: () -> Unit
 ) {
     Column(
@@ -50,12 +56,24 @@ fun ProfileTypeAndLocationRoute(
             )
         }
 
-        ProfileNavigationButtons(onNext = onNext, onBack = onBack)
+        ProfileNavigationButtons(onNext = { onNext(profile) }, onBack = onBack)
     }
 }
 
 @Preview
 @Composable
 fun PreviewProfileTypeAndLocation() {
-    ProfileTypeAndLocationRoute({}, {})
+   ProfileTypeAndLocationRoute(        profile = Profile(
+       ProfileInfo(
+           id = 0,
+           name = "Good profile",
+           color = ProfileColor.Color1,
+           icon = ProfileIcon.Icon2,
+           isGateway = false,
+       ),
+       ConnectIntent.Fastest,
+   ),
+       onNext = {},
+       onBack = {}
+   )
 }

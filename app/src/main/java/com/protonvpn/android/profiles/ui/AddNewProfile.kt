@@ -40,31 +40,50 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
+import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
-import com.protonvpn.android.profiles.ui.nav.ProfilesNav
+import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 
 
 @Composable
 fun AddEditProfileRoute(
-    profileId: Int? = null,
+    profileId: Long? = null,
     onBackIconClick: () -> Unit,
 ) {
-    AddEditProfileScreen(profileId, onBackIconClick)
+    val viewModel : CreateEditProfileViewModel = hiltViewModel()
+    viewModel.setEditableProfileId(profileId)
+
+    val profileToEdit = viewModel.currentProfile.collectAsStateWithLifecycle().value
+    if (profileToEdit != null) {
+        AddEditProfileScreen(
+            profileToEdit,
+            onBackIconClick,
+            onTempProfileSave = {
+                viewModel.saveTempProfile(it)
+            },
+            onProfileSave = {
+                viewModel.saveProfile(it)
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditProfileScreen(
-    profileId: Int? = null,
-    onBackIconClick: () -> Unit
+    profile: Profile,
+    onBackIconClick: () -> Unit,
+    onTempProfileSave: (Profile) -> Unit,
+    onProfileSave: (Profile) -> Unit,
 ) {
     val navController = rememberNavController()
     val totalSteps = ProfileCreationTarget.entries.size
@@ -93,7 +112,7 @@ fun AddEditProfileScreen(
 
         val currentStep = enumValues<ProfileCreationTarget>()
             .firstOrNull { it.route == currentBackStackEntry.value?.destination?.route }
-            ?.let { target -> enumValues<ProfileCreationTarget>().indexOf(target) + 1 } ?: 0
+            ?.ordinal?.plus(1) ?: 0
 
         Column(modifier = Modifier.padding(paddingValues)) {
             LinearProgressIndicator(
@@ -113,9 +132,13 @@ fun AddEditProfileScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ProfilesNav(navController).NavHost(
-                profileId = profileId,
-                onBackIconClick = onBackIconClick,
+            ProfilesAddEditNav(navController).NavHost(
+                profile = profile,
+                onDone = {
+                    onProfileSave(it)
+                    onBackIconClick()
+                },
+                onTempProfileSave = onTempProfileSave,
                 modifier = Modifier.fillMaxSize()
             )
         }
