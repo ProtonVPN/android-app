@@ -126,12 +126,13 @@ fun SettingsToggleItem(
 @Composable
 fun SettingsRadioItemSmall(
     title: String,
-    description: String,
+    description: String?,
     selected: Boolean,
     onSelected: () -> Unit,
     modifier: Modifier = Modifier,
     horizontalContentPadding: Dp = 0.dp,
     trailingTitleContent: (@Composable () -> Unit)? = null,
+    leadingContent: (@Composable () -> Unit)? = null
 ) {
     Row(
         modifier = modifier
@@ -139,6 +140,9 @@ fun SettingsRadioItemSmall(
             .padding(vertical = 12.dp, horizontal = horizontalContentPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        if (leadingContent != null) {
+            leadingContent()
+        }
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -149,8 +153,14 @@ fun SettingsRadioItemSmall(
                     trailingTitleContent()
                 }
             }
-            VerticalSpacer(height = 4.dp)
-            Text(description, style = ProtonTheme.typography.body2Regular, color = ProtonTheme.colors.textWeak)
+            if (description != null) {
+                VerticalSpacer(height = 4.dp)
+                Text(
+                    description,
+                    style = ProtonTheme.typography.body2Regular,
+                    color = ProtonTheme.colors.textWeak
+                )
+            }
         }
         RadioButton(
             selected = selected,

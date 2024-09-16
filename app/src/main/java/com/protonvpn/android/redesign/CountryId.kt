@@ -51,7 +51,14 @@ value class CountryId private constructor(val countryCode: String) : Parcelable 
 }
 
 @Parcelize
-data class CityStateId(val name: String, val isState: Boolean) : Parcelable
+data class CityStateId(val name: String, val isState: Boolean) : Parcelable {
+    val isFastest: Boolean get() = name == ""
+
+    companion object {
+        val fastestCity = CityStateId("", false)
+        val fastestState = CityStateId("", true)
+    }
+}
 
 @Immutable
 @JvmInline
