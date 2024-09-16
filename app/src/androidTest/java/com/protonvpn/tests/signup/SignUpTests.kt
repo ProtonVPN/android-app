@@ -20,7 +20,6 @@
 package com.protonvpn.tests.signup
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.filters.SdkSuppress
 import com.protonvpn.actions.HumanVerificationRobot
@@ -31,10 +30,10 @@ import com.protonvpn.testRules.CommonRuleChains.realBackendRule
 import com.protonvpn.testsHelper.TestSetup
 import dagger.hilt.android.testing.HiltAndroidTest
 import me.proton.core.auth.test.MinimalSignUpExternalTests
-import me.proton.core.auth.test.robot.AddAccountRobot
 import me.proton.core.auth.test.robot.signup.CongratsRobot
 import me.proton.core.auth.test.robot.signup.SetPasswordRobot
 import me.proton.core.auth.test.robot.signup.SignUpRobot
+import me.proton.core.auth.test.robot.signup.SignupInternal
 import me.proton.core.auth.test.rule.AcceptExternalRule
 import me.proton.core.network.domain.client.ExtraHeaderProvider
 import me.proton.core.util.kotlin.random
@@ -42,19 +41,18 @@ import me.proton.test.fusion.FusionConfig
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.rules.RuleChain
 import javax.inject.Inject
 
 @LargeTest
-@RunWith(AndroidJUnit4::class)
 @SdkSuppress(minSdkVersion = 28) // Signups tests does not work on older versions due to animations bug
 @HiltAndroidTest
 class SignupTests : MinimalSignUpExternalTests {
 
-    lateinit var humanVerificationRobot: HumanVerificationRobot
+    private lateinit var humanVerificationRobot: HumanVerificationRobot
 
     @get:Rule
-    val rule = realBackendRule()
+    val rule: RuleChain = realBackendRule()
         .around(AcceptExternalRule { extraHeaderProvider })
         .around(createAndroidComposeRule<MainActivity>().apply {
             FusionConfig.Compose.testRule.set(this)
@@ -65,19 +63,18 @@ class SignupTests : MinimalSignUpExternalTests {
 
     @Before
     fun setUp() {
-        TestSetup.quark?.jailUnban()
+        TestSetup.quark.jailUnban()
         humanVerificationRobot = HumanVerificationRobot()
     }
 
-    override val isCongratsDisplayed = false
+    private val isCongratsDisplayed = false
 
     @Test
     // TODO Migrate this test to core
-    override fun signupSwitchToInternalAccountHappyPath() {
+    override fun signupSwitchToInternalAccountCreationHappyPath() {
         val testUsername = "test-${String.random()}"
 
-        AddAccountRobot
-            .clickSignUp()
+        SignUpRobot
             .forExternal()
             .clickSwitch()
 
@@ -99,7 +96,31 @@ class SignupTests : MinimalSignUpExternalTests {
         verifyAfter()
     }
 
-    override fun verifyAfter() {
+    @Test
+    override fun signupExternalAccountHappyPath() {
+        val testEmail = "${String.random()}@example.com"
+
+        SignupInternal
+            .apply {
+                robotDisplayed()
+            }
+            .fillEmail(testEmail)
+            .clickNext()
+            .fillCode()
+            .clickVerify()
+
+        SetPasswordRobot
+            .fillAndClickNext(String.random(12))
+
+        CongratsRobot.takeIf { isCongratsDisplayed }?.apply {
+            uiElementsDisplayed()
+            clickStart()
+        }
+
+        verifyAfter()
+    }
+
+    private fun verifyAfter() {
         OnboardingRobot()
             .apply { verify { welcomeScreenIsDisplayed() } }
             .closeWelcomeDialog()
