@@ -891,12 +891,13 @@ dependencies {
     debugImplementation "me.proton.core:configuration-dagger-content-resolver:$core_version"
     releaseImplementation "me.proton.core:configuration-dagger-staticdefaults:$core_version"
 
-    androidTestImplementation "me.proton.core:test-quark:$core_version"
-    androidTestImplementation("me.proton.core:account-recovery-test:$core_version")
     testImplementation "me.proton.core:auth-test:$core_version"
+    androidTestImplementation "me.proton.core:account-recovery-test:$core_version"
     androidTestImplementation "me.proton.core:auth-test:$core_version"
-    androidTestImplementation "me.proton.core:plan-test:$core_version"
+    androidTestImplementation "me.proton.core:human-verification-test:$core_version"
     androidTestImplementation "me.proton.core:notification-test:$core_version"
+    androidTestImplementation "me.proton.core:plan-test:$core_version"
+    androidTestImplementation "me.proton.core:test-quark:$core_version"
     androidTestImplementation "me.proton.core:user-recovery-test:$core_version"
 
 
