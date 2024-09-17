@@ -142,7 +142,7 @@ fun ProfileItemPreview() {
                     name = "Profile name",
                     icon = ProfileIcon.Icon1,
                     color = ProfileColor.Color1,
-                    isGateway = false
+                    gatewayName = null
                 ),
                 isConnected = false,
                 availability = ConnectIntentAvailability.ONLINE,

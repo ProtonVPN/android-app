@@ -69,7 +69,16 @@ fun ProfileBottomSheet(
 ) {
     if (profile != null) {
         SimpleModalBottomSheet(
-            content = { ProfileSheetContent(profile, onProfileEdit, onProfileDelete) },
+            content = {
+                ProfileSheetContent(
+                    profile,
+                    onProfileEdit = { profile ->
+                        onClose()
+                        onProfileEdit(profile)
+                    },
+                    onProfileDelete
+                )
+            },
             onDismissRequest = onClose
         )
     }
@@ -200,7 +209,7 @@ private fun ProfileBottomSheetPreview() {
                     name = "Profile name",
                     icon = ProfileIcon.Icon1,
                     color = ProfileColor.Color1,
-                    isGateway = false
+                    gatewayName = null
                 ),
                 isConnected = false,
                 availability = ConnectIntentAvailability.ONLINE,

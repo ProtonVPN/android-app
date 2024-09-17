@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.profiles.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -27,53 +29,73 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
-import com.protonvpn.android.profiles.data.Profile
-import com.protonvpn.android.profiles.data.ProfileColor
-import com.protonvpn.android.profiles.data.ProfileIcon
-import com.protonvpn.android.profiles.data.ProfileInfo
-import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.redesign.CountryId
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun ProfileTypeAndLocationRoute(
-    profile: Profile,
-    onNext: (Profile) -> Unit,
+    viewModel: CreateEditProfileViewModel,
+    onNext: () -> Unit,
+    onBack: () -> Unit
+) {
+    val state = viewModel.typeAndLocationScreenStateFlow.collectAsStateWithLifecycle().value
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = ProtonTheme.colors.backgroundNorm)
+    ) {
+        if (state != null) {
+            ProfileTypeAndLocation(
+                state = state,
+                onChangeType = viewModel::setType,
+                onNext = { onNext() },
+                onBack = { onBack() },
+                getTypes = { ProfileType.entries } //TODO: get from view model
+            )
+        }
+    }
+}
+
+@Composable
+fun ProfileTypeAndLocation(
+    state: TypeAndLocationScreenState,
+    getTypes: () -> List<ProfileType>,
+    onChangeType: (ProfileType) -> Unit,
+    onNext: () -> Unit,
     onBack: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
             .imePadding()
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = stringResource(id = R.string.create_profile_type_and_location_title),
                 color = ProtonTheme.colors.textNorm,
-                style = ProtonTheme.typography.body1Bold
+                style = ProtonTheme.typography.body1Bold,
+                modifier = Modifier.padding(vertical = 16.dp)
             )
+            ProfileTypeItem(state.type, getTypes, onChangeType)
         }
 
-        ProfileNavigationButtons(onNext = { onNext(profile) }, onBack = onBack)
+        ProfileNavigationButtons(onNext = onNext, onBack = onBack)
     }
 }
 
 @Preview
 @Composable
 fun PreviewProfileTypeAndLocation() {
-   ProfileTypeAndLocationRoute(        profile = Profile(
-       ProfileInfo(
-           id = 0,
-           name = "Good profile",
-           color = ProfileColor.Color1,
-           icon = ProfileIcon.Icon2,
-           isGateway = false,
-       ),
-       ConnectIntent.Fastest,
-   ),
+   ProfileTypeAndLocation(
        onNext = {},
-       onBack = {}
+       onBack = {},
+       state = TypeAndLocationScreenState.Standard(CountryId.fastest, null, null),
+       onChangeType = {},
+       getTypes = { ProfileType.entries }
    )
 }

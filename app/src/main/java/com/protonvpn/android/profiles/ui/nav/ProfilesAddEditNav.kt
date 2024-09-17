@@ -22,8 +22,8 @@ package com.protonvpn.android.profiles.ui.nav
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.ui.AddEditProfileRoute
+import com.protonvpn.android.profiles.ui.CreateEditProfileViewModel
 import com.protonvpn.android.profiles.ui.CreateNameRoute
 import com.protonvpn.android.profiles.ui.ProfileFeaturesAndSettingsRoute
 import com.protonvpn.android.profiles.ui.ProfileTypeAndLocationRoute
@@ -59,44 +59,41 @@ object AddEditProfileScreen : Screen<AddEditProfileScreen.ProfileCreationArgs, R
         val editingProfileId: Long? = null
     )
 
-    fun SafeNavGraphBuilder<RootNav>.addEditProfile(onBackIconClick: () -> Unit,) = addToGraphWithSlideAnim(this) { entry ->
+    fun SafeNavGraphBuilder<RootNav>.addEditProfile(onDismiss: () -> Unit,) = addToGraphWithSlideAnim(this) { entry ->
         val profileArgs = AddEditProfileScreen.getArgs<ProfileCreationArgs>(entry)
-        AddEditProfileRoute(profileArgs.editingProfileId, onBackIconClick)
+        AddEditProfileRoute(profileArgs.editingProfileId, onDismiss)
     }
 }
 
 object CreateProfileNameScreen : ScreenNoArg<ProfilesAddEditNav>("createProfileName") {
 
     fun SafeNavGraphBuilder<ProfilesAddEditNav>.createProfileName(
-        profile: Profile,
-        onNext: (Profile) -> Unit,
+        viewModel: CreateEditProfileViewModel,
+        onNext: () -> Unit,
     ) = addToGraph(this) {
-        CreateNameRoute(
-            profile = profile,
-            onNext = onNext
-        )
+        CreateNameRoute(viewModel, onNext = onNext)
     }
 }
 
 object ProfileTypeAndLocationScreen : ScreenNoArg<ProfilesAddEditNav>("profileTypeAndLocation") {
 
     fun SafeNavGraphBuilder<ProfilesAddEditNav>.profileTypeAndLocationScreen(
-        profile: Profile,
-        onNext: (Profile) -> Unit,
+        viewModel: CreateEditProfileViewModel,
+        onNext: () -> Unit,
         onBack: () -> Unit
     ) = addToGraph(this) {
-        ProfileTypeAndLocationRoute(profile = profile, onNext = onNext, onBack = onBack)
+        ProfileTypeAndLocationRoute(viewModel, onNext = onNext, onBack = onBack)
     }
 }
 
 object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditNav>("profileFeaturesAndSettings") {
 
     fun SafeNavGraphBuilder<ProfilesAddEditNav>.profileFeaturesAndSettingsScreen(
-        profile: Profile,
-        onNext: (Profile) -> Unit,
+        viewModel: CreateEditProfileViewModel,
+        onNext: () -> Unit,
         onBack: () -> Unit
     ) = addToGraph(this) {
-        ProfileFeaturesAndSettingsRoute(profile = profile, onNext = onNext, onBack = onBack)
+        ProfileFeaturesAndSettingsRoute(viewModel, onNext = onNext, onBack = onBack)
     }
 }
 enum class ProfileCreationTarget(val route: String) {
@@ -111,9 +108,8 @@ class ProfilesAddEditNav(
 
     @Composable
     fun NavHost(
-        profile: Profile,
-        onTempProfileSave: (Profile) -> Unit,
-        onDone: (Profile) -> Unit,
+        viewModel: CreateEditProfileViewModel,
+        onDone: () -> Unit,
         modifier: Modifier,
     ) {
         SafeNavHost(
@@ -121,27 +117,19 @@ class ProfilesAddEditNav(
             startScreen = CreateProfileNameScreen,
         ) {
             createProfileName(
-                profile = profile,
-                onNext = {
-                    onTempProfileSave(it)
-                    navigateInternal(ProfileTypeAndLocationScreen)
-                },
+                viewModel,
+                onNext = { navigateInternal(ProfileTypeAndLocationScreen) },
             )
             profileTypeAndLocationScreen(
-                profile = profile,
-                onNext = {
-                    onTempProfileSave(it)
-                    navigateInternal(ProfileFeaturesAndSettingsScreen)
-                },
-                onBack = { popBackStack() }
+                viewModel,
+                onNext = { navigateInternal(ProfileFeaturesAndSettingsScreen) },
+                onBack = ::popBackStack
             )
 
             profileFeaturesAndSettingsScreen(
-                profile = profile,
-                onNext = {
-                    onDone(it)
-                },
-                onBack = { popBackStack() }
+                viewModel,
+                onNext = onDone,
+                onBack = ::popBackStack
             )
         }
     }

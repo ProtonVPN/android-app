@@ -31,17 +31,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
-import com.protonvpn.android.profiles.data.Profile
-import com.protonvpn.android.profiles.data.ProfileColor
-import com.protonvpn.android.profiles.data.ProfileIcon
-import com.protonvpn.android.profiles.data.ProfileInfo
-import com.protonvpn.android.redesign.vpn.ConnectIntent
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun ProfileFeaturesAndSettingsRoute(
-    profile: Profile,
-    onNext: (Profile) -> Unit,
+    viewModel: CreateEditProfileViewModel,
+    onNext: () -> Unit,
     onBack: () -> Unit
 ) {
     Column(
@@ -65,7 +60,7 @@ fun ProfileFeaturesAndSettingsRoute(
         }
 
         ProfileNavigationButtons(
-            onNext = { onNext(profile) },
+            onNext = onNext,
             onBack = onBack,
             onNextText = stringResource(id = R.string.create_profile_button_done)
         )
@@ -75,18 +70,10 @@ fun ProfileFeaturesAndSettingsRoute(
 @Preview
 @Composable
 fun PreviewFeaturesAndSettings() {
+    /*TODO: fix Preview
     ProfileFeaturesAndSettingsRoute(
-        profile = Profile(
-            ProfileInfo(
-                id = 0,
-                name = "Good profile",
-                color = ProfileColor.Color1,
-                icon = ProfileIcon.Icon2,
-                isGateway = false,
-            ),
-            ConnectIntent.Fastest,
-        ),
         onBack = {},
         onNext = {}
     )
+     */
 }

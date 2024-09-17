@@ -35,57 +35,47 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
-import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 
-
 @Composable
 fun AddEditProfileRoute(
     profileId: Long? = null,
-    onBackIconClick: () -> Unit,
+    onDismiss: () -> Unit,
 ) {
     val viewModel : CreateEditProfileViewModel = hiltViewModel()
-    viewModel.setEditableProfileId(profileId)
+    viewModel.setEditedProfileId(profileId)
 
-    val profileToEdit = viewModel.currentProfile.collectAsStateWithLifecycle().value
-    if (profileToEdit != null) {
-        AddEditProfileScreen(
-            profileToEdit,
-            onBackIconClick,
-            onTempProfileSave = {
-                viewModel.saveTempProfile(it)
-            },
-            onProfileSave = {
-                viewModel.saveProfile(it)
-            }
-        )
-    }
+    AddEditProfileScreen(
+        viewModel,
+        onDismiss,
+        onProfileSave = viewModel::save
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditProfileScreen(
-    profile: Profile,
-    onBackIconClick: () -> Unit,
-    onTempProfileSave: (Profile) -> Unit,
-    onProfileSave: (Profile) -> Unit,
+    viewModel: CreateEditProfileViewModel,
+    onDismiss: () -> Unit,
+    onProfileSave: () -> Unit,
 ) {
     val navController = rememberNavController()
+    val navigator = remember { ProfilesAddEditNav(navController) }
     val totalSteps = ProfileCreationTarget.entries.size
 
     Scaffold(
@@ -98,7 +88,7 @@ fun AddEditProfileScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBackIconClick) {
+                    IconButton(onClick = onDismiss) {
                         Icon(
                             painter = painterResource(id = me.proton.core.presentation.R.drawable.ic_proton_cross),
                             contentDescription = stringResource(id = R.string.accessibility_back)
@@ -132,13 +122,12 @@ fun AddEditProfileScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ProfilesAddEditNav(navController).NavHost(
-                profile = profile,
+            navigator.NavHost(
+                viewModel,
                 onDone = {
-                    onProfileSave(it)
-                    onBackIconClick()
+                    onProfileSave()
+                    onDismiss()
                 },
-                onTempProfileSave = onTempProfileSave,
                 modifier = Modifier.fillMaxSize()
             )
         }

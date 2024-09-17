@@ -77,6 +77,8 @@ enum class NatType(
         descriptionRes = R.string.settings_advanced_nat_type_moderate_description
     );
 
+    fun toRandomizedNat() = this == Strict
+
     companion object {
         fun fromRandomizedNat(randomizedNat: Boolean) = if (randomizedNat) Strict else Moderate
     }

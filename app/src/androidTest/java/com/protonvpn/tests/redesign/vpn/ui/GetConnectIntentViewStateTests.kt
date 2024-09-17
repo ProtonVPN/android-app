@@ -469,7 +469,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
                 name = name,
                 color = ProfileColor.Color1,
                 icon = ProfileIcon.Icon1,
-                isGateway = false,
+                gatewayName = null,
             ),
             connectIntent = intent
         )
