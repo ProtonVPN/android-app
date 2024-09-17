@@ -110,7 +110,7 @@ fun ConnectIntentIcon(
         is ConnectIntentPrimaryLabel.Gateway ->
             GatewayIndicator(label.country, modifier = modifier)
         is ConnectIntentPrimaryLabel.Profile ->
-            ProfileIcon(label.country, label.icon, label.color, label.isGateway, modifier = modifier)
+            ProfileIconWithIndicator(label.country, label.icon, label.color, label.isGateway, modifier = modifier)
     }
 }
 
@@ -179,15 +179,13 @@ const val profileIconOrgHue = 4.6562896f
 
 @Composable
 fun ProfileIcon(
-    country: CountryId?,
+    modifier: Modifier = Modifier,
     icon: ProfileIcon,
     color: ProfileColor,
-    isGateway: Boolean,
-    modifier: Modifier = Modifier
+    frontContent: @Composable (() -> Unit)? = null,
 ) {
-    Box(modifier = modifier
-        .size(48.dp)
-        .padding(vertical = 4.dp)
+    Box(
+        modifier = modifier
     ) {
         val hueRotationMatrix = remember(color) {
             val newHue = color.toColor().let { rgbToHueInRadians(it.red, it.green, it.blue) }
@@ -199,20 +197,44 @@ fun ProfileIcon(
             contentDescription = null,
             modifier = Modifier
                 .size(width = 36.dp, height = 24.dp)
-                .align(Alignment.TopStart),
+                .align(if (frontContent != null) Alignment.TopStart else Alignment.Center),
             colorFilter = ColorFilter.colorMatrix(
                 ColorMatrix(hueRotationMatrix)
             )
         )
 
-        val frontModifier = Modifier
-            .size(width = 30.dp, height = 20.dp)
-            .align(Alignment.BottomEnd)
-        if (isGateway)
-            GatewayIndicator(countryFlag = null, modifier = frontModifier)
-        else
-            Flag(exitCountry = country ?: CountryId.fastest, modifier = frontModifier, opaque = true)
+        frontContent?.let {
+            Box(
+                modifier = Modifier
+                    .size(width = 30.dp, height = 20.dp)
+                    .align(Alignment.BottomEnd)
+            ) {
+                it()
+            }
+        }
     }
+}
+
+@Composable
+fun ProfileIconWithIndicator(
+    country: CountryId?,
+    icon: ProfileIcon,
+    color: ProfileColor,
+    isGateway: Boolean,
+    modifier: Modifier = Modifier
+) {
+    ProfileIcon(
+        icon = icon,
+        color = color,
+        modifier = modifier.size(48.dp).padding(vertical = 4.dp),
+        frontContent = {
+            if (isGateway) {
+                GatewayIndicator(countryFlag = null)
+            } else {
+                Flag(exitCountry = country ?: CountryId.fastest, opaque = true)
+            }
+        }
+    )
 }
 
 @Composable
@@ -455,12 +477,18 @@ private fun DpOffset.toOffset(density: Density): Offset = with(density) {
 @Composable
 private fun ProfileIconViewPreview() {
     VpnTheme {
-        ProfileIcon(
-            country = CountryId("US"),
-            icon = ProfileIcon.Icon2,
-            color = ProfileColor.Color4,
-            isGateway = false
-        )
+        Column {
+            ProfileIconWithIndicator(
+                country = CountryId("US"),
+                icon = ProfileIcon.Icon2,
+                color = ProfileColor.Color4,
+                isGateway = false
+            )
+            ProfileIcon(
+                icon = ProfileIcon.Icon2,
+                color = ProfileColor.Color4,
+            )
+        }
     }
 }
 

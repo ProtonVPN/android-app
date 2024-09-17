@@ -42,7 +42,6 @@ data class Profile(
 )
 
 fun Profile.toProfileEntity(userId: UserId, createdAt: Long) = ProfileEntity(
-    id = info.id,
     name = info.name,
     color = info.color,
     connectIntentData = connectIntent.toData(),

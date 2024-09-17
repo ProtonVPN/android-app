@@ -25,13 +25,13 @@ import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 
 fun ProfileIcon.toDrawableRes() = when (this) {
-    ProfileIcon.Icon1 -> R.drawable.profile_gaming_icon
+    ProfileIcon.Icon1 -> R.drawable.profile_bolt_icon
     ProfileIcon.Icon2 -> R.drawable.profile_streaming_icon
     ProfileIcon.Icon3 -> R.drawable.profile_shield_icon
     ProfileIcon.Icon4 -> R.drawable.profile_eye_icon
     ProfileIcon.Icon5 -> R.drawable.profile_anonymous_icon
     ProfileIcon.Icon6 -> R.drawable.profile_terminal_icon
-    ProfileIcon.Icon7 -> R.drawable.profile_bolt_icon
+    ProfileIcon.Icon7 -> R.drawable.profile_gaming_icon
     ProfileIcon.Icon8 -> R.drawable.profile_download_icon
     ProfileIcon.Icon9 -> R.drawable.profile_business_icon
     ProfileIcon.Icon10 -> R.drawable.profile_shopping_icon
