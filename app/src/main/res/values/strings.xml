@@ -1398,8 +1398,6 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>
-    <string name="profile_bottom_sheet_nat_title" translatable="false">NAT</string>
-    <string name="profile_bottom_sheet_lan_title" translatable="false">LAN</string>
     <string name="create_profile_pick_country_title">Country</string>
     <string name="create_profile_pick_type_title">Type</string>
     <string name="create_profile_type_standard">Standard</string>
