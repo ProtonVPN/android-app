@@ -22,7 +22,6 @@ package com.protonvpn.android.redesign.app.ui.nav
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.protonvpn.android.profiles.ui.ProfileViewItem
 import com.protonvpn.android.profiles.ui.nav.AddEditProfileScreen.addEditProfile
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
@@ -62,7 +61,7 @@ class RootNav(
                     mainNav.navigate(MainTarget.Home)
                 }
             )
-            addEditProfile(onBackIconClick = ::popBackStack)
+            addEditProfile(onDismiss = ::popBackStack)
 
             connectionStatus(onClosePanel = ::popBackStack)
 

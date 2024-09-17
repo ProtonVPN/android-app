@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.profiles.ui
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,6 +38,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,20 +62,11 @@ import com.protonvpn.android.redesign.vpn.ui.label
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
-enum class ProfileType(
-    @StringRes val nameRes: Int,
-    @DrawableRes val iconRes: Int,
-) {
-    Standard(R.string.create_profile_type_standard, CoreR.drawable.ic_proton_earth),
-    SecureCore(R.string.create_profile_type_secure_core, CoreR.drawable.ic_proton_locks),
-    P2P(R.string.create_profile_type_p2p, CoreR.drawable.ic_proton_arrow_right_arrow_left),
-    Gateway(R.string.create_profile_gateway, CoreR.drawable.ic_proton_servers),
-}
-
 @Composable
 fun ProfileTypeItem(
     currentValue: ProfileType,
-    onClick: () -> Unit,
+    getTypes: () -> List<ProfileType>,
+    onChangeType: (ProfileType) -> Unit,
 ) {
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_type_title,
@@ -81,15 +75,26 @@ fun ProfileTypeItem(
             Icon(
                 painterResource(currentValue.iconRes),
                 contentDescription = null,
-                modifier = Modifier.padding(horizontal = 2.dp).size(20.dp)
+                modifier = Modifier
+                    .padding(horizontal = 2.dp)
+                    .size(20.dp)
             )
-        },
-        onClick = onClick
+        }, { closeModal ->
+            PickProfileType(
+                currentValue,
+                allTypes = getTypes(),
+                onSelect = {
+                    onChangeType(it)
+                    closeModal()
+                },
+                onDismissRequest = closeModal
+            )
+        }
     )
 }
 
 @Composable
-fun PickProfileType(
+private fun PickProfileType(
     selectedProfileType: ProfileType,
     allTypes: List<ProfileType>,
     onSelect: (ProfileType) -> Unit,
@@ -124,18 +129,29 @@ fun PickProfileType(
 @Composable
 fun ProfileCountryItem(
     currentValue: CountryId,
+    getCountries: () -> List<CountryId>,
     onClick: () -> Unit,
 ) {
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_country_title,
         valueText = currentValue.label(),
         iconContent = { Flag(exitCountry = currentValue, modifier = Modifier.size(24.dp, 16.dp)) },
-        onClick = onClick
+        modal = { closeModal ->
+            PickCountry(
+                selectedCountry = currentValue,
+                allCountries = getCountries(),
+                onSelect = {
+                    onClick()
+                    closeModal()
+                },
+                onDismissRequest = closeModal
+            )
+        }
     )
 }
 
 @Composable
-fun PickCountry(
+private fun PickCountry(
     selectedCountry: CountryId,
     allCountries: List<CountryId>,
     onSelect: (CountryId) -> Unit,
@@ -153,7 +169,9 @@ fun PickCountry(
                     selected = country == selectedCountry,
                     onSelected = { onSelect(country) },
                     leadingContent = {
-                        Flag(exitCountry = selectedCountry, modifier = Modifier.padding(end = 12.dp).size(24.dp, 16.dp))
+                        Flag(exitCountry = selectedCountry, modifier = Modifier
+                            .padding(end = 12.dp)
+                            .size(24.dp, 16.dp))
                     }
                 )
             }
@@ -161,14 +179,10 @@ fun PickCountry(
     }
 }
 
-data class CityStateInfo(
-    val name: String?,
-    val id: CityStateId,
-)
-
 @Composable
 fun ProfileCityOrStateItem(
-    currentValue: CityStateInfo,
+    currentValue: TypeAndLocationScreenState.CityOrState,
+    getAllCityStates: () -> List<TypeAndLocationScreenState.CityOrState>,
     onClick: () -> Unit,
 ) {
     val isState = currentValue.id.isState
@@ -186,10 +200,23 @@ fun ProfileCityOrStateItem(
                     else CoreR.drawable.ic_proton_map_pin
                 ),
                 contentDescription = null,
-                modifier = Modifier.padding(horizontal = 2.dp).size(20.dp)
+                modifier = Modifier
+                    .padding(horizontal = 2.dp)
+                    .size(20.dp)
             )
         },
-        onClick = onClick
+        modal = { closeModal ->
+            PickCityOrState(
+                isState = isState,
+                selectedCityState = currentValue,
+                allCityStates = getAllCityStates(),
+                onSelect = {
+                    onClick()
+                    closeModal()
+                },
+                onDismissRequest = closeModal
+            )
+        }
     )
 }
 
@@ -197,9 +224,9 @@ fun ProfileCityOrStateItem(
 @Composable
 fun PickCityOrState(
     isState: Boolean,
-    selectedCityState: CityStateInfo,
-    allCityStates: List<CityStateInfo>,
-    onSelect: (CityStateInfo) -> Unit,
+    selectedCityState: TypeAndLocationScreenState.CityOrState,
+    allCityStates: List<TypeAndLocationScreenState.CityOrState>,
+    onSelect: (TypeAndLocationScreenState.CityOrState) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     BaseItemPickerDialog(
@@ -234,23 +261,14 @@ fun PickCityOrState(
     }
 }
 
-data class ServerInfo(
-    val name: String?,
-    val id: String,
-    val isFastest: Boolean,
-    val isGateway: Boolean,
-)
-
 @Composable
-fun ProfileServerOrGatewayInfo(
-    serverInfo: ServerInfo,
+fun ProfileServerInfo(
+    serverInfo: TypeAndLocationScreenState.Server,
+    getAllServers: () -> List<TypeAndLocationScreenState.Server>,
     onClick: () -> Unit,
 ) {
-    val isGateway = serverInfo.isGateway
     ProfileValueItem(
-        labelRes =
-            if (isGateway) R.string.create_profile_pick_gateway_title
-            else R.string.create_profile_pick_server_title,
+        labelRes = R.string.create_profile_pick_server_title,
         valueText = serverInfo.name ?: stringResource(R.string.create_profile_fastest_server),
         iconContent = {
             Icon(
@@ -259,25 +277,35 @@ fun ProfileServerOrGatewayInfo(
                     else CoreR.drawable.ic_proton_servers
                 ),
                 contentDescription = null,
-                modifier = Modifier.padding(horizontal = 2.dp).size(20.dp)
+                modifier = Modifier
+                    .padding(horizontal = 2.dp)
+                    .size(20.dp)
             )
         },
-        onClick = onClick,
+        modal = { closeModal ->
+            PickServer(
+                selectedServer = serverInfo,
+                allServers = getAllServers(),
+                onSelect = {
+                    onClick()
+                    closeModal()
+                },
+                onDismissRequest = closeModal
+            )
+        }
     )
 }
 
 //TODO: use check instead of radio
 @Composable
-fun PickServerOrGateway(
-    isGateway: Boolean,
-    selectedServer: ServerInfo,
-    allServers: List<ServerInfo>,
-    onSelect: (ServerInfo) -> Unit,
+fun PickServer(
+    selectedServer: TypeAndLocationScreenState.Server,
+    allServers: List<TypeAndLocationScreenState.Server>,
+    onSelect: (TypeAndLocationScreenState.Server) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     BaseItemPickerDialog(
-        if (isGateway) R.string.create_profile_pick_gateway_title
-        else R.string.create_profile_pick_server_title,
+        R.string.create_profile_pick_server_title,
         onDismissRequest = onDismissRequest
     ) {
         LazyColumn {
@@ -317,10 +345,21 @@ fun ProfileNetShieldItem(
             Image(
                 painterResource(if (value) R.drawable.feature_netshield_on else R.drawable.ic_netshield_off),
                 contentDescription = null,
-                modifier = Modifier.padding(horizontal = 2.dp).size(26.67.dp)
+                modifier = Modifier
+                    .padding(horizontal = 2.dp)
+                    .size(26.67.dp)
             )
         },
-        onClick = onClick
+        modal = { closeModal ->
+            PickNetShield(
+                selected = value,
+                onSelect = {
+                    onClick()
+                    closeModal()
+                },
+                onDismissRequest = closeModal
+            )
+        }
     )
 }
 
@@ -359,10 +398,11 @@ fun ProfileValueItem(
     @StringRes labelRes: Int,
     valueText: String,
     iconContent: (@Composable RowScope.() -> Unit)?,
-    onClick: () -> Unit,
+    modal: @Composable (() -> Unit) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+    var showDialog by rememberSaveable { mutableStateOf(false) }
+    Column(modifier = modifier.padding(vertical = 8.dp)) {
         Text(
             text = stringResource(labelRes),
             style = ProtonTheme.typography.captionMedium,
@@ -372,7 +412,7 @@ fun ProfileValueItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(ProtonTheme.shapes.medium)
-                .clickable(onClick = onClick)
+                .clickable(onClick = { showDialog = true })
                 .background(ProtonTheme.colors.backgroundSecondary)
                 .padding(vertical = 12.dp, horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -396,6 +436,8 @@ fun ProfileValueItem(
         }
         Spacer(modifier = Modifier.height(20.dp))
     }
+    if (showDialog)
+        modal { showDialog = false }
 }
 
 @Composable
@@ -430,17 +472,17 @@ fun BaseItemPickerDialog(
 
 @Preview
 @Composable
-fun ProfileTypeItemPreview() {
+private fun ProfileTypeItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
-            ProfileTypeItem(currentValue = ProfileType.Standard, onClick = {})
+            ProfileTypeItem(currentValue = ProfileType.Standard, { emptyList()  }, {})
         }
     }
 }
 
 @Preview
 @Composable
-fun PickProfileTypePreview() {
+private fun PickProfileTypePreview() {
     Surface {
         VpnTheme(isDark = true) {
             PickProfileType(
@@ -455,11 +497,12 @@ fun PickProfileTypePreview() {
 
 @Preview
 @Composable
-fun ProfileCountryItemPreview() {
+private fun ProfileCountryItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
             ProfileCountryItem(
                 CountryId("PL"),
+                { emptyList() },
                 {}
             )
         }
@@ -468,7 +511,7 @@ fun ProfileCountryItemPreview() {
 
 @Preview
 @Composable
-fun PickCountryDialogPreview() {
+private fun PickCountryDialogPreview() {
     Surface {
         VpnTheme(isDark = true) {
             PickCountry(
@@ -487,11 +530,12 @@ fun PickCountryDialogPreview() {
 
 @Preview
 @Composable
-fun ProfileCityOrStateItemPreview() {
+private fun ProfileCityOrStateItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
             ProfileCityOrStateItem(
-                CityStateInfo("New York", CityStateId("NY", isState = false)),
+                TypeAndLocationScreenState.CityOrState("New York", CityStateId("NY", isState = false)),
+                { emptyList() },
                 {}
             )
         }
@@ -500,17 +544,17 @@ fun ProfileCityOrStateItemPreview() {
 
 @Preview
 @Composable
-fun PickCityStatePreview() {
+private fun PickCityStatePreview() {
     VpnTheme(isDark = true) {
         Surface {
             PickCityOrState(
                 isState = false,
-                selectedCityState = CityStateInfo("New York", CityStateId("NY", isState = false)),
+                selectedCityState = TypeAndLocationScreenState.CityOrState("New York", CityStateId("NY", isState = false)),
                 allCityStates = listOf(
-                    CityStateInfo(null, CityStateId("", isState = false)),
-                    CityStateInfo("New York", CityStateId("NY", isState = false)),
-                    CityStateInfo("Los Angeles", CityStateId("CA", isState = false)),
-                    CityStateInfo("Chicago", CityStateId("IL", isState = false)),
+                    TypeAndLocationScreenState.CityOrState(null, CityStateId("", isState = false)),
+                    TypeAndLocationScreenState.CityOrState("New York", CityStateId("NY", isState = false)),
+                    TypeAndLocationScreenState.CityOrState("Los Angeles", CityStateId("CA", isState = false)),
+                    TypeAndLocationScreenState.CityOrState("Chicago", CityStateId("IL", isState = false)),
                 ),
                 {},
                 {}
@@ -521,11 +565,12 @@ fun PickCityStatePreview() {
 
 @Preview
 @Composable
-fun ProfileServerOrGatewayItemPreview() {
+private fun ProfileServerOrGatewayItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
-            ProfileServerOrGatewayInfo(
-                ServerInfo("US-TX#1", "1", isFastest = false, isGateway = false),
+            ProfileServerInfo(
+                TypeAndLocationScreenState.Server("US-TX#1", "1"),
+                { emptyList() },
                 {}
             )
         }
@@ -534,16 +579,15 @@ fun ProfileServerOrGatewayItemPreview() {
 
 @Preview
 @Composable
-fun PickServerPreview() {
+private fun PickServerPreview() {
     VpnTheme(isDark = true) {
         Surface {
-            PickServerOrGateway(
-                isGateway = false,
-                ServerInfo("US-TX#1", "1", isFastest = false, isGateway = false),
+            PickServer(
+                TypeAndLocationScreenState.Server("US-TX#1", "1"),
                 listOf(
-                    ServerInfo(null, "0", isFastest = true, isGateway = false),
-                    ServerInfo("US-TX#1", "1", isFastest = false, isGateway = false),
-                    ServerInfo("US-TX#2", "2", isFastest = false, isGateway = false),
+                    TypeAndLocationScreenState.Server(null, "0"),
+                    TypeAndLocationScreenState.Server("US-TX#1", "1"),
+                    TypeAndLocationScreenState.Server("US-TX#2", "2"),
                 ),
                 {},
                 {}
@@ -554,7 +598,7 @@ fun PickServerPreview() {
 
 @Preview
 @Composable
-fun ProfileNetShieldItemPreview() {
+private fun ProfileNetShieldItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
             ProfileNetShieldItem(
@@ -567,7 +611,7 @@ fun ProfileNetShieldItemPreview() {
 
 @Preview
 @Composable
-fun PickNetShieldPreview() {
+private fun PickNetShieldPreview() {
     VpnTheme(isDark = true) {
         Surface {
             PickNetShield(

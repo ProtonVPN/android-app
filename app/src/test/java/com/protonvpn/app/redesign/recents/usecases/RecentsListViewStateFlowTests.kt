@@ -408,7 +408,7 @@ class RecentsListViewStateFlowTests {
         val RecentIceland = RecentConnection.UnnamedRecent(4, false, ConnectIntentIceland)
 
         val Profile = Profile(
-            ProfileInfo(1, "MyProfile", ProfileColor.Color1, ProfileIcon.Icon1, isGateway = false),
+            ProfileInfo(1, "MyProfile", ProfileColor.Color1, ProfileIcon.Icon1, gatewayName = null),
             ConnectIntent.FastestInCountry(CountryId.fastest, emptySet(), profileId = 1)
         )
         val ProfileRecent = RecentConnection.ProfileRecent(5, false, Profile)

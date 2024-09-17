@@ -1279,7 +1279,8 @@
     <!-- Profile creation -->
     <string name="create_profile_title">Create new profile</string>
     <string name="create_profile_name_hint">Profile name</string>
-    <string name="create_profile_name_error">Please enter profile name</string>
+    <string name="create_profile_name_error_empty">Enter a profile name</string>
+    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
     <string name="create_profile_type_and_location_title">Select connection type and location</string>
     <string name="create_profile_features_and_settings_title">Features and settings</string>
     <string name="create_profile_features_and_settings_description">The following values are recommended</string>
