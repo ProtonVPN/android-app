@@ -53,32 +53,4 @@ public class SavedProfilesV3 implements Serializable {
         defaultProfiles.getProfileList().add(random);
         return defaultProfiles;
     }
-
-    public SavedProfilesV3 migrateProfiles(AppFeaturesPrefs appFeaturesPrefs) {
-        List<Profile> migrated = new ArrayList<Profile>(profileList.size());
-        boolean hasChanged = false;
-        boolean ikeV2Migration = false;
-        for (Profile profile : profileList) {
-            final UUID profileId;
-            if (profile.getWrapper().isPreBakedFastest())
-                profileId = FASTEST_PROFILE_ID;
-            else if (profile.getWrapper().isPreBakedRandom())
-                profileId = RANDOM_PROFILE_ID;
-            else
-                profileId = null;
-            Profile migratedProfile = profile.migrateFromOlderVersion(profileId);
-            if (migratedProfile.isUnsupportedIKEv2()) {
-                migratedProfile = migratedProfile.migrateProtocol();
-                ikeV2Migration = true;
-            }
-            hasChanged |= migratedProfile != profile;
-            migrated.add(migratedProfile);
-        }
-        SavedProfilesV3 migratedProfiles = new SavedProfilesV3(migrated);
-        if (hasChanged)
-            Storage.save(migratedProfiles, SavedProfilesV3.class);
-        if (ikeV2Migration)
-            appFeaturesPrefs.setShowIKEv2Migration(true);
-        return migratedProfiles;
-    }
 }

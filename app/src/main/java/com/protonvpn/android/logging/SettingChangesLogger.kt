@@ -22,7 +22,6 @@ package com.protonvpn.android.logging
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.toLogList
-import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.withPrevious
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -35,11 +34,10 @@ import javax.inject.Singleton
 class SettingChangesLogger @Inject constructor(
     mainScope: CoroutineScope,
     effectiveUserSettings: EffectiveCurrentUserSettings,
-    private val profileManager: ProfileManager
 ) {
     init {
         effectiveUserSettings.effectiveSettings
-            .map { it.toLogList(profileManager) }
+            .map { it.toLogList() }
             .withPrevious()
             .onEach { (old, new) ->
                 val changeLogLines = new.filterNot { old.contains(it) }
@@ -50,6 +48,5 @@ class SettingChangesLogger @Inject constructor(
             .launchIn(mainScope)
     }
 
-    fun getCurrentSettingsForLog(settings: LocalUserSettings) =
-        settings.toLogList(profileManager).joinToString("\n")
+    fun getCurrentSettingsForLog(settings: LocalUserSettings) = settings.toLogList().joinToString("\n")
 }

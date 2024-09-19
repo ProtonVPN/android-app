@@ -23,7 +23,6 @@ import android.os.Parcelable
 import com.protonvpn.android.logging.itemCountToLog
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.netshield.NetShieldProtocol
-import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.userstorage.UUIDSerializer
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.parcelize.Parcelize
@@ -95,9 +94,8 @@ data class LocalUserSettings(
 }
 
 // Provide log strings for all settings.
-fun LocalUserSettings.toLogList(profileManager: ProfileManager): List<String> {
+fun LocalUserSettings.toLogList(): List<String> {
     val regularSettings = listOf(
-        "Default profile ${profileManager.findProfile(defaultProfileId)?.toLog(this)}",
         "LAN connections: ${lanConnections.toLog()}",
         "MTU size: $mtuSize bytes",
         "NetShield: $netShield",
