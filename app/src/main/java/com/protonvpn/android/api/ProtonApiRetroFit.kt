@@ -73,7 +73,6 @@ open class ProtonApiRetroFit @Inject constructor(
                 mapOf("If-Modified-Since" to httpHeaderDateFormatter.format(Instant.ofEpochMilli(lastModified))),
             lang,
             protocols.joinToString(","),
-            withPartners = true,
             withState = true,
             if (freeOnly) VpnUser.FREE_TIER else null
         )
@@ -105,12 +104,6 @@ open class ProtonApiRetroFit @Inject constructor(
 
     open suspend fun getConnectingDomain(domainId: String) =
         manager { getServerDomain(domainId) }
-
-    suspend fun getFeature(feature: String) =
-        manager { getFeature(feature) }
-
-    open suspend fun getPartnerships() =
-        manager { getPartnerships() }
 
     open suspend fun getVPNInfo(sessionId: SessionId? = null) =
         manager(sessionId) { getVPNInfo() }

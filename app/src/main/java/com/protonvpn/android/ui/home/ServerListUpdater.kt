@@ -44,7 +44,6 @@ import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
-import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
@@ -99,7 +98,6 @@ class ServerListUpdater @Inject constructor(
     userPlanManager: UserPlanManager,
     private val prefs: ServerListUpdaterPrefs,
     private val getNetZone: GetNetZone,
-    private val partnershipsRepository: PartnershipsRepository,
     private val guestHole: GuestHole,
     private val periodicUpdateManager: PeriodicUpdateManager,
     @IsLoggedIn private val loggedIn: Flow<Boolean>,
@@ -328,11 +326,7 @@ class ServerListUpdater @Inject constructor(
 
         val serverListResult = coroutineScope {
             guestHole.runWithGuestHoleFallback {
-                updateServerListInternal(netzone = netzone, lang = lang).also { serverListResult ->
-                    if (serverListResult.apiResult.havePartnership()) {
-                        partnershipsRepository.refresh()
-                    }
-                }
+                updateServerListInternal(netzone = netzone, lang = lang)
             }
         }
 
@@ -356,9 +350,6 @@ class ServerListUpdater @Inject constructor(
         }
         return serverListResult.apiResult
     }
-
-    private fun ApiResult<ServerList?>.havePartnership(): Boolean =
-        this is ApiResult.Success && value?.serverList?.any { it.isPartneshipServer } == true
 
     private fun migrateIpAddress() {
         if (prefs.ipAddress.isEmpty()) {

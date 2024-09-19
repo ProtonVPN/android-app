@@ -31,7 +31,6 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
-import com.protonvpn.android.partnerships.PartnershipsRepository
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -114,8 +113,6 @@ class ServerListUpdaterTests {
     private lateinit var mockPlanManager: UserPlanManager
     @RelaxedMockK
     private lateinit var mockTelephonyManager: TelephonyManager
-    @MockK
-    private lateinit var mockPartnershipsRepository: PartnershipsRepository
     @RelaxedMockK
     private lateinit var mockPeriodicUpdateManager: PeriodicUpdateManager
 
@@ -172,7 +169,6 @@ class ServerListUpdaterTests {
                 ApiResult.Success(RESPONSE_304)
             }
         }
-        coEvery { mockPartnershipsRepository.refresh() } returns Unit
 
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
         every { mockTelephonyManager.networkCountryIso } returns "ch"
@@ -187,7 +183,6 @@ class ServerListUpdaterTests {
             mockPlanManager,
             serverListUpdaterPrefs,
             getNetZone,
-            mockPartnershipsRepository,
             guestHole,
             mockPeriodicUpdateManager,
             emptyFlow(),

@@ -35,7 +35,6 @@ import com.protonvpn.android.models.vpn.CertificateRequestBody
 import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
-import com.protonvpn.android.models.vpn.PartnersResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
 import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.ServerList
@@ -65,7 +64,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @HeaderMap headers: Map<String, String>,
         @Query("WithTranslations") language: String,
         @Query("WithEntriesForProtocols") protocols: String,
-        @Query("WithPartnerLogicals") withPartners: Boolean,
         @Query("WithState") withState: Boolean,
         @Query("Tier") userTier: Int?
     ): Response<ServerList>
@@ -139,9 +137,6 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @POST("data/v1/stats/multiple")
     suspend fun postStats(@Body data: StatsBody): GenericResponse
-
-    @GET("vpn/v1/partners")
-    suspend fun getPartnerships(): PartnersResponse
 
     @PUT("core/v4/settings/telemetry")
     suspend fun putTelemetryGlobalSetting(@Body body: UpdateGlobalTelemetry): GlobalSettingsResponse
