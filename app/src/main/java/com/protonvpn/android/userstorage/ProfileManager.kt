@@ -20,16 +20,13 @@
 package com.protonvpn.android.userstorage
 
 import androidx.annotation.VisibleForTesting
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.models.profiles.Profile
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.utils.Storage
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,44 +37,32 @@ class ProfileManager @VisibleForTesting constructor(
     private val effectiveUserSettings: EffectiveCurrentUserSettingsCached,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
 ) {
-    val profiles = MutableStateFlow(savedProfiles.profileList.toList())
+    private val fastestProfile get() = getSavedProfiles().first()
 
     @Inject
     constructor(
         mainScope: CoroutineScope,
         effectiveUserSettings: EffectiveCurrentUserSettingsCached,
         userSettingsManager: CurrentUserLocalSettingsManager,
-        appFeaturesPrefs: AppFeaturesPrefs,
-    ) : this(loadProfiles(appFeaturesPrefs), mainScope, effectiveUserSettings, userSettingsManager)
+    ) : this(loadProfiles(), mainScope, effectiveUserSettings, userSettingsManager)
 
-    fun getSavedProfiles(): List<Profile> =
-        savedProfiles.profileList
+    fun getSavedProfiles(): List<Profile> = savedProfiles.profileList
 
-    private val fastestProfile get() = getSavedProfiles().first()
-    fun findDefaultProfile(): Profile? = findProfile(effectiveUserSettings.value.defaultProfileId)
+    fun findDefaultProfile(): Profile? =
+        getSavedProfiles().find { it.id == effectiveUserSettings.value.defaultProfileId }
+
     fun getDefaultOrFastest() = findDefaultProfile() ?: fastestProfile
-
-
-    fun findProfile(id: UUID?): Profile? = getSavedProfiles().find { it.id == id }
 
     fun addToProfileList(profileToSave: Profile?) {
         if (!savedProfiles.profileList.contains(profileToSave)) {
             savedProfiles.profileList.add(profileToSave)
             Storage.save(savedProfiles, SavedProfilesV3::class.java)
-            profiles.value = getSavedProfiles().toList()
         }
-    }
-
-    fun editProfile(oldProfile: Profile, profileToSave: Profile) {
-        savedProfiles.profileList[savedProfiles.profileList.indexOf(oldProfile)] = profileToSave
-        Storage.save(savedProfiles, SavedProfilesV3::class.java)
-        profiles.value = getSavedProfiles().toList()
     }
 
     fun deleteProfile(profileToSave: Profile?) {
         savedProfiles.profileList.remove(profileToSave)
         Storage.save(savedProfiles, SavedProfilesV3::class.java)
-        profiles.value = getSavedProfiles().toList()
         mainScope.launch {
             userSettingsManager.update { settings ->
                 if (settings.defaultProfileId == profileToSave?.id) settings.copy(defaultProfileId = null)
@@ -95,8 +80,7 @@ class ProfileManager @VisibleForTesting constructor(
     }
 
     companion object {
-        private fun loadProfiles(appFeaturesPrefs: AppFeaturesPrefs): SavedProfilesV3 =
+        private fun loadProfiles(): SavedProfilesV3 =
             Storage.load(SavedProfilesV3::class.java, SavedProfilesV3.defaultProfiles())
-                .migrateProfiles(appFeaturesPrefs)
     }
 }

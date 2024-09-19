@@ -20,9 +20,9 @@
 package com.protonvpn.app.ui.drawer.bugreport
 
 import com.protonvpn.android.api.DohEnabled
-import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.drawer.bugreport.PrepareAndPostBugReport
 import com.protonvpn.android.ui.drawer.bugreport.ReportBugActivityViewModel
@@ -33,7 +33,6 @@ import com.protonvpn.test.shared.createAccountUser
 import com.protonvpn.test.shared.runWhileCollecting
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import me.proton.core.user.domain.entity.Type
 import org.junit.Assert.assertEquals
@@ -58,9 +57,9 @@ class ReportBugActivityViewModelTests {
     @Inject
     lateinit var testScope: TestScope
     @Inject
-    lateinit var appConfig: AppConfig
-    @Inject
     lateinit var currentUser: CurrentUser
+    @Inject
+    lateinit var dispatcherProvider: VpnDispatcherProvider
     @Inject
     lateinit var isTv: IsTvCheck
     @Inject
@@ -81,7 +80,7 @@ class ReportBugActivityViewModelTests {
         roboRule.inject()
         viewModel = ReportBugActivityViewModel(
             testScope,
-            appConfig,
+            dispatcherProvider,
             currentUser,
             isTv,
             authFlowStartHelper,
