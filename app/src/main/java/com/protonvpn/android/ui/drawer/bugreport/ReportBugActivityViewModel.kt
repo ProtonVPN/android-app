@@ -28,15 +28,21 @@ import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.auth.AuthFlowStartHelper
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.bugreport.Category
+import com.protonvpn.android.models.config.bugreport.DynamicReportModel
 import com.protonvpn.android.models.config.bugreport.InputField
 import com.protonvpn.android.models.login.GenericResponse
 import com.protonvpn.android.tv.IsTvCheck
+import com.protonvpn.android.utils.FileUtils
+import com.protonvpn.android.utils.Storage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.builtins.ListSerializer
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.presentation.ui.view.ProtonInput
 import me.proton.core.user.domain.extension.isCredentialLess
@@ -45,7 +51,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ReportBugActivityViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val appConfig: AppConfig,
+    private val dispatcherProvider: VpnDispatcherProvider,
     private val currentUser: CurrentUser,
     private val isTv: IsTvCheck,
     private val authFlowStartHelper: AuthFlowStartHelper,
@@ -58,6 +64,7 @@ class ReportBugActivityViewModel @Inject constructor(
     }
 
     sealed class ViewState {
+        object Loading : ViewState()
         data class Categories(val categoryList: List<Category>) : ViewState()
         data class Suggestions(val category: Category) : ViewState()
         data class Report(val category: Category) : ViewState()
@@ -70,15 +77,24 @@ class ReportBugActivityViewModel @Inject constructor(
         ShowLoginDialog
     }
 
-    private val _state = MutableLiveData<ViewState>(ViewState.Categories(getCategories()))
+    private lateinit var categories: List<Category>
+
+    private val _state = MutableLiveData<ViewState>(ViewState.Loading)
     val state: LiveData<ViewState> = _state
 
     private val _event = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
     val event: SharedFlow<UiEvent> = _event
 
+    init {
+        viewModelScope.launch {
+            categories = loadBugReportForm().categories // Set before state change.
+            _state.value = ViewState.Categories(categories)
+        }
+    }
+
     suspend fun getUserEmail() = currentUser.user()?.email
 
-    fun getCategories() = appConfig.dynamicReportModelObservable.value!!.categories
+    fun getCategories() = categories
 
     fun navigateToSuggestions(category: Category) {
         if (category.suggestions.isNotEmpty()) {
@@ -156,11 +172,21 @@ class ReportBugActivityViewModel @Inject constructor(
         }
     }
 
+    private suspend fun loadBugReportForm(): DynamicReportModel = withContext(dispatcherProvider.Io) {
+        Storage.load<DynamicReportModel>(
+            DynamicReportModel::class.java
+        ) { DynamicReportModel(FileUtils.getObjectFromAssets(ListSerializer(Category.serializer()), DEFAULT_BUG_REPORT_FILE)) }
+    }
+
     private fun isEmailValid(email: CharSequence): Boolean =
         Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     private fun ApiResult<GenericResponse>.toViewState() = when (this) {
         is ApiResult.Success<GenericResponse> -> ViewState.Finish
         is ApiResult.Error -> ViewState.Error(this)
+    }
+
+    companion object {
+        private const val DEFAULT_BUG_REPORT_FILE = "defaultbugreport.json"
     }
 }

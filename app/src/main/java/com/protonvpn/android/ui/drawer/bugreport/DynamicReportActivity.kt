@@ -73,6 +73,8 @@ class DynamicReportActivity : BaseActivityV2() {
 
     private fun handleStateChanges(state: ReportBugActivityViewModel.ViewState) {
         when (state) {
+            is ReportBugActivityViewModel.ViewState.Loading ->
+                Unit
             is ReportBugActivityViewModel.ViewState.Categories ->
                 addFragment(CategoryFragment.newInstance(), false)
             is ReportBugActivityViewModel.ViewState.Suggestions ->

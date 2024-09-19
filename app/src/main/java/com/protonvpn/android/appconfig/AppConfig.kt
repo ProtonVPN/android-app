@@ -92,12 +92,6 @@ class AppConfig @Inject constructor(
         initialValue = Storage.load(AppConfigResponse::class.java, getDefaultConfig())
     )
 
-    val dynamicReportModelObservable = MutableLiveData(
-        Storage.load<DynamicReportModel>(
-            DynamicReportModel::class.java
-        ) { DynamicReportModel(DynamicReportModel.defaultCategories) }
-    )
-
     private val appConfigResponse get() = appConfigFlow.value
     private val appConfigUpdate = periodicUpdateManager.registerApiCall(
         "app_config",
@@ -161,7 +155,6 @@ class AppConfig @Inject constructor(
         val dynamicReportModel = api.getDynamicReportConfig(sessionId)
         dynamicReportModel.valueOrNull?.let {
             Storage.save(it, DynamicReportModel::class.java)
-            dynamicReportModelObservable.value = it
         }
         return dynamicReportModel
     }
