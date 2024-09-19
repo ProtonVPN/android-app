@@ -23,7 +23,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataMigration
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.data.VpnUser
-import com.protonvpn.android.models.config.UserData
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.userstorage.SharedStoreProvider
@@ -128,62 +127,13 @@ class CurrentUserLocalSettingsManager @Inject constructor(
 @Singleton
 class LocalUserSettingsStoreProvider @Inject constructor(
     factory: LocalDataStoreFactory,
-    appFeaturesPrefs: AppFeaturesPrefs? = null
 ) : StoreProvider<LocalUserSettings>(
     "local_user_settings",
     LocalUserSettings.Default,
     LocalUserSettings.serializer(),
     factory,
-    listOf(UserDataMigration(appFeaturesPrefs), SplitTunnelingMigration())
+    listOf(SplitTunnelingMigration())
 )
-
-private class UserDataMigration(
-    private val appFeaturesPrefs: AppFeaturesPrefs?
-) : DataMigration<LocalUserSettings> {
-
-    private val oldUserData by lazy { Storage.load(UserData::class.java) }
-
-    override suspend fun cleanUp() {
-        Storage.delete(UserData::class.java)
-    }
-
-    override suspend fun shouldMigrate(currentData: LocalUserSettings): Boolean {
-        val userData = oldUserData
-        return userData != null
-    }
-
-    override suspend fun migrate(currentData: LocalUserSettings): LocalUserSettings {
-        val userData = oldUserData
-        return if (userData != null) {
-            if (userData.protocol.migratingFromIKEv2())
-                appFeaturesPrefs?.showIKEv2Migration = true
-            val protocol = userData.protocol.migrate()
-
-            LocalUserSettings(
-                apiUseDoh = userData.apiUseDoH,
-                defaultProfileId = userData.defaultProfileId,
-                lanConnections = userData.bypassLocalTraffic,
-                mtuSize = userData.mtuSize,
-                netShield = userData.netShieldProtocol ?: LocalUserSettings.Default.netShield,
-                protocol = protocol,
-                randomizedNat = userData.randomizedNatEnabled,
-                secureCore = userData.secureCoreEnabled,
-                splitTunneling = SplitTunnelingSettings(
-                    isEnabled = userData.useSplitTunneling,
-                    mode = migratedMode(userData.splitTunnelApps, userData.splitTunnelIpAddresses),
-                    excludedIps = userData.splitTunnelIpAddresses,
-                    excludedApps = userData.splitTunnelApps,
-                    includedIps = emptyList(),
-                    includedApps = emptyList(),
-                ),
-                telemetry = userData.telemetryEnabled,
-                vpnAccelerator = userData.vpnAcceleratorEnabled,
-            )
-        } else {
-            currentData
-        }
-    }
-}
 
 @VisibleForTesting
 class SplitTunnelingMigration : DataMigration<LocalUserSettings> {

@@ -24,7 +24,6 @@ import com.protonvpn.tests.api.RefreshTokenTests
 import com.protonvpn.tests.bugReport.MockedBugReportTests
 import com.protonvpn.tests.logging.ProtonLoggerImplTests
 import com.protonvpn.tests.login.LogoutTests
-import com.protonvpn.tests.settings.data.UserDataMigrationTests
 import com.protonvpn.tests.telemetry.TelemetryCacheTests
 import com.protonvpn.tests.vpn.VpnConnectionTests
 import org.junit.runner.RunWith
@@ -44,7 +43,6 @@ import org.junit.runners.Suite
     ProtonLoggerImplTests::class,
     RefreshTokenTests::class,
     TelemetryCacheTests::class,
-    UserDataMigrationTests::class,
     VpnConnectionTests::class,
 )
 class MobileMockApiSuite

@@ -95,7 +95,7 @@ class TvSettingsSplitTunnelingMainVMTests {
         testScope = TestScope(dispatcher)
 
         userSettingsManager = CurrentUserLocalSettingsManager(
-            LocalUserSettingsStoreProvider(InMemoryDataStoreFactory(), null)
+            LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
         )
         vpnStateMonitor = VpnStateMonitor()
         val vpnStatusProviderUi = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
