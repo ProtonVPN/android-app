@@ -28,16 +28,11 @@ import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.data.toDefaultConnection
-import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -52,15 +47,8 @@ class RecentsManager @Inject constructor(
     private val defaultConnectionDao: DefaultConnectionDao,
     currentUser: CurrentUser,
     @WallClock private val clock: () -> Long,
-    private val migrateProfiles: MigrateProfiles,
-    private val isTv: IsTvCheck,
 ) {
-    private val currentVpnUser = flow {
-        // RecentsManager should not be used by TV (until we switch from custom TV recents to this RecentManager) but
-        // it's difficult to ensure that it's not created.
-        if (!isTv()) migrateProfiles()
-        emitAll(currentUser.vpnUserFlow)
-    }.shareIn(mainScope, SharingStarted.Eagerly, 1)
+    private val currentVpnUser = currentUser.vpnUserFlow
 
     fun getRecentsList(limit: Int = -1): Flow<List<RecentConnection>> = currentVpnUser.flatMapLatestNotNull { user ->
         recentsDao.getRecentsList(user.userId, limit)
