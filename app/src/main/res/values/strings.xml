@@ -548,28 +548,14 @@
 
     <!-- Information activity -->
     <string name="activity_information_title">Information</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus servers</string>
-    <string name="activity_information_gateways_title">What is a gateway?</string>
-    <string name="info_features">Features</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">This technology allows Proton VPN to provide higher speed and security in difficult-to-serve countries.</string>
-    <string name="streaming_title">Streaming</string>
-    <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">These servers give the best performance for BitTorrent and file sharing.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Route your internet traffic through the Tor network. Slower, but more private.</string>
-    <string name="info_performance">Performance</string>
     <string name="server_load_title">Server Load</string>
-    <string name="server_load_description">Servers with high load are slower than servers with low load.</string>
-    <string name="streaming_title_with_country">Streaming - %1$s</string>
-    <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\n\nHint: Clear the cache of the streaming apps to ensure new content appears.</string>
     <string name="activity_information_learn_more">Learn More</string>
     <string name="server_load_low">Low</string>
     <string name="server_load_medium">Medium</string>
     <string name="server_load_high">High</string>
-    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s data and services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <string name="manual_verification_link" translatable="false">https://protonvpn.com/support-form</string>
     <string name="verification_help_link" translatable="false">https://protonvpn.com/support/protonvpn-human-verification/</string>
