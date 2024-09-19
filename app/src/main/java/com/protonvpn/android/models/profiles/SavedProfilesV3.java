@@ -18,9 +18,6 @@
  */
 package com.protonvpn.android.models.profiles;
 
-import com.protonvpn.android.appconfig.AppFeaturesPrefs;
-import com.protonvpn.android.utils.Storage;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
