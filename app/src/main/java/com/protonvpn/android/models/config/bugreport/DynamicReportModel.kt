@@ -18,20 +18,10 @@
  */
 package com.protonvpn.android.models.config.bugreport
 
-import com.protonvpn.android.utils.FileUtils
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.ListSerializer
 
 @Serializable
 data class DynamicReportModel(
     @SerialName("Categories") val categories: List<Category>
-) {
-
-    companion object {
-        private const val defaultCategoriesFile = "defaultbugreport.json"
-        val defaultCategories by lazy {
-            FileUtils.getObjectFromAssets(ListSerializer(Category.serializer()), defaultCategoriesFile)
-        }
-    }
-}
+)

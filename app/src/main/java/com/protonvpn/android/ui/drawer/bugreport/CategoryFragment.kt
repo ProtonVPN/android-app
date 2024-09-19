@@ -37,8 +37,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding.list) {
             layoutManager = LinearLayoutManager(context)
-            adapter = CategoryAdapter(viewModel.getCategories()
-            ) {
+            adapter = CategoryAdapter(viewModel.getCategories()) {
                 viewModel.navigateToSuggestions(it)
             }
         }
