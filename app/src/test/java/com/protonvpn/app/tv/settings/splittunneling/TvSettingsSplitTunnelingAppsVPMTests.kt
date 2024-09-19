@@ -96,7 +96,7 @@ class TvSettingsSplitTunnelingAppsVPMTests {
         testScope = TestScope(testDispatcher)
 
         userSettingsManager = CurrentUserLocalSettingsManager(
-            LocalUserSettingsStoreProvider(InMemoryDataStoreFactory(), null)
+            LocalUserSettingsStoreProvider(InMemoryDataStoreFactory())
         )
 
         coEvery { mockAppsProvider.getInstalledInternetApps(true, true) } returns regularAppPackages
