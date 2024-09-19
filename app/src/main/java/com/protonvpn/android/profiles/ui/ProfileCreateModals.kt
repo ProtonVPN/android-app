@@ -45,27 +45,31 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.base.ui.FlagDefaults
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.ProtonDialogButton
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.vpn.ui.label
+import com.protonvpn.android.redesign.vpn.ui.viaCountry
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun ProfileTypeItem(
     currentValue: ProfileType,
-    getTypes: () -> List<ProfileType>,
+    allTypes: List<ProfileType>,
     onChangeType: (ProfileType) -> Unit,
 ) {
     ProfileValueItem(
@@ -79,10 +83,11 @@ fun ProfileTypeItem(
                     .padding(horizontal = 2.dp)
                     .size(20.dp)
             )
-        }, { closeModal ->
+        },
+        modal = { closeModal ->
             PickProfileType(
                 currentValue,
-                allTypes = getTypes(),
+                allTypes = allTypes,
                 onSelect = {
                     onChangeType(it)
                     closeModal()
@@ -128,20 +133,129 @@ private fun PickProfileType(
 
 @Composable
 fun ProfileCountryItem(
-    currentValue: CountryId,
-    getCountries: () -> List<CountryId>,
-    onClick: () -> Unit,
+    secureCore: Boolean,
+    exitCountry: CountryId,
+    entryCountry: CountryId?,
+    allCountries: List<CountryId>,
+    allEntries: List<CountryId>,
+    onSelectExit: (CountryId) -> Unit,
+    onSelectEntry: (CountryId) -> Unit,
+) {
+    Column {
+        ProfileValueItem(
+            labelRes = R.string.create_profile_pick_country_title,
+            valueText = exitCountry.label(),
+            iconContent = {
+                Flag(
+                    exitCountry = exitCountry,
+                    entryCountry = if (secureCore) CountryId.fastest else null,
+                    modifier = Modifier.scale(24f / FlagDefaults.singleFlagSize.width.value)
+                )
+            },
+            modal = { closeModal ->
+                PickCountry(
+                    isVia = false,
+                    isSecureCore = secureCore,
+                    selectedCountry = exitCountry,
+                    allCountries = allCountries,
+                    onSelect = { country ->
+                        onSelectExit(country)
+                        closeModal()
+                    },
+                    onDismissRequest = closeModal
+                )
+            },
+            bottomPadding = if (secureCore) 0.dp else 20.dp
+        )
+        if (entryCountry != null) {
+            ProfileValueItem(
+                labelRes = null,
+                valueText = viaCountry(entryCountry),
+                iconContent = {
+                    Flag(
+                        exitCountry = entryCountry,
+                        modifier = Modifier.size(24.dp, 16.dp)
+                    )
+                },
+                modal = { closeModal ->
+                    PickCountry(
+                        isVia = true,
+                        isSecureCore = false,
+                        selectedCountry = entryCountry,
+                        allCountries = allEntries,
+                        onSelect = {
+                            onSelectEntry(it)
+                            closeModal()
+                        },
+                        onDismissRequest = closeModal
+                    )
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun PickCountry(
+    isVia: Boolean,
+    isSecureCore: Boolean,
+    selectedCountry: CountryId,
+    allCountries: List<CountryId>,
+    onSelect: (CountryId) -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    BaseItemPickerDialog(
+        title =
+            if (isVia) R.string.create_profile_pick_middle_country_title
+            else R.string.create_profile_pick_country_title,
+        onDismissRequest = onDismissRequest
+    ) {
+        LazyColumn {
+            items(allCountries) { country ->
+                SettingsRadioItemSmall(
+                    title = if (isVia) viaCountry(country) else country.label(),
+                    description = null,
+                    selected = country == selectedCountry,
+                    onSelected = { onSelect(country) },
+                    leadingContent = {
+                        Flag(
+                            exitCountry = country,
+                            entryCountry = if (isSecureCore) CountryId.fastest else null,
+                            modifier = Modifier
+                                .padding(end = 12.dp)
+                                .scale(24f / FlagDefaults.singleFlagSize.width.value)
+                        )
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ProfileGatewayItem(
+    currentValue: String,
+    allGateways: List<String>,
+    onSelect: (String) -> Unit,
 ) {
     ProfileValueItem(
-        labelRes = R.string.create_profile_pick_country_title,
-        valueText = currentValue.label(),
-        iconContent = { Flag(exitCountry = currentValue, modifier = Modifier.size(24.dp, 16.dp)) },
+        labelRes = R.string.create_profile_pick_gateway_title,
+        valueText = currentValue,
+        iconContent = {
+            Image(
+                painterResource(R.drawable.ic_gateway_flag),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(horizontal = 2.dp)
+                    .size(24.dp, 16.dp)
+            )
+        },
         modal = { closeModal ->
-            PickCountry(
-                selectedCountry = currentValue,
-                allCountries = getCountries(),
+            PickGateway(
+                selectedGateway = currentValue,
+                allGateways = allGateways,
                 onSelect = {
-                    onClick()
+                    onSelect(it)
                     closeModal()
                 },
                 onDismissRequest = closeModal
@@ -151,27 +265,31 @@ fun ProfileCountryItem(
 }
 
 @Composable
-private fun PickCountry(
-    selectedCountry: CountryId,
-    allCountries: List<CountryId>,
-    onSelect: (CountryId) -> Unit,
+fun PickGateway(
+    selectedGateway: String,
+    allGateways: List<String>,
+    onSelect: (String) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     BaseItemPickerDialog(
-        R.string.create_profile_pick_country_title,
+        R.string.create_profile_pick_gateway_title,
         onDismissRequest = onDismissRequest
     ) {
         LazyColumn {
-            items(allCountries) { country ->
+            items(allGateways) { gateway ->
                 SettingsRadioItemSmall(
-                    title = country.label(),
+                    title = gateway,
                     description = null,
-                    selected = country == selectedCountry,
-                    onSelected = { onSelect(country) },
+                    selected = gateway == selectedGateway,
+                    onSelected = { onSelect(gateway) },
                     leadingContent = {
-                        Flag(exitCountry = selectedCountry, modifier = Modifier
-                            .padding(end = 12.dp)
-                            .size(24.dp, 16.dp))
+                        Icon(
+                            painterResource(CoreR.drawable.ic_proton_servers),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 14.dp)
+                                .size(20.dp)
+                        )
                     }
                 )
             }
@@ -182,8 +300,8 @@ private fun PickCountry(
 @Composable
 fun ProfileCityOrStateItem(
     currentValue: TypeAndLocationScreenState.CityOrState,
-    getAllCityStates: () -> List<TypeAndLocationScreenState.CityOrState>,
-    onClick: () -> Unit,
+    allCityStates: List<TypeAndLocationScreenState.CityOrState>,
+    onSelect: (TypeAndLocationScreenState.CityOrState) -> Unit,
 ) {
     val isState = currentValue.id.isState
     ProfileValueItem(
@@ -209,9 +327,9 @@ fun ProfileCityOrStateItem(
             PickCityOrState(
                 isState = isState,
                 selectedCityState = currentValue,
-                allCityStates = getAllCityStates(),
+                allCityStates = allCityStates,
                 onSelect = {
-                    onClick()
+                    onSelect(it)
                     closeModal()
                 },
                 onDismissRequest = closeModal
@@ -220,7 +338,6 @@ fun ProfileCityOrStateItem(
     )
 }
 
-//TODO: use check instead of radio
 @Composable
 fun PickCityOrState(
     isState: Boolean,
@@ -262,32 +379,39 @@ fun PickCityOrState(
 }
 
 @Composable
-fun ProfileServerInfo(
+fun ProfileServerItem(
     serverInfo: TypeAndLocationScreenState.Server,
-    getAllServers: () -> List<TypeAndLocationScreenState.Server>,
-    onClick: () -> Unit,
+    allServers: List<TypeAndLocationScreenState.Server>,
+    onSelect: (TypeAndLocationScreenState.Server) -> Unit,
 ) {
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_server_title,
         valueText = serverInfo.name ?: stringResource(R.string.create_profile_fastest_server),
         iconContent = {
-            Icon(
-                painterResource(
-                    if (serverInfo.isFastest) CoreR.drawable.ic_proton_bolt //TODO: add filled
-                    else CoreR.drawable.ic_proton_servers
-                ),
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(horizontal = 2.dp)
-                    .size(20.dp)
-            )
+            if (serverInfo.flagCountryId != null) {
+                Flag(
+                    exitCountry = serverInfo.flagCountryId,
+                    modifier = Modifier.size(24.dp, 16.dp)
+                )
+            } else {
+                Icon(
+                    painterResource(
+                        if (serverInfo.isFastest) CoreR.drawable.ic_proton_bolt //TODO: add filled
+                        else CoreR.drawable.ic_proton_servers
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .size(20.dp)
+                )
+            }
         },
         modal = { closeModal ->
             PickServer(
                 selectedServer = serverInfo,
-                allServers = getAllServers(),
+                allServers = allServers,
                 onSelect = {
-                    onClick()
+                    onSelect(it)
                     closeModal()
                 },
                 onDismissRequest = closeModal
@@ -296,7 +420,6 @@ fun ProfileServerInfo(
     )
 }
 
-//TODO: use check instead of radio
 @Composable
 fun PickServer(
     selectedServer: TypeAndLocationScreenState.Server,
@@ -316,16 +439,26 @@ fun PickServer(
                     selected = server.id == selectedServer.id,
                     onSelected = { onSelect(server) },
                     leadingContent = {
-                        Icon(
-                            painterResource(
-                                if (server.isFastest) CoreR.drawable.ic_proton_bolt //TODO: add filled
-                                else CoreR.drawable.ic_proton_servers
-                            ),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(end = 14.dp)
-                                .size(20.dp)
-                        )
+                        if (server.flagCountryId != null) {
+                            Flag(
+                                exitCountry = server.flagCountryId,
+                                modifier = Modifier
+                                    .padding(end = 14.dp)
+                                    .size(24.dp, 16.dp)
+                            )
+                        } else {
+                            Icon(
+                                painterResource(
+                                    if (server.isFastest) CoreR.drawable.ic_proton_bolt //TODO: add filled
+                                    else CoreR.drawable.ic_proton_servers
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .padding(end = 14.dp)
+                                    .padding(horizontal = 2.dp)
+                                    .size(20.dp)
+                            )
+                        }
                     }
                 )
             }
@@ -395,19 +528,22 @@ fun PickNetShield(
 
 @Composable
 fun ProfileValueItem(
-    @StringRes labelRes: Int,
+    @StringRes labelRes: Int?,
     valueText: String,
     iconContent: (@Composable RowScope.() -> Unit)?,
     modal: @Composable (() -> Unit) -> Unit,
     modifier: Modifier = Modifier,
+    bottomPadding: Dp = 20.dp,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    Column(modifier = modifier.padding(vertical = 8.dp)) {
-        Text(
-            text = stringResource(labelRes),
-            style = ProtonTheme.typography.captionMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+    Column(modifier = modifier.padding(vertical = 8.dp).padding(bottom = bottomPadding)) {
+        if (labelRes != null) {
+            Text(
+                text = stringResource(labelRes),
+                style = ProtonTheme.typography.captionMedium,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -434,7 +570,6 @@ fun ProfileValueItem(
                     .size(16.dp)
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
     }
     if (showDialog)
         modal { showDialog = false }
@@ -475,7 +610,7 @@ fun BaseItemPickerDialog(
 private fun ProfileTypeItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
-            ProfileTypeItem(currentValue = ProfileType.Standard, { emptyList()  }, {})
+            ProfileTypeItem(currentValue = ProfileType.Standard, emptyList(), {})
         }
     }
 }
@@ -501,9 +636,29 @@ private fun ProfileCountryItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
             ProfileCountryItem(
+                false,
                 CountryId("PL"),
-                { emptyList() },
-                {}
+                null,
+                emptyList(),
+                emptyList(),
+                {}, {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun ProfileCountryItemSCPreview() {
+    VpnTheme(isDark = true) {
+        Surface {
+            ProfileCountryItem(
+                true,
+                CountryId("PL"),
+                CountryId.switzerland,
+                emptyList(),
+                emptyList(),
+                {}, {}
             )
         }
     }
@@ -515,6 +670,8 @@ private fun PickCountryDialogPreview() {
     Surface {
         VpnTheme(isDark = true) {
             PickCountry(
+                isVia = false,
+                isSecureCore = false,
                 CountryId("PL"),
                 listOf(
                     CountryId("DE"),
@@ -530,12 +687,32 @@ private fun PickCountryDialogPreview() {
 
 @Preview
 @Composable
+private fun PickViaCountryDialogPreview() {
+    Surface {
+        VpnTheme(isDark = true) {
+            PickCountry(
+                isVia = true,
+                isSecureCore = false,
+                CountryId("PL"),
+                listOf(
+                    CountryId.sweden,
+                    CountryId.switzerland,
+                ),
+                {},
+                {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
 private fun ProfileCityOrStateItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
             ProfileCityOrStateItem(
                 TypeAndLocationScreenState.CityOrState("New York", CityStateId("NY", isState = false)),
-                { emptyList() },
+                emptyList(),
                 {}
             )
         }
@@ -568,9 +745,9 @@ private fun PickCityStatePreview() {
 private fun ProfileServerOrGatewayItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
-            ProfileServerInfo(
-                TypeAndLocationScreenState.Server("US-TX#1", "1"),
-                { emptyList() },
+            ProfileServerItem(
+                TypeAndLocationScreenState.Server("US-TX#1", "1", null),
+                emptyList(),
                 {}
             )
         }
@@ -583,11 +760,11 @@ private fun PickServerPreview() {
     VpnTheme(isDark = true) {
         Surface {
             PickServer(
-                TypeAndLocationScreenState.Server("US-TX#1", "1"),
+                TypeAndLocationScreenState.Server("US-TX#1", "1", null),
                 listOf(
-                    TypeAndLocationScreenState.Server(null, "0"),
-                    TypeAndLocationScreenState.Server("US-TX#1", "1"),
-                    TypeAndLocationScreenState.Server("US-TX#2", "2"),
+                    TypeAndLocationScreenState.Server(null, "0", null),
+                    TypeAndLocationScreenState.Server("US-TX#1", "1", null),
+                    TypeAndLocationScreenState.Server("US-TX#2", "2", null),
                 ),
                 {},
                 {}

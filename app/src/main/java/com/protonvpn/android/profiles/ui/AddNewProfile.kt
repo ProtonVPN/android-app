@@ -35,8 +35,10 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -51,6 +53,7 @@ import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
+import me.proton.core.presentation.utils.currentLocale
 
 @Composable
 fun AddEditProfileRoute(
@@ -58,6 +61,9 @@ fun AddEditProfileRoute(
     onDismiss: () -> Unit,
 ) {
     val viewModel : CreateEditProfileViewModel = hiltViewModel()
+
+    val locale = LocalConfiguration.current.currentLocale()
+    LaunchedEffect(Unit) { viewModel.localeFlow.value = locale }
     viewModel.setEditedProfileId(profileId)
 
     AddEditProfileScreen(
