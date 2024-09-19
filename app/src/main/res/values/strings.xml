@@ -298,7 +298,7 @@
     <string name="tv_signout_dialog_description_connected">This will disconnect your TV from any VPN server.</string>
     <string name="tv_signout_dialog_ok">Sign out</string>
     <string name="tv_quick_connect_recommened">Recommended</string>
-    <string name="tv_quick_connect_favourite">Favourite</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Country is unavailable</string>
     <string name="tv_country_maintenance_dialog_description">Please try again later or select a different country.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -333,7 +333,7 @@
     <string name="enable">Enable</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol is currently disabled</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN detected that your current network is preventing a connection to the VPN. Enabling Smart Protocol might bypass these limitations.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -377,7 +377,7 @@
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Unlock faster, less crowded servers with speeds of up to %1$d&#160;Gbps.</string>
+    <string name="upgrade_vpn_accelerator_message">Unlock faster, less crowded servers with speeds of up to %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Get the best of both worlds</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Unlock advanced VPN customization</string>
@@ -472,7 +472,6 @@
         <item quantity="other">Share with up to %1$d others</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Integrated 2FA authenticator</string>
-
     <string name="upgrade_not_now_button">Not now</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -508,7 +507,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d&#160;Gbps)</string>
+    <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
     <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
     <string name="upsell_card_streaming_title">Streaming</string>
@@ -545,7 +544,6 @@
     <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
     <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
     <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
-
     <!-- Information activity -->
     <string name="activity_information_title">Information</string>
     <string name="smart_routing_title">Smart Routing</string>
@@ -583,17 +581,14 @@
     <string name="dialog_create_account_title">Create an account to continue</string>
     <string name="dialog_create_account_action_create">Create account</string>
     <string name="dialog_create_account_action_signin">Sign in</string>
-
     <string name="server_search_menu_title">Search</string>
     <string name="search_empty_result_subtitle">Please try a different keyword</string>
     <string name="search_empty_result_title">No results found</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Clear</string>
-
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Want to connect to a specific country?</string>
     <string name="upgrade_country_message"><![CDATA[Unlock <b>country selection</b> with VPN Plus.]]></string>
-
     <string name="upgrade_moderate_nat_title2">Level up your gaming experience</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[Improve online gaming and video call performance with <b>NAT type 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free automatically connects you to the fastest available server. This will normally be the closest server to your location.</string>
@@ -615,7 +610,7 @@
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
     <string name="settings_change_icon_confirmation_title">Change app icon?</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -650,7 +645,6 @@
         <item quantity="one">%1$d day</item>
         <item quantity="other">%1$d days</item>
     </plurals>
-
     <string name="server_change_max_reached">You’ve reached the maximum number of Free server changes for now.</string>
     <string name="server_change_upsell">Get unlimited changes with VPN Plus.</string>
     <string name="server_change_button_title">Change server</string>
@@ -689,14 +683,12 @@
     <string name="welcome_unlimited_description"><![CDATA[Congratulations! You unlocked premium security and performance features on all Proton services, plus <b>%1$d&#160;GB</b> total storage.<br><br>Enjoy the best of Proton privacy.]]></string>
     <string name="welcome_generic_title">Congratulations</string>
     <string name="welcome_generic_description">You\'ve upgraded your subscription. Enjoy advanced privacy features and next-level performance.</string>
-
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
         <item quantity="one">Up to %1$d device at once</item>
         <item quantity="other">Up to %1$d devices at once</item>
     </plurals>
-
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
 
@@ -716,7 +708,6 @@
         <item quantity="one">%d country</item>
         <item quantity="other">%d countries</item>
     </plurals>
-
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
      %2$s - replaced with "welcome_plus_countries"
@@ -725,7 +716,6 @@
      1800+ new servers in 68 countries
      -->
     <string name="welcome_plus_feature_servers_count">%1$s in %2$s</string>
-
     <!-- Text added to button labels that open links in a browser (as opposed to performing actions
          within the app). Only used by accessibility services like screen readers.
          Example:
@@ -733,20 +723,15 @@
          "Learn more, external link button"
      -->
     <string name="accessibility_external_link_suffix">external link</string>
-
     <string name="no_logs_banner_title">Certified no-logs VPN</string>
     <string name="no_logs_banner_description">Your VPN activity is protected by Swiss privacy laws. We’ll never track you online or share your information with third parties.</string>
-
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_gateways">Gateways</string>
-
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Countries</string>
-
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
     <string name="botton_nav_settings">Settings</string>
-
     <!-- tag(Redesign_2023)
          Text added to button labels that open a UI element (e.g. a panel).
          Only used by accessibility services.
@@ -814,19 +799,17 @@
          "Switzerland, connected"
      -->
     <string name="accessibility_item_connected">connected</string>
-
     <!-- tag(Redesign_2023): label indicating that a server supports peer-to-peer. -->
     <string name="server_feature_label_p2p">P2P</string>
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Fastest country</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Fastest free server</string>
-
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -942,7 +925,7 @@
     <string name="connection_card_label_connecting">Connecting to…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Changing server…</string>
     <!-- tag(Redesign_2023)
@@ -967,7 +950,6 @@
          "connection details, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_connection_details">connection details</string>
-
     <!-- tag(Redesign_2023)
          Description of a button for opening panel with information about connections in free plan.
          Only used by accessibility services.
@@ -977,7 +959,6 @@
          "more information about free connections, button. Double tap to activate"
     -->
     <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
-
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -995,7 +976,6 @@
          Only used by accessibility service.
     -->
     <string name="recent_action_accessibility_state_pinned">Pinned</string>
-
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1008,7 +988,6 @@
     <string name="message_server_not_available">Server not available</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
     <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
-
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Sign out</string>
     <!-- tag(Redesign_2023) -->
@@ -1055,7 +1034,6 @@
     <string name="settings_app_version">App version: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Third party licenses</string>
-
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_title">Sign out?</string>
     <!-- tag(Redesign_2023) -->
@@ -1067,7 +1045,6 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Cancel</string>
     <string name="dialog_action_change_icon">Change icon</string>
-
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">All</string>
     <string name="country_filter_cities">Cities</string>
@@ -1078,7 +1055,6 @@
     <string name="country_filter_p2p">P2P</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_tor">Tor</string>
-
     <string name="country_filter_all_list_header">All countries (%1$d)</string>
     <string name="country_filter_all_list_header_free">Plus countries (%1$d)</string>
     <string name="country_filter_countries_list_header">Countries (%1$d)</string>
@@ -1092,12 +1068,10 @@
     <string name="country_filter_tor_list_header">Tor countries (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
     <string name="country_filter_info_label">Info</string>
-
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
-
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1116,12 +1090,9 @@
          Ex: Poland · 192.1.1.1.1
     -->
     <string name="vpn_status_disabled_location">%1$s · %2$s</string>
-
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_subtitle">Connection details</string>
-
     <string name="connection_details_features_title">Features</string>
-
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_show_ip">Show IP</string>
     <!-- tag(Redesign_2023) -->
@@ -1131,7 +1102,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Connected for</string>
     <!-- tag(Redesign_2023) -->
@@ -1161,14 +1132,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">High (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
-
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocol</string>
-
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol_description">A protocol is a set of instructions your device follows to connect and communicate with a server.</string>
-
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
@@ -1184,8 +1152,8 @@
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
-    <string name="info_secure_core_standard_header">Standard VPN&#160;connection</string>
-    <string name="info_secure_core_secure_header">Secure Core VPN&#160;connection</string>
+    <string name="info_secure_core_standard_header">Standard VPN connection</string>
+    <string name="info_secure_core_secure_header">Secure Core VPN connection</string>
     <string name="info_dialog_tor_description">Connect to a Tor server to access hidden services and onion sites using any browser.</string>
     <string name="info_dialog_button_learn_more_tor">How to access the Tor network</string>
     <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
@@ -1199,7 +1167,6 @@
     <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
-
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1221,25 +1188,21 @@
         Displayed next to an icon which provides more information if clicked
     -->
     <string name="connection_details_info_label">Info</string>
-
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
     <string name="connection_details_learn_more">Learn more</string>
-
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
     <string name="connection_details_unknown_ip">Unknown</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
-
     <string name="speed_bytes_per_second">%1$s B/s</string>
     <string name="speed_kilobytes_per_second">%1$s KB/s</string>
     <string name="speed_megabytes_per_second">%1$s MB/s</string>
     <string name="speed_gigabytes_per_second">%1$s GB/s</string>
     <string name="speed_terabytes_per_second">%1$s TB/s</string>
-
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
     <string name="speed_graph_title">Speed %1$s</string>
     <string name="bytes_per_second">B/s</string>
@@ -1247,7 +1210,6 @@
     <string name="megabytes_per_second">MB/s</string>
     <string name="gigabytes_per_second">GB/s</string>
     <string name="terabytes_per_second">TB/s</string>
-
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s Byte per second</item>
         <item quantity="other">%1$s Bytes per second</item>
@@ -1268,7 +1230,6 @@
         <item quantity="one">%1$s Terabyte per second</item>
         <item quantity="other">%1$s Terabytes per second</item>
     </plurals>
-
     <plurals name="full_name_traffic_volume_bytes">
         <item quantity="one">%1$s Byte</item>
         <item quantity="other">%1$s Bytes</item>
@@ -1289,36 +1250,30 @@
         <item quantity="one">%1$s Terabyte</item>
         <item quantity="other">%1$s Terabytes</item>
     </plurals>
-
     <string name="traffic_volume_bytes">%1$s B</string>
     <string name="traffic_volume_kilobytes">%1$s KB</string>
     <string name="traffic_volume_megabytes">%1$s MB</string>
     <string name="traffic_volume_gigabytes">%1$s GB</string>
     <string name="traffic_volume_terabytes">%1$s TB</string>
-
     <!-- tag(Redesign_2023)
          Shown at the top status view if app detects that there is no usable network to connect to VPN
     -->
     <string name="error_vpn_waiting_for_network">Waiting for network</string>
-
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="one">%1$d day</item>
         <item quantity="other">%1$d days</item>
     </plurals>
-
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_hours_shortened">%1$d hr</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_minutes_shortened">%1$d min</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d sec</string>
-
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
-
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">Account settings</string>
@@ -1326,7 +1281,7 @@
     <string name="settings_account_recovery_email">Recovery email</string>
     <string name="settings_account_recovery_email_not_set">Not set</string>
     <string name="settings_account_security_keys">Security Keys</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">My account</string>
     <string name="settings_account_button_delete_account">Delete account</string>
     <string name="settings_advanced_alternative_routing_title">Alternative routing</string>
@@ -1399,14 +1354,11 @@
     <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
-
     <string name="error_fetching_prices">Error fetching prices.</string>
-
     <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
-
     <!-- Temporary strings for auto-login feature -->
     <string name="auto_login_error_title" translatable="false">Setup failed</string>
     <string name="auto_login_loading_description" translatable="false">Setting up ProtonVPN…</string>
