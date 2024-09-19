@@ -105,7 +105,10 @@ class GoLangCrashReporter @Inject constructor(
     }
 
     private fun extractFingerprints(content: List<String>): List<String> = buildList {
-        add(content.first())
+        // Filter out hex digits from the fingerprint to prevent addresses from splitting otherwise identical issue.
+        // This will replace characters from text but grouping should still work well based on the remaining chars.
+        val messageLine = content.first().replace("[0-9A-Fa-f]".toRegex(), "_")
+        add(messageLine)
         if (content.first().endsWith("send on closed channel")) {
             val channelCloseFrame = content
                 .drop(1)
