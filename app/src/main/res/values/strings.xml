@@ -544,8 +544,6 @@
     <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
     <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
     <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Information</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">This technology allows Proton VPN to provide higher speed and security in difficult-to-serve countries.</string>
     <string name="tor_title">Tor</string>
