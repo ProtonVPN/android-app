@@ -84,7 +84,7 @@ private object FlagShapes {
     val sharp = RoundedCornerShape(0)
 }
 
-private object FlagDefaults {
+object FlagDefaults {
     val singleFlagSize = DpSize(30.dp, 20.dp)
     val twoFlagSize = DpSize(30.dp, 30.dp)
     val twoFlagTop = 3.dp

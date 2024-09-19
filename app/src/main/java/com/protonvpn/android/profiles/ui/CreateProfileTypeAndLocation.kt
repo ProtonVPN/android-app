@@ -41,7 +41,7 @@ fun ProfileTypeAndLocationRoute(
     onNext: () -> Unit,
     onBack: () -> Unit
 ) {
-    val state = viewModel.typeAndLocationScreenStateFlow.collectAsStateWithLifecycle().value
+    val state = viewModel.typeAndLocationScreenStateFlow.collectAsStateWithLifecycle(null).value
 
     Box(
         modifier = Modifier
@@ -51,10 +51,15 @@ fun ProfileTypeAndLocationRoute(
         if (state != null) {
             ProfileTypeAndLocation(
                 state = state,
-                onChangeType = viewModel::setType,
+                setType = viewModel::setType,
+                setCountry = viewModel::setCountry,
+                setCityOrState = viewModel::setCityOrState,
+                setServer = viewModel::setServer,
+                setExitCountrySecureCore = viewModel::setExitCountrySecureCore,
+                setEntryCountrySecureCore = viewModel::setEntryCountrySecureCore,
+                setGateway = viewModel::setGateway,
                 onNext = { onNext() },
                 onBack = { onBack() },
-                getTypes = { ProfileType.entries } //TODO: get from view model
             )
         }
     }
@@ -63,15 +68,20 @@ fun ProfileTypeAndLocationRoute(
 @Composable
 fun ProfileTypeAndLocation(
     state: TypeAndLocationScreenState,
-    getTypes: () -> List<ProfileType>,
-    onChangeType: (ProfileType) -> Unit,
+    setType: (ProfileType) -> Unit,
+    setCountry: (CountryId) -> Unit,
+    setCityOrState: (TypeAndLocationScreenState.CityOrState) -> Unit,
+    setServer: (TypeAndLocationScreenState.Server) -> Unit,
+    setExitCountrySecureCore: (CountryId) -> Unit,
+    setEntryCountrySecureCore: (CountryId) -> Unit,
+    setGateway: (String) -> Unit,
     onNext: () -> Unit,
     onBack: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(16.dp)
             .imePadding()
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -79,9 +89,47 @@ fun ProfileTypeAndLocation(
                 text = stringResource(id = R.string.create_profile_type_and_location_title),
                 color = ProtonTheme.colors.textNorm,
                 style = ProtonTheme.typography.body1Bold,
-                modifier = Modifier.padding(vertical = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp)
             )
-            ProfileTypeItem(state.type, getTypes, onChangeType)
+            ProfileTypeItem(state.type, state.availableTypes, setType)
+            when (state) {
+                is TypeAndLocationScreenState.P2P,
+                is TypeAndLocationScreenState.Standard -> {
+                    state as TypeAndLocationScreenState.StandardWithFeatures
+                    ProfileCountryItem(
+                        secureCore = false,
+                        exitCountry = state.country,
+                        entryCountry = null,
+                        state.selectableCountries,
+                        emptyList(),
+                        onSelectExit = setCountry,
+                        onSelectEntry = {}
+                    )
+                    val cityOrState = state.cityOrState
+                    if (cityOrState != null) {
+                        ProfileCityOrStateItem(cityOrState, state.selectableCitiesOrStates, setCityOrState)
+                        val server = state.server
+                        if (server != null) {
+                            ProfileServerItem(server, state.selectableServers, setServer)
+                        }
+                    }
+                }
+                is TypeAndLocationScreenState.SecureCore -> {
+                    ProfileCountryItem(
+                        secureCore = true,
+                        exitCountry = state.exitCountry,
+                        entryCountry = state.entryCountry,
+                        state.selectableExitCountries,
+                        state.selectableEntryCountries,
+                        onSelectExit = setExitCountrySecureCore,
+                        onSelectEntry = setEntryCountrySecureCore,
+                    )
+                }
+                is TypeAndLocationScreenState.Gateway -> {
+                    ProfileGatewayItem(state.gateway, state.selectableGateways, setGateway)
+                    ProfileServerItem(state.server, state.selectableServers, setServer)
+                }
+            }
         }
 
         ProfileNavigationButtons(onNext = onNext, onBack = onBack)
@@ -92,10 +140,15 @@ fun ProfileTypeAndLocation(
 @Composable
 fun PreviewProfileTypeAndLocation() {
    ProfileTypeAndLocation(
-       onNext = {},
-       onBack = {},
-       state = TypeAndLocationScreenState.Standard(CountryId.fastest, null, null),
-       onChangeType = {},
-       getTypes = { ProfileType.entries }
+        onNext = {},
+        onBack = {},
+        state = TypeAndLocationScreenState.Standard(emptyList(),  CountryId.fastest, null, null, emptyList(), emptyList(), emptyList()),
+        setType = {},
+        setCountry = {},
+        setCityOrState = {},
+        setServer = {},
+        setExitCountrySecureCore = {},
+        setEntryCountrySecureCore = {},
+        setGateway = {},
    )
 }

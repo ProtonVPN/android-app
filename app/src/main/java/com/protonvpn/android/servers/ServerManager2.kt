@@ -78,6 +78,16 @@ class ServerManager2 @Inject constructor(
         return serverManager.freeCountries
     }
 
+    suspend fun getVpnCountries(): List<VpnCountry> {
+        serverManager.ensureLoaded()
+        return serverManager.getVpnCountries()
+    }
+
+    suspend fun getSecureCoreExitCountries(): List<VpnCountry> {
+        serverManager.ensureLoaded()
+        return serverManager.getSecureCoreExitCountries()
+    }
+
     suspend fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         serverManager.ensureLoaded()
         val protocolOverride = connectIntent.settingsOverrides?.protocol

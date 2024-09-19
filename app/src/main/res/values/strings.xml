@@ -1414,4 +1414,5 @@
     <string name="create_profile_fastest_city">Fastest</string>
     <string name="create_profile_fastest_state">Fastest</string>
     <string name="create_profile_fastest_server">Fastest</string>
+    <string name="create_profile_pick_middle_country_title">Middle country</string>
 </resources>
