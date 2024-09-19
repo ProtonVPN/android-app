@@ -40,7 +40,6 @@ import com.protonvpn.android.databinding.InfoHeaderBinding
 import com.protonvpn.android.databinding.InfoItemBinding
 import com.protonvpn.android.databinding.InfoServerLoadBinding
 import com.protonvpn.android.databinding.StreamingInfoBinding
-import com.protonvpn.android.models.vpn.Partner
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ViewUtils.toPx
@@ -64,14 +63,6 @@ class InformationActivity : BaseActivityV2() {
         @Parcelize
         object Gateways : InfoType()
 
-        sealed class Partners : InfoType() {
-            @Parcelize
-            data class Server(val serverId: String) : Partners()
-
-            @Parcelize
-            data class Country(val countryCode: String, val secureCore: Boolean) : Partners()
-        }
-
         companion object {
             @JvmField
             val generic: InfoType = Generic
@@ -92,7 +83,6 @@ class InformationActivity : BaseActivityV2() {
             when (info) {
                 is InfoType.Generic -> setupGenericInfo()
                 is InfoType.Streaming -> setupStreamingInfo(info.countryCode, isPlusUser)
-                is InfoType.Partners -> setupPartnershipInfo(info)
                 is InfoType.Gateways -> setupGatewaysInfo()
                 null -> Unit
             }
@@ -113,33 +103,6 @@ class InformationActivity : BaseActivityV2() {
         addHeader(R.string.info_performance)
         addItem(CoreR.drawable.ic_proton_servers, R.string.server_load_title, R.string.server_load_description,
             Constants.SERVER_LOAD_INFO_URL, customViewProvider = this::createServerLoadCustomView)
-    }
-
-    private fun setupPartnershipInfo(infoType: InfoType.Partners) {
-        lifecycleScope.launch {
-            val partners = when (infoType) {
-                is InfoType.Partners.Server -> viewModel.getPartnersForServer(infoType.serverId)
-                is InfoType.Partners.Country ->
-                    viewModel.getPartnersForCountry(infoType.countryCode, infoType.secureCore)
-            }
-            if (partners != null) {
-                setupPartnershipInfo(partners)
-            } else {
-                snackbarHelper.errorSnack(R.string.something_went_wrong)
-                finish()
-            }
-        }
-    }
-
-    private fun setupPartnershipInfo(partners: List<Partner>) {
-        title = getString(R.string.activity_information_title)
-
-        addItem(CoreR.drawable.ic_proton_servers, R.string.partnership_free_title, R.string.partnership_free_description)
-        viewModel.getPartnerTypes().forEach {
-            addItem(it.iconUrl, it.type, it.description)
-        }
-        addHeader(R.string.partnership_partners_title)
-        partners.forEach { addItem(it.iconUrl, it.name, it.description) }
     }
 
     private fun setupStreamingInfo(country: String, isPlusUser: Boolean) {
