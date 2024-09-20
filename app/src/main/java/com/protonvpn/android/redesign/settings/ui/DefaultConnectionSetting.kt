@@ -38,7 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.redesign.base.ui.FlagFastest
-import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
+import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.FlagRecentConnection
 import com.protonvpn.android.redesign.recents.ui.DefaultConnectionViewModel
 import com.protonvpn.android.redesign.recents.usecases.DefaultConnItem
@@ -79,7 +79,7 @@ fun DefaultConnectionSelection(
                     when (item) {
                         is DefaultConnItem.DefaultConnItemViewState -> {
                             DefaultSelectionRow(
-                                leadingIcon = { FlagOrGatewayIndicator(item.connectIntentViewState.primaryLabel) },
+                                leadingIcon = { ConnectIntentIcon(item.connectIntentViewState.primaryLabel) },
                                 title = item.connectIntentViewState.primaryLabel.label(),
                                 subTitle = item.connectIntentViewState.secondaryLabel?.label(),
                                 serverFeatures = item.connectIntent.features,

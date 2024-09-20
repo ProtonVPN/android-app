@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
+import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentRow
@@ -83,7 +83,7 @@ fun RecentRow(
                         .padding(end = 8.dp)
                         .size(16.dp)
                 )
-                FlagOrGatewayIndicator(item.connectIntent.primaryLabel)
+                ConnectIntentIcon(item.connectIntent.primaryLabel)
             }
         },
         modifier = modifier,
