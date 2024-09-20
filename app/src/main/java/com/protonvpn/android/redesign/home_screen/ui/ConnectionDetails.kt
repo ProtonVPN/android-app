@@ -101,7 +101,7 @@ import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
+import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ServerLoadBar
@@ -204,7 +204,7 @@ private fun ConnectionDetailsConnected(
                 .semantics(mergeDescendants = true) {},
             verticalAlignment = if (connectIntent.secondaryLabel != null) Alignment.Top else Alignment.CenterVertically,
         ) {
-            FlagOrGatewayIndicator(
+            ConnectIntentIcon(
                 connectIntent.primaryLabel,
                 modifier = Modifier.padding(top = 4.dp)
             )

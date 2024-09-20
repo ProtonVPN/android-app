@@ -72,6 +72,7 @@ import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.toColor
 import com.protonvpn.android.profiles.ui.toDrawableRes
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.country.presentation.R as CountryR
@@ -94,6 +95,23 @@ private object FlagDefaults {
     val scUnderlineArcOffset = DpOffset(-4.dp, 4.dp + (singleFlagSize.height - scUnderlineArcSize.height))
     val scUnderlineArcRadius = 6.dp
     val shadowColor = Color(0x66000000)
+}
+
+@Composable
+fun ConnectIntentIcon(
+    label: ConnectIntentPrimaryLabel,
+    modifier: Modifier = Modifier
+) {
+    when(label) {
+        is ConnectIntentPrimaryLabel.Fastest ->
+            FlagFastest(label.isSecureCore, label.connectedCountry, modifier = modifier)
+        is ConnectIntentPrimaryLabel.Country ->
+            Flag(label.exitCountry, label.entryCountry, modifier = modifier)
+        is ConnectIntentPrimaryLabel.Gateway ->
+            GatewayIndicator(label.country, modifier = modifier)
+        is ConnectIntentPrimaryLabel.Profile ->
+            ProfileIcon(label.country, label.icon, label.color, label.isGateway, modifier = modifier)
+    }
 }
 
 @Composable
@@ -160,7 +178,7 @@ fun GatewayIndicator(
 const val profileIconOrgHue = 4.6562896f
 
 @Composable
-fun ProfileIconView(
+fun ProfileIcon(
     country: CountryId?,
     icon: ProfileIcon,
     color: ProfileColor,
@@ -437,7 +455,7 @@ private fun DpOffset.toOffset(density: Density): Offset = with(density) {
 @Composable
 private fun ProfileIconViewPreview() {
     VpnTheme {
-        ProfileIconView(
+        ProfileIcon(
             country = CountryId("US"),
             icon = ProfileIcon.Icon2,
             color = ProfileColor.Color4,

@@ -109,7 +109,7 @@ fun ProfileItem(
         isConnected = profile.isConnected,
         onClick = { onConnect(profile) },
         onOpen = { onSelect(profile) },
-        leadingComposable = { FlagOrGatewayIndicator(profile.intent.primaryLabel) },
+        leadingComposable = { ConnectIntentIcon(profile.intent.primaryLabel) },
         modifier = modifier,
     )
 }

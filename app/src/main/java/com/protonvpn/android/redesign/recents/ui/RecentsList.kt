@@ -60,7 +60,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
-import com.protonvpn.android.redesign.base.ui.FlagOrGatewayIndicator
+import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
@@ -294,7 +294,7 @@ private fun RecentSettingBottomSheetContent(
     ) {
         Column {
             ConnectIntentBlankRow(
-                leadingComposable = { FlagOrGatewayIndicator(item.connectIntent.primaryLabel) },
+                leadingComposable = { ConnectIntentIcon(item.connectIntent.primaryLabel) },
                 title = item.connectIntent.primaryLabel.label(),
                 subTitle = item.connectIntent.secondaryLabel?.label(),
                 serverFeatures = item.connectIntent.serverFeatures,
