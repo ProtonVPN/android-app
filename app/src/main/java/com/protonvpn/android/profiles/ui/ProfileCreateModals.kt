@@ -32,8 +32,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -51,8 +53,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.models.config.TransmissionProtocol
+import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.Flag
@@ -61,8 +66,13 @@ import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.ProtonDialogButton
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
+import com.protonvpn.android.redesign.settings.ui.NatType
+import com.protonvpn.android.redesign.settings.ui.ProtocolBadge
+import com.protonvpn.android.redesign.settings.ui.ProtocolItem
+import com.protonvpn.android.redesign.settings.ui.SettingsSectionHeading
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
+import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
@@ -467,9 +477,148 @@ fun PickServer(
 }
 
 @Composable
+fun ProfileProtocolItem(
+    value: ProtocolSelection,
+    onSelect: (ProtocolSelection) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    ProfileValueItem(
+        labelRes = R.string.create_profile_pick_netshield_title,
+        valueText = stringResource(id = value.displayName),
+        iconContent = {
+        },
+        modal = { closeModal ->
+            PickProtocol(
+                value = value,
+                onSelect = {
+                    onSelect(it)
+                    closeModal()
+                },
+                onDismissRequest = closeModal
+            )
+        },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PickProtocol(
+    value: ProtocolSelection,
+    onSelect: (ProtocolSelection) -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+        BaseItemPickerDialog(
+            R.string.create_profile_pick_protocol_title,
+            onDismissRequest = onDismissRequest
+        ) {
+            ProtocolItem(
+                itemProtocol = ProtocolSelection.SMART,
+                title = R.string.settings_protocol_smart_title,
+                description = R.string.settings_protocol_smart_description,
+                onProtocolSelected = onSelect,
+                selectedProtocol = value,
+                trailingTitleContent = {
+                    ProtocolBadge(stringResource(R.string.settings_protocol_badge_recommended))
+                }
+            )
+            SettingsSectionHeading(
+                text = stringResource(R.string.settings_protocol_section_speed),
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            ProtocolItem(
+                itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
+                title = R.string.settings_protocol_wireguard_title,
+                description = R.string.settings_protocol_wireguard_udp_description,
+                onProtocolSelected = onSelect,
+                selectedProtocol = value,
+            )
+            ProtocolItem(
+                itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
+                title = R.string.settings_protocol_openvpn_title,
+                description = R.string.settings_protocol_openvpn_udp_description,
+                onProtocolSelected = onSelect,
+                selectedProtocol = value,
+            )
+            SettingsSectionHeading(
+                text = stringResource(R.string.settings_protocol_section_reliability),
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            ProtocolItem(
+                itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
+                title = R.string.settings_protocol_wireguard_title,
+                description = R.string.settings_protocol_wireguard_tcp_description,
+                onProtocolSelected = onSelect,
+                selectedProtocol = value,
+            )
+            ProtocolItem(
+                itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+                title = R.string.settings_protocol_openvpn_title,
+                description = R.string.settings_protocol_openvpn_tcp_description,
+                onProtocolSelected = onSelect,
+                selectedProtocol = value,
+            )
+            ProtocolItem(
+                itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
+                title = R.string.settings_protocol_stealth_title,
+                description = R.string.settings_protocol_stealth_description,
+                onProtocolSelected = onSelect,
+                selectedProtocol = value,
+            )
+        }
+}
+
+@Composable
+fun ProfileNatItem(
+    value: NatType,
+    onSelect: (NatType) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    ProfileValueItem(
+        labelRes = R.string.create_profile_pick_nat_title,
+        valueText = stringResource(id = value.shortLabelRes),
+        iconContent = {
+        },
+        modal = { closeModal ->
+            PickNat(
+                currentNat = value,
+                onSelect = {
+                    onSelect(it)
+                    closeModal()
+                },
+                onDismissRequest = closeModal
+            )
+        },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun PickNat(
+    currentNat: NatType,
+    onSelect: (NatType) -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    BaseItemPickerDialog(
+        R.string.create_profile_pick_protocol_title,
+        onDismissRequest = onDismissRequest
+    ) {
+        NatType.entries.forEach { type ->
+            SettingsRadioItemSmall(
+                title = stringResource(id = type.labelRes),
+                description = stringResource(id = type.descriptionRes),
+                selected = type == currentNat,
+                onSelected = { onSelect(type) },
+                horizontalContentPadding = 16.dp
+            )
+        }
+    }
+}
+
+@Composable
 fun ProfileNetShieldItem(
+    modifier: Modifier = Modifier,
     value: Boolean,
-    onClick: () -> Unit,
+    onNetShieldChange: (Boolean) -> Unit,
 ) {
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_netshield_title,
@@ -487,12 +636,13 @@ fun ProfileNetShieldItem(
             PickNetShield(
                 selected = value,
                 onSelect = {
-                    onClick()
+                    onNetShieldChange(it)
                     closeModal()
                 },
                 onDismissRequest = closeModal
             )
-        }
+        },
+        modifier = modifier
     )
 }
 
@@ -511,7 +661,10 @@ fun PickNetShield(
                 title = stringResource(if (value) R.string.netshield_state_on else R.string.netshield_state_off),
                 description = null,
                 selected = value == selected,
-                onSelected = { onSelect(value) },
+                onSelected = {
+                    onSelect(value)
+                    onDismissRequest()
+                },
                 leadingContent = {
                     Image(
                         painterResource(if (value) R.drawable.feature_netshield_on else R.drawable.ic_netshield_off),
@@ -779,8 +932,8 @@ private fun ProfileNetShieldItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
             ProfileNetShieldItem(
-                true,
-                {}
+                value = true,
+                onNetShieldChange = {}
             )
         }
     }
@@ -793,6 +946,33 @@ private fun PickNetShieldPreview() {
         Surface {
             PickNetShield(
                 selected = true,
+                {},
+                {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun ProfileProtocolItemPreview() {
+    VpnTheme(isDark = true) {
+        Surface {
+            ProfileProtocolItem(
+                ProtocolSelection.SMART,
+                {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PickProtocolPreview() {
+    VpnTheme(isDark = true) {
+        Surface {
+            PickProtocol(
+                ProtocolSelection.SMART,
                 {},
                 {}
             )
