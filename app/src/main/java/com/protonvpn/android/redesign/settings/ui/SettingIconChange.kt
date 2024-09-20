@@ -93,6 +93,7 @@ fun IconSelectionScreen(
         ProtonAlert(
             title = stringResource(id = R.string.settings_change_icon_confirmation_title),
             detailsImage = pendingIcon.getPreviewDrawable(),
+            isWideDialog = true,
             text = stringResource(id = R.string.settings_change_icon_confirmation_details),
             textColor = ProtonTheme.colors.textWeak,
             confirmLabel = stringResource(id = R.string.dialog_action_change_icon),

@@ -116,21 +116,27 @@ class ProfilesAddEditNav(
             modifier = modifier,
             startScreen = CreateProfileNameScreen,
         ) {
-            createProfileName(
-                viewModel,
-                onNext = { navigateInternal(ProfileTypeAndLocationScreen) },
-            )
-            profileTypeAndLocationScreen(
-                viewModel,
-                onNext = { navigateInternal(ProfileFeaturesAndSettingsScreen) },
-                onBack = ::popBackStack
-            )
-
-            profileFeaturesAndSettingsScreen(
-                viewModel,
-                onNext = onDone,
-                onBack = ::popBackStack
-            )
+            ProfileCreationTarget.entries.forEach { target ->
+                when(target) {
+                    ProfileCreationTarget.CreateProfileName ->
+                        createProfileName(
+                            viewModel,
+                            onNext = { navigateInternal(ProfileTypeAndLocationScreen) },
+                        )
+                    ProfileCreationTarget.TypeAndLocation ->
+                        profileTypeAndLocationScreen(
+                            viewModel,
+                            onNext = { navigateInternal(ProfileFeaturesAndSettingsScreen) },
+                            onBack = ::popBackStack
+                        )
+                    ProfileCreationTarget.FeaturesAndSettings ->
+                        profileFeaturesAndSettingsScreen(
+                            viewModel,
+                            onNext = onDone,
+                            onBack = ::popBackStack
+                        )
+                }
+            }
         }
     }
 }

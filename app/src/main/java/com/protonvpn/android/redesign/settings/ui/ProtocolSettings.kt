@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
@@ -133,6 +134,7 @@ fun ProtocolItem(
     onProtocolSelected: (ProtocolSelection) -> Unit,
     selectedProtocol: ProtocolSelection,
     modifier: Modifier = Modifier,
+    horizontalContentPadding: Dp = 16.dp,
     trailingTitleContent: (@Composable () -> Unit)? = null,
 ) {
     SettingsRadioItemSmall(
@@ -140,7 +142,7 @@ fun ProtocolItem(
         description = stringResource(id = description),
         selected = itemProtocol == selectedProtocol,
         onSelected = { onProtocolSelected(itemProtocol) },
-        horizontalContentPadding = 16.dp,
+        horizontalContentPadding = horizontalContentPadding,
         modifier = modifier,
         trailingTitleContent = trailingTitleContent,
     )

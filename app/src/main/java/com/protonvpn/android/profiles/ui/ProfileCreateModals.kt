@@ -32,10 +32,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -53,13 +52,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.DIALOG_CONTENT_PADDING
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.FlagDefaults
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
@@ -119,24 +118,23 @@ private fun PickProfileType(
         R.string.create_profile_pick_type_title,
         onDismissRequest = onDismissRequest
     ) {
-        LazyColumn {
-            items(allTypes) { profileType ->
-                SettingsRadioItemSmall(
-                    title = stringResource(profileType.nameRes),
-                    description = null,
-                    selected = profileType == selectedProfileType,
-                    onSelected = { onSelect(profileType) },
-                    leadingContent = {
-                        Icon(
-                            painterResource(profileType.iconRes),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(end = 6.dp)
-                                .size(20.dp)
-                        )
-                    }
-                )
-            }
+        items(allTypes) { profileType ->
+            SettingsRadioItemSmall(
+                title = stringResource(profileType.nameRes),
+                description = null,
+                selected = profileType == selectedProfileType,
+                onSelected = { onSelect(profileType) },
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
+                leadingContent = {
+                    Icon(
+                        painterResource(profileType.iconRes),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 6.dp)
+                            .size(20.dp)
+                    )
+                }
+            )
         }
     }
 }
@@ -220,24 +218,23 @@ private fun PickCountry(
             else R.string.create_profile_pick_country_title,
         onDismissRequest = onDismissRequest
     ) {
-        LazyColumn {
-            items(allCountries) { country ->
-                SettingsRadioItemSmall(
-                    title = if (isVia) viaCountry(country) else country.label(),
-                    description = null,
-                    selected = country == selectedCountry,
-                    onSelected = { onSelect(country) },
-                    leadingContent = {
-                        Flag(
-                            exitCountry = country,
-                            entryCountry = if (isSecureCore) CountryId.fastest else null,
-                            modifier = Modifier
-                                .padding(end = 12.dp)
-                                .scale(24f / FlagDefaults.singleFlagSize.width.value)
-                        )
-                    }
-                )
-            }
+        items(allCountries) { country ->
+            SettingsRadioItemSmall(
+                title = if (isVia) viaCountry(country) else country.label(),
+                description = null,
+                selected = country == selectedCountry,
+                onSelected = { onSelect(country) },
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
+                leadingContent = {
+                    Flag(
+                        exitCountry = country,
+                        entryCountry = if (isSecureCore) CountryId.fastest else null,
+                        modifier = Modifier
+                            .padding(end = 12.dp)
+                            .scale(24f / FlagDefaults.singleFlagSize.width.value)
+                    )
+                }
+            )
         }
     }
 }
@@ -285,24 +282,23 @@ fun PickGateway(
         R.string.create_profile_pick_gateway_title,
         onDismissRequest = onDismissRequest
     ) {
-        LazyColumn {
-            items(allGateways) { gateway ->
-                SettingsRadioItemSmall(
-                    title = gateway,
-                    description = null,
-                    selected = gateway == selectedGateway,
-                    onSelected = { onSelect(gateway) },
-                    leadingContent = {
-                        Icon(
-                            painterResource(CoreR.drawable.ic_proton_servers),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(end = 14.dp)
-                                .size(20.dp)
-                        )
-                    }
-                )
-            }
+        items(allGateways) { gateway ->
+            SettingsRadioItemSmall(
+                title = gateway,
+                description = null,
+                selected = gateway == selectedGateway,
+                onSelected = { onSelect(gateway) },
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
+                leadingContent = {
+                    Icon(
+                        painterResource(CoreR.drawable.ic_proton_servers),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 14.dp)
+                            .size(20.dp)
+                    )
+                }
+            )
         }
     }
 }
@@ -324,7 +320,7 @@ fun ProfileCityOrStateItem(
         iconContent = {
             Icon(
                 painterResource(
-                    if (currentValue.id.isFastest) CoreR.drawable.ic_proton_bolt //TODO: add filled
+                    if (currentValue.id.isFastest) R.drawable.ic_proton_bolt_filled
                     else CoreR.drawable.ic_proton_map_pin
                 ),
                 contentDescription = null,
@@ -361,29 +357,28 @@ fun PickCityOrState(
         else R.string.create_profile_pick_city_title,
         onDismissRequest = onDismissRequest
     ) {
-        LazyColumn {
-            items(allCityStates) { cityState ->
-                SettingsRadioItemSmall(
-                    title = cityState.name ?:
-                        if (isState) stringResource(R.string.create_profile_fastest_state)
-                        else stringResource(R.string.create_profile_fastest_city),
-                    description = null,
-                    selected = cityState.id == selectedCityState.id,
-                    onSelected = { onSelect(cityState) },
-                    leadingContent = {
-                        Icon(
-                            painterResource(
-                                if (cityState.id.isFastest) CoreR.drawable.ic_proton_bolt //TODO: add filled
-                                else CoreR.drawable.ic_proton_map_pin
-                            ),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(end = 14.dp)
-                                .size(20.dp)
-                        )
-                    }
-                )
-            }
+        items(allCityStates) { cityState ->
+            SettingsRadioItemSmall(
+                title = cityState.name
+                    ?: if (isState) stringResource(R.string.create_profile_fastest_state)
+                    else stringResource(R.string.create_profile_fastest_city),
+                description = null,
+                selected = cityState.id == selectedCityState.id,
+                onSelected = { onSelect(cityState) },
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
+                leadingContent = {
+                    Icon(
+                        painterResource(
+                            if (cityState.id.isFastest) R.drawable.ic_proton_bolt_filled
+                            else CoreR.drawable.ic_proton_map_pin
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(end = 14.dp)
+                            .size(20.dp)
+                    )
+                }
+            )
         }
     }
 }
@@ -406,7 +401,7 @@ fun ProfileServerItem(
             } else {
                 Icon(
                     painterResource(
-                        if (serverInfo.isFastest) CoreR.drawable.ic_proton_bolt //TODO: add filled
+                        if (serverInfo.isFastest) R.drawable.ic_proton_bolt_filled
                         else CoreR.drawable.ic_proton_servers
                     ),
                     contentDescription = null,
@@ -441,37 +436,36 @@ fun PickServer(
         R.string.create_profile_pick_server_title,
         onDismissRequest = onDismissRequest
     ) {
-        LazyColumn {
-            items(allServers) { server ->
-                SettingsRadioItemSmall(
-                    title = server.name ?: stringResource(R.string.create_profile_fastest_server),
-                    description = null,
-                    selected = server.id == selectedServer.id,
-                    onSelected = { onSelect(server) },
-                    leadingContent = {
-                        if (server.flagCountryId != null) {
-                            Flag(
-                                exitCountry = server.flagCountryId,
-                                modifier = Modifier
-                                    .padding(end = 14.dp)
-                                    .size(24.dp, 16.dp)
-                            )
-                        } else {
-                            Icon(
-                                painterResource(
-                                    if (server.isFastest) CoreR.drawable.ic_proton_bolt //TODO: add filled
-                                    else CoreR.drawable.ic_proton_servers
-                                ),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .padding(end = 14.dp)
-                                    .padding(horizontal = 2.dp)
-                                    .size(20.dp)
-                            )
-                        }
+        items(allServers) { server ->
+            SettingsRadioItemSmall(
+                title = server.name ?: stringResource(R.string.create_profile_fastest_server),
+                description = null,
+                selected = server.id == selectedServer.id,
+                onSelected = { onSelect(server) },
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
+                leadingContent = {
+                    if (server.flagCountryId != null) {
+                        Flag(
+                            exitCountry = server.flagCountryId,
+                            modifier = Modifier
+                                .padding(end = 14.dp)
+                                .size(24.dp, 16.dp)
+                        )
+                    } else {
+                        Icon(
+                            painterResource(
+                                if (server.isFastest) R.drawable.ic_proton_bolt_filled
+                                else CoreR.drawable.ic_proton_servers
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 14.dp)
+                                .padding(horizontal = 2.dp)
+                                .size(20.dp)
+                        )
                     }
-                )
-            }
+                }
+            )
         }
     }
 }
@@ -483,7 +477,7 @@ fun ProfileProtocolItem(
     modifier: Modifier = Modifier,
 ) {
     ProfileValueItem(
-        labelRes = R.string.create_profile_pick_netshield_title,
+        labelRes = R.string.create_profile_pick_protocol_title,
         valueText = stringResource(id = value.displayName),
         iconContent = {
         },
@@ -507,64 +501,95 @@ fun PickProtocol(
     onSelect: (ProtocolSelection) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
-        BaseItemPickerDialog(
-            R.string.create_profile_pick_protocol_title,
-            onDismissRequest = onDismissRequest
-        ) {
+    BaseItemPickerDialog(
+        R.string.create_profile_pick_protocol_title,
+        onDismissRequest = onDismissRequest
+    ) {
+        item {
             ProtocolItem(
                 itemProtocol = ProtocolSelection.SMART,
                 title = R.string.settings_protocol_smart_title,
                 description = R.string.settings_protocol_smart_description,
                 onProtocolSelected = onSelect,
                 selectedProtocol = value,
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
                 trailingTitleContent = {
                     ProtocolBadge(stringResource(R.string.settings_protocol_badge_recommended))
                 }
             )
+        }
+        item {
             SettingsSectionHeading(
                 text = stringResource(R.string.settings_protocol_section_speed),
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = DIALOG_CONTENT_PADDING)
             )
+        }
+        item {
             ProtocolItem(
-                itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
+                itemProtocol = ProtocolSelection(
+                    VpnProtocol.WireGuard,
+                    TransmissionProtocol.UDP
+                ),
                 title = R.string.settings_protocol_wireguard_title,
                 description = R.string.settings_protocol_wireguard_udp_description,
                 onProtocolSelected = onSelect,
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
                 selectedProtocol = value,
             )
+        }
+        item {
             ProtocolItem(
                 itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
                 title = R.string.settings_protocol_openvpn_title,
                 description = R.string.settings_protocol_openvpn_udp_description,
                 onProtocolSelected = onSelect,
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
                 selectedProtocol = value,
             )
+        }
+        item {
             SettingsSectionHeading(
                 text = stringResource(R.string.settings_protocol_section_reliability),
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = DIALOG_CONTENT_PADDING)
             )
+        }
+        item {
             ProtocolItem(
-                itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
+                itemProtocol = ProtocolSelection(
+                    VpnProtocol.WireGuard,
+                    TransmissionProtocol.TCP
+                ),
                 title = R.string.settings_protocol_wireguard_title,
                 description = R.string.settings_protocol_wireguard_tcp_description,
                 onProtocolSelected = onSelect,
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
                 selectedProtocol = value,
             )
+        }
+        item {
             ProtocolItem(
                 itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
                 title = R.string.settings_protocol_openvpn_title,
                 description = R.string.settings_protocol_openvpn_tcp_description,
                 onProtocolSelected = onSelect,
-                selectedProtocol = value,
-            )
-            ProtocolItem(
-                itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
-                title = R.string.settings_protocol_stealth_title,
-                description = R.string.settings_protocol_stealth_description,
-                onProtocolSelected = onSelect,
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
                 selectedProtocol = value,
             )
         }
+        item {
+            ProtocolItem(
+                itemProtocol = ProtocolSelection(
+                    VpnProtocol.WireGuard,
+                    TransmissionProtocol.TLS
+                ),
+                title = R.string.settings_protocol_stealth_title,
+                description = R.string.settings_protocol_stealth_description,
+                onProtocolSelected = onSelect,
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
+                selectedProtocol = value,
+            )
+        }
+    }
 }
 
 @Composable
@@ -599,17 +624,19 @@ fun PickNat(
     onDismissRequest: () -> Unit,
 ) {
     BaseItemPickerDialog(
-        R.string.create_profile_pick_protocol_title,
+        R.string.create_profile_pick_nat_title,
         onDismissRequest = onDismissRequest
     ) {
         NatType.entries.forEach { type ->
-            SettingsRadioItemSmall(
-                title = stringResource(id = type.labelRes),
-                description = stringResource(id = type.descriptionRes),
-                selected = type == currentNat,
-                onSelected = { onSelect(type) },
-                horizontalContentPadding = 16.dp
-            )
+            item {
+                SettingsRadioItemSmall(
+                    title = stringResource(id = type.labelRes),
+                    description = stringResource(id = type.descriptionRes),
+                    selected = type == currentNat,
+                    horizontalContentPadding = DIALOG_CONTENT_PADDING,
+                    onSelected = { onSelect(type) },
+                )
+            }
         }
     }
 }
@@ -657,24 +684,27 @@ fun PickNetShield(
         onDismissRequest = onDismissRequest
     ) {
         listOf(true, false).forEach { value ->
-            SettingsRadioItemSmall(
-                title = stringResource(if (value) R.string.netshield_state_on else R.string.netshield_state_off),
-                description = null,
-                selected = value == selected,
-                onSelected = {
-                    onSelect(value)
-                    onDismissRequest()
-                },
-                leadingContent = {
-                    Image(
-                        painterResource(if (value) R.drawable.feature_netshield_on else R.drawable.ic_netshield_off),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(end = 6.dp)
-                            .size(26.67.dp)
-                    )
-                }
-            )
+            item {
+                SettingsRadioItemSmall(
+                    title = stringResource(if (value) R.string.netshield_state_on else R.string.netshield_state_off),
+                    description = null,
+                    selected = value == selected,
+                    onSelected = {
+                        onSelect(value)
+                        onDismissRequest()
+                    },
+                    horizontalContentPadding = DIALOG_CONTENT_PADDING,
+                    leadingContent = {
+                        Image(
+                            painterResource(if (value) R.drawable.feature_netshield_on else R.drawable.ic_netshield_off),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(end = 6.dp)
+                                .size(26.67.dp)
+                        )
+                    }
+                )
+            }
         }
     }
 }
@@ -689,7 +719,11 @@ fun ProfileValueItem(
     bottomPadding: Dp = 20.dp,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    Column(modifier = modifier.padding(vertical = 8.dp).padding(bottom = bottomPadding)) {
+    Column(
+        modifier = modifier
+            .padding(vertical = 8.dp)
+            .padding(bottom = bottomPadding)
+    ) {
         if (labelRes != null) {
             Text(
                 text = stringResource(labelRes),
@@ -732,30 +766,40 @@ fun ProfileValueItem(
 fun BaseItemPickerDialog(
     @StringRes title: Int,
     onDismissRequest: () -> Unit,
-    itemList: @Composable () -> Unit,
+    itemList: LazyListScope.() -> Unit,
 ) {
     ProtonBasicAlert(
-        onDismissRequest = onDismissRequest
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .largeScreenContentPadding()
-        ) {
-            Text(
-                stringResource(title),
-                style = ProtonTheme.typography.body1Bold,
-                modifier = Modifier.padding(bottom = 12.dp)
-            )
+        content = {
             Spacer(modifier = Modifier.height(12.dp))
-            itemList()
-            ProtonDialogButton(
-                onClick = onDismissRequest,
-                text = stringResource(R.string.cancel),
-                modifier = Modifier.align(Alignment.End)
-            )
-        }
-    }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .largeScreenContentPadding()
+            ) {
+                Text(
+                    stringResource(title),
+                    style = ProtonTheme.typography.body1Bold,
+                    modifier = Modifier.padding(horizontal = DIALOG_CONTENT_PADDING)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                LazyColumn(
+                    modifier = Modifier.weight(weight = 1f, fill = false)
+                ) {
+                    itemList()
+                }
+
+                ProtonDialogButton(
+                    onClick = onDismissRequest,
+                    text = stringResource(R.string.cancel),
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(end = DIALOG_CONTENT_PADDING)
+                )
+            }
+        },
+        isWideDialog = true,
+        onDismissRequest = onDismissRequest
+    )
 }
 
 @Preview
@@ -864,7 +908,10 @@ private fun ProfileCityOrStateItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
             ProfileCityOrStateItem(
-                TypeAndLocationScreenState.CityOrState("New York", CityStateId("NY", isState = false)),
+                TypeAndLocationScreenState.CityOrState(
+                    "New York",
+                    CityStateId("NY", isState = false)
+                ),
                 emptyList(),
                 {}
             )
@@ -879,12 +926,24 @@ private fun PickCityStatePreview() {
         Surface {
             PickCityOrState(
                 isState = false,
-                selectedCityState = TypeAndLocationScreenState.CityOrState("New York", CityStateId("NY", isState = false)),
+                selectedCityState = TypeAndLocationScreenState.CityOrState(
+                    "New York",
+                    CityStateId("NY", isState = false)
+                ),
                 allCityStates = listOf(
                     TypeAndLocationScreenState.CityOrState(null, CityStateId("", isState = false)),
-                    TypeAndLocationScreenState.CityOrState("New York", CityStateId("NY", isState = false)),
-                    TypeAndLocationScreenState.CityOrState("Los Angeles", CityStateId("CA", isState = false)),
-                    TypeAndLocationScreenState.CityOrState("Chicago", CityStateId("IL", isState = false)),
+                    TypeAndLocationScreenState.CityOrState(
+                        "New York",
+                        CityStateId("NY", isState = false)
+                    ),
+                    TypeAndLocationScreenState.CityOrState(
+                        "Los Angeles",
+                        CityStateId("CA", isState = false)
+                    ),
+                    TypeAndLocationScreenState.CityOrState(
+                        "Chicago",
+                        CityStateId("IL", isState = false)
+                    ),
                 ),
                 {},
                 {}

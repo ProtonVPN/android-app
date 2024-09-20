@@ -50,6 +50,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.protonvpn.android.R
@@ -60,11 +61,18 @@ import me.proton.core.compose.theme.defaultSmallUnspecified
 import me.proton.core.compose.theme.headlineNorm
 import me.proton.core.compose.theme.headlineSmallUnspecified
 
+private val WIDE_DIALOG_WIDTH = 480.dp
+
+// Same as the private DialogPadding used by AlertDialog.
+val DIALOG_CONTENT_PADDING = 24.dp
+
 object ProtonAlertDefaults {
     val tonalElevation = 0.dp
     val containerColor @Composable get() = ProtonTheme.colors.backgroundSecondary
     val shape @Composable get() = AlertDialogDefaults.shape
 }
+
+private fun Modifier.wideDialog() : Modifier = this.widthIn(max = WIDE_DIALOG_WIDTH).padding(16.dp)
 
 @SuppressWarnings("LongParameterList")
 @Composable
@@ -80,9 +88,9 @@ fun ProtonAlert(
     onDismissRequest: () -> Unit = {},
     checkBox: String? = null,
     checkBoxInitialValue: Boolean = false,
+    isWideDialog: Boolean = false
 ) {
     val checkBoxValue = rememberSaveable { mutableStateOf(checkBoxInitialValue) }
-    val isWideDialog = detailsImage != null
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
@@ -128,7 +136,7 @@ fun ProtonAlert(
         properties = DialogProperties(
             usePlatformDefaultWidth = !isWideDialog
         ),
-        modifier = if (isWideDialog) Modifier.widthIn(max = 480.dp).padding(16.dp) else Modifier
+        modifier = if (isWideDialog) Modifier.wideDialog() else Modifier
     )
 }
 
@@ -136,22 +144,21 @@ fun ProtonAlert(
 @Composable
 fun ProtonBasicAlert(
     onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier,
+    isWideDialog: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     BasicAlertDialog(
         onDismissRequest = onDismissRequest,
-        modifier = modifier,
+        modifier = if (isWideDialog) Modifier.wideDialog() else Modifier,
+        properties = DialogProperties(usePlatformDefaultWidth = !isWideDialog),
     ) {
         Surface(
             color = ProtonAlertDefaults.containerColor,
-            tonalElevation = ProtonAlertDefaults. tonalElevation,
+            tonalElevation = ProtonAlertDefaults.tonalElevation,
             shape = ProtonAlertDefaults.shape,
         ) {
-            Box(
-                modifier = Modifier.padding(24.dp), // Same as the private DialogPadding used by AlertDialog.
-            ) {
-               content()
+            Box(modifier = Modifier.padding(vertical = DIALOG_CONTENT_PADDING)) {
+                content()
             }
         }
     }
