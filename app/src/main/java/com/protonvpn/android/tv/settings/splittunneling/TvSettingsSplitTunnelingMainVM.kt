@@ -23,6 +23,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.components.InstalledAppsProvider
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
@@ -132,6 +134,7 @@ class TvSettingsSplitTunnelingMainVM @Inject constructor(
     }
 
     fun onBannerReconnect(uiDelegate: VpnUiDelegate) {
+        ProtonLogger.log(UiReconnect, "TV settings")
         vpnConnectionManager.reconnect("user via settings change", uiDelegate)
         updateInitialSettings()
     }

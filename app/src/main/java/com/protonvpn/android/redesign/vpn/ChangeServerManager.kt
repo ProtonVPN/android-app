@@ -22,6 +22,8 @@ package com.protonvpn.android.redesign.vpn
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.ui.home.vpn.ChangeServerPrefs
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -86,6 +88,7 @@ class ChangeServerManager @Inject constructor(
     }
 
     fun changeServer(vpnUiDelegate: VpnUiDelegate) {
+        ProtonLogger.log(UiReconnect, "Change server")
         mainScope.launch {
             changeInProgress.value = true
             val server = requireNotNull(serverManager.getRandomServer(currentUser.vpnUser()))
