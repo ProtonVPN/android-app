@@ -126,7 +126,7 @@ fun ProtocolSettings(
 }
 
 @Composable
-private fun ProtocolItem(
+fun ProtocolItem(
     itemProtocol: ProtocolSelection,
     @StringRes title: Int,
     @StringRes description: Int,
@@ -147,7 +147,7 @@ private fun ProtocolItem(
 }
 
 @Composable
-private fun ProtocolBadge(
+fun ProtocolBadge(
     text: String,
     textColor: Color = ProtonTheme.colors.textNorm,
     borderColor: Color = ProtonTheme.colors.separatorNorm,
