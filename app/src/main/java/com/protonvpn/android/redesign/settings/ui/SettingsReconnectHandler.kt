@@ -20,6 +20,8 @@
 package com.protonvpn.android.redesign.settings.ui
 
 import androidx.lifecycle.SavedStateHandle
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.userstorage.DontShowAgainStore
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -72,6 +74,7 @@ class SettingsReconnectHandler @Inject constructor(
     }
 
     private fun reconnect(uiDelegate: VpnUiDelegate) {
+        ProtonLogger.log(UiReconnect, "settings")
         vpnConnectionManager.reconnect("user via settings change", uiDelegate)
     }
 }

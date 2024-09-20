@@ -28,6 +28,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
@@ -375,8 +377,10 @@ abstract class ServerGroupsViewModel<MainStateT>(
             subScreenSaveState = null
             if (!item.data.inMaintenance) {
                 if (item.available) {
-                    val connectIntent = item.data.getConnectIntent(filterType).takeIf { !item.connected }
                     val trigger = connectTrigger(item.data)
+                    // Assumes that description contains all the necessary information.
+                    ProtonLogger.log(UiConnect, trigger.description)
+                    val connectIntent = item.data.getConnectIntent(filterType).takeIf { !item.connected }
                     if (connectIntent != null)
                         connect(vpnUiDelegate, connectIntent, trigger)
                     navigateToHome(connectIntent != null && shouldShowcaseRecents(connectIntent))
@@ -387,7 +391,7 @@ abstract class ServerGroupsViewModel<MainStateT>(
         }
     }
 
-    abstract fun connectTrigger(item: ServerGroupItemData): ConnectTrigger
+    protected abstract fun connectTrigger(item: ServerGroupItemData): ConnectTrigger
 
     suspend fun onNavigateBack(onHide: suspend () -> Unit) {
         subScreenSaveState?.let { current ->

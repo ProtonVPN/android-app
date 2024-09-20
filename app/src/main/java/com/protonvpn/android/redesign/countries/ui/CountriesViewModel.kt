@@ -103,11 +103,11 @@ class CountriesViewModel @Inject constructor(
         val description = "Countries tab"
         return when (item) {
             is ServerGroupItemData.City -> {
-                if (item.cityStateId.isState) ConnectTrigger.CountriesState(description)
-                else ConnectTrigger.CountriesCity(description)
+                if (item.cityStateId.isState) ConnectTrigger.CountriesState("$description: state")
+                else ConnectTrigger.CountriesCity("$description: city")
             }
-            is ServerGroupItemData.Country -> ConnectTrigger.CountriesCountry(description)
-            is ServerGroupItemData.Server -> ConnectTrigger.CountriesServer(description)
+            is ServerGroupItemData.Country -> ConnectTrigger.CountriesCountry("$description: country")
+            is ServerGroupItemData.Server -> ConnectTrigger.CountriesServer("$description: server")
             is ServerGroupItemData.Gateway -> {
                 DebugUtils.fail("No gateways expected in country list")
                 ConnectTrigger.GatewaysGateway(description)

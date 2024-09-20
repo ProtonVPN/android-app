@@ -24,6 +24,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.appconfig.ApiNotificationOfferButton
 import com.protonvpn.android.di.ElapsedRealtimeClock
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
+import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentAvailability
@@ -145,6 +148,7 @@ class HomeViewModel @Inject constructor(
         }
 
     suspend fun connect(vpnUiDelegate: VpnUiDelegate, trigger: ConnectTrigger) {
+        ProtonLogger.log(UiConnect, "Home: ${trigger.description}")
         vpnConnectionManager.connect(vpnUiDelegate, quickConnectIntent(), trigger)
     }
 
@@ -162,16 +166,19 @@ class HomeViewModel @Inject constructor(
                 RecentAvailability.UNAVAILABLE_PLAN -> eventNavigateToUpgrade.tryEmit(Unit)
                 RecentAvailability.UNAVAILABLE_PROTOCOL -> dialogState = DialogState.ServerNotAvailable
                 RecentAvailability.AVAILABLE_OFFLINE -> dialogState = recent.toMaintenanceDialogType()
-                RecentAvailability.ONLINE -> vpnConnectionManager.connect(
-                    vpnUiDelegate,
-                    recent.connectIntent,
-                    if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular
-                )
+                RecentAvailability.ONLINE -> {
+                    val trigger = if (recent.isPinned) ConnectTrigger.RecentPinned else ConnectTrigger.RecentRegular
+                    ProtonLogger.log(UiConnect, "home ${trigger.description}")
+                    vpnConnectionManager.connect(vpnUiDelegate, recent.connectIntent, trigger)
+                }
             }
         }
     }
 
-    fun disconnect(trigger: DisconnectTrigger) = vpnConnectionManager.disconnect(trigger)
+    fun disconnect(trigger: DisconnectTrigger) {
+        ProtonLogger.log(UiDisconnect, "Home: ${trigger.description}")
+        vpnConnectionManager.disconnect(trigger)
+    }
 
     fun dismissDialog() {
         dialogState = null

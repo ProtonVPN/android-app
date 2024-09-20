@@ -155,11 +155,11 @@ class SearchViewModel @Inject constructor(
         val description = "Search UI"
         return when (item) {
             is ServerGroupItemData.City -> {
-                if (item.cityStateId.isState) ConnectTrigger.SearchState(description)
-                else ConnectTrigger.SearchCity(description)
+                if (item.cityStateId.isState) ConnectTrigger.SearchState("$description: state")
+                else ConnectTrigger.SearchCity("$description: city")
             }
-            is ServerGroupItemData.Country -> ConnectTrigger.SearchCountry(description)
-            is ServerGroupItemData.Server -> ConnectTrigger.SearchServer(description)
+            is ServerGroupItemData.Country -> ConnectTrigger.SearchCountry("$description: country")
+            is ServerGroupItemData.Server -> ConnectTrigger.SearchServer("$description: server")
             is ServerGroupItemData.Gateway -> {
                 DebugUtils.fail("No gateways expected in search results")
                 ConnectTrigger.GatewaysGateway(description)

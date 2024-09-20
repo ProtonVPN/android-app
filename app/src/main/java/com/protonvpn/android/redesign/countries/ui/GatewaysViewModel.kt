@@ -72,8 +72,8 @@ class GatewaysViewModel @Inject constructor(
     override fun connectTrigger(item: ServerGroupItemData): ConnectTrigger {
         val description = "Gateways tab"
         return when (item) {
-            is ServerGroupItemData.Gateway -> ConnectTrigger.GatewaysGateway(description)
-            is ServerGroupItemData.Server -> ConnectTrigger.GatewaysServer(description)
+            is ServerGroupItemData.Gateway -> ConnectTrigger.GatewaysGateway("$description: gateway")
+            is ServerGroupItemData.Server -> ConnectTrigger.GatewaysServer("$description: server")
             is ServerGroupItemData.City,
             is ServerGroupItemData.Country -> {
                 DebugUtils.fail("Only gateways expected in gateways list")

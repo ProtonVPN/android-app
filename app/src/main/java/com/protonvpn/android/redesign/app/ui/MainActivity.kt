@@ -47,6 +47,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.VpnUiDelegateProvider
+import com.protonvpn.android.logging.ProtonLogger
+import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.managed.ui.AutoLoginErrorView
 import com.protonvpn.android.managed.ui.AutoLoginView
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
@@ -261,6 +263,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     }
 
     private fun retryConnectionAfterPermissions(connectIntent: AnyConnectIntent) {
+        ProtonLogger.log(UiConnect, "VPN permission retry")
         // ConnectionCard is the most likely trigger, although not always correct.
         activityViewModel.connect(vpnActivityDelegate, connectIntent, ConnectTrigger.ConnectionCard)
     }
