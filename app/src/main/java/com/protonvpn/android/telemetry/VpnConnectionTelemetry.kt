@@ -32,6 +32,7 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Reusable
 import io.sentry.Sentry
+import io.sentry.SentryEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -219,7 +220,9 @@ class VpnConnectionTelemetry @Inject constructor(
             mainScope.launch {
                 if (isSentryDebugEnabled()) {
                     val trigger = inProgress.trigger.statsName
-                    Sentry.captureException(ConnectionTelemetryDebug("'$trigger' connection aborted: $sentryInfo"))
+                    val event = SentryEvent(ConnectionTelemetryDebug("'$trigger' connection aborted: $sentryInfo"))
+                    event.fingerprints = listOf(trigger, sentryInfo)
+                    Sentry.captureEvent(event)
                 }
             }
         }
