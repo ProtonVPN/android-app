@@ -142,10 +142,12 @@ build google debug:
   tags:
     - xlarge-k8s
   script:
-    # Build additionally the vanilla flavor to check that it compiles. Don't include it in artifacts.
+    # Build additionally the vanilla and Amazon flavors to check that they compile.
+    # Don't include them in artifacts.
     - >
       ./gradlew assembleProductionGooglePlayStoreDebug \
                 assembleProductionVanillaOpenSourceDebug \
+                assembleProductionVanillaAmazonDebug \
                 assembleProductionGooglePlayStoreDebugAndroidTest
   artifacts:
     expire_in: 1 week
