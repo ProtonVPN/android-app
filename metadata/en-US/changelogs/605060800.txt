@@ -1,0 +1,2 @@
+What's new
+We fixed an issue that caused VPN connection problems in highly restricted environments. Minor UI and stability improvements.
