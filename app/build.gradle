@@ -153,7 +153,7 @@ android {
     }
     defaultConfig {
         applicationId appId
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion rootProject.ext.minSdkVersion // See also build flavors.
         targetSdkVersion 34
         multiDexEnabled true
         versionName helpers.fullVersionName
@@ -286,6 +286,7 @@ android {
 
         amazon {
             dimension "distribution"
+            minSdkVersion rootProject.ext.minSdkVersionAmazon
             buildConfigField "String", "STORE_SUFFIX", "\"+aws\""
             proguardFile additionalProguard
         }

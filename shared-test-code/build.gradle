@@ -30,7 +30,7 @@ android {
     compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdk rootProject.ext.minSdkVersion
+        minSdk rootProject.ext.minSdkVersionAmazon
 
         consumerProguardFiles "consumer-rules.pro"
     }

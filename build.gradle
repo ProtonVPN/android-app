@@ -64,6 +64,7 @@ plugins {
 }
 project.ext {
     minSdkVersion = 26
+    minSdkVersionAmazon = 25 // Fire OS 6, see VPNAND-1914.
     compileSdkVersion = 34
     compileNdkVersion = "23.1.7779620"
 }
