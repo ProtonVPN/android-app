@@ -22,7 +22,7 @@
     <string name="app_icon_name_dark">Întunecată</string>
     <string name="app_icon_name_retro">Retro</string>
     <string name="app_icon_name_weather">Meteo</string>
-    <string name="app_icon_name_notes">Note</string>
+    <string name="app_icon_name_notes">Notițe</string>
     <string name="app_icon_name_calculator">Calculator</string>
     <!-- Strings related to login -->
     <string name="login">Conectare</string>
@@ -289,7 +289,7 @@
     <string name="tv_signout_dialog_description_connected">Aceasta va deconecta televizorul de la orice server VPN.</string>
     <string name="tv_signout_dialog_ok">Deconectare</string>
     <string name="tv_quick_connect_recommened">Recomandat</string>
-    <string name="tv_quick_connect_favourite">Favorită</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Țara nu este disponibilă</string>
     <string name="tv_country_maintenance_dialog_description">Reîncercați mai târziu sau selectați o altă țară.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -325,7 +325,7 @@
     <string name="enable">Activare</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol este acum dezactivat</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN a detectat că rețeaua curentă împiedică o conexiune la VPN. Activarea funcției Smart Protocol ar putea ocoli aceste limitări.</string>
-    <string name="upsell_advanced_features">Funcții avansate: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Accesați serviciile de transmisie în flux (Netflix, Disney+, etc.) de oriunde în lume</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -546,33 +546,14 @@
     <string name="payment_auto_renew_message_annual">Abonamentul se autoreînnoiește cu %1$s/an.</string>
     <string name="payment_welcome_price_message_monthly_fallback">Abonamentul se autoreînnoiește lunar</string>
     <string name="payment_welcome_price_message_annual_fallback">Abonamentul se autoreînnoiește anual</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Informații</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - servere Plus</string>
-    <string name="activity_information_gateways_title">Ce este o poartă de acces?</string>
-    <string name="info_features">Funcții</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Această tehnologie permite ca Proton VPN să ofere viteză și securitate mai mare în țările dificil de accesat.</string>
-    <string name="streaming_title">Transmisie în flux</string>
-    <string name="streaming_description">Serverele Plus suportă transmisii în flux (Netflix, Disney+ etc.) de oriunde din lume.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Aceste servere oferă cea mai bună performanță pentru BitTorrent și partajarea de fișiere.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Direcționați traficul de internet prin rețeaua Tor. Mai lent, dar mai privat.</string>
-    <string name="info_performance">Performanță</string>
     <string name="server_load_title">Încărcare server</string>
-    <string name="server_load_description">Serverele mai încărcate sunt mai lente decât serverele mai puțin încărcate.</string>
-    <string name="streaming_title_with_country">Transmisii în flux - %1$s</string>
-    <string name="streaming_services_description">Conectați-vă la un server Plus din această țară pentru a viziona transmisii în flux.\n\nIndiciu: Ștergeți bufferul aplicațiilor de transmisii în flux pentru a vă asigura că apare un conținut nou.</string>
-    <string name="partnership_free_title">Servere gratuite</string>
-    <string name="partnership_free_description">Securitate și confidențialitate pentru oricine. Serverele gratuite nu au limite de date și nu vă vom reduce niciodată deliberat viteza de navigare.</string>
-    <string name="partnership_partners_title">Partenerii noștri</string>
     <string name="activity_information_learn_more">Detalii</string>
     <string name="server_load_low">Redusă</string>
     <string name="server_load_medium">Medie</string>
     <string name="server_load_high">Mare</string>
-    <string name="info_gateways_description">O poartă de acces VPN este o conexiune sigură care oferă acces controlat la datele și serviciile companiei proprii prin servere dedicate.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bine ați venit la Proton VPN</string>
@@ -628,7 +609,7 @@
     <string name="settings_change_icon_details">Personalizați modul în care aplicația Proton VPN apare pe dispozitiv. De ce?</string>
     <string name="settings_change_icon_confirmation_title">Modificați pictograma aplicației?</string>
     <string name="settings_change_icon_confirmation_details">Acest lucru va determina închiderea aplicației Proton VPN. Pentru a reporni Proton VPN, trebuie doar să atingeți nou pictogramă a aplicației.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Pictogramă discretă aplicație</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -951,7 +932,7 @@
     <string name="connection_card_label_connecting">Se conectează la…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Se schimbă serverul…</string>
     <!-- tag(Redesign_2023)
@@ -1095,8 +1076,8 @@
     <string name="country_filter_tor_servers_list_header">Servere Tor (%1$d)</string>
     <string name="country_filter_info_label">Informații</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Solicitare: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1128,7 +1109,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">IP VPN</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Conectat timp de</string>
     <!-- tag(Redesign_2023) -->
@@ -1158,7 +1139,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Mare (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">Viteza prin VPN e mai redusă decât normal</string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocol</string>
     <!-- tag(Redesign_2023) -->
@@ -1310,7 +1291,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Conexiunea a eșuat</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Acest dispozitiv nu permite conexiuni prin VPN.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Măriți viteza de conectare cu până la 400 %% cu tehnologii de îmbunătățire a performanței. %1$s</string>
     <string name="settings_account_settings_title">Setări cont</string>
@@ -1318,7 +1299,7 @@
     <string name="settings_account_recovery_email">E-mail de recuperare</string>
     <string name="settings_account_recovery_email_not_set">Nesetat</string>
     <string name="settings_account_security_keys">Chei de securitate</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Contul meu</string>
     <string name="settings_account_button_delete_account">Ștergere cont</string>
     <string name="settings_advanced_alternative_routing_title">Rută alternativă</string>

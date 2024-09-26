@@ -285,7 +285,7 @@
     <string name="tv_signout_dialog_description_connected">この操作により、あなたのテレビが VPN サーバーから切断されます。</string>
     <string name="tv_signout_dialog_ok">サインアウト</string>
     <string name="tv_quick_connect_recommened">推奨</string>
-    <string name="tv_quick_connect_favourite">お気に入り</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">この国は現在利用できません</string>
     <string name="tv_country_maintenance_dialog_description">後でもう一度試すか、別の国を選択してください。</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -319,7 +319,7 @@
     <string name="enable">有効化</string>
     <string name="notification_smart_protocol_disabled_title">スマートプロトコルは現在無効です</string>
     <string name="notification_smart_protocol_disabled_content">現在のネットワークが VPN に接続しようとしているのを妨げるのを検出しました。スマートプロトコルを有効にするとこれらの制限を回避できる可能性があります。</string>
-    <string name="upsell_advanced_features">高度な機能: NetShield、Secure Core、Tor、P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">世界中どこでも Netflix や Disney+ などのストリーミングサービスにアクセス</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -514,33 +514,14 @@
     <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
     <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
     <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">情報</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus サーバー</string>
-    <string name="activity_information_gateways_title">ゲートウェイとは何か？</string>
-    <string name="info_features">機能</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">この技術は Proton VPN の提供が困難な国で高速な速度とセキュリティを提供します。</string>
-    <string name="streaming_title">ストリーミング</string>
-    <string name="streaming_description">Plus サーバーは世界中どこからでもストリーミングサービス (Netflix, Disney+ など) をサポートします。</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">これらのサーバーは BitTorrent とファイル共有のための最適なパフォーマンスを提供します。</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Tor ネットワークを経由するとネットワークは低速になりますが、さらにプライベートになります。</string>
-    <string name="info_performance">パフォーマンス</string>
     <string name="server_load_title">サーバー負荷</string>
-    <string name="server_load_description">高負荷のサーバーは低負荷のサーバーに比べ遅くなります。</string>
-    <string name="streaming_title_with_country">ストリーミング - %1$s</string>
-    <string name="streaming_services_description">この国の Plus サーバーに接続してストリーミングを開始します。\n\nヒント: 新しいコンテンツを反映させるため、ストリーミングアプリのキャッシュをクリアします。</string>
-    <string name="partnership_free_title">Free サーバー</string>
-    <string name="partnership_free_description">セキュリティとプライバシーはライフラインです。Freeサーバーにはデータ制限を設けていません。また意図的にブラウジングスピードを制限することもありません。</string>
-    <string name="partnership_partners_title">パートナー</string>
     <string name="activity_information_learn_more">詳細</string>
     <string name="server_load_low">低</string>
     <string name="server_load_medium">中</string>
     <string name="server_load_high">高</string>
-    <string name="info_gateways_description">VPNゲートウェイは、専用サーバーを通じて企業のデータやサービスへの制御されたアクセスを提供するセキュアな接続です。</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN へようこそ</string>
@@ -594,7 +575,7 @@
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
     <string name="settings_change_icon_confirmation_title">Change app icon?</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -781,7 +762,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">ピアツーピア</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最速の国</string>
@@ -901,7 +882,7 @@
     <string name="connection_card_label_connecting">接続中…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">サーバー変更中…</string>
     <!-- tag(Redesign_2023)
@@ -1045,8 +1026,8 @@
     <string name="country_filter_tor_servers_list_header">Torサーバー (%1$d)</string>
     <string name="country_filter_info_label">情報</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">負荷: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1078,7 +1059,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN の IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">接続時間</string>
     <!-- tag(Redesign_2023) -->
@@ -1108,7 +1089,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">高 (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN の実行が通常より遅くなる可能性があります </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">プロトコル</string>
     <!-- tag(Redesign_2023) -->
@@ -1238,7 +1219,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">接続に失敗</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">このデバイスはVPN接続を許可していません。</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">パフォーマンス強化テクノロジーにより、接続速度が最大 400%% 向上します。 %1$s</string>
     <string name="settings_account_settings_title">アカウントの設定</string>
@@ -1246,7 +1227,7 @@
     <string name="settings_account_recovery_email">回復用メールアドレス</string>
     <string name="settings_account_recovery_email_not_set">未設定</string>
     <string name="settings_account_security_keys">セキュリティキー</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">マイアカウント</string>
     <string name="settings_account_button_delete_account">アカウントを削除する</string>
     <string name="settings_advanced_alternative_routing_title">代替ルーティング</string>

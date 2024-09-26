@@ -287,7 +287,7 @@
     <string name="tv_signout_dialog_description_connected">Tämä katkaisee televisiosi yhteyden kaikkiin VPN-palvelimiin.</string>
     <string name="tv_signout_dialog_ok">Kirjaudu ulos</string>
     <string name="tv_quick_connect_recommened">Suositus</string>
-    <string name="tv_quick_connect_favourite">Suosikki</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Maa ei ole käytettävissä</string>
     <string name="tv_country_maintenance_dialog_description">Yritä myöhemmin uudelleen tai valitse toinen maa.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -322,7 +322,7 @@
     <string name="enable">Ota käyttöön</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol ei ole tällä hetkellä käytössä</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN havaitsi nykyisen verkkosi estävän VPN-yhteyden. Smart Protocol -toiminto saattaa ohittaa rajoitukset.</string>
-    <string name="upsell_advanced_features">Lisäominaisuudet: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Käytä suoratoistopalveluita (Netflix, Disney+, yms.) kaikkialla maailmassa</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -530,33 +530,14 @@
     <string name="payment_auto_renew_message_annual">Tilaus uudistuu automaattisesti hintaan %1$s/vuosi.</string>
     <string name="payment_welcome_price_message_monthly_fallback">Tilaus uudistuu automaattisesti kuukausittain</string>
     <string name="payment_welcome_price_message_annual_fallback">Tilaus uudistuu automaattisesti vuosittain</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Tietoja</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus-palvelimet</string>
-    <string name="activity_information_gateways_title">Mikä on yhdyskäytävä?</string>
-    <string name="info_features">Ominaisuudet</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Tämän tekniikan ansiosta Proton VPN voi tarjota paremman nopeuden ja suojauksen vaikeasti palveltavissa maissa.</string>
-    <string name="streaming_title">Suoratoisto</string>
-    <string name="streaming_description">Plus-palvelimet tukevat suoratoistoa (Netflix, Disney+ jne.) mistä päin maailmaa tahansa.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Nämä palvelimet tarjoavat parhaan suorituskyvyn BitTorrentille ja tiedostojen jaolle.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Ohjaa Internet-tietoliikenteesi Tor-verkon kautta. Hitaampaa, mutta yksityisempää.</string>
-    <string name="info_performance">Suorituskyky</string>
     <string name="server_load_title">Palvelinten kuormitus</string>
-    <string name="server_load_description">Korkeasti kuormitetut palvelimet ovat kevyesti kuormitettuja hitaampia.</string>
-    <string name="streaming_title_with_country">Suoratoisto - %1$s</string>
-    <string name="streaming_services_description">Yhdistä Plus-palvelimeen tässä maassa aloittaaksesi suoratoiston.\n\nVinkki: Tyhjennä suoratoistosovellusten välimuistit varmistaaksesi uuden sisällön näkymisen.</string>
-    <string name="partnership_free_title">Ilmaispalvelimet</string>
-    <string name="partnership_free_description">Suojausta ja yksityisyyttä kaikille. Ilmaispalvelimilla ei ole tiedonsiirtorajoituksia, emmekä koskaan hidasta selausnopeuttasi tahallisesti.</string>
-    <string name="partnership_partners_title">Kumppanimme</string>
     <string name="activity_information_learn_more">Lue lisää</string>
     <string name="server_load_low">Matala</string>
     <string name="server_load_medium">Keskitasoinen</string>
     <string name="server_load_high">Korkea</string>
-    <string name="info_gateways_description">VPN-yhdyskäytävä on suojattu yhteys, joka tarjoaa valvotun pääsyn yrityksesi tietoihin ja palveluihin omien palvelimien välityksellä.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Tervetuloa Proton VPN:ään</string>
@@ -805,7 +786,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">vertaisverkko</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Nopein maa</string>
@@ -926,7 +907,7 @@
     <string name="connection_card_label_connecting">Yhdistetään palvelimeen…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Palvelinta vaihdetaan…</string>
     <!-- tag(Redesign_2023)
@@ -1070,8 +1051,8 @@
     <string name="country_filter_tor_servers_list_header">Tor-palvelimet (%1$d)</string>
     <string name="country_filter_info_label">Tiedot</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Kuormitus: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1103,7 +1084,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN:n IP-osoite</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Yhdistettynä</string>
     <!-- tag(Redesign_2023) -->
@@ -1133,7 +1114,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Korkea (91-100 %)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN voi olla tavallista hitaampi </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokolla</string>
     <!-- tag(Redesign_2023) -->
@@ -1274,7 +1255,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Yhteys epäonnistui</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Tämä laite ei salli VPN-yhteyksiä.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Nopeuta yhteyttäsi jopa 400 %% suorituskykyä parantavien tekniikoiden avulla. %1$s</string>
     <string name="settings_account_settings_title">Tilin asetukset</string>
@@ -1282,7 +1263,7 @@
     <string name="settings_account_recovery_email">Palautusosoite</string>
     <string name="settings_account_recovery_email_not_set">Ei asetettu</string>
     <string name="settings_account_security_keys">Suojausavaimet</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Oma tili</string>
     <string name="settings_account_button_delete_account">Poista tili</string>
     <string name="settings_advanced_alternative_routing_title">Vaihtoehtoinen reititys</string>

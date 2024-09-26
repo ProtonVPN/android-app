@@ -287,7 +287,7 @@
     <string name="tv_signout_dialog_description_connected">Detta kommer att koppla från din TV från alla VPN-servrar.</string>
     <string name="tv_signout_dialog_ok">Logga ut</string>
     <string name="tv_quick_connect_recommened">Rekommenderad</string>
-    <string name="tv_quick_connect_favourite">Favorit</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Land är otillgängligt</string>
     <string name="tv_country_maintenance_dialog_description">Försök igen senare eller välj ett annat land.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -322,7 +322,7 @@
     <string name="enable">Aktivera</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol är för närvarande inaktiverat</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN upptäckte att ditt nuvarande nätverk förhindrar en anslutning till VPN. Aktivering av Smart Protocol kan kringgå dessa begränsningar.</string>
-    <string name="upsell_advanced_features">Avancerade funktioner: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Åtkomst till streamingtjänster (Netflix, Disney+, etc.) var som helst i världen</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -530,33 +530,14 @@
     <string name="payment_auto_renew_message_annual">Prenumeration förnyas automatiskt med %1$s/år</string>
     <string name="payment_welcome_price_message_monthly_fallback">Prenumeration förnyas automatiskt varje månad</string>
     <string name="payment_welcome_price_message_annual_fallback">Prenumeration förnyas automatiskt varje år</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Information</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus-servrar</string>
-    <string name="activity_information_gateways_title">Vad är en gateway?</string>
-    <string name="info_features">Funktioner</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Denna teknik gör att Proton VPN kan ge högre hastighet och säkerhet i svårbetjänade länder.</string>
-    <string name="streaming_title">Streaming</string>
-    <string name="streaming_description">Plus-servrar stöder streaming (Netflix, Disney+, etc.) var som helst i världen.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Dessa servrar ger den bästa prestandan för BitTorrent och fildelning.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Dirigera din Internettrafik genom Tor-nätverket. Långsammare, men mer privat.</string>
-    <string name="info_performance">Prestanda</string>
     <string name="server_load_title">Serverbelastning</string>
-    <string name="server_load_description">Servrar med hög belastning är långsammare än servrar med låg belastning.</string>
-    <string name="streaming_title_with_country">Streaming - %1$s</string>
-    <string name="streaming_services_description">Anslut till en Plus-server i detta land för att börja streama.\n\nTips: Rensa cachen för streaming-apparna för att säkerställa att nytt innehåll visas.</string>
-    <string name="partnership_free_title">Gratis servrar</string>
-    <string name="partnership_free_description">Säkerhet och integritet för alla. Free-servrar har inga databegränsningar och vi kommer aldrig medvetet att sakta ner din surfhastighet.</string>
-    <string name="partnership_partners_title">Våra partners</string>
     <string name="activity_information_learn_more">Lär dig mer</string>
     <string name="server_load_low">Låg</string>
     <string name="server_load_medium">Medium</string>
     <string name="server_load_high">Hög</string>
-    <string name="info_gateways_description">En VPN-gateway är en säker anslutning som ger kontrollerad åtkomst till ditt företags data och tjänster genom dedikerade servrar.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Välkommen till Proton VPN</string>
@@ -805,7 +786,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Snabbaste land</string>
@@ -926,7 +907,7 @@
     <string name="connection_card_label_connecting">Ansluter till…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Ändrar server…</string>
     <!-- tag(Redesign_2023)
@@ -1070,8 +1051,8 @@
     <string name="country_filter_tor_servers_list_header">Tor-servrar (%1$d)</string>
     <string name="country_filter_info_label">Information</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Ladda: %1$s %%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1103,7 +1084,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN-IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Ansluten i</string>
     <!-- tag(Redesign_2023) -->
@@ -1133,7 +1114,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Hög (91–100 %)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN kan gå långsammare än normalt </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokoll</string>
     <!-- tag(Redesign_2023) -->
@@ -1274,7 +1255,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Anslutning misslyckades</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Denna enhet tillåter inte VPN-anslutningar.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Öka din anslutningshastighet med upp till 400 %% med prestandaförbättrade teknologier. %1$s</string>
     <string name="settings_account_settings_title">Kontoinställningar</string>
@@ -1282,7 +1263,7 @@
     <string name="settings_account_recovery_email">E-post för återställning</string>
     <string name="settings_account_recovery_email_not_set">Inte inställd</string>
     <string name="settings_account_security_keys">Säkerhetsnycklar</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Mitt konto</string>
     <string name="settings_account_button_delete_account">Ta bort konto</string>
     <string name="settings_advanced_alternative_routing_title">Alternativ routing</string>

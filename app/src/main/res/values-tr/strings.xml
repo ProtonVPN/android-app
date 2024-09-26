@@ -287,7 +287,7 @@
     <string name="tv_signout_dialog_description_connected">Bu işlem, televizyonunuzun herhangi bir VPN sunucusuyla bağlantısını kesecek.</string>
     <string name="tv_signout_dialog_ok">Oturumu kapat</string>
     <string name="tv_quick_connect_recommened">Önerilen</string>
-    <string name="tv_quick_connect_favourite">Beğenilenlere ekle</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Ülke kullanılamıyor</string>
     <string name="tv_country_maintenance_dialog_description">Lütfen bir süre sonra yeniden deneyin ya da başka bir ülke seçin.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -322,7 +322,7 @@
     <string name="enable">Aç</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol şu anda kapalı</string>
     <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantısı engellediğini algıladı. Smart Protocol özelliğini açmak bu kısıtlamaları aşabilir.</string>
-    <string name="upsell_advanced_features">Gelişmiş özellikler: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Dünyanın her yerindeki yayın akışı hizmetlerine erişerek izleyin (Netflix, Disney+, vb)</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -530,33 +530,14 @@
     <string name="payment_auto_renew_message_annual">Abonelik %1$s/yıl tutar ile otomatik yenilenir</string>
     <string name="payment_welcome_price_message_monthly_fallback">Abonelik her ay otomatik olarak yenilenir</string>
     <string name="payment_welcome_price_message_annual_fallback">Abonelik her yıl otomatik olarak yenilenir</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Bilgiler</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus sunucuları</string>
-    <string name="activity_information_gateways_title">Bir geçit nedir?</string>
-    <string name="info_features">Özellikler</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Bu teknoloji, hizmet verilmesi zor ülkelerde Proton VPN için daha yüksek hız ve güvenlik sağlar.</string>
-    <string name="streaming_title">Yayın akışı</string>
-    <string name="streaming_description">Plus sunucuları, dünyanın her yerindeki yayın akışı hizmetlerini (Netflix, Disney + vb.) destekler.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Bu sunucular, BitTorrent ve dosya paylaşımı için en iyi başarımı sağlar.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">İnternet trafiğinizi Tor ağı üzerinden yöneltin. Daha yavaş ama daha güvenli.</string>
-    <string name="info_performance">Başarım</string>
     <string name="server_load_title">Sunucu yükü</string>
-    <string name="server_load_description">Yükü yüksek olan sunucular, düşük olanlara göre daha yavaştır.</string>
-    <string name="streaming_title_with_country">Yayın akışı - %1$s</string>
-    <string name="streaming_services_description">Yayın akışını başlatmak için bu ülkedeki bir Plus sunucusuna bağlanın.\n\nNot: Yeni içeriğin görüntülenmesini sağlamak için yayın akışı uygulamalarının ön belleğini temizleyin.</string>
-    <string name="partnership_free_title">Ücretsiz sunucular</string>
-    <string name="partnership_free_description">Herkes için güvenlik ve gizlilik. Ücretsiz sunucularda veri miktarı sınırlaması yoktur ve asla kastılı olarak gezinme hızınızı yavaşlatmayız.</string>
-    <string name="partnership_partners_title">İş ortaklarımız</string>
     <string name="activity_information_learn_more">Ayrıntılı bilgi alın</string>
     <string name="server_load_low">Düşük</string>
     <string name="server_load_medium">Orta</string>
     <string name="server_load_high">Yüksek</string>
-    <string name="info_gateways_description">Bir VPN ağ geçidi, şirketinizin verilerine ve hizmetlerine size ayrılmış sunucular üzerinden denetimli erişim sağlayan güvenli bir bağlantıdır.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN hizmetine hoş geldiniz</string>
@@ -611,7 +592,7 @@
     <string name="settings_change_icon_details">Proton VPN uygulamasının aygıtınızda nasıl görüntüleneeğini ayarlayın. Neden?</string>
     <string name="settings_change_icon_confirmation_title">Uygulama simgesi değiştirilsin mi?</string>
     <string name="settings_change_icon_confirmation_details">Bu işlem, Proton VPN uygulamasının kapanmasına neden olur. Proton VPN uygulamasını yeniden başlatmak için yeni uygulama simgesine dokunmanız yeterlidir.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Gizli uygulama simgesi</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -805,7 +786,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">eşler arası</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">En hızlı ülke</string>
@@ -926,7 +907,7 @@
     <string name="connection_card_label_connecting">Sunucu ile bağlantı kuruluyor…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Sunucu değiştiriliyor…</string>
     <!-- tag(Redesign_2023)
@@ -1070,8 +1051,8 @@
     <string name="country_filter_tor_servers_list_header">Tor sunucuları (%1$d)</string>
     <string name="country_filter_info_label">Bilgiler</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Yük: %%%1$s</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1103,7 +1084,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP adresi</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Bağlantı süresi</string>
     <!-- tag(Redesign_2023) -->
@@ -1133,7 +1114,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Yüksek (%91–100)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN hızı normalden düşük olabilir </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">İletişim kuralı</string>
     <!-- tag(Redesign_2023) -->
@@ -1274,7 +1255,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Bağlantı kurulamadı</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Bu aygıt VPN bağlantılarına izin vermiyor.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Başarım artırıcı teknolojilerle bağlantı hızınızı 400%% oranına kadar artırın. %1$s</string>
     <string name="settings_account_settings_title">Hesap ayarları</string>
@@ -1282,7 +1263,7 @@
     <string name="settings_account_recovery_email">Kurtarma e-postası adresi</string>
     <string name="settings_account_recovery_email_not_set">Ayarlanmamış</string>
     <string name="settings_account_security_keys">Güvenlik anahtarları</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Hesabım</string>
     <string name="settings_account_button_delete_account">Hesabı sil</string>
     <string name="settings_advanced_alternative_routing_title">Alternatif yöneltme</string>

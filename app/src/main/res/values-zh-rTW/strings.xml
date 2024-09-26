@@ -285,7 +285,7 @@
     <string name="tv_signout_dialog_description_connected">這將會將您的電視從任何 VPN 伺服器斷線。</string>
     <string name="tv_signout_dialog_ok">登出</string>
     <string name="tv_quick_connect_recommened">建議</string>
-    <string name="tv_quick_connect_favourite">最愛</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">在此國家不可用</string>
     <string name="tv_country_maintenance_dialog_description">請稍後再試或選取其他的國家。</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -319,7 +319,7 @@
     <string name="enable">啟用</string>
     <string name="notification_smart_protocol_disabled_title">智慧通訊協定目前已停用</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN 偵測到您目前的網路正阻止 VPN 連線。啟用智慧通訊協定或可繞過限制。</string>
-    <string name="upsell_advanced_features">進階功能：NetShield、Secure Core、Tor、P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">在全球的任何地方存取串流服務（Netflix、DIsney+ 等等）</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -514,33 +514,14 @@
     <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
     <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
     <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">資訊</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus 伺服器</string>
-    <string name="activity_information_gateways_title">什麼是閘道器?</string>
-    <string name="info_features">特色功能</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">這項技術讓 Proton VPN 可在難以提供服務的國家提供較高的速度與安全性。</string>
-    <string name="streaming_title">串流</string>
-    <string name="streaming_description">Plus 伺服器支援不分世界各地的串流 (Netflix、Disney+ 等等)。</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">這些伺服器為 BitTorrent 與檔案分享提供最佳效能。</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">一鍵將您的網路流量路由改為經由 Tor 網路傳送。速度較慢，但更隱密。</string>
-    <string name="info_performance">效能</string>
     <string name="server_load_title">伺服器負載</string>
-    <string name="server_load_description">高負載的伺服器會比低負載的伺服器慢。</string>
-    <string name="streaming_title_with_country">串流 - %1$s</string>
-    <string name="streaming_services_description">連線到此國家的 Plus 伺服器以開始串流。\n\n請注意：清除串流應用程式的快取以確保新內容得以出現。</string>
-    <string name="partnership_free_title">免費伺服器</string>
-    <string name="partnership_free_description">所有人的安全與隱私。免費伺服器沒有流量限制，我們絕對不會故意拖慢您的瀏覽速度.</string>
-    <string name="partnership_partners_title">我們的夥伴</string>
     <string name="activity_information_learn_more">瞭解詳情</string>
     <string name="server_load_low">低</string>
     <string name="server_load_medium">中</string>
     <string name="server_load_high">高</string>
-    <string name="info_gateways_description">虛擬私有網路閘道器是一個安全連線經特定伺服器至貴公司資料及服務並提供可控制的權限。</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">歡迎使用 Proton VPN</string>
@@ -594,7 +575,7 @@
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
     <string name="settings_change_icon_confirmation_title">Change app icon?</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -781,7 +762,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">洋蔥路由器</string>
     <string name="server_feature_content_description_p2p">點對點</string>
-    <string name="server_feature_content_description_tor">洋蔥路由器</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最快的國家</string>
@@ -901,7 +882,7 @@
     <string name="connection_card_label_connecting">正在連線至…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">切換伺服器…</string>
     <!-- tag(Redesign_2023)
@@ -1045,8 +1026,8 @@
     <string name="country_filter_tor_servers_list_header">Tor伺服器 (%1$d)</string>
     <string name="country_filter_info_label">資訊</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">讀取：%1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1078,7 +1059,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">已連線到</string>
     <!-- tag(Redesign_2023) -->
@@ -1108,7 +1089,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">高 (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN 或會較正常慢</string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">通訊協定</string>
     <!-- tag(Redesign_2023) -->
@@ -1238,7 +1219,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">連線失敗</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">此裝置不允許 VPN 連線。</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">以效能強化技術，提升您的連線速度高達 400%%。%1$s</string>
     <string name="settings_account_settings_title">帳號設定</string>
@@ -1246,7 +1227,7 @@
     <string name="settings_account_recovery_email">復原用電郵位址</string>
     <string name="settings_account_recovery_email_not_set">未設定</string>
     <string name="settings_account_security_keys">Security Keys</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">我的帳號</string>
     <string name="settings_account_button_delete_account">刪除帳號</string>
     <string name="settings_advanced_alternative_routing_title">替代路由</string>

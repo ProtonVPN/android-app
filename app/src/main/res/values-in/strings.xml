@@ -285,7 +285,7 @@
     <string name="tv_signout_dialog_description_connected">Tindakan ini akan memutus TV Anda dari server VPN mana pun yang terhubung.</string>
     <string name="tv_signout_dialog_ok">Keluar</string>
     <string name="tv_quick_connect_recommened">Direkomendasikan</string>
-    <string name="tv_quick_connect_favourite">Favorit</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Negara tidak tersedia</string>
     <string name="tv_country_maintenance_dialog_description">Silakan coba lagi nanti atau pilih negara yang berbeda.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -319,7 +319,7 @@
     <string name="enable">Aktifkan</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol saat ini sedang tidak aktif</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN mendeteksi bahwa jaringan Anda sedang mencegah Anda untuk dapat terhubung ke layanan VPN. Aktifkan Smart Protocol untuk melewati batasan ini.</string>
-    <string name="upsell_advanced_features">Fitur lanjutan: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Akses berbagai layanan streaming (Netflix, Disney+, dll.) di mana pun Anda berada</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -514,33 +514,14 @@
     <string name="payment_auto_renew_message_annual">Langganan diperbarui secara otomatis seharga %1$s/tahun</string>
     <string name="payment_welcome_price_message_monthly_fallback">Langganan diperbarui secara otomatis setiap bulan</string>
     <string name="payment_welcome_price_message_annual_fallback">Langganan diperbarui secara otomatis setiap tahun</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Informasi</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Server Plus</string>
-    <string name="activity_information_gateways_title">Apa itu gateway?</string>
-    <string name="info_features">Fitur</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan layanan yang lebih cepat dan lebih aman pada negara dengan pembatasan internet yang ketat.</string>
-    <string name="streaming_title">Streaming</string>
-    <string name="streaming_description">Server Plus memungkinkan Anda untuk mengakses berbagai layanan streaming (Netflix, Disney+, dll) di mana pun Anda berada.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Server berikut memberikan performa terbaik dalam hal BitTorrent dan file-sharing.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Alihkan lalu lintas internet Anda melalui jaringan Tor. Lebih lambat, namun lebih privat.</string>
-    <string name="info_performance">Performa</string>
     <string name="server_load_title">Beban Server</string>
-    <string name="server_load_description">Server dengan muatan yang tinggi akan lebih lambat dibanding server dengan muatan yang rendah.</string>
-    <string name="streaming_title_with_country">Streaming - %1$s</string>
-    <string name="streaming_services_description">Hubungkan VPN Anda ke server Plus di negara ini untuk memulai streaming.\n\nTips: Bersihkan cache aplikasi streaming yang Anda gunakan untuk memastikan kemunculan konten baru.</string>
-    <string name="partnership_free_title">Server Free</string>
-    <string name="partnership_free_description">Keamanan dan privasi untuk semua. Server Free kami tidak memiliki batasan data, dan kami tidak akan pernah dengan sengaja memperlambat laju penjelajahan internet Anda.</string>
-    <string name="partnership_partners_title">Mitra kami</string>
     <string name="activity_information_learn_more">Pelajari Lebih Lanjut</string>
     <string name="server_load_low">Rendah</string>
     <string name="server_load_medium">Sedang</string>
     <string name="server_load_high">Tinggi</string>
-    <string name="info_gateways_description">Gateway VPN merupakan koneksi aman yang menyediakan akses terkendali ke data dan layanan milik perusahaan Anda melalui server khusus.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Selamat datang di Proton VPN</string>
@@ -594,7 +575,7 @@
     <string name="settings_change_icon_details">Sesuaikan bagaimana aplikasi Proton VPN akan tampil pada perangkat Anda. Mengapa?</string>
     <string name="settings_change_icon_confirmation_title">Ubah ikon aplikasi?</string>
     <string name="settings_change_icon_confirmation_details">Tindakan ini akan menutup aplikasi Proton VPN. Untuk memulai ulang Proton VPN, cukup ketuk ikon aplikasi baru Anda.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Ikon aplikasi rahasia</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -781,7 +762,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Negara tercepat</string>
@@ -901,7 +882,7 @@
     <string name="connection_card_label_connecting">Menghubungkan ke…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Mengubah server…</string>
     <!-- tag(Redesign_2023)
@@ -1045,8 +1026,8 @@
     <string name="country_filter_tor_servers_list_header">Server Tor (%1$d)</string>
     <string name="country_filter_info_label">Info</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Muatan: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1078,7 +1059,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">IP VPN</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Terhubung selama</string>
     <!-- tag(Redesign_2023) -->
@@ -1108,7 +1089,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Tinggi (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN dapat berjalan lebih lambat dari biasanya </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokol</string>
     <!-- tag(Redesign_2023) -->
@@ -1238,7 +1219,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Koneksi gagal</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Perangkat ini tidak mengizinkan koneksi VPN.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Tingkatkan kecepatan koneksi Anda hingga 400%% dengan teknologi pemicu performa. %1$s</string>
     <string name="settings_account_settings_title">Pengaturan akun</string>
@@ -1246,7 +1227,7 @@
     <string name="settings_account_recovery_email">Email pemulihan</string>
     <string name="settings_account_recovery_email_not_set">Belum diatur</string>
     <string name="settings_account_security_keys">Kunci Keamanan</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Akun saya</string>
     <string name="settings_account_button_delete_account">Hapus akun</string>
     <string name="settings_advanced_alternative_routing_title">Pengalihan lalu lintas alternatif</string>

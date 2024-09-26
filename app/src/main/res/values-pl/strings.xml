@@ -291,7 +291,7 @@
     <string name="tv_signout_dialog_description_connected">Spowoduje to rozłączenie telewizora z serwerem VPN.</string>
     <string name="tv_signout_dialog_ok">Wyloguj</string>
     <string name="tv_quick_connect_recommened">Zalecane</string>
-    <string name="tv_quick_connect_favourite">Ulubiony</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Kraj jest niedostępny</string>
     <string name="tv_country_maintenance_dialog_description">Spróbuj ponownie później lub wybierz inny kraj.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -328,7 +328,7 @@
     <string name="enable">Włącz</string>
     <string name="notification_smart_protocol_disabled_title">Funkcja Smart Protocol jest obecnie wyłączona</string>
     <string name="notification_smart_protocol_disabled_content">Aplikacja Proton VPN wykryła, że Twoja obecna sieć blokuje połączenie z siecią VPN. Włączenie funkcji Smart Protocol może ominąć te ograniczenia.</string>
-    <string name="upsell_advanced_features">Zaawansowane funkcje: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Dostęp do usług streamingu (Netflix, Disney+ itp.) gdziekolwiek jesteś</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -440,10 +440,10 @@
         <item quantity="other">%1$d niestandardowych domen</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB attachment</item>
-        <item quantity="few">%1$d MB attachments</item>
-        <item quantity="many">%1$d MB attachments</item>
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="one">załącznik %1$d MB</item>
+        <item quantity="few">załączniki %1$d MB</item>
+        <item quantity="many">załączniki %1$d MB</item>
+        <item quantity="other">załączniki %1$d MB</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d adres e-mail</item>
@@ -464,7 +464,7 @@
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">Udostępnianie kalendarza</string>
     <string name="upgrade_unlimited_calendar_invites">Wysyłaj i otrzymuj zaproszenia</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
+    <string name="upgrade_unlimited_drive_encryption">Szyfrowana przestrzeń dyskowa</string>
     <string name="upgrade_unlimited_drive_storage_size">%1$d GB przestrzeni dyskowej na zdjęcia, pliki i wiadomości</string>
     <string name="upgrade_unlimited_drive_link_share">Udostępniaj zdjęcia i pliki za pomocą linku</string>
     <string name="upgrade_unlimited_drive_sharing_security">Zaawansowane bezpieczeństwo udostępniania</string>
@@ -562,33 +562,14 @@
     <string name="payment_auto_renew_message_annual">Subskrypcja odnowi się automatycznie w kwocie %1$s rocznie</string>
     <string name="payment_welcome_price_message_monthly_fallback">Subskrypcja odnowi się automatycznie co miesiąc</string>
     <string name="payment_welcome_price_message_annual_fallback">Subskrypcja odnowi się automatycznie co rok</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Informacje</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - serwery planu Plus</string>
-    <string name="activity_information_gateways_title">Co to jest brama?</string>
-    <string name="info_features">Funkcje</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ta technologia pozwala zapewnić aplikacji Proton VPN wyższą prędkość i bezpieczeństwo w krajach nieszanujących prywatność.</string>
-    <string name="streaming_title">Streaming</string>
-    <string name="streaming_description">Dodatkowe serwery wspierają streaming (Netflix, Disney+ itp.) gdziekolwiek jesteś.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Te serwery zapewniają najlepszą wydajność dla protokołu BitTorrent i udostępniania plików.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Przekieruj swój ruch internetowy przez wolniejszą, ale bardziej prywatną sieć Tor.</string>
-    <string name="info_performance">Wydajność</string>
     <string name="server_load_title">Obciążenie serwera</string>
-    <string name="server_load_description">Serwery z dużym obciążeniem są wolniejsze.</string>
-    <string name="streaming_title_with_country">Streaming - %1$s</string>
-    <string name="streaming_services_description">Połącz się z serwerem planu Plus w tym kraju, aby rozpocząć streaming.\n\nPodpowiedź: Wyczyść pamięć podręczną aplikacji streamingu, aby zobaczyć nową zawartość.</string>
-    <string name="partnership_free_title">Serwery planu Free</string>
-    <string name="partnership_free_description">Bezpieczeństwo i prywatność dla każdego. Serwery planu Free nie posiadają limitów danych i nigdy nie będziemy celowo spowalniać prędkości przeglądania Internetu.</string>
-    <string name="partnership_partners_title">Nasi partnerzy</string>
     <string name="activity_information_learn_more">Dowiedz się więcej</string>
     <string name="server_load_low">Małe</string>
     <string name="server_load_medium">Średnie</string>
     <string name="server_load_high">Duże</string>
-    <string name="info_gateways_description">Brama VPN to bezpieczne połączenie, które zapewnia kontrolowany dostęp do danych i usług firmy za pomocą dedykowanych serwerów.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Witaj w Proton VPN</string>
@@ -853,7 +834,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Najszybszy kraj</string>
@@ -976,7 +957,7 @@
     <string name="connection_card_label_connecting">Łączenie z…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Zmienianie serwera…</string>
     <!-- tag(Redesign_2023)
@@ -1120,8 +1101,8 @@
     <string name="country_filter_tor_servers_list_header">Serwery Tor (%1$d)</string>
     <string name="country_filter_info_label">Informacje</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Obciążenie: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1153,7 +1134,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">Adres IP VPN</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Połączono</string>
     <!-- tag(Redesign_2023) -->
@@ -1183,7 +1164,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Duże (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN może działać wolniej </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokół</string>
     <!-- tag(Redesign_2023) -->
@@ -1346,7 +1327,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Połączenie nie powiodło się</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Urządzenie nie zezwala na połączenia VPN.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Zwiększ prędkość połączenia nawet o 400%% dzięki technologii zwiększających wydajność. %1$s</string>
     <string name="settings_account_settings_title">Ustawienia konta</string>
@@ -1354,7 +1335,7 @@
     <string name="settings_account_recovery_email">Adres pomocniczy</string>
     <string name="settings_account_recovery_email_not_set">Nie ustawiono</string>
     <string name="settings_account_security_keys">Klucze bezpieczeństwa</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Moje konto</string>
     <string name="settings_account_button_delete_account">Usuń konto</string>
     <string name="settings_advanced_alternative_routing_title">Alternatywne przekierowanie połączenia</string>

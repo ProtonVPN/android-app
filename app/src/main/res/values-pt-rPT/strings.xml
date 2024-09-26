@@ -18,10 +18,10 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_icon_name_classic">Classic</string>
+    <string name="app_icon_name_classic">Clássico</string>
     <string name="app_icon_name_dark">Escuro</string>
-    <string name="app_icon_name_retro">Retro</string>
-    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_retro">Retrô</string>
+    <string name="app_icon_name_weather">Tempo</string>
     <string name="app_icon_name_notes">Notas</string>
     <string name="app_icon_name_calculator">Calculator</string>
     <!-- Strings related to login -->
@@ -287,7 +287,7 @@
     <string name="tv_signout_dialog_description_connected">Isto desliga a sua TV de qualquer servidor VPN.</string>
     <string name="tv_signout_dialog_ok">Terminar sessão</string>
     <string name="tv_quick_connect_recommened">Recomendado</string>
-    <string name="tv_quick_connect_favourite">Favorito</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">O país está indisponível</string>
     <string name="tv_country_maintenance_dialog_description">Tente novamente mais tarde ou selecione outro país.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -322,7 +322,7 @@
     <string name="enable">Ativar</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol atualmente desativado</string>
     <string name="notification_smart_protocol_disabled_content">O Proton VPN detetou que a sua rede atual está a impedir uma ligação VPN. Ativar o Smart Protocol pode ultrapassar esta limitação.</string>
-    <string name="upsell_advanced_features">Funcionalidades avançadas: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Aceda a serviços de streaming (Netflix, Disney+, etc.) em qualquer parte do mundo</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -414,7 +414,7 @@
     <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
     <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
+    <string name="upgrade_unlimited_vpn_p2p">Suporte a P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="one">%1$d custom email domain</item>
         <item quantity="other">%1$d custom email domains</item>
@@ -452,7 +452,7 @@
     <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
     <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
     <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
-    <string name="upgrade_unlimited_pass_devices">Unlimited devices</string>
+    <string name="upgrade_unlimited_pass_devices">Número ilimitado de dispositivos</string>
     <plurals name="upgrade_unlimited_pass_users">
         <item quantity="one">Share with up to %1$d other</item>
         <item quantity="other">Share with up to %1$d others</item>
@@ -530,33 +530,14 @@
     <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
     <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
     <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Informação</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Servidores Plus</string>
-    <string name="activity_information_gateways_title">O que é um gateway?</string>
-    <string name="info_features">Funcionalidades</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Esta tecnologia permite que o Proton VPN ofereça maior velocidade e segurança em países difíceis de servir.</string>
-    <string name="streaming_title">Transmissão</string>
-    <string name="streaming_description">Servidores Plus suportam transmissões (Netflix, Disney+, etc) de qualquer lugar do mundo.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Estes servidores permitem o melhor desempenho para BitTorrent e partilha de ficheiros.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Direcione o seu tráfego na internet pela rede Tor. É mais lento, mas também mais privado.</string>
-    <string name="info_performance">Desempenho</string>
     <string name="server_load_title">Carga do servidor</string>
-    <string name="server_load_description">Os servidores com uma mais carga alta são mais lentos.</string>
-    <string name="streaming_title_with_country">Transmissão - %1$s</string>
-    <string name="streaming_services_description">Ligue a um servidor Plus neste país para iniciar a transmissão.\n\nDica: limpe a memória das aplicações de transmissão para garantir a apresentação de novos conteúdos.</string>
-    <string name="partnership_free_title">Servidores gratuitos</string>
-    <string name="partnership_free_description">Segurança e privacidade para todos. Os servidores gratuitos não têm limites de dados e nunca diminuiremos deliberadamente a sua velocidade de navegação.</string>
-    <string name="partnership_partners_title">Os nossos parceiros</string>
     <string name="activity_information_learn_more">Saiba mais</string>
     <string name="server_load_low">Baixa</string>
     <string name="server_load_medium">Média</string>
     <string name="server_load_high">Alta</string>
-    <string name="info_gateways_description">Um gateway de VPN é uma ligação segura que oferece acesso controlado aos dados e serviços da sua empresa através de servidores dedicados.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Boas vindas ao Proton VPN</string>
@@ -611,7 +592,7 @@
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
     <string name="settings_change_icon_confirmation_title">Change app icon?</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -926,7 +907,7 @@
     <string name="connection_card_label_connecting">A ligar a…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">A mudar de servidor…</string>
     <!-- tag(Redesign_2023)
@@ -1070,8 +1051,8 @@
     <string name="country_filter_tor_servers_list_header">Servidores Tor (%1$d)</string>
     <string name="country_filter_info_label">Informação</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Carga: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1103,7 +1084,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">IP da VPN</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Ligado por</string>
     <!-- tag(Redesign_2023) -->
@@ -1133,7 +1114,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Alta (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocolo</string>
     <!-- tag(Redesign_2023) -->
@@ -1274,7 +1255,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Erro de ligação</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">Definições de conta</string>
@@ -1282,7 +1263,7 @@
     <string name="settings_account_recovery_email">E-mail de recuperação</string>
     <string name="settings_account_recovery_email_not_set">Não definido</string>
     <string name="settings_account_security_keys">Chaves de segurança</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">A minha conta</string>
     <string name="settings_account_button_delete_account">Eliminar a conta</string>
     <string name="settings_advanced_alternative_routing_title">Redirecionamento alternativo</string>
