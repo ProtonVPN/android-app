@@ -291,7 +291,7 @@
     <string name="tv_signout_dialog_description_connected">Toto odpojí vaši TV od všech VPN serverů.</string>
     <string name="tv_signout_dialog_ok">Odhlásit se</string>
     <string name="tv_quick_connect_recommened">Doporučené</string>
-    <string name="tv_quick_connect_favourite">Oblíbené</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Země je nedostupná</string>
     <string name="tv_country_maintenance_dialog_description">Prosím zkuste později nebo vyberte jinou zemi.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -328,7 +328,7 @@
     <string name="enable">Zapnout</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protokol je momentálně deaktivován</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN rozpoznalo, že vaše síť blokuje připojení k VPN. Zapnutí Smart Protokolu by mohlo problém vyřešit.</string>
-    <string name="upsell_advanced_features">Pokročilé funkce: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Přistupujte ke streamovacím službám (Netflix, Disney+, atd.) kdekoliv na světě</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -562,33 +562,14 @@
     <string name="payment_auto_renew_message_annual">Předplatné se automaticky obnovuje za %1$s/rok</string>
     <string name="payment_welcome_price_message_monthly_fallback">Předplatné se automaticky obnovuje každý měsíc.</string>
     <string name="payment_welcome_price_message_annual_fallback">Předplatné se automaticky obnovuje každý rok.</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Informace</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus servery</string>
-    <string name="activity_information_gateways_title">Co je to brána?</string>
-    <string name="info_features">Funkce</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Tato technologie umožňuje, aby aplikace Proton VPN byly rychlejší a bezpečnější v zemích, které nerespektují soukromí.</string>
-    <string name="streaming_title">Streamování</string>
-    <string name="streaming_description">Plus servery podporují streamování (Netflix, Disney+, atd.) kdekoliv na světě.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Tyto servery poskytují nejvyšší výkony pro BitTorrent a sdílení souborů.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Veďte veškerý internetový provoz přes síť Tor. Pomalejší, ale více soukromější.</string>
-    <string name="info_performance">Výkon</string>
     <string name="server_load_title">Vytížení serveru</string>
-    <string name="server_load_description">Servery s vyšším vytížením jsou pomalejší než servery s nízkým vytížením.</string>
-    <string name="streaming_title_with_country">Streamování - %1$s</string>
-    <string name="streaming_services_description">Připojte se k Plus serveru v této zemi pro zahájení streamování.\n\nNápověda: Vymažte mezipamět streamovacích aplikací pro zaručení zobrazení nového obsahu.</string>
-    <string name="partnership_free_title">Bezplatné servery</string>
-    <string name="partnership_free_description">Bezpečnost a soukromí pro všechny. Bezplatné servery nemají žádná datová omezení a ani vám nebudeme záměrně snižovat rychlost prohlížení.</string>
-    <string name="partnership_partners_title">Naši partneři</string>
     <string name="activity_information_learn_more">Více informací</string>
     <string name="server_load_low">Nízká</string>
     <string name="server_load_medium">Střední</string>
     <string name="server_load_high">Vysoká</string>
-    <string name="info_gateways_description">Brána VPN je zabezpečené připojení, které poskytuje kontrolovaný přístup k datům a službám vaší společnosti prostřednictvím dedikovaných serverů.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Vítejte v Proton VPN</string>
@@ -645,7 +626,7 @@
     <string name="settings_change_icon_details">Přizpůsobte na svém zařízení vzled ikony aplikace Proton VPN. Proč?</string>
     <string name="settings_change_icon_confirmation_title">Změnit ikonu aplikace?</string>
     <string name="settings_change_icon_confirmation_details">Toto způsobí ukončení aplikace Proton VPN. Chcete-li aplikaci Proton VPN restartovat, klepněte na vaši novou ikonu aplikace.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Diskrétní ikona aplikace</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -976,7 +957,7 @@
     <string name="connection_card_label_connecting">Připojování k…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Změna serveru…</string>
     <!-- tag(Redesign_2023)
@@ -1120,8 +1101,8 @@
     <string name="country_filter_tor_servers_list_header">Tor servery (%1$d)</string>
     <string name="country_filter_info_label">Informace</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Vytížení: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1153,7 +1134,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Připojeno</string>
     <!-- tag(Redesign_2023) -->
@@ -1183,7 +1164,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Vysoké (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN může fungovat pomaleji, než je zvykem </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokol</string>
     <!-- tag(Redesign_2023) -->
@@ -1346,7 +1327,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Připojení selhalo</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Toto zařízení neumožňuje připojení VPN.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Zvyšte rychlost připojení až o 400%% pomocí technologií zvyšujících výkon. %1$s</string>
     <string name="settings_account_settings_title">Nastavení účtu</string>
@@ -1354,7 +1335,7 @@
     <string name="settings_account_recovery_email">E-mail pro obnovení</string>
     <string name="settings_account_recovery_email_not_set">Nenastaveno</string>
     <string name="settings_account_security_keys">Bezpečnostní klíče</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Můj účet</string>
     <string name="settings_account_button_delete_account">Smazat účet</string>
     <string name="settings_advanced_alternative_routing_title">Alternativní směrování</string>

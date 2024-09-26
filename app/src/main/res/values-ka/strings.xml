@@ -287,7 +287,7 @@
     <string name="tv_signout_dialog_description_connected">ეს თქვენს TV-ს ყველა VPN სერვერიდან გათიშავს.</string>
     <string name="tv_signout_dialog_ok">გასვლა</string>
     <string name="tv_quick_connect_recommened">რეკომენდებულია</string>
-    <string name="tv_quick_connect_favourite">სანიშნი</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">ქვეყანა მიუწვდომელია</string>
     <string name="tv_country_maintenance_dialog_description">მოგვიანებით სცადეთ ან სხვა ქვეყანა აირჩიეთ.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -322,7 +322,7 @@
     <string name="enable">ჩართვა</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol-ი ამჟამად გათიშულია</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN-მა აღმოაჩინა, რომ თქვენი მიმდინარე ქსელი VPN-შეერთების დამყარებას ხელს უშლის. შეზღუდვის მოხსნის ცდა ჭკვიანი პროტოკოლის ჩართვით შეგიძლიათ.</string>
-    <string name="upsell_advanced_features">დამატებითი ფუნქციები: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">წვდომა სტრიმინგის სერვერებზე (Netflix, Disney+, და ა. შ.) მსოფლიოს ნებისმიერი ადგილიდან</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -530,33 +530,14 @@
     <string name="payment_auto_renew_message_annual">გამოწერა ავტომატურად განახლდება ტარიფით %1$s/წელიწადში</string>
     <string name="payment_welcome_price_message_monthly_fallback">გამოწერა ყოველთვე განახლდება</string>
     <string name="payment_welcome_price_message_annual_fallback">გამოწერა წელიწადში ერთხელ განახლდება</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">ინფორმაცია</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus სერვერები</string>
-    <string name="activity_information_gateways_title">რა არის gateway?</string>
-    <string name="info_features">თვისებები</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">ეს ტექნოლოგია საშუალებას აძლევს Proton VPN-ს, მოგაწოდოთ უფრო მეტი სიჩქარე და უსაფრთხოება ძნელად მისაწვდომ ქვეყნებშიც კი.</string>
-    <string name="streaming_title">სტრიმინგი</string>
-    <string name="streaming_description">Plus სერვერებს სტრიმინგის (Netflix, Disney+, და ა. შ.) მხარდაჭერა მთელი მსოფლიოდან აქვს.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">ეს სერვერები საუკეთესო წარმადობას BitTorrent-სთვის და ფაილის გასაზიარებლად იძლევიან.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">გადაამისამართეთ თქვენი ინტერნეტ-ტრაფიკი Tor-ის ქსელში. ის ოდნავ ნელია, მაგრამ უფრო დაცული.</string>
-    <string name="info_performance">წარმადობა</string>
     <string name="server_load_title">სერვერის დატვირთვა</string>
-    <string name="server_load_description">სერვერები მაღალი დატვირთვით უფრო ნელია, ვიდრე სერვერები დაბალი დატვირთვით.</string>
-    <string name="streaming_title_with_country">ვიდეონაკადი - %1$s</string>
-    <string name="streaming_services_description">სტრიმინგის დასაწყებად მიუერთდით Plus სერვერს, რომელიც ამ ქვეყანაში მდებარეობს.\n\nმინიშნება: იმისათვის, რომ დარწმუნებული ბრძანდებოდეთ, რომ ჩატვირთული შემცველობა უახლესია, ჯერ ქეში გაასუფთავეთ.</string>
-    <string name="partnership_free_title">უფასო სერვერები</string>
-    <string name="partnership_free_description">უსაფრთხოება და კონფიდენციალობა ყველასთვის. უფასო სერვერებს მონაცემების ლიმიტი არ გააჩნია და ჩვენ არ ვაპირებთ წინასწარგანზრახულად შეგინელოთ ინტერნეტის სიჩქარე.</string>
-    <string name="partnership_partners_title">ჩვენი პარტნიორები</string>
     <string name="activity_information_learn_more">გაიგეთ მეტი</string>
     <string name="server_load_low">დაბალი</string>
     <string name="server_load_medium">საშუალო</string>
     <string name="server_load_high">მაღალი</string>
-    <string name="info_gateways_description">VPN რაუტერი დაცული მიერთებაა, რომელიც, თქვენი კომპანიის მონაცემებზე და სერვისებზე, გამოყოფილი სერვერების გავლით გაძლევთ წვდომას.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">მოგესალმებით Proton VPN-ში</string>
@@ -611,7 +592,7 @@
     <string name="settings_change_icon_details">მოირგეთ, როგორ გამოჩნდება აპი Proton VPN თქვენს მოწყობილობაზე. რატომ?</string>
     <string name="settings_change_icon_confirmation_title">შევცვალო აპის ხატულა?</string>
     <string name="settings_change_icon_confirmation_details">ეს Proton VPN-ის აპს დახურავს.იმისათვის, რომ გადატვირთოთ Proton VPN, უბრალოდ დაატყაპუნეთ ახალი აპის ხატულაზე.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">დისკრეტული აპლიკაციის ხატულა</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -805,7 +786,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">გამჭოლი</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">უსწრაფესი ქვეყანა</string>
@@ -926,7 +907,7 @@
     <string name="connection_card_label_connecting">დაკავშირება…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">სერვერის შეცვლა…</string>
     <!-- tag(Redesign_2023)
@@ -1070,8 +1051,8 @@
     <string name="country_filter_tor_servers_list_header">Tor-ის სერვერები (%1$d)</string>
     <string name="country_filter_info_label">ინფო</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">დატვირთვა: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1103,7 +1084,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">დაკავშირებულია</string>
     <!-- tag(Redesign_2023) -->
@@ -1133,7 +1114,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">მაღალი (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN-მა შეიძლება, ნორმალურზე ნელა იმუშაოს </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">პროტოკოლი</string>
     <!-- tag(Redesign_2023) -->
@@ -1274,7 +1255,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">შეერთების შეცდომა</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">ამ მოწყობილობას VPN მიერთებების მხარდაჭერა არ გააჩნია.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">გაზარდეთ თქვენი მიერთების სიჩქარე 400%%-ით წარმადობის გაუმჯობესების ტექნოლოგიების საშუალებით. %1$s</string>
     <string name="settings_account_settings_title">ანგარიშის მორგება</string>
@@ -1282,7 +1263,7 @@
     <string name="settings_account_recovery_email">აღდგენის ელფოსტა</string>
     <string name="settings_account_recovery_email_not_set">დაყენებული არაა</string>
     <string name="settings_account_security_keys">უსაფრთხოების გასაღებები</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">ჩემი ანგარიში</string>
     <string name="settings_account_button_delete_account">ანგარიშის წაშლა</string>
     <string name="settings_advanced_alternative_routing_title">ალტერნატიული რაუტინგი</string>

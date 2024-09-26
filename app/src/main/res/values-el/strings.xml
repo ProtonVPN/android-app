@@ -287,7 +287,7 @@
     <string name="tv_signout_dialog_description_connected">Αυτό θα αποσυνδέσει την τηλεόραση σας από οποιονδήποτε διακομιστή VPN.</string>
     <string name="tv_signout_dialog_ok">Αποσύνδεση</string>
     <string name="tv_quick_connect_recommened">Προτεινόμενο</string>
-    <string name="tv_quick_connect_favourite">Αγαπημένο</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Η χώρα δεν είναι διαθέσιμη</string>
     <string name="tv_country_maintenance_dialog_description">Παρακαλώ δοκιμάστε ξανά αργότερα ή επιλέξτε μια διαφορετική χώρα.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -322,7 +322,7 @@
     <string name="enable">Ενεργοποίηση</string>
     <string name="notification_smart_protocol_disabled_title">Το Smart Protocol είναι απενεργοποιημένο προς το παρόν</string>
     <string name="notification_smart_protocol_disabled_content">Το Proton VPN ανίχνευσε ότι το τρέχον δίκτυό σας αποτρέπει την σύνδεση στο VPN. Ενεργοποιώντας το Smart Protocol μπορεί να παρακάμφθούν αυτοί οι περιορισμοί.</string>
-    <string name="upsell_advanced_features">Προηγμένες λειτουργίες: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Αποκτήστε πρόσβαση σε υπηρεσίες ροής/streaming (Netflix, Disney+, κλπ) από οπουδήποτε στον κόσμο</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -530,33 +530,14 @@
     <string name="payment_auto_renew_message_annual">Η συνδρομή ανανεώνεται αυτόματα στα %1$s/χρόνο</string>
     <string name="payment_welcome_price_message_monthly_fallback">Η συνδρομή ανανεώνεται αυτόματα μηνιαία</string>
     <string name="payment_welcome_price_message_annual_fallback">Η συνδρομή ανανεώνεται αυτόματα κάθε χρόνο</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Πληροφορίες</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Διακομιστές Plus</string>
-    <string name="activity_information_gateways_title">Τι είναι η πύλη;</string>
-    <string name="info_features">Χαρακτηριστικά</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Η τεχνολογία αυτή επιτρέπει στο Proton VPN να παρέχει υψηλότερες ταχύτητες Internet και ασφάλεια σε χώρες με δυσκολίες στην παροχή του.</string>
-    <string name="streaming_title">Ροή/\"Streaming\"</string>
-    <string name="streaming_description">Οι διακομιστές Plus υποστηρίζουν μετάδοση (Netflix, Disney+ κλπ.) από οπουδήποτε στον κόσμο.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Αυτοί οι διακομιστές παρέχουν καλύτερες επιδόσεις στο διαμοιρασμό αρχείων και για το BitTorrent.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Δρομολογήστε τη ροή δεδομένων σας στο διαδίκτυο, μέσω του δικτύου Tor. Χαμηλότερη ταχύτητα, αλλα πιο ιδιωτικό.</string>
-    <string name="info_performance">Απόδοση</string>
     <string name="server_load_title">Φόρτος Διακομιστή</string>
-    <string name="server_load_description">Διακομιστές με υψηλό φόρτο είναι πιο αργοί από τους διακομιστές με χαμηλότερο φόρτο.</string>
-    <string name="streaming_title_with_country">Ροή/\"Streaming\" - %1$s</string>
-    <string name="streaming_services_description">Συνδεθείτε σε ένα διακομιστή \"Plus\" σε αυτή τη χώρα και ξεκινήστε το \"streaming\".\n\nHint: Διαγράψτε την προσωρική μνήμη των εφαρμογών \"streaming\" για τη σίγουρη εμφάνιση νέου περιεχομένου.</string>
-    <string name="partnership_free_title">Δωρεάν διακομιστές</string>
-    <string name="partnership_free_description">Ασφάλεια και απόρρητο για όλους. Οι δωρεάν διακομιστές δεν έχουν όρια δεδομένων και ποτέ δε θα επιβραδύνουμε σκόπιμα την ταχύτητα περιήγησής σας.</string>
-    <string name="partnership_partners_title">Οι συνεργάτες μας</string>
     <string name="activity_information_learn_more">Μάθετε Περισσότερα</string>
     <string name="server_load_low">Χαμηλό</string>
     <string name="server_load_medium">Μεσαία</string>
     <string name="server_load_high">Υψηλή</string>
-    <string name="info_gateways_description">Μια πύλη VPN είναι μια ασφαλής σύνδεση που παρέχει ελεγχόμενη πρόσβαση στα δεδομένα και τις υπηρεσίες της εταιρείας σας μέσω αποκλειστικών διακομιστών.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Καλώς ήρθατε στο Proton VPN</string>
@@ -611,7 +592,7 @@
     <string name="settings_change_icon_details">Προσαρμόστε τον τρόπο εμφάνισης της εφαρμογής Proton VPN στη συσκευή σας. Γιατί;</string>
     <string name="settings_change_icon_confirmation_title">Αλλαγή εικονιδίου εφαρμογής;</string>
     <string name="settings_change_icon_confirmation_details">Αυτό θα προκαλέσει το κλείσιμο της εφαρμογής Proton VPN. Για να επανεκκινήσετε το Proton VPN, απλώς πατήστε το εικονίδιο της νέας σας εφαρμογής.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Διακριτικό εικονίδιο εφαρμογής</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -805,7 +786,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Ταχύτερη χώρα</string>
@@ -926,7 +907,7 @@
     <string name="connection_card_label_connecting">Σύνδεση σε…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Αλλαγή διακομιστή…</string>
     <!-- tag(Redesign_2023)
@@ -1070,8 +1051,8 @@
     <string name="country_filter_tor_servers_list_header">Διακομιστές Tor (%1$d)</string>
     <string name="country_filter_info_label">Πληροφορίες</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Φορτίο: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1103,7 +1084,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Συνδεδεμένο για</string>
     <!-- tag(Redesign_2023) -->
@@ -1133,7 +1114,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Υψηλό (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">Το VPN μπορεί να λειτουργεί πιο αργά από το κανονικό </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Πρωτόκολλο</string>
     <!-- tag(Redesign_2023) -->
@@ -1274,7 +1255,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Αποτυχία σύνδεσης</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Αυτή η συσκευή δεν επιτρέπει συνδέσεις VPN.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Αυξήστε την ταχύτητα σύνδεσής σας έως και 400%% με τεχνολογίες βελτίωσης της απόδοσης. %1$s</string>
     <string name="settings_account_settings_title">Ρυθμίσεις λογαριασμού</string>
@@ -1282,7 +1263,7 @@
     <string name="settings_account_recovery_email">Διεύθυνση ανάκτησης</string>
     <string name="settings_account_recovery_email_not_set">Μη ορισμένο</string>
     <string name="settings_account_security_keys">Κλειδιά Ασφαλείας</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Ο λογαριασμός μου</string>
     <string name="settings_account_button_delete_account">Διαγραφή λογαριασμού</string>
     <string name="settings_advanced_alternative_routing_title">Εναλλακτική δρομολόγηση</string>

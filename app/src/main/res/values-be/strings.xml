@@ -291,7 +291,7 @@
     <string name="tv_signout_dialog_description_connected">Гэта адключыць ваш тэлевізар ад усіх сервераў VPN.</string>
     <string name="tv_signout_dialog_ok">Выйсці</string>
     <string name="tv_quick_connect_recommened">Рэкамендавана</string>
-    <string name="tv_quick_connect_favourite">Улюблёны</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Краіна недаступна</string>
     <string name="tv_country_maintenance_dialog_description">Паспрабуйце пазней або выберыце іншую краіну.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -328,7 +328,7 @@
     <string name="enable">Уключыць</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз адключаны</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN вызначыў, што ваша бягучая сетка блакіруе падключэнне да VPN. Уключэнне Smart Protocol можа дапамагчы абысці гэта абмежаванне.</string>
-    <string name="upsell_advanced_features">Пашыраныя функцыі: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Доступ да сэрвісаў трансляцый (Netflix, Disney+ і іншых) у любой краіне свету</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -562,33 +562,14 @@
     <string name="payment_auto_renew_message_annual">Падпіска будзе аўтаматычна падаўжацца за %1$s у год</string>
     <string name="payment_welcome_price_message_monthly_fallback">Падпіска будзе аўтаматычна падаўжацца штомесяц</string>
     <string name="payment_welcome_price_message_annual_fallback">Падпіска будзе аўтаматычна падаўжацца штогод</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Інфармацыя</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">Серверы Plus у %1$s</string>
-    <string name="activity_information_gateways_title">Што такое шлюз?</string>
-    <string name="info_features">Функцыі</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Гэта тэхналогія дазваляе Proton VPN забяспечваць больш высокую хуткасць і бяспеку ў краінах, дзе ёсць праблемы з прыватнасцю.</string>
-    <string name="streaming_title">Трансляцыя</string>
-    <string name="streaming_description">Серверы Plus падтрымліваюць трансляцыю (Netflix, Disney+ і іншыя) з любой краіны ў свеце.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Гэтыя серверы даюць найлепшую прадукцыйнасць для BitTorrent і абагулення файлаў.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Перанакіроўвае ўвесь ваш трафік праз сетку Tor. Павольна, але больш бяспечна.</string>
-    <string name="info_performance">Прадукцыйнасць</string>
     <string name="server_load_title">Загрузка сервера</string>
-    <string name="server_load_description">Серверы з высокай загрузкай больш павольныя, чым з нізкай.</string>
-    <string name="streaming_title_with_country">Трансляцыя - %1$s</string>
-    <string name="streaming_services_description">Каб пачаць трансляцыю, падключыцеся да сервера Plus у гэтай краіне.\n\nПадказка: ачысціце кэш праграм, якія выкарыстоўваць гэту тэхналогію, каб з\'явілася новае змесціва.</string>
-    <string name="partnership_free_title">Cерверы Free</string>
-    <string name="partnership_free_description">Бяспека і прыватнасць для кожнага. Бясплатныя серверы, якія не маюць абмежавання па перадачы даных і не будуць наўмысна зніжаць вашу хуткасць прагляду старонак у інтэрнэце.</string>
-    <string name="partnership_partners_title">Нашы партнёры</string>
     <string name="activity_information_learn_more">Даведацца больш</string>
     <string name="server_load_low">Нізкая</string>
     <string name="server_load_medium">Сярэдняя</string>
     <string name="server_load_high">Высокая</string>
-    <string name="info_gateways_description">Шлюз VPN - гэта бяспечнае падключэнне, якое забяспечвае кантралюемы доступ да даных і паслуг вашай кампаніі праз вылучаныя серверы.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Вітаем у Proton VPN</string>
@@ -853,7 +834,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">аднарангавы</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Найхутчэйшыя краіны</string>
@@ -976,7 +957,7 @@
     <string name="connection_card_label_connecting">Падключэнне да…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Змяненне сервера...</string>
     <!-- tag(Redesign_2023)
@@ -1120,8 +1101,8 @@
     <string name="country_filter_tor_servers_list_header">Серверы Tor (%1$d)</string>
     <string name="country_filter_info_label">Звесткі</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Загрузка: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1153,7 +1134,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Падключана</string>
     <!-- tag(Redesign_2023) -->
@@ -1183,7 +1164,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Высокая (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN можа працаваць павольней за звычайнае злучэнне </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Пратакол</string>
     <!-- tag(Redesign_2023) -->
@@ -1346,7 +1327,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Збой падключэння</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Гэтая прылада забараняе падключэнні па VPN.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Павялічце хуткасць свайго падключэння да 400 %% дзякуючы тэхналогіям павышэння прадукцыйнасці. %1$s</string>
     <string name="settings_account_settings_title">Налады ўліковага запісу</string>
@@ -1354,7 +1335,7 @@
     <string name="settings_account_recovery_email">Электронная пошта для аднаўлення доступу</string>
     <string name="settings_account_recovery_email_not_set">Не зададзена</string>
     <string name="settings_account_security_keys">Ключы бяспекі</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Мой уліковы запіс</string>
     <string name="settings_account_button_delete_account">Выдаліць уліковы запіс</string>
     <string name="settings_advanced_alternative_routing_title">Альтэрнатыўная маршрутызацыя</string>

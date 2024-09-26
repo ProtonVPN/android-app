@@ -289,7 +289,7 @@
     <string name="tv_signout_dialog_description_connected">To će odspojiti vaš TV od bilo kojeg VPN poslužitelja.</string>
     <string name="tv_signout_dialog_ok">Odjava</string>
     <string name="tv_quick_connect_recommened">Preporučeno</string>
-    <string name="tv_quick_connect_favourite">Omiljeno</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Država nije dostupna</string>
     <string name="tv_country_maintenance_dialog_description">Pokušajte ponovno kasnije ili odaberite drugu državu.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -325,7 +325,7 @@
     <string name="enable">Omogući</string>
     <string name="notification_smart_protocol_disabled_title">Pametni protokol je trenutno onemogućen</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN je otkrio da vaša trenutna mreža spriječava vezu s VPN-om. Omogućavanje pametnog protokola moglo bi zaobići ta ograničenja.</string>
-    <string name="upsell_advanced_features">Napredne značajke: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -546,33 +546,14 @@
     <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
     <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
     <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Informacije</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus poslužitelji</string>
-    <string name="activity_information_gateways_title">What is a gateway?</string>
-    <string name="info_features">Značajke</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Ova tehnologija omogućuje Proton VPN-u da pruža veću brzinu i sigurnost u zemljama koje je teško uslužiti.</string>
-    <string name="streaming_title">Streamanje</string>
-    <string name="streaming_description">Plus servers support streaming (Netflix, Disney+, etc) from anywhere in the world.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Ovi poslužitelji pružaju najbolje performanse za BitTorrent i dijeljenje datoteka.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Route your internet traffic through the Tor network. Slower, but more private.</string>
-    <string name="info_performance">Performanse</string>
     <string name="server_load_title">Opterećenje poslužitelja</string>
-    <string name="server_load_description">Poslužitelji s visokim opterećenjem sporiji su od poslužitelja s niskim opterećenjem.</string>
-    <string name="streaming_title_with_country">Streamanje - %1$s</string>
-    <string name="streaming_services_description">Connect to a Plus server in this country to start streaming.\n\nHint: Clear the cache of the streaming apps to ensure new content appears.</string>
-    <string name="partnership_free_title">Besplatni poslužitelji</string>
-    <string name="partnership_free_description">Security and privacy for everyone. Free servers have no data limits, and we’ll never deliberately slow down your browsing speed.</string>
-    <string name="partnership_partners_title">Our partners</string>
     <string name="activity_information_learn_more">Saznaj više</string>
     <string name="server_load_low">Nisko</string>
     <string name="server_load_medium">Srednja</string>
     <string name="server_load_high">Visoko</string>
-    <string name="info_gateways_description">A VPN gateway is a secure connection that provides controlled access to your company\'s data and services through dedicated servers.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Dobrodošli u Proton VPN</string>
@@ -628,7 +609,7 @@
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
     <string name="settings_change_icon_confirmation_title">Change app icon?</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -829,7 +810,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Fastest country</string>
@@ -951,7 +932,7 @@
     <string name="connection_card_label_connecting">Povezivanje s…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Changing server…</string>
     <!-- tag(Redesign_2023)
@@ -1095,8 +1076,8 @@
     <string name="country_filter_tor_servers_list_header">Tor servers (%1$d)</string>
     <string name="country_filter_info_label">Informacije</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1128,7 +1109,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Connected for</string>
     <!-- tag(Redesign_2023) -->
@@ -1158,7 +1139,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">High (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokol</string>
     <!-- tag(Redesign_2023) -->
@@ -1310,7 +1291,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Neuspjela veza</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">Postavke računa</string>
@@ -1318,7 +1299,7 @@
     <string name="settings_account_recovery_email">Adresa e-pošte za oporavak</string>
     <string name="settings_account_recovery_email_not_set">Nije postavljeno</string>
     <string name="settings_account_security_keys">Security Keys</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Moj račun</string>
     <string name="settings_account_button_delete_account">Ukloni račun</string>
     <string name="settings_advanced_alternative_routing_title">Alternativno usmjeravanje</string>

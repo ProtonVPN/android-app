@@ -286,7 +286,7 @@
     <string name="tv_signout_dialog_description_connected">이렇게 하면 VPN 서버에서 TV 연결이 끊어집니다.</string>
     <string name="tv_signout_dialog_ok">로그아웃</string>
     <string name="tv_quick_connect_recommened">추천</string>
-    <string name="tv_quick_connect_favourite">즐겨찾기</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">국가를 사용할 수 없습니다</string>
     <string name="tv_country_maintenance_dialog_description">나중에 다시 시도하거나 다른 국가를 선택해주세요.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -320,7 +320,7 @@
     <string name="enable">활성화</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol은 현재 비활성화 되었습니다</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN이 현재 네트워크에서는 VPN에 연결할 수 없음을 감지했습니다. Smart Protocol을 활성화하면 이러한 제한을 우회할 수도 있습니다.</string>
-    <string name="upsell_advanced_features">고급 기능: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">전 세계 어디에서나 스트리밍 서비스(Netflix, Disney+ 등) 에 액세스</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -515,33 +515,14 @@
     <string name="payment_auto_renew_message_annual">구독이 매년 %1$s(으)로 갱신됩니다.</string>
     <string name="payment_welcome_price_message_monthly_fallback">구독이 매월 자동으로 갱신됩니다.</string>
     <string name="payment_welcome_price_message_annual_fallback">구독이 매년 자동으로 갱신됩니다.</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">정보</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - Plus 서버들</string>
-    <string name="activity_information_gateways_title">게이트웨이가 무엇인가요?</string>
-    <string name="info_features">기능</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">이 기술로 Proton VPN은 이용이 어려운 국가에서도 더 높은 속도와 보안을 제공하고 있습니다.</string>
-    <string name="streaming_title">스트리밍 서비스</string>
-    <string name="streaming_description">Plus 서버는 전 세계 어디의 스트리밍 서비스 (넷플릭스, 디즈니+ 등) 라도 지원할 수 있습니다.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">이 서버들은 BitTorrent 및 파일 공유에 최고의 성능을 제공합니다.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">인터넷 트래픽이 Tor 네트워크를 경유하게 됩니다. 느리지만 더욱 은밀해집니다.</string>
-    <string name="info_performance">속도</string>
     <string name="server_load_title">서버 부하율</string>
-    <string name="server_load_description">부하가 높은 서버는 부하가 낮은 서버보다 느립니다.</string>
-    <string name="streaming_title_with_country">스트리밍 서비스 - %1$s</string>
-    <string name="streaming_services_description">스트리밍을 시작하려면 이 국가의 플러스 서버에 연결하십시오.\n\n참고: 새 콘텐츠가 나타나도록 스트리밍 앱의 캐시를 지우세요.</string>
-    <string name="partnership_free_title">무료 서버</string>
-    <string name="partnership_free_description">모두를 위한 보안과 개인정보 보호 제공. 무료 서버는 데이터 제한이 없으며 저희는 일부러 인터넷 속도를 느리게 하지 않습니다.</string>
-    <string name="partnership_partners_title">우리의 파트너들</string>
     <string name="activity_information_learn_more">더 알아보기</string>
     <string name="server_load_low">낮음</string>
     <string name="server_load_medium">중간</string>
     <string name="server_load_high">높음</string>
-    <string name="info_gateways_description">VPN 게이트웨이란 전용 서버를 통하여 회사의 데이터 및 서비스에 대하여 제어된 연결을 제공하는 보안 연결을 말합니다.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN에 오신 것을 환영합니다</string>
@@ -595,7 +576,7 @@
     <string name="settings_change_icon_details">사용자의 기기에서 어떻게 Proton VPN이 표시될지 사용자화하세요. 왜죠?</string>
     <string name="settings_change_icon_confirmation_title">앱 아이콘을 변경하시겠어요?</string>
     <string name="settings_change_icon_confirmation_details">이 작업은 Proton VPN 앱을 종료시킵니다. Proton VPN을 재시작하려면, 새 앱 아이콘을 탭 하세요.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">위장 앱 아이콘</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -902,7 +883,7 @@
     <string name="connection_card_label_connecting">다음에 연결 중…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">서버 변경 중…</string>
     <!-- tag(Redesign_2023)
@@ -1046,8 +1027,8 @@
     <string name="country_filter_tor_servers_list_header">Tor 서버 (%1$d)</string>
     <string name="country_filter_info_label">정보</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">부하: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1079,7 +1060,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">다음으로 연결됨:</string>
     <!-- tag(Redesign_2023) -->
@@ -1109,7 +1090,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">높음 (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN이 평소보다 느릴 수 있습니다 </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">프로토콜</string>
     <!-- tag(Redesign_2023) -->
@@ -1239,7 +1220,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">연결 실패</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">이 디바이스가 VPN 연결을 허용하지 않습니다.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">성능 강화 기술을 통해 연결 속도가 400%%까지 빨라집니다. %1$s</string>
     <string name="settings_account_settings_title">계정 설정</string>
@@ -1247,7 +1228,7 @@
     <string name="settings_account_recovery_email">복구 이메일</string>
     <string name="settings_account_recovery_email_not_set">설정하지 않음</string>
     <string name="settings_account_security_keys">보안 키</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">내 계정</string>
     <string name="settings_account_button_delete_account">계정 삭제</string>
     <string name="settings_advanced_alternative_routing_title">대체 라우팅</string>
@@ -1264,7 +1245,7 @@
     <string name="settings_advanced_nat_type_moderate_description">네트워크에 들어오는 데이터를 약간 통제합니다. 온라인 비디오 게이밍에 최적입니다.</string>
     <string name="settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 커스텀할 수 있습니다. %1$s</string>
     <string name="settings_protocol_description">VPN 프로토콜은 서버와 여러분의 장치 사이에서 데이터가 이동하는 방식을 정의합니다. %1$s</string>
-    <string name="settings_protocol_description_no_link">VPN 프로토콜은 서버와 여러분의 장치 사이에서 데이터가 이동하는 방식을 정의합니다.</string>
+    <string name="settings_protocol_description_no_link">VPN 프로토콜은 서버와 내 기기 사이에서 데이터가 이동하는 방식을 정의합니다.</string>
     <string name="settings_protocol_section_speed">속도 (UDP)</string>
     <string name="settings_protocol_section_reliability">안정성 (TCP)</string>
     <string name="settings_protocol_smart_title">스마트</string>

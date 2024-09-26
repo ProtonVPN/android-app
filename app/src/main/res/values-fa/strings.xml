@@ -35,7 +35,7 @@
     <string name="connectionAllocationHelpLoginAgainButton">ورود دوباره</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">تأیید</string>
-    <string name="dialogLearnMore">بیشتر بدانید</string>
+    <string name="dialogLearnMore">اطلاعات بیشتر</string>
     <string name="connected">متصل</string>
     <string name="buttonConnect">اتصال</string>
     <string name="loaderConnectingTo">در حال اتصال به %1$s</string>
@@ -213,7 +213,7 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[این آمارها نشانی IP شما را شامل‌ نمی‌شوند، و برای شناسایی شما قابل استفاده نیستند. ما هرگز آن‌ها را با اشخاص ثالث در اشتراک نمی‌گذاریم. <a href="%1$s"> بیشتر بدانید </a>]]></string>
     <string name="netshield_settings_description_not_html">از خودتان در برابر تبلیغات، بدافزارها، و ردیاب‌های درون وب‌سایت‌ها و برنامه‌ها محافظت کنید. اگر وب‌سایت‌ها بارگیری نمی‌شوند، خاموش کردن NetShield را امتحان کنید. %1$s</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
-    <string name="settings_icon_change_learn_more">برای کسب اطلاعات بیشتر در این مورد اینجا را کلیک کنید.</string>
+    <string name="settings_icon_change_learn_more">بیشتر بدانید</string>
     <string name="learn_more">بیشتر بدانید</string>
     <string name="netshield_state_on" comment="Describes state, not action">روشن</string>
     <string name="netshield_state_off" comment="Describes state, not action">خاموش</string>
@@ -287,7 +287,7 @@
     <string name="tv_signout_dialog_description_connected">این تلویزیون شما را از هر سرور VPN قطع خواهد کرد.</string>
     <string name="tv_signout_dialog_ok">خروج</string>
     <string name="tv_quick_connect_recommened">توصیه شده</string>
-    <string name="tv_quick_connect_favourite">علاقه‌مندی</string>
+    <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">کشور در دسترس نیست</string>
     <string name="tv_country_maintenance_dialog_description">لطفاً بعداً دوباره امتحان کنید یا کشور دیگری انتخاب کنید.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -322,7 +322,7 @@
     <string name="enable">فعال‌سازی</string>
     <string name="notification_smart_protocol_disabled_title">پروتکل هوشمند در حال حاضر غیرفعال است</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN تشخیص داد که شبکهٔ فعلی شما از اتصال VPN جلوگیری می‌کند. فعال‌سازی پروتکل هوشمند ممکن است بتواند این محدودیت‌ها را دور بزند.</string>
-    <string name="upsell_advanced_features">قابلیت‌های پیشرفته: NetShield, Secure Core, Tor, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">به سرویس‌های پخش آنلاین (Netflix و Disney+ و...) از هرجایی از دنیا دسترسی پیدا کنید</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -530,33 +530,14 @@
     <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
     <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
     <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">اطلاعات</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - سرورهای Plus</string>
-    <string name="activity_information_gateways_title">دروازه چیست؟</string>
-    <string name="info_features">قابلیت‌ها</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">این فناوری به Proton VPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
-    <string name="streaming_title">پخش آنلاین</string>
-    <string name="streaming_description">سرورهای Plus از پخش آنلاین (Netflix، Disney+ و ...) از هر جایی در جهان پشتیبانی می‌کنند.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">این سرورها بهترین عملکرد را برای BitTorrent و اشتراک فایل ارائه می‌دهند.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">ترافیک اینترنت خود را از شبکهٔ Tor عبور دهید. کندتر، اما با حریم خصوصی بالاتر.</string>
-    <string name="info_performance">عملکرد</string>
     <string name="server_load_title">بار ترافیکی سرور</string>
-    <string name="server_load_description">سرورها با بار ترافیکی بالا از سرورها با بار ترافیکی پایین کندتر هستند.</string>
-    <string name="streaming_title_with_country">پخش آنلاین - %1$s</string>
-    <string name="streaming_services_description">به یک سرور Plus در این کشور متصل شوید تا پخش آنلاین را آغاز کنید.\n\nراهنمایی: حافظهٔ پنهان برنامه‌های پخش آنلاین را پاک‌سازی کنید تا مطمئن شوید محتوای تازه ظاهر می‌شود.</string>
-    <string name="partnership_free_title">سرورهای رایگان</string>
-    <string name="partnership_free_description">امنیت و حریم خصوصی برای همه. سرورهای رایگان هیچ محدودیتی برای دیتا ندارند و ما هرگز عامدانه سرعت مرور شما را پایین نمی‌آوریم.</string>
-    <string name="partnership_partners_title">همکاران ما</string>
     <string name="activity_information_learn_more">بیشتر یاد بگیرید</string>
     <string name="server_load_low">پایین</string>
     <string name="server_load_medium">متوسط</string>
     <string name="server_load_high">بالا</string>
-    <string name="info_gateways_description">یک دروازهٔ VPN اتصالی امن است که دسترسی کنترل شده به اطلاعات و سرویس‌های کمپانی‌تان را از طریق سرورهای اختصاصی فراهم می‌کند.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">به Proton VPN خوش آمدید</string>
@@ -611,7 +592,7 @@
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
     <string name="settings_change_icon_confirmation_title">Change app icon?</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -805,7 +786,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">سریع‌ترین کشور</string>
@@ -926,7 +907,7 @@
     <string name="connection_card_label_connecting">درحال اتصال به…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Changing server…</string>
     <!-- tag(Redesign_2023)
@@ -1070,8 +1051,8 @@
     <string name="country_filter_tor_servers_list_header">سرورهای Tor (%1$d)</string>
     <string name="country_filter_info_label">اطلاعات</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1103,7 +1084,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">متصل به مدت</string>
     <!-- tag(Redesign_2023) -->
@@ -1133,7 +1114,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">High (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN ممکن است از حد معمول آهسته‌تر اجرا شود </string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">پروتکل</string>
     <!-- tag(Redesign_2023) -->
@@ -1192,7 +1173,7 @@
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
-    <string name="connection_details_learn_more">برای کسب اطلاعات بیشتر در این مورد اینجا را کلیک کنید.</string>
+    <string name="connection_details_learn_more">بیشتر بدانید</string>
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
@@ -1274,7 +1255,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">ﺍﺗﺼﺎﻝ ﻧﺎﻣﻮﻓﻖ ﺑﻮﺩ</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">تنظیمات حساب کاربری</string>
@@ -1282,7 +1263,7 @@
     <string name="settings_account_recovery_email">ایمیل بازیابی</string>
     <string name="settings_account_recovery_email_not_set">تنظیم نشده است</string>
     <string name="settings_account_security_keys">Security Keys</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">حساب من</string>
     <string name="settings_account_button_delete_account">حذف حساب کاربری</string>
     <string name="settings_advanced_alternative_routing_title">مسیریابی جایگزین</string>

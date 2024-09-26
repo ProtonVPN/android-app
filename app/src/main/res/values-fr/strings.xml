@@ -530,33 +530,14 @@
     <string name="payment_auto_renew_message_annual">L\'abonnement est renouvelé automatiquement à %1$s par an.</string>
     <string name="payment_welcome_price_message_monthly_fallback">L\'abonnement est renouvelé automatiquement tous les mois.</string>
     <string name="payment_welcome_price_message_annual_fallback">L\'abonnement est renouvelé automatiquement tous les ans.</string>
-    <!-- Information activity -->
-    <string name="activity_information_title">Informations</string>
-    <!-- placeholder is a coutry name e.g. Italy - Plus servers -->
-    <string name="activity_information_plus_title">%1$s - serveurs Plus</string>
-    <string name="activity_information_gateways_title">Qu\'est-ce qu\'une passerelle ?</string>
-    <string name="info_features">Fonctionnalités</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Cette technologie permet à Proton VPN de fournir une vitesse et une sécurité plus élevées dans les pays difficiles à desservir.</string>
-    <string name="streaming_title">Streaming</string>
-    <string name="streaming_description">Les serveurs « Plus » prennent en charge le streaming (Netflix, Disney+…) depuis n\'importe où dans le monde.</string>
-    <string name="p2p_title">P2P/BitTorrent</string>
-    <string name="p2p_description">Ces serveurs offrent les meilleures performances pour le partage de fichiers et BitTorrent.</string>
     <string name="tor_title">Tor</string>
-    <string name="tor_description">Routez votre trafic internet à travers le réseau Tor. Plus lent, mais plus privé.</string>
-    <string name="info_performance">Performance</string>
     <string name="server_load_title">Charge du serveur</string>
-    <string name="server_load_description">Les serveurs avec une charge élevée sont plus lents que les serveurs avec une faible charge.</string>
-    <string name="streaming_title_with_country">Streaming - %1$s</string>
-    <string name="streaming_services_description">Connectez-vous à un serveur « Plus » dans ce pays pour commencer à streamer.\n\nAstuce : en vidant le cache des applications de streaming, vous vous assurez que les nouveaux contenus apparaîtront.</string>
-    <string name="partnership_free_title">Serveurs Free</string>
-    <string name="partnership_free_description">La sécurité et le respect de la vie privée pour tous. Les serveurs gratuits n\'ont aucune limite de données et nous ne ralentirons jamais délibérément votre vitesse de navigation.</string>
-    <string name="partnership_partners_title">Nos partenaires</string>
     <string name="activity_information_learn_more">En savoir plus</string>
     <string name="server_load_low">Faible</string>
     <string name="server_load_medium">Moyenne</string>
     <string name="server_load_high">Élevée</string>
-    <string name="info_gateways_description">Une Passerelle VPN est une connexion sécurisée qui permet de contrôler l\'accès aux données de votre entreprise par le biais de serveurs dédiés.</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Bienvenue sur Proton VPN</string>
@@ -611,7 +592,7 @@
     <string name="settings_change_icon_details">Pourquoi personnaliser l\'affichage de l\'application Proton VPN sur votre appareil ?</string>
     <string name="settings_change_icon_confirmation_title">Changer l\'icône de l\'application ?</string>
     <string name="settings_change_icon_confirmation_details">Cette action va fermer Proton VPN. Pour redémarrer Proton VPN, veuillez appuyer sur la nouvelle icône de votre application.</string>
-    <string name="settings_change_icon_header_protonvpn">ProtonVPN</string>
+    <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Icône d\'application discrète</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -805,7 +786,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">P2P</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Pays le plus rapide</string>
@@ -926,7 +907,7 @@
     <string name="connection_card_label_connecting">Connexion à…</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection to a different server is
-         being established. It's shown only in response to user clicking the "Change server" button.
+         being established. It\'s shown only in response to user clicking the "Change server" button.
      -->
     <string name="connection_card_label_changing_server">Changement de serveur…</string>
     <!-- tag(Redesign_2023)
@@ -1070,8 +1051,8 @@
     <string name="country_filter_tor_servers_list_header">Serveurs Tor (%1$d)</string>
     <string name="country_filter_info_label">Informations</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
-         Note: the trailing '%' sign needs to be doubled
-         (this doesn't apply to other percent sign characters, e.g. ٪). -->
+         Note: the trailing \'%\' sign needs to be doubled
+         (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
     <string name="country_filter_server_load_content_description">Charge : %1$s %%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
@@ -1103,7 +1084,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">IP du VPN</string>
     <!-- tag(Redesign_2023)
-         Will be shown in a UI row which indicates for how long user has been connected. Like 'Connected for 2hours'
+         Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
     <string name="connection_details_connected_for">Connecté depuis</string>
     <!-- tag(Redesign_2023) -->
@@ -1274,7 +1255,7 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">La connexion n\'a pas abouti.</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Cet appareil n\'autorise pas les connexions VPN.</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
-         (this doesn't apply to other percent sign characters, e.g. ٪)
+         (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
     <string name="settings_vpn_accelerator_description">Augmentez votre vitesse de connexion jusqu\'à 400 %% grâce à des technologies d\'amélioration des performances. %1$s</string>
     <string name="settings_account_settings_title">Paramètres du compte</string>
@@ -1282,7 +1263,7 @@
     <string name="settings_account_recovery_email">E-mail de récupération</string>
     <string name="settings_account_recovery_email_not_set">Non défini</string>
     <string name="settings_account_security_keys">Clés de sécurité</string>
-    <!-- Label of a button that opens user's account page -->
+    <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Mon compte</string>
     <string name="settings_account_button_delete_account">Supprimer le compte</string>
     <string name="settings_advanced_alternative_routing_title">Routage alternatif</string>
