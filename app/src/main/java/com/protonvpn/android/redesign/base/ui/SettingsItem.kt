@@ -41,9 +41,7 @@ import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
-import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.defaultSmallWeak
 
 data class ClickableTextAnnotation(
