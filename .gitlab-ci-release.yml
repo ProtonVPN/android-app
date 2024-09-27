@@ -1,3 +1,11 @@
+include:
+  - component: gitlab.protontech.ch/proton/devops/cicd-components/tools/artifactlift/s3-upload@0.1.24
+    inputs:
+      destination-cluster: prod
+      destination-repository: vpn-releases
+      destination-directory: android/
+      artifact-list: "ProtonVPN.apk"
+
 make release branch:
   before_script:
     - git fetch origin development
@@ -240,9 +248,9 @@ publish-github:
     - gh release delete $VERSION_NAME -y || true
     - gh release create $VERSION_NAME $ARTIFACT_PATH --title $VERSION_NAME --notes-file "$RELEASE_NOTES" --repo "${OAUTH_URL}"
 
-
-publish downloads:
-  extends: .publish-download-base
+# DEVOPS-2680: Push to S3 instead of download repo
+artifactlift-s3-upload-prod:
+  stage: publish
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
@@ -250,12 +258,13 @@ publish downloads:
       when: always
   dependencies: ["sign vanilla apk", "export archive name"]
   interruptible: false
+  before_script:
+    - export DIRNAME="$( date -I )"
+    - mkdir "${DIRNAME}" && cd "${DIRNAME}"
+    - mv "${ARTIFACT_PATH}" "${ARTIFACT_OUTPUT_NAME}"
   variables:
-    ORIGIN_OAUTH_URL: "${OAUTH_DOWNLOADS_REPO_URL}"
     ARTIFACT_PATH: "signedArtifacts/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
     ARTIFACT_OUTPUT_NAME: "ProtonVPN.apk"
-    SLACK_HOOK: "${SLACK_HOOK_DEPLOY_CHANNEL}"
-    SLACK_MESSAGE: '{"text":"Updated ProtonVPN.apk. Can someone deploy downloads? Thanks :)"}'
 
 publish nexus:
   stage: publish
