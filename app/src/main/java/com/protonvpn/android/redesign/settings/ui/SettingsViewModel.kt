@@ -49,7 +49,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import me.proton.core.auth.domain.feature.IsFido2Enabled
 import me.proton.core.auth.fido.domain.entity.Fido2RegisteredKey
 import me.proton.core.domain.entity.UserId
@@ -197,11 +196,13 @@ class SettingsViewModel @Inject constructor(
         val natType: SettingViewState.Nat,
         val buildInfo: String?,
         val showSignOut: Boolean,
+        val showDebugTools: Boolean,
         val accountScreenEnabled: Boolean,
     )
 
     // The configuration doesn't change during runtime.
-    private val buildConfigText = if (BuildConfigUtils.displayInfo()) buildConfigInfo() else null
+    private val displayDebugUi = BuildConfigUtils.displayDebugUi()
+    private val buildConfigText = if (displayDebugUi) buildConfigInfo() else null
 
     val viewState =
         combine(
@@ -252,6 +253,7 @@ class SettingsViewModel @Inject constructor(
                 lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree),
                 natType = SettingViewState.Nat(if (settings.randomizedNat) NatType.Strict else NatType.Moderate, isFree),
                 buildInfo = buildConfigText,
+                showDebugTools = displayDebugUi,
                 showSignOut = !isCredentialLess && !managedConfig.isManaged,
                 accountScreenEnabled = !managedConfig.isManaged
             )

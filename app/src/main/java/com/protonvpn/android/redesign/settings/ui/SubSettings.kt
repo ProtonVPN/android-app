@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
@@ -158,6 +159,14 @@ fun SubSettingsRoute(
                         onNatTypeRestricted = { CarouselUpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(context) },
                     )
                 }
+            }
+
+            SubSettingsScreen.Type.DebugTools -> {
+                val debugToolsViewModel = hiltViewModel<DebugToolsViewModel>()
+                DebugTools(
+                    onClose = onClose,
+                    onConnectGuestHole = debugToolsViewModel::connectGuestHole
+                )
             }
 
             SubSettingsScreen.Type.NatType -> {

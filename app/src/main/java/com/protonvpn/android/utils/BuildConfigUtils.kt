@@ -24,7 +24,7 @@ import com.protonvpn.android.BuildConfig
 object BuildConfigUtils {
     fun isBlack() = BuildConfig.FLAVOR_environment.startsWith("black")
     fun useAltRoutingCertVerificationForMainRoute() = BuildConfig.ALT_ROUTING_CERT_FOR_MAIN_ROUTE
-    fun displayInfo() = BuildConfig.DEBUG || isBlack()
+    fun displayDebugUi() = BuildConfig.DEBUG || isBlack()
 
     // Make sure that DoH services URLs end with a slash (expected by OkHttp)
     fun sanitizedDohServices() = BuildConfig.DOH_SERVICES_URLS?.map {

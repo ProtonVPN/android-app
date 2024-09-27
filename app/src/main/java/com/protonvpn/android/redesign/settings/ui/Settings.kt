@@ -204,6 +204,9 @@ fun SettingsRoute(
             onThirdPartyLicensesClick = {
                 context.startActivity(Intent(context, OssLicensesActivity::class.java))
             },
+            onDebugToolsClick = {
+                onNavigateToSubSetting(SubSettingsScreen.Type.DebugTools)
+            }
         )
     }
 }
@@ -297,6 +300,7 @@ private fun SettingsView(
     onHelpFightClick: () -> Unit,
     onRateUsClick: () -> Unit,
     onThirdPartyLicensesClick: () -> Unit,
+    onDebugToolsClick: () -> Unit,
 ) {
     CollapsibleToolbarScaffold(
         titleResId = R.string.settings_title,
@@ -324,7 +328,6 @@ private fun SettingsView(
                 onNetShieldUpgrade = onNetShieldUpgradeClick,
                 onSplitTunnelClick = onSplitTunnelClick,
                 onSplitTunnelUpgrade = onSplitTunnelUpgrade,
-                onIconChangeClick = onIconChangeClick,
                 onAlwaysOnClick = onAlwaysOnClick
             )
             Category(
@@ -403,6 +406,13 @@ private fun SettingsView(
                     onClick = onDebugLogsClick,
                     title = stringResource(id = R.string.settings_debug_logs_title)
                 )
+                if (viewState.showDebugTools) {
+                    SettingRowWithIcon(
+                        icon = CoreR.drawable.ic_proton_wrench,
+                        title = "Debug Tools",
+                        onClick = onDebugToolsClick,
+                    )
+                }
             }
             Category(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
@@ -472,7 +482,6 @@ private fun ColumnScope.FeatureCategory(
     onNetShieldUpgrade: () -> Unit,
     onSplitTunnelClick: () -> Unit,
     onSplitTunnelUpgrade: () -> Unit,
-    onIconChangeClick: () -> Unit,
     onAlwaysOnClick: () -> Unit,
 ) {
     Category(
