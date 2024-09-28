@@ -280,7 +280,7 @@ coverage report:
     - shared-large
   script:
     - ./gradlew coverageReport
-    - python3 jacocoConverter.py app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml app/src/main/java > app/build/reports/cobertura-coverage.xml    
+    - python3 jacocoConverter.py app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml app/src/main/java > app/build/reports/cobertura-coverage.xml
     # create top level artifact index to direct users to the deep index
     - echo "<script>window.location='app/build/reports/jacoco/jacocoTestReport/html/index.html'</script>" > index.html
     - echo "<a href='app/build/reports/jacoco/jacocoTestReport/html/index.html'>go here</a>" >> index.html
@@ -293,7 +293,7 @@ coverage report:
   artifacts:
     expire_in: 1 week
     expose_as: 'Coverage html'
-    paths: 
+    paths:
       - app/build/reports/jacoco/jacocoTestReport/html
       - index.html
     reports:
@@ -361,8 +361,6 @@ include:
   - local: '/.gitlab-ci-firebase.yml'
 
   - local: '/.gitlab-ci-release.yml'
-
-  - local: '.download-upload.gitlab-ci.yml'
 
   - project: 'proton/devops/atlas-deploy'
     ref: main
