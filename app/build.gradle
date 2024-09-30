@@ -845,7 +845,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     // Proton Core libs
-    implementation 'me.proton.vpn:go-vpn-lib:0.1.43'
+    implementation 'me.proton.vpn:go-vpn-lib:0.1.46'
     implementation "me.proton.core:domain:$core_version"
     implementation "me.proton.core:network:$core_version"
     implementation "me.proton.core:notification-data:$core_version"
