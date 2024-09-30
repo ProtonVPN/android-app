@@ -230,7 +230,7 @@ class GuestHole @Inject constructor(
             getGuestHoleServers().any { server ->
                 executeConnected(delegate, server) {
                     // Add slight delay before retrying original call to avoid network timeout right after connection
-                    delay(500)
+                    delay(EXECUTE_CALL_DELAY_MS)
                     appFeaturesPrefs.lastSuccessfulGuestHoleServerId = server.serverId
                     backendCall?.invoke()
                     logMessage("Successful unblock")
@@ -244,9 +244,9 @@ class GuestHole @Inject constructor(
                     // If Guest Hole failed don't start it for next call
                     guestHoleLocks.clear()
                 }
-                if (!guestHoleLocks.locked())
+                if (!guestHoleLocks.locked()) {
                     closeGuestHole()
-                else {
+                } else {
                     timeoutCloseJob?.cancel()
                     timeoutCloseJob = scope.launch {
                         delay(TIMEOUT_CLOSE_MS)
@@ -261,7 +261,7 @@ class GuestHole @Inject constructor(
     private suspend fun closeGuestHole() {
         if (isGuestHoleActive) {
             logMessage("Disconnecting")
-            vpnConnectionManager.get().disconnectAndWait(DisconnectTrigger.GuestHole)
+            vpnConnectionManager.get().disconnectGuestHole()
         }
     }
 
@@ -281,6 +281,7 @@ class GuestHole @Inject constructor(
 
     companion object {
         val TIMEOUT_CLOSE_MS = TimeUnit.MINUTES.toMillis(5)
+        val EXECUTE_CALL_DELAY_MS = 500L
 
         private const val GUEST_HOLE_SERVER_COUNT = 5
         private const val GUEST_HOLE_SERVER_COUNT_MIXED = 3

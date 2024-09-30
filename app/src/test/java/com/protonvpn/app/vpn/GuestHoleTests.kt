@@ -42,6 +42,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -64,7 +65,6 @@ class GuestHoleTests {
     @MockK lateinit var mockGhSuppressor: GuestHoleSuppressor
     @MockK lateinit var serverManager: ServerManager
     @MockK lateinit var vpnConnectionManager: VpnConnectionManager
-    @MockK lateinit var foregroundActivityTracker: ForegroundActivityTracker
 
     @Before
     fun setup() {
@@ -72,10 +72,11 @@ class GuestHoleTests {
 
         val dispatcher = StandardTestDispatcher()
         scope = TestScope(dispatcher)
-        every { foregroundActivityTracker.foregroundActivity } returns mockk<ComponentActivity>()
         appFeaturesPrefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
         vpnStateMonitor = VpnStateMonitor()
 
+        val foregroundActivityTracker =
+            ForegroundActivityTracker(scope.backgroundScope, flowOf(mockk<ComponentActivity>()))
         val servers = MockedServers.serverList
         goodServer = servers[0]
         badServer = servers[1]
@@ -96,7 +97,7 @@ class GuestHoleTests {
             val params = ConnectionParams(connectIntent, server, null, null)
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(state, params))
         }
-        coEvery { vpnConnectionManager.disconnectAndWait(any()) } answers {
+        coEvery { vpnConnectionManager.disconnectGuestHole() } answers {
             vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, null))
         }
         every { mockGhSuppressor.disableGh() } returns false

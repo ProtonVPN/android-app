@@ -29,6 +29,7 @@ import com.protonvpn.android.api.GuestHoleSuppressor
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.FeatureFlags
+import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -46,7 +47,6 @@ import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
@@ -188,6 +188,7 @@ class VpnConnectionTests {
     @RelaxedMockK
     lateinit var mockTelemetry: Telemetry
 
+    private lateinit var featureFlagsFlow: MutableStateFlow<FeatureFlags>
     private lateinit var mockOpenVpn: MockVpnBackend
     private lateinit var mockWireguard: MockVpnBackend
     private lateinit var supportsProtocol: SupportsProtocol
@@ -225,11 +226,14 @@ class VpnConnectionTests {
 
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val userSettings = EffectiveCurrentUserSettings(bgScope, userSettingsFlow)
-        val userSettingsCached = EffectiveCurrentUserSettingsCached(userSettingsFlow)
 
         val smartProtocolsConfig = SmartProtocolConfig(
             openVPNEnabled = true, wireguardEnabled = true, wireguardTcpEnabled = true, wireguardTlsEnabled = true)
         every { appConfig.getSmartProtocolConfig() } returns smartProtocolsConfig
+
+        featureFlagsFlow = MutableStateFlow(FeatureFlags())
+        val getFeatureFlags = GetFeatureFlags(featureFlagsFlow)
+        every { appConfig.getFeatureFlags() } answers { featureFlagsFlow.value }
 
         supportsProtocol = SupportsProtocol(createGetSmartProtocols(smartProtocolsConfig.getSmartProtocols()))
         currentUserProvider = TestCurrentUserProvider(vpnUser = TestUser.badUser.vpnUser)
@@ -308,7 +312,7 @@ class VpnConnectionTests {
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
 
-        manager = VpnConnectionManager(permissionDelegate, appConfig, SettingsForConnection(userSettings),
+        manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, SettingsForConnection(userSettings),
             backendProvider, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
             serverManager2, certificateRepository, scope.backgroundScope, clock, mockk(relaxed = true),
             currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry, mockk(relaxed = true))
@@ -363,7 +367,7 @@ class VpnConnectionTests {
 
     @Test
     fun whenFeatureFlagIsOffNoConnectionIsMade() = scope.runTest {
-        every { appConfig.getFeatureFlags() } returns FeatureFlags(wireguardTlsEnabled = false)
+        featureFlagsFlow.value = FeatureFlags(wireguardTlsEnabled = false)
         userSettingsFlow.update { it.copy(protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)) }
         manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 

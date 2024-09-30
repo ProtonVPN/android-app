@@ -19,7 +19,6 @@
 package com.protonvpn.android.appconfig
 
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.MutableLiveData
 import com.protonvpn.android.api.ProtonApiRetroFit
 import com.protonvpn.android.appconfig.globalsettings.GlobalSettingsManager
 import com.protonvpn.android.appconfig.periodicupdates.IsInForeground
