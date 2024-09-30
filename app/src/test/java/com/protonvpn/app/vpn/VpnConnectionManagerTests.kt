@@ -25,6 +25,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.FeatureFlags
+import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
@@ -55,6 +56,7 @@ import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.mocks.FakeVpnUiDelegate
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestDispatcherProvider
@@ -122,8 +124,6 @@ class VpnConnectionManagerTests {
     @RelaxedMockK
     private lateinit var mockBackend: VpnBackend
     @MockK
-    private lateinit var mockVpnUiDelegate: VpnUiDelegate
-    @MockK
     private lateinit var mockVpnBackgroundUiDelegate: VpnBackgroundUiDelegate
     @MockK
     private lateinit var appConfig: AppConfig
@@ -141,6 +141,7 @@ class VpnConnectionManagerTests {
 
     private val clock get() = testScheduler::currentTime
 
+    private val fakeVpnUiDelegate: VpnUiDelegate = FakeVpnUiDelegate()
     private val vpnUser = TestVpnUser.create(maxTier = 2)
     private val connectionParams = ConnectionParams(
         ConnectIntent.Default,
@@ -172,11 +173,7 @@ class VpnConnectionManagerTests {
         every { mockBackend.vpnProtocol } returns connectionParams.protocolSelection!!.vpn
         every { mockBackend.selfStateFlow } returns mockBackendSelfState
         every { mockBackend.lastKnownExitIp } returns MutableStateFlow(null)
-        every { mockVpnUiDelegate.askForPermissions(any(), any(), any()) } answers {
-            arg<() -> Unit>(2).invoke()
-        }
         every { mockVpnErrorHandler.switchConnectionFlow } returns MutableSharedFlow()
-        every { mockVpnUiDelegate.shouldSkipAccessRestrictions() } returns false
         every { mockVpnBackgroundUiDelegate.shouldSkipAccessRestrictions() } returns false
         every { mockVpnBackgroundUiDelegate.showInfoNotification(any()) } just Runs
         every { mockVpnBackgroundUiDelegate.askForPermissions(any(), any(), any()) } answers {
@@ -212,7 +209,7 @@ class VpnConnectionManagerTests {
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
             settingsForConnection = SettingsForConnection(userSettings),
-            appConfig = appConfig,
+            getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
             backendProvider = mockBackendProvider,
             networkManager = mockNetworkManager,
             vpnErrorHandler = mockVpnErrorHandler,
@@ -242,7 +239,7 @@ class VpnConnectionManagerTests {
             PrepareResult(mockBackend, connectionParams)
         }
 
-        vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
+        vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
         coVerify { mockBackend.connect(connectionParams) }
         verify(exactly = 1) { mockWakeLock.acquire(any()) }
         verify(exactly = 1) { mockWakeLock.release() }
@@ -255,7 +252,7 @@ class VpnConnectionManagerTests {
             PrepareResult(mockBackend, connectionParams)
         }
 
-        vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
+        vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
         verify(exactly = 1) { mockWakeLock.acquire(any()) }
         verify(exactly = 1) { mockWakeLock.release() }
     }
@@ -266,7 +263,7 @@ class VpnConnectionManagerTests {
         serverManager.setServers(emptyList(), null)
         coEvery { mockVpnErrorHandler.onServerNotAvailable(any()) } returns null
 
-        vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
+        vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
         advanceUntilIdle()
         // Wake lock is acquired twice, once to prepare connection, second time for fallback logic.
         verify(exactly = 2) { mockWakeLock.acquire(any()) }
@@ -286,7 +283,7 @@ class VpnConnectionManagerTests {
             VpnFallbackResult.Error(ErrorType.UNREACHABLE) // Needed for compilation, should not be reached.
         }
 
-        vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
+        vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
 
         with(mockBackendSelfState) {
             // Triggers fallback that calls onUnreachableError.
@@ -308,7 +305,7 @@ class VpnConnectionManagerTests {
             PrepareResult(mockBackend, connectionParams)
         }
 
-        vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
+        vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
         coVerify { mockBackend.connect(connectionParams) }
 
         verify(exactly = 1) { mockVpnConnectionTelemetry.onConnectionStart(trigger) }
@@ -320,7 +317,7 @@ class VpnConnectionManagerTests {
             coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
                 PrepareResult(mockBackend, connectionParams)
             }
-            vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
+            vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
             val newConnectionParams = ConnectionParams(
                 ConnectIntent.Default,
                 MockedServers.server,
@@ -330,7 +327,7 @@ class VpnConnectionManagerTests {
             coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
                 PrepareResult(mockBackend, newConnectionParams)
             }
-            vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
+            vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
 
             verify(exactly = 1) {
                 mockVpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.NewConnection, connectionParams)
@@ -342,7 +339,7 @@ class VpnConnectionManagerTests {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
             PrepareResult(mockBackend, connectionParams)
         }
-        vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
+        vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
         vpnConnectionManager.onVpnServiceDestroyed()
         verify(exactly = 1) {
             mockVpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.ServiceDestroyed, connectionParams)
@@ -354,8 +351,8 @@ class VpnConnectionManagerTests {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } answers {
             PrepareResult(mockBackend, connectionParams)
         }
-        vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Default, trigger)
-        vpnConnectionManager.reconnect(triggerAction = "test", mockVpnUiDelegate)
+        vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
+        vpnConnectionManager.reconnect(triggerAction = "test", fakeVpnUiDelegate)
         verifyOrder {
             mockVpnConnectionTelemetry.onConnectionStart(trigger)
             // Reconnect and scanning starts before disconnecting.
@@ -392,11 +389,11 @@ class VpnConnectionManagerTests {
                 PrepareResult(mockBackend, ConnectionParams(intent, server, server.connectingDomains.first(), VpnProtocol.WireGuard))
             }
 
-            vpnConnectionManager.connect(mockVpnUiDelegate, intent1, trigger)
+            vpnConnectionManager.connect(fakeVpnUiDelegate, intent1, trigger)
             mockBackendSelfState.value = VpnState.Connected
             advanceUntilIdle()
 
-            vpnConnectionManager.connect(mockVpnUiDelegate, intent2, trigger)
+            vpnConnectionManager.connect(fakeVpnUiDelegate, intent2, trigger)
             mockBackendSelfState.value = VpnState.Connected
             advanceUntilIdle()
 
@@ -421,11 +418,11 @@ class VpnConnectionManagerTests {
         coEvery { mockBackendProvider.prepareConnection(any(), regularIntent, any()) } returns
             PrepareResult(mockBackend, connectionParams)
 
-        vpnConnectionManager.connect(mockVpnUiDelegate, ghIntent, trigger)
+        vpnConnectionManager.connect(fakeVpnUiDelegate, ghIntent, trigger)
         mockBackendSelfState.value = VpnState.Connecting
 
         vpnStateMonitor.onDisconnectedByReconnection.test {
-            vpnConnectionManager.connect(mockVpnUiDelegate, ConnectIntent.Fastest, trigger)
+            vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Fastest, trigger)
 
             awaitItem()
         }
@@ -441,11 +438,11 @@ class VpnConnectionManagerTests {
         coEvery { mockBackendProvider.prepareConnection(any(), any(), any()) } returns
             PrepareResult(mockBackend, ghConnectionParams)
 
-        vpnConnectionManager.connect(mockVpnUiDelegate, ghIntent, trigger)
+        vpnConnectionManager.connect(fakeVpnUiDelegate, ghIntent, trigger)
         mockBackendSelfState.value = VpnState.Connecting
 
         vpnStateMonitor.onDisconnectedByReconnection.test {
-            vpnConnectionManager.connect(mockVpnUiDelegate, ghIntent, trigger)
+            vpnConnectionManager.connect(fakeVpnUiDelegate, ghIntent, trigger)
 
             expectNoEvents()
         }

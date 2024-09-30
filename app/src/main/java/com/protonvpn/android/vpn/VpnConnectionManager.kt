@@ -25,7 +25,7 @@ import android.os.PowerManager.PARTIAL_WAKE_LOCK
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.R
 import com.protonvpn.android.api.GuestHole
-import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.data.hasAccessToServer
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
@@ -102,7 +102,7 @@ private sealed class InternalState {
     // backend != null means we're pinging during active connection (to switch to another server)
     data class ScanningPorts(val activeParams: ConnectionParams?, val newParams: ConnectionParams, val activeBackend: VpnBackend?) : InternalState()
 
-    data class SwitchingConnection(val activeParams: ConnectionParams?, val newParams: ConnectionParams?, val activeBackend: VpnBackend?) : InternalState()
+    data class SwitchingConnection(val activeParams: ConnectionParams?, val newParams: ConnectionParams, val activeBackend: VpnBackend?) : InternalState()
     data class Active(val params: ConnectionParams, val activeBackend: VpnBackend) : InternalState()
     data class Error(val params: ConnectionParams, val error: VpnState.Error, val activeBackend: VpnBackend?) : InternalState()
 
@@ -127,7 +127,7 @@ private sealed class InternalState {
 @Singleton
 class VpnConnectionManager @Inject constructor(
     private val permissionDelegate: VpnPermissionDelegate,
-    private val appConfig: AppConfig,
+    private val getFeatureFlags: GetFeatureFlags,
     private val settingsForConnection: SettingsForConnection,
     private val backendProvider: VpnBackendProvider,
     private val networkManager: NetworkManager,
@@ -392,26 +392,16 @@ class VpnConnectionManager @Inject constructor(
     }
 
     private fun getFallbackSmartProtocol(server: Server): ProtocolSelection {
-        val config = appConfig.getSmartProtocolConfig()
-        val wireGuardTxxEnabled = appConfig.getFeatureFlags().wireguardTlsEnabled
-        val wireGuardUdpServer =
-            supportsProtocol(server, ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
-        val wireGuardTcpServer =
-            supportsProtocol(server, ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP))
-        val wireGuardTlsServer =
-            supportsProtocol(server, ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
-        return when {
-            config.wireguardEnabled && wireGuardUdpServer ->
-                ProtocolSelection(VpnProtocol.WireGuard)
-            config.openVPNEnabled && supportsProtocol(server, ProtocolSelection(VpnProtocol.OpenVPN)) ->
-                ProtocolSelection(VpnProtocol.OpenVPN)
-            config.wireguardTcpEnabled && wireGuardTcpServer && wireGuardTxxEnabled ->
-                ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
-            config.wireguardTlsEnabled && wireGuardTlsServer && wireGuardTxxEnabled ->
-                ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS)
-            else ->
-                ProtocolSelection(VpnProtocol.WireGuard)
+        val wireGuardTxxEnabled = getFeatureFlags.value.wireguardTlsEnabled
+        val fallbackOrder = buildList {
+            add(ProtocolSelection(VpnProtocol.WireGuard))
+            add(ProtocolSelection(VpnProtocol.OpenVPN))
+            if (wireGuardTxxEnabled) {
+                add(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP))
+                add(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS))
+            }
         }
+        return fallbackOrder.firstOrNull { supportsProtocol(server, it) } ?: ProtocolSelection(VpnProtocol.WireGuard)
     }
 
     private suspend fun preparedConnect(preparedConnection: PrepareResult, disconnectTrigger: DisconnectTrigger) {
@@ -528,6 +518,7 @@ class VpnConnectionManager @Inject constructor(
         preferredServer: Server? = null,
     ) {
         clearOngoingConnection(clearFallback)
+        lastConnectIntent = connectIntent
         launchConnect {
             autoLoginManager.waitForAutoLogin()
             connectWithPermissionSync(delegate, connectIntent, triggerAction, disconnectTrigger, preferredServer)
@@ -550,7 +541,7 @@ class VpnConnectionManager @Inject constructor(
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {
             val protocol = if (connectIntent is AnyConnectIntent.GuestHole) GuestHole.PROTOCOL else settings.protocol
-            val protocolAllowed = trigger is ConnectTrigger.GuestHole || protocol.isSupported(appConfig.getFeatureFlags())
+            val protocolAllowed = trigger is ConnectTrigger.GuestHole || protocol.isSupported(getFeatureFlags.value)
             if (supportsProtocol(server, protocol.vpn) && protocolAllowed) {
                 smartConnect(connectIntent, protocol, server, disconnectTrigger)
             } else {
@@ -610,6 +601,13 @@ class VpnConnectionManager @Inject constructor(
     suspend fun disconnectAndWait(trigger: DisconnectTrigger) {
         clearOngoingConnection(clearFallback = true)
         disconnectBlocking(trigger)
+    }
+
+    suspend fun disconnectGuestHole() {
+        // Don't disconnect if another connection has started.
+        if (lastConnectIntent is AnyConnectIntent.GuestHole) {
+            disconnectAndWait(DisconnectTrigger.GuestHole)
+        }
     }
 
     // Will do complete reconnection, which may result in different protocol or server

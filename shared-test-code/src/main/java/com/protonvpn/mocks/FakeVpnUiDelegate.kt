@@ -17,21 +17,20 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.api
+package com.protonvpn.mocks
 
-import android.content.Context
-import android.provider.Settings
-import dagger.Reusable
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import android.content.Intent
+import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.vpn.ReasonRestricted
+import com.protonvpn.android.vpn.VpnUiDelegate
 
-@Reusable
-class GuestHoleSuppressor @Inject constructor(
-    @ApplicationContext private val appContext: Context
-) {
+class FakeVpnUiDelegate : VpnUiDelegate {
 
-    fun disableGh() = isTestLab()
+    override fun askForPermissions(intent: Intent, connectIntent: AnyConnectIntent, onPermissionGranted: () -> Unit) {
+        onPermissionGranted()
+    }
 
-    private fun isTestLab() =
-        Settings.System.getString(appContext.contentResolver, "firebase.test.lab") == "true"
+    override fun onServerRestricted(reason: ReasonRestricted): Boolean = false
+
+    override fun onProtocolNotSupported() = Unit
 }
