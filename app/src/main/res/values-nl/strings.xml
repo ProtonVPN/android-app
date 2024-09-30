@@ -443,7 +443,7 @@
     <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
     <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
     <string name="upgrade_unlimited_drive_version_history">Version history</string>
-    <string name="upgrade_unlimited_pass_manager">Encrypted password manager</string>
+    <string name="upgrade_unlimited_pass_manager">Versleutelde wachtwoordmanager</string>
     <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
     <plurals name="upgrade_unlimited_pass_vaults">
         <item quantity="one">%1$d vault</item>
@@ -457,7 +457,7 @@
         <item quantity="one">Share with up to %1$d other</item>
         <item quantity="other">Share with up to %1$d others</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Integrated 2FA authenticator</string>
+    <string name="upgrade_unlimited_pass_2fa_auth">Geïntegreerde 2FA-authenticator</string>
     <string name="upgrade_not_now_button">Niet nu</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.

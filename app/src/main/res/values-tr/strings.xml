@@ -116,8 +116,8 @@
     <string name="error_server_not_set">Sunucu artık kullanılamıyor</string>
     <string name="bugReportErrorEmptyEmail">E-posta adresi boş olamaz</string>
     <string name="bugReportErrorInvalidEmail">E-posta adresi geçersiz</string>
-    <string name="bugReportLabelVpnLogsTitle">Hata günlükleri katılsın</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Açıldığında, sorunu çözmemize yardımcı olması için yerel hata günlükleri gönderilir (etkinlik kaydı tutmuyoruz)</string>
+    <string name="bugReportLabelVpnLogsTitle">Hata günlüğü eklensin</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Açıldığında, sorunu çözmemize yardımcı olması için yerel hata günlüğünü gönderir (etkinlik kaydı tutmuyoruz)</string>
     <string name="profileFastest">En hızlı</string>
     <string name="profileRandom">Rastgele</string>
     <string name="loaderErrorNoInternet">İnternet bağlantısı yok</string>
@@ -553,7 +553,7 @@
     <string name="dynamic_report_success_description">Olabilecek en kısa sürede size döneceğiz.</string>
     <string name="dynamic_report_field_mandatory">Bu alanın doldurulması zorunludur</string>
     <string name="dynamic_report_logs_description">Bir günlük, soruna neden olan olayları görmemizi sağlayan bir dosya türüdür. Bunları yalnızca mühendislerimizin hataları gidermesine yardımcı olmaları için kullanacağız.</string>
-    <string name="dynamic_report_logs_missing">Hata günlükleri, sorununuzun temeline inmemize yardımcı olur. Bunları göndermezseniz, sorunu tam olarak araştıramayabiliriz.</string>
+    <string name="dynamic_report_logs_missing">Hata günlüğü, sorununuzun temeline inmemize yardımcı olur. Bunu göndermezeniz, sorunu tam olarak araştıramayabiliriz.</string>
     <string name="dynamic_report_step1">1/3. adım</string>
     <string name="dynamic_report_step2">2/3. adım</string>
     <string name="dynamic_report_step3">3/3. adım</string>

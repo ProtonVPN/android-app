@@ -482,10 +482,10 @@
     <string name="upgrade_unlimited_pass_credit_cards">Nieograniczona liczba kart płatniczych</string>
     <string name="upgrade_unlimited_pass_devices">Nieograniczona liczba urządzeń</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
-        <item quantity="few">Share with up to %1$d others</item>
-        <item quantity="many">Share with up to %1$d others</item>
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="one">Udostępnij %1$d użytkownikowi</item>
+        <item quantity="few">Udostępnij do %1$d użytkownikom</item>
+        <item quantity="many">Udostępnij do %1$d użytkownikom</item>
+        <item quantity="other">Udostępnij do %1$d użytkownikom</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Zintegrowana aplikacja uwierzytelniająca</string>
     <string name="upgrade_not_now_button">Nie teraz</string>
@@ -496,7 +496,7 @@
          When the plan selection control is focused, and the first plan name is "VPN Plus"
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
-    <string name="upgrade_plan_selection_content_description">Upgrade options</string>
+    <string name="upgrade_plan_selection_content_description">Opcje ulepszenia</string>
     <string name="upsell_card_countries_title">Globalny zasięg</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)

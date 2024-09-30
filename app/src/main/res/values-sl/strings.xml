@@ -291,7 +291,7 @@
     <string name="tv_signout_dialog_description_connected">S tem boste prekinili povezavo med televizorjem in katerim koli strežnikom VPN.</string>
     <string name="tv_signout_dialog_ok">Odjava</string>
     <string name="tv_quick_connect_recommened">Priporočeno</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Priljubljene</string>
     <string name="tv_country_maintenance_dialog_title">Država ni na voljo</string>
     <string name="tv_country_maintenance_dialog_description">Poskusite znova pozneje ali izberite drugo državo.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -433,7 +433,7 @@
     <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
     <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
+    <string name="upgrade_unlimited_vpn_p2p">Podpora za P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="one">%1$d custom email domain</item>
         <item quantity="two">%1$d custom email domains</item>
@@ -554,7 +554,7 @@
          Plan names are not translated.
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
-    <string name="payment_button_get_plan">Get %1$s</string>
+    <string name="payment_button_get_plan">Pridobi %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
@@ -1369,7 +1369,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Priporočeno</string>
-    <string name="settings_split_tunneling_mode_title">Mode</string>
+    <string name="settings_split_tunneling_mode_title">Način</string>
     <string name="settings_split_tunneling_mode_standard">Standardno</string>
     <string name="settings_split_tunneling_mode_inverse">Obratno</string>
     <string name="settings_split_tunneling_mode_description_standard">Izbrane aplikacije in naslovi IP so izključeni iz povezave VPN.</string>
