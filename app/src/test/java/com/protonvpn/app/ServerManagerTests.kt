@@ -22,12 +22,15 @@ package com.protonvpn.app
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.LoadUpdate
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_P2P
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_TOR
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -62,6 +65,7 @@ import me.proton.core.util.kotlin.deserialize
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -262,11 +266,28 @@ class ServerManagerTests {
         assertEquals(expectedServers, country?.serverList?.toSet())
     }
 
+    @Test
+    fun getRandomServerIgnoresServersWithUnsupportedProtocols() = testScope.runTest {
+        val protocols = mapOf("OpenVPNTCP" to ServerEntryInfo(ipv4 = "1.2.3.4"))
+        val connectingDomain =
+            ConnectingDomain(entryIpPerProtocol = protocols, entryDomain = "dummyDomain", id = "dummyId")
+        val server = createServer("server1", connectingDomains = listOf(connectingDomain))
+        createServerManagers(
+            servers = listOf(server),
+            immutableServerList = true,
+            supportedSmartProtocols = listOf(ProtocolSelection(VpnProtocol.WireGuard))
+        )
+
+        val serverWithUnsupportedProtocol = serverManager2.getRandomServer(freeUser, ProtocolSelection.SMART)
+        assertNull(serverWithUnsupportedProtocol)
+    }
+
     private fun TestScope.createServerManagers(
         servers: List<Server> = regularServers + gatewayServer,
         immutableServerList: Boolean = true,
+        supportedSmartProtocols: List<ProtocolSelection> = ProtocolSelection.REAL_PROTOCOLS
     ) {
-        val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
+        val supportsProtocol = SupportsProtocol(createGetSmartProtocols(supportedSmartProtocols))
         manager = ServerManager(
             backgroundScope,
             currentUser,

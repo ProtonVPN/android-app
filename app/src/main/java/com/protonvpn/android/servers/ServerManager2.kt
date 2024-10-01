@@ -84,9 +84,9 @@ class ServerManager2 @Inject constructor(
         return serverManager.getServerForConnectIntent(connectIntent, vpnUser, protocolOverride ?: protocol)
     }
 
-    suspend fun getRandomServer(vpnUser: VpnUser?): Server? {
+    suspend fun getRandomServer(vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         serverManager.ensureLoaded()
-        return serverManager.getRandomServer(vpnUser)
+        return serverManager.getRandomServer(vpnUser, protocol)
     }
 
     suspend fun getCountriesCount(): Int {

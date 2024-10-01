@@ -255,16 +255,19 @@ class ServerManager @Inject constructor(
         return with(eligibleServers) { firstOrNull { vpnUser.hasAccessToServer(it) } ?: firstOrNull() }
     }
 
-    fun getRandomServer(vpnUser: VpnUser?): Server? {
+    fun getRandomServer(vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         val allCountries = getExitCountries(secureCore = false)
         val accessibleCountries = allCountries.filter { it.hasAccessibleOnlineServer(vpnUser) }
-        return accessibleCountries.ifEmpty { allCountries }.randomNullable()?.let { getRandomServer(it, vpnUser) }
+        return accessibleCountries
+            .ifEmpty { allCountries }
+            .randomNullable()
+            ?.let { getRandomServer(it, vpnUser, protocol) }
     }
 
-    private fun getRandomServer(country: VpnCountry, vpnUser: VpnUser?): Server? {
+    private fun getRandomServer(country: VpnCountry, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
         val online = country.serverList.filter(Server::online)
-        val accessible = online.filter { vpnUser.hasAccessToServer(it) }
-        return accessible.ifEmpty { online }.randomNullable()
+        val accessible = online.filter { vpnUser.hasAccessToServer(it) && supportsProtocol(it, protocol) }
+        return accessible.randomNullable()
     }
 
     fun getSecureCoreExitCountries(): List<VpnCountry> =
@@ -279,11 +282,11 @@ class ServerManager @Inject constructor(
                 getBestScoreServer(needsSecureCore, emptySet(), vpnUser, protocol)
 
             ProfileType.RANDOM ->
-                getRandomServer(vpnUser)
+                getRandomServer(vpnUser, protocol)
 
             ProfileType.RANDOM_IN_COUNTRY ->
                 getVpnExitCountry(wrapper.country, needsSecureCore)?.let {
-                    getRandomServer(it, vpnUser)
+                    getRandomServer(it, vpnUser, protocol)
                 }
 
             ProfileType.FASTEST_IN_COUNTRY ->
