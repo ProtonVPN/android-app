@@ -22,9 +22,12 @@ package com.protonvpn.android.redesign.vpn
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.di.WallClock
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.LogLevel
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiReconnect
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.home.vpn.ChangeServerPrefs
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnectionManager
@@ -38,6 +41,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -57,6 +61,7 @@ class ChangeServerManager @Inject constructor(
     private val serverManager: ServerManager2,
     private val changeServerPrefs: ChangeServerPrefs,
     private val currentUser: CurrentUser,
+    private val userSettings: EffectiveCurrentUserSettings,
     @WallClock private val wallClock: () -> Long
 ) {
 
@@ -91,12 +96,17 @@ class ChangeServerManager @Inject constructor(
         ProtonLogger.log(UiReconnect, "Change server")
         mainScope.launch {
             changeInProgress.value = true
-            val server = requireNotNull(serverManager.getRandomServer(currentUser.vpnUser()))
-            vpnConnectionManager.connect(
-                vpnUiDelegate,
-                ConnectIntent.Server(server.serverId, emptySet()),
-                ConnectTrigger.ChangeServer
-            )
+            val server = serverManager.getRandomServer(currentUser.vpnUser(), userSettings.protocol.first())
+            // The server should never be null, worst case the same server that is connected should be returned.
+            if (server != null) {
+                vpnConnectionManager.connect(
+                    vpnUiDelegate,
+                    ConnectIntent.Server(server.serverId, emptySet()),
+                    ConnectTrigger.ChangeServer
+                )
+            } else {
+                ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.CONN_CONNECT, "Change server: no server found!")
+            }
 
             if (!hasTroubleConnecting.value) {
                 val currentCount = changeServerPrefs.changeCounter + 1

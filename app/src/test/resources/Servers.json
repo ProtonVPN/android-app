@@ -55,7 +55,8 @@
           "ExitIP": "104.254.92.60",
           "Domain": "ca-02.protonvpn.com",
           "ID": "1H8EGg3J1QpSDL6K8hGsTvwmHXdtQvnxplUMePE7Hruen5JsRXvaQ75-sXptu03f0TCO-he3ymk0uhrHx6nnGQ==",
-          "Status": 1
+          "Status": 1,
+          "X25519PublicKey": "keyCA02"
         }
       ],
       "Load": 34,

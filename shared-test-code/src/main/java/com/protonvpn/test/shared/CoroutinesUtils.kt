@@ -48,6 +48,7 @@ fun <T> TestScope.runWhileCollecting(flow: Flow<T>, block: suspend () -> Unit): 
  * Prefer awaitItem where possible. Use awaitItemThatMatches when testing state flows that can emit multiple values in
  * response to update.
  */
+@Deprecated("Use runCurrent() + expectMostRecentItem()")
 suspend fun <T> TurbineTestContext<T>.awaitMatchingItem(predicate: (T) -> Boolean): T {
     var item: T
     do {
