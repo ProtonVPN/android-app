@@ -133,11 +133,9 @@ robo tests:
     - when: never
   script:
     - *firebase_authenticate_script
-    - gcloud firebase test android run
+    - gcloud firebase test android run firebase-device-config.yml:mobileTest
       --type robo
       --app "$APP"
-      --device model=Pixel2,version=30,locale=en,orientation=portrait
-      --device model=HWMHA,version=24,locale=en,orientation=portrait
       --timeout $TIMEOUT
       --robo-script=gs://protonvpn-testing-scripts/ProtonVPN_Login_Robo_Script.json
       --robo-directives ignore:R.string.settings_sign_out=,ignore:R.string.settings_third_party_licenses=
