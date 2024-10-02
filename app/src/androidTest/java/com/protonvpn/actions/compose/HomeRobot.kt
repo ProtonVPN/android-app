@@ -15,8 +15,10 @@ object HomeRobot : Robot {
     private val connectionDetailsButton get() = node.withContentDescription(R.string.connection_card_accessbility_label_connection_details)
     private val signOutTitle get() = node.withText(R.string.dialog_sign_out_title)
     private val homeButton get() = node.withText(R.string.bottom_nav_home)
+    private val retryButton get() = node.withText(R.string.retry)
 
     fun cancelLogout() = cancelButton.clickTo(this)
+
     fun openConnectionPanel() = connectionDetailsButton.clickTo(ConnectionPanelRobot)
 
     fun navigateToHome(): HomeRobot = homeButton.clickTo(this)
@@ -35,9 +37,11 @@ object HomeRobot : Robot {
     }
 
     fun isLoggedIn() = homeButton.await { assertIsDisplayed() }
+
+    fun autoLoginIncorrectCredentialsIsDisplayed() = retryButton.await { assertIsDisplayed() }
+
     fun signOutWarningMessageIsDisplayed() =
         dismissButton.await { assertIsDisplayed() } then
         confirmButton.await { assertIsDisplayed() } then
         signOutTitle.await { assertIsDisplayed() }
-
 }
