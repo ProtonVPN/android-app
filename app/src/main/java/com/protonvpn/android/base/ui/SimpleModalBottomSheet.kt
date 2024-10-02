@@ -20,8 +20,9 @@
 package com.protonvpn.android.base.ui
 
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -33,20 +34,21 @@ import androidx.compose.ui.Modifier
  *
  * It only fully expands (no partial expand) and uses correct insets for the application.
  */
-// TODO: is it possible to set the insets with a CompositionLocal instead of relying on passing the correct parameter?
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleModalBottomSheet(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    windowInsets: WindowInsets = WindowInsets.navigationBars,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        windowInsets = windowInsets,
-        content = content,
+        windowInsets = WindowInsets(0, 0, 0 ,0),
+        content = {
+            content()
+            Spacer(modifier = Modifier.navigationBarsPadding())
+        },
     )
 }

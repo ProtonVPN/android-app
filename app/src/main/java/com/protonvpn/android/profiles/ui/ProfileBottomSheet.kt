@@ -76,10 +76,7 @@ fun ProfileBottomSheet(
 ) {
     if (profile != null) {
         SimpleModalBottomSheet(
-            content = {
-                ProfileSheetContent(profile, onProfileDelete, Modifier.navigationBarsPadding())
-            },
-            windowInsets = WindowInsets(0, 0, 0 ,0), // Draw under navigation bar to cover bottom sheet below
+            content = { ProfileSheetContent(profile, onProfileDelete) },
             onDismissRequest = onClose
         )
     }
