@@ -34,7 +34,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.redesign.vpn.toConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
@@ -332,7 +331,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun server() = runTest {
-        val connectIntent = serverPl.toConnectIntent(noServerFeatures)
+        val connectIntent = ConnectIntent.fromServer(serverPl, noServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -341,7 +340,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverConnected() = runTest {
-        val connectIntent = serverPl.toConnectIntent(noServerFeatures)
+        val connectIntent = ConnectIntent.fromServer(serverPl, noServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPl, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -350,7 +349,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverWithFeatures() = runTest {
-        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
+        val connectIntent = ConnectIntent.fromServer(serverPl, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -360,7 +359,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverWithFeaturesConnected() = runTest {
-        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
+        val connectIntent = ConnectIntent.fromServer(serverPl, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPl, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -370,7 +369,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverWithFeaturesConnectedToServerWithNoFeatures() = runTest {
-        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
+        val connectIntent = ConnectIntent.fromServer(serverPl, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverPlNoFeatures, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Poland")
@@ -380,7 +379,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun freeServer() = runTest {
-        val connectIntent = serverChFree.toConnectIntent(noServerFeatures)
+        val connectIntent = ConnectIntent.fromServer(serverChFree, noServerFeatures)
         setConnectIntentRowComposable(connectIntent, isFreeUser = true)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
@@ -389,7 +388,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverConnectedToDifferentServer() = runTest {
-        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
+        val connectIntent = ConnectIntent.fromServer(serverPl, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverCh, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")
@@ -399,7 +398,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
 
     @Test
     fun serverConnectedToDifferentServerWithState() = runTest {
-        val connectIntent = serverPl.toConnectIntent(p2pServerFeatures)
+        val connectIntent = ConnectIntent.fromServer(serverPl, p2pServerFeatures)
         setConnectIntentRowComposable(connectIntent, serverChState, isFreeUser = false)
 
         node.withTag("primaryLabel").assertContainsText("Switzerland")

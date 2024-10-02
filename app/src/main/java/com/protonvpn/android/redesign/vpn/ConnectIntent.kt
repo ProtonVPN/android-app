@@ -99,8 +99,9 @@ sealed interface ConnectIntent : AnyConnectIntent {
     companion object {
         val Fastest = FastestInCountry(CountryId.fastest, EnumSet.noneOf(ServerFeature::class.java))
         val Default = Fastest
+
+        fun fromServer(server: com.protonvpn.android.models.vpn.Server, features: Set<ServerFeature>) = with (server) {
+            Server(serverId, CountryId(exitCountry), features)
+        }
     }
 }
-
-fun Server.toConnectIntent(features: Set<ServerFeature>) =
-    ConnectIntent.Server(serverId, CountryId(exitCountry), features)

@@ -101,7 +101,7 @@ class ChangeServerManager @Inject constructor(
             if (server != null) {
                 vpnConnectionManager.connect(
                     vpnUiDelegate,
-                    server.toConnectIntent(emptySet()),
+                    ConnectIntent.fromServer(server, emptySet()),
                 ConnectTrigger.ChangeServer
             )} else {
                 ProtonLogger.logCustom(LogLevel.ERROR, LogCategory.CONN_CONNECT, "Change server: no server found!")
