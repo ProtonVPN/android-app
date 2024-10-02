@@ -43,7 +43,6 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
-import com.protonvpn.android.redesign.vpn.toConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
@@ -114,7 +113,7 @@ class VpnConnectionErrorHandlerTests {
     private lateinit var testScope: TestScope
     private lateinit var handler: VpnConnectionErrorHandler
     private val directConnectServer = MockedServers.server
-    private val directConnectIntent = directConnectServer.toConnectIntent(emptySet())
+    private val directConnectIntent = ConnectIntent.fromServer(directConnectServer, emptySet())
     private lateinit var directConnectionParams: ConnectionParams
     private val defaultFallbackConnection = ConnectIntent.Default
     private val defaultFallbackServer = MockedServers.serverList[1] // Use a different server than MockedServers.server
@@ -648,7 +647,7 @@ class VpnConnectionErrorHandlerTests {
             entryIpPerProtocol = mapOf(protocol.apiName to ServerEntryInfo("7.7.7.7"))
         )))
         val servers = listOf(server1, server2)
-        val connectIntent = server1.toConnectIntent(emptySet())
+        val connectIntent = ConnectIntent.fromServer(server1, emptySet())
         prepareServerManager(servers)
         preparePings(failServerName = server1.serverName)
         val result = handler.onUnreachableError(

@@ -34,7 +34,6 @@ import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.recents.data.toConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.redesign.vpn.toConnectIntent
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -150,11 +149,11 @@ class RecentsListValidatorTests {
         val servers = (1..4).map { number -> createServer("server$number") }
         serverManager.setServers(servers, null)
 
-        val connectIntentsForServers = servers.map { server -> server.toConnectIntent(emptySet()) }
+        val connectIntentsForServers = servers.map { server -> ConnectIntent.fromServer(server, emptySet()) }
         connectIntentsForServers.forEach {
             recentsDao.insertOrUpdateForConnection(userId1, it, 0L)
         }
-        val profileEntity = createProfileEntity(userId = userId1, connectIntent = servers[1].toConnectIntent(emptySet()))
+        val profileEntity = createProfileEntity(userId = userId1, connectIntent = ConnectIntent.fromServer(servers[1], emptySet()))
         profilesDao.upsert(profileEntity)
         recentsDao.insertOrUpdateForConnection(userId1, profileEntity.connectIntentData.toConnectIntent(), 0L)
         assertEquals(connectIntentsForServers.size + 1, recentsDao.getRecentsList(userId1).first().size)
@@ -186,7 +185,7 @@ class RecentsListValidatorTests {
         val servers = (1 .. 6).map { number -> createServer("server$number") }
         serverManager.setServers(servers, null)
 
-        val intents = servers.map { server -> server.toConnectIntent(emptySet()) }
+        val intents = servers.map { server -> ConnectIntent.fromServer(server, emptySet()) }
         intents
             .forEachIndexed { index, intent -> recentsDao.insertOrUpdateForConnection(userId1, intent, index.toLong()) }
         intents

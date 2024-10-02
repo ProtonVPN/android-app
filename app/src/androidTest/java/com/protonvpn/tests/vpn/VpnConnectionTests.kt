@@ -41,10 +41,8 @@ import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.profiles.data.profileSettingsOverrides
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
-import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.redesign.vpn.toConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
@@ -660,7 +658,7 @@ class VpnConnectionTests {
     @Test
     fun whenConnectingToOfflineServerThenSwitchToOtherServer() = scope.runTest {
         val offlineServer = MockedServers.serverList.first { it.serverName == "SE#3" }
-        val offlineServerConnectIntent = offlineServer.toConnectIntent(emptySet())
+        val offlineServerConnectIntent = ConnectIntent.fromServer(offlineServer, emptySet())
         coEvery {
             vpnErrorHandler.onServerInMaintenance(offlineServerConnectIntent, null)
         } returns VpnFallbackResult.Switch.SwitchConnectIntent(
