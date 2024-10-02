@@ -55,6 +55,8 @@ class TestUser private constructor(
             get() = getFreePlanUser()
         val basicUser: TestUser
             get() = TestUser("Testas2", BuildConfig.TEST_ACCOUNT_PASSWORD, "testas2", "vpnbasic", "vpnbasic", 1, 2)
+        val visionaryBlack: TestUser
+            get() = TestUser("visionary", "a", "test", "visionary", "visionary", 1, 10)
         @JvmStatic val plusUser: TestUser
             get() = getPlusPlanUser()
         val anyPaidUser: TestUser

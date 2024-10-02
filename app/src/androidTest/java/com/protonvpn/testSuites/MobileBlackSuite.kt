@@ -1,5 +1,6 @@
 package com.protonvpn.testSuites
 
+import com.protonvpn.tests.login.AutoLoginTests
 import com.protonvpn.tests.login.LoginTests
 import com.protonvpn.tests.signin.SignInGuestTests
 import com.protonvpn.tests.signin.SignInTests
@@ -13,6 +14,7 @@ import org.junit.runners.Suite
     SignInTests::class,
     SignupTests::class,
     SignInGuestTests::class,
+    AutoLoginTests::class
     //BugReportTests::class, TODO Implement this when bug report is implemented on redesign.
     //TokenExpirationTests::class, TODO Implement this when there is a way to trigger API call from UI.
 )
