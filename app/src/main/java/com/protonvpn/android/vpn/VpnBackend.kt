@@ -130,74 +130,87 @@ abstract class VpnBackend(
         }
 
         override fun onError(code: Long, description: String) {
-            ProtonLogger.log(LocalAgentError, "code: $code, $description")
-            when (code) {
-                agentConstants.errorCodeMaxSessionsBasic,
-                agentConstants.errorCodeMaxSessionsFree,
-                agentConstants.errorCodeMaxSessionsPlus,
-                agentConstants.errorCodeMaxSessionsPro,
-                agentConstants.errorCodeMaxSessionsUnknown,
-                agentConstants.errorCodeMaxSessionsVisionary ->
-                    setError(ErrorType.MAX_SESSIONS)
+            mainScope.launch {
+                ProtonLogger.log(LocalAgentError, "code: $code, $description")
+                when (code) {
+                    agentConstants.errorCodeMaxSessionsBasic,
+                    agentConstants.errorCodeMaxSessionsFree,
+                    agentConstants.errorCodeMaxSessionsPlus,
+                    agentConstants.errorCodeMaxSessionsPro,
+                    agentConstants.errorCodeMaxSessionsUnknown,
+                    agentConstants.errorCodeMaxSessionsVisionary ->
+                        setError(ErrorType.MAX_SESSIONS)
 
-                agentConstants.errorCodeBadCertSignature,
-                agentConstants.errorCodeCertificateRevoked ->
-                    revokeCertificateAndReconnect("local agent error: $description ($code)")
+                    agentConstants.errorCodeBadCertSignature,
+                    agentConstants.errorCodeCertificateRevoked ->
+                        revokeCertificateAndReconnect("local agent error: $description ($code)")
 
-                agentConstants.errorCodeCertificateExpired ->
-                    reconnectLocalAgent(needNewCertificate = true, reason = "local agent: certificate expired")
+                    agentConstants.errorCodeCertificateExpired ->
+                        reconnectLocalAgent(needNewCertificate = true, reason = "local agent: certificate expired")
 
-                agentConstants.errorCodeKeyUsedMultipleTimes ->
-                    setError(ErrorType.KEY_USED_MULTIPLE_TIMES)
-                agentConstants.errorCodeUserTorrentNotAllowed ->
-                    setError(ErrorType.TORRENT_NOT_ALLOWED)
-                agentConstants.errorCodeUserBadBehavior ->
-                    setError(ErrorType.POLICY_VIOLATION_BAD_BEHAVIOUR)
-                agentConstants.errorCodePolicyViolationLowPlan ->
-                    setError(ErrorType.POLICY_VIOLATION_LOW_PLAN)
-                agentConstants.errorCodePolicyViolationDelinquent ->
-                    setError(ErrorType.POLICY_VIOLATION_DELINQUENT)
-                agentConstants.errorCodeServerError,
-                agentConstants.errorCodeUnknown ->
-                    setError(ErrorType.SERVER_ERROR)
-                agentConstants.errorCodeRestrictedServer ->
-                    // Server should unblock eventually, but we need to keep track and provide watchdog if necessary.
-                    ProtonLogger.logCustom(LogCategory.LOCAL_AGENT, "Restricted server, waiting...")
-                else -> {
-                    if (agent?.status?.reason?.final == true)
-                        setError(ErrorType.LOCAL_AGENT_ERROR, description = description)
+                    agentConstants.errorCodeKeyUsedMultipleTimes ->
+                        setError(ErrorType.KEY_USED_MULTIPLE_TIMES)
+
+                    agentConstants.errorCodeUserTorrentNotAllowed ->
+                        setError(ErrorType.TORRENT_NOT_ALLOWED)
+
+                    agentConstants.errorCodeUserBadBehavior ->
+                        setError(ErrorType.POLICY_VIOLATION_BAD_BEHAVIOUR)
+
+                    agentConstants.errorCodePolicyViolationLowPlan ->
+                        setError(ErrorType.POLICY_VIOLATION_LOW_PLAN)
+
+                    agentConstants.errorCodePolicyViolationDelinquent ->
+                        setError(ErrorType.POLICY_VIOLATION_DELINQUENT)
+
+                    agentConstants.errorCodeServerError,
+                    agentConstants.errorCodeUnknown ->
+                        setError(ErrorType.SERVER_ERROR)
+
+                    agentConstants.errorCodeRestrictedServer ->
+                        // Server should unblock eventually, but we need to keep track and provide watchdog if necessary.
+                        ProtonLogger.logCustom(LogCategory.LOCAL_AGENT, "Restricted server, waiting...")
+
+                    else -> {
+                        if (agent?.status?.reason?.final == true)
+                            setError(ErrorType.LOCAL_AGENT_ERROR, description = description)
+                    }
                 }
             }
         }
 
         override fun onState(state: String) {
-            ProtonLogger.log(LocalAgentStateChanged, state)
-            processCombinedState(vpnProtocolState, state)
+            mainScope.launch {
+                ProtonLogger.log(LocalAgentStateChanged, state)
+                processCombinedState(vpnProtocolState, state)
+            }
         }
 
         override fun onStatusUpdate(status: StatusMessage) {
-            val stats = status.featuresStatistics?.toStats()
-            if (stats != null) {
-                netShieldStatsFlow.tryEmit(
-                    NetShieldStats(
-                        adsBlocked = stats.getAds(),
-                        trackersBlocked = stats.getTracking(),
-                        savedBytes = stats.getBandwidth()
+            mainScope.launch {
+                val stats = status.featuresStatistics?.toStats()
+                if (stats != null) {
+                    netShieldStatsFlow.tryEmit(
+                        NetShieldStats(
+                            adsBlocked = stats.getAds(),
+                            trackersBlocked = stats.getTracking(),
+                            savedBytes = stats.getBandwidth()
+                        )
                     )
-                )
-            }
-            val newConnectionDetails = status.connectionDetails
-            if (newConnectionDetails != null) {
-                lastKnownExitIp.value = newConnectionDetails.serverIpv4
-                // Local Agent's ClientIP is not accurate for secure core
-                if (lastConnectionParams?.server?.isSecureCoreServer != true) {
-                    if (!newConnectionDetails.deviceIp.isNullOrBlank())
-                        getNetZone.updateIp(newConnectionDetails.deviceIp)
-                    if (!newConnectionDetails.deviceCountry.isNullOrBlank())
-                        getNetZone.updateCountry(newConnectionDetails.deviceCountry)
                 }
+                val newConnectionDetails = status.connectionDetails
+                if (newConnectionDetails != null) {
+                    lastKnownExitIp.value = newConnectionDetails.serverIpv4
+                    // Local Agent's ClientIP is not accurate for secure core
+                    if (lastConnectionParams?.server?.isSecureCoreServer != true) {
+                        if (!newConnectionDetails.deviceIp.isNullOrBlank())
+                            getNetZone.updateIp(newConnectionDetails.deviceIp)
+                        if (!newConnectionDetails.deviceCountry.isNullOrBlank())
+                            getNetZone.updateCountry(newConnectionDetails.deviceCountry)
+                    }
+                }
+                ProtonLogger.log(LocalAgentStatus, status.toString())
             }
-            ProtonLogger.log(LocalAgentStatus, status.toString())
         }
 
         override fun onTlsSessionStarted() {
