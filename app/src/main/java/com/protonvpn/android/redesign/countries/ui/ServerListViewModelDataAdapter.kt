@@ -38,8 +38,12 @@ interface ServerListViewModelDataAdapter {
     fun cities(filter: ServerFilterType = ServerFilterType.All, country: CountryId):
         Flow<List<ServerGroupItemData.City>>
 
-    fun servers(filter: ServerFilterType = ServerFilterType.All, country: CountryId? = null, cityStateId: CityStateId? = null, gatewayName: String? = null):
-        Flow<List<ServerGroupItemData.Server>>
+    fun servers(
+        filter: ServerFilterType = ServerFilterType.All,
+        country: CountryId? = null,
+        cityStateId: CityStateId? = null,
+        gatewayName: String? = null,
+    ): Flow<List<ServerGroupItemData.Server>>
 
     fun entryCountries(country: CountryId):
         Flow<List<ServerGroupItemData.Country>>

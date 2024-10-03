@@ -99,7 +99,7 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
         filter: ServerFilterType,
         country: CountryId?,
         cityStateId: CityStateId?,
-        gatewayName: String?
+        gatewayName: String?,
     ): Flow<List<ServerGroupItemData.Server>> =
         serverManager2.allServersFlow.map { servers ->
             val availableTypes = initAvailableTypes()
@@ -130,7 +130,9 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
 
     override fun gateways(): Flow<List<ServerGroupItemData.Gateway>> =
         serverManager2.allServersFlow.map { servers ->
-            val gateways = servers.asFilteredSequence(forceIncludeGateways = true).groupBy { it.gatewayName }
+            val gateways = servers
+                .asFilteredSequence(forceIncludeGateways = true)
+                .groupBy { it.gatewayName }
             gateways.mapNotNull { (gatewayName, servers) ->
                 gatewayName?.let { servers.toGatewayItem(gatewayName) }
             }
@@ -151,16 +153,18 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
         country: CountryId? = null,
         cityStateId: CityStateId? = null,
         gatewayName: String? = null,
-        forceIncludeGateways: Boolean = false
-    ) =
-        asSequence().filter { server ->
+        forceIncludeGateways: Boolean = false,
+    ): Sequence<Server> {
+        val includeFreeServers = gatewayName != null || forceIncludeGateways
+        return asSequence().filter { server ->
             // We shouldn't show free servers on the list
-            !server.isFreeServer &&
+            (includeFreeServers || !server.isFreeServer) &&
                 filter.isMatching(server) &&
                 (country == null || country.countryCode == server.exitCountry) &&
                 (cityStateId == null || cityStateId.matches(server)) &&
                 ((forceIncludeGateways && gatewayName == null) || gatewayName == server.gatewayName)
-        }
+            }
+    }
 }
 
 fun List<Server>.toCountryItem(countryCode: String, entryCountryId: CountryId?, match: TextMatch? = null) = ServerGroupItemData.Country(
