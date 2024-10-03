@@ -163,6 +163,7 @@ class ServerListViewModelDataAdapterTests {
                 server(exitCountry = "PL", city = "Cracow", serverName = "PL#3", serverId = "c1", entryCountry = "IS", isSecureCore = true, isOnline = false, loadPercent = 70f),
                 server(exitCountry = "PL", city = "Cracow", serverName = "PL#4", serverId = "c2", hostCountry = "DE"),
                 server(exitCountry = "PL", gatewayName = "gateway", city = "Cracow", serverName = "PL-G#1"), // Gateway server shouldn't show unless gateway filter is set
+                server(exitCountry = "PL", gatewayName = "gateway", city = "Cracow", serverName = "PL-G#2", tier = 0), // Gateway server shouldn't show unless gateway filter is set
                 server(exitCountry = "US", state = "California", serverName = "US-CA#1", serverId = "cal1"),
                 server(exitCountry = "US", state = "California", serverName = "US-CA#2", serverId = "cal2"),
             ),
@@ -240,8 +241,8 @@ class ServerListViewModelDataAdapterTests {
             plScCracowServers
         )
         assertEquals(listOf("US-CA#1", "US-CA#2"), californiaServers.map { it.name })
-        assertEquals(listOf("PL-G#1"), gatewayServers.map { it.name })
-        assertEquals(listOf("gateway"), gatewayServers.map { it.gatewayName })
+        assertEquals(listOf("PL-G#1", "PL-G#2"), gatewayServers.map { it.name })
+        assertEquals(listOf("gateway", "gateway"), gatewayServers.map { it.gatewayName })
     }
 
     @Test
@@ -337,6 +338,8 @@ class ServerListViewModelDataAdapterTests {
                 server(exitCountry = "US", gatewayName = "gateway1", isOnline = false, tier = 2),
                 server(exitCountry = "JP", gatewayName = "gateway2"),
                 server(exitCountry = "JP", gatewayName = "gateway2"),
+                // Free servers in gateways should be displayed.
+                server(exitCountry = "NL", gatewayName = "gateway3", tier = 0),
             ),
             null
         )
@@ -346,6 +349,7 @@ class ServerListViewModelDataAdapterTests {
         assertEquals(listOf(
             ServerGroupItemData.Gateway(gatewayName = "gateway1", inMaintenance = true, tier = 2),
             ServerGroupItemData.Gateway(gatewayName = "gateway2", inMaintenance = false, tier = 1),
+            ServerGroupItemData.Gateway(gatewayName = "gateway3", inMaintenance = false, tier = 0),
         ), gateways)
     }
 

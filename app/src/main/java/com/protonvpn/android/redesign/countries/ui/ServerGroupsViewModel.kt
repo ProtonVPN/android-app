@@ -222,8 +222,10 @@ abstract class ServerGroupsViewModel<MainStateT>(
                 ServerFilterType.Tor ->
                     dataAdapter.servers(savedState.selectedFilter, savedState.countryId, null, null)
             }
-            is GatewayServersScreenSaveState -> dataAdapter.servers(savedState.selectedFilter, null, null, savedState.gatewayName)
-            is ServersScreenSaveState -> dataAdapter.servers(savedState.selectedFilter, savedState.countryId, savedState.cityStateId, null)
+            is GatewayServersScreenSaveState ->
+                dataAdapter.servers(savedState.selectedFilter, null, null, savedState.gatewayName)
+            is ServersScreenSaveState ->
+                dataAdapter.servers(savedState.selectedFilter, savedState.countryId, savedState.cityStateId, null)
         }.map { dataItems ->
             buildList {
                 val filterType = savedState.selectedFilter
