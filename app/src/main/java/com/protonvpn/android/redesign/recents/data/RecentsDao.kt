@@ -40,7 +40,7 @@ data class RecentConnectionWithIntent(
     // Exactly one of below will be != null
     @Relation(parentColumn = "id", entityColumn = "recentId")
     val unnamedRecent: UnnamedRecentIntentEntity?,
-    @Relation(parentColumn = "profileId", entityColumn = "id")
+    @Relation(parentColumn = "profileId", entityColumn = "profileId")
     val profile: ProfileEntity?
 )
 
@@ -189,7 +189,7 @@ abstract class RecentsDao {
     @Query("""
         INSERT INTO recents (userId, profileId, isPinned, lastPinnedTimestamp, lastConnectionAttemptTimestamp)
         SELECT :userId, :profileId, 0, 0, :timestamp
-        WHERE EXISTS (SELECT 1 FROM profiles WHERE id = :profileId)
+        WHERE EXISTS (SELECT 1 FROM profiles WHERE profileId = :profileId)
     """)
     protected abstract suspend fun insertProfileRecentWhenProfileExists(userId: UserId, profileId: Long, timestamp: Long): Long
 

@@ -47,11 +47,16 @@ object MigrateToNewProfiles {
     private val connectIntentDataColumnsSpec =
         connectIntentDataColumns.entries.joinToString(",\n") { (name, type) -> "`$name` $type" }
 
-    fun migrate(db: SupportSQLiteDatabase) {
+    fun migrate1(db: SupportSQLiteDatabase) {
         db.createUnnamedRecentsIntentsTable()
         db.copyIntentDataToUnnamedRecentsIntents()
         db.createProfilesTable()
-        db.recreateRecentsTable()
+        db.recreateRecentsTable(newProfileId = false)
+    }
+
+    fun migrate2(db: SupportSQLiteDatabase) {
+        db.recreateProfilesWithoutId()
+        db.recreateRecentsTable(newProfileId = true)
     }
 
     private fun SupportSQLiteDatabase.copyIntentDataToUnnamedRecentsIntents() {
@@ -89,7 +94,33 @@ object MigrateToNewProfiles {
         execSQL("CREATE INDEX IF NOT EXISTS `index_profiles_userId` ON `profiles` (`userId`)")
     }
 
-    private fun SupportSQLiteDatabase.recreateRecentsTable() {
+    private fun SupportSQLiteDatabase.recreateProfilesWithoutId() {
+        val connectIntentColumnsList = connectIntentDataColumns.keys.joinToString { "`$it`" }
+        recreateTable(
+            table = "profiles",
+            createTable = {
+                execSQL("""
+                    CREATE TABLE IF NOT EXISTS `profiles` (
+                        `userId` TEXT NOT NULL,
+                        `name` TEXT NOT NULL,
+                        `color` TEXT NOT NULL,
+                        `icon` TEXT NOT NULL,
+                        `createdAt` INTEGER NOT NULL,
+                        $connectIntentDataColumnsSpec,
+                        PRIMARY KEY(`profileId`), FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE
+                    )""".trimIndent()
+                )
+            },
+            createIndices = {
+                execSQL("CREATE INDEX IF NOT EXISTS `index_profiles_userId` ON `profiles` (`userId`)")
+            },
+            oldColumns = listOf("`userId`", "`name`", "`color`", "`icon`", "`createdAt`") + connectIntentColumnsList,
+            newColumns = listOf("`userId`", "`name`", "`color`", "`icon`", "`createdAt`") + connectIntentColumnsList,
+        )
+    }
+
+    private fun SupportSQLiteDatabase.recreateRecentsTable(newProfileId: Boolean) {
+        val profileIdColumnName = if (newProfileId) "profileId" else "id"
         recreateTable(
             table = "recents",
             createTable = {
@@ -102,7 +133,7 @@ object MigrateToNewProfiles {
                         `lastPinnedTimestamp` INTEGER NOT NULL,
                         `profileId` INTEGER,
                         FOREIGN KEY(`userId`) REFERENCES `AccountEntity`(`userId`) ON UPDATE NO ACTION ON DELETE CASCADE,
-                        FOREIGN KEY(`profileId`) REFERENCES `profiles`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+                        FOREIGN KEY(`profileId`) REFERENCES `profiles`(`$profileIdColumnName`) ON UPDATE NO ACTION ON DELETE CASCADE
                     )""".trimIndent()
                 )
             },

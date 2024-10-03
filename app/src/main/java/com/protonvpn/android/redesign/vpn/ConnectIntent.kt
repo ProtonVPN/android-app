@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.vpn
 
-import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import java.util.EnumSet

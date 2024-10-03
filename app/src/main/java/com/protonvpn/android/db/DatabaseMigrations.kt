@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.db
 
+import androidx.room.DeleteColumn
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
@@ -242,7 +244,13 @@ object DatabaseMigrations {
 
     val MIGRATION_35_36 = object : Migration(35, 36) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            MigrateToNewProfiles.migrate(db)
+            MigrateToNewProfiles.migrate1(db)
+        }
+    }
+
+    val MIGRATION_36_37 = object : Migration(36, 37) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            MigrateToNewProfiles.migrate2(db)
         }
     }
 }

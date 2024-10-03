@@ -35,7 +35,6 @@ fun createProfileEntity(
     createdAt: Long = 0L,
     connectIntent: ConnectIntent,
 ) = ProfileEntity(
-    id,
     userId,
     name,
     color,

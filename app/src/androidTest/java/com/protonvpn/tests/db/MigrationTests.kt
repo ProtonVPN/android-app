@@ -26,19 +26,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.DatabaseMigrations
-import com.protonvpn.android.redesign.recents.data.ConnectIntentData
-import com.protonvpn.android.redesign.recents.data.ConnectIntentType
-import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
-import com.protonvpn.android.redesign.recents.data.RecentConnectionWithIntent
-import com.protonvpn.android.redesign.recents.data.UnnamedRecentIntentEntity
-import com.protonvpn.android.redesign.vpn.ServerFeature
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import me.proton.core.domain.entity.UserId
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 
 @RunWith(AndroidJUnit4::class)
@@ -69,55 +62,41 @@ class MigrationTests {
     }
 
     @Test
-    fun migrateRecentData35to36() = runTest {
+    fun migrateRecentData35to37() = runTest {
         // Insert recent to 35
-        helper.createDatabase(dbName, 35).apply {
-            execSQL("""INSERT INTO recents (id, userId, isPinned, lastConnectionAttemptTimestamp, lastPinnedTimestamp, connectIntentType, exitCountry, entryCountry, city,            region,       gatewayName, serverId, features)
+        val db = helper.createDatabase(dbName, 35)
+        db.execSQL("""INSERT INTO recents (id, userId, isPinned, lastConnectionAttemptTimestamp, lastPinnedTimestamp, connectIntentType, exitCountry, entryCountry, city,            region,       gatewayName, serverId, features)
                                     VALUES (1,  'id1',  1,        10,                             11,                  'FASTEST',         'US',        'CH',         'San Francisco', 'California', 'Gateway',   '12',     'P2P')""")
-            close()
-        }
 
         // Migrate
         helper.runMigrationsAndValidate(
-            dbName, 36, true, DatabaseMigrations.MIGRATION_35_36)
+            dbName, 37, true, DatabaseMigrations.MIGRATION_35_36, DatabaseMigrations.MIGRATION_36_37)
 
-        // Check recent is in migrated db
-        val db = Room.databaseBuilder(
-            InstrumentationRegistry.getInstrumentation().targetContext,
-            AppDatabase::class.java,
-            dbName
-        ).build()
+        db.query("SELECT * FROM recents").apply {
+            moveToFirst()
+            assertEquals(1, getInt(getColumnIndex("id")))
+            assertEquals("id1", getString(getColumnIndex("userId")))
+            assertEquals(1, getInt(getColumnIndex("isPinned")))
+            assertEquals(10, getLong(getColumnIndex("lastConnectionAttemptTimestamp")))
+            assertEquals(11, getLong(getColumnIndex("lastPinnedTimestamp")))
+            assertTrue(isLast)
+            close()
+        }
 
-        val result = db.recentsDao().getRecentsEntityList(UserId("id1")).first()
-        assertEquals(
-            listOf(
-                RecentConnectionWithIntent(
-                    recent = RecentConnectionEntity(
-                        id = 1,
-                        userId = UserId("id1"),
-                        isPinned = true,
-                        lastConnectionAttemptTimestamp = 10,
-                        lastPinnedTimestamp = 11,
-                    ),
-                    profile = null,
-                    unnamedRecent = UnnamedRecentIntentEntity(
-                        recentId = 1,
-                        connectIntentData = ConnectIntentData(
-                            connectIntentType = ConnectIntentType.FASTEST,
-                            exitCountry = "US",
-                            entryCountry = "CH",
-                            city = "San Francisco",
-                            region = "California",
-                            gatewayName = "Gateway",
-                            serverId = "12",
-                            features = setOf(ServerFeature.P2P),
-                            profileId = null,
-                            settingsOverrides = null,
-                        )
-                    )
-                )
-            ),
-            result
-        )
+        db.query("SELECT * FROM unnamedRecentsIntents").apply {
+            moveToFirst()
+            assertEquals("FASTEST", getString(getColumnIndex("connectIntentType")))
+            assertEquals("US", getString(getColumnIndex("exitCountry")))
+            assertEquals("CH", getString(getColumnIndex("entryCountry")))
+            assertEquals("San Francisco", getString(getColumnIndex("city")))
+            assertEquals("California", getString(getColumnIndex("region")))
+            assertEquals("Gateway", getString(getColumnIndex("gatewayName")))
+            assertEquals("12", getString(getColumnIndex("serverId")))
+            assertEquals("P2P", getString(getColumnIndex("features")))
+            assertTrue(isLast)
+            close()
+        }
+
+        db.close()
     }
 }

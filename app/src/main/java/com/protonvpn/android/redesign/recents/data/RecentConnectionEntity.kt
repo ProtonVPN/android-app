@@ -46,7 +46,7 @@ import me.proton.core.domain.entity.UserId
         ),
         ForeignKey(
             entity = ProfileEntity::class,
-            parentColumns = ["id"],
+            parentColumns = ["profileId"],
             childColumns = ["profileId"],
             onDelete = ForeignKey.CASCADE
         )
