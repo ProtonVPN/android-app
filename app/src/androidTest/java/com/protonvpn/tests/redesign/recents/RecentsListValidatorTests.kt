@@ -173,7 +173,7 @@ class RecentsListValidatorTests {
             recents.map { (it.connectIntent as? ConnectIntent.Server)?.serverId ?: "invalid intent type" }.toSet()
         )
         // Profile was not removed from recents
-        assertNotNull(recents.find { it.connectIntent.profileId == profileEntity.id })
+        assertNotNull(recents.find { it.connectIntent.profileId == profileEntity.connectIntentData.profileId })
     }
 
     @Test

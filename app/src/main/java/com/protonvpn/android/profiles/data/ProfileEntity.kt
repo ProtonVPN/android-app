@@ -23,7 +23,6 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.protonvpn.android.redesign.recents.data.ConnectIntentData
 import me.proton.core.account.data.entity.AccountEntity
 import me.proton.core.domain.entity.UserId
@@ -33,6 +32,9 @@ import me.proton.core.domain.entity.UserId
     indices = [
         Index(value = ["userId"]),
     ],
+    // ConnectIntentData.profileId is used as primary key to avoid duplication. It'll still be
+    // auto-generated upon insertion (with unique values but without sqlite AUTOINCREMENT).
+    primaryKeys = ["profileId"],
     foreignKeys = [
         ForeignKey(
             entity = AccountEntity::class,
@@ -43,7 +45,6 @@ import me.proton.core.domain.entity.UserId
     ]
 )
 data class ProfileEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val userId: UserId,
     val name: String,
     val color: ProfileColor,

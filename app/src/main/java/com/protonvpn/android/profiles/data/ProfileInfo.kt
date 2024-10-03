@@ -42,7 +42,7 @@ data class Profile(
 
 fun ProfileEntity.toProfile() = Profile(
     ProfileInfo(
-        id = id,
+        id = requireNotNull(connectIntentData.profileId),
         name = name,
         color = color,
         icon = icon,

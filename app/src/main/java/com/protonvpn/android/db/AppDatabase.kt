@@ -191,7 +191,7 @@ abstract class AppDatabase :
     AuthDatabase {
 
     companion object {
-        const val version = 36
+        const val version = 37
 
         @VisibleForTesting
         val migrations = listOf(
@@ -225,6 +225,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_32_33,
             DatabaseMigrations.MIGRATION_34_35,
             DatabaseMigrations.MIGRATION_35_36,
+            DatabaseMigrations.MIGRATION_36_37,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {
