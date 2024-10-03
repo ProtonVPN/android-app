@@ -1277,7 +1277,7 @@
     <string name="settings_advanced_nat_type_strict">Strikt (typ 3)</string>
     <string name="settings_advanced_nat_type_moderate">Moderera (typ 2)</string>
     <string name="settings_advanced_nat_type_strict_description">Begränsar den data som ankommer till ditt nätverk. Detta alternativ är säkrare, men kan göra peer-to-peer spel-anslutningar svårare.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Restriktioner av data som ankommer till ditt nätverk. vid data Detta alternativ är bäst vid online spel.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Vissa restriktioner på data som kommer in i ditt nätverk. Detta alternativ är bäst för videospel online.</string>
     <string name="settings_split_tunneling_description">Anpassa din anslutning genom att bestämma vilka appar och IP-adresser som är skyddade av VPN. %1$s</string>
     <string name="settings_protocol_description">Ett VPN-protokoll avgör hur data flyttas mellan en VPN-server och din enhet. %1$s</string>
     <string name="settings_protocol_description_no_link">Ett VPN-protokoll avgör hur data flyttas mellan en VPN-server och din enhet.</string>
