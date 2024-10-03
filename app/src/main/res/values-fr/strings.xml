@@ -406,7 +406,7 @@
     <string name="upgrade_unlimited_vpn_unlimited_countries">Accès à tous les pays</string>
     <string name="upgrade_unlimited_vpn_all_features">Toutes les autres fonctionnalités de Proton VPN Plus</string>
     <string name="upgrade_unlimited_vpn_any_location">Choisissez n\'importe quel emplacement.</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Débits VPN encore plus élevés</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Des débits VPN encore plus élevés</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
         <item quantity="one">Protégez %1$d appareil</item>
         <item quantity="other">Protégez %1$d appareils en même temps</item>
@@ -436,7 +436,7 @@
         <item quantity="one">%1$d calendrier personnel</item>
         <item quantity="other">%1$d calendriers personnels</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Partage de calendrier</string>
+    <string name="upgrade_unlimited_calendar_sharing">Partage de calendriers</string>
     <string name="upgrade_unlimited_calendar_invites">Envoi et réception d\'invitations</string>
     <string name="upgrade_unlimited_drive_encryption">Stockage de fichiers chiffrés</string>
     <string name="upgrade_unlimited_drive_storage_size">%1$d Go d\'espace de stockage total pour vos photos, fichiers et messages</string>
