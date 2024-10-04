@@ -271,7 +271,7 @@ public abstract class OpenVPNService extends VpnService implements StateListener
     private void endVpnService() {
         if (!isVpnAlwaysOnEnabled() && !isAlwaysActiveEnabled()) {
             /* if we should be an always on VPN, keep the timer running */
-            keepVPNAlive.unscheduleKeepVPNAliveJobService(this);
+            //keepVPNAlive.unscheduleKeepVPNAliveJobService(this);
         }
         synchronized (mProcessLock) {
             mProcessThread = null;
@@ -714,7 +714,7 @@ public abstract class OpenVPNService extends VpnService implements StateListener
         mProfile = vp;
         ProfileManager.setConnectedVpnProfile(this, vp);
         VpnStatus.setConnectedVPNProfile(vp.getUUIDString());
-        keepVPNAlive.scheduleKeepVPNAliveJobService(this, vp);
+        //keepVPNAlive.scheduleKeepVPNAliveJobService(this, vp);
 
         String nativeLibraryDirectory = getApplicationInfo().nativeLibraryDir;
         String tmpDir;
