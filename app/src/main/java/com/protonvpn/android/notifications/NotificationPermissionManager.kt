@@ -63,13 +63,13 @@ import javax.inject.Singleton
 class NotificationPermissionManager @Inject constructor(
     scope: CoroutineScope,
     @ApplicationContext private val appContext: Context,
-    private val vpnStateMonitor: VpnStateMonitor,
+    vpnStateMonitor: VpnStateMonitor,
     private val foregroundActivityTracker: ForegroundActivityTracker,
     private val notificationPrefs: NotificationPermissionPrefs,
     private val isTv: IsTvCheck,
 ) {
     init {
-        if (!appContext.isNotificationPermissionGranted(isTv)) {
+        if (!appContext.isNotificationPermissionGranted()) {
             vpnStateMonitor.status
                 .takeWhile { !notificationPrefs.rationaleDismissed }
                 .distinctUntilChanged()
@@ -85,9 +85,10 @@ class NotificationPermissionManager @Inject constructor(
 
     private fun checkAndRequestNotificationPermission() {
         val activity = foregroundActivityTracker.foregroundActivity
-        if (activity is AppCompatActivity &&
+        if (!isTv() &&
+            activity is AppCompatActivity &&
             !activity.supportFragmentManager.isStateSaved &&
-            !activity.isNotificationPermissionGranted(isTv)
+            !activity.isNotificationPermissionGranted()
         ) {
             showDialogAndRequestPermission(activity)
         }
@@ -99,8 +100,8 @@ class NotificationPermissionManager @Inject constructor(
     }
 }
 
-fun Context.isNotificationPermissionGranted(isTv: IsTvCheck): Boolean {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || isTv()) {
+inline fun Context.isNotificationPermissionGranted(): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
         return true
     }
 

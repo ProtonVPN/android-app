@@ -25,6 +25,7 @@ import android.os.BatteryManager
 import android.os.PowerManager
 import android.os.SystemClock
 import android.telephony.TelephonyManager
+import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.ProtonApplication
@@ -282,9 +283,12 @@ object AppModule {
         appContext.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
 
     @Provides
-    fun provideActivityManager(): ActivityManager =
-        ProtonApplication.getAppContext()
-            .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    fun provideActivityManager(@ApplicationContext appContext: Context): ActivityManager =
+        appContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+    @Provides
+    fun provideNotificationManager(@ApplicationContext appContext: Context): NotificationManagerCompat =
+        NotificationManagerCompat.from(appContext)
 
     @Provides
     fun provideTelephonyManager(@ApplicationContext appContext: Context) =
