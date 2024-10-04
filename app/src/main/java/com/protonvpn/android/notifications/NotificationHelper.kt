@@ -197,7 +197,7 @@ class NotificationHelper @Inject constructor(
         }
 
         if (notificationInfo.fullScreenDialog != null) {
-            val intent = createLaunchIntent.forNotification(appContext)
+            val intent = createLaunchIntent.forNotification()
             intent.putExtra(EXTRA_NOTIFICATION_DETAILS, notificationInfo)
             val pending = PendingIntent.getActivity(appContext, PENDING_REQUEST_OTHER, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             notificationBuilder.setContentIntent(pending)
@@ -252,7 +252,7 @@ class NotificationHelper @Inject constructor(
             else -> { /* Nothing */ }
         }
 
-        val intent = createLaunchIntent.forNotification(context)
+        val intent = createLaunchIntent.forNotification()
         intent.putExtra("OpenStatus", true)
         val pending =
             PendingIntent.getActivity(
@@ -347,9 +347,12 @@ class NotificationHelper @Inject constructor(
 
             builder.setContentIntent(
                 PendingIntent.getActivity(
-                    appContext, 0,
-                    createLaunchIntent.forNotification(appContext),
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
+                    appContext,
+                    0,
+                    createLaunchIntent.forNotification(),
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+            )
 
             action?.let {
                 builder.addAction(

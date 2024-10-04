@@ -161,7 +161,7 @@ class ResetUiForAutoLogin @Inject constructor(
             val activity = foregroundActivityTracker.foregroundActivityFlow.filterNotNull().first()
             if (!isMainActivity(activity, isTv())) {
                 ProtonLogger.logCustom(LogCategory.MANAGED_CONFIG, "Clearing non-main activity: ${activity.localClassName}")
-                activity.startActivity(createLaunchIntent.withFlags(activity, Intent.FLAG_ACTIVITY_CLEAR_TASK))
+                activity.startActivity(createLaunchIntent.withFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 activity.finish()
             }
         }

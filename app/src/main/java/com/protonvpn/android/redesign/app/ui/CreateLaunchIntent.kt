@@ -22,11 +22,13 @@ package com.protonvpn.android.redesign.app.ui
 import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.tv.IsTvCheck
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CreateLaunchIntent @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val isTv: IsTvCheck,
 ) {
     private var leanbackLaunchIntent: Intent? = null
@@ -37,24 +39,24 @@ class CreateLaunchIntent @Inject constructor(
         leanbackLaunchIntent = null
     }
 
-    fun forNotification(context: Context) = withFlags(context, Intent.FLAG_ACTIVITY_NEW_TASK)
+    fun forNotification() = withFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-    fun withFlags(context: Context, intentFlags: Int): Intent {
+    fun withFlags(intentFlags: Int): Intent {
         val intent =
-            if (isTv()) getLeanbackLaunchIntent(context)
-            else getLaunchIntent(context)
+            if (isTv()) getLeanbackLaunchIntent()
+            else getLaunchIntent()
         return intent!!.apply { flags = intentFlags }
     }
 
-    private fun getLeanbackLaunchIntent(context: Context): Intent? {
+    private fun getLeanbackLaunchIntent(): Intent? {
         if (leanbackLaunchIntent == null)
-            leanbackLaunchIntent = context.packageManager.getLeanbackLaunchIntentForPackage(context.packageName)
+            leanbackLaunchIntent = appContext.packageManager.getLeanbackLaunchIntentForPackage(appContext.packageName)
         return launchIntent?.let { Intent(it) }
     }
 
-    private fun getLaunchIntent(context: Context): Intent? {
+    private fun getLaunchIntent(): Intent? {
         if (launchIntent == null)
-            launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+            launchIntent = appContext.packageManager.getLaunchIntentForPackage(appContext.packageName)
         return launchIntent?.let { Intent(it) }
     }
 }
