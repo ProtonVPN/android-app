@@ -24,6 +24,7 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Build.VERSION_CODES
+import android.os.SystemClock
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
@@ -62,6 +63,7 @@ class QuickTileService : TileService() {
     @Inject lateinit var dataStore: QuickTileDataStore
     @Inject lateinit var mainScope: CoroutineScope
 
+    private var lastClickTimestamp = 0L
     private var listeningScope: CoroutineScope? = null
     private val stateOverrideFlow by lazy(LazyThreadSafetyMode.NONE) { ConnectStateOverride(mainScope) }
 
@@ -117,6 +119,9 @@ class QuickTileService : TileService() {
     }
 
     override fun onClick() {
+        // The QuickTileService process is lightweight and should start quickly. If it's not fast enough and the user
+        // taps the icon multiple times then only react to the first tap.
+        if (isClickTooFast()) return
         if (isLocked) {
             unlockAndRun {
                 onClickInternal()
@@ -189,6 +194,15 @@ class QuickTileService : TileService() {
         qsTile.state = state
         qsTile.label = label
         qsTile.updateTile()
+    }
+
+    private fun isClickTooFast(): Boolean {
+        val now = SystemClock.elapsedRealtime()
+        val isTooFast = now - lastClickTimestamp < 75L
+        if (!isTooFast) {
+            lastClickTimestamp = now
+        }
+        return isTooFast
     }
 
     private class ConnectStateOverride(private val scope: CoroutineScope): Flow<QuickTileDataStore.Data?> {
