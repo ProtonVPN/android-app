@@ -71,6 +71,7 @@ import me.proton.core.presentation.R as CoreR
 class NotificationHelper @Inject constructor(
     @ApplicationContext private val appContext: Context,
     scope: CoroutineScope,
+    private val notificationManager: NotificationManagerCompat,
     private val vpnStateMonitor: VpnStateMonitor,
     private val trafficMonitor: TrafficMonitor,
     private val isTv: IsTvCheck,
@@ -202,12 +203,11 @@ class NotificationHelper @Inject constructor(
             notificationBuilder.setContentIntent(pending)
             notificationBuilder.setAutoCancel(true)
         }
-        NotificationManagerCompat.from(appContext)
-            .notifyWithPermission(Constants.NOTIFICATION_INFO_ID, notificationBuilder.build())
+        notificationManager.notifyIfAllowed(Constants.NOTIFICATION_INFO_ID, notificationBuilder.build())
     }
 
     fun cancelInformationNotification(notificationId: Int = Constants.NOTIFICATION_INFO_ID) =
-        NotificationManagerCompat.from(appContext).cancel(notificationId)
+        notificationManager.cancel(notificationId)
 
     private fun buildStatusNotification(
         vpnStatus: VpnStateMonitor.Status,
@@ -266,17 +266,16 @@ class NotificationHelper @Inject constructor(
     }
 
     private fun updateStatusNotification(
-        context: Context,
         vpnStatus: VpnStateMonitor.Status,
         trafficUpdate: TrafficUpdate?
     ) {
-        with(NotificationManagerCompat.from(context)) {
+        with(notificationManager) {
             // On android < 10 first update the notification even when disabled. If foreground
             // service is still running, notification will stay after cancel() - let's at least show
             // correct "not connected" notification. However on Android 10+ this somehow can cause
             // notification cancel to have no effect.
-            if (Build.VERSION.SDK_INT < 29 || vpnStatus.state != Disabled) {
-                notifyWithPermission(Constants.NOTIFICATION_ID, buildStatusNotification(vpnStatus, trafficUpdate))
+            if (areAppNotificationsAllowed() && (Build.VERSION.SDK_INT < 29 || vpnStatus.state != Disabled)) {
+                notifyIfAllowed(Constants.NOTIFICATION_ID, buildStatusNotification(vpnStatus, trafficUpdate))
             }
             if (vpnStatus.state == Disabled) {
                 cancel(Constants.NOTIFICATION_ID)
@@ -325,8 +324,7 @@ class NotificationHelper @Inject constructor(
         buildStatusNotification(vpnStateMonitor.status.value, null)
 
     private fun updateNotification() {
-        updateStatusNotification(
-            appContext, vpnStateMonitor.status.value, trafficMonitor.trafficStatus.value)
+        updateStatusNotification(vpnStateMonitor.status.value, trafficMonitor.trafficStatus.value)
     }
 
     fun showInformationNotification(
@@ -336,7 +334,7 @@ class NotificationHelper @Inject constructor(
         action: ActionItem? = null,
         notificationId: Int = Constants.NOTIFICATION_INFO_ID
     ) {
-        with(NotificationManagerCompat.from(appContext)) {
+        with(notificationManager) {
             val builder = NotificationCompat.Builder(appContext, CHANNEL_ID)
                 .setSmallIcon(icon)
                 .setContentText(appContext.getString(content))
@@ -358,14 +356,16 @@ class NotificationHelper @Inject constructor(
                     NotificationCompat.Action(R.drawable.ic_vpn_status_information, it.title, getPendingIntent(it))
                 )
             }
-            notifyWithPermission(notificationId, builder.build())
+            notifyIfAllowed(notificationId, builder.build())
         }
     }
 
+    private fun areAppNotificationsAllowed() = !isTv() && notificationManager.areNotificationsEnabled()
+
     @SuppressLint("MissingPermission")
-    private fun NotificationManagerCompat.notifyWithPermission(id: Int, notification: Notification) {
-        if (appContext.isNotificationPermissionGranted(isTv)) {
-            this.notify(id, notification)
+    private fun NotificationManagerCompat.notifyIfAllowed(id: Int, notification: Notification) {
+        if (areAppNotificationsAllowed()) {
+            notify(id, notification)
         }
     }
 
