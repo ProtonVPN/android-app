@@ -24,6 +24,7 @@ import android.content.pm.PackageManager
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,13 +33,15 @@ private const val ACTIVITY_ALIAS_PREFIX = "ch.protonvpn.android"
 
 @Singleton
 class AppIconManager @Inject constructor(
-    @ApplicationContext private val appContext: Context
+    @ApplicationContext private val appContext: Context,
+    private val createLaunchIntent: CreateLaunchIntent,
 ) {
     fun setNewAppIcon(desiredAppIcon: CustomAppIconData) {
         getCurrentIconData().let {
             appContext.packageManager.setComponentEnabledSetting(it.getComponentName(appContext), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
         }
         appContext.packageManager.setComponentEnabledSetting(desiredAppIcon.getComponentName(appContext), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+        createLaunchIntent.invalidateCache()
     }
 
     fun getCurrentIconData(): CustomAppIconData {
