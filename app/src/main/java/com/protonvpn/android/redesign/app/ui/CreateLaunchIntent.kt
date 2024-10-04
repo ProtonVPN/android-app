@@ -23,17 +23,38 @@ import android.content.Context
 import android.content.Intent
 import com.protonvpn.android.tv.IsTvCheck
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CreateLaunchIntent @Inject constructor(
     private val isTv: IsTvCheck,
 ) {
+    private var leanbackLaunchIntent: Intent? = null
+    private var launchIntent: Intent? = null
+
+    fun invalidateCache() {
+        launchIntent = null
+        leanbackLaunchIntent = null
+    }
+
     fun forNotification(context: Context) = withFlags(context, Intent.FLAG_ACTIVITY_NEW_TASK)
 
     fun withFlags(context: Context, intentFlags: Int): Intent {
-        val intent = if (isTv())
-            context.packageManager.getLeanbackLaunchIntentForPackage(context.packageName)
-        else
-            context.packageManager.getLaunchIntentForPackage(context.packageName)
+        val intent =
+            if (isTv()) getLeanbackLaunchIntent(context)
+            else getLaunchIntent(context)
         return intent!!.apply { flags = intentFlags }
+    }
+
+    private fun getLeanbackLaunchIntent(context: Context): Intent? {
+        if (leanbackLaunchIntent == null)
+            leanbackLaunchIntent = context.packageManager.getLeanbackLaunchIntentForPackage(context.packageName)
+        return launchIntent?.let { Intent(it) }
+    }
+
+    private fun getLaunchIntent(context: Context): Intent? {
+        if (launchIntent == null)
+            launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        return launchIntent?.let { Intent(it) }
     }
 }
