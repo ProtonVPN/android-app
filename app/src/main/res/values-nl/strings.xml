@@ -710,6 +710,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Start</string>
     <string name="bottom_nav_gateways">Gateway</string>
+    <string name="bottom_nav_profiles">Profiles</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Landen</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -976,6 +977,7 @@
     <string name="settings_title">Instellingen</string>
     <string name="gateways_title">Gateways</string>
     <string name="countries_title">Landen</string>
+    <string name="profiles_title">Profiles</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Functies</string>
     <!-- tag(Redesign_2023) -->
@@ -1275,7 +1277,9 @@
     <string name="settings_advanced_nat_type_description">Selecteer een vertaal van het netwerk voor uw verbinding. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Selecteer een netwerkadresomzettingstype voor uw verbinding.</string>
     <string name="settings_advanced_nat_type_strict">Strikt (type 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">Gematigd (type 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Beperkt de gegevens die uw netwerk binnenkomen. Deze optie is veiliger, maar kan peer-to-peer gamingverbindingen bemoeilijken.</string>
     <string name="settings_advanced_nat_type_moderate_description">Enige beperking op data die uw netwerk binnenkomen. Deze optie is de beste voor videogaming.</string>
     <string name="settings_split_tunneling_description">Pas uw verbinding aan door te beslissen welke apps en IP-adressen worden beschermd door VPN. %1$s</string>
@@ -1342,4 +1346,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Geselecteerde apps zijn uitgesloten van VPN-verbinding.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Alleen geselecteerde apps verbinden via VPN, al het andere verkeer is onbeschermd.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Work/School</string>
 </resources>

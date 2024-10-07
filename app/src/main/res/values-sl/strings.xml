@@ -759,6 +759,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Domov</string>
     <string name="bottom_nav_gateways">Prehodi</string>
+    <string name="bottom_nav_profiles">Profiles</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Države</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -1027,6 +1028,7 @@
     <string name="settings_title">Nastavitve</string>
     <string name="gateways_title">Prehodi</string>
     <string name="countries_title">Države</string>
+    <string name="profiles_title">Profiles</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funkcije</string>
     <!-- tag(Redesign_2023) -->
@@ -1349,7 +1351,9 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_advanced_nat_type_description">Izberite vrsto prevajanja omrežnih naslovov za vašo povezavo. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Izberite vrsto prevajanja omrežnih naslovov za vašo povezavo.</string>
     <string name="settings_advanced_nat_type_strict">Strogo (tip 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">Zmerno (tip 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Omejuje podatke, ki vstopajo v vaše omrežje. Ta možnost je bolj varna, vendar lahko oteži povezave P2P pri igranju iger.</string>
     <string name="settings_advanced_nat_type_moderate_description">Nekatere omejitve podatkov, ki vstopajo v vaše omrežje. Ta možnost je najboljša za spletne video igre.</string>
     <string name="settings_split_tunneling_description">Prilagodite povezavo tako, da določite, katere aplikacije in IP naslovi so zaščiteni z omrežjem VPN. %1$s</string>
@@ -1416,4 +1420,11 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Work/School</string>
 </resources>

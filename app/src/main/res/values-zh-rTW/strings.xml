@@ -686,6 +686,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">住家</string>
     <string name="bottom_nav_gateways">預設閘道</string>
+    <string name="bottom_nav_profiles">Profiles</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">國家</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -951,6 +952,7 @@
     <string name="settings_title">設定</string>
     <string name="gateways_title">預設閘道</string>
     <string name="countries_title">國家</string>
+    <string name="profiles_title">Profiles</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">功能</string>
     <!-- tag(Redesign_2023) -->
@@ -1239,7 +1241,9 @@
     <string name="settings_advanced_nat_type_description">選取您的連線要使用的網路位址轉譯類型。%1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">選取您的連線要使用的網路位址轉譯類型。</string>
     <string name="settings_advanced_nat_type_strict">嚴格 (類別 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">中等 (類別 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">限制數據流入您的網路。此選項較為安全，惟點對點遊戲連線或會較困難。</string>
     <string name="settings_advanced_nat_type_moderate_description">部分限制數據流入您的網路。此選項最適合線上視訊遊戲。</string>
     <string name="settings_split_tunneling_description">自訂您的連線，決定哪些應用程式和 IP 位址受 VPN 保護。%1$s</string>
@@ -1306,4 +1310,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Work/School</string>
 </resources>

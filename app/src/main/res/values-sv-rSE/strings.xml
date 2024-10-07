@@ -710,6 +710,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Hem</string>
     <string name="bottom_nav_gateways">Gateways</string>
+    <string name="bottom_nav_profiles">Profiles</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Länder</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -976,6 +977,7 @@
     <string name="settings_title">Inställningar</string>
     <string name="gateways_title">Gateways</string>
     <string name="countries_title">Länder</string>
+    <string name="profiles_title">Profiles</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funktioner</string>
     <!-- tag(Redesign_2023) -->
@@ -1275,7 +1277,9 @@
     <string name="settings_advanced_nat_type_description">Välj en nätverksadressöversättningstyp för din anslutning. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Välj en nätverksadressöversättningstyp för din anslutning.</string>
     <string name="settings_advanced_nat_type_strict">Strikt (typ 3)</string>
-    <string name="settings_advanced_nat_type_moderate">Moderera (typ 2)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
+    <string name="settings_advanced_nat_type_moderate">Moderate (type 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Begränsar den data som ankommer till ditt nätverk. Detta alternativ är säkrare, men kan göra peer-to-peer spel-anslutningar svårare.</string>
     <string name="settings_advanced_nat_type_moderate_description">Vissa restriktioner på data som kommer in i ditt nätverk. Detta alternativ är bäst för videospel online.</string>
     <string name="settings_split_tunneling_description">Anpassa din anslutning genom att bestämma vilka appar och IP-adresser som är skyddade av VPN. %1$s</string>
@@ -1342,4 +1346,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Valda appar är exkluderade från VPN-anslutning.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Endast valda appar ansluter genom VPN, all annan trafik är oskyddad.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Work/School</string>
 </resources>

@@ -734,6 +734,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Început</string>
     <string name="bottom_nav_gateways">Porți de acces</string>
+    <string name="bottom_nav_profiles">Profiles</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Țări</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -1001,6 +1002,7 @@
     <string name="settings_title">Setări</string>
     <string name="gateways_title">Porți de acces</string>
     <string name="countries_title">Țări</string>
+    <string name="profiles_title">Profiles</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funcții</string>
     <!-- tag(Redesign_2023) -->
@@ -1311,7 +1313,9 @@
     <string name="settings_advanced_nat_type_description">Selectați un tip de traducere a adreselor de rețea pentru conexiunea proprie. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Selectați un tip de traducere a adreselor de rețea pentru conexiunea proprie.</string>
     <string name="settings_advanced_nat_type_strict">Strict (tip 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">Moderat (tip 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Restricționează datele care intră în rețeaua proprie. Această opțiune este mai sigură, dar poate face mai dificilă conexiunile jocurilor cu utilizatori multipli.</string>
     <string name="settings_advanced_nat_type_moderate_description">O anumită restricție la datele care intră în rețeaua personală. Această opțiune este cea mai bună pentru jocurile video online.</string>
     <string name="settings_split_tunneling_description">Personalizați-vă conexiunea decizând ce aplicații și adrese IP sunt protejate de VPN. %1$s</string>
@@ -1378,4 +1382,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplicațiile selectate sunt excluse de la conexiunea prin VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Doar aplicațiile selectate se conectează prin VPN, orice alt trafic nefiind protejat.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Work/School</string>
 </resources>
