@@ -231,7 +231,7 @@ publish-apk-internal:
 
 publish-github:
   stage: publish
-  dependencies: ["sign vanilla apk", "export archive name"]
+  dependencies: ["sign vanilla apk", "export archive name", "sync-app"]
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
