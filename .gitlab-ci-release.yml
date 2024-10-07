@@ -242,11 +242,12 @@ publish-github:
     GH_TOKEN: "${GITHUB_CLI_TOKEN}"
     OAUTH_URL: "https://oauth2:${GH_TOKEN}@github.com/ProtonVPN/android-app.git"
     ARTIFACT_PATH: "signedArtifacts/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
+    ARTIFACT_DISPLAY_NAME: "ProtonVPN-${VERSION_NAME}.apk"
   script:
     # Verify that uploaded artifact is signed with prod key
     - ./verify_apk_signature.sh "${ARTIFACT_PATH}"
     - gh release delete $VERSION_NAME -y || true
-    - gh release create $VERSION_NAME $ARTIFACT_PATH --title $VERSION_NAME --notes-file "$RELEASE_NOTES" --repo "${OAUTH_URL}"
+    - gh release create $VERSION_NAME "$ARTIFACT_PATH#$ARTIFACT_DISPLAY_NAME" --title $VERSION_NAME --notes-file "$RELEASE_NOTES" --repo "${OAUTH_URL}"
 
 # DEVOPS-2680: Push to S3 instead of download repo
 artifactlift-s3-upload-prod:
