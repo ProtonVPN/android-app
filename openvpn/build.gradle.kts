@@ -207,43 +207,54 @@ android {
  */
 }
 
-var swigcmd = "swig"
-// Workaround for macOS(arm64) and macOS(intel) since it otherwise does not find swig and
-// I cannot get the Exec task to respect the PATH environment :(
-if (file("/opt/homebrew/bin/swig").exists())
-    swigcmd = "/opt/homebrew/bin/swig"
-else if (file("/usr/local/bin/swig").exists())
-    swigcmd = "/usr/local/bin/swig"
+abstract class SwigTask : DefaultTask() {
+    @get:OutputDirectory abstract val genDir: DirectoryProperty
+    @get:Inject abstract val exec: ExecOperations
 
+    @TaskAction
+    fun action() {
+        val genDir = genDir.asFile.get()
+        genDir.mkdirs()
 
-fun registerGenTask(variantName: String, variantDirName: String): File {
-    val baseDir = File(buildDir, "generated/source/ovpn3swig/${variantDirName}")
-    val genDir = File(baseDir, "net/openvpn/ovpn3")
-
-    tasks.register<Exec>("generateOpenVPN3Swig${variantName}")
-    {
-
-        doFirst {
-            mkdir(genDir)
-        }
-        commandLine(listOf(swigcmd, "-outdir", genDir, "-outcurrentdir", "-c++", "-java", "-package", "net.openvpn.ovpn3",
+        val swigcmd = getSwigCommand()
+        exec.exec {
+            commandLine(swigcmd, "-outdir", genDir, "-outcurrentdir", "-c++", "-java", "-package", "net.openvpn.ovpn3",
                 "-Isrc/main/cpp/openvpn3/client", "-Isrc/main/cpp/openvpn3/",
                 "-DOPENVPN_PLATFORM_ANDROID",
                 "-o", "${genDir}/ovpncli_wrap.cxx", "-oh", "${genDir}/ovpncli_wrap.h",
-                "src/main/cpp/openvpn3/client/ovpncli.i"))
-        inputs.files( "src/main/cpp/openvpn3/client/ovpncli.i")
-        outputs.dir( genDir)
-
+                "src/main/cpp/openvpn3/client/ovpncli.i")
+        }
     }
+
+    private fun getSwigCommand(): String {
+        var swigcmd = "swig"
+        // Workaround for macOS(arm64) and macOS(intel) since it otherwise does not find swig and
+        // I cannot get the Exec task to respect the PATH environment :(
+        if (File("/opt/homebrew/bin/swig").exists())
+            swigcmd = "/opt/homebrew/bin/swig"
+        else if (File("/usr/local/bin/swig").exists())
+            swigcmd = "/usr/local/bin/swig"
+        return swigcmd
+    }
+}
+
+fun registerGenTask(variantName: String, variantDirName: String): Provider<Directory> {
+    val baseDir = layout.buildDirectory.dir("generated/source/ovpn3swig/${variantDirName}")
+
+    tasks.register<SwigTask>("generateOpenVPN3Swig${variantName}") {
+        genDir = baseDir.map { it.dir("net/openvpn/ovpn3") }
+        inputs.files( "src/main/cpp/openvpn3/client/ovpncli.i")
+    }
+
     return baseDir
 }
 
 android.libraryVariants.all(object : Action<LibraryVariant> {
     override fun execute(variant: LibraryVariant) {
         val sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
-        val task = tasks.named("generateOpenVPN3Swig${variant.name}").get()
+        val task = tasks.named("generateOpenVPN3Swig${variant.name}")
 
-        variant.registerJavaGeneratingTask(task, sourceDir)
+        variant.registerJavaGeneratingTask(task, sourceDir.get().asFile)
     }
 })
 
