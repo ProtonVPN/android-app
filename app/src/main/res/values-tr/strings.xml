@@ -710,6 +710,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Giriş</string>
     <string name="bottom_nav_gateways">Ağ geçitleri</string>
+    <string name="bottom_nav_profiles">Profiles</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Ülkeler</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -976,6 +977,7 @@
     <string name="settings_title">Ayarlar</string>
     <string name="gateways_title">Ağ geçitleri</string>
     <string name="countries_title">Ülkeler</string>
+    <string name="profiles_title">Profiles</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Özellikler</string>
     <!-- tag(Redesign_2023) -->
@@ -1275,7 +1277,9 @@
     <string name="settings_advanced_nat_type_description">Bağlantınız için bir ağ adresi dönüştürme (NAT) türü seçin. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Bağlantınız için bir ağ adresi dönüştürme (NAT) türü seçin.</string>
     <string name="settings_advanced_nat_type_strict">Kısıtlı (Type 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">Ilımlı (Type 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Ağınıza giren verileri kısıtlar. Bu seçenek daha güvenlidir ancak eşler arası oyun bağlantılarında sorun çıkarabilir.</string>
     <string name="settings_advanced_nat_type_moderate_description">Ağınıza giren bazı verileri kısıtlar. Bu seçenek çevrim içi video oyunları için en iyisidir.</string>
     <string name="settings_split_tunneling_description">Hangi uygulamaların ve IP adreslerinin VPN tarafından korunacağına karar vererek bağlantınızı özelleştirin. %1$s</string>
@@ -1342,4 +1346,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Seçilmiş uygulamalar VPN bağlantısına katılmaz.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Yalnızca seçilmiş uygulamalar VPN üzerinden bağlantı kurar, diğer tüm trafik korumasızdır.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Work/School</string>
 </resources>

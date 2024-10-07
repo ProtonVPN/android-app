@@ -710,6 +710,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Accueil</string>
     <string name="bottom_nav_gateways">Passerelles</string>
+    <string name="bottom_nav_profiles">Profils</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Pays</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -976,6 +977,7 @@
     <string name="settings_title">Paramètres</string>
     <string name="gateways_title">Passerelles</string>
     <string name="countries_title">Pays</string>
+    <string name="profiles_title">Profils</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Fonctionnalités</string>
     <!-- tag(Redesign_2023) -->
@@ -1275,7 +1277,9 @@
     <string name="settings_advanced_nat_type_description">Sélectionnez un type de traduction d\'adresse réseau pour votre connexion. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Sélectionnez un type de traduction d\'adresse réseau pour votre connexion.</string>
     <string name="settings_advanced_nat_type_strict">Strict (type 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">Modéré (type 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Restreint les données entrant dans votre réseau. Cette option est plus sûre, mais peut compliquer les connexions de jeux vidéo en pair à pair.</string>
     <string name="settings_advanced_nat_type_moderate_description">Certaines restrictions sur les données entrant dans votre réseau. Cette option est préférable pour les jeux vidéo en ligne.</string>
     <string name="settings_split_tunneling_description">Personnalisez votre connexion en décidant quelles applications et adresses IP sont protégées par le VPN. %1$s</string>
@@ -1342,4 +1346,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Les applications sélectionnées sont exclues de la connexion VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Seules les applications sélectionnées se connectent via VPN. Tout autre trafic n\'est pas protégé.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Supprimer</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming États-Unis</string>
+    <string name="initial_profile_name_work_school">Travail ou école</string>
 </resources>

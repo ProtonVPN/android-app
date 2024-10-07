@@ -686,6 +686,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">ホーム</string>
     <string name="bottom_nav_gateways">ゲートウェイ</string>
+    <string name="bottom_nav_profiles">Profiles</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">国</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -951,6 +952,7 @@
     <string name="settings_title">設定</string>
     <string name="gateways_title">ゲートウェイ</string>
     <string name="countries_title">国</string>
+    <string name="profiles_title">Profiles</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">機能</string>
     <!-- tag(Redesign_2023) -->
@@ -1239,7 +1241,9 @@
     <string name="settings_advanced_nat_type_description">接続のネットワーク アドレス変換タイプを選択します。 %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">接続のネットワーク アドレス変換タイプを選択します。</string>
     <string name="settings_advanced_nat_type_strict">厳密(タイプ 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">中程度(タイプ 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">ネットワークに入るデータを制限します。 このオプションはより安全ですが、ピアツーピア ゲーム接続がより困難になる可能性があります。</string>
     <string name="settings_advanced_nat_type_moderate_description">ネットワークに入るデータにはいくつかの制限があります。 このオプションはオンライン ビデオ ゲームに最適です。</string>
     <string name="settings_split_tunneling_description">どのアプリと IP アドレスを VPN によって保護するかを決定して、接続をカスタマイズします。 %1$s</string>
@@ -1306,4 +1310,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Work/School</string>
 </resources>

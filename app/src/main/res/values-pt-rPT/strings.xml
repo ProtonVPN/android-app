@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Iniciar sessão</string>
     <string name="menuActionSignOut">Terminar sessão</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
+    <string name="connectionAllocationHelpTitle">Agradecemos a sua atualização</string>
     <string name="connectionAllocationHelpDescription1">Para dar início à sua jornada com a Proton VPN, atribua ligações VPN à sua conta ou a qualquer outra sub-conta.</string>
     <string name="connectionAllocationHelpDescription2">Este passo demorará apenas alguns minutos. Em seguida, poderá autenticar-se e proteger todos os seus dispositivos.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Atualmente, não existe uma ligação VPN ativada para esta conta. Para iniciar a sua jornada com o Proton VPN, contacte o seu administrador. </string>
@@ -67,7 +67,7 @@
     <string name="state_connected">Ligado</string>
     <string name="state_disconnecting">A desligar…</string>
     <string name="state_error">Erro</string>
-    <string name="error_server_list_load_failed">Please check your connection and try again.</string>
+    <string name="error_server_list_load_failed">Verifique a sua ligação e tente novamente.</string>
     <string name="error_server_unreachable">Não é possível ligar à VPN. Verifique a sua ligação e tente novamente.</string>
     <string name="error_auth_failed">Erro ao autenticar o utilizador.</string>
     <string name="error_generic">Ocorreu um erro desconhecido durante a ligação.</string>
@@ -108,7 +108,7 @@
     <string name="noVpnPermissionOtherAppLabel">Outras aplicações VPN</string>
     <string name="noVpnPermissionOpenSettings">Abrir definições de VPN do Android</string>
     <string name="noNotificationPermissionGrantTitle">Não se deixe surpreender…</string>
-    <string name="noNotificationPermissionGrantDescription">Enable notifications to get alerted about changes to your connection status.</string>
+    <string name="noNotificationPermissionGrantDescription">Ative as notificações para ser alertado sobre as alterações do estado da sua ligação.</string>
     <string name="noNotificationPermissionGrantNowTitle">Permitir notificações</string>
     <string name="error_prepare_vpn_description"><![CDATA[Desative a opção Sempre ligada para todas as outras aplicações VPN nas definições do sistema Android, elas impedem o Proton VPN de estabelecer uma ligação VPN. Conceda também permissões, se um diálogo aparecer. As outras aplicações VPN podem também precisar de ser desinstaladas para evitar conflitos. Tente novamente a seguir. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="error_prepare_vpn_settings">Ir para as definições de VPN do Android</string>
@@ -125,48 +125,48 @@
     <string name="inputIpAddressLabel">Endereço IP</string>
     <string name="inputIpAddressHint">Guardar endereço IP</string>
     <string name="inputIpAddressErrorInvalid">O endereço IP não é válido.</string>
-    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">Endereços IP excluídos (%1$d)</string>
+    <string name="settingsIncludedIPAddressesListHeader">Endereços IP incluídos (%1$d)</string>
     <string name="settingsExcludedApps">Aplicações excluídas</string>
     <string name="settingsExcludedAppsEmpty">Adicione aplicações que deseja excluir do seu tráfego VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
+    <string name="settingsIncludedAppsEmpty">Adicionar aplicações para serem incluídas no tráfego VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicações excluídas (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Aplicações incluídas (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableHeader">All other apps (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">Todas as outras apps regulares (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">Todas as outras apps do sistema (%1$d)</string>
+    <string name="settingsSplitTunnelingAvailableHeader">Todas as outras apps (%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">Mostrar as aplicações do sistema</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Mostrar as aplicações do sistema</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">Estas aplicações são excluídas da sua ligação VPN.</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">Apenas estas aplicações se ligam através da VPN.</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to Excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">Adicionar às aplicações excluídas</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from Excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">Remover das aplicações excluídas</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to Included apps</string>
+    <string name="accessibility_action_add_included_app">Adicionar às aplicações incluídas</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from Included apps</string>
+    <string name="accessibility_action_remove_included_app">Remover das aplicações incluídas</string>
     <string name="tileConnected">Ligado: %1$s</string>
     <string name="openUrlError">%1$s não pôde ser aberto. Nenhum navegador web detetado no dispositivo.</string>
     <string name="loaderErrorTimeout">Ligação expirada. Tente novamente.</string>
@@ -211,8 +211,8 @@
     <string name="settingsSendCrashReportsDescription">Os relatórios de falhas ajudam-nos a corrigir erros, a detetar firewalls e a evitar bloqueios de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Estatísticas de utilização</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm o seu endereço IP e não podem ser utilizadas para o identificar. Nunca as partilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
-    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. If websites don’t load, try disabling NetShield. %1$s</string>
-    <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
+    <string name="netshield_settings_description_not_html">Proteja-se de anúncios, malware e rastreadores em sites e aplicações. Se os websites não carregarem, tente desativar o NetShield. %1$s</string>
+    <string name="settings_icon_change_description">Disfarce a aplicação Proton VPN com um ícone discreto. As notificações continuarão a apresentar o nome e o ícone predefinidos do Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Saiba mais</string>
     <string name="learn_more">Saiba mais</string>
     <string name="netshield_state_on" comment="Describes state, not action">Ligado</string>
@@ -226,13 +226,13 @@
     <string name="alt_routing_state_on" comment="Describes state, not action">Ligado</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Desligado</string>
     <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sítios web e aplicações</string>
-    <string name="netshield_what_data_means">What NetShield data means</string>
+    <string name="netshield_what_data_means">O que significam os dados do NetShield</string>
     <string name="netshield_ads_title">Anúncios</string>
-    <string name="netshield_ads_details">Adverts and invisible ad trackers</string>
+    <string name="netshield_ads_details">Anúncios e rastreadores de anúncios invisíveis</string>
     <string name="netshield_trackers_title">Rastreadores</string>
-    <string name="netshield_trackers_details">Cookies and other trackers that store and share information about your internet activity</string>
+    <string name="netshield_trackers_details">Cookies e outros rastreadores que armazenam e partilham informações sobre a sua atividade na Internet</string>
     <string name="netshield_data_title">Dados</string>
-    <string name="netshield_data_details">The amount of unwanted data from ads, trackers, and malware blocked by NetShield</string>
+    <string name="netshield_data_details">A quantidade de dados indesejados de anúncios, rastreadores e malware bloqueados pelo NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Anúncio bloqueado</item>
         <item quantity="other">Anúncios bloqueados</item>
@@ -242,7 +242,7 @@
         <item quantity="other">Rastreadores parados</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Dados economizados</string>
-    <string name="netshield_setting_warning">Some websites may not load properly when ads and trackers are blocked.</string>
+    <string name="netshield_setting_warning">Alguns websites podem não carregar corretamente quando os anúncios e os rastreadores estão bloqueados.</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>
     <string name="guestHoleNotificationContent">A tentar contornar problemas de rede. Isto irá ajudá-lo a aceder ao Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Não é possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o Split Tunneling. Desative um desses e reinicie o dispositivo.</string>
@@ -347,30 +347,30 @@
         <item quantity="one">Proteja %1$d dispositivo de uma só vez.</item>
         <item quantity="other">Proteja %1$d dispositivos de uma só vez.</item>
     </plurals>
-    <string name="upgrade_devices_text">Proton VPN is available on 8 different platorms.</string>
+    <string name="upgrade_devices_text">O Proton VPN está disponível em 8 plataformas diferentes.</string>
     <string name="upgrade_plus_title">Melhorar a sua privacidade</string>
-    <string name="upgrade_plus_message">Get advanced privacy features and higher speed with VPN Plus.</string>
+    <string name="upgrade_plus_message">Obtenha funcionalidades de privacidade avançadas e maior velocidade com o VPN Plus.</string>
     <string name="upgrade_netshield_title">Desfrute de uma navegação sem anúncios</string>
-    <string name="upgrade_netshield_message"><![CDATA[Block ads, trackers and malware with <b>NetShield</b>.]]></string>
+    <string name="upgrade_netshield_message"><![CDATA[Bloqueie anúncios, rastreadores e malwares com o <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Duplique a encriptação</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Add another layer of encryption to your VPN connection with <b>Secure Core</b>.]]></string>
-    <string name="upgrade_p2p_title">Unlock peer-to-peer (P2P) downloads and file sharing </string>
-    <string name="upgrade_p2p_text">Improve your upload and download speeds while hiding your IP address.</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Adicione outra camada de encriptação à sua ligação VPN com o <b>Secure Core</b>.]]></string>
+    <string name="upgrade_p2p_title">Desbloquear os downloads peer-to-peer (P2P) e a partilha de ficheiros </string>
+    <string name="upgrade_p2p_text">Melhore as suas velocidades de upload e download enquanto oculta o seu endereço IP.</string>
     <string name="upgrade_streaming_title">Streaming em 4K</string>
-    <string name="upgrade_streaming_text">Enjoy your favorite movies and TV shows from anywhere in the world.</string>
-    <string name="upgrade_tor_title">Access the Tor network in one tap</string>
-    <string name="upgrade_tor_text">Connect to hidden services and onion sites with your regular browser.</string>
-    <string name="upgrade_vpn_accelerator_title">Browse at even higher speeds</string>
+    <string name="upgrade_streaming_text">Desfrute dos seus filmes e programas de televisão favoritos a partir de qualquer parte do mundo.</string>
+    <string name="upgrade_tor_title">Aceda à rede Tor num só toque</string>
+    <string name="upgrade_tor_text">Ligue-se a serviços ocultos e sites onion com o seu navegador normal.</string>
+    <string name="upgrade_vpn_accelerator_title">Navegue a velocidades ainda mais elevadas</string>
     <!--
         %1$s - speed in Gbps
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Unlock faster, less crowded servers with speeds of up to %1$d Gbps.</string>
+    <string name="upgrade_vpn_accelerator_message">Desbloqueie servidores mais rápidos e menos lotados com velocidades de até %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Tenha o melhor dos dois mundos</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Divide your traffic into VPN and non-VPN tunnels with <b>split tunneling</b>.]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Divida o seu tráfego em túneis VPN e não VPN com <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Desbloqueie personalizações avançadas da VPN</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Access devices on your <b>local area network (LAN)</b> with VPN Plus.]]></string>
+    <string name="upgrade_lan_access_message"><![CDATA[Aceda a dispositivos da sua <b>rede de área local (LAN)</b> com o VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Aceda a todos os países</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -398,21 +398,21 @@
      Example:
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
-    <string name="upgrade_plus_countries_title_new"><![CDATA[Unlock %1$s in %2$s with <b>VPN Plus</b>.]]></string>
+    <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloqueie %1$s em %2$s com <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
-    <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
-    <string name="upgrade_unlimited_vpn_any_location">Choose any location</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_all_apps_title">Todos os serviços premium da Proton. Uma assinatura fácil.</string>
+    <string name="upgrade_unlimited_all_apps_description">Obtenha uma cobertura de privacidade completa com o Proton Unlimited.</string>
+    <string name="upgrade_unlimited_more">E mais</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Desbloqueie todos os países</string>
+    <string name="upgrade_unlimited_vpn_all_features">Todas as outras funcionalidades do VPN Plus</string>
+    <string name="upgrade_unlimited_vpn_any_location">Escolha qualquer localização</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Velocidades VPN ainda mais elevadas</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Proteja %1$d dispositivo de uma só vez.</item>
+        <item quantity="other">Proteja %1$d dispositivos de uma só vez.</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
+    <string name="upgrade_unlimited_vpn_streaming">Streaming seguro</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Bloqueador de anúncios e proteção de malware</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">Suporte a P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
@@ -710,6 +710,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Início</string>
     <string name="bottom_nav_gateways">Gateways</string>
+    <string name="bottom_nav_profiles">Profiles</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Países</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -976,6 +977,7 @@
     <string name="settings_title">Definições</string>
     <string name="gateways_title">Gateways</string>
     <string name="countries_title">Países</string>
+    <string name="profiles_title">Profiles</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funcionalidades</string>
     <!-- tag(Redesign_2023) -->
@@ -1275,7 +1277,9 @@
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Select a network address translation type for your connection.</string>
     <string name="settings_advanced_nat_type_strict">Estrito (tipo 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Restricts the data entering your network. This option is more secure, but can make peer-to-peer gaming connections more difficult.</string>
     <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
@@ -1342,4 +1346,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Work/School</string>
 </resources>

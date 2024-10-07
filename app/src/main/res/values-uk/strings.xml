@@ -758,6 +758,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Домівка</string>
     <string name="bottom_nav_gateways">Мережеві шлюзи</string>
+    <string name="bottom_nav_profiles">Profiles</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Країни</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -1026,6 +1027,7 @@
     <string name="settings_title">Налаштування</string>
     <string name="gateways_title">Мережеві шлюзи</string>
     <string name="countries_title">Країни</string>
+    <string name="profiles_title">Profiles</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Функції</string>
     <!-- tag(Redesign_2023) -->
@@ -1347,7 +1349,9 @@
     <string name="settings_advanced_nat_type_description">Виберіть тип перекладу мережевої адреси для свого з\'єднання. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Виберіть тип перекладу мережевої адреси для свого з\'єднання.</string>
     <string name="settings_advanced_nat_type_strict">Суворий (тип 3)</string>
+    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
     <string name="settings_advanced_nat_type_moderate">Середній (тип 2)</string>
+    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Обмежує дані, що входять до вашої мережі. Цей параметр безпечніший, але може ускладнити ігрові з\'єднання peer-to-peer.</string>
     <string name="settings_advanced_nat_type_moderate_description">Обмеження щодо даних, які входять до вашої мережі. Цей параметр найкраще використовувати для відеоігор онлайн.</string>
     <string name="settings_split_tunneling_description">Налаштуйте з\'єднання, вирішивши, які програми та IP-адреси захищаються VPN. %1$s</string>
@@ -1414,4 +1418,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Вибрані програми не захищатимуться VPN-з\'єднанням.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Лише вибрані програми під\'єднуються через VPN, а весь інший трафік є незахищеним.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_delete">Delete</string>
+    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_nat_title">NAT</string>
+    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_work_school">Work/School</string>
 </resources>
