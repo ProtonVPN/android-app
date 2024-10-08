@@ -63,6 +63,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.takeIfNotBlank
 import javax.inject.Inject
@@ -142,6 +143,10 @@ class TvMainViewModel @Inject constructor(
             serverListVersion = serverListVersion,
             userTier = vpnUser?.userTier ?: VpnUser.FREE_TIER
         )
+    }.onStart {
+        // The main TV UI is synchronous and assumes all servers are loaded - changing this is tricky.
+        // Therefore let's delay the main state until servers are loaded.
+        serverManager.ensureLoaded()
     }
 
     fun setSelectedCountry(flag: String?) {
