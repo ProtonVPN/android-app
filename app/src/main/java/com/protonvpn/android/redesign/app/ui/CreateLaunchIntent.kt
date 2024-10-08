@@ -51,7 +51,7 @@ class CreateLaunchIntent @Inject constructor(
     private fun getLeanbackLaunchIntent(): Intent? {
         if (leanbackLaunchIntent == null)
             leanbackLaunchIntent = appContext.packageManager.getLeanbackLaunchIntentForPackage(appContext.packageName)
-        return launchIntent?.let { Intent(it) }
+        return leanbackLaunchIntent?.let { Intent(it) }
     }
 
     private fun getLaunchIntent(): Intent? {
