@@ -21,9 +21,11 @@ package com.protonvpn.testsTv.tests.connection
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.protonvpn.android.R
 import com.protonvpn.android.tv.main.TvMainActivity
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.mocks.TestApiConfig
+import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.testRules.ProtonHiltAndroidRule
 import com.protonvpn.testRules.SetLoggedInUserRule
@@ -35,6 +37,7 @@ import com.protonvpn.testsTv.actions.TvServerListRobot
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import okhttp3.internal.wait
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -51,7 +54,8 @@ import org.junit.runner.RunWith
 class ConnectionTestsTv {
 
     private val activityRule = ActivityScenarioRule(TvMainActivity::class.java)
-    @get:Rule val rules = RuleChain
+    @get:Rule
+    val rules = RuleChain
         .outerRule(ProtonHiltAndroidRule(this, TestApiConfig.Mocked(TestUser.plusUser)))
         .around(SetLoggedInUserRule(TestUser.plusUser))
         .around(activityRule)
@@ -68,63 +72,89 @@ class ConnectionTestsTv {
         userDataHelper = UserDataHelper()
         serviceTestHelper = ServiceTestHelper()
         activityRule.scenario
+        homeRobot.waitUntilCountryIsLoaded(MockedServers.serverList[0].exitCountry)
+        // Delay to allow for UI to fully load. TV UI is quite outdated,
+        // so it requires quite some work on client side to make tests not used this timeout.
+        // VPNAND-1941
+        Thread.sleep(10000)
     }
 
     @Test
     fun connectToRecommended() {
         homeRobot
-                .connectToRecommendedCountry()
-                .verify { userIsConnected() }
+            .connectToRecommendedCountry()
+            .verify { userIsConnected() }
         homeRobot
-                .disconnectFromCountry()
-                .verify { userIsDisconnected() }
+            .disconnectFromCountry()
+            .verify { userIsDisconnected() }
     }
 
     @Test
     fun connectToCountry() {
         homeRobot
-                .openFirstCountryConnectionWindow()
+            .openFirstCountryConnectionWindow()
         countryRobot
-                .connectToStreamingCountry()
-                .verify { userIsConnected() }
+            .connectToStreamingCountry()
+            .verify { userIsConnected() }
         countryRobot
-                .disconnectFromCountry()
-                .verify { userIsDisconnectedStreaming() }
+            .disconnectFromCountry()
+            .verify { userIsDisconnectedStreaming() }
     }
 
     @Test
     fun connectViaServerList() {
         homeRobot
-                .openFirstCountryConnectionWindow()
+            .openFirstCountryConnectionWindow()
         countryRobot
-                .openServerList()
+            .openServerList()
         serverListRobot
-                .connectToServer()
-                .verify { userIsConnected() }
+            .connectToServer()
+            .verify { userIsConnected() }
         serverListRobot
-                .disconnectFromServer()
-                .verify { userIsDisconnected() }
+            .disconnectFromServer()
+            .verify { userIsDisconnected() }
     }
 
     @Test
     fun addServerToFavouritesAndConnect() {
         homeRobot
-                .openFirstCountryConnectionWindow()
+            .openFirstCountryConnectionWindow()
 
         val countryName = countryRobot.getCountryName()
 
         countryRobot
-                .addServerToFavourites()
-                .goBackToCountryListView()
+            .addServerToFavourites()
+            .goBackToCountryListView()
         homeRobot
-                .connectToFavouriteCountry()
-                .verify {
-                    userIsConnected()
-                    userIsConnectedToCorrectCountry(countryName)
-                }
+            .connectToFavouriteCountry()
+            .verify {
+                userIsConnected()
+                userIsConnectedToCorrectCountry(countryName)
+            }
         homeRobot
-                .disconnectFromCountry()
-                .verify { userIsDisconnected() }
+            .disconnectFromCountry()
+            .verify { userIsDisconnected() }
+    }
+
+    @Test
+    fun logoutWhileConnectedToServer() {
+        homeRobot
+            .connectToRecommendedCountry()
+            .signOut()
+            .verify { signOutWhileConnectedWarningMessageIsDisplayed() }
+    }
+
+    @Test
+    fun cancelLogoutWhileConnectedToServer() {
+        homeRobot
+            .connectToRecommendedCountry()
+
+        val connectionStatus = homeRobot.getConnectionStatus()
+
+        homeRobot
+            .signOut()
+            .cancelSignOut()
+            .verify { connectionStatusDidNotChange(connectionStatus) }
     }
 
     @After

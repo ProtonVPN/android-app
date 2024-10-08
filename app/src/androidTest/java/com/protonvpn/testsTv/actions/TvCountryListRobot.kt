@@ -43,6 +43,11 @@ class TvCountryListRobot : BaseRobot() {
     fun cancelSignOut() : TvCountryListRobot = clickDialogElementByText(R.string.cancel)
     fun getConnectionStatus() : String = getText(onView(withId(R.id.textStatus)))
 
+    fun waitUntilCountryIsLoaded(country: String) : TvCountryListRobot {
+        view.withText(country).isCompletelyDisplayed()
+        return this
+    }
+
     fun connectToFavouriteCountry() : TvCountryListRobot {
         pressFavourite()
         return TvCountryListRobot()

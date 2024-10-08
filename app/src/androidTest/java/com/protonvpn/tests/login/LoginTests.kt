@@ -36,7 +36,6 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.serialization.SerializationException
 import me.proton.core.test.android.robots.auth.AddAccountRobot
 import me.proton.core.test.quark.data.User
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -110,7 +109,7 @@ class LoginTests {
     {
         AtlasEnvVarHelper().withAtlasEnvVar({ forceCaptchaOnLogin() }) {
             loginRobot.signIn(TestUser.plusUser)
-            humanVerificationRobot.verifyViaCaptcha()
+            humanVerificationRobot.verifyViaCaptchaSlow()
             HomeRobot.verify { isLoggedIn() }
         }
     }

@@ -70,36 +70,8 @@ class LogoutTestsTv {
     @Test
     fun logoutHappyPath() {
         homeRobot
-                .signOut()
-                .confirmSignOut()
-                .verify { signInButtonIsDisplayed() }
-    }
-
-    @Test
-    fun logoutWhileConnectedToServer() {
-        homeRobot
-                .connectToRecommendedCountry()
-                .signOut()
-                .verify { signOutWhileConnectedWarningMessageIsDisplayed() }
-    }
-
-    @Test
-    fun cancelLogoutWhileConnectedToServer() {
-        homeRobot
-                .connectToRecommendedCountry()
-
-        val connectionStatus = homeRobot.getConnectionStatus()
-
-        homeRobot
-                .signOut()
-                .cancelSignOut()
-                .verify { connectionStatusDidNotChange(connectionStatus) }
-    }
-
-    @After
-    fun tearDown() {
-        runBlocking(Dispatchers.Main) {
-            serviceTestHelper.connectionManager.disconnect(DisconnectTrigger.Test("test tear down"))
-        }
+            .signOut()
+            .confirmSignOut()
+            .verify { signInButtonIsDisplayed() }
     }
 }
