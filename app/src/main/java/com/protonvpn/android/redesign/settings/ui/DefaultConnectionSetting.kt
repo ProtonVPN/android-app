@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.base.ui.FlagFastest
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.FlagRecentConnection
@@ -149,7 +149,7 @@ fun DefaultSelectionRow(
 @Preview
 @Composable
 fun DefaultSelectionPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         Column {
             DefaultSelectionRow(
                 leadingIcon = { FlagRecentConnection() },

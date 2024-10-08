@@ -57,7 +57,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.BaseActivityV2
 import com.protonvpn.android.databinding.ActivityUpsellDialogBinding
@@ -406,7 +406,7 @@ private fun CloseButtonAndPlanSelectionToolbar(
 @Preview(widthDp = 450)
 @Composable
 private fun PreviewCloseButtonAndPlanSelectionToolbar() {
-    LightAndDarkPreview(
+    ProtonVpnPreview(
         surfaceColor = { Color(0xFF3A51A6) }
     ) {
         val plans = listOf(

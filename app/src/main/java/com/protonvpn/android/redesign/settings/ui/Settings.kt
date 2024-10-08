@@ -274,7 +274,7 @@ fun CollapsibleToolbarScaffold(
 }
 
 @Composable
-private fun SettingsView(
+fun SettingsView(
     modifier: Modifier = Modifier,
     viewState: SettingsViewModel.SettingsViewState,
     accountSettingsViewState: AccountSettingsViewState,
@@ -337,7 +337,6 @@ private fun SettingsView(
                 viewState.defaultConnection?.let {
                     SettingRowWithIcon(
                         icon = it.iconRes,
-                        iconTint = true,
                         title = stringResource(id = it.titleRes),
                         subtitle = it.predefinedTitle?.let { stringResource(id = it) } ?: it.recentLabel?.label(),
                         onClick = onDefaultConnectionClick,
@@ -345,7 +344,6 @@ private fun SettingsView(
                 }
                 SettingRowWithIcon(
                     icon = viewState.protocol.iconRes,
-                    iconTint = true,
                     title = stringResource(id = viewState.protocol.titleRes),
                     onClick = onProtocolClick,
                     subtitle = stringResource(id = viewState.protocol.subtitleRes)
@@ -449,10 +447,7 @@ private fun SettingsView(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(
-                        id = R.string.settings_app_version,
-                        BuildConfig.VERSION_NAME
-                    ),
+                    text = stringResource(id = R.string.settings_app_version, viewState.versionName),
                     style = ProtonTheme.typography.captionWeak,
                 )
                 Text(
@@ -491,6 +486,7 @@ private fun ColumnScope.FeatureCategory(
         if (viewState.netShield != null) {
             SettingRowWithIcon(
                 icon = viewState.netShield.iconRes,
+                iconTint = false,
                 title = stringResource(id = viewState.netShield.titleRes),
                 subtitle = stringResource(id = viewState.netShield.subtitleRes),
                 trailingIcon = viewState.netShield.upgradeIconRes,
@@ -500,6 +496,7 @@ private fun ColumnScope.FeatureCategory(
         }
         SettingRowWithIcon(
             icon = viewState.splitTunneling.iconRes,
+            iconTint = false,
             title = stringResource(id = viewState.splitTunneling.titleRes),
             subtitle = stringResource(id = viewState.splitTunneling.subtitleRes),
             trailingIcon = viewState.splitTunneling.upgradeIconRes,
@@ -510,6 +507,7 @@ private fun ColumnScope.FeatureCategory(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             SettingRowWithIcon(
                 icon = R.drawable.ic_kill_switch,
+                iconTint = false,
                 title = stringResource(id = R.string.settings_kill_switch_title),
                 onClick = onAlwaysOnClick
             )
@@ -613,7 +611,7 @@ fun SettingRowWithIcon(
     title: String,
     subtitle: String? = null,
     @DrawableRes trailingIcon: Int? = null,
-    iconTint: Boolean = false,
+    iconTint: Boolean = true,
     trailingIconTint: Boolean = true,
     onClick: (() -> Unit)? = null
 ) {

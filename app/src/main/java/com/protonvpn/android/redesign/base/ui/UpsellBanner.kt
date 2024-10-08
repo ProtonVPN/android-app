@@ -42,7 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
 
@@ -131,7 +131,7 @@ fun UpsellBanner(
 @Preview
 @Composable
 fun UpsellBannerPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         Surface {
             UpsellBanner(
                 R.string.netshield_free_title,
@@ -146,7 +146,7 @@ fun UpsellBannerPreview() {
 @Preview
 @Composable
 fun UpsellBannerPreviewNoTitle() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         Surface {
             UpsellBanner(
                 null,

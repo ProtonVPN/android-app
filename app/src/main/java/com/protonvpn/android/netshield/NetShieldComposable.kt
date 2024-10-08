@@ -52,15 +52,11 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.volumeBytesToString
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionNorm
-import me.proton.core.compose.theme.captionStrongNorm
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
-import me.proton.core.compose.theme.defaultSmallStrongNorm
-import me.proton.core.compose.theme.overlineWeak
 import me.proton.core.presentation.R as CoreR
 
 @Composable
@@ -282,26 +278,30 @@ private fun StatsDescriptionRow(titleId: Int, detailsId: Int) {
 @Preview
 @Composable
 private fun NetShieldBottomPreview() {
-    NetShieldBottomComposable(
-        currentNetShield = NetShieldProtocol.DISABLED,
-        onValueChanged = {},
-        onNetShieldLearnMore = {}
-    )
+    ProtonVpnPreview {
+        NetShieldBottomComposable(
+            currentNetShield = NetShieldProtocol.DISABLED,
+            onValueChanged = {},
+            onNetShieldLearnMore = {}
+        )
+    }
 }
 
 @Preview
 @Composable
 private fun NetShieldBottomSheetPreview() {
-    NetShieldBottomComposable(
-        currentNetShield = NetShieldProtocol.DISABLED,
-        onValueChanged = {},
-        onNetShieldLearnMore = {}
-    )
+    ProtonVpnPreview {
+        NetShieldBottomComposable(
+            currentNetShield = NetShieldProtocol.DISABLED,
+            onValueChanged = {},
+            onNetShieldLearnMore = {}
+        )
+    }
 }
 @Preview
 @Composable
 private fun NetShieldOnPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         NetShieldView(
             state =
             NetShieldViewState(
@@ -320,7 +320,7 @@ private fun NetShieldOnPreview() {
 @Preview
 @Composable
 private fun NetShieldOffPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         NetShieldView(
             state = NetShieldViewState(
                 protocol = NetShieldProtocol.DISABLED,

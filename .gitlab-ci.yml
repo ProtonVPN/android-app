@@ -266,13 +266,32 @@ unit tests:
   except:
     - schedules
   script:
-    - ./gradlew testBlackGooglePlayStoreDebug
+    - ./gradlew testBlackGooglePlayStoreDebugUnitTest
   artifacts:
     expire_in: 1 day
     paths:
     - app/build/test-results
     - app/build/outputs/unit_test_code_coverage
     - app/build/reports/tests
+
+screenshot tests:
+  stage: test
+  tags:
+    - xlarge-k8s
+  script:
+    - ./gradlew "-Duser.language=en" "-Duser.country=US" validateProductionGooglePlayStoreDebugScreenshotTest
+  after_script:
+    - >
+      if [ $CI_JOB_STATUS != 'success' ]; then
+        echo -e "Screenshot tests failed!\nPlease review the report. To update the screenshots use instructions:\n${CI_PROJECT_URL}/tree/${CI_COMMIT_BRANCH}/app/src/screenshotTest/java/com/protonvpn/android"
+      fi
+  artifacts:
+    expire_in: 1 week
+    expose_as: "Screenshot Tests Report"
+    when: always
+    paths:
+    - app/build/reports/screenshotTest/preview/debug/productionGooglePlayStore/
+    - app/build/reports/screenshotTest/preview/debug/productionGooglePlayStore/index.html
 
 coverage report:
   stage: report

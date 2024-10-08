@@ -49,7 +49,7 @@ import androidx.core.graphics.ColorUtils
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.PagerIndicatorDots
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.utils.Constants
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
@@ -158,7 +158,7 @@ fun planStringResource(text: PlanBenefitText): String = when (text) {
 @Preview
 @Composable
 private fun PreviewAppBenefitsPager() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         AppBenefitsPager(UnlimitedPlanBenefits.apps, initialPageIndex = 1)
     }
 }

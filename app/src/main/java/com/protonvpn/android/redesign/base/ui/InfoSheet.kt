@@ -60,7 +60,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.utils.Constants
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
@@ -524,7 +524,7 @@ private class InfoTypePreviewProvider : PreviewParameterProvider<InfoType> {
 private fun Previews(
     @PreviewParameter(InfoTypePreviewProvider::class) info: InfoType
 ) {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         InfoSheetContent(info = info, onOpenUrl = {})
     }
 }

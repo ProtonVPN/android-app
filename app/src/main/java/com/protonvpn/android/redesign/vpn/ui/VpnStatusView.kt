@@ -76,7 +76,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldBottomComposable
 import com.protonvpn.android.netshield.NetShieldProtocol
@@ -586,7 +586,7 @@ private fun PreviewVpnConnectedSecureCoreState() {
 
 @Composable
 private fun PreviewHelper(state: VpnStatusViewState, modifier: Modifier = Modifier) {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
             VpnStatusTop(state = state, transitionValue = { 1f })
             VpnStatusBottom(state = state, transitionValue = { 1f }, NetShieldActions({}, {}, {}, {}))

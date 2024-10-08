@@ -37,14 +37,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.appconfig.ApiNotificationProminentBannerStyle
 import com.protonvpn.android.base.ui.ProtonSecondaryButton
 import com.protonvpn.android.base.ui.protonSecondaryButtonColors
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import kotlinx.coroutines.launch
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
@@ -176,7 +175,7 @@ private fun PromoOfferProminentBanner(
 @Preview
 @Composable
 private fun PreviewPromoOfferProminentBannerRegular() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         PromoOfferProminentBanner(
             title = "Title",
             description = "This is a very long description because we might have a lot to say here. Hopefully not so much that the banner completely covers the screen though :)",
@@ -191,7 +190,7 @@ private fun PreviewPromoOfferProminentBannerRegular() {
 @Preview
 @Composable
 private fun PreviewPromoOfferProminentBannerWarning() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         PromoOfferProminentBanner(
             title = "Your subscription is about to expire!",
             actionButtonText = "Renew",

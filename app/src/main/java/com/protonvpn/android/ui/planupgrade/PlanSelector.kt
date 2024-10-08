@@ -45,7 +45,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
@@ -117,7 +117,7 @@ private fun PlanSelectorButton(
 @Preview
 @Composable
 fun PlanSelectorPreview() {
-    LightAndDarkPreview(
+    ProtonVpnPreview(
         surfaceColor = { ProtonTheme.colors.shade60 }
     ) {
         val plans = listOf(

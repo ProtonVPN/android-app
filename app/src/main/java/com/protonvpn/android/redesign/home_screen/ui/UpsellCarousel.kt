@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeDevicesHighlightsFragment
@@ -67,8 +67,6 @@ import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragm
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.ViewUtils.toDp
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionWeak
-import me.proton.core.compose.theme.defaultSmallNorm
 import kotlin.math.roundToInt
 import kotlin.reflect.KClass
 
@@ -330,7 +328,7 @@ private object UpsellCarouselPageSize : PageSize {
 @Preview
 @Composable
 private fun PreviewUpsellCardCountries() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         UpsellCardCountries(roundedServerCount = 1600, countriesCount = 63)
     }
 }
@@ -338,7 +336,7 @@ private fun PreviewUpsellCardCountries() {
 @Preview
 @Composable
 private fun PreviewHomeUpsellCarousel() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         HomeUpsellCarousel(
             roundedServerCount = 1500,
             countriesCount = 20,

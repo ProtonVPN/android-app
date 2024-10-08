@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnOutlinedButton
 import com.protonvpn.android.base.ui.VpnSolidButton
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.base.ui.SettingsItem
 import com.protonvpn.android.redesign.base.ui.UpsellBanner
 import com.protonvpn.android.redesign.base.ui.VpnDivider
@@ -108,7 +108,7 @@ fun AccountSettings(
 @Preview
 @Composable
 private fun PreviewAccountSettings() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         val state = SettingsViewModel.AccountSettingsViewState(
             userId = UserId("dummyUserId"),
             displayName = "user@proton.me",

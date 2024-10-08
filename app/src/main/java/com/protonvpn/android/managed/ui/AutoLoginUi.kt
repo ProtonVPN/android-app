@@ -36,7 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonSolidButton
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallNorm
 import me.proton.core.compose.theme.headlineSmallNorm
@@ -96,7 +96,7 @@ fun AutoLoginErrorView(message: String?, onRetry: () -> Unit) {
 @Preview
 @Composable
 fun PreviewAutoLoginView() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         AutoLoginView()
     }
 }
@@ -104,7 +104,7 @@ fun PreviewAutoLoginView() {
 @Preview
 @Composable
 fun PreviewAutoLoginErrorView() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         AutoLoginErrorView("Error message") {}
     }
 }
