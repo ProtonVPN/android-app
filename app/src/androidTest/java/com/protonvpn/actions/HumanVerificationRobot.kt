@@ -31,27 +31,40 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import com.protonvpn.base.BaseRobot
+import java.util.concurrent.TimeUnit
 
 class HumanVerificationRobot : BaseRobot() {
-
     private val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
-    fun verifyViaCaptcha() : OnboardingRobot {
-        uiDevice.wait(Until.findObject(By.clazz(WebView::class.java)), 30_000L)
-        onWebView().check(webContent(hasElementWithId("ic-arrows-switch")))
-        repeat(1) { uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB) }
+    fun verifyViaCaptchaSlow(): OnboardingRobot {
+        // We have no reliable and FAST way to detect if captcha was loaded.
+        // Intentionally fail captcha
+        onWebView().withTimeout(30_000L, TimeUnit.MILLISECONDS)
+            .check(webContent(hasElementWithId("ic-arrows-switch")))
+        Thread.sleep(5000)
+        uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB)
+        uiDevice.pressEnter()
+        // Press retry
+        Thread.sleep(1000)
+        uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB)
+        uiDevice.pressEnter()
+        // Solve captcha. (It helps, because captcha is preloaded and there is no delay in loading it.)
+        Thread.sleep(1000)
+        uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB)
         uiDevice.pressEnter()
         return OnboardingRobot()
     }
 
-    fun verifyViaEmail() : OnboardingRobot {
+    fun verifyViaEmail(): OnboardingRobot {
         uiDevice.wait(Until.findObject(By.clazz(WebView::class.java)), 30_000L)
+        // Delay to allow for webview to properly load
+        Thread.sleep(5000)
         repeat(2) { uiDevice.pressKeyCode(KeyEvent.KEYCODE_TAB) }
         uiDevice.pressEnter()
         uiDevice.wait(Until.findObject(By.text("Get Verification code")), 10_000L)
         uiDevice.pressEnter()
         uiDevice.wait(Until.findObject(By.text("Verify")), 10_000L)
-        repeat(6) {uiDevice.pressKeyCode(KeyEvent.KEYCODE_6)}
+        repeat(6) { uiDevice.pressKeyCode(KeyEvent.KEYCODE_6) }
         uiDevice.pressEnter()
         return OnboardingRobot()
     }
