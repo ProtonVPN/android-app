@@ -97,7 +97,7 @@ import com.patrykandpatrick.vico.core.model.lineSeries
 import com.patrykandpatrick.vico.core.scroll.Scroll
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.speedBytesToString
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.CountryId
@@ -968,7 +968,7 @@ fun IpView(
 @Preview
 @Composable
 fun ConnectionDetailsPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         val connectIntentViewState = ConnectIntentViewState(
             primaryLabel = ConnectIntentPrimaryLabel.Country(CountryId.sweden, CountryId.iceland),
             secondaryLabel = ConnectIntentSecondaryLabel.SecureCore(CountryId.sweden, CountryId.iceland),

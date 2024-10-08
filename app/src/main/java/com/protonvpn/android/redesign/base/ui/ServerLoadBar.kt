@@ -37,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import me.proton.core.compose.theme.ProtonTheme
 import kotlin.math.roundToInt
 
@@ -153,7 +153,7 @@ fun ServerLoadInfoBar(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun PreviewServerLoadBar() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf(0f, 0.01f,  0.76f, 1f).forEach {
                 ServerLoadBar(it)

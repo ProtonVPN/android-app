@@ -30,7 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
@@ -117,7 +117,7 @@ fun ProfileItem(
 @Preview
 @Composable
 fun ProfileItemPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         ProfileItem(
             profile = ProfileViewItem(
                 ProfileInfo(

@@ -51,8 +51,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
@@ -193,7 +193,7 @@ fun ProfileSettingItem(
 @Preview
 @Composable
 private fun ProfileBottomSheetPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         ProfileSheetContent(
             ProfileViewItem(
                 ProfileInfo(

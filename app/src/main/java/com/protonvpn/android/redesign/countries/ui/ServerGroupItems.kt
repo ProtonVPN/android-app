@@ -62,7 +62,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
@@ -496,7 +496,7 @@ private val InfoType.label: Int get() = when(this) {
 @Preview
 @Composable
 private fun ServerGroupItemRowWithOpenPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         Surface(
             color = ProtonTheme.colors.backgroundNorm
         ) {

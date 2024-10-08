@@ -50,6 +50,7 @@ apply plugin: 'com.jaredsburrows.license'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'io.gitlab.arturbosch.detekt'
 apply plugin: 'me.proton.core.gradle-plugins.environment-config'
+apply plugin: 'com.android.compose.screenshot'
 
 jacoco {
     toolVersion = '0.8.8'
@@ -373,12 +374,14 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"
     }
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
     sourceSets {
         main.res.srcDirs += 'src/main/res_flags'
         main {
            assets.srcDirs = ['src/main/assets', 'assets', 'ovpnlibs/assets', '../openvpn/build/ovpnassets']
         }
-
+        // Screenshot test does not automatically include app resources. Check if it's still needed when updating screenshot test module.
+        screenshotTest.res.srcDirs += 'src/main/res'
         // Adds exported schema location as test app assets.
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
@@ -819,6 +822,7 @@ dependencies {
 
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
+    screenshotTestImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
     testImplementation "androidx.compose.ui:ui-test-junit4"

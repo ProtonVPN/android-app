@@ -62,7 +62,7 @@ import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.base.ui.VpnOutlinedNeutralButton
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.protonOutlinedNeutralButtonColors
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
@@ -292,7 +292,7 @@ private fun contentDescriptionAvailableTime(state: ChangeServerViewState.Locked)
 @Preview
 @Composable
 fun UnlockedButtonPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         ChangeServerButton(
             state = ChangeServerViewState.Unlocked,
             onChangeServerClick = { },
@@ -304,7 +304,7 @@ fun UnlockedButtonPreview() {
 @Preview
 @Composable
 fun LockedButtonPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         ChangeServerButton(
             state = ChangeServerViewState.Locked( 12, 20, true),
             onChangeServerClick = { },
@@ -316,7 +316,7 @@ fun LockedButtonPreview() {
 @Preview
 @Composable
 fun BottomSheetContentPreview() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         Surface {
             UpgradeModalContent(
                 state = ChangeServerViewState.Locked(12, 20, true),

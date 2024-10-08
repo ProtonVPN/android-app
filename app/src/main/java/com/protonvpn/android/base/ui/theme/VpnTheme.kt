@@ -20,20 +20,14 @@
 package com.protonvpn.android.base.ui.theme
 
 import android.app.Activity
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import me.proton.core.compose.theme.ProtonTheme
@@ -64,29 +58,5 @@ fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
                 content()
             }
         }
-    }
-}
-
-@Composable
-fun LightAndDarkPreview(
-    addSurface: Boolean = true,
-    surfaceColor: @Composable () -> Color = { ProtonTheme.colors.backgroundNorm },
-    content: @Composable () -> Unit
-) {
-    @Composable
-    fun OptionalSurface(surface: Boolean, content: @Composable () -> Unit) {
-        if (surface) {
-            Surface(
-                color = surfaceColor()
-            ) {
-                content()
-            }
-        }
-    }
-
-    Column {
-        VpnTheme(isDark = false) { OptionalSurface(addSurface, content) }
-        Spacer(modifier = Modifier.height(10.dp))
-        VpnTheme(isDark = true) { OptionalSurface(addSurface, content) }
     }
 }

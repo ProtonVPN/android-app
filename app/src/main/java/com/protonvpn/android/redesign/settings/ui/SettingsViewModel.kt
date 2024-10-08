@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.settings.ui
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
+import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
@@ -208,6 +209,7 @@ class SettingsViewModel @Inject constructor(
         val showSignOut: Boolean,
         val showDebugTools: Boolean,
         val accountScreenEnabled: Boolean,
+        val versionName: String,
     )
 
     // The configuration doesn't change during runtime.
@@ -265,7 +267,8 @@ class SettingsViewModel @Inject constructor(
                 buildInfo = buildConfigText,
                 showDebugTools = displayDebugUi,
                 showSignOut = !isCredentialLess && !managedConfig.isManaged,
-                accountScreenEnabled = !managedConfig.isManaged
+                accountScreenEnabled = !managedConfig.isManaged,
+                versionName = BuildConfig.VERSION_NAME,
             )
         }
 

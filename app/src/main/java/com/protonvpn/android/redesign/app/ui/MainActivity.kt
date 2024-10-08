@@ -44,7 +44,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.theme.LightAndDarkPreview
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.components.VpnUiDelegateProvider
 import com.protonvpn.android.logging.ProtonLogger
@@ -327,7 +327,7 @@ private fun ReconnectDialog(
 @Preview
 @Composable
 fun PreviewSignOutDialog() {
-    LightAndDarkPreview {
+    ProtonVpnPreview {
         SignOutDialog({}, {})
     }
 }
