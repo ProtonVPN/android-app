@@ -38,7 +38,7 @@ class PromoOfferCountDownTests(
 
     companion object {
         @JvmStatic
-        @Parameterized.Parameters(name = "{index}: {1}")
+        @Parameterized.Parameters(name = "{index}")
         fun data() = listOf(
             // Params: duration, expected label text
             2.days + 1.hours to "2 days 1 hour left",
