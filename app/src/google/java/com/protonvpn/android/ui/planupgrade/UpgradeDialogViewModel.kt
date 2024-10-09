@@ -169,7 +169,11 @@ class UpgradeDialogViewModel(
             val preselectedPlan = loadedPlans.find { it.planName == planNames.first() }
             if (loadedPlans.isNotEmpty() && preselectedPlan != null) {
                 if (loadedPlans.any { it.prices.isEmpty() }) {
-                    state.value = State.LoadError(R.string.error_fetching_prices)
+                    val errorInfo = plansDebugInfo(loadedPlans)
+                    state.value = State.LoadError(
+                        messageRes = R.string.error_fetching_prices,
+                        error = IllegalArgumentException("Missing prices: $errorInfo")
+                    )
                 } else {
                     selectPlan(preselectedPlan)
                 }
@@ -181,6 +185,14 @@ class UpgradeDialogViewModel(
             state.value = State.LoadError(error = e)
         }
     }
+
+    private fun plansDebugInfo(plans: List<GiapPlanModel>): String =
+        plans.joinToString("\n") { plan ->
+            val info = plan.giapPlanInfo.dynamicPlan.instances.values.joinToString("; ") { dynPlan ->
+                "Cycle: ${dynPlan.cycle}, Currencies: ${dynPlan.price.values.joinToString { it.currency }}"
+            }
+            "Plan: ${plan.planName}; DynamicPlan: $info"
+        }
 
     private fun removeProgressFromPurchaseReady() {
         state.update { if (it is State.PurchaseReady) it.copy(inProgress = false) else it }
