@@ -432,7 +432,7 @@
     <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
     <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Подвійна VPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
+    <string name="upgrade_unlimited_vpn_p2p">Підтримка P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="one">%1$d custom email domain</item>
         <item quantity="few">%1$d custom email domains</item>
@@ -454,7 +454,7 @@
     <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
     <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
     <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
+    <string name="upgrade_unlimited_mail_autoreply">Автовідповідь</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d personal calendar</item>

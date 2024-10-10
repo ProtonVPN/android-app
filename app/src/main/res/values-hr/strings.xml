@@ -18,16 +18,16 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_icon_name_classic">Classic</string>
+    <string name="app_icon_name_classic">Klasično</string>
     <string name="app_icon_name_dark">Tamno</string>
     <string name="app_icon_name_retro">Retro</string>
-    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_weather">Vremenska prognoza</string>
     <string name="app_icon_name_notes">Bilješke</string>
-    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="app_icon_name_calculator">Kalkulator</string>
     <!-- Strings related to login -->
     <string name="login">Prijavite se</string>
     <string name="menuActionSignOut">Odjava</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
+    <string name="connectionAllocationHelpTitle">Hvala na nadogradnji</string>
     <string name="connectionAllocationHelpDescription1">To start your journey in Proton VPN please assign VPN connections to your account or any other sub-account.</string>
     <string name="connectionAllocationHelpDescription2">This step will take just a few minutes. After that you will be able to sign in and protect all your devices.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">There is currently no VPN connection enabled for this account. To start your journey with Proton VPN, please contact your administrator. </string>

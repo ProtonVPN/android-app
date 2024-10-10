@@ -710,7 +710,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Início</string>
     <string name="bottom_nav_gateways">Gateways</string>
-    <string name="bottom_nav_profiles">Profiles</string>
+    <string name="bottom_nav_profiles">Perfis</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Países</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -977,7 +977,7 @@
     <string name="settings_title">Configurações</string>
     <string name="gateways_title">Gateways</string>
     <string name="countries_title">Países</string>
-    <string name="profiles_title">Profiles</string>
+    <string name="profiles_title">Perfis</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Recursos</string>
     <!-- tag(Redesign_2023) -->
@@ -1277,9 +1277,9 @@
     <string name="settings_advanced_nat_type_description">Selecione um tipo de tradução de endereço de rede para sua conexão. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Selecione um tipo de tradução de endereço de rede para sua conexão.</string>
     <string name="settings_advanced_nat_type_strict">Estrito (tipo 3)</string>
-    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
+    <string name="settings_advanced_nat_type_strict_short">Tipo 3</string>
     <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
-    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
+    <string name="settings_advanced_nat_type_moderate_short">Tipo 2</string>
     <string name="settings_advanced_nat_type_strict_description">Restringe a entrada de dados na sua rede. Esta opção é mais segura, mas pode dificultar as conexões de jogos ponto a ponto.</string>
     <string name="settings_advanced_nat_type_moderate_description">Alguma restrição na entrada de dados na sua rede. Esta opção é melhor para jogos on-line.</string>
     <string name="settings_split_tunneling_description">Personalize sua conexão decidindo quais aplicativos e endereços IP serão protegidos pela VPN. %1$s</string>
@@ -1346,11 +1346,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplicativos selecionados são excluídos da conexão VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Apenas aplicativos selecionados se conectam por meio da VPN, o restante do tráfego fica desprotegido.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_delete">Delete</string>
+    <string name="profile_action_delete">Excluir</string>
     <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="initial_profile_name_streaming_us">Streaming US</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="initial_profile_name_streaming_us">Streaming EUA</string>
+    <string name="initial_profile_name_work_school">Trabalho/Escola</string>
 </resources>
