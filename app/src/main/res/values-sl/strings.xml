@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Prijava</string>
     <string name="menuActionSignOut">Odjava</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
+    <string name="connectionAllocationHelpTitle">Hvala za nadgradnjo</string>
     <string name="connectionAllocationHelpDescription1">Če želite začeti svojo pot s Proton VPN, dodelite povezave VPN svojemu računu ali kateremu koli drugemu pod računu.</string>
     <string name="connectionAllocationHelpDescription2">Ta korak bo trajal le nekaj minut. Potem se boste lahko prijavili in zaščitili vse svoje naprave.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Za ta račun trenutno ni omogočena povezava VPN. Če želite začeti svojo pot s Proton VPN, se obrnite na skrbnika. </string>
@@ -422,7 +422,7 @@
     <string name="upgrade_unlimited_more">And more</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
     <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
-    <string name="upgrade_unlimited_vpn_any_location">Choose any location</string>
+    <string name="upgrade_unlimited_vpn_any_location">Izberite poljubno lokacijo</string>
     <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
         <item quantity="one">Protect %1$d device at once</item>
@@ -453,7 +453,7 @@
         <item quantity="other">%1$d email addresses</item>
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
+    <string name="upgrade_unlimited_mail_dark_web">Spremljanje Dark Web</string>
     <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
     <string name="upgrade_unlimited_mail_autoreply">Samodejni odgovor</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
@@ -463,13 +463,13 @@
         <item quantity="few">%1$d personal calendars</item>
         <item quantity="other">%1$d personal calendars</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Calendar sharing</string>
+    <string name="upgrade_unlimited_calendar_sharing">Deljenje koledarja</string>
     <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
     <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
     <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
     <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
     <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
-    <string name="upgrade_unlimited_drive_version_history">Version history</string>
+    <string name="upgrade_unlimited_drive_version_history">Zgodovina različic</string>
     <string name="upgrade_unlimited_pass_manager">Encrypted password manager</string>
     <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
     <plurals name="upgrade_unlimited_pass_vaults">
@@ -481,7 +481,7 @@
     <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
     <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
     <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
-    <string name="upgrade_unlimited_pass_devices">Unlimited devices</string>
+    <string name="upgrade_unlimited_pass_devices">Neomejeno število naprav</string>
     <plurals name="upgrade_unlimited_pass_users">
         <item quantity="one">Share with up to %1$d other</item>
         <item quantity="two">Share with up to %1$d others</item>
@@ -759,7 +759,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Domov</string>
     <string name="bottom_nav_gateways">Prehodi</string>
-    <string name="bottom_nav_profiles">Profiles</string>
+    <string name="bottom_nav_profiles">Profili</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Države</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -1028,7 +1028,7 @@
     <string name="settings_title">Nastavitve</string>
     <string name="gateways_title">Prehodi</string>
     <string name="countries_title">Države</string>
-    <string name="profiles_title">Profiles</string>
+    <string name="profiles_title">Profili</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funkcije</string>
     <!-- tag(Redesign_2023) -->
@@ -1351,9 +1351,9 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="settings_advanced_nat_type_description">Izberite vrsto prevajanja omrežnih naslovov za vašo povezavo. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Izberite vrsto prevajanja omrežnih naslovov za vašo povezavo.</string>
     <string name="settings_advanced_nat_type_strict">Strogo (tip 3)</string>
-    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
+    <string name="settings_advanced_nat_type_strict_short">Vrsta 3</string>
     <string name="settings_advanced_nat_type_moderate">Zmerno (tip 2)</string>
-    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
+    <string name="settings_advanced_nat_type_moderate_short">Vrsta 2</string>
     <string name="settings_advanced_nat_type_strict_description">Omejuje podatke, ki vstopajo v vaše omrežje. Ta možnost je bolj varna, vendar lahko oteži povezave P2P pri igranju iger.</string>
     <string name="settings_advanced_nat_type_moderate_description">Nekatere omejitve podatkov, ki vstopajo v vaše omrežje. Ta možnost je najboljša za spletne video igre.</string>
     <string name="settings_split_tunneling_description">Prilagodite povezavo tako, da določite, katere aplikacije in IP naslovi so zaščiteni z omrežjem VPN. %1$s</string>
@@ -1420,7 +1420,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_delete">Delete</string>
+    <string name="profile_action_delete">Izbriši</string>
     <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->

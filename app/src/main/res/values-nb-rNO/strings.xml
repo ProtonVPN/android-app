@@ -710,7 +710,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Hjem</string>
     <string name="bottom_nav_gateways">Mellomtjenere</string>
-    <string name="bottom_nav_profiles">Profiles</string>
+    <string name="bottom_nav_profiles">Profiler</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Land</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -977,7 +977,7 @@
     <string name="settings_title">Innstillinger</string>
     <string name="gateways_title">Mellomtjenere</string>
     <string name="countries_title">Land</string>
-    <string name="profiles_title">Profiles</string>
+    <string name="profiles_title">Profiler</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funksjoner</string>
     <!-- tag(Redesign_2023) -->
@@ -1346,11 +1346,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Valgte apper er ekskludert fra VPN-tilkobling.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Bare valgte apper kobles til gjennom VPN, all annen trafikk er ubeskyttet.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_delete">Delete</string>
+    <string name="profile_action_delete">Slett</string>
     <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="initial_profile_name_streaming_us">Streaming US</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="initial_profile_name_streaming_us">Strømming US</string>
+    <string name="initial_profile_name_work_school">Arbeid/Skole</string>
 </resources>

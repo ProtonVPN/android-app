@@ -710,7 +710,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Start</string>
     <string name="bottom_nav_gateways">Gateway</string>
-    <string name="bottom_nav_profiles">Profiles</string>
+    <string name="bottom_nav_profiles">Profielen</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Landen</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -977,7 +977,7 @@
     <string name="settings_title">Instellingen</string>
     <string name="gateways_title">Gateways</string>
     <string name="countries_title">Landen</string>
-    <string name="profiles_title">Profiles</string>
+    <string name="profiles_title">Profielen</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Functies</string>
     <!-- tag(Redesign_2023) -->
@@ -1346,7 +1346,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Geselecteerde apps zijn uitgesloten van VPN-verbinding.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Alleen geselecteerde apps verbinden via VPN, al het andere verkeer is onbeschermd.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_delete">Delete</string>
+    <string name="profile_action_delete">Verwijderen</string>
     <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->

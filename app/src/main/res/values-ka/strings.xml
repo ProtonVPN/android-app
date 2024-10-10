@@ -710,7 +710,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">მთავარი</string>
     <string name="bottom_nav_gateways">რაუტერები</string>
-    <string name="bottom_nav_profiles">Profiles</string>
+    <string name="bottom_nav_profiles">პროფილები</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">ქვეყნები</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -977,7 +977,7 @@
     <string name="settings_title">მორგება</string>
     <string name="gateways_title">კარიბჭეები</string>
     <string name="countries_title">ქვეყნები</string>
-    <string name="profiles_title">Profiles</string>
+    <string name="profiles_title">პროფილები</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">ფუნქციები</string>
     <!-- tag(Redesign_2023) -->
@@ -1277,9 +1277,9 @@
     <string name="settings_advanced_nat_type_description">აირჩიეთ NAT-ის ტიპი თქვენი მიერთებისთვის. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">აირჩიეთ ქსელის თარგმანის ტიპი თქვენი მიერთებისთვის.</string>
     <string name="settings_advanced_nat_type_strict">მკაცრი (ტიპი 3)</string>
-    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
+    <string name="settings_advanced_nat_type_strict_short">ტიპი 3</string>
     <string name="settings_advanced_nat_type_moderate">საშუალო (ტიპი 2)</string>
-    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
+    <string name="settings_advanced_nat_type_moderate_short">ტიპი 2</string>
     <string name="settings_advanced_nat_type_strict_description">ზღუდავს თქვენს ქსელში შემომავალ ინფორმაციას. ეს პარამეტრი ფრო დაცულია, მაგრამ გამჭოლი მიერთების გამომყენებელი თამაშების მუშაობა უფრო ძნელი იქნება.</string>
     <string name="settings_advanced_nat_type_moderate_description">მცირე შეზღუდვები თქვენს ქსელში შემომავალი მონაცემებისთვის. ეს პარამეტრი საუკეთესოა ონლაინ-თამაშებისთვის.</string>
     <string name="settings_split_tunneling_description">მოირგეთ თქვენი მიერთება, გადაწყვიტეთ, რომელი აპები და IP მისამართები იქნებიან VPN-ით დაცული. %1$s</string>
@@ -1346,11 +1346,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">მონიშნული აპები ამოღებულია VPN მიერთებიდან.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">მხოლოდ, არჩეული აპები გამოიყენებენ VPN-ს. დანარჩენი ყველაფერი დაუცველი იქნება.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_delete">Delete</string>
+    <string name="profile_action_delete">წაშლა</string>
     <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="initial_profile_name_streaming_us">Streaming US</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="initial_profile_name_streaming_us">სტრიმინგი US</string>
+    <string name="initial_profile_name_work_school">სამსახური/სკოლა</string>
 </resources>

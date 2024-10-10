@@ -18,16 +18,16 @@
  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="app_icon_name_classic">Classic</string>
+    <string name="app_icon_name_classic">經典</string>
     <string name="app_icon_name_dark">深色</string>
-    <string name="app_icon_name_retro">Retro</string>
-    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_retro">復刻</string>
+    <string name="app_icon_name_weather">天氣</string>
     <string name="app_icon_name_notes">備註</string>
-    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="app_icon_name_calculator">計算機</string>
     <!-- Strings related to login -->
     <string name="login">登入</string>
     <string name="menuActionSignOut">登出</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
+    <string name="connectionAllocationHelpTitle">感謝升級</string>
     <string name="connectionAllocationHelpDescription1">請為您的帳號或任何別的子帳號指派 VPN 連線，以開展您的 Proton VPN 之旅。</string>
     <string name="connectionAllocationHelpDescription2">此步驟只需數分鐘。之後您便能登入並保護您所有的裝置。</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">此帳號目前並未啟用 VPN 連線。如要開始使用 Proton VPN，請聯絡您的管理員。 </string>
@@ -125,27 +125,27 @@
     <string name="inputIpAddressLabel">IP 位址</string>
     <string name="inputIpAddressHint">編寫 IP 位址</string>
     <string name="inputIpAddressErrorInvalid">IP 位址無效</string>
-    <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
-    <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">排除的 IP 位址 (%1$d 個)</string>
+    <string name="settingsIncludedIPAddressesListHeader">包含的 IP 位址 (%1$d 個)</string>
     <string name="settingsExcludedApps">排除的應用程式</string>
     <string name="settingsExcludedAppsEmpty">加入您要從 VPN 流量排除的應用程式。</string>
-    <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
+    <string name="settingsIncludedAppsEmpty">新增您要包含於 VPN 流量中的應用程式。</string>
     <string name="settingsExcludedAppsSelectedHeader">排除的應用程式 (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
-    <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">包含的應用程式 (%1$d 個)</string>
+    <string name="settingsSplitTunnelingAvailableRegularHeader">其餘的一般應用程式 (%1$d 個)</string>
+    <string name="settingsSplitTunnelingAvailableSystemHeader">其餘的系統應用程式 (%1$d 個)</string>
     <string name="settingsSplitTunnelingAvailableHeader">全部其它應用程式(%1$d)</string>
     <string name="settingsExcludedAppsLoadSystemAppsButton">顯示系統應用程式</string>
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">顯示系統應用程式</string>
-    <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
-    <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="settingsSplitTunnelingExcludedAppsList">這些應用程式排除於您的 VPN 連線之外。</string>
+    <string name="settingsSplitTunnelingIncludedAppsList">僅限這些應用程式透過 VPN 連線。</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to Excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">新增至排除的應用程式</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -407,28 +407,28 @@
     <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">P2P support</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">%1$d custom email domains</item>
+        <item quantity="other">%1$d 個自訂電子郵件網域</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="other">%1$d MB 附件上限</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="other">%1$d email addresses</item>
+        <item quantity="other">%1$d 個電子郵件地址</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_mail_autoreply">Auto-reply</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">資料夾與篩選器無上限</string>
+    <string name="upgrade_unlimited_mail_dark_web">暗網監測</string>
+    <string name="upgrade_unlimited_mail_aliases">hide-my-email 別名無上限</string>
+    <string name="upgrade_unlimited_mail_autoreply">自動回覆</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="other">%1$d personal calendars</item>
+        <item quantity="other">%1$d 個個人行事曆</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Calendar sharing</string>
-    <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
+    <string name="upgrade_unlimited_calendar_sharing">行事曆共享</string>
+    <string name="upgrade_unlimited_calendar_invites">傳送並接收邀請</string>
+    <string name="upgrade_unlimited_drive_encryption">經加密的檔案儲存空間</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB 合計儲存空間，用於相片、檔案與郵件</string>
+    <string name="upgrade_unlimited_drive_link_share">透過連結分享相片與檔案</string>
+    <string name="upgrade_unlimited_drive_sharing_security">進階的分享安全設定</string>
     <string name="upgrade_unlimited_drive_version_history">Version history</string>
     <string name="upgrade_unlimited_pass_manager">Encrypted password manager</string>
     <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
@@ -451,7 +451,7 @@
          When the plan selection control is focused, and the first plan name is "VPN Plus"
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
-    <string name="upgrade_plan_selection_content_description">Upgrade options</string>
+    <string name="upgrade_plan_selection_content_description">升級選項</string>
     <string name="upsell_card_countries_title">覆蓋全球</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -505,15 +505,15 @@
          Plan names are not translated.
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
-    <string name="payment_button_get_plan">Get %1$s</string>
+    <string name="payment_button_get_plan">選用 %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Welcome offer. Auto renews at %1$s/month</string>
+    <string name="payment_welcome_price_message_monthly">迎新優惠。以 %1$s/月自動續期</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Welcome offer. Auto renews at %1$s/year</string>
-    <string name="payment_auto_renew_message_monthly">Subscription auto renews at %1$s/month</string>
-    <string name="payment_auto_renew_message_annual">Subscription auto renews at %1$s/year</string>
-    <string name="payment_welcome_price_message_monthly_fallback">Subscription auto renews monthly</string>
-    <string name="payment_welcome_price_message_annual_fallback">Subscription auto renews annually</string>
+    <string name="payment_welcome_price_message_annual">迎新優惠。以 %1$s/年自動續期</string>
+    <string name="payment_auto_renew_message_monthly">訂閱以 %1$s/月自動續期</string>
+    <string name="payment_auto_renew_message_annual">訂閱以 %1$s/年自動續期</string>
+    <string name="payment_welcome_price_message_monthly_fallback">訂閱每月自動續期</string>
+    <string name="payment_welcome_price_message_annual_fallback">訂閱每年自動續期</string>
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">這項技術讓 Proton VPN 可在難以提供服務的國家提供較高的速度與安全性。</string>
     <string name="tor_title">Tor</string>
@@ -568,12 +568,12 @@
     </plurals>
     <string name="select_default_connection">選取您的預設連線</string>
     <string name="settings_default_connection_title">預設連線</string>
-    <string name="fastest_country_description">The best server based on your location</string>
+    <string name="fastest_country_description">按您所在位置挑選最佳伺服器</string>
     <string name="settings_last_connection_title">最後一次連接</string>
-    <string name="settings_last_connection_description">Your most recently used connection</string>
-    <string name="settings_change_icon_title">App icon</string>
+    <string name="settings_last_connection_description">您最近一次使用的連線</string>
+    <string name="settings_change_icon_title">應用程式圖示</string>
     <string name="settings_change_icon_details">Customize how the Proton VPN app appears on your device. Why?</string>
-    <string name="settings_change_icon_confirmation_title">Change app icon?</string>
+    <string name="settings_change_icon_confirmation_title">要變更應用程式圖示嗎？</string>
     <string name="settings_change_icon_confirmation_details">This will cause the Proton VPN app to close. To restart Proton VPN, just tap your new app icon.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>
@@ -1003,7 +1003,7 @@
     <string name="dialog_sign_out_action">登出</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">取消</string>
-    <string name="dialog_action_change_icon">Change icon</string>
+    <string name="dialog_action_change_icon">變更圖示</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">全部</string>
     <string name="country_filter_cities">城市</string>
@@ -1127,13 +1127,13 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">此伺服器啟用點對點檔案共享。</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">您可使用一般瀏覽器連線至 .onion 網站。</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
     <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
     <string name="connection_feature_streaming_title">影音串流</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">此伺服器經優化作電視和電影播放。</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
     <!--
@@ -1142,7 +1142,7 @@
         Warning: country names are inserted in the nominative case.
         For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
     -->
-    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
+    <string name="country_smart_routing_info">伺服器實體位於%1$s，惟您將看來身處%2$s瀏覽。</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1228,7 +1228,7 @@
     <string name="settings_account_change_password">變更密碼</string>
     <string name="settings_account_recovery_email">復原用電郵位址</string>
     <string name="settings_account_recovery_email_not_set">未設定</string>
-    <string name="settings_account_security_keys">Security Keys</string>
+    <string name="settings_account_security_keys">安全金鑰</string>
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">我的帳號</string>
     <string name="settings_account_button_delete_account">刪除帳號</string>
@@ -1267,10 +1267,10 @@
     <string name="settings_split_tunneling_mode_standard">標準</string>
     <string name="settings_split_tunneling_mode_inverse">反轉選取</string>
     <string name="settings_split_tunneling_mode_description_standard">已選的應用程式及 IP 位址會被排除在 VPN 連線之外.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">僅限選取的應用程式和 IP 位址透過 VPN 連線，其餘流量不受保護。</string>
     <string name="settings_split_tunneling_excluded_apps">不包括所有應用</string>
     <string name="settings_split_tunneling_excluded_ips">排除的IP2地址</string>
-    <string name="settings_split_tunneling_included_apps">Included apps</string>
+    <string name="settings_split_tunneling_included_apps">包含的應用程式</string>
     <string name="settings_split_tunneling_included_ips">包含的IP2地址</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">無</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s、%2$s 及另 %3$d 個</string>
@@ -1296,25 +1296,25 @@
     <string name="secure_core_upsell_banner_description">為您的 VPN 連線加入另一層加密</string>
     <string name="p2p_upsell_banner_description">透過 BitTorrent 及其他檔案共享通訊協定下載檔案</string>
     <string name="tor_upsell_banner_description">經由您的 VPN 連線使用 Tor 網路，以加強隱私</string>
-    <string name="vpnplus_upsell_banner_description">Upgrade to VPN Plus</string>
+    <string name="vpnplus_upsell_banner_description">升級至 VPN Plus</string>
     <string name="search_zero_screen_title">嘗試搜尋…</string>
     <string name="search_zero_screen_info_countries_title">國家</string>
     <string name="search_zero_screen_info_cities_title">城市</string>
     <string name="search_zero_screen_info_servers_title">伺服器</string>
     <string name="search_zero_screen_info_countries_examples">瑞士、美國、義大利、加拿大…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_cities_examples">紐約、倫敦、東京、悉尼…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">收取價格時發生錯誤。</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_description">決定哪些應用程式受 VPN 保護，以自訂您的連線。</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">選取的應用程式排除於 VPN 連線之外。</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">僅限選取的應用程式透過 VPN 連線，其餘流量不受保護。</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_delete">Delete</string>
+    <string name="profile_action_delete">刪除</string>
     <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
-    <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="initial_profile_name_streaming_us">Streaming US</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="profile_bottom_sheet_lan_title">區域網路</string>
+    <string name="initial_profile_name_streaming_us">串流 - 美國</string>
+    <string name="initial_profile_name_work_school">工作/學校</string>
 </resources>

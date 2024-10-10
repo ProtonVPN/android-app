@@ -758,7 +758,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Domov</string>
     <string name="bottom_nav_gateways">Brány</string>
-    <string name="bottom_nav_profiles">Profiles</string>
+    <string name="bottom_nav_profiles">Profily</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Krajiny</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -1027,7 +1027,7 @@
     <string name="settings_title">Nastavenia</string>
     <string name="gateways_title">Brány</string>
     <string name="countries_title">Krajiny</string>
-    <string name="profiles_title">Profiles</string>
+    <string name="profiles_title">Profily</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Funkcie</string>
     <!-- tag(Redesign_2023) -->
@@ -1349,9 +1349,9 @@
     <string name="settings_advanced_nat_type_description">Vyberte typ prekladu sieťových adries vášho pripojenia. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Vyberte typ prekladu sieťových adries vášho pripojenia.</string>
     <string name="settings_advanced_nat_type_strict">Prísny (typ 3)</string>
-    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
+    <string name="settings_advanced_nat_type_strict_short">Typ 3</string>
     <string name="settings_advanced_nat_type_moderate">Stredný (typ 2)</string>
-    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
+    <string name="settings_advanced_nat_type_moderate_short">Typ 2</string>
     <string name="settings_advanced_nat_type_strict_description">Obmedzuje dáta vstupujúce do vašej siete. Táto voľba je bezpečnejšia, ale môže skomplikovať pripojenie k hrám typu peer-to-peer.</string>
     <string name="settings_advanced_nat_type_moderate_description">Niektoré obmedzenia dát vstupujúcich do vašej siete. Táto voľba je najlepšia pre hranie online video hier.</string>
     <string name="settings_split_tunneling_description">Prispôsobte si pripojenie tým, že sa rozhodnete, ktoré aplikácie a IP adresy budú chránené pomocou VPN. %1$s</string>
@@ -1418,11 +1418,11 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Zvolené aplikácie sú vylúčené z vášho VPN pripojenia.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Cez VPN sa pripájajú len vybrané aplikácie, všetka ostatná prevádzka je nechránená.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_delete">Delete</string>
+    <string name="profile_action_delete">Vymazať</string>
     <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="initial_profile_name_streaming_us">Streaming US</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="initial_profile_name_streaming_us">Streamovanie US</string>
+    <string name="initial_profile_name_work_school">Práca/Škola</string>
 </resources>

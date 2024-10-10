@@ -687,7 +687,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">홈</string>
     <string name="bottom_nav_gateways">게이트웨이</string>
-    <string name="bottom_nav_profiles">Profiles</string>
+    <string name="bottom_nav_profiles">프로필</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">국가</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -953,7 +953,7 @@
     <string name="settings_title">설정</string>
     <string name="gateways_title">게이트웨이</string>
     <string name="countries_title">국가</string>
-    <string name="profiles_title">Profiles</string>
+    <string name="profiles_title">프로필</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">특징</string>
     <!-- tag(Redesign_2023) -->
@@ -1242,9 +1242,9 @@
     <string name="settings_advanced_nat_type_description">네트워크 주소 변환 방식을 선택하십시오. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">네트워크 주소 변환 방식을 선택하십시오.</string>
     <string name="settings_advanced_nat_type_strict">엄격하게 (3번)</string>
-    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
+    <string name="settings_advanced_nat_type_strict_short">유형 3</string>
     <string name="settings_advanced_nat_type_moderate">일반형 (type 2)</string>
-    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
+    <string name="settings_advanced_nat_type_moderate_short">유형 2</string>
     <string name="settings_advanced_nat_type_strict_description">네트워크에 들어오는 데이터를 통제합니다. 확실한 만큼 피어 투 피어 (P2P) 게이밍 접속이 어려워질 수 있습니다.</string>
     <string name="settings_advanced_nat_type_moderate_description">네트워크에 들어오는 데이터를 약간 통제합니다. 온라인 비디오 게이밍에 최적입니다.</string>
     <string name="settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 커스텀할 수 있습니다. %1$s</string>
@@ -1312,11 +1312,11 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">선택된 앱들이 VPN 연결에서 제외됩니다.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">오직 선택된 앱만이 VPN을 통해 연결됩니다. 제외된 항목은 보호되지 않습니다.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_delete">Delete</string>
+    <string name="profile_action_delete">삭제</string>
     <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="initial_profile_name_streaming_us">Streaming US</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="initial_profile_name_streaming_us">미국 스트리밍</string>
+    <string name="initial_profile_name_work_school">업무/학교</string>
 </resources>
