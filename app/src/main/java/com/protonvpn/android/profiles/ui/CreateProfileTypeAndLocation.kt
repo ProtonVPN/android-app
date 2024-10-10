@@ -69,12 +69,12 @@ fun ProfileTypeAndLocationRoute(
 fun ProfileTypeAndLocation(
     state: TypeAndLocationScreenState,
     setType: (ProfileType) -> Unit,
-    setCountry: (CountryId) -> Unit,
-    setCityOrState: (TypeAndLocationScreenState.CityOrState) -> Unit,
-    setServer: (TypeAndLocationScreenState.Server) -> Unit,
-    setExitCountrySecureCore: (CountryId) -> Unit,
-    setEntryCountrySecureCore: (CountryId) -> Unit,
-    setGateway: (String) -> Unit,
+    setCountry: (TypeAndLocationScreenState.CountryItem) -> Unit,
+    setCityOrState: (TypeAndLocationScreenState.CityOrStateItem) -> Unit,
+    setServer: (TypeAndLocationScreenState.ServerItem) -> Unit,
+    setExitCountrySecureCore: (TypeAndLocationScreenState.CountryItem) -> Unit,
+    setEntryCountrySecureCore: (TypeAndLocationScreenState.CountryItem) -> Unit,
+    setGateway: (TypeAndLocationScreenState.GatewayItem) -> Unit,
     onNext: () -> Unit,
     onBack: () -> Unit
 ) {
@@ -142,7 +142,7 @@ fun PreviewProfileTypeAndLocation() {
    ProfileTypeAndLocation(
         onNext = {},
         onBack = {},
-        state = TypeAndLocationScreenState.Standard(emptyList(),  CountryId.fastest, null, null, emptyList(), emptyList(), emptyList()),
+        state = TypeAndLocationScreenState.Standard(emptyList(), TypeAndLocationScreenState.CountryItem(CountryId.fastest, true), null, null, emptyList(), emptyList(), emptyList()),
         setType = {},
         setCountry = {},
         setCityOrState = {},

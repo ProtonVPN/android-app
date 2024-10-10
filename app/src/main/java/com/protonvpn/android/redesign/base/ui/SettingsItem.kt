@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -130,6 +131,7 @@ fun SettingsRadioItemSmall(
     selected: Boolean,
     onSelected: () -> Unit,
     modifier: Modifier = Modifier,
+    titleColor: Color = Color.Unspecified,
     horizontalContentPadding: Dp = 0.dp,
     trailingTitleContent: (@Composable () -> Unit)? = null,
     leadingContent: (@Composable () -> Unit)? = null
@@ -147,7 +149,12 @@ fun SettingsRadioItemSmall(
             modifier = Modifier.weight(1f)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(title, style = ProtonTheme.typography.body2Regular)
+                Text(
+                    title,
+                    style = ProtonTheme.typography.body2Regular,
+                    color = titleColor,
+                    modifier = Modifier.weight(1f, fill = false)
+                )
                 if (trailingTitleContent != null) {
                     Spacer(Modifier.width(8.dp))
                     trailingTitleContent()

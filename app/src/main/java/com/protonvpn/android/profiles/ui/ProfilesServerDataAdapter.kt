@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.profiles.ui
 
+import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
@@ -37,20 +38,25 @@ class ProfilesServerDataAdapter @Inject constructor(
     val hasAnyGatewaysFlow get() = serverManager.hasAnyGatewaysFlow
     val serverListVersion get() = serverManager.serverListVersion
 
-    suspend fun countries(feature: ServerFeature?) : List<CountryId> {
-        val countries = serverManager.getVpnCountries()
+    suspend fun countries(feature: ServerFeature?) : List<TypeAndLocationScreenState.CountryItem> {
+        val countries = serverManager.getVpnCountries().asSequence()
         return if (feature != null) {
             countries.filter { country -> country.serverList.any { it.features.hasFlag(feature.flag) } }
         } else {
             countries
-        }.map { CountryId(it.id()) }
+        }.map { country ->
+            TypeAndLocationScreenState.CountryItem(
+                CountryId(country.id()),
+                country.serverList.any { it.online }
+            )
+        }.toList()
     }
 
     suspend fun citiesOrStates(
         countryId: CountryId,
         secureCore: Boolean,
         feature: ServerFeature?,
-    ) : List<TypeAndLocationScreenState.CityOrState> {
+    ) : List<TypeAndLocationScreenState.CityOrStateItem> {
         val country = serverManager.getVpnExitCountry(countryId.countryCode, secureCore)
             ?: return emptyList()
         val servers = country.serverList
@@ -60,17 +66,17 @@ class ProfilesServerDataAdapter @Inject constructor(
         val allStates = servers
             .mapNotNull { server -> server.state.takeIf { !it.isNullOrBlank() } }
             .distinct()
-            .map { CityStateId(it, true) }
+            .map { CityStateId(it, true) to servers.any { it.online } }
             .toList()
 
         return allStates.ifEmpty {
             servers
                 .mapNotNull { server -> server.city.takeIf { !it.isNullOrBlank() } }
                 .distinct()
-                .map { CityStateId(it, false) }
+                .map { CityStateId(it, false) to servers.any { it.online } }
                 .toList()
         }
-        .map { getCityStateViewModel(it) }
+        .map { (id, online) -> getCityStateViewModel(id, online) }
     }
 
     suspend fun servers(
@@ -78,15 +84,18 @@ class ProfilesServerDataAdapter @Inject constructor(
         cityOrState: CityStateId,
         secureCore: Boolean,
         feature: ServerFeature?,
-    ) : List<TypeAndLocationScreenState.Server> =
+    ) : List<TypeAndLocationScreenState.ServerItem> =
         serverManager.getVpnExitCountry(exitCountry.countryCode, secureCore)
             ?.serverList
+            ?.asSequence()
+            ?.filter { !it.isFreeServer }
             ?.filter { it.isInCityOrState(cityOrState) && (feature == null || it.features.hasFlag(feature.flag)) }
             ?.map { it.toViewModel() }
+            ?.toList()
             ?: emptyList()
 
-    suspend fun gatewaysNames() =
-        serverManager.getGateways().map { it.name() }
+    suspend fun gateways() : List<TypeAndLocationScreenState.GatewayItem> =
+        serverManager.getGateways().map { it.toViewModel() }
 
     suspend fun gatewayServers(name: String) =
         serverManager.getGateways()
@@ -95,16 +104,22 @@ class ProfilesServerDataAdapter @Inject constructor(
             ?.map { it.toViewModel() }
             ?: emptyList()
 
-    suspend fun secureCoreExits() =
-        serverManager.getSecureCoreExitCountries().map { CountryId(it.id()) }
+    suspend fun secureCoreExits() : List<TypeAndLocationScreenState.CountryItem> =
+        serverManager.getSecureCoreExitCountries().map { country ->
+            TypeAndLocationScreenState.CountryItem(
+                CountryId(country.id()),
+                country.serverList.any { it.online }
+            )
+        }
 
-    suspend fun secureCoreEntries(countryId: CountryId) =
+    suspend fun secureCoreEntries(countryId: CountryId) : List<TypeAndLocationScreenState.CountryItem> =
         serverManager.getVpnExitCountry(countryId.countryCode, true)
             ?.serverList
-            ?.map { it.entryCountry }
+            ?.map { it.entryCountry to it.online }
             ?.distinct()
-            ?.map { CountryId(it) }
-            ?: emptyList()
+            ?.map { (entryId, online) ->
+                TypeAndLocationScreenState.CountryItem(CountryId(entryId), online)
+            } ?: emptyList()
 
     suspend fun getCityOrStateForServerId(serverId: String?): CityStateId? {
         if (serverId == null) return null
@@ -116,14 +131,15 @@ class ProfilesServerDataAdapter @Inject constructor(
         }
     }
 
-    fun getCityStateViewModel(cityOrState: CityStateId) = with(cityOrState) {
-        TypeAndLocationScreenState.CityOrState(
+    private fun getCityStateViewModel(cityOrState: CityStateId, online: Boolean) = with(cityOrState) {
+        TypeAndLocationScreenState.CityOrStateItem(
             when {
                 isFastest -> null
                 isState -> translator.getState(name)
                 else -> translator.getCity(name)
             },
-            this
+            this,
+            online,
         )
     }
 
@@ -133,10 +149,17 @@ class ProfilesServerDataAdapter @Inject constructor(
 
 private fun Server?.toViewModel() =
     // Will be null/null (fastest) if serverId is not found.
-    TypeAndLocationScreenState.Server(
+    TypeAndLocationScreenState.ServerItem(
         this?.serverName,
         this?.serverId,
         if (this?.gatewayName != null) CountryId(exitCountry) else null,
+        online = this?.online != false
+    )
+
+private fun GatewayGroup.toViewModel() =
+    TypeAndLocationScreenState.GatewayItem(
+        name(),
+        online = serverList.any { it.online }
     )
 
 private fun Server.isInCityOrState(cityOrState: CityStateId) =

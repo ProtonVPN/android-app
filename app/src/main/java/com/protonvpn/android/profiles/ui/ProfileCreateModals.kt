@@ -84,6 +84,7 @@ fun ProfileTypeItem(
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_type_title,
         valueText = stringResource(currentValue.nameRes),
+        online = true,
         iconContent = {
             Icon(
                 painterResource(currentValue.iconRes),
@@ -142,20 +143,21 @@ private fun PickProfileType(
 @Composable
 fun ProfileCountryItem(
     secureCore: Boolean,
-    exitCountry: CountryId,
-    entryCountry: CountryId?,
-    allCountries: List<CountryId>,
-    allEntries: List<CountryId>,
-    onSelectExit: (CountryId) -> Unit,
-    onSelectEntry: (CountryId) -> Unit,
+    exitCountry: TypeAndLocationScreenState.CountryItem,
+    entryCountry: TypeAndLocationScreenState.CountryItem?,
+    allCountries: List<TypeAndLocationScreenState.CountryItem>,
+    allEntries: List<TypeAndLocationScreenState.CountryItem>,
+    onSelectExit: (TypeAndLocationScreenState.CountryItem) -> Unit,
+    onSelectEntry: (TypeAndLocationScreenState.CountryItem) -> Unit,
 ) {
     Column {
         ProfileValueItem(
             labelRes = R.string.create_profile_pick_country_title,
-            valueText = exitCountry.label(),
+            valueText = exitCountry.id.label(),
+            online = exitCountry.online,
             iconContent = {
                 Flag(
-                    exitCountry = exitCountry,
+                    exitCountry = exitCountry.id,
                     entryCountry = if (secureCore) CountryId.fastest else null,
                     modifier = Modifier.scale(24f / FlagDefaults.singleFlagSize.width.value)
                 )
@@ -178,10 +180,11 @@ fun ProfileCountryItem(
         if (entryCountry != null) {
             ProfileValueItem(
                 labelRes = null,
-                valueText = viaCountry(entryCountry),
+                valueText = viaCountry(entryCountry.id),
+                online = entryCountry.online,
                 iconContent = {
                     Flag(
-                        exitCountry = entryCountry,
+                        exitCountry = entryCountry.id,
                         modifier = Modifier.size(24.dp, 16.dp)
                     )
                 },
@@ -207,9 +210,9 @@ fun ProfileCountryItem(
 private fun PickCountry(
     isVia: Boolean,
     isSecureCore: Boolean,
-    selectedCountry: CountryId,
-    allCountries: List<CountryId>,
-    onSelect: (CountryId) -> Unit,
+    selectedCountry: TypeAndLocationScreenState.CountryItem,
+    allCountries: List<TypeAndLocationScreenState.CountryItem>,
+    onSelect: (TypeAndLocationScreenState.CountryItem) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     BaseItemPickerDialog(
@@ -220,19 +223,23 @@ private fun PickCountry(
     ) {
         items(allCountries) { country ->
             SettingsRadioItemSmall(
-                title = if (isVia) viaCountry(country) else country.label(),
+                title = if (isVia) viaCountry(country.id) else country.id.label(),
                 description = null,
+                titleColor = if (country.online) ProtonTheme.colors.textNorm else ProtonTheme.colors.textHint,
                 selected = country == selectedCountry,
                 onSelected = { onSelect(country) },
                 horizontalContentPadding = DIALOG_CONTENT_PADDING,
                 leadingContent = {
                     Flag(
-                        exitCountry = country,
+                        exitCountry = country.id,
                         entryCountry = if (isSecureCore) CountryId.fastest else null,
                         modifier = Modifier
                             .padding(end = 12.dp)
                             .scale(24f / FlagDefaults.singleFlagSize.width.value)
                     )
+                },
+                trailingTitleContent = {
+                    AvailabilityIndicator(country.online)
                 }
             )
         }
@@ -241,13 +248,14 @@ private fun PickCountry(
 
 @Composable
 fun ProfileGatewayItem(
-    currentValue: String,
-    allGateways: List<String>,
-    onSelect: (String) -> Unit,
+    currentValue: TypeAndLocationScreenState.GatewayItem,
+    allGateways: List<TypeAndLocationScreenState.GatewayItem>,
+    onSelect: (TypeAndLocationScreenState.GatewayItem) -> Unit,
 ) {
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_gateway_title,
-        valueText = currentValue,
+        valueText = currentValue.name,
+        online = currentValue.online,
         iconContent = {
             Image(
                 painterResource(R.drawable.ic_gateway_flag),
@@ -273,9 +281,9 @@ fun ProfileGatewayItem(
 
 @Composable
 fun PickGateway(
-    selectedGateway: String,
-    allGateways: List<String>,
-    onSelect: (String) -> Unit,
+    selectedGateway: TypeAndLocationScreenState.GatewayItem,
+    allGateways: List<TypeAndLocationScreenState.GatewayItem>,
+    onSelect: (TypeAndLocationScreenState.GatewayItem) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     BaseItemPickerDialog(
@@ -283,8 +291,14 @@ fun PickGateway(
         onDismissRequest = onDismissRequest
     ) {
         items(allGateways) { gateway ->
+            val iconTint =
+                if (!gateway.online) ProtonTheme.colors.textHint
+                else ProtonTheme.colors.iconNorm
             SettingsRadioItemSmall(
-                title = gateway,
+                title = gateway.name,
+                titleColor =
+                    if (!gateway.online) ProtonTheme.colors.textHint
+                    else ProtonTheme.colors.textNorm,
                 description = null,
                 selected = gateway == selectedGateway,
                 onSelected = { onSelect(gateway) },
@@ -293,10 +307,14 @@ fun PickGateway(
                     Icon(
                         painterResource(CoreR.drawable.ic_proton_servers),
                         contentDescription = null,
+                        tint = iconTint,
                         modifier = Modifier
                             .padding(end = 14.dp)
                             .size(20.dp)
                     )
+                },
+                trailingTitleContent = {
+                    AvailabilityIndicator(gateway.online)
                 }
             )
         }
@@ -304,10 +322,23 @@ fun PickGateway(
 }
 
 @Composable
+private fun AvailabilityIndicator(online: Boolean, modifier: Modifier = Modifier) {
+    val iconTint = if (online) ProtonTheme.colors.iconNorm else ProtonTheme.colors.textHint
+    if (!online) {
+        Icon(
+            painterResource(CoreR.drawable.ic_proton_wrench),
+            contentDescription = null,
+            tint = iconTint,
+            modifier = modifier.padding(horizontal = 4.dp).size(20.dp)
+        )
+    }
+}
+
+@Composable
 fun ProfileCityOrStateItem(
-    currentValue: TypeAndLocationScreenState.CityOrState,
-    allCityStates: List<TypeAndLocationScreenState.CityOrState>,
-    onSelect: (TypeAndLocationScreenState.CityOrState) -> Unit,
+    currentValue: TypeAndLocationScreenState.CityOrStateItem,
+    allCityStates: List<TypeAndLocationScreenState.CityOrStateItem>,
+    onSelect: (TypeAndLocationScreenState.CityOrStateItem) -> Unit,
 ) {
     val isState = currentValue.id.isState
     ProfileValueItem(
@@ -317,6 +348,7 @@ fun ProfileCityOrStateItem(
         valueText = currentValue.name ?:
             if (isState) stringResource(R.string.create_profile_fastest_state)
             else stringResource(R.string.create_profile_fastest_city),
+        online = currentValue.online,
         iconContent = {
             Icon(
                 painterResource(
@@ -347,9 +379,9 @@ fun ProfileCityOrStateItem(
 @Composable
 fun PickCityOrState(
     isState: Boolean,
-    selectedCityState: TypeAndLocationScreenState.CityOrState,
-    allCityStates: List<TypeAndLocationScreenState.CityOrState>,
-    onSelect: (TypeAndLocationScreenState.CityOrState) -> Unit,
+    selectedCityState: TypeAndLocationScreenState.CityOrStateItem,
+    allCityStates: List<TypeAndLocationScreenState.CityOrStateItem>,
+    onSelect: (TypeAndLocationScreenState.CityOrStateItem) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     BaseItemPickerDialog(
@@ -385,13 +417,14 @@ fun PickCityOrState(
 
 @Composable
 fun ProfileServerItem(
-    serverInfo: TypeAndLocationScreenState.Server,
-    allServers: List<TypeAndLocationScreenState.Server>,
-    onSelect: (TypeAndLocationScreenState.Server) -> Unit,
+    serverInfo: TypeAndLocationScreenState.ServerItem,
+    allServers: List<TypeAndLocationScreenState.ServerItem>,
+    onSelect: (TypeAndLocationScreenState.ServerItem) -> Unit,
 ) {
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_server_title,
         valueText = serverInfo.name ?: stringResource(R.string.create_profile_fastest_server),
+        online = serverInfo.online,
         iconContent = {
             if (serverInfo.flagCountryId != null) {
                 Flag(
@@ -427,9 +460,9 @@ fun ProfileServerItem(
 
 @Composable
 fun PickServer(
-    selectedServer: TypeAndLocationScreenState.Server,
-    allServers: List<TypeAndLocationScreenState.Server>,
-    onSelect: (TypeAndLocationScreenState.Server) -> Unit,
+    selectedServer: TypeAndLocationScreenState.ServerItem,
+    allServers: List<TypeAndLocationScreenState.ServerItem>,
+    onSelect: (TypeAndLocationScreenState.ServerItem) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     BaseItemPickerDialog(
@@ -440,6 +473,7 @@ fun PickServer(
             SettingsRadioItemSmall(
                 title = server.name ?: stringResource(R.string.create_profile_fastest_server),
                 description = null,
+                titleColor = if (server.online) ProtonTheme.colors.textNorm else ProtonTheme.colors.textHint,
                 selected = server.id == selectedServer.id,
                 onSelected = { onSelect(server) },
                 horizontalContentPadding = DIALOG_CONTENT_PADDING,
@@ -458,12 +492,16 @@ fun PickServer(
                                 else CoreR.drawable.ic_proton_servers
                             ),
                             contentDescription = null,
+                            tint = if (server.online) ProtonTheme.colors.iconNorm else ProtonTheme.colors.iconHint,
                             modifier = Modifier
                                 .padding(end = 14.dp)
                                 .padding(horizontal = 2.dp)
                                 .size(20.dp)
                         )
                     }
+                },
+                trailingTitleContent = {
+                    AvailabilityIndicator(server.online)
                 }
             )
         }
@@ -479,6 +517,7 @@ fun ProfileProtocolItem(
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_protocol_title,
         valueText = stringResource(id = value.displayName),
+        online = true,
         iconContent = {
         },
         modal = { closeModal ->
@@ -601,6 +640,7 @@ fun ProfileNatItem(
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_nat_title,
         valueText = stringResource(id = value.shortLabelRes),
+        online = true,
         iconContent = {
         },
         modal = { closeModal ->
@@ -650,6 +690,7 @@ fun ProfileNetShieldItem(
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_netshield_title,
         valueText = stringResource(if (value) R.string.netshield_state_on else R.string.netshield_state_off),
+        online = true,
         iconContent = {
             Image(
                 painterResource(if (value) R.drawable.feature_netshield_on else R.drawable.ic_netshield_off),
@@ -713,11 +754,13 @@ fun PickNetShield(
 fun ProfileValueItem(
     @StringRes labelRes: Int?,
     valueText: String,
+    online: Boolean,
     iconContent: (@Composable RowScope.() -> Unit)?,
     modal: @Composable (() -> Unit) -> Unit,
     modifier: Modifier = Modifier,
     bottomPadding: Dp = 20.dp,
 ) {
+    val textColor = if (online) ProtonTheme.colors.textNorm else ProtonTheme.colors.textHint
     var showDialog by rememberSaveable { mutableStateOf(false) }
     Column(
         modifier = modifier
@@ -728,7 +771,8 @@ fun ProfileValueItem(
             Text(
                 text = stringResource(labelRes),
                 style = ProtonTheme.typography.captionMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = 8.dp),
+                color = textColor
             )
         }
         Row(
@@ -747,8 +791,10 @@ fun ProfileValueItem(
             Text(
                 text = valueText,
                 style = ProtonTheme.typography.body1Medium,
-                modifier = Modifier.weight(1f)
+                color = textColor,
+                modifier = Modifier.weight(1f, fill = false)
             )
+            AvailabilityIndicator(online, Modifier.padding(start = 8.dp))
             Icon(
                 painter = painterResource(id = CoreR.drawable.ic_proton_chevron_down),
                 contentDescription = null,
@@ -834,7 +880,7 @@ private fun ProfileCountryItemPreview() {
         Surface {
             ProfileCountryItem(
                 false,
-                CountryId("PL"),
+                TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
                 null,
                 emptyList(),
                 emptyList(),
@@ -851,8 +897,8 @@ private fun ProfileCountryItemSCPreview() {
         Surface {
             ProfileCountryItem(
                 true,
-                CountryId("PL"),
-                CountryId.switzerland,
+                TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
+                TypeAndLocationScreenState.CountryItem(CountryId.switzerland, false),
                 emptyList(),
                 emptyList(),
                 {}, {}
@@ -869,11 +915,11 @@ private fun PickCountryDialogPreview() {
             PickCountry(
                 isVia = false,
                 isSecureCore = false,
-                CountryId("PL"),
+                TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
                 listOf(
-                    CountryId("DE"),
-                    CountryId("PL"),
-                    CountryId("US"),
+                    TypeAndLocationScreenState.CountryItem(CountryId("DE"), true),
+                    TypeAndLocationScreenState.CountryItem(CountryId("PL"), false),
+                    TypeAndLocationScreenState.CountryItem(CountryId("US"), true),
                 ),
                 {},
                 {}
@@ -890,10 +936,10 @@ private fun PickViaCountryDialogPreview() {
             PickCountry(
                 isVia = true,
                 isSecureCore = false,
-                CountryId("PL"),
+                TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
                 listOf(
-                    CountryId.sweden,
-                    CountryId.switzerland,
+                    TypeAndLocationScreenState.CountryItem(CountryId.sweden, true),
+                    TypeAndLocationScreenState.CountryItem(CountryId.switzerland, true),
                 ),
                 {},
                 {}
@@ -908,9 +954,10 @@ private fun ProfileCityOrStateItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
             ProfileCityOrStateItem(
-                TypeAndLocationScreenState.CityOrState(
+                TypeAndLocationScreenState.CityOrStateItem(
                     "New York",
-                    CityStateId("NY", isState = false)
+                    CityStateId("NY", isState = false),
+                    true
                 ),
                 emptyList(),
                 {}
@@ -926,23 +973,27 @@ private fun PickCityStatePreview() {
         Surface {
             PickCityOrState(
                 isState = false,
-                selectedCityState = TypeAndLocationScreenState.CityOrState(
+                selectedCityState = TypeAndLocationScreenState.CityOrStateItem(
                     "New York",
-                    CityStateId("NY", isState = false)
+                    CityStateId("NY", isState = false),
+                    true
                 ),
                 allCityStates = listOf(
-                    TypeAndLocationScreenState.CityOrState(null, CityStateId("", isState = false)),
-                    TypeAndLocationScreenState.CityOrState(
+                    TypeAndLocationScreenState.CityOrStateItem(null, CityStateId("", isState = false), true),
+                    TypeAndLocationScreenState.CityOrStateItem(
                         "New York",
-                        CityStateId("NY", isState = false)
+                        CityStateId("NY", isState = false),
+                        true
                     ),
-                    TypeAndLocationScreenState.CityOrState(
+                    TypeAndLocationScreenState.CityOrStateItem(
                         "Los Angeles",
-                        CityStateId("CA", isState = false)
+                        CityStateId("CA", isState = false),
+                        true
                     ),
-                    TypeAndLocationScreenState.CityOrState(
+                    TypeAndLocationScreenState.CityOrStateItem(
                         "Chicago",
-                        CityStateId("IL", isState = false)
+                        CityStateId("IL", isState = false),
+                        true
                     ),
                 ),
                 {},
@@ -958,7 +1009,7 @@ private fun ProfileServerOrGatewayItemPreview() {
     VpnTheme(isDark = true) {
         Surface {
             ProfileServerItem(
-                TypeAndLocationScreenState.Server("US-TX#1", "1", null),
+                TypeAndLocationScreenState.ServerItem("US-TX#1", "1", null, true),
                 emptyList(),
                 {}
             )
@@ -972,11 +1023,11 @@ private fun PickServerPreview() {
     VpnTheme(isDark = true) {
         Surface {
             PickServer(
-                TypeAndLocationScreenState.Server("US-TX#1", "1", null),
+                TypeAndLocationScreenState.ServerItem("US-TX#1", "1", null, false),
                 listOf(
-                    TypeAndLocationScreenState.Server(null, "0", null),
-                    TypeAndLocationScreenState.Server("US-TX#1", "1", null),
-                    TypeAndLocationScreenState.Server("US-TX#2", "2", null),
+                    TypeAndLocationScreenState.ServerItem(null, "0", null, false),
+                    TypeAndLocationScreenState.ServerItem("US-TX#1", "1", null, false),
+                    TypeAndLocationScreenState.ServerItem("US-TX#2", "2", null, true),
                 ),
                 {},
                 {}
