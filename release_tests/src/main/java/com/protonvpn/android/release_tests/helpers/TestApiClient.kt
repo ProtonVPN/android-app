@@ -77,6 +77,7 @@ object TestApiClient {
             override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
         })
 
+        // nosemgrep semgrep.gitlab.find_sec_bugs_kotlin.SSL_CONTEXT-1
         val sslContext = SSLContext.getInstance("SSL")
         sslContext.init(null, trustAllCerts, java.security.SecureRandom())
         val sslSocketFactory = sslContext.socketFactory

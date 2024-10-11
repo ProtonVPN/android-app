@@ -58,6 +58,7 @@ public class ApacheStringUtils {
         if (isEmpty(input)) {
             return input;
         }
+        // nosemgrep: semgrep.gitlab.find_sec_bugs.IMPROPER_UNICODE-1
         final StringBuilder decomposed = new StringBuilder(Normalizer.normalize(input, Normalizer.Form.NFKD));
         convertRemainingAccentCharacters(decomposed);
         return STRIP_ACCENTS_PATTERN.matcher(decomposed).replaceAll(EMPTY);

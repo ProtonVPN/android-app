@@ -78,6 +78,7 @@ class ServerPing @Inject constructor(
     ): Boolean = withContext(dispatcherProvider.Io) {
         suspendCancellableCoroutine<Boolean> { continuation ->
             val result = try {
+                // nosemgrep: semgrep.gitlab.find_sec_bugs_kotlin.URLCONNECTION_SSRF_FD-1
                 val address = InetSocketAddress(InetAddress.getByName(ip), port)
                 val result = if (tcp)
                     pingTcp(pingData, address, continuation, timeout)
@@ -106,6 +107,7 @@ class ServerPing @Inject constructor(
         continuation: CancellableContinuation<*>,
         timeout: Int
     ): Boolean {
+        // nosemgrep: semgrep.kotlin.lang.security.unencrypted-socket.unencrypted-socket
         Socket().use { socket ->
             continuation.invokeOnCancellation {
                 socket.close()
@@ -147,8 +149,10 @@ class ServerPing @Inject constructor(
     }
 
     private fun protectSocket(socket: Socket) {
-        if (!socket.isBound)
+        if (!socket.isBound) {
+            // nosemgrep: semgrep.gitlab.find_sec_bugs_kotlin.URLCONNECTION_SSRF_FD-1
             socket.bind(InetSocketAddress(0))
+        }
         val success = try {
             currentVpnServiceProvider.getCurrentVpnService()?.protect(socket) ?: false
         } catch (e: NullPointerException) {
@@ -159,8 +163,10 @@ class ServerPing @Inject constructor(
     }
 
     private fun protectSocket(socket: DatagramSocket) {
-        if (!socket.isBound)
+        if (!socket.isBound) {
+            // nosemgrep: semgrep.gitlab.find_sec_bugs_kotlin.URLCONNECTION_SSRF_FD-1
             socket.bind(InetSocketAddress(0))
+        }
         val success = try {
             currentVpnServiceProvider.getCurrentVpnService()?.protect(socket) ?: false
         } catch (e: NullPointerException) {

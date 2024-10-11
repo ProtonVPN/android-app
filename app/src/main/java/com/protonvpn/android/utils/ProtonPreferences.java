@@ -287,7 +287,6 @@ public class ProtonPreferences implements SharedPreferences {
                 }
             }
             catch (Exception e) {
-                e.printStackTrace();
                 if (sLoggingEnabled) {
                     Log.w(TAG, "error during getAll", e);
                 }

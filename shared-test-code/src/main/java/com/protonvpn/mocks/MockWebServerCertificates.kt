@@ -33,7 +33,9 @@ private val LOCALHOST_CERTIFICATE = """
     AwIDRwAwRAIgfJQTVMFSqm/15y+hRI5eiz7nnD2SUPyGf0nGEWM17YsCIG3qfMim
     tnKzZ3m3Eic9txz5M5ZXWrD6aeREf7X2cXnZ
     -----END CERTIFICATE-----
-    -----BEGIN PRIVATE KEY-----
+""".trimIndent() +
+    "-----BEGIN PRIVATE KEY-----" + // gitleaks:allow nosemgrep
+    """
     MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgnddyPTeBqCYw91EH
     wCLja6wSYNxMvC3OhcEdgB8Q9BmhRANCAATnPfqdAwLWJHG+nfA84cFDE82B5zpY
     pkL6Fmk+GfjCmCC6/zwuwB9yfkEo2m8oMx/SLDMAXgXdJFjHtXKWSczi
