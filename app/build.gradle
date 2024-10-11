@@ -130,7 +130,6 @@ def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath'
 def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccountPassword : "\"Pass\""
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 def supportedLocales = ['b+es+419', 'be', 'cs', 'de', 'el', 'en', 'es-rES', 'es-rMX', 'fa', 'fi', 'fr', 'hr', 'in', 'it', 'ja', 'ka', 'ko', 'nb-rNO', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'sk', 'sl', 'sv-rSE', 'tr', 'uk', 'zh-rTW']
-def redesignTestBuild = project.hasProperty('redesignTestBuild') ? project.redesignTestBuild.toBoolean() : false
 def allowLogcat = System.getenv("ALLOW_LOGCAT") ? System.getenv("ALLOW_LOGCAT").toBoolean() : false
 def helpers = new Helpers(rootDir, providers)
 
@@ -191,12 +190,6 @@ android {
         buildConfigField "String", "VPN_SERVER_ROOT_CERT", "null"
 
         Helpers.setAssetLinksResValue(it, "proton.me")
-
-        if (redesignTestBuild) {
-            applicationIdSuffix '.testing'
-        }
-        buildConfigField "Boolean", "REDESIGN_TEST_BUILD", redesignTestBuild.toString()
-        manifestPlaceholders.enableUiCatalog = redesignTestBuild.toString()
     }
     flavorDimensions = ["environment", "functionality", "distribution"]
     productFlavors {
@@ -329,7 +322,6 @@ android {
             ext.alwaysUpdateBuildId = false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders.enableUiCatalog = true
         }
         release {
             minifyEnabled true

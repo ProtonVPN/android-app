@@ -357,25 +357,6 @@
             android:name="me.proton.core.crypto.validator.presentation.ui.CryptoValidatorErrorDialogActivity"
             android:theme="@style/ProtonTheme.Transparent" />
 
-        <activity
-            android:name=".redesign.uicatalog.UiCatalogActivity"
-            android:label="UI catalog"
-            android:theme="@style/ProtonTheme.Vpn"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true"
-            android:enabled="${enableUiCatalog}">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="uicatalog"/>
-            </intent-filter>
-        </activity>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
