@@ -23,9 +23,13 @@
 # Source: https://github.com/rix0rrr/cover2cover
 
 import sys
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as ET
 import re
 import os.path
+# defusedxml doesn't define these non-parsing related objects
+from xml.etree.ElementTree import Element # nosemgrep
+from xml.etree.ElementTree import SubElement # nosemgrep
+from xml.etree.ElementTree import tostring # nosemgrep
 
 # branch-rate="0.0" complexity="0.0" line-rate="1.0"
 # branch="true" hits="1" number="86"
@@ -54,13 +58,13 @@ def method_lines(jmethod, jmethods, jlines):
 
 def convert_lines(j_lines, into):
     """Convert the JaCoCo <line> elements into Cobertura <line> elements, add them under the given element."""
-    c_lines = ET.SubElement(into, 'lines')
+    c_lines = SubElement(into, 'lines')
     for jline in j_lines:
         mb = int(jline.attrib['mb'])
         cb = int(jline.attrib['cb'])
         ci = int(jline.attrib['ci'])
 
-        cline = ET.SubElement(c_lines, 'line')
+        cline = SubElement(c_lines, 'line')
         cline.set('number', jline.attrib['nr'])
         cline.set('hits', '1' if ci > 0 else '0') # Probably not true but no way to know from JaCoCo XML file
 
@@ -69,7 +73,7 @@ def convert_lines(j_lines, into):
             cline.set('branch',             'true')
             cline.set('condition-coverage', percentage + ' (' + str(cb) + '/' + str(cb + mb) + ')')
 
-            cond = ET.SubElement(ET.SubElement(cline, 'conditions'), 'condition')
+            cond = SubElement(SubElement(cline, 'conditions'), 'condition')
             cond.set('number',   '0')
             cond.set('type',     'jump')
             cond.set('coverage', percentage)
@@ -104,7 +108,7 @@ def counter(source, type, operation=fraction):
         return '0.0'
 
 def convert_method(j_method, j_lines):
-    c_method = ET.Element('method')
+    c_method = Element('method')
     c_method.set('name',      j_method.attrib['name'])
     c_method.set('signature', j_method.attrib['desc'])
 
@@ -114,13 +118,13 @@ def convert_method(j_method, j_lines):
     return c_method
 
 def convert_class(j_class, j_package, source_root):
-    c_class = ET.Element('class')
+    c_class = Element('class')
     c_class.set('name',     j_class.attrib['name'].replace('/', '.'))
     c_class.set('filename', source_root + '/' + guess_filename(j_class.attrib['name']))
 
     all_j_lines = list(find_lines(j_package, c_class.attrib['filename']))
 
-    c_methods   = ET.SubElement(c_class, 'methods')
+    c_methods   = SubElement(c_class, 'methods')
     all_j_methods = list(j_class.findall('method'))
     for j_method in all_j_methods:
         j_method_lines = method_lines(j_method, all_j_methods, all_j_lines)
@@ -132,10 +136,10 @@ def convert_class(j_class, j_package, source_root):
     return c_class
 
 def convert_package(j_package, source_root):
-    c_package = ET.Element('package')
+    c_package = Element('package')
     c_package.attrib['name'] = j_package.attrib['name'].replace('/', '.')
 
-    c_classes = ET.SubElement(c_package, 'classes')
+    c_classes = SubElement(c_package, 'classes')
     for j_class in j_package.findall('class'):
         c_classes.append(convert_class(j_class, j_package, source_root))
 
@@ -146,7 +150,7 @@ def convert_package(j_package, source_root):
 def convert_root(source, target, source_root):
     target.set('timestamp', str(int(source.find('sessioninfo').attrib['start']) / 1000))
 
-    packages = ET.SubElement(target, 'packages')
+    packages = SubElement(target, 'packages')
 
     for group in source.findall('group'):
         for package in group.findall('package'):
@@ -164,10 +168,10 @@ def jacoco2cobertura(filename, source_root):
         tree = ET.parse(filename)
         root = tree.getroot()
 
-    into = ET.Element('coverage')
+    into = Element('coverage')
     convert_root(root, into, source_root)
     print ('<?xml version="1.0" ?>')
-    print (ET.tostring(into, encoding='unicode'))
+    print (tostring(into, encoding='unicode'))
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
