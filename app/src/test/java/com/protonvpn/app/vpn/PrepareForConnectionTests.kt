@@ -81,7 +81,7 @@ class PrepareForConnetionTests {
     fun setup() {
         MockKAnnotations.init(this)
         mockkObject(Random)
-        every { Random.nextInt(any()) } returns 0
+        every { Random.nextInt(any()) } returns 0 // nosemgrep
 
         coEvery {
             serverAvailabilityCheck.pingInParallel(any(), true)

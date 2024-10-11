@@ -52,6 +52,7 @@ object AssetManager {
         manager.open("test_image_asset.irx").use { input ->
             val bytes = input.readBytes()
             // Use encryption to have support for images for future promotions
+            // nosemgrep: semgrep.kotlin.lang.security.gcm-detection.gcm-detection
             val decoder = Cipher.getInstance("AES/GCM/NoPadding")
             decoder.init(
                 Cipher.DECRYPT_MODE,
@@ -59,6 +60,7 @@ object AssetManager {
                     BuildConfig.TEST_SUITE_ASSET_OVERRIDE_KEY.hexToByteArray()
                         .zip(BuildConfig.TEST_ASSET_OVERRIDE_KEY.hexToByteArray())
                         .flatMap { listOf(it.first, it.second) }.toByteArray(), "AES"),
+                // nosemgrep: semgrep.kotlin.lang.security.gcm-detection.gcm-detection
                 GCMParameterSpec(128, ByteArray(12) { 0 }))
             val decoded = decoder.doFinal(bytes)
             // This should be PNG file or other supported image format
