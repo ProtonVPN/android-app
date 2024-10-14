@@ -1419,9 +1419,9 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Лише вибрані програми під\'єднуються через VPN, а весь інший трафік є незахищеним.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_delete">Delete</string>
-    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
-    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>

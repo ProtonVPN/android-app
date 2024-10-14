@@ -1313,9 +1313,9 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">오직 선택된 앱만이 VPN을 통해 연결됩니다. 제외된 항목은 보호되지 않습니다.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_delete">삭제</string>
-    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
-    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">미국 스트리밍</string>
     <string name="initial_profile_name_work_school">업무/학교</string>

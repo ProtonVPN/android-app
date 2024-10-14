@@ -400,7 +400,7 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Ontgrendel %1$s in %2$s met <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
+    <string name="upgrade_unlimited_all_apps_title">Alle premium Proton-services. Eén simpel abonnement.</string>
     <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
     <string name="upgrade_unlimited_more">En meer</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Ontgrendel toegang tot alle landen</string>
@@ -408,8 +408,8 @@
     <string name="upgrade_unlimited_vpn_any_location">Kies enige locatie</string>
     <string name="upgrade_unlimited_vpn_higher_speeds">Nog hogere VPN-snelheden</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">%1$d apparaat tegelijk beschermen</item>
+        <item quantity="other">%1$d apparaten tegelijk beschermen</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Beveiligd streamen</string>
     <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
@@ -427,7 +427,7 @@
         <item quantity="one">%1$d e-mailadres</item>
         <item quantity="other">%1$d e-mailadressen</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Onbeperkte mappen en filters</string>
     <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
     <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
     <string name="upgrade_unlimited_mail_autoreply">Automatisch beantwoorden</string>
@@ -454,8 +454,8 @@
     <string name="upgrade_unlimited_pass_credit_cards">Onbeperkt aantal creditcards</string>
     <string name="upgrade_unlimited_pass_devices">Onbeperkt aantal apparaten</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="one">Delen met maximaal %1$d andere</item>
+        <item quantity="other">Deel met maximaal %1$d anderen</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Geïntegreerde 2FA-authenticator</string>
     <string name="upgrade_not_now_button">Niet nu</string>
@@ -1290,8 +1290,8 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Selecteert automatisch het beste protocol voor uw verbinding.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
-    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_udp_description">Geavanceerd protocol voor beveiliging en prestaties.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Geavanceerd protocol voor beveiliging en prestaties.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Gevestigd, goed getest en veilig. OpenVPN is minder batterij-efficiënt dan sommige andere protocollen.</string>
     <string name="settings_protocol_openvpn_tcp_description">Gevestigd, goed getest en veilig. OpenVPN is betrouwbaar bij slechte netwerkomstandigheden, maar is mogelijk niet zo snel als andere protocollen.</string>
@@ -1347,10 +1347,10 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Alleen geselecteerde apps verbinden via VPN, al het andere verkeer is onbeschermd.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_delete">Verwijderen</string>
-    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
-    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_streaming_us">Streaming VS</string>
     <string name="initial_profile_name_work_school">Work/School</string>
 </resources>
