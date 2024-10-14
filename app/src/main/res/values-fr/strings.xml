@@ -1347,9 +1347,9 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Seules les applications sélectionnées se connectent via VPN. Tout autre trafic n\'est pas protégé.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_delete">Supprimer</string>
-    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
-    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming États-Unis</string>
     <string name="initial_profile_name_work_school">Travail ou école</string>

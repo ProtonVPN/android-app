@@ -1421,9 +1421,9 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_delete">Izbriši</string>
-    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
-    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>

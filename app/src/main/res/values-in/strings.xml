@@ -537,7 +537,7 @@
     <string name="dynamic_report_success_description">Kami akan kembali menghubungi Anda sesegera mungkin.</string>
     <string name="dynamic_report_field_mandatory">Kolom ini wajib diisi</string>
     <string name="dynamic_report_logs_description">Log merupakan berkas yang merekam berbagai aktivitas yang Anda lakukan sebelum error terjadi. Kami hanya akan menggunakan berkas ini untuk membantu para pakar kami dalam menumpas bug yang ada.</string>
-    <string name="dynamic_report_logs_missing">Log error akan membantu kami untuk dapat menyelesaikan masalah yang ada hingga ke akar-akarnya. Apabila Anda tidak menyertakan log error, kami tidak akan dapat menyelidiki masalah Anda secara menyeluruh.</string>
+    <string name="dynamic_report_logs_missing">Log error membantu kami dalam menumpas masalah Anda hingga ke akar-akarnya. Apabila Anda tidak menyertakan log error, kami mungkin tidak akan dapat menganalisa masalah Anda secara menyeluruh.</string>
     <string name="dynamic_report_step1">Langkah 1 dari 3</string>
     <string name="dynamic_report_step2">Langkah 2 dari 3</string>
     <string name="dynamic_report_step3">Langkah 3 dari 3</string>
@@ -1311,9 +1311,9 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Hanya aplikasi yang dipilih yang akan terhubung melalui VPN, lalu lintas lainnya tidak terlindungi.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_delete">Hapus</string>
-    <!-- Label when showing profile's NAT (Network Address Translation) setting. Preferably short. -->
+    <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
-    <!-- Label when showing profile's LAN (Local Area Network) setting. Preferably short. -->
+    <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">US Streaming</string>
     <string name="initial_profile_name_work_school">Kantor/Sekolah</string>
