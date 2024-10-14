@@ -262,7 +262,7 @@ artifactlift-s3-upload-prod:
   before_script:
     - export DIRNAME="$( date -I )"
     - mkdir "${DIRNAME}" && cd "${DIRNAME}"
-    - mv "${ARTIFACT_PATH}" "${ARTIFACT_OUTPUT_NAME}"
+    - mv "../${ARTIFACT_PATH}" "${ARTIFACT_OUTPUT_NAME}"
   variables:
     ARTIFACT_PATH: "signedArtifacts/${ARCHIVES_BASE_NAME}-production-vanilla-direct-release.apk"
     ARTIFACT_OUTPUT_NAME: "ProtonVPN.apk"
