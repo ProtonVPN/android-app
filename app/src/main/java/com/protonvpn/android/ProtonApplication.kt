@@ -42,8 +42,8 @@ import com.protonvpn.android.logging.SettingChangesLogger
 import com.protonvpn.android.managed.AutoLoginManager
 import com.protonvpn.android.notifications.NotificationHelper.Companion.initNotificationChannel
 import com.protonvpn.android.notifications.NotificationPermissionManager
-import com.protonvpn.android.profiles.usecases.ProfileAutoOpenHandler
 import com.protonvpn.android.profiles.usecases.PopulateInitialProfiles
+import com.protonvpn.android.profiles.usecases.ProfileAutoOpenHandler
 import com.protonvpn.android.quicktile.QuickTileDataStoreUpdater
 import com.protonvpn.android.redesign.recents.usecases.ConnectingUpdatesRecents
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
@@ -77,6 +77,7 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import me.proton.core.accountmanager.data.AccountStateHandler
 import me.proton.core.eventmanager.data.CoreEventManagerStarter
 import me.proton.core.humanverification.presentation.HumanVerificationStateHandler
+import me.proton.core.network.presentation.installCertificateTransparencySupport
 import me.proton.core.plan.data.PurchaseStateHandler
 import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryHandler
 import me.proton.core.userrecovery.presentation.compose.DeviceRecoveryNotificationSetup
@@ -134,6 +135,10 @@ open class ProtonApplication : Application() {
     protected var lastMainProcessExitReason: Int? = null
 
     override fun onCreate() {
+        installCertificateTransparencySupport(
+            excludedCommonNames = if (BuildConfig.DEBUG) listOf("localhost") else emptyList()
+        )
+
         super.onCreate()
         appContext = this
 
