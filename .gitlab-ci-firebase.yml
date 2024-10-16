@@ -129,8 +129,7 @@ robo tests:
     - shared-small
   rules:
     - if: $ROBO_TEST == "true"
-      when: always
-    - when: never
+      when: always # Run even if build fails, this job will inform us on Slack.
   script:
     - *firebase_authenticate_script
     - gcloud firebase test android run firebase-device-config.yml:mobileTest

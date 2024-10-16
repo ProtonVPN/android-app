@@ -20,6 +20,8 @@ variables:
   ATLAS_DEPLOY_LIST:
     value: fe-vpn:branch-main
     description: List of components to deploy (fe-vpn:v4.7.0:prod+t to use a tag)
+  ATLAS_DEPLOY_ENV: "true"
+  ATLAS_DEPLOY_PREP: "true"
   GIT_FETCH_EXTRA_FLAGS: --tags
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
   NEXUS_GROUP: "/Vpn/Android/SLI/Latest/Stable"
@@ -27,13 +29,14 @@ variables:
 
 workflow:
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
       when: never
-    - if: '$CI_PIPELINE_SOURCE == "schedule"' # Run scheduled pipelines without deploying atlas for tests.
-    - if: '"true" == "true"' # Run all other pipelines with test env deployed to atlas.
-      variables:
-        ATLAS_DEPLOY_ENV: "true"
-        ATLAS_DEPLOY_PREP: "true"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      variables:  # Run scheduled pipelines without deploying atlas for tests.
+        ATLAS_DEPLOY_ENV: "false"
+        ATLAS_DEPLOY_PREP: "false"
+    - if: $CI_COMMIT_BRANCH
 
 stages:
   - prepare
@@ -54,7 +57,6 @@ prevent-interrupt:
   stage: .pre
   rules:
     - if: $CI_COMMIT_BRANCH == "development" || $CI_COMMIT_BRANCH == "master"
-      when: always
   interruptible: false
   cache: []
   before_script: []
@@ -133,12 +135,7 @@ build google debug:
   stage: build
   rules:
     - if: $ROBO_TEST == "true"
-      when: always
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
-    - when: always
+    - if: '$CI_PIPELINE_SOURCE != "schedule"'
   tags:
     - xlarge-k8s
   script:
@@ -239,12 +236,7 @@ build google play dev (monitoring release):
   stage: build
   rules:
     - if: $ROBO_TEST == "true"
-      when: always
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
-    - when: always
+    - if: '$CI_PIPELINE_SOURCE != "schedule"'
   tags:
     - xlarge-k8s
   script:

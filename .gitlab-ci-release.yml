@@ -55,7 +55,6 @@ make release branch:
   - if: $CI_PIPELINE_SOURCE == "schedule"
     when: never
   - if: $CI_COMMIT_BRANCH =~ /^release/
-    when: always
   - if: $CI_COMMIT_REF_PROTECTED == "true"
     when: manual
 
@@ -63,17 +62,13 @@ make release branch:
   - if: $CI_PIPELINE_SOURCE == "schedule"
     when: never
   - if: $CI_COMMIT_BRANCH =~ /^release/
-    when: always
 
 .bundle_build_rules: &bundle_build_rules
   - if: $CI_PIPELINE_SOURCE == "schedule"
     when: never
   - if: $CI_COMMIT_BRANCH == "development"
-    when: always
   - if: $CI_COMMIT_BRANCH =~ /^release/
-    when: always
   - if: $CI_COMMIT_BRANCH =~ /^hotfix/
-    when: always
 
 .payments_black_build_rules: &payments_black_build_rules
   - if: $CI_PIPELINE_SOURCE == "schedule"
@@ -217,7 +212,6 @@ publish-apk-internal:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - if: $CI_COMMIT_BRANCH == "development"
-      when: always
   needs:
     - job: sign google bundle
     # Make sure tests pass before publishing. The dependency is on coverage report to avoid listing
@@ -236,7 +230,6 @@ publish-github:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - if: $CI_COMMIT_BRANCH =~ /^release/
-      when: always
   variables:
     RELEASE_NOTES: "metadata/en-US/changelogs/${VERSION_CODE}.txt"
     GH_TOKEN: "${GITHUB_CLI_TOKEN}"
@@ -256,7 +249,6 @@ artifactlift-s3-upload-prod:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - if: $CI_COMMIT_BRANCH =~ /^release/
-      when: always
   dependencies: ["sign vanilla apk", "export archive name"]
   interruptible: false
   before_script:
@@ -273,7 +265,6 @@ publish nexus:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
     - if: $CI_COMMIT_BRANCH =~ /^release/
-      when: always
     - when: manual
   tags:
     - shared-medium
