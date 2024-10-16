@@ -209,7 +209,8 @@ private fun ProfileBottomSheetPreview() {
                     name = "Profile name",
                     icon = ProfileIcon.Icon1,
                     color = ProfileColor.Color1,
-                    gatewayName = null
+                    gatewayName = null,
+                    createdAt = 0L
                 ),
                 isConnected = false,
                 availability = ConnectIntentAvailability.ONLINE,

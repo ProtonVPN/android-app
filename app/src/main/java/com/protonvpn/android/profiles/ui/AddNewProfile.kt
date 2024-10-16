@@ -23,11 +23,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -52,6 +56,7 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
+import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.presentation.utils.currentLocale
@@ -105,7 +110,11 @@ fun AddEditProfileScreen(
             )
         }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
+        Column(modifier = Modifier
+            .padding(paddingValues)
+            // Workaround for https://issuetracker.google.com/issues/249727298
+            .consumeWindowInsets(paddingValues)
+        ) {
             StepHeader(navController, totalSteps)
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -116,7 +125,9 @@ fun AddEditProfileScreen(
                     onProfileSave()
                     onDismiss()
                 },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = largeScreenContentPadding())
             )
         }
     }
@@ -127,38 +138,69 @@ private fun StepHeader(
     navController: NavHostController,
     totalSteps: Int
 ) {
-    val currentBackStackEntry = navController.currentBackStackEntryAsState()
+    Column {
+        val currentBackStackEntry = navController.currentBackStackEntryAsState()
 
-    val currentStep = enumValues<ProfileCreationTarget>()
-        .firstOrNull { it.screen.route == currentBackStackEntry.value?.destination?.route }
-        ?.ordinal?.plus(1) ?: 0
+        val currentStep = enumValues<ProfileCreationTarget>()
+            .firstOrNull { it.screen.route == currentBackStackEntry.value?.destination?.route }
+            ?.ordinal?.plus(1) ?: 0
 
-    LinearProgressIndicator(
-        progress = { currentStep / totalSteps.toFloat() },
-        modifier = Modifier.fillMaxWidth(),
-        trackColor = ProtonTheme.colors.brandDarken40
-    )
+        LinearProgressIndicator(
+            progress = { currentStep / totalSteps.toFloat() },
+            modifier = Modifier.fillMaxWidth(),
+            trackColor = ProtonTheme.colors.brandDarken40
+        )
 
-    Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-    Text(
-        text = stringResource(id = R.string.create_profile_steps, currentStep, totalSteps),
-        style = ProtonTheme.typography.captionMedium,
-        color = ProtonTheme.colors.textAccent,
-        modifier = Modifier.padding(horizontal = 16.dp)
-    )
+        Text(
+            text = stringResource(id = R.string.create_profile_steps, currentStep, totalSteps),
+            style = ProtonTheme.typography.captionMedium,
+            color = ProtonTheme.colors.textAccent,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+    }
+}
+
+@Composable
+fun CreateProfileStep(
+    onNext: () -> Unit,
+    onBack: (() -> Unit)? = null,
+    onNextText: String = stringResource(id = R.string.create_profile_button_next),
+    content: @Composable () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .imePadding()
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            content()
+        }
+
+        ProfileNavigationButtons(
+            modifier = Modifier.fillMaxWidth(),
+            onNext = onNext,
+            onBack = onBack,
+            onNextText = onNextText,
+        )
+    }
 }
 
 @Composable
 fun ProfileNavigationButtons(
     modifier: Modifier = Modifier,
     onNext: () -> Unit,
-    onNextText: String? = null,
+    onNextText: String,
     onBack: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         onBack?.let {
@@ -171,10 +213,9 @@ fun ProfileNavigationButtons(
         }
 
         VpnSolidButton(
-            text = onNextText ?: stringResource(id = R.string.create_profile_button_next),
+            text = onNextText,
             onClick = onNext,
             modifier = Modifier.weight(1f)
         )
     }
 }
-

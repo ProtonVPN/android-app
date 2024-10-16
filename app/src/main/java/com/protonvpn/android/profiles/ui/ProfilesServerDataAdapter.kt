@@ -25,6 +25,7 @@ import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.hasFlag
 import dagger.Reusable
@@ -84,24 +85,26 @@ class ProfilesServerDataAdapter @Inject constructor(
         cityOrState: CityStateId,
         secureCore: Boolean,
         feature: ServerFeature?,
-    ) : List<TypeAndLocationScreenState.ServerItem> =
-        serverManager.getVpnExitCountry(exitCountry.countryCode, secureCore)
+    ) : List<TypeAndLocationScreenState.ServerItem> {
+        val features = setOfNotNull(feature)
+        return serverManager.getVpnExitCountry(exitCountry.countryCode, secureCore)
             ?.serverList
             ?.asSequence()
             ?.filter { !it.isFreeServer }
-            ?.filter { it.isInCityOrState(cityOrState) && (feature == null || it.features.hasFlag(feature.flag)) }
-            ?.map { it.toViewModel() }
+            ?.filter { it.isInCityOrState(cityOrState) && it.satisfiesFeatures(features) }
+            ?.map { it.toViewState() }
             ?.toList()
             ?: emptyList()
+    }
 
     suspend fun gateways() : List<TypeAndLocationScreenState.GatewayItem> =
-        serverManager.getGateways().map { it.toViewModel() }
+        serverManager.getGateways().map { it.toViewState() }
 
     suspend fun gatewayServers(name: String) =
         serverManager.getGateways()
             .find { it.name() == name }
             ?.serverList
-            ?.map { it.toViewModel() }
+            ?.map { it.toViewState() }
             ?: emptyList()
 
     suspend fun secureCoreExits() : List<TypeAndLocationScreenState.CountryItem> =
@@ -144,10 +147,10 @@ class ProfilesServerDataAdapter @Inject constructor(
     }
 
     suspend fun getServerViewModel(serverId: String?) =
-        serverId?.let { serverManager.getServerById(it) }.toViewModel()
+        serverId?.let { serverManager.getServerById(it) }.toViewState()
 }
 
-private fun Server?.toViewModel() =
+private fun Server?.toViewState() =
     // Will be null/null (fastest) if serverId is not found.
     TypeAndLocationScreenState.ServerItem(
         this?.serverName,
@@ -156,7 +159,7 @@ private fun Server?.toViewModel() =
         online = this?.online != false
     )
 
-private fun GatewayGroup.toViewModel() =
+private fun GatewayGroup.toViewState() =
     TypeAndLocationScreenState.GatewayItem(
         name(),
         online = serverList.any { it.online }

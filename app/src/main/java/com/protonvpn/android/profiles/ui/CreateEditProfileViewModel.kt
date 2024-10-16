@@ -157,7 +157,7 @@ sealed class TypeAndLocationScreenState {
     data class ServerItem(val name: String?, val id: String?, val flagCountryId: CountryId?, val online: Boolean) {
         val isFastest get() = id == null
         companion object {
-            fun Fastest(online: Boolean) = ServerItem(null, null, null, online)
+            fun fastest(online: Boolean) = ServerItem(null, null, null, online)
         }
     }
 
@@ -186,6 +186,10 @@ data class SettingsScreenState(
     )
 }
 
+private const val NAME_SCREEN_STATE_KEY = "nameScreenState"
+private const val TYPE_AND_LOCATION_SCREEN_STATE_KEY = "typeAndLocationScreenState"
+private const val SETTINGS_SCREEN_STATE_KEY = "settingsScreenState"
+
 @HiltViewModel
 class CreateEditProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -196,14 +200,15 @@ class CreateEditProfileViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
+    private var editedProfileCreatedAt by savedStateHandle.state<Long?>(null)
 
-    private var nameScreenState by savedStateHandle.state<NameScreenState?>(null, "nameScreenState")
-    private var typeAndLocationScreenSavedState by savedStateHandle.state<TypeAndLocationScreenSaveState?>(null, "typeAndLocationScreenState")
-    private var settingsScreenState by savedStateHandle.state<SettingsScreenState?>(null, "settingsScreenState")
+    private var nameScreenState by savedStateHandle.state<NameScreenState?>(null, NAME_SCREEN_STATE_KEY)
+    private var typeAndLocationScreenSavedState by savedStateHandle.state<TypeAndLocationScreenSaveState?>(null, TYPE_AND_LOCATION_SCREEN_STATE_KEY)
+    private var settingsScreenState by savedStateHandle.state<SettingsScreenState?>(null, SETTINGS_SCREEN_STATE_KEY)
 
-    val nameScreenStateFlow = savedStateHandle.getStateFlow<NameScreenState?>("nameScreenState", null)
-    private val typeAndLocationScreenSavedStateFlow = savedStateHandle.getStateFlow<TypeAndLocationScreenSaveState?>("typeAndLocationScreenState", null)
-    val settingsScreenStateFlow = savedStateHandle.getStateFlow<SettingsScreenState?>("settingsScreenState", null)
+    val nameScreenStateFlow = savedStateHandle.getStateFlow<NameScreenState?>(NAME_SCREEN_STATE_KEY, null)
+    private val typeAndLocationScreenSavedStateFlow = savedStateHandle.getStateFlow<TypeAndLocationScreenSaveState?>(TYPE_AND_LOCATION_SCREEN_STATE_KEY, null)
+    val settingsScreenStateFlow = savedStateHandle.getStateFlow<SettingsScreenState?>(SETTINGS_SCREEN_STATE_KEY, null)
 
     val localeFlow = MutableStateFlow<Locale?>(null)
     private val availableTypesFlow = adapter.hasAnyGatewaysFlow.map {
@@ -218,7 +223,7 @@ class CreateEditProfileViewModel @Inject constructor(
         ) { availableTypes, locale, _ ->
             when (savedState.type) {
                 ProfileType.Standard,
-                ProfileType.P2P -> standardOrP2P(
+                ProfileType.P2P -> getStandardOrP2PScreenState(
                     availableTypes,
                     locale,
                     savedState.countryId ?: CountryId.fastest,
@@ -226,13 +231,13 @@ class CreateEditProfileViewModel @Inject constructor(
                     savedState.serverId,
                     savedState.type == ProfileType.P2P,
                 )
-                ProfileType.SecureCore -> secureCore(
+                ProfileType.SecureCore -> getSecureCoreScreenState(
                     availableTypes,
                     locale,
                     savedState.exitCountrySecureCore ?: CountryId.fastest,
                     savedState.entryCountrySecureCore,
                 )
-                ProfileType.Gateway -> gateway(
+                ProfileType.Gateway -> getGatewayScreenState(
                     availableTypes,
                     locale,
                     savedState.gateway,
@@ -245,12 +250,15 @@ class CreateEditProfileViewModel @Inject constructor(
     fun setEditedProfileId(profileId: Long?) {
         editedProfileId = profileId
         viewModelScope.launch {
-            if (nameScreenState == null && profileId != null) {
-                profilesDao.getProfileById(profileId)?.let {
-                    initializeFromProfile(it)
+            val hasRestoreState = nameScreenState != null
+            if (!hasRestoreState) {
+                if (profileId != null) {
+                    profilesDao.getProfileById(profileId)?.let {
+                        initializeFromProfile(it)
+                    }
+                } else {
+                    initializeDefault()
                 }
-            } else {
-                initializeDefault()
             }
         }
     }
@@ -258,7 +266,7 @@ class CreateEditProfileViewModel @Inject constructor(
     fun save() {
         viewModelScope.launch {
             currentUser.vpnUser()?.userId?.let { userId ->
-                profilesDao.upsert(getProfile().toProfileEntity(userId, wallClock()))
+                profilesDao.upsert(getProfile().toProfileEntity(userId))
             }
         }
     }
@@ -274,6 +282,7 @@ class CreateEditProfileViewModel @Inject constructor(
     }
 
     private suspend fun initializeFromProfile(profile: Profile) {
+        editedProfileCreatedAt = profile.info.createdAt
         nameScreenState = NameScreenState(
             profile.info.name,
             profile.info.color,
@@ -308,7 +317,7 @@ class CreateEditProfileViewModel @Inject constructor(
     private suspend fun getProfile(): Profile {
         val profileId = editedProfileId
         val nameScreen = requireNotNull(nameScreenState)
-        val typeAndLocationScreen = requireNotNull(typeAndLocationScreenStateFlow.first())
+        val typeAndLocationScreen = typeAndLocationScreenStateFlow.first()
         val settingsScreen = requireNotNull(settingsScreenState)
         val overrides = settingsScreen.toSettingsOverrides()
         return Profile(
@@ -318,6 +327,7 @@ class CreateEditProfileViewModel @Inject constructor(
                 nameScreen.color,
                 nameScreen.icon,
                 (typeAndLocationScreen as? TypeAndLocationScreenState.Gateway)?.gateway?.name,
+                editedProfileCreatedAt ?: wallClock(),
             ),
             when (typeAndLocationScreen) {
                 is TypeAndLocationScreenState.P2P,
@@ -327,37 +337,42 @@ class CreateEditProfileViewModel @Inject constructor(
                     val serverId = typeAndLocationScreen.server?.id
                     val cityOrState = typeAndLocationScreen.cityOrState
                     val features = typeAndLocationScreen.features
-                    if (serverId != null) {
-                        ConnectIntent.Server(
-                            serverId = serverId,
-                            exitCountry = country.id,
-                            features = features,
-                            profileId = profileId,
-                            settingsOverrides = overrides,
-                        )
-                    } else if (cityOrState?.id?.isState == true) {
-                        ConnectIntent.FastestInState(
-                            country = country.id,
-                            stateEn = cityOrState.id.name,
-                            features = features,
-                            profileId = profileId,
-                            settingsOverrides = overrides,
-                        )
-                    } else if (cityOrState?.id?.isState == false) {
-                        ConnectIntent.FastestInCity(
-                            country = country.id,
-                            cityEn = cityOrState.id.name,
-                            features = features,
-                            profileId = profileId,
-                            settingsOverrides = overrides,
-                        )
-                    } else {
-                        ConnectIntent.FastestInCountry(
-                            country = country.id,
-                            features = features,
-                            profileId = profileId,
-                            settingsOverrides = overrides,
-                        )
+                    when {
+                        serverId != null -> {
+                            ConnectIntent.Server(
+                                serverId = serverId,
+                                exitCountry = country.id,
+                                features = features,
+                                profileId = profileId,
+                                settingsOverrides = overrides,
+                            )
+                        }
+                        cityOrState?.id?.isFastest == false && cityOrState.id.isState -> {
+                            ConnectIntent.FastestInState(
+                                country = country.id,
+                                stateEn = cityOrState.id.name,
+                                features = features,
+                                profileId = profileId,
+                                settingsOverrides = overrides,
+                            )
+                        }
+                        cityOrState?.id?.isFastest == false && !cityOrState.id.isState -> {
+                            ConnectIntent.FastestInCity(
+                                country = country.id,
+                                cityEn = cityOrState.id.name,
+                                features = features,
+                                profileId = profileId,
+                                settingsOverrides = overrides,
+                            )
+                        }
+                        else -> {
+                            ConnectIntent.FastestInCountry(
+                                country = country.id,
+                                features = features,
+                                profileId = profileId,
+                                settingsOverrides = overrides,
+                            )
+                        }
                     }
                 }
                 is TypeAndLocationScreenState.SecureCore -> ConnectIntent.SecureCore(
@@ -388,7 +403,72 @@ class CreateEditProfileViewModel @Inject constructor(
         else -> null
     }
 
-    private suspend fun standardOrP2P(
+    private suspend fun getCountryInfo(
+        locale: Locale,
+        serverFeature: ServerFeature?,
+        requestedCountryId: CountryId,
+    ): Pair<TypeAndLocationScreenState.CountryItem, List<TypeAndLocationScreenState.CountryItem>> {
+        val countries = adapter.countries(serverFeature)
+        val haveOnlineCountry = countries.any { it.online }
+        val fastestCountry = TypeAndLocationScreenState.CountryItem(CountryId.fastest, haveOnlineCountry)
+
+        // Fallback to fastest if country not longer available
+        val selectedCountry = countries.find { it.id == requestedCountryId } ?: fastestCountry
+
+        val countryNames = countries.associateWith { country -> CountryTools.getFullName(locale, country.id.countryCode) }
+        val sortedCountries = countries.sortedByLocaleAware(locale) { countryNames[it] ?: "" }
+        val selectableCountries = listOf(fastestCountry) + sortedCountries
+
+        return selectedCountry to selectableCountries
+    }
+
+    private suspend fun getCityOrStateInfo(
+        locale: Locale,
+        selectedCountry: TypeAndLocationScreenState.CountryItem,
+        serverFeature: ServerFeature?,
+        requestedCityOrState: CityStateId?,
+    ): Pair<TypeAndLocationScreenState.CityOrStateItem?, List<TypeAndLocationScreenState.CityOrStateItem>> {
+        val citiesOrStates = adapter.citiesOrStates(selectedCountry.id, secureCore = false, serverFeature)
+        val hasOnlineCityOrState = citiesOrStates.any { it.online }
+        val fastestCityOrState = TypeAndLocationScreenState.CityOrStateItem(
+            null,
+            if (citiesOrStates.any { it.id.isState }) CityStateId.fastestState
+            else CityStateId.fastestCity,
+            hasOnlineCityOrState
+        )
+        val selectedCityOrState = if (selectedCountry.id.isFastest) {
+            // Don't show city/state selection for fastest country
+            null
+        } else {
+            citiesOrStates.find { it.id == requestedCityOrState } ?: fastestCityOrState
+        }
+
+        val sortedCitiesOrStates = citiesOrStates.sortedByLocaleAware(locale) { it.name ?: "" }
+        val selectableCitiesOrStates = listOf(fastestCityOrState) + sortedCitiesOrStates
+        return selectedCityOrState to selectableCitiesOrStates
+    }
+
+    private suspend fun getServerInfo(
+        locale: Locale,
+        selectedCountry: TypeAndLocationScreenState.CountryItem,
+        selectedCityOrState: TypeAndLocationScreenState.CityOrStateItem?,
+        serverFeature: ServerFeature?,
+        requestedServerId: String?,
+    ): Pair<TypeAndLocationScreenState.ServerItem?, List<TypeAndLocationScreenState.ServerItem>> {
+        val servers = selectedCityOrState?.let { adapter.servers(selectedCountry.id, it.id, secureCore = false, serverFeature) } ?: emptyList()
+        val fastestServer = TypeAndLocationScreenState.ServerItem.fastest(servers.any { it.online })
+        val selectedServer = when {
+            selectedCityOrState == null || selectedCityOrState.id.isFastest -> null
+            requestedServerId != null && servers.any { it.id == requestedServerId } -> adapter.getServerViewModel(requestedServerId)
+            else -> fastestServer
+        }
+
+        val sortedServers = servers.sortedByLocaleAware(locale) { it.name ?: "" }
+        val selectableServers = listOf(fastestServer) + sortedServers
+        return selectedServer to selectableServers
+    }
+
+    private suspend fun getStandardOrP2PScreenState(
         availableTypes: List<ProfileType>,
         locale: Locale,
         requestedCountryId: CountryId,
@@ -397,51 +477,17 @@ class CreateEditProfileViewModel @Inject constructor(
         isP2P: Boolean,
     ) : TypeAndLocationScreenState {
         val serverFeature = if (isP2P) ServerFeature.P2P else null
-        val countries = adapter.countries(serverFeature)
-        val haveOnlineCountry = countries.any { it.online }
-        val fastestCountry = TypeAndLocationScreenState.CountryItem(CountryId.fastest, haveOnlineCountry)
-
-        // Fallback to fastest if country not longer available
-        val country = countries.find { it.id == requestedCountryId } ?: fastestCountry
-
-        val citiesOrStates = adapter.citiesOrStates(country.id, secureCore = false, serverFeature)
-        val hasOnlineCityOrState = citiesOrStates.any { it.online }
-        val fastestCityOrState = TypeAndLocationScreenState.CityOrStateItem(
-            null,
-            if (citiesOrStates.any { it.id.isState }) CityStateId.fastestState
-            else CityStateId.fastestCity,
-            hasOnlineCityOrState
-        )
-        val cityOrState = if (country.id.isFastest) {
-            // Don't show city/state selection for fastest country
-            null
-        } else {
-            citiesOrStates.find { it.id == requestedCityOrState } ?: fastestCityOrState
-        }
-
-        val servers = cityOrState?.let { adapter.servers(country.id, it.id, secureCore = false, serverFeature) } ?: emptyList()
-        val fastestServer = TypeAndLocationScreenState.ServerItem.Fastest(servers.any { it.online })
-        val server = when {
-            cityOrState == null || cityOrState.id.isFastest -> null
-            requestedServerId != null && servers.any { it.id == requestedServerId } -> adapter.getServerViewModel(requestedServerId)
-            else -> fastestServer
-        }
-
-        val sortedCountries = countries.sortedByLocaleAware(locale) { CountryTools.getFullName(locale, it.id.countryCode) }
-        val sortedCitiesOrStates = citiesOrStates.sortedByLocaleAware { it.name ?: "" }
-        val sortedServers = servers.sortedByLocaleAware { it.name ?: "" }
-
-        val selectableCountries = listOf(fastestCountry) + sortedCountries
-        val selectableCitiesOrStates = listOf(fastestCityOrState) + sortedCitiesOrStates
-        val selectableServers = listOf(fastestServer) + sortedServers
+        val (selectedCountry, selectableCountries) = getCountryInfo(locale, serverFeature, requestedCountryId)
+        val (selectedCityOrState, selectableCitiesOrStates) = getCityOrStateInfo(locale, selectedCountry, serverFeature, requestedCityOrState)
+        val (selectedServer, selectableServers) = getServerInfo(locale, selectedCountry, selectedCityOrState, serverFeature, requestedServerId)
         return if (isP2P) {
-            TypeAndLocationScreenState.P2P(availableTypes, country, cityOrState, server, selectableCountries, selectableCitiesOrStates, selectableServers)
+            TypeAndLocationScreenState.P2P(availableTypes, selectedCountry, selectedCityOrState, selectedServer, selectableCountries, selectableCitiesOrStates, selectableServers)
         } else {
-            TypeAndLocationScreenState.Standard(availableTypes, country, cityOrState, server, selectableCountries, selectableCitiesOrStates, selectableServers)
+            TypeAndLocationScreenState.Standard(availableTypes, selectedCountry, selectedCityOrState, selectedServer, selectableCountries, selectableCitiesOrStates, selectableServers)
         }
     }
 
-    private suspend fun secureCore(
+    private suspend fun getSecureCoreScreenState(
         availableTypes: List<ProfileType>,
         locale: Locale,
         requestedExitCountry: CountryId,
@@ -473,7 +519,7 @@ class CreateEditProfileViewModel @Inject constructor(
         )
     }
 
-    private suspend fun gateway(
+    private suspend fun getGatewayScreenState(
         allTypes: List<ProfileType>,
         locale: Locale,
         requestedGatewayName: String?,
@@ -484,10 +530,10 @@ class CreateEditProfileViewModel @Inject constructor(
             gateways.firstOrNull() // Fallback to first gateway if cannot be found
         if (gateway == null)
             // No gateways, fallback to Standard.
-            return standardOrP2P(allTypes, locale, CountryId.fastest, null, null, isP2P = false)
+            return getStandardOrP2PScreenState(allTypes, locale, CountryId.fastest, null, null, isP2P = false)
 
         val availableServers = adapter.gatewayServers(gateway.name)
-        val fastestServer = TypeAndLocationScreenState.ServerItem.Fastest(availableServers.any { it.online })
+        val fastestServer = TypeAndLocationScreenState.ServerItem.fastest(availableServers.any { it.online })
         val server = when {
             requestedServerId != null && availableServers.any { it.id == requestedServerId } ->
                 adapter.getServerViewModel(requestedServerId)
@@ -496,7 +542,7 @@ class CreateEditProfileViewModel @Inject constructor(
         }
 
         val selectableGateways = gateways.sortedByLocaleAware(locale) { it.name }
-        val selectableServers = availableServers.sortedByLocaleAware { it.name ?: "" }
+        val selectableServers = availableServers.sortedByLocaleAware(locale) { it.name ?: "" }
         return TypeAndLocationScreenState.Gateway(
             availableTypes = allTypes,
             gateway = gateway,
