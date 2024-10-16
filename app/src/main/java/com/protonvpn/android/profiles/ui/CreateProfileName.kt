@@ -24,13 +24,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -55,12 +54,13 @@ import com.protonvpn.android.R
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.base.ui.ProfileIcon
+import com.protonvpn.android.redesign.base.ui.optional
 import me.proton.core.compose.theme.ProtonTheme
 
 const val MAX_PROFILE_LENGTH = 30
 
 @Composable
-fun CreateNameRoute(
+fun CreateProfileNameRoute(
     viewModel: CreateEditProfileViewModel,
     onNext: () -> Unit
 ) {
@@ -85,56 +85,8 @@ fun CreateName(
 ) {
     var errorRes by rememberSaveable { mutableStateOf<Int?>(null) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .imePadding()
-    ) {
-        Column(modifier = Modifier.weight(1f)) {
-            TextField(
-                value = state.name,
-                placeholder = {
-                    Text(
-                        text = stringResource(id = R.string.create_profile_name_hint),
-                        style = ProtonTheme.typography.subheadline,
-                        color = ProtonTheme.colors.textHint
-                    )
-                },
-                supportingText = {
-                    errorRes?.let { errorRes ->
-                        Text(
-                            text = stringResource(id = errorRes),
-                            color = ProtonTheme.colors.notificationError,
-                            style = ProtonTheme.typography.captionMedium
-                        )
-                    }
-                    Unit
-                },
-                textStyle = ProtonTheme.typography.subheadline,
-                isError = errorRes != null,
-                onValueChange = { name ->
-                    errorRes = if (name.isNameTooLong())
-                        R.string.create_profile_name_error_too_long
-                    else
-                        null
-                    setName(name)
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
-            ColorPicker(
-                selectedColor = state.color,
-                onColorSelected = setColor,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-            IconsView(
-                color = state.color,
-                selectedIcon = state.icon,
-                onIconSelected = setIcon
-            )
-        }
-
-        ProfileNavigationButtons(onNext = {
+    CreateProfileStep(
+        onNext = {
             errorRes = when {
                 state.name.isBlank() -> R.string.create_profile_name_error_empty
                 state.name.isNameTooLong() -> R.string.create_profile_name_error_too_long
@@ -143,7 +95,48 @@ fun CreateName(
             if (errorRes == null) {
                 onNext()
             }
-        })
+        }
+    ) {
+        TextField(
+            value = state.name,
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.create_profile_name_hint),
+                    style = ProtonTheme.typography.subheadline,
+                    color = ProtonTheme.colors.textHint
+                )
+            },
+            supportingText = {
+                errorRes?.let { errorRes ->
+                    Text(
+                        text = stringResource(id = errorRes),
+                        color = ProtonTheme.colors.notificationError,
+                        style = ProtonTheme.typography.captionMedium
+                    )
+                }
+                Unit
+            },
+            textStyle = ProtonTheme.typography.subheadline,
+            isError = errorRes != null,
+            onValueChange = { name ->
+                errorRes = if (name.isNameTooLong())
+                    R.string.create_profile_name_error_too_long
+                else
+                    null
+                setName(name)
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+        ColorPicker(
+            selectedColor = state.color,
+            onColorSelected = setColor,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+        IconsView(
+            color = state.color,
+            selectedIcon = state.icon,
+            onIconSelected = setIcon
+        )
     }
 }
 
@@ -158,55 +151,30 @@ private fun IconsView(
     val rows = 2
     val numberOfColumns = (ProfileIcon.entries.size + rows - 1) / rows
 
+    val shape = RoundedCornerShape(10.dp)
     FlowRow(
-        modifier = modifier.padding(4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp),
         maxItemsInEachRow = numberOfColumns
     ) {
-        repeat(rows * numberOfColumns) {
-            val icon = ProfileIcon.entries.getOrNull(it)
+        ProfileIcon.entries.forEach { icon ->
             val isSelected = icon == selectedIcon
-
-            var columnModifier = Modifier
-                .weight(1f)
-                .padding(vertical = 2.dp)
-            val shape = RoundedCornerShape(10.dp)
-
-            if (isSelected) {
-                columnModifier = columnModifier
-                    .border(
-                        width = 2.dp,
-                        color = ProtonTheme.colors.shade100,
-                        shape = shape
+            ProfileIcon(
+                modifier = Modifier
+                    .optional({ isSelected }, Modifier
+                        .border(2.dp, ProtonTheme.colors.shade100, shape)
+                        .background(ProtonTheme.colors.backgroundSecondary, shape)
                     )
-                    .background(
-                        color = ProtonTheme.colors.backgroundSecondary,
-                        shape = shape
-                    )
-            }
-
-            icon?.let {
-                columnModifier = columnModifier
+                    .weight(1f)
                     .clip(shape)
-                    .clickable { onIconSelected(it) }
-            }
-
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = columnModifier
-            ) {
-                icon?.let { icon ->
-                    ProfileIcon(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .padding(vertical = 4.dp)
-                            .alpha(if (isSelected) 1F else 0.7F),
-                        color = color,
-                        icon = icon,
-                    )
-                }
-            }
+                    .clickable { onIconSelected(icon) }
+                    .alpha(if (isSelected) 1f else 0.7f)
+                    .padding(8.dp)
+                    .height(24.dp),
+                color = color,
+                icon = icon,
+            )
         }
     }
 }

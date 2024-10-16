@@ -25,9 +25,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navOptions
 import com.protonvpn.android.profiles.ui.AddEditProfileRoute
 import com.protonvpn.android.profiles.ui.CreateEditProfileViewModel
-import com.protonvpn.android.profiles.ui.CreateNameRoute
-import com.protonvpn.android.profiles.ui.ProfileFeaturesAndSettingsRoute
-import com.protonvpn.android.profiles.ui.ProfileTypeAndLocationRoute
+import com.protonvpn.android.profiles.ui.CreateProfileNameRoute
+import com.protonvpn.android.profiles.ui.CreateProfileFeaturesAndSettingsRoute
+import com.protonvpn.android.profiles.ui.CreateProfileTypeAndLocationRoute
 import com.protonvpn.android.profiles.ui.ProfilesRoute
 import com.protonvpn.android.profiles.ui.nav.CreateProfileNameScreen.createProfileName
 import com.protonvpn.android.profiles.ui.nav.ProfileFeaturesAndSettingsScreen.profileFeaturesAndSettingsScreen
@@ -72,7 +72,7 @@ object CreateProfileNameScreen : ScreenNoArg<ProfilesAddEditNav>("createProfileN
         viewModel: CreateEditProfileViewModel,
         onNext: () -> Unit,
     ) = addToGraph(this) {
-        CreateNameRoute(viewModel, onNext = onNext)
+        CreateProfileNameRoute(viewModel, onNext = onNext)
     }
 }
 
@@ -83,7 +83,7 @@ object ProfileTypeAndLocationScreen : ScreenNoArg<ProfilesAddEditNav>("profileTy
         onNext: () -> Unit,
         onBack: () -> Unit
     ) = addToGraph(this) {
-        ProfileTypeAndLocationRoute(viewModel, onNext = onNext, onBack = onBack)
+        CreateProfileTypeAndLocationRoute(viewModel, onNext = onNext, onBack = onBack)
     }
 }
 
@@ -94,7 +94,7 @@ object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditNav>("profi
         onNext: () -> Unit,
         onBack: () -> Unit
     ) = addToGraph(this) {
-        ProfileFeaturesAndSettingsRoute(viewModel, onNext = onNext, onBack = onBack)
+        CreateProfileFeaturesAndSettingsRoute(viewModel, onNext = onNext, onBack = onBack)
     }
 }
 enum class ProfileCreationTarget(val screen: ScreenNoArg<ProfilesAddEditNav>) {

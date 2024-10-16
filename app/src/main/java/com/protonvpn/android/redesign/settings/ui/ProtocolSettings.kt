@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.settings.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,60 +50,9 @@ fun ProtocolSettings(
         title = stringResource(protocolViewState.titleRes),
         onClose = onClose
     ) {
-        ProtocolItem(
-            itemProtocol = ProtocolSelection.SMART,
-            title = R.string.settings_protocol_smart_title,
-            description = R.string.settings_protocol_smart_description,
+        ProtocolSettingsList(
+            currentProtocol = protocolViewState.value,
             onProtocolSelected = onProtocolSelected,
-            selectedProtocol = protocolViewState.value,
-            trailingTitleContent = {
-                ProtocolBadge(stringResource(R.string.settings_protocol_badge_recommended))
-            }
-        )
-
-        SettingsSectionHeading(
-            text = stringResource(R.string.settings_protocol_section_speed),
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-        ProtocolItem(
-            itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
-            title = R.string.settings_protocol_wireguard_title,
-            description = R.string.settings_protocol_wireguard_udp_description,
-            onProtocolSelected = onProtocolSelected,
-            selectedProtocol = protocolViewState.value,
-        )
-        ProtocolItem(
-            itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
-            title = R.string.settings_protocol_openvpn_title,
-            description = R.string.settings_protocol_openvpn_udp_description,
-            onProtocolSelected = onProtocolSelected,
-            selectedProtocol = protocolViewState.value,
-        )
-
-        SettingsSectionHeading(
-            text = stringResource(R.string.settings_protocol_section_reliability),
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-        ProtocolItem(
-            itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
-            title = R.string.settings_protocol_wireguard_title,
-            description = R.string.settings_protocol_wireguard_tcp_description,
-            onProtocolSelected = onProtocolSelected,
-            selectedProtocol = protocolViewState.value,
-        )
-        ProtocolItem(
-            itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
-            title = R.string.settings_protocol_openvpn_title,
-            description = R.string.settings_protocol_openvpn_tcp_description,
-            onProtocolSelected = onProtocolSelected,
-            selectedProtocol = protocolViewState.value,
-        )
-        ProtocolItem(
-            itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
-            title = R.string.settings_protocol_stealth_title,
-            description = R.string.settings_protocol_stealth_description,
-            onProtocolSelected = onProtocolSelected,
-            selectedProtocol = protocolViewState.value,
         )
 
         val footerPadding = Modifier.padding(top = 12.dp, bottom = 24.dp, start = 16.dp, end = 16.dp)
@@ -123,6 +73,78 @@ fun ProtocolSettings(
                 modifier = footerPadding,
             )
         }
+    }
+}
+
+@Composable
+fun ProtocolSettingsList(
+    currentProtocol: ProtocolSelection,
+    onProtocolSelected: (ProtocolSelection) -> Unit,
+    modifier: Modifier = Modifier,
+    horizontalContentPadding: Dp = 16.dp,
+) {
+    Column(modifier = modifier) {
+        ProtocolItem(
+            itemProtocol = ProtocolSelection.SMART,
+            title = R.string.settings_protocol_smart_title,
+            description = R.string.settings_protocol_smart_description,
+            onProtocolSelected = onProtocolSelected,
+            selectedProtocol = currentProtocol,
+            horizontalContentPadding = horizontalContentPadding,
+            trailingTitleContent = {
+                ProtocolBadge(stringResource(R.string.settings_protocol_badge_recommended))
+            }
+        )
+
+        SettingsSectionHeading(
+            text = stringResource(R.string.settings_protocol_section_speed),
+            modifier = Modifier.padding(horizontal = horizontalContentPadding)
+        )
+        ProtocolItem(
+            itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP),
+            title = R.string.settings_protocol_wireguard_title,
+            description = R.string.settings_protocol_wireguard_udp_description,
+            onProtocolSelected = onProtocolSelected,
+            selectedProtocol = currentProtocol,
+            horizontalContentPadding = horizontalContentPadding,
+        )
+        ProtocolItem(
+            itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
+            title = R.string.settings_protocol_openvpn_title,
+            description = R.string.settings_protocol_openvpn_udp_description,
+            onProtocolSelected = onProtocolSelected,
+            selectedProtocol = currentProtocol,
+            horizontalContentPadding = horizontalContentPadding,
+        )
+
+        SettingsSectionHeading(
+            text = stringResource(R.string.settings_protocol_section_reliability),
+            modifier = Modifier.padding(horizontal = horizontalContentPadding)
+        )
+        ProtocolItem(
+            itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP),
+            title = R.string.settings_protocol_wireguard_title,
+            description = R.string.settings_protocol_wireguard_tcp_description,
+            onProtocolSelected = onProtocolSelected,
+            selectedProtocol = currentProtocol,
+            horizontalContentPadding = horizontalContentPadding,
+        )
+        ProtocolItem(
+            itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
+            title = R.string.settings_protocol_openvpn_title,
+            description = R.string.settings_protocol_openvpn_tcp_description,
+            onProtocolSelected = onProtocolSelected,
+            selectedProtocol = currentProtocol,
+            horizontalContentPadding = horizontalContentPadding,
+        )
+        ProtocolItem(
+            itemProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
+            title = R.string.settings_protocol_stealth_title,
+            description = R.string.settings_protocol_stealth_description,
+            onProtocolSelected = onProtocolSelected,
+            selectedProtocol = currentProtocol,
+            horizontalContentPadding = horizontalContentPadding,
+        )
     }
 }
 

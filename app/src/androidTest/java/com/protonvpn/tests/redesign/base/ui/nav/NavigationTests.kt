@@ -108,10 +108,10 @@ class NavigationTests : FusionComposeTest() {
     }
 
     @Test
-    fun testPopBackStack() {
+    fun testNavigateUp() {
         verifyOn(navB, "B1", listOf("B1"))
         navB.navigate(ScreenB2, ScreenB3)
-        runOnUiThread { navB.popBackStack() }
+        runOnUiThread { navB.navigateUp() }
         verifyOn(navB, "B2", listOf("B1", "B2"))
     }
 

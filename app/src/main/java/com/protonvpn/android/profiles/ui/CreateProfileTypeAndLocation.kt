@@ -20,9 +20,7 @@ package com.protonvpn.android.profiles.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -36,7 +34,7 @@ import com.protonvpn.android.redesign.CountryId
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
-fun ProfileTypeAndLocationRoute(
+fun CreateProfileTypeAndLocationRoute(
     viewModel: CreateEditProfileViewModel,
     onNext: () -> Unit,
     onBack: () -> Unit
@@ -78,61 +76,56 @@ fun ProfileTypeAndLocation(
     onNext: () -> Unit,
     onBack: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .imePadding()
+    CreateProfileStep(
+        onNext = onNext,
+        onBack = onBack,
+        onNextText = stringResource(id = R.string.create_profile_button_next)
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = stringResource(id = R.string.create_profile_type_and_location_title),
-                color = ProtonTheme.colors.textNorm,
-                style = ProtonTheme.typography.body1Bold,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            ProfileTypeItem(state.type, state.availableTypes, setType)
-            when (state) {
-                is TypeAndLocationScreenState.P2P,
-                is TypeAndLocationScreenState.Standard -> {
-                    state as TypeAndLocationScreenState.StandardWithFeatures
-                    ProfileCountryItem(
-                        secureCore = false,
-                        exitCountry = state.country,
-                        entryCountry = null,
-                        state.selectableCountries,
-                        emptyList(),
-                        onSelectExit = setCountry,
-                        onSelectEntry = {}
-                    )
-                    val cityOrState = state.cityOrState
-                    if (cityOrState != null) {
-                        ProfileCityOrStateItem(cityOrState, state.selectableCitiesOrStates, setCityOrState)
-                        val server = state.server
-                        if (server != null) {
-                            ProfileServerItem(server, state.selectableServers, setServer)
-                        }
+        Text(
+            text = stringResource(id = R.string.create_profile_type_and_location_title),
+            color = ProtonTheme.colors.textNorm,
+            style = ProtonTheme.typography.body1Bold,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+        ProfileTypeItem(state.type, state.availableTypes, setType)
+        when (state) {
+            is TypeAndLocationScreenState.P2P,
+            is TypeAndLocationScreenState.Standard -> {
+                state as TypeAndLocationScreenState.StandardWithFeatures
+                ProfileCountryItem(
+                    secureCore = false,
+                    exitCountry = state.country,
+                    entryCountry = null,
+                    state.selectableCountries,
+                    emptyList(),
+                    onSelectExit = setCountry,
+                    onSelectEntry = {}
+                )
+                val cityOrState = state.cityOrState
+                if (cityOrState != null) {
+                    ProfileCityOrStateItem(cityOrState, state.selectableCitiesOrStates, setCityOrState)
+                    val server = state.server
+                    if (server != null) {
+                        ProfileServerItem(server, state.selectableServers, setServer)
                     }
                 }
-                is TypeAndLocationScreenState.SecureCore -> {
-                    ProfileCountryItem(
-                        secureCore = true,
-                        exitCountry = state.exitCountry,
-                        entryCountry = state.entryCountry,
-                        state.selectableExitCountries,
-                        state.selectableEntryCountries,
-                        onSelectExit = setExitCountrySecureCore,
-                        onSelectEntry = setEntryCountrySecureCore,
-                    )
-                }
-                is TypeAndLocationScreenState.Gateway -> {
-                    ProfileGatewayItem(state.gateway, state.selectableGateways, setGateway)
-                    ProfileServerItem(state.server, state.selectableServers, setServer)
-                }
+            }
+            is TypeAndLocationScreenState.SecureCore -> {
+                ProfileCountryItem(
+                    secureCore = true,
+                    exitCountry = state.exitCountry,
+                    entryCountry = state.entryCountry,
+                    state.selectableExitCountries,
+                    state.selectableEntryCountries,
+                    onSelectExit = setExitCountrySecureCore,
+                    onSelectEntry = setEntryCountrySecureCore,
+                )
+            }
+            is TypeAndLocationScreenState.Gateway -> {
+                ProfileGatewayItem(state.gateway, state.selectableGateways, setGateway)
+                ProfileServerItem(state.server, state.selectableServers, setServer)
             }
         }
-
-        ProfileNavigationButtons(onNext = onNext, onBack = onBack)
     }
 }
 

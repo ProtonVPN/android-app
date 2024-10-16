@@ -54,8 +54,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
-import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.DIALOG_CONTENT_PADDING
@@ -64,11 +62,8 @@ import com.protonvpn.android.redesign.base.ui.FlagDefaults
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.ProtonDialogButton
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
-import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.NatType
-import com.protonvpn.android.redesign.settings.ui.ProtocolBadge
-import com.protonvpn.android.redesign.settings.ui.ProtocolItem
-import com.protonvpn.android.redesign.settings.ui.SettingsSectionHeading
+import com.protonvpn.android.redesign.settings.ui.ProtocolSettingsList
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -545,88 +540,7 @@ fun PickProtocol(
         onDismissRequest = onDismissRequest
     ) {
         item {
-            ProtocolItem(
-                itemProtocol = ProtocolSelection.SMART,
-                title = R.string.settings_protocol_smart_title,
-                description = R.string.settings_protocol_smart_description,
-                onProtocolSelected = onSelect,
-                selectedProtocol = value,
-                horizontalContentPadding = DIALOG_CONTENT_PADDING,
-                trailingTitleContent = {
-                    ProtocolBadge(stringResource(R.string.settings_protocol_badge_recommended))
-                }
-            )
-        }
-        item {
-            SettingsSectionHeading(
-                text = stringResource(R.string.settings_protocol_section_speed),
-                modifier = Modifier.padding(horizontal = DIALOG_CONTENT_PADDING)
-            )
-        }
-        item {
-            ProtocolItem(
-                itemProtocol = ProtocolSelection(
-                    VpnProtocol.WireGuard,
-                    TransmissionProtocol.UDP
-                ),
-                title = R.string.settings_protocol_wireguard_title,
-                description = R.string.settings_protocol_wireguard_udp_description,
-                onProtocolSelected = onSelect,
-                horizontalContentPadding = DIALOG_CONTENT_PADDING,
-                selectedProtocol = value,
-            )
-        }
-        item {
-            ProtocolItem(
-                itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP),
-                title = R.string.settings_protocol_openvpn_title,
-                description = R.string.settings_protocol_openvpn_udp_description,
-                onProtocolSelected = onSelect,
-                horizontalContentPadding = DIALOG_CONTENT_PADDING,
-                selectedProtocol = value,
-            )
-        }
-        item {
-            SettingsSectionHeading(
-                text = stringResource(R.string.settings_protocol_section_reliability),
-                modifier = Modifier.padding(horizontal = DIALOG_CONTENT_PADDING)
-            )
-        }
-        item {
-            ProtocolItem(
-                itemProtocol = ProtocolSelection(
-                    VpnProtocol.WireGuard,
-                    TransmissionProtocol.TCP
-                ),
-                title = R.string.settings_protocol_wireguard_title,
-                description = R.string.settings_protocol_wireguard_tcp_description,
-                onProtocolSelected = onSelect,
-                horizontalContentPadding = DIALOG_CONTENT_PADDING,
-                selectedProtocol = value,
-            )
-        }
-        item {
-            ProtocolItem(
-                itemProtocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
-                title = R.string.settings_protocol_openvpn_title,
-                description = R.string.settings_protocol_openvpn_tcp_description,
-                onProtocolSelected = onSelect,
-                horizontalContentPadding = DIALOG_CONTENT_PADDING,
-                selectedProtocol = value,
-            )
-        }
-        item {
-            ProtocolItem(
-                itemProtocol = ProtocolSelection(
-                    VpnProtocol.WireGuard,
-                    TransmissionProtocol.TLS
-                ),
-                title = R.string.settings_protocol_stealth_title,
-                description = R.string.settings_protocol_stealth_description,
-                onProtocolSelected = onSelect,
-                horizontalContentPadding = DIALOG_CONTENT_PADDING,
-                selectedProtocol = value,
-            )
+            ProtocolSettingsList(value, onSelect, horizontalContentPadding = DIALOG_CONTENT_PADDING)
         }
     }
 }
@@ -817,11 +731,7 @@ fun BaseItemPickerDialog(
     ProtonBasicAlert(
         content = {
             Spacer(modifier = Modifier.height(12.dp))
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .largeScreenContentPadding()
-            ) {
+            Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     stringResource(title),
                     style = ProtonTheme.typography.body1Bold,

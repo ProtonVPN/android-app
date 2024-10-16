@@ -34,6 +34,7 @@ data class ProfileInfo(
     val color: ProfileColor,
     val icon: ProfileIcon,
     val gatewayName: String?,
+    val createdAt: Long,
 ) {
     val isGateway get() = gatewayName != null
 }
@@ -43,11 +44,11 @@ data class Profile(
     val connectIntent: ConnectIntent,
 )
 
-fun Profile.toProfileEntity(userId: UserId, createdAt: Long) = ProfileEntity(
+fun Profile.toProfileEntity(userId: UserId) = ProfileEntity(
     name = info.name,
     color = info.color,
     connectIntentData = connectIntent.toData(),
-    createdAt = createdAt,
+    createdAt = info.createdAt,
     icon = info.icon,
     userId = userId
 )
@@ -59,6 +60,7 @@ fun ProfileEntity.toProfile() = Profile(
         color = color,
         icon = icon,
         gatewayName = connectIntentData.gatewayName,
+        createdAt = createdAt,
     ),
     connectIntentData.toConnectIntent(),
 )

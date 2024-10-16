@@ -20,6 +20,7 @@
 package com.protonvpn.android.profiles.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
@@ -44,6 +45,7 @@ import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.VpnDivider
+import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
@@ -75,6 +77,9 @@ fun Profiles(
         },
         toolbarAdditionalContent = {},
     ) { padding ->
+        val modifier = Modifier
+            .padding(padding)
+            .padding(horizontal = largeScreenContentPadding())
         when (state) {
             is ProfilesState.ZeroState -> {}
             is ProfilesState.ProfilesList -> {
@@ -82,7 +87,7 @@ fun Profiles(
                     profiles = state.profiles,
                     onConnect = onConnect,
                     onSelect = onSelect,
-                    modifier = Modifier.padding(padding)
+                    modifier = modifier,
                 )
             }
         }
@@ -99,7 +104,7 @@ fun ProfilesList(
 ) {
     LazyColumn(
         state = listState,
-        modifier = modifier
+        modifier = modifier,
     ) {
         itemsIndexed(profiles, key = { _, profile -> profile.profile.id }) { index, profile ->
             ProfileItem(
@@ -142,7 +147,8 @@ fun ProfileItemPreview() {
                     name = "Profile name",
                     icon = ProfileIcon.Icon1,
                     color = ProfileColor.Color1,
-                    gatewayName = null
+                    gatewayName = null,
+                    createdAt = 0L
                 ),
                 isConnected = false,
                 availability = ConnectIntentAvailability.ONLINE,

@@ -104,7 +104,7 @@ fun SettingsItem(
 fun SettingsToggleItem(
     modifier: Modifier = Modifier,
     name: String,
-    description: String,
+    description: String?,
     value: Boolean,
     subTitle: String? = null,
     descriptionAnnotation: ClickableTextAnnotation? = null,
