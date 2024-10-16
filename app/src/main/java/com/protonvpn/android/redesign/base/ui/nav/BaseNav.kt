@@ -86,9 +86,18 @@ open class BaseNav<N : BaseNav<N>>(
         printBackStackRoutes("popUpToStart")
     }
 
-    fun popBackStack() {
-        controller.popBackStack()
-        printBackStackRoutes("popBackStack")
+    fun navigateUp() {
+        controller.navigateUp()
+        printBackStackRoutes("navigateUp")
+    }
+
+    // Safer popBackStack to avoid popping too far on e.g. double tap, will ignore if not on
+    // expected screen
+    fun navigateUpWhenOn(screen: Screen<*, N>) {
+        if (controller.currentRoute() == screen.route)
+            navigateUp()
+        else
+            ProtonLogger.log(NavLog, "navigateUpWhenOn: ignoring, not on ${screen.route}")
     }
 
     fun navigateInternal(screen: ScreenNoArg<N>, navOptions: NavOptions? = null) {
