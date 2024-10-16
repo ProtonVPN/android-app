@@ -59,6 +59,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.utils.Constants
@@ -108,21 +109,11 @@ fun InfoSheet(
     infoSheetState: InfoSheetState,
     onOpenUrl: (url: String) -> Unit,
 ) {
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val currentInfo = infoSheetState.currentType
-
-    // We should use Modifier.navigationBarsPadding() instead but it doesn't work correctly for
-    // API < 29 until https://issuetracker.google.com/issues/290893168 is addressed.
-    val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     if (currentInfo != null) {
-        ModalBottomSheet(
-            sheetState = bottomSheetState,
-            content = {
-                InfoSheetContent(currentInfo, onOpenUrl, Modifier.padding(bottom = bottomPadding))
-            },
-            windowInsets = WindowInsets(0, 0, 0 ,0), // Draw under navigation bar to cover bottom sheet below
-            onDismissRequest = { infoSheetState.dismiss() }
-        )
+        SimpleModalBottomSheet(onDismissRequest = { infoSheetState.dismiss() }) {
+            InfoSheetContent(currentInfo, onOpenUrl)
+        }
     }
 }
 
