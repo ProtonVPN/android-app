@@ -26,6 +26,8 @@ variables:
   ORG_GRADLE_PROJECT_useCoreGitSubmodule: "false"
   NEXUS_GROUP: "/Vpn/Android/SLI/Latest/Stable"
   NEXUS_REPO: "test-productivity-builds-distribution"
+  # Enable support for rebase in gitleaks_wrapper: https://gitlab.protontech.ch/proton/devops/cicd-components/devsecops/gitleaks/-/blob/main/docs/components-scan-repository.md
+  GIT_FETCH_DEFAULT_BRANCH: "yes"
 
 workflow:
   rules:
@@ -357,11 +359,7 @@ include:
     ref: master
     file: '/jobs/sync-crowdin.gitlab-ci.yml'
 
-  - component: gitlab.protontech.ch/proton/devops/cicd-components/devsecops/gitleaks/scan-repository@0.0.17
-    inputs:
-      stage: prepare
-    rules:
-      - if: $CI_PIPELINE_SOURCE != "schedule"
+  - component: gitlab.protontech.ch/proton/devops/cicd-components/kits/devsecops/semgrep@0.0.21
 
   - project: 'translations/generator'
     ref: master
