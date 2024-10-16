@@ -22,6 +22,7 @@ package com.protonvpn.android.profiles.ui.nav
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.navOptions
 import com.protonvpn.android.profiles.ui.AddEditProfileRoute
 import com.protonvpn.android.profiles.ui.CreateEditProfileViewModel
 import com.protonvpn.android.profiles.ui.CreateNameRoute
@@ -96,10 +97,10 @@ object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditNav>("profi
         ProfileFeaturesAndSettingsRoute(viewModel, onNext = onNext, onBack = onBack)
     }
 }
-enum class ProfileCreationTarget(val route: String) {
-    CreateProfileName(CreateProfileNameScreen.route),
-    TypeAndLocation(ProfileTypeAndLocationScreen.route),
-    FeaturesAndSettings(ProfileFeaturesAndSettingsScreen.route);
+enum class ProfileCreationTarget(val screen: ScreenNoArg<ProfilesAddEditNav>) {
+    CreateProfileName(CreateProfileNameScreen),
+    TypeAndLocation(ProfileTypeAndLocationScreen),
+    FeaturesAndSettings(ProfileFeaturesAndSettingsScreen);
 }
 
 class ProfilesAddEditNav(
@@ -116,24 +117,27 @@ class ProfilesAddEditNav(
             modifier = modifier,
             startScreen = CreateProfileNameScreen,
         ) {
+            val navOptions = navOptions {
+                launchSingleTop = true
+            }
             ProfileCreationTarget.entries.forEach { target ->
                 when(target) {
                     ProfileCreationTarget.CreateProfileName ->
                         createProfileName(
                             viewModel,
-                            onNext = { navigateInternal(ProfileTypeAndLocationScreen) },
+                            onNext = { navigateInternal(ProfileTypeAndLocationScreen, navOptions) },
                         )
                     ProfileCreationTarget.TypeAndLocation ->
                         profileTypeAndLocationScreen(
                             viewModel,
-                            onNext = { navigateInternal(ProfileFeaturesAndSettingsScreen) },
-                            onBack = ::popBackStack
+                            onNext = { navigateInternal(ProfileFeaturesAndSettingsScreen, navOptions) },
+                            onBack = { navigateUpWhenOn(target.screen) }
                         )
                     ProfileCreationTarget.FeaturesAndSettings ->
                         profileFeaturesAndSettingsScreen(
                             viewModel,
                             onNext = onDone,
-                            onBack = ::popBackStack
+                            onBack = { navigateUpWhenOn(target.screen) }
                         )
                 }
             }

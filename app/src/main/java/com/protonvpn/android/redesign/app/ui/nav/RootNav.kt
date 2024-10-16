@@ -55,19 +55,19 @@ class RootNav(
             mainScreen(mainNav, settingsChangeViewModel)
 
             searchScreen(
-                onBackIconClick = ::popBackStack,
+                onBackIconClick = ::navigateUp,
                 onNavigateToHomeOnConnect = {
-                    popBackStack()
+                    navigateUp()
                     mainNav.navigate(MainTarget.Home)
                 }
             )
-            addEditProfile(onDismiss = ::popBackStack)
+            addEditProfile(onDismiss = ::navigateUp)
 
-            connectionStatus(onClosePanel = ::popBackStack)
+            connectionStatus(onClosePanel = ::navigateUp)
 
             subSettings(
                 settingsChangeViewModel = settingsChangeViewModel,
-                onClose = ::popBackStack,
+                onClose = ::navigateUp,
                 onNavigateToSubSetting = { navigate(SubSettingsScreen, it) },
             )
         }

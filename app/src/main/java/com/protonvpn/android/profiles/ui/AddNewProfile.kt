@@ -43,6 +43,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.Text
@@ -104,27 +105,8 @@ fun AddEditProfileScreen(
             )
         }
     ) { paddingValues ->
-        val currentBackStackEntry = navController.currentBackStackEntryAsState()
-
-        val currentStep = enumValues<ProfileCreationTarget>()
-            .firstOrNull { it.route == currentBackStackEntry.value?.destination?.route }
-            ?.ordinal?.plus(1) ?: 0
-
         Column(modifier = Modifier.padding(paddingValues)) {
-            LinearProgressIndicator(
-                progress = { currentStep / totalSteps.toFloat() },
-                modifier = Modifier.fillMaxWidth(),
-                trackColor = ProtonTheme.colors.brandDarken40
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = stringResource(id = R.string.create_profile_steps, currentStep, totalSteps),
-                style = ProtonTheme.typography.captionMedium,
-                color = ProtonTheme.colors.textAccent,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            StepHeader(navController, totalSteps)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -138,6 +120,33 @@ fun AddEditProfileScreen(
             )
         }
     }
+}
+
+@Composable
+private fun StepHeader(
+    navController: NavHostController,
+    totalSteps: Int
+) {
+    val currentBackStackEntry = navController.currentBackStackEntryAsState()
+
+    val currentStep = enumValues<ProfileCreationTarget>()
+        .firstOrNull { it.screen.route == currentBackStackEntry.value?.destination?.route }
+        ?.ordinal?.plus(1) ?: 0
+
+    LinearProgressIndicator(
+        progress = { currentStep / totalSteps.toFloat() },
+        modifier = Modifier.fillMaxWidth(),
+        trackColor = ProtonTheme.colors.brandDarken40
+    )
+
+    Spacer(modifier = Modifier.height(8.dp))
+
+    Text(
+        text = stringResource(id = R.string.create_profile_steps, currentStep, totalSteps),
+        style = ProtonTheme.typography.captionMedium,
+        color = ProtonTheme.colors.textAccent,
+        modifier = Modifier.padding(horizontal = 16.dp)
+    )
 }
 
 @Composable
