@@ -322,7 +322,7 @@
     <string name="enable">Inschakelen</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol is momenteel uitgeschakeld</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN heeft gedetecteerd dat uw huidige netwerk een verbinding met de VPN blokkeert. Inschakelen van Smart Protocol kan deze beperkingen omzeilen.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Geavanceerde functies: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Overal ter wereld toegang tot streamingdiensten (Netflix, Disney+ etc.)</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -412,7 +412,7 @@
         <item quantity="other">%1$d apparaten tegelijk beschermen</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Beveiligd streamen</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Advertentieblokkering en bescherming tegen malware</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Dubbele VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">P2P-ondersteuning</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
@@ -429,7 +429,7 @@
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">Onbeperkte mappen en filters</string>
     <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
+    <string name="upgrade_unlimited_mail_aliases">Onbeperkt aantal hide-my-email-aliassen</string>
     <string name="upgrade_unlimited_mail_autoreply">Automatisch beantwoorden</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Geplande verzending</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
@@ -437,10 +437,10 @@
         <item quantity="other">%1$d persoonlijke agenda\'s</item>
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">Agenda\'s delen</string>
-    <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
+    <string name="upgrade_unlimited_calendar_invites">Uitnodigingen verzenden en ontvangen</string>
     <string name="upgrade_unlimited_drive_encryption">Versleutelde bestandsopslag</string>
     <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
+    <string name="upgrade_unlimited_drive_link_share">Foto\'s en bestanden delen via koppeling</string>
     <string name="upgrade_unlimited_drive_sharing_security">Geavanceerde beveiliging voor delen</string>
     <string name="upgrade_unlimited_drive_version_history">Versiegeschiedenis</string>
     <string name="upgrade_unlimited_pass_manager">Versleutelde wachtwoordmanager</string>
@@ -450,7 +450,7 @@
         <item quantity="other">%1$d kluizen</item>
     </plurals>
     <string name="upgrade_unlimited_pass_logins">Onbeperkte logins</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
+    <string name="upgrade_unlimited_pass_aliases">Onbeperkt aantal hide-my-email-aliassen</string>
     <string name="upgrade_unlimited_pass_credit_cards">Onbeperkt aantal creditcards</string>
     <string name="upgrade_unlimited_pass_devices">Onbeperkt aantal apparaten</string>
     <plurals name="upgrade_unlimited_pass_users">
@@ -1116,7 +1116,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Hoog (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN werkt mogelijk langzamer dan normaal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocol</string>
     <!-- tag(Redesign_2023) -->
@@ -1352,5 +1352,5 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming VS</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="initial_profile_name_work_school">Werk/School</string>
 </resources>

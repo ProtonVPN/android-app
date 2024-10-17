@@ -287,7 +287,7 @@
     <string name="tv_signout_dialog_description_connected">Detta kommer att koppla från din TV från alla VPN-servrar.</string>
     <string name="tv_signout_dialog_ok">Logga ut</string>
     <string name="tv_quick_connect_recommened">Rekommenderad</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Favorit</string>
     <string name="tv_country_maintenance_dialog_title">Land är otillgängligt</string>
     <string name="tv_country_maintenance_dialog_description">Försök igen senare eller välj ett annat land.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -1116,7 +1116,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Hög (91–100 %)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN kan gå långsammare än normalt</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokoll</string>
     <!-- tag(Redesign_2023) -->
