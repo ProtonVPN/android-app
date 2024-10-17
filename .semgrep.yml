@@ -1,0 +1,9 @@
+exclude:
+# we already run gitleaks separately, no need for duplicate reports
+- generic.secrets.gitleaks.
+# semgrepignore changes are being reviewed in MRs
+- generic.ci.audit.changed-semgrepignore.changed-semgrepignore
+# low quality rules with high number of false positives
+- MSTG-
+# low quality rules that trigger on words like 'key' or 'Log'
+- mobsf.mobsfscan.android.
