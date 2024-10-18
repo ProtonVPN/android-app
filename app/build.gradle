@@ -52,6 +52,10 @@ apply plugin: 'io.gitlab.arturbosch.detekt'
 apply plugin: 'me.proton.core.gradle-plugins.environment-config'
 apply plugin: 'com.android.compose.screenshot'
 
+dependencyCheck {
+    formats = ["SARIF", "HTML", "JUNIT"]
+}
+
 jacoco {
     toolVersion = '0.8.8'
 }

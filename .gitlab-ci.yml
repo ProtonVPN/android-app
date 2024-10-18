@@ -340,6 +340,8 @@ owasp check:
     expire_in: 1 week
     paths:
       - build/reports
+    reports:
+      junit: build/reports/dependency-check-junit.xml
 
 startReview:
   before_script:
