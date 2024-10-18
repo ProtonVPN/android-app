@@ -297,8 +297,6 @@ coverage report:
     # create top level artifact index to direct users to the deep index
     - echo "<script>window.location='app/build/reports/jacoco/jacocoTestReport/html/index.html'</script>" > index.html
     - echo "<a href='app/build/reports/jacoco/jacocoTestReport/html/index.html'>go here</a>" >> index.html
-  only:
-    - branches
   except:
     - schedules
   allow_failure: true
