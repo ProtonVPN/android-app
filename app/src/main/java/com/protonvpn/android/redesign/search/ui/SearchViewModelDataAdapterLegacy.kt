@@ -57,7 +57,7 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
             val serverResults = mutableMapOf<ServerFilterType, MutableList<ServerGroupItemData.Server>>()
 
             // This runs though all servers so all operations should be as fast as possible.
-            servers.asSearchSequence().forEach { server ->
+            servers.asSequence().forEach { server ->
                 // For servers search for matches in this loop
                 val serverMatch = match(normalizedTerm, server.serverName, removeAccents = true)
                 if (serverMatch != null) {
@@ -185,8 +185,6 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
 
 private fun matchLocalizedAndEnglish(term: String, textLocalized: String, textEn: String): TextMatch? =
     match(term, textLocalized) ?: match(term, textEn)
-
-private fun List<Server>.asSearchSequence() = asSequence().filter { !it.isFreeServer }
 
 private val ADDITIONAL_SEPARATORS = charArrayOf('-', '#')
 
