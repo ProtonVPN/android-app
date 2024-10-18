@@ -49,7 +49,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:8.5.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.owasp:dependency-check-gradle:6.2.2'
+        classpath 'org.owasp:dependency-check-gradle:10.0.4'
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.91'
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
