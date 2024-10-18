@@ -19,10 +19,14 @@
 
 package com.protonvpn.android.profiles.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -30,15 +34,19 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
@@ -54,6 +62,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentRow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.vpn.ProtocolSelection
+import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun Profiles(
@@ -80,8 +89,10 @@ fun Profiles(
         val modifier = Modifier
             .padding(padding)
             .padding(horizontal = largeScreenContentPadding())
+            .fillMaxSize()
         when (state) {
-            is ProfilesState.ZeroState -> {}
+            is ProfilesState.ZeroState ->
+                ProfilesListZeroScreen(onAddNew, modifier)
             is ProfilesState.ProfilesList -> {
                 ProfilesList(
                     profiles = state.profiles,
@@ -91,6 +102,48 @@ fun Profiles(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun ProfilesListZeroScreen(
+    onAddNew: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.weight(1f))
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_proton_stars),
+            contentDescription = null,
+            modifier = Modifier.padding(bottom = 16.dp),
+        )
+
+        Text(
+            text = stringResource(R.string.profiles_zero_state_title),
+            style = ProtonTheme.typography.body1Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = 4.dp),
+        )
+
+        Text(
+            text = stringResource(R.string.profiles_zero_state_description),
+            style = ProtonTheme.typography.body2Regular,
+            color = ProtonTheme.colors.textWeak,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = 16.dp),
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        VpnSolidButton(
+            text = stringResource(R.string.profiles_button_create_profile),
+            onClick = onAddNew,
+            modifier = Modifier.padding(bottom = 8.dp),
+        )
     }
 }
 
