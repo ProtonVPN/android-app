@@ -79,7 +79,8 @@ fun ProfileFeaturesAndSettings(
     CreateProfileStep(
         onNext = onNext,
         onBack = onBack,
-        onNextText = stringResource(id = R.string.create_profile_button_done)
+        onNextText = stringResource(id = R.string.create_profile_button_done),
+        applyContentHorizontalPadding = false
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             Text(
