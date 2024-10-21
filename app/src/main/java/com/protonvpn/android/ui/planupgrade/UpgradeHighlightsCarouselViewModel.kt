@@ -20,18 +20,29 @@
 package com.protonvpn.android.ui.planupgrade
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.profiles.usecases.NewProfilesMvpEnabled
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class UpgradeHighlightsCarouselViewModel @Inject constructor() : ViewModel() {
+class UpgradeHighlightsCarouselViewModel @Inject constructor(
+    newProfilesMvpEnabled: NewProfilesMvpEnabled,
+) : ViewModel() {
 
+    private val hasProfiles: Deferred<Boolean> = viewModelScope.async {
+        newProfilesMvpEnabled()
+    }
     private val gradient = MutableStateFlow<Triple<Int, Int, Int>?>(null)
     val gradientOverride: StateFlow<Triple<Int, Int, Int>?> = gradient
 
     fun setGradientOverride(override: Triple<Int, Int, Int>?) {
         gradient.value = override
     }
+
+    suspend fun hasProfiles(): Boolean = hasProfiles.await()
 }
