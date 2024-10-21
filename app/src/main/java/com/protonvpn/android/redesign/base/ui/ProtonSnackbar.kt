@@ -21,7 +21,6 @@ package com.protonvpn.android.redesign.base.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarData
 import androidx.compose.material3.SnackbarDefaults
@@ -57,7 +56,6 @@ data class ProtonSnackbarVisuals(
     override val withDismissAction: Boolean = false
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 suspend fun SnackbarHostState.showSnackbar(
     message: String,
     type: ProtonSnackbarType,
