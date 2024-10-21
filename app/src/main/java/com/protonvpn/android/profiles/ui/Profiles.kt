@@ -34,6 +34,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -56,6 +57,7 @@ import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.settings.ui.NatType
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentRow
@@ -70,6 +72,7 @@ fun Profiles(
     onAddNew: () -> Unit,
     onConnect: (ProfileViewItem) -> Unit,
     onSelect: (ProfileViewItem) -> Unit,
+    snackbarHostState: SnackbarHostState,
 ) {
     CollapsibleToolbarScaffold(
         titleResId = R.string.profiles_title,
@@ -85,6 +88,7 @@ fun Profiles(
             )
         },
         toolbarAdditionalContent = {},
+        snackbarHostState = snackbarHostState,
     ) { padding ->
         val modifier = Modifier
             .padding(padding)
@@ -213,7 +217,8 @@ fun ProfileItemPreview() {
                 netShieldEnabled = true,
                 protocol = ProtocolSelection.SMART,
                 natType = NatType.Strict,
-                lanConnections = true
+                lanConnections = true,
+                undoState = UndoState(ConnectIntent.Default)
             ),
             onConnect = {},
             onSelect = {}

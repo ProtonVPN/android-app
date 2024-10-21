@@ -55,6 +55,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -77,9 +79,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -219,6 +221,7 @@ fun CollapsibleToolbarScaffold(
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     toolbarActions: @Composable RowScope.() -> Unit = {},
     toolbarAdditionalContent: @Composable () -> Unit = {},
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     content: @Composable (PaddingValues) -> Unit
 ) {
     val scrollBehavior =
@@ -269,7 +272,10 @@ fun CollapsibleToolbarScaffold(
         },
         contentWindowInsets = contentWindowInsets,
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        content = content
+        content = content,
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) { ProtonSnackbar(it) }
+        }
     )
 }
 

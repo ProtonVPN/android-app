@@ -21,7 +21,12 @@ package com.protonvpn.android.profiles.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -30,9 +35,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
+import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfilesRoute(
@@ -40,6 +48,7 @@ fun ProfilesRoute(
     onNavigateToAddEdit: (Long?) -> Unit,
 ) {
     val viewModel : ProfilesViewModel = hiltViewModel()
+    val snackbarHostState = remember { SnackbarHostState() }
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -57,16 +66,32 @@ fun ProfilesRoute(
                 onSelect = { profile ->
                     viewModel.onSelect(profile)
                 },
-                onAddNew = { onNavigateToAddEdit(null) }
+                onAddNew = { onNavigateToAddEdit(null) },
+                snackbarHostState = snackbarHostState,
             )
         }
 
+        val coroutineScope = rememberCoroutineScope()
         if (selectedProfile != null) {
+            val snackProfileDeleteMessage = stringResource(R.string.profile_deleted_snackbar_message)
+            val snackUndo = stringResource(R.string.undo)
             ProfileBottomSheet(
                 profile = selectedProfile,
                 onClose = viewModel::onProfileClose,
                 onProfileEdit = { onNavigateToAddEdit(it.profile.id)},
-                onProfileDelete = viewModel::onProfileDelete,
+                onProfileDelete = {
+                    viewModel.onProfileDelete(it)
+                    coroutineScope.launch {
+                        val result = snackbarHostState.showSnackbar(
+                            message = snackProfileDeleteMessage,
+                            actionLabel = snackUndo,
+                            duration = SnackbarDuration.Short,
+                            type = ProtonSnackbarType.NORM
+                        )
+                        if (result == SnackbarResult.ActionPerformed)
+                            viewModel.onProfileDeleteUndo(it)
+                    }
+                },
             )
         }
 

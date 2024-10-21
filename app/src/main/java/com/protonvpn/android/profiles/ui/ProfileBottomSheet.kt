@@ -51,6 +51,7 @@ import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.settings.ui.NatType
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
@@ -229,6 +230,7 @@ private fun ProfileBottomSheetPreview() {
                 protocol = ProtocolSelection.SMART,
                 natType = NatType.Strict,
                 lanConnections = true,
+                undoState = UndoState(ConnectIntent.Default)
             ),
             {},
             {},
