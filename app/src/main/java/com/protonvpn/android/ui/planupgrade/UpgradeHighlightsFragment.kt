@@ -61,6 +61,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -80,6 +81,7 @@ import com.protonvpn.android.utils.ViewUtils.toPx
 import com.protonvpn.android.utils.getSerializableCompat
 import com.protonvpn.android.utils.getThemeColor
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.utils.viewBinding
 import kotlin.reflect.KClass
@@ -89,20 +91,23 @@ import me.proton.core.presentation.R as CoreR
 private fun carouselItem(fragmentFactory: () -> Fragment, backgroundGradientOverride: Triple<Int, Int, Int>? = null) =
     UpgradeHighlightsCarouselFragment.CarouselItem(fragmentFactory, backgroundGradientOverride)
 
-private val VpnPlusCarouselFragments = listOf(
-    carouselItem(::UpgradePlusCountriesHighlightsFragment),
-    carouselItem(::UpgradeVpnAcceleratorHighlightsFragment),
-    carouselItem(::UpgradeStreamingHighlightsFragment),
-    carouselItem(::UpgradeNetShieldHighlightsFragment),
-    carouselItem(::UpgradeSecureCoreHighlightsFragment),
-    carouselItem(::UpgradeP2PHighlightsFragment),
-    carouselItem(::UpgradeDevicesHighlightsFragment),
-    carouselItem(::UpgradeTorHighlightsFragment),
-    carouselItem(::UpgradeSplitTunnelingHighlightsFragment),
-    carouselItem(::UpgradeAllowLanHighlightsFragment),
-)
+private fun vpnPlusCarouselFragments(hasProfiles: Boolean) = buildList {
+    add(carouselItem(::UpgradePlusCountriesHighlightsFragment))
+    add(carouselItem(::UpgradeVpnAcceleratorHighlightsFragment))
+    add(carouselItem(::UpgradeStreamingHighlightsFragment))
+    add(carouselItem(::UpgradeNetShieldHighlightsFragment))
+    add(carouselItem(::UpgradeSecureCoreHighlightsFragment))
+    add(carouselItem(::UpgradeP2PHighlightsFragment))
+    add(carouselItem(::UpgradeDevicesHighlightsFragment))
+    add(carouselItem(::UpgradeTorHighlightsFragment))
+    add(carouselItem(::UpgradeSplitTunnelingHighlightsFragment))
+    if (hasProfiles) {
+        add(carouselItem(::UpgradeProfilesHighlightsFragment))
+    }
+    add(carouselItem(::UpgradeAllowLanHighlightsFragment))
+}
 
-private val UnlimitedCarouselFragments = listOf(
+private fun unlimitedCarouselFragments(hasProfiles: Boolean) = listOf(
     carouselItem(::UpgradeUnlimitedAllAppsFragment, UnlimitedPlanBenefits.defaultGradient),
 ) + UnlimitedPlanBenefits.apps.map { app -> carouselItem({ UpgradeUnlimitedAppFragment(app) }, app.backgroundGradient) }
 
@@ -184,7 +189,7 @@ abstract class UpgradeHighlightsFragment : Fragment(R.layout.fragment_upgrade_hi
 
 @AndroidEntryPoint
 abstract class UpgradeHighlightsCarouselFragment(
-    private val carouselFragments: List<CarouselItem>,
+    private val carouselFragments: (hasProfiles: Boolean) -> List<CarouselItem>,
 ) : Fragment(R.layout.fragment_upgrade_highlights_carousel) {
 
     class CarouselItem(
@@ -205,41 +210,45 @@ abstract class UpgradeHighlightsCarouselFragment(
             )
         }
 
-        val slideAdapter = SlideAdapter(this, carouselFragments.map { it.fragmentFactory })
-        with(binding.viewPager) {
-            visibility = View.INVISIBLE
-            // Keep all slides so their heights can be measured.
-            offscreenPageLimit = slideAdapter.itemCount
-            adapter = slideAdapter
-            registerOnPageChangeCallback(PagerGradientUpdater(carouselFragments, viewModel::setGradientOverride))
+        viewLifecycleOwner.lifecycleScope.launch {
+            val hasProfiles = viewModel.hasProfiles()
+            val carousel = carouselFragments(hasProfiles)
+            val slideAdapter = SlideAdapter(this@UpgradeHighlightsCarouselFragment, carousel.map { it.fragmentFactory })
+            with(binding.viewPager) {
+                visibility = View.INVISIBLE
+                // Keep all slides so their heights can be measured.
+                offscreenPageLimit = slideAdapter.itemCount
+                adapter = slideAdapter
+                registerOnPageChangeCallback(PagerGradientUpdater(carousel, viewModel::setGradientOverride))
 
-            // Update ViewPager's height to match the largest slide.
-            doOnLayout {
-                val pagerChildren = (getChildAt(0) as RecyclerView).children
-                val maxMeasuredChildHeight = pagerChildren.maxOf {
-                    it.measure(
-                        View.MeasureSpec.makeMeasureSpec(it.width, View.MeasureSpec.EXACTLY),
-                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    )
-                    it.measuredHeight
-                }
+                // Update ViewPager's height to match the largest slide.
+                doOnLayout {
+                    val pagerChildren = (getChildAt(0) as RecyclerView).children
+                    val maxMeasuredChildHeight = pagerChildren.maxOf {
+                        it.measure(
+                            View.MeasureSpec.makeMeasureSpec(it.width, View.MeasureSpec.EXACTLY),
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                        )
+                        it.measuredHeight
+                    }
 
-                val newHeight = maxMeasuredChildHeight + paddingTop + paddingBottom
-                if (newHeight != height) {
-                    updateLayoutParams<LayoutParams> { this.height = newHeight }
-                    doOnNextLayout {
+                    val newHeight = maxMeasuredChildHeight + paddingTop + paddingBottom
+                    if (newHeight != height) {
+                        updateLayoutParams<LayoutParams> { this.height = newHeight }
+                        doOnNextLayout {
+                            visibility = View.VISIBLE
+                        }
+                    } else {
                         visibility = View.VISIBLE
                     }
-                } else {
-                    visibility = View.VISIBLE
                 }
             }
-        }
-        // The indicator doesn't implement saved state handling, therefore postpone its initialization till after
-        // view pager's state is restored - otherwise they get out of sync.
-        binding.indicator.doOnNextLayout { binding.indicator.setViewPager(binding.viewPager) }
+            // The indicator doesn't implement saved state handling, therefore postpone its initialization till after
+            // view pager's state is restored - otherwise they get out of sync.
+            binding.indicator.doOnNextLayout { binding.indicator.setViewPager(binding.viewPager) }
 
-        focusFragment(binding.viewPager, slideAdapter)
+            focusFragment(binding.viewPager, slideAdapter)
+        }
     }
 
     private fun focusFragment(viewPager: ViewPager2, slideAdapter: SlideAdapter) {
@@ -310,14 +319,16 @@ abstract class UpgradeHighlightsCarouselFragment(
 
 @AndroidEntryPoint
 class UpgradeHighlightsOnboardingFragment : UpgradeHighlightsCarouselFragment(
-    listOf(CarouselItem(::UpgradeVpnPlusHighlightsFragment)) + VpnPlusCarouselFragments
+    { hasProfiles ->
+        listOf(CarouselItem(::UpgradeVpnPlusHighlightsFragment)) + vpnPlusCarouselFragments(hasProfiles)
+    }
 )
 
 @AndroidEntryPoint
-class UpgradeCarouselVpnPlusHighlightsFragment : UpgradeHighlightsCarouselFragment(VpnPlusCarouselFragments)
+class UpgradeCarouselVpnPlusHighlightsFragment : UpgradeHighlightsCarouselFragment(::vpnPlusCarouselFragments)
 
 @AndroidEntryPoint
-class UpgradeCarouselUnlimitedHighlightsFragment : UpgradeHighlightsCarouselFragment(UnlimitedCarouselFragments)
+class UpgradeCarouselUnlimitedHighlightsFragment : UpgradeHighlightsCarouselFragment(::unlimitedCarouselFragments)
 
 
 @AndroidEntryPoint
@@ -450,6 +461,19 @@ class UpgradeSplitTunnelingHighlightsFragment : UpgradeHighlightsFragmentWithSou
             imageResource = R.drawable.upgrade_split_tunneling,
             title = getString(R.string.upgrade_split_tunneling_title),
             message = HtmlTools.fromHtml(getString(R.string.upgrade_split_tunneling_message)),
+        )
+    }
+}
+
+@AndroidEntryPoint
+class UpgradeProfilesHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.PROFILES) {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.set(
+            imageResource = R.drawable.upgrade_profiles,
+            title = getString(R.string.upgrade_profiles_title),
+            message = HtmlTools.fromHtml(getString(R.string.upgrade_profiles_text)),
         )
     }
 }
