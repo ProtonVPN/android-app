@@ -59,6 +59,7 @@ import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
+import me.proton.core.presentation.R as CoreR
 import me.proton.core.presentation.utils.currentLocale
 
 @Composable
@@ -102,7 +103,7 @@ fun AddEditProfileScreen(
                 navigationIcon = {
                     IconButton(onClick = onDismiss) {
                         Icon(
-                            painter = painterResource(id = me.proton.core.presentation.R.drawable.ic_proton_cross),
+                            painter = painterResource(id = CoreR.drawable.ic_proton_cross),
                             contentDescription = stringResource(id = R.string.accessibility_back)
                         )
                     }
@@ -167,24 +168,26 @@ fun CreateProfileStep(
     onNext: () -> Unit,
     onBack: (() -> Unit)? = null,
     onNextText: String = stringResource(id = R.string.create_profile_button_next),
+    applyContentHorizontalPadding: Boolean = true,
     content: @Composable () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(vertical = 16.dp)
             .imePadding()
     ) {
         Column(
             modifier = Modifier
                 .weight(1f)
+                .padding(horizontal = if (applyContentHorizontalPadding) 16.dp else 0.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             content()
         }
 
         ProfileNavigationButtons(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             onNext = onNext,
             onBack = onBack,
             onNextText = onNextText,
