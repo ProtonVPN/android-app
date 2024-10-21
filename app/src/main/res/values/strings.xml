@@ -1420,4 +1420,8 @@
     <string name="profiles_zero_state_title">Create your first profile</string>
     <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
     <string name="profiles_button_create_profile">Create profile</string>
+    <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="undo">Undo</string>
+    <string name="profile_unavailable_dialog_title">Profile unavailable</string>
+    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
 </resources>
