@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Увійти</string>
     <string name="menuActionSignOut">Вийти</string>
-    <string name="connectionAllocationHelpTitle">Thanks for upgrading</string>
+    <string name="connectionAllocationHelpTitle">Дякуємо за передплату</string>
     <string name="connectionAllocationHelpDescription1">Щоб почати свою подорож у Proton VPN, призначте з\'єднання VPN для свого облікового запису або будь-якого іншого підлеглого облікового запису.</string>
     <string name="connectionAllocationHelpDescription2">Цей крок займе всього кілька хвилин. Після цього ви зможете ввійти в систему і захистити всі свої пристрої.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Наразі для цього облікового запису не ввімкнено VPN-з\'єднання. Щоб почати свою подорож з Proton VPN, зв\'яжіться з вашим адміністратором. </string>
@@ -139,6 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Показати системні програми</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Ці програми виключені з вашого VPN-з\'єднання.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Лише ці програми під\'єднуються до інтернету через VPN.</string>
+    <string name="accessibility_action_add_new_profile">Add new profile</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -176,7 +177,7 @@
     <string name="troubleshootNoInternetDescription">Переконайтеся, що ваше інтернет-з\'єднання працює.</string>
     <string name="troubleshootNoInternetTitle">Немає з\'єднання з інтернетом</string>
     <string name="troubleshootIspProblemTitle">Проблема постачальника послуг інтернету (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Спробуйте під\'єднатися до Proton з іншої мережі (або скористайтеся <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Перешкоджання антивіруса</string>
     <string name="troubleshootAntivirusProblemDescription">Тимчасово вимкніть чи вилучіть свою антивірусну програму.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Взаємодія з проксі та мережевим екраном</string>
@@ -186,9 +187,9 @@
     <string name="troubleshootContactUsSectionTitle">Досі потребуєте допомоги? Зв\'яжіться з нами безпосередньо</string>
     <string name="troubleshootCustomerSupport">Клієнтська підтримка</string>
     <string name="settingsAllowAlternativeRoutingTitle">Альтернативна маршрутизація</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У разі блокування Proton, дозвольте програмі спробувати альтернативні способи з\'єднання з серверами Proton. <a href="%1$s">Докладніше</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Блокування урядом</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ваша країна може блокувати доступ до Proton. Спробуйте скористатися <a href=\'%1$s\'>Tor</a> для доступу до Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Постійна VPN та Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Як увімкнути постійну VPN та Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Відкрийте <b>Налаштування</b> вашого пристрою, торкнувшись кнопки нижче]]></string>
@@ -416,78 +417,78 @@
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Розблокуйте %1$s у %2$s з <b>VPN Plus</b>.]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
-    <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
-    <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
-    <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
-    <string name="upgrade_unlimited_vpn_any_location">Choose any location</string>
-    <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
+    <string name="upgrade_unlimited_all_apps_title">Усі преміальні функції Proton з одною простою передплатою.</string>
+    <string name="upgrade_unlimited_all_apps_description">Отримуйте повний захист приватності з Proton Unlimited.</string>
+    <string name="upgrade_unlimited_more">Та інші можливості</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">Розблокуйте всі країни</string>
+    <string name="upgrade_unlimited_vpn_all_features">Всі інші функції VPN Plus</string>
+    <string name="upgrade_unlimited_vpn_any_location">Обирайте будь-яке розташування</string>
+    <string name="upgrade_unlimited_vpn_higher_speeds">Ще вища швидкість VPN</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Protect %1$d device at once</item>
-        <item quantity="few">Protect %1$d devices at once</item>
-        <item quantity="many">Protect %1$d devices at once</item>
-        <item quantity="other">Protect %1$d devices at once</item>
+        <item quantity="one">Захистіть %1$d пристрій</item>
+        <item quantity="few">Захистіть %1$d пристрої</item>
+        <item quantity="many">Захистіть %1$d пристроїв</item>
+        <item quantity="other">Захистіть %1$d пристроїв</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
+    <string name="upgrade_unlimited_vpn_streaming">Захищена потокова трансляція</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Блокування реклами й захист від зловмисних програм</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Подвійна VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">Підтримка P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d custom email domain</item>
-        <item quantity="few">%1$d custom email domains</item>
-        <item quantity="many">%1$d custom email domains</item>
-        <item quantity="other">%1$d custom email domains</item>
+        <item quantity="one">%1$d власний домен електронної пошти</item>
+        <item quantity="few">%1$d власні домени електронної пошти</item>
+        <item quantity="many">%1$d власних доменів електронної пошти</item>
+        <item quantity="other">%1$d власних доменів електронної пошти</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB attachment</item>
-        <item quantity="few">%1$d MB attachments</item>
-        <item quantity="many">%1$d MB attachments</item>
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="one">%1$d МБ вкладення</item>
+        <item quantity="few">%1$d МБ вкладення</item>
+        <item quantity="many">%1$d МБ вкладення</item>
+        <item quantity="other">%1$d МБ вкладення</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d email address</item>
-        <item quantity="few">%1$d email addresses</item>
-        <item quantity="many">%1$d email addresses</item>
-        <item quantity="other">%1$d email addresses</item>
+        <item quantity="one">%1$d адреса електронної пошти</item>
+        <item quantity="few">%1$d адреси електронної пошти</item>
+        <item quantity="many">%1$d адрес електронної пошти</item>
+        <item quantity="other">%1$d адрес електронної пошти</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Необмежена кількість тек і фільтрів</string>
+    <string name="upgrade_unlimited_mail_dark_web">Відстеження Dark Web</string>
+    <string name="upgrade_unlimited_mail_aliases">Необмежена кількість псевдонімів Hide-my-email</string>
     <string name="upgrade_unlimited_mail_autoreply">Автовідповідь</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Заплановане надсилання</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d personal calendar</item>
-        <item quantity="few">%1$d personal calendars</item>
-        <item quantity="many">%1$d personal calendars</item>
-        <item quantity="other">%1$d personal calendars</item>
+        <item quantity="one">%1$d особистий календар</item>
+        <item quantity="few">%1$d особисті календарі</item>
+        <item quantity="many">%1$d особистих календарів</item>
+        <item quantity="other">%1$d особистих календарів</item>
     </plurals>
-    <string name="upgrade_unlimited_calendar_sharing">Calendar sharing</string>
-    <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
-    <string name="upgrade_unlimited_drive_version_history">Version history</string>
-    <string name="upgrade_unlimited_pass_manager">Encrypted password manager</string>
-    <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
+    <string name="upgrade_unlimited_calendar_sharing">Спільний доступ до календаря</string>
+    <string name="upgrade_unlimited_calendar_invites">Надсилання та отримання запрошень</string>
+    <string name="upgrade_unlimited_drive_encryption">Зашифроване сховище файлів</string>
+    <string name="upgrade_unlimited_drive_storage_size">Сховище загальним обсягом %1$d ГБ для фотографій, файлів і пошти</string>
+    <string name="upgrade_unlimited_drive_link_share">Обмін фотографіями й файлами за посиланням</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Розширені можливості спільного доступу</string>
+    <string name="upgrade_unlimited_drive_version_history">Історія версій</string>
+    <string name="upgrade_unlimited_pass_manager">Зашифрований менеджер паролів</string>
+    <string name="upgrade_unlimited_pass_logins_aliases">Необмежена кількість імен користувача та псевдонімів Hide-my-email</string>
     <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d vault</item>
-        <item quantity="few">%1$d vaults</item>
-        <item quantity="many">%1$d vaults</item>
-        <item quantity="other">%1$d vaults</item>
+        <item quantity="one">%1$d сховище</item>
+        <item quantity="few">%1$d сховища</item>
+        <item quantity="many">%1$d сховищ</item>
+        <item quantity="other">%1$d сховищ</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
-    <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
-    <string name="upgrade_unlimited_pass_devices">Unlimited devices</string>
+    <string name="upgrade_unlimited_pass_logins">Необмежена кількість імен користувача</string>
+    <string name="upgrade_unlimited_pass_aliases">Необмежена кількість псевдонімів Hide-my-email</string>
+    <string name="upgrade_unlimited_pass_credit_cards">Необмежена кількість банківських карток</string>
+    <string name="upgrade_unlimited_pass_devices">Необмежена кількість пристроїв</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
-        <item quantity="few">Share with up to %1$d others</item>
-        <item quantity="many">Share with up to %1$d others</item>
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="one">Спільний доступ з %1$d користувачем</item>
+        <item quantity="few">Спільний доступ з %1$d користувачами</item>
+        <item quantity="many">Спільний доступ з %1$d користувачами</item>
+        <item quantity="other">Спільний доступ з %1$d користувачами</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">Integrated 2FA authenticator</string>
+    <string name="upgrade_unlimited_pass_2fa_auth">Інтегрований автентифікатор 2FA</string>
     <string name="upgrade_not_now_button">Не зараз</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -496,7 +497,7 @@
          When the plan selection control is focused, and the first plan name is "VPN Plus"
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
-    <string name="upgrade_plan_selection_content_description">Upgrade options</string>
+    <string name="upgrade_plan_selection_content_description">Варіанти покращення</string>
     <string name="upsell_card_countries_title">Світове покриття</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -553,7 +554,7 @@
          Plan names are not translated.
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
-    <string name="payment_button_get_plan">Get %1$s</string>
+    <string name="payment_button_get_plan">Отримати %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Пропозиція для нових користувачів. Автоматично поновлюється за %1$s/місяць</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
@@ -758,7 +759,7 @@
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Домівка</string>
     <string name="bottom_nav_gateways">Мережеві шлюзи</string>
-    <string name="bottom_nav_profiles">Profiles</string>
+    <string name="bottom_nav_profiles">Профілі</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Країни</string>
     <!-- tag(Redesign_2023) Bottom bar label for settings screen -->
@@ -1027,7 +1028,7 @@
     <string name="settings_title">Налаштування</string>
     <string name="gateways_title">Мережеві шлюзи</string>
     <string name="countries_title">Країни</string>
-    <string name="profiles_title">Profiles</string>
+    <string name="profiles_title">Профілі</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_features">Функції</string>
     <!-- tag(Redesign_2023) -->
@@ -1328,6 +1329,21 @@
     <string name="connection_details_seconds_shortened">%1$d с</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Помилка з\'єднання</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Цей пристрій не дозволяє VPN-з\'єднання.</string>
+    <!-- Profile creation -->
+    <string name="create_profile_title">Create new profile</string>
+    <string name="create_profile_name_hint">Profile name</string>
+    <string name="create_profile_name_error_empty">Enter a profile name</string>
+    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
+    <string name="create_profile_type_and_location_title">Select connection type and location</string>
+    <string name="create_profile_features_and_settings_title">Features and settings</string>
+    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">Step %1$d of %2$d</string>
+    <string name="create_profile_button_next">Next</string>
+    <string name="create_profile_button_done">Done</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1349,9 +1365,9 @@
     <string name="settings_advanced_nat_type_description">Виберіть тип перекладу мережевої адреси для свого з\'єднання. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Виберіть тип перекладу мережевої адреси для свого з\'єднання.</string>
     <string name="settings_advanced_nat_type_strict">Суворий (тип 3)</string>
-    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
+    <string name="settings_advanced_nat_type_strict_short">Тип 3</string>
     <string name="settings_advanced_nat_type_moderate">Середній (тип 2)</string>
-    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
+    <string name="settings_advanced_nat_type_moderate_short">Тип 2</string>
     <string name="settings_advanced_nat_type_strict_description">Обмежує дані, що входять до вашої мережі. Цей параметр безпечніший, але може ускладнити ігрові з\'єднання peer-to-peer.</string>
     <string name="settings_advanced_nat_type_moderate_description">Обмеження щодо даних, які входять до вашої мережі. Цей параметр найкраще використовувати для відеоігор онлайн.</string>
     <string name="settings_split_tunneling_description">Налаштуйте з\'єднання, вирішивши, які програми та IP-адреси захищаються VPN. %1$s</string>
@@ -1418,11 +1434,29 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Вибрані програми не захищатимуться VPN-з\'єднанням.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Лише вибрані програми під\'єднуються через VPN, а весь інший трафік є незахищеним.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_delete">Delete</string>
+    <string name="profile_action_edit">Edit</string>
+    <string name="profile_action_delete">Видалити</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="initial_profile_name_streaming_us">Streaming US</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="initial_profile_name_streaming_us">Потокова трансляція США</string>
+    <string name="initial_profile_name_work_school">Робота/Школа</string>
+    <string name="create_profile_pick_country_title">Country</string>
+    <string name="create_profile_pick_type_title">Type</string>
+    <string name="create_profile_type_standard">Standard</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">Gateway</string>
+    <string name="create_profile_pick_state_title">State</string>
+    <string name="create_profile_pick_city_title">City</string>
+    <string name="create_profile_pick_server_title">Server</string>
+    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_protocol_title">Protocol</string>
+    <string name="create_profile_pick_nat_title">NAT type</string>
+    <string name="create_profile_fastest_city">Fastest</string>
+    <string name="create_profile_fastest_state">Fastest</string>
+    <string name="create_profile_fastest_server">Fastest</string>
+    <string name="create_profile_pick_middle_country_title">Middle country</string>
 </resources>

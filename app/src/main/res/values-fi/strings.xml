@@ -139,6 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Näytä järjestelmäsovellukset</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Nämä sovellukset on suljettu VPN-yhteyden ulkopuolelle.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Vain nämä sovellukset muodostavat yhteyden VPN:n kautta.</string>
+    <string name="accessibility_action_add_new_profile">Add new profile</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -176,7 +177,7 @@
     <string name="troubleshootNoInternetDescription">Varmista Internet-yhteytesi toiminta.</string>
     <string name="troubleshootNoInternetTitle">Ei Internet-yhteyttä</string>
     <string name="troubleshootIspProblemTitle">Internet-palveluntarjoajan (ISP) ongelma</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Yritä tavoittaa Proton eri verkon (tai <a href=\'%1$s\'>Tor-verkon</a>) välityksellä.]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Virustorjunnan aiheuttama häiriö</string>
     <string name="troubleshootAntivirusProblemDescription">Poista tietoturvasovellus tilapäisesti käytöstä tai poista sen asennus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Välityspalvelimen/palomuurin aiheuttama häiriö</string>
@@ -186,9 +187,9 @@
     <string name="troubleshootContactUsSectionTitle">Tarvitsetko edelleen apua? Ota meihin yhteyttä</string>
     <string name="troubleshootCustomerSupport">Asiakaspalvelu</string>
     <string name="settingsAllowAlternativeRoutingTitle">Vaihtoehtoinen reititys</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Mikäli Protonia ei tavoiteta, salli sovelluksen pyrkiä tavoittamaan Protonin palvelimet vaihtoehtoisten reittien välityksellä. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hallinnollinen esto</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Maasi hallinto saattaa estää pääsyn Protoniin. Yritä tavoittaa Proton <a href=\'%1$s\'>Tor-verkon</a> välityksellä.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Jatkuvatoiminen VPN ja tappokytkin</string>
     <string name="settingsAlwaysOnWindowHeader">Miten jatkuvatoiminen VPN ja tappokytkin otetaan käyttöön:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Avaa laitteesi <b>Asetukset</b> napauttamalla alla olevaa painiketta]]></string>
@@ -1256,6 +1257,21 @@
     <string name="connection_details_seconds_shortened">%1$d s</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Yhteys epäonnistui</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Tämä laite ei salli VPN-yhteyksiä.</string>
+    <!-- Profile creation -->
+    <string name="create_profile_title">Create new profile</string>
+    <string name="create_profile_name_hint">Profile name</string>
+    <string name="create_profile_name_error_empty">Enter a profile name</string>
+    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
+    <string name="create_profile_type_and_location_title">Select connection type and location</string>
+    <string name="create_profile_features_and_settings_title">Features and settings</string>
+    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">Step %1$d of %2$d</string>
+    <string name="create_profile_button_next">Next</string>
+    <string name="create_profile_button_done">Done</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1346,6 +1362,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Valitut sovellukset suljetaan VPN-yhteyden ulkopuolelle.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Vain valitut sovellukset muodostavat yhteyden VPN:n kautta, kaikki muu tietoliikenne on suojaamatonta.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_edit">Edit</string>
     <string name="profile_action_delete">Poista</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1353,4 +1370,21 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Suoratoisto USA</string>
     <string name="initial_profile_name_work_school">Työ/Koulu</string>
+    <string name="create_profile_pick_country_title">Country</string>
+    <string name="create_profile_pick_type_title">Type</string>
+    <string name="create_profile_type_standard">Standard</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">Gateway</string>
+    <string name="create_profile_pick_state_title">State</string>
+    <string name="create_profile_pick_city_title">City</string>
+    <string name="create_profile_pick_server_title">Server</string>
+    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_protocol_title">Protocol</string>
+    <string name="create_profile_pick_nat_title">NAT type</string>
+    <string name="create_profile_fastest_city">Fastest</string>
+    <string name="create_profile_fastest_state">Fastest</string>
+    <string name="create_profile_fastest_server">Fastest</string>
+    <string name="create_profile_pick_middle_country_title">Middle country</string>
 </resources>

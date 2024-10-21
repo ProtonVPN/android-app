@@ -139,6 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Προβολή εφαρμογών συστήματος</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Αυτές οι εφαρμογές εξαιρούνται από τη σύνδεσή σας VPN.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Μόνο αυτές οι εφαρμογές συνδέονται μέσω VPN.</string>
+    <string name="accessibility_action_add_new_profile">Add new profile</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -176,7 +177,7 @@
     <string name="troubleshootNoInternetDescription">Βεβαιωθείτε ότι η σύνδεση στο Internet σας λειτουργεί.</string>
     <string name="troubleshootNoInternetTitle">Δεν υπάρχει σύνδεση στο Διαδίκτυο</string>
     <string name="troubleshootIspProblemTitle">Πρόβλημα παρόχου ISP (Internet Service Provider)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Δοκιμάστε να συνδεθείτε στο Proton από διαφορετικό δίκτυο (ή χρησιμοποιήστε <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Παρεμβολές του Antivirus</string>
     <string name="troubleshootAntivirusProblemDescription">Απενεργοποιήστε ή αφαιρέστε προσωρινά το antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Παρέμβαση Proxy/Firewall</string>
@@ -186,9 +187,9 @@
     <string name="troubleshootContactUsSectionTitle">Εξακολουθείται να χρειάζεστε βοήθεια; Επικοινωνήστε απ\' ευθείας μαζί μας</string>
     <string name="troubleshootCustomerSupport">Εξυπηρέτηση πελατών</string>
     <string name="settingsAllowAlternativeRoutingTitle">Εναλλακτική δρομολόγηση</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Στην περίπτωση που το Proton είναι μπλοκαρισμένο, επιτρέψτε στην εφαρμογή να χρησιμοποιήσει εναλλακτικές διαδρομές για την επικοινωνία με τους διακομιστές της Proton. <a href="%1$s">Μάθετε περισσότερα</a>.]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Κυβερνητική απαγόρευση</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Η χώρα σας μπορεί να εμποδίζει την πρόσβαση στο Proton. Δοκιμάστε να χρησιμοποιήσετε <a href=\'%1$s\'>Tor</a> για πρόσβαση στο Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">\"Πάντα-Ενεργό\" VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Πως ενεργοποιείται το \"Πάντα-Ενεργό\" VPN και το Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Ανοίξτε τις <b>ρυθμίσεις</b> της συσκευής σας πατώντας στο παρακάτω κουμπί]]></string>
@@ -1256,6 +1257,21 @@
     <string name="connection_details_seconds_shortened">%1$d δλ</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Αποτυχία σύνδεσης</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Αυτή η συσκευή δεν επιτρέπει συνδέσεις VPN.</string>
+    <!-- Profile creation -->
+    <string name="create_profile_title">Create new profile</string>
+    <string name="create_profile_name_hint">Profile name</string>
+    <string name="create_profile_name_error_empty">Enter a profile name</string>
+    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
+    <string name="create_profile_type_and_location_title">Select connection type and location</string>
+    <string name="create_profile_features_and_settings_title">Features and settings</string>
+    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">Step %1$d of %2$d</string>
+    <string name="create_profile_button_next">Next</string>
+    <string name="create_profile_button_done">Done</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1346,6 +1362,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Οι επιλεγμένες εφαρμογές εξαιρούνται από τη σύνδεση VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Μόνο επιλεγμένες εφαρμογές συνδέονται μέσω VPN, όλη η άλλη κίνηση είναι απροστάτευτη.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_edit">Edit</string>
     <string name="profile_action_delete">Διαγραφή</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1353,4 +1370,21 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Ροή US</string>
     <string name="initial_profile_name_work_school">Εργασία/Σχολείο</string>
+    <string name="create_profile_pick_country_title">Country</string>
+    <string name="create_profile_pick_type_title">Type</string>
+    <string name="create_profile_type_standard">Standard</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">Gateway</string>
+    <string name="create_profile_pick_state_title">State</string>
+    <string name="create_profile_pick_city_title">City</string>
+    <string name="create_profile_pick_server_title">Server</string>
+    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_protocol_title">Protocol</string>
+    <string name="create_profile_pick_nat_title">NAT type</string>
+    <string name="create_profile_fastest_city">Fastest</string>
+    <string name="create_profile_fastest_state">Fastest</string>
+    <string name="create_profile_fastest_server">Fastest</string>
+    <string name="create_profile_pick_middle_country_title">Middle country</string>
 </resources>

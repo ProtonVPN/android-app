@@ -139,6 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">システムアプリを表示</string>
     <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
+    <string name="accessibility_action_add_new_profile">Add new profile</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -176,7 +177,7 @@
     <string name="troubleshootNoInternetDescription">インターネットに接続されていることをご確認ください。</string>
     <string name="troubleshootNoInternetTitle">インターネットに接続されていない</string>
     <string name="troubleshootIspProblemTitle">インターネットサービスプロバイダー (ISP) の問題</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[別のネットワークから Proton への接続を試みてみてください (または <a href=\'%1$s\'>Tor</a> を使用してみてください) 。]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">ウイルス対策ソフトウェアの干渉</string>
     <string name="troubleshootAntivirusProblemDescription">ウイルス対策ソフトウェアを一時的に無効にするか、削除することで解決する可能性もあります。</string>
     <string name="troubleshootProxyFirewallProblemTitle">プロキシまたはファイアウォールの干渉</string>
@@ -186,9 +187,9 @@
     <string name="troubleshootContactUsSectionTitle">問題が解決しませんか? 直接お問い合わせる</string>
     <string name="troubleshootCustomerSupport">カスタマーサポート</string>
     <string name="settingsAllowAlternativeRoutingTitle">代替ルーティング</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton がブロックされている場合、Proton サーバーに接続するために代替手段を試します。<a href="%1$s">詳細</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">政府等による検閲</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[あなたの国の政府が、 Proton への接続を検閲(遮断)している可能性があります。 Proton に接続するために <a href=\'%1$s\'>Tor</a> を使用してみてください。]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">常時接続 VPN &amp; キルスイッチ</string>
     <string name="settingsAlwaysOnWindowHeader">常時接続 VPN とキルスイッチを有効にする方法:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. 下のボタンをタップしてデバイスの<b>設定</b>を開きます]]></string>
@@ -1220,6 +1221,21 @@
     <string name="connection_details_seconds_shortened">%1$d 秒</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">接続に失敗</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">このデバイスはVPN接続を許可していません。</string>
+    <!-- Profile creation -->
+    <string name="create_profile_title">Create new profile</string>
+    <string name="create_profile_name_hint">Profile name</string>
+    <string name="create_profile_name_error_empty">Enter a profile name</string>
+    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
+    <string name="create_profile_type_and_location_title">Select connection type and location</string>
+    <string name="create_profile_features_and_settings_title">Features and settings</string>
+    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <!--
+        First input will be for current step, second one will be for total number of steps
+        Example: Step 3 of 7
+     -->
+    <string name="create_profile_steps">Step %1$d of %2$d</string>
+    <string name="create_profile_button_next">Next</string>
+    <string name="create_profile_button_done">Done</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1310,6 +1326,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
+    <string name="profile_action_edit">Edit</string>
     <string name="profile_action_delete">Delete</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1317,4 +1334,21 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="create_profile_pick_country_title">Country</string>
+    <string name="create_profile_pick_type_title">Type</string>
+    <string name="create_profile_type_standard">Standard</string>
+    <string name="create_profile_type_secure_core">Secure Core</string>
+    <string name="create_profile_type_p2p">P2P</string>
+    <string name="create_profile_gateway">Gateway</string>
+    <string name="create_profile_pick_state_title">State</string>
+    <string name="create_profile_pick_city_title">City</string>
+    <string name="create_profile_pick_server_title">Server</string>
+    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_protocol_title">Protocol</string>
+    <string name="create_profile_pick_nat_title">NAT type</string>
+    <string name="create_profile_fastest_city">Fastest</string>
+    <string name="create_profile_fastest_state">Fastest</string>
+    <string name="create_profile_fastest_server">Fastest</string>
+    <string name="create_profile_pick_middle_country_title">Middle country</string>
 </resources>
