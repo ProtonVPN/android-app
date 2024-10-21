@@ -27,16 +27,13 @@ import android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
 import android.provider.Settings.EXTRA_APP_PACKAGE
 import android.provider.Settings.EXTRA_CHANNEL_ID
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,39 +46,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumTopAppBar
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScaffoldDefaults
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
-import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
+import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -211,72 +193,6 @@ fun SettingsRoute(
             }
         )
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CollapsibleToolbarScaffold(
-    modifier: Modifier = Modifier,
-    @StringRes titleResId: Int,
-    contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
-    toolbarActions: @Composable RowScope.() -> Unit = {},
-    toolbarAdditionalContent: @Composable () -> Unit = {},
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    content: @Composable (PaddingValues) -> Unit
-) {
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
-    val isCollapsed = remember { derivedStateOf { scrollBehavior.state.collapsedFraction > 0.5 } }
-
-    val topAppBarElementColor = if (isCollapsed.value) {
-        MaterialTheme.colorScheme.onSurface
-    } else {
-        MaterialTheme.colorScheme.onPrimary
-    }
-
-    val collapsedTextSize = 16
-    val expandedTextSize = 28
-    val topAppBarTextSize =
-        (collapsedTextSize + (expandedTextSize - collapsedTextSize) * (1 - scrollBehavior.state.collapsedFraction)).sp
-
-    val expandedColor = ProtonTheme.colors.backgroundNorm
-    val collapsedColor = ProtonTheme.colors.backgroundSecondary
-    val topAppBarColor by remember {
-        derivedStateOf {
-            lerp(expandedColor, collapsedColor, scrollBehavior.state.collapsedFraction)
-        }
-    }
-    Scaffold(
-        topBar = {
-            Column(modifier = Modifier.background(color = topAppBarColor)) {
-                MediumTopAppBar(
-                    title = {
-                            Text(
-                                text = stringResource(id = titleResId),
-                                style = ProtonTheme.typography.hero,
-                                fontSize = topAppBarTextSize
-                            )
-                    },
-                    actions = toolbarActions,
-                    colors = TopAppBarDefaults.largeTopAppBarColors(
-                        containerColor = topAppBarColor,
-                        scrolledContainerColor = topAppBarColor,
-                        navigationIconContentColor = topAppBarElementColor,
-                        titleContentColor = topAppBarElementColor,
-                        actionIconContentColor = topAppBarElementColor,
-                    ),
-                    scrollBehavior = scrollBehavior
-                )
-                toolbarAdditionalContent()
-            }
-        },
-        contentWindowInsets = contentWindowInsets,
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        content = content,
-        snackbarHost = {
-            SnackbarHost(snackbarHostState) { ProtonSnackbar(it) }
-        }
-    )
 }
 
 @Composable
