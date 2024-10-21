@@ -24,9 +24,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
+import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
@@ -66,5 +69,26 @@ fun ProfilesRoute(
                 onProfileDelete = viewModel::onProfileDelete,
             )
         }
+
+        val showDialog = viewModel.showDialog.collectAsStateWithLifecycle().value
+        if (showDialog != null)
+            ShowProfileDialog(showDialog, viewModel::dismissDialog)
+    }
+}
+
+@Composable
+private fun ShowProfileDialog(
+    showDialog: ProfilesViewModel.Dialog,
+    onDismiss: () -> Unit,
+) {
+    when (showDialog) {
+        is ProfilesViewModel.Dialog.ServerUnavailable ->
+            ProtonAlert(
+                title = stringResource(R.string.profile_unavailable_dialog_title),
+                text = stringResource(R.string.profile_unavailable_dialog_message, showDialog.profileName),
+                confirmLabel = stringResource(R.string.got_it),
+                onConfirm = { onDismiss() },
+                onDismissRequest = onDismiss
+            )
     }
 }

@@ -49,6 +49,7 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -98,6 +99,11 @@ class ProfilesViewModel @Inject constructor(
 
     private var selectedProfileId by savedStateHandle.state<Long?>(null, SELECTED_PROFILE_KEY)
 
+    sealed class Dialog {
+        data class ServerUnavailable(val profileName: String) : Dialog()
+    }
+    var showDialog = MutableStateFlow<Dialog?>(null)
+
     val selectedProfile = combine(
         currentUser.vpnUserFlow,
         connectedProfileIdFlow,
@@ -138,10 +144,11 @@ class ProfilesViewModel @Inject constructor(
     ) {
         selectedProfileId = null
         when (item.availability) {
-            ConnectIntentAvailability.SERVER_REMOVED -> {}
+            ConnectIntentAvailability.SERVER_REMOVED,
+            ConnectIntentAvailability.UNAVAILABLE_PROTOCOL,
+            ConnectIntentAvailability.AVAILABLE_OFFLINE ->
+                showDialog.value = Dialog.ServerUnavailable(item.profile.name)
             ConnectIntentAvailability.UNAVAILABLE_PLAN -> navigateToUpsell()
-            ConnectIntentAvailability.UNAVAILABLE_PROTOCOL -> {}
-            ConnectIntentAvailability.AVAILABLE_OFFLINE -> {}
             ConnectIntentAvailability.ONLINE -> {
                 mainScope.launch {
                     val trigger = ConnectTrigger.Profile
@@ -156,6 +163,10 @@ class ProfilesViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun dismissDialog() {
+        showDialog.value = null
     }
 
     fun onSelect(item: ProfileViewItem) {
