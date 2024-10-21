@@ -77,6 +77,7 @@ import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ActiveDot
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
+import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.CountryTools
@@ -131,7 +132,7 @@ fun ConnectIntentRow(
     isConnected: Boolean,
     onClick: () -> Unit,
     onOpen: () -> Unit,
-    leadingComposable: @Composable RowScope.() -> Unit,
+    leadingComposable: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     semanticsStateDescription: String? = null,
 ) {
@@ -147,13 +148,14 @@ fun ConnectIntentRow(
             if (extraContentDescription != null) contentDescription = extraContentDescription
             customActions = customAccessibilityActions
         }
-    val isDisabled = availability != ConnectIntentAvailability.ONLINE
+    val isUnavailable = availability != ConnectIntentAvailability.ONLINE
     ConnectIntentBlankRow(
         title = connectIntent.primaryLabel.label(),
         subTitle = connectIntent.secondaryLabel?.label(),
         serverFeatures = connectIntent.serverFeatures,
         isConnected = isConnected,
-        modifier = modifier.then(semantics).unavailableServerAlpha(isDisabled).clickable(onClick = onClick).padding(horizontal = 16.dp),
+        modifier = modifier.then(semantics).clickable(onClick = onClick).padding(horizontal = 16.dp),
+        isUnavailable = isUnavailable,
         leadingComposable = leadingComposable,
         trailingComposable = {
             if (availability == ConnectIntentAvailability.AVAILABLE_OFFLINE) {
@@ -161,7 +163,10 @@ fun ConnectIntentRow(
                     painterResource(id = CoreR.drawable.ic_proton_wrench),
                     tint = ProtonTheme.colors.iconWeak,
                     contentDescription = null, // Description is added on the whole row.
-                    modifier = Modifier.align(Alignment.CenterVertically)
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .unavailableServerAlpha(true)
+                        .padding(end = 8.dp)
                 )
             }
             val interactionSource = remember { MutableInteractionSource() }
@@ -202,6 +207,7 @@ fun StaticConnectIntentRow(
         subTitle = intent.secondaryLabel?.label(),
         serverFeatures = intent.serverFeatures,
         isConnected = false,
+        isUnavailable = false,
         leadingComposable = {
             ConnectIntentIcon(intent.primaryLabel)
         },
@@ -213,12 +219,13 @@ fun StaticConnectIntentRow(
 @Composable
 fun ConnectIntentBlankRow(
     modifier: Modifier = Modifier,
-    leadingComposable: @Composable RowScope.() -> Unit,
+    leadingComposable: @Composable () -> Unit,
     trailingComposable: (@Composable RowScope.() -> Unit)? = null,
     title: String,
     subTitle: AnnotatedString?,
     serverFeatures: Set<ServerFeature>,
     isConnected: Boolean = false,
+    isUnavailable: Boolean,
 ) {
     val isLargerRecent = subTitle != null || serverFeatures.isNotEmpty()
     Row(
@@ -228,9 +235,12 @@ fun ConnectIntentBlankRow(
             .semantics(mergeDescendants = true) {},
         verticalAlignment = if (isLargerRecent) Alignment.Top else Alignment.CenterVertically,
     ) {
-        leadingComposable()
+        Box(Modifier.unavailableServerAlpha(isUnavailable)) {
+            leadingComposable()
+        }
         Column(
             modifier = Modifier
+                .optional({ isUnavailable }, Modifier.unavailableServerAlpha(isUnavailable))
                 .weight(1f)
                 .padding(start = 16.dp)
         ) {

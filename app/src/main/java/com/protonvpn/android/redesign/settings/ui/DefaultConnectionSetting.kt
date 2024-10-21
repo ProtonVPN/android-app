@@ -19,7 +19,6 @@
 package com.protonvpn.android.redesign.settings.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
@@ -123,7 +122,7 @@ fun DefaultConnectionSelection(
 
 @Composable
 fun DefaultSelectionRow(
-    leadingIcon: @Composable RowScope.() -> Unit,
+    leadingIcon: @Composable () -> Unit,
     title: String,
     subTitle: AnnotatedString?,
     serverFeatures: Set<ServerFeature>,
@@ -140,6 +139,7 @@ fun DefaultSelectionRow(
         title = title,
         subTitle = subTitle,
         serverFeatures = serverFeatures,
+        isUnavailable = false,
         modifier = Modifier
             .selectable(isSelected, onClick = onSelected)
             .padding(horizontal = 16.dp)

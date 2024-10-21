@@ -299,6 +299,7 @@ private fun RecentSettingBottomSheetContent(
                 subTitle = item.connectIntent.secondaryLabel?.label(),
                 serverFeatures = item.connectIntent.serverFeatures,
                 isConnected = item.isConnected,
+                isUnavailable = false,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             VpnDivider()
