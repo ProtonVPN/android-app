@@ -22,7 +22,7 @@
 buildscript {
     // We should migrate to version catalogs as soon as IDE support is available:
     // https://issuetracker.google.com/issues/226078451
-    ext.androidx_lifecycle_version = '2.8.3'
+    ext.androidx_lifecycle_version = '2.8.5' // 2.8.6+ requires Compose 1.7.1+
     ext.core_version = '27.2.2'
     ext.datastore_version = '1.1.1'
     ext.desugar_jdk_version = '2.0.4'
@@ -36,7 +36,7 @@ buildscript {
     ext.ksp_version = '1.9.25-1.0.20'
     ext.kotlinx_coroutines_version = '1.8.1'
     ext.kotlinx_serialization_json_version = '1.6.3'
-    ext.mockk_version = '1.13.12'
+    ext.mockk_version = '1.13.13'
     ext.robolectric_version = '4.12.1'
     ext.room_version = '2.6.1'
     ext.turbine_version = '1.1.0'

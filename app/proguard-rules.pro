@@ -93,6 +93,7 @@
 # Missing classes from dependencies.
 # This is generated automatically by the Android Gradle plugin.
 # (but copied&pasted manually :) )
+-dontwarn com.google.android.gms.common.annotation.NoNullnessRewrite
 -dontwarn com.google.errorprone.annotations.Immutable
 -dontwarn javax.lang.model.element.Modifier
 -dontwarn javax.mail.Address
