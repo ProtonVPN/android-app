@@ -192,10 +192,13 @@ class ProfilesViewModel @Inject constructor(
     ): ProfileViewItem {
         val isConnected = info.id == connectedProfileId
         val intent = connectIntent
-        val availability = getIntentAvailability(intent, vpnUser, settingsProtocol)
+        val availability = when {
+            vpnUser.isFreeUser -> ConnectIntentAvailability.UNAVAILABLE_PLAN
+            else -> getIntentAvailability(intent, vpnUser, settingsProtocol)
+        }
         val intentViewState = getConnectIntentViewState.forProfile(this)
         val netShieldEnabled = intent.settingsOverrides?.netShield == NetShieldProtocol.ENABLED_EXTENDED
-        val protocol = connectIntent.settingsOverrides?.protocol ?: settingsProtocol
+        val protocol = intent.settingsOverrides?.protocol ?: settingsProtocol
         val natType = NatType.fromRandomizedNat(intent.settingsOverrides?.randomizedNat == true)
         val lanConnections = intent.settingsOverrides?.lanConnections == true
         return ProfileViewItem(

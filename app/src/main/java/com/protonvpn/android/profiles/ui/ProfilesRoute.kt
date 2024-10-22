@@ -39,7 +39,7 @@ import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeProfilesHighlightsFragment
 import kotlinx.coroutines.launch
 
 @Composable
@@ -57,7 +57,7 @@ fun ProfilesRoute(
         if (state != null) {
             val context = LocalContext.current
             val uiDelegate = LocalVpnUiDelegate.current
-            val navigateToUpsell = { CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) }
+            val navigateToUpsell = { CarouselUpgradeDialogActivity.launch<UpgradeProfilesHighlightsFragment>(context) }
             Profiles(
                 state = state,
                 onConnect = { profile ->
