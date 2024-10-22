@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.profiles.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -150,6 +151,7 @@ fun ProfilesListZeroScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfilesList(
     profiles: List<ProfileViewItem>,
@@ -163,13 +165,15 @@ fun ProfilesList(
         modifier = modifier,
     ) {
         itemsIndexed(profiles, key = { _, profile -> profile.profile.id }) { index, profile ->
-            ProfileItem(
-                profile = profile,
-                onConnect = onConnect,
-                onSelect = onSelect,
-            )
-            if (index < profiles.lastIndex)
-                VpnDivider()
+            Column(modifier = Modifier.animateItemPlacement()) {
+                ProfileItem(
+                    profile = profile,
+                    onConnect = onConnect,
+                    onSelect = onSelect,
+                )
+                if (index < profiles.lastIndex)
+                    VpnDivider()
+            }
         }
     }
 }
