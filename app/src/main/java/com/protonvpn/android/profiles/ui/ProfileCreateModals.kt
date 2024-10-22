@@ -702,18 +702,22 @@ fun ProfileValueItem(
                 iconContent()
                 Spacer(modifier = Modifier.width(8.dp))
             }
-            Text(
-                text = valueText,
-                style = ProtonTheme.typography.body1Medium,
-                color = textColor,
-                modifier = Modifier.weight(1f, fill = false)
-            )
-            AvailabilityIndicator(online, Modifier.padding(start = 8.dp))
+            Row(
+                modifier = Modifier.weight(1f),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = valueText,
+                    style = ProtonTheme.typography.body1Medium,
+                    color = textColor,
+                    modifier = Modifier.weight(1f, fill = false)
+                )
+                AvailabilityIndicator(online, Modifier.padding(horizontal = 12.dp))
+            }
             Icon(
                 painter = painterResource(id = CoreR.drawable.ic_proton_chevron_down),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(start = 8.dp)
                     .size(16.dp)
             )
         }
@@ -790,7 +794,7 @@ private fun ProfileCountryItemPreview() {
         Surface {
             ProfileCountryItem(
                 false,
-                TypeAndLocationScreenState.CountryItem(CountryId("PL"), true),
+                TypeAndLocationScreenState.CountryItem(CountryId("PL"), false),
                 null,
                 emptyList(),
                 emptyList(),
