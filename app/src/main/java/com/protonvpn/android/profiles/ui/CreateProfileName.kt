@@ -173,6 +173,7 @@ private fun IconsView(
                     .padding(8.dp)
                     .height(24.dp),
                 color = color,
+                extraSize = true,
                 icon = icon,
             )
         }

@@ -90,6 +90,8 @@ object FlagDefaults {
     val twoFlagTop = 3.dp
     val twoFlagMainSize = DpSize(24.dp, 16.dp)
     val companionFlagSize = DpSize(18.dp, 12.dp)
+    val profileCompanionFlagSize = DpSize(20.dp, 13.33.dp)
+    val bigProfileIconSize = DpSize(36.dp, 24.dp)
     val companionFlagTop = 15.dp
     val scUnderlineArcSize = DpSize(26.dp, 16.dp)
     val scUnderlineArcOffset = DpOffset(-4.dp, 4.dp + (singleFlagSize.height - scUnderlineArcSize.height))
@@ -100,7 +102,8 @@ object FlagDefaults {
 @Composable
 fun ConnectIntentIcon(
     label: ConnectIntentPrimaryLabel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    profileIconExtraSize: Boolean = false,
 ) {
     when(label) {
         is ConnectIntentPrimaryLabel.Fastest ->
@@ -110,7 +113,7 @@ fun ConnectIntentIcon(
         is ConnectIntentPrimaryLabel.Gateway ->
             GatewayIndicator(label.country, modifier = modifier)
         is ConnectIntentPrimaryLabel.Profile ->
-            ProfileIconWithIndicator(label.country, label.icon, label.color, label.isGateway, modifier = modifier)
+            ProfileIconWithIndicator(label.country, label.icon, label.color, label.isGateway, extraSize = profileIconExtraSize, modifier = modifier)
     }
 }
 
@@ -182,6 +185,7 @@ fun ProfileIcon(
     modifier: Modifier = Modifier,
     icon: ProfileIcon,
     color: ProfileColor,
+    extraSize: Boolean,
     frontContent: @Composable (() -> Unit)? = null,
 ) {
     Box(
@@ -196,7 +200,7 @@ fun ProfileIcon(
             painter = painterResource(id = icon.toDrawableRes()),
             contentDescription = null,
             modifier = Modifier
-                .size(width = 36.dp, height = 24.dp)
+                .size(if (extraSize) FlagDefaults.bigProfileIconSize else FlagDefaults.twoFlagMainSize)
                 .align(if (frontContent != null) Alignment.TopStart else Alignment.Center),
             colorFilter = ColorFilter.colorMatrix(
                 ColorMatrix(hueRotationMatrix)
@@ -206,7 +210,7 @@ fun ProfileIcon(
         frontContent?.let {
             Box(
                 modifier = Modifier
-                    .size(width = 30.dp, height = 20.dp)
+                    .size(if (extraSize) FlagDefaults.singleFlagSize else FlagDefaults.profileCompanionFlagSize)
                     .align(Alignment.BottomEnd)
             ) {
                 it()
@@ -221,12 +225,14 @@ fun ProfileIconWithIndicator(
     icon: ProfileIcon,
     color: ProfileColor,
     isGateway: Boolean,
+    extraSize: Boolean,
     modifier: Modifier = Modifier
 ) {
     ProfileIcon(
         icon = icon,
         color = color,
-        modifier = modifier.size(48.dp).padding(vertical = 4.dp),
+        modifier = modifier.size(if (extraSize) 48.dp else 30.dp).padding(vertical = if (extraSize) 4.dp else 2.dp),
+        extraSize = extraSize,
         frontContent = {
             if (isGateway) {
                 GatewayIndicator(countryFlag = null)
@@ -480,13 +486,22 @@ private fun ProfileIconViewPreview() {
         Column {
             ProfileIconWithIndicator(
                 country = CountryId("US"),
-                icon = ProfileIcon.Icon2,
+                icon = ProfileIcon.Icon5,
                 color = ProfileColor.Color4,
-                isGateway = false
+                isGateway = false,
+                extraSize = true
+            )
+            ProfileIconWithIndicator(
+                country = CountryId("US"),
+                icon = ProfileIcon.Icon3,
+                color = ProfileColor.Color6,
+                isGateway = false,
+                extraSize = false
             )
             ProfileIcon(
                 icon = ProfileIcon.Icon2,
                 color = ProfileColor.Color4,
+                extraSize = false
             )
         }
     }
