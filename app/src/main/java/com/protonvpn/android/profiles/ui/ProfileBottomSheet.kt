@@ -95,6 +95,7 @@ private fun ProfileSheetContent(
     Column(modifier) {
         StaticConnectIntentRow(
             profile.intent,
+            profileIconExtraSize = true,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         ProfileSettingItem(

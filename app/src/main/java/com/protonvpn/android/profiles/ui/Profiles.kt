@@ -191,7 +191,12 @@ fun ProfileItem(
         isConnected = profile.isConnected,
         onClick = { onConnect(profile) },
         onOpen = { onSelect(profile) },
-        leadingComposable = { ConnectIntentIcon(profile.intent.primaryLabel) },
+        leadingComposable = {
+            ConnectIntentIcon(
+                profile.intent.primaryLabel,
+                profileIconExtraSize = true
+            )
+        },
         modifier = modifier,
     )
 }
