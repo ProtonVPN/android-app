@@ -34,6 +34,7 @@ import com.protonvpn.android.profiles.ui.nav.ProfileFeaturesAndSettingsScreen.pr
 import com.protonvpn.android.profiles.ui.nav.ProfileTypeAndLocationScreen.profileTypeAndLocationScreen
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
+import com.protonvpn.android.redesign.base.ui.nav.NavigationTransition
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
 import com.protonvpn.android.redesign.base.ui.nav.Screen
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
@@ -116,6 +117,7 @@ class ProfilesAddEditNav(
         SafeNavHost(
             modifier = modifier,
             startScreen = CreateProfileNameScreen,
+            transition = NavigationTransition.SlideInTowardsStart,
         ) {
             val navOptions = navOptions {
                 launchSingleTop = true

@@ -20,8 +20,15 @@
 package com.protonvpn.android.redesign.base.ui.nav
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
@@ -39,6 +46,26 @@ val NavLog = LogEventType(LogCategory.UI, "NAV", LogLevel.INFO)
  * bound to another [BaseNav] child class. See [BaseNav] for more info.
  */
 data class SafeNavGraphBuilder<N : BaseNav<N>>(val builder: NavGraphBuilder)
+
+enum class NavigationTransition(
+    val enterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition,
+    val exitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition,
+    val popEnterTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition = enterTransition,
+    val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition = exitTransition,
+) {
+    // Defaults from NavHost.
+    DefaultFade(
+        enterTransition = { fadeIn(animationSpec = tween(700)) },
+        exitTransition = { fadeOut(animationSpec = tween(700)) },
+    ),
+
+    SlideInTowardsStart(
+        enterTransition = { slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start) },
+        exitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start) },
+        popEnterTransition = { slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
+        popExitTransition = { slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.End) },
+    )
+}
 
 /**
  * Wrapper around [NavHostController] with more high-level interface, logging and navigation
@@ -133,12 +160,17 @@ open class BaseNav<N : BaseNav<N>>(
     fun SafeNavHost(
         modifier: Modifier = Modifier,
         startScreen: ScreenNoArg<N>, // Starting screen can't have arguments
+        transition: NavigationTransition = NavigationTransition.DefaultFade,
         build: SafeNavGraphBuilder<N>.() -> Unit
     ) {
         NavHost(
             modifier = modifier,
             navController = controller,
             startDestination = startScreen.route,
+            enterTransition = transition.enterTransition,
+            exitTransition = transition.exitTransition,
+            popEnterTransition = transition.popEnterTransition,
+            popExitTransition = transition.popExitTransition,
         ) {
             SafeNavGraphBuilder<N>(this).build()
         }
