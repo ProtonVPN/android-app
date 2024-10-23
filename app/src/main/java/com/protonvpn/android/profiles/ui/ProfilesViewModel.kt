@@ -30,12 +30,11 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.profiles.data.ProfilesDao
-import com.protonvpn.android.profiles.data.toProfileEntity
+import com.protonvpn.android.profiles.usecases.DeleteProfileFromUi
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
 import com.protonvpn.android.redesign.settings.ui.NatType
-import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
@@ -70,17 +69,11 @@ sealed class ProfilesState {
     data class ProfilesList(val profiles: List<ProfileViewItem>) : ProfilesState()
 }
 
-// Additional state for item for undoing operations.
-data class UndoState(
-    val rawIntent: ConnectIntent,
-)
-
 data class ProfileViewItem(
     val profile: ProfileInfo,
     val isConnected: Boolean,
     val availability: ConnectIntentAvailability,
     val intent: ConnectIntentViewState,
-    val undoState: UndoState,
     val netShieldEnabled: Boolean,
     val protocol: ProtocolSelection,
     val natType: NatType,
@@ -92,7 +85,8 @@ class ProfilesViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
     savedStateHandle: SavedStateHandle,
     private val profilesDao: ProfilesDao,
-    private val currentUser: CurrentUser,
+    private val deleteProfile: DeleteProfileFromUi,
+    currentUser: CurrentUser,
     private val connect: VpnConnect,
     private val shouldShowcaseRecents: ShouldShowcaseRecents,
     vpnStatusProviderUI: VpnStatusProviderUI,
@@ -210,28 +204,11 @@ class ProfilesViewModel @Inject constructor(
             protocol = protocol,
             natType = natType,
             lanConnections = lanConnections,
-            undoState = UndoState(intent),
         )
     }
 
-    fun onProfileDelete(item: ProfileViewItem) {
+    fun onProfileDelete(item: ProfileViewItem, undoDurationMs: Long): DeleteProfileFromUi.UndoOperation {
         selectedProfileId = null
-        mainScope.launch {
-            profilesDao.remove(item.profile.id)
-        }
-    }
-
-    fun onProfileDeleteUndo(profileViewItem: ProfileViewItem) {
-        mainScope.launch {
-            currentUser.vpnUser()?.userId?.let { userId ->
-                profilesDao.upsert(
-                    Profile(
-                        profileViewItem.profile,
-                        profileViewItem.undoState.rawIntent,
-                        userId
-                    ).toProfileEntity()
-                )
-            }
-        }
+        return deleteProfile(item.profile.id, undoDurationMs)
     }
 }

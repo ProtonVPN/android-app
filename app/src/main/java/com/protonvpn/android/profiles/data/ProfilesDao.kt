@@ -64,4 +64,7 @@ abstract class ProfilesDao {
         if (getCount(userId) == 0)
             insert(profiles())
     }
+
+    @Query("SELECT COUNT(*) FROM profiles WHERE userId = :userId")
+    abstract suspend fun getProfileCount(userId: UserId): Int
 }

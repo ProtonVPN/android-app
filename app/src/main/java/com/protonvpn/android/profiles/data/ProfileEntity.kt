@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.profiles.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -50,6 +51,8 @@ data class ProfileEntity(
     val color: ProfileColor,
     val icon: ProfileIcon,
     val createdAt: Long,
+    @ColumnInfo(defaultValue = "1")
+    val isUserCreated: Boolean,
     @Embedded
     val connectIntentData: ConnectIntentData
 )

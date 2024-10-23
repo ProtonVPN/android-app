@@ -58,8 +58,12 @@ import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapte
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapterLegacy
+import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.DefaultCommonDimensions
+import com.protonvpn.android.telemetry.DefaultTelemetryReporter
 import com.protonvpn.android.telemetry.SettingsSnapshotScheduler
 import com.protonvpn.android.telemetry.SnapshotScheduler
+import com.protonvpn.android.telemetry.TelemetryReporter
 import com.protonvpn.android.telemetry.TelemetryUploadScheduler
 import com.protonvpn.android.telemetry.TelemetryUploadWorkerScheduler
 import com.protonvpn.android.tv.login.TvLoginPollDelayMs
@@ -316,6 +320,16 @@ object AppModule {
     @Module
     @InstallIn(SingletonComponent::class)
     interface Bindings {
+
+        @Binds
+        fun provideAutoLogin(autoLogin: AutoLoginImpl): AutoLogin
+
+        @Binds
+        fun provideCommonDimensions(provider: DefaultCommonDimensions): CommonDimensions
+
+        @Binds
+        fun provideGetProfileById(getProfileById: GetProfileByIdImpl): GetProfileById
+
         @Singleton
         @Binds
         fun provideGuestHoleFallbackListener(guestHole: GuestHole): DohAlternativesListener
@@ -335,14 +349,13 @@ object AppModule {
         @Binds
         fun provideSearchViewModelDataAdapter(impl: SearchViewModelDataAdapterLegacy): SearchViewModelDataAdapter
 
+        @Binds
+        fun provideTelemetryReporter(impl: DefaultTelemetryReporter): TelemetryReporter
+
         @Singleton
         @Binds
         fun provideVpnConnect(impl: VpnConnectionManager): VpnConnect
 
-        @Binds
-        fun provideAutoLogin(autoLogin: AutoLoginImpl): AutoLogin
-
-        @Binds
-        fun provideGetProfileById(getProfileById: GetProfileByIdImpl): GetProfileById
+        // Alphabetically.
     }
 }

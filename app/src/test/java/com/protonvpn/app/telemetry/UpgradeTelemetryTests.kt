@@ -22,7 +22,8 @@ package com.protonvpn.app.telemetry
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.DefaultCommonDimensions
+import com.protonvpn.android.telemetry.DefaultTelemetryReporter
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -83,13 +84,13 @@ class UpgradeTelemetryTests {
 
         featureFlagsFlow = MutableStateFlow(FeatureFlags())
         val getFeatureFlags = GetFeatureFlags(featureFlagsFlow)
-        val commonDimensions = CommonDimensions(
+        val commonDimensions = DefaultCommonDimensions(
             currentUser,
             VpnStateMonitor(),
             ServerListUpdaterPrefs(MockSharedPreferencesProvider()),
             FakeIsCredentialLessEnabled(true)
         )
-        val helper = TelemetryFlowHelper(testScope.backgroundScope, mockTelemetry)
+        val helper = TelemetryFlowHelper(testScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry))
         upgradeTelemetry = UpgradeTelemetry(
             commonDimensions,
             currentUser,

@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.telemetry
 
+import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
@@ -33,12 +34,27 @@ data class TelemetryEventData(
     val dimensions: Map<String, String> = emptyMap()
 )
 
+interface TelemetryReporter {
+    operator fun invoke(telemetryEvent: TelemetryEventData, sendImmediately: Boolean)
+}
+
+@Reusable
+class DefaultTelemetryReporter @Inject constructor(
+    private val telemetry: Telemetry
+) : TelemetryReporter {
+    override fun invoke(telemetryEvent: TelemetryEventData, sendImmediately: Boolean) {
+        with(telemetryEvent) {
+            telemetry.event(measurementGroup, eventName, values, dimensions, sendImmediately)
+        }
+    }
+}
+
 // Utility class to help maintaining right order of telemetry events that are produced by suspending
 // functions. All events should be reported via this class.
 @Singleton
 class TelemetryFlowHelper @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val telemetry: Telemetry,
+    private val telemetry: TelemetryReporter,
 ) {
     // Run the actions sequentially to ensure the suspending parts of flows finish before others are
     // executed.
@@ -50,9 +66,7 @@ class TelemetryFlowHelper @Inject constructor(
 
     fun event(sendImmediately: Boolean = false, getEventData: suspend () -> TelemetryEventData?) {
         runSerially {
-            getEventData()?.let {
-                telemetry.event(it.measurementGroup, it.eventName, it.values, it.dimensions, sendImmediately)
-            }
+            getEventData()?.let { telemetry(it, sendImmediately) }
         }
     }
 

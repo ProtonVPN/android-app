@@ -212,7 +212,8 @@ private fun ProfileBottomSheetPreview() {
                     icon = ProfileIcon.Icon1,
                     color = ProfileColor.Color1,
                     gatewayName = null,
-                    createdAt = 0L
+                    createdAt = 0L,
+                    isUserCreated = true,
                 ),
                 isConnected = false,
                 availability = ConnectIntentAvailability.ONLINE,
@@ -231,7 +232,6 @@ private fun ProfileBottomSheetPreview() {
                 protocol = ProtocolSelection.SMART,
                 natType = NatType.Strict,
                 lanConnections = true,
-                undoState = UndoState(ConnectIntent.Default)
             ),
             {},
             {},

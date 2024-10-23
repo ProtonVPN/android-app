@@ -25,8 +25,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
-import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileColor
@@ -42,7 +40,6 @@ import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -96,11 +93,11 @@ data class TypeAndLocationScreenSaveState(
     val entryCountrySecureCore: CountryId? = null,
 ) : Parcelable
 
-sealed class TypeAndLocationScreenState {
+sealed interface TypeAndLocationScreenState {
 
-    abstract val availableTypes: List<ProfileType>
+    val availableTypes: List<ProfileType>
 
-    interface StandardWithFeatures {
+    sealed interface StandardWithFeatures : TypeAndLocationScreenState {
         val country: CountryItem
         val cityOrState: CityOrStateItem?
         val server: ServerItem?
@@ -118,7 +115,7 @@ sealed class TypeAndLocationScreenState {
         override val selectableCountries: List<CountryItem>,
         override val selectableCitiesOrStates: List<CityOrStateItem>,
         override val selectableServers: List<ServerItem>,
-    ) : TypeAndLocationScreenState(), StandardWithFeatures {
+    ) : StandardWithFeatures {
         override val features: Set<ServerFeature> get() = emptySet()
     }
 
@@ -130,7 +127,7 @@ sealed class TypeAndLocationScreenState {
         override val selectableCountries: List<CountryItem>,
         override val selectableCitiesOrStates: List<CityOrStateItem>,
         override val selectableServers: List<ServerItem>,
-    ) : TypeAndLocationScreenState(), StandardWithFeatures {
+    ) : StandardWithFeatures {
         override val features: Set<ServerFeature> get() = setOf(ServerFeature.P2P)
     }
 
@@ -140,7 +137,7 @@ sealed class TypeAndLocationScreenState {
         val entryCountry: CountryItem? = null,
         val selectableExitCountries: List<CountryItem>,
         val selectableEntryCountries: List<CountryItem>,
-    ) : TypeAndLocationScreenState()
+    ) : TypeAndLocationScreenState
 
     data class Gateway(
         override val availableTypes: List<ProfileType>,
@@ -148,7 +145,7 @@ sealed class TypeAndLocationScreenState {
         val server: ServerItem,
         val selectableGateways: List<GatewayItem>,
         val selectableServers: List<ServerItem>,
-    ) : TypeAndLocationScreenState()
+    ) : TypeAndLocationScreenState
 
     data class CountryItem(val id: CountryId, val online: Boolean)
     data class GatewayItem(val name: String, val online: Boolean)
@@ -213,35 +210,34 @@ class CreateEditProfileViewModel @Inject constructor(
         if (it) ProfileType.entries else ProfileType.entries.minus(ProfileType.Gateway)
     }
 
-    val typeAndLocationScreenStateFlow : Flow<TypeAndLocationScreenState> = typeAndLocationScreenSavedStateFlow.flatMapLatestNotNull { savedState ->
-        combine(
-            availableTypesFlow,
-            localeFlow.filterNotNull(),
-            adapter.serverListVersion
-        ) { availableTypes, locale, _ ->
-            when (savedState.type) {
-                ProfileType.Standard,
-                ProfileType.P2P -> getStandardOrP2PScreenState(
-                    availableTypes,
-                    locale,
-                    savedState.countryId ?: CountryId.fastest,
-                    savedState.cityOrState,
-                    savedState.serverId,
-                    savedState.type == ProfileType.P2P,
-                )
-                ProfileType.SecureCore -> getSecureCoreScreenState(
-                    availableTypes,
-                    locale,
-                    savedState.exitCountrySecureCore ?: CountryId.fastest,
-                    savedState.entryCountrySecureCore,
-                )
-                ProfileType.Gateway -> getGatewayScreenState(
-                    availableTypes,
-                    locale,
-                    savedState.gateway,
-                    savedState.serverId,
-                )
-            }
+    val typeAndLocationScreenStateFlow : Flow<TypeAndLocationScreenState> = combine(
+        typeAndLocationScreenSavedStateFlow.filterNotNull(),
+        availableTypesFlow,
+        localeFlow.filterNotNull(),
+        adapter.serverListVersion
+    ) { savedState, availableTypes, locale, _ ->
+        when (savedState.type) {
+            ProfileType.Standard,
+            ProfileType.P2P -> getStandardOrP2PScreenState(
+                availableTypes,
+                locale,
+                savedState.countryId ?: CountryId.fastest,
+                savedState.cityOrState,
+                savedState.serverId,
+                savedState.type == ProfileType.P2P,
+            )
+            ProfileType.SecureCore -> getSecureCoreScreenState(
+                availableTypes,
+                locale,
+                savedState.exitCountrySecureCore ?: CountryId.fastest,
+                savedState.entryCountrySecureCore,
+            )
+            ProfileType.Gateway -> getGatewayScreenState(
+                availableTypes,
+                locale,
+                savedState.gateway,
+                savedState.serverId,
+            )
         }
     }
 

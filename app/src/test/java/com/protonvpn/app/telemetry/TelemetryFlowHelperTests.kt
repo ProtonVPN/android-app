@@ -21,12 +21,10 @@
 
 package com.protonvpn.app.telemetry
 
-import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryEventData
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
+import com.protonvpn.mocks.TestTelemetryReporter
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -41,24 +39,19 @@ class TelemetryFlowHelperTests {
 
     private lateinit var helper: TelemetryFlowHelper
 
-    @MockK
-    private lateinit var mockTelemetry: Telemetry
     private lateinit var scope: TestScope
+    private lateinit var testTelemetryReporter: TestTelemetryReporter
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         scope = TestScope(StandardTestDispatcher())
-        helper = TelemetryFlowHelper(scope.backgroundScope, mockTelemetry)
+        testTelemetryReporter = TestTelemetryReporter()
+        helper = TelemetryFlowHelper(scope.backgroundScope, testTelemetryReporter)
     }
 
     @Test
     fun `telemetry flow helper keeps order of events`() = scope.runTest {
-        val names = mutableListOf<String>()
-        every { mockTelemetry.event(any(), any(), any(), any(), any()) } answers {
-            val eventName = secondArg<String>()
-            names += eventName
-        }
         helper.event {
             delay(100)
             TelemetryEventData("group", "1")
@@ -71,6 +64,6 @@ class TelemetryFlowHelperTests {
             TelemetryEventData("group", "3")
         }
         advanceTimeBy(200)
-        assertEquals(listOf("1", "2", "3"), names)
+        assertEquals(listOf("1", "2", "3"), testTelemetryReporter.collectedEvents.map { it.eventName })
     }
 }
