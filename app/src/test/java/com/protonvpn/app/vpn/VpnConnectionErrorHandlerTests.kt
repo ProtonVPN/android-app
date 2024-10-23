@@ -52,6 +52,7 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.ErrorType
+import com.protonvpn.android.vpn.GetOnlineServersForIntent
 import com.protonvpn.android.vpn.PhysicalServer
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -112,6 +113,7 @@ class VpnConnectionErrorHandlerTests {
 
     private lateinit var testScope: TestScope
     private lateinit var handler: VpnConnectionErrorHandler
+    private lateinit var getOnlineServersForIntent: GetOnlineServersForIntent
     private val directConnectServer = MockedServers.server
     private val directConnectIntent = ConnectIntent.fromServer(directConnectServer, emptySet())
     private lateinit var directConnectionParams: ConnectionParams
@@ -144,7 +146,7 @@ class VpnConnectionErrorHandlerTests {
         coEvery { serverManager2.getOnlineAccessibleServers(any(), any(), any(), any()) } answers {
             servers.filter { it.gatewayName == secondArg() }
         }
-        coEvery { serverManager2.getServerForConnectIntent(defaultFallbackConnection, any(), any()) } returns defaultFallbackServer
+        coEvery { serverManager2.getBestServerForConnectIntent(defaultFallbackConnection, any(), any()) } returns defaultFallbackServer
 
         coEvery { serverManager2.getServerById(any()) } answers {
             servers.find { it.serverId == arg(0) }
@@ -191,9 +193,10 @@ class VpnConnectionErrorHandlerTests {
 
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val userSettings = EffectiveCurrentUserSettings(testScope.backgroundScope, userSettingsFlow)
+        getOnlineServersForIntent = GetOnlineServersForIntent(serverManager2, supportsProtocol)
         handler = VpnConnectionErrorHandler(testScope.backgroundScope, api, appConfig,
             SettingsForConnection(userSettings), userPlanManager, serverManager2, vpnStateMonitor, serverListUpdater,
-            networkManager, vpnBackendProvider, currentUser, getConnectingDomain, testScope::currentTime, errorUIManager)
+            networkManager, vpnBackendProvider, currentUser, getConnectingDomain, getOnlineServersForIntent, testScope::currentTime, errorUIManager)
     }
 
     @Test

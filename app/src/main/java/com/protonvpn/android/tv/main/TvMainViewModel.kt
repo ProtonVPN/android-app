@@ -216,7 +216,7 @@ class TvMainViewModel @Inject constructor(
     @DrawableRes
     private fun profileCardTitleIcon(connectIntent: ConnectIntent): Int {
         val defaultConnection = profileManager.getDefaultOrFastest()
-        val server = serverManager.getServerForConnectIntent(connectIntent, currentUser.vpnUserCached(), settingsProtocol)
+        val server = serverManager.getBestServerForConnectIntent(connectIntent, currentUser.vpnUserCached(), settingsProtocol)
         return when {
             server == null -> CoreR.drawable.ic_proton_lock_filled
             server.online && connectIntent == ConnectIntent.Default -> CoreR.drawable.ic_proton_bolt

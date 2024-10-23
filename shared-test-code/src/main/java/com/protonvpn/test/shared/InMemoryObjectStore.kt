@@ -19,16 +19,18 @@
 
 package com.protonvpn.test.shared
 
+import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.ServersSerializationData
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.utils.ObjectStore
 
-class InMemoryObjectStore<T> : ObjectStore<T> {
-    private var value: T? = null
+class InMemoryObjectStore<T>(initial: T? = null) : ObjectStore<T> {
+    private var value: T? = initial
     override suspend fun read(): T? = value
     override fun storeMutable(data: T) { value = data }
     override fun store(data: T) { value = data }
     override fun clear() { value = null }
 }
 
-fun createInMemoryServersStore() =
-    ServersStore(InMemoryObjectStore())
+fun createInMemoryServersStore(initialServers: List<Server>? = null) =
+    ServersStore(InMemoryObjectStore(initialServers?.let { ServersSerializationData(initialServers) }))
