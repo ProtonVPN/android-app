@@ -80,7 +80,8 @@ fun ProfilesRoute(
                 onClose = viewModel::onProfileClose,
                 onProfileEdit = { onNavigateToAddEdit(it.profile.id)},
                 onProfileDelete = {
-                    viewModel.onProfileDelete(it)
+                    // SnackbarDuration.Short is 4s, let's use a slightly longer value on the delete operation.
+                    val undoOperation = viewModel.onProfileDelete(it, undoDurationMs = 5000L)
                     coroutineScope.launch {
                         val result = snackbarHostState.showSnackbar(
                             message = snackProfileDeleteMessage,
@@ -89,7 +90,7 @@ fun ProfilesRoute(
                             type = ProtonSnackbarType.NORM
                         )
                         if (result == SnackbarResult.ActionPerformed)
-                            viewModel.onProfileDeleteUndo(it)
+                            undoOperation()
                     }
                 },
             )

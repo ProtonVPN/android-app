@@ -33,6 +33,7 @@ fun createProfileEntity(
     color: ProfileColor = ProfileColor.Color1,
     icon: ProfileIcon = ProfileIcon.Icon1,
     createdAt: Long = 0L,
+    isUserCreated: Boolean = true,
     connectIntent: ConnectIntent,
 ) = ProfileEntity(
     userId,
@@ -40,5 +41,6 @@ fun createProfileEntity(
     color,
     icon,
     createdAt,
+    isUserCreated = isUserCreated,
     connectIntent.toData().copy(profileId = id),
 )

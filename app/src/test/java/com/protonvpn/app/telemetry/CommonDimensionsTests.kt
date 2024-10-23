@@ -25,6 +25,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -60,7 +61,7 @@ class CommonDimensionsTests {
             TestCurrentUserProvider(TestUser.plusUser.vpnUser, createAccountUser())
         )
 
-        commonDimensions = CommonDimensions(currentUser, vpnStateMonitor,
+        commonDimensions = DefaultCommonDimensions(currentUser, vpnStateMonitor,
             prefs, FakeIsCredentialLessEnabled(true))
     }
 

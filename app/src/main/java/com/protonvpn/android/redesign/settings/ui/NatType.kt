@@ -30,7 +30,7 @@ enum class NatType(
     Strict(
         labelRes = R.string.settings_advanced_nat_type_strict,
         shortLabelRes = R.string.settings_advanced_nat_type_strict_short,
-        descriptionRes = R.string.settings_advanced_nat_type_strict_description
+        descriptionRes = R.string.settings_advanced_nat_type_strict_description,
     ),
     Moderate(
         labelRes = R.string.settings_advanced_nat_type_moderate,

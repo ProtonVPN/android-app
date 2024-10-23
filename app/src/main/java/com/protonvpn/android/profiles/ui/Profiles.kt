@@ -213,7 +213,8 @@ fun ProfileItemPreview() {
                     icon = ProfileIcon.Icon1,
                     color = ProfileColor.Color1,
                     gatewayName = null,
-                    createdAt = 0L
+                    createdAt = 0L,
+                    isUserCreated = true,
                 ),
                 isConnected = false,
                 availability = ConnectIntentAvailability.ONLINE,
@@ -226,7 +227,6 @@ fun ProfileItemPreview() {
                 protocol = ProtocolSelection.SMART,
                 natType = NatType.Strict,
                 lanConnections = true,
-                undoState = UndoState(ConnectIntent.Default)
             ),
             onConnect = {},
             onSelect = {}

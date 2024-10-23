@@ -176,7 +176,7 @@ class VpnConnectionTelemetry @Inject constructor(
         this["vpn_country"] = connectionParams?.server?.exitCountry?.uppercase() ?: NO_VALUE
         this["server"] = connectionParams?.server?.serverName ?: NO_VALUE
         this["port"] = connectionParams?.port?.toString() ?: NO_VALUE
-        this["protocol"] = connectionParams?.protocolSelection?.toStats() ?: NO_VALUE
+        this["protocol"] = connectionParams?.protocolSelection?.toTelemetry() ?: NO_VALUE
         this["network_type"] = getNetworkType()
     }
 
@@ -204,12 +204,6 @@ class VpnConnectionTelemetry @Inject constructor(
             transports.isEmpty() -> NO_VALUE
             else -> "other"
         }
-    }
-
-    private fun ProtocolSelection.toStats(): String {
-        val vpnPrefix = vpn.name.lowercase()
-        val transmissionSuffix = transmission?.name?.lowercase()?.let { "_$it" } ?: ""
-        return "$vpnPrefix$transmissionSuffix"
     }
 
     private fun Boolean.toOutcome() = if (this) Outcome.SUCCESS else Outcome.FAILURE

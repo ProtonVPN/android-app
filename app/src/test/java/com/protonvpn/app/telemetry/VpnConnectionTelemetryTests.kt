@@ -31,8 +31,9 @@ import com.protonvpn.android.models.vpn.SERVER_FEATURE_STREAMING
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
+import com.protonvpn.android.telemetry.DefaultCommonDimensions
+import com.protonvpn.android.telemetry.DefaultTelemetryReporter
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
@@ -123,14 +124,15 @@ class VpnConnectionTelemetryTests {
         currentUser = CurrentUser(
             TestCurrentUserProvider(TestUser.plusUser.vpnUser, createAccountUser())
         )
-        val commonDimensions = CommonDimensions(currentUser, vpnStateMonitor, prefs, FakeIsCredentialLessEnabled(true))
+        val commonDimensions =
+            DefaultCommonDimensions(currentUser, vpnStateMonitor, prefs, FakeIsCredentialLessEnabled(true))
         vpnConnectionTelemetry = VpnConnectionTelemetry(
             telemetryScope.backgroundScope,
             { testScheduler.currentTime },
             commonDimensions,
             vpnStateMonitor,
             mockConnectivityMonitor,
-            TelemetryFlowHelper(telemetryScope.backgroundScope, mockTelemetry),
+            TelemetryFlowHelper(telemetryScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry)),
             mockConnectionTelemetrySentryDebugEnabled,
         )
         vpnConnectionTelemetry.start()

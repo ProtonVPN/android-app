@@ -471,7 +471,8 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
                 color = ProfileColor.Color1,
                 icon = ProfileIcon.Icon1,
                 gatewayName = null,
-                createdAt = 0L
+                createdAt = 0L,
+                isUserCreated = true,
             ),
             connectIntent = intent,
             userId = UserId("dummy id")

@@ -30,9 +30,11 @@ import com.protonvpn.android.profiles.ui.SettingsScreenState
 import com.protonvpn.android.profiles.ui.TypeAndLocationScreenState
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.telemetry.ProfilesTelemetry
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import me.proton.core.domain.entity.UserId
 import javax.inject.Inject
 
 @Reusable
@@ -40,6 +42,7 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
     private val mainScope: CoroutineScope,
     private val profilesDao: ProfilesDao,
     private val currentUser: CurrentUser,
+    private val telemetry: ProfilesTelemetry,
     @WallClock private val wallClock: () -> Long,
 ) {
 
@@ -51,22 +54,63 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
         settingsScreen: SettingsScreenState,
     ) {
         mainScope.launch {
-            val profile = createProfile(profileId, creationTime, nameScreen, typeAndLocationScreen, settingsScreen)
-            if (profile != null) {
+            currentUser.vpnUser()?.userId?.let { userId ->
+                val existingProfile = if (profileId == null) null else profilesDao.getProfileById(profileId)
+                val isUserCreated = isUserCreated(existingProfile, nameScreen, typeAndLocationScreen, settingsScreen)
+                val profile = createProfile(
+                    userId,
+                    profileId,
+                    isUserCreated,
+                    creationTime,
+                    nameScreen,
+                    typeAndLocationScreen,
+                    settingsScreen
+                )
                 profilesDao.upsert(profile.toProfileEntity())
+                if (existingProfile == null) {
+                    // Profile count should include the new profile.
+                    val profileCount = profilesDao.getProfileCount(userId)
+                    telemetry.profileCreated(typeAndLocationScreen, settingsScreen, profileCount)
+                } else {
+                    telemetry.profileUpdated(typeAndLocationScreen, settingsScreen, existingProfile)
+                }
             }
         }
     }
 
-    private suspend fun createProfile(
+    private fun isUserCreated(
+        existingProfile: Profile?,
+        nameScreen: NameScreenState,
+        typeAndLocationScreen: TypeAndLocationScreenState,
+        settingsScreen: SettingsScreenState
+    ): Boolean {
+        if (existingProfile == null || existingProfile.info.isUserCreated) return true
+
+        val newProfile = with(existingProfile.info) {
+            createProfile(
+                existingProfile.userId,
+                id,
+                isUserCreated,
+                createdAt,
+                nameScreen,
+                typeAndLocationScreen,
+                settingsScreen
+            )
+        }
+        // If changes were made then the profile becomes user-created.
+        return newProfile != existingProfile
+    }
+
+    private fun createProfile(
+        userId: UserId,
         profileId: Long?,
+        isUserCreated: Boolean,
         creationTime: Long?,
         nameScreen: NameScreenState,
         typeAndLocationScreen: TypeAndLocationScreenState,
         settingsScreen: SettingsScreenState,
-    ): Profile? {
+    ): Profile {
         val overrides = settingsScreen.toSettingsOverrides()
-        val userId = currentUser.user()?.userId ?: return null
         return Profile(
             userId = userId,
             info = ProfileInfo(
@@ -76,6 +120,7 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
                 nameScreen.icon,
                 (typeAndLocationScreen as? TypeAndLocationScreenState.Gateway)?.gateway?.name,
                 creationTime ?: wallClock(),
+                isUserCreated,
             ),
             connectIntent = when (typeAndLocationScreen) {
                 is TypeAndLocationScreenState.P2P,

@@ -29,13 +29,32 @@ import me.proton.core.auth.domain.usecase.IsCredentialLessEnabled
 import me.proton.core.user.domain.extension.isCredentialLess
 import javax.inject.Inject
 
+interface CommonDimensions {
+
+    enum class Key {
+        ISP,
+        USER_COUNTRY,
+        VPN_STATUS,
+        USER_TIER,
+        IS_CREDENTIAL_LESS_ENABLED;
+
+        val reportedName = name.lowercase()
+    }
+
+    suspend fun add(dimensions: MutableMap<String, String>, vararg keys: Key)
+
+    companion object {
+        const val NO_VALUE = "n/a"
+    }
+}
+
 @Reusable
-class CommonDimensions @Inject constructor(
+class DefaultCommonDimensions @Inject constructor(
     currentUser: CurrentUser,
     private val vpnStateMonitor: VpnStateMonitor,
     private val prefs: ServerListUpdaterPrefs,
     private val isCredentialLessEnabled: IsCredentialLessEnabled,
-) {
+) : CommonDimensions {
     private val currentUserTier = currentUser.jointUserFlow.map { jointUser ->
         if (jointUser == null)
             "non-user"
@@ -50,29 +69,15 @@ class CommonDimensions @Inject constructor(
         }
     }
 
-    enum class Key {
-        ISP,
-        USER_COUNTRY,
-        VPN_STATUS,
-        USER_TIER,
-        IS_CREDENTIAL_LESS_ENABLED;
-
-        val reportedName = name.lowercase()
-    }
-
-    suspend fun add(dimensions: MutableMap<String, String>, vararg keys: Key) {
-        suspend fun dimension(key: Key, value: suspend () -> String) {
+    override suspend fun add(dimensions: MutableMap<String, String>, vararg keys: CommonDimensions.Key) {
+        suspend fun dimension(key: CommonDimensions.Key, value: suspend () -> String) {
             if (keys.contains(key)) dimensions[key.reportedName] = value()
         }
 
-        dimension(Key.ISP) { prefs.lastKnownIsp ?: NO_VALUE }
-        dimension(Key.USER_COUNTRY) { prefs.lastKnownCountry?.uppercase() ?: NO_VALUE }
-        dimension(Key.VPN_STATUS) { if (vpnStateMonitor.isConnected) "on" else "off" }
-        dimension(Key.IS_CREDENTIAL_LESS_ENABLED) { if (isCredentialLessEnabled()) "yes" else "no" }
-        dimension(Key.USER_TIER) { currentUserTier.first() }
-    }
-
-    companion object {
-        const val NO_VALUE = "n/a"
+        dimension(CommonDimensions.Key.ISP) { prefs.lastKnownIsp ?: CommonDimensions.NO_VALUE }
+        dimension(CommonDimensions.Key.USER_COUNTRY) { prefs.lastKnownCountry?.uppercase() ?: CommonDimensions.NO_VALUE }
+        dimension(CommonDimensions.Key.VPN_STATUS) { if (vpnStateMonitor.isConnected) "on" else "off" }
+        dimension(CommonDimensions.Key.IS_CREDENTIAL_LESS_ENABLED) { if (isCredentialLessEnabled()) "yes" else "no" }
+        dimension(CommonDimensions.Key.USER_TIER) { currentUserTier.first() }
     }
 }

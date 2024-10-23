@@ -24,6 +24,8 @@ import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.app.ui.MainActivity
 import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.telemetry.DefaultCommonDimensions
+import com.protonvpn.android.telemetry.DefaultTelemetryReporter
 import com.protonvpn.android.telemetry.Telemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.ui.ForegroundActivityTracker
@@ -200,9 +202,9 @@ class OnboardingTelemetryTests {
         mockForegroundActivityTracker,
         vpnStateMonitor,
         currentUser,
-        CommonDimensions(currentUser, vpnStateMonitor, serverListPrefs, FakeIsCredentialLessEnabled(true)),
+        DefaultCommonDimensions(currentUser, vpnStateMonitor, serverListPrefs, FakeIsCredentialLessEnabled(true)),
         appFeaturesPrefs,
-        TelemetryFlowHelper(testScope.backgroundScope, mockTelemetry)
+        TelemetryFlowHelper(testScope.backgroundScope, DefaultTelemetryReporter(mockTelemetry))
     )
 
 }
