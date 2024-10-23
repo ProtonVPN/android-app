@@ -18,12 +18,17 @@
 
 package com.protonvpn.android.di
 
+import com.protonvpn.android.tv.IsTvCheck
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.ElementsIntoSet
 import me.proton.core.eventmanager.domain.EventListener
+import me.proton.core.eventmanager.domain.EventManagerConfig
+import me.proton.core.eventmanager.domain.entity.Event
+import me.proton.core.eventmanager.domain.entity.EventsResponse
 import me.proton.core.notification.data.NotificationEventListener
 import me.proton.core.push.data.PushEventListener
 import me.proton.core.user.data.UserAddressEventListener
@@ -41,6 +46,7 @@ object EventManagerModule {
     @JvmSuppressWildcards
     @Suppress("LongParameterList")
     fun provideEventListenerSet(
+        isTv: IsTvCheck,
         userEventListener: UserEventListener,
         userAddressEventListener: UserAddressEventListener,
         userSettingsEventListener: UserSettingsEventListener,
@@ -48,9 +54,30 @@ object EventManagerModule {
         notificationEventListener: NotificationEventListener,
     ): Set<EventListener<*, *>> = setOf(
         userEventListener,
-        userAddressEventListener,
-        userSettingsEventListener,
+        MobileOnlyEventListener(userAddressEventListener, isTv),
+        MobileOnlyEventListener(userSettingsEventListener, isTv),
         pushEventListener,
         notificationEventListener,
     )
+}
+
+// A wrapper for processing events only on non-TV variant of the app, where some endpoints should not be called.
+private class MobileOnlyEventListener<ResponseType : Any> constructor(
+    private val eventListener: EventListener<String, ResponseType>,
+    private val isTv: IsTvCheck
+): EventListener<String, ResponseType>() {
+
+    override val order: Int = eventListener.order
+    override val type: Type = eventListener.type
+
+    override suspend fun deserializeEvents(
+        config: EventManagerConfig,
+        response: EventsResponse
+    ): List<Event<String, ResponseType>>? =
+        when {
+            isTv() -> null
+            else -> eventListener.deserializeEvents(config, response)
+        }
+
+    override suspend fun <R> inTransaction(block: suspend () -> R): R = eventListener.inTransaction(block)
 }
