@@ -40,6 +40,7 @@ import me.proton.core.eventmanager.data.db.EventMetadataDatabase
 import me.proton.core.featureflag.data.db.FeatureFlagDatabase
 import me.proton.core.humanverification.data.db.HumanVerificationDatabase
 import me.proton.core.key.data.db.KeySaltDatabase
+import me.proton.core.key.data.db.PublicAddressDatabase
 import me.proton.core.notification.data.local.db.NotificationDatabase
 import me.proton.core.observability.data.db.ObservabilityDatabase
 import me.proton.core.payment.data.local.db.PaymentDatabase
@@ -142,4 +143,7 @@ abstract class AppDatabaseBindsModule {
 
     @Binds
     abstract fun provideAuthDatabase(appDatabase: AppDatabase): AuthDatabase
+
+    @Binds
+    abstract fun providePublicAddressDatabase(appDatabase: AppDatabase): PublicAddressDatabase
 }
