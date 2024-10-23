@@ -160,7 +160,7 @@ class ServerManagerTests {
     }
 
     @Test
-    fun testGetServerForConnectIntentWithFeatures() = testScope.runTest {
+    fun testGetBestServerForConnectIntentWithFeatures() = testScope.runTest {
         fun createSeattleServer(serverId: String, score: Double, features: Int, entryCountry: String? = null) =
             createServer(
                 serverId,
@@ -174,7 +174,7 @@ class ServerManagerTests {
 
         suspend fun testIntent(expectedServerId: String, connectIntent: ConnectIntent) {
             val protocol = currentSettings.value.protocol
-            val server = serverManager2.getServerForConnectIntent(connectIntent, plusUser, protocol)
+            val server = serverManager2.getBestServerForConnectIntent(connectIntent, plusUser, protocol)
             assertEquals(expectedServerId, server?.serverId)
         }
 
@@ -205,10 +205,10 @@ class ServerManagerTests {
     }
 
     @Test
-    fun testGetServerForConnectIntentWithUnavailableServers() = testScope.runTest {
+    fun testGetBestServerForConnectIntentWithUnavailableServers() = testScope.runTest {
         suspend fun testIntent(expectedServerId: String?, connectIntent: ConnectIntent, vpnUser: VpnUser) {
             val protocol = currentSettings.value.protocol
-            val server = serverManager2.getServerForConnectIntent(connectIntent, vpnUser, protocol)
+            val server = serverManager2.getBestServerForConnectIntent(connectIntent, vpnUser, protocol)
             assertEquals(expectedServerId, server?.serverId)
         }
 

@@ -536,7 +536,7 @@ class VpnConnectionManager @Inject constructor(
         ProtonLogger.log(ConnConnectTrigger, "${connectIntent.toLog()}, reason: ${trigger.description}")
         vpnConnectionTelemetry.onConnectionStart(trigger)
         val vpnUser = currentUser.vpnUser()
-        val server = preferredServer ?: serverManager.getServerForConnectIntent(connectIntent, vpnUser, settings.protocol)
+        val server = preferredServer ?: serverManager.getBestServerForConnectIntent(connectIntent, vpnUser, settings.protocol)
         if (server?.online == true &&
             (delegate.shouldSkipAccessRestrictions() || vpnUser.hasAccessToServer(server))
         ) {

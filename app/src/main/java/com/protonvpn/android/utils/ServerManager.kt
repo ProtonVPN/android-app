@@ -106,6 +106,7 @@ class ServerManager @Inject constructor(
     }
 
     val allServers get() = serversData.allServers
+    val allServersByScore get() = serversData.allServersByScore
 
     val freeCountries
         get() = getVpnCountries()
@@ -299,7 +300,7 @@ class ServerManager @Inject constructor(
         }
     }
 
-    fun getServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? =
+    fun getBestServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? =
         forConnectIntent(
             connectIntent,
             onFastest = { isSecureCore, serverFeatures -> getBestScoreServer(isSecureCore, serverFeatures, vpnUser, protocol) },
