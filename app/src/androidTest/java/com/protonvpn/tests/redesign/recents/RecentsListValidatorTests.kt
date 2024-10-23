@@ -41,6 +41,7 @@ import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
+import com.protonvpn.test.shared.createAccountUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.createProfileEntity
 import com.protonvpn.test.shared.createServer
@@ -171,7 +172,7 @@ class RecentsListValidatorTests {
     fun whenRecentsOverLimitAreRemovedOnlyCurrentUserIsAffected() = testScope.runTest {
         RecentsListValidator(backgroundScope, recentsDao, serverManager2, currentUser)
 
-        currentUserProvider.user = createUser(userId1)
+        currentUserProvider.user = createAccountUser(userId1)
 
         val servers = (1 .. 6).map { number -> createServer("server$number") }
         serverManager.setServers(servers, null)
@@ -208,29 +209,4 @@ class RecentsListValidatorTests {
             cont.invokeOnCancellation { registerIdleTransitionCallback(null) }
         }
     }
-
-    private fun createUser(userId: UserId) = User(
-        userId = userId,
-        email = "email",
-        name = "name",
-        displayName = null,
-        currency = "USD",
-        credit = 0,
-        type = Type.Proton,
-        createdAtUtc = 0L,
-        usedSpace = 0L,
-        maxSpace = 0L,
-        maxUpload = 0L,
-        role = null,
-        private = false,
-        services = 0,
-        subscribed = 0,
-        delinquent = null,
-        recovery = null,
-        keys = emptyList(),
-        maxBaseSpace = null,
-        maxDriveSpace = null,
-        usedBaseSpace = null,
-        usedDriveSpace = null
-    )
 }

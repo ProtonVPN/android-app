@@ -50,7 +50,8 @@ fun createAccountUser(id: UserId = UserId("id"), type: Type = Type.Proton, creat
     services = 0,
     delinquent = null,
     recovery = null,
-    keys = emptyList()
+    keys = emptyList(),
+    flags = emptyMap()
 )
 
 fun PlanCycle.toProductId(appStore: AppStore) = "productId-$appStore-$cycleDurationMonths"

@@ -31,6 +31,7 @@ import me.proton.core.data.room.db.extension.addTableColumn
 import me.proton.core.eventmanager.data.db.EventMetadataDatabase
 import me.proton.core.featureflag.data.db.FeatureFlagDatabase
 import me.proton.core.humanverification.data.db.HumanVerificationDatabase
+import me.proton.core.key.data.db.PublicAddressDatabase
 import me.proton.core.notification.data.local.db.NotificationDatabase
 import me.proton.core.observability.data.db.ObservabilityDatabase
 import me.proton.core.payment.data.local.db.PaymentDatabase
@@ -251,6 +252,21 @@ object DatabaseMigrations {
     val MIGRATION_36_37 = object : Migration(36, 37) {
         override fun migrate(db: SupportSQLiteDatabase) {
             MigrateToNewProfiles.migrate2(db)
+        }
+    }
+
+    val MIGRATION_38_39 = object : Migration(38, 39) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            PublicAddressDatabase.MIGRATION_0.migrate(db)
+            PublicAddressDatabase.MIGRATION_1.migrate(db)
+            PublicAddressDatabase.MIGRATION_2.migrate(db)
+            PublicAddressDatabase.MIGRATION_3.migrate(db)
+            AuthDatabase.MIGRATION_2.migrate(db)
+            AuthDatabase.MIGRATION_3.migrate(db)
+            AuthDatabase.MIGRATION_4.migrate(db)
+            AuthDatabase.MIGRATION_5.migrate(db)
+            UserDatabase.MIGRATION_6.migrate(db)
+            AccountDatabase.MIGRATION_9.migrate(db)
         }
     }
 }

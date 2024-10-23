@@ -44,6 +44,7 @@ import me.proton.core.auth.data.db.AuthConverters
 import me.proton.core.auth.data.db.AuthDatabase
 import me.proton.core.auth.data.entity.AuthDeviceEntity
 import me.proton.core.auth.data.entity.DeviceSecretEntity
+import me.proton.core.auth.data.entity.MemberDeviceEntity
 import me.proton.core.challenge.data.db.ChallengeConverters
 import me.proton.core.challenge.data.db.ChallengeDatabase
 import me.proton.core.challenge.data.entity.ChallengeFrameEntity
@@ -59,7 +60,12 @@ import me.proton.core.humanverification.data.db.HumanVerificationConverters
 import me.proton.core.humanverification.data.db.HumanVerificationDatabase
 import me.proton.core.humanverification.data.entity.HumanVerificationEntity
 import me.proton.core.key.data.db.KeySaltDatabase
+import me.proton.core.key.data.db.PublicAddressDatabase
 import me.proton.core.key.data.entity.KeySaltEntity
+import me.proton.core.key.data.entity.PublicAddressEntity
+import me.proton.core.key.data.entity.PublicAddressInfoEntity
+import me.proton.core.key.data.entity.PublicAddressKeyDataEntity
+import me.proton.core.key.data.entity.PublicAddressKeyEntity
 import me.proton.core.notification.data.local.db.NotificationConverters
 import me.proton.core.notification.data.local.db.NotificationDatabase
 import me.proton.core.notification.data.local.db.NotificationEntity
@@ -107,6 +113,10 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         FeatureFlagEntity::class,
         // key-data
         KeySaltEntity::class,
+        PublicAddressEntity::class,
+        PublicAddressKeyEntity::class,
+        PublicAddressInfoEntity::class,
+        PublicAddressKeyDataEntity::class,
         // human-verification
         HumanVerificationEntity::class,
         // user-settings
@@ -132,6 +142,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         // auth-data
         DeviceSecretEntity::class,
         AuthDeviceEntity::class,
+        MemberDeviceEntity::class,
         // vpn
         PeriodicCallInfo::class,
         ProfileEntity::class,
@@ -182,6 +193,7 @@ abstract class AppDatabase :
     OrganizationDatabase,
     PaymentDatabase,
     PeriodicUpdatesDatabase,
+    PublicAddressDatabase,
     PushDatabase,
     TelemetryDatabase,
     UserDatabase,
@@ -192,7 +204,7 @@ abstract class AppDatabase :
     AuthDatabase {
 
     companion object {
-        const val version = 38
+        const val version = 39
 
         @VisibleForTesting
         val migrations = listOf(
@@ -227,6 +239,7 @@ abstract class AppDatabase :
             DatabaseMigrations.MIGRATION_34_35,
             DatabaseMigrations.MIGRATION_35_36,
             DatabaseMigrations.MIGRATION_36_37,
+            DatabaseMigrations.MIGRATION_38_39,
         )
 
         fun Builder<AppDatabase>.buildDatabase(): AppDatabase {

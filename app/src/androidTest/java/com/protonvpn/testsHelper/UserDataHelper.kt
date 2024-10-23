@@ -49,7 +49,6 @@ import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.auth.presentation.ui.LoginActivity
 import me.proton.core.domain.entity.UserId
 import me.proton.core.network.domain.session.Session
-import me.proton.core.network.domain.session.SessionId
 import me.proton.core.user.domain.entity.Role
 import me.proton.core.user.domain.entity.Type
 import me.proton.core.user.domain.entity.User
@@ -112,7 +111,8 @@ class UserDataHelper {
         maxBaseSpace = null,
         maxDriveSpace = null,
         usedBaseSpace = null,
-        usedDriveSpace = null
+        usedDriveSpace = null,
+        flags = emptyMap()
     )
 
     fun setUserData(user: TestUser) = runBlocking(Main) {

@@ -119,7 +119,11 @@ dependencies {
     implementation "me.proton.core:network:$core_version"
     implementation "me.proton.core:notification-data:$core_version"
     implementation "me.proton.core:notification-domain:$core_version"
-    implementation "me.proton.core:notification-test:$core_version"
+    implementation("me.proton.core:notification-test:$core_version") {
+        // It's pulling in notification-dagger.
+        exclude group: "me.proton.core", module: "notification"
+        exclude group: "me.proton.core", module: "notification-dagger"
+    }
     implementation "me.proton.core:observability-data:$core_version"
     implementation "me.proton.core:payment-data:$core_version"
     implementation "me.proton.core:presentation:$core_version"
