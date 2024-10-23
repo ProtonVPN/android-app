@@ -43,6 +43,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
+import me.proton.core.domain.entity.UserId
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Before
@@ -472,7 +473,8 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
                 gatewayName = null,
                 createdAt = 0L
             ),
-            connectIntent = intent
+            connectIntent = intent,
+            userId = UserId("dummy id")
         )
         profiles += profile.info.id to profile
         setConnectIntentRowComposable(profile.connectIntent, isFreeUser = false)
