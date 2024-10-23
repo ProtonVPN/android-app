@@ -42,9 +42,10 @@ data class ProfileInfo(
 data class Profile(
     val info: ProfileInfo,
     val connectIntent: ConnectIntent,
+    val userId: UserId,
 )
 
-fun Profile.toProfileEntity(userId: UserId) = ProfileEntity(
+fun Profile.toProfileEntity() = ProfileEntity(
     name = info.name,
     color = info.color,
     connectIntentData = connectIntent.toData(),
@@ -63,6 +64,7 @@ fun ProfileEntity.toProfile() = Profile(
         createdAt = createdAt,
     ),
     connectIntentData.toConnectIntent(),
+    userId = userId,
 )
 
 fun profileSettingsOverrides(

@@ -227,8 +227,9 @@ class ProfilesViewModel @Inject constructor(
                 profilesDao.upsert(
                     Profile(
                         profileViewItem.profile,
-                        profileViewItem.undoState.rawIntent
-                    ).toProfileEntity(userId)
+                        profileViewItem.undoState.rawIntent,
+                        userId
+                    ).toProfileEntity()
                 )
             }
         }

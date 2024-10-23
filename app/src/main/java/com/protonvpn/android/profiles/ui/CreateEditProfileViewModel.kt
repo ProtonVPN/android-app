@@ -265,9 +265,8 @@ class CreateEditProfileViewModel @Inject constructor(
 
     fun save() {
         viewModelScope.launch {
-            currentUser.vpnUser()?.userId?.let { userId ->
-                profilesDao.upsert(getProfile().toProfileEntity(userId))
-            }
+            getProfile()?.let { profilesDao.upsert(it.toProfileEntity()) }
+
         }
     }
 
@@ -314,14 +313,16 @@ class CreateEditProfileViewModel @Inject constructor(
         )
     }
 
-    private suspend fun getProfile(): Profile {
+    private suspend fun getProfile(): Profile? {
         val profileId = editedProfileId
         val nameScreen = requireNotNull(nameScreenState)
         val typeAndLocationScreen = typeAndLocationScreenStateFlow.first()
         val settingsScreen = requireNotNull(settingsScreenState)
         val overrides = settingsScreen.toSettingsOverrides()
+        val userId = currentUser.user()?.userId ?: return null
         return Profile(
-            ProfileInfo(
+            userId = userId,
+            info = ProfileInfo(
                 profileId ?: 0L,
                 nameScreen.name,
                 nameScreen.color,
@@ -329,7 +330,7 @@ class CreateEditProfileViewModel @Inject constructor(
                 (typeAndLocationScreen as? TypeAndLocationScreenState.Gateway)?.gateway?.name,
                 editedProfileCreatedAt ?: wallClock(),
             ),
-            when (typeAndLocationScreen) {
+            connectIntent = when (typeAndLocationScreen) {
                 is TypeAndLocationScreenState.P2P,
                 is TypeAndLocationScreenState.Standard -> {
                     typeAndLocationScreen as TypeAndLocationScreenState.StandardWithFeatures
