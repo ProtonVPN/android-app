@@ -65,12 +65,6 @@ data class Server(
 
     val isTor get() = features.hasFlag(SERVER_FEATURE_TOR)
 
-    init {
-        debugAssert {
-            isOnline.implies(connectingDomains.any(ConnectingDomain::isOnline))
-        }
-    }
-
     val isFreeServer: Boolean
         get() = tier == 0
 
