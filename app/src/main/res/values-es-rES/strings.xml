@@ -139,7 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Mostrar las aplicaciones del sistema</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Estas aplicaciones están excluidas de la conexión VPN.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Solo estas aplicaciones se conectan mediante VPN.</string>
-    <string name="accessibility_action_add_new_profile">Add new profile</string>
+    <string name="accessibility_action_add_new_profile">Añadir un perfil</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -357,6 +357,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Añade otra capa de cifrado a tu conexión VPN con <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Accede a descargas entre pares (P2P) e intercambio de archivos </string>
     <string name="upgrade_p2p_text">Aumenta las velocidades de carga y descarga mientras ocultas tu dirección IP.</string>
+    <string name="upgrade_profiles_title">Obtén acceso rápido a tus conexiones frecuentes</string>
+    <string name="upgrade_profiles_text">Desbloquea perfiles con VPN Plus.</string>
     <string name="upgrade_streaming_title">Streaming en 4K</string>
     <string name="upgrade_streaming_text">Disfruta de tus películas y series favoritas en cualquier lugar del mundo.</string>
     <string name="upgrade_tor_title">Accede a la red Tor con una pulsación</string>
@@ -1258,18 +1260,18 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Error de conexión</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Este dispositivo no permite conexiones VPN.</string>
     <!-- Profile creation -->
-    <string name="create_profile_title">Create new profile</string>
-    <string name="create_profile_name_hint">Profile name</string>
-    <string name="create_profile_name_error_empty">Enter a profile name</string>
-    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
-    <string name="create_profile_type_and_location_title">Select connection type and location</string>
-    <string name="create_profile_features_and_settings_title">Features and settings</string>
-    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <string name="create_profile_title">Crear un perfil</string>
+    <string name="create_profile_name_hint">Nombre del perfil</string>
+    <string name="create_profile_name_error_empty">Ingresar el nombre del perfil</string>
+    <string name="create_profile_name_error_too_long">El nombre del perfil debe tener 30 caracteres o menos.</string>
+    <string name="create_profile_type_and_location_title">Selecciona la ubicación y el tipo de conexión</string>
+    <string name="create_profile_features_and_settings_title">Funciones y ajustes</string>
+    <string name="create_profile_features_and_settings_description">Se recomiendan los siguientes valores</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Step %1$d of %2$d</string>
+    <string name="create_profile_steps">Paso %1$d de %2$d</string>
     <string name="create_profile_button_next">Siguiente</string>
     <string name="create_profile_button_done">Terminado</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
@@ -1386,5 +1388,12 @@
     <string name="create_profile_fastest_city">Más rápida</string>
     <string name="create_profile_fastest_state">Más rápido</string>
     <string name="create_profile_fastest_server">Más rápido</string>
-    <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="create_profile_pick_middle_country_title">País intermerdio</string>
+    <string name="profiles_zero_state_title">Crea tu primer perfil</string>
+    <string name="profiles_zero_state_description">Los perfiles son conexiones guardadas con la ubicación, servidor y protocolo de tu elección.</string>
+    <string name="profiles_button_create_profile">Crear un perfil</string>
+    <string name="profile_deleted_snackbar_message">Se ha eliminado el perfil.</string>
+    <string name="undo">Deshacer</string>
+    <string name="profile_unavailable_dialog_title">El perfil no está disponible.</string>
+    <string name="profile_unavailable_dialog_message">El servidor seleccionado para %1$s no está disponible. Selecciona un servidor diferente o intenta de nuevo más tarde.</string>
 </resources>

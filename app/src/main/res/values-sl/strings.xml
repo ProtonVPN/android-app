@@ -369,6 +369,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Dodajte še eno plast šifriranja svoji VPN povezavi s <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Odklenite prenose enakovrednih (P2P) in skupno rabo datotek </string>
     <string name="upgrade_p2p_text">Izboljšajte hitrost nalaganja in prenosa, medtem ko skrivate svoj naslov IP.</string>
+    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
+    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
     <string name="upgrade_streaming_title">Pretakajte v 4K</string>
     <string name="upgrade_streaming_text">Uživajte v svojih najljubših filmih in serijah kjer koli na svetu.</string>
     <string name="upgrade_tor_title">Dostopajte do omrežja Tor z enim dotikom</string>
@@ -1461,4 +1463,11 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_fastest_state">Fastest</string>
     <string name="create_profile_fastest_server">Fastest</string>
     <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="profiles_zero_state_title">Create your first profile</string>
+    <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
+    <string name="profiles_button_create_profile">Create profile</string>
+    <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="undo">Undo</string>
+    <string name="profile_unavailable_dialog_title">Profile unavailable</string>
+    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
 </resources>

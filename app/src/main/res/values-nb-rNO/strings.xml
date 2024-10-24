@@ -139,7 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Vis systemapper</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Disse appene er ekskludert fra VPN-tilkoblingen din.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Bare disse appene kobles til gjennom VPN.</string>
-    <string name="accessibility_action_add_new_profile">Add new profile</string>
+    <string name="accessibility_action_add_new_profile">Legg til ny profil</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -269,7 +269,7 @@
     <string name="tv_login_title_signin">Logg på Proton VPN</string>
     <string name="tv_login_title_welcome">Strøm favorittvideoinnholdet ditt</string>
     <string name="tv_login_welcome_description">Se videoinnhold fra over 50 land, inkludert YouTube og Twitch. Strøm Netflix, Amazon Prime og Hulu med Proton VPN Plus.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[Få din Proton VPN-konto på <b>%1$s</b>]]></string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[Skaff deg din Proton VPN-konto på <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Logg på</string>
     <string name="tv_login_step1_description"><![CDATA[Gå til <b>%1$s</b> på din mobile enhet eller datamaskin]]></string>
     <string name="tv_login_step2_description">Logg på Proton VPN</string>
@@ -281,7 +281,7 @@
     <string name="tv_upgrade_title">Start strømming med Plus</string>
     <string name="back">Tilbake</string>
     <string name="tv_upgrade_url_details"><![CDATA[Besøk <b>%1$s</b> for å oppgradere til Proton VPN Plus nå.]]></string>
-    <string name="tv_upgrade_description">Få en Proton VPN Plus-plan for å få tilgang til 500+ tjenere over hele verden og optimaliserte strømmealternativer for Netflix, Amazon Prime Video, Disney+ og mange flere.</string>
+    <string name="tv_upgrade_description">Skaff deg en Proton VPN Plus-plan for å få tilgang til 500+ tjenere over hele verden og optimaliserte strømmealternativer for Netflix, Amazon Prime Video, Disney+ og mange flere.</string>
     <string name="tv_vpn_error_dialog_title">VPN-forbindelse mislyktes</string>
     <string name="tv_signout_label">Logg av</string>
     <string name="tv_signout_dialog_title">Er du sikker på at du vil logge av?</string>
@@ -350,13 +350,15 @@
     </plurals>
     <string name="upgrade_devices_text">Proton VPN er tilgjengelig på 8 forskjellige plattformer.</string>
     <string name="upgrade_plus_title">Oppgrader personvernet</string>
-    <string name="upgrade_plus_message">Få avanserte personvernfunksjoner og høyere hastighet med VPN Plus.</string>
+    <string name="upgrade_plus_message">Skaff deg avanserte personvernfunksjoner og høyere hastighet med VPN Plus.</string>
     <string name="upgrade_netshield_title">Kos deg med reklamefri surfing</string>
     <string name="upgrade_netshield_message"><![CDATA[Blokkér annonser, sporere og skadelig programvare med <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Doble krypteringen</string>
     <string name="upgrade_secure_core_message"><![CDATA[Legg til et ekstra krypteringslag til VPN-tilkoblingen din med <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Lås opp node-til-node-nedlastinger (P2P) og fildeling </string>
     <string name="upgrade_p2p_text">Forbedre opplastings- og nedlastingshastighetene mens du skjuler IP-adressen din.</string>
+    <string name="upgrade_profiles_title">Få rask tilgang til dine hyppige tilkoblinger</string>
+    <string name="upgrade_profiles_text">Lås opp profiler med VPN Plus</string>
     <string name="upgrade_streaming_title">Strøm i 4K</string>
     <string name="upgrade_streaming_text">Nyt favorittfilmene og TV-programmene dine fra hvor som helst i verden.</string>
     <string name="upgrade_tor_title">Få tilgang til Tor-nettverket med ett trykk</string>
@@ -402,7 +404,7 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[Lås opp %1$s i %2$s med <b>VPN Plus</b>]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">Alle premium Proton-tjenester. Ett enkelt abonnement.</string>
-    <string name="upgrade_unlimited_all_apps_description">Få fullstendig personverndekning med Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_description">Skaff deg fullstendig personverndekning med Proton Unlimited.</string>
     <string name="upgrade_unlimited_more">Og mer</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Lås opp alle land</string>
     <string name="upgrade_unlimited_vpn_all_features">Alle andre VPN Plus-funksjoner</string>
@@ -522,7 +524,7 @@
          Plan names are not translated.
 
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
-    <string name="payment_button_get_plan">Få %1$s</string>
+    <string name="payment_button_get_plan">Skaff deg %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_monthly">Velkomsttilbud. Fornyes automatisk til %1$s/måned</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
@@ -576,7 +578,7 @@
     <string name="upgrade_moderate_nat_message2"><![CDATA[Forbedre ytelsen til nettspill og videosamtaler med <b>NAT-type 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free kobler deg automatisk til den raskeste tilgjengelige tjeneren. Dette vil normalt være den nærmeste tjeneren til din plassering.</string>
     <string name="free_connections_info_server_locations">Gratis tjenerplasseringer (%1$d)</string>
-    <string name="free_connections_info_banner_text">Få verdensomspennende dekning med VPN Plus</string>
+    <string name="free_connections_info_banner_text">Skaff deg verdensomspennende dekning med VPN Plus</string>
     <string name="free_connection_info_title">Gratis forbindelser</string>
     <string name="search_upsell_banner_title">Strøm fra hvor som helst</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -629,7 +631,7 @@
         <item quantity="other">%1$d dager</item>
     </plurals>
     <string name="server_change_max_reached">Du har nådd maksimalt antall gratis tjenerbytter for nå.</string>
-    <string name="server_change_upsell">Få ubegrensede bytter med VPN Plus.</string>
+    <string name="server_change_upsell">Skaff deg ubegrensede bytter med VPN Plus.</string>
     <string name="server_change_button_title">Endre tjener</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services.
@@ -710,7 +712,7 @@
     <string name="no_logs_banner_description">VPN-aktiviteten din er beskyttet av sveitsiske personvernlover. Vi vil aldri spore deg på nettet eller dele informasjonen din med tredjeparter.</string>
     <!-- tag(Redesign_2023) Bottom bar label for home screen -->
     <string name="bottom_nav_home">Hjem</string>
-    <string name="bottom_nav_gateways">Mellomtjenere</string>
+    <string name="bottom_nav_gateways">Porttjenere</string>
     <string name="bottom_nav_profiles">Profiler</string>
     <!-- tag(Redesign_2023) Bottom bar label for country list screen -->
     <string name="bottom_nav_countries">Land</string>
@@ -971,12 +973,12 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Tjener ikke tilgjengelig</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">Mellomtjener blir vedlikeholdt</string>
+    <string name="message_gateway_in_maintenance">Porttjener blir vedlikeholdt</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Logg av</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Innstillinger</string>
-    <string name="gateways_title">Mellomtjenere</string>
+    <string name="gateways_title">Porttjenere</string>
     <string name="countries_title">Land</string>
     <string name="profiles_title">Profiler</string>
     <!-- tag(Redesign_2023) -->
@@ -1093,7 +1095,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Tjener</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_gateway">Mellomtjener</string>
+    <string name="connection_details_gateway">Porttjener</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">Land</string>
     <!-- tag(Redesign_2023) -->
@@ -1258,20 +1260,20 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Tilkobling mislyktes</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Denne enheten tillater ikke VPN-tilkoblinger.</string>
     <!-- Profile creation -->
-    <string name="create_profile_title">Create new profile</string>
-    <string name="create_profile_name_hint">Profile name</string>
-    <string name="create_profile_name_error_empty">Enter a profile name</string>
-    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
-    <string name="create_profile_type_and_location_title">Select connection type and location</string>
-    <string name="create_profile_features_and_settings_title">Features and settings</string>
-    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <string name="create_profile_title">Opprett ny profil</string>
+    <string name="create_profile_name_hint">Profilnavn</string>
+    <string name="create_profile_name_error_empty">Skriv inn et profilnavn</string>
+    <string name="create_profile_name_error_too_long">Profilnavnet må bestå av 30 tegn eller mindre</string>
+    <string name="create_profile_type_and_location_title">Velg forbindelsestype og plassering</string>
+    <string name="create_profile_features_and_settings_title">Funksjoner og innstillinger</string>
+    <string name="create_profile_features_and_settings_description">Følgende verdier anberfales</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Step %1$d of %2$d</string>
-    <string name="create_profile_button_next">Next</string>
-    <string name="create_profile_button_done">Done</string>
+    <string name="create_profile_steps">Trinn %1$d av %2$d</string>
+    <string name="create_profile_button_next">Neste</string>
+    <string name="create_profile_button_done">Utført</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1344,7 +1346,7 @@
     <string name="info_p2p_why_description_logs">Ingen aktivitetslogger</string>
     <string name="info_p2p_why_description_hide">Skjul IP-adressen din for tjenesteleverandøren og noder</string>
     <string name="info_dialog_smart_routing_description">Smart Routing bruker virtuelle tjenere for å gi VPN-dekning i vanskelig tilgjengelige land.\n\nNår du kobler til en Smart Routing-tjener, ser det ut til at du surfer i destinasjonslandet ditt, selv om den fysiske tjeneren befinner seg et annet sted.  \n\nSmart Routing brukes vanligvis til å omgå personvernlover og andre former for sensur.</string>
-    <string name="countries_upsell_banner_description">Få verdensomspennende dekning med VPN Plus</string>
+    <string name="countries_upsell_banner_description">Skaff deg verdensomspennende dekning med VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Legg til et ekstra krypteringslag til VPN-tilkoblingen din.</string>
     <string name="p2p_upsell_banner_description">Last ned filer gjennom BitTorrent og andre fildelingsprotokoller</string>
     <string name="tor_upsell_banner_description">Bruk Tor-nettverket over VPN-tilkoblingen for ekstra personvern</string>
@@ -1362,7 +1364,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Valgte apper er ekskludert fra VPN-tilkobling.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Bare valgte apper kobles til gjennom VPN, all annen trafikk er ubeskyttet.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_edit">Edit</string>
+    <string name="profile_action_edit">Rediger</string>
     <string name="profile_action_delete">Slett</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1370,21 +1372,28 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Strømming US</string>
     <string name="initial_profile_name_work_school">Arbeid/Skole</string>
-    <string name="create_profile_pick_country_title">Country</string>
+    <string name="create_profile_pick_country_title">Land</string>
     <string name="create_profile_pick_type_title">Type</string>
     <string name="create_profile_type_standard">Standard</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Gateway</string>
-    <string name="create_profile_pick_state_title">State</string>
-    <string name="create_profile_pick_city_title">City</string>
-    <string name="create_profile_pick_server_title">Server</string>
-    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_gateway">Porttjener</string>
+    <string name="create_profile_pick_state_title">Stat</string>
+    <string name="create_profile_pick_city_title">By</string>
+    <string name="create_profile_pick_server_title">Tjener</string>
+    <string name="create_profile_pick_gateway_title">Porttjener</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_protocol_title">Protocol</string>
-    <string name="create_profile_pick_nat_title">NAT type</string>
-    <string name="create_profile_fastest_city">Fastest</string>
-    <string name="create_profile_fastest_state">Fastest</string>
-    <string name="create_profile_fastest_server">Fastest</string>
-    <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="create_profile_pick_protocol_title">Protokoll</string>
+    <string name="create_profile_pick_nat_title">NAT-type</string>
+    <string name="create_profile_fastest_city">Raskeste</string>
+    <string name="create_profile_fastest_state">Raskeste</string>
+    <string name="create_profile_fastest_server">Raskeste</string>
+    <string name="create_profile_pick_middle_country_title">Mellomland</string>
+    <string name="profiles_zero_state_title">Opprett din første profil</string>
+    <string name="profiles_zero_state_description">Profiler er lagrede tilkoblinger med ditt valg av plassering, tjener og protokoll.</string>
+    <string name="profiles_button_create_profile">Opprett profil</string>
+    <string name="profile_deleted_snackbar_message">Profil slettet</string>
+    <string name="undo">Angre</string>
+    <string name="profile_unavailable_dialog_title">Profilen er utilgjengelig</string>
+    <string name="profile_unavailable_dialog_message">Tjenervalget ditt for %1$s er ikke tilgjengelig. Velg en annen tjener eller prøv igjen senere.</string>
 </resources>

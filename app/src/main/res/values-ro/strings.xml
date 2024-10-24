@@ -139,7 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Afișare aplicații de sistem</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Aceste aplicații sunt excluse din conexiunea VPN.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Doar aceste aplicații se conectează prin VPN.</string>
-    <string name="accessibility_action_add_new_profile">Add new profile</string>
+    <string name="accessibility_action_add_new_profile">Adăugare profil</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -363,6 +363,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Adăugați încă un nivel de criptare cu conexiunea VPN prin <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Deblocați descărcările și partajările persoană-la-persoană (P2P)</string>
     <string name="upgrade_p2p_text">Îmbunătățiți-vă viteza de încărcare și descărcare ascunzându-vă și adresa IP.</string>
+    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
+    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
     <string name="upgrade_streaming_title">Vizionați în 4K</string>
     <string name="upgrade_streaming_text">Bucurați-vă de filmele și emisiunile TV favorite de oriunde din lume.</string>
     <string name="upgrade_tor_title">Accesați rețeaua Tor cu o singură atingere</string>
@@ -1294,20 +1296,20 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Conexiunea a eșuat</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Acest dispozitiv nu permite conexiuni prin VPN.</string>
     <!-- Profile creation -->
-    <string name="create_profile_title">Create new profile</string>
-    <string name="create_profile_name_hint">Profile name</string>
-    <string name="create_profile_name_error_empty">Enter a profile name</string>
-    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
-    <string name="create_profile_type_and_location_title">Select connection type and location</string>
-    <string name="create_profile_features_and_settings_title">Features and settings</string>
-    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <string name="create_profile_title">Creare profil</string>
+    <string name="create_profile_name_hint">Nume profil</string>
+    <string name="create_profile_name_error_empty">Introduceți numele profilului</string>
+    <string name="create_profile_name_error_too_long">Numele profilului trebuie să aibă maxim 30 de caractere</string>
+    <string name="create_profile_type_and_location_title">Selectați tipul și locul conexiunii</string>
+    <string name="create_profile_features_and_settings_title">Funcții și setări</string>
+    <string name="create_profile_features_and_settings_description">Sunt recomandate următoarele valori</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Step %1$d of %2$d</string>
-    <string name="create_profile_button_next">Next</string>
-    <string name="create_profile_button_done">Done</string>
+    <string name="create_profile_steps">Pasul %1$d din %2$d</string>
+    <string name="create_profile_button_next">Înainte</string>
+    <string name="create_profile_button_done">Gata</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1398,7 +1400,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplicațiile selectate sunt excluse de la conexiunea prin VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Doar aplicațiile selectate se conectează prin VPN, orice alt trafic nefiind protejat.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_edit">Edit</string>
+    <string name="profile_action_edit">Editare</string>
     <string name="profile_action_delete">Ștergere</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1406,21 +1408,28 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Transmisii în flux SUA</string>
     <string name="initial_profile_name_work_school">Serviciu/școală</string>
-    <string name="create_profile_pick_country_title">Country</string>
-    <string name="create_profile_pick_type_title">Type</string>
+    <string name="create_profile_pick_country_title">Țara</string>
+    <string name="create_profile_pick_type_title">Tip</string>
     <string name="create_profile_type_standard">Standard</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Gateway</string>
-    <string name="create_profile_pick_state_title">State</string>
-    <string name="create_profile_pick_city_title">City</string>
+    <string name="create_profile_gateway">Poartă de acces</string>
+    <string name="create_profile_pick_state_title">Stat</string>
+    <string name="create_profile_pick_city_title">Oraș</string>
     <string name="create_profile_pick_server_title">Server</string>
-    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_pick_gateway_title">Poartă de acces</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">Protocol</string>
-    <string name="create_profile_pick_nat_title">NAT type</string>
-    <string name="create_profile_fastest_city">Fastest</string>
-    <string name="create_profile_fastest_state">Fastest</string>
-    <string name="create_profile_fastest_server">Fastest</string>
-    <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="create_profile_pick_nat_title">Tip NAT</string>
+    <string name="create_profile_fastest_city">Cel mai rapid</string>
+    <string name="create_profile_fastest_state">Cel mai rapid</string>
+    <string name="create_profile_fastest_server">Cel mai rapid</string>
+    <string name="create_profile_pick_middle_country_title">Țara intermediară</string>
+    <string name="profiles_zero_state_title">Create your first profile</string>
+    <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
+    <string name="profiles_button_create_profile">Create profile</string>
+    <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="undo">Refacere</string>
+    <string name="profile_unavailable_dialog_title">Profile unavailable</string>
+    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
 </resources>
