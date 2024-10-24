@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
@@ -65,6 +66,7 @@ fun BottomBarView(
             val isSelected = target == selectedTarget
             val label = stringResource(id = target.labelRes())
             NavigationBarItem(
+                modifier = Modifier.alignByBaseline(),
                 selected = isSelected,
                 onClick = { navigateTo(target) },
                 colors = NavigationBarItemDefaults.colors(
@@ -84,6 +86,8 @@ fun BottomBarView(
                     Text(
                         text = label,
                         style = ProtonTheme.typography.captionStrongUnspecified,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Center
                     )
                 }
