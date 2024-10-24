@@ -499,8 +499,9 @@ class VpnConnectionErrorHandler @Inject constructor(
             is AnyConnectIntent.GuestHole -> {}
         }
 
-        if (vpnUser?.userTier == server.tier) {
-            // Prefer servers from user tier
+        val serverPlusOrAbove = server.tier >= VpnUser.PLUS_TIER
+        if (vpnUser?.isUserPlusOrAbove == serverPlusOrAbove) {
+            // Prefer plus servers for plus users
             score += 1 shl CompatibilityAspect.Tier.ordinal
         }
 
