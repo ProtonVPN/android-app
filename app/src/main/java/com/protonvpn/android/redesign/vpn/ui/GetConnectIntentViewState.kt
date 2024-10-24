@@ -58,8 +58,11 @@ class GetConnectIntentViewState @Inject constructor(
             is ConnectIntent.SecureCore ->
                 intent.exitCountry to ConnectIntentSecondaryLabel.SecureCore(intent.exitCountry, intent.entryCountry)
             is ConnectIntent.Gateway -> {
-                val exit = intent.serverId?.let { serverManager.getServerById(it) }?.exitCountryId() ?: CountryId.fastest
-                exit to ConnectIntentSecondaryLabel.RawText(intent.gatewayName)
+                val server = intent.serverId?.let { serverManager.getServerById(it) }
+                val exit = server?.exitCountryId() ?: CountryId.fastest
+                val secondaryLabel =
+                    server?.profileServerSecondaryLabel() ?: ConnectIntentSecondaryLabel.RawText(intent.gatewayName)
+                exit to secondaryLabel
             }
             is ConnectIntent.Server -> {
                 val server = serverManager.getServerById(intent.serverId)
