@@ -337,7 +337,8 @@
             android:label="@string/settingsTelemetryScreenTitle"/>
         <activity
             android:name=".ui.drawer.bugreport.DynamicReportActivity"
-            android:label="@string/drawerReportProblem" />
+            android:label="@string/drawerReportProblem"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.drawer.bugreport.FullScreenDialog"
             android:exported="false" />
