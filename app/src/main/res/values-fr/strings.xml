@@ -139,7 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Afficher les applications système</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Ces applications sont exclues de la connexion VPN.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Seules ces applications se connectent par VPN.</string>
-    <string name="accessibility_action_add_new_profile">Ajouter un profil</string>
+    <string name="accessibility_action_add_new_profile">Ajouter un nouveau profil</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -357,6 +357,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Ajoutez une couche de chiffrement à votre connexion VPN avec <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Débloquez les téléchargements peer-to-peer (P2P) et le partage de fichiers </string>
     <string name="upgrade_p2p_text">Améliorez vos vitesses de téléchargement et d\'envoi tout en masquant votre adresse IP.</string>
+    <string name="upgrade_profiles_title">Accédez rapidement aux connexions que vous utilisez souvent</string>
+    <string name="upgrade_profiles_text">Accédez aux profils en passant à VPN Plus.</string>
     <string name="upgrade_streaming_title">Streaming en 4K</string>
     <string name="upgrade_streaming_text">Profitez de vos films et séries préférés partout dans le monde.</string>
     <string name="upgrade_tor_title">Accédez au réseau Tor en un clin d\'œil</string>
@@ -1258,13 +1260,13 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">La connexion n\'a pas abouti.</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Cet appareil n\'autorise pas les connexions VPN.</string>
     <!-- Profile creation -->
-    <string name="create_profile_title">Créer un profil</string>
+    <string name="create_profile_title">Créer un nouveau profil</string>
     <string name="create_profile_name_hint">Nom du profil</string>
-    <string name="create_profile_name_error_empty">Saisir le nom d\'un profil</string>
-    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
-    <string name="create_profile_type_and_location_title">Select connection type and location</string>
+    <string name="create_profile_name_error_empty">Saisir le nom du profil</string>
+    <string name="create_profile_name_error_too_long">Le nom du profil doit contenir 30 caractères ou moins.</string>
+    <string name="create_profile_type_and_location_title">Sélectionnez un emplacement et un type de connexion</string>
     <string name="create_profile_features_and_settings_title">Fonctionnalités et paramètres</string>
-    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <string name="create_profile_features_and_settings_description">Les valeurs suivantes sont recommandées</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
@@ -1387,4 +1389,11 @@
     <string name="create_profile_fastest_state">Le plus rapide</string>
     <string name="create_profile_fastest_server">Le plus rapide</string>
     <string name="create_profile_pick_middle_country_title">Pays de transit</string>
+    <string name="profiles_zero_state_title">Créez votre premier profil</string>
+    <string name="profiles_zero_state_description">Les profils sont des connexions enregistrées tenant compte de vos préférences de protocole, de serveur et d\'emplacement.</string>
+    <string name="profiles_button_create_profile">Créer un profil</string>
+    <string name="profile_deleted_snackbar_message">Le profil a été supprimé.</string>
+    <string name="undo">Annuler</string>
+    <string name="profile_unavailable_dialog_title">Le profil n\'est pas disponible.</string>
+    <string name="profile_unavailable_dialog_message">Le serveur sélectionné pour %1$s n\'est pas disponible. Veuillez sélectionner un autre serveur ou réessayer plus tard.</string>
 </resources>

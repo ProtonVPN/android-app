@@ -139,7 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Zobrazit systémové aplikace</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Tyto aplikace jsou vyloučeny z připojení VPN.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Pouze tyto aplikace se připojují přes VPN.</string>
-    <string name="accessibility_action_add_new_profile">Add new profile</string>
+    <string name="accessibility_action_add_new_profile">Přidat nový profil</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -369,6 +369,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Přidejte k připojení VPN další vrstvu šifrování pomocí nástroje <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Odemkněte peer-to-peer (P2P) stahování a sdílení souborů </string>
     <string name="upgrade_p2p_text">Zvyšte rychlost nahrávání a stahování a současně skryjte svoji IP adresu.</string>
+    <string name="upgrade_profiles_title">Získejte rychlý přístup k připojením, které často používáte</string>
+    <string name="upgrade_profiles_text">Odemkněte profily pomocí VPN Plus</string>
     <string name="upgrade_streaming_title">Streamování ve 4K</string>
     <string name="upgrade_streaming_text">Sledujte oblíbené filmy a seriály odkdudkoli na světě.</string>
     <string name="upgrade_tor_title">Získejte přístup k síti Tor jediným klepnutím</string>
@@ -1330,20 +1332,20 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Připojení selhalo</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Toto zařízení neumožňuje připojení VPN.</string>
     <!-- Profile creation -->
-    <string name="create_profile_title">Create new profile</string>
-    <string name="create_profile_name_hint">Profile name</string>
-    <string name="create_profile_name_error_empty">Enter a profile name</string>
-    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
-    <string name="create_profile_type_and_location_title">Select connection type and location</string>
-    <string name="create_profile_features_and_settings_title">Features and settings</string>
-    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <string name="create_profile_title">Vytvořit nový profil</string>
+    <string name="create_profile_name_hint">Název profilu</string>
+    <string name="create_profile_name_error_empty">Zadejte název profilu</string>
+    <string name="create_profile_name_error_too_long">Název profilu musí mít délku 30 znaků nebo méně</string>
+    <string name="create_profile_type_and_location_title">Vyberte typ připojení a polohu</string>
+    <string name="create_profile_features_and_settings_title">Funkce a nastavení</string>
+    <string name="create_profile_features_and_settings_description">Následující hodnoty jsou doporučené</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Step %1$d of %2$d</string>
-    <string name="create_profile_button_next">Next</string>
-    <string name="create_profile_button_done">Done</string>
+    <string name="create_profile_steps">Krok %1$d z %2$d</string>
+    <string name="create_profile_button_next">Další</string>
+    <string name="create_profile_button_done">Hotovo</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1434,7 +1436,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Vybrané aplikace jsou vyloučeny z připojení VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Pouze vybrané aplikace se připojí skrze VPN, ostatní provoz nebude chráněn.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_edit">Edit</string>
+    <string name="profile_action_edit">Upravit</string>
     <string name="profile_action_delete">Smazat</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1442,21 +1444,28 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streamování US</string>
     <string name="initial_profile_name_work_school">Práce/škola</string>
-    <string name="create_profile_pick_country_title">Country</string>
-    <string name="create_profile_pick_type_title">Type</string>
-    <string name="create_profile_type_standard">Standard</string>
+    <string name="create_profile_pick_country_title">Země</string>
+    <string name="create_profile_pick_type_title">Typ</string>
+    <string name="create_profile_type_standard">Standardní</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Gateway</string>
-    <string name="create_profile_pick_state_title">State</string>
-    <string name="create_profile_pick_city_title">City</string>
+    <string name="create_profile_gateway">Brána</string>
+    <string name="create_profile_pick_state_title">Stát</string>
+    <string name="create_profile_pick_city_title">Město</string>
     <string name="create_profile_pick_server_title">Server</string>
-    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_pick_gateway_title">Brána</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_protocol_title">Protocol</string>
-    <string name="create_profile_pick_nat_title">NAT type</string>
-    <string name="create_profile_fastest_city">Fastest</string>
-    <string name="create_profile_fastest_state">Fastest</string>
-    <string name="create_profile_fastest_server">Fastest</string>
-    <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="create_profile_pick_protocol_title">Protokol</string>
+    <string name="create_profile_pick_nat_title">Typ NAT</string>
+    <string name="create_profile_fastest_city">Nejrychlejší</string>
+    <string name="create_profile_fastest_state">Nejrychlejší</string>
+    <string name="create_profile_fastest_server">Nejrychlejší</string>
+    <string name="create_profile_pick_middle_country_title">Země uprostřed</string>
+    <string name="profiles_zero_state_title">Vytvořte svůj první profil</string>
+    <string name="profiles_zero_state_description">Profily jsou uložená připojení s vámi vybranými umístěními, servery a protokoly.</string>
+    <string name="profiles_button_create_profile">Vytvořit profil</string>
+    <string name="profile_deleted_snackbar_message">Profil smazán</string>
+    <string name="undo">Zpět</string>
+    <string name="profile_unavailable_dialog_title">Profil není dostupný</string>
+    <string name="profile_unavailable_dialog_message">Vámi vybraný server pro %1$s je nedostupný. Vyberte si jiný server a nebo zkuste akci opakovat později.</string>
 </resources>

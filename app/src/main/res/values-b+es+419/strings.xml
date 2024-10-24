@@ -139,7 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Mostrar aplicaciones del sistema</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Estas aplicaciones están excluidas de la conexión VPN.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Solo estas aplicaciones se conectan mediante VPN.</string>
-    <string name="accessibility_action_add_new_profile">Add new profile</string>
+    <string name="accessibility_action_add_new_profile">Añadir un perfil</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -357,6 +357,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Agregue otra capa de cifrado a la conexión VPN con <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Desbloquee las descargas entre pares (P2P) y el intercambio de archivos </string>
     <string name="upgrade_p2p_text">Aumente las velocidades de carga y descarga mientras oculta la dirección IP.</string>
+    <string name="upgrade_profiles_title">Obtenga acceso rápido a sus conexiones frecuentes</string>
+    <string name="upgrade_profiles_text">Desbloquee perfiles con VPN Plus</string>
     <string name="upgrade_streaming_title">Transmita en 4K</string>
     <string name="upgrade_streaming_text">Disfrute sus películas y shows favoritos desde cualquier lugar en el mundo.</string>
     <string name="upgrade_tor_title">Acceda a la red Tor con una pulsación</string>
@@ -1258,20 +1260,20 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Error de conexión</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Este dispositivo no permite conexiones VPN.</string>
     <!-- Profile creation -->
-    <string name="create_profile_title">Create new profile</string>
-    <string name="create_profile_name_hint">Profile name</string>
-    <string name="create_profile_name_error_empty">Enter a profile name</string>
-    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
-    <string name="create_profile_type_and_location_title">Select connection type and location</string>
-    <string name="create_profile_features_and_settings_title">Features and settings</string>
-    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <string name="create_profile_title">Crear un perfil</string>
+    <string name="create_profile_name_hint">Nombre del perfil</string>
+    <string name="create_profile_name_error_empty">Ingresar el nombre del perfil</string>
+    <string name="create_profile_name_error_too_long">El nombre del perfil debe tener 30 caracteres o menos.</string>
+    <string name="create_profile_type_and_location_title">Seleccione la ubicación y el tipo de conexión</string>
+    <string name="create_profile_features_and_settings_title">Funciones y ajustes</string>
+    <string name="create_profile_features_and_settings_description">Se recomiendan los siguientes valores</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Step %1$d of %2$d</string>
-    <string name="create_profile_button_next">Next</string>
-    <string name="create_profile_button_done">Done</string>
+    <string name="create_profile_steps">Paso %1$d de %2$d</string>
+    <string name="create_profile_button_next">Siguiente</string>
+    <string name="create_profile_button_done">Hecho</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1362,7 +1364,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Las aplicaciones seleccionadas están excluidas de la conexión VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Solo las aplicaciones seleccionadas se conectan mediante VPN. El resto del tráfico no está protegido.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_edit">Edit</string>
+    <string name="profile_action_edit">Editar</string>
     <string name="profile_action_delete">Eliminar</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1370,21 +1372,28 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming EE. UU.</string>
     <string name="initial_profile_name_work_school">Trabajo/Escuela</string>
-    <string name="create_profile_pick_country_title">Country</string>
-    <string name="create_profile_pick_type_title">Type</string>
-    <string name="create_profile_type_standard">Standard</string>
+    <string name="create_profile_pick_country_title">País</string>
+    <string name="create_profile_pick_type_title">Tipo</string>
+    <string name="create_profile_type_standard">Estándar</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Gateway</string>
-    <string name="create_profile_pick_state_title">State</string>
-    <string name="create_profile_pick_city_title">City</string>
-    <string name="create_profile_pick_server_title">Server</string>
-    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_gateway">Puerta de enlace</string>
+    <string name="create_profile_pick_state_title">Estado</string>
+    <string name="create_profile_pick_city_title">Ciudad</string>
+    <string name="create_profile_pick_server_title">Servidor</string>
+    <string name="create_profile_pick_gateway_title">Puerta de enlace</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_protocol_title">Protocol</string>
-    <string name="create_profile_pick_nat_title">NAT type</string>
-    <string name="create_profile_fastest_city">Fastest</string>
-    <string name="create_profile_fastest_state">Fastest</string>
-    <string name="create_profile_fastest_server">Fastest</string>
-    <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="create_profile_pick_protocol_title">Protocolo</string>
+    <string name="create_profile_pick_nat_title">Tipo de NAT</string>
+    <string name="create_profile_fastest_city">Más rápida</string>
+    <string name="create_profile_fastest_state">Más rápido</string>
+    <string name="create_profile_fastest_server">Más rápido</string>
+    <string name="create_profile_pick_middle_country_title">País intermerdio</string>
+    <string name="profiles_zero_state_title">Cree su primer perfil</string>
+    <string name="profiles_zero_state_description">Los perfiles son conexiones guardadas con la ubicación, servidor y protocolo de su elección.</string>
+    <string name="profiles_button_create_profile">Crear un perfil</string>
+    <string name="profile_deleted_snackbar_message">Perfil eliminado</string>
+    <string name="undo">Deshacer</string>
+    <string name="profile_unavailable_dialog_title">El perfil no está disponible.</string>
+    <string name="profile_unavailable_dialog_message">El servidor seleccionado para %1$s no está disponible. Seleccione un servidor diferente o intente de nuevo más tarde.</string>
 </resources>

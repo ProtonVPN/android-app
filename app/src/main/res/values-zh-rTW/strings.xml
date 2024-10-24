@@ -351,6 +351,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[使用 <b>Secure Core</b> 為您的 VPN 連線多添一層加密。]]></string>
     <string name="upgrade_p2p_title">解鎖點對點 (P2P) 下載與檔案共享</string>
     <string name="upgrade_p2p_text">提升上、下載速度，同時不失隱藏您的 IP 位址。</string>
+    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
+    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
     <string name="upgrade_streaming_title">使用4K影音串流</string>
     <string name="upgrade_streaming_text">盡情觀看您喜愛的電影與電視節目，不受地域隔閡。</string>
     <string name="upgrade_tor_title">一按及存取Tor網路</string>
@@ -1351,4 +1353,11 @@
     <string name="create_profile_fastest_state">Fastest</string>
     <string name="create_profile_fastest_server">Fastest</string>
     <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="profiles_zero_state_title">Create your first profile</string>
+    <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
+    <string name="profiles_button_create_profile">Create profile</string>
+    <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="undo">Undo</string>
+    <string name="profile_unavailable_dialog_title">Profile unavailable</string>
+    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
 </resources>

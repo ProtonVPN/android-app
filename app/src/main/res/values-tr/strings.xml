@@ -139,7 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Sistem uygulamalarını görüntüle</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Bu uygulamalar VPN bağlantısını kullanmayacak.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Yalnızca bu uygulamalar VPN bağlantısını kullanacak.</string>
-    <string name="accessibility_action_add_new_profile">Add new profile</string>
+    <string name="accessibility_action_add_new_profile">Yeni profil ekle</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -357,6 +357,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> ile VPN bağlantınıza ek bir güvenlik katmanı ekleyin.]]></string>
     <string name="upgrade_p2p_title">Eşler arası (P2P) indirmeleri ve dosya paylaşımını kullanın </string>
     <string name="upgrade_p2p_text">IP adresinizi gizlerken yükleme ve indirme hızlarınızı iyileştirin.</string>
+    <string name="upgrade_profiles_title">Sık kullandığınız bağlantılara hızla erişin</string>
+    <string name="upgrade_profiles_text">VPN Plus ile profiller özelliğine erişin</string>
     <string name="upgrade_streaming_title">4K yayın akışlarını izleyin</string>
     <string name="upgrade_streaming_text">Dünya üzerinde her yerdeki beğendiğiniz film ve TV dizilerini izleyin.</string>
     <string name="upgrade_tor_title">Tek dokunmayla Tor ağına erişin</string>
@@ -1258,20 +1260,20 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Bağlantı kurulamadı</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Bu aygıt VPN bağlantılarına izin vermiyor.</string>
     <!-- Profile creation -->
-    <string name="create_profile_title">Create new profile</string>
-    <string name="create_profile_name_hint">Profile name</string>
-    <string name="create_profile_name_error_empty">Enter a profile name</string>
-    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
-    <string name="create_profile_type_and_location_title">Select connection type and location</string>
-    <string name="create_profile_features_and_settings_title">Features and settings</string>
-    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <string name="create_profile_title">Yeni profil oluştur</string>
+    <string name="create_profile_name_hint">Profil adı</string>
+    <string name="create_profile_name_error_empty">Bir profil adı yazın</string>
+    <string name="create_profile_name_error_too_long">Profil adı 30 karakterden kısa olmalıdır</string>
+    <string name="create_profile_type_and_location_title">Bağlantı türünü ve konumu seçin</string>
+    <string name="create_profile_features_and_settings_title">Özellikler ve ayarlar</string>
+    <string name="create_profile_features_and_settings_description">Şu değerler önerilir</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Step %1$d of %2$d</string>
-    <string name="create_profile_button_next">Next</string>
-    <string name="create_profile_button_done">Done</string>
+    <string name="create_profile_steps">Adım %1$d/%2$d</string>
+    <string name="create_profile_button_next">Sonraki</string>
+    <string name="create_profile_button_done">Tamam</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1362,7 +1364,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Seçilmiş uygulamalar VPN bağlantısına katılmaz.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Yalnızca seçilmiş uygulamalar VPN üzerinden bağlantı kurar, diğer tüm trafik korumasızdır.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_edit">Edit</string>
+    <string name="profile_action_edit">Düzenle</string>
     <string name="profile_action_delete">Sil</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1370,21 +1372,28 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Birleşik Devletler\'de yayın akışı izlemek</string>
     <string name="initial_profile_name_work_school">İş/Okul</string>
-    <string name="create_profile_pick_country_title">Country</string>
-    <string name="create_profile_pick_type_title">Type</string>
-    <string name="create_profile_type_standard">Standard</string>
+    <string name="create_profile_pick_country_title">Ülke</string>
+    <string name="create_profile_pick_type_title">Tür</string>
+    <string name="create_profile_type_standard">Standart</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Gateway</string>
-    <string name="create_profile_pick_state_title">State</string>
-    <string name="create_profile_pick_city_title">City</string>
-    <string name="create_profile_pick_server_title">Server</string>
-    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_gateway">Ağ geçidi</string>
+    <string name="create_profile_pick_state_title">Eyalet</string>
+    <string name="create_profile_pick_city_title">İl</string>
+    <string name="create_profile_pick_server_title">Sunucu</string>
+    <string name="create_profile_pick_gateway_title">Ağ geçidi</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_protocol_title">Protocol</string>
-    <string name="create_profile_pick_nat_title">NAT type</string>
-    <string name="create_profile_fastest_city">Fastest</string>
-    <string name="create_profile_fastest_state">Fastest</string>
-    <string name="create_profile_fastest_server">Fastest</string>
-    <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="create_profile_pick_protocol_title">İletişim kuralı</string>
+    <string name="create_profile_pick_nat_title">NAT Type</string>
+    <string name="create_profile_fastest_city">En hızlı</string>
+    <string name="create_profile_fastest_state">En hızlı</string>
+    <string name="create_profile_fastest_server">En hızlı</string>
+    <string name="create_profile_pick_middle_country_title">Orta ülke</string>
+    <string name="profiles_zero_state_title">İlk profilinizi oluşturun</string>
+    <string name="profiles_zero_state_description">Profiller, seçtiğiniz konum, sunucu ve iletişim kuralı bilgileri ile kaydedilen bağlantılardır.</string>
+    <string name="profiles_button_create_profile">Profil oluştur</string>
+    <string name="profile_deleted_snackbar_message">Profil silindi</string>
+    <string name="undo">Geri al</string>
+    <string name="profile_unavailable_dialog_title">Profil kullanılamıyor</string>
+    <string name="profile_unavailable_dialog_message">%1$s sunucu seçiminiz kullanılamıyor. Başka bir sunucu seçin ya da bir süre sonra yeniden deneyin.</string>
 </resources>

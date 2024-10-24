@@ -139,7 +139,7 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Visa systemappar</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Dessa appar är exkluderade från din VPN-anslutning.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Endast dessa appar ansluter genom VPN.</string>
-    <string name="accessibility_action_add_new_profile">Add new profile</string>
+    <string name="accessibility_action_add_new_profile">Lägg till ny profil</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -357,6 +357,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Lägg till ytterligare ett lager av kryptering till din VPN-anslutning med <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Lås upp peer-to-peer (P2P)-nedladdningar och fildelning </string>
     <string name="upgrade_p2p_text">Förbättra dina uppladdnings- och nedladdningshastigheter samtidigt som du döljer din IP-adress.</string>
+    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
+    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
     <string name="upgrade_streaming_title">Streama i 4K</string>
     <string name="upgrade_streaming_text">Njut av dina favoritfilmer och TV-program från var som helst i världen.</string>
     <string name="upgrade_tor_title">Åtkomst till Tor-nätverket med ett tryck</string>
@@ -1258,20 +1260,20 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Anslutning misslyckades</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Denna enhet tillåter inte VPN-anslutningar.</string>
     <!-- Profile creation -->
-    <string name="create_profile_title">Create new profile</string>
-    <string name="create_profile_name_hint">Profile name</string>
-    <string name="create_profile_name_error_empty">Enter a profile name</string>
-    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
-    <string name="create_profile_type_and_location_title">Select connection type and location</string>
-    <string name="create_profile_features_and_settings_title">Features and settings</string>
-    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
+    <string name="create_profile_title">Skapa ny profil</string>
+    <string name="create_profile_name_hint">Profilnamn</string>
+    <string name="create_profile_name_error_empty">Ange ett profilnamn</string>
+    <string name="create_profile_name_error_too_long">Profilnamn måste vara 30 tecken eller mindre</string>
+    <string name="create_profile_type_and_location_title">Välj anslutningstyp och plats</string>
+    <string name="create_profile_features_and_settings_title">Funktioner och inställningar</string>
+    <string name="create_profile_features_and_settings_description">Följande värden är rekommenderade</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Step %1$d of %2$d</string>
-    <string name="create_profile_button_next">Next</string>
-    <string name="create_profile_button_done">Done</string>
+    <string name="create_profile_steps">Steg %1$d av %2$d</string>
+    <string name="create_profile_button_next">Nästa</string>
+    <string name="create_profile_button_done">Klar</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1362,7 +1364,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Valda appar är exkluderade från VPN-anslutning.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Endast valda appar ansluter genom VPN, all annan trafik är oskyddad.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_edit">Edit</string>
+    <string name="profile_action_edit">Redigera</string>
     <string name="profile_action_delete">Ta bort</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1370,21 +1372,28 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Arbete/skola</string>
-    <string name="create_profile_pick_country_title">Country</string>
-    <string name="create_profile_pick_type_title">Type</string>
+    <string name="create_profile_pick_country_title">Land</string>
+    <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Standard</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
     <string name="create_profile_gateway">Gateway</string>
-    <string name="create_profile_pick_state_title">State</string>
-    <string name="create_profile_pick_city_title">City</string>
+    <string name="create_profile_pick_state_title">Delstat</string>
+    <string name="create_profile_pick_city_title">Ort</string>
     <string name="create_profile_pick_server_title">Server</string>
     <string name="create_profile_pick_gateway_title">Gateway</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_protocol_title">Protocol</string>
+    <string name="create_profile_pick_protocol_title">Protokoll</string>
     <string name="create_profile_pick_nat_title">NAT type</string>
-    <string name="create_profile_fastest_city">Fastest</string>
-    <string name="create_profile_fastest_state">Fastest</string>
-    <string name="create_profile_fastest_server">Fastest</string>
-    <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="create_profile_fastest_city">Snabbast</string>
+    <string name="create_profile_fastest_state">Snabbast</string>
+    <string name="create_profile_fastest_server">Snabbast</string>
+    <string name="create_profile_pick_middle_country_title">Mellanland</string>
+    <string name="profiles_zero_state_title">Skapa din första profil</string>
+    <string name="profiles_zero_state_description">Profiler är sparade anslutningar med ditt val av plats, server och protokoll.</string>
+    <string name="profiles_button_create_profile">Skapa profil</string>
+    <string name="profile_deleted_snackbar_message">Profil borttagen</string>
+    <string name="undo">Ångra</string>
+    <string name="profile_unavailable_dialog_title">Profil inte tillgänglig</string>
+    <string name="profile_unavailable_dialog_message">Ditt serverval för %1$s är inte tillgängligt. Välj en annan server eller försök igen senare.</string>
 </resources>

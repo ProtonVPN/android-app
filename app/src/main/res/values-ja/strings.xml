@@ -351,6 +351,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> を使用して、VPN 接続に別の暗号化層を追加します。]]></string>
     <string name="upgrade_p2p_title">ピアツーピア(P2P)でのダウンロードとファイル共有が可能になる </string>
     <string name="upgrade_p2p_text">あなたのIPアドレスを隠したままアップロードとダウンロード速度が向上します。</string>
+    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
+    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
     <string name="upgrade_streaming_title">4Kでストリーミング</string>
     <string name="upgrade_streaming_text">世界中どこからでもお気に入りの映画やテレビ番組を楽しめます。</string>
     <string name="upgrade_tor_title">Torネットワークへワンタップでアクセス</string>
@@ -1351,4 +1353,11 @@
     <string name="create_profile_fastest_state">Fastest</string>
     <string name="create_profile_fastest_server">Fastest</string>
     <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="profiles_zero_state_title">Create your first profile</string>
+    <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
+    <string name="profiles_button_create_profile">Create profile</string>
+    <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="undo">Undo</string>
+    <string name="profile_unavailable_dialog_title">Profile unavailable</string>
+    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
 </resources>

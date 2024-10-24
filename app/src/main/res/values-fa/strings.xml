@@ -357,6 +357,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[یک لایه اضافه رمزگذاری به اتصال VPN تان با <b>Secure Core</b> اضافه کنید.]]></string>
     <string name="upgrade_p2p_title">اشتراک‌گذاری فایل و بارگیری‌های همتا به همتا (P2P) را قفل‌گشایی کنید </string>
     <string name="upgrade_p2p_text">سرعت‌های بارگذاری و بارگیری‌تان را همراه با مخفی‌سازی نشانی IP تان بهبود ببخشید.</string>
+    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
+    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
     <string name="upgrade_streaming_title">پخش جریانی در 4K</string>
     <string name="upgrade_streaming_text">از فیلم‌ها و برنامه‌های تلویزیونی مورد علاقه‌تان در سراسر جهان لذت ببرید.</string>
     <string name="upgrade_tor_title">با یک کلیک به شبکه Tor دسترسی یابید</string>
@@ -1387,4 +1389,11 @@
     <string name="create_profile_fastest_state">Fastest</string>
     <string name="create_profile_fastest_server">Fastest</string>
     <string name="create_profile_pick_middle_country_title">Middle country</string>
+    <string name="profiles_zero_state_title">Create your first profile</string>
+    <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
+    <string name="profiles_button_create_profile">Create profile</string>
+    <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="undo">Undo</string>
+    <string name="profile_unavailable_dialog_title">Profile unavailable</string>
+    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
 </resources>
