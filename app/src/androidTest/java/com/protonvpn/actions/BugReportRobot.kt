@@ -32,7 +32,7 @@ class BugReportRobot : BaseRobot() {
     fun contactUs(): BugReportRobot = clickElementById(R.id.buttonContactUs)
 
     fun sendReport(): BugReportRobot {
-        view.withId(R.id.buttonReport).scrollTo().click()
+        view.withId(R.id.buttonReport).click()
         return this
     }
 
