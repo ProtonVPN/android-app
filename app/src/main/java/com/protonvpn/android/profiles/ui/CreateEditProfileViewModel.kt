@@ -31,9 +31,8 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
-import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.profiles.data.ProfilesDao
-import com.protonvpn.android.profiles.data.toProfileEntity
+import com.protonvpn.android.profiles.usecases.CreateOrUpdateProfileFromUi
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.ConnectIntentData
@@ -194,9 +193,8 @@ private const val SETTINGS_SCREEN_STATE_KEY = "settingsScreenState"
 class CreateEditProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val profilesDao: ProfilesDao,
-    private val currentUser: CurrentUser,
+    private val createOrUpdateProfile: CreateOrUpdateProfileFromUi,
     private val adapter: ProfilesServerDataAdapter,
-    @WallClock private val wallClock: () -> Long,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
@@ -265,8 +263,13 @@ class CreateEditProfileViewModel @Inject constructor(
 
     fun save() {
         viewModelScope.launch {
-            getProfile()?.let { profilesDao.upsert(it.toProfileEntity()) }
-
+            createOrUpdateProfile(
+                editedProfileId,
+                editedProfileCreatedAt,
+                requireNotNull(nameScreenState),
+                typeAndLocationScreenStateFlow.first(),
+                requireNotNull(settingsScreenState)
+            )
         }
     }
 
@@ -310,85 +313,6 @@ class CreateEditProfileViewModel @Inject constructor(
             protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
             natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
             lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
-        )
-    }
-
-    private suspend fun getProfile(): Profile? {
-        val profileId = editedProfileId
-        val nameScreen = requireNotNull(nameScreenState)
-        val typeAndLocationScreen = typeAndLocationScreenStateFlow.first()
-        val settingsScreen = requireNotNull(settingsScreenState)
-        val overrides = settingsScreen.toSettingsOverrides()
-        val userId = currentUser.user()?.userId ?: return null
-        return Profile(
-            userId = userId,
-            info = ProfileInfo(
-                profileId ?: 0L,
-                nameScreen.name,
-                nameScreen.color,
-                nameScreen.icon,
-                (typeAndLocationScreen as? TypeAndLocationScreenState.Gateway)?.gateway?.name,
-                editedProfileCreatedAt ?: wallClock(),
-            ),
-            connectIntent = when (typeAndLocationScreen) {
-                is TypeAndLocationScreenState.P2P,
-                is TypeAndLocationScreenState.Standard -> {
-                    typeAndLocationScreen as TypeAndLocationScreenState.StandardWithFeatures
-                    val country = typeAndLocationScreen.country
-                    val serverId = typeAndLocationScreen.server?.id
-                    val cityOrState = typeAndLocationScreen.cityOrState
-                    val features = typeAndLocationScreen.features
-                    when {
-                        serverId != null -> {
-                            ConnectIntent.Server(
-                                serverId = serverId,
-                                exitCountry = country.id,
-                                features = features,
-                                profileId = profileId,
-                                settingsOverrides = overrides,
-                            )
-                        }
-                        cityOrState?.id?.isFastest == false && cityOrState.id.isState -> {
-                            ConnectIntent.FastestInState(
-                                country = country.id,
-                                stateEn = cityOrState.id.name,
-                                features = features,
-                                profileId = profileId,
-                                settingsOverrides = overrides,
-                            )
-                        }
-                        cityOrState?.id?.isFastest == false && !cityOrState.id.isState -> {
-                            ConnectIntent.FastestInCity(
-                                country = country.id,
-                                cityEn = cityOrState.id.name,
-                                features = features,
-                                profileId = profileId,
-                                settingsOverrides = overrides,
-                            )
-                        }
-                        else -> {
-                            ConnectIntent.FastestInCountry(
-                                country = country.id,
-                                features = features,
-                                profileId = profileId,
-                                settingsOverrides = overrides,
-                            )
-                        }
-                    }
-                }
-                is TypeAndLocationScreenState.SecureCore -> ConnectIntent.SecureCore(
-                    exitCountry = typeAndLocationScreen.exitCountry.id,
-                    entryCountry = typeAndLocationScreen.entryCountry?.id ?: CountryId.fastest,
-                    profileId = profileId,
-                    settingsOverrides = overrides,
-                )
-                is TypeAndLocationScreenState.Gateway -> ConnectIntent.Gateway(
-                    gatewayName = typeAndLocationScreen.gateway.name,
-                    profileId = profileId,
-                    serverId = typeAndLocationScreen.server.id,
-                    settingsOverrides = overrides,
-                )
-            }
         )
     }
 
