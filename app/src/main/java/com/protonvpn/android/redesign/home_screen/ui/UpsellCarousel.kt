@@ -59,6 +59,7 @@ import com.protonvpn.android.ui.planupgrade.UpgradeDevicesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeProfilesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSecureCoreHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeStreamingHighlightsFragment
@@ -81,73 +82,101 @@ private class Page(
     val content: @Composable PageScope.(Modifier) -> Unit,
 )
 
-private val Pages = listOf(
-    Page(
-        UpgradePlusCountriesHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_COUNTRIES,
-    ) { modifier -> UpsellCardCountries(roundedServerCount, countriesCount, modifier) },
-    Page(
-        UpgradeVpnAcceleratorHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_SPEED,
-    ) { modifier -> UpsellCardFasterBrowsing(modifier) },
-    Page(
-        UpgradeStreamingHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_STREAMING,
-    ) { modifier -> UpsellCardStreaming(modifier) },
-    Page(
-        UpgradeNetShieldHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_NETSHIELD,
-    ) { modifier -> UpsellCardNetShield(modifier) },
-    Page(
-        UpgradeSecureCoreHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_SECURE_CORE,
-    ) { modifier -> UpsellCardSecureCore(modifier) },
-    Page(
-        UpgradeP2PHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_P2P,
-    ) { modifier -> UpsellCardP2P(modifier) },
-    Page(
-        UpgradeDevicesHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_MULTIPLE_DEVICES,
-    ) { modifier -> UpsellCardDevices(modifier) },
-    Page(
-        UpgradeTorHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_TOR,
-    ) { modifier -> UpsellCardTor(modifier) },
-    Page(
-        UpgradeSplitTunnelingHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_SPLIT_TUNNELING,
-    ) { modifier -> UpsellCardSplitTunneling(modifier) },
-    Page(
-        UpgradeAllowLanHighlightsFragment::class,
-        UpgradeSource.HOME_CAROUSEL_CUSTOMIZATION,
-    ) { modifier -> UpsellCardCustomization(modifier) },
-)
+private fun createPages(includeProfilesCard: Boolean) = buildList {
+    add(
+        Page(
+            UpgradePlusCountriesHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_COUNTRIES,
+        ) { modifier -> UpsellCardCountries(roundedServerCount, countriesCount, modifier) }
+    )
+    add(
+        Page(
+            UpgradeVpnAcceleratorHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_SPEED,
+        ) { modifier -> UpsellCardFasterBrowsing(modifier) }
+    )
+    add(
+        Page(
+            UpgradeStreamingHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_STREAMING,
+        ) { modifier -> UpsellCardStreaming(modifier) }
+    )
+    add(
+        Page(
+            UpgradeNetShieldHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_NETSHIELD,
+        ) { modifier -> UpsellCardNetShield(modifier) }
+    )
+    add(
+        Page(
+            UpgradeSecureCoreHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_SECURE_CORE,
+        ) { modifier -> UpsellCardSecureCore(modifier) }
+    )
+    add(
+        Page(
+            UpgradeP2PHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_P2P,
+        ) { modifier -> UpsellCardP2P(modifier) }
+    )
+    add(
+        Page(
+            UpgradeDevicesHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_MULTIPLE_DEVICES,
+        ) { modifier -> UpsellCardDevices(modifier) }
+    )
+    add(
+        Page(
+            UpgradeTorHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_TOR,
+        ) { modifier -> UpsellCardTor(modifier) }
+    )
+    add(
+        Page(
+            UpgradeSplitTunnelingHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_SPLIT_TUNNELING,
+        ) { modifier -> UpsellCardSplitTunneling(modifier) }
+    )
+    if (includeProfilesCard) add(
+        Page(
+            UpgradeProfilesHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_PROFILES,
+        ) { modifier -> UpsellCardProfiles(modifier) }
+    )
+    add(
+        Page(
+            UpgradeAllowLanHighlightsFragment::class,
+            UpgradeSource.HOME_CAROUSEL_CUSTOMIZATION,
+        ) { modifier -> UpsellCardCustomization(modifier) }
+    )
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeUpsellCarousel(
-    roundedServerCount: Int,
-    countriesCount: Int,
+    state: UpsellCarouselState,
     horizontalMargin: Dp,
     onOpenUpgradeScreen: (focusedPage: KClass<out Fragment>, UpgradeSource) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val pageScope = remember(roundedServerCount, countriesCount) { PageScope(roundedServerCount, countriesCount) }
+    val pageScope = remember(state.roundedServerCount, state.countryCount) {
+        PageScope(state.roundedServerCount, state.countryCount)
+    }
     var minHeight by remember { mutableFloatStateOf(0F) }
+    val pages = remember(state.includeProfilesCard) { createPages(state.includeProfilesCard) }
     HorizontalPager(
-        state = rememberPagerState { Pages.size },
+        state = rememberPagerState { pages.size },
         contentPadding = PaddingValues(horizontal = horizontalMargin),
         pageSpacing = 8.dp,
         pageSize = UpsellCarouselPageSize,
-        beyondBoundsPageCount = Pages.size,
+        beyondBoundsPageCount = pages.size,
         verticalAlignment = Alignment.Top,
         modifier = modifier.onGloballyPositioned { minHeight = it.size.height.toDp() },
     ) { pageIndex ->
         val pageSizeModifier = Modifier
             .fillMaxWidth()
             .heightIn(min = minHeight.dp)
-        val page = Pages[pageIndex]
+        val page = pages[pageIndex]
         with(page) {
             pageScope.content(
                 pageSizeModifier.clickable(onClick = { onOpenUpgradeScreen(upgradeDialogFocusPage, upgradeSource) })
@@ -274,6 +303,18 @@ private fun UpsellCardSplitTunneling(
 }
 
 @Composable
+private fun UpsellCardProfiles(
+    modifier: Modifier = Modifier
+) {
+    UpsellCard(
+        title = stringResource(R.string.upsell_card_profiles_title),
+        description = stringResource(R.string.upsell_card_profiles_description),
+        imageRes = R.drawable.upsell_card_profiles,
+        modifier = modifier,
+    )
+}
+
+@Composable
 private fun UpsellCardCustomization(
     modifier: Modifier = Modifier
 ) {
@@ -338,8 +379,11 @@ private fun PreviewUpsellCardCountries() {
 private fun PreviewHomeUpsellCarousel() {
     ProtonVpnPreview {
         HomeUpsellCarousel(
-            roundedServerCount = 1500,
-            countriesCount = 20,
+            UpsellCarouselState(
+                roundedServerCount = 1500,
+                countryCount = 20,
+                includeProfilesCard = true
+            ),
             horizontalMargin = 16.dp,
             onOpenUpgradeScreen = { _, _ -> },
             modifier = Modifier.heightIn(min = 128.dp)

@@ -20,23 +20,27 @@
 package com.protonvpn.android.redesign.home_screen.ui
 
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.profiles.usecases.NewProfilesMvpEnabled
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 data class UpsellCarouselState(
     val roundedServerCount: Int,
     val countryCount: Int,
+    val includeProfilesCard: Boolean,
 )
 
 @Reusable
 class UpsellCarouselStateFlow @Inject constructor(
     currentUser: CurrentUser,
-    serverListUpdaterPrefs: ServerListUpdaterPrefs
+    serverListUpdaterPrefs: ServerListUpdaterPrefs,
+    newProfilesMvpEnabled: NewProfilesMvpEnabled,
 ): Flow<UpsellCarouselState?> {
 
     private val stateFlow = currentUser.vpnUserFlow.flatMapLatestNotNull {
@@ -44,9 +48,13 @@ class UpsellCarouselStateFlow @Inject constructor(
             val countries = serverListUpdaterPrefs.vpnCountryCount
             val servers = serverListUpdaterPrefs.vpnServerCount
             val roundedServerCount = (servers / 100) * 100
-            flowOf(
-                UpsellCarouselState(roundedServerCount = roundedServerCount, countryCount = countries)
-            )
+            newProfilesMvpEnabled.observe().map { hasProfiles ->
+                UpsellCarouselState(
+                    roundedServerCount = roundedServerCount,
+                    countryCount = countries,
+                    includeProfilesCard = hasProfiles
+                )
+            }
         } else {
             // No upsell carousel for paid users.
             flowOf(null)
