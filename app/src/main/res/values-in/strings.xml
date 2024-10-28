@@ -351,8 +351,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Tambah lapisan enkripsi lainnya pada koneksi VPN Anda dengan <b>SecureCore</b>.]]></string>
     <string name="upgrade_p2p_title">Akses unduhan peer-to-peer (P2P) dan fitur berbagi berkas </string>
     <string name="upgrade_p2p_text">Tingkatkan kecepatan unggahan dan unduhan Anda sembari menyembunyikan alamat IP Anda.</string>
-    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
-    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
+    <string name="upgrade_profiles_title">Dapatkan akses kilat ke koneksi yang sering Anda gunakan</string>
+    <string name="upgrade_profiles_text">Akses profil dengan VPN Plus</string>
     <string name="upgrade_streaming_title">Streaming dengan kualitas 4K</string>
     <string name="upgrade_streaming_text">Nikmati berbagai film dan tayangan TV kesayangan Anda di mana pun Anda berada.</string>
     <string name="upgrade_tor_title">Akses jaringan Tor dengan sekali ketuk</string>
@@ -1354,10 +1354,10 @@
     <string name="create_profile_fastest_server">Tercepat</string>
     <string name="create_profile_pick_middle_country_title">Negara tengah</string>
     <string name="profiles_zero_state_title">Buat profil pertama Anda</string>
-    <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
+    <string name="profiles_zero_state_description">Profil merupakan koneksi yang disimpan dengan lokasi, server, dan protokol yang Anda pilih.</string>
     <string name="profiles_button_create_profile">Buat profil</string>
     <string name="profile_deleted_snackbar_message">Profil dihapus</string>
     <string name="undo">Urungkan</string>
     <string name="profile_unavailable_dialog_title">Profil tidak tersedia</string>
-    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <string name="profile_unavailable_dialog_message">Pilihan server Anda untuk \'%1$s\' tidak tersedia. Silakan pilih server lain atau coba lagi nanti.</string>
 </resources>

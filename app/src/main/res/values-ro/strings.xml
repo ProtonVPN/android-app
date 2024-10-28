@@ -363,8 +363,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Adăugați încă un nivel de criptare cu conexiunea VPN prin <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Deblocați descărcările și partajările persoană-la-persoană (P2P)</string>
     <string name="upgrade_p2p_text">Îmbunătățiți-vă viteza de încărcare și descărcare ascunzându-vă și adresa IP.</string>
-    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
-    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
+    <string name="upgrade_profiles_title">Obțineți acces rapid la conexiunile frecvent utilizate</string>
+    <string name="upgrade_profiles_text">Deblocați profilurile cu VPN Plus</string>
     <string name="upgrade_streaming_title">Vizionați în 4K</string>
     <string name="upgrade_streaming_text">Bucurați-vă de filmele și emisiunile TV favorite de oriunde din lume.</string>
     <string name="upgrade_tor_title">Accesați rețeaua Tor cu o singură atingere</string>
@@ -1425,11 +1425,11 @@
     <string name="create_profile_fastest_state">Cel mai rapid</string>
     <string name="create_profile_fastest_server">Cel mai rapid</string>
     <string name="create_profile_pick_middle_country_title">Țara intermediară</string>
-    <string name="profiles_zero_state_title">Create your first profile</string>
-    <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
-    <string name="profiles_button_create_profile">Create profile</string>
-    <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="profiles_zero_state_title">Creați primul profil</string>
+    <string name="profiles_zero_state_description">Profilurile sunt conexiuni salvate cu locul, serverul și protocolul ales.</string>
+    <string name="profiles_button_create_profile">Creare profil</string>
+    <string name="profile_deleted_snackbar_message">Profil șters</string>
     <string name="undo">Refacere</string>
-    <string name="profile_unavailable_dialog_title">Profile unavailable</string>
-    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <string name="profile_unavailable_dialog_title">Profil indisponibil</string>
+    <string name="profile_unavailable_dialog_message">Serverul selectat pentru „%1$s” nu este disponibil. Selectați un server diferit sau reîncercați mai târziu.</string>
 </resources>
