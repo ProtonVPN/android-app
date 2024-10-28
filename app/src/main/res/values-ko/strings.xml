@@ -529,7 +529,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN에 오신 것을 환영합니다</string>
-    <string name="onboarding_welcome_description">브라우징은 은밀하게, 막힌 컨텐츠는 열리게, 디지털 자유를 그렇게 누리십시오.</string>
+    <string name="onboarding_welcome_description">브라우징은 은밀하게, 막힌 컨텐츠는 열리게, 디지털 자유를 그렇게 누려보세요.</string>
     <string name="onboarding_welcome_action">시작하기</string>
     <string name="upgrade_success_get_started_button">시작하기</string>
     <string name="dynamic_report_suggestion_didnt_work">작동하지 않습니까?</string>

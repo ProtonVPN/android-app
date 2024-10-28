@@ -357,8 +357,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Lägg till ytterligare ett lager av kryptering till din VPN-anslutning med <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Lås upp peer-to-peer (P2P)-nedladdningar och fildelning </string>
     <string name="upgrade_p2p_text">Förbättra dina uppladdnings- och nedladdningshastigheter samtidigt som du döljer din IP-adress.</string>
-    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
-    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
+    <string name="upgrade_profiles_title">Få snabb åtkomst till dina frekventa anslutningar</string>
+    <string name="upgrade_profiles_text">Lås upp profiler med VPN Plus</string>
     <string name="upgrade_streaming_title">Streama i 4K</string>
     <string name="upgrade_streaming_text">Njut av dina favoritfilmer och TV-program från var som helst i världen.</string>
     <string name="upgrade_tor_title">Åtkomst till Tor-nätverket med ett tryck</string>

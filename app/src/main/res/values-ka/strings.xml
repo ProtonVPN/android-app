@@ -1395,5 +1395,5 @@
     <string name="profile_deleted_snackbar_message">პროფილი წაიშალა</string>
     <string name="undo">დაბრუნება</string>
     <string name="profile_unavailable_dialog_title">პროფილი ხელმიუწვდომელია</string>
-    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <string name="profile_unavailable_dialog_message">თქვენი სერვერის არჩევანი %1$s-სთვის ხელმიუწვდომელია. აირჩიეთ სხვა სერვერი, ან მოგვიანებით სცადეთ.</string>
 </resources>
