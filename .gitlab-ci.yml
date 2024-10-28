@@ -142,10 +142,10 @@ build google debug:
     # Build additionally the vanilla and Amazon flavors to check that they compile.
     # Don't include them in artifacts.
     - >
-      ./gradlew assembleProductionGooglePlayStoreDebug \
-                assembleProductionVanillaOpenSourceDebug \
-                assembleProductionVanillaAmazonDebug \
-                assembleProductionGooglePlayStoreDebugAndroidTest
+      ./gradlew :app:assembleProductionGooglePlayStoreDebug \
+                :app:assembleProductionVanillaOpenSourceDebug \
+                :app:assembleProductionVanillaAmazonDebug \
+                :app:assembleProductionGooglePlayStoreDebugAndroidTest
   artifacts:
     expire_in: 1 week
     paths:
@@ -170,8 +170,8 @@ build google debug:
     - mkdir -p app/src/androidTest/assets/sensitive
     - cat $TEST_INTERNAL_API > app/src/androidTest/assets/sensitive/internal_apis.json
     - >
-      ./gradlew assembleBlackGooglePlayStoreDebug \
-                  assembleBlackGooglePlayStoreDebugAndroidTest
+      ./gradlew :app:assembleBlackGooglePlayStoreDebug \
+                  :app:assembleBlackGooglePlayStoreDebugAndroidTest
   artifacts:
     expire_in: 1 week
     paths:
@@ -205,7 +205,7 @@ build BTI:
   tags:
     - xlarge-k8s
   script:
-    - ./gradlew assembleBlackGooglePlayStoreDebug
+    - ./gradlew :app:assembleBlackGooglePlayStoreDebug
   after_script:
     # Avoid build files clashing with the test ones.
     - mkdir artifactsBti
@@ -223,7 +223,7 @@ build google play release:
   script:
     - >
       ./gradlew openvpn:assembleRelease \
-                assembleProductionGooglePlayStoreRelease
+                :app:assembleProductionGooglePlayStoreRelease
   except:
     - schedules
   interruptible: false
@@ -242,7 +242,7 @@ build google play dev (monitoring release):
   script:
     - >
       ./gradlew openvpn:assembleRelease \
-                assembleProductionGoogleDevRelease \
+                :app:assembleProductionGoogleDevRelease \
                 :release_tests:assembleRelease
   interruptible: false
   artifacts:
@@ -258,7 +258,7 @@ unit tests:
   except:
     - schedules
   script:
-    - ./gradlew testBlackGooglePlayStoreDebugUnitTest
+    - ./gradlew :app:testBlackGooglePlayStoreDebugUnitTest
   artifacts:
     expire_in: 1 day
     paths:
@@ -273,7 +273,7 @@ screenshot tests:
   rules:
     - if: $CI_PIPELINE_SOURCE != "schedule"
   script:
-    - ./gradlew "-Duser.language=en" "-Duser.country=US" validateProductionGooglePlayStoreDebugScreenshotTest
+    - ./gradlew "-Duser.language=en" "-Duser.country=US" :app:validateProductionGooglePlayStoreDebugScreenshotTest
   after_script:
     - >
       if [ $CI_JOB_STATUS != 'success' ]; then
