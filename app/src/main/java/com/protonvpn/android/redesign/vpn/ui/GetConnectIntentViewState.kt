@@ -74,8 +74,10 @@ class GetConnectIntentViewState @Inject constructor(
                 }
             }
         }
-        val primaryLabel = ConnectIntentPrimaryLabel.Profile(
-            profile.info.name, exit, profile.info.isGateway, profile.info.icon, profile.info.color)
+        val primaryLabel = with(profile) {
+            val isGateway = connectIntent is ConnectIntent.Gateway
+            ConnectIntentPrimaryLabel.Profile(info.name, exit, isGateway, info.icon, info.color)
+        }
         return ConnectIntentViewState(
             primaryLabel, secondaryLabel, effectiveServerFeatures(profile.connectIntent, null))
     }

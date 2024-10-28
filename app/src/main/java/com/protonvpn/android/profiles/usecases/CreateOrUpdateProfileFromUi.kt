@@ -118,7 +118,6 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
                 nameScreen.name,
                 nameScreen.color,
                 nameScreen.icon,
-                (typeAndLocationScreen as? TypeAndLocationScreenState.Gateway)?.gateway?.name,
                 creationTime ?: wallClock(),
                 isUserCreated,
             ),

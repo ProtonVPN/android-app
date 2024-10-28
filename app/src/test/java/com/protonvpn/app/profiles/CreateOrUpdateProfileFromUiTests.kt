@@ -102,7 +102,6 @@ class CreateOrUpdateProfileFromUiTests {
             color = ProfileColor.Color1,
             icon = ProfileIcon.Icon1,
             createdAt = 1_000,
-            gatewayName = null,
             isUserCreated = false,
         ),
         connectIntent = ConnectIntent.FastestInCountry(
