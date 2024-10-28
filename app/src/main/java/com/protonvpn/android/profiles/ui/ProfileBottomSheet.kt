@@ -211,7 +211,6 @@ private fun ProfileBottomSheetPreview() {
                     name = "Profile name",
                     icon = ProfileIcon.Icon1,
                     color = ProfileColor.Color1,
-                    gatewayName = null,
                     createdAt = 0L,
                     isUserCreated = true,
                 ),

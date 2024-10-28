@@ -57,7 +57,7 @@ import kotlin.test.assertTrue
 class DeleteProfileFromUiTests {
 
     private val profile = Profile(
-        info = ProfileInfo(1, "profile 1", ProfileColor.Color2, ProfileIcon.Icon5, null, 100L, true),
+        info = ProfileInfo(1, "profile 1", ProfileColor.Color2, ProfileIcon.Icon5, 100L, true),
         connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet(), profileId = 1),
         userId = UserId("user1")
     )
