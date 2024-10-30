@@ -1,0 +1,18 @@
+# Public PING_KEY
+69d9c14e136a8ea9b4671cbe5bdfa1c12dff0b01:app/src/main/java/com/protonvpn/android/vpn/ServerPing.kt:generic-api-key:45
+2d4c73c983b55afdfcbf2592bec722bcce65c641:app/src/main/java/com/protonvpn/android/vpn/ServerPing.kt:generic-api-key:45
+# Code searching for "BEGIN RSA..."
+1af3bffd626316af20dfe6fb2d063df316b16470:openvpn/src/main/cpp/openvpn3/openvpn/client/cliopthelper.hpp:private-key:221
+42d26404bea67a6f33ca404f7d8446f875a652e1:openvpn/src/main/cpp/openvpn3/openvpn/client/cliopthelper.hpp:private-key:217
+# Sample HTTP auth header in comment
+1af3bffd626316af20dfe6fb2d063df316b16470:openvpn/src/main/cpp/openvpn3/openvpn/ws/httpcreds.hpp:authorization-header:53
+029930c5e75aa755ea9454a886dba3f6187bdfe3:openvpn/src/main/cpp/openvpn3/openvpn/ws/httpcreds.hpp:authorization-header:53
+# HTTP authorization code
+1af3bffd626316af20dfe6fb2d063df316b16470:openvpn/src/main/cpp/openvpn3/openvpn/transport/client/httpcli.hpp:authorization-header:717
+1af3bffd626316af20dfe6fb2d063df316b16470:openvpn/src/main/cpp/openvpn3/openvpn/ws/httpcli.hpp:authorization-header:1137
+029930c5e75aa755ea9454a886dba3f6187bdfe3:openvpn/src/main/cpp/openvpn3/openvpn/ws/httpcli.hpp:authorization-header:1060
+42d26404bea67a6f33ca404f7d8446f875a652e1:openvpn/src/main/cpp/openvpn3/openvpn/transport/client/httpcli.hpp:authorization-header:657
+# Certificate for mock web server
+44fb75b6a96662e04d3c0fbb2f871097ba665d68:app/src/androidTest/java/com/protonvpn/mocks/MockWebServerCertificates.kt:private-key:36
+ee98d7b1e0557d166817e46a4e511fb20e9761c9:app/src/androidTest/java/com/protonvpn/mocks/MockWebServerCertificates.kt:private-key:36
+bc3ac1d836a14776682f923015554a539c0ffca6:app/src/androidTest/java/com/protonvpn/mocks/MockWebServerCertificates.kt:private-key:36

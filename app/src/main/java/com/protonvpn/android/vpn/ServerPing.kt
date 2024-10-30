@@ -44,7 +44,7 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
-private const val PING_KEY = "lci6UYRryo5rcQVpxfJ0fCs6UBY5eGyV"
+private const val PING_KEY = "lci6UYRryo5rcQVpxfJ0fCs6UBY5eGyV" // gitleaks:allow
 
 @Reusable
 class ServerPing @Inject constructor(

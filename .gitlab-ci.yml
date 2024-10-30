@@ -356,7 +356,7 @@ stopReview:
   before_script: []
   extends: .stopReview
 
-# See devsecops/semgrep/ components below
+# See devsecops/semgrep/* components below
 semgrep-scan-code:
   dependencies:
     - semgrep-customise-ruleset
@@ -367,6 +367,10 @@ include:
     file: '/jobs/sync-crowdin.gitlab-ci.yml'
 
   - component: gitlab.protontech.ch/proton/devops/cicd-components/kits/devsecops/semgrep@0.0.21
+
+  - component: gitlab.protontech.ch/proton/devops/cicd-components/devsecops/gitleaks/scan-repository@0.0.24 # devsecops kit has older version
+    inputs:
+      configuration: ".gitleaks.toml"
 
   - component: gitlab.protontech.ch/proton/devops/cicd-components/devsecops/semgrep/scan-code@0.0.16
     inputs:
