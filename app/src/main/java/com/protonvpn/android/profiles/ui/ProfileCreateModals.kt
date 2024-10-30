@@ -794,7 +794,7 @@ private fun ProfileCountryItemPreview() {
         Surface {
             ProfileCountryItem(
                 false,
-                TypeAndLocationScreenState.CountryItem(CountryId("PL"), false),
+                TypeAndLocationScreenState.CountryItem(CountryId.fastestExcludingMyCountry, false),
                 null,
                 emptyList(),
                 emptyList(),

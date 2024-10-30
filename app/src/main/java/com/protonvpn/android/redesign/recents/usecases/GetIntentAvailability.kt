@@ -43,7 +43,7 @@ class GetIntentAvailability @Inject constructor(
         val protocol = connectIntent.settingsOverrides?.protocol ?: settingsProtocol
         return serverManager.forConnectIntent(
             connectIntent,
-            onFastest = { isSecureCore, _ ->
+            onFastest = { isSecureCore, _, _ ->
                 if (!isSecureCore || vpnUser?.isFreeUser != true) ConnectIntentAvailability.ONLINE
                 else ConnectIntentAvailability.UNAVAILABLE_PLAN
             },

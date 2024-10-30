@@ -46,9 +46,13 @@ class GetOnlineServersForIntent @Inject constructor(
         val allServers = serverManager2.allServersByScoreFlow.first()
         val intentServers = serverManager2.forConnectIntent(
             intent,
-            onFastest = { isSecureCore, features ->
-                allServers.asSequence()
-                    .filter { it.isSecureCoreServer == isSecureCore && it.satisfiesFeatures(features) }
+            onFastest = { isSecureCore, features, excludedCountryId ->
+                val excludedCountry = excludedCountryId?.countryCode
+                allServers.asSequence().filter {
+                    it.isSecureCoreServer == isSecureCore &&
+                    it.satisfiesFeatures(features) &&
+                    it.exitCountry != excludedCountry
+                }
             },
             onFastestInGroup = { servers -> servers.sortedBy { it.score }.asSequence() },
             onServer = { sequenceOf(it) },

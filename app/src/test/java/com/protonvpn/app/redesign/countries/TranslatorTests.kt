@@ -21,13 +21,11 @@ package com.protonvpn.app.redesign.countries
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.protonvpn.android.redesign.countries.Translator
-import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestDispatcherProvider
-import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -55,18 +53,12 @@ class TranslatorTests {
         val dispatcher = UnconfinedTestDispatcher()
         testScope = TestScope(dispatcher)
 
-        val serversDataManager = ServersDataManager(
-            testScope.backgroundScope,
+        serverManager = createInMemoryServerManager(
+            testScope,
             TestDispatcherProvider(dispatcher),
-            createInMemoryServersStore(),
-            { createIsImmutableServerListEnabled(true) }
-        )
-        serverManager = ServerManager(
-            testScope.backgroundScope,
-            mockk(),
-            { 0 },
-            mockk(relaxed = true),
-            serversDataManager,
+            supportsProtocol = mockk(relaxed = true),
+            currentUser = mockk(),
+            emptyList()
         )
     }
 

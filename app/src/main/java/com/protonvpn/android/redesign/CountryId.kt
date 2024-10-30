@@ -23,6 +23,8 @@ import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
 
+private const val FASTEST_EXCLUDING_MY_COUNTRY = "FASTEST_EXCLUDING_MY_COUNTRY"
+
 // TODO: this class should replace raw String used for representing the country code including the logic
 //  for converting GB to UK that we have in several places.
 @Immutable
@@ -31,10 +33,14 @@ import kotlinx.parcelize.Parcelize
 value class CountryId private constructor(val countryCode: String) : Parcelable {
 
     val isFastest: Boolean
-        get() = countryCode == ""
+        get() = countryCode == "" || countryCode == FASTEST_EXCLUDING_MY_COUNTRY
+
+    val isFastestExcludingMyCountry: Boolean
+        get() = countryCode == FASTEST_EXCLUDING_MY_COUNTRY
 
     companion object {
         val fastest = CountryId("")
+        val fastestExcludingMyCountry = CountryId(FASTEST_EXCLUDING_MY_COUNTRY)
 
         // Constants for countries that are compared in code.
         val iceland = invoke("is")

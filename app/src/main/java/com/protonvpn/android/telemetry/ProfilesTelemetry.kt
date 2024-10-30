@@ -19,15 +19,12 @@
 
 package com.protonvpn.android.telemetry
 
-import com.protonvpn.android.models.config.TransmissionProtocol
-import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.ui.SettingsScreenState
 import com.protonvpn.android.profiles.ui.TypeAndLocationScreenState
-import com.protonvpn.android.redesign.settings.ui.NatType
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.utils.DebugUtils
-import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.Reusable
 import javax.inject.Inject
 
@@ -112,22 +109,18 @@ class ProfilesTelemetry @Inject constructor(
         putDimensions(NO_VALUE, Dimen.Country, Dimen.EntryCountry, Dimen.CityOrState, Dimen.Server, Dimen.Gateway)
         when (typeAndLocation) {
             is TypeAndLocationScreenState.StandardWithFeatures -> {
-                putDimensions(fastestElseSpecific(typeAndLocation.country.id.isFastest), Dimen.Country)
-                val cityOrState = typeAndLocation.cityOrState?.let { fastestElseSpecific(it.id.isFastest) } ?: NO_VALUE
-                putDimensions(cityOrState, Dimen.CityOrState)
-                val server = typeAndLocation.server?.let { fastestElseSpecific(it.isFastest) } ?: NO_VALUE
-                putDimensions(server, Dimen.Server)
+                putDimensions(typeAndLocation.country.toTelemetry(), Dimen.Country)
+                putDimensions(typeAndLocation.cityOrState.toTelemetry(), Dimen.CityOrState)
+                putDimensions(typeAndLocation.server.toTelemetry(), Dimen.Server)
                 putDimensions(NO_VALUE, Dimen.Gateway)
             }
             is TypeAndLocationScreenState.SecureCore -> {
-                putDimensions(fastestElseSpecific(typeAndLocation.exitCountry.id.isFastest), Dimen.Country)
-                val entryCountry =
-                    typeAndLocation.entryCountry?.let { fastestElseSpecific(it.id.isFastest) } ?: NO_VALUE
-                putDimensions(entryCountry, Dimen.EntryCountry)
+                putDimensions(typeAndLocation.exitCountry.toTelemetry(), Dimen.Country)
+                putDimensions(typeAndLocation.entryCountry.toTelemetry(), Dimen.EntryCountry)
             }
             is TypeAndLocationScreenState.Gateway -> {
                 putDimensions(SPECIFIC, Dimen.Gateway)
-                putDimensions(fastestElseSpecific(typeAndLocation.server.isFastest), Dimen.Server)
+                putDimensions(typeAndLocation.server.toTelemetry(), Dimen.Server)
             }
         }
 
@@ -138,8 +131,6 @@ class ProfilesTelemetry @Inject constructor(
     }
 
     private fun Boolean.toOnOff() = if (this) ON else OFF
-
-    private fun fastestElseSpecific(isFastest: Boolean) = if (isFastest) FASTEST else SPECIFIC
 
     private fun userProfileType(isUserProfile: Boolean) = if (isUserProfile) "user_created" else "pre_made"
 
@@ -153,9 +144,29 @@ class ProfilesTelemetry @Inject constructor(
         }
     }
 
+    private fun TypeAndLocationScreenState.CountryItem?.toTelemetry() = when {
+        this == null -> NO_VALUE
+        id == CountryId.fastest -> FASTEST
+        id == CountryId.fastestExcludingMyCountry -> FASTEST_EXCLUDING_MINE
+        else -> SPECIFIC
+    }
+
+    private fun TypeAndLocationScreenState.ServerItem?.toTelemetry() = when {
+        this == null -> NO_VALUE
+        isFastest -> FASTEST
+        else -> SPECIFIC
+    }
+
+    private fun TypeAndLocationScreenState.CityOrStateItem?.toTelemetry() = when {
+        this == null -> NO_VALUE
+        id.isFastest -> FASTEST
+        else -> SPECIFIC
+    }
+
     companion object {
         // Use constants for common strings to avoid typos.
         private const val FASTEST = "fastest"
+        private const val FASTEST_EXCLUDING_MINE = "fastest_excluding_mine"
         private const val SPECIFIC = "specific"
         private const val ON = "on"
         private const val OFF = "off"

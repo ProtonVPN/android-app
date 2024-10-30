@@ -147,6 +147,15 @@ class ProfilesTelemetryTests {
             expectedCountry = "fastest",
         )
 
+        val dimensionsFastestExcludingMy = reportEventAndGetDimensions(
+            createStandardTypeAndLocation(CountryId.fastestExcludingMyCountry, null, null)
+        )
+        assertConnectionDimensions(
+            dimensionsFastestExcludingMy,
+            type = "standard",
+            expectedCountry = "fastest_excluding_mine",
+        )
+
         val dimensionsFastestCity = reportEventAndGetDimensions(
             createStandardTypeAndLocation(CountryId.iceland, CityStateId.fastestCity, null)
         )
@@ -199,6 +208,11 @@ class ProfilesTelemetryTests {
             createSecureCoreTypeAndLocation(CountryId.fastest, null)
         )
         assertConnectionDimensions(dimensionsFastest, type = "secure_core", expectedCountry = "fastest")
+
+        val dimensionsFastestExcludingMy = reportEventAndGetDimensions(
+            createSecureCoreTypeAndLocation(CountryId.fastestExcludingMyCountry, null)
+        )
+        assertConnectionDimensions(dimensionsFastestExcludingMy, type = "secure_core", expectedCountry = "fastest_excluding_mine")
 
         val dimensionsSwedenFastest = reportEventAndGetDimensions(
             createSecureCoreTypeAndLocation(CountryId.fastest, CountryId.fastest)
