@@ -1,0 +1,17 @@
+[extend]
+path = "/etc/gitleaks/proton.toml"
+
+[allowlist]
+paths = [
+    # OpenVPN test data
+    '''^openvpn/src/main/cpp/asio/asio/src/examples/(.*)''',
+    '''^openvpn/src/main/cpp/openvpn/doc/(.*)''',
+    '''^openvpn/src/main/cpp/openvpn/sample/(.*)''',
+    '''^openvpn/src/main/cpp/openvpn/tests/(.*)''',
+    '''^openvpn/src/test/(.*)''',
+    '''^openvpn/src/main/cpp/openvpn3/doc/(.*)''',
+    '''^openvpn/src/main/cpp/openvpn3/test/(.*)''',
+    # OpenSSL and mbedtls - never modified by us.
+    '''^openvpn/src/main/cpp/openssl/(.*)$''',
+    '''^openvpn/src/main/cpp/mbedtls/(.*)''',
+]
