@@ -101,6 +101,21 @@ class PopulateInitialProfiles @Inject constructor(
                     )
                 ).toData(),
             ),
+            ProfileEntity(
+                userId = userId,
+                name = resources.getString(R.string.initial_profile_name_anti_censorship),
+                color = ProfileColor.Color1,
+                icon = ProfileIcon.Icon5,
+                createdAt = now,
+                isUserCreated = false,
+                connectIntentData = ConnectIntent.FastestInCountry(
+                    CountryId.fastestExcludingMyCountry,
+                    emptySet(),
+                    settingsOverrides = profileSettingsOverrides(
+                        ProtocolSelection.STEALTH.toData(),
+                    )
+                ).toData(),
+            ),
         )
     }
 }
