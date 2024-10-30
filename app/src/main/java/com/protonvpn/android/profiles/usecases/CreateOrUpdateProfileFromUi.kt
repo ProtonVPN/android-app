@@ -48,29 +48,36 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
 
     operator fun invoke(
         profileId: Long?,
-        creationTime: Long?,
+        createdAt: Long?,
         nameScreen: NameScreenState,
         typeAndLocationScreen: TypeAndLocationScreenState,
         settingsScreen: SettingsScreenState,
+        createDuplicate: Boolean = false,
     ) {
         mainScope.launch {
             currentUser.vpnUser()?.userId?.let { userId ->
                 val existingProfile = if (profileId == null) null else profilesDao.getProfileById(profileId)
-                val isUserCreated = isUserCreated(existingProfile, nameScreen, typeAndLocationScreen, settingsScreen)
+                val isUserCreated =
+                    createDuplicate || isUserCreated(existingProfile, nameScreen, typeAndLocationScreen, settingsScreen)
                 val profile = createProfile(
                     userId,
-                    profileId,
+                    profileId.takeUnless { createDuplicate },
                     isUserCreated,
-                    creationTime,
+                    createdAt,
                     nameScreen,
                     typeAndLocationScreen,
                     settingsScreen
                 )
                 profilesDao.upsert(profile.toProfileEntity())
-                if (existingProfile == null) {
+                if (existingProfile == null || createDuplicate) {
                     // Profile count should include the new profile.
                     val profileCount = profilesDao.getProfileCount(userId)
-                    telemetry.profileCreated(typeAndLocationScreen, settingsScreen, profileCount)
+                    if (createDuplicate && existingProfile != null) {
+                        val isSourceUserCreated = existingProfile.info.isUserCreated
+                        telemetry.profileDuplicated(typeAndLocationScreen, settingsScreen, isSourceUserCreated, profileCount)
+                    } else {
+                        telemetry.profileCreated(typeAndLocationScreen, settingsScreen, profileCount)
+                    }
                 } else {
                     telemetry.profileUpdated(typeAndLocationScreen, settingsScreen, existingProfile)
                 }

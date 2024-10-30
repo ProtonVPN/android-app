@@ -51,7 +51,6 @@ import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.settings.ui.NatType
-import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
@@ -66,6 +65,7 @@ fun ProfileBottomSheet(
     profile: ProfileViewItem?,
     onClose: () -> Unit,
     onProfileEdit: (ProfileViewItem) -> Unit,
+    onProfileDuplicate: (ProfileViewItem) -> Unit,
     onProfileDelete: (ProfileViewItem) -> Unit,
 ) {
     if (profile != null) {
@@ -76,6 +76,10 @@ fun ProfileBottomSheet(
                     onProfileEdit = { profile ->
                         onClose()
                         onProfileEdit(profile)
+                    },
+                    onProfileDuplicate = { profile ->
+                        onClose()
+                        onProfileDuplicate(profile)
                     },
                     onProfileDelete
                 )
@@ -89,6 +93,7 @@ fun ProfileBottomSheet(
 private fun ProfileSheetContent(
     profile: ProfileViewItem,
     onProfileEdit: (ProfileViewItem) -> Unit,
+    onProfileDuplicate: (ProfileViewItem) -> Unit,
     onProfileDelete: (ProfileViewItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -133,6 +138,11 @@ private fun ProfileSheetContent(
             CoreR.drawable.ic_proton_pencil,
             R.string.profile_action_edit,
             { onProfileEdit(profile) }
+        )
+        BottomSheetAction(
+            CoreR.drawable.ic_proton_folders,
+            R.string.profile_action_duplicate,
+            { onProfileDuplicate(profile) }
         )
         BottomSheetAction(
             CoreR.drawable.ic_proton_trash,
@@ -232,6 +242,7 @@ private fun ProfileBottomSheetPreview() {
                 natType = NatType.Strict,
                 lanConnections = true,
             ),
+            {},
             {},
             {},
             Modifier

@@ -149,8 +149,11 @@ class MainNav(
                     MainTarget.Profiles ->
                         profiles(
                             onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
-                            onNavigateToAddNew = { profileId ->
-                                rootNav.navigate(AddEditProfileScreen, AddEditProfileScreen.ProfileCreationArgs(profileId))
+                            onNavigateToAddEdit = { profileId, duplicate ->
+                                rootNav.navigate(
+                                    AddEditProfileScreen,
+                                    AddEditProfileScreen.ProfileCreationArgs(profileId, duplicate)
+                                )
                             }
                         )
 

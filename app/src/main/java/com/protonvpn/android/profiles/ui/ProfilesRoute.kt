@@ -45,7 +45,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfilesRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
-    onNavigateToAddEdit: (Long?) -> Unit,
+    onNavigateToAddEdit: (profileId: Long?, duplicate: Boolean) -> Unit,
 ) {
     val viewModel : ProfilesViewModel = hiltViewModel()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -66,7 +66,7 @@ fun ProfilesRoute(
                 onSelect = { profile ->
                     viewModel.onSelect(profile)
                 },
-                onAddNew = { onNavigateToAddEdit(null) },
+                onAddNew = { onNavigateToAddEdit(null, false) },
                 snackbarHostState = snackbarHostState,
             )
         }
@@ -78,7 +78,8 @@ fun ProfilesRoute(
             ProfileBottomSheet(
                 profile = selectedProfile,
                 onClose = viewModel::onProfileClose,
-                onProfileEdit = { onNavigateToAddEdit(it.profile.id)},
+                onProfileEdit = { onNavigateToAddEdit(it.profile.id, false) },
+                onProfileDuplicate = { onNavigateToAddEdit(it.profile.id, true) },
                 onProfileDelete = {
                     // SnackbarDuration.Short is 4s, let's use a slightly longer value on the delete operation.
                     val undoOperation = viewModel.onProfileDelete(it, undoDurationMs = 5000L)

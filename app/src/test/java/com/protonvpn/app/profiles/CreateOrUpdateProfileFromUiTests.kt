@@ -186,6 +186,29 @@ class CreateOrUpdateProfileFromUiTests {
     }
 
     @Test
+    fun `creating a duplicate inserts a new profile item`() = testScope.runTest {
+        profilesDao.upsert(testProfile.toProfileEntity())
+
+        val newNameScreenState = nameScreenState.copy(name = "Profile duplicate")
+        createOrUpdate(
+            testProfile.info.id,
+            testProfile.info.createdAt,
+            newNameScreenState,
+            typeAndLocationScreenState,
+            settingsScreenState,
+            createDuplicate = true,
+        )
+        runCurrent()
+        val profiles = profilesDao.getProfiles(vpnUser.userId).first()
+        assertEquals(2, profiles.size)
+        assertEquals(testProfile, profiles.find { it.info.id == testProfile.info.id} )
+        val newProfile = profiles.find { it.info.id != testProfile.info.id }
+        assertEquals("Profile duplicate", newProfile?.info?.name)
+
+        assertEquals(listOf("profile_duplicated"), testTelemetry.collectedEvents.map { it.eventName })
+    }
+
+    @Test
     fun `adding new profile generates telemetry event profile_created`() = testScope.runTest {
         val otherProfileEntity = with(testProfile.toProfileEntity()) {
             copy(connectIntentData = connectIntentData.copy(profileId = 2L))

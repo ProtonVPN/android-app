@@ -66,6 +66,23 @@ class ProfilesTelemetry @Inject constructor(
         }
     }
 
+    fun profileDuplicated(
+        typeAndLocationScreen: TypeAndLocationScreenState,
+        settingsScreen: SettingsScreenState,
+        isSourceProfileUserCreated: Boolean,
+        profileCount: Int
+    ) {
+        telemetry.event {
+            val dimensions: Map<String, String> = buildMap {
+                commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
+                putDimensions(profileCountBucket(profileCount), Dimen.ProfileCount)
+                putDimensions(userProfileType(isSourceProfileUserCreated), Dimen.SourceProfileType)
+                putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen))
+            }
+            TelemetryEventData(MEASUREMENT_GROUP, "profile_duplicated", dimensions = dimensions)
+        }
+    }
+
     fun profileUpdated(
         typeAndLocationScreen: TypeAndLocationScreenState,
         settingsScreen: SettingsScreenState,
