@@ -45,7 +45,6 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.telemetry.CommonDimensions
@@ -84,6 +83,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.mocks.MockVpnBackend
+import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
@@ -91,8 +91,6 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
-import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -112,7 +110,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -293,24 +290,13 @@ class VpnConnectionTests {
             mockConnectionTelemetrySentryDebugEnabled,
         ).apply { start() }
 
-        val serversData = ServersDataManager(
-            bgScope,
+        serverManager = createInMemoryServerManager(
+            scope,
             testDispatcherProvider,
-            createInMemoryServersStore(),
-            { createIsImmutableServerListEnabled(true) }
-        )
-        serverManager = ServerManager(
-            scope.backgroundScope,
-            currentUser,
-            clock,
             supportsProtocol,
-            serversData,
-        )
-        runBlocking {
-            serverManager.setServers(MockedServers.serverList, null)
-        }
-        serverManager.setBuiltInGuestHoleServersForTesting(
-            MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
+            currentUser,
+            MockedServers.serverList,
+            builtInGuestHoles = MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
 

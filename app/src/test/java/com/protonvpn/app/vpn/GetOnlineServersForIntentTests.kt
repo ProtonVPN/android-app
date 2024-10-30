@@ -36,6 +36,7 @@ import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.GetOnlineServersForIntent
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
@@ -92,12 +93,15 @@ class GetOnlineServersForIntentTests {
         )
 
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
-        serverManager = createInMemoryServerManager(
-            testScope,
-            TestDispatcherProvider(testDispatcher),
-            supportsProtocol,
-            CurrentUser(TestCurrentUserProvider(TestUser.freeUser.vpnUser)),
-            servers
+        serverManager = ServerManager2(
+            createInMemoryServerManager(
+                testScope,
+                TestDispatcherProvider(testDispatcher),
+                supportsProtocol,
+                CurrentUser(TestCurrentUserProvider(TestUser.freeUser.vpnUser)),
+                servers
+            ),
+            supportsProtocol
         )
         getOnlineServersForIntent = GetOnlineServersForIntent(serverManager, supportsProtocol)
     }

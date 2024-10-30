@@ -47,7 +47,6 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.CountryTools
@@ -57,13 +56,12 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
-import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -153,23 +151,14 @@ class RecentsListViewStateFlowTests {
 
         mockkObject(CountryTools)
         every { CountryTools.getPreferredLocale() } returns Locale.US
-        val serversDataManager = ServersDataManager(
-            bgScope,
+        serverManager = createInMemoryServerManager(
+            testScope,
             TestDispatcherProvider(testDispatcher),
-            createInMemoryServersStore(),
-            { createIsImmutableServerListEnabled(true) }
-        )
-        serverManager = ServerManager(
-            bgScope,
-            currentUser,
-            clock,
             supportsProtocol,
-            serversDataManager,
+            currentUser,
+            listOf(serverCh, serverIs, serverSe, serverSecureCore)
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
-        runBlocking {
-            serverManager.setServers(listOf(serverCh, serverIs, serverSe, serverSecureCore), null)
-        }
         val getIntentAvailability = GetIntentAvailability(serverManager2, supportsProtocol)
         val translator = Translator(testScope.backgroundScope, serverManager)
         profiles = mutableMapOf<Long, Profile>()

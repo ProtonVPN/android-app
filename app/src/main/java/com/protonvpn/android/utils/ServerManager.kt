@@ -35,11 +35,13 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.satisfiesFeatures
 import com.protonvpn.android.servers.ServersDataManager
+import com.protonvpn.android.ui.home.GetUserCountry
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,6 +63,7 @@ class ServerManager @Inject constructor(
     @Transient @WallClock private val wallClock: () -> Long,
     @Transient val supportsProtocol: SupportsProtocol,
     @Transient val serversData: ServersDataManager,
+    @Transient val getUserCountry: GetUserCountry,
 ) : Serializable {
 
     private var serverListAppVersionCode = 0
@@ -237,7 +240,14 @@ class ServerManager @Inject constructor(
     fun getVpnExitCountry(countryCode: String, secureCoreCountry: Boolean): VpnCountry? =
         getExitCountries(secureCoreCountry).firstOrNull { it.flag == countryCode }
 
-    fun getBestScoreServer(secureCore: Boolean, serverFeatures: Set<ServerFeature>, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? {
+    fun getBestScoreServer(
+        secureCore: Boolean,
+        serverFeatures: Set<ServerFeature>,
+        vpnUser: VpnUser?,
+        protocol: ProtocolSelection,
+        excludedCountryId: CountryId? = null
+    ): Server? {
+        val excludedCountry = excludedCountryId?.countryCode
         val eligibleServers = serversData.allServersByScore.asSequence()
             .filter {
                 it.online
@@ -245,6 +255,7 @@ class ServerManager @Inject constructor(
                     && it.isSecureCoreServer == secureCore
                     && it.satisfiesFeatures(serverFeatures)
                     && !it.isGatewayServer
+                    && it.exitCountry != excludedCountry
             }
         return with(eligibleServers) { firstOrNull { vpnUser.hasAccessToServer(it) } ?: firstOrNull() }
     }
@@ -303,7 +314,9 @@ class ServerManager @Inject constructor(
     fun getBestServerForConnectIntent(connectIntent: AnyConnectIntent, vpnUser: VpnUser?, protocol: ProtocolSelection): Server? =
         forConnectIntent(
             connectIntent,
-            onFastest = { isSecureCore, serverFeatures -> getBestScoreServer(isSecureCore, serverFeatures, vpnUser, protocol) },
+            onFastest = { isSecureCore, serverFeatures, excludedCountry ->
+                getBestScoreServer(isSecureCore, serverFeatures, vpnUser, protocol, excludedCountry)
+            },
             onFastestInGroup = { servers -> getBestScoreServer(servers, vpnUser, protocol) },
             onServer = { server -> server },
             fallbackResult = null
@@ -318,7 +331,7 @@ class ServerManager @Inject constructor(
      */
     fun <T> forConnectIntent(
         connectIntent: AnyConnectIntent,
-        onFastest: (isSecureCore: Boolean, serverFeatures: Set<ServerFeature>) -> T,
+        onFastest: (isSecureCore: Boolean, serverFeatures: Set<ServerFeature>, excludedCountryId: CountryId?) -> T,
         onFastestInGroup: (List<Server>) -> T,
         onServer: (Server) -> T,
         fallbackResult: T
@@ -329,7 +342,8 @@ class ServerManager @Inject constructor(
         return when (connectIntent) {
             is ConnectIntent.FastestInCountry ->
                 if (connectIntent.country.isFastest) {
-                    onFastest(false, connectIntent.features)
+                    val excludedCountry = if (connectIntent.country.isFastestExcludingMyCountry) getUserCountry() else null
+                    onFastest(false, connectIntent.features, excludedCountry)
                 } else {
                     getVpnExitCountry(
                         connectIntent.country.countryCode,
@@ -355,7 +369,8 @@ class ServerManager @Inject constructor(
 
             is ConnectIntent.SecureCore ->
                 if (connectIntent.exitCountry.isFastest) {
-                    onFastest(true, connectIntent.features)
+                    val excludedCountry = if (connectIntent.exitCountry.isFastestExcludingMyCountry) getUserCountry() else null
+                    onFastest(true, connectIntent.features, excludedCountry)
                 } else {
                     val exitCountry = getVpnExitCountry(connectIntent.exitCountry.countryCode, true)
                     if (connectIntent.entryCountry.isFastest) {

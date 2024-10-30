@@ -332,13 +332,18 @@ class CreateEditProfileViewModel @Inject constructor(
         val countries = adapter.countries(serverFeature)
         val haveOnlineCountry = countries.any { it.online }
         val fastestCountry = TypeAndLocationScreenState.CountryItem(CountryId.fastest, haveOnlineCountry)
+        val fastestCountryExcludingMyCountry = TypeAndLocationScreenState.CountryItem(CountryId.fastestExcludingMyCountry, haveOnlineCountry)
 
         // Fallback to fastest if country not longer available
-        val selectedCountry = countries.find { it.id == requestedCountryId } ?: fastestCountry
+        val selectedCountry = when (requestedCountryId) {
+            CountryId.fastest -> fastestCountry
+            CountryId.fastestExcludingMyCountry -> fastestCountryExcludingMyCountry
+            else  -> countries.find { it.id == requestedCountryId } ?: fastestCountry
+        }
 
         val countryNames = countries.associateWith { country -> CountryTools.getFullName(locale, country.id.countryCode) }
         val sortedCountries = countries.sortedByLocaleAware(locale) { countryNames[it] ?: "" }
-        val selectableCountries = listOf(fastestCountry) + sortedCountries
+        val selectableCountries = listOf(fastestCountry, fastestCountryExcludingMyCountry) + sortedCountries
 
         return selectedCountry to selectableCountries
     }
@@ -416,7 +421,12 @@ class CreateEditProfileViewModel @Inject constructor(
     ): TypeAndLocationScreenState.SecureCore {
         val availableExits = adapter.secureCoreExits()
         val fastestExit = TypeAndLocationScreenState.CountryItem(CountryId.fastest, availableExits.any { it.online })
-        val exitCountry = availableExits.find { it.id == requestedExitCountry } ?: fastestExit
+        val fastestExitExcludingMyCountry = TypeAndLocationScreenState.CountryItem(CountryId.fastestExcludingMyCountry, availableExits.any { it.online })
+        val exitCountry = when (requestedExitCountry) {
+            CountryId.fastest -> fastestExit
+            CountryId.fastestExcludingMyCountry -> fastestExitExcludingMyCountry
+            else -> availableExits.find { it.id == requestedExitCountry } ?: fastestExit
+        }
 
         val availableEntries = adapter.secureCoreEntries(exitCountry.id)
         val fastestEntry = TypeAndLocationScreenState.CountryItem(CountryId.fastest, availableEntries.any { it.online })
@@ -426,7 +436,7 @@ class CreateEditProfileViewModel @Inject constructor(
             availableEntries.find { it.id == requestedEntryCountry } ?: fastestEntry
 
         val sortedExits = availableExits.sortedByLocaleAware(locale) { CountryTools.getFullName(locale, it.id.countryCode) }
-        val selectableExits = listOf(fastestExit) + sortedExits
+        val selectableExits = listOf(fastestExit, fastestExitExcludingMyCountry) + sortedExits
 
         val sortedEntries = availableEntries.sortedByLocaleAware(locale) { CountryTools.getFullName(locale, it.id.countryCode) }
         val selectableEntries = listOf(fastestEntry) + sortedEntries

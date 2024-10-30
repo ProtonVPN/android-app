@@ -17,40 +17,53 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.app.vpn
+package com.protonvpn.mocks
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.ServersDataManager
+import com.protonvpn.android.ui.home.GetUserCountry
+import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.createInMemoryServersStore
 import com.protonvpn.test.shared.createIsImmutableServerListEnabled
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.currentTime
+import kotlinx.coroutines.test.runCurrent
 
 fun createInMemoryServerManager(
     testScope: TestScope,
     testDispatcherProvider: TestDispatcherProvider,
     supportsProtocol: SupportsProtocol,
     currentUser: CurrentUser,
-    initialServers: List<Server>
-): ServerManager2 {
+    initialServers: List<Server>,
+    builtInGuestHoles: List<Server> = emptyList(),
+    immutableServerList: Boolean = true,
+): ServerManager {
     val serverStore = createInMemoryServersStore(initialServers)
     val serversDataManager = ServersDataManager(
         testScope.backgroundScope,
         testDispatcherProvider,
         serverStore
-    ) { createIsImmutableServerListEnabled(true) }
+    ) { createIsImmutableServerListEnabled(immutableServerList) }
+    val getUserCountry = GetUserCountry(ServerListUpdaterPrefs(MockSharedPreferencesProvider()))
     val serverManager = ServerManager(
         testScope.backgroundScope,
         currentUser,
         testScope::currentTime,
         supportsProtocol,
-        serversDataManager
+        serversDataManager,
+        getUserCountry,
     )
-    serverManager.setBuiltInGuestHoleServersForTesting(emptyList())
-    return ServerManager2(serverManager, supportsProtocol)
+    testScope.launch {
+        serverManager.setServers(initialServers, "en")
+    }
+    testScope.runCurrent()
+    serverManager.setBuiltInGuestHoleServersForTesting(builtInGuestHoles)
+    return serverManager
 }

@@ -36,18 +36,16 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
-import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.mockVpnUser
 import io.mockk.MockKAnnotations
@@ -56,7 +54,6 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -288,22 +285,14 @@ class ServerManagerTests {
         supportedSmartProtocols: List<ProtocolSelection> = ProtocolSelection.REAL_PROTOCOLS
     ) {
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols(supportedSmartProtocols))
-        manager = ServerManager(
-            backgroundScope,
-            currentUser,
-            { 0L },
+        manager = createInMemoryServerManager(
+            this,
+            testDispatcherProvider,
             supportsProtocol,
-            ServersDataManager(
-                backgroundScope,
-                testDispatcherProvider,
-                createInMemoryServersStore(),
-                { createIsImmutableServerListEnabled(immutableServerList) }
-            ),
+            currentUser,
+            servers,
+            immutableServerList = immutableServerList
         )
-
-        runBlocking {
-            manager.setServers(servers, null)
-        }
         serverManager2 = ServerManager2(manager, supportsProtocol)
     }
 

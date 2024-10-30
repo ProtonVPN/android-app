@@ -35,20 +35,17 @@ import com.protonvpn.android.redesign.recents.data.toConnectIntent
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.ServerManager
+import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
-import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createProfileEntity
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.testsHelper.AccountTestHelper
 import com.protonvpn.testsHelper.IdlingResourceDispatcher
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.asExecutor
@@ -118,21 +115,15 @@ class RecentsListValidatorTests {
             accountManager.addAccount(AccountTestHelper.TestAccount2, AccountTestHelper.TestSession2)
         }
 
-        val serversDataManager = ServersDataManager(
-            testScope.backgroundScope,
-            TestDispatcherProvider(testDispatcher),
-            createInMemoryServersStore(),
-            { createIsImmutableServerListEnabled(true) }
-        )
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         recentsDao = db.recentsDao()
         profilesDao = db.profilesDao()
-        serverManager = ServerManager(
-            testScope.backgroundScope,
-            currentUser = mockk(relaxed = true),
-            wallClock = { 0 },
-            supportsProtocol = supportsProtocol,
-            serversDataManager,
+        serverManager = createInMemoryServerManager(
+            testScope,
+            TestDispatcherProvider(testDispatcher),
+            supportsProtocol,
+            currentUser,
+            emptyList()
         )
         serverManager2 = ServerManager2(serverManager, supportsProtocol)
     }

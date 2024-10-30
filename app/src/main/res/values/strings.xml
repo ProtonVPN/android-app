@@ -814,6 +814,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Fastest country</string>
+    <string name="fastest_country_excluding_my_country">Fastest country (excluding my country)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Fastest free server</string>
     <!-- tag(Redesign_2023)

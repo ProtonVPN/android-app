@@ -27,6 +27,7 @@ import com.protonvpn.android.models.vpn.GatewayGroup
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.utils.ServerManager
@@ -114,7 +115,7 @@ class ServerManager2 @Inject constructor(
      */
     suspend fun <T> forConnectIntent(
         connectIntent: AnyConnectIntent,
-        onFastest: (isSecureCore: Boolean, serverFeatures: Set<ServerFeature>) -> T,
+        onFastest: (isSecureCore: Boolean, serverFeatures: Set<ServerFeature>, excludeCountry: CountryId?) -> T,
         onFastestInGroup: (List<Server>) -> T,
         onServer: (Server) -> T,
         fallbackResult: T

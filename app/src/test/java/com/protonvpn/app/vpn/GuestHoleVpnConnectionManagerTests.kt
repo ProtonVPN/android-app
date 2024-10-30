@@ -37,7 +37,6 @@ import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
-import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
@@ -54,6 +53,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.mocks.FakeVpnPermissionDelegate
 import com.protonvpn.mocks.FakeVpnUiDelegate
 import com.protonvpn.mocks.TestProtonLogger
+import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.MockNetworkManager
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
@@ -61,8 +61,6 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
-import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import com.protonvpn.test.shared.createServer
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -132,13 +130,13 @@ class GuestHoleVpnConnectionManagerTests {
         every { mockVpnErrorHandler.switchConnectionFlow } returns MutableSharedFlow()
 
         val networkManager = MockNetworkManager()
-        val serversDataManager = ServersDataManager(
-            bgScope,
+        serverManager = createInMemoryServerManager(
+            testScope,
             TestDispatcherProvider(testDispatcher),
-            createInMemoryServersStore(),
-            { createIsImmutableServerListEnabled(true) }
+            supportsProtocol,
+            currentUser,
+            emptyList()
         )
-        serverManager = ServerManager(bgScope, currentUser, clock, supportsProtocol, serversDataManager)
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         val fakeVpnPermissionDelegate = FakeVpnPermissionDelegate()
 

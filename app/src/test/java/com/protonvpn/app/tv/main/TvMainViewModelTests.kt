@@ -33,7 +33,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ConnectIntent
-import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsFlow
@@ -51,14 +50,13 @@ import com.protonvpn.android.vpn.RecentsManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
-import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -136,22 +134,14 @@ class TvMainViewModelTests {
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols())
         profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, userSettingsCached, userSettingsManager)
-        val serversDataManager = ServersDataManager(
-            bgScope,
+
+        serverManager = createInMemoryServerManager(
+            testScope,
             TestDispatcherProvider(testDispatcher),
-            createInMemoryServersStore(),
-            { createIsImmutableServerListEnabled(true) }
-        )
-        serverManager = ServerManager(
-            mainScope = TestScope(UnconfinedTestDispatcher()).backgroundScope, // Don't care about full initialization.
-            mockCurrentUser,
-            { 0 },
             supportsProtocol,
-            serversDataManager,
+            mockCurrentUser,
+            MockedServers.serverList,
         )
-        runBlocking {
-            serverManager.setServers(MockedServers.serverList, "us")
-        }
 
         setupStrings(mockContext)
         mockkObject(CountryTools)

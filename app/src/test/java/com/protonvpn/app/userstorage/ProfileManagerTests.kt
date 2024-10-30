@@ -26,7 +26,6 @@ import com.protonvpn.android.models.profiles.ProfileColor
 import com.protonvpn.android.models.profiles.SavedProfilesV3
 import com.protonvpn.android.models.profiles.ServerWrapper
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
-import com.protonvpn.android.servers.ServersDataManager
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -34,14 +33,13 @@ import com.protonvpn.android.settings.data.LocalUserSettingsStoreProvider
 import com.protonvpn.android.userstorage.ProfileManager
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
-import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createIsImmutableServerListEnabled
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -81,20 +79,14 @@ class ProfileManagerTests {
             CurrentUserLocalSettingsManager(LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()))
 
         val bgScope = testScope.backgroundScope
-        val serversDataManager = ServersDataManager(
-            bgScope,
-            TestDispatcherProvider(testDispatcher),
-            createInMemoryServersStore(),
-            { createIsImmutableServerListEnabled(true) }
-        )
         profileManager =
             ProfileManager(SavedProfilesV3.defaultProfiles(), bgScope, currentUserSettings, settingsManager)
-        serverManager = ServerManager(
-            bgScope,
-            currentUser,
-            { 0 },
+        serverManager = createInMemoryServerManager(
+            testScope,
+            TestDispatcherProvider(testDispatcher),
             SupportsProtocol(createGetSmartProtocols()),
-            serversDataManager,
+            currentUser,
+            emptyList()
         )
     }
 

@@ -407,10 +407,10 @@ private fun ConnectIntentSecondaryLabel.contentDescription(): String? = when (th
 
 @Composable
 fun CountryId.label(): String =
-    if (isFastest) {
-        stringResource(R.string.fastest_country)
-    } else {
-        CountryTools.getFullName(LocalConfiguration.current.currentLocale(), countryCode)
+    when(this) {
+        CountryId.fastestExcludingMyCountry -> stringResource(R.string.fastest_country_excluding_my_country)
+        CountryId.fastest -> stringResource(R.string.fastest_country)
+        else -> CountryTools.getFullName(LocalConfiguration.current.currentLocale(), countryCode)
     }
 
 @Composable
