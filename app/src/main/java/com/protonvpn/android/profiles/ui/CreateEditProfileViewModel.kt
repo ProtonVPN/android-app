@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.profiles.ui
 
+import android.content.Context
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -43,6 +44,7 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -189,12 +191,14 @@ private const val SETTINGS_SCREEN_STATE_KEY = "settingsScreenState"
 @HiltViewModel
 class CreateEditProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    @ApplicationContext private val appContext: Context,
     private val profilesDao: ProfilesDao,
     private val createOrUpdateProfile: CreateOrUpdateProfileFromUi,
     private val adapter: ProfilesServerDataAdapter,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
+    private var duplicatedProfileId: Long? = null
     private var editedProfileCreatedAt by savedStateHandle.state<Long?>(null)
 
     private var nameScreenState by savedStateHandle.state<NameScreenState?>(null, NAME_SCREEN_STATE_KEY)
@@ -241,14 +245,22 @@ class CreateEditProfileViewModel @Inject constructor(
         }
     }
 
-    fun setEditedProfileId(profileId: Long?) {
-        editedProfileId = profileId
+    fun setEditedProfileId(profileId: Long?, duplicateProfile: Boolean) {
+        if (duplicateProfile) {
+            duplicatedProfileId = profileId
+        } else {
+            editedProfileId = profileId
+        }
+        setInitialState(profileId, duplicateProfile)
+    }
+
+    private fun setInitialState(profileId: Long?, isDuplicate: Boolean) {
         viewModelScope.launch {
             val hasRestoreState = nameScreenState != null
             if (!hasRestoreState) {
                 if (profileId != null) {
                     profilesDao.getProfileById(profileId)?.let {
-                        initializeFromProfile(it)
+                        initializeFromProfile(it, isDuplicate)
                     }
                 } else {
                     initializeDefault()
@@ -260,11 +272,12 @@ class CreateEditProfileViewModel @Inject constructor(
     fun save() {
         viewModelScope.launch {
             createOrUpdateProfile(
-                editedProfileId,
-                editedProfileCreatedAt,
-                requireNotNull(nameScreenState),
-                typeAndLocationScreenStateFlow.first(),
-                requireNotNull(settingsScreenState)
+                profileId = editedProfileId ?: duplicatedProfileId,
+                createdAt = editedProfileCreatedAt,
+                createDuplicate = duplicatedProfileId != null,
+                nameScreen = requireNotNull(nameScreenState),
+                typeAndLocationScreen = typeAndLocationScreenStateFlow.first(),
+                settingsScreen = requireNotNull(settingsScreenState)
             )
         }
     }
@@ -279,10 +292,14 @@ class CreateEditProfileViewModel @Inject constructor(
         settingsScreenState = defaultSettingScreenState
     }
 
-    private suspend fun initializeFromProfile(profile: Profile) {
+    private suspend fun initializeFromProfile(profile: Profile, isDuplicate: Boolean) {
         editedProfileCreatedAt = profile.info.createdAt
+        val name = when {
+            isDuplicate -> appContext.resources.getString(R.string.create_profile_copy_name, profile.info.name)
+            else -> profile.info.name
+        }
         nameScreenState = NameScreenState(
-            profile.info.name,
+            name,
             profile.info.color,
             profile.info.icon,
         )
