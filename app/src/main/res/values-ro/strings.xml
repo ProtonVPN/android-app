@@ -507,6 +507,8 @@
     <string name="upsell_card_secure_core_description">Adăugați încă un nivel de criptare a conexiunii VPN</string>
     <string name="upsell_card_p2p_title">Suport P2P</string>
     <string name="upsell_card_p2p_description">Descărcați fișiere prin BitTorrent și alte protocoale de partajare fișiere</string>
+    <string name="upsell_card_profiles_title">Profiluri</string>
+    <string name="upsell_card_profiles_description">Creare conexiuni VPN personale</string>
     <string name="upsell_card_speed_title">Navigare pe internet mai rapidă</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1431,5 +1433,7 @@
     <string name="profile_deleted_snackbar_message">Profil șters</string>
     <string name="undo">Refacere</string>
     <string name="profile_unavailable_dialog_title">Profil indisponibil</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Serverul selectat pentru „%1$s” nu este disponibil. Selectați un server diferit sau reîncercați mai târziu.</string>
 </resources>

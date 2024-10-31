@@ -491,6 +491,8 @@
     <string name="upsell_card_secure_core_description">Legg til et ekstra krypteringslag til VPN-tilkoblingen din.</string>
     <string name="upsell_card_p2p_title">P2P-støtte</string>
     <string name="upsell_card_p2p_description">Last ned filer gjennom BitTorrent og andre fildelingsprotokoller</string>
+    <string name="upsell_card_profiles_title">Profiler</string>
+    <string name="upsell_card_profiles_description">Opprett egendefinerte VPN-tilkoblinger</string>
     <string name="upsell_card_speed_title">Raskere surfing</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1395,5 +1397,7 @@
     <string name="profile_deleted_snackbar_message">Profil slettet</string>
     <string name="undo">Angre</string>
     <string name="profile_unavailable_dialog_title">Profilen er utilgjengelig</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Tjenervalget ditt for %1$s er ikke tilgjengelig. Velg en annen tjener eller prøv igjen senere.</string>
 </resources>

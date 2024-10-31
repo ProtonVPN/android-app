@@ -491,6 +491,8 @@
     <string name="upsell_card_secure_core_description">VPN bağlantınıze ek bir şifreleme düzeyi ekleyebilirsiniz</string>
     <string name="upsell_card_p2p_title">P2P desteği</string>
     <string name="upsell_card_p2p_description">Dosyaları BitTorrent ve diğer dosya paylaşım iletişim kuralları üzerinden indirin</string>
+    <string name="upsell_card_profiles_title">Profiller</string>
+    <string name="upsell_card_profiles_description">Özel VPN bağlantıları oluşturun</string>
     <string name="upsell_card_speed_title">Daha hızlı gezinin</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1395,5 +1397,7 @@
     <string name="profile_deleted_snackbar_message">Profil silindi</string>
     <string name="undo">Geri al</string>
     <string name="profile_unavailable_dialog_title">Profil kullanılamıyor</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">%1$s sunucu seçiminiz kullanılamıyor. Başka bir sunucu seçin ya da bir süre sonra yeniden deneyin.</string>
 </resources>

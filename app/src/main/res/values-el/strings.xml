@@ -491,6 +491,8 @@
     <string name="upsell_card_secure_core_description">Επιπρόσθετο επίπεδο κρυπτογράφησης στη σύνδεση VPN σας</string>
     <string name="upsell_card_p2p_title">Υποστήριξη P2P</string>
     <string name="upsell_card_p2p_description">Λήψη αρχείων μέσω BitTorrent και άλλων πρωτοκόλλων κοινής χρήσης αρχείων</string>
+    <string name="upsell_card_profiles_title">Profiles</string>
+    <string name="upsell_card_profiles_description">Create custom VPN connections</string>
     <string name="upsell_card_speed_title">Ταχύτερη περιήγηση</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1395,5 +1397,7 @@
     <string name="profile_deleted_snackbar_message">Το προφίλ διαγράφηκε</string>
     <string name="undo">Αναίρεση</string>
     <string name="profile_unavailable_dialog_title">Μη διαθέσιμο προφίλ</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Η επιλογή διακομιστή σας για το %1$s δεν είναι διαθέσιμη. Επιλέξτε έναν διαφορετικό διακομιστή ή δοκιμάστε ξανά αργότερα.</string>
 </resources>

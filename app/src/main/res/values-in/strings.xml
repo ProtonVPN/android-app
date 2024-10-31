@@ -475,6 +475,8 @@
     <string name="upsell_card_secure_core_description">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
     <string name="upsell_card_p2p_title">Dukungan P2P</string>
     <string name="upsell_card_p2p_description">Unduh berkas melalui BitTorrent dan berbagai protokol file sharing lainnya</string>
+    <string name="upsell_card_profiles_title">Profil</string>
+    <string name="upsell_card_profiles_description">Buat koneksi VPN khusus</string>
     <string name="upsell_card_speed_title">Berselancar lebih cepat</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1359,5 +1361,7 @@
     <string name="profile_deleted_snackbar_message">Profil dihapus</string>
     <string name="undo">Urungkan</string>
     <string name="profile_unavailable_dialog_title">Profil tidak tersedia</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Pilihan server Anda untuk \'%1$s\' tidak tersedia. Silakan pilih server lain atau coba lagi nanti.</string>
 </resources>

@@ -491,6 +491,8 @@
     <string name="upsell_card_secure_core_description">დაამატეთ თქვენს VPN-ს უსაფრთხოების კიდევ ერთი დონე</string>
     <string name="upsell_card_p2p_title">P2P-ის მხარდაჭერა</string>
     <string name="upsell_card_p2p_description">გადმოწერეთ ფაილები BitTorrent-ით და სხვა ფაილების გაზიარების პროტოკოლებით</string>
+    <string name="upsell_card_profiles_title">პროფილები</string>
+    <string name="upsell_card_profiles_description">მორგებული VPN მიერთებების შექმნა</string>
     <string name="upsell_card_speed_title">უფრო სწრაფი მუშაობა ინერნეტში</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1395,5 +1397,7 @@
     <string name="profile_deleted_snackbar_message">პროფილი წაიშალა</string>
     <string name="undo">დაბრუნება</string>
     <string name="profile_unavailable_dialog_title">პროფილი ხელმიუწვდომელია</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">თქვენი სერვერის არჩევანი %1$s-სთვის ხელმიუწვდომელია. აირჩიეთ სხვა სერვერი, ან მოგვიანებით სცადეთ.</string>
 </resources>

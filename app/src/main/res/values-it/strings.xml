@@ -491,6 +491,8 @@
     <string name="upsell_card_secure_core_description">Aggiungi un altro livello di crittografia alla tua connessione VPN</string>
     <string name="upsell_card_p2p_title">Supporto P2P</string>
     <string name="upsell_card_p2p_description">Scarica i file tramite BitTorrent e altri protocolli di condivisione dei file</string>
+    <string name="upsell_card_profiles_title">Profili</string>
+    <string name="upsell_card_profiles_description">Crea connessioni VPN personalizzate</string>
     <string name="upsell_card_speed_title">Navigazione più veloce</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1395,5 +1397,7 @@
     <string name="profile_deleted_snackbar_message">Profilo eliminato</string>
     <string name="undo">Annulla</string>
     <string name="profile_unavailable_dialog_title">Profilo non disponibile</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">La selezione del server per %1$s non è disponibile. Seleziona un server diverso o riprova più tardi.</string>
 </resources>

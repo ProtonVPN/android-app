@@ -523,6 +523,8 @@
     <string name="upsell_card_secure_core_description">Pridajte ďalšiu úroveň šifrovania k vášmu VPN pripojeniu</string>
     <string name="upsell_card_p2p_title">P2P podpora</string>
     <string name="upsell_card_p2p_description">Sťahujte súbory cez BitTorrent a iné protokoly na zdieľanie súborov</string>
+    <string name="upsell_card_profiles_title">Profiles</string>
+    <string name="upsell_card_profiles_description">Create custom VPN connections</string>
     <string name="upsell_card_speed_title">Rýchlejšie prehliadanie</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1467,5 +1469,7 @@
     <string name="profile_deleted_snackbar_message">Profil vymazaný</string>
     <string name="undo">Vrátiť späť</string>
     <string name="profile_unavailable_dialog_title">Profil nedostupný</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Server, ktorý ste vybrali pre %1$s je nedostupný. Vyberte iný server alebo to skúste neskôr.</string>
 </resources>
