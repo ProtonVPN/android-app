@@ -8,8 +8,6 @@ default:
     - mkdir -p app
     - base64 -d -  < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
     - md5sum app/service_account.json
-    - echo "" >> gradle.properties # ensure a new line
-    - base64 -d - < "$GRADLE_PROPERTIES_FILE2" >> gradle.properties
     - git fetch origin development
     - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
     - if [ "$CI_JOB_STAGE" == "build" ]; then python3 $CI_PREPARE_TEST_ASSETS_PY; fi
