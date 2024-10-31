@@ -476,6 +476,8 @@
     <string name="upsell_card_secure_core_description">VPN 연결에 암호화 계층 추가</string>
     <string name="upsell_card_p2p_title">P2P 지원</string>
     <string name="upsell_card_p2p_description">BitTorrent와 다른 파일 공유 프로토콜로 파일을 다운로드하세요</string>
+    <string name="upsell_card_profiles_title">프로필</string>
+    <string name="upsell_card_profiles_description">커스텀 VPN 연결 지정</string>
     <string name="upsell_card_speed_title">더 빠른 브라우징</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1361,5 +1363,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="profile_deleted_snackbar_message">프로필 삭제됨</string>
     <string name="undo">실행 취소</string>
     <string name="profile_unavailable_dialog_title">프로필 이용 불가능</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">선택하신 서버 %1$s가 이용할 수 없는 상태입니다. 다른 서버를 선택하시거나 나중에 다시 시도하세요.</string>
 </resources>

@@ -524,6 +524,8 @@
     <string name="upsell_card_secure_core_description">Dodajte še eno plast šifriranja svoji VPN povezavi s Secure Core</string>
     <string name="upsell_card_p2p_title">Podpora za P2P</string>
     <string name="upsell_card_p2p_description">​Prenesite datoteke prek BitTorrenta in drugih protokolov za skupno rabo datotek</string>
+    <string name="upsell_card_profiles_title">Profiles</string>
+    <string name="upsell_card_profiles_description">Create custom VPN connections</string>
     <string name="upsell_card_speed_title">Hitrejše brskanje</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1438,7 +1440,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_edit">Edit</string>
+    <string name="profile_action_edit">Uredi</string>
     <string name="profile_action_delete">Izbriši</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1446,16 +1448,16 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>
-    <string name="create_profile_pick_country_title">Country</string>
+    <string name="create_profile_pick_country_title">Država</string>
     <string name="create_profile_pick_type_title">Type</string>
     <string name="create_profile_type_standard">Standard</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Gateway</string>
+    <string name="create_profile_gateway">Prehod</string>
     <string name="create_profile_pick_state_title">State</string>
-    <string name="create_profile_pick_city_title">City</string>
+    <string name="create_profile_pick_city_title">Mesto</string>
     <string name="create_profile_pick_server_title">Server</string>
-    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_pick_gateway_title">Prehod</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">Protocol</string>
     <string name="create_profile_pick_nat_title">NAT type</string>
@@ -1467,7 +1469,9 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
     <string name="profiles_button_create_profile">Create profile</string>
     <string name="profile_deleted_snackbar_message">Profile deleted</string>
-    <string name="undo">Undo</string>
+    <string name="undo">Razveljavi</string>
     <string name="profile_unavailable_dialog_title">Profile unavailable</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
 </resources>

@@ -523,6 +523,8 @@
     <string name="upsell_card_secure_core_description">Дадайце яшчэ адзін слой шыфравання ў ваша падключэнне па VPN</string>
     <string name="upsell_card_p2p_title">Падтрымка P2P</string>
     <string name="upsell_card_p2p_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагульвання файлаў</string>
+    <string name="upsell_card_profiles_title">Профілі</string>
+    <string name="upsell_card_profiles_description">Стварэнне карыстальніцкага злучэння VPN</string>
     <string name="upsell_card_speed_title">Хуткі прагляд</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1450,7 +1452,7 @@
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
     <string name="create_profile_gateway">Шлюз</string>
-    <string name="create_profile_pick_state_title">Стан</string>
+    <string name="create_profile_pick_state_title">Штат</string>
     <string name="create_profile_pick_city_title">Горад</string>
     <string name="create_profile_pick_server_title">Сервер</string>
     <string name="create_profile_pick_gateway_title">Шлюз</string>
@@ -1467,5 +1469,7 @@
     <string name="profile_deleted_snackbar_message">Профіль выдалены</string>
     <string name="undo">Адрабіць</string>
     <string name="profile_unavailable_dialog_title">Профіль недаступны</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Выбраны вамі сервер для %1$s у цяперашні час недаступны. Выберыце іншы сервер або паспрабуйце яшчэ раз пазней.</string>
 </resources>

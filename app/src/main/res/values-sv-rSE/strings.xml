@@ -491,6 +491,8 @@
     <string name="upsell_card_secure_core_description">Lägg till ytterligare ett lager av kryptering till din VPN-anslutning</string>
     <string name="upsell_card_p2p_title">P2P-stöd</string>
     <string name="upsell_card_p2p_description">Ladda ner filer via BitTorrent och andra fildelningsprotokoll</string>
+    <string name="upsell_card_profiles_title">Profiler</string>
+    <string name="upsell_card_profiles_description">Skapa anpassade VPN-anslutningar</string>
     <string name="upsell_card_speed_title">Snabbare surfning</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -1395,5 +1397,7 @@
     <string name="profile_deleted_snackbar_message">Profil borttagen</string>
     <string name="undo">Ångra</string>
     <string name="profile_unavailable_dialog_title">Profil inte tillgänglig</string>
+    <!-- %1$s - profile name
+         Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Ditt serverval för %1$s är inte tillgängligt. Välj en annan server eller försök igen senare.</string>
 </resources>
