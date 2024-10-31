@@ -48,8 +48,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -97,14 +99,20 @@ fun AddEditProfileScreen(
     val navController = rememberNavController()
     val navigator = remember { ProfilesAddEditNav(navController) }
     val totalSteps = ProfileCreationTarget.entries.size
-
+    val name = viewModel.nameScreenStateFlow.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = if (isEditMode) R.string.edit_profile_title else R.string.create_profile_title),
-                        style = ProtonTheme.typography.defaultStrongNorm
+                        text =
+                            if (isEditMode)
+                                stringResource(id = R.string.edit_profile_title, name.value?.name ?: "")
+                            else
+                                stringResource(id = R.string.create_profile_title),
+                        style = ProtonTheme.typography.defaultStrongNorm,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                     )
                 },
                 navigationIcon = {
