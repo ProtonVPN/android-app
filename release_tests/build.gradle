@@ -24,8 +24,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccountPassword : "\"Pass\""
-
 android {
     namespace "com.protonvpn.android.release_tests"
     compileSdk 34
@@ -50,11 +48,12 @@ android {
         def lokiPrivateKey = System.getenv("LOKI_PRIVATE_KEY_ANDROID")
         def lokiCertificate = System.getenv("LOKI_CERTIFICATE_ANDROID")
         def commitSha = System.getenv("CI_COMMIT_SHORT_SHA")
+        def testAccountPass = System.getenv("TEST_ACCOUNT_PASS")
         buildConfigField "String", "LOKI_ENDPOINT",  "\"${StringEscapeUtils.escapeJava(lokiEndpoint)}\""
         buildConfigField "String", "BTI_CONTROLLER_URL",  "\"${StringEscapeUtils.escapeJava(btiControllerUrl)}\""
         buildConfigField "String", "LOKI_PRIVATE_KEY_ANDROID",  "\"${StringEscapeUtils.escapeJava(lokiPrivateKey)}\""
         buildConfigField "String", "LOKI_CERTIFICATE_ANDROID",  "\"${StringEscapeUtils.escapeJava(lokiCertificate)}\""
-        buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
+        buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"${StringEscapeUtils.escapeJava(testAccountPass)}\""
         buildConfigField "String", "CI_COMMIT_SHORT_SHA",  "\"${StringEscapeUtils.escapeJava(commitSha)}\""
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

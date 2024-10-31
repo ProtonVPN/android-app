@@ -126,12 +126,12 @@ licenseReport {
     copyJsonReportToAssets = false
 }
 
-def sentryDsn = project.hasProperty('sentryDsn') ? sentryDsn : ""
+def sentryDsn = System.getenv("PROTONVPN_SENTRY_DSN") ? sentryDsn : ""
 def accountSentryDsn = System.getenv("ACCOUNT_SENTRY_DSN") ?: ""
-def preferencesSalt = project.hasProperty('preferencesSalt') ? preferencesSalt : "\"Salt\""
-def preferencesKey = project.hasProperty('preferencesKey') ? preferencesKey : "\"Key\""
+def preferencesSalt = System.getenv("DEPRECATED_PREF_SALT") ?: "Salt"
+def preferencesKey = System.getenv("DEPRECATED_PREF_KEY") ?: "Key"
 def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath') ? serviceAccountFilePath : "service_account.json"
-def testAccountPassword = project.hasProperty('testAccountPassword') ? testAccountPassword : "\"Pass\""
+def testAccountPassword = System.getenv("TEST_ACCOUNT_PASS") ?: "Pass"
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 def supportedLocales = ['b+es+419', 'be', 'cs', 'de', 'el', 'en', 'es-rES', 'es-rMX', 'fa', 'fi', 'fr', 'hr', 'in', 'it', 'ja', 'ka', 'ko', 'nb-rNO', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'sk', 'sl', 'sv-rSE', 'tr', 'uk', 'zh-rTW']
 def allowLogcat = System.getenv("ALLOW_LOGCAT") ? System.getenv("ALLOW_LOGCAT").toBoolean() : false
@@ -174,8 +174,8 @@ android {
 
         buildConfigField "String", "Sentry_DSN",  "\"${StringEscapeUtils.escapeJava(sentryDsn)}\""
         buildConfigField "String", "ACCOUNT_SENTRY_DSN",  "\"${StringEscapeUtils.escapeJava(accountSentryDsn)}\""
-        buildConfigField "String", "PREF_SALT",  preferencesSalt
-        buildConfigField "String", "PREF_KEY",  preferencesKey
+        buildConfigField "String", "PREF_SALT",  "\"${StringEscapeUtils.escapeJava(preferencesSalt)}\""
+        buildConfigField "String", "PREF_KEY",  "\"${StringEscapeUtils.escapeJava(preferencesKey)}\""
         buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"Pass\""
         def ciBranchName = System.getenv("CI_COMMIT_BRANCH")
         def commitFirstLine = System.getenv("CI_COMMIT_MESSAGE")?.split('\n')?.first()?.trim()
@@ -320,12 +320,12 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  testAccountPassword
             enableAndroidTestCoverage false
             enableUnitTestCoverage = true
             ext.alwaysUpdateBuildId = false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"${StringEscapeUtils.escapeJava(testAccountPassword)}\""
         }
         release {
             minifyEnabled true
