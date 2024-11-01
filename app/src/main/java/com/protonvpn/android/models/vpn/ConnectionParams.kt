@@ -44,7 +44,7 @@ open class ConnectionParams(
 
     private val profile: Profile? = null // Used for handling old serialized objects.
 
-    open val info get() = "IP: ${connectingDomain?.entryDomain}/$entryIp Protocol: $protocol"
+    open val info get() = "IP: ${connectingDomain?.entryDomain}/$entryIp Protocol: $protocol Server: ${server.serverName}"
 
     val connectIntent: AnyConnectIntent get() = connectIntentData.toAnyConnectIntent()
     val protocolSelection get() = protocol?.let { ProtocolSelection(it, transmissionProtocol) }
