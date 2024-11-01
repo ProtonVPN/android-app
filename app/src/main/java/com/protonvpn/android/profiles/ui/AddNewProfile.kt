@@ -41,11 +41,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -60,8 +62,8 @@ import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
-import me.proton.core.presentation.R as CoreR
 import me.proton.core.presentation.utils.currentLocale
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun AddEditProfileRoute(
@@ -136,6 +138,7 @@ fun AddEditProfileScreen(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun StepHeader(
     navController: NavHostController,
@@ -150,7 +153,7 @@ private fun StepHeader(
 
         LinearProgressIndicator(
             progress = { currentStep / totalSteps.toFloat() },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().semantics { invisibleToUser() },
             trackColor = ProtonTheme.colors.brandDarken40
         )
 
