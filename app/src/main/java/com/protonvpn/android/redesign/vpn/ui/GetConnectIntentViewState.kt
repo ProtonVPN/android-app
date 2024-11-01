@@ -40,14 +40,17 @@ class GetConnectIntentViewState @Inject constructor(
 
     // Note: this is a suspending function being called in a loop which makes it potentially slow.
     // See RecentListViewStateFlow.createRecentsViewState and ProfilesViewModel.toItem
-    suspend fun forRecent(recentConnection: RecentConnection, isFreeUser: Boolean, connectedServer: Server? = null) =
+    suspend fun forRecent(recentConnection: RecentConnection, isFreeUser: Boolean) =
         when (recentConnection) {
             is RecentConnection.ProfileRecent -> forProfile(recentConnection.profile)
-            is RecentConnection.UnnamedRecent -> getUnnamedIntentViewState(recentConnection.connectIntent, isFreeUser, connectedServer)
+            is RecentConnection.UnnamedRecent -> getUnnamedIntentViewState(recentConnection.connectIntent, isFreeUser)
         }
 
-    suspend fun forProfile(profile: Profile): ConnectIntentViewState {
-        val intent = profile.connectIntent
+    suspend fun forProfile(profile: Profile, connectedIntent: ConnectIntent? = null): ConnectIntentViewState {
+        // If connectIntent is given use it instead of getting one from Profile (profile might
+        // be already edited and for active connection we want to use intent as it was at
+        // connection time)
+        val intent = connectedIntent ?: profile.connectIntent
         val (exit, secondaryLabel) = when(intent) {
             is ConnectIntent.FastestInCity ->
                 intent.country to ConnectIntentSecondaryLabel.RawText(translator.getCity(intent.cityEn))
@@ -82,9 +85,9 @@ class GetConnectIntentViewState @Inject constructor(
             primaryLabel, secondaryLabel, effectiveServerFeatures(profile.connectIntent, null))
     }
 
-    private suspend fun forProfileId(profileId: Long): ConnectIntentViewState? {
+    private suspend fun forProfileId(profileId: Long, connectedIntent: ConnectIntent?): ConnectIntentViewState? {
         val profile = getProfileById(profileId) ?: return null
-        return forProfile(profile)
+        return forProfile(profile, connectedIntent)
     }
 
     private fun Server.profileServerSecondaryLabel() =
@@ -95,17 +98,17 @@ class GetConnectIntentViewState @Inject constructor(
         else serverName.dropWhile { it != '#' }
 
     suspend fun forConnectedIntent(
-        connectIntent: ConnectIntent,
+        connectedIntent: ConnectIntent,
         isFreeUser: Boolean,
         connectedServer: Server? = null
     ): ConnectIntentViewState {
-        val profileId = connectIntent.profileId
+        val profileId = connectedIntent.profileId
         if (profileId != null) {
-            val result = forProfileId(profileId)
+            val result = forProfileId(profileId, connectedIntent)
             if (result != null)
                 return result
         }
-        return getUnnamedIntentViewState(connectIntent, isFreeUser, connectedServer)
+        return getUnnamedIntentViewState(connectedIntent, isFreeUser, connectedServer)
     }
 
     private suspend fun getUnnamedIntentViewState(connectIntent: ConnectIntent, isFreeUser: Boolean, connectedServer: Server? = null): ConnectIntentViewState {
