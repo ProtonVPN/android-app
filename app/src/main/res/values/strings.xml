@@ -1422,7 +1422,7 @@
          Example:
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
      -->
-    <string name="create_profile_copy_name">$1%s (copy)</string>
+    <string name="create_profile_copy_name">%1$s (copy)</string>
 
     <string name="create_profile_fastest_city">Fastest</string>
     <string name="create_profile_fastest_state">Fastest</string>
