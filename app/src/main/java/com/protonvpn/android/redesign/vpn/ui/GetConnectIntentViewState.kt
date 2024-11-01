@@ -40,7 +40,7 @@ class GetConnectIntentViewState @Inject constructor(
 
     // Note: this is a suspending function being called in a loop which makes it potentially slow.
     // See RecentListViewStateFlow.createRecentsViewState and ProfilesViewModel.toItem
-    suspend operator fun invoke(recentConnection: RecentConnection, isFreeUser: Boolean, connectedServer: Server? = null) =
+    suspend fun forRecent(recentConnection: RecentConnection, isFreeUser: Boolean, connectedServer: Server? = null) =
         when (recentConnection) {
             is RecentConnection.ProfileRecent -> forProfile(recentConnection.profile)
             is RecentConnection.UnnamedRecent -> getUnnamedIntentViewState(recentConnection.connectIntent, isFreeUser, connectedServer)
@@ -94,7 +94,7 @@ class GetConnectIntentViewState @Inject constructor(
         if (state != null) serverName.substringAfter('-')
         else serverName.dropWhile { it != '#' }
 
-    suspend fun fromRawIntent(
+    suspend fun forConnectedIntent(
         connectIntent: ConnectIntent,
         isFreeUser: Boolean,
         connectedServer: Server? = null

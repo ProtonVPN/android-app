@@ -485,7 +485,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         connectedServer: Server? = null,
         isFreeUser: Boolean,
     ) {
-        val state = getConnectIntentViewState.fromRawIntent(connectIntent, isFreeUser, connectedServer)
+        val state = getConnectIntentViewState.forConnectedIntent(connectIntent, isFreeUser, connectedServer)
         composeRule.setContent {
             Row {
                 ConnectIntentLabels(
