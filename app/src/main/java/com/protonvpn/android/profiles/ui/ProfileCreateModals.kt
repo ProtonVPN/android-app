@@ -44,11 +44,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.text
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -322,9 +329,11 @@ private fun AvailabilityIndicator(online: Boolean, modifier: Modifier = Modifier
     if (!online) {
         Icon(
             painterResource(CoreR.drawable.ic_proton_wrench),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.accessibility_item_unavailable),
             tint = iconTint,
-            modifier = modifier.padding(horizontal = 4.dp).size(20.dp)
+            modifier = modifier
+                .padding(horizontal = 4.dp)
+                .size(20.dp)
         )
     }
 }
@@ -664,6 +673,7 @@ fun PickNetShield(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfileValueItem(
     @StringRes labelRes: Int?,
@@ -681,11 +691,14 @@ fun ProfileValueItem(
             .padding(vertical = 8.dp)
             .padding(bottom = bottomPadding)
     ) {
-        if (labelRes != null) {
+        val label = labelRes?.let { stringResource(it) }
+        if (label != null) {
             Text(
-                text = stringResource(labelRes),
+                text = label,
                 style = ProtonTheme.typography.captionMedium,
-                modifier = Modifier.padding(bottom = 8.dp),
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .semantics { invisibleToUser() },
                 color = textColor
             )
         }
@@ -693,6 +706,10 @@ fun ProfileValueItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(ProtonTheme.shapes.medium)
+                .semantics {
+                    role = Role.DropdownList
+                    if (label != null) text = AnnotatedString(label)
+                }
                 .clickable(onClick = { showDialog = true })
                 .background(ProtonTheme.colors.backgroundSecondary)
                 .padding(vertical = 12.dp, horizontal = 16.dp),

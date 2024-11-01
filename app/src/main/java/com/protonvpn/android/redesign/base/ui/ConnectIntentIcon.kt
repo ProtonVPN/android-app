@@ -56,6 +56,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpOffset
@@ -186,6 +187,7 @@ fun ProfileIcon(
     icon: ProfileIcon,
     color: ProfileColor,
     extraSize: Boolean,
+    addContentDescription: Boolean = false,
     frontContent: @Composable (() -> Unit)? = null,
 ) {
     Box(
@@ -198,7 +200,8 @@ fun ProfileIcon(
         }
         Image(
             painter = painterResource(id = icon.toDrawableRes()),
-            contentDescription = null,
+            contentDescription =
+                if (addContentDescription) stringResource(id = R.string.profile_icon_accessibility, icon.ordinal + 1) else null,
             modifier = Modifier
                 .size(if (extraSize) FlagDefaults.bigProfileIconSize else FlagDefaults.twoFlagMainSize)
                 .align(if (frontContent != null) Alignment.TopStart else Alignment.Center),

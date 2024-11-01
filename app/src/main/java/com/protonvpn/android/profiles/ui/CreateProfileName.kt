@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.protonvpn.android.profiles.ui
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.TextField
@@ -46,6 +47,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -153,7 +158,14 @@ private fun IconsView(
 
     val shape = RoundedCornerShape(10.dp)
     FlowRow(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .semantics {
+                collectionInfo = CollectionInfo(
+                    rowCount = rows,
+                    columnCount = numberOfColumns,
+                )
+            },
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalArrangement = Arrangement.spacedBy(2.dp),
         maxItemsInEachRow = numberOfColumns
@@ -168,13 +180,14 @@ private fun IconsView(
                     )
                     .weight(1f)
                     .clip(shape)
-                    .clickable { onIconSelected(icon) }
+                    .selectable(isSelected) { onIconSelected(icon) }
                     .alpha(if (isSelected) 1f else 0.7f)
                     .padding(8.dp)
                     .height(24.dp),
                 color = color,
                 extraSize = true,
                 icon = icon,
+                addContentDescription = true
             )
         }
     }
@@ -188,7 +201,13 @@ private fun ColorPicker(
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .semantics {
+                collectionInfo = CollectionInfo(
+                    rowCount = 1,
+                    columnCount = ProfileColor.entries.size,
+                )
+            },
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         ProfileColor.entries.forEach { color ->
@@ -196,6 +215,8 @@ private fun ColorPicker(
                 targetValue = if (color == selectedColor) ProtonTheme.colors.shade100 else Color.Transparent,
                 label = "Border color"
             )
+            val accessibilityName = stringResource(id = R.string.profile_color_accessibility, color.ordinal + 1)
+            val isSelected = color == selectedColor
             Box(
                 modifier = Modifier.size(48.dp),
                 contentAlignment = Alignment.Center
@@ -204,7 +225,8 @@ private fun ColorPicker(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(CircleShape)
-                        .clickable { onColorSelected(color) }
+                        .semantics { contentDescription = accessibilityName }
+                        .selectable(isSelected) { onColorSelected(color) }
                         .border(
                             width = 2.dp,
                             color = borderColor,
