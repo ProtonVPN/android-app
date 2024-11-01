@@ -1281,7 +1281,8 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
 
-    <string name="create_profile_title">Create new profile</string>
+    <string name="create_profile_title">Create profile</string>
+    <string name="edit_profile_title">Edit profile</string>
     <string name="create_profile_name_hint">Profile name</string>
     <string name="create_profile_name_error_empty">Enter a profile name</string>
     <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>

@@ -80,6 +80,7 @@ fun AddEditProfileRoute(
     AddEditProfileScreen(
         viewModel,
         onDismiss,
+        isEditMode = profileId != null && !duplicate,
         onProfileSave = viewModel::save
     )
 }
@@ -89,6 +90,7 @@ fun AddEditProfileRoute(
 fun AddEditProfileScreen(
     viewModel: CreateEditProfileViewModel,
     onDismiss: () -> Unit,
+    isEditMode: Boolean = false,
     onProfileSave: () -> Unit,
 ) {
     val navController = rememberNavController()
@@ -100,7 +102,7 @@ fun AddEditProfileScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = R.string.create_profile_title),
+                        text = stringResource(id = if (isEditMode) R.string.edit_profile_title else R.string.create_profile_title),
                         style = ProtonTheme.typography.defaultStrongNorm
                     )
                 },
