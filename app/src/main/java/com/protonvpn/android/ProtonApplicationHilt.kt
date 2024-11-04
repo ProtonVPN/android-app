@@ -57,7 +57,7 @@ class ProtonApplicationHilt : ProtonApplication(), Configuration.Provider {
             AppInitializer.getInstance(this).initializeComponent(UnredeemedPurchaseInitializer::class.java)
             AppInitializer.getInstance(this).initializeComponent(UnAuthSessionFetcherInitializer::class.java)
             if (BuildConfig.DEBUG) {
-                // nosemgrep: semgrep.gitlab.mobsf.kotlin-webview-rule-android_kotlin_webview_debug
+                // nosemgrep: gitlab.mobsf.kotlin-webview-rule-android_kotlin_webview_debug
                 WebView.setWebContentsDebuggingEnabled(true)
                 testNotificationLoader.get().loadTestFile()
             }

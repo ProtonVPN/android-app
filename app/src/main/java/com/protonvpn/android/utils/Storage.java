@@ -124,7 +124,7 @@ public final class Storage {
     @Deprecated // use load() with lambda defaultValue
     public static <T> T load(Class<T> objClass, T defaultValue) {
         String key = objClass.getName();
-        // nosemgrep: semgrep.gitlab.find_sec_bugs.HARD_CODE_KEY-4
+        // nosemgrep: gitlab.find_sec_bugs.HARD_CODE_KEY-4
         if (key.equals("com.protonvpn.android.models.config.UserData") && !preferences.contains(key)) {
             key = "com.protonvpn.android.models.config.UserPreferences";
         }
