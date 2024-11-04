@@ -80,7 +80,7 @@
             android:resource="@xml/app_restrictions" />
 
         <activity android:name=".ui.home.vpn.SwitchDialogActivity" />
-        <!-- nosemgrep: semgrep.java.android.security.exported_activity.exported_activity -->
+        <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity
             android:name=".tv.main.TvMainActivity"
             android:launchMode="singleTop"
@@ -128,7 +128,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.vpn.NoVpnPermissionActivity" />
-        <!-- nosemgrep: semgrep.java.android.security.exported_activity.exported_activity -->
+        <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity-alias android:name="ch.protonvpn.android.RoutingActivity"
             android:targetActivity=".redesign.app.ui.MainActivity"
             android:label="@string/app_name"
@@ -149,7 +149,7 @@
             </intent-filter>
 
         </activity-alias>
-        <!-- nosemgrep: semgrep.java.android.security.exported_activity.exported_activity -->
+        <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity-alias android:name="ch.protonvpn.android.RoutingDark"
             android:targetActivity=".redesign.app.ui.MainActivity"
             android:label="@string/app_name"
@@ -171,7 +171,7 @@
             </intent-filter>
 
         </activity-alias>
-        <!-- nosemgrep: semgrep.java.android.security.exported_activity.exported_activity -->
+        <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity-alias android:name="ch.protonvpn.android.RoutingRetro"
             android:targetActivity=".redesign.app.ui.MainActivity"
             android:label="@string/app_name"
@@ -193,7 +193,7 @@
             </intent-filter>
 
         </activity-alias>
-        <!-- nosemgrep: semgrep.java.android.security.exported_activity.exported_activity -->
+        <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity-alias
             android:name="ch.protonvpn.android.RoutingWeather"
             android:enabled="false"
@@ -217,7 +217,7 @@
             </intent-filter>
         </activity-alias>
 
-        <!-- nosemgrep: semgrep.java.android.security.exported_activity.exported_activity -->
+        <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity-alias
             android:name="ch.protonvpn.android.RoutingNotes"
             android:enabled="false"
@@ -241,7 +241,7 @@
             </intent-filter>
         </activity-alias>
 
-        <!-- nosemgrep: semgrep.java.android.security.exported_activity.exported_activity -->
+        <!-- nosemgrep: java.android.security.exported_activity.exported_activity -->
         <activity-alias
             android:name="ch.protonvpn.android.RoutingCalculator"
             android:enabled="false"
@@ -289,7 +289,7 @@
             android:exported="false"
             android:foregroundServiceType="systemExempted"
             tools:node="merge" />
-        <!-- nosemgrep: semgrep.java.android.security.exported_activity -->
+        <!-- nosemgrep: java.android.security.exported_activity -->
         <service
             android:name=".components.QuickTileService"
             android:icon="@drawable/ic_vpn_status_information"
