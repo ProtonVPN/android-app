@@ -19,26 +19,14 @@
 
 package com.protonvpn.testsHelper
 
-import androidx.test.platform.app.InstrumentationRegistry
 import me.proton.core.configuration.EnvironmentConfigurationDefaults
 import me.proton.core.test.quark.Quark
-import me.proton.core.util.kotlin.EMPTY_STRING
-import me.proton.core.util.kotlin.deserialize
-
-private const val INTERNAL_API_JSON_PATH = "sensitive/internal_apis.json"
 
 object TestSetup {
     val quark: Quark by lazy {
-        Quark(
+        Quark.fromDefaultResources(
             EnvironmentConfigurationDefaults.host,
-            EnvironmentConfigurationDefaults.proxyToken ?: EMPTY_STRING,
-            InstrumentationRegistry
-                .getInstrumentation()
-                .context
-                .assets
-                .open(INTERNAL_API_JSON_PATH)
-                .bufferedReader()
-                .use { it.readText() }
-                .deserialize())
+            EnvironmentConfigurationDefaults.proxyToken
+        )
     }
 }
