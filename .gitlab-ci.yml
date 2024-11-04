@@ -106,11 +106,9 @@ detekt analysis:
   script:
     - ./gradlew :app:detekt
   artifacts:
-    expire_in: 4 weeks
+    expire_in: 2 weeks
     paths:
       - app/build/reports/detekt/
-    reports:
-      codequality: app/build/reports/detekt/detekt.json
 
 # Any jobs which needs ARCHIVES_BASE_NAME should add this job as dependency
 # Unless the job is building the app from gradle, then it will be calculated on it's own
