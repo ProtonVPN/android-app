@@ -59,14 +59,14 @@ data class SettingsOverrides(
     val netShield: NetShieldProtocol?,
     val randomizedNat: Boolean?,
     val lanConnections: Boolean?,
-) {
+): java.io.Serializable {
     val protocol get() = protocolData?.toProtocolSelection()
 }
 
 data class ProtocolSelectionData(
     val vpn: VpnProtocol,
     val transmission: TransmissionProtocol?
-) {
+): java.io.Serializable {
     fun toProtocolSelection(): ProtocolSelection = ProtocolSelection(vpn, transmission)
 }
 
