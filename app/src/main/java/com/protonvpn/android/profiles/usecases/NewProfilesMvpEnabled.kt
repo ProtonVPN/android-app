@@ -20,43 +20,20 @@
 package com.protonvpn.android.profiles.usecases
 
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.base.data.FakeVpnFeatureFlag
+import com.protonvpn.android.base.data.VpnFeatureFlag
+import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
-import me.proton.core.domain.entity.UserId
-import me.proton.core.featureflag.domain.ExperimentalProtonFeatureFlag
 import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
-import me.proton.core.network.domain.ApiException
 import javax.inject.Inject
 
+interface NewProfilesMvpEnabled : VpnFeatureFlag
+
+class FakeNewProfilesMvpEnabled(enabled: Boolean): NewProfilesMvpEnabled, FakeVpnFeatureFlag(enabled)
+
 @Reusable
-class NewProfilesMvpEnabled @Inject constructor(
-    private val currentUser: CurrentUser,
-    private val featureFlagManager: FeatureFlagManager
-) {
-    @OptIn(ExperimentalProtonFeatureFlag::class)
-    suspend operator fun invoke(): Boolean =
-        featureFlagManager.getValue(currentUser.user()?.userId, FeatureId(NEW_PROFILES_MVP_ENABLED_FLAG))
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun observe() =
-        currentUser.vpnUserFlow.flatMapLatest { vpnUser ->
-            featureFlagManager.safeObserve(vpnUser?.userId, FeatureId(NEW_PROFILES_MVP_ENABLED_FLAG))
-        }.distinctUntilChanged()
-
-    companion object {
-        const val NEW_PROFILES_MVP_ENABLED_FLAG = "NewProfilesMvpEnabled"
-    }
-}
-
-fun FeatureFlagManager.safeObserve(userId: UserId?, featureId: FeatureId) =
-    observe(userId, featureId, refresh = false)
-        .map { flag -> flag?.value ?: false }
-        .catch { e ->
-            if (e !is ApiException) throw e
-            emit(false)
-        }
+class NewProfilesMvpEnabledImpl @Inject constructor(
+    currentUser: CurrentUser,
+    featureFlagManager: FeatureFlagManager
+): NewProfilesMvpEnabled, VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("NewProfilesMvpEnabled"))
