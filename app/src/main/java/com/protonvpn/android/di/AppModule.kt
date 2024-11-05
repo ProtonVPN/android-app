@@ -54,6 +54,8 @@ import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.profiles.usecases.GetProfileByIdImpl
+import com.protonvpn.android.profiles.usecases.NewProfilesMvpEnabled
+import com.protonvpn.android.profiles.usecases.NewProfilesMvpEnabledImpl
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapterLegacy
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
@@ -231,6 +233,9 @@ object AppModuleProd {
         @Singleton
         @Binds
         fun provideCurrentUserProvider(provider: DefaultCurrentUserProvider): CurrentUserProvider
+
+        @Binds
+        fun bindNewProfilesMvpEnabled(impl: NewProfilesMvpEnabledImpl): NewProfilesMvpEnabled
     }
 }
 

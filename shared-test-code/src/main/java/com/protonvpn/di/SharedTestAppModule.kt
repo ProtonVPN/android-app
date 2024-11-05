@@ -38,6 +38,8 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.profiles.usecases.FakeNewProfilesMvpEnabled
+import com.protonvpn.android.profiles.usecases.NewProfilesMvpEnabled
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.telemetry.NoopSnapshotScheduler
 import com.protonvpn.android.telemetry.NoopTelemetryUploadScheduler
@@ -269,6 +271,10 @@ class SharedTestAppModule {
     @Provides
     @Singleton
     fun provideTestCurrentUserProvider() = TestCurrentUserProvider(null)
+
+    @Provides
+    @Singleton
+    fun provideNewProfilesMvpEnabled(): NewProfilesMvpEnabled = FakeNewProfilesMvpEnabled(true)
 
     @Module
     @TestInstallIn(

@@ -143,6 +143,7 @@ fun ConnectIntentRow(
     val clickActionLabel = availability.accessibilityAction()
     val semantics = Modifier
         .clickable(onClick = onClick, onClickLabel = clickActionLabel)
+        .testTag("intentRow")
         .semantics(mergeDescendants = true) {
             semanticsStateDescription?.let { stateDescription = it }
             if (extraContentDescription != null) contentDescription = extraContentDescription
@@ -174,6 +175,7 @@ fun ConnectIntentRow(
             Box(
                 modifier = Modifier
                     .height(IntrinsicSize.Max)
+                    .testTag("intentOpen")
                     .clearAndSetSemantics {} // Accessibility handled via semantics on the whole row.
                     .clickable(
                         interactionSource = interactionSource,
