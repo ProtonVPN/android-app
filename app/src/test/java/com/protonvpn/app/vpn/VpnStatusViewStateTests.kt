@@ -23,11 +23,13 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.StatusBanner
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewStateFlow
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -66,6 +68,8 @@ class VpnStatusViewStateFlowTest {
 
     @MockK
     private lateinit var vpnConnectionManager: VpnConnectionManager
+    @MockK
+    private lateinit var mockProfilesDao: ProfilesDao
 
     private lateinit var testUserProvider: TestCurrentUserProvider
     private lateinit var testScope: TestScope
@@ -110,11 +114,12 @@ class VpnStatusViewStateFlowTest {
         promoBannerFlow = MutableStateFlow(null)
         val effectiveUserSettings =
             EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
+        val settingsForConnection = SettingsForConnection(effectiveUserSettings, mockProfilesDao)
         vpnStatusViewStateFlow = VpnStatusViewStateFlow(
             vpnStatusProviderUi,
             serverListUpdaterPrefs,
             vpnConnectionManager,
-            effectiveUserSettings,
+            settingsForConnection,
             currentUser,
             changeServerFlow,
             promoBannerFlow,

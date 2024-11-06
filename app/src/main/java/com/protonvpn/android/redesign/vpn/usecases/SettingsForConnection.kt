@@ -19,24 +19,41 @@
 
 package com.protonvpn.android.redesign.vpn.usecases
 
+import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
 import dagger.Reusable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Reusable
 class SettingsForConnection @Inject constructor(
-    private val settings: EffectiveCurrentUserSettings
+    private val settings: EffectiveCurrentUserSettings,
+    private val profilesDao: ProfilesDao
 ) {
-    fun originalEffectiveSettings() = settings.effectiveSettings
-
     suspend fun getFor(intent: AnyConnectIntent?) : LocalUserSettings =
         settings.effectiveSettings.first().applyOverrides(intent?.settingsOverrides)
+
+    fun getFlowFor(intent: AnyConnectIntent?): Flow<LocalUserSettings> {
+        val profileId = intent?.profileId
+        return if (profileId == null) {
+            settings.effectiveSettings.map { it.applyOverrides(intent?.settingsOverrides) }
+        } else {
+            combine(
+                profilesDao.getProfileByIdFlow(profileId),
+                settings.effectiveSettings
+            ) { profile, settings ->
+                settings.applyOverrides(profile?.connectIntent?.settingsOverrides)
+            }
+        }
+    }
 }
 
 @Deprecated(
