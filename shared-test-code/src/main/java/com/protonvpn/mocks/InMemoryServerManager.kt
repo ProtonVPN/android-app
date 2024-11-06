@@ -29,13 +29,13 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.createInMemoryServersStore
-import com.protonvpn.test.shared.createIsImmutableServerListEnabled
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runCurrent
 
+@OptIn(ExperimentalCoroutinesApi::class)
 fun createInMemoryServerManager(
     testScope: TestScope,
     testDispatcherProvider: TestDispatcherProvider,
@@ -43,14 +43,12 @@ fun createInMemoryServerManager(
     currentUser: CurrentUser,
     initialServers: List<Server>,
     builtInGuestHoles: List<Server> = emptyList(),
-    immutableServerList: Boolean = true,
 ): ServerManager {
     val serverStore = createInMemoryServersStore(initialServers)
     val serversDataManager = ServersDataManager(
-        testScope.backgroundScope,
         testDispatcherProvider,
         serverStore
-    ) { createIsImmutableServerListEnabled(immutableServerList) }
+    )
     val getUserCountry = GetUserCountry(ServerListUpdaterPrefs(MockSharedPreferencesProvider()))
     val serverManager = ServerManager(
         testScope.backgroundScope,

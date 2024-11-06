@@ -27,8 +27,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.utils.replace
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -38,125 +36,85 @@ import javax.inject.Singleton
 
 @Singleton
 class ServersDataManager @Inject constructor(
-    mainScope: CoroutineScope,
     private val dispatcherProvider: VpnDispatcherProvider,
     private val serversStore: ServersStore,
-    private val immutableServerList: dagger.Lazy<IsImmutableServerListEnabled>
 ) {
     private data class ServerLists(
         val allServers: List<Server> = emptyList(),
-        val allServersByScore: List<Server>? = null, // VPNAND-1865: change to non-null and update all usage.
+        val allServersByScore: List<Server> = emptyList(),
         val vpnCountries: List<VpnCountry> = emptyList(),
         val secureCoreExitCountries: List<VpnCountry> = emptyList(),
         val gateways: List<GatewayGroup> = emptyList(),
     )
-
-    // Use the same value for the whole process lifetime.
-    private val immutableServerListEnabled = mainScope.async(start = CoroutineStart.LAZY) {
-        immutableServerList.get().invoke()
-    }
 
     // Protect all modifications with the mutex. Use updateWithMutex for common cases.
     private val updateMutex = Mutex()
     private var serverLists = ServerLists()
 
     val allServers: List<Server> get() = serverLists.allServers
-    val allServersByScore: List<Server> get() = serverLists.allServersByScore ?: allServers.sortedBy { it.score }
+    val allServersByScore: List<Server> get() = serverLists.allServersByScore
     val vpnCountries: List<VpnCountry> get() = serverLists.vpnCountries
     val secureCoreExitCountries: List<VpnCountry> get() = serverLists.secureCoreExitCountries
     val gateways: List<GatewayGroup> get() = serverLists.gateways
 
     suspend fun load() {
         serversStore.load()
-        if (immutableServerListEnabled.await()) {
-            updateWithMutex(serversStore.allServers, saveToStorage = false)
-        } else {
-            serverLists = updateServerLists(serversStore.allServers)
-        }
+        updateWithMutex(serversStore.allServers, saveToStorage = false)
     }
 
     suspend fun replaceServers(serverList: List<Server>) {
-        if (immutableServerListEnabled.await()) {
-            updateWithMutex(serverList)
-        } else {
-            serversStore.allServers = serverList
-            serversStore.saveMutable()
-            serverLists = updateServerLists(serversStore.allServers)
-        }
+        updateWithMutex(serverList)
     }
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
-        if (immutableServerListEnabled.await()) {
-            updateWithMutex(allServers) { servers ->
-                buildList(servers.size) {
-                    servers.forEach { currentServer ->
-                        val server = if (currentServer.connectingDomains.any { it.id == connectingDomain.id }) {
-                            val updatedConnectingDomains = currentServer.connectingDomains.replace(
-                                connectingDomain,
-                                predicate = { it.id == connectingDomain.id }
-                            )
-                            currentServer.copy(connectingDomains = updatedConnectingDomains)
-                        } else {
-                            currentServer
-                        }
-                        add(server)
+        updateWithMutex(allServers) { servers ->
+            buildList(servers.size) {
+                servers.forEach { currentServer ->
+                    val server = if (currentServer.connectingDomains.any { it.id == connectingDomain.id }) {
+                        val updatedConnectingDomains = currentServer.connectingDomains.replace(
+                            connectingDomain,
+                            predicate = { it.id == connectingDomain.id }
+                        )
+                        currentServer.copy(connectingDomains = updatedConnectingDomains)
+                    } else {
+                        currentServer
                     }
+                    add(server)
                 }
             }
-        } else {
-            allServers.flatMap { it.connectingDomains.asSequence() }
-                .find { it.id == connectingDomain.id }
-                ?.let { it.isOnline = connectingDomain.isOnline }
-            serversStore.saveMutable()
         }
     }
 
     suspend fun updateLoads(loadsList: List<LoadUpdate>) {
-        if (immutableServerListEnabled.await()) {
-            updateWithMutex(allServers) { servers ->
-                val loadsMap: Map<String, LoadUpdate> = loadsList.associateBy { it.id }
-                buildList(servers.size) {
-                    servers.forEach { currentServer ->
-                        val newValues = loadsMap[currentServer.serverId]
-                        val server = if (newValues != null) {
-                            val updatedConnectingDomains = with(currentServer) {
-                                // If server becomes online we don't know which connectingDomains became available
-                                // based on /loads response. If there's more than one connectingDomain it'll have to
-                                // wait for /logicals response
-                                if (online != newValues.isOnline && newValues.isOnline && connectingDomains.size == 1) {
-                                    listOf(connectingDomains.first().copy(isOnline = newValues.isOnline))
-                                } else {
-                                    connectingDomains
-                                }
-                            }
-
-                            currentServer.copy(
-                                score = newValues.score,
-                                load = newValues.load,
-                                isOnline = newValues.isOnline,
-                                connectingDomains = updatedConnectingDomains
-                            )
-                        } else {
-                            currentServer
-                        }
-                        add(server)
-                    }
-                }
-            }
-        } else {
+        updateWithMutex(allServers) { servers ->
             val loadsMap: Map<String, LoadUpdate> = loadsList.associateBy { it.id }
-            allServers.forEach { server ->
-                loadsMap[server.serverId]?.let {
-                    server.load = it.load
-                    server.score = it.score
+            buildList(servers.size) {
+                servers.forEach { currentServer ->
+                    val newValues = loadsMap[currentServer.serverId]
+                    val server = if (newValues != null) {
+                        val updatedConnectingDomains = with(currentServer) {
+                            // If server becomes online we don't know which connectingDomains became available
+                            // based on /loads response. If there's more than one connectingDomain it'll have to
+                            // wait for /logicals response
+                            if (online != newValues.isOnline && newValues.isOnline && connectingDomains.size == 1) {
+                                listOf(connectingDomains.first().copy(isOnline = newValues.isOnline))
+                            } else {
+                                connectingDomains
+                            }
+                        }
 
-                    // If server becomes online we don't know which connectingDomains became available based on /loads
-                    // response. If there's more than one connectingDomain it'll have to wait for /logicals response
-                    if (server.online != it.isOnline && (!it.isOnline || server.connectingDomains.size == 1))
-                        server.setOnline(it.isOnline)
+                        currentServer.copy(
+                            score = newValues.score,
+                            load = newValues.load,
+                            isOnline = newValues.isOnline,
+                            connectingDomains = updatedConnectingDomains
+                        )
+                    } else {
+                        currentServer
+                    }
+                    add(server)
                 }
             }
-            serversStore.saveMutable()
         }
     }
 

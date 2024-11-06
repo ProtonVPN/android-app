@@ -19,10 +19,8 @@
 package com.protonvpn.android.models.vpn
 
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.utils.DebugUtils.debugAssert
 import com.protonvpn.android.utils.VpnIntToBoolSerializer
 import com.protonvpn.android.utils.hasFlag
-import com.protonvpn.android.utils.implies
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -44,7 +42,7 @@ data class Server(
     @SerialName(value = "Servers") val connectingDomains: List<ConnectingDomain>,
     @SerialName(value = "HostCountry") val hostCountry: String? = null,
     @SerialName(value = "Domain") val domain: String,
-    @SerialName(value = "Load") var load: Float, // VPNAND-1865: change to 'val'
+    @SerialName(value = "Load") val load: Float,
     @SerialName(value = "Tier") val tier: Int,
     @SerialName(value = "State") val state: String? = null,
     @SerialName(value = "City") val city: String?,
@@ -53,15 +51,15 @@ data class Server(
     @SerialName(value = "Translations") private val translations: Map<String, String?>? = null,
     @SerialName(value = "GatewayName") val rawGatewayName: String? = null,
 
-    @SerialName(value = "Score") var score: Double, // VPNAND-1865: change to 'val'
+    @SerialName(value = "Score") val score: Double,
 
     @Serializable(with = VpnIntToBoolSerializer::class)
     @SerialName(value = "Status")
-    private var isOnline: Boolean // VPNAND-1865: change to 'val'
+    private val isOnline: Boolean
 ) : java.io.Serializable {
 
-    // VPNAND-1865: consider making it a @Transient member precomputed on creation
-    val online: Boolean get() = isOnline && connectingDomains.any { it.isOnline }
+    @Transient
+    val online: Boolean = isOnline && connectingDomains.any { it.isOnline }
 
     val isTor get() = features.hasFlag(SERVER_FEATURE_TOR)
 
@@ -123,15 +121,6 @@ data class Server(
         CountryTools.getFullName(entryCountry)
     else
         serverName
-
-    // VPNAND-1865: remove
-    @Deprecated("Servers should be immutable")
-    fun setOnline(value: Boolean) {
-        isOnline = value
-        connectingDomains.forEach {
-            it.isOnline = value
-        }
-    }
 
     private fun computeServerNumber(): Int {
         var result = 1

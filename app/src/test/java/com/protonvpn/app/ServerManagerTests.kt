@@ -119,7 +119,7 @@ class ServerManagerTests {
 
     @Test
     fun doNotChooseOfflineServerFromCountry() = testScope.runTest {
-        createServerManagers(immutableServerList = true)
+        createServerManagers()
         val country = manager.getVpnExitCountry("CA", false)
         val protocol = currentSettings.value.protocol
         val countryBestServer = manager.getBestScoreServer(country!!.serverList, currentUser.vpnUser(), protocol)
@@ -128,7 +128,7 @@ class ServerManagerTests {
 
     @Test
     fun doNotChooseOfflineServerFromAll() = testScope.runTest {
-        createServerManagers(immutableServerList = true)
+        createServerManagers()
         val protocol = currentSettings.value.protocol
         val server = manager.getBestScoreServer(false, serverFeatures = emptySet(), currentUser.vpnUser(), protocol)
         assertNotNull(server)
@@ -137,7 +137,7 @@ class ServerManagerTests {
 
     @Test
     fun testOnlineAccessibleServersSeparatesGatewaysFromRegular() = testScope.runTest {
-        createServerManagers(immutableServerList = true)
+        createServerManagers()
         val gatewayName = gatewayServer.gatewayName
         val gatewayServers = serverManager2.getOnlineAccessibleServers(false, gatewayName, plusUser, ProtocolSelection.SMART)
         val regularServers = serverManager2.getOnlineAccessibleServers(false, null, plusUser, ProtocolSelection.SMART)
@@ -148,7 +148,7 @@ class ServerManagerTests {
 
     @Test
     fun testGetServerById() {
-        testScope.createServerManagers(immutableServerList = true)
+        testScope.createServerManagers()
         val server = manager.getServerById(
             "1H8EGg3J1QpSDL6K8hGsTvwmHXdtQvnxplUMePE7Hruen5JsRXvaQ75-sXptu03f0TCO-he3ymk0uhrHx6nnGQ=="
         )
@@ -183,7 +183,7 @@ class ServerManagerTests {
             createSeattleServer("4", score = 1.0, features = SERVER_FEATURE_TOR or SERVER_FEATURE_P2P),
             createSeattleServer("SC", score = .1, features = SERVER_FEATURE_SECURE_CORE, entryCountry = "CH")
         )
-        createServerManagers(immutableServerList = true)
+        createServerManagers()
         manager.setServers(servers, null)
 
         testIntent("2", ConnectIntent.FastestInCountry(CountryId.fastest, EnumSet.of(ServerFeature.P2P)))
@@ -219,7 +219,7 @@ class ServerManagerTests {
             createServer("PL SC plus online", score = 1.0, exitCountry = "PL", tier = 2, isSecureCore = true),
             createServer("US SC plus online", score = 3.0, exitCountry = "US", tier = 2, isSecureCore = true),
         )
-        createServerManagers(immutableServerList = true)
+        createServerManagers()
         manager.setServers(servers, null)
 
         val fastestPl = ConnectIntent.FastestInCountry(CountryId("PL"), emptySet())
@@ -236,23 +236,14 @@ class ServerManagerTests {
     }
 
     @Test
-    fun updatedLoadsAreReflectedInGroupedServersLegacy() = testScope.runTest {
-        updatedLoadsAreReflectedInGroupedServers(immutableServerList = false)
-    }
-
-    @Test
     fun updatedLoadsAreReflectedInGroupedServers() = testScope.runTest {
-        updatedLoadsAreReflectedInGroupedServers(immutableServerList = true)
-    }
-
-    private suspend fun TestScope.updatedLoadsAreReflectedInGroupedServers(immutableServerList: Boolean) {
         val server1 = createServer("server1", exitCountry = "PL", loadPercent = 50f, score = 1.5, isOnline = true)
         val server2 = createServer("server2", exitCountry = "PL", loadPercent = 10f, score = 1.0, isOnline = false)
         val newLoads = listOf(
             LoadUpdate("server1", load = 100f, score = 0.0, status = 1),
             LoadUpdate("server2", load = 25f, score = 5.0, status = 1),
         )
-        createServerManagers(servers = listOf(server1, server2), immutableServerList = immutableServerList)
+        createServerManagers(servers = listOf(server1, server2))
         manager.updateLoads(newLoads)
 
         val country = serverManager2.getVpnExitCountry("PL", secureCoreCountry = false)
@@ -271,7 +262,6 @@ class ServerManagerTests {
         val server = createServer("server1", connectingDomains = listOf(connectingDomain))
         createServerManagers(
             servers = listOf(server),
-            immutableServerList = true,
             supportedSmartProtocols = listOf(ProtocolSelection(VpnProtocol.WireGuard))
         )
 
@@ -281,7 +271,6 @@ class ServerManagerTests {
 
     private fun TestScope.createServerManagers(
         servers: List<Server> = regularServers + gatewayServer,
-        immutableServerList: Boolean = true,
         supportedSmartProtocols: List<ProtocolSelection> = ProtocolSelection.REAL_PROTOCOLS
     ) {
         val supportsProtocol = SupportsProtocol(createGetSmartProtocols(supportedSmartProtocols))
@@ -291,7 +280,6 @@ class ServerManagerTests {
             supportsProtocol,
             currentUser,
             servers,
-            immutableServerList = immutableServerList
         )
         serverManager2 = ServerManager2(manager, supportsProtocol)
     }

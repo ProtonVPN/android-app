@@ -39,7 +39,7 @@ data class ConnectingDomain(
     @SerialName(value = "ID") val id: String?,
     @SerialName(value = "Label") val label: String? = null,
     @Serializable(with = VpnIntToBoolSerializer::class)
-    @SerialName(value = "Status") var isOnline: Boolean = true, // VPNAND-1865: change to 'val'
+    @SerialName(value = "Status") val isOnline: Boolean = true,
     @SerialName(value = "X25519PublicKey") val publicKeyX25519: String? = null
 ) : java.io.Serializable {
 
