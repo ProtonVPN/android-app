@@ -44,7 +44,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
-import com.protonvpn.android.redesign.vpn.usecases.applyOverrides
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
@@ -366,8 +365,7 @@ abstract class VpnBackend(
 
     private fun initFeatures() {
         settingsForConnection
-            .originalEffectiveSettings()
-            .map { it.applyOverrides(lastConnectionParams?.connectIntent?.settingsOverrides) }
+            .getFlowFor(lastConnectionParams?.connectIntent)
             .onEach { settings -> agent?.setFeatures(getFeatures(settings)) }
             .launchIn(mainScope)
     }

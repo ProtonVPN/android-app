@@ -31,6 +31,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -126,6 +127,8 @@ class VpnConnectionManagerTests {
     private lateinit var appConfig: AppConfig
     @RelaxedMockK
     private lateinit var mockVpnConnectionTelemetry: VpnConnectionTelemetry
+    @MockK
+    private lateinit var mockProfileDao: ProfilesDao
 
     private lateinit var vpnStateMonitor: VpnStateMonitor
     private lateinit var serverManager: ServerManager
@@ -196,7 +199,7 @@ class VpnConnectionManagerTests {
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = mockk(relaxed = true),
-            settingsForConnection = SettingsForConnection(userSettings),
+            settingsForConnection = SettingsForConnection(userSettings, mockProfileDao),
             getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
             backendProvider = mockBackendProvider,
             networkManager = mockNetworkManager,

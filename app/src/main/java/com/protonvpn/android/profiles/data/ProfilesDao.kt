@@ -24,6 +24,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
+import com.protonvpn.android.netshield.NetShieldProtocol
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import me.proton.core.domain.entity.UserId
@@ -49,6 +50,9 @@ abstract class ProfilesDao {
 
     @Query("SELECT count(profileId) FROM profiles WHERE userId = :userId")
     abstract fun getCount(userId: UserId): Int
+
+    @Query("UPDATE profiles SET netShield = :netShield WHERE profileId = :profileId")
+    abstract suspend fun updateNetShield(profileId: Long, netShield: NetShieldProtocol)
 
     @Upsert
     abstract suspend fun upsert(profile: ProfileEntity): Long

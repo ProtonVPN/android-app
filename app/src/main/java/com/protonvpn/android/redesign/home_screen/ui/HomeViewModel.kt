@@ -28,6 +28,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.UiConnect
 import com.protonvpn.android.logging.UiDisconnect
 import com.protonvpn.android.netshield.NetShieldProtocol
+import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.recents.data.RecentConnection
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
@@ -59,6 +60,7 @@ import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
+import dagger.Reusable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -75,6 +77,22 @@ import javax.inject.Inject
 
 private const val DialogStateKey = "dialog"
 
+@Reusable
+class SetNetShield @Inject constructor(
+    private val profilesDao: ProfilesDao,
+    private val vpnStatusProviderUI: VpnStatusProviderUI,
+    private val userSettingsManager: CurrentUserLocalSettingsManager,
+) {
+    suspend operator fun invoke(protocol: NetShieldProtocol) {
+        val profileId = vpnStatusProviderUI.connectionIntent?.profileId
+        if (profileId != null) {
+            profilesDao.updateNetShield(profileId, protocol)
+        } else {
+            userSettingsManager.updateNetShield(protocol)
+        }
+    }
+}
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -88,7 +106,6 @@ class HomeViewModel @Inject constructor(
     private val upgradeTelemetry: UpgradeTelemetry,
     vpnStatusProviderUI: VpnStatusProviderUI,
     serverListUpdaterPrefs: ServerListUpdaterPrefs,
-    private val userSettingsManager: CurrentUserLocalSettingsManager,
     private val vpnErrorUIManager: VpnErrorUIManager,
     upsellCarouselStateFlow: UpsellCarouselStateFlow,
     bottomPromoBannerFlow: HomeScreenPromoBannerFlow,
@@ -96,6 +113,7 @@ class HomeViewModel @Inject constructor(
     private val promoOfferButtonActions: PromoOfferButtonActions,
     private val promoOffersPrefs: PromoOffersPrefs,
     @ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
+    private val setNetShield: SetNetShield,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -142,10 +160,11 @@ class HomeViewModel @Inject constructor(
 
     suspend fun consumeErrorMessage() = vpnErrorUIManager.consumeErrorMessage()
 
-    fun setNetShieldProtocol(netShieldProtocol: NetShieldProtocol) =
+    fun setNetShieldProtocol(netShieldProtocol: NetShieldProtocol) {
         viewModelScope.launch {
-            userSettingsManager.updateNetShield(netShieldProtocol)
+            setNetShield(netShieldProtocol)
         }
+    }
 
     suspend fun connect(vpnUiDelegate: VpnUiDelegate, trigger: ConnectTrigger) {
         ProtonLogger.log(UiConnect, "Home: ${trigger.description}")

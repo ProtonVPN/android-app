@@ -20,8 +20,10 @@ package com.protonvpn.tests.vpn
 
 import androidx.activity.ComponentActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
+import androidx.test.platform.app.InstrumentationRegistry
 import com.proton.gopenpgp.localAgent.LocalAgent
 import com.proton.gopenpgp.localAgent.NativeClient
 import com.protonvpn.android.api.GuestHole
@@ -32,12 +34,15 @@ import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.appconfig.SmartProtocolConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.db.AppDatabase
+import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
+import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.profiles.data.profileSettingsOverrides
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
@@ -47,7 +52,6 @@ import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.LocalUserSettings
-import com.protonvpn.android.telemetry.CommonDimensions
 import com.protonvpn.android.telemetry.ConnectionTelemetrySentryDebugEnabled
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
@@ -92,6 +96,9 @@ import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.runWhileCollecting
+import com.protonvpn.testsHelper.AccountTestHelper
+import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount1
+import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestSession1
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -226,6 +233,11 @@ class VpnConnectionTests {
         userSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         val userSettings = EffectiveCurrentUserSettings(bgScope, userSettingsFlow)
 
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val db = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
+            .buildDatabase()
+
+        val profilesDao = db.profilesDao()
         val smartProtocolsConfig = SmartProtocolConfig(
             openVPNEnabled = true, wireguardEnabled = true, wireguardTcpEnabled = true, wireguardTlsEnabled = true)
         every { appConfig.getSmartProtocolConfig() } returns smartProtocolsConfig
@@ -262,8 +274,8 @@ class VpnConnectionTests {
             CAPABILITY_NOT_VPN to false
         ))
 
-        mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.OpenVPN))
-        mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, VpnProtocol.WireGuard))
+        mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, profilesDao, VpnProtocol.OpenVPN))
+        mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, profilesDao, VpnProtocol.WireGuard))
 
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
@@ -300,7 +312,7 @@ class VpnConnectionTests {
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
 
-        manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, SettingsForConnection(userSettings),
+        manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, SettingsForConnection(userSettings, profilesDao),
             backendProvider, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
             serverManager2, certificateRepository, scope.backgroundScope, clock, mockk(relaxed = true),
             currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry, mockk(relaxed = true))
@@ -982,6 +994,7 @@ class VpnConnectionTests {
     private fun createMockVpnBackend(
         currentUser: CurrentUser,
         userSettings: EffectiveCurrentUserSettings,
+        profileDao: ProfilesDao,
         protocol: VpnProtocol,
     ): MockVpnBackend =
         MockVpnBackend(
@@ -990,7 +1003,7 @@ class VpnConnectionTests {
             networkManager,
             NetworkCapabilitiesFlow(networkCapabilitiesFlow),
             certificateRepository,
-            SettingsForConnection(userSettings),
+            SettingsForConnection(userSettings, profileDao),
             protocol,
             mockLocalAgentUnreachableTracker,
             currentUser,
