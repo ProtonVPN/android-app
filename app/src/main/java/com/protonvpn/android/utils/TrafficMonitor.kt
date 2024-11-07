@@ -137,7 +137,7 @@ class TrafficMonitor @Inject constructor(
                     sessionDownloaded += downloaded
                     sessionUploaded += uploaded
 
-                    val sessionTimeSeconds = (wallClock() - sessionStart).toInt() / 1000
+                    val sessionTimeSeconds = ((wallClock() - sessionStart) / 1000).toInt()
                     val update = TrafficUpdate(
                         monotonicTimestamp, sessionStart, downloadSpeed, uploadSpeed, sessionDownloaded,
                         sessionUploaded, sessionTimeSeconds
