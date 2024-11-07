@@ -60,6 +60,7 @@ import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
+import com.protonvpn.android.redesign.base.ui.preventMultiClick
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.presentation.utils.currentLocale
@@ -214,18 +215,22 @@ fun ProfileNavigationButtons(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         onBack?.let {
+            val (backEnabledState, onBackWrapped) = preventMultiClick(action = onBack)
             VpnWeakSolidButton(
                 text = stringResource(id = R.string.back),
-                onClick = it,
-                modifier = Modifier.weight(1f)
+                onClick = onBackWrapped,
+                modifier = Modifier.weight(1f),
+                enabled = backEnabledState.value
             )
             Spacer(modifier = Modifier.width(8.dp))
         }
 
+        val (nextEnabledState, onNextWrapped) = preventMultiClick(action = onNext)
         VpnSolidButton(
             text = onNextText,
-            onClick = onNext,
-            modifier = Modifier.weight(1f)
+            onClick = onNextWrapped,
+            modifier = Modifier.weight(1f),
+            enabled = nextEnabledState.value
         )
     }
 }

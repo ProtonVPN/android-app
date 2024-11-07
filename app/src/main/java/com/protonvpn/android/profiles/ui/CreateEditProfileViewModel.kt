@@ -45,6 +45,7 @@ import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ProtocolSelection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -191,6 +192,7 @@ private const val SETTINGS_SCREEN_STATE_KEY = "settingsScreenState"
 @HiltViewModel
 class CreateEditProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    private val mainScope: CoroutineScope,
     @ApplicationContext private val appContext: Context,
     private val profilesDao: ProfilesDao,
     private val createOrUpdateProfile: CreateOrUpdateProfileFromUi,
@@ -270,7 +272,7 @@ class CreateEditProfileViewModel @Inject constructor(
     }
 
     fun save() {
-        viewModelScope.launch {
+        mainScope.launch {
             createOrUpdateProfile(
                 profileId = editedProfileId ?: duplicatedProfileId,
                 createdAt = editedProfileCreatedAt,

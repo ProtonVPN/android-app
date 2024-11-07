@@ -20,12 +20,12 @@
 package com.protonvpn.android.redesign.base.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
@@ -55,21 +55,32 @@ fun Modifier.unavailableServerAlpha(
         this
     }
 
-fun Modifier.clickableWithDebounce(
-    debounceMs: Long = 500,
+fun Modifier.clickableNoMultiClick(
+    disabledForMs: Long = 500,
     action: () -> Unit,
 ): Modifier = composed {
-    var clickEnabled by remember { mutableStateOf(true) }
-    if (!clickEnabled) {
-        LaunchedEffect(clickEnabled) {
-            delay(debounceMs)
-            clickEnabled = true
+    val (enabledState, wrappedAction) = preventMultiClick(disabledForMs, action)
+    this.clickable(onClick = wrappedAction, enabled = enabledState.value)
+}
+
+@Composable
+fun preventMultiClick(
+    disabledForMs: Long = 500L,
+    action: () -> Unit
+): Pair<MutableState<Boolean>, () -> Unit> {
+    val enabled = remember { mutableStateOf(true) }
+    if (!enabled.value) {
+        LaunchedEffect(true) {
+            delay(disabledForMs)
+            enabled.value = true
         }
     }
-    this.clickable(onClick = {
-        clickEnabled = false
-        action()
-    }, enabled = clickEnabled)
+    return enabled to {
+        if (enabled.value) {
+            enabled.value = false
+            action()
+        }
+    }
 }
 
 @Stable
