@@ -845,6 +845,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Najhitrejša država</string>
+    <string name="fastest_country_excluding_my_country">Fastest country (excluding my country)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Najhitrejši brezplačni strežnik</string>
     <!-- tag(Redesign_2023)
@@ -1335,8 +1336,8 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Povezava ni uspela</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">​
 Ta naprava ne dovoljuje povezav VPN.</string>
-    <!-- Profile creation -->
-    <string name="create_profile_title">Create new profile</string>
+    <string name="create_profile_title">Create profile</string>
+    <string name="edit_profile_title">Edit profile</string>
     <string name="create_profile_name_hint">Profile name</string>
     <string name="create_profile_name_error_empty">Enter a profile name</string>
     <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
@@ -1441,6 +1442,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Uredi</string>
+    <string name="profile_action_duplicate">Duplicate</string>
     <string name="profile_action_delete">Izbriši</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1448,6 +1450,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>
+    <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
     <string name="create_profile_pick_country_title">Država</string>
     <string name="create_profile_pick_type_title">Type</string>
     <string name="create_profile_type_standard">Standard</string>
@@ -1461,6 +1464,11 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">Protocol</string>
     <string name="create_profile_pick_nat_title">NAT type</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (copy)</string>
     <string name="create_profile_fastest_city">Fastest</string>
     <string name="create_profile_fastest_state">Fastest</string>
     <string name="create_profile_fastest_server">Fastest</string>
@@ -1474,4 +1482,10 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Color %1$d</string>
 </resources>

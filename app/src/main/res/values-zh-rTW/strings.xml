@@ -397,8 +397,8 @@
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
     <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
-    <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
+    <string name="upgrade_unlimited_more">以及更多</string>
+    <string name="upgrade_unlimited_vpn_unlimited_countries">存取所有國家</string>
     <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
     <string name="upgrade_unlimited_vpn_any_location">Choose any location</string>
     <string name="upgrade_unlimited_vpn_higher_speeds">Even higher VPN speeds</string>
@@ -441,7 +441,7 @@
     <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
     <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
     <string name="upgrade_unlimited_pass_credit_cards">Unlimited credit cards</string>
-    <string name="upgrade_unlimited_pass_devices">Unlimited devices</string>
+    <string name="upgrade_unlimited_pass_devices">無限裝置數</string>
     <plurals name="upgrade_unlimited_pass_users">
         <item quantity="other">Share with up to %1$d others</item>
     </plurals>
@@ -475,7 +475,7 @@
     <string name="upsell_card_secure_core_description">為您的 VPN 連線加入另一層加密</string>
     <string name="upsell_card_p2p_title">P2P支援服務</string>
     <string name="upsell_card_p2p_description">透過 BitTorrent 及其他檔案共享通訊協定下載檔案</string>
-    <string name="upsell_card_profiles_title">Profiles</string>
+    <string name="upsell_card_profiles_title">配置</string>
     <string name="upsell_card_profiles_description">Create custom VPN connections</string>
     <string name="upsell_card_speed_title">快速瀏覽</string>
     <!-- Parameters:
@@ -772,6 +772,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最快的國家</string>
+    <string name="fastest_country_excluding_my_country">Fastest country (excluding my country)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">最快速的免費伺服器</string>
     <!-- tag(Redesign_2023)
@@ -1225,8 +1226,8 @@
     <string name="connection_details_seconds_shortened">%1$d 秒鐘</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">連線失敗</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">此裝置不允許 VPN 連線。</string>
-    <!-- Profile creation -->
-    <string name="create_profile_title">建立新的設定檔</string>
+    <string name="create_profile_title">Create profile</string>
+    <string name="edit_profile_title">Edit profile</string>
     <string name="create_profile_name_hint">設定檔名稱</string>
     <string name="create_profile_name_error_empty">輸入設定檔名稱</string>
     <string name="create_profile_name_error_too_long">設定檔名稱不得多於 30 個字元</string>
@@ -1261,9 +1262,9 @@
     <string name="settings_advanced_nat_type_description">選取您的連線要使用的網路位址轉譯類型。%1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">選取您的連線要使用的網路位址轉譯類型。</string>
     <string name="settings_advanced_nat_type_strict">嚴格 (類別 3)</string>
-    <string name="settings_advanced_nat_type_strict_short">Type 3</string>
+    <string name="settings_advanced_nat_type_strict_short">類型 3</string>
     <string name="settings_advanced_nat_type_moderate">中等 (類別 2)</string>
-    <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
+    <string name="settings_advanced_nat_type_moderate_short">类型 2</string>
     <string name="settings_advanced_nat_type_strict_description">限制數據流入您的網路。此選項較為安全，惟點對點遊戲連線或會較困難。</string>
     <string name="settings_advanced_nat_type_moderate_description">部分限制數據流入您的網路。此選項最適合線上視訊遊戲。</string>
     <string name="settings_split_tunneling_description">自訂您的連線，決定哪些應用程式和 IP 位址受 VPN 保護。%1$s</string>
@@ -1331,6 +1332,7 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">僅限選取的應用程式透過 VPN 連線，其餘流量不受保護。</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">編輯</string>
+    <string name="profile_action_duplicate">複製</string>
     <string name="profile_action_delete">刪除</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1338,6 +1340,7 @@
     <string name="profile_bottom_sheet_lan_title">區域網路</string>
     <string name="initial_profile_name_streaming_us">串流 - 美國</string>
     <string name="initial_profile_name_work_school">工作/學校</string>
+    <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
     <string name="create_profile_pick_country_title">國家</string>
     <string name="create_profile_pick_type_title">類型</string>
     <string name="create_profile_type_standard">標準</string>
@@ -1351,6 +1354,11 @@
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">通訊協定</string>
     <string name="create_profile_pick_nat_title">NAT 類型</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (副本)</string>
     <string name="create_profile_fastest_city">最快速</string>
     <string name="create_profile_fastest_state">最快速</string>
     <string name="create_profile_fastest_server">最快速</string>
@@ -1364,4 +1372,10 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">您就 %1$s 選取的伺服器無法使用。請選擇另一個伺服器，又或者稍後再試。</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Color %1$d</string>
 </resources>

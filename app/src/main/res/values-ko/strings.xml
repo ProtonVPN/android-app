@@ -353,7 +353,7 @@
     <string name="upgrade_p2p_title">P2P (peer-to-peer) 다운로드와 파일 공유를 잠금 해제하세요 </string>
     <string name="upgrade_p2p_text">업로드와 다운로드 속도를 개선하면서 IP 주소는 숨깁니다.</string>
     <string name="upgrade_profiles_title">자주 연결하는 연결에 더 빠르게 접근하세요.</string>
-    <string name="upgrade_profiles_text">프로파일을 VPN Plus로 잠금 해제하세요.</string>
+    <string name="upgrade_profiles_text">프로필을 VPN Plus로 잠금 해제하세요.</string>
     <string name="upgrade_streaming_title">4K로 스트리밍</string>
     <string name="upgrade_streaming_text">전세계에 있는 영화와 TV 콘텐츠를 즐겨보세요.</string>
     <string name="upgrade_tor_title">한 번의 탭으로 Tor 네트워크에 접근하세요</string>
@@ -406,7 +406,7 @@
     <plurals name="upgrade_unlimited_vpn_many_devices">
         <item quantity="other">%1$d개의 장치를 한 번에 보호하세요</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">안전한 스트리밍 서비스 연결</string>
+    <string name="upgrade_unlimited_vpn_streaming">안전한 영상 스트리밍</string>
     <string name="upgrade_unlimited_vpn_adblocker">광고 차단기 및 멀웨어 보호</string>
     <string name="upgrade_unlimited_vpn_double_vpn">더블 VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">P2P 지원</string>
@@ -477,7 +477,7 @@
     <string name="upsell_card_p2p_title">P2P 지원</string>
     <string name="upsell_card_p2p_description">BitTorrent와 다른 파일 공유 프로토콜로 파일을 다운로드하세요</string>
     <string name="upsell_card_profiles_title">프로필</string>
-    <string name="upsell_card_profiles_description">커스텀 VPN 연결 지정</string>
+    <string name="upsell_card_profiles_description">커스텀 VPN 연결 생성</string>
     <string name="upsell_card_speed_title">더 빠른 브라우징</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
@@ -517,7 +517,7 @@
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_annual">환영 할인. 매월 %1$s(으)로 갱신됩니다.</string>
     <string name="payment_auto_renew_message_monthly">구독이 매월 %1$s(으)로 자동 갱신됩니다.</string>
-    <string name="payment_auto_renew_message_annual">구독이 매년 %1$s(으)로 자동 갱신됩니다.</string>
+    <string name="payment_auto_renew_message_annual">구독이 매년 %1$s(으)로 자동 갱신됩니다</string>
     <string name="payment_welcome_price_message_monthly_fallback">구독이 매월 자동으로 갱신됩니다.</string>
     <string name="payment_welcome_price_message_annual_fallback">구독이 매년 자동으로 갱신됩니다.</string>
     <string name="smart_routing_title">Smart Routing</string>
@@ -773,6 +773,7 @@
     <string name="server_feature_content_description_smart_routing">스마트 라우팅</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">가장 빠른 국가</string>
+    <string name="fastest_country_excluding_my_country">가장 빠른 국가 (현재 거주 국가 제외)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">가장 빠른 무료 서버</string>
     <!-- tag(Redesign_2023)
@@ -1226,8 +1227,8 @@
     <string name="connection_details_seconds_shortened">%1$d 초</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">연결 실패</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">이 디바이스가 VPN 연결을 허용하지 않습니다.</string>
-    <!-- Profile creation -->
-    <string name="create_profile_title">새 프로필 생성</string>
+    <string name="create_profile_title">프로필 생성</string>
+    <string name="edit_profile_title">프로필 수정</string>
     <string name="create_profile_name_hint">프로필 이름</string>
     <string name="create_profile_name_error_empty">프로필 이름을 입력하세요</string>
     <string name="create_profile_name_error_too_long">프로필 이름은 30자 이하여야 합니다</string>
@@ -1333,13 +1334,15 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">오직 선택된 앱만이 VPN을 통해 연결됩니다. 제외된 항목은 보호되지 않습니다.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">수정</string>
+    <string name="profile_action_duplicate">복제</string>
     <string name="profile_action_delete">삭제</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">미국 스트리밍</string>
-    <string name="initial_profile_name_work_school">업무/학교</string>
+    <string name="initial_profile_name_work_school">직장/학교</string>
+    <string name="initial_profile_name_anti_censorship">반검열</string>
     <string name="create_profile_pick_country_title">국가</string>
     <string name="create_profile_pick_type_title">종류</string>
     <string name="create_profile_type_standard">표준</string>
@@ -1353,6 +1356,11 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">프로토콜</string>
     <string name="create_profile_pick_nat_title">NAT 종류</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (복사)</string>
     <string name="create_profile_fastest_city">가장 빠른 도시</string>
     <string name="create_profile_fastest_state">가장 빠른 주</string>
     <string name="create_profile_fastest_server">가장 빠른 서버</string>
@@ -1366,4 +1374,10 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">선택하신 서버 %1$s가 이용할 수 없는 상태입니다. 다른 서버를 선택하시거나 나중에 다시 시도하세요.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">아이콘 %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">색상 %1$d</string>
 </resources>

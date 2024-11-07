@@ -370,7 +370,7 @@
     <string name="upgrade_p2p_title">Odblokuj pobieranie i udostępnianie plików peer-to-peer (P2P)</string>
     <string name="upgrade_p2p_text">Zwiększ prędkość wysyłania i pobierania, ukrywając swój adres IP.</string>
     <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
-    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
+    <string name="upgrade_profiles_text">Odblokuj profile w planie VPN Plus</string>
     <string name="upgrade_streaming_title">Streamuj w 4K</string>
     <string name="upgrade_streaming_text">Ciesz się ulubionymi filmami i programami telewizyjnymi, gdziekolwiek jesteś.</string>
     <string name="upgrade_tor_title">Dostęp do sieci Tor za jednym dotknięciem</string>
@@ -523,7 +523,7 @@
     <string name="upsell_card_secure_core_description">Dodaj kolejną warstwę szyfrowania do połączenia VPN</string>
     <string name="upsell_card_p2p_title">Wsparcie P2P</string>
     <string name="upsell_card_p2p_description">Pobieraj pliki za pośrednictwem protokołów udostępniania plików, takich jak BitTorrent</string>
-    <string name="upsell_card_profiles_title">Profiles</string>
+    <string name="upsell_card_profiles_title">Profile</string>
     <string name="upsell_card_profiles_description">Create custom VPN connections</string>
     <string name="upsell_card_speed_title">Szybsze przeglądanie</string>
     <!-- Parameters:
@@ -844,6 +844,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Najszybszy kraj</string>
+    <string name="fastest_country_excluding_my_country">Najszybszy kraj (wykluczając mój kraj)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Najszybszy darmowy serwer</string>
     <!-- tag(Redesign_2023)
@@ -1333,14 +1334,14 @@
     <string name="connection_details_seconds_shortened">%1$d sek.</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Połączenie nie powiodło się</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Urządzenie nie zezwala na połączenia VPN.</string>
-    <!-- Profile creation -->
-    <string name="create_profile_title">Utwórz nowy profil</string>
+    <string name="create_profile_title">Create profile</string>
+    <string name="edit_profile_title">Edit profile</string>
     <string name="create_profile_name_hint">Nazwa profilu</string>
-    <string name="create_profile_name_error_empty">Wprowadź nazwę profilu</string>
+    <string name="create_profile_name_error_empty">Wpisz nazwę profilu</string>
     <string name="create_profile_name_error_too_long">Nazwa profilu nie może zawierać więcej niż 30 znaków</string>
     <string name="create_profile_type_and_location_title">Wybierz typ połączenia i lokalizację</string>
     <string name="create_profile_features_and_settings_title">Funkcje i ustawienia</string>
-    <string name="create_profile_features_and_settings_description">Zaleca się następujące wartości</string>
+    <string name="create_profile_features_and_settings_description">Zalecane wartości</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
@@ -1439,6 +1440,7 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Tylko wybrane aplikacje zostaną uwzględnione w połączeniu VPN. Pozostały ruch sieciowy będzie niechroniony.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Edytuj</string>
+    <string name="profile_action_duplicate">Duplikuj</string>
     <string name="profile_action_delete">Usuń</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1446,19 +1448,25 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming USA</string>
     <string name="initial_profile_name_work_school">Praca / Szkoła</string>
+    <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
     <string name="create_profile_pick_country_title">Kraj</string>
-    <string name="create_profile_pick_type_title">Rodzaj</string>
+    <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Standardowy</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Bramka</string>
-    <string name="create_profile_pick_state_title">Status</string>
+    <string name="create_profile_gateway">Brama</string>
+    <string name="create_profile_pick_state_title">Stan</string>
     <string name="create_profile_pick_city_title">Miasto</string>
     <string name="create_profile_pick_server_title">Serwer</string>
-    <string name="create_profile_pick_gateway_title">Bramka</string>
+    <string name="create_profile_pick_gateway_title">Brama</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">Protokół</string>
-    <string name="create_profile_pick_nat_title">Typ sieci NAT</string>
+    <string name="create_profile_pick_nat_title">Typ NAT</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (kopiuj)</string>
     <string name="create_profile_fastest_city">Najszybszy</string>
     <string name="create_profile_fastest_state">Najszybszy</string>
     <string name="create_profile_fastest_server">Najszybszy</string>
@@ -1472,4 +1480,10 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Color %1$d</string>
 </resources>

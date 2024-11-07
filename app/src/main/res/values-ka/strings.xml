@@ -796,6 +796,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">უსწრაფესი ქვეყანა</string>
+    <string name="fastest_country_excluding_my_country">უწრაფესი ქვეყანა (ჩემი ქვეყნის გარდა)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">ყველაზე სწრაფი უფასო სერვერი</string>
     <!-- tag(Redesign_2023)
@@ -1261,8 +1262,8 @@
     <string name="connection_details_seconds_shortened">%1$d წმ</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">შეერთების შეცდომა</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">ამ მოწყობილობას VPN მიერთებების მხარდაჭერა არ გააჩნია.</string>
-    <!-- Profile creation -->
-    <string name="create_profile_title">ახალი პროფილის შექმნა</string>
+    <string name="create_profile_title">პროფილის შექმნა</string>
+    <string name="edit_profile_title">პროფილის ჩასწორება</string>
     <string name="create_profile_name_hint">პროფილის სახელი</string>
     <string name="create_profile_name_error_empty">შეიყვანეთ პროფილის სახელი</string>
     <string name="create_profile_name_error_too_long">პროფილის სახელი 30 ან ნაკლებ სიმბოლოს უნდა შეიცავდეს</string>
@@ -1367,6 +1368,7 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">მხოლოდ, არჩეული აპები გამოიყენებენ VPN-ს. დანარჩენი ყველაფერი დაუცველი იქნება.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">ჩასწორება</string>
+    <string name="profile_action_duplicate">დუბლირება</string>
     <string name="profile_action_delete">წაშლა</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1374,6 +1376,7 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">სტრიმინგი US</string>
     <string name="initial_profile_name_work_school">სამსახური/სკოლა</string>
+    <string name="initial_profile_name_anti_censorship">ანტიცენზურა</string>
     <string name="create_profile_pick_country_title">ქვეყანა</string>
     <string name="create_profile_pick_type_title">ტიპი</string>
     <string name="create_profile_type_standard">სტანდარტული</string>
@@ -1387,6 +1390,11 @@
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">პროტოკოლი</string>
     <string name="create_profile_pick_nat_title">NAT-ის ტიპი</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (ასლი)</string>
     <string name="create_profile_fastest_city">უსწრაფესი</string>
     <string name="create_profile_fastest_state">უსწრაფესი</string>
     <string name="create_profile_fastest_server">უსწრაფესი</string>
@@ -1400,4 +1408,10 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">თქვენი სერვერის არჩევანი %1$s-სთვის ხელმიუწვდომელია. აირჩიეთ სხვა სერვერი, ან მოგვიანებით სცადეთ.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">ხატულა %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">ფერი %1$d</string>
 </resources>
