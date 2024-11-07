@@ -45,9 +45,10 @@ fun VpnSolidButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     isExternalLink: Boolean = false,
 ) {
-    ProtonSolidButton(onClick = onClick, modifier = modifier.fillMaxWidth()) {
+    ProtonSolidButton(onClick = onClick, modifier = modifier.fillMaxWidth(), enabled = enabled) {
         VpnButtonContent(text, isExternalLink)
     }
 }
@@ -57,6 +58,7 @@ fun VpnWeakSolidButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     isExternalLink: Boolean = false,
 ) {
     val colors = ButtonDefaults.protonButtonColors(
@@ -64,7 +66,7 @@ fun VpnWeakSolidButton(
         contentColor = ProtonTheme.colors.textNorm,
         backgroundColor = ProtonTheme.colors.interactionWeakNorm
     )
-    ProtonSolidButton(onClick = onClick, colors = colors, modifier = modifier.fillMaxWidth()) {
+    ProtonSolidButton(onClick = onClick, colors = colors, modifier = modifier.fillMaxWidth(), enabled = enabled) {
         VpnButtonContent(text, isExternalLink)
     }
 }

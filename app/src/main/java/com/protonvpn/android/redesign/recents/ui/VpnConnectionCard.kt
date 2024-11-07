@@ -69,7 +69,7 @@ import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
-import com.protonvpn.android.redesign.base.ui.clickableWithDebounce
+import com.protonvpn.android.redesign.base.ui.clickableNoMultiClick
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
@@ -125,7 +125,7 @@ fun VpnConnectionCard(
             // chevron icon.
             val panelModifier = if (viewState.canOpenPanel) {
                 val action = if (viewState.canOpenConnectionPanel) onOpenConnectionPanel else openFreeCountriesInfoPanel
-                Modifier.clickableWithDebounce(action = action)
+                Modifier.clickableNoMultiClick(action = action)
             } else {
                 Modifier
             }
