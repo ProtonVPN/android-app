@@ -796,6 +796,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Pays le plus rapide</string>
+    <string name="fastest_country_excluding_my_country">Le pays plus rapide (à l\'exclusion de mon pays)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Serveur gratuit le plus rapide</string>
     <!-- tag(Redesign_2023)
@@ -1261,8 +1262,8 @@
     <string name="connection_details_seconds_shortened">%1$d sec</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">La connexion n\'a pas abouti.</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Cet appareil n\'autorise pas les connexions VPN.</string>
-    <!-- Profile creation -->
     <string name="create_profile_title">Créer un profil</string>
+    <string name="edit_profile_title">Modifier le profil</string>
     <string name="create_profile_name_hint">Nom du profil</string>
     <string name="create_profile_name_error_empty">Saisir le nom du profil</string>
     <string name="create_profile_name_error_too_long">Le nom du profil doit contenir 30 caractères ou moins.</string>
@@ -1367,6 +1368,7 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Seules les applications sélectionnées se connectent via VPN. Tout autre trafic n\'est pas protégé.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Modifier</string>
+    <string name="profile_action_duplicate">Dupliquer</string>
     <string name="profile_action_delete">Supprimer</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1374,6 +1376,7 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming États-Unis</string>
     <string name="initial_profile_name_work_school">Travail ou école</string>
+    <string name="initial_profile_name_anti_censorship">Anti-censure</string>
     <string name="create_profile_pick_country_title">Pays</string>
     <string name="create_profile_pick_type_title">Type</string>
     <string name="create_profile_type_standard">Standard</string>
@@ -1387,6 +1390,11 @@
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">Protocole</string>
     <string name="create_profile_pick_nat_title">Type de NAT</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (copie)</string>
     <string name="create_profile_fastest_city">La plus rapide</string>
     <string name="create_profile_fastest_state">Le plus rapide</string>
     <string name="create_profile_fastest_server">Le plus rapide</string>
@@ -1400,4 +1408,10 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Le serveur sélectionné pour %1$s n\'est pas disponible. Veuillez sélectionner un autre serveur ou réessayer plus tard.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Icône %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Couleur %1$d</string>
 </resources>

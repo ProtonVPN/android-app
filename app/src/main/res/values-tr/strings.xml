@@ -796,6 +796,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">En hızlı ülke</string>
+    <string name="fastest_country_excluding_my_country">En hızlı ülke (ülkemin dışında)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">En hızlı Free sunucusu</string>
     <!-- tag(Redesign_2023)
@@ -1261,8 +1262,8 @@
     <string name="connection_details_seconds_shortened">%1$d sn</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Bağlantı kurulamadı</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Bu aygıt VPN bağlantılarına izin vermiyor.</string>
-    <!-- Profile creation -->
-    <string name="create_profile_title">Yeni profil oluştur</string>
+    <string name="create_profile_title">Profil oluştur</string>
+    <string name="edit_profile_title">Profili düzenle</string>
     <string name="create_profile_name_hint">Profil adı</string>
     <string name="create_profile_name_error_empty">Bir profil adı yazın</string>
     <string name="create_profile_name_error_too_long">Profil adı 30 karakterden kısa olmalıdır</string>
@@ -1367,6 +1368,7 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Yalnızca seçilmiş uygulamalar VPN üzerinden bağlantı kurar, diğer tüm trafik korumasızdır.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Düzenle</string>
+    <string name="profile_action_duplicate">Çoğalt</string>
     <string name="profile_action_delete">Sil</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1374,6 +1376,7 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Birleşik Devletler\'de yayın akışı izlemek</string>
     <string name="initial_profile_name_work_school">İş/Okul</string>
+    <string name="initial_profile_name_anti_censorship">Sansürü aşma</string>
     <string name="create_profile_pick_country_title">Ülke</string>
     <string name="create_profile_pick_type_title">Tür</string>
     <string name="create_profile_type_standard">Standart</string>
@@ -1387,6 +1390,11 @@
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">İletişim kuralı</string>
     <string name="create_profile_pick_nat_title">NAT Type</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (kopyası)</string>
     <string name="create_profile_fastest_city">En hızlı</string>
     <string name="create_profile_fastest_state">En hızlı</string>
     <string name="create_profile_fastest_server">En hızlı</string>
@@ -1400,4 +1408,10 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">%1$s sunucu seçiminiz kullanılamıyor. Başka bir sunucu seçin ya da bir süre sonra yeniden deneyin.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">%1$d. simge</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">%1$d. renk</string>
 </resources>

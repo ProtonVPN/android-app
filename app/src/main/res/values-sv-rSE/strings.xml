@@ -796,6 +796,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Snabbaste land</string>
+    <string name="fastest_country_excluding_my_country">Snabbaste land (exklusive mitt land)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Snabbaste gratisserver</string>
     <!-- tag(Redesign_2023)
@@ -1261,8 +1262,8 @@
     <string name="connection_details_seconds_shortened">%1$d sek.</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Anslutning misslyckades</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Denna enhet tillåter inte VPN-anslutningar.</string>
-    <!-- Profile creation -->
-    <string name="create_profile_title">Skapa ny profil</string>
+    <string name="create_profile_title">Skapa profil</string>
+    <string name="edit_profile_title">Redigera profil</string>
     <string name="create_profile_name_hint">Profilnamn</string>
     <string name="create_profile_name_error_empty">Ange ett profilnamn</string>
     <string name="create_profile_name_error_too_long">Profilnamn måste vara 30 tecken eller mindre</string>
@@ -1367,6 +1368,7 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Endast valda appar ansluter genom VPN, all annan trafik är oskyddad.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Redigera</string>
+    <string name="profile_action_duplicate">Duplicera</string>
     <string name="profile_action_delete">Ta bort</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1374,6 +1376,7 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Arbete/skola</string>
+    <string name="initial_profile_name_anti_censorship">Anticensur</string>
     <string name="create_profile_pick_country_title">Land</string>
     <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Standard</string>
@@ -1386,7 +1389,12 @@
     <string name="create_profile_pick_gateway_title">Gateway</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">Protokoll</string>
-    <string name="create_profile_pick_nat_title">NAT type</string>
+    <string name="create_profile_pick_nat_title">NAT-typ</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (kopiera)</string>
     <string name="create_profile_fastest_city">Snabbast</string>
     <string name="create_profile_fastest_state">Snabbast</string>
     <string name="create_profile_fastest_server">Snabbast</string>
@@ -1400,4 +1408,10 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Ditt serverval för %1$s är inte tillgängligt. Välj en annan server eller försök igen senare.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Ikon %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Färg %1$d</string>
 </resources>

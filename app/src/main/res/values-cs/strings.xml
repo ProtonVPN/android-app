@@ -844,6 +844,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Nejrychlejší země</string>
+    <string name="fastest_country_excluding_my_country">Nejrychlejší země (kromě mojí země)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Nejrychlejší bezplatný server</string>
     <!-- tag(Redesign_2023)
@@ -1333,8 +1334,8 @@
     <string name="connection_details_seconds_shortened">%1$d sek.</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Připojení selhalo</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Toto zařízení neumožňuje připojení VPN.</string>
-    <!-- Profile creation -->
-    <string name="create_profile_title">Vytvořit nový profil</string>
+    <string name="create_profile_title">Vytvořit profil</string>
+    <string name="edit_profile_title">Upravit profil</string>
     <string name="create_profile_name_hint">Název profilu</string>
     <string name="create_profile_name_error_empty">Zadejte název profilu</string>
     <string name="create_profile_name_error_too_long">Název profilu musí mít délku 30 znaků nebo méně</string>
@@ -1439,6 +1440,7 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Pouze vybrané aplikace se připojí skrze VPN, ostatní provoz nebude chráněn.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Upravit</string>
+    <string name="profile_action_duplicate">Duplikovat</string>
     <string name="profile_action_delete">Smazat</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1446,6 +1448,7 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streamování US</string>
     <string name="initial_profile_name_work_school">Práce/škola</string>
+    <string name="initial_profile_name_anti_censorship">Boj proti cenzuře</string>
     <string name="create_profile_pick_country_title">Země</string>
     <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Standardní</string>
@@ -1459,6 +1462,11 @@
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">Protokol</string>
     <string name="create_profile_pick_nat_title">Typ NAT</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (kopie)</string>
     <string name="create_profile_fastest_city">Nejrychlejší</string>
     <string name="create_profile_fastest_state">Nejrychlejší</string>
     <string name="create_profile_fastest_server">Nejrychlejší</string>
@@ -1472,4 +1480,10 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Vámi vybraný server pro %1$s je nedostupný. Vyberte si jiný server a nebo zkuste akci opakovat později.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Ikona %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Barva %1$d</string>
 </resources>

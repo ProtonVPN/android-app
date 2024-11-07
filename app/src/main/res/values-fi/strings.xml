@@ -663,7 +663,7 @@
     <string name="whats_new_dismiss_button">Tutustu</string>
     <string name="whats_new_added_countries_title">Uusia ilmaismaita</string>
     <string name="whats_new_added_countries_description">Puolassa ja Romaniassa on nyt ilmaisia palvelimia. Palvelimien ruuhkautumisen estämiseksi poistimme manuaalisen maavalinnan käytöstä, ja teimme merkittäviä parannuksia automaattiseen palvelinvalintaan.</string>
-    <string name="welcome_plus_title">Tervetluoa VPN Plus -tilaukseen</string>
+    <string name="welcome_plus_title">Tervetluoa VPN Plussaan</string>
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja seuraavan tason VPN-mukautuksesta.</string>
     <string name="welcome_plus_feature_security">Edistyneet suojausominaisuudet</string>
     <string name="welcome_unlimited_title">Tervetuloa Proton Unlimitediin</string>
@@ -796,6 +796,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Nopein maa</string>
+    <string name="fastest_country_excluding_my_country">Nopein maa (kotimaatani lukuun ottamatta)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Nopein ilmainen palvelin</string>
     <!-- tag(Redesign_2023)
@@ -952,7 +953,7 @@
      -->
     <string name="recents_headline">Viimeisimmät</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
-    <string name="home_upsell_carousel_headline">Tutustu VPN Plus -tilaukseen</string>
+    <string name="home_upsell_carousel_headline">Tutustu VPN Plussaan</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_pin">Kiinnitä</string>
     <!-- tag(Redesign_2023) -->
@@ -1137,7 +1138,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN:n nopeus</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_question">Mikä on VPN:n nopeus?</string>
+    <string name="connection_details_vpn_speed_question">Mitä VPN:n nopeus tarkoittaa?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">Secure Core yhdistää sinut kohdepalvelimeesi toisen, mahdollisimman turvallisen VPN-palvelimen kautta.\n\nTämä korkeampi suojaustaso voi aiheuttaa suurempaa viivettä ja hitaampia nopeuksia.</string>
@@ -1261,8 +1262,8 @@
     <string name="connection_details_seconds_shortened">%1$d s</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Yhteys epäonnistui</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Tämä laite ei salli VPN-yhteyksiä.</string>
-    <!-- Profile creation -->
-    <string name="create_profile_title">Luo uusi profiili</string>
+    <string name="create_profile_title">Luo profiili</string>
+    <string name="edit_profile_title">Muokkaa profiilia</string>
     <string name="create_profile_name_hint">Profiilin nimi</string>
     <string name="create_profile_name_error_empty">Syötä profiilin nimi</string>
     <string name="create_profile_name_error_too_long">Profiilin nimen on oltava alle 30 merkkiä</string>
@@ -1339,7 +1340,7 @@
     <string name="info_secure_core_standard_lower_latency">Matalampi viive</string>
     <string name="info_secure_core_advanced_privacy">Edistynyt yksityisyys</string>
     <string name="info_secure_core_higher_latency">Korkeampi viive</string>
-    <string name="info_p2p_what_title">Mikä on P2P?</string>
+    <string name="info_p2p_what_title">Mitä P2P tarkoittaa?</string>
     <string name="info_p2p_what_description">Peer-to-peer (P2P) -tekniikan avulla voit muodostaa yhteyden ja jakaa tiedostoja suoraan muiden laitteiden kanssa.\n\nP2P-palvelimemme on suunniteltu erityisesti tällaista tiedostojen jakamista varten.</string>
     <string name="info_p2p_torrenting_title">Mitä on torrentointi?</string>
     <string name="info_p2p_torrenting_description">Suurten tiedostojen nopea jakaminen ja lataaminen P2P-verkon välityksellä.</string>
@@ -1348,11 +1349,11 @@
     <string name="info_p2p_why_description_logs">Ei toimintalokeja</string>
     <string name="info_p2p_why_description_hide">Piilota IP-osoitteesi palveluntarjoajaltasi ja vertaisilta</string>
     <string name="info_dialog_smart_routing_description">Smart Routing käyttää virtuaalipalvelimia tarjotakseen VPN-verkon kattavuuden vaikeasti saavutettavissa maissa.\n\nKun muodostat yhteyden Smart Routing -palvelimeen, näytät selaavasi kohdemaastasi, vaikka fyysinen palvelin sijaitsee muualla.  \n\nSmart Routingia käytetään yleensä yksityisyydensuojan vastaisten lakien ja muunlaisen sensuurin kiertämiseen</string>
-    <string name="countries_upsell_banner_description">Hanki maailmanlaajuinen kattavuus VPN Plus -tilauksella</string>
+    <string name="countries_upsell_banner_description">Hanki maailmanlaajuinen kattavuus VPN Plussalla</string>
     <string name="secure_core_upsell_banner_description">Lisää VPN-yhteyteesi toinen salauskerros.</string>
     <string name="p2p_upsell_banner_description">Lataa tiedostoja mm. BitTorrentin kaltaisilla tiedonsiirtoprotokollilla.</string>
     <string name="tor_upsell_banner_description">Käytä Tor-verkkoa VPN-yhteytesi välityksellä ja tehosta tietosuojaasi.</string>
-    <string name="vpnplus_upsell_banner_description">Päivitä VPN Plus -tilaukseen</string>
+    <string name="vpnplus_upsell_banner_description">Päivitä VPN Plussaan</string>
     <string name="search_zero_screen_title">Yritä etsiä sanoilla…</string>
     <string name="search_zero_screen_info_countries_title">Maat</string>
     <string name="search_zero_screen_info_cities_title">Kaupungit</string>
@@ -1367,6 +1368,7 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Vain valitut sovellukset muodostavat yhteyden VPN:n kautta, kaikki muu tietoliikenne on suojaamatonta.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Muokkaa</string>
+    <string name="profile_action_duplicate">Luo kopio</string>
     <string name="profile_action_delete">Poista</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1374,6 +1376,7 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Suoratoisto USA</string>
     <string name="initial_profile_name_work_school">Työ/Koulu</string>
+    <string name="initial_profile_name_anti_censorship">Sensuurin vastainen</string>
     <string name="create_profile_pick_country_title">Maa</string>
     <string name="create_profile_pick_type_title">Tyyppi</string>
     <string name="create_profile_type_standard">Tavallinen</string>
@@ -1387,6 +1390,11 @@
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">Protokolla</string>
     <string name="create_profile_pick_nat_title">NAT-tyyppi</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (kopio)</string>
     <string name="create_profile_fastest_city">Nopein</string>
     <string name="create_profile_fastest_state">Nopein</string>
     <string name="create_profile_fastest_server">Nopein</string>
@@ -1400,4 +1408,10 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Valitsemasi palvelin %1$s ei ole käytettävissä. Valitse toinen palvelin tai kokeile myöhemmin uudelleen.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Kuvake %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Väri %1$d</string>
 </resources>

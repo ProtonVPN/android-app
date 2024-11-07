@@ -820,6 +820,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Cea mai rapidă țară</string>
+    <string name="fastest_country_excluding_my_country">Cea mai rapidă țară (exclusiv țara mea)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Cel mai rapid server gratuit</string>
     <!-- tag(Redesign_2023)
@@ -1297,8 +1298,8 @@
     <string name="connection_details_seconds_shortened">%1$d sec</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Conexiunea a eșuat</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Acest dispozitiv nu permite conexiuni prin VPN.</string>
-    <!-- Profile creation -->
     <string name="create_profile_title">Creare profil</string>
+    <string name="edit_profile_title">Editare profil</string>
     <string name="create_profile_name_hint">Nume profil</string>
     <string name="create_profile_name_error_empty">Introduceți numele profilului</string>
     <string name="create_profile_name_error_too_long">Numele profilului trebuie să aibă maxim 30 de caractere</string>
@@ -1403,6 +1404,7 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Doar aplicațiile selectate se conectează prin VPN, orice alt trafic nefiind protejat.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Editare</string>
+    <string name="profile_action_duplicate">Duplicare</string>
     <string name="profile_action_delete">Ștergere</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
@@ -1410,6 +1412,7 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Transmisii în flux SUA</string>
     <string name="initial_profile_name_work_school">Serviciu/școală</string>
+    <string name="initial_profile_name_anti_censorship">Anticenzură</string>
     <string name="create_profile_pick_country_title">Țara</string>
     <string name="create_profile_pick_type_title">Tip</string>
     <string name="create_profile_type_standard">Standard</string>
@@ -1423,6 +1426,11 @@
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_protocol_title">Protocol</string>
     <string name="create_profile_pick_nat_title">Tip NAT</string>
+    <!--
+         Example:
+         if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
+     -->
+    <string name="create_profile_copy_name">%1$s (copie)</string>
     <string name="create_profile_fastest_city">Cel mai rapid</string>
     <string name="create_profile_fastest_state">Cel mai rapid</string>
     <string name="create_profile_fastest_server">Cel mai rapid</string>
@@ -1436,4 +1444,10 @@
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Serverul selectat pentru „%1$s” nu este disponibil. Selectați un server diferit sau reîncercați mai târziu.</string>
+    <!-- %1$d - profile icon number
+         Example: Icon 1, Icon 2, ... -->
+    <string name="profile_icon_accessibility">Pictograma %1$d</string>
+    <!-- %1$d - profile icon number
+         Example: Color 1, Color 2, ... -->
+    <string name="profile_color_accessibility">Culoarea %1$d</string>
 </resources>
