@@ -61,6 +61,7 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
+import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.preventMultiClick
 import me.proton.core.compose.theme.ProtonTheme
@@ -84,7 +85,9 @@ fun AddEditProfileRoute(
         viewModel,
         onDismiss,
         isEditMode = profileId != null && !duplicate,
-        onProfileSave = viewModel::save
+        onProfileSave = {
+            viewModel.saveOrShowReconnectDialog(onDismiss)
+        }
     )
 }
 
@@ -100,6 +103,28 @@ fun AddEditProfileScreen(
     val navigator = remember { ProfilesAddEditNav(navController) }
     val totalSteps = ProfileCreationTarget.entries.size
     val name = viewModel.nameScreenStateFlow.collectAsStateWithLifecycle()
+    val reconnectDialog = viewModel.showReconnectDialogFlow.collectAsStateWithLifecycle().value
+
+    if (reconnectDialog) {
+        ProtonAlert(
+            title = null,
+            text = stringResource(R.string.profile_needs_reconnect),
+            confirmLabel = stringResource(id = R.string.reconnect_now),
+            isWideDialog = true,
+            onConfirm = {
+                viewModel.saveAndReconnect()
+                onDismiss()
+            },
+            dismissLabel = stringResource(id = R.string.cancel),
+            onDismissButton = {
+                viewModel.dismissReconnectDialog()
+            },
+            checkBoxInitialValue = false,
+            onDismissRequest = {
+                viewModel.dismissReconnectDialog()
+            }
+        )
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -137,10 +162,7 @@ fun AddEditProfileScreen(
 
             navigator.NavHost(
                 viewModel,
-                onDone = {
-                    onProfileSave()
-                    onDismiss()
-                },
+                onDone = onProfileSave,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = largeScreenContentPadding())

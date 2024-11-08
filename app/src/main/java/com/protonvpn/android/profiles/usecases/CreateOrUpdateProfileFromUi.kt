@@ -33,7 +33,8 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.telemetry.ProfilesTelemetry
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import me.proton.core.domain.entity.UserId
 import javax.inject.Inject
 
@@ -53,35 +54,49 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
         typeAndLocationScreen: TypeAndLocationScreenState,
         settingsScreen: SettingsScreenState,
         createDuplicate: Boolean = false,
-    ) {
-        mainScope.launch {
-            currentUser.vpnUser()?.userId?.let { userId ->
-                val existingProfile = if (profileId == null) null else profilesDao.getProfileById(profileId)
-                val isUserCreated =
-                    createDuplicate || isUserCreated(existingProfile, nameScreen, typeAndLocationScreen, settingsScreen)
-                val profile = createProfile(
-                    userId,
-                    profileId.takeUnless { createDuplicate },
-                    isUserCreated,
-                    createdAt,
+    ) : Deferred<Profile?> = mainScope.async {
+        currentUser.vpnUser()?.userId?.let { userId ->
+            val existingProfile =
+                if (profileId == null) null else profilesDao.getProfileById(profileId)
+            val isUserCreated =
+                createDuplicate || isUserCreated(
+                    existingProfile,
                     nameScreen,
                     typeAndLocationScreen,
                     settingsScreen
                 )
-                profilesDao.upsert(profile.toProfileEntity())
-                if (existingProfile == null || createDuplicate) {
-                    // Profile count should include the new profile.
-                    val profileCount = profilesDao.getProfileCount(userId)
-                    if (createDuplicate && existingProfile != null) {
-                        val isSourceUserCreated = existingProfile.info.isUserCreated
-                        telemetry.profileDuplicated(typeAndLocationScreen, settingsScreen, isSourceUserCreated, profileCount)
-                    } else {
-                        telemetry.profileCreated(typeAndLocationScreen, settingsScreen, profileCount)
-                    }
+            val profile = createProfile(
+                userId,
+                profileId.takeUnless { createDuplicate },
+                isUserCreated,
+                createdAt,
+                nameScreen,
+                typeAndLocationScreen,
+                settingsScreen
+            )
+            profilesDao.upsert(profile.toProfileEntity())
+            if (existingProfile == null || createDuplicate) {
+                // Profile count should include the new profile.
+                val profileCount = profilesDao.getProfileCount(userId)
+                if (createDuplicate && existingProfile != null) {
+                    val isSourceUserCreated = existingProfile.info.isUserCreated
+                    telemetry.profileDuplicated(
+                        typeAndLocationScreen,
+                        settingsScreen,
+                        isSourceUserCreated,
+                        profileCount
+                    )
                 } else {
-                    telemetry.profileUpdated(typeAndLocationScreen, settingsScreen, existingProfile)
+                    telemetry.profileCreated(
+                        typeAndLocationScreen,
+                        settingsScreen,
+                        profileCount
+                    )
                 }
+            } else {
+                telemetry.profileUpdated(typeAndLocationScreen, settingsScreen, existingProfile)
             }
+            profile
         }
     }
 
@@ -106,6 +121,27 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
         }
         // If changes were made then the profile becomes user-created.
         return newProfile != existingProfile
+    }
+
+    fun applyEditsToProfile(
+        profile: Profile,
+        nameScreen: NameScreenState,
+        typeAndLocationScreen: TypeAndLocationScreenState,
+        settingsScreen: SettingsScreenState
+    ): Profile {
+        val isUserCreated = profile.info.isUserCreated
+        val profileId = profile.info.id
+        val userId = profile.userId
+        val creationTime = profile.info.createdAt
+        return createProfile(
+            userId,
+            profileId,
+            isUserCreated,
+            creationTime,
+            nameScreen,
+            typeAndLocationScreen,
+            settingsScreen
+        )
     }
 
     private fun createProfile(
