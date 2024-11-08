@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.profiles.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
@@ -40,12 +41,16 @@ import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.sortedByLocaleAware
+import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.vpn.VpnConnect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -197,6 +202,9 @@ class CreateEditProfileViewModel @Inject constructor(
     private val profilesDao: ProfilesDao,
     private val createOrUpdateProfile: CreateOrUpdateProfileFromUi,
     private val adapter: ProfilesServerDataAdapter,
+    private val vpnConnect: VpnConnect,
+    private val vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
+    private val shouldAskForReconnection: ShouldAskForProfileReconnection,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
@@ -215,6 +223,8 @@ class CreateEditProfileViewModel @Inject constructor(
     private val availableTypesFlow = adapter.hasAnyGatewaysFlow.map {
         if (it) ProfileType.entries else ProfileType.entries.minus(ProfileType.Gateway)
     }
+
+    val showReconnectDialogFlow = MutableStateFlow(false)
 
     val typeAndLocationScreenStateFlow : Flow<TypeAndLocationScreenState> = combine(
         typeAndLocationScreenSavedStateFlow.filterNotNull(),
@@ -270,19 +280,52 @@ class CreateEditProfileViewModel @Inject constructor(
             }
         }
     }
+    
+    suspend fun save() : Deferred<Profile?> =
+        createOrUpdateProfile(
+            profileId = editedProfileId ?: duplicatedProfileId,
+            createdAt = editedProfileCreatedAt,
+            createDuplicate = duplicatedProfileId != null,
+            nameScreen = requireNotNull(nameScreenState),
+            typeAndLocationScreen = typeAndLocationScreenStateFlow.first(),
+            settingsScreen = requireNotNull(settingsScreenState)
+        )
 
-    fun save() {
+    fun dismissReconnectDialog() {
+        showReconnectDialogFlow.value = false
+    }
+
+    fun saveAndReconnect() {
         mainScope.launch {
-            createOrUpdateProfile(
-                profileId = editedProfileId ?: duplicatedProfileId,
-                createdAt = editedProfileCreatedAt,
-                createDuplicate = duplicatedProfileId != null,
-                nameScreen = requireNotNull(nameScreenState),
-                typeAndLocationScreen = typeAndLocationScreenStateFlow.first(),
-                settingsScreen = requireNotNull(settingsScreenState)
-            )
+            val savedProfile = save().await()
+            savedProfile?.let {
+                vpnConnect(
+                    vpnBackgroundUiDelegate,
+                    it.connectIntent,
+                    ConnectTrigger.Profile
+                )
+            }
+            dismissReconnectDialog()
         }
     }
+
+    fun saveOrShowReconnectDialog(onDismiss: () -> Unit) {
+        viewModelScope.launch {
+            val askForReconnection = shouldAskForReconnection(
+                editedProfileId,
+                requireNotNull(nameScreenState),
+                typeAndLocationScreenStateFlow.first(),
+                requireNotNull(settingsScreenState)
+            )
+            if (askForReconnection) {
+                showReconnectDialogFlow.value = true
+            } else {
+                save()
+                onDismiss()
+            }
+        }
+    }
+
 
     private fun initializeDefault() {
         nameScreenState = NameScreenState(
@@ -294,6 +337,7 @@ class CreateEditProfileViewModel @Inject constructor(
         settingsScreenState = defaultSettingScreenState
     }
 
+    @SuppressLint("StringFormatInvalid")
     private suspend fun initializeFromProfile(profile: Profile, isDuplicate: Boolean) {
         editedProfileCreatedAt = profile.info.createdAt
         val name = when {
@@ -306,7 +350,19 @@ class CreateEditProfileViewModel @Inject constructor(
             profile.info.icon,
         )
         val intent = profile.connectIntent
-        typeAndLocationScreenSavedState = when (intent) {
+        typeAndLocationScreenSavedState = getTypeAndLocationScreenStateFromIntent(intent)
+        settingsScreenState = getSettingsScreenStateFromIntent(intent)
+    }
+
+    private fun getSettingsScreenStateFromIntent(intent: ConnectIntent) =  SettingsScreenState(
+        netShield = intent.settingsOverrides?.netShield?.let { it != NetShieldProtocol.DISABLED } ?: defaultSettingScreenState.netShield,
+        protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
+        natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
+        lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
+    )
+
+    private suspend fun getTypeAndLocationScreenStateFromIntent(intent: ConnectIntent): TypeAndLocationScreenSaveState {
+        return when (intent) {
             is ConnectIntent.Gateway ->
                 TypeAndLocationScreenSaveState(ProfileType.Gateway, gateway = intent.gatewayName, serverId = intent.serverId)
             is ConnectIntent.SecureCore ->
@@ -323,12 +379,6 @@ class CreateEditProfileViewModel @Inject constructor(
                 )
             }
         }
-        settingsScreenState = SettingsScreenState(
-            netShield = intent.settingsOverrides?.netShield?.let { it != NetShieldProtocol.DISABLED } ?: defaultSettingScreenState.netShield,
-            protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
-            natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
-            lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
-        )
     }
 
     private fun standardTypeDefault() =

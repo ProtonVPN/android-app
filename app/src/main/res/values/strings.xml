@@ -1405,6 +1405,7 @@
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="profile_needs_reconnect">This will restart your connection.</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>
     <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
