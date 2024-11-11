@@ -1410,8 +1410,8 @@
     <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <string name="profile_icon_accessibility">Symbol %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
-    <string name="profile_color_accessibility">Color %1$d</string>
+    <string name="profile_color_accessibility">Farbe %1$d</string>
 </resources>

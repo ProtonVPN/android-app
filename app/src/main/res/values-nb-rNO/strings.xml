@@ -1262,8 +1262,8 @@
     <string name="connection_details_seconds_shortened">%1$d sek</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Tilkobling mislyktes</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Denne enheten tillater ikke VPN-tilkoblinger.</string>
-    <string name="create_profile_title">Create profile</string>
-    <string name="edit_profile_title">Edit profile</string>
+    <string name="create_profile_title">Opprett profil</string>
+    <string name="edit_profile_title">Rediger profil</string>
     <string name="create_profile_name_hint">Profilnavn</string>
     <string name="create_profile_name_error_empty">Skriv inn et profilnavn</string>
     <string name="create_profile_name_error_too_long">Profilnavnet må bestå av 30 tegn eller mindre</string>
@@ -1410,8 +1410,8 @@
     <string name="profile_unavailable_dialog_message">Tjenervalget ditt for %1$s er ikke tilgjengelig. Velg en annen tjener eller prøv igjen senere.</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <string name="profile_icon_accessibility">Ikon %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
-    <string name="profile_color_accessibility">Color %1$d</string>
+    <string name="profile_color_accessibility">Farge %1$d</string>
 </resources>

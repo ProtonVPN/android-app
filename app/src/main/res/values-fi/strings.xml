@@ -357,7 +357,7 @@
     <string name="upgrade_secure_core_message"><![CDATA[Lisää VPN-yhteyteesi toinen salaustaso <b>Secure Corella</b>.]]></string>
     <string name="upgrade_p2p_title">Avaa peer-to-peer (P2P) lataukset ja tiedostojaot</string>
     <string name="upgrade_p2p_text">Paranna lähetys- ja latausnopeuksiasi samalla kun piilotat IP-osoitteesi.</string>
-    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
+    <string name="upgrade_profiles_title">Löydä yleisimmät yhteytesi nopeasti</string>
     <string name="upgrade_profiles_text">Avaa profiilit VPN Plussalla</string>
     <string name="upgrade_streaming_title">Suoratoista 4K-tarkkuudella</string>
     <string name="upgrade_streaming_text">Nauti suosikkielokuvistasi ja -sarjoistasi kaikkialta maailmasta.</string>
@@ -1315,7 +1315,7 @@
     <string name="settings_protocol_wireguard_tcp_description">Uusinta tekniikkaa hyödyntävä turvallisuus- ja suorituskykyprotokolla.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN:n virrankulutus ei ole yhtä hyvä kuin joidenkin muiden protokollien.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN on luotettava huonoissa verkko-olosuhteissa, mutta ei välttämättä ole yhtä nopea kuin muut protokollat.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Vakiintunut, hyvin testattu ja turvallinen. OpenVPN on luotettava huonoissakin verkko-olosuhteissa, muttei välttämättä saavuta muiden porotokollien nopeuksia.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Kiertää VPN-estot piilottamalla VPN-yhteytesi sensuureilta. Tämä protokolla on DPI-vastustuskykyinen (Deep Packet Inspection), mutta ei välttämättä yhtä nopea kuin muut protokollat. Stealth on Proton VPN:n yksinoikeus.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->

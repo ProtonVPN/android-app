@@ -1262,8 +1262,8 @@
     <string name="connection_details_seconds_shortened">%1$d seg</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Error de conexión</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Este dispositivo no permite conexiones VPN.</string>
-    <string name="create_profile_title">Create profile</string>
-    <string name="edit_profile_title">Edit profile</string>
+    <string name="create_profile_title">Crear un perfil</string>
+    <string name="edit_profile_title">Editar el perfil</string>
     <string name="create_profile_name_hint">Nombre del perfil</string>
     <string name="create_profile_name_error_empty">Ingresar el nombre del perfil</string>
     <string name="create_profile_name_error_too_long">El nombre del perfil debe tener 30 caracteres o menos.</string>
@@ -1410,7 +1410,7 @@
     <string name="profile_unavailable_dialog_message">El servidor seleccionado para %1$s no está disponible. Selecciona un servidor diferente o intenta de nuevo más tarde.</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <string name="profile_icon_accessibility">Ícono %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Color %1$d</string>

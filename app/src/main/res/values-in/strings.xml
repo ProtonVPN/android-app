@@ -1226,8 +1226,8 @@
     <string name="connection_details_seconds_shortened">%1$d dtk</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Koneksi gagal</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Perangkat ini tidak mengizinkan koneksi VPN.</string>
-    <string name="create_profile_title">Create profile</string>
-    <string name="edit_profile_title">Edit profile</string>
+    <string name="create_profile_title">Buat profil</string>
+    <string name="edit_profile_title">Sunting profil</string>
     <string name="create_profile_name_hint">Nama profil</string>
     <string name="create_profile_name_error_empty">Masukkan nama profil</string>
     <string name="create_profile_name_error_too_long">Nama profil hanya dapat mengandung sebanyak-banyaknya 30 karakter</string>
@@ -1374,8 +1374,8 @@
     <string name="profile_unavailable_dialog_message">Pilihan server Anda untuk \'%1$s\' tidak tersedia. Silakan pilih server lain atau coba lagi nanti.</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
-    <string name="profile_icon_accessibility">Icon %1$d</string>
+    <string name="profile_icon_accessibility">Ikon %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
-    <string name="profile_color_accessibility">Color %1$d</string>
+    <string name="profile_color_accessibility">Warna %1$d</string>
 </resources>
