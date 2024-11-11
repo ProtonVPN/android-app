@@ -73,6 +73,7 @@ import me.proton.core.presentation.R as CoreR
 fun AddEditProfileRoute(
     profileId: Long? = null,
     duplicate: Boolean = false,
+    navigateTo: ProfileCreationTarget?,
     onDismiss: () -> Unit,
 ) {
     val viewModel : CreateEditProfileViewModel = hiltViewModel()
@@ -84,6 +85,7 @@ fun AddEditProfileRoute(
     AddEditProfileScreen(
         viewModel,
         onDismiss,
+        navigateTo = navigateTo,
         isEditMode = profileId != null && !duplicate,
         onProfileSave = {
             viewModel.saveOrShowReconnectDialog(onDismiss)
@@ -96,6 +98,7 @@ fun AddEditProfileRoute(
 fun AddEditProfileScreen(
     viewModel: CreateEditProfileViewModel,
     onDismiss: () -> Unit,
+    navigateTo: ProfileCreationTarget?,
     isEditMode: Boolean = false,
     onProfileSave: () -> Unit,
 ) {
@@ -163,6 +166,7 @@ fun AddEditProfileScreen(
             navigator.NavHost(
                 viewModel,
                 onDone = onProfileSave,
+                navigateTo = navigateTo,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = largeScreenContentPadding())

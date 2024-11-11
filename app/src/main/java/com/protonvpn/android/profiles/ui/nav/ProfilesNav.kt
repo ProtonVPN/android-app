@@ -20,6 +20,9 @@
 package com.protonvpn.android.profiles.ui.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.navOptions
@@ -59,12 +62,18 @@ object AddEditProfileScreen : Screen<AddEditProfileScreen.ProfileCreationArgs, R
     @Serializable
     data class ProfileCreationArgs(
         val editingProfileId: Long? = null,
-        val duplicate: Boolean = false
+        val duplicate: Boolean = false,
+        val navigateTo: ProfileCreationTarget? = null,
     )
 
-    fun SafeNavGraphBuilder<RootNav>.addEditProfile(onDismiss: () -> Unit,) = addToGraphWithSlideAnim(this) { entry ->
+    fun SafeNavGraphBuilder<RootNav>.addEditProfile(onDismiss: () -> Unit) = addToGraphWithSlideAnim(this) { entry ->
         val profileArgs = AddEditProfileScreen.getArgs<ProfileCreationArgs>(entry)
-        AddEditProfileRoute(profileArgs.editingProfileId, profileArgs.duplicate, onDismiss)
+        AddEditProfileRoute(
+            profileArgs.editingProfileId,
+            profileArgs.duplicate,
+            profileArgs.navigateTo,
+            onDismiss
+        )
     }
 }
 
@@ -99,10 +108,17 @@ object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditNav>("profi
         CreateProfileFeaturesAndSettingsRoute(viewModel, onNext = onNext, onBack = onBack)
     }
 }
-enum class ProfileCreationTarget(val screen: ScreenNoArg<ProfilesAddEditNav>) {
-    CreateProfileName(CreateProfileNameScreen),
-    TypeAndLocation(ProfileTypeAndLocationScreen),
-    FeaturesAndSettings(ProfileFeaturesAndSettingsScreen);
+
+enum class ProfileCreationTarget {
+    CreateProfileName,
+    TypeAndLocation,
+    FeaturesAndSettings;
+
+    val screen get() = when(this) {
+        CreateProfileName -> CreateProfileNameScreen
+        TypeAndLocation -> ProfileTypeAndLocationScreen
+        FeaturesAndSettings -> ProfileFeaturesAndSettingsScreen
+    }
 }
 
 class ProfilesAddEditNav(
@@ -114,15 +130,16 @@ class ProfilesAddEditNav(
         viewModel: CreateEditProfileViewModel,
         onDone: () -> Unit,
         modifier: Modifier,
+        navigateTo: ProfileCreationTarget?,
     ) {
+        val navOptions = navOptions {
+            launchSingleTop = true
+        }
         SafeNavHost(
             modifier = modifier,
             startScreen = CreateProfileNameScreen,
             transition = NavigationTransition.SlideInTowardsStart,
         ) {
-            val navOptions = navOptions {
-                launchSingleTop = true
-            }
             ProfileCreationTarget.entries.forEach { target ->
                 when(target) {
                     ProfileCreationTarget.CreateProfileName ->
@@ -142,6 +159,18 @@ class ProfilesAddEditNav(
                             onNext = onDone,
                             onBack = { navigateUpWhenOn(target.screen) }
                         )
+                }
+            }
+        }
+        // If we're navigating to a specific step, pre-populate the back stack exactly once
+        navigateTo?.let {
+            val populatedBackNav = rememberSaveable { mutableStateOf(false) }
+            LaunchedEffect(true) {
+                if (!populatedBackNav.value) {
+                    ProfileCreationTarget.entries.take(navigateTo.ordinal + 1).forEach {
+                        navigateInternal(it.screen, navOptions)
+                    }
+                    populatedBackNav.value = true
                 }
             }
         }
