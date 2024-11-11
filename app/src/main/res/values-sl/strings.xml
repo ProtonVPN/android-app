@@ -23,7 +23,7 @@
     <string name="app_icon_name_retro">Retro</string>
     <string name="app_icon_name_weather">Vreme</string>
     <string name="app_icon_name_notes">Opombe</string>
-    <string name="app_icon_name_calculator">Kalkulator</string>
+    <string name="app_icon_name_calculator">Računalo</string>
     <!-- Strings related to login -->
     <string name="login">Prijava</string>
     <string name="menuActionSignOut">Odjava</string>
@@ -456,7 +456,7 @@
         <item quantity="other">%1$d email addresses</item>
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Spremljanje Dark Web</string>
+    <string name="upgrade_unlimited_mail_dark_web">Spremljanje temnega spleta</string>
     <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
     <string name="upgrade_unlimited_mail_autoreply">Samodejni odgovor</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
@@ -1213,7 +1213,7 @@
     <string name="connection_feature_tor_title">Tor</string>
     <string name="connection_feature_tor_description">S spletnimi mesti .onion se lahko povežete z običajnim brskalnikom.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Vaše dejavnosti so šifrirane za 2 visokozavarovanima strežnikoma VPN.</string>
+    <string name="connection_feature_secure_core_description">Vaše dejavnosti so šifrirane za 2 visoko zavarovanima strežnikoma VPN.</string>
     <string name="connection_feature_streaming_title">Pretakanje</string>
     <string name="connection_feature_streaming_description">Ta strežnik je optimiziran za predvajanje televizije in filmov.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
@@ -1224,7 +1224,7 @@
         Warning: country names are inserted in the nominative case.
         For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
     -->
-    <string name="country_smart_routing_info">Smart Routing</string>
+    <string name="country_smart_routing_info">Strežniki se fizično nahajajo v %1$s, vendar bo videti, kot da brskate iz %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1433,7 +1433,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="search_zero_screen_info_cities_title">Mesta</string>
     <string name="search_zero_screen_info_servers_title">Strežniki</string>
     <string name="search_zero_screen_info_countries_examples">Švica, ZDA, Italija, Kanada, ...</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney, …</string>
+    <string name="search_zero_screen_info_cities_examples">New York, London, Tokio, Sydney, …</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14, …</string>
     <string name="error_fetching_prices">Napaka pri pridobivanju cen.</string>
     <!-- TV settings -->

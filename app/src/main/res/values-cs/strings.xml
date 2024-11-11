@@ -1448,7 +1448,7 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="initial_profile_name_streaming_us">Streamování US</string>
     <string name="initial_profile_name_work_school">Práce/škola</string>
-    <string name="initial_profile_name_anti_censorship">Boj proti cenzuře</string>
+    <string name="initial_profile_name_anti_censorship">Proti cenzuře</string>
     <string name="create_profile_pick_country_title">Země</string>
     <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Standardní</string>
