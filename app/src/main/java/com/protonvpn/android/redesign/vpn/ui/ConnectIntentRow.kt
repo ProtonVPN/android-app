@@ -77,6 +77,7 @@ import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ActiveDot
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
+import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -85,8 +86,8 @@ import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionUnspecified
 import me.proton.core.compose.theme.headlineSmallNorm
 import me.proton.core.presentation.utils.currentLocale
-import me.proton.core.presentation.R as CoreR
 import java.util.EnumSet
+import me.proton.core.presentation.R as CoreR
 
 private const val FLAGS_TOKEN = "[flags]"
 
@@ -202,7 +203,7 @@ fun ConnectIntentRow(
 @Composable
 fun StaticConnectIntentRow(
     intent: ConnectIntentViewState,
-    profileIconExtraSize: Boolean,
+    connectIntentIconSize: ConnectIntentIconSize,
     modifier: Modifier = Modifier,
 ) {
     ConnectIntentBlankRow(
@@ -212,7 +213,7 @@ fun StaticConnectIntentRow(
         isConnected = false,
         isUnavailable = false,
         leadingComposable = {
-            ConnectIntentIcon(intent.primaryLabel, profileIconExtraSize = profileIconExtraSize)
+            ConnectIntentIcon(intent.primaryLabel, connectIntentIconSize = connectIntentIconSize)
         },
         trailingComposable = {},
         modifier = modifier

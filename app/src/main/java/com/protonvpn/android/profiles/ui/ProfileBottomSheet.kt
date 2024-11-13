@@ -51,6 +51,7 @@ import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
@@ -100,7 +101,7 @@ private fun ProfileSheetContent(
     Column(modifier) {
         StaticConnectIntentRow(
             profile.intent,
-            profileIconExtraSize = true,
+            connectIntentIconSize = ConnectIntentIconSize.LARGE,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         ProfileSettingItem(

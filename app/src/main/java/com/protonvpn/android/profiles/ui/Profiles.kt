@@ -59,6 +59,7 @@ import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
+import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.NatType
@@ -200,7 +201,7 @@ fun ProfileItem(
         leadingComposable = {
             ConnectIntentIcon(
                 profile.intent.primaryLabel,
-                profileIconExtraSize = true
+                connectIntentIconSize = ConnectIntentIconSize.LARGE
             )
         },
         modifier = modifier,
