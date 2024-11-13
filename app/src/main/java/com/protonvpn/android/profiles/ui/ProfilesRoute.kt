@@ -25,6 +25,7 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -53,7 +54,9 @@ fun ProfilesRoute(
         modifier = Modifier.fillMaxSize()
     ) {
         val state = viewModel.state.collectAsStateWithLifecycle().value
-        val selectedProfile = viewModel.selectedProfile.collectAsStateWithLifecycle().value
+        // Collect selectedProfile without lifecycle, otherwise changes are not observed during navigation animation to
+        // edit profile and the bottom sheet closes with a delay.
+        val selectedProfile = viewModel.selectedProfile.collectAsState().value
         if (state != null) {
             val context = LocalContext.current
             val uiDelegate = LocalVpnUiDelegate.current
