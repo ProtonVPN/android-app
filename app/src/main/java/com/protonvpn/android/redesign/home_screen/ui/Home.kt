@@ -411,17 +411,19 @@ private suspend fun handleSnackbarError(
 @Composable
 private fun HomeDialog(dialog: DialogState?, onDismiss: () -> Unit) {
     if (dialog != null) {
-        val textId = when (dialog) {
-            DialogState.CountryInMaintenance -> R.string.message_country_servers_in_maintenance
-            DialogState.CityInMaintenance -> R.string.message_city_servers_in_maintenance
-            DialogState.StateInMaintenance -> R.string.message_state_servers_in_maintenance
-            DialogState.ServerInMaintenance -> R.string.message_server_in_maintenance
-            DialogState.GatewayInMaintenance -> R.string.message_gateway_in_maintenance
-            DialogState.ServerNotAvailable -> R.string.message_server_not_available
+        val message = when (dialog) {
+            DialogState.CountryInMaintenance -> stringResource(R.string.message_country_servers_in_maintenance)
+            DialogState.CityInMaintenance -> stringResource(R.string.message_city_servers_in_maintenance)
+            DialogState.StateInMaintenance -> stringResource(R.string.message_state_servers_in_maintenance)
+            DialogState.ServerInMaintenance -> stringResource(R.string.message_server_in_maintenance)
+            DialogState.GatewayInMaintenance -> stringResource(R.string.message_gateway_in_maintenance)
+            DialogState.ServerNotAvailable -> stringResource(R.string.message_server_not_available)
+            is DialogState.ProfileNotAvailable ->
+                stringResource(R.string.profile_unavailable_dialog_message, dialog.profileName)
         }
         ProtonAlert(
             title = null,
-            text = stringResource(textId),
+            text = message,
             confirmLabel = stringResource(id = R.string.ok),
             onConfirm = { onDismiss() },
             onDismissRequest = onDismiss

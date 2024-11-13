@@ -19,6 +19,7 @@
 package com.protonvpn.android.redesign.home_screen.ui
 
 import android.content.Context
+import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -72,6 +73,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.savedstate.state
 import javax.inject.Inject
 
@@ -147,8 +149,21 @@ class HomeViewModel @Inject constructor(
     val upsellCarouselState: StateFlow<UpsellCarouselState?> = upsellCarouselStateFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    enum class DialogState {
-        CountryInMaintenance, CityInMaintenance, StateInMaintenance, ServerInMaintenance, GatewayInMaintenance, ServerNotAvailable
+    sealed interface DialogState : Parcelable {
+        @Parcelize
+        object CountryInMaintenance : DialogState
+        @Parcelize
+        object CityInMaintenance : DialogState
+        @Parcelize
+        object StateInMaintenance : DialogState
+        @Parcelize
+        object ServerInMaintenance : DialogState
+        @Parcelize
+        object GatewayInMaintenance : DialogState
+        @Parcelize
+        object ServerNotAvailable : DialogState
+        @Parcelize
+        data class ProfileNotAvailable(val profileName: String) : DialogState
     }
 
     private var dialogState by savedStateHandle.state<DialogState?>(null, DialogStateKey)
@@ -238,17 +253,22 @@ class HomeViewModel @Inject constructor(
         promoOffersPrefs.addVisitedOffer(notificationId)
     }
 
-    private fun RecentConnection.toMaintenanceDialogType() = connectIntent.let { intent ->
-        when (intent) {
-            is ConnectIntent.FastestInCountry -> DialogState.CountryInMaintenance
-            is ConnectIntent.FastestInCity -> DialogState.CityInMaintenance
-            is ConnectIntent.FastestInState -> DialogState.StateInMaintenance
-            is ConnectIntent.SecureCore,
-            is ConnectIntent.Server -> DialogState.ServerInMaintenance
-            is ConnectIntent.Gateway ->
-                if (intent.serverId != null) DialogState.ServerInMaintenance
-                else DialogState.GatewayInMaintenance
+    private fun RecentConnection.toMaintenanceDialogType() = when(this) {
+        is RecentConnection.UnnamedRecent -> connectIntent.let { intent ->
+            when (intent) {
+                is ConnectIntent.FastestInCountry -> DialogState.CountryInMaintenance
+                is ConnectIntent.FastestInCity -> DialogState.CityInMaintenance
+                is ConnectIntent.FastestInState -> DialogState.StateInMaintenance
+                is ConnectIntent.SecureCore,
+                is ConnectIntent.Server -> DialogState.ServerInMaintenance
+
+                is ConnectIntent.Gateway ->
+                    if (intent.serverId != null) DialogState.ServerInMaintenance
+                    else DialogState.GatewayInMaintenance
+            }
         }
+
+        is RecentConnection.ProfileRecent -> DialogState.ProfileNotAvailable(profile.info.name)
     }
 }
 
