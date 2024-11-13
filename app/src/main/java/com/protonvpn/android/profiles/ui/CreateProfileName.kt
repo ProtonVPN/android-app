@@ -61,6 +61,7 @@ import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.ProfileIcon
 import com.protonvpn.android.redesign.base.ui.optional
 import me.proton.core.compose.theme.ProtonTheme
@@ -190,7 +191,7 @@ private fun IconsView(
                     .padding(8.dp)
                     .height(24.dp),
                 color = color,
-                extraSize = true,
+                connectIntentIconSize = ConnectIntentIconSize.LARGE,
                 icon = icon,
                 addContentDescription = true
             )

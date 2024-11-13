@@ -59,6 +59,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
@@ -89,7 +90,9 @@ object FlagDefaults {
     val singleFlagSize = DpSize(30.dp, 20.dp)
     val twoFlagSize = DpSize(30.dp, 30.dp)
     val twoFlagTop = 3.dp
+    val twoFlagMainSizeSmall = DpSize(16.dp, 10.5.dp)
     val twoFlagMainSize = DpSize(24.dp, 16.dp)
+    val companionFlagSizeSmall = DpSize(13.dp, 9.dp)
     val companionFlagSize = DpSize(18.dp, 12.dp)
     val profileCompanionFlagSize = DpSize(20.dp, 13.33.dp)
     val bigProfileIconSize = DpSize(36.dp, 24.dp)
@@ -100,11 +103,17 @@ object FlagDefaults {
     val shadowColor = Color(0x66000000)
 }
 
+enum class ConnectIntentIconSize(val size: Dp, val backFlagSize: DpSize, val frontFlagSize: DpSize, val verticalPadding: Dp) {
+    SMALL(20.dp, FlagDefaults.twoFlagMainSizeSmall, FlagDefaults.companionFlagSizeSmall, 2.dp),
+    MEDIUM(30.dp, FlagDefaults.twoFlagMainSize, FlagDefaults.profileCompanionFlagSize, 2.dp),
+    LARGE(48.dp, FlagDefaults.bigProfileIconSize, FlagDefaults.singleFlagSize, 4.dp)
+}
+
 @Composable
 fun ConnectIntentIcon(
     label: ConnectIntentPrimaryLabel,
     modifier: Modifier = Modifier,
-    profileIconExtraSize: Boolean = false,
+    connectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
 ) {
     when(label) {
         is ConnectIntentPrimaryLabel.Fastest ->
@@ -114,7 +123,7 @@ fun ConnectIntentIcon(
         is ConnectIntentPrimaryLabel.Gateway ->
             GatewayIndicator(label.country, modifier = modifier)
         is ConnectIntentPrimaryLabel.Profile ->
-            ProfileIconWithIndicator(label.country, label.icon, label.color, label.isGateway, extraSize = profileIconExtraSize, modifier = modifier)
+            ProfileIconWithIndicator(label.country, label.icon, label.color, label.isGateway, connectIntentIconSize = connectIntentIconSize, modifier = modifier)
     }
 }
 
@@ -186,7 +195,7 @@ fun ProfileIcon(
     modifier: Modifier = Modifier,
     icon: ProfileIcon,
     color: ProfileColor,
-    extraSize: Boolean,
+    connectIntentIconSize: ConnectIntentIconSize,
     addContentDescription: Boolean = false,
     frontContent: @Composable (() -> Unit)? = null,
 ) {
@@ -203,7 +212,7 @@ fun ProfileIcon(
             contentDescription =
                 if (addContentDescription) stringResource(id = R.string.profile_icon_accessibility, icon.ordinal + 1) else null,
             modifier = Modifier
-                .size(if (extraSize) FlagDefaults.bigProfileIconSize else FlagDefaults.twoFlagMainSize)
+                .size(connectIntentIconSize.backFlagSize)
                 .align(if (frontContent != null) Alignment.TopStart else Alignment.Center),
             colorFilter = ColorFilter.colorMatrix(
                 ColorMatrix(hueRotationMatrix)
@@ -213,7 +222,7 @@ fun ProfileIcon(
         frontContent?.let {
             Box(
                 modifier = Modifier
-                    .size(if (extraSize) FlagDefaults.singleFlagSize else FlagDefaults.profileCompanionFlagSize)
+                    .size(connectIntentIconSize.frontFlagSize)
                     .align(Alignment.BottomEnd)
             ) {
                 it()
@@ -228,14 +237,14 @@ fun ProfileIconWithIndicator(
     icon: ProfileIcon,
     color: ProfileColor,
     isGateway: Boolean,
-    extraSize: Boolean,
+    connectIntentIconSize: ConnectIntentIconSize,
     modifier: Modifier = Modifier
 ) {
     ProfileIcon(
         icon = icon,
         color = color,
-        modifier = modifier.size(if (extraSize) 48.dp else 30.dp).padding(vertical = if (extraSize) 4.dp else 2.dp),
-        extraSize = extraSize,
+        modifier = modifier.size(connectIntentIconSize.size).padding(vertical = connectIntentIconSize.verticalPadding),
+        connectIntentIconSize = connectIntentIconSize,
         frontContent = {
             if (isGateway) {
                 GatewayIndicator(countryFlag = null)
@@ -492,19 +501,33 @@ private fun ProfileIconViewPreview() {
                 icon = ProfileIcon.Icon5,
                 color = ProfileColor.Color4,
                 isGateway = false,
-                extraSize = true
+                connectIntentIconSize = ConnectIntentIconSize.LARGE
             )
             ProfileIconWithIndicator(
                 country = CountryId("US"),
                 icon = ProfileIcon.Icon3,
                 color = ProfileColor.Color6,
                 isGateway = false,
-                extraSize = false
+                connectIntentIconSize = ConnectIntentIconSize.MEDIUM
+            )
+            ProfileIconWithIndicator(
+                country = CountryId("US"),
+                icon = ProfileIcon.Icon5,
+                color = ProfileColor.Color4,
+                isGateway = false,
+                connectIntentIconSize = ConnectIntentIconSize.MEDIUM
+            )
+            ProfileIconWithIndicator(
+                country = CountryId("US"),
+                icon = ProfileIcon.Icon3,
+                color = ProfileColor.Color6,
+                isGateway = false,
+                connectIntentIconSize = ConnectIntentIconSize.SMALL
             )
             ProfileIcon(
                 icon = ProfileIcon.Icon2,
                 color = ProfileColor.Color4,
-                extraSize = false
+                connectIntentIconSize = ConnectIntentIconSize.MEDIUM
             )
         }
     }
