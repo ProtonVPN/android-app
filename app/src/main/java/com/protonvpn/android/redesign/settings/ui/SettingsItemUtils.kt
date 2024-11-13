@@ -27,8 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.protonvpn.android.R
-import com.protonvpn.android.redesign.base.ui.SettingsItem
 import com.protonvpn.android.redesign.base.ui.ClickableTextAnnotation
+import com.protonvpn.android.redesign.base.ui.SettingsItem
 import com.protonvpn.android.redesign.base.ui.SettingsToggleItem
 
 @Composable
@@ -37,7 +37,7 @@ private fun SettingsToggleWithRestrictions(
     name: String,
     description: String,
     value: SettingsViewModel.SettingViewState<Boolean>,
-    subTitle: String? = null,
+    settingsValue: SettingValue? = null,
     descriptionAnnotation: Pair<String, () -> Unit>? = null,
     onToggle: () -> Unit,
     onRestricted: () -> Unit,
@@ -47,7 +47,7 @@ private fun SettingsToggleWithRestrictions(
             modifier.clickable(onClick = onRestricted),
             name,
             description,
-            subTitle,
+            settingsValue,
             descriptionAnnotation?.let {
                 ClickableTextAnnotation(
                     annotatedPart = it.first,
@@ -68,7 +68,7 @@ private fun SettingsToggleWithRestrictions(
             name = name,
             description = description,
             value = value.value,
-            subTitle = subTitle,
+            settingsValue = value.settingValueView,
             descriptionAnnotation = descriptionAnnotation?.let {
                     ClickableTextAnnotation(
                         annotatedPart = it.first,

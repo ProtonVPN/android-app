@@ -77,26 +77,21 @@ class VpnStatusViewStateFlow(
         getLocationText(country, ipAddress)
     }
 
-    private val connectedIntentFlow = vpnStatusProvider.uiStatus
-        .map { it.connectIntent }
-        .distinctUntilChanged()
-
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val bannerFlow: Flow<StatusBanner?> = connectedIntentFlow.flatMapLatest { connectedIntent ->
+    private val bannerFlow: Flow<StatusBanner?> = settingsForConnection.getFlowForCurrentConnection().flatMapLatest { connectionSettings ->
         combine(
             vpnConnectionManager.netShieldStats,
             currentUser.vpnUserFlow,
             changeServerViewStateFlow,
             homeScreenPromoBannerFlow.map { it != null },
-            settingsForConnection.getFlowFor(connectedIntent)
-        ) { stats, user, changeServer, hasPromoBanner, settings ->
+        ) { stats, user, changeServer, hasPromoBanner ->
             val availability = user.getNetShieldAvailability()
             when {
                 hasPromoBanner && availability != NetShieldAvailability.AVAILABLE -> null
                 changeServer is ChangeServerViewState.Locked -> StatusBanner.UnwantedCountry
                 else -> when (availability) {
                     NetShieldAvailability.AVAILABLE -> StatusBanner.NetShieldBanner(
-                        NetShieldViewState(settings.netShield, stats)
+                        NetShieldViewState(connectionSettings.connectionSettings.netShield, stats)
                     )
 
                     NetShieldAvailability.HIDDEN -> null

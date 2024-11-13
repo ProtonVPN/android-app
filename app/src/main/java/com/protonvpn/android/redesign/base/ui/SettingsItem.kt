@@ -40,10 +40,11 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.redesign.settings.ui.SettingValue
+import com.protonvpn.android.redesign.settings.ui.SettingValueView
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
-import me.proton.core.compose.theme.defaultSmallWeak
 
 data class ClickableTextAnnotation(
     val annotatedPart: String,
@@ -60,6 +61,19 @@ fun SettingsItem(
     descriptionAnnotation: ClickableTextAnnotation? = null,
     actionComposable: @Composable () -> Unit
 ) {
+    SettingsItem(modifier, name, description,
+        SettingValue.SettingText(subTitle), descriptionAnnotation, actionComposable)
+}
+
+@Composable
+fun SettingsItem(
+    modifier: Modifier = Modifier,
+    name: String,
+    description: String? = null,
+    settingsValue: SettingValue?,
+    descriptionAnnotation: ClickableTextAnnotation? = null,
+    actionComposable: @Composable () -> Unit
+) {
     Column(modifier.padding(16.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -69,12 +83,8 @@ fun SettingsItem(
             )
             actionComposable()
         }
-        if (subTitle != null) {
-            Text(
-                text = subTitle,
-                style = ProtonTheme.typography.defaultSmallWeak,
-                modifier = Modifier.padding(top = 4.dp)
-            )
+        if (settingsValue != null) {
+            SettingValueView(settingValue = settingsValue)
         }
         val paddingModifier = Modifier.padding(end = 8.dp, top = 16.dp)
         if (description != null) {
@@ -106,7 +116,7 @@ fun SettingsToggleItem(
     name: String,
     description: String?,
     value: Boolean,
-    subTitle: String? = null,
+    settingsValue: SettingValue? = null,
     descriptionAnnotation: ClickableTextAnnotation? = null,
     onToggle: () -> Unit
 ) {
@@ -114,13 +124,16 @@ fun SettingsToggleItem(
         modifier.toggleable(value, onValueChange = { onToggle() }),
         name = name,
         description = description,
-        subTitle = subTitle,
+        settingsValue = settingsValue,
         descriptionAnnotation = descriptionAnnotation
     ) {
-        ProtonSwitch(
-            checked = value,
-            onCheckedChange = null,
-        )
+        // Do not show switch for overriden values
+        if (settingsValue !is SettingValue.SettingOverrideValue) {
+            ProtonSwitch(
+                checked = value,
+                onCheckedChange = null,
+            )
+        }
     }
 }
 

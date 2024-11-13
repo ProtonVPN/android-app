@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,6 +45,7 @@ import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.settings.formatSplitTunnelingItems
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.presentation.R as CoreR
 
 @Composable
@@ -91,20 +93,26 @@ fun SplitTunnelingSubSetting(
                     else R.string.settings_split_tunneling_included_ips
                 SettingRow(
                     title = stringResource(id = R.string.settings_split_tunneling_mode_title),
-                    subtitle = stringResource(modeLabel),
+                    subtitleComposable = {
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(
+                            text = stringResource(modeLabel),
+                            style = ProtonTheme.typography.defaultWeak
+                        )
+                    },
                     onClick = { changeModeDialogShown = true }
                 )
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_mobile,
                     title = stringResource(id = appsLabel),
-                    subtitle = formatSplitTunnelingItems(splitTunneling.currentModeAppNames),
+                    settingValue = SettingValue.SettingText(formatSplitTunnelingItems(splitTunneling.currentModeAppNames)),
                     onClick = { onAppsClick(splitTunnelingMode) }
                 )
 
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_window_terminal,
                     title = stringResource(id = ipsLabel),
-                    subtitle = formatSplitTunnelingItems(splitTunneling.currentModeIps),
+                    settingValue = SettingValue.SettingText(formatSplitTunnelingItems(splitTunneling.currentModeIps)),
                     onClick = { onIpsClick(splitTunnelingMode) }
                 )
             }

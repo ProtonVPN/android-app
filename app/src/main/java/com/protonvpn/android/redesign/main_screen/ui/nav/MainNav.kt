@@ -168,7 +168,10 @@ class MainNav(
                     MainTarget.Settings -> settings(
                         settingsChangeViewModel,
                         coreNavigation,
-                        onNavigateToSubSetting = { type -> rootNav.navigate(SubSettingsScreen, type) }
+                        onNavigateToSubSetting = { type -> rootNav.navigate(SubSettingsScreen, type) },
+                        onNavigateToEditProfile = { profileId, profileCreationTarget ->
+                            rootNav.navigate(AddEditProfileScreen, AddEditProfileScreen.ProfileCreationArgs(profileId, navigateTo = profileCreationTarget))
+                        }
                     )
                 }
             }

@@ -51,6 +51,7 @@ import com.protonvpn.android.vpn.VpnConnectionErrorHandler
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeVpnPermissionDelegate
 import com.protonvpn.mocks.FakeVpnUiDelegate
 import com.protonvpn.mocks.TestProtonLogger
@@ -144,10 +145,11 @@ class GuestHoleVpnConnectionManagerTests {
         val fakeVpnPermissionDelegate = FakeVpnPermissionDelegate()
 
         vpnStateMonitor = VpnStateMonitor()
+        val vpnStatusUiProvider = VpnStatusProviderUI(bgScope, vpnStateMonitor)
         vpnConnectionManager = VpnConnectionManager(
             permissionDelegate = fakeVpnPermissionDelegate,
             getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags())),
-            settingsForConnection = SettingsForConnection(effectiveSettings, mockProfilesDao),
+            settingsForConnection = SettingsForConnection(effectiveSettings, mockProfilesDao, vpnStatusUiProvider),
             backendProvider = mockBackendProvider,
             networkManager = networkManager,
             vpnErrorHandler = mockVpnErrorHandler,

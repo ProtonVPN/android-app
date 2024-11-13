@@ -20,19 +20,22 @@
 package com.protonvpn.android.redesign.settings.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.redesign.base.ui.SettingsItem
 import com.protonvpn.android.redesign.base.ui.ClickableTextAnnotation
+import com.protonvpn.android.redesign.base.ui.SettingsItem
 
 @Composable
 fun AdvancedSettings(
     onClose: () -> Unit,
+    profileOverrideInfo: SettingsViewModel.ProfileOverrideInfo?,
     altRouting: SettingsViewModel.SettingViewState.AltRouting,
     allowLan: SettingsViewModel.SettingViewState.LanConnections,
     natType: SettingsViewModel.SettingViewState.Nat,
@@ -47,6 +50,12 @@ fun AdvancedSettings(
         title = stringResource(id = R.string.settings_advanced_settings_title),
         onClose = onClose
     ) {
+        profileOverrideInfo?.let {
+            ProfileOverrideView(
+                modifier = Modifier.padding(16.dp),
+                profileOverrideInfo = it
+            )
+        }
         altRouting.ToToggle(
             onToggle = onAltRoutingChange
         )
@@ -73,7 +82,7 @@ fun SettingsViewModel.SettingViewState.Nat.ToItem(
         modifier = Modifier.clickable(onClick = natOnClick),
         name = stringResource(id = titleRes),
         description = descriptionText(),
-        subTitle = stringResource(id = value.labelRes),
+        settingsValue = settingValueView,
         descriptionAnnotation = annotationRes?.let {
             ClickableTextAnnotation(
                 annotatedPart = stringResource(id = it),

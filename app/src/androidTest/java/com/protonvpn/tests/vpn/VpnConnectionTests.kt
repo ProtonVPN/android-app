@@ -84,6 +84,7 @@ import com.protonvpn.android.vpn.VpnFallbackResult
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
 import com.protonvpn.mocks.MockAgentProvider
 import com.protonvpn.mocks.MockVpnBackend
@@ -96,9 +97,6 @@ import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
 import com.protonvpn.test.shared.runWhileCollecting
-import com.protonvpn.testsHelper.AccountTestHelper
-import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestAccount1
-import com.protonvpn.testsHelper.AccountTestHelper.Companion.TestSession1
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -198,6 +196,7 @@ class VpnConnectionTests {
     private lateinit var mockOpenVpn: MockVpnBackend
     private lateinit var mockWireguard: MockVpnBackend
     private lateinit var supportsProtocol: SupportsProtocol
+    private lateinit var vpnStatusProviderUI: VpnStatusProviderUI
     private lateinit var userSettingsFlow: MutableStateFlow<LocalUserSettings>
 
     private val connectIntentFastest = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
@@ -274,6 +273,9 @@ class VpnConnectionTests {
             CAPABILITY_NOT_VPN to false
         ))
 
+        monitor = VpnStateMonitor()
+        vpnStatusProviderUI = VpnStatusProviderUI(bgScope, monitor)
+
         mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, profilesDao, VpnProtocol.OpenVPN))
         mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, profilesDao, VpnProtocol.WireGuard))
 
@@ -286,7 +288,6 @@ class VpnConnectionTests {
             supportsProtocol = supportsProtocol
         )
 
-        monitor = VpnStateMonitor()
 
         val serverListUpdaterPrefs = ServerListUpdaterPrefs(MockSharedPreferencesProvider())
         val mockConnectivityMonitor = mockk<ConnectivityMonitor>()
@@ -311,8 +312,7 @@ class VpnConnectionTests {
             builtInGuestHoles = MockedServers.serverList.filter { supportsProtocol(it, GuestHole.PROTOCOL) }
         )
         val serverManager2 = ServerManager2(serverManager, supportsProtocol)
-
-        manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, SettingsForConnection(userSettings, profilesDao),
+        manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, SettingsForConnection(userSettings, profilesDao, vpnStatusProviderUI),
             backendProvider, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
             serverManager2, certificateRepository, scope.backgroundScope, clock, mockk(relaxed = true),
             currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry, mockk(relaxed = true))
@@ -1003,7 +1003,7 @@ class VpnConnectionTests {
             networkManager,
             NetworkCapabilitiesFlow(networkCapabilitiesFlow),
             certificateRepository,
-            SettingsForConnection(userSettings, profileDao),
+            SettingsForConnection(userSettings, profileDao, vpnStatusProviderUI),
             protocol,
             mockLocalAgentUnreachableTracker,
             currentUser,

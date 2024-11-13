@@ -19,16 +19,21 @@
 
 package com.protonvpn.android.redesign.vpn.usecases
 
+import com.protonvpn.android.profiles.data.Profile
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettingsCached
 import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.Reusable
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,24 +41,49 @@ import javax.inject.Singleton
 @Reusable
 class SettingsForConnection @Inject constructor(
     private val settings: EffectiveCurrentUserSettings,
-    private val profilesDao: ProfilesDao
+    private val profilesDao: ProfilesDao,
+    vpnStatusProviderUI: VpnStatusProviderUI,
 ) {
     suspend fun getFor(intent: AnyConnectIntent?) : LocalUserSettings =
         settings.effectiveSettings.first().applyOverrides(intent?.settingsOverrides)
 
-    fun getFlowFor(intent: AnyConnectIntent?): Flow<LocalUserSettings> {
-        val profileId = intent?.profileId
-        return if (profileId == null) {
-            settings.effectiveSettings.map { it.applyOverrides(intent?.settingsOverrides) }
-        } else {
-            combine(
-                profilesDao.getProfileByIdFlow(profileId),
-                settings.effectiveSettings
-            ) { profile, settings ->
-                settings.applyOverrides(profile?.connectIntent?.settingsOverrides)
-            }
+    private val connectedIntentFlow = vpnStatusProviderUI.uiStatus
+        .map { it.connectIntent }
+        .distinctUntilChanged()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun getFlowForCurrentConnection(): Flow<CurrentConnectionSettings> {
+        return connectedIntentFlow.flatMapLatest { connectIntent ->
+            getFlowForIntent(connectIntent)
         }
     }
+
+    fun getFlowForIntent(connectIntent: AnyConnectIntent?): Flow<CurrentConnectionSettings> {
+        val profileId = connectIntent?.profileId
+        return if (profileId == null) {
+                settings.effectiveSettings.map { effectiveSettings ->
+                    CurrentConnectionSettings(
+                        associatedProfile = null,
+                        connectionSettings = effectiveSettings.applyOverrides(connectIntent?.settingsOverrides)
+                    )
+                }
+            } else {
+                combine(
+                    profilesDao.getProfileByIdFlow(profileId),
+                    settings.effectiveSettings
+                ) { profile, effectiveSettings ->
+                    CurrentConnectionSettings(
+                        associatedProfile = profile,
+                        connectionSettings = effectiveSettings.applyOverrides(profile?.connectIntent?.settingsOverrides)
+                    )
+                }
+            }
+        }
+
+    data class CurrentConnectionSettings(
+        val associatedProfile: Profile?,
+        val connectionSettings: LocalUserSettings
+    )
 }
 
 @Deprecated(

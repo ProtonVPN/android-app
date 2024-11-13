@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.app.ui.nav
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.protonvpn.android.profiles.ui.nav.AddEditProfileScreen
 import com.protonvpn.android.profiles.ui.nav.AddEditProfileScreen.addEditProfile
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
@@ -69,6 +70,9 @@ class RootNav(
                 settingsChangeViewModel = settingsChangeViewModel,
                 onClose = ::navigateUp,
                 onNavigateToSubSetting = { navigate(SubSettingsScreen, it) },
+                onNavigateToEditProfile = { profileId, profileCreationTarget ->
+                    navigate(AddEditProfileScreen, AddEditProfileScreen.ProfileCreationArgs(profileId, navigateTo = profileCreationTarget))
+                },
             )
         }
     }
