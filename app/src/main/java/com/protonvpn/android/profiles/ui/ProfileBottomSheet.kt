@@ -62,31 +62,29 @@ import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun ProfileBottomSheet(
-    profile: ProfileViewItem?,
+    profile: ProfileViewItem,
     onClose: () -> Unit,
     onProfileEdit: (ProfileViewItem) -> Unit,
     onProfileDuplicate: (ProfileViewItem) -> Unit,
     onProfileDelete: (ProfileViewItem) -> Unit,
 ) {
-    if (profile != null) {
-        SimpleModalBottomSheet(
-            content = {
-                ProfileSheetContent(
-                    profile,
-                    onProfileEdit = { profile ->
-                        onClose()
-                        onProfileEdit(profile)
-                    },
-                    onProfileDuplicate = { profile ->
-                        onClose()
-                        onProfileDuplicate(profile)
-                    },
-                    onProfileDelete
-                )
-            },
-            onDismissRequest = onClose
-        )
-    }
+    SimpleModalBottomSheet(
+        content = {
+            ProfileSheetContent(
+                profile,
+                onProfileEdit = { profile ->
+                    onClose()
+                    onProfileEdit(profile)
+                },
+                onProfileDuplicate = { profile ->
+                    onClose()
+                    onProfileDuplicate(profile)
+                },
+                onProfileDelete
+            )
+        },
+        onDismissRequest = onClose
+    )
 }
 
 @Composable
