@@ -41,7 +41,6 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -64,7 +63,7 @@ fun ProtonSolidButton(
     enabled: Boolean = true,
     loading: Boolean = false,
     contained: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    interactionSource: MutableInteractionSource? = null,
     colors: ButtonColors = ButtonDefaults.protonButtonColors(loading),
     contentPadding: PaddingValues = ButtonDefaults.ProtonContentPadding,
     content: @Composable () -> Unit,
@@ -121,7 +120,7 @@ fun ProtonOutlinedButton(
     enabled: Boolean = true,
     loading: Boolean = false,
     contained: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    interactionSource: MutableInteractionSource? = null,
     colors: ButtonColors = ButtonDefaults.protonOutlinedButtonColors(loading),
     border: BorderStroke = ButtonDefaults.protonOutlinedBorder(enabled, loading),
     contentPadding: PaddingValues = ButtonDefaults.ProtonContentPadding,
@@ -187,7 +186,7 @@ fun ProtonTextButton(
     enabled: Boolean = true,
     loading: Boolean = false,
     contained: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    interactionSource: MutableInteractionSource? = null,
     colors: ButtonColors = ButtonDefaults.protonTextButtonColors(loading),
     style: TextStyle = ProtonTheme.typography.defaultSmallUnspecified,
     contentPadding: PaddingValues = ButtonDefaults.TextButtonContentPadding,
@@ -248,7 +247,7 @@ fun ProtonSecondaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     loading: Boolean = false,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    interactionSource: MutableInteractionSource? = null,
     colors: ButtonColors = ButtonDefaults.protonSecondaryButtonColors(loading),
     contentPadding: PaddingValues = ButtonDefaults.ProtonContentPadding,
     content: @Composable () -> Unit,
@@ -302,7 +301,7 @@ fun ProtonButton(
     enabled: Boolean = true,
     loading: Boolean = false,
     contained: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    interactionSource: MutableInteractionSource? = null,
     elevation: ButtonElevation?,
     shape: Shape,
     border: BorderStroke?,

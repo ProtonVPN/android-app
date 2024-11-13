@@ -22,8 +22,8 @@
 buildscript {
     // We should migrate to version catalogs as soon as IDE support is available:
     // https://issuetracker.google.com/issues/226078451
-    ext.androidx_lifecycle_version = '2.8.5' // 2.8.6+ requires Compose 1.7.1+
-    ext.core_version = '29.3.2'
+    ext.androidx_lifecycle_version = '2.8.6'
+    ext.core_version = '30.0.0'
     ext.datastore_version = '1.1.1'
     ext.desugar_jdk_version = '2.0.4'
     ext.detekt_version = '1.23.6'
@@ -32,8 +32,8 @@ buildscript {
     ext.hilt_version = '2.50'
     ext.hilt_compiler_version = '1.2.0'
     // When updating kotlin version KSP needs to be updated as well to matching version
-    ext.kotlin_version = '1.9.25'
-    ext.ksp_version = '1.9.25-1.0.20'
+    ext.kotlin_version = '2.0.21'
+    ext.ksp_version = '2.0.21-1.0.27'
     ext.kotlinx_coroutines_version = '1.8.1'
     ext.kotlinx_serialization_json_version = '1.6.3'
     ext.mockk_version = '1.13.13'
@@ -47,7 +47,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.2'
+        classpath 'com.android.tools.build:gradle:8.7.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'org.owasp:dependency-check-gradle:10.0.4'
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.91'
@@ -62,6 +62,7 @@ buildscript {
 }
 plugins {
     id 'com.google.devtools.ksp' version "$ksp_version" apply false
+    id 'org.jetbrains.kotlin.plugin.compose' version "$kotlin_version" apply false
 }
 project.ext {
     minSdkVersion = 26

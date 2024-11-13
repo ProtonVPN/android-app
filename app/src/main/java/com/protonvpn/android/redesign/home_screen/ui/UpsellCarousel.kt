@@ -151,7 +151,6 @@ private fun createPages(includeProfilesCard: Boolean) = buildList {
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeUpsellCarousel(
     state: UpsellCarouselState,
@@ -169,7 +168,7 @@ fun HomeUpsellCarousel(
         contentPadding = PaddingValues(horizontal = horizontalMargin),
         pageSpacing = 8.dp,
         pageSize = UpsellCarouselPageSize,
-        beyondBoundsPageCount = pages.size,
+        beyondViewportPageCount = pages.size,
         verticalAlignment = Alignment.Top,
         modifier = modifier.onGloballyPositioned { minHeight = it.size.height.toDp() },
     ) { pageIndex ->

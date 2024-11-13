@@ -72,7 +72,7 @@ sealed class SwitchServerReason : Serializable {
     override fun toString() = this::class.java.simpleName
 }
 
-sealed class VpnFallbackResult : Serializable {
+sealed class VpnFallbackResult {
 
     sealed class Switch : VpnFallbackResult() {
 
