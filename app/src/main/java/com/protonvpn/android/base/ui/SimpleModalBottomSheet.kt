@@ -50,7 +50,7 @@ fun SimpleModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        windowInsets = WindowInsets(0, 0, 0 ,0),
+        contentWindowInsets = { WindowInsets(0, 0, 0 ,0) },
         content = {
             content()
             Spacer(modifier = Modifier.height(navigationBarBottomPadding))

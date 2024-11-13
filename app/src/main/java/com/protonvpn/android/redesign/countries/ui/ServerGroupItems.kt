@@ -35,10 +35,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -145,7 +145,7 @@ private fun ServerGroupItemRow(
                     tint = ProtonTheme.colors.iconNorm,
                     modifier = Modifier
                         .clip(CircleShape)
-                        .indication(interactionSource, rememberRipple())
+                        .indication(interactionSource, ripple())
                         .padding(16.dp),
                     contentDescription = null // Accessibility handled via semantics on the whole row.
                 )

@@ -84,7 +84,6 @@ fun UnlimitedPlanBenefitsBottomSheet(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun AppBenefitsPager(apps: List<AppBenefits>, initialPageIndex: Int, modifier: Modifier = Modifier) {
     Column(
@@ -93,7 +92,7 @@ private fun AppBenefitsPager(apps: List<AppBenefits>, initialPageIndex: Int, mod
         val pagerState = rememberPagerState(initialPageIndex, pageCount = { apps.size })
         HorizontalPager(
             state = pagerState,
-            beyondBoundsPageCount = apps.size, // Render all to set height to tallest item.
+            beyondViewportPageCount = apps.size, // Render all to set height to tallest item.
             verticalAlignment = Alignment.Top,
         ) { pageIndex ->
             AppBenefitsPage(

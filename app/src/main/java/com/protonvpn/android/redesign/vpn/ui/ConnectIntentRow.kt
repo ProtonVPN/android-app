@@ -39,11 +39,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.InlineTextContent
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -190,7 +190,7 @@ fun ConnectIntentRow(
                     tint = ProtonTheme.colors.iconNorm,
                     modifier = Modifier
                         .clip(CircleShape)
-                        .indication(interactionSource, rememberRipple())
+                        .indication(interactionSource, ripple())
                         .padding(8.dp),
                     contentDescription = null // Accessibility handled via semantics on the whole row.
                 )
