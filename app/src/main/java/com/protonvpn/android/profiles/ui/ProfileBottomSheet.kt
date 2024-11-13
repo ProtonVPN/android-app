@@ -33,8 +33,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -145,7 +147,8 @@ private fun ProfileSheetContent(
         BottomSheetAction(
             CoreR.drawable.ic_proton_trash,
             R.string.profile_action_delete,
-            { onProfileDelete(profile) }
+            { onProfileDelete(profile) },
+            enabled = !profile.isConnected,
         )
     }
 }
@@ -155,25 +158,29 @@ fun BottomSheetAction(
     @DrawableRes icon: Int,
     @StringRes title: Int,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .clickable(onClick = onClick)
-            .padding(16.dp)
-            .fillMaxWidth(),
-    ) {
-        Icon(
-            painter = painterResource(icon),
-            contentDescription = null,
-            modifier = Modifier.padding(horizontal = 4.dp),
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = stringResource(title),
-            style = ProtonTheme.typography.body1Regular,
-        )
+    val contentColor = if (enabled) LocalContentColor.current else ProtonTheme.colors.textHint
+    CompositionLocalProvider(LocalContentColor provides contentColor) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                .clickable(onClick = onClick, enabled = enabled)
+                .padding(16.dp)
+                .fillMaxWidth(),
+        ) {
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = null,
+                modifier = Modifier.padding(horizontal = 4.dp),
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = stringResource(title),
+                style = ProtonTheme.typography.body1Regular,
+            )
+        }
     }
 }
 
