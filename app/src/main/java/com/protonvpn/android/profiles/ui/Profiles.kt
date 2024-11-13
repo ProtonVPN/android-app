@@ -19,6 +19,11 @@
 
 package com.protonvpn.android.profiles.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -52,12 +57,11 @@ import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
-import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.settings.ui.NatType
-import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentRow
@@ -78,14 +82,20 @@ fun Profiles(
         titleResId = R.string.profiles_title,
         contentWindowInsets = WindowInsets.statusBars,
         toolbarActions = {
-            Icon(
-                painter = painterResource(id = me.proton.core.presentation.R.drawable.ic_proton_plus_circle_filled),
-                contentDescription = stringResource(R.string.accessibility_action_add_new_profile),
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .clickable(onClick = onAddNew)
-                    .padding(12.dp),
-            )
+            AnimatedVisibility(
+                state != ProfilesState.ZeroState,
+                enter = fadeIn() + scaleIn(),
+                exit = fadeOut() + scaleOut()
+            ) {
+                Icon(
+                    painter = painterResource(id = me.proton.core.presentation.R.drawable.ic_proton_plus_circle_filled),
+                    contentDescription = stringResource(R.string.accessibility_action_add_new_profile),
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable(onClick = onAddNew)
+                        .padding(12.dp),
+                )
+            }
         },
         toolbarAdditionalContent = {},
         snackbarHostState = snackbarHostState,
