@@ -114,7 +114,7 @@ class VpnStatusViewStateFlowTest {
         promoBannerFlow = MutableStateFlow(null)
         val effectiveUserSettings =
             EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
-        val settingsForConnection = SettingsForConnection(effectiveUserSettings, mockProfilesDao)
+        val settingsForConnection = SettingsForConnection(effectiveUserSettings, mockProfilesDao, vpnStatusProviderUi)
         vpnStatusViewStateFlow = VpnStatusViewStateFlow(
             vpnStatusProviderUi,
             serverListUpdaterPrefs,

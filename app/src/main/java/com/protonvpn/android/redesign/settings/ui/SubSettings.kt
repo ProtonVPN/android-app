@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
@@ -73,6 +74,7 @@ fun SubSettingsRoute(
     type: SubSettingsScreen.Type,
     onClose: () -> Unit,
     onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
+    onNavigateToEditProfile: (Long, ProfileCreationTarget) -> Unit,
 ) {
     val context = LocalContext.current
     val vpnUiDelegate = LocalVpnUiDelegate.current
@@ -146,18 +148,41 @@ fun SubSettingsRoute(
             SubSettingsScreen.Type.Advanced -> {
                 val advancedViewState = viewModel.advancedSettings.collectAsStateWithLifecycle(initialValue = null).value
                 if (advancedViewState != null) {
-                    AdvancedSettings(
-                        onClose = onClose,
-                        altRouting = advancedViewState.altRouting,
-                        allowLan = advancedViewState.lanConnections,
-                        natType = advancedViewState.natType,
-                        onAltRoutingChange = settingsChangeViewModel::toggleAltRouting,
-                        onAllowLanChange = { settingsChangeViewModel.toggleLanConnections(vpnUiDelegate) },
-                        onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
-                        onNavigateToNatType = { onNavigateToSubSetting(SubSettingsScreen.Type.NatType) },
-                        onAllowLanRestricted = { CarouselUpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(context) },
-                        onNatTypeRestricted = { CarouselUpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(context) },
-                    )
+                    SettingOverrideDialogHandler(onNavigateToEditProfile) { onOverrideSettingClick ->
+                        AdvancedSettings(
+                            onClose = onClose,
+                            profileOverrideInfo = advancedViewState.profileOverrideInfo,
+                            altRouting = advancedViewState.altRouting,
+                            allowLan = advancedViewState.lanConnections,
+                            natType = advancedViewState.natType,
+                            onAltRoutingChange = settingsChangeViewModel::toggleAltRouting,
+                            onAllowLanChange = {
+                                onOverrideSettingClick(OverrideType.LAN) {
+                                    settingsChangeViewModel.toggleLanConnections(
+                                        vpnUiDelegate
+                                    )
+                                }
+                            },
+                            onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
+                            onNavigateToNatType = {
+                                onOverrideSettingClick(OverrideType.NatType) {
+                                    onNavigateToSubSetting(SubSettingsScreen.Type.NatType)
+                                }
+                            },
+                            onAllowLanRestricted = {
+                                onOverrideSettingClick(OverrideType.LAN) {
+                                    CarouselUpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(
+                                        context
+                                    )
+                                }
+                            },
+                            onNatTypeRestricted = {
+                                CarouselUpgradeDialogActivity.launch<UpgradeModerateNatHighlightsFragment>(
+                                    context
+                                )
+                            },
+                        )
+                    }
                 }
             }
 
@@ -232,6 +257,7 @@ fun SubSettingsRoute(
 }
 
 private fun UserId.toInput() = SettingsInput(this.id)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SubSettingBase(
@@ -263,6 +289,7 @@ private fun SubSettingBase(
         content()
     }
 }
+
 @Composable
 fun SubSetting(
     modifier: Modifier = Modifier,

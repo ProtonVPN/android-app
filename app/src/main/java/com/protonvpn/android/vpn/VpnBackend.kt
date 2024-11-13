@@ -365,8 +365,8 @@ abstract class VpnBackend(
 
     private fun initFeatures() {
         settingsForConnection
-            .getFlowFor(lastConnectionParams?.connectIntent)
-            .onEach { settings -> agent?.setFeatures(getFeatures(settings)) }
+            .getFlowForIntent(lastConnectionParams?.connectIntent)
+            .onEach { settings -> agent?.setFeatures(getFeatures(settings.connectionSettings)) }
             .launchIn(mainScope)
     }
 

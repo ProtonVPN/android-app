@@ -63,9 +63,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.profiles.data.ProfileColor
+import com.protonvpn.android.profiles.data.ProfileIcon
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.ui.drawer.LogActivity
 import com.protonvpn.android.ui.drawer.bugreport.DynamicReportActivity
@@ -99,7 +104,8 @@ fun SettingsRoute(
     onSignUpClick: () -> Unit,
     onSignInClick: () -> Unit,
     onSignOutClick: () -> Unit,
-    onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit
+    onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
+    onNavigateToEditProfile: (Long, ProfileCreationTarget) -> Unit
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
     val viewState = viewModel.viewState.collectAsStateWithLifecycle(initialValue = null).value
@@ -118,80 +124,86 @@ fun SettingsRoute(
     CompositionLocalProvider(
         LocalProductMetricsDelegateOwner provides ProductMetricsDelegateOwner(accountSettingsViewModel)
     ) {
-        SettingsView(
-            viewState = viewState,
-            accountSettingsViewState = accountSettingsViewState,
-            onSignUpClick = onSignUpClick,
-            onSignInClick = onSignInClick,
-            onSignOutClick = onSignOutClick,
-            onAccountClick = {
-                if (viewState.accountScreenEnabled)
-                    onNavigateToSubSetting(SubSettingsScreen.Type.Account)
-            },
-            onNetShieldClick = {
-                onNavigateToSubSetting(SubSettingsScreen.Type.NetShield)
-            },
-            onNetShieldUpgradeClick = {
-                CarouselUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context)
-            },
-            onSplitTunnelClick = {
-                onNavigateToSubSetting(SubSettingsScreen.Type.SplitTunneling)
-            },
-            onSplitTunnelUpgrade = {
-                CarouselUpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(context)
-            },
-            onAlwaysOnClick = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                    context.startActivity(Intent(context, SettingsAlwaysOnActivity::class.java))
-            },
-            onProtocolClick = {
-                onNavigateToSubSetting(SubSettingsScreen.Type.Protocol)
-            },
-            onDefaultConnectionClick = {
-                onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
-            },
-            onVpnAcceleratorClick = {
-                onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
-            },
-            onVpnAcceleratorUpgrade = {
-                CarouselUpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(context)
-            },
-            onAdvancedSettingsClick = {
-                onNavigateToSubSetting(SubSettingsScreen.Type.Advanced)
-            },
-            onNotificationsClick = {
-                val intent = Intent(ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                    putExtra(EXTRA_APP_PACKAGE, context.packageName)
-                    putExtra(EXTRA_CHANNEL_ID, context.applicationInfo.uid)
-                }
+        SettingOverrideDialogHandler(onNavigateToEditProfile) { onOverrideSettingClick ->
+            SettingsView(
+                viewState = viewState,
+                accountSettingsViewState = accountSettingsViewState,
+                onSignUpClick = onSignUpClick,
+                onSignInClick = onSignInClick,
+                onSignOutClick = onSignOutClick,
+                onAccountClick = {
+                    if (viewState.accountScreenEnabled)
+                        onNavigateToSubSetting(SubSettingsScreen.Type.Account)
+                },
+                onNetShieldClick = {
+                    onOverrideSettingClick(OverrideType.NetShield) {
+                        onNavigateToSubSetting(SubSettingsScreen.Type.NetShield)
+                    }
+                },
+                onNetShieldUpgradeClick = {
+                    CarouselUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context)
+                },
+                onSplitTunnelClick = {
+                    onNavigateToSubSetting(SubSettingsScreen.Type.SplitTunneling)
+                },
+                onSplitTunnelUpgrade = {
+                    CarouselUpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(context)
+                },
+                onAlwaysOnClick = {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                        context.startActivity(Intent(context, SettingsAlwaysOnActivity::class.java))
+                },
+                onProtocolClick = {
+                    onOverrideSettingClick(OverrideType.Protocol) {
+                        onNavigateToSubSetting(SubSettingsScreen.Type.Protocol)
+                    }
+                },
+                onDefaultConnectionClick = {
+                    onNavigateToSubSetting(SubSettingsScreen.Type.DefaultConnection)
+                },
+                onVpnAcceleratorClick = {
+                    onNavigateToSubSetting(SubSettingsScreen.Type.VpnAccelerator)
+                },
+                onVpnAcceleratorUpgrade = {
+                    CarouselUpgradeDialogActivity.launch<UpgradeVpnAcceleratorHighlightsFragment>(context)
+                },
+                onAdvancedSettingsClick = {
+                    onNavigateToSubSetting(SubSettingsScreen.Type.Advanced)
+                },
+                onNotificationsClick = {
+                    val intent = Intent(ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                        putExtra(EXTRA_APP_PACKAGE, context.packageName)
+                        putExtra(EXTRA_CHANNEL_ID, context.applicationInfo.uid)
+                    }
 
-                context.startActivity(intent)
-            },
-            onOnHelpCenterClick = {
-                context.openUrl(context.getString(R.string.contact_support_link))
-            },
-            onReportBugClick = {
-                context.startActivity(Intent(context, DynamicReportActivity::class.java))
-            },
-            onDebugLogsClick = {
-                context.startActivity(Intent(context, LogActivity::class.java))
-            },
-            onHelpFightClick = {
-                context.startActivity(Intent(context, SettingsTelemetryActivity::class.java))
-            },
-            onIconChangeClick = {
-                onNavigateToSubSetting(SubSettingsScreen.Type.IconChange)
-            },
-            onRateUsClick = {
-                context.openMarketLink()
-            },
-            onThirdPartyLicensesClick = {
-                context.startActivity(Intent(context, OssLicensesActivity::class.java))
-            },
-            onDebugToolsClick = {
-                onNavigateToSubSetting(SubSettingsScreen.Type.DebugTools)
-            }
-        )
+                    context.startActivity(intent)
+                },
+                onOnHelpCenterClick = {
+                    context.openUrl(context.getString(R.string.contact_support_link))
+                },
+                onReportBugClick = {
+                    context.startActivity(Intent(context, DynamicReportActivity::class.java))
+                },
+                onDebugLogsClick = {
+                    context.startActivity(Intent(context, LogActivity::class.java))
+                },
+                onHelpFightClick = {
+                    context.startActivity(Intent(context, SettingsTelemetryActivity::class.java))
+                },
+                onIconChangeClick = {
+                    onNavigateToSubSetting(SubSettingsScreen.Type.IconChange)
+                },
+                onRateUsClick = {
+                    context.openMarketLink()
+                },
+                onThirdPartyLicensesClick = {
+                    context.startActivity(Intent(context, OssLicensesActivity::class.java))
+                },
+                onDebugToolsClick = {
+                    onNavigateToSubSetting(SubSettingsScreen.Type.DebugTools)
+                }
+            )
+        }
     }
 }
 
@@ -237,6 +249,12 @@ fun SettingsView(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = extraScreenPadding)
         ) {
+            viewState.profileOverrideInfo?.let {
+                ProfileOverrideView(
+                    modifier = Modifier.padding(16.dp),
+                    profileOverrideInfo = it
+                )
+            }
             AccountCategory(
                 state = accountSettingsViewState,
                 onAccountClick = onAccountClick,
@@ -260,7 +278,7 @@ fun SettingsView(
                     SettingRowWithIcon(
                         icon = it.iconRes,
                         title = stringResource(id = it.titleRes),
-                        subtitle = it.predefinedTitle?.let { stringResource(id = it) } ?: it.recentLabel?.label(),
+                        settingValue = SettingValue.SettingText(it.predefinedTitle?.let { stringResource(id = it) } ?: it.recentLabel?.label()),
                         onClick = onDefaultConnectionClick,
                     )
                 }
@@ -268,7 +286,7 @@ fun SettingsView(
                     icon = viewState.protocol.iconRes,
                     title = stringResource(id = viewState.protocol.titleRes),
                     onClick = onProtocolClick,
-                    subtitle = stringResource(id = viewState.protocol.subtitleRes)
+                    settingValue = viewState.protocol.settingValueView
                 )
                 SettingRowWithIcon(
                     icon = viewState.vpnAccelerator.iconRes,
@@ -277,7 +295,7 @@ fun SettingsView(
                         onVpnAcceleratorUpgrade else onVpnAcceleratorClick,
                     trailingIcon = viewState.vpnAccelerator.upgradeIconRes,
                     trailingIconTint = false,
-                    subtitle = stringResource(id = viewState.vpnAccelerator.subtitleRes)
+                    settingValue = viewState.vpnAccelerator.settingValueView
                 )
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_sliders,
@@ -300,7 +318,6 @@ fun SettingsView(
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_grid_2,
                     title = stringResource(id = R.string.settings_change_icon_title),
-                    subtitle = null,
                     trailingIcon = null,
                     trailingIconTint = false,
                     onClick = onIconChangeClick
@@ -410,7 +427,7 @@ private fun ColumnScope.FeatureCategory(
                 icon = viewState.netShield.iconRes,
                 iconTint = false,
                 title = stringResource(id = viewState.netShield.titleRes),
-                subtitle = stringResource(id = viewState.netShield.subtitleRes),
+                settingValue = viewState.netShield.settingValueView,
                 trailingIcon = viewState.netShield.upgradeIconRes,
                 trailingIconTint = false,
                 onClick = if (viewState.netShield.isRestricted) onNetShieldUpgrade else onNetShieldClick
@@ -420,7 +437,7 @@ private fun ColumnScope.FeatureCategory(
             icon = viewState.splitTunneling.iconRes,
             iconTint = false,
             title = stringResource(id = viewState.splitTunneling.titleRes),
-            subtitle = stringResource(id = viewState.splitTunneling.subtitleRes),
+            settingValue = viewState.splitTunneling.settingValueView,
             trailingIcon = viewState.splitTunneling.upgradeIconRes,
             trailingIconTint = false,
             onClick = if (viewState.splitTunneling.isRestricted)
@@ -476,7 +493,7 @@ private fun ColumnScope.Category(
 fun SettingRow(
     title: String,
     modifier: Modifier = Modifier,
-    subtitle: String? = null,
+    subtitleComposable: (@Composable () -> Unit)? = null,
     leadingComposable: (@Composable () -> Unit)? = null,
     trailingComposable: (@Composable () -> Unit)? = null,
     onClick: (() -> Unit)? = null,
@@ -493,7 +510,7 @@ fun SettingRow(
 
     Row(
         modifier = baseModifier,
-        verticalAlignment = if (subtitle != null) Alignment.Top else Alignment.CenterVertically
+        verticalAlignment = if (subtitleComposable != null) Alignment.Top else Alignment.CenterVertically
     ) {
         if (leadingComposable != null) {
             Box(
@@ -514,12 +531,8 @@ fun SettingRow(
                 text = title,
                 style = ProtonTheme.typography.defaultNorm,
             )
-            subtitle?.let {
-                Spacer(modifier = Modifier.size(4.dp))
-                Text(
-                    text = it,
-                    style = ProtonTheme.typography.defaultWeak
-                )
+            subtitleComposable?.let {
+                it()
             }
         }
         trailingComposable?.invoke()
@@ -531,7 +544,7 @@ fun SettingRowWithIcon(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
     title: String,
-    subtitle: String? = null,
+    settingValue: SettingValue? = null,
     @DrawableRes trailingIcon: Int? = null,
     iconTint: Boolean = true,
     trailingIconTint: Boolean = true,
@@ -557,10 +570,47 @@ fun SettingRowWithIcon(
             }
         },
         title = title,
-        subtitle = subtitle,
+        subtitleComposable = settingValue?.let { { SettingValueView(settingValue = it) } },
         onClick = onClick,
         modifier = modifier
     )
+}
+
+@Composable
+fun SettingValueView(
+    modifier: Modifier = Modifier,
+    settingValue: SettingValue?
+) {
+    Column(modifier) {
+        when (settingValue) {
+            is SettingValue.SettingOverrideValue -> {
+                Spacer(Modifier.size(6.dp))
+                OverrideSettingLabel(settingValue = settingValue)
+            }
+
+            is SettingValue.SettingStringRes -> {
+                Spacer(Modifier.size(6.dp))
+                Text(
+                    text = stringResource(settingValue.subtitleRes),
+                    style = ProtonTheme.typography.defaultWeak
+                )
+            }
+
+            is SettingValue.SettingText -> {
+                settingValue.text?.let {
+                    Spacer(Modifier.size(6.dp))
+                    Text(
+                        text = it,
+                        style = ProtonTheme.typography.defaultWeak
+                    )
+                }
+            }
+
+            null -> {
+                // Non-override switch settings items contain no additional value views except for switch
+            }
+        }
+    }
 }
 
 @Preview
@@ -570,7 +620,30 @@ fun SettingRowWithIconPreview() {
         SettingRowWithIcon(
             icon = R.drawable.vpn_plus_badge,
             title = "Netshield",
-            subtitle = "On",
+            settingValue = SettingValue.SettingStringRes(R.string.netshield_state_on),
+            onClick = { }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun SettingRowWithOverridePreview() {
+    VpnTheme(isDark = true) {
+        SettingRowWithIcon(
+            icon = R.drawable.vpn_plus_badge,
+            title = "Netshield",
+            settingValue = SettingValue.SettingOverrideValue(
+                connectIntentPrimaryLabel =
+                    ConnectIntentPrimaryLabel.Profile(
+                        "Profile name",
+                        CountryId.sweden,
+                        false,
+                        ProfileIcon.Icon1,
+                        ProfileColor.Color1
+                    ),
+                R.string.netshield_state_on
+            ),
             onClick = { }
         )
     }
@@ -585,7 +658,12 @@ fun SettingRowWithComposablesPreview() {
                 Text("A")
             },
             title = "User",
-            subtitle = "user@mail.com",
+            subtitleComposable = {
+                Text(
+                    text = "user@mail.com",
+                    style = ProtonTheme.typography.defaultNorm
+                )
+            },
             onClick = { }
         )
     }
@@ -613,18 +691,23 @@ fun CategoryPreview() {
                         }
                     },
                     title = stringResource(id = R.string.settings_netshield_title),
-                    subtitle = "On"
+                    subtitleComposable = {
+                        Text(
+                            text = "On",
+                            style = ProtonTheme.typography.defaultNorm
+                        )
+                    },
                 )
 
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_earth,
                     title = stringResource(id = R.string.settings_netshield_title),
-                    subtitle = "On"
+                    settingValue = SettingValue.SettingStringRes(R.string.netshield_state_on)
                 )
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_earth,
                     title = stringResource(id = R.string.settings_split_tunneling_title),
-                    subtitle = "On"
+                    settingValue = SettingValue.SettingStringRes(R.string.netshield_state_on)
                 )
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_earth,
