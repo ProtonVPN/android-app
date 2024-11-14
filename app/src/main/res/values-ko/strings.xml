@@ -1228,7 +1228,9 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">연결 실패</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">이 디바이스가 VPN 연결을 허용하지 않습니다.</string>
     <string name="create_profile_title">프로필 생성</string>
-    <string name="edit_profile_title">프로필 수정</string>
+    <!-- Title for the screen where user can edit a profile.
+         %1$s - name of the profile being edited. -->
+    <string name="edit_profile_title">%1$s 편집</string>
     <string name="create_profile_name_hint">프로필 이름</string>
     <string name="create_profile_name_error_empty">프로필 이름을 입력하세요</string>
     <string name="create_profile_name_error_too_long">프로필 이름은 30자 이하여야 합니다</string>
@@ -1340,6 +1342,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
+    <string name="profile_needs_reconnect">연결이 다시 시작됩니다.</string>
     <string name="initial_profile_name_streaming_us">미국 스트리밍</string>
     <string name="initial_profile_name_work_school">직장/학교</string>
     <string name="initial_profile_name_anti_censorship">반검열</string>
