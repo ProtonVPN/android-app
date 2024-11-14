@@ -1416,6 +1416,7 @@
     <string name="create_profile_pick_server_title">Server</string>
     <string name="create_profile_pick_gateway_title">Gateway</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="create_profile_pick_protocol_title">Protocol</string>
     <string name="create_profile_pick_nat_title">NAT type</string>
     <!--

@@ -645,6 +645,7 @@ fun PickNetShield(
 ) {
     BaseItemPickerDialog(
         R.string.create_profile_pick_netshield_title,
+        description = R.string.create_profile_pick_netshield_description,
         onDismissRequest = onDismissRequest
     ) {
         listOf(true, false).forEach { value ->
@@ -747,18 +748,29 @@ fun ProfileValueItem(
 fun BaseItemPickerDialog(
     @StringRes title: Int,
     onDismissRequest: () -> Unit,
+    @StringRes description: Int? = null,
     itemList: LazyListScope.() -> Unit,
 ) {
     ProtonBasicAlert(
         content = {
-            Spacer(modifier = Modifier.height(12.dp))
             Column(modifier = Modifier.fillMaxWidth()) {
+                val textPaddingModifier = Modifier
+                    .padding(horizontal = DIALOG_CONTENT_PADDING)
+                    .padding(bottom = 12.dp)
                 Text(
                     stringResource(title),
                     style = ProtonTheme.typography.body1Bold,
-                    modifier = Modifier.padding(horizontal = DIALOG_CONTENT_PADDING)
+                    modifier = textPaddingModifier
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+                if (description != null) {
+                    Text(
+                        stringResource(description),
+                        style = ProtonTheme.typography.body2Regular,
+                        color = ProtonTheme.colors.textWeak,
+                        modifier = textPaddingModifier
+                    )
+                }
+
                 LazyColumn(
                     modifier = Modifier.weight(weight = 1f, fill = false)
                 ) {
