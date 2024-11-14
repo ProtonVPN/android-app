@@ -35,6 +35,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,6 +53,7 @@ import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -120,10 +122,10 @@ fun CreateName(
                         style = ProtonTheme.typography.captionMedium
                     )
                 }
-                Unit
             },
             textStyle = ProtonTheme.typography.subheadline,
             isError = errorRes != null,
+            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
             onValueChange = { name ->
                 errorRes = if (name.isNameTooLong())
                     R.string.create_profile_name_error_too_long

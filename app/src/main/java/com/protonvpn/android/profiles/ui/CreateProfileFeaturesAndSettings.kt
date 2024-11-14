@@ -79,22 +79,16 @@ fun ProfileFeaturesAndSettings(
     CreateProfileStep(
         onNext = onNext,
         onBack = onBack,
-        onNextText = stringResource(id = R.string.create_profile_button_done),
+        onNextText = stringResource(id = R.string.saveButton),
         applyContentHorizontalPadding = false
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             Text(
                 text = stringResource(id = R.string.create_profile_features_and_settings_title),
                 color = ProtonTheme.colors.textNorm,
-                style = ProtonTheme.typography.body1Bold
+                style = ProtonTheme.typography.body1Bold,
+                modifier = Modifier.padding(bottom = 16.dp)
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = stringResource(id = R.string.create_profile_features_and_settings_description),
-                color = ProtonTheme.colors.textWeak,
-                style = ProtonTheme.typography.body2Regular,
-            )
-            Spacer(modifier = Modifier.height(8.dp))
             ProfileNetShieldItem(
                 value = state.netShield,
                 onNetShieldChange = onNetShieldChange,

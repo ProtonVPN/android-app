@@ -79,7 +79,6 @@ fun ProfileTypeAndLocation(
     CreateProfileStep(
         onNext = onNext,
         onBack = onBack,
-        onNextText = stringResource(id = R.string.create_profile_button_next)
     ) {
         Text(
             text = stringResource(id = R.string.create_profile_type_and_location_title),

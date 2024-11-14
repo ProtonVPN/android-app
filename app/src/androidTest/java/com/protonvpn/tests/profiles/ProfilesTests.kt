@@ -55,11 +55,11 @@ class ProfilesTests {
 
         ProfilesRobot
             .addProfile()
-            .setProfileName("My profile").next().next().done()
+            .setProfileName("My profile").next().next().save()
             .verify { profileExists("My profile") }
             .open("My profile")
             .edit()
-            .setProfileName("Edited").next().next().done()
+            .setProfileName("Edited").next().next().save()
             .verify { profileExists("Edited") }
             .connect("Edited")
             .verify { isConnected() }
