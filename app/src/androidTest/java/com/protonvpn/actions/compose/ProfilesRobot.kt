@@ -54,7 +54,7 @@ object ProfilesRobot : Robot {
 object ProfileAddEditRobot : Robot {
     private val profileNameField get() = node.withTag("profileName")
     private val nextButton get() = node.withText(R.string.create_profile_button_next)
-    private val doneButton get() = node.withText(R.string.create_profile_button_done)
+    private val saveButton get() = node.withText(R.string.saveButton)
 
     fun setProfileName(name: String): ProfileAddEditRobot {
         profileNameField.replaceText(name)
@@ -62,5 +62,5 @@ object ProfileAddEditRobot : Robot {
     }
 
     fun next() = nextButton.clickTo(this)
-    fun done() = doneButton.clickTo(ProfilesRobot)
+    fun save() = saveButton.clickTo(ProfilesRobot)
 }

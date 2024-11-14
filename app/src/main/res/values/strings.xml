@@ -1288,7 +1288,6 @@
     <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
     <string name="create_profile_type_and_location_title">Select connection type and location</string>
     <string name="create_profile_features_and_settings_title">Features and settings</string>
-    <string name="create_profile_features_and_settings_description">The following values are recommended</string>
 
     <!--
         First input will be for current step, second one will be for total number of steps
@@ -1296,7 +1295,6 @@
      -->
     <string name="create_profile_steps">Step %1$d of %2$d</string>
     <string name="create_profile_button_next">Next</string>
-    <string name="create_profile_button_done">Done</string>
 
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
