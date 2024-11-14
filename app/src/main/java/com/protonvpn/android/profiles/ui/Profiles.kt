@@ -81,22 +81,6 @@ fun Profiles(
     CollapsibleToolbarScaffold(
         titleResId = R.string.profiles_title,
         contentWindowInsets = WindowInsets.statusBars,
-        toolbarActions = {
-            AnimatedVisibility(
-                state != ProfilesState.ZeroState,
-                enter = fadeIn() + scaleIn(),
-                exit = fadeOut() + scaleOut()
-            ) {
-                Icon(
-                    painter = painterResource(id = me.proton.core.presentation.R.drawable.ic_proton_plus_circle_filled),
-                    contentDescription = stringResource(R.string.accessibility_action_add_new_profile),
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .clickable(onClick = onAddNew)
-                        .padding(12.dp),
-                )
-            }
-        },
         toolbarAdditionalContent = {},
         snackbarHostState = snackbarHostState,
     ) { padding ->
@@ -110,6 +94,7 @@ fun Profiles(
             is ProfilesState.ProfilesList -> {
                 ProfilesList(
                     profiles = state.profiles,
+                    onAddNew = onAddNew,
                     onConnect = onConnect,
                     onSelect = onSelect,
                     modifier = modifier,
@@ -165,26 +150,37 @@ fun ProfilesListZeroScreen(
 @Composable
 fun ProfilesList(
     profiles: List<ProfileViewItem>,
+    onAddNew: () -> Unit,
     onConnect: (ProfileViewItem) -> Unit,
     onSelect: (ProfileViewItem) -> Unit,
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
 ) {
-    LazyColumn(
-        state = listState,
+    Column(
         modifier = modifier,
     ) {
-        itemsIndexed(profiles, key = { _, profile -> profile.profile.id }) { index, profile ->
-            Column(modifier = Modifier.animateItemPlacement()) {
-                ProfileItem(
-                    profile = profile,
-                    onConnect = onConnect,
-                    onSelect = onSelect,
-                )
-                if (index < profiles.lastIndex)
-                    VpnDivider()
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.weight(1f),
+        ) {
+            itemsIndexed(profiles, key = { _, profile -> profile.profile.id }) { index, profile ->
+                Column(modifier = Modifier.animateItemPlacement()) {
+                    ProfileItem(
+                        profile = profile,
+                        onConnect = onConnect,
+                        onSelect = onSelect,
+                    )
+                    if (index < profiles.lastIndex)
+                        VpnDivider()
+                }
             }
         }
+
+        VpnSolidButton(
+            text = stringResource(R.string.profiles_button_create_profile),
+            onClick = onAddNew,
+            modifier = Modifier.padding(bottom = 24.dp, start = 16.dp, end = 16.dp),
+        )
     }
 }
 

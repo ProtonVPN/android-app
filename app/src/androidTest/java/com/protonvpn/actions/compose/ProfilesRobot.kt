@@ -26,7 +26,7 @@ import me.proton.test.fusion.Fusion.node
 object ProfilesRobot : Robot {
 
     private val createProfileButton
-        get() = node.withContentDescription(R.string.accessibility_action_add_new_profile)
+        get() = node.withText(R.string.profiles_button_create_profile)
 
     fun addProfile() = createProfileButton.clickTo(ProfileAddEditRobot)
     fun profileExists(name: String) = node.withText(name).await { assertIsDisplayed() }
