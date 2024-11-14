@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -60,6 +59,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
@@ -522,8 +522,6 @@ fun ProfileProtocolItem(
         labelRes = R.string.create_profile_pick_protocol_title,
         valueText = stringResource(id = value.displayName),
         online = true,
-        iconContent = {
-        },
         modal = { closeModal ->
             PickProtocol(
                 value = value,
@@ -564,8 +562,6 @@ fun ProfileNatItem(
         labelRes = R.string.create_profile_pick_nat_title,
         valueText = stringResource(id = value.shortLabelRes),
         online = true,
-        iconContent = {
-        },
         modal = { closeModal ->
             PickNat(
                 currentNat = value,
@@ -674,15 +670,62 @@ fun PickNetShield(
     }
 }
 
+@Composable
+fun ProfileLanConnectionsItem(
+    value: Boolean,
+    onSelect: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ProfileValueItem(
+        labelRes = R.string.settings_advanced_allow_lan_title,
+        valueText = stringResource(if (value) R.string.lan_state_on else R.string.lan_state_off),
+        online = true,
+        modal = { closeModal ->
+            PickLanConnection(
+                selected = value,
+                onSelect = onSelect,
+                onDismissRequest = closeModal
+            )
+        },
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun PickLanConnection(
+    selected: Boolean,
+    onSelect: (Boolean) -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    BaseItemPickerDialog(
+        R.string.settings_advanced_allow_lan_title,
+        description = R.string.settings_advanced_allow_lan_description,
+        onDismissRequest = onDismissRequest
+    ) {
+        items(listOf(true, false)) { value ->
+            SettingsRadioItemSmall(
+                title = stringResource(if (value) R.string.netshield_state_on else R.string.netshield_state_off),
+                description = null,
+                selected = value == selected,
+                onSelected = {
+                    onSelect(value)
+                    onDismissRequest()
+                },
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
+            )
+        }
+    }
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ProfileValueItem(
+private fun ProfileValueItem(
     @StringRes labelRes: Int?,
     valueText: String,
     online: Boolean,
-    iconContent: (@Composable RowScope.() -> Unit)?,
     modal: @Composable (() -> Unit) -> Unit,
     modifier: Modifier = Modifier,
+    iconContent: (@Composable RowScope.() -> Unit)? = null,
     bottomPadding: Dp = 20.dp,
 ) {
     val textColor = if (online) ProtonTheme.colors.textNorm else ProtonTheme.colors.textHint
@@ -1003,6 +1046,22 @@ private fun PickNetShieldPreview() {
                 {}
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun ProfileLanConnectionsItemPreview() {
+    ProtonVpnPreview {
+        ProfileLanConnectionsItem(true, {})
+    }
+}
+
+@Preview
+@Composable
+private fun PickLanConnectionsPreview() {
+    ProtonVpnPreview {
+        PickLanConnection(true, {}, {})
     }
 }
 

@@ -21,9 +21,7 @@ package com.protonvpn.android.profiles.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,7 +33,6 @@ import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.redesign.base.ui.SettingsToggleItem
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
@@ -101,14 +98,11 @@ fun ProfileFeaturesAndSettings(
                 value = state.natType,
                 onSelect = onNatChange,
             )
+            ProfileLanConnectionsItem(
+                value = state.lanConnections,
+                onSelect = onLanChange
+            )
         }
-
-        SettingsToggleItem(
-            name = stringResource(id = R.string.settings_advanced_allow_lan_title),
-            description = null,
-            value = state.lanConnections,
-            onToggle = { onLanChange(!state.lanConnections) }
-        )
     }
 }
 
