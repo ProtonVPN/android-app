@@ -143,8 +143,6 @@
     <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
 
-    <string name="accessibility_action_add_new_profile">Add new profile</string>
-
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
