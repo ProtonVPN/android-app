@@ -139,7 +139,6 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Afficher les applications système</string>
     <string name="settingsSplitTunnelingExcludedAppsList">Ces applications sont exclues de la connexion VPN.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Seules ces applications se connectent par VPN.</string>
-    <string name="accessibility_action_add_new_profile">Ajouter un profil</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -1271,14 +1270,12 @@
     <string name="create_profile_name_error_too_long">Le nom du profil doit contenir 30 caractères ou moins.</string>
     <string name="create_profile_type_and_location_title">Sélectionnez un emplacement et un type de connexion</string>
     <string name="create_profile_features_and_settings_title">Fonctionnalités et paramètres</string>
-    <string name="create_profile_features_and_settings_description">Les valeurs suivantes sont recommandées</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
     <string name="create_profile_steps">Étape %1$d de %2$d</string>
     <string name="create_profile_button_next">Suivant</string>
-    <string name="create_profile_button_done">Terminé</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1391,6 +1388,7 @@
     <string name="create_profile_pick_server_title">Serveur</string>
     <string name="create_profile_pick_gateway_title">Passerelle </string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_netshield_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
     <string name="create_profile_pick_protocol_title">Protocole</string>
     <string name="create_profile_pick_nat_title">Type de NAT</string>
     <!--

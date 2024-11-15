@@ -139,7 +139,6 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">시스템 앱 표시</string>
     <string name="settingsSplitTunnelingExcludedAppsList">해당 앱들은 VPN 연결에서 제외됩니다.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">이 앱들만 VPN을 통해 연결됩니다.</string>
-    <string name="accessibility_action_add_new_profile">새 프로필 추가</string>
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -1236,14 +1235,12 @@
     <string name="create_profile_name_error_too_long">프로필 이름은 30자 이하여야 합니다</string>
     <string name="create_profile_type_and_location_title">연결 종류와 위치를 선택하세요</string>
     <string name="create_profile_features_and_settings_title">기능 및 설정</string>
-    <string name="create_profile_features_and_settings_description">해당 값들은 추천됩니다</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
     <string name="create_profile_steps">%2$d 단계 중 %1$d 단계</string>
     <string name="create_profile_button_next">다음</string>
-    <string name="create_profile_button_done">완료</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1357,6 +1354,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="create_profile_pick_server_title">서버</string>
     <string name="create_profile_pick_gateway_title">게이트웨이</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
+    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="create_profile_pick_protocol_title">프로토콜</string>
     <string name="create_profile_pick_nat_title">NAT 종류</string>
     <!--
