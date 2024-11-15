@@ -38,7 +38,6 @@ import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.profiles.data.toProfileEntity
 import com.protonvpn.android.profiles.ui.CreateEditProfileViewModel
-import com.protonvpn.android.profiles.ui.NameScreenState
 import com.protonvpn.android.profiles.ui.ProfileType
 import com.protonvpn.android.profiles.ui.ProfilesServerDataAdapter
 import com.protonvpn.android.profiles.ui.SettingsScreenState
@@ -193,7 +192,7 @@ class CreateEditProfileViewModelTests {
         viewModel.setEditedProfileId(null, false)
         viewModel.setName("MyProfile")
         var addScreenClosed = false
-        viewModel.saveOrShowReconnectDialog { addScreenClosed = true }
+        viewModel.saveOrShowReconnectDialog(false) { addScreenClosed = true }
         assertFalse(viewModel.showReconnectDialogFlow.value)
         assertTrue(addScreenClosed)
         assertEquals(listOf("MyProfile"), profilesDao.getProfiles(vpnUser.userId).first().map { it.info.name })
@@ -214,11 +213,11 @@ class CreateEditProfileViewModelTests {
         val newProtocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TCP)
         viewModel.setProtocol(newProtocol)
         var addScreenClosed = false
-        viewModel.saveOrShowReconnectDialog { addScreenClosed = true }
+        viewModel.saveOrShowReconnectDialog(false) { addScreenClosed = true }
         assertTrue(viewModel.showReconnectDialogFlow.value)
         assertFalse(addScreenClosed)
 
-        viewModel.saveAndReconnect()
+        viewModel.saveAndReconnect(false)
         assertFalse(viewModel.showReconnectDialogFlow.value)
         assertEquals(newProtocol, vpnStateMonitor.connectionIntent?.settingsOverrides?.protocol)
     }
@@ -237,7 +236,7 @@ class CreateEditProfileViewModelTests {
         viewModel.setEditedProfileId(testProfile.info.id, false)
         viewModel.setNetShield(false)
         var addScreenClosed = false
-        viewModel.saveOrShowReconnectDialog { addScreenClosed = true }
+        viewModel.saveOrShowReconnectDialog(false) { addScreenClosed = true }
         assertFalse(viewModel.showReconnectDialogFlow.value)
         assertTrue(addScreenClosed)
 

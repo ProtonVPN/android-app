@@ -49,6 +49,7 @@ class ProfilesTelemetry @Inject constructor(
         VpnProtocol("vpn_protocol"),
         NatType("nat_type"),
         AllowLan("lan_access"),
+        EditSource("edit_route_source"),
     }
 
     fun profileCreated(
@@ -87,12 +88,14 @@ class ProfilesTelemetry @Inject constructor(
         typeAndLocationScreen: TypeAndLocationScreenState,
         settingsScreen: SettingsScreenState,
         profile: Profile,
+        routedFromSettings: Boolean,
     ) {
         telemetry.event {
             val dimensions = buildMap {
                 commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 putAll(profileConfigurationDimensions(typeAndLocationScreen, settingsScreen))
                 putDimensions(userProfileType(profile.info.isUserCreated), Dimen.ProfileType)
+                putDimensions(profileEditSource(routedFromSettings), Dimen.EditSource)
             }
             TelemetryEventData(MEASUREMENT_GROUP, "profile_updated", dimensions = dimensions)
         }
@@ -148,6 +151,8 @@ class ProfilesTelemetry @Inject constructor(
     }
 
     private fun Boolean.toOnOff() = if (this) ON else OFF
+
+    private fun profileEditSource(routedFromSettings: Boolean) = if (routedFromSettings) "global_settings_route" else "normal_route"
 
     private fun userProfileType(isUserProfile: Boolean) = if (isUserProfile) "user_created" else "pre_made"
 

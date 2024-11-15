@@ -54,6 +54,7 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
         typeAndLocationScreen: TypeAndLocationScreenState,
         settingsScreen: SettingsScreenState,
         createDuplicate: Boolean = false,
+        routedFromSettings: Boolean = false,
     ) : Deferred<Profile?> = mainScope.async {
         currentUser.vpnUser()?.userId?.let { userId ->
             val existingProfile =
@@ -94,7 +95,7 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
                     )
                 }
             } else {
-                telemetry.profileUpdated(typeAndLocationScreen, settingsScreen, existingProfile)
+                telemetry.profileUpdated(typeAndLocationScreen, settingsScreen, existingProfile, routedFromSettings)
             }
             profile
         }
