@@ -88,13 +88,14 @@ class ProfilesTelemetryTests {
             isUserCreated = true,
             connectIntent = ConnectIntent.Fastest
         ).toProfile()
-        profilesTelemetry.profileUpdated(typeAndLocation, settingsScreenState, profile)
+        profilesTelemetry.profileUpdated(typeAndLocation, settingsScreenState, profile, false)
         runCurrent()
         assertEquals(1, testTelemetry.collectedEvents.size)
         val event = testTelemetry.collectedEvents.first()
         assertEquals("profile_updated", event.eventName)
         assertEquals("standard", event.dimensions["vpn_connection_type"])
         assertEquals("user_created", event.dimensions["profile_type"])
+        assertEquals("normal_route", event.dimensions["edit_route_source"])
     }
 
     @Test

@@ -88,7 +88,10 @@ fun AddEditProfileRoute(
         navigateTo = navigateTo,
         isEditMode = profileId != null && !duplicate,
         onProfileSave = {
-            viewModel.saveOrShowReconnectDialog(onDismiss)
+            viewModel.saveOrShowReconnectDialog(
+                routedFromSettings = navigateTo != null,
+                onDismiss = onDismiss
+            )
         }
     )
 }
@@ -115,7 +118,9 @@ fun AddEditProfileScreen(
             confirmLabel = stringResource(id = R.string.reconnect_now),
             isWideDialog = true,
             onConfirm = {
-                viewModel.saveAndReconnect()
+                viewModel.saveAndReconnect(
+                    routedFromSettings = navigateTo != null
+                )
                 onDismiss()
             },
             dismissLabel = stringResource(id = R.string.cancel),

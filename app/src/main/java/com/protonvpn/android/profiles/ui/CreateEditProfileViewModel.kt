@@ -281,23 +281,24 @@ class CreateEditProfileViewModel @Inject constructor(
         }
     }
     
-    suspend fun save() : Deferred<Profile?> =
+    suspend fun save(routedFromSettings: Boolean = false) : Deferred<Profile?> =
         createOrUpdateProfile(
             profileId = editedProfileId ?: duplicatedProfileId,
             createdAt = editedProfileCreatedAt,
             createDuplicate = duplicatedProfileId != null,
             nameScreen = requireNotNull(nameScreenState),
             typeAndLocationScreen = typeAndLocationScreenStateFlow.first(),
-            settingsScreen = requireNotNull(settingsScreenState)
+            settingsScreen = requireNotNull(settingsScreenState),
+            routedFromSettings = routedFromSettings
         )
 
     fun dismissReconnectDialog() {
         showReconnectDialogFlow.value = false
     }
 
-    fun saveAndReconnect() {
+    fun saveAndReconnect(routedFromSettings: Boolean) {
         mainScope.launch {
-            val savedProfile = save().await()
+            val savedProfile = save(routedFromSettings).await()
             savedProfile?.let {
                 vpnConnect(
                     vpnBackgroundUiDelegate,
@@ -309,7 +310,7 @@ class CreateEditProfileViewModel @Inject constructor(
         }
     }
 
-    fun saveOrShowReconnectDialog(onDismiss: () -> Unit) {
+    fun saveOrShowReconnectDialog(routedFromSettings: Boolean, onDismiss: () -> Unit) {
         viewModelScope.launch {
             val askForReconnection = shouldAskForReconnection(
                 editedProfileId,
@@ -320,7 +321,7 @@ class CreateEditProfileViewModel @Inject constructor(
             if (askForReconnection) {
                 showReconnectDialogFlow.value = true
             } else {
-                save()
+                save(routedFromSettings)
                 onDismiss()
             }
         }
