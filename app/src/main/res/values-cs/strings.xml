@@ -1337,6 +1337,7 @@
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">Upravit %1$s</string>
+    <string name="edit_profile_dialog_action">Upravit profil</string>
     <string name="create_profile_name_hint">Název profilu</string>
     <string name="create_profile_name_error_empty">Zadejte název profilu</string>
     <string name="create_profile_name_error_too_long">Název profilu musí mít délku 30 znaků nebo méně</string>
@@ -1446,6 +1447,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Toto restartuje vaše připojení.</string>
+    <string name="profile_overrides_setting">Tato nastavení jsou spojena s <b>%1$s</b> a lze je spravovat pouze v profilech.</string>
     <string name="initial_profile_name_streaming_us">Streamování US</string>
     <string name="initial_profile_name_work_school">Práce/škola</string>
     <string name="initial_profile_name_anti_censorship">Proti cenzuře</string>
@@ -1460,7 +1462,7 @@
     <string name="create_profile_pick_server_title">Server</string>
     <string name="create_profile_pick_gateway_title">Brána</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="create_profile_pick_netshield_description">Blokujte reklamy, sledovací prvky a malware na webových stránkách a v aplikacích</string>
     <string name="create_profile_pick_protocol_title">Protokol</string>
     <string name="create_profile_pick_nat_title">Typ NAT</string>
     <!--
@@ -1476,6 +1478,8 @@
     <string name="profiles_zero_state_description">Profily jsou uložená připojení s vámi vybranými umístěními, servery a protokoly.</string>
     <string name="profiles_button_create_profile">Vytvořit profil</string>
     <string name="profile_deleted_snackbar_message">Profil smazán</string>
+    <string name="profile_connected_edit_setting">Toto nastavení je spojeno s vaším aktivním profilem. \n\nProveďte změny ve svém profilu, nebo se odpojte a upravte obecná nastavení VPN.</string>
+    <string name="profile_connected_dialog_title">Správa %1$s v profilech</string>
     <string name="undo">Zpět</string>
     <string name="profile_unavailable_dialog_title">Profil není dostupný</string>
     <!-- %1$s - profile name

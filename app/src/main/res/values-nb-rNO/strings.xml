@@ -1265,6 +1265,7 @@
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">Rediger %1$s</string>
+    <string name="edit_profile_dialog_action">Rediger profil</string>
     <string name="create_profile_name_hint">Profilnavn</string>
     <string name="create_profile_name_error_empty">Skriv inn et profilnavn</string>
     <string name="create_profile_name_error_too_long">Profilnavnet må bestå av 30 tegn eller mindre</string>
@@ -1374,6 +1375,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Dette vil starte tilkoblingen på nytt.</string>
+    <string name="profile_overrides_setting">Disse innstillingene er tilknyttet <b>%1$s</b> og kan bare administreres i Profiler.</string>
     <string name="initial_profile_name_streaming_us">Strømming US</string>
     <string name="initial_profile_name_work_school">Arbeid/Skole</string>
     <string name="initial_profile_name_anti_censorship">Antisensur</string>
@@ -1388,7 +1390,7 @@
     <string name="create_profile_pick_server_title">Tjener</string>
     <string name="create_profile_pick_gateway_title">Porttjener</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="create_profile_pick_netshield_description">Blokkér annonser, sporere og skadelig programvare på nettsteder og apper</string>
     <string name="create_profile_pick_protocol_title">Protokoll</string>
     <string name="create_profile_pick_nat_title">NAT-type</string>
     <!--
@@ -1404,6 +1406,8 @@
     <string name="profiles_zero_state_description">Profiler er lagrede tilkoblinger med ditt valg av plassering, tjener og protokoll.</string>
     <string name="profiles_button_create_profile">Opprett profil</string>
     <string name="profile_deleted_snackbar_message">Profil slettet</string>
+    <string name="profile_connected_edit_setting">Denne innstillingen er koblet til den aktive profilen din. \n\nRediger profilen din for å gjøre endringer, eller koble fra for å redigere de generelle VPN-innstillingene dine.</string>
+    <string name="profile_connected_dialog_title">Administrer %1$s i profiler</string>
     <string name="undo">Angre</string>
     <string name="profile_unavailable_dialog_title">Profilen er utilgjengelig</string>
     <!-- %1$s - profile name

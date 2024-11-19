@@ -1230,6 +1230,7 @@
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">%1$s 편집</string>
+    <string name="edit_profile_dialog_action">Edit profile</string>
     <string name="create_profile_name_hint">프로필 이름</string>
     <string name="create_profile_name_error_empty">프로필 이름을 입력하세요</string>
     <string name="create_profile_name_error_too_long">프로필 이름은 30자 이하여야 합니다</string>
@@ -1340,6 +1341,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">연결이 다시 시작됩니다.</string>
+    <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
     <string name="initial_profile_name_streaming_us">미국 스트리밍</string>
     <string name="initial_profile_name_work_school">직장/학교</string>
     <string name="initial_profile_name_anti_censorship">반검열</string>
@@ -1354,7 +1356,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="create_profile_pick_server_title">서버</string>
     <string name="create_profile_pick_gateway_title">게이트웨이</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="create_profile_pick_netshield_description">광고, 추적기 그리고 멀웨어를 웹사이트들과 앱들에서 차단합니다</string>
     <string name="create_profile_pick_protocol_title">프로토콜</string>
     <string name="create_profile_pick_nat_title">NAT 종류</string>
     <!--
@@ -1370,6 +1372,8 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="profiles_zero_state_description">프로필은 당신이 선택한 지역, 서버 그리고 프로토콜로 구성된 연결입니다.</string>
     <string name="profiles_button_create_profile">프로필 생성</string>
     <string name="profile_deleted_snackbar_message">프로필 삭제됨</string>
+    <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
+    <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
     <string name="undo">실행 취소</string>
     <string name="profile_unavailable_dialog_title">프로필 이용 불가능</string>
     <!-- %1$s - profile name

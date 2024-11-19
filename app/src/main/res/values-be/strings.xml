@@ -1337,6 +1337,7 @@
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">Рэдагаваць %1$s</string>
+    <string name="edit_profile_dialog_action">Рэдагаваць профіль</string>
     <string name="create_profile_name_hint">Назва профілю</string>
     <string name="create_profile_name_error_empty">Увядзіце назву профілю</string>
     <string name="create_profile_name_error_too_long">Назва профілю павінна змяшчаць да 30 сімвалаў</string>
@@ -1446,6 +1447,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Гэта перазапусціць ваша падключэнне.</string>
+    <string name="profile_overrides_setting">Гэтыя налады падключаны да <b>%1$s</b> і імі можна кіраваць толькі ў профілі.</string>
     <string name="initial_profile_name_streaming_us">Трансляцыі ЗША</string>
     <string name="initial_profile_name_work_school">Праца/школа</string>
     <string name="initial_profile_name_anti_censorship">Супрацьдзеянне цэнзуры</string>
@@ -1460,7 +1462,7 @@
     <string name="create_profile_pick_server_title">Сервер</string>
     <string name="create_profile_pick_gateway_title">Шлюз</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="create_profile_pick_netshield_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
     <string name="create_profile_pick_protocol_title">Пратакол</string>
     <string name="create_profile_pick_nat_title">Тып NAT</string>
     <!--
@@ -1476,6 +1478,8 @@
     <string name="profiles_zero_state_description">Профілі - гэта захаваныя падключэнні з месцазнаходжаннем, серверам і пратаколам, якія вы выбіралі раней.</string>
     <string name="profiles_button_create_profile">Стварыць профіль</string>
     <string name="profile_deleted_snackbar_message">Профіль выдалены</string>
+    <string name="profile_connected_edit_setting">Гэтая налада падключана да вашага актыўнага профілю.\n\nАдрэдагуйце свой профіль, каб унесці змены. Вы таксама можаце адключыцца, каб адрэдагаваць вашы агульныя налады VPN.</string>
+    <string name="profile_connected_dialog_title">Кіраванне %1$s у профілях.</string>
     <string name="undo">Адрабіць</string>
     <string name="profile_unavailable_dialog_title">Профіль недаступны</string>
     <!-- %1$s - profile name
