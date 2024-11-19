@@ -1337,6 +1337,7 @@
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">Edytuj %1$s</string>
+    <string name="edit_profile_dialog_action">Edytuj profil</string>
     <string name="create_profile_name_hint">Nazwa profilu</string>
     <string name="create_profile_name_error_empty">Wpisz nazwę profilu</string>
     <string name="create_profile_name_error_too_long">Nazwa profilu nie może zawierać więcej niż 30 znaków</string>
@@ -1388,7 +1389,7 @@
     <string name="settings_protocol_openvpn_udp_description">Sprawdzony, przetestowany i bezpieczny. Protokół OpenVPN jest mniej energooszczędny niż inne protokoły.</string>
     <string name="settings_protocol_openvpn_tcp_description">Sprawdzony, przetestowany i bezpieczny. Protokół OpenVPN jest niezawodny, ale może nie być tak szybki, jak inne protokoły.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Pokonuje blokady VPN, ukrywając połączenie VPN przed cenzorami. Protokół jest odporny na DPI (głęboką inspekcję pakietów), ale może nie być tak szybki jak inne protokoły. Protokół Stealth jest dostępny wyłącznie w Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Pokonuje blokady VPN, ukrywając połączenie VPN przed cenzorami. Protokół jest odporny na DPI (głęboką inspekcję pakietów), ale może nie być tak szybki, jak inne protokoły. Protokół Stealth jest dostępny wyłącznie w Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Zalecany</string>
     <string name="settings_split_tunneling_mode_title">Tryb</string>
@@ -1446,6 +1447,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">To spowoduje zresetowanie połączenia.</string>
+    <string name="profile_overrides_setting">Ustawienia te są powiązane z <b>%1$s</b> i można nimi zarządzać tylko w profilach.</string>
     <string name="initial_profile_name_streaming_us">Streaming USA</string>
     <string name="initial_profile_name_work_school">Praca / Szkoła</string>
     <string name="initial_profile_name_anti_censorship">Omijanie cenzury</string>
@@ -1460,7 +1462,7 @@
     <string name="create_profile_pick_server_title">Serwer</string>
     <string name="create_profile_pick_gateway_title">Brama</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="create_profile_pick_netshield_description">Zablokuj reklamy, elementy śledzące i złośliwe oprogramowanie na stronach internetowych oraz w aplikacjach</string>
     <string name="create_profile_pick_protocol_title">Protokół</string>
     <string name="create_profile_pick_nat_title">Typ NAT</string>
     <!--
@@ -1476,6 +1478,8 @@
     <string name="profiles_zero_state_description">Profile to zapisane połączenia z wybraną lokalizacją, serwerem i protokołem.</string>
     <string name="profiles_button_create_profile">Utwórz profil</string>
     <string name="profile_deleted_snackbar_message">Profil został usunięty</string>
+    <string name="profile_connected_edit_setting">To ustawienie jest powiązane z aktywnym profilem.\n\nEdytuj profil, aby wprowadzić zmiany, lub rozłącz się, aby edytować ogólne ustawienia VPN.</string>
+    <string name="profile_connected_dialog_title">Zarządzaj %1$s w profilach</string>
     <string name="undo">Cofnij</string>
     <string name="profile_unavailable_dialog_title">Profil jest niedostępny</string>
     <!-- %1$s - profile name

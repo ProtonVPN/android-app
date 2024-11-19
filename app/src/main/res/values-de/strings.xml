@@ -1265,6 +1265,7 @@
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">Edit %1$s</string>
+    <string name="edit_profile_dialog_action">Edit profile</string>
     <string name="create_profile_name_hint">Profilname</string>
     <string name="create_profile_name_error_empty">Gib einen Profilnamen ein</string>
     <string name="create_profile_name_error_too_long">Der Profilname muss 30 Zeichen oder weniger enthalten</string>
@@ -1374,6 +1375,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">This will restart your connection.</string>
+    <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
     <string name="initial_profile_name_streaming_us">US Streaming</string>
     <string name="initial_profile_name_work_school">Arbeit/Schule</string>
     <string name="initial_profile_name_anti_censorship">Zensurbekämpfung</string>
@@ -1404,6 +1406,8 @@
     <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
     <string name="profiles_button_create_profile">Profil erstellen</string>
     <string name="profile_deleted_snackbar_message">Profil gelöscht</string>
+    <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
+    <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
     <string name="undo">Rückgängig machen</string>
     <string name="profile_unavailable_dialog_title">Profil nicht verfügbar</string>
     <!-- %1$s - profile name

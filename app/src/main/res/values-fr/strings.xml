@@ -1265,6 +1265,7 @@
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">Modifier %1$s</string>
+    <string name="edit_profile_dialog_action">Modifier le profil</string>
     <string name="create_profile_name_hint">Nom du profil</string>
     <string name="create_profile_name_error_empty">Saisir le nom du profil</string>
     <string name="create_profile_name_error_too_long">Le nom du profil doit contenir 30 caractères ou moins.</string>
@@ -1374,6 +1375,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Ceci redémarrera votre connexion.</string>
+    <string name="profile_overrides_setting">Ces paramètres sont connectés à <b>%1$s</b> et ne peuvent être gérés dans les profils.</string>
     <string name="initial_profile_name_streaming_us">Streaming États-Unis</string>
     <string name="initial_profile_name_work_school">Travail ou école</string>
     <string name="initial_profile_name_anti_censorship">Anti-censure</string>
@@ -1404,6 +1406,8 @@
     <string name="profiles_zero_state_description">Les profils sont des connexions enregistrées tenant compte de vos préférences de protocole, de serveur et d\'emplacement.</string>
     <string name="profiles_button_create_profile">Créer un profil</string>
     <string name="profile_deleted_snackbar_message">Le profil a été supprimé.</string>
+    <string name="profile_connected_edit_setting">Ce paramètre est connecté à votre profil actif. \n\nModifiez votre profil pour apporter des modifications ou déconnectez-vous pour modifier vos paramètres VPN généraux.</string>
+    <string name="profile_connected_dialog_title">Gérer %1$s dans les profils</string>
     <string name="undo">Annuler</string>
     <string name="profile_unavailable_dialog_title">Le profil n\'est pas disponible.</string>
     <!-- %1$s - profile name

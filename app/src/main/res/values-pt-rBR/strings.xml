@@ -1264,7 +1264,8 @@
     <string name="create_profile_title">Criar perfil</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
-    <string name="edit_profile_title">Edit %1$s</string>
+    <string name="edit_profile_title">Editar %1$s</string>
+    <string name="edit_profile_dialog_action">Editar perfil</string>
     <string name="create_profile_name_hint">Nome do perfil</string>
     <string name="create_profile_name_error_empty">Digite o nome do perfil</string>
     <string name="create_profile_name_error_too_long">O nome do perfil deve ter 30 caracteres ou menos</string>
@@ -1373,7 +1374,8 @@
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="profile_needs_reconnect">This will restart your connection.</string>
+    <string name="profile_needs_reconnect">Isso reiniciará sua conexão.</string>
+    <string name="profile_overrides_setting">Estas configurações estão conectadas a <b>%1$s</b> e só podem ser gerenciadas em Perfis.</string>
     <string name="initial_profile_name_streaming_us">Streaming EUA</string>
     <string name="initial_profile_name_work_school">Trabalho/Escola</string>
     <string name="initial_profile_name_anti_censorship">Anti-censura</string>
@@ -1388,7 +1390,7 @@
     <string name="create_profile_pick_server_title">Servidor</string>
     <string name="create_profile_pick_gateway_title">Gateway</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="create_profile_pick_netshield_description">Bloqueia anúncios, rastreadores e malware em sites e aplicativos</string>
     <string name="create_profile_pick_protocol_title">Protocolo</string>
     <string name="create_profile_pick_nat_title">Tipo NAT</string>
     <!--
@@ -1404,6 +1406,8 @@
     <string name="profiles_zero_state_description">Os perfis são conexões salvas com sua escolha de local, servidor e protocolo.</string>
     <string name="profiles_button_create_profile">Criar perfil</string>
     <string name="profile_deleted_snackbar_message">Perfil excluído</string>
+    <string name="profile_connected_edit_setting">Esta configuração está conectada ao seu perfil ativo.\n\nEdite seu perfil para fazer alterações ou desconecte-se para editar suas configurações gerais de VPN.</string>
+    <string name="profile_connected_dialog_title">Gerenciar %1$s nos perfis</string>
     <string name="undo">Desfazer</string>
     <string name="profile_unavailable_dialog_title">Perfil indisponível</string>
     <!-- %1$s - profile name

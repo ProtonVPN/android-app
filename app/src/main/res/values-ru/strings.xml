@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Пожалуйста, убедитесь, что ваше интернет-соединение работает.</string>
     <string name="troubleshootNoInternetTitle">Нет подключения к интернету</string>
     <string name="troubleshootIspProblemTitle">Проблема с интернет-провайдером (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Попробуйте подключиться к Proton из другой сети (или используйте <a href=\'%1$s\'>TOR</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Конфликт с антивирусом</string>
     <string name="troubleshootAntivirusProblemDescription">Временно отключите или удалите антивирусное программное обеспечение.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Конфликт с прокси-сервером/брандмауэром</string>
@@ -186,7 +186,7 @@
     <string name="troubleshootContactUsSectionTitle">Все еще нужна помощь? Свяжитесь с нами напрямую</string>
     <string name="troubleshootCustomerSupport">Поддержка клиентов</string>
     <string name="settingsAllowAlternativeRoutingTitle">Альтернативная маршрутизация</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянная VPN &amp; Kill Switch</string>
@@ -291,7 +291,7 @@
     <string name="tv_signout_dialog_description_connected">Так вы отключите телевизор от любого VPN-сервера.</string>
     <string name="tv_signout_dialog_ok">Выйти</string>
     <string name="tv_quick_connect_recommened">Рекомендованное</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Избранная</string>
     <string name="tv_country_maintenance_dialog_title">Страна недоступна</string>
     <string name="tv_country_maintenance_dialog_description">Пожалуйста, повторите попытку позже или выберите другую страну.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -328,7 +328,7 @@
     <string name="enable">Включить</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN обнаружила, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, TOR, P2P</string>
     <string name="upsell_streaming_services">Доступ к службам трансляции (Netflix, Disney+ и т. д.) в любой точке мира</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -368,8 +368,8 @@
     <string name="upgrade_secure_core_message"><![CDATA[Добавьте ещё один уровень шифрования к VPN-подключению с помощью <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Разблокировать одноранговые загрузки (P2P) и обмен файлами </string>
     <string name="upgrade_p2p_text">Улучшите скорость загрузки и скачивания, скрывая при этом свой IP-адрес.</string>
-    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
-    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
+    <string name="upgrade_profiles_title">Получите быстрый доступ к своим частым подключениям</string>
+    <string name="upgrade_profiles_text">Разблокировать профили с помощью VPN Plus</string>
     <string name="upgrade_streaming_title">Трансляция в 4K</string>
     <string name="upgrade_streaming_text">Наслаждайтесь любимыми фильмами и телепередачами из любой точки мира.</string>
     <string name="upgrade_tor_title">Доступ к сети Tor одним нажатием</string>
@@ -1171,7 +1171,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Высокая (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN может работать медленнее обычного.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Протокол</string>
     <!-- tag(Redesign_2023) -->
@@ -1333,10 +1333,11 @@
     <string name="connection_details_seconds_shortened">%1$d с</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Сбой подключения</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">Это устройство не разрешает подключения к VPN.</string>
-    <string name="create_profile_title">Create profile</string>
+    <string name="create_profile_title">Создать профиль</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">Edit %1$s</string>
+    <string name="edit_profile_dialog_action">Изменить профиль</string>
     <string name="create_profile_name_hint">Имя профиля</string>
     <string name="create_profile_name_error_empty">Введите имя профиля</string>
     <string name="create_profile_name_error_too_long">Имя профиля должно состоять из 30 или менее символов</string>
@@ -1439,13 +1440,14 @@
     <string name="tv_settings_split_tunneling_mode_description_inverse">Через VPN подключаются только выбранные приложения, весь остальной трафик остается незащищенным.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Изменить</string>
-    <string name="profile_action_duplicate">Duplicate</string>
+    <string name="profile_action_duplicate">Дублировать</string>
     <string name="profile_action_delete">Удалить</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="profile_needs_reconnect">This will restart your connection.</string>
+    <string name="profile_needs_reconnect">Ваше подключение перезапустится.</string>
+    <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
     <string name="initial_profile_name_streaming_us">Просмотр трансляций США</string>
     <string name="initial_profile_name_work_school">Работа/Школа</string>
     <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
@@ -1460,7 +1462,7 @@
     <string name="create_profile_pick_server_title">Сервер</string>
     <string name="create_profile_pick_gateway_title">Шлюз</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="create_profile_pick_netshield_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
     <string name="create_profile_pick_protocol_title">Протокол</string>
     <string name="create_profile_pick_nat_title">Тип NAT</string>
     <!--
@@ -1472,19 +1474,21 @@
     <string name="create_profile_fastest_state">Самый быстрый</string>
     <string name="create_profile_fastest_server">Самый быстрый</string>
     <string name="create_profile_pick_middle_country_title">Средняя страна</string>
-    <string name="profiles_zero_state_title">Create your first profile</string>
-    <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
-    <string name="profiles_button_create_profile">Create profile</string>
+    <string name="profiles_zero_state_title">Создайте свой первый профиль</string>
+    <string name="profiles_zero_state_description">Профили — это сохранённые подключения с выбранными вами местоположением, сервером и протоколом.</string>
+    <string name="profiles_button_create_profile">Создать профиль</string>
     <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
+    <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
     <string name="undo">Отменить</string>
     <string name="profile_unavailable_dialog_title">Profile unavailable</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <string name="profile_unavailable_dialog_message">Выбранный сервер для %1$s недоступен. Выберите другой сервер или попробуйте позже.</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Icon %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
-    <string name="profile_color_accessibility">Color %1$d</string>
+    <string name="profile_color_accessibility">Цвет %1$d</string>
 </resources>
