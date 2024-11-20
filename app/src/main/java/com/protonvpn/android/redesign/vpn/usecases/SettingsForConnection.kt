@@ -58,7 +58,7 @@ class SettingsForConnection @Inject constructor(
         }
     }
 
-    fun getFlowForIntent(connectIntent: AnyConnectIntent?): Flow<CurrentConnectionSettings> {
+    private fun getFlowForIntent(connectIntent: AnyConnectIntent?): Flow<CurrentConnectionSettings> {
         val profileId = connectIntent?.profileId
         return if (profileId == null) {
                 settings.effectiveSettings.map { effectiveSettings ->
