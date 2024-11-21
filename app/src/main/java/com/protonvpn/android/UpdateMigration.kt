@@ -28,6 +28,7 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
+import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import dagger.Lazy
@@ -44,7 +45,8 @@ class UpdateMigration @Inject constructor(
     private val isTv: Lazy<IsTvCheck>,
     private val logout: Lazy<Logout>,
     private val onboardingTelemetry: Lazy<OnboardingTelemetry>,
-    private val appFeaturesPrefs: Lazy<AppFeaturesPrefs>
+    private val appFeaturesPrefs: Lazy<AppFeaturesPrefs>,
+    private val uiStateStorage: UiStateStorage,
 ) {
 
     fun handleUpdate() {
@@ -59,6 +61,7 @@ class UpdateMigration @Inject constructor(
             enableWhatsNew(strippedOldVersionCode)
             updateNetShieldValue(strippedOldVersionCode)
             clearCertificateData(strippedOldVersionCode)
+            promoteProfiles(strippedOldVersionCode)
         }
     }
 
@@ -97,6 +100,15 @@ class UpdateMigration @Inject constructor(
     private fun clearCertificateData(oldVersionCode: Int) {
         if (oldVersionCode <= 5_03_50_00) {
             Storage.save(null, CertificateData::class.java)
+        }
+    }
+
+    @SuppressWarnings("MagicNumber")
+    private fun promoteProfiles(oldVersionCode: Int) {
+        if (oldVersionCode <= 5_07_80_00) {
+            mainScope.launch {
+                uiStateStorage.update { it.copy(shouldPromoteProfiles = true) }
+            }
         }
     }
 

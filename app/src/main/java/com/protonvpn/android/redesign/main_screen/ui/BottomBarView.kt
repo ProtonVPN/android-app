@@ -21,6 +21,10 @@ package com.protonvpn.android.redesign.main_screen.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -48,6 +52,7 @@ fun BottomBarView(
     showGateways: Boolean,
     showProfiles: Boolean,
     selectedTarget: MainTarget? = MainTarget.Home,
+    notificationDots: Set<MainTarget> = emptySet(),
     navigateTo: (MainTarget) -> Unit
 ) {
     val bgColor = ProtonTheme.colors.backgroundSecondary
@@ -65,6 +70,11 @@ fun BottomBarView(
 
             val isSelected = target == selectedTarget
             val label = stringResource(id = target.labelRes())
+            val notificationBadge: @Composable BoxScope.() -> Unit = if (notificationDots.contains(target)) {
+                { Badge(containerColor = ProtonTheme.colors.notificationError) }
+            } else {
+                {}
+            }
             NavigationBarItem(
                 modifier = Modifier.alignByBaseline(),
                 selected = isSelected,
@@ -77,10 +87,14 @@ fun BottomBarView(
                     indicatorColor = indicatorColor,
                 ),
                 icon = {
-                    Icon(
-                        painterResource(id = target.getIcon(isSelected)),
-                        contentDescription = null,
-                    )
+                    BadgedBox(
+                        badge = notificationBadge
+                    ) {
+                        Icon(
+                            painterResource(id = target.getIcon(isSelected)),
+                            contentDescription = null,
+                        )
+                    }
                 },
                 label = {
                     Text(
