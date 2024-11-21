@@ -19,6 +19,7 @@
 
 package com.protonvpn.tests.redesign.base.ui
 
+import androidx.compose.ui.text.input.TextFieldValue
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.FusionConfig
@@ -38,7 +39,7 @@ class ProtonTextFieldTests : FusionComposeTest() {
     fun whenBothErrorAndAssistiveTextAreSetThenAssistiveTextIsDisplayed() {
         withContent {
             ProtonOutlinedTextField(
-                value = "text",
+                value = TextFieldValue("text"),
                 onValueChange = {},
                 errorText = "Error text",
                 assistiveText = "Assistive text"
@@ -52,7 +53,7 @@ class ProtonTextFieldTests : FusionComposeTest() {
     fun whenBothErrorAndAssistiveTextAreSetAndIsErrorThenErrorTextIsDisplayed() {
         withContent {
             ProtonOutlinedTextField(
-                value = "text",
+                value = TextFieldValue("text"),
                 onValueChange = {},
                 errorText = "Error text",
                 assistiveText = "Assistive text",
@@ -67,7 +68,7 @@ class ProtonTextFieldTests : FusionComposeTest() {
     fun whenOnlyAssistiveTextIsSetAndIsErrorThenAssistiveTextIsDisplayed() {
         withContent {
             ProtonOutlinedTextField(
-                value = "text",
+                value = TextFieldValue("text"),
                 onValueChange = {},
                 assistiveText = "Assistive text",
                 isError = true

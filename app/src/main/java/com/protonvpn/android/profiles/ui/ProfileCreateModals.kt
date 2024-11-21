@@ -19,7 +19,10 @@
 
 package com.protonvpn.android.profiles.ui
 
+import android.net.Uri
+import android.util.Patterns
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,11 +38,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -47,6 +53,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -55,12 +64,16 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.DIALOG_CONTENT_PADDING
@@ -68,6 +81,7 @@ import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.FlagDefaults
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.ProtonDialogButton
+import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.ProtocolSettingsList
@@ -75,6 +89,8 @@ import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
+import me.proton.core.compose.theme.defaultNorm
+import me.proton.core.compose.theme.defaultWeak
 import me.proton.core.presentation.R as CoreR
 
 @Composable
@@ -692,6 +708,140 @@ fun ProfileLanConnectionsItem(
 }
 
 @Composable
+fun ProfileAutoOpenItem(
+    value: ProfileAutoOpen,
+    onChange: (ProfileAutoOpen) -> Unit,
+    modifier: Modifier = Modifier,
+    isNew: Boolean
+) {
+    ProfileValueItem(
+        labelRes = R.string.create_profile_auto_open_label,
+        valueText = when (value) {
+            is ProfileAutoOpen.None -> stringResource(R.string.profile_auto_open_off)
+            is ProfileAutoOpen.App -> value.packageName
+            is ProfileAutoOpen.Url -> value.url.toString()
+        },
+        online = true,
+        modal = { closeModal ->
+            AutoOpenModal(
+                value = value,
+                onChange = onChange,
+                onDismissRequest = closeModal
+            )
+        },
+        labelBadge = R.string.create_profile_auto_open_label_badge.takeIf { isNew },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun AutoOpenModal(
+    value: ProfileAutoOpen,
+    onChange: (ProfileAutoOpen) -> Unit,
+    onDismissRequest: () -> Unit
+) {
+    var isOnState by rememberSaveable(value) { mutableStateOf(value !is ProfileAutoOpen.None) }
+    var urlState by rememberSaveable(value, stateSaver = TextFieldValue.Saver) {
+        val text = when (value) {
+            is ProfileAutoOpen.Url -> value.url.toString()
+            is ProfileAutoOpen.App -> "app:${value.packageName}"
+            is ProfileAutoOpen.None -> value.savedText
+        }
+        // Move cursor to the end on focusing
+        mutableStateOf(TextFieldValue(text, TextRange(text.length)))
+    }
+    var errorState by rememberSaveable(value) { mutableStateOf<Int?>(null) }
+
+    BaseItemPickerDialog(
+        R.string.create_profile_auto_open_label,
+        description = R.string.create_profile_auto_open_description,
+        onDismissRequest = onDismissRequest,
+        onSave = {
+            val (autoOpen, error) = fixAndValidateAutoOpenUri(isOnState, urlState.text)
+            if (error != null) {
+                errorState = error
+            } else {
+                onChange(autoOpen)
+                onDismissRequest()
+            }
+        }
+    ) {
+        item {
+            SettingsRadioItemSmall(
+                title = stringResource(R.string.profile_auto_open_off),
+                description = null,
+                selected = !isOnState,
+                onSelected = {
+                    isOnState = false
+                    errorState = null
+                },
+                horizontalContentPadding = DIALOG_CONTENT_PADDING,
+            )
+        }
+        item {
+            Column(
+                modifier = Modifier.clickable { isOnState = true }
+            ) {
+                SettingsRadioItemSmall(
+                    title = stringResource(R.string.profile_auto_open_on),
+                    description = null,
+                    selected = isOnState,
+                    onSelected = { isOnState = true },
+                    horizontalContentPadding = DIALOG_CONTENT_PADDING,
+                )
+                val focusRequester = remember { FocusRequester() }
+                if (isOnState) {
+                    LaunchedEffect(true) {
+                        focusRequester.requestFocus()
+                    }
+                }
+                ProtonOutlinedTextField(
+                    value = urlState,
+                    onValueChange = {
+                        urlState = it
+                        errorState = null
+                    },
+                    textStyle =
+                        if (isOnState) ProtonTheme.typography.defaultNorm
+                        else ProtonTheme.typography.defaultWeak,
+                    labelText = stringResource(R.string.create_profile_auto_open_url_input_label),
+                    assistiveText = errorState?.let { stringResource(it) } ?: "",
+                    isError = errorState != null,
+                    enabled = isOnState,
+                    placeholderText = stringResource(R.string.create_profile_auto_open_url_input_placeholder),
+                    maxLines = 1,
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        .padding(horizontal = DIALOG_CONTENT_PADDING)
+                        .focusRequester(focusRequester)
+                        .fillMaxWidth(),
+                    backgroundColor = ProtonTheme.colors.backgroundNorm,
+                )
+            }
+        }
+    }
+}
+
+@VisibleForTesting
+fun fixAndValidateAutoOpenUri(isOn: Boolean, text: String) : Pair<ProfileAutoOpen, Int?> {
+    if (!isOn) return ProfileAutoOpen.None(text) to null
+    var uri = Uri.parse(text)
+    if (uri.scheme.isNullOrBlank())
+        uri = Uri.parse("https://$text")
+
+    val invalid = ProfileAutoOpen.None(text) to R.string.profile_auto_open_error_invalid_url
+    return try {
+        when (uri.scheme) {
+            "app" -> ProfileAutoOpen.App(uri.schemeSpecificPart) to null
+            "https" -> if (Patterns.WEB_URL.matcher(uri.toString()).matches()) ProfileAutoOpen.Url(uri) to null else invalid
+            else -> invalid
+        }
+    } catch (e: IllegalArgumentException) {
+        invalid
+    }
+}
+
+@Composable
 private fun PickLanConnection(
     selected: Boolean,
     onSelect: (Boolean) -> Unit,
@@ -725,6 +875,7 @@ private fun ProfileValueItem(
     online: Boolean,
     modal: @Composable (() -> Unit) -> Unit,
     modifier: Modifier = Modifier,
+    labelBadge: Int? = null,
     iconContent: (@Composable RowScope.() -> Unit)? = null,
     bottomPadding: Dp = 20.dp,
 ) {
@@ -737,14 +888,27 @@ private fun ProfileValueItem(
     ) {
         val label = labelRes?.let { stringResource(it) }
         if (label != null) {
-            Text(
-                text = label,
-                style = ProtonTheme.typography.captionMedium,
-                modifier = Modifier
+            Row(
+                Modifier
                     .padding(bottom = 8.dp)
                     .semantics { invisibleToUser() },
-                color = textColor
-            )
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = label,
+                    style = ProtonTheme.typography.captionMedium,
+                    color = textColor,
+                    modifier = Modifier.weight(1f, fill = false)
+                )
+                if (labelBadge != null) {
+                    LabelBadge(
+                        text = stringResource(labelBadge),
+                        textColor = ProtonTheme.colors.notificationWarning,
+                        borderColor = ProtonTheme.colors.notificationWarning,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
+            }
         }
         Row(
             modifier = Modifier
@@ -791,6 +955,7 @@ private fun ProfileValueItem(
 fun BaseItemPickerDialog(
     @StringRes title: Int,
     onDismissRequest: () -> Unit,
+    onSave: (() -> Unit)? = null,
     @StringRes description: Int? = null,
     itemList: LazyListScope.() -> Unit,
 ) {
@@ -820,18 +985,38 @@ fun BaseItemPickerDialog(
                     itemList()
                 }
 
-                ProtonDialogButton(
-                    onClick = onDismissRequest,
-                    text = stringResource(R.string.cancel),
+                Row(
                     modifier = Modifier
                         .align(Alignment.End)
                         .padding(end = DIALOG_CONTENT_PADDING)
-                )
+                ) {
+                    ProtonDialogButton(
+                        onClick = onDismissRequest,
+                        text = stringResource(R.string.cancel),
+                    )
+                    if (onSave != null) {
+                        ProtonDialogButton(
+                            onClick = onSave,
+                            text = stringResource(R.string.saveButton),
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+                }
             }
         },
         isWideDialog = true,
         onDismissRequest = onDismissRequest
     )
+}
+
+@Preview
+@Composable
+private fun AutoOpenModalPreview() {
+    VpnTheme(isDark = true) {
+        Surface {
+            AutoOpenModal(ProfileAutoOpen.None(""), {}, {})
+        }
+    }
 }
 
 @Preview

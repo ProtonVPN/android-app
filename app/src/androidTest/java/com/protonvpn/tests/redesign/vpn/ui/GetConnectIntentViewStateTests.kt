@@ -27,6 +27,7 @@ import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.VpnCountry
 import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
@@ -474,7 +475,8 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
                 isUserCreated = true,
             ),
             connectIntent = intent,
-            userId = UserId("dummy id")
+            userId = UserId("dummy id"),
+            autoOpen = ProfileAutoOpen.None(""),
         )
         profiles += profile.info.id to profile
         setConnectIntentRowComposable(profile.connectIntent, isFreeUser = false)

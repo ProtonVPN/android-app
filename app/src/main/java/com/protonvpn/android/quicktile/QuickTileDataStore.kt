@@ -48,19 +48,27 @@ class QuickTileDataStore @Inject constructor(
     data class Data(
         val state: TileState,
         val isLoggedIn: Boolean,
+        val isAutoOpenForDefaultConnection: Boolean = false,
         val serverName: String? = null
     )
 
     private val dataStore: Deferred<DataStore<Data>> = mainScope.async {
         localDataStoreFactory.getMultiProcessDataStore(
             "quick_tile",
-            JsonDataStoreSerializer(Data(TileState.Disabled, true), Data.serializer()),
+            JsonDataStoreSerializer(
+                Data(
+                    TileState.Disabled,
+                    isLoggedIn = true,
+                    isAutoOpenForDefaultConnection = false
+                ),
+                Data.serializer()
+            ),
             emptyList()
         )
     }
 
     suspend fun getDataFlow() = dataStore.await().data
-    suspend fun isLoggedIn() = dataStore.await().data.first().isLoggedIn
+    suspend fun getData() = getDataFlow().first()
 
     suspend fun store(data: Data) {
         dataStore.await().updateData { data }

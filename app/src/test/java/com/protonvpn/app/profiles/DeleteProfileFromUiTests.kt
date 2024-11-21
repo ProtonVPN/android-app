@@ -21,6 +21,7 @@ package com.protonvpn.app.profiles
 
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileEntity
 import com.protonvpn.android.profiles.data.ProfileIcon
@@ -59,7 +60,8 @@ class DeleteProfileFromUiTests {
     private val profile = Profile(
         info = ProfileInfo(1, "profile 1", ProfileColor.Color2, ProfileIcon.Icon5, 100L, true),
         connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet(), profileId = 1),
-        userId = UserId("user1")
+        userId = UserId("user1"),
+        autoOpen = ProfileAutoOpen.None("")
     )
 
     @MockK

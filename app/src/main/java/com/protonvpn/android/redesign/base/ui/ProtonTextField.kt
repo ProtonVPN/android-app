@@ -23,6 +23,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -32,6 +33,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,6 +49,7 @@ import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
@@ -54,7 +57,6 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionStrongNorm
 import me.proton.core.compose.theme.captionUnspecified
 import me.proton.core.compose.theme.defaultHint
 import me.proton.core.compose.theme.defaultNorm
@@ -63,8 +65,8 @@ import me.proton.core.compose.theme.defaultNorm
 @Composable
 @SuppressWarnings("LongParameterList")
 fun ProtonOutlinedTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -80,6 +82,7 @@ fun ProtonOutlinedTextField(
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
 ) {
     val supportingTextString =
         if (isError && errorText != null) errorText else assistiveText
@@ -100,13 +103,6 @@ fun ProtonOutlinedTextField(
     }
     val placeholder: @Composable (() -> Unit)? =
         placeholderText?.let { @Composable { Text(placeholderText, style = ProtonTheme.typography.defaultHint) } }
-    val colors = OutlinedTextFieldDefaults.colors(
-        focusedContainerColor = ProtonTheme.colors.backgroundSecondary,
-        unfocusedContainerColor = ProtonTheme.colors.backgroundSecondary,
-        disabledContainerColor = ProtonTheme.colors.backgroundSecondary,
-        focusedBorderColor = ProtonTheme.colors.interactionNorm,
-        unfocusedBorderColor = Color.Transparent,
-    )
     val cursorColor = rememberUpdatedState(
         if (isError) {
             ProtonTheme.colors.notificationError
@@ -139,13 +135,23 @@ fun ProtonOutlinedTextField(
                     .widthIn(min = TextFieldDefaults.MinWidth)
             ) {
                 if (labelText != null) {
-                    Text(labelText, style = ProtonTheme.typography.captionStrongNorm)
+                    Text(
+                        labelText,
+                        style = ProtonTheme.typography.captionMedium,
+                        color = if (isError) ProtonTheme.colors.notificationError else ProtonTheme.colors.textNorm)
                     VerticalSpacer()
                 }
+                val colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = backgroundColor,
+                    unfocusedContainerColor = backgroundColor,
+                    disabledContainerColor = backgroundColor,
+                    focusedBorderColor = ProtonTheme.colors.interactionNorm,
+                    unfocusedBorderColor = Color.Transparent,
+                )
                 // Wrap OutlinedTextFieldDecorationBox in a Box because there's no way to pass size modifier directly.
                 Box(Modifier.fillMaxWidth(), propagateMinConstraints = true) {
                     OutlinedTextFieldDefaults.DecorationBox(
-                        value = value,
+                        value = value.text,
                         innerTextField = innerTextField,
                         enabled = enabled,
                         singleLine = singleLine,
@@ -158,14 +164,14 @@ fun ProtonOutlinedTextField(
                         trailingIcon = null,
                         supportingText = supportingText,
                         colors = colors,
-                        contentPadding = OutlinedTextFieldDefaults.contentPadding(),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
                         container = {
                             OutlinedTextFieldDefaults.ContainerBox(
                                 enabled = enabled,
                                 isError = isError,
                                 interactionSource = interactionSource,
                                 colors = colors,
-                                shape = OutlinedTextFieldDefaults.shape,
+                                shape = ProtonTheme.shapes.medium,
                             )
                         },
                     )
@@ -181,7 +187,7 @@ fun ProtonOutlinedTextField(
 )
 @Composable
 private fun PreviewProtonOutlinedTextField() {
-    var enteredText by remember { mutableStateOf("Input Text") }
+    var enteredText by remember { mutableStateOf(TextFieldValue("Input Text")) }
     VpnTheme {
         ProtonOutlinedTextField(
             value = enteredText,

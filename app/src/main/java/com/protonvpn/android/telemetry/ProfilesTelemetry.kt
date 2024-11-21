@@ -50,6 +50,7 @@ class ProfilesTelemetry @Inject constructor(
         NatType("nat_type"),
         AllowLan("lan_access"),
         EditSource("edit_route_source"),
+        AutoOpen("auto_open"),
     }
 
     fun profileCreated(
@@ -148,6 +149,7 @@ class ProfilesTelemetry @Inject constructor(
         putDimensions(settings.protocol.toTelemetry(), Dimen.VpnProtocol)
         putDimensions(settings.lanConnections.toOnOff(), Dimen.AllowLan)
         putDimensions(settings.natType.toTelemetry(), Dimen.NatType)
+        putDimensions(settings.autoOpen.toTelemetry(), Dimen.AutoOpen)
     }
 
     private fun Boolean.toOnOff() = if (this) ON else OFF

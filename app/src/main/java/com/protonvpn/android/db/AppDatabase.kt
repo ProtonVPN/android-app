@@ -158,6 +158,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         AutoMigration(from = 24, to = 25),
         AutoMigration(from = 33, to = 34),
         AutoMigration(from = 37, to = 38),
+        AutoMigration(from = 39, to = 40),
     ],
     version = AppDatabase.version,
     exportSchema = true
@@ -176,7 +177,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
     EventManagerConverters::class,
     AuthConverters::class,
     // Vpn
-    RecentsTypeConverters::class
+    RecentsTypeConverters::class,
 )
 abstract class AppDatabase :
     BaseDatabase(),
@@ -204,7 +205,7 @@ abstract class AppDatabase :
     AuthDatabase {
 
     companion object {
-        const val version = 39
+        const val version = 40
 
         @VisibleForTesting
         val migrations = listOf(

@@ -50,6 +50,10 @@ data class ProfileEntity(
     val name: String,
     val color: ProfileColor,
     val icon: ProfileIcon,
+    @ColumnInfo(defaultValue = "")
+    val autoOpenText: String,
+    @ColumnInfo(defaultValue = "0")
+    val autoOpenEnabled: Boolean,
     val createdAt: Long,
     @ColumnInfo(defaultValue = "1")
     val isUserCreated: Boolean,

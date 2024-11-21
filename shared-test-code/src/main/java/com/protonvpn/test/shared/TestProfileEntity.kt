@@ -40,6 +40,8 @@ fun createProfileEntity(
     name,
     color,
     icon,
+    autoOpenText = "",
+    autoOpenEnabled = false,
     createdAt,
     isUserCreated = isUserCreated,
     connectIntent.toData().copy(profileId = id),

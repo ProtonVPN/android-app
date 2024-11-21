@@ -140,13 +140,18 @@ class QuickTileService : TileService() {
     private fun onClickInternal() {
         val shouldConnect = qsTile.state != Tile.STATE_ACTIVE
         mainScope.launch {
-            val isLoggedIn = dataStore.isLoggedIn()
+            val tileData = dataStore.getData()
+            val isLoggedIn = tileData.isLoggedIn
             if (!isLoggedIn) {
                 launchApp()
             } else {
                 if (shouldConnect) { // Set state immediately in case it takes long to launch the main process.
                     stateOverrideFlow.start(
-                        QuickTileDataStore.Data(QuickTileDataStore.TileState.Connecting, isLoggedIn = true)
+                        QuickTileDataStore.Data(
+                            QuickTileDataStore.TileState.Connecting,
+                            isLoggedIn = true,
+                            isAutoOpenForDefaultConnection = tileData.isAutoOpenForDefaultConnection
+                        )
                     )
                 }
                 broadcastTileAction(
@@ -155,6 +160,8 @@ class QuickTileService : TileService() {
                     else
                         QuickTileActionReceiver.ACTION_DISCONNECT
                 )
+                if (shouldConnect && tileData.isAutoOpenForDefaultConnection)
+                    launchApp()
             }
         }
     }

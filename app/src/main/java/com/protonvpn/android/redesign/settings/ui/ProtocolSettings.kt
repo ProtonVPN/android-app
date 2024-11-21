@@ -20,19 +20,17 @@
 package com.protonvpn.android.redesign.settings.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
+import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
@@ -92,7 +90,7 @@ fun ProtocolSettingsList(
             selectedProtocol = currentProtocol,
             horizontalContentPadding = horizontalContentPadding,
             trailingTitleContent = {
-                ProtocolBadge(stringResource(R.string.settings_protocol_badge_recommended))
+                LabelBadge(stringResource(R.string.settings_protocol_badge_recommended))
             }
         )
 
@@ -168,21 +166,4 @@ fun ProtocolItem(
         modifier = modifier,
         trailingTitleContent = trailingTitleContent,
     )
-}
-
-@Composable
-fun ProtocolBadge(
-    text: String,
-    textColor: Color = ProtonTheme.colors.textNorm,
-    borderColor: Color = ProtonTheme.colors.separatorNorm,
-) {
-    Text(
-        text = text.uppercase(),
-        style = ProtonTheme.typography.overlineMedium,
-        color = textColor,
-        modifier = Modifier
-            .border(width = 1.dp, color = borderColor, shape = ProtonTheme.shapes.small)
-            .padding(horizontal = 6.dp, vertical = 3.dp)
-            .background(ProtonTheme.colors.backgroundSecondary),
-        )
 }

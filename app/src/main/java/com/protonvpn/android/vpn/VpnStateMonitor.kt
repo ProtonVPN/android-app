@@ -68,7 +68,7 @@ class VpnStateMonitor @Inject constructor() : VpnStatusProvider() {
     val onDisconnectedByUser = MutableSharedFlow<Unit>()
     val onDisconnectedByReconnection = MutableSharedFlow<Unit>()
     val vpnConnectionNotificationFlow = MutableSharedFlow<VpnFallbackResult>()
-    val newSessionEvent = MutableSharedFlow<Unit>()
+    val newSessionEvent = MutableSharedFlow<Pair<AnyConnectIntent, ConnectTrigger>>()
 
     fun updateStatus(newStatus: Status) {
         statusInternal.value = newStatus

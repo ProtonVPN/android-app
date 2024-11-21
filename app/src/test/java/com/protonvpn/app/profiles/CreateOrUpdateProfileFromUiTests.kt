@@ -27,6 +27,7 @@ import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.login.toVpnUserEntity
 import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
@@ -91,7 +92,9 @@ class CreateOrUpdateProfileFromUiTests {
         netShield = true,
         protocol = ProtocolSelection(VpnProtocol.WireGuard),
         natType = NatType.Moderate,
-        lanConnections = true
+        lanConnections = true,
+        autoOpen = ProfileAutoOpen.None(""),
+        isAutoOpenNew = true,
     )
     // Matches the screen states above.
     private val testProfile = Profile(
@@ -109,7 +112,8 @@ class CreateOrUpdateProfileFromUiTests {
             emptySet(),
             profileId = 1L,
             settingsOverrides = settingsScreenState.toSettingsOverrides()
-        )
+        ),
+        autoOpen = ProfileAutoOpen.None("")
     )
 
     @Before
