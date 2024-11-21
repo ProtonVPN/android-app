@@ -25,7 +25,9 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -34,9 +36,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
+import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
@@ -57,6 +61,15 @@ fun ProfilesRoute(
         // Collect selectedProfile without lifecycle, otherwise changes are not observed during navigation animation to
         // edit profile and the bottom sheet closes with a delay.
         val selectedProfile = viewModel.selectedProfile.collectAsState().value
+
+        val autoShowInfoSheet by viewModel.autoShowInfoSheet.collectAsStateWithLifecycle(false)
+        val infoSheetState = rememberInfoSheetState()
+        if (autoShowInfoSheet) {
+            LaunchedEffect(Unit) {
+                infoSheetState.show(InfoType.Profiles)
+                viewModel.onAutoShowInfoSheet()
+            }
+        }
         if (state != null) {
             val context = LocalContext.current
             val uiDelegate = LocalVpnUiDelegate.current
@@ -71,6 +84,7 @@ fun ProfilesRoute(
                 },
                 onAddNew = { onNavigateToAddEdit(null, false) },
                 snackbarHostState = snackbarHostState,
+                infoSheetState = infoSheetState,
             )
         }
 

@@ -34,6 +34,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -54,6 +55,7 @@ import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.InfoButton
 import com.protonvpn.android.redesign.base.ui.InfoSheet
+import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
@@ -75,8 +77,8 @@ fun Profiles(
     onConnect: (ProfileViewItem) -> Unit,
     onSelect: (ProfileViewItem) -> Unit,
     snackbarHostState: SnackbarHostState,
+    infoSheetState: InfoSheetState = rememberInfoSheetState(),
 ) {
-    val infoSheetState = rememberInfoSheetState()
     CollapsibleToolbarScaffold(
         titleResId = R.string.profiles_title,
         contentWindowInsets = WindowInsets.statusBars,

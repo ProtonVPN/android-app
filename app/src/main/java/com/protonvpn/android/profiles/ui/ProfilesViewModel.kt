@@ -39,6 +39,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.utils.Quadruple
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.ConnectTrigger
@@ -93,6 +94,7 @@ class ProfilesViewModel @Inject constructor(
     private val getIntentAvailability: GetIntentAvailability,
     private val getConnectIntentViewState: GetConnectIntentViewState,
     private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
+    private val uiStateStorage: UiStateStorage,
 ) : ViewModel() {
 
     private val connectedProfileIdFlow = vpnStatusProviderUI.uiStatus
@@ -104,7 +106,8 @@ class ProfilesViewModel @Inject constructor(
     sealed class Dialog {
         data class ServerUnavailable(val profileName: String) : Dialog()
     }
-    var showDialog = MutableStateFlow<Dialog?>(null)
+    val showDialog = MutableStateFlow<Dialog?>(null)
+    val autoShowInfoSheet = uiStateStorage.state.map { it.shouldPromoteProfiles }.distinctUntilChanged()
 
     val selectedProfile = combine(
         currentUser.vpnUserFlow,
@@ -177,6 +180,12 @@ class ProfilesViewModel @Inject constructor(
 
     fun onProfileClose() {
         selectedProfileId = null
+    }
+
+    fun onAutoShowInfoSheet() {
+        mainScope.launch {
+            uiStateStorage.update { it.copy(shouldPromoteProfiles = false) }
+        }
     }
 
     private suspend fun Profile.toItem(

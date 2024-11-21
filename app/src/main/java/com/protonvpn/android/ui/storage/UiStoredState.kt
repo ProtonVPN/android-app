@@ -38,6 +38,7 @@ import javax.inject.Singleton
 data class UiStoredState(
     val hasUsedRecents: Boolean = false,
     val hasPopulatedDefaultProfiles: Boolean = false,
+    val shouldPromoteProfiles: Boolean = false,
     val searchHistory: List<String> = emptyList(),
 ) {
     companion object {

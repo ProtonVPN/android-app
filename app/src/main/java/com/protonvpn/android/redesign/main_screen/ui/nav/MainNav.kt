@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -61,6 +62,7 @@ import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SettingsScreen.settings
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
+import java.util.EnumSet
 
 enum class MainTarget {
     Home, Profiles, Gateways, Countries, Settings;
@@ -192,6 +194,11 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
         val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
         val showGateways = activityViewModel.showGatewaysFlow.collectAsStateWithLifecycle().value ?: false
         val showProfiles = activityViewModel.showProfilesFlow.collectAsStateWithLifecycle().value ?: false
+        val showProfilesDot by activityViewModel.autoShowInfoSheet.collectAsStateWithLifecycle(false)
+        val notificationDots = when {
+            showProfilesDot -> EnumSet.of(MainTarget.Profiles)
+            else -> EnumSet.noneOf(MainTarget::class.java)
+        }
         Scaffold(
             contentWindowInsets = WindowInsets.navigationBars,
             bottomBar = {
@@ -199,6 +206,7 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
                     selectedTarget = bottomTarget,
                     showGateways = showGateways,
                     showProfiles = showProfiles,
+                    notificationDots = notificationDots,
                     navigateTo = mainNav::navigate
                 )
             }
