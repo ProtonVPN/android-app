@@ -34,6 +34,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -48,6 +49,25 @@ import me.proton.core.compose.theme.ProtonTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+fun CollapsibleToolbarTitle(
+    @StringRes titleResId: Int,
+    scrollBehavior: TopAppBarScrollBehavior,
+    modifier: Modifier = Modifier,
+) {
+    val collapsedTextSize = 16
+    val expandedTextSize = 28
+    val topAppBarTextSize =
+        (collapsedTextSize + (expandedTextSize - collapsedTextSize) * (1 - scrollBehavior.state.collapsedFraction)).sp
+    Text(
+        text = stringResource(id = titleResId),
+        style = ProtonTheme.typography.hero,
+        fontSize = topAppBarTextSize,
+        modifier = modifier
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun CollapsibleToolbarScaffold(
     modifier: Modifier = Modifier,
     @StringRes titleResId: Int,
@@ -57,8 +77,27 @@ fun CollapsibleToolbarScaffold(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     content: @Composable (PaddingValues) -> Unit
 ) {
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    val title = @Composable { CollapsibleToolbarTitle(titleResId, scrollBehavior) }
+
+    CollapsibleToolbarScaffold(
+        modifier, title, scrollBehavior, contentWindowInsets, toolbarActions, toolbarAdditionalContent, snackbarHostState, content
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CollapsibleToolbarScaffold(
+    modifier: Modifier = Modifier,
+    title: @Composable () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState()),
+    contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    toolbarActions: @Composable RowScope.() -> Unit = {},
+    toolbarAdditionalContent: @Composable () -> Unit = {},
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    content: @Composable (PaddingValues) -> Unit
+) {
     val isCollapsed = remember { derivedStateOf { scrollBehavior.state.collapsedFraction > 0.5 } }
 
     val topAppBarElementColor = if (isCollapsed.value) {
@@ -66,11 +105,6 @@ fun CollapsibleToolbarScaffold(
     } else {
         MaterialTheme.colorScheme.onPrimary
     }
-
-    val collapsedTextSize = 16
-    val expandedTextSize = 28
-    val topAppBarTextSize =
-        (collapsedTextSize + (expandedTextSize - collapsedTextSize) * (1 - scrollBehavior.state.collapsedFraction)).sp
 
     val expandedColor = ProtonTheme.colors.backgroundNorm
     val collapsedColor = ProtonTheme.colors.backgroundSecondary
@@ -83,13 +117,7 @@ fun CollapsibleToolbarScaffold(
         topBar = {
             Column(modifier = Modifier.background(color = topAppBarColor)) {
                 MediumTopAppBar(
-                    title = {
-                        Text(
-                            text = stringResource(id = titleResId),
-                            style = ProtonTheme.typography.hero,
-                            fontSize = topAppBarTextSize
-                        )
-                    },
+                    title = title,
                     actions = toolbarActions,
                     colors = TopAppBarDefaults.largeTopAppBarColors(
                         containerColor = topAppBarColor,

@@ -38,10 +38,11 @@ import me.proton.core.presentation.R as CoreR
 @Composable
 fun InfoButton(
     info: InfoType,
-    onOpenInfo: (InfoType) -> Unit
+    onOpenInfo: (InfoType) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .clickable { onOpenInfo(info) }
             .padding(all = 4.dp),
         verticalAlignment = Alignment.CenterVertically,

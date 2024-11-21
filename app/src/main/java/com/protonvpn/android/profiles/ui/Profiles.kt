@@ -22,6 +22,7 @@ package com.protonvpn.android.profiles.ui
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,10 +32,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -50,6 +53,7 @@ import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
+import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarTitle
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
@@ -70,6 +74,7 @@ import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Profiles(
     state: ProfilesState,
@@ -79,14 +84,22 @@ fun Profiles(
     snackbarHostState: SnackbarHostState,
     infoSheetState: InfoSheetState = rememberInfoSheetState(),
 ) {
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    val largeTitleContent = @Composable {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CollapsibleToolbarTitle(R.string.profiles_title, scrollBehavior, modifier = Modifier.weight(1f))
+            InfoButton(InfoType.Profiles, onOpenInfo = infoSheetState::show, modifier = Modifier.padding(end = 16.dp))
+        }
+    }
+
     CollapsibleToolbarScaffold(
-        titleResId = R.string.profiles_title,
+        title = largeTitleContent,
+        scrollBehavior = scrollBehavior,
         contentWindowInsets = WindowInsets.statusBars,
         toolbarAdditionalContent = {},
         snackbarHostState = snackbarHostState,
-        toolbarActions = {
-            InfoButton(InfoType.Profiles) { infoType -> infoSheetState.show(infoType) }
-        }
     ) { padding ->
         val modifier = Modifier
             .padding(padding)
