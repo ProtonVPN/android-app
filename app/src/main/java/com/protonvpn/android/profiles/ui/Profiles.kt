@@ -19,14 +19,8 @@
 
 package com.protonvpn.android.profiles.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -37,14 +31,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -60,14 +52,19 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
+import com.protonvpn.android.redesign.base.ui.InfoButton
+import com.protonvpn.android.redesign.base.ui.InfoSheet
+import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
+import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentRow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -79,11 +76,15 @@ fun Profiles(
     onSelect: (ProfileViewItem) -> Unit,
     snackbarHostState: SnackbarHostState,
 ) {
+    val infoSheetState = rememberInfoSheetState()
     CollapsibleToolbarScaffold(
         titleResId = R.string.profiles_title,
         contentWindowInsets = WindowInsets.statusBars,
         toolbarAdditionalContent = {},
         snackbarHostState = snackbarHostState,
+        toolbarActions = {
+            InfoButton(InfoType.Profiles) { infoType -> infoSheetState.show(infoType) }
+        }
     ) { padding ->
         val modifier = Modifier
             .padding(padding)
@@ -103,6 +104,12 @@ fun Profiles(
             }
         }
     }
+    val context = LocalContext.current
+    InfoSheet(
+        infoSheetState,
+        onOpenUrl = { context.openUrl(it) },
+        onGotItClick = infoSheetState::dismiss
+    )
 }
 
 @Composable

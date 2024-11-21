@@ -17,8 +17,6 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.protonvpn.android.redesign.base.ui
 
 import androidx.annotation.DrawableRes
@@ -28,19 +26,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
@@ -59,10 +51,12 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.SimpleModalBottomSheet
-import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.SimpleModalBottomSheet
+import com.protonvpn.android.base.ui.VpnOutlinedButton
+import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.utils.Constants
+import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
 import me.proton.core.compose.theme.captionWeak
@@ -102,33 +96,40 @@ enum class InfoType {
     P2P,
     SmartRouting,
     Streaming,
+    Profiles,
 }
 
 @Composable
 fun InfoSheet(
     infoSheetState: InfoSheetState,
     onOpenUrl: (url: String) -> Unit,
+    onGotItClick: (() -> Unit)? = null,
 ) {
     val currentInfo = infoSheetState.currentType
     if (currentInfo != null) {
         SimpleModalBottomSheet(onDismissRequest = { infoSheetState.dismiss() }) {
-            InfoSheetContent(currentInfo, onOpenUrl)
+            InfoSheetContent(currentInfo, onOpenUrl, onGotItClick = onGotItClick)
         }
     }
 }
 
 @Composable
-private fun InfoSheetContent(info: InfoType, onOpenUrl: (url: String) -> Unit, modifier: Modifier = Modifier) {
+private fun InfoSheetContent(
+    info: InfoType,
+    onOpenUrl: (url: String) -> Unit,
+    modifier: Modifier = Modifier,
+    onGotItClick: (() -> Unit)? = null,
+) {
+    val learnMoreAction = info.learnMoreUrl?.let { { onOpenUrl(it) } }
     GenericLearnMore(
         modifier = modifier,
         title = stringResource(id = info.title),
         details = info.details?.let { stringResource(id = it) },
         imageRes = info.imageRes,
-        onLearnMoreClick = {
-            onOpenUrl(info.learnMoreUrl)
-        },
+        onLearnMoreClick = learnMoreAction,
         subDetailsComposable = { SubDetailsComposable(info) },
-        learnMoreLabelRes = info.learnMoreLabel
+        learnMoreLabelRes = info.learnMoreLabel,
+        onGotItClick = onGotItClick,
     )
 }
 
@@ -141,6 +142,7 @@ private val InfoType.title get() = when (this) {
     InfoType.P2P -> R.string.info_dialog_p2p_title
     InfoType.SmartRouting -> R.string.smart_routing_title
     InfoType.Streaming -> R.string.info_dialog_streaming_title
+    InfoType.Profiles -> R.string.info_dialog_profiles_title
 }
 
 private val InfoType.imageRes get() = when (this) {
@@ -152,6 +154,7 @@ private val InfoType.imageRes get() = when (this) {
     InfoType.P2P -> null
     InfoType.SmartRouting -> R.drawable.info_smart_routing
     InfoType.Streaming -> R.drawable.upgrade_streaming
+    InfoType.Profiles -> R.drawable.upgrade_profiles
 }
 
 private val InfoType.details get() = when (this) {
@@ -163,6 +166,7 @@ private val InfoType.details get() = when (this) {
     InfoType.P2P -> null
     InfoType.SmartRouting -> R.string.info_dialog_smart_routing_description
     InfoType.Streaming -> R.string.info_dialog_streaming_description
+    InfoType.Profiles -> R.string.info_dialog_profiles_description
 }
 
 private val InfoType.learnMoreLabel get() = when (this) {
@@ -170,7 +174,8 @@ private val InfoType.learnMoreLabel get() = when (this) {
     InfoType.VpnSpeed,
     InfoType.ServerLoad,
     InfoType.Protocol,
-    InfoType.SmartRouting -> R.string.connection_details_learn_more
+    InfoType.SmartRouting,
+    InfoType.Profiles -> R.string.connection_details_learn_more
     InfoType.Tor -> R.string.info_dialog_button_learn_more_tor
     InfoType.Streaming -> R.string.info_dialog_button_learn_more_streaming
     InfoType.P2P -> R.string.info_dialog_button_learn_more_p2p
@@ -185,6 +190,7 @@ private val InfoType.learnMoreUrl get() = when (this) {
     InfoType.P2P -> Constants.URL_P2P_LEARN_MORE
     InfoType.SmartRouting -> Constants.URL_SMART_ROUTING_LEARN_MORE
     InfoType.Streaming -> Constants.URL_STREAMING_LEARN_MORE
+    InfoType.Profiles -> null
 }
 
 @Composable
@@ -193,7 +199,7 @@ private fun SubDetailsComposable(info: InfoType) {
         .fillMaxWidth()
         .padding(bottom = 16.dp)
     when (info) {
-        InfoType.VpnSpeed, InfoType.Tor, InfoType.Protocol, InfoType.SmartRouting -> {}
+        InfoType.VpnSpeed, InfoType.Tor, InfoType.Protocol, InfoType.SmartRouting, InfoType.Profiles -> {}
         InfoType.ServerLoad -> SubDetailsComposableServerLoad(modifier)
         InfoType.SecureCore -> SubDetailsComposableSecureCore(modifier)
         InfoType.P2P -> SubDetailsComposableP2P(modifier)
@@ -470,10 +476,11 @@ private fun GenericLearnMore(
     @StringRes learnMoreLabelRes: Int = R.string.connection_details_learn_more,
     @DrawableRes imageRes: Int? = null,
     subDetailsComposable: (@Composable () -> Unit)? = null,
-    onLearnMoreClick: () -> Unit
+    onLearnMoreClick: (() -> Unit)? = null,
+    onGotItClick: (() -> Unit)? = null,
 ) {
     Column(
-        modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
     ) {
         Text(
             text = title,
@@ -497,12 +504,26 @@ private fun GenericLearnMore(
             )
         }
         subDetailsComposable?.invoke()
-        VpnWeakSolidButton(
-            stringResource(id = learnMoreLabelRes),
-            onClick = onLearnMoreClick,
-            isExternalLink = true,
-            modifier = Modifier.fillMaxWidth()
-        )
+        VerticalSpacer(height = 8.dp)
+        if (onLearnMoreClick != null) {
+            VpnOutlinedButton(
+                stringResource(id = learnMoreLabelRes),
+                onClick = onLearnMoreClick,
+                isExternalLink = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp)
+            )
+        }
+        if (onGotItClick != null) {
+            VpnSolidButton(
+                stringResource(id = R.string.got_it),
+                onClick = onGotItClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp)
+            )
+        }
     }
 }
 

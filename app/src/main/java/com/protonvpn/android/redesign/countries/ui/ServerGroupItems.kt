@@ -70,6 +70,7 @@ import com.protonvpn.android.redesign.ServerId
 import com.protonvpn.android.redesign.base.ui.ActiveDot
 import com.protonvpn.android.redesign.base.ui.Flag
 import com.protonvpn.android.redesign.base.ui.GatewayIndicator
+import com.protonvpn.android.redesign.base.ui.InfoButton
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ServerLoadBar
 import com.protonvpn.android.redesign.base.ui.thenNotNull
@@ -91,7 +92,6 @@ import me.proton.core.presentation.R as CoreR
  * - optional "open" button at the end. Its click area covers the entire area at the end of the row to prevent
  *   misclicks, however its ripple is smaller to preserve visual layout.
  */
-@OptIn()
 @Composable
 private fun ServerGroupItemRow(
     @StringRes rowClickLabel: Int,
@@ -154,7 +154,6 @@ private fun ServerGroupItemRow(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ServerGroupItem(
     item: ServerGroupUiItem.ServerGroup,
@@ -454,43 +453,6 @@ fun ServerGroupHeader(
             InfoButton(item.info, onOpenInfo)
         }
     }
-}
-
-@Composable
-fun InfoButton(
-    info: InfoType,
-    onOpenInfo: (InfoType) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .clickable { onOpenInfo(info) }
-            .padding(all = 4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = stringResource(id = info.label),
-            style = ProtonTheme.typography.body2Medium,
-            color = ProtonTheme.colors.textWeak,
-            modifier = Modifier.padding(end = 5.dp)
-        )
-        Icon(
-            painter = painterResource(id = CoreR.drawable.ic_info_circle),
-            contentDescription = null,
-            modifier = Modifier.size(16.dp),
-            tint = ProtonTheme.colors.iconWeak
-        )
-    }
-}
-
-private val InfoType.label: Int get() = when(this) {
-    InfoType.SecureCore,
-    InfoType.VpnSpeed,
-    InfoType.Protocol,
-    InfoType.Tor,
-    InfoType.P2P,
-    InfoType.Streaming,
-    InfoType.SmartRouting -> R.string.country_filter_info_label
-    InfoType.ServerLoad -> R.string.server_load_title
 }
 
 @Preview
