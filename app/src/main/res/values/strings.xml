@@ -142,7 +142,6 @@
     <string name="settingsSplitTunnelAppsShowSystemAppsCheckbox">Show system apps</string>
     <string name="settingsSplitTunnelingExcludedAppsList">These apps are excluded from your VPN connection.</string>
     <string name="settingsSplitTunnelingIncludedAppsList">Only these apps connect through VPN.</string>
-
     <!-- Description for action to add an application to "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -268,7 +267,7 @@
     <string name="nameAfricaAndMiddleEast">Africa &amp; Middle East</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Settings</string>
-    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorite</string>
     <string name="tv_detail_connect_streaming">Stream with Plus</string>
@@ -513,7 +512,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
@@ -1005,7 +1004,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split Tunneling</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1278,7 +1277,6 @@
     <string name="connection_details_seconds_shortened">%1$d sec</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Connection failed</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
-
     <string name="create_profile_title">Create profile</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
@@ -1289,14 +1287,12 @@
     <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
     <string name="create_profile_type_and_location_title">Select connection type and location</string>
     <string name="create_profile_features_and_settings_title">Features and settings</string>
-
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
     <string name="create_profile_steps">Step %1$d of %2$d</string>
     <string name="create_profile_button_next">Next</string>
-
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1394,7 +1390,6 @@
     <string name="notification_auto_login_error" translatable="false">There was a problem setting up ProtonVPN. Click to open the app.</string>
     <string name="app_restrictions_username_title" translatable="false">Username</string>
     <string name="app_restrictions_password_title" translatable="false">Password</string>
-
     <string name="profile_action_edit">Edit</string>
     <string name="profile_action_duplicate">Duplicate</string>
     <string name="profile_action_delete">Delete</string>
@@ -1426,7 +1421,6 @@
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
      -->
     <string name="create_profile_copy_name">%1$s (copy)</string>
-
     <string name="create_profile_fastest_city">Fastest</string>
     <string name="create_profile_fastest_state">Fastest</string>
     <string name="create_profile_fastest_server">Fastest</string>
