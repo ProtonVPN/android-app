@@ -19,33 +19,19 @@
 
 package com.protonvpn.android
 
-import com.protonvpn.android.appconfig.AppFeaturesPrefs
-import com.protonvpn.android.auth.usecase.Logout
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.CertificateData
-import com.protonvpn.android.netshield.NetShieldProtocol
-import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
-import com.protonvpn.android.tv.IsTvCheck
-import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.ui.storage.UiStateStorage
-import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
-import dagger.Lazy
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Reusable
 class UpdateMigration @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val localUserSettings: Lazy<CurrentUserLocalSettingsManager>,
-    private val isTv: Lazy<IsTvCheck>,
-    private val logout: Lazy<Logout>,
-    private val onboardingTelemetry: Lazy<OnboardingTelemetry>,
-    private val appFeaturesPrefs: Lazy<AppFeaturesPrefs>,
     private val uiStateStorage: UiStateStorage,
 ) {
 
@@ -56,43 +42,8 @@ class UpdateMigration @Inject constructor(
         if (oldVersionCode != 0 && oldVersionCode != newVersionCode) {
             ProtonLogger.log(AppUpdateUpdated, "new version: " + newVersionCode)
             val strippedOldVersionCode = stripArchitecture(oldVersionCode)
-            updateAmazonUi(strippedOldVersionCode)
-            updateOnboardingTelemetry(strippedOldVersionCode)
-            enableWhatsNew(strippedOldVersionCode)
-            updateNetShieldValue(strippedOldVersionCode)
             clearCertificateData(strippedOldVersionCode)
             promoteProfiles(strippedOldVersionCode)
-        }
-    }
-
-    private fun updateNetShieldValue(oldVersionCode: Int) {
-        if (oldVersionCode <= 5_00_00_00) {
-            mainScope.launch {
-                if (localUserSettings.get().rawCurrentUserSettingsFlow.first().netShield == NetShieldProtocol.ENABLED) {
-                    localUserSettings.get().updateNetShield(NetShieldProtocol.ENABLED_EXTENDED)
-                }
-            }
-        }
-    }
-
-    private fun updateAmazonUi(oldVersionCode: Int) {
-        @SuppressWarnings("MagicNumber")
-        if (oldVersionCode <= 4_06_30_00 && BuildConfig.FLAVOR_distribution == Constants.DISTRIBUTION_AMAZON && !isTv.get().invoke()) {
-            mainScope.launch {
-                logout.get().invoke()
-            }
-        }
-    }
-
-    private fun updateOnboardingTelemetry(oldVersionCode: Int) {
-        if (oldVersionCode <= 4_09_38_00) {
-            onboardingTelemetry.get().onAppUpdate()
-        }
-    }
-
-    private fun enableWhatsNew(oldVersionCode: Int) {
-        if (oldVersionCode <= 5_00_00_00) {
-            appFeaturesPrefs.get().showWhatsNew = true
         }
     }
 
