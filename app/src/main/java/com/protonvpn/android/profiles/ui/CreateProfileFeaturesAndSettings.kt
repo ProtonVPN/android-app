@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +34,7 @@ import androidx.tv.material3.Text
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
@@ -50,16 +52,21 @@ fun CreateProfileFeaturesAndSettingsRoute(
             .fillMaxSize()
             .background(color = ProtonTheme.colors.backgroundNorm)
     ) {
-        if (state != null)
+        if (state != null) {
             ProfileFeaturesAndSettings(
                 state = state,
                 onNetShieldChange = viewModel::setNetShield,
                 onProtocolChange = viewModel::setProtocol,
                 onNatChange = viewModel::setNatType,
                 onLanChange = viewModel::setLanConnections,
+                onAutoOpenChange = viewModel::setAutoOpen,
                 onNext = onNext,
                 onBack = onBack
             )
+            LaunchedEffect(Unit) {
+                viewModel.settingsScreenShown()
+            }
+        }
     }
 }
 
@@ -71,7 +78,8 @@ fun ProfileFeaturesAndSettings(
     onNatChange: (NatType) -> Unit,
     onLanChange: (Boolean) -> Unit,
     onNext: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onAutoOpenChange: (ProfileAutoOpen) -> Unit,
 ) {
     CreateProfileStep(
         onNext = onNext,
@@ -102,6 +110,11 @@ fun ProfileFeaturesAndSettings(
                 value = state.lanConnections,
                 onSelect = onLanChange
             )
+            ProfileAutoOpenItem(
+                value = state.autoOpen,
+                onChange = onAutoOpenChange,
+                isNew = state.isAutoOpenNew,
+            )
         }
     }
 }
@@ -115,14 +128,17 @@ fun PreviewFeaturesAndSettings() {
                 netShield = true,
                 ProtocolSelection(VpnProtocol.WireGuard, null),
                 NatType.Strict,
-                false
+                false,
+                ProfileAutoOpen.None(""),
+                isAutoOpenNew = true,
             ),
-            onNatChange = {},
-            onLanChange = {},
             onNetShieldChange = {},
             onProtocolChange = {},
+            onNatChange = {},
+            onLanChange = {},
+            onNext = {},
             onBack = {},
-            onNext = {}
+            onAutoOpenChange = {}
         )
     }
 }

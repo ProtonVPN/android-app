@@ -37,6 +37,7 @@ import javax.inject.Singleton
 @Serializable
 data class UiStoredState(
     val hasUsedRecents: Boolean = false,
+    val hasSeenProfileAutoOpen: Boolean = false,
     val hasPopulatedDefaultProfiles: Boolean = false,
     val shouldPromoteProfiles: Boolean = false,
     val hasShownProfilesInfo: Boolean = false,

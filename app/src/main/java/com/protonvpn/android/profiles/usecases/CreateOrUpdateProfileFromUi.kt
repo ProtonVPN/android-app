@@ -157,6 +157,7 @@ class CreateOrUpdateProfileFromUi @Inject constructor(
         val overrides = settingsScreen.toSettingsOverrides()
         return Profile(
             userId = userId,
+            autoOpen = settingsScreen.autoOpen,
             info = ProfileInfo(
                 profileId ?: 0L,
                 nameScreen.name,

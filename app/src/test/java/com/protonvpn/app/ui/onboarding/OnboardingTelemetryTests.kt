@@ -23,7 +23,7 @@ import android.app.Activity
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.app.ui.MainActivity
-import com.protonvpn.android.telemetry.CommonDimensions
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.telemetry.DefaultCommonDimensions
 import com.protonvpn.android.telemetry.DefaultTelemetryReporter
 import com.protonvpn.android.telemetry.Telemetry
@@ -33,6 +33,7 @@ import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.onboarding.OnboardingActivity
 import com.protonvpn.android.ui.onboarding.OnboardingTelemetry
 import com.protonvpn.android.ui.planupgrade.UpgradeOnboardingDialogActivity
+import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -156,7 +157,7 @@ class OnboardingTelemetryTests {
         val telemetry = createTelemetry()
 
         repeat(3) {
-            vpnStateMonitor.newSessionEvent.emit(Unit)
+            vpnStateMonitor.newSessionEvent.emit(ConnectIntent.Default to ConnectTrigger.ConnectionCard)
             runCurrent()
         }
 

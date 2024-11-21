@@ -86,6 +86,8 @@ class PopulateInitialProfiles @Inject constructor(
                         ProtocolSelection(VpnProtocol.WireGuard).toData(),
                     ),
                 ).toData(),
+                autoOpenText = "",
+                autoOpenEnabled = false,
             ),
             ProfileEntity(
                 userId = userId,
@@ -101,6 +103,8 @@ class PopulateInitialProfiles @Inject constructor(
                         randomizedNat = NatType.Moderate.toRandomizedNat(),
                     )
                 ).toData(),
+                autoOpenText = "",
+                autoOpenEnabled = false,
             ),
             ProfileEntity(
                 userId = userId,
@@ -116,6 +120,8 @@ class PopulateInitialProfiles @Inject constructor(
                         ProtocolSelection.STEALTH.toData(),
                     )
                 ).toData(),
+                autoOpenText = "",
+                autoOpenEnabled = false,
             ),
             ProfileEntity(
                 userId = userId,
@@ -131,6 +137,8 @@ class PopulateInitialProfiles @Inject constructor(
                         lanConnections = false,
                     )
                 ).toData(),
+                autoOpenText = "",
+                autoOpenEnabled = false,
             ),
             ProfileEntity(
                 userId = userId,
@@ -147,6 +155,8 @@ class PopulateInitialProfiles @Inject constructor(
                         lanConnections = false,
                     )
                 ).toData(),
+                autoOpenText = "",
+                autoOpenEnabled = false,
             ),
         )
     }

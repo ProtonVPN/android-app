@@ -496,7 +496,7 @@ class VpnConnectionManager @Inject constructor(
         val intent = permissionDelegate.prepareVpnPermission()
         val disconnectTrigger = DisconnectTrigger.NewConnection
         if (connectIntent !is AnyConnectIntent.GuestHole)
-            scope.launch { vpnStateMonitor.newSessionEvent.emit(Unit) }
+            scope.launch { vpnStateMonitor.newSessionEvent.emit(connectIntent to triggerAction) }
         if (intent != null) {
             uiDelegate.askForPermissions(intent, connectIntent) {
                 connectWithPermission(uiDelegate, connectIntent, triggerAction, disconnectTrigger, clearFallback = true)

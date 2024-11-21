@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.profiles.data
 
+import android.net.Uri
+import android.os.Parcelable
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.recents.data.ProtocolSelectionData
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
@@ -26,6 +28,7 @@ import com.protonvpn.android.redesign.recents.data.toConnectIntent
 import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.vpn.ProtocolSelection
+import kotlinx.parcelize.Parcelize
 import me.proton.core.domain.entity.UserId
 
 data class ProfileInfo(
@@ -37,8 +40,23 @@ data class ProfileInfo(
     val isUserCreated: Boolean,
 )
 
+sealed class ProfileAutoOpen : Parcelable {
+    @Parcelize data class None(val savedText: String) : ProfileAutoOpen()
+    @Parcelize data class App(val packageName: String) : ProfileAutoOpen()
+    @Parcelize data class Url(val url: Uri) : ProfileAutoOpen()
+
+    companion object {
+        fun from(text: String, enabled: Boolean): ProfileAutoOpen = when {
+            !enabled -> None(text)
+            text.startsWith("app:") -> App(text.removePrefix("app:"))
+            else -> Url(Uri.parse(text))
+        }
+    }
+}
+
 data class Profile(
     val info: ProfileInfo,
+    val autoOpen: ProfileAutoOpen,
     val connectIntent: ConnectIntent,
     val userId: UserId,
 )
@@ -50,7 +68,13 @@ fun Profile.toProfileEntity() = ProfileEntity(
     createdAt = info.createdAt,
     icon = info.icon,
     isUserCreated = info.isUserCreated,
-    userId = userId
+    userId = userId,
+    autoOpenEnabled = autoOpen !is ProfileAutoOpen.None,
+    autoOpenText = when (autoOpen) {
+        is ProfileAutoOpen.None -> autoOpen.savedText
+        is ProfileAutoOpen.App -> "app:${autoOpen.packageName}"
+        is ProfileAutoOpen.Url -> autoOpen.url.toString()
+    },
 )
 
 fun ProfileEntity.toProfile() = Profile(
@@ -60,9 +84,10 @@ fun ProfileEntity.toProfile() = Profile(
         color = color,
         icon = icon,
         createdAt = createdAt,
-        isUserCreated = isUserCreated
+        isUserCreated = isUserCreated,
     ),
-    connectIntentData.toConnectIntent(),
+    autoOpen = ProfileAutoOpen.from(autoOpenText, autoOpenEnabled),
+    connectIntent = connectIntentData.toConnectIntent(),
     userId = userId,
 )
 

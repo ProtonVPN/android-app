@@ -32,6 +32,7 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
@@ -51,6 +52,8 @@ import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.telemetry.ProfilesTelemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
+import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.ui.storage.UiStateStoreProvider
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -60,6 +63,7 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.mocks.createInMemoryServerManager
+import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreference
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
@@ -107,7 +111,9 @@ class CreateEditProfileViewModelTests {
         netShield = true,
         protocol = ProtocolSelection(VpnProtocol.WireGuard),
         natType = NatType.Moderate,
-        lanConnections = true
+        lanConnections = true,
+        autoOpen = ProfileAutoOpen.None(""),
+        isAutoOpenNew = true,
     )
     // Matches the screen states above.
     private val testProfile = Profile(
@@ -124,8 +130,9 @@ class CreateEditProfileViewModelTests {
             CountryId.sweden,
             emptySet(),
             profileId = 1L,
-            settingsOverrides = settingsScreenState.toSettingsOverrides()
-        )
+            settingsOverrides = settingsScreenState.toSettingsOverrides(),
+        ),
+        autoOpen = ProfileAutoOpen.None(""),
     )
 
     @Before
@@ -182,7 +189,8 @@ class CreateEditProfileViewModelTests {
             serversAdapter,
             { _, connectIntent, _ -> vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, ConnectionParams(connectIntent, servers.first(), null, null)) ) },
             mockk(relaxed = true),
-            shouldAskForProfileReconnection
+            shouldAskForProfileReconnection,
+            UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
         )
         viewModel.localeFlow.value = Locale("en")
     }

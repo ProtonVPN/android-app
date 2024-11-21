@@ -18,13 +18,21 @@
  */
 package com.protonvpn.android.quicktile
 
-import com.protonvpn.android.appconfig.periodicupdates.IsLoggedIn
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
+import com.protonvpn.android.profiles.data.ProfilesDao
+import com.protonvpn.android.redesign.recents.data.DefaultConnection
+import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,19 +40,52 @@ import javax.inject.Singleton
 @Singleton
 class QuickTileDataStoreUpdater @Inject constructor(
     private val mainScope: CoroutineScope,
-    @IsLoggedIn private val loggedIn: Flow<Boolean>,
+    private val currentUser: CurrentUser,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val dataStore: QuickTileDataStore
+    private val dataStore: QuickTileDataStore,
+    private val recentsManager: RecentsManager,
+    private val profilesDao: ProfilesDao,
 ) {
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun start() {
         combine(
-            loggedIn,
-            vpnStatusProviderUI.status,
-        ) { isLoggedIn, vpnStatus ->
-            QuickTileDataStore.Data(vpnStatus.state.toTileState(), isLoggedIn, vpnStatus.server?.serverName)
+            currentUser.vpnUserFlow,
+            vpnStatusProviderUI.uiStatus,
+        ) { vpnUser, vpnStatus -> vpnUser to vpnStatus }.flatMapLatest { (vpnUser, vpnStatus) ->
+            val isLoggedIn = vpnUser != null
+            val isPlus = vpnUser?.isUserPlusOrAbove == true
+            isAutoOpenForDefaultConnectionFlow(isPlus).map { isAutoOpenForDefaultConnection ->
+                QuickTileDataStore.Data(vpnStatus.state.toTileState(), isLoggedIn, isAutoOpenForDefaultConnection, vpnStatus.server?.serverName)
+            }
         }
         .distinctUntilChanged()
         .onEach { data -> dataStore.store(data) }
         .launchIn(mainScope)
     }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun isAutoOpenForDefaultConnectionFlow(isPlus: Boolean): Flow<Boolean> =
+        if (!isPlus) {
+            flowOf(false)
+        } else combine(
+            recentsManager.getDefaultConnectionFlow(),
+            recentsManager.getMostRecentConnection(),
+        ) { defaultConnection, mostRecentConnection ->
+            defaultConnection to mostRecentConnection
+        }.flatMapLatest { (defaultConnection, mostRecentConnection) ->
+            val profileId = when (defaultConnection) {
+                DefaultConnection.FastestConnection -> null
+                DefaultConnection.LastConnection ->
+                    mostRecentConnection?.connectIntent?.profileId
+                is DefaultConnection.Recent ->
+                    recentsManager.getRecentById(defaultConnection.recentId)?.connectIntent?.profileId
+            }
+            if (profileId == null) {
+                flowOf(false)
+            } else {
+                profilesDao.getProfileByIdFlow(profileId).map { profile ->
+                    profile?.autoOpen !is ProfileAutoOpen.None
+                }
+            }
+        }
 }

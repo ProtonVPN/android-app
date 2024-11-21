@@ -21,6 +21,7 @@ package com.protonvpn.app.profiles
 
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.toProfile
 import com.protonvpn.android.profiles.ui.SettingsScreenState
 import com.protonvpn.android.profiles.ui.TypeAndLocationScreenState
@@ -51,7 +52,12 @@ class ProfilesTelemetryTests {
 
     private val commonDimensions = FakeCommonDimensions(mapOf("user_tier" to "paid"))
     private val settingsScreenState = SettingsScreenState(
-        netShield = true, protocol = ProtocolSelection(VpnProtocol.WireGuard), natType = NatType.Moderate, lanConnections = true
+        netShield = true,
+        protocol = ProtocolSelection(VpnProtocol.WireGuard),
+        natType = NatType.Moderate,
+        lanConnections = true,
+        autoOpen = ProfileAutoOpen.None(""),
+        isAutoOpenNew = true,
     )
 
     private lateinit var profilesTelemetry: ProfilesTelemetry
@@ -262,6 +268,8 @@ class ProfilesTelemetryTests {
                 protocol = ProtocolSelection.SMART,
                 natType = NatType.Moderate,
                 lanConnections = false,
+                autoOpen = ProfileAutoOpen.None(""),
+                isAutoOpenNew = true,
             ),
         )
         assertEquals("off", settingsDimensions1["netshield_setting"])
@@ -276,6 +284,8 @@ class ProfilesTelemetryTests {
                 protocol = ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.TLS),
                 natType = NatType.Strict,
                 lanConnections = true,
+                autoOpen = ProfileAutoOpen.None(""),
+                isAutoOpenNew = true,
             )
         )
         assertEquals("f2", settingsDimensions2["netshield_setting"])

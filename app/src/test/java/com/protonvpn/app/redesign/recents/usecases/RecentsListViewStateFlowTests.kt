@@ -28,6 +28,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerEntryInfo
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
@@ -398,6 +399,7 @@ class RecentsListViewStateFlowTests {
 
         val Profile = Profile(
             ProfileInfo(1, "MyProfile", ProfileColor.Color1, ProfileIcon.Icon1, createdAt = 0L, isUserCreated = true),
+            ProfileAutoOpen.None(""),
             ConnectIntent.FastestInCountry(CountryId.fastest, emptySet(), profileId = 1),
             userId = TestUser.plusUser.vpnUser.userId
         )

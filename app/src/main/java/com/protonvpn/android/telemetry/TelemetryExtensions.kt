@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.telemetry
 
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.ui.ProfileType
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -32,6 +33,12 @@ fun ProtocolSelection.toTelemetry(): String {
 fun NatType.toTelemetry() = when(this) {
     NatType.Strict -> "type3_strict"
     NatType.Moderate -> "type2_moderate"
+}
+
+fun ProfileAutoOpen.toTelemetry() = when(this) {
+    is ProfileAutoOpen.None -> "off"
+    is ProfileAutoOpen.App -> "app"
+    is ProfileAutoOpen.Url -> "url"
 }
 
 fun ProfileType.toTelemetry() = when(this) {

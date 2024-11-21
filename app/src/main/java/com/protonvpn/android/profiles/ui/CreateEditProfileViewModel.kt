@@ -29,6 +29,7 @@ import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfilesDao
@@ -41,6 +42,7 @@ import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.sortedByLocaleAware
@@ -52,6 +54,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
@@ -64,11 +67,13 @@ import java.util.Locale
 import javax.inject.Inject
 import me.proton.core.presentation.R as CoreR
 
-private val defaultSettingScreenState = SettingsScreenState(
+private fun defaultSettingScreenState(isAutOpenNew: Boolean) = SettingsScreenState(
     protocol = ProtocolSelection.SMART,
     netShield = true,
     natType = NatType.Strict,
     lanConnections = true,
+    autoOpen = ProfileAutoOpen.None(""),
+    isAutoOpenNew = isAutOpenNew,
 )
 
 @Parcelize
@@ -181,6 +186,8 @@ data class SettingsScreenState(
     val protocol: ProtocolSelection,
     val natType: NatType,
     val lanConnections: Boolean,
+    val autoOpen: ProfileAutoOpen,
+    val isAutoOpenNew: Boolean,
 ) : Parcelable {
     fun toSettingsOverrides() = SettingsOverrides(
         protocolData = protocol.toData(),
@@ -205,6 +212,7 @@ class CreateEditProfileViewModel @Inject constructor(
     private val vpnConnect: VpnConnect,
     private val vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
     private val shouldAskForReconnection: ShouldAskForProfileReconnection,
+    private val uiStateStorage: UiStateStorage,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
@@ -268,6 +276,7 @@ class CreateEditProfileViewModel @Inject constructor(
 
     private fun setInitialState(profileId: Long?, isDuplicate: Boolean) {
         viewModelScope.launch {
+            isAutoOpenNew.emit(!uiStateStorage.state.first().hasSeenProfileAutoOpen)
             val hasRestoreState = nameScreenState != null
             if (!hasRestoreState) {
                 if (profileId != null) {
@@ -280,6 +289,8 @@ class CreateEditProfileViewModel @Inject constructor(
             }
         }
     }
+
+    private var isAutoOpenNew = MutableSharedFlow<Boolean>(replay = 1)
     
     suspend fun save(routedFromSettings: Boolean = false) : Deferred<Profile?> =
         createOrUpdateProfile(
@@ -328,14 +339,14 @@ class CreateEditProfileViewModel @Inject constructor(
     }
 
 
-    private fun initializeDefault() {
+    private suspend fun initializeDefault() {
         nameScreenState = NameScreenState(
             "",
             ProfileColor.Color1,
             ProfileIcon.Icon1,
         )
         typeAndLocationScreenSavedState = standardTypeDefault()
-        settingsScreenState = defaultSettingScreenState
+        settingsScreenState = defaultSettingScreenState(isAutoOpenNew.first())
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -352,15 +363,21 @@ class CreateEditProfileViewModel @Inject constructor(
         )
         val intent = profile.connectIntent
         typeAndLocationScreenSavedState = getTypeAndLocationScreenStateFromIntent(intent)
-        settingsScreenState = getSettingsScreenStateFromIntent(intent)
+        settingsScreenState = getSettingsScreenState(profile)
     }
 
-    private fun getSettingsScreenStateFromIntent(intent: ConnectIntent) =  SettingsScreenState(
-        netShield = intent.settingsOverrides?.netShield?.let { it != NetShieldProtocol.DISABLED } ?: defaultSettingScreenState.netShield,
-        protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
-        natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
-        lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
-    )
+    private suspend fun getSettingsScreenState(profile: Profile) : SettingsScreenState {
+        val intent = profile.connectIntent
+        val defaultSettingScreenState = defaultSettingScreenState(isAutoOpenNew.first())
+        return SettingsScreenState(
+            netShield = intent.settingsOverrides?.netShield?.let { it != NetShieldProtocol.DISABLED } ?: defaultSettingScreenState.netShield,
+            protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
+            natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
+            lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
+            autoOpen = profile.autoOpen,
+            isAutoOpenNew = isAutoOpenNew.first()
+        )
+    }
 
     private suspend fun getTypeAndLocationScreenStateFromIntent(intent: ConnectIntent): TypeAndLocationScreenSaveState {
         return when (intent) {
@@ -621,5 +638,15 @@ class CreateEditProfileViewModel @Inject constructor(
 
     fun setLanConnections(isEnabled: Boolean) {
         settingsScreenState = settingsScreenState?.copy(lanConnections = isEnabled)
+    }
+
+    fun setAutoOpen(autoOpen: ProfileAutoOpen) {
+        settingsScreenState = settingsScreenState?.copy(autoOpen = autoOpen)
+    }
+
+    fun settingsScreenShown() {
+        viewModelScope.launch {
+            uiStateStorage.update { it.copy(hasSeenProfileAutoOpen = true) }
+        }
     }
 }
