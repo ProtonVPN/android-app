@@ -6,7 +6,8 @@ default:
     # We must keep these variables here. We can't do it inside the entrypoint, as idk how but
     # gitlab is going to convert them as a variable content instead of a variable file...
     - mkdir -p app
-    - base64 -d -  < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
+    - base64 -d - < "$SERVICE_ACCOUNT_FILE" > app/service_account.json
+    - base64 -d - < "$DEBUG_KEYSTORE_FILE_BASE64" > "app/$DEBUG_KEYSTORE_FILE"
     - md5sum app/service_account.json
     - git fetch origin development
     - if [[ -f /load-env.sh ]]; then source /load-env.sh; fi
@@ -26,6 +27,7 @@ variables:
   NEXUS_REPO: "test-productivity-builds-distribution"
   # Enable support for rebase in gitleaks_wrapper: https://gitlab.protontech.ch/proton/devops/cicd-components/devsecops/gitleaks/-/blob/main/docs/components-scan-repository.md
   GIT_FETCH_DEFAULT_BRANCH: "yes"
+  DEBUG_KEYSTORE_FILE: "debug.keystore"
 
 workflow:
   rules:

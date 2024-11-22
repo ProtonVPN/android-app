@@ -134,8 +134,8 @@ def serviceAccountCredentialsPath = project.hasProperty('serviceAccountFilePath'
 def testAccountPassword = System.getenv("TEST_ACCOUNT_PASS") ?: "Pass"
 def appId = project.hasProperty('appId') ? appId : "ch.protonvpn.android"
 def supportedLocales = ['b+es+419', 'be', 'cs', 'de', 'el', 'en', 'es-rES', 'es-rMX', 'fa', 'fi', 'fr', 'hr', 'in', 'it', 'ja', 'ka', 'ko', 'nb-rNO', 'nl', 'pl', 'pt-rBR', 'pt-rPT', 'ro', 'ru', 'sk', 'sl', 'sv-rSE', 'tr', 'uk', 'zh-rTW']
-def allowLogcat = System.getenv("ALLOW_LOGCAT") ? System.getenv("ALLOW_LOGCAT").toBoolean() : false
 def helpers = new Helpers(rootDir, providers)
+def debugKeystorePath = System.getenv("DEBUG_KEYSTORE_FILE")
 
 android {
     namespace "com.protonvpn.android"
@@ -145,11 +145,13 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     useLibrary 'org.apache.http.legacy'
     signingConfigs {
-        release {
-            storeFile file('/root/.android/debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+        if (debugKeystorePath) {
+            debug {
+                storeFile file(debugKeystorePath)
+                storePassword 'android'
+                keyAlias 'androiddebugkey'
+                keyPassword 'android'
+            }
         }
     }
     buildFeatures {
@@ -324,12 +326,13 @@ android {
             enableUnitTestCoverage = true
             ext.alwaysUpdateBuildId = false
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"${StringEscapeUtils.escapeJava(testAccountPassword)}\""
         }
         release {
             minifyEnabled true
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
