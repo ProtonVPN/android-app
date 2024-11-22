@@ -65,7 +65,7 @@ import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import java.util.EnumSet
 
 enum class MainTarget {
-    Home, Profiles, Gateways, Countries, Settings;
+    Home, Countries, Gateways, Profiles, Settings;
 
     companion object {
         fun fromRoute(baseRoute: String?) = when (baseRoute) {
