@@ -96,6 +96,7 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestDispatcherProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createGetSmartProtocols
+import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.runWhileCollecting
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -108,6 +109,7 @@ import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifyOrder
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -159,7 +161,7 @@ class VpnConnectionTests {
     @MockK
     lateinit var certificateRepository: CertificateRepository
 
-    @RelaxedMockK
+    @MockK
     lateinit var vpnErrorHandler: VpnConnectionErrorHandler
 
     @RelaxedMockK
@@ -209,7 +211,7 @@ class VpnConnectionTests {
     private val serverWireguard: Server = MockedServers.serverList[1]
     private val fallbackServer: Server = MockedServers.serverList[2]
 
-    private val switchServerFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
+    private lateinit var switchServerFlow: MutableSharedFlow<VpnFallbackResult.Switch>
 
     private val agentConsts = LocalAgent.constants()
     private val validCert =
@@ -279,6 +281,7 @@ class VpnConnectionTests {
         mockOpenVpn = spyk(createMockVpnBackend(currentUser, userSettings, profilesDao, VpnProtocol.OpenVPN))
         mockWireguard = spyk(createMockVpnBackend(currentUser, userSettings, profilesDao, VpnProtocol.WireGuard))
 
+        switchServerFlow = MutableSharedFlow()
         coEvery { vpnErrorHandler.switchConnectionFlow } returns switchServerFlow
 
         val backendProvider = ProtonVpnBackendProvider(
@@ -708,9 +711,18 @@ class VpnConnectionTests {
             client.onState(agentConsts.stateHardJailed)
             client.onError(agentConsts.errorCodePolicyViolationLowPlan, "")
         }
+        val onAuthErrorDeferred = CompletableDeferred<Unit>()
+        coEvery { vpnErrorHandler.onAuthError(any()) } coAnswers {
+            onAuthErrorDeferred.await()
+            VpnFallbackResult.Error(ErrorType.GENERIC_ERROR)
+        }
         manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 
+        // Checking the intermediate state is fragile, but currently there's no better way.
         assertEquals(ErrorType.POLICY_VIOLATION_LOW_PLAN, (mockWireguard.selfState as? VpnState.Error)?.type)
+
+        onAuthErrorDeferred.complete(Unit)
+        coVerify(exactly = 1) { vpnErrorHandler.onAuthError(any()) }
     }
 
     @Test
@@ -869,6 +881,10 @@ class VpnConnectionTests {
             nativeClient = client
             mockAgent
         }
+        coEvery { vpnErrorHandler.onUnreachableError(any()) } returns VpnFallbackResult.Switch.SwitchConnectIntent(
+            fromServer = null, toServer = createServer(), toConnectIntent = ConnectIntent.Default
+        )
+
         manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
         assertNotNull(nativeClient)
         nativeClient!!.onState(agentConsts.stateConnected)
@@ -876,11 +892,11 @@ class VpnConnectionTests {
 
         every { mockLocalAgentUnreachableTracker.onUnreachable() } returns false
         nativeClient!!.onState(agentConsts.stateServerUnreachable)
-        assertEquals(ErrorType.UNREACHABLE, (mockWireguard.selfState as? VpnState.Error)?.type)
+        coVerify(exactly = 0) { vpnErrorHandler.onUnreachableError(any()) }
 
         every { mockLocalAgentUnreachableTracker.onUnreachable() } returns true
         nativeClient!!.onState(agentConsts.stateServerUnreachable)
-        assertEquals(ErrorType.UNREACHABLE_INTERNAL, (mockWireguard.selfState as? VpnState.Error)?.type)
+        coVerify { vpnErrorHandler.onUnreachableError(any()) }
     }
 
     @Test
