@@ -116,7 +116,7 @@ fun CreateName(
         }
     ) {
         TextField(
-            value = state.name,
+            value = sanitizeProfileName(state.name),
             placeholder = {
                 Text(
                     text = stringResource(id = R.string.create_profile_name_hint),
@@ -133,6 +133,7 @@ fun CreateName(
                     )
                 }
             },
+            singleLine = true,
             textStyle = ProtonTheme.typography.subheadline,
             isError = errorRes != null,
             keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
@@ -141,7 +142,7 @@ fun CreateName(
                     R.string.create_profile_name_error_too_long
                 else
                     null
-                setName(name)
+                setName(sanitizeProfileName(name))
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -160,6 +161,8 @@ fun CreateName(
         )
     }
 }
+
+private fun sanitizeProfileName(name: String) = name.replace("\n", " ")
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
