@@ -21,10 +21,8 @@ package com.protonvpn.android.redesign.main_screen.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -41,9 +39,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.VpnBadgeDot
 import com.protonvpn.android.redesign.main_screen.ui.nav.MainTarget
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionStrongUnspecified
+import java.util.EnumSet
 import me.proton.core.presentation.R as CoreR
 
 @Composable
@@ -61,7 +61,7 @@ fun BottomBarView(
     NavigationBar(
         modifier,
         containerColor = bgColor,
-        tonalElevation = 0.dp
+        tonalElevation = 0.dp,
     ) {
         MainTarget.entries.forEach { target ->
             if (target == MainTarget.Gateways && !showGateways ||
@@ -71,7 +71,7 @@ fun BottomBarView(
             val isSelected = target == selectedTarget
             val label = stringResource(id = target.labelRes())
             val notificationBadge: @Composable BoxScope.() -> Unit = if (notificationDots.contains(target)) {
-                { Badge(containerColor = ProtonTheme.colors.notificationError) }
+                { VpnBadgeDot(borderColor = ProtonTheme.colors.backgroundSecondary) }
             } else {
                 {}
             }
@@ -87,13 +87,13 @@ fun BottomBarView(
                     indicatorColor = indicatorColor,
                 ),
                 icon = {
-                    BadgedBox(
-                        badge = notificationBadge
-                    ) {
+                    // Don't use BadgedBox as it breaks alignByBaseline().
+                    Box {
                         Icon(
                             painterResource(id = target.getIcon(isSelected)),
                             contentDescription = null,
                         )
+                        notificationBadge()
                     }
                 },
                 label = {
@@ -138,6 +138,12 @@ private fun MainTarget.getIcon(selected: Boolean): Int = when (this) {
 @Composable
 fun BottomBarPreviewDark() {
     ProtonVpnPreview {
-        BottomBarView(selectedTarget = MainTarget.Home, showGateways = true, showProfiles = true) {}
+        BottomBarView(
+            selectedTarget = MainTarget.Home,
+            showGateways = true,
+            showProfiles = true,
+            notificationDots = EnumSet.of(MainTarget.Profiles, MainTarget.Settings),
+            navigateTo = {}
+        )
     }
 }
