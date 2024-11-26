@@ -255,7 +255,7 @@
     <string name="nameAfricaAndMiddleEast">아프리카 &amp; 중동</string>
     <string name="nameOceania">오세아니아</string>
     <string name="tv_row_settings">설정</string>
-    <string name="tv_card_split_tunneling_label">분할 터널링</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">프로토콜</string>
     <string name="tv_detail_default_connection_checkbox_short">선호</string>
     <string name="tv_detail_connect_streaming">Plus 플랜으로 스트리밍을</string>
@@ -483,7 +483,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">더 빠른 속도로 브라우징 하세요 (최대 %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">분할 터널링</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">한 번에 두 곳의 위치에서 브라우징하세요</string>
     <string name="upsell_card_streaming_title">스트리밍</string>
     <string name="upsell_card_streaming_description">선호하는 영화와 TV 쇼를 시청하세요</string>
@@ -964,7 +964,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">분할 터널링</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">킬 스위치</string>
     <!-- tag(Redesign_2023) -->
@@ -1132,6 +1132,8 @@
     <string name="info_dialog_how_to_stream_step_2">스트리밍 서비스를 재시작 하세요.</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Plus 서버에 접속한 뒤 스트리밍을 시작하세요.</string>
+    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">P2P 파일 공유가 이 서버에서 활성화 되었습니다.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1230,7 +1232,7 @@
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">%1$s 편집</string>
-    <string name="edit_profile_dialog_action">Edit profile</string>
+    <string name="edit_profile_dialog_action">프로필 편집</string>
     <string name="create_profile_name_hint">프로필 이름</string>
     <string name="create_profile_name_error_empty">프로필 이름을 입력하세요</string>
     <string name="create_profile_name_error_too_long">프로필 이름은 30자 이하여야 합니다</string>
@@ -1341,7 +1343,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">연결이 다시 시작됩니다.</string>
-    <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
+    <string name="profile_overrides_setting">해당 설정값들이 <b>%1$s</b>(으)로 연결되며 프로필 내에서만 관리할 수 있습니다.</string>
     <string name="initial_profile_name_streaming_us">미국 스트리밍</string>
     <string name="initial_profile_name_work_school">직장/학교</string>
     <string name="initial_profile_name_anti_censorship">반검열</string>
@@ -1372,8 +1374,8 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="profiles_zero_state_description">프로필은 당신이 선택한 지역, 서버 그리고 프로토콜로 구성된 연결입니다.</string>
     <string name="profiles_button_create_profile">프로필 생성</string>
     <string name="profile_deleted_snackbar_message">프로필 삭제됨</string>
-    <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
-    <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
+    <string name="profile_connected_edit_setting">이 설정값은 활성 프로필에 연결됩니다. \n\n설정값을 변경하려면 프로필을 편집하거나 일반 VPN 설정을 수정하려면 연결 해제하세요.</string>
+    <string name="profile_connected_dialog_title">프로필 내의 %1$s 관리</string>
     <string name="undo">실행 취소</string>
     <string name="profile_unavailable_dialog_title">프로필 이용 불가능</string>
     <!-- %1$s - profile name
@@ -1385,4 +1387,5 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">색상 %1$d</string>
+    <string name="generic_info_label">Info</string>
 </resources>

@@ -1156,6 +1156,8 @@
     <string name="info_dialog_how_to_stream_step_2">Redémarrez votre service de streaming.</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connectez-vous à n\'importe quel serveur Plus et commencez à regarder des contenus en streaming.</string>
+    <string name="info_dialog_profiles_title">Profils</string>
+    <string name="info_dialog_profiles_description">Les profils sont des connexions VPN personnalisées que vous pouvez adapter à vos besoins et enregistrer pour un accès rapide.\n\nDéfinissez votre emplacement préféré et optimisez vos paramètres de sécurité, de performances, de jeux ou tout autre scénario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Le partage de fichiers en peer-to-peer (P2P) est activé sur ce serveur.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1375,7 +1377,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Ceci redémarrera votre connexion.</string>
-    <string name="profile_overrides_setting">Ces paramètres sont connectés à <b>%1$s</b> et ne peuvent être gérés dans les profils.</string>
+    <string name="profile_overrides_setting">Ces paramètres sont connectés à <b>%1$s</b> et ne peuvent être gérés que dans les profils.</string>
     <string name="initial_profile_name_streaming_us">Streaming États-Unis</string>
     <string name="initial_profile_name_work_school">Travail ou école</string>
     <string name="initial_profile_name_anti_censorship">Anti-censure</string>
@@ -1384,11 +1386,11 @@
     <string name="create_profile_type_standard">Standard</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Passerelle </string>
+    <string name="create_profile_gateway">Passerelle</string>
     <string name="create_profile_pick_state_title">État</string>
     <string name="create_profile_pick_city_title">Ville</string>
     <string name="create_profile_pick_server_title">Serveur</string>
-    <string name="create_profile_pick_gateway_title">Passerelle </string>
+    <string name="create_profile_pick_gateway_title">Passerelle</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_netshield_description">Bloquez les publicités, les traqueurs et les logiciels malveillants sur les sites internet et les applications.</string>
     <string name="create_profile_pick_protocol_title">Protocole</string>
@@ -1419,4 +1421,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Couleur %1$d</string>
+    <string name="generic_info_label">Informations</string>
 </resources>

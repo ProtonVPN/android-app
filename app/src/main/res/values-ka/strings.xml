@@ -256,7 +256,7 @@
     <string name="nameAfricaAndMiddleEast">აფრიკა და ახლო აღმოსავლეთი</string>
     <string name="nameOceania">ოკეანეთი</string>
     <string name="tv_row_settings">მორგება</string>
-    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">პროტოკოლი</string>
     <string name="tv_detail_default_connection_checkbox_short">რჩეული</string>
     <string name="tv_detail_connect_streaming">Plus-ით სტრიმინგი</string>
@@ -498,7 +498,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">იმუშავეთ კიდევ უფრო სწრაფად (%1$d გბ/წმ-მდე)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">იმუშავეთ ინტერნეტში ერთდროულად ორი ადგილიდან</string>
     <string name="upsell_card_streaming_title">სტრიმინგი</string>
     <string name="upsell_card_streaming_description">უყურეთ თქვენს საყვარელ ფილმებსა და სერიალებს</string>
@@ -988,7 +988,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split Tunneling</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1156,6 +1156,8 @@
     <string name="info_dialog_how_to_stream_step_2">გამორთეთ და ჩართეთ თქვენი სტრიმინგის სერვისი</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">დაუკავშირდით ნებისმიერ Plus სერვერს და დაიწყეთ სტრიმინგი</string>
+    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">ამ სერვერზე ჩართულია გამჭოლი ფაილი გაზიარება.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1419,4 +1421,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">ფერი %1$d</string>
+    <string name="generic_info_label">Info</string>
 </resources>

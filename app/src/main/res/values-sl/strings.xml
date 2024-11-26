@@ -260,7 +260,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Bližnji vzhod</string>
     <string name="nameOceania">Oceanija</string>
     <string name="tv_row_settings">Nastavitve</string>
-    <string name="tv_card_split_tunneling_label">Razdeljeno tuneliranje</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Najljubša</string>
     <string name="tv_detail_connect_streaming">Pretakajte s Plusom</string>
@@ -523,7 +523,7 @@
     <string name="upsell_card_secure_core_description">Dodajte še eno plast šifriranja svoji VPN povezavi s Secure Core</string>
     <string name="upsell_card_p2p_title">Podpora za P2P</string>
     <string name="upsell_card_p2p_description">​Prenesite datoteke prek BitTorrenta in drugih protokolov za skupno rabo datotek</string>
-    <string name="upsell_card_profiles_title">Profiles</string>
+    <string name="upsell_card_profiles_title">Profili</string>
     <string name="upsell_card_profiles_description">Create custom VPN connections</string>
     <string name="upsell_card_speed_title">Hitrejše brskanje</string>
     <!-- Parameters:
@@ -531,7 +531,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Brskajte pri še večjih hitrostih (do %1$d Gb/s)</string>
-    <string name="upsell_card_split_tunneling_title">Razdeljeno tuneliranje</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Brskajte z dveh lokacij hkrati</string>
     <string name="upsell_card_streaming_title">Pretakanje</string>
     <string name="upsell_card_streaming_description">Glejte svoje najljubše filme in serije</string>
@@ -1039,7 +1039,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Razdeljeno tuneliranje</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Stikalo za izklop</string>
     <!-- tag(Redesign_2023) -->
@@ -1207,6 +1207,8 @@
     <string name="info_dialog_how_to_stream_step_2">Ponovno zaženite storitve pretočnega predvajanja</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Povežite se s katerim koli strežnikom Plus in začnite pretakati</string>
+    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">V tem strežniku je omogočena izmenjava datotek peer-to-peer (P2P).</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1465,8 +1467,8 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_pick_gateway_title">Prehod</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
-    <string name="create_profile_pick_protocol_title">Protocol</string>
-    <string name="create_profile_pick_nat_title">NAT type</string>
+    <string name="create_profile_pick_protocol_title">Protokol</string>
+    <string name="create_profile_pick_nat_title">NAT tip</string>
     <!--
          Example:
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
@@ -1493,4 +1495,5 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Color %1$d</string>
+    <string name="generic_info_label">Info</string>
 </resources>

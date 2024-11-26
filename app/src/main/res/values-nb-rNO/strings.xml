@@ -256,7 +256,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Midtøsten</string>
     <string name="nameOceania">Oseania</string>
     <string name="tv_row_settings">Innstillinger</string>
-    <string name="tv_card_split_tunneling_label">Delt Tunnelering</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Protokoll</string>
     <string name="tv_detail_default_connection_checkbox_short">Favoritt</string>
     <string name="tv_detail_connect_streaming">Strøm med Plus</string>
@@ -498,7 +498,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Surf med enda høyere hastigheter (opptil %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Delt Tunnelering</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Surf samtidig fra to plasseringer</string>
     <string name="upsell_card_streaming_title">Strømming</string>
     <string name="upsell_card_streaming_description">Se favorittfilmene og TV-programmene dine</string>
@@ -988,7 +988,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Delt Tunnelering</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Nødstopp</string>
     <!-- tag(Redesign_2023) -->
@@ -1156,6 +1156,8 @@
     <string name="info_dialog_how_to_stream_step_2">Start strømmetjenesten på nytt</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Koble til hvilken som helst Plus-tjener og start å strømme</string>
+    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Node-til-node-fildeling er aktivert på denne tjeneren.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1375,7 +1377,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Dette vil starte tilkoblingen på nytt.</string>
-    <string name="profile_overrides_setting">Disse innstillingene er tilknyttet <b>%1$s</b> og kan bare administreres i Profiler.</string>
+    <string name="profile_overrides_setting">Disse innstillingene er koblet til <b>%1$s</b> og kan bare administreres i Profiler.</string>
     <string name="initial_profile_name_streaming_us">Strømming US</string>
     <string name="initial_profile_name_work_school">Arbeid/Skole</string>
     <string name="initial_profile_name_anti_censorship">Antisensur</string>
@@ -1419,4 +1421,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Farge %1$d</string>
+    <string name="generic_info_label">Info</string>
 </resources>
