@@ -30,6 +30,7 @@ import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.profiles.data.profileSettingsOverrides
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.recents.data.toData
+import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -88,16 +89,16 @@ class PopulateInitialProfiles @Inject constructor(
             ),
             ProfileEntity(
                 userId = userId,
-                name = resources.getString(R.string.initial_profile_name_work_school),
+                name = resources.getString(R.string.initial_profile_name_gaming),
                 color = ProfileColor.Color1,
-                icon = ProfileIcon.Icon9,
+                icon = ProfileIcon.Icon7,
                 createdAt = now,
                 isUserCreated = false,
                 connectIntentData = ConnectIntent.FastestInCountry(
                     CountryId.fastest,
                     emptySet(),
                     settingsOverrides = profileSettingsOverrides(
-                        ProtocolSelection.STEALTH.toData(),
+                        randomizedNat = NatType.Moderate.toRandomizedNat(),
                     )
                 ).toData(),
             ),
@@ -110,6 +111,36 @@ class PopulateInitialProfiles @Inject constructor(
                 isUserCreated = false,
                 connectIntentData = ConnectIntent.FastestInCountry(
                     CountryId.fastestExcludingMyCountry,
+                    emptySet(),
+                    settingsOverrides = profileSettingsOverrides(
+                        ProtocolSelection.STEALTH.toData(),
+                    )
+                ).toData(),
+            ),
+            ProfileEntity(
+                userId = userId,
+                name = resources.getString(R.string.initial_profile_name_max_security),
+                color = ProfileColor.Color1,
+                icon = ProfileIcon.Icon3,
+                createdAt = now,
+                isUserCreated = false,
+                connectIntentData = ConnectIntent.SecureCore(
+                    exitCountry = CountryId.fastest,
+                    entryCountry = CountryId.fastest,
+                    settingsOverrides = profileSettingsOverrides(
+                        lanConnections = false,
+                    )
+                ).toData(),
+            ),
+            ProfileEntity(
+                userId = userId,
+                name = resources.getString(R.string.initial_profile_name_work_school),
+                color = ProfileColor.Color1,
+                icon = ProfileIcon.Icon9,
+                createdAt = now,
+                isUserCreated = false,
+                connectIntentData = ConnectIntent.FastestInCountry(
+                    CountryId.fastest,
                     emptySet(),
                     settingsOverrides = profileSettingsOverrides(
                         ProtocolSelection.STEALTH.toData(),

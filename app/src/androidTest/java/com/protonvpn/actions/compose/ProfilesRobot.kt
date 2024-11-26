@@ -29,25 +29,27 @@ object ProfilesRobot : Robot {
         get() = node.withText(R.string.profiles_button_create_profile)
 
     fun addProfile() = createProfileButton.clickTo(ProfileAddEditRobot)
-    fun profileExists(name: String) = node.withText(name).await { assertIsDisplayed() }
-    fun profileExists(@StringRes nameRes: Int) = node.withText(nameRes).await { assertIsDisplayed() }
+    fun profileExists(name: String) = node.withText(name).scrollTo().await { assertIsDisplayed() }
+    fun profileExists(@StringRes nameRes: Int) = node.withText(nameRes).scrollTo().await { assertIsDisplayed() }
     fun profileNotExists(name: String) = node.withText(name).await { assertIsNotDisplayed() }
 
     fun open(@StringRes nameRes: Int) =
         node.useUnmergedTree()
             .withTag("intentOpen")
             .hasAncestor(node.withTag("intentRow").hasDescendant(node.withText(nameRes)))
+            .scrollTo()
             .clickTo(this)
 
     fun open(name: String) =
         node.useUnmergedTree()
             .withTag("intentOpen")
             .hasAncestor(node.withTag("intentRow").hasDescendant(node.withText(name)))
+            .scrollTo()
             .clickTo(this)
 
     fun edit() = node.withText(R.string.profile_action_edit).clickTo(ProfileAddEditRobot)
     fun delete() = node.withText(R.string.profile_action_delete).clickTo(this)
-    fun connect(name: String) = node.withText(name).clickTo(ConnectionRobot)
+    fun connect(name: String) = node.withText(name).scrollTo().clickTo(ConnectionRobot)
     fun zeroScreenDisplayed() = node.withText(R.string.profiles_zero_state_title).await { assertIsDisplayed() }
 }
 

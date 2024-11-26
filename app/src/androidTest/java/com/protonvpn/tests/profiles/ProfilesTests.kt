@@ -80,9 +80,13 @@ class ProfilesTests {
         verify { profileExists(R.string.initial_profile_name_streaming_us) }
         .verify { profileExists(R.string.initial_profile_name_work_school) }
         .verify { profileExists(R.string.initial_profile_name_anti_censorship) }
+        .verify { profileExists(R.string.initial_profile_name_gaming) }
+        .verify { profileExists(R.string.initial_profile_name_max_security) }
 
     private fun ProfilesRobot.clearPredefined() =
         open(R.string.initial_profile_name_streaming_us).delete()
         .open(R.string.initial_profile_name_work_school).delete()
         .open(R.string.initial_profile_name_anti_censorship).delete()
+        .open(R.string.initial_profile_name_gaming).delete()
+        .open(R.string.initial_profile_name_max_security).delete()
 }
