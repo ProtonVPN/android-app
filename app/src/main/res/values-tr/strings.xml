@@ -256,7 +256,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika ve Orta Doğu</string>
     <string name="nameOceania">Okyanusya</string>
     <string name="tv_row_settings">Ayarlar</string>
-    <string name="tv_card_split_tunneling_label">Ayrılmış tünelleme</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">İletişim kuralı</string>
     <string name="tv_detail_default_connection_checkbox_short">Yeğlenen</string>
     <string name="tv_detail_connect_streaming">Plus ile yayın akışı</string>
@@ -432,7 +432,7 @@
     <string name="upgrade_unlimited_mail_unlimited_folders">Sınırsız sayıda klasör ve süzgeç</string>
     <string name="upgrade_unlimited_mail_dark_web">Karanlık ağ izleme</string>
     <string name="upgrade_unlimited_mail_aliases">Sınırsız sayıda hide-my-email takma adı</string>
-    <string name="upgrade_unlimited_mail_autoreply">Otomatik yanıt</string>
+    <string name="upgrade_unlimited_mail_autoreply">Otomatik yanıtlama</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Zamanlanmış gönderim</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d kişisel takvim</item>
@@ -498,7 +498,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Daha da yüksek hızlarda gezinin (%1$d Gb/sn değerine varan)</string>
-    <string name="upsell_card_split_tunneling_title">Ayrılmış tünelleme</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Aynı anda iki farklı konumdan gezinin</string>
     <string name="upsell_card_streaming_title">Yayın akışı</string>
     <string name="upsell_card_streaming_description">Beğendiğiniz film ve TV dizilerini izleyin</string>
@@ -988,7 +988,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Ayrılmış tünelleme</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Bağlantı kesici</string>
     <!-- tag(Redesign_2023) -->
@@ -1072,7 +1072,7 @@
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
-    <string name="vpn_status_connecting">Dijital kimliğinizi korumak</string>
+    <string name="vpn_status_connecting">Dijital kimliğiniz korunuyor</string>
     <!-- tag(Redesign_2023)
          Displays Country name and IP of user if he is not connected.
          First parameter is country, second is IP.
@@ -1156,6 +1156,8 @@
     <string name="info_dialog_how_to_stream_step_2">Yayın akışı hizmetinizi yeniden başlatın</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Herhangi bir Plus sunucusuna bağlanın ve yayın akışını izlemeye başlayın</string>
+    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Bu sunucuda eşler arası dosya paylaşımı kullanılıyor.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1419,4 +1421,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">%1$d. renk</string>
+    <string name="generic_info_label">Info</string>
 </resources>

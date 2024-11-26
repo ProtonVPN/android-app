@@ -988,7 +988,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">Escudo de la Red</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Tunelización dividida</string>
+    <string name="settings_split_tunneling_title">Túnel dividido</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Interruptor de bloqueo</string>
     <!-- tag(Redesign_2023) -->
@@ -1156,6 +1156,8 @@
     <string name="info_dialog_how_to_stream_step_2">Reinicie su servicio de streaming</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Conéctese a cualquier servidor Plus e inicie la transmisión</string>
+    <string name="info_dialog_profiles_title">Perfiles</string>
+    <string name="info_dialog_profiles_description">Los perfiles son conexiones VPN personalizadas que puede adaptar a sus necesidades y guardar para un acceso rápido.\n\nEstablezca su ubicación preferida y optimice su configuración de seguridad, rendimiento, juegos o cualquier otro escenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">El intercambio de archivos P2P está activado en este servidor.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1419,4 +1421,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Color %1$d</string>
+    <string name="generic_info_label">Información</string>
 </resources>

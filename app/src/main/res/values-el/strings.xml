@@ -256,7 +256,7 @@
     <string name="nameAfricaAndMiddleEast">Αφρική &amp; Μέση Ανατολή</string>
     <string name="nameOceania">Ωκεανία</string>
     <string name="tv_row_settings">Ρυθμίσεις</string>
-    <string name="tv_card_split_tunneling_label">Διαίρεση σήραγγας</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">Πρωτόκολλο</string>
     <string name="tv_detail_default_connection_checkbox_short">Αγαπημένο</string>
     <string name="tv_detail_connect_streaming">Stream με Plus</string>
@@ -498,7 +498,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Περιηγηθείτε με ακόμα υψηλότερες ταχύτητες (έως %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Διαίρεση σήραγγας</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Περιήγηση από δύο τοποθεσίες ταυτόχρονα</string>
     <string name="upsell_card_streaming_title">Ροή</string>
     <string name="upsell_card_streaming_description">Παρακολουθήστε τις αγαπημένες σας ταινίες και τηλεοπτικές εκπομπές</string>
@@ -988,7 +988,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Διαίρεση σήραγγας</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1156,6 +1156,8 @@
     <string name="info_dialog_how_to_stream_step_2">Επανεκκινήστε την υπηρεσία ροής</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Συνδεθείτε σε οποιονδήποτε διακομιστή Plus και ξεκινήστε τη ροή</string>
+    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Ομότιμη κοινή χρήση αρχείων είναι ενεργοποιημένη σε αυτόν το διακομιστή.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1419,4 +1421,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Χρώμα %1$d</string>
+    <string name="generic_info_label">Info</string>
 </resources>

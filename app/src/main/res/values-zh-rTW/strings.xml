@@ -254,7 +254,7 @@
     <string name="nameAfricaAndMiddleEast">非洲與中東</string>
     <string name="nameOceania">大洋洲</string>
     <string name="tv_row_settings">設定</string>
-    <string name="tv_card_split_tunneling_label">拆分隧道</string>
+    <string name="tv_card_split_tunneling_label">Split tunneling</string>
     <string name="tv_card_protocol_label">通訊協定</string>
     <string name="tv_detail_default_connection_checkbox_short">最愛</string>
     <string name="tv_detail_connect_streaming">以 Plus 串流</string>
@@ -482,7 +482,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">享用更快速度的瀏覽 (高達 %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">拆分隧道</string>
+    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">可同時從兩個位置瀏覽</string>
     <string name="upsell_card_streaming_title">串流</string>
     <string name="upsell_card_streaming_description">觀看您喜愛的電影與電視節目</string>
@@ -963,7 +963,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">拆分隧道</string>
+    <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">緊急開關</string>
     <!-- tag(Redesign_2023) -->
@@ -1131,6 +1131,8 @@
     <string name="info_dialog_how_to_stream_step_2">重新啟動啟動影音串流服務</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">此伺服器啟用點對點檔案共享。</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1383,4 +1385,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Color %1$d</string>
+    <string name="generic_info_label">Info</string>
 </resources>
