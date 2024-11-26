@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -70,6 +71,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.netshield.NetShieldActions
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
@@ -82,17 +84,21 @@ import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.rememberRecentBottomSheetState
 import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
+import com.protonvpn.android.redesign.recents.usecases.RecentsListViewState
 import com.protonvpn.android.redesign.settings.ui.DefaultConnectionSelection
+import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
 import com.protonvpn.android.redesign.vpn.ui.rememberVpnStateAnimationProgress
 import com.protonvpn.android.redesign.vpn.ui.vpnStatusOverlayBackground
 import com.protonvpn.android.telemetry.UpgradeSource
+import com.protonvpn.android.tv.main.CountryHighlight
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradePlusCountriesHighlightsFragment
+import com.protonvpn.android.ui.promooffers.ProminentBannerState
 import com.protonvpn.android.ui.promooffers.PromoOfferBanner
 import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.ui.promooffers.PromoOfferProminentBanner
@@ -101,6 +107,7 @@ import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnErrorUIManager
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
@@ -115,16 +122,121 @@ fun HomeRoute(
     onConnectionCardClick: () -> Unit
 ) {
     val activity = LocalContext.current as ComponentActivity
+    val vpnUiDelegate = LocalVpnUiDelegate.current
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
+    val homeViewModel: HomeViewModel = hiltViewModel()
     // The MainActivity keeps the splash screen on until VPN status is available so that it can be shown here
     // instantly. That's why the flow from MainActivityViewModel is used, and not an independent flow in HomeViewModel.
     val vpnStatusViewState = activityViewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
-    HomeView(
-        vpnStatusViewState,
-        mainScreenViewModel.eventCollapseRecents,
-        { mainScreenViewModel.consumeEventCollapseRecents() },
-        onConnectionCardClick
+    val recentsViewState = homeViewModel.recentsViewState.collectAsStateWithLifecycle(null)
+    val mapState =
+        homeViewModel.mapHighlightState.collectAsStateWithLifecycle(initialValue = null).value
+    val dialogState = homeViewModel.dialogStateFlow.collectAsStateWithLifecycle().value
+    val changeServerState =
+        homeViewModel.changeServerViewState.collectAsStateWithLifecycle(null).value
+    val upsellCarouselState = homeViewModel.upsellCarouselState.collectAsStateWithLifecycle().value
+    val bottomPromoBannerState =
+        homeViewModel.bottomPromoBannerStateFlow.collectAsStateWithLifecycle().value
+    val prominentPromoBannerState =
+        homeViewModel.prominentPromoBannerStateFlow.collectAsStateWithLifecycle().value
+    val snackError = homeViewModel.snackbarErrorFlow.collectAsStateWithLifecycle().value
+
+    // Not using material3 snackbar because of inability to show multiline correctly
+    val snackbarHostState = remember { androidx.compose.material.SnackbarHostState() }
+    val fullyDrawn by remember { derivedStateOf { recentsViewState.value != null } }
+
+    val bottomPromo = bottomPromoBannerState?.let {
+        BottomPromo(
+            state = it,
+            onClick = {
+                homeViewModel.openPromoOffer(it, context)
+            },
+            onDismiss = {
+                homeViewModel.dismissPromoOffer(it.notificationId)
+            }
+        )
+    }
+
+    val prominentBannerPromo = prominentPromoBannerState?.let {
+        ProminentPromo(
+            state = it,
+            onClick = {
+                homeViewModel.openPromoOffer(it, context)
+            },
+            onDismiss = {
+                homeViewModel.dismissPromoOffer(it.notificationId)
+            }
+        )
+    }
+
+    val connectionCard = ConnectionCard(
+        changeServerState = changeServerState,
+        onConnect = remember(vpnUiDelegate) {
+            {
+                coroutineScope.launch {
+                    homeViewModel.connect(
+                        vpnUiDelegate,
+                        ConnectTrigger.ConnectionCard
+                    )
+                }
+            }
+        },
+        onDisconnect = remember(homeViewModel) {
+            { homeViewModel.disconnect(DisconnectTrigger.ConnectionCard) }
+        },
+        onChangeServerClick = { homeViewModel.changeServer(vpnUiDelegate) },
+        onChangeServerUpgradeButtonShown = homeViewModel::onChangeServerUpgradeButtonShown,
+        onConnectionCardClick = onConnectionCardClick
     )
+
+    val recentsComponent = RecentsComponent(
+        recentsViewState = recentsViewState,
+        onRecentPinToggle = homeViewModel::togglePinned,
+        onRecentRemove = homeViewModel::removeRecent,
+        eventCollapseRecents = mainScreenViewModel.eventCollapseRecents,
+        onEventCollapseRecentsConsumed = { mainScreenViewModel.consumeEventCollapseRecents() },
+        onRecentClickedAction = remember(vpnUiDelegate) {
+            { item -> coroutineScope.launch { homeViewModel.onRecentClicked(item, vpnUiDelegate) } }
+        }
+    )
+
+    HomeView(
+        context = context,
+        coroutineScope = coroutineScope,
+        vpnState = vpnStatusViewState,
+        mapState = mapState,
+        dialogState = dialogState,
+        upsellCarouselState = upsellCarouselState,
+        elapsedRealtimeClock = homeViewModel.elapsedRealtimeClock,
+        onDismissDialog = homeViewModel::dismissDialog,
+        onNetshieldValueChanged = { homeViewModel.setNetShieldProtocol(it) },
+        snackbarHostState = snackbarHostState,
+        bottomPromo = bottomPromo,
+        prominentPromo = prominentBannerPromo,
+        connectionCard = connectionCard,
+        recentsComponent = recentsComponent
+    )
+
+    LaunchedEffect(key1 = Unit) {
+        homeViewModel.eventNavigateToUpgrade.collect {
+            CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
+        }
+    }
+
+    if (snackError != null) {
+        LaunchedEffect(snackError) {
+            handleSnackbarError(context, snackbarHostState, snackError)
+            homeViewModel.consumeErrorMessage()
+        }
+    }
+
+    if (fullyDrawn) {
+        LaunchedEffect(key1 = Unit) {
+            (context as Activity).reportFullyDrawn()
+        }
+    }
 }
 
 private val ListBgGradientHeightBasic = 100.dp
@@ -135,53 +247,30 @@ private val PromoOfferBannerState?.peekOffset get() = if (this?.isDismissible ==
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun HomeView(
+    context: Context,
     vpnState: VpnStatusViewState,
-    eventCollapseRecents: SharedFlow<ShowcaseRecents>,
-    onEventCollapseRecentsConsumed: () -> Unit,
-    onConnectionCardClick: () -> Unit
+    mapState: Pair<String, CountryHighlight>?,
+    dialogState: DialogState?,
+    upsellCarouselState: UpsellCarouselState?,
+    elapsedRealtimeClock: () -> Long,
+    onDismissDialog: () -> Unit,
+    onNetshieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
+    bottomPromo: BottomPromo?,
+    prominentPromo: ProminentPromo?,
+    connectionCard: ConnectionCard,
+    snackbarHostState: SnackbarHostState,
+    coroutineScope: CoroutineScope,
+    recentsComponent: RecentsComponent
 ) {
-    val viewModel: HomeViewModel = hiltViewModel()
-    val recentsViewState = viewModel.recentsViewState.collectAsStateWithLifecycle(null)
-    val mapState = viewModel.mapHighlightState.collectAsStateWithLifecycle(initialValue = null).value
-    val dialogState = viewModel.dialogStateFlow.collectAsStateWithLifecycle().value
-    val changeServerState = viewModel.changeServerViewState.collectAsStateWithLifecycle(null).value
-    val upsellCarouselState = viewModel.upsellCarouselState.collectAsStateWithLifecycle().value
-    val bottomPromoBannerState = viewModel.bottomPromoBannerStateFlow.collectAsStateWithLifecycle().value
-    val prominentPromoBannerState = viewModel.prominentPromoBannerStateFlow.collectAsStateWithLifecycle().value
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
-    val coroutineScope = rememberCoroutineScope()
     val recentBottomSheetState = rememberRecentBottomSheetState()
 
-    val context = LocalContext.current
-    val fullyDrawn by remember { derivedStateOf { recentsViewState.value != null } }
-    if (fullyDrawn) {
-        LaunchedEffect(key1 = Unit) {
-            (context as Activity).reportFullyDrawn()
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.eventNavigateToUpgrade.collect {
-            CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context)
-        }
-    }
-    // Not using material3 snackbar because of inability to show multiline correctly
-    val snackbarHostState = remember { androidx.compose.material.SnackbarHostState() }
-    val snackError = viewModel.snackbarErrorFlow.collectAsStateWithLifecycle().value
-    if (snackError != null) {
-        LaunchedEffect(snackError) {
-            handleSnackbarError(context, snackbarHostState, snackError)
-            viewModel.consumeErrorMessage()
-        }
-    }
-
-    val changeServerButton: (@Composable ColumnScope.() -> Unit)? = changeServerState?.let { state ->
+    val changeServerButton: (@Composable ColumnScope.() -> Unit)? = connectionCard.changeServerState?.let { state ->
         @Composable {
-            val uiDelegate = LocalVpnUiDelegate.current
             ChangeServerButton(
                 state,
-                onChangeServerClick = { viewModel.changeServer(uiDelegate) },
-                onUpgradeButtonShown = viewModel::onChangeServerUpgradeButtonShown,
+                onChangeServerClick = connectionCard.onChangeServerClick,
+                onUpgradeButtonShown = connectionCard.onChangeServerUpgradeButtonShown
             )
         }
     }
@@ -204,16 +293,18 @@ fun HomeView(
         }
     }
 
-    val bottomPromoBanner: (@Composable (Modifier) -> Unit)? = bottomPromoBannerState?.let { state ->
-        @Composable { modifier ->
-            PromoOfferBanner(
-                state = state,
-                onClick = { viewModel.openPromoOffer(state, context) },
-                onDismiss = { viewModel.dismissPromoOffer(state.notificationId) },
-                modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
-            )
+    val bottomPromoBanner: (@Composable (Modifier) -> Unit)? =
+        bottomPromo?.let {
+            @Composable { modifier ->
+                PromoOfferBanner(
+                    state = it.state,
+                    onClick = it.onClick,
+                    onDismiss = it.onDismiss,
+                    modifier = modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+                )
+            }
         }
-    }
+
     val upsellCarouselContent: (@Composable (Modifier, Dp) -> Unit)? = upsellCarouselState?.let { state ->
         @Composable { modifier, paddingValues ->
             HomeUpsellCarousel(
@@ -246,7 +337,7 @@ fun HomeView(
                         .align(parallaxAlignment),
                     coroutineScope,
                     mapState,
-                    viewModel.elapsedRealtimeClock,
+                    elapsedRealtimeClock,
                 )
             }
         }
@@ -259,7 +350,7 @@ fun HomeView(
         val netShieldActions = remember {
             NetShieldActions(
                 onChangeServerPromoUpgrade = { CarouselUpgradeDialogActivity.launch<UpgradePlusCountriesHighlightsFragment>(context) },
-                onNetShieldValueChanged = { viewModel.setNetShieldProtocol(it) },
+                onNetShieldValueChanged = onNetshieldValueChanged,
                 onUpgradeNetShield = { CarouselUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
                 onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
             )
@@ -279,21 +370,11 @@ fun HomeView(
                 }
         )
 
-        val vpnUiDelegate = LocalVpnUiDelegate.current
-        val connectionCardConnectAction = remember<() -> Unit>(vpnUiDelegate) {
-            { coroutineScope.launch { viewModel.connect(vpnUiDelegate, ConnectTrigger.ConnectionCard) } }
-        }
-        val connectionCardDisconnectAction = remember(viewModel) {
-            { viewModel.disconnect(DisconnectTrigger.ConnectionCard) }
-        }
-        val recentClickedAction = remember<(RecentItemViewState) -> Unit>(vpnUiDelegate) {
-            { item -> coroutineScope.launch { viewModel.onRecentClicked(item, vpnUiDelegate) } }
-        }
         val listBgColor = ProtonTheme.colors.backgroundNorm
         val listBgGradientColors = listOf(Color.Transparent, listBgColor)
         val recentsShowcaseRevealHeight = with (LocalDensity.current) { 56.dp.toPx() }
-        eventCollapseRecents.collectAsEffect { showcaseRecents ->
-            onEventCollapseRecentsConsumed()
+        recentsComponent.eventCollapseRecents.collectAsEffect { showcaseRecents ->
+            recentsComponent.onEventCollapseRecentsConsumed()
             recentsExpandState.collapse()
             if (showcaseRecents) {
                 recentsExpandState.peekBelowTheFold(recentsShowcaseRevealHeight)
@@ -307,7 +388,7 @@ fun HomeView(
                 // size class here to take that into account.
                 WindowSizeClass.calculateFromSize(viewportSize).widthSizeClass
             }
-            val recentsViewStateValue = recentsViewState.value
+            val recentsViewStateValue = recentsComponent.recentsViewState.value
             if (recentsViewStateValue != null) {
                 val maxHeightPx = LocalDensity.current.run { maxHeight.toPx() }
                 recentsExpandState.setMaxHeight(maxHeightPx.roundToInt())
@@ -317,18 +398,19 @@ fun HomeView(
                     if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientHeightBasic else ListBgGradientHeightExpanded
                 val listBgGradientOffset =
                     if (widthSizeClass == WindowWidthSizeClass.Compact) ListBgGradientOffsetBasic else ListBgGradientHeightExpanded / 2
+
                 RecentsList(
                     viewState = recentsViewStateValue,
                     expandState = recentsExpandState,
                     changeServerButton = changeServerButton,
                     promoBanner = bottomPromoBanner,
-                    promoBannerPeekOffset = bottomPromoBannerState?.peekOffset ?: 0.dp,
+                    promoBannerPeekOffset = bottomPromo?.state.peekOffset ?: 0.dp,
                     upsellContent = upsellCarouselContent,
-                    onConnectClicked = connectionCardConnectAction,
-                    onDisconnectClicked = connectionCardDisconnectAction,
-                    onOpenConnectionPanelClicked = onConnectionCardClick,
+                    onConnectClicked = connectionCard.onConnect,
+                    onDisconnectClicked = connectionCard.onDisconnect,
+                    onOpenConnectionPanelClicked = connectionCard.onConnectionCardClick,
                     onOpenDefaultConnection = onDefaultConnectionOpen,
-                    onRecentClicked = recentClickedAction,
+                    onRecentClicked = recentsComponent.onRecentClickedAction,
                     onRecentOpen = { recentBottomSheetState.onRecentSettingOpen(it) },
                     horizontalPadding = horizontalPadding,
                     topPadding = listBgGradientOffset,
@@ -352,8 +434,8 @@ fun HomeView(
 
         RecentBottomSheetDialog(
             state = recentBottomSheetState,
-            onRecentPinToggle = viewModel::togglePinned,
-            onRecentRemove = viewModel::removeRecent
+            onRecentPinToggle = recentsComponent.onRecentPinToggle,
+            onRecentRemove = recentsComponent.onRecentRemove
         )
 
         val vpnStatusTopMinHeight = 48.dp
@@ -374,19 +456,49 @@ fun HomeView(
                 .constrainAs(vpnStatusTop) {}
         )
 
-        if (prominentPromoBannerState != null) {
+        prominentPromo?.let {
             PromoOfferProminentBanner(
-                state = prominentPromoBannerState,
-                onDismiss = { viewModel.dismissPromoOffer(prominentPromoBannerState.notificationId) },
-                onAction = { viewModel.openPromoOffer(prominentPromoBannerState, context) },
+                state = it.state,
+                onDismiss = it.onDismiss,
+                onAction = it.onClick,
                 contentWindowInsets = WindowInsets.statusBars,
                 modifier = Modifier.fillMaxWidth()
             )
         }
     }
 
-    HomeDialog(dialogState, onDismiss = viewModel::dismissDialog)
+    HomeDialog(dialogState, onDismiss = onDismissDialog)
 }
+
+data class BottomPromo(
+    val state: PromoOfferBannerState,
+    val onDismiss: () -> Unit,
+    val onClick: (suspend () -> Unit)
+)
+
+data class ProminentPromo(
+    val state: ProminentBannerState,
+    val onDismiss: () -> Unit,
+    val onClick: (suspend () -> Unit)
+)
+
+data class ConnectionCard(
+    val changeServerState: ChangeServerViewState?,
+    val onConnect: () -> Unit,
+    val onDisconnect: () -> Unit,
+    val onChangeServerClick: () -> Unit,
+    val onChangeServerUpgradeButtonShown: () -> Unit,
+    val onConnectionCardClick: () -> Unit
+)
+
+data class RecentsComponent(
+    val recentsViewState: State<RecentsListViewState?>,
+    val onRecentPinToggle: (RecentItemViewState) -> Unit,
+    val onRecentRemove: (RecentItemViewState) -> Unit,
+    val eventCollapseRecents: SharedFlow<ShowcaseRecents>,
+    val onEventCollapseRecentsConsumed: () -> Unit,
+    val onRecentClickedAction: (RecentItemViewState) -> Unit,
+)
 
 private suspend fun handleSnackbarError(
     context: Context,
