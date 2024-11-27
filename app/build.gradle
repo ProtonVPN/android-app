@@ -932,7 +932,7 @@ dependencies {
     implementation "androidx.leanback:leanback-preference:1.1.0-rc01"
 
     // Wireguard
-    implementation 'me.proton.vpn:wireguard-android:1.0.20230512.23'
+    implementation 'me.proton.vpn:wireguard-android:1.0.20230512.24'
 
     // Hilt
     ksp "com.google.dagger:hilt-compiler:$hilt_version"
