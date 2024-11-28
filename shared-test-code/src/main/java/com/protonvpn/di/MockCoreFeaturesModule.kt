@@ -12,14 +12,16 @@ import me.proton.core.accountrecovery.domain.IsAccountRecoveryResetEnabled
 import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryEnabled
 import me.proton.core.accountrecovery.test.fake.FakeIsAccountRecoveryResetEnabled
 import me.proton.core.auth.dagger.CoreAuthFeaturesModule
-import me.proton.core.auth.domain.IsCommonPasswordCheckEnabled
+import me.proton.core.auth.domain.feature.IsCommonPasswordCheckEnabled
 import me.proton.core.auth.domain.feature.IsFido2Enabled
-import me.proton.core.auth.domain.usecase.IsCredentialLessEnabled
-import me.proton.core.auth.domain.usecase.IsSsoCustomTabEnabled
-import me.proton.core.auth.domain.usecase.IsSsoEnabled
+import me.proton.core.auth.domain.feature.IsCredentialLessEnabled
+import me.proton.core.auth.domain.feature.IsLoginTwoStepEnabled
+import me.proton.core.auth.domain.feature.IsSsoCustomTabEnabled
+import me.proton.core.auth.domain.feature.IsSsoEnabled
 import me.proton.core.auth.test.fake.FakeIsCommonPasswordCheckEnabled
 import me.proton.core.auth.test.fake.FakeIsCredentialLessEnabled
 import me.proton.core.auth.test.fake.FakeIsFido2Enabled
+import me.proton.core.auth.test.fake.FakeIsLoginTwoStepEnabled
 import me.proton.core.auth.test.fake.FakeIsSsoCustomTabEnabled
 import me.proton.core.auth.test.fake.FakeIsSsoEnabled
 import me.proton.core.notification.domain.usecase.IsNotificationsEnabled
@@ -36,6 +38,10 @@ import javax.inject.Singleton
     ]
 )
 interface MockCoreFeaturesModule {
+    @Binds
+    @Singleton
+    fun bindIsLoginTwoStepEnabled(impl: FakeIsLoginTwoStepEnabled): IsLoginTwoStepEnabled
+
     @Binds
     @Singleton
     fun bindIsAccountRecoveryEnabled(impl: FakeIsAccountRecoveryEnabled): IsAccountRecoveryEnabled

@@ -59,7 +59,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import me.proton.core.account.domain.entity.AccountType
 import me.proton.core.account.domain.entity.isDisabled
 import me.proton.core.account.domain.entity.isReady
 import me.proton.core.account.domain.entity.isStepNeeded
@@ -68,14 +67,14 @@ import me.proton.core.accountmanager.presentation.observe
 import me.proton.core.accountmanager.presentation.onAccountCreateAccountNeeded
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressFailed
 import me.proton.core.accountmanager.presentation.onAccountCreateAddressNeeded
+import me.proton.core.accountmanager.presentation.onAccountDeviceSecretNeeded
 import me.proton.core.accountmanager.presentation.onSessionSecondFactorNeeded
 import me.proton.core.accountmanager.presentation.onUserAddressKeyCheckFailed
 import me.proton.core.accountmanager.presentation.onUserKeyCheckFailed
-import me.proton.core.auth.domain.usecase.IsCredentialLessEnabled
+import me.proton.core.auth.domain.feature.IsCredentialLessEnabled
 import me.proton.core.auth.presentation.AuthOrchestrator
 import me.proton.core.auth.presentation.entity.AddAccountWorkflow
 import me.proton.core.auth.presentation.onAddAccountResult
-import me.proton.core.domain.entity.Product
 import me.proton.core.plan.domain.usecase.GetDynamicSubscription
 import javax.inject.Inject
 
@@ -86,11 +85,9 @@ class AccountViewModel @Inject constructor(
     private val api: ProtonApiRetroFit,
     private val authOrchestrator: AuthOrchestrator,
     private val accountManager: AccountManager,
-    private val requiredAccountType: AccountType,
     private val vpnApiClient: VpnApiClient,
     private val vpnUserCheck: VpnUserCheck,
     private val guestHole: dagger.Lazy<GuestHole>,
-    private val product: Product,
     private val humanVerificationGuestHoleCheck: HumanVerificationGuestHoleCheck,
     private val logoutUseCase: Logout,
     private val vpnStatus: VpnStatusProviderUI,
@@ -208,15 +205,15 @@ class AccountViewModel @Inject constructor(
                 .onSessionSecondFactorNeeded { startSecondFactorWorkflow(it) }
                 .onAccountCreateAddressNeeded { startChooseAddressWorkflow(it) }
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
-                .onAccountCreateAccountNeeded { startSignupWorkflow(requiredAccountType, cancellable = false) }
+                .onAccountCreateAccountNeeded { startSignupWorkflow(cancellable = false) }
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
 
             authFlowTriggerHelper.startAuthEvent
                 .onEach { type ->
                     when (type) {
-                        AuthFlowStartHelper.Type.SignIn -> startLoginWorkflow(requiredAccountType)
-                        AuthFlowStartHelper.Type.CreateAccount -> startSignupWorkflow(requiredAccountType)
+                        AuthFlowStartHelper.Type.SignIn -> startLoginWorkflow()
+                        AuthFlowStartHelper.Type.CreateAccount -> startSignupWorkflow()
                     }
                 }
                 .launchIn(activity.lifecycleScope)
@@ -242,25 +239,15 @@ class AccountViewModel @Inject constructor(
 
     suspend fun addAccount() {
         viewModelScope.launch { api.getAvailableDomains() }
-        authOrchestrator.startAddAccountWorkflow(
-            requiredAccountType = requiredAccountType,
-            creatableAccountType = requiredAccountType,
-            product = product,
-            loginUsername = Storage.getString(LAST_USER, null)
-        )
+        authOrchestrator.startAddAccountWorkflow(Storage.getString(LAST_USER, null))
     }
 
     fun signUp() {
-        authOrchestrator.startSignupWorkflow(
-            creatableAccountType = requiredAccountType
-        )
+        authOrchestrator.startSignupWorkflow()
     }
 
     fun signIn() {
-        authOrchestrator.startLoginWorkflow(
-            requiredAccountType = requiredAccountType,
-            username = Storage.getString(LAST_USER, null)
-        )
+        authOrchestrator.startLoginWorkflow(Storage.getString(LAST_USER, null))
     }
 
     fun signOut(notAskAgain: Boolean? = null) = mainScope.launch {

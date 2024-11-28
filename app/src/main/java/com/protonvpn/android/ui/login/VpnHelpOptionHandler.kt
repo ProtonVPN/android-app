@@ -32,4 +32,8 @@ class VpnHelpOptionHandler @Inject constructor() : DefaultHelpOptionHandler() {
     override fun onCustomerSupport(context: AppCompatActivity) {
         context.startActivity(Intent(context, DynamicReportActivity::class.java))
     }
+
+    override fun onTroubleshoot(context: AppCompatActivity) {
+        context.startActivity(Intent(context, TroubleshootActivity::class.java))
+    }
 }
