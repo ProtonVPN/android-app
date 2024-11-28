@@ -61,6 +61,12 @@ class UpdateMigration @Inject constructor(
                 uiStateStorage.update { it.copy(shouldPromoteProfiles = true) }
             }
         }
+        if (oldVersionCode in 5_07_93_00.. 5_08_00_00) {
+            // These users have already seen the info dialog as part of shouldPromoteProfiles.
+            mainScope.launch {
+                uiStateStorage.update { it.copy(hasShownProfilesInfo = true) }
+            }
+        }
     }
 
     @SuppressWarnings("MagicNumber")

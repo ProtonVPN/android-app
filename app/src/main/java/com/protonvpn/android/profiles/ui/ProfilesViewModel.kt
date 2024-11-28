@@ -107,7 +107,7 @@ class ProfilesViewModel @Inject constructor(
         data class ServerUnavailable(val profileName: String) : Dialog()
     }
     val showDialog = MutableStateFlow<Dialog?>(null)
-    val autoShowInfoSheet = uiStateStorage.state.map { it.shouldPromoteProfiles }.distinctUntilChanged()
+    val autoShowInfoSheet = uiStateStorage.state.map { !it.hasShownProfilesInfo }.distinctUntilChanged()
 
     val selectedProfile = combine(
         currentUser.vpnUserFlow,
@@ -140,6 +140,12 @@ class ProfilesViewModel @Inject constructor(
             val items = profiles.map { it.toItem(vpnUser, connectedProfileId, settingsProtocol) }
             ProfilesState.ProfilesList(items)
         }
+
+    init {
+        mainScope.launch {
+            uiStateStorage.update { it.copy(shouldPromoteProfiles = false) }
+        }
+    }
 
     fun onConnect(
         item: ProfileViewItem,
@@ -184,7 +190,7 @@ class ProfilesViewModel @Inject constructor(
 
     fun onAutoShowInfoSheet() {
         mainScope.launch {
-            uiStateStorage.update { it.copy(shouldPromoteProfiles = false) }
+            uiStateStorage.update { it.copy(hasShownProfilesInfo = true) }
         }
     }
 
