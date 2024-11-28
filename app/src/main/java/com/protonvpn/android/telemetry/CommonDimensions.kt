@@ -25,7 +25,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import me.proton.core.auth.domain.usecase.IsCredentialLessEnabled
+import me.proton.core.auth.domain.feature.IsCredentialLessEnabled
 import me.proton.core.user.domain.extension.isCredentialLess
 import javax.inject.Inject
 

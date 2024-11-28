@@ -20,11 +20,8 @@
 package com.protonvpn.android.di
 
 import android.content.Context
-import android.content.Intent
-import com.protonvpn.android.R
 import com.protonvpn.android.auth.VpnUserCheck
 import com.protonvpn.android.auth.usecase.VpnLogin
-import com.protonvpn.android.ui.login.TroubleshootActivity
 import com.protonvpn.android.ui.login.VpnHelpOptionHandler
 import dagger.Module
 import dagger.Provides
@@ -34,7 +31,6 @@ import dagger.hilt.components.SingletonComponent
 import me.proton.core.accountmanager.domain.AccountManager
 import me.proton.core.auth.domain.usecase.PostLoginAccountSetup
 import me.proton.core.auth.presentation.HelpOptionHandler
-import me.proton.core.auth.presentation.ui.LoginActivity
 import me.proton.core.user.domain.UserManager
 import javax.inject.Singleton
 
@@ -48,20 +44,14 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideLoginBlockingHelp() : LoginActivity.BlockingHelp? =
-        LoginActivity.BlockingHelp(R.string.troubleshootButton) {
-            it.startActivity(Intent(it, TroubleshootActivity::class.java))
-        }
-
-    @Provides
-    @Singleton
     fun provideVpnUserCheck(
         @ApplicationContext context: Context,
         accountManager: AccountManager,
         userManager: UserManager,
         vpnLogin: VpnLogin
     ): VpnUserCheck = VpnUserCheck(
-        context, accountManager, userManager, vpnLogin)
+        context, accountManager, userManager, vpnLogin
+    )
 
     @Provides
     @Singleton

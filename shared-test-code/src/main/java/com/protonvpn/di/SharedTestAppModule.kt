@@ -73,6 +73,7 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUserCountryProvider
 import com.protonvpn.test.shared.createInMemoryServersStore
 import dagger.Binds
+import dagger.BindsOptionalOf
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -104,6 +105,7 @@ import me.proton.core.util.android.datetime.DateTimeFormat
 import me.proton.core.util.android.datetime.DurationFormat
 import me.proton.core.util.android.datetime.Monotonic
 import me.proton.core.util.android.datetime.UtcClock
+import me.proton.core.util.android.device.GoogleServicesUtils
 import me.proton.core.util.kotlin.CoroutineScopeProvider
 import me.proton.core.util.kotlin.DefaultCoroutineScopeProvider
 import me.proton.core.util.kotlin.DispatcherProvider
@@ -303,6 +305,9 @@ class SharedTestAppModule {
         @Binds
         @Singleton
         fun provideDispatcherProvider(impl: VpnDispatcherProvider): DispatcherProvider
+
+        @BindsOptionalOf
+        fun bindGoogleServicesUtils(): GoogleServicesUtils
 
         @Binds
         fun bindTelemetryUploadScheduler(scheduler: NoopTelemetryUploadScheduler): TelemetryUploadScheduler

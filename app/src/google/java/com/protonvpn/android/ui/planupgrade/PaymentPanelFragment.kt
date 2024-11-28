@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.ui.planupgrade
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,7 @@ import kotlinx.coroutines.flow.update
 import me.proton.core.network.domain.ApiException
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.presentation.util.getUserMessage
+import me.proton.core.payment.domain.repository.BillingClientError
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.core.presentation.utils.errorSnack
 import me.proton.core.payment.presentation.R as PaymentR
@@ -80,7 +82,7 @@ class PaymentPanelFragment : Fragment() {
                 }
                 is CommonUpgradeDialogViewModel.State.LoadError -> {
                     val message = state.messageRes?.let { resources.getString(it) }
-                    onError(message ?: state.error?.getUserMessage(resources), state.error)
+                    onError(message, state.error)
                 }
                 is CommonUpgradeDialogViewModel.State.PlansFallback ->
                     currentViewState.value = ViewState.FallbackFlowReady
@@ -148,12 +150,22 @@ class PaymentPanelFragment : Fragment() {
             if (it is ViewState.Initializing || it is ViewState.LoadingPlans) ViewState.Error else it
         }
         val fragmentView = view
-        fragmentView?.errorSnack(message = message ?: getString(PaymentR.string.payments_general_error)) {
+        fragmentView?.errorSnack(
+            message = message
+                ?: getUserMessage(fragmentView.context, throwable)
+                ?: getString(PaymentR.string.payments_general_error)
+        ) {
             anchorView = fragmentView
         }
         if (allowReportToSentry && shouldReportToSentry(throwable))
             logToSentry(message, throwable) // Remove this once we know payments are in a good shape.
     }
+
+    private fun getUserMessage(context: Context, throwable: Throwable?): String? =
+        when (throwable) {
+            is BillingClientError -> null
+            else -> throwable?.getUserMessage(context.resources)
+        }
 
     private fun shouldReportToSentry(throwable: Throwable?): Boolean =
         throwable == null || (throwable as? ApiException)?.error !is ApiResult.Error.Connection
