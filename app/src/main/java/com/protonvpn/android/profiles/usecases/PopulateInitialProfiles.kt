@@ -144,6 +144,7 @@ class PopulateInitialProfiles @Inject constructor(
                     emptySet(),
                     settingsOverrides = profileSettingsOverrides(
                         ProtocolSelection.STEALTH.toData(),
+                        lanConnections = false,
                     )
                 ).toData(),
             ),
