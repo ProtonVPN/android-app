@@ -39,6 +39,7 @@ data class UiStoredState(
     val hasUsedRecents: Boolean = false,
     val hasPopulatedDefaultProfiles: Boolean = false,
     val shouldPromoteProfiles: Boolean = false,
+    val hasShownProfilesInfo: Boolean = false,
     val searchHistory: List<String> = emptyList(),
 ) {
     companion object {
