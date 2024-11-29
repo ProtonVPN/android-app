@@ -810,6 +810,7 @@ fun AutoOpenModal(
                     enabled = isOnState,
                     placeholderText = stringResource(R.string.create_profile_auto_open_url_input_placeholder),
                     maxLines = 1,
+                    singleLine = true,
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .padding(horizontal = DIALOG_CONTENT_PADDING)
