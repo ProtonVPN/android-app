@@ -205,7 +205,7 @@ class VpnConnectionManager @Inject constructor(
             } else {
                 if (errorType != null && ongoingFallback?.isActive != true) {
                     launchFallback {
-                        handleUnrecoverableError(errorType)
+                        handleUnrecoverableError(newStatus.connectionParams!!, errorType)
                     }
                 }
 
@@ -226,7 +226,21 @@ class VpnConnectionManager @Inject constructor(
         vpnErrorHandler.switchConnectionFlow
             .onEach { fallback ->
                 if (vpnStateMonitor.isEstablishingOrConnected) {
-                    fallbackConnect(fallback)
+                    when (fallback) {
+                        is VpnFallbackResult.Error -> {
+                            if (fallback.type == ErrorType.NO_PROFILE_FALLBACK_AVAILABLE) {
+                                disconnectWithError(
+                                    trigger = DisconnectTrigger.Fallback,
+                                    originalParams = fallback.originalParams,
+                                    error = VpnState.Error(
+                                        type = fallback.type,
+                                        isFinal = true
+                                    )
+                                )
+                            }
+                        }
+                        is VpnFallbackResult.Switch -> fallbackConnect(fallback)
+                    }
                 }
             }.launchIn(scope)
         lastKnownExitIp
@@ -261,7 +275,7 @@ class VpnConnectionManager @Inject constructor(
             ErrorType.AUTH_FAILED_INTERNAL, ErrorType.POLICY_VIOLATION_LOW_PLAN ->
                 vpnErrorHandler.onAuthError(params)
             else ->
-                VpnFallbackResult.Error(errorType)
+                VpnFallbackResult.Error(params, errorType)
         }
         when (result) {
             is VpnFallbackResult.Switch ->
@@ -280,9 +294,9 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    private suspend fun handleUnrecoverableError(errorType: ErrorType) {
+    private suspend fun handleUnrecoverableError(originalParams: ConnectionParams, errorType: ErrorType) {
         if (errorType == ErrorType.MAX_SESSIONS) {
-            vpnStateMonitor.vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS))
+            vpnStateMonitor.vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(originalParams, ErrorType.MAX_SESSIONS))
             ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
             clearOngoingConnection(clearFallback = false)
             disconnectBlocking(DisconnectTrigger.Error("max sessions reached"))
@@ -568,12 +582,12 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    private suspend fun disconnectBlocking(trigger: DisconnectTrigger) {
+    private suspend fun disconnectBlocking(trigger: DisconnectTrigger, endState: InternalState = InternalState.Disabled) {
         ProtonLogger.log(ConnDisconnectTrigger, "reason: ${trigger.description}")
         vpnConnectionTelemetry.onDisconnectionTrigger(trigger, activeConnectionParams)
         ConnectionParams.deleteFromStore("disconnect")
         activeBackend?.disconnect()
-        setInternalState(InternalState.Disabled)
+        setInternalState(endState)
     }
 
     private suspend fun disconnectForNewConnection(
@@ -588,6 +602,17 @@ class VpnConnectionManager @Inject constructor(
         ConnectionParams.deleteFromStore("disconnect for new connection")
         val previousBackend = activeBackend
         previousBackend?.disconnect()
+    }
+
+    suspend fun disconnectWithError(trigger: DisconnectTrigger, originalParams: ConnectionParams, error: VpnState.Error) {
+        disconnectBlocking(
+            trigger = trigger,
+            endState = InternalState.Error(
+                params = originalParams,
+                error = error,
+                activeBackend = activeBackend
+            )
+        )
     }
 
     fun disconnect(trigger: DisconnectTrigger) {

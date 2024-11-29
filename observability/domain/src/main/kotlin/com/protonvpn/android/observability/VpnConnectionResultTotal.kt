@@ -53,6 +53,7 @@ data class VpnConnectionResultTotal(
         ErrorPolicyBadBehavior,
         ErrorPolicyTorrent,
         ErrorKeyUsedMultipleTimes,
+        ErrorProfileFallbackUnavailable,
         ErrorUnknown,
     }
 }

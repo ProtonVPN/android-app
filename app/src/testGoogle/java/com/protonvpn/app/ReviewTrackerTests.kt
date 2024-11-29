@@ -177,7 +177,7 @@ class ReviewTrackerTests {
         addSuccessfulConnections()
         Assert.assertEquals(appConfig.getRatingConfig().successfulConnectionCount, reviewTracker.connectionCount())
 
-        vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(mockk()))
+        vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(mockk(), mockk()))
         Assert.assertEquals(0, reviewTracker.connectionCount())
     }
 
