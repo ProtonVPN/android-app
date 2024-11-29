@@ -1206,8 +1206,8 @@
     <string name="info_dialog_how_to_stream_step_2">Restartujte svou streamovací službu</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Připojte se ke kterémukoli serveru Plus a spusťte streamování</string>
-    <string name="info_dialog_profiles_title">Profiles</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_title">Profily</string>
+    <string name="info_dialog_profiles_description">Profily jsou vlastní připojení VPN, které si můžete přizpůsobit svým potřebám a uložit si je pro rychlý přístup.\n\nNastavte si preferované umístění a optimalizujte svá nastavení pro zabezpečení, výkon, hraní her nebo jakýkoli jiný scénář.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Na tomto serveru je zapnuté peer-to-peer sdílení souborů.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1453,6 +1453,8 @@
     <string name="initial_profile_name_streaming_us">Streamování US</string>
     <string name="initial_profile_name_work_school">Práce/škola</string>
     <string name="initial_profile_name_anti_censorship">Proti cenzuře</string>
+    <string name="initial_profile_name_gaming">Hry</string>
+    <string name="initial_profile_name_max_security">Maximální bezpečnost</string>
     <string name="create_profile_pick_country_title">Země</string>
     <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Standardní</string>
@@ -1493,5 +1495,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Barva %1$d</string>
-    <string name="generic_info_label">Info</string>
+    <string name="generic_info_label">Informace</string>
 </resources>

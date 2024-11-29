@@ -1156,8 +1156,8 @@
     <string name="info_dialog_how_to_stream_step_2">Yayın akışı hizmetinizi yeniden başlatın</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Herhangi bir Plus sunucusuna bağlanın ve yayın akışını izlemeye başlayın</string>
-    <string name="info_dialog_profiles_title">Profiles</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_title">Profiller</string>
+    <string name="info_dialog_profiles_description">Profiller, gereksinimlerinize göre uyarlayabileceğiniz ve hızlı erişmek üzere kaydedebileceğiniz özel VPN bağlantılarıdır.\n\nBağlanmak istediğiniz konumu seçin ve ayarlarınızı güvenlik, başarım, oyun veya başka herhangi bir senaryoya göre yapılandırın.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Bu sunucuda eşler arası dosya paylaşımı kullanılıyor.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1381,6 +1381,8 @@
     <string name="initial_profile_name_streaming_us">Birleşik Devletler\'de yayın akışı izlemek</string>
     <string name="initial_profile_name_work_school">İş/Okul</string>
     <string name="initial_profile_name_anti_censorship">Sansürü aşma</string>
+    <string name="initial_profile_name_gaming">Oyun</string>
+    <string name="initial_profile_name_max_security">En yüksek güvenlik</string>
     <string name="create_profile_pick_country_title">Ülke</string>
     <string name="create_profile_pick_type_title">Tür</string>
     <string name="create_profile_type_standard">Standart</string>
@@ -1421,5 +1423,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">%1$d. renk</string>
-    <string name="generic_info_label">Info</string>
+    <string name="generic_info_label">Bilgiler</string>
 </resources>

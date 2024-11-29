@@ -1455,6 +1455,8 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>
     <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
+    <string name="initial_profile_name_gaming">Gaming</string>
+    <string name="initial_profile_name_max_security">Max security</string>
     <string name="create_profile_pick_country_title">Država</string>
     <string name="create_profile_pick_type_title">Type</string>
     <string name="create_profile_type_standard">Standard</string>

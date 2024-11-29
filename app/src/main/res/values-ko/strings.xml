@@ -1132,7 +1132,7 @@
     <string name="info_dialog_how_to_stream_step_2">스트리밍 서비스를 재시작 하세요.</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Plus 서버에 접속한 뒤 스트리밍을 시작하세요.</string>
-    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_title">프로필</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">P2P 파일 공유가 이 서버에서 활성화 되었습니다.</string>
@@ -1347,6 +1347,8 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="initial_profile_name_streaming_us">미국 스트리밍</string>
     <string name="initial_profile_name_work_school">직장/학교</string>
     <string name="initial_profile_name_anti_censorship">반검열</string>
+    <string name="initial_profile_name_gaming">게이밍</string>
+    <string name="initial_profile_name_max_security">최대 보안</string>
     <string name="create_profile_pick_country_title">국가</string>
     <string name="create_profile_pick_type_title">종류</string>
     <string name="create_profile_type_standard">표준</string>
@@ -1387,5 +1389,5 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">색상 %1$d</string>
-    <string name="generic_info_label">Info</string>
+    <string name="generic_info_label">정보</string>
 </resources>

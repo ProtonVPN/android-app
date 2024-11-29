@@ -1345,6 +1345,8 @@
     <string name="initial_profile_name_streaming_us">串流 - 美國</string>
     <string name="initial_profile_name_work_school">工作/學校</string>
     <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
+    <string name="initial_profile_name_gaming">Gaming</string>
+    <string name="initial_profile_name_max_security">Max security</string>
     <string name="create_profile_pick_country_title">國家</string>
     <string name="create_profile_pick_type_title">類型</string>
     <string name="create_profile_type_standard">標準</string>

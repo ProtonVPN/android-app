@@ -1156,8 +1156,8 @@
     <string name="info_dialog_how_to_stream_step_2">Start strømmetjenesten på nytt</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Koble til hvilken som helst Plus-tjener og start å strømme</string>
-    <string name="info_dialog_profiles_title">Profiles</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_title">Profiler</string>
+    <string name="info_dialog_profiles_description">Profiler er tilpassede VPN-tilkoblinger som du kan skreddersy til dine behov og lagre for rask tilgang.\n\nAngi din foretrukne plassering og optimaliser innstillingene dine for sikkerhet, ytelse, spill eller andre scenarier.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Node-til-node-fildeling er aktivert på denne tjeneren.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1381,6 +1381,8 @@
     <string name="initial_profile_name_streaming_us">Strømming US</string>
     <string name="initial_profile_name_work_school">Arbeid/Skole</string>
     <string name="initial_profile_name_anti_censorship">Antisensur</string>
+    <string name="initial_profile_name_gaming">Spilling</string>
+    <string name="initial_profile_name_max_security">Maks. sikkerhet</string>
     <string name="create_profile_pick_country_title">Land</string>
     <string name="create_profile_pick_type_title">Type</string>
     <string name="create_profile_type_standard">Standard</string>

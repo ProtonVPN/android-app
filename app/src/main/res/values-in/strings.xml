@@ -27,7 +27,7 @@
     <!-- Strings related to login -->
     <string name="login">Masuk</string>
     <string name="menuActionSignOut">Keluar</string>
-    <string name="connectionAllocationHelpTitle">Terima kasih atas peningkatan akun</string>
+    <string name="connectionAllocationHelpTitle">Terima kasih telah meningkatkan akun</string>
     <string name="connectionAllocationHelpDescription1">Untuk mulai menggunakan Proton VPN, silakan tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
     <string name="connectionAllocationHelpDescription2">Langkah ini hanya akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">Akun ini sedang tidak memiliki koneksi VPN yang aktif. Untuk mulai menggunakan Proton VPN, silakan hubungi administrator Anda. </string>
@@ -1131,8 +1131,8 @@
     <string name="info_dialog_how_to_stream_step_2">Mulai ulang layanan streaming Anda</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Hubungkan diri Anda ke server Plus mana pun dan mulai streaming</string>
-    <string name="info_dialog_profiles_title">Profiles</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_title">Profil</string>
+    <string name="info_dialog_profiles_description">Profil merupakan koneksi VPN khusus yang dapat Anda atur sesuai dengan kebutuhan Anda dan simpan untuk akses yang cepat.\n\nTentukan lokasi yang Anda kehendaki dan optimalkan pengaturan Anda untuk keamanan, performa, gaming, atau kebutuhan lainnya.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Pembagian berkas secara peer-to-peer diaktifkan pada server ini.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1345,6 +1345,8 @@
     <string name="initial_profile_name_streaming_us">US Streaming</string>
     <string name="initial_profile_name_work_school">Kantor/Sekolah</string>
     <string name="initial_profile_name_anti_censorship">Anti-sensor</string>
+    <string name="initial_profile_name_gaming">Permainan</string>
+    <string name="initial_profile_name_max_security">Keamanan maksimum</string>
     <string name="create_profile_pick_country_title">Negara</string>
     <string name="create_profile_pick_type_title">Jenis</string>
     <string name="create_profile_type_standard">Standar</string>

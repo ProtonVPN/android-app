@@ -1156,7 +1156,7 @@
     <string name="info_dialog_how_to_stream_step_2">Käynnistä suoratoistopalvelusi uudelleen</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Yhdistä mihin tahansa Plus-palvelimeen ja aloita suoratoistaminen</string>
-    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_title">Profiilit</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Tiedostojen jako vertaisverkon kautta on käytössä tällä palvelimella.</string>
@@ -1381,6 +1381,8 @@
     <string name="initial_profile_name_streaming_us">Suoratoisto USA</string>
     <string name="initial_profile_name_work_school">Työ/Koulu</string>
     <string name="initial_profile_name_anti_censorship">Sensuurin vastainen</string>
+    <string name="initial_profile_name_gaming">Pelaaminen</string>
+    <string name="initial_profile_name_max_security">Maksimiturva</string>
     <string name="create_profile_pick_country_title">Maa</string>
     <string name="create_profile_pick_type_title">Tyyppi</string>
     <string name="create_profile_type_standard">Tavallinen</string>
@@ -1421,5 +1423,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Väri %1$d</string>
-    <string name="generic_info_label">Info</string>
+    <string name="generic_info_label">Tiedot</string>
 </resources>

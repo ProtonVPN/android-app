@@ -1157,7 +1157,7 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connectez-vous à n\'importe quel serveur Plus et commencez à regarder des contenus en streaming.</string>
     <string name="info_dialog_profiles_title">Profils</string>
-    <string name="info_dialog_profiles_description">Les profils sont des connexions VPN personnalisées que vous pouvez adapter à vos besoins et enregistrer pour un accès rapide.\n\nDéfinissez votre emplacement préféré et optimisez vos paramètres de sécurité, de performances, de jeux ou tout autre scénario.</string>
+    <string name="info_dialog_profiles_description">Les profils sont des connexions VPN personnalisées que vous pouvez adapter à vos besoins et enregistrer pour un accès rapide.\n\nDéfinissez votre emplacement préféré et optimisez vos paramètres pour la sécurité, la performance, les jeux vidéos ou tout autre scénario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Le partage de fichiers en peer-to-peer (P2P) est activé sur ce serveur.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1381,6 +1381,8 @@
     <string name="initial_profile_name_streaming_us">Streaming États-Unis</string>
     <string name="initial_profile_name_work_school">Travail ou école</string>
     <string name="initial_profile_name_anti_censorship">Anti-censure</string>
+    <string name="initial_profile_name_gaming">Jeux vidéos</string>
+    <string name="initial_profile_name_max_security">Sécurité maximale</string>
     <string name="create_profile_pick_country_title">Pays</string>
     <string name="create_profile_pick_type_title">Type</string>
     <string name="create_profile_type_standard">Standard</string>
