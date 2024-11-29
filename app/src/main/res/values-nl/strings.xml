@@ -1156,8 +1156,8 @@
     <string name="info_dialog_how_to_stream_step_2">Herstart uw streamingdienst</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Maak verbinding met een Plus-server en begin met streamen</string>
-    <string name="info_dialog_profiles_title">Profiles</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_title">Profielen</string>
+    <string name="info_dialog_profiles_description">Profielen zijn aangepaste VPN-verbindingen die u kunt aanpassen aan uw behoeften en opslaan voor snelle toegang.\n\nStel uw gewenste locatie in en optimaliseer uw instellingen voor veiligheid, prestaties, gaming, of een ander scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Peer-to-peer bestanden delen is ingeschakeld op deze server.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1381,6 +1381,8 @@
     <string name="initial_profile_name_streaming_us">Streaming VS</string>
     <string name="initial_profile_name_work_school">Werk/School</string>
     <string name="initial_profile_name_anti_censorship">Anti-censuur</string>
+    <string name="initial_profile_name_gaming">Gamen</string>
+    <string name="initial_profile_name_max_security">Maximale beveiliging</string>
     <string name="create_profile_pick_country_title">Land</string>
     <string name="create_profile_pick_type_title">Type</string>
     <string name="create_profile_type_standard">Standaard</string>
@@ -1408,7 +1410,7 @@
     <string name="profiles_zero_state_description">Profielen worden opgeslagen connecties met uw keuze van locatie, server en protocol.</string>
     <string name="profiles_button_create_profile">Profiel aanmaken</string>
     <string name="profile_deleted_snackbar_message">Profiel verwijderd</string>
-    <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
+    <string name="profile_connected_edit_setting">Deze instelling is verbonden met uw actieve profiel.\n\nBewerk uw profiel om wijzigingen aan te brengen of verbreek de verbinding om uw algemene VPN-instellingen te bewerken.</string>
     <string name="profile_connected_dialog_title">Beheer %1$s in Profielen</string>
     <string name="undo">Ongedaan maken</string>
     <string name="profile_unavailable_dialog_title">Profiel niet beschikbaar</string>
@@ -1421,5 +1423,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Kleur %1$d</string>
-    <string name="generic_info_label">Info</string>
+    <string name="generic_info_label">Informatie</string>
 </resources>

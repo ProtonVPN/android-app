@@ -1381,6 +1381,8 @@
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>
     <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
+    <string name="initial_profile_name_gaming">Jogos</string>
+    <string name="initial_profile_name_max_security">Segurança máxima</string>
     <string name="create_profile_pick_country_title">País</string>
     <string name="create_profile_pick_type_title">Tipo</string>
     <string name="create_profile_type_standard">Padrão</string>
@@ -1421,5 +1423,5 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Cor %1$d</string>
-    <string name="generic_info_label">Info</string>
+    <string name="generic_info_label">Informação</string>
 </resources>

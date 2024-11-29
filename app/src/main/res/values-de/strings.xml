@@ -1381,6 +1381,8 @@
     <string name="initial_profile_name_streaming_us">US Streaming</string>
     <string name="initial_profile_name_work_school">Arbeit/Schule</string>
     <string name="initial_profile_name_anti_censorship">Zensurbekämpfung</string>
+    <string name="initial_profile_name_gaming">Gaming</string>
+    <string name="initial_profile_name_max_security">Max security</string>
     <string name="create_profile_pick_country_title">Land</string>
     <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Standard</string>
