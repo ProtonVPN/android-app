@@ -274,7 +274,7 @@ class VpnConnectionManagerTests {
         coEvery { mockVpnErrorHandler.onUnreachableError(any()) } coAnswers {
             delay(fallbackDurationMs)
             assertTrue(false)
-            VpnFallbackResult.Error(ErrorType.UNREACHABLE) // Needed for compilation, should not be reached.
+            VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE) // Needed for compilation, should not be reached.
         }
 
         vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)

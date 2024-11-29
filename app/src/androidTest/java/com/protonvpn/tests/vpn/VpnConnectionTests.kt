@@ -211,7 +211,7 @@ class VpnConnectionTests {
     private val serverWireguard: Server = MockedServers.serverList[1]
     private val fallbackServer: Server = MockedServers.serverList[2]
 
-    private lateinit var switchServerFlow: MutableSharedFlow<VpnFallbackResult.Switch>
+    private lateinit var switchServerFlow: MutableSharedFlow<VpnFallbackResult>
 
     private val agentConsts = LocalAgent.constants()
     private val validCert =
@@ -581,7 +581,8 @@ class VpnConnectionTests {
     @Test
     fun whenAuthErrorDueToMaxSessionsThenDisconnectAndReportError() = scope.runTest {
         mockWireguard.stateOnConnect = VpnState.Error(ErrorType.AUTH_FAILED_INTERNAL, isFinal = false)
-        coEvery { vpnErrorHandler.onAuthError(any()) } returns VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
+        val connectionParams: ConnectionParams = mockk()
+        coEvery { vpnErrorHandler.onAuthError(any()) } returns VpnFallbackResult.Error(connectionParams, ErrorType.MAX_SESSIONS)
 
         val fallbacks = runWhileCollecting(monitor.vpnConnectionNotificationFlow) {
             manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
@@ -592,7 +593,7 @@ class VpnConnectionTests {
         }
 
         Assert.assertEquals(VpnState.Disabled, monitor.state)
-        Assert.assertEquals(listOf(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)), fallbacks)
+        Assert.assertEquals(listOf(VpnFallbackResult.Error(connectionParams, ErrorType.MAX_SESSIONS)), fallbacks)
     }
 
     @Test
@@ -606,7 +607,12 @@ class VpnConnectionTests {
         }
 
         assertEquals(VpnState.Disabled, monitor.state)
-        assertEquals(listOf(VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)), notifications)
+        val expectedError = ErrorType.MAX_SESSIONS
+        val actualError = notifications
+            .filterIsInstance<VpnFallbackResult.Error>()
+            .firstOrNull()?.type
+
+        assertEquals(expectedError, actualError)
     }
 
     @Test
@@ -714,7 +720,7 @@ class VpnConnectionTests {
         val onAuthErrorDeferred = CompletableDeferred<Unit>()
         coEvery { vpnErrorHandler.onAuthError(any()) } coAnswers {
             onAuthErrorDeferred.await()
-            VpnFallbackResult.Error(ErrorType.GENERIC_ERROR)
+            VpnFallbackResult.Error(mockk(), ErrorType.GENERIC_ERROR)
         }
         manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
 

@@ -62,6 +62,7 @@ enum class ErrorType {
     AUTH_FAILED_INTERNAL,
     AUTH_FAILED,
     PEER_AUTH_FAILED,
+    NO_PROFILE_FALLBACK_AVAILABLE,
     UNREACHABLE,
     UNREACHABLE_INTERNAL,
     MAX_SESSIONS,
@@ -85,6 +86,7 @@ enum class ErrorType {
             POLICY_VIOLATION_DELINQUENT -> R.string.errorUserDelinquent
             MULTI_USER_PERMISSION -> R.string.errorTunMultiUserPermission
             TORRENT_NOT_ALLOWED -> R.string.errorTorrentNotAllowed
+            NO_PROFILE_FALLBACK_AVAILABLE -> R.string.error_profile_fallback_unavailable
             else ->
                 if (additionalDetails.isNullOrEmpty())
                     R.string.error_generic

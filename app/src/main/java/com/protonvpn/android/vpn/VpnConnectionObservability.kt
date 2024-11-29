@@ -62,6 +62,7 @@ class VpnConnectionObservability @Inject constructor(
         ErrorType.POLICY_VIOLATION_BAD_BEHAVIOUR -> VpnConnectionResultTotal.ResultType.ErrorPolicyBadBehavior
         ErrorType.TORRENT_NOT_ALLOWED -> VpnConnectionResultTotal.ResultType.ErrorPolicyTorrent
         ErrorType.KEY_USED_MULTIPLE_TIMES -> VpnConnectionResultTotal.ResultType.ErrorKeyUsedMultipleTimes
+        ErrorType.NO_PROFILE_FALLBACK_AVAILABLE -> VpnConnectionResultTotal.ResultType.ErrorProfileFallbackUnavailable
         else -> {
             DebugUtils.fail("Unknown error type, add the missing mapping to VpnConnectionResultTotal.ResultType")
             VpnConnectionResultTotal.ResultType.ErrorUnknown

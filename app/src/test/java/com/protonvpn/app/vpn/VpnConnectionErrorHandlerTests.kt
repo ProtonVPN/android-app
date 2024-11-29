@@ -270,7 +270,7 @@ class VpnConnectionErrorHandlerTests {
             SessionListResponse(1000, listOf(Session("1", "1"), Session("2", "2")))
         )
         assertEquals(
-            VpnFallbackResult.Error(ErrorType.MAX_SESSIONS),
+            VpnFallbackResult.Error(directConnectionParams, ErrorType.MAX_SESSIONS),
             handler.onAuthError(directConnectionParams)
         )
     }
@@ -413,13 +413,13 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testUnreachableNoneResponded() = testScope.runTest {
         preparePings(failAll = true, failSecureCore = true)
-        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), handler.onUnreachableError(directConnectionParams))
+        assertEquals(VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE), handler.onUnreachableError(directConnectionParams))
     }
 
     @Test
     fun testUnreachableOrgServerResponded() = testScope.runTest {
         preparePings(failSecureCore = true) // All servers respond
-        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), handler.onUnreachableError(directConnectionParams))
+        assertEquals(VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE), handler.onUnreachableError(directConnectionParams))
     }
 
     @Test
@@ -475,7 +475,7 @@ class VpnConnectionErrorHandlerTests {
         advanceTimeBy(StuckConnectionHandler.STUCK_DURATION_MS * 3 / 4)
         val fallback = handler.onUnreachableError(directConnectionParams)
 
-        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), fallback)
+        assertEquals(VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE), fallback)
     }
 
     @Test
@@ -488,7 +488,7 @@ class VpnConnectionErrorHandlerTests {
         advanceTimeBy(StuckConnectionHandler.STUCK_DURATION_MS * 3 / 4)
         val fallback = handler.onUnreachableError(directConnectionParams)
 
-        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), fallback)
+        assertEquals(VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE), fallback)
     }
 
     @Test
@@ -604,10 +604,9 @@ class VpnConnectionErrorHandlerTests {
         val connectIntent = ConnectIntent.FastestInCountry(CountryId.fastest, emptySet())
         prepareServerManager(servers)
         preparePings(failServerName = server1.serverName)
-        val result = handler.onUnreachableError(
-            ConnectionParams(connectIntent, server1, server1.connectingDomains.first(), VpnProtocol.WireGuard)
-        )
-        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
+        val connectionParams = ConnectionParams(connectIntent, server1, server1.connectingDomains.first(), VpnProtocol.WireGuard)
+        val result = handler.onUnreachableError(connectionParams)
+        assertEquals(VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE), result)
     }
 
     @Test
@@ -656,15 +655,14 @@ class VpnConnectionErrorHandlerTests {
         val connectIntent = ConnectIntent.fromServer(server1, emptySet())
         prepareServerManager(servers)
         preparePings(failServerName = server1.serverName)
-        val result = handler.onUnreachableError(
-            ConnectionParams(
-                connectIntent,
-                server1,
-                server1.connectingDomains.first(),
-                VpnProtocol.OpenVPN
-            )
+        val connectionParams = ConnectionParams(
+            connectIntent,
+            server1,
+            server1.connectingDomains.first(),
+            VpnProtocol.OpenVPN
         )
-        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
+        val result = handler.onUnreachableError(connectionParams)
+        assertEquals(VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE), result)
     }
 
     @Test
@@ -686,7 +684,7 @@ class VpnConnectionErrorHandlerTests {
             VpnProtocol.WireGuard
         )
         val result = handler.onUnreachableError(connectionParams)
-        assertEquals(VpnFallbackResult.Error(ErrorType.UNREACHABLE), result)
+        assertEquals(VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE), result)
     }
 
     @Test
@@ -720,7 +718,7 @@ class VpnConnectionErrorHandlerTests {
         fallback: VpnFallbackResult.Switch.SwitchConnectIntent
     ) = coroutineScope {
         launch {
-            val event = handler.switchConnectionFlow.first()
+            val event = handler.switchConnectionFlow.first() as VpnFallbackResult.Switch.SwitchConnectIntent
             assertEquals(fallback.reason, event.reason)
         }
         infoChangeFlow.emit(infoChange)

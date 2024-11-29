@@ -107,7 +107,7 @@ sealed class VpnFallbackResult : Serializable {
         }
     }
 
-    data class Error(val type: ErrorType) : VpnFallbackResult()
+    data class Error(val originalParams: ConnectionParams, val type: ErrorType) : VpnFallbackResult()
 }
 
 data class PhysicalServer(val server: Server, val connectingDomain: ConnectingDomain)
@@ -160,7 +160,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     private val stuckHandler = StuckConnectionHandler(elapsedMs)
     private var lastServerErrorHandledMs : Long? = null
 
-    val switchConnectionFlow = MutableSharedFlow<VpnFallbackResult.Switch>()
+    val switchConnectionFlow = MutableSharedFlow<VpnFallbackResult>()
 
     init {
         userPlanManager.infoChangeFlow.onEach { changes ->
@@ -230,13 +230,13 @@ class VpnConnectionErrorHandler @Inject constructor(
             connectionParams,
             true,
             SwitchServerReason.ServerUnreachable
-        ) ?: VpnFallbackResult.Error(ErrorType.UNREACHABLE)
+        ) ?: VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE)
 
     suspend fun onServerError(connectionParams: ConnectionParams): VpnFallbackResult {
         val sinceLastHandled = lastServerErrorHandledMs?.let { elapsedMs() - it }
         if (sinceLastHandled != null && sinceLastHandled < SERVER_ERROR_COOLDOWN_MS) {
             ProtonLogger.log(ConnServerSwitchFailed, "Server error cooldown")
-            return VpnFallbackResult.Error(ErrorType.UNREACHABLE)
+            return VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE)
         }
         val fallback = fallbackToCompatibleServer(
             connectionParams.connectIntent,
@@ -246,7 +246,7 @@ class VpnConnectionErrorHandler @Inject constructor(
         )
         if (fallback != null)
             lastServerErrorHandledMs = elapsedMs()
-        return fallback ?: VpnFallbackResult.Error(ErrorType.UNREACHABLE)
+        return fallback ?: VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE)
     }
 
     private suspend fun fallbackToCompatibleServer(
@@ -529,7 +529,7 @@ class VpnConnectionErrorHandler @Inject constructor(
     @SuppressWarnings("ReturnCount")
     suspend fun onAuthError(connectionParams: ConnectionParams): VpnFallbackResult {
         val orgIntent = connectionParams.connectIntent
-        if (orgIntent !is ConnectIntent) return VpnFallbackResult.Error(ErrorType.AUTH_FAILED)
+        if (orgIntent !is ConnectIntent) return VpnFallbackResult.Error(connectionParams, ErrorType.AUTH_FAILED)
         try {
             handlingAuthError = true
             val vpnInfo = currentUser.vpnUser()
@@ -552,7 +552,7 @@ class VpnConnectionErrorHandler @Inject constructor(
                     val maxSessions = requireNotNull(vpnUser).maxConnect
                     val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
                     if (maxSessions <= sessionCount)
-                        return VpnFallbackResult.Error(ErrorType.MAX_SESSIONS)
+                        return VpnFallbackResult.Error(connectionParams, ErrorType.MAX_SESSIONS)
                 }
             }
 
@@ -561,13 +561,13 @@ class VpnConnectionErrorHandler @Inject constructor(
                 // current connection in the search.
                 ?: fallbackToCompatibleServer(
                     connectionParams.connectIntent, connectionParams, true, SwitchServerReason.UnknownAuthFailure)
-                ?: VpnFallbackResult.Error(ErrorType.AUTH_FAILED)
+                ?: VpnFallbackResult.Error(connectionParams, ErrorType.AUTH_FAILED)
         } finally {
             handlingAuthError = false
         }
     }
 
-    private suspend fun getMaintenanceFallback(connectionParams: ConnectionParams): VpnFallbackResult.Switch? {
+    private suspend fun getMaintenanceFallback(connectionParams: ConnectionParams): VpnFallbackResult? {
         if (!appConfig.isMaintenanceTrackerEnabled())
             return null
 
@@ -588,16 +588,18 @@ class VpnConnectionErrorHandler @Inject constructor(
                     findNewServer = true
                 }
             }
+
             result is ApiResult.Error.Http && result.httpCode == HttpResponseCodes.HTTP_UNPROCESSABLE -> {
                 serverListUpdater.updateServerList()
                 findNewServer = true
             }
         }
-        return if (findNewServer) {
+        return if (findNewServer)
             onServerInMaintenance(connectionParams.connectIntent, connectionParams)
-        } else {
-            null
-        }
+                ?: connectionParams.connectIntent.profileId?.let {
+                    VpnFallbackResult.Error(connectionParams, type = ErrorType.NO_PROFILE_FALLBACK_AVAILABLE)
+                }
+        else null
     }
 
     private suspend fun PhysicalServer.exists(): Boolean =
