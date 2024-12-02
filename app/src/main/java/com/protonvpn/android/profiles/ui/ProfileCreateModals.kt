@@ -748,7 +748,7 @@ fun AutoOpenModal(
             is ProfileAutoOpen.None -> value.savedText
         }
         // Move cursor to the end on focusing
-        mutableStateOf(TextFieldValue(text, TextRange(text.length)))
+        mutableStateOf(TextFieldValue(text, TextRange(0)))
     }
     var errorState by rememberSaveable(value) { mutableStateOf<Int?>(null) }
 
