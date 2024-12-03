@@ -145,28 +145,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Lisää pois suljettuihin sovelluksiin</string>
+    <string name="accessibility_action_add_excluded_app">Lisää poissuljettaviin sovelluksiin</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Poista pois suljetuista sovelluksista</string>
+    <string name="accessibility_action_remove_excluded_app">Poista poissuljetuista sovelluksista</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Lisää sisällytettyihin sovelluksiin</string>
+    <string name="accessibility_action_add_included_app">Lisää sisällytettäviin sovelluksiin</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Poista sisällytetyistä sovelluksista</string>
+    <string name="accessibility_action_remove_included_app">Poista sisällytettävistä sovelluksista</string>
     <string name="tileConnected">Yhdistetty: %1$s</string>
     <string name="openUrlError">Osoitetta %1$s ei voitu avata, koska laitteella ei havaittu verkkoselainta.</string>
     <string name="loaderErrorTimeout">Yhteys aikakatkaistiin. Yritä uudelleen.</string>
@@ -180,7 +180,7 @@
     <string name="troubleshootAntivirusProblemTitle">Virustorjunnan aiheuttama häiriö</string>
     <string name="troubleshootAntivirusProblemDescription">Poista tietoturvasovellus tilapäisesti käytöstä tai poista sen asennus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Välityspalvelimen/palomuurin aiheuttama häiriö</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Poista välityspalvelimet ja/tai palomuurit käytöstä tai ole yhteydessä verkkosi ylläpitoon.</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Poista välityspalvelimet ja/tai palomuurit käytöstä, tai ole yhteydessä verkkosi ylläpitoon.</string>
     <string name="troubleshootProtonDownTitle">Proton ei ole tavoitettavissa</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Tarkasta järjestelmämme tila <a href=\"%1$s\">Proton Status</a> -sivustolta.]]></string>
     <string name="troubleshootContactUsSectionTitle">Tarvitsetko edelleen apua? Ota meihin yhteyttä</string>
@@ -247,6 +247,7 @@
     <string name="guestHoleNotificationContent">Verkkoyhteyden ongelmia yritetään kiertää. Tämä auttaa Proton VPN-yhteyden muodostuksessa.</string>
     <string name="errorTunMultiUserPermission">VPN-yhteyden muodostus ei onnistunut monistetun sovelluksen (esim. Dual Messenger) ja jaetun tunneloinnin ristiriidan vuoksi. Poista jompikumpi käytöstä ja käynnistä laite uudelleen.</string>
     <string name="errorTorrentNotAllowed">P2P ei ole tällä palvelimella sallittu</string>
+    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
     <string name="profileProtocolNotAvailable">Profiilin VPN-protokolla ei ole tällä hetkellä käytettävissä. Kokeile vaihtaa protokollaa yhteyden muodostamiseksi.</string>
     <string name="stateConnectedTo">Yhdistetty sijaintiin %1$s</string>
     <string name="stateNotConnected">Et ole yhdistänyt</string>
@@ -418,8 +419,8 @@
     <string name="upgrade_unlimited_vpn_double_vpn">Kaksois-VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">P2P-tuki</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d oma sähköpostiverkkotunnus</item>
-        <item quantity="other">%1$d omaa sähköpostiverkkotunnusta</item>
+        <item quantity="one">%1$d oma verkkotunnus</item>
+        <item quantity="other">%1$d omaa verkkotunnusta</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">%1$d Mt liite</item>
@@ -439,7 +440,7 @@
         <item quantity="other">%1$d henkilökohtaista kalenteria</item>
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">Kalenterien jakaminen</string>
-    <string name="upgrade_unlimited_calendar_invites">Lähetä ja vastaanota kutsuja</string>
+    <string name="upgrade_unlimited_calendar_invites">Kutsujen lähetys ja vastaanotto</string>
     <string name="upgrade_unlimited_drive_encryption">Salattu tiedostojen tallennustila</string>
     <string name="upgrade_unlimited_drive_storage_size">%1$d Gt tallennustilaa kuville, tiedostoille ja sähköposteille</string>
     <string name="upgrade_unlimited_drive_link_share">Jaa kuvia ja tiedostoja linkin välityksellä</string>
@@ -1157,7 +1158,7 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Yhdistä mihin tahansa Plus-palvelimeen ja aloita suoratoistaminen</string>
     <string name="info_dialog_profiles_title">Profiilit</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_description">Profiilit ovat mukautettuja VPN-yhteyksiä, jotka voit räätälöidä tarpeidesi mukaan ja tallentaa nopeaa käyttöä varten.\n\nAseta haluamasi sijainti ja optimoi asetuksesi turvallisuutta, suorituskykyä, pelaamista tai mitä tahansa muuta tarkoitusta varten.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Tiedostojen jako vertaisverkon kautta on käytössä tällä palvelimella.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1424,4 +1425,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Väri %1$d</string>
     <string name="generic_info_label">Tiedot</string>
+    <string name="create_profile_auto_open_label">Auto-launch website</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">New</string>
+    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Off</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">On</string>
+    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
+    <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
 </resources>

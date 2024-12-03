@@ -245,6 +245,7 @@
     <string name="guestHoleNotificationContent">ネットワークの問題の回避を試みてください。これで Proton VPN にアクセスできるかもしれません。</string>
     <string name="errorTunMultiUserPermission">デュアルアプリ (デュアルメッセンジャーなど) とスプリットトンネルが競合したため VPN を初期化できませんでした。どちらかを無効にし、デバイスを再起動してください。</string>
     <string name="errorTorrentNotAllowed">このサーバーで P2P は許可されていません</string>
+    <string name="error_profile_fallback_unavailable">接続に失敗しました。プロファイルのサーバー選択が利用できません。</string>
     <string name="profileProtocolNotAvailable">このプロフィールの VPN プロトコルは現在利用できません。接続するにはプロトコルを変更してください。</string>
     <string name="stateConnectedTo">%1$s に接続しました</string>
     <string name="stateNotConnected">接続されていません</string>
@@ -461,7 +462,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ サーバーの場所 (%2$s)</string>
+    <string name="upsell_card_countries_description">%2$sに%1$d以上のサーバーロケーション</string>
     <string name="upsell_card_customization_title">他にもいろいろ...</string>
     <string name="upsell_card_customization_description">パフォーマンスとプライバシー機能をさらに強化</string>
     <plurals name="upsell_card_devices_title">
@@ -1388,4 +1389,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">カラー%1$d</string>
     <string name="generic_info_label">詳細</string>
+    <string name="create_profile_auto_open_label">自動起動ウェブサイト</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">新しい</string>
+    <string name="create_profile_auto_open_url_input_label">ウェブサイトURL</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">オフ</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">オン</string>
+    <string name="create_profile_auto_open_description">このプロファイルに接続した際、あなたが選んだウェブサイトが自動的に開きます。</string>
+    <string name="profile_auto_open_error_invalid_url">有効なURLを入力してください</string>
 </resources>

@@ -89,7 +89,7 @@
     <string name="done">FERDIG</string>
     <string name="add">LEGG TIL</string>
     <string name="copy_to_clipboard">Kopier</string>
-    <string name="got_it">Forstått</string>
+    <string name="got_it">Skjønner</string>
     <string name="something_went_wrong">Noe gikk galt</string>
     <string name="try_again">Prøv igjen</string>
     <string name="delete">Slett</string>
@@ -247,6 +247,7 @@
     <string name="guestHoleNotificationContent">Prøver å omgå nettverksproblemer. Dette vil hjelpe deg med å få tilgang til Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Kunne ikke initialisere VPN-tilkobling på grunn av en konflikt mellom dual-app (for eksempel Dual Messenger) og Delt Tunnelering. Vennligst deaktiver en av disse og start enheten på nytt.</string>
     <string name="errorTorrentNotAllowed">P2P er ikke tillatt på denne tjeneren</string>
+    <string name="error_profile_fallback_unavailable">Tilkobling mislyktes. Tjenervalget for profilen din er utilgjengelig.</string>
     <string name="profileProtocolNotAvailable">Denne profilens VPN-protokoll er for øyeblikket ikke tilgjengelig. Prøv å endre protokollen for å koble til.</string>
     <string name="stateConnectedTo">Koblet til %1$s</string>
     <string name="stateNotConnected">Du er ikke tilkoblet</string>
@@ -1424,4 +1425,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Farge %1$d</string>
     <string name="generic_info_label">Info</string>
+    <string name="create_profile_auto_open_label">Starte nettsted automatisk</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Ny</string>
+    <string name="create_profile_auto_open_url_input_label">Nettsideadresse</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Av</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">På</string>
+    <string name="create_profile_auto_open_description">Åpne automatisk et nettsted du ønsker når du kobler til denne profilen.</string>
+    <string name="profile_auto_open_error_invalid_url">Skriv inn en gyldig nettadresse</string>
 </resources>

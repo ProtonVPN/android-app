@@ -251,6 +251,7 @@
     <string name="guestHoleNotificationContent">Паспрабаваць абысці праблемы з сеткай. Гэта дапаможа вам атрымаць доступ да Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Немагчыма ініцыялізаваць падключэнне па VPN. Прычынай можа быць канфлікт паміж праграмай для падвойнага ўліковага запісу (напрыклад, Dual Messenger) і Split Tunneling. Адключыце адну з іх і перазапусціце прыладу.</string>
     <string name="errorTorrentNotAllowed">Трафік P2P забаронены на гэтым серверы</string>
+    <string name="error_profile_fallback_unavailable">Збой падключэння. Выбар сервера для профілю недаступны.</string>
     <string name="profileProtocolNotAvailable">Гэты профіль пратакола VPN у цяперашні момант недаступны. Для падключэння, паспрабуйце змяніць пратакол.</string>
     <string name="stateConnectedTo">Падключана да %1$s</string>
     <string name="stateNotConnected">Вы не падключаны</string>
@@ -1496,4 +1497,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Колер %1$d</string>
     <string name="generic_info_label">Звесткі</string>
+    <string name="create_profile_auto_open_label">Аўтазапуск вэб-сайта</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Новы</string>
+    <string name="create_profile_auto_open_url_input_label">Вэб-сайт URL-адраса</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Выкл</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">Укл</string>
+    <string name="create_profile_auto_open_description">Аўтаматычна адкрываць выбраны вэб-сайт пры падключэнні да гэтага профілю.</string>
+    <string name="profile_auto_open_error_invalid_url">Увядзіце сапраўдны URL-адрас</string>
 </resources>

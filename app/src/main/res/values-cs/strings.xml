@@ -251,6 +251,7 @@
     <string name="guestHoleNotificationContent">Snažíme se obejít problémy se sítí. Toto vám pomůže připojit se k Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Nemohli jsme aktivovat VPN připojení kvůli konfliktu mezi duálními aplikacemi (příklad duální Messenger) a funkcí Split Tunneling. Prosím deaktivujte jednu z těchto funkcí a restartujte vaše zařízení.</string>
     <string name="errorTorrentNotAllowed">P2P není na tomto serveru povoleno</string>
+    <string name="error_profile_fallback_unavailable">Připojení selhalo. Váš vybraný server pro profil není dostupný.</string>
     <string name="profileProtocolNotAvailable">VPN protokol tohoto profilu není v současné době k dispozici. Chcete-li se připojit, zkuste změnit protokol.</string>
     <string name="stateConnectedTo">Připojeno k %1$s</string>
     <string name="stateNotConnected">Nejste připojeni</string>
@@ -1453,7 +1454,7 @@
     <string name="initial_profile_name_streaming_us">Streamování US</string>
     <string name="initial_profile_name_work_school">Práce/škola</string>
     <string name="initial_profile_name_anti_censorship">Proti cenzuře</string>
-    <string name="initial_profile_name_gaming">Hry</string>
+    <string name="initial_profile_name_gaming">Herní</string>
     <string name="initial_profile_name_max_security">Maximální bezpečnost</string>
     <string name="create_profile_pick_country_title">Země</string>
     <string name="create_profile_pick_type_title">Typ</string>
@@ -1496,4 +1497,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Barva %1$d</string>
     <string name="generic_info_label">Informace</string>
+    <string name="create_profile_auto_open_label">Automatické spuštění webové stránky</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Nový</string>
+    <string name="create_profile_auto_open_url_input_label">URL webové stránky</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Vypnuto</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">Zapnuto</string>
+    <string name="create_profile_auto_open_description">Automatické otevření vybrané webové stránky po připojení k tomuto profilu.</string>
+    <string name="profile_auto_open_error_invalid_url">Zadejte platnou URL adresu</string>
 </resources>

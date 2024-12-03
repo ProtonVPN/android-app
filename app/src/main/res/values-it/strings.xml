@@ -247,6 +247,7 @@
     <string name="guestHoleNotificationContent">Evita i problemi di rete. Questo ti aiuterà ad accedere a Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Impossibile inizializzare la connessione VPN a causa di un conflitto tra app duplicate (ad esempio doppio Messenger) e Split Tunneling. Disabilitane uno e riavvia il dispositivo.</string>
     <string name="errorTorrentNotAllowed">Il P2P non è consentito su questo server</string>
+    <string name="error_profile_fallback_unavailable">Connessione non riuscita. La selezione del server per il profilo non è disponibile.</string>
     <string name="profileProtocolNotAvailable">Il protocollo VPN di questo profilo non è attualmente disponibile. Per connetterti, prova a cambiare il protocollo.</string>
     <string name="stateConnectedTo">Connesso a %1$s</string>
     <string name="stateNotConnected">Non sei connesso</string>
@@ -1424,4 +1425,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Colore %1$d</string>
     <string name="generic_info_label">Informazioni</string>
+    <string name="create_profile_auto_open_label">Avvio automatico di un sito web</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Novità</string>
+    <string name="create_profile_auto_open_url_input_label">URL del sito web</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Disabilitato</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">Abilitato</string>
+    <string name="create_profile_auto_open_description">Apri automaticamente un sito web specifico quando ti connetti a questo profilo.</string>
+    <string name="profile_auto_open_error_invalid_url">Inserisci un URL valido</string>
 </resources>
