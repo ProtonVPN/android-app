@@ -1453,7 +1453,7 @@
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">New</string>
     <string name="create_profile_auto_open_url_input_label">Website URL</string>
-    <string name="create_profile_auto_open_url_input_placeholder">https://example.com</string>
+    <string name="create_profile_auto_open_url_input_placeholder" translatable="false">https://example.com</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Off</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->

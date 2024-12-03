@@ -247,6 +247,7 @@
     <string name="guestHoleNotificationContent">Tratar de eludir los problemas de la red. Esto te ayudará a acceder a Proton VPN.</string>
     <string name="errorTunMultiUserPermission">No se ha podido inicializar la conexión VPN debido a un conflicto entre dos aplicaciones (por ejemplo Dual Messenger) y Split Tunneling. Por favor, desactiva uno de ellos y reinicia tu dispositivo.</string>
     <string name="errorTorrentNotAllowed">El tráfico P2P no está permitido en este servidor</string>
+    <string name="error_profile_fallback_unavailable">Error de conexión. Tu selección de servidor para el perfil no está disponible.</string>
     <string name="profileProtocolNotAvailable">El protocolo VPN de este perfil no está disponible actualmente. Para conectar, prueba a cambiar el protocolo.</string>
     <string name="stateConnectedTo">Conectado a %1$s</string>
     <string name="stateNotConnected">No estás conectado</string>
@@ -1424,4 +1425,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Color %1$d</string>
     <string name="generic_info_label">Información</string>
+    <string name="create_profile_auto_open_label">Iniciar automáticamente el sitio web</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Nuevo</string>
+    <string name="create_profile_auto_open_url_input_label">URL del sitio web</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Desactivado</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">Activado</string>
+    <string name="create_profile_auto_open_description">Abre automáticamente un sitio web de tu elección cuando te conectes a este perfil.</string>
+    <string name="profile_auto_open_error_invalid_url">Introduce una URL válida</string>
 </resources>

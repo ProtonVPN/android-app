@@ -246,6 +246,7 @@
     <string name="guestHoleNotificationContent">네트워크 문제를 우회하려고 노력하고 있습니다. 이는 Proton VPN에 접근하는데 도움을 줄 것입니다.</string>
     <string name="errorTunMultiUserPermission">듀얼 앱(예를 들어 듀얼 메신저)과 분할 터널링 사이에 충돌이 생겨 VPN 연결을 구성할 수 없습니다. 둘 중 하나를 비활성화 하고 기기를 재부팅 하세요.</string>
     <string name="errorTorrentNotAllowed">이 서버에서는 P2P를 사용할 수 없습니다</string>
+    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
     <string name="profileProtocolNotAvailable">이 프로필의 VPN 프로토콜은 현재 사용할 수 없습니다. 연결하려면 다른 프로토콜로 바꿔 보세요.</string>
     <string name="stateConnectedTo">%1$s에 연결됨</string>
     <string name="stateNotConnected">연결되어 있지 않음</string>
@@ -1133,7 +1134,7 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Plus 서버에 접속한 뒤 스트리밍을 시작하세요.</string>
     <string name="info_dialog_profiles_title">프로필</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_description">프로필은 필요에 맞게 조정하고 빠른 액세스를 위해 저장할 수 있는 사용자 지정 VPN 연결입니다.\n\n선호 위치를 설정하고 보안, 성능, 게임 또는 기타 시나리오에 대한 설정을 최적화하십시오.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">P2P 파일 공유가 이 서버에서 활성화 되었습니다.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1390,4 +1391,14 @@ Stealth는 Proton VPN만의 기능입니다.</string>
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">색상 %1$d</string>
     <string name="generic_info_label">정보</string>
+    <string name="create_profile_auto_open_label">Auto-launch website</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">New</string>
+    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Off</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">On</string>
+    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
+    <string name="profile_auto_open_error_invalid_url">유효한 URL을 입력하세요.</string>
 </resources>

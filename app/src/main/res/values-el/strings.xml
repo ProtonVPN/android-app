@@ -247,6 +247,7 @@
     <string name="guestHoleNotificationContent">Γίνεται προσπάθεια παράκαμψης των προβλημάτων δικτύου. Έτσι θα μπορέσετε να αποκτήσετε πρόσβαση στο Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Δεν ήταν δυνατή η VPN σύνδεση, λόγω ότι οι λειτουργίες διπλής εφαρμογής (Dual Messenger) και Split Tunneling είναι ταυτόχρονα ενεργοποιημένες. Απενεργοποιήστε ένα από αυτά και επανεκκινήστε τη συσκευή σας.</string>
     <string name="errorTorrentNotAllowed">Το P2P δεν επιτρέπεται σε αυτόν τον διακομιστή</string>
+    <string name="error_profile_fallback_unavailable">Αποτυχία σύνδεσης. Ο διακομιστής που επιλέξατε για το προφίλ δεν είναι διαθέσιμος.</string>
     <string name="profileProtocolNotAvailable">Το πρωτόκολλο VPN αυτού του προφίλ είναι προσωρινά μη διαθέσιμο. Για να συνδεθείτε, δοκιμάστε να αλλάξετε το πρωτόκολλο.</string>
     <string name="stateConnectedTo">Συνδεδεμένο σε %1$s</string>
     <string name="stateNotConnected">Δεν είστε συνδεδεμένοι</string>
@@ -1424,4 +1425,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Χρώμα %1$d</string>
     <string name="generic_info_label">Πληροφορίες</string>
+    <string name="create_profile_auto_open_label">Αυτόματο άνοιγμα ιστοσελίδας</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Νέο</string>
+    <string name="create_profile_auto_open_url_input_label">URL Ιστοσελίδας</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Ανενεργό</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">Ενεργό</string>
+    <string name="create_profile_auto_open_description">Αυτόματο άνοιγμα της επιλεγμένης ιστοσελίδας κατά τη σύνδεσή σας σε αυτό το προφίλ.</string>
+    <string name="profile_auto_open_error_invalid_url">Εισάγετε μια έγκυρη διεύθυνση URL</string>
 </resources>

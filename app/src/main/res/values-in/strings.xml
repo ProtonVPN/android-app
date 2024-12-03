@@ -245,6 +245,7 @@
     <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi Proton VPN Anda.</string>
     <string name="errorTunMultiUserPermission">Sambungan VPN tidak dapat dikukuhkan karena terdapat konflik antar aplikasi dual-app (semisal Dual Messenger) dan Split Tunneling. Silakan nonaktifkan salah satu aplikasi dan nyalakan ulang perangkat Anda.</string>
     <string name="errorTorrentNotAllowed">P2P tidak diizinkan pada server ini</string>
+    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
     <string name="profileProtocolNotAvailable">Protokol VPN yang diusung oleh profil ini saat ini sedang tidak tersedia. Untuk dapat terhubung, cobalah untuk mengubah protokol.</string>
     <string name="stateConnectedTo">Terhubung ke %1$s</string>
     <string name="stateNotConnected">Anda tidak terhubung</string>
@@ -1388,4 +1389,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Warna %1$d</string>
     <string name="generic_info_label">Info</string>
+    <string name="create_profile_auto_open_label">Luncurkan situs web secara otomatis</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Baru</string>
+    <string name="create_profile_auto_open_url_input_label">URL situs web</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Nonaktif</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">Aktif</string>
+    <string name="create_profile_auto_open_description">Membuka situs web yang Anda tentukan secara otomatis pada saat Anda terhubung ke profil ini.</string>
+    <string name="profile_auto_open_error_invalid_url">Masukkan URL yang valid</string>
 </resources>

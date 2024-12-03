@@ -247,6 +247,7 @@
     <string name="guestHoleNotificationContent">ქსელის პრობლემის გვერდის ავლის მცდელობა. ეს Proton VPN-თან წვდომაში დაგეხმარებათ.</string>
     <string name="errorTunMultiUserPermission">VPN შეერთების ინიციალიზაცია შეუძლებელია ორმაგ-აპს (Dual Messenger-ი, მაგალითად) და Split Tunneling-ს შორის. საჭიროა, ერთ-ერთის გამორთვა და მოწყობილობის გადატვირთვა.</string>
     <string name="errorTorrentNotAllowed">ამ სერვერზე P2P დაუშვებელია</string>
+    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
     <string name="profileProtocolNotAvailable">ამ პროფილის VPN პროტოკოლი ამჟამად ხელმიუწვდომელია. დასაკავშირებლად, სცადეთ, პროტოკოლი შეცვალოთ.</string>
     <string name="stateConnectedTo">დაკავშირებულია %1$s-სთან</string>
     <string name="stateNotConnected">მიერთებული არ ბრძანდებით</string>
@@ -1424,4 +1425,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">ფერი %1$d</string>
     <string name="generic_info_label">ინფორმაცია</string>
+    <string name="create_profile_auto_open_label">Auto-launch website</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">ახალი</string>
+    <string name="create_profile_auto_open_url_input_label">ვებსაიტის URL</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">გამორთული</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">ჩართ</string>
+    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
+    <string name="profile_auto_open_error_invalid_url">შეიყვანეთ სწორი ბმული</string>
 </resources>

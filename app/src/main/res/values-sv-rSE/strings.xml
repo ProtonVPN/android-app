@@ -247,6 +247,7 @@
     <string name="guestHoleNotificationContent">Försöker kringgå nätverksproblem. Detta kommer att hjälpa dig att komma åt Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Det gick inte att initiera VPN-anslutningen på grund av en konflikt mellan dual-app (till exempel Dual Messenger) och Split Tunneling. Inaktivera en av dessa och starta om din enhet.</string>
     <string name="errorTorrentNotAllowed">P2P är inte tillåtet på denna server</string>
+    <string name="error_profile_fallback_unavailable">Anslutning misslyckades. Ditt serverval för profil är inte tillgängligt.</string>
     <string name="profileProtocolNotAvailable">Denna profils VPN-protokoll är inte tillgänglig för närvarande. Försök att ändra protokollet för att ansluta.</string>
     <string name="stateConnectedTo">Ansluten till %1$s</string>
     <string name="stateNotConnected">Du är inte ansluten</string>
@@ -1301,7 +1302,7 @@
     <string name="settings_advanced_nat_type_description_no_learn">Välj en nätverksadressöversättningstyp för din anslutning.</string>
     <string name="settings_advanced_nat_type_strict">Strikt (typ 3)</string>
     <string name="settings_advanced_nat_type_strict_short">Typ 3</string>
-    <string name="settings_advanced_nat_type_moderate">Moderate (type 2)</string>
+    <string name="settings_advanced_nat_type_moderate">Måttlig (typ 2)</string>
     <string name="settings_advanced_nat_type_moderate_short">Typ 2</string>
     <string name="settings_advanced_nat_type_strict_description">Begränsar den data som ankommer till ditt nätverk. Detta alternativ är säkrare, men kan göra peer-to-peer spel-anslutningar svårare.</string>
     <string name="settings_advanced_nat_type_moderate_description">Vissa restriktioner på data som kommer in i ditt nätverk. Detta alternativ är bäst för videospel online.</string>
@@ -1424,4 +1425,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Färg %1$d</string>
     <string name="generic_info_label">Info</string>
+    <string name="create_profile_auto_open_label">Starta webbplats automatisk</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Nytt</string>
+    <string name="create_profile_auto_open_url_input_label">Webbplats-URL</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Av</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">På</string>
+    <string name="create_profile_auto_open_description">Öppna en valfri webbplats automatiskt när du ansluter till denna profil.</string>
+    <string name="profile_auto_open_error_invalid_url">Ange en giltig URL</string>
 </resources>

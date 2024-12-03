@@ -251,6 +251,7 @@
     <string name="guestHoleNotificationContent">Snažíme sa obísť problémy so sieťou. Pomôže vám to získať prístup k sieti Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Nepodarilo sa inicializovať VPN pripojenie z dôvodu konfliktu medzi duálnnymi aplikáciami (napríklad Dual Messenger) a rozeleným tunelovaním. Zakážte jedno z nich a reštartujte zariadenie.</string>
     <string name="errorTorrentNotAllowed">P2P nie je na tomto serveri povolené</string>
+    <string name="error_profile_fallback_unavailable">Pripojenie zlyhalo. Váš server vybraný v profile nie je k dispozícii.</string>
     <string name="profileProtocolNotAvailable">Protokol VPN tohto profilu nie je v súčasnosti k dispozícii. Ak sa chcete pripojiť, skúste zmeniť protokol.</string>
     <string name="stateConnectedTo">Pripojené k %1$s</string>
     <string name="stateNotConnected">Nie ste pripojení</string>
@@ -1453,8 +1454,8 @@
     <string name="initial_profile_name_streaming_us">Streamovanie US</string>
     <string name="initial_profile_name_work_school">Práca/Škola</string>
     <string name="initial_profile_name_anti_censorship">Boj proti cenzúre</string>
-    <string name="initial_profile_name_gaming">Gaming</string>
-    <string name="initial_profile_name_max_security">Max security</string>
+    <string name="initial_profile_name_gaming">Hranie</string>
+    <string name="initial_profile_name_max_security">Maximálna bezpečnosť</string>
     <string name="create_profile_pick_country_title">Krajina</string>
     <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Štandardná</string>
@@ -1496,4 +1497,14 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Farba %1$d</string>
     <string name="generic_info_label">Informácie</string>
+    <string name="create_profile_auto_open_label">Automatické otvorenie webovej stránky</string>
+    <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
+    <string name="create_profile_auto_open_label_badge">Nový</string>
+    <string name="create_profile_auto_open_url_input_label">URL webovej stránky</string>
+    <!-- Label for disabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_off">Vyp.</string>
+    <!-- Label for enabled "Auto-launch website" setting in profile creation -->
+    <string name="profile_auto_open_on">Zap.</string>
+    <string name="create_profile_auto_open_description">Po pripojení k tomuto profilu sa automaticky otvorí webová stránka podľa vášho výberu.</string>
+    <string name="profile_auto_open_error_invalid_url">Zadajte platnú URL adresu</string>
 </resources>
