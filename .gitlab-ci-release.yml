@@ -197,15 +197,16 @@ sync-app:
   script:
     - apt update && apt-get install -y connect-proxy
     - git remote add public $OAUTH_URL
+    # Checkout the branch before the lfs commands for REF_NAME to be recognized as a local name.
+    - git checkout $CI_COMMIT_REF_NAME
     - |
       if grep -q "filter=lfs" .gitattributes 2>/dev/null; then
         echo "Git LFS detected. Handling LFS objects..."
-        git lfs fetch --all origin 
-        git lfs push --all public 
+        git lfs fetch --all origin $CI_COMMIT_REF_NAME
+        git lfs push --all public $CI_COMMIT_REF_NAME
       else
         echo "Git LFS not detected. Skipping LFS steps."
       fi
-    - git checkout $CI_COMMIT_REF_NAME
     # Push current branch to github
     - git push public $CI_COMMIT_REF_NAME
     # Push the latest tag we can find
