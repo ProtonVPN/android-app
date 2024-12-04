@@ -715,7 +715,7 @@ fun ProfileAutoOpenItem(
     isNew: Boolean
 ) {
     ProfileValueItem(
-        labelRes = R.string.create_profile_auto_open_label,
+        labelRes = R.string.create_profile_connect_and_go_label,
         valueText = when (value) {
             is ProfileAutoOpen.None -> stringResource(R.string.profile_auto_open_off)
             is ProfileAutoOpen.App -> value.packageName
@@ -753,7 +753,7 @@ fun AutoOpenModal(
     var errorState by rememberSaveable(value) { mutableStateOf<Int?>(null) }
 
     BaseItemPickerDialog(
-        R.string.create_profile_auto_open_label,
+        R.string.create_profile_connect_and_go_label,
         description = R.string.create_profile_auto_open_description,
         onDismissRequest = onDismissRequest,
         onSave = {

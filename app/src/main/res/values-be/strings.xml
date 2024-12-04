@@ -1497,7 +1497,6 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Колер %1$d</string>
     <string name="generic_info_label">Звесткі</string>
-    <string name="create_profile_auto_open_label">Аўтазапуск вэб-сайта</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Новы</string>
     <string name="create_profile_auto_open_url_input_label">Вэб-сайт URL-адраса</string>
