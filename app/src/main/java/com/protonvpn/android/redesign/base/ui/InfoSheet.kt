@@ -190,7 +190,7 @@ private val InfoType.learnMoreUrl get() = when (this) {
     InfoType.P2P -> Constants.URL_P2P_LEARN_MORE
     InfoType.SmartRouting -> Constants.URL_SMART_ROUTING_LEARN_MORE
     InfoType.Streaming -> Constants.URL_STREAMING_LEARN_MORE
-    InfoType.Profiles -> null
+    InfoType.Profiles -> Constants.URL_PROFILES_LEARN_MORE
 }
 
 @Composable
