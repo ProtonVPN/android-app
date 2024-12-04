@@ -1425,7 +1425,6 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Colore %1$d</string>
     <string name="generic_info_label">Informazioni</string>
-    <string name="create_profile_auto_open_label">Avvio automatico di un sito web</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Novità</string>
     <string name="create_profile_auto_open_url_input_label">URL del sito web</string>

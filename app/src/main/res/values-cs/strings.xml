@@ -1497,7 +1497,6 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Barva %1$d</string>
     <string name="generic_info_label">Informace</string>
-    <string name="create_profile_auto_open_label">Automatické spuštění webové stránky</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nový</string>
     <string name="create_profile_auto_open_url_input_label">URL webové stránky</string>

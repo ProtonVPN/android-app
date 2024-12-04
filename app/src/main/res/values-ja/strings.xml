@@ -1389,7 +1389,6 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">カラー%1$d</string>
     <string name="generic_info_label">詳細</string>
-    <string name="create_profile_auto_open_label">自動起動ウェブサイト</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">新しい</string>
     <string name="create_profile_auto_open_url_input_label">ウェブサイトURL</string>
