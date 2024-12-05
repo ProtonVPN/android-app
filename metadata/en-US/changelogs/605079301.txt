@@ -1,0 +1,3 @@
+What's new
+- Introducing Profiles: Create and quickly access custom VPN setups. Select your location, fine-tune your settings, and connect instantly
+- Resolved an issue preventing VPN connections after waking a Chromebook from sleep.
