@@ -251,7 +251,7 @@
     <string name="guestHoleNotificationContent">Próba obejścia problemów z siecią. To pomoże uzyskać dostęp do usługi Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Nie można nawiązać połączenia VPN z powodu konfliktu pomiędzy aplikacjami typu dual-app (na przykład Dual Messenger) i funkcją Split Tunneling. Wyłącz jedną z tych opcji i ponownie uruchom urządzenie.</string>
     <string name="errorTorrentNotAllowed">Na tym serwerze ruch P2P nie jest dozwolony</string>
-    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
+    <string name="error_profile_fallback_unavailable">Połączenie się nie powiodło. Serwer profilu jest niedostępny.</string>
     <string name="profileProtocolNotAvailable">Ten profil protokołu VPN nie jest obecnie dostępny. Aby połączyć się, zmień protokół.</string>
     <string name="stateConnectedTo">Połączono z %1$s</string>
     <string name="stateNotConnected">Nie jesteś połączony</string>
@@ -1455,7 +1455,7 @@
     <string name="initial_profile_name_work_school">Praca / Szkoła</string>
     <string name="initial_profile_name_anti_censorship">Omijanie cenzury</string>
     <string name="initial_profile_name_gaming">Gry</string>
-    <string name="initial_profile_name_max_security">Max security</string>
+    <string name="initial_profile_name_max_security">Maksymalne bezpieczeństwo</string>
     <string name="create_profile_pick_country_title">Kraj</string>
     <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Standardowy</string>
@@ -1497,13 +1497,16 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Kolor %1$d</string>
     <string name="generic_info_label">Informacje</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
-    <string name="create_profile_auto_open_label_badge">New</string>
-    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <string name="create_profile_auto_open_label_badge">Nowość</string>
+    <string name="create_profile_auto_open_url_input_label">Adres URL strony</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_off">Wył.</string>
+    <string name="profile_auto_open_off">Wyłączone</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Wł.</string>
-    <string name="create_profile_auto_open_description">Automatycznie otwórz wybraną stronę internetową, gdy się podłączysz do tego profilu.</string>
-    <string name="profile_auto_open_error_invalid_url">Wprowadź poprawny adres URL</string>
+    <string name="profile_auto_open_on">Włączone</string>
+    <string name="create_profile_auto_open_description">Automatycznie otwórz wybraną stronę internetową, kiedy się połączysz z tym profilem.</string>
+    <string name="profile_auto_open_error_invalid_url">Wpisz prawidłowy adres URL</string>
 </resources>

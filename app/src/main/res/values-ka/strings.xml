@@ -247,7 +247,7 @@
     <string name="guestHoleNotificationContent">ქსელის პრობლემის გვერდის ავლის მცდელობა. ეს Proton VPN-თან წვდომაში დაგეხმარებათ.</string>
     <string name="errorTunMultiUserPermission">VPN შეერთების ინიციალიზაცია შეუძლებელია ორმაგ-აპს (Dual Messenger-ი, მაგალითად) და Split Tunneling-ს შორის. საჭიროა, ერთ-ერთის გამორთვა და მოწყობილობის გადატვირთვა.</string>
     <string name="errorTorrentNotAllowed">ამ სერვერზე P2P დაუშვებელია</string>
-    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
+    <string name="error_profile_fallback_unavailable">მიერთება ჩავარდა. თქვენი სერვერის არჩევანი პროფილისთვის ხელმისაწვდომი არაა.</string>
     <string name="profileProtocolNotAvailable">ამ პროფილის VPN პროტოკოლი ამჟამად ხელმიუწვდომელია. დასაკავშირებლად, სცადეთ, პროტოკოლი შეცვალოთ.</string>
     <string name="stateConnectedTo">დაკავშირებულია %1$s-სთან</string>
     <string name="stateNotConnected">მიერთებული არ ბრძანდებით</string>
@@ -1378,7 +1378,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">შეერთება გადაიტვირთება.</string>
-    <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
+    <string name="profile_overrides_setting">ეს პარამეტრები მიერთებულია <b>%1$s-სთან</b> და, მხოლოდ, პროფილებიდან შეგიძლიათ მართოთ.</string>
     <string name="initial_profile_name_streaming_us">სტრიმინგი US</string>
     <string name="initial_profile_name_work_school">სამსახური/სკოლა</string>
     <string name="initial_profile_name_anti_censorship">ანტიცენზურა</string>
@@ -1425,6 +1425,9 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">ფერი %1$d</string>
     <string name="generic_info_label">ინფორმაცია</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">ახალი</string>
     <string name="create_profile_auto_open_url_input_label">ვებსაიტის URL</string>
@@ -1432,6 +1435,6 @@
     <string name="profile_auto_open_off">გამორთული</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">ჩართ</string>
-    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
+    <string name="create_profile_auto_open_description">ავტომატურად გაიხსნება ვებგვერდი, რომელსაც აირჩევთ, როცა ამ პროფილს მიუერთედებით.</string>
     <string name="profile_auto_open_error_invalid_url">შეიყვანეთ სწორი ბმული</string>
 </resources>
