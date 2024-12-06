@@ -251,7 +251,7 @@
     <string name="guestHoleNotificationContent">Пытаемся обойти проблемы с сетью. Это поможет вам получить доступ к Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Не удалось инициализировать VPN соединение из-за конфликта между dual-app (например, Dual Messenger) и Split Tunneling. Пожалуйста, отключите одно из них и перезагрузите Ваше устройство.</string>
     <string name="errorTorrentNotAllowed">P2P не разрешен на этом сервере</string>
-    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
+    <string name="error_profile_fallback_unavailable">Не удалось установить соединение. Ваш сервер, выбранный для профиля, недоступен.</string>
     <string name="profileProtocolNotAvailable">Протокол VPN, указанный в профиле, в данный момент недоступен. Чтобы подключиться, измените протокол.</string>
     <string name="stateConnectedTo">Подключение к %1$s</string>
     <string name="stateNotConnected">Вы не подключены</string>
@@ -1454,8 +1454,8 @@
     <string name="initial_profile_name_streaming_us">Просмотр трансляций США</string>
     <string name="initial_profile_name_work_school">Работа/Школа</string>
     <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
-    <string name="initial_profile_name_gaming">Gaming</string>
-    <string name="initial_profile_name_max_security">Max security</string>
+    <string name="initial_profile_name_gaming">Игры</string>
+    <string name="initial_profile_name_max_security">Максимальная безопасность</string>
     <string name="create_profile_pick_country_title">Страна</string>
     <string name="create_profile_pick_type_title">Тип</string>
     <string name="create_profile_type_standard">Стандартный</string>
@@ -1497,13 +1497,16 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Цвет %1$d</string>
     <string name="generic_info_label">Info</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
-    <string name="create_profile_auto_open_label_badge">New</string>
-    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <string name="create_profile_auto_open_label_badge">Новый</string>
+    <string name="create_profile_auto_open_url_input_label">URL веб-сайта</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_off">Off</string>
+    <string name="profile_auto_open_off">Выкл.</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">On</string>
-    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
-    <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
+    <string name="profile_auto_open_on">Вкл.</string>
+    <string name="create_profile_auto_open_description">Автоматическое открытие выбранного вами веб-сайта при подключении к этому профилю.</string>
+    <string name="profile_auto_open_error_invalid_url">Введите действительный URL</string>
 </resources>

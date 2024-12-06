@@ -247,7 +247,7 @@
     <string name="guestHoleNotificationContent">Ağ sorunları aşılmaya çalışılıyor. Bu işlem Proton VPN hizmetine erişmenize yardımcı olacak.</string>
     <string name="errorTunMultiUserPermission">Çift uygulama (örneğin Dual Messenger) ve ayrılmış tünelleme arasındaki bir çakışma nedeniyle VPN bağlantısı başlatılamadı. Lütfen bunlardan birini kapatıp aygıtınızı yeniden başlatın.</string>
     <string name="errorTorrentNotAllowed">Bu sunucu üzerinde P2P kullanımına izin verilmiyor</string>
-    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
+    <string name="error_profile_fallback_unavailable">Bağlantı kurulamadı. Profil için sunucu seçiminiz kullanılamıyor.</string>
     <string name="profileProtocolNotAvailable">Profilin VPN iletişim kuralı şu anda kullanılamıyor. Bağlantı kurmak için iletişim kuralını değiştirmeyi deneyin.</string>
     <string name="stateConnectedTo">%1$s ile bağlantı kuruldu</string>
     <string name="stateNotConnected">Bağlı değilsiniz</string>
@@ -1425,13 +1425,16 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">%1$d. renk</string>
     <string name="generic_info_label">Bilgiler</string>
+    <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
+         Please don't use & in translation and capitalize key words. -->
+    <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
-    <string name="create_profile_auto_open_label_badge">New</string>
-    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <string name="create_profile_auto_open_label_badge">Yeni</string>
+    <string name="create_profile_auto_open_url_input_label">Site adresi</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_off">Off</string>
+    <string name="profile_auto_open_off">Kapalı</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">On</string>
-    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
-    <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
+    <string name="profile_auto_open_on">Açık</string>
+    <string name="create_profile_auto_open_description">Bu profil ile bağlantı kurduğunuzda istediğiniz bir siteyi otomatik olarak açın.</string>
+    <string name="profile_auto_open_error_invalid_url">Geçerli bir adres yazın</string>
 </resources>
