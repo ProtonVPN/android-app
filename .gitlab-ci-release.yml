@@ -192,10 +192,9 @@ sync-app:
     - /^release/
   except:
     - schedules
-  variables:
-    OAUTH_URL: "https://oauth2:${GITHUB_CLI_TOKEN}@github.com/ProtonVPN/android-app.git"
   script:
     - apt update && apt-get install -y connect-proxy
+    - git remote add public $PUBLIC_REPO_URL
     - git remote add public $OAUTH_URL
     - |
       if grep -q "filter=lfs" .gitattributes 2>/dev/null; then
