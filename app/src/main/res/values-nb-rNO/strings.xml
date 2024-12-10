@@ -28,9 +28,9 @@
     <string name="login">Logg på</string>
     <string name="menuActionSignOut">Logg av</string>
     <string name="connectionAllocationHelpTitle">Takk for at du oppgraderte</string>
-    <string name="connectionAllocationHelpDescription1">For å starte reisen din i Proton VPN, vennligst tildel VPN-tilkoblinger til kontoen din eller en hvilken som helst annen underkonto.</string>
+    <string name="connectionAllocationHelpDescription1">For å starte reisen din i Proton VPN, tildel VPN-tilkoblinger til kontoen din eller en hvilken som helst annen underkonto.</string>
     <string name="connectionAllocationHelpDescription2">Dette trinnet tar bare noen få minutter. Etter det vil du kunne logge på og beskytte alle enhetene dine.</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">Det er for øyeblikket ingen VPN-tilkobling aktivert for denne kontoen. For å starte reisen din med Proton VPN, vennligst kontakt administratoren din. </string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Det er for øyeblikket ingen VPN-tilkobling aktivert for denne kontoen. For å starte reisen din med Proton VPN, kontakt administratoren din. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Aktiver VPN-forbindelser</string>
     <string name="connectionAllocationHelpLoginAgainButton">Logg på igjen</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
@@ -55,7 +55,7 @@
     <string name="action_share">Del</string>
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under vedlikehold</string>
-    <string name="restrictedMaintenanceDescription">Tjeneren du prøver å koble til, er under vedlikehold. Vennligst prøv en annen tjener.</string>
+    <string name="restrictedMaintenanceDescription">Tjeneren du prøver å koble til, er under vedlikehold. Prøv en annen tjener.</string>
     <string name="errorUserDelinquent"><![CDATA[Kontoen din har for øyeblikket en forfalt faktura. Vennligst betal alle ubetalte fakturaer på &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har truffet maksimalt antall samtidige tilkoblinger som er tillatt for kontoen din. Oppgrader Proton VPN-planen din for å få flere tilkoblinger.</string>
     <string name="listItemMaintenance">Under vedlikehold</string>
@@ -67,11 +67,11 @@
     <string name="state_connected">Tilkoblet</string>
     <string name="state_disconnecting">Kobler fra…</string>
     <string name="state_error">Feil</string>
-    <string name="error_server_list_load_failed">Vennligst kontroller tilkoblingen og prøv igjen.</string>
-    <string name="error_server_unreachable">Kunne ikke koble til VPN-et. Vennligst kontroller tilkoblingen, og prøv på nytt.</string>
+    <string name="error_server_list_load_failed">Kontroller tilkoblingen og prøv igjen.</string>
+    <string name="error_server_unreachable">Kunne ikke koble til VPN-et. Kontroller tilkoblingen, og prøv på nytt.</string>
     <string name="error_auth_failed">Brukergodkjenning mislyktes.</string>
     <string name="error_generic">Uspesifisert feil under tilkobling.</string>
-    <string name="error_generic_with_reason">Proton VPN kunne ikke opprette en VPN-tilkobling. Vennligst prøv igjen om noen sekunder.<br/><br/>Detaljer: %1$s</string>
+    <string name="error_generic_with_reason">Proton VPN kunne ikke opprette en VPN-tilkobling. Prøv igjen om noen sekunder.<br/><br/>Detaljer: %1$s</string>
     <string name="reconnect">Koble til på nytt</string>
     <string name="reconnect_now">Koble til på nytt nå</string>
     <string name="try_reconnecting">Prøv å koble til på nytt</string>
@@ -82,7 +82,7 @@
     <string name="report_bug_email_label">Din e-post</string>
     <string name="report_bug_email_hint">Skriv inn din e-postadresse</string>
     <string name="report_bug_message_label">Melding</string>
-    <string name="report_bug_message_hint">Vennligst beskriv feilen og hvordan og hvor du fant den</string>
+    <string name="report_bug_message_hint">Beskriv feilen og hvordan og hvor du fant den</string>
     <string name="send_report">Send rapport</string>
     <string name="discardChanges">Vil du forkaste endringer som ikke er lagret?</string>
     <string name="discard">Forkast</string>
@@ -99,7 +99,7 @@
     <string name="activityLicensesTitle">Tredjepartslisenser</string>
     <string name="stateFragmentUnknownIp">Ukjent</string>
     <string name="noVpnPermissionMainTitle">Handling trengs for å koble til VPN</string>
-    <string name="noVpnPermissionMainMessage">For å koble til Proton VPN, vennligst gjør følgende:</string>
+    <string name="noVpnPermissionMainMessage">For å koble til Proton VPN, gjør følgende:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Gi VPN-tillatelse</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android trenger din tillatelse for å koble til Proton VPN. Gi det ved å trykke \"OK\" når du får vinduet \"Tilkoblingsforespørsel\" fra Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Deaktiver alltid på- for andre VPN-apper</string>
@@ -110,7 +110,7 @@
     <string name="noNotificationPermissionGrantTitle">Ikke bli overrumplet...</string>
     <string name="noNotificationPermissionGrantDescription">Aktiver varslinger for å bli varslet om endringer tilknyttet statusen på forbindelsen din.</string>
     <string name="noNotificationPermissionGrantNowTitle">Aktiver varslinger</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Vennligst deaktiver alltid på-VPN for alle andre VPN-apper i Android VPN-systeminnstillinger, da det forhindrer Proton VPN i å opprette en VPN-tilkobling. Vennligst gi også VPN-tillatelser hvis en dialogboks som ber om VPN-tillatelser vises. Andre VPN-apper må kanskje også avinstalleres for å forhindre konflikter. Vennligst forsøk igjen etterpå. <a href="%1$s">Lær mer</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Deaktiver alltid på-VPN for alle andre VPN-apper i Android VPN-systeminnstillinger, da det forhindrer Proton VPN i å opprette en VPN-tilkobling. Gi også VPN-tillatelser hvis en dialogboks som ber om VPN-tillatelser vises. Andre VPN-apper må kanskje også avinstalleres for å forhindre konflikter. Forsøk igjen etterpå. <a href="%1$s">Lær mer</a>]]></string>
     <string name="error_prepare_vpn_settings">Gå til Android VPN-innstillinger</string>
     <string name="error_prepare_vpn_title">Feil: VPN-tillatelsesproblem</string>
     <string name="error_server_not_set">Tjeneren er ikke lenger tilgjengelig</string>
@@ -169,11 +169,11 @@
     <string name="accessibility_action_remove_included_app">Fjern fra inkluderte apper</string>
     <string name="tileConnected">Tilkoblet: %1$s</string>
     <string name="openUrlError">%1$s kunne ikke åpnes. Nettleser ble ikke oppdaget på enheten din.</string>
-    <string name="loaderErrorTimeout">Tilkoblingen ble tidsavbrutt. Vennligst prøv på nytt.</string>
+    <string name="loaderErrorTimeout">Tilkoblingen ble tidsavbrutt. Prøv på nytt.</string>
     <string name="troubleshootButton">Feilsøk</string>
     <string name="activityTroubleshootTitle">Feilsøking</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Potensielle løsninger</string>
-    <string name="troubleshootNoInternetDescription">Vennligst forsikre deg om at internett-forbindelsen din fungerer.</string>
+    <string name="troubleshootNoInternetDescription">Forsikre deg om at internett-forbindelsen din fungerer.</string>
     <string name="troubleshootNoInternetTitle">Ingen internettforbindelse</string>
     <string name="troubleshootIspProblemTitle">Internett-leverandør (ISP) problem</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
@@ -245,7 +245,7 @@
     <string name="netshield_setting_warning">Noen nettsteder lastes kanskje ikke inn riktig når annonser og sporere er blokkert.</string>
     <string name="dialogDontShowAgain">Ikke vis igjen</string>
     <string name="guestHoleNotificationContent">Prøver å omgå nettverksproblemer. Dette vil hjelpe deg med å få tilgang til Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Kunne ikke initialisere VPN-tilkobling på grunn av en konflikt mellom dual-app (for eksempel Dual Messenger) og Delt Tunnelering. Vennligst deaktiver en av disse og start enheten på nytt.</string>
+    <string name="errorTunMultiUserPermission">Kunne ikke initialisere VPN-tilkobling på grunn av en konflikt mellom dual-app (for eksempel Dual Messenger) og Delt Tunnelering. Deaktiver en av disse og start enheten på nytt.</string>
     <string name="errorTorrentNotAllowed">P2P er ikke tillatt på denne tjeneren</string>
     <string name="error_profile_fallback_unavailable">Tilkobling mislyktes. Tjenervalget for profilen din er utilgjengelig.</string>
     <string name="profileProtocolNotAvailable">Denne profilens VPN-protokoll er for øyeblikket ikke tilgjengelig. Prøv å endre protokollen for å koble til.</string>
@@ -290,7 +290,7 @@
     <string name="tv_quick_connect_recommened">Anbefalt</string>
     <string name="tv_quick_connect_favourite">Favorite</string>
     <string name="tv_country_maintenance_dialog_title">Land er utilgjengelig</string>
-    <string name="tv_country_maintenance_dialog_description">Vennligst forsøk igjen eller velg et annet land.</string>
+    <string name="tv_country_maintenance_dialog_description">Forsøk igjen eller velg et annet land.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
@@ -310,10 +310,10 @@
     <string name="notification_max_sessions_title">Du har nådd den maksimale grensen for enheter</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Vennligst koble fra en annen enhet for å koble til denne, eller oppgrader til Plus for å få opptil %1$d-enhet tilkoblet samtidig.</item>
-        <item quantity="other">Vennligst koble fra en annen enhet for å koble til denne, eller oppgrader til Plus for å få opptil %1$d-enheter tilkoblet samtidig.</item>
+        <item quantity="one">Koble fra en annen enhet for å koble til denne, eller oppgrader til Plus for å få opptil %1$d-enhet tilkoblet samtidig.</item>
+        <item quantity="other">Koble fra en annen enhet for å koble til denne, eller oppgrader til Plus for å få opptil %1$d-enheter tilkoblet samtidig.</item>
     </plurals>
-    <string name="notification_max_sessions_content">Vennligst koble fra en annen enhet for å koble til denne.</string>
+    <string name="notification_max_sessions_content">Koble fra en annen enhet for å koble til denne.</string>
     <string name="notification_cancel_to_free">Du er på Free-planen. Gratis tjenere og funksjoner er tilgjengelige.</string>
     <string name="notification_cancel_to_basic">Du er på Basic-planen. Basic &amp; gratis tjenere og funksjoner er tilgjengelige.</string>
     <string name="notification_cancel_to_delinquent">Du vil kunne få tilgang til premiumfunksjoner igjen etter at ventende fakturaer er betalt.</string>
@@ -569,7 +569,7 @@
     <string name="dialog_create_account_action_create">Opprett konto</string>
     <string name="dialog_create_account_action_signin">Logg på</string>
     <string name="server_search_menu_title">Søk</string>
-    <string name="search_empty_result_subtitle">Vennligst forsøk et annet nøkkelord</string>
+    <string name="search_empty_result_subtitle">Forsøk et annet nøkkelord</string>
     <string name="search_empty_result_title">Ingen resultater funnet</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Tøm</string>
