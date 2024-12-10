@@ -245,7 +245,7 @@
         <item quantity="many">праграм сачэння спынены</item>
         <item quantity="other">праграм сачэння спынены</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Захавана даных</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">даных захавана</string>
     <string name="netshield_setting_warning">Некаторыя вэб-сайты могуць некарэктна загружацца, калі рэклама і праграмы сачэння заблакіраваны.</string>
     <string name="dialogDontShowAgain">Больш не паказваць</string>
     <string name="guestHoleNotificationContent">Паспрабаваць абысці праблемы з сеткай. Гэта дапаможа вам атрымаць доступ да Proton VPN.</string>

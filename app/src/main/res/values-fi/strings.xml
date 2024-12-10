@@ -247,7 +247,7 @@
     <string name="guestHoleNotificationContent">Verkkoyhteyden ongelmia yritetään kiertää. Tämä auttaa Proton VPN-yhteyden muodostuksessa.</string>
     <string name="errorTunMultiUserPermission">VPN-yhteyden muodostus ei onnistunut monistetun sovelluksen (esim. Dual Messenger) ja jaetun tunneloinnin ristiriidan vuoksi. Poista jompikumpi käytöstä ja käynnistä laite uudelleen.</string>
     <string name="errorTorrentNotAllowed">P2P ei ole tällä palvelimella sallittu</string>
-    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
+    <string name="error_profile_fallback_unavailable">Yhteys epäonnistui. Valitsemasi profiilin palvelin ei ole käytettävissä.</string>
     <string name="profileProtocolNotAvailable">Profiilin VPN-protokolla ei ole tällä hetkellä käytettävissä. Kokeile vaihtaa protokollaa yhteyden muodostamiseksi.</string>
     <string name="stateConnectedTo">Yhdistetty sijaintiin %1$s</string>
     <string name="stateNotConnected">Et ole yhdistänyt</string>
