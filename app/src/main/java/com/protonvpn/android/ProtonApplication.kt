@@ -135,10 +135,9 @@ open class ProtonApplication : Application() {
     protected var lastMainProcessExitReason: Int? = null
 
     override fun onCreate() {
-//        TODO: disabled temporarily
-//        installCertificateTransparencySupport(
-//            excludedCommonNames = if (BuildConfig.DEBUG) listOf("localhost") else emptyList()
-//        )
+        installCertificateTransparencySupport(
+            excludedCommonNames = if (BuildConfig.DEBUG) listOf("localhost") else emptyList()
+        )
 
         super.onCreate()
         appContext = this
