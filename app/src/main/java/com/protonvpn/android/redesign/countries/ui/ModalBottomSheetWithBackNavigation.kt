@@ -76,7 +76,6 @@ fun ModalBottomSheetWithBackNavigation(
         containerColor = containerColor,
         tonalElevation = 0.dp,
         sheetState = sheetState,
-        contentWindowInsets = { WindowInsets.navigationBars }, // TODO: can we remove it and use the defaults?
         modifier = modifier
             .focusRequester(requester)
             .focusable()
