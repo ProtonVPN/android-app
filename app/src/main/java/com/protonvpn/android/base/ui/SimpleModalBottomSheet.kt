@@ -20,11 +20,6 @@
 package com.protonvpn.android.base.ui
 
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -43,17 +38,10 @@ fun SimpleModalBottomSheet(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    // We should use Modifier.navigationBarsPadding() instead but it doesn't work correctly for
-    // API < 29 until https://issuetracker.google.com/issues/290893168 is addressed.
-    val navigationBarBottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-    ModalBottomSheet(
+     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        contentWindowInsets = { WindowInsets(0, 0, 0 ,0) },
-        content = {
-            content()
-            Spacer(modifier = Modifier.height(navigationBarBottomPadding))
-        },
+        content = content,
     )
 }

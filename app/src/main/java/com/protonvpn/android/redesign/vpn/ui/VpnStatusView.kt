@@ -352,7 +352,6 @@ private fun VpnConnectedView(
                     onValueChanged = netShieldActions.onNetShieldValueChanged
                 )
             },
-            contentWindowInsets = { WindowInsets.navigationBars }, // TODO: can we remove this and use the default?
             onDismissRequest = {
                 isModalVisible = !isModalVisible
             })
