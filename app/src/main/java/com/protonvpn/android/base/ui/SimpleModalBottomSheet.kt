@@ -25,6 +25,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import me.proton.core.compose.theme.ProtonTheme
 
 /**
  * A convenience bottom sheet for small and simple content, like information dialogs.
@@ -40,6 +41,7 @@ fun SimpleModalBottomSheet(
 ) {
      ModalBottomSheet(
         onDismissRequest = onDismissRequest,
+        containerColor = ProtonTheme.colors.backgroundNorm,
         modifier = modifier,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         content = content,
