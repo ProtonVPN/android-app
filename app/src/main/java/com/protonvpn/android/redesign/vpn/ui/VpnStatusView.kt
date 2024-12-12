@@ -345,6 +345,7 @@ private fun VpnConnectedView(
     if (isModalVisible && banner is StatusBanner.NetShieldBanner) {
         ModalBottomSheet(
             sheetState = bottomSheetState,
+            containerColor = ProtonTheme.colors.backgroundNorm,
             content = {
                 NetShieldBottomComposable(
                     currentNetShield = banner.netShieldState.protocol,
