@@ -1427,7 +1427,7 @@
     <string name="generic_info_label">Información</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Conexión y apertura</string>
+    <string name="create_profile_connect_and_go_label">Conectar y listo</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nuevo</string>
     <string name="create_profile_auto_open_url_input_label">URL del sitio web</string>

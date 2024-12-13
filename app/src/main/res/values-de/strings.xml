@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Stelle bitte sicher, dass deine Internetverbindung funktioniert.</string>
     <string name="troubleshootNoInternetTitle">Keine Internetverbindung</string>
     <string name="troubleshootIspProblemTitle">Problem des Internet-Dienstanbieters (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Versuche, dich von einem anderen Netzwerk aus mit Proton zu verbinden (oder verwende <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirusstörung</string>
     <string name="troubleshootAntivirusProblemDescription">Deaktiviere oder entferne vorübergehend deine Antiviren-Software.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Proxy/Firewall-Störung</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Benötigst du noch Hilfe? Kontaktiere uns direkt</string>
     <string name="troubleshootCustomerSupport">Kundensupport</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternatives Routing</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Falls Proton gesperrt wurde, erlaube der App es mit alternativen Pfaden zu versuchen, um die Proton-Server zu erreichen. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regierungssperren</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ihr Land sperrt möglicherweise den Zugang zu Proton. Versuchen Sie, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On-VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">So können Always-On-VPN und Kill Switch aktiviert werden:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1.) Öffne die <b>Einstellungen</b> auf deinem Gerät, indem du auf die nachfolgende Schaltfläche tippst]]></string>
@@ -257,7 +257,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika und Naher Osten</string>
     <string name="nameOceania">Ozeanien</string>
     <string name="tv_row_settings">Einstellungen</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split‐Tunneling</string>
     <string name="tv_card_protocol_label">Protokoll</string>
     <string name="tv_detail_default_connection_checkbox_short">Bevorzugt</string>
     <string name="tv_detail_connect_streaming">Streaming mit Plus</string>
@@ -499,7 +499,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Surfen mit noch höherer Geschwindigkeit (bis zu %1$d Gbit/s)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split‐Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Von zwei Standorten aus gleichzeitig browsen</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Schau dir deine Lieblingsfilme und Fernsehsendungen an</string>
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Split‐Tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1157,7 +1157,7 @@
     <string name="info_dialog_how_to_stream_step_2">Starte deinen Streaming-Dienst neu</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Verbinde dich mit einem beliebigen Plus-Server und fang an zu streamen</string>
-    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_title">Profile</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Peer-to-Peer-Filesharing ist auf diesem Server aktiviert.</string>
@@ -1417,7 +1417,7 @@
     <string name="profile_unavailable_dialog_title">Profil nicht verfügbar</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <string name="profile_unavailable_dialog_message">Der Server, den du für %1$s ausgewählt hast, ist derzeit nicht verfügbar. Wähle einen anderen Server oder versuche es später erneut.</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Symbol %1$d</string>
@@ -1430,7 +1430,7 @@
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Neu</string>
-    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <string name="create_profile_auto_open_url_input_label">Webseiten-URL</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Aus</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->

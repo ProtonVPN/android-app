@@ -257,7 +257,7 @@
     <string name="nameAfricaAndMiddleEast">África &amp; Oriente Médio</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Configurações</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Tunelamento dividido</string>
     <string name="tv_card_protocol_label">Protocolo</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorito</string>
     <string name="tv_detail_connect_streaming">Transmissão com Plus</string>
@@ -288,7 +288,7 @@
     <string name="tv_signout_dialog_description_connected">Isso desconectará sua TV de qualquer servidor VPN.</string>
     <string name="tv_signout_dialog_ok">Encerrar sessão</string>
     <string name="tv_quick_connect_recommened">Recomendado</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Favorito</string>
     <string name="tv_country_maintenance_dialog_title">País indisponível</string>
     <string name="tv_country_maintenance_dialog_description">Tente novamente mais tarde ou selecione um país diferente.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -499,7 +499,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Navegue em velocidades ainda mais altas (até %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Tunelamento dividido</string>
     <string name="upsell_card_split_tunneling_description">Navegue de dois locais ao mesmo tempo</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Assista seus filmes e programas favoritos</string>
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Tunelamento dividido</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1122,7 +1122,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Alta (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">A VPN pode funcionar mais lentamente que o normal</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocolo</string>
     <!-- tag(Redesign_2023) -->
@@ -1158,7 +1158,7 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Conecte-se a qualquer servidor Plus e comece a usar “streaming”</string>
     <string name="info_dialog_profiles_title">Perfis</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_description">Os perfis são conexões VPN personalizadas que você pode adaptar às suas necessidades e salvar para acesso rápido.\n\nDefina seu local preferido e otimize suas configurações para segurança, desempenho, jogos ou qualquer outro cenário.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">O compartilhamento de arquivos ponto a ponto está habilitado neste servidor.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1427,7 +1427,7 @@
     <string name="generic_info_label">Informações</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Conexão e vá em frente</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Novo</string>
     <string name="create_profile_auto_open_url_input_label">URL do site</string>

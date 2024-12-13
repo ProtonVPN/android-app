@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Meer hulp nodig? Neem dan rechtstreeks contact me ons op</string>
     <string name="troubleshootCustomerSupport">Klantondersteuning</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternatieve routing</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Als Proton geblokkeerd is, laat de app dan alternatieve paden proberen om de Protonservers te bereiken. <a href="%1$s">Meer leren</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Altijd-actief VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Hoe zet u Altijd-actief VPN en Kill Switch aan:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open de <b>Instellingen</b> van uw toestel door op de onderstaande knop te tikken]]></string>
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Gefilterde apps</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">IP-beveiliging</string>
     <!-- tag(Redesign_2023) -->
@@ -1429,12 +1429,12 @@
          Please don't use & in translation and capitalize key words. -->
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
-    <string name="create_profile_auto_open_label_badge">New</string>
+    <string name="create_profile_auto_open_label_badge">Nieuw</string>
     <string name="create_profile_auto_open_url_input_label">Website URL</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_off">Off</string>
+    <string name="profile_auto_open_off">Uit</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">On</string>
+    <string name="profile_auto_open_on">Aan</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
     <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
 </resources>

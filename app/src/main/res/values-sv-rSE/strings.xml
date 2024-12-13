@@ -324,7 +324,7 @@
     <string name="notification_smart_protocol_disabled_title">Smart Protocol är för närvarande inaktiverat</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN upptäckte att ditt nuvarande nätverk förhindrar en anslutning till VPN. Aktivering av Smart Protocol kan kringgå dessa begränsningar.</string>
     <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
-    <string name="upsell_streaming_services">Åtkomst till streamingtjänster (Netflix, Disney+, etc.) var som helst i världen</string>
+    <string name="upsell_streaming_services">Åtkomst till streamingtjänster (Netflix, SVT Play, etc.) var som helst i världen</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
          Neither "upsell_many_servers" nor "upsell_many_countries" includes the comma nor space!
@@ -1427,7 +1427,7 @@
     <string name="generic_info_label">Info</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Anslut och kör</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nytt</string>
     <string name="create_profile_auto_open_url_input_label">Webbplats-URL</string>

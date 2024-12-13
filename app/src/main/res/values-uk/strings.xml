@@ -1501,12 +1501,12 @@
          Please don't use & in translation and capitalize key words. -->
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
-    <string name="create_profile_auto_open_label_badge">New</string>
+    <string name="create_profile_auto_open_label_badge">Новий</string>
     <string name="create_profile_auto_open_url_input_label">Website URL</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_off">Off</string>
+    <string name="profile_auto_open_off">Вимк</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">On</string>
+    <string name="profile_auto_open_on">Ввімк</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
     <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
 </resources>

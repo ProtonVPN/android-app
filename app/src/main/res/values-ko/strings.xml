@@ -1393,7 +1393,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="generic_info_label">정보</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">연결 및 시작하기</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">신규</string>
     <string name="create_profile_auto_open_url_input_label">웹사이트 URL</string>

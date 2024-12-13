@@ -498,7 +498,7 @@
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
-    <string name="upsell_card_speed_description">Selaa entistä korkeammilla nopeuksilla (jopa %1$d Gbps).</string>
+    <string name="upsell_card_speed_description">Selaa entistä korkeammilla nopeuksilla (jopa %1$d Gbit/s)</string>
     <string name="upsell_card_split_tunneling_title">Split tunneling</string>
     <string name="upsell_card_split_tunneling_description">Selaa kahdesta sijainnista yhtä aikaa.</string>
     <string name="upsell_card_streaming_title">Suoratoisto</string>
@@ -1427,7 +1427,7 @@
     <string name="generic_info_label">Tiedot</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Yhdistä ja Siirry</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Uusi</string>
     <string name="create_profile_auto_open_url_input_label">Verkkosivuston URL-osoite</string>
