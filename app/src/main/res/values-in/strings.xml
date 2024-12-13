@@ -474,7 +474,7 @@
     <string name="upsell_card_secure_core_title">Secure Core</string>
     <string name="upsell_card_secure_core_description">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
     <string name="upsell_card_p2p_title">Dukungan P2P</string>
-    <string name="upsell_card_p2p_description">Unduh berkas melalui BitTorrent dan berbagai protokol file sharing lainnya</string>
+    <string name="upsell_card_p2p_description">Unduh berkas melalui BitTorrent dan protokol berbagi berkas lainnya</string>
     <string name="upsell_card_profiles_title">Profil</string>
     <string name="upsell_card_profiles_description">Buat koneksi VPN khusus</string>
     <string name="upsell_card_speed_title">Berselancar lebih cepat</string>
@@ -512,9 +512,9 @@
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">Dapatkan %1$s</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">Penawaran kedatangan. Diperbarui secara otomatis seharga %1$s/bulan</string>
+    <string name="payment_welcome_price_message_monthly">Penawaran selamat datang. Diperbarui secara otomatis pada harga %1$s/bulan</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">Penawaran kedatangan. Diperbarui secara otomatis seharga %1$s/tahun</string>
+    <string name="payment_welcome_price_message_annual">Penawaran selamat datang. Diperbarui secara otomatis pada harga %1$s/tahun</string>
     <string name="payment_auto_renew_message_monthly">Langganan diperbarui secara otomatis seharga %1$s/bulan</string>
     <string name="payment_auto_renew_message_annual">Langganan diperbarui secara otomatis seharga %1$s/tahun</string>
     <string name="payment_welcome_price_message_monthly_fallback">Langganan diperbarui secara otomatis setiap bulan</string>
@@ -1318,7 +1318,7 @@
     <string name="info_dialog_smart_routing_description">Smart Routing menggunakan server virtual untuk menyediakan VPN di negara dengan pembatasan internet yang ketat.\n\nPada saat Anda terhubung ke server dengan Smart Routing, Anda akan terlihat seolah-olah Anda sedang menjelajah dari negara tujuan Anda, meskipun server yang melayani Anda secara fisik berada di tempat lain.  \n\nSmart Routing pada umumnya digunakan untuk menghindari undang-undang anti-privasi dan bentuk sensor lainnya.</string>
     <string name="countries_upsell_banner_description">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
-    <string name="p2p_upsell_banner_description">Unduh berkas melalui BitTorrent dan berbagai protokol file sharing lainnya</string>
+    <string name="p2p_upsell_banner_description">Unduh berkas melalui BitTorrent dan protokol berbagi berkas lainnya</string>
     <string name="tor_upsell_banner_description">Sandingkan jaringan Tor dengan koneksi VPN Anda untuk privasi yang lebih</string>
     <string name="vpnplus_upsell_banner_description">Tingkatkan ke VPN Plus</string>
     <string name="search_zero_screen_title">Coba cari…</string>
@@ -1370,7 +1370,7 @@
     <string name="create_profile_fastest_city">Tercepat</string>
     <string name="create_profile_fastest_state">Tercepat</string>
     <string name="create_profile_fastest_server">Tercepat</string>
-    <string name="create_profile_pick_middle_country_title">Negara tengah</string>
+    <string name="create_profile_pick_middle_country_title">Negara perantara</string>
     <string name="profiles_zero_state_title">Buat profil pertama Anda</string>
     <string name="profiles_zero_state_description">Profil merupakan koneksi yang disimpan dengan lokasi, server, dan protokol yang Anda pilih.</string>
     <string name="profiles_button_create_profile">Buat profil</string>
@@ -1391,7 +1391,7 @@
     <string name="generic_info_label">Info</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Hubungkan dan Luncurkan</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Baru</string>
     <string name="create_profile_auto_open_url_input_label">URL situs web</string>
