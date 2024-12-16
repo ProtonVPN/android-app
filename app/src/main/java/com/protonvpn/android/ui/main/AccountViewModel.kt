@@ -206,6 +206,7 @@ class AccountViewModel @Inject constructor(
                 .onAccountCreateAddressNeeded { startChooseAddressWorkflow(it) }
                 .onAccountCreateAddressFailed { accountManager.disableAccount(it.userId) }
                 .onAccountCreateAccountNeeded { startSignupWorkflow(cancellable = false) }
+                .onAccountDeviceSecretNeeded { startDeviceSecretWorkflow(it) }
                 .onUserKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER, "UserKeyCheckFailed") }
                 .onUserAddressKeyCheckFailed { ProtonLogger.logCustom(LogCategory.USER,"UserAddressKeyCheckFailed") }
 
