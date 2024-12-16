@@ -23,7 +23,7 @@ buildscript {
     // We should migrate to version catalogs as soon as IDE support is available:
     // https://issuetracker.google.com/issues/226078451
     ext.androidx_lifecycle_version = '2.8.6'
-    ext.core_version = '30.0.0'
+    ext.core_version = '30.1.0'
     ext.datastore_version = '1.1.1'
     ext.desugar_jdk_version = '2.0.4'
     ext.detekt_version = '1.23.6'
@@ -47,7 +47,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.7.2'
+        classpath 'com.android.tools.build:gradle:8.7.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'org.owasp:dependency-check-gradle:10.0.4'
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.91'

@@ -46,6 +46,7 @@ import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateWorkerSched
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.CurrentUserProvider
 import com.protonvpn.android.auth.usecase.DefaultCurrentUserProvider
+import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.concurrency.DefaultDispatcherProvider
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.managed.usecase.AutoLogin
@@ -93,6 +94,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import me.proton.core.account.domain.entity.AccountType
+import me.proton.core.compose.theme.AppTheme
 import me.proton.core.configuration.EnvironmentConfiguration
 import me.proton.core.domain.entity.AppStore
 import me.proton.core.domain.entity.Product
@@ -243,6 +245,11 @@ object AppModuleProd {
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    fun provideAppTheme() = AppTheme { content ->
+        VpnTheme { content() }
+    }
 
     @Provides
     @Singleton
