@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Zkontrolujte, zda vaše připojení k internetu funguje.</string>
     <string name="troubleshootNoInternetTitle">Bez připojení k Internetu</string>
     <string name="troubleshootIspProblemTitle">Problém s poskytovatelem internetových služeb (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Zkuste se připojit k Protonu z jiné sítě (nebo použijte <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interference antiviru</string>
     <string name="troubleshootAntivirusProblemDescription">Dočasně vypněte nebo odstraňte váš antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Rušení proxy/firewall</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Stále potřebujete pomoci? Kontaktujte nás přímo</string>
     <string name="troubleshootCustomerSupport">Zákaznická podpora</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativní směrování</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V případě, že je Proton blokován, povolte aplikaci vyzkoušet alternativní cesty pro dosažení serverů Proton. <a href="%1$s">Zjistit více</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Vládní blokování</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaše země může blokovat přístup k Protonu. K přístupu k Protonu zkuste použít <a href=\'%1$s\'>Tor</a>.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Trvalá síť VPN a Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Jak aktivovat Trvalou síť VPN a Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Otevřete <b>Nastavení</b> vašeho zařízení klepnutím na tlačítko níže]]></string>
@@ -292,7 +292,7 @@
     <string name="tv_signout_dialog_description_connected">Toto odpojí vaši TV od všech VPN serverů.</string>
     <string name="tv_signout_dialog_ok">Odhlásit se</string>
     <string name="tv_quick_connect_recommened">Doporučené</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Oblíbené</string>
     <string name="tv_country_maintenance_dialog_title">Země je nedostupná</string>
     <string name="tv_country_maintenance_dialog_description">Prosím zkuste později nebo vyberte jinou zemi.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -329,7 +329,7 @@
     <string name="enable">Zapnout</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protokol je momentálně deaktivován</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN rozpoznalo, že vaše síť blokuje připojení k VPN. Zapnutí Smart Protokolu by mohlo problém vyřešit.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Pokročilé funkce: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Přistupujte ke streamovacím službám (Netflix, Disney+, atd.) kdekoliv na světě</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -1172,7 +1172,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Vysoké (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN může fungovat pomaleji, než je zvykem</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokol</string>
     <!-- tag(Redesign_2023) -->

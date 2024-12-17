@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Per favore assicurati che la connessione internet funzioni.</string>
     <string name="troubleshootNoInternetTitle">Nessuna connessione Internet</string>
     <string name="troubleshootIspProblemTitle">Problema del fornitore di servizi Internet (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Prova a connetterti a Proton da una rete diversa (o usa <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferenza antivirus</string>
     <string name="troubleshootAntivirusProblemDescription">Disattivare o rimuovere temporaneamente il software antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferenza del Proxy/Firewall</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Ancora bisogno di aiuto? Contattaci direttamente</string>
     <string name="troubleshootCustomerSupport">Supporto clienti</string>
     <string name="settingsAllowAlternativeRoutingTitle">Percorso alternativo</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Nel caso in cui Proton sia bloccato, consenti all\'app di provare percorsi alternativi per raggiungere i server Proton. <a href="%1$s">Scopri di più</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocco di governo</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Il tuo paese potrebbe bloccare l\'accesso a Proton. Prova ad utilizzare <a href=\'%1$s\'>Tor</a> per accedere a Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN sempre attiva &amp; kill switch</string>
     <string name="settingsAlwaysOnWindowHeader">Come attivare VPN sempre attiva e kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Apri le <b>Impostazioni</b> del tuo dispositivo toccando il pulsante qui sotto]]></string>
@@ -288,7 +288,7 @@
     <string name="tv_signout_dialog_description_connected">Questo disconnetterà la tua TV da qualsiasi server VPN.</string>
     <string name="tv_signout_dialog_ok">Esci</string>
     <string name="tv_quick_connect_recommened">Consigliato</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Preferito</string>
     <string name="tv_country_maintenance_dialog_title">Paese non disponibile</string>
     <string name="tv_country_maintenance_dialog_description">Riprova più tardi o seleziona un altro paese.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -323,7 +323,7 @@
     <string name="enable">Abilita</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol è attualmente disabilitato</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN ha rilevato che la rete attuale sta impedendo una connessione alla VPN. Abilitare Smart Protocol potrebbe evitare queste limitazioni.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Funzioni avanzate: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Accedi ai servizi di streaming (Netflix, Disney+, ecc.) ovunque nel mondo</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -1122,7 +1122,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Elevato (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">La VPN potrebbe essere più lenta del solito</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocollo</string>
     <!-- tag(Redesign_2023) -->

@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">인터넷 연결이 작동하는지 확인하세요.</string>
     <string name="troubleshootNoInternetTitle">인터넷에 연결되지 않음</string>
     <string name="troubleshootIspProblemTitle">인터넷 서비스 제공사업자 (ISP) 문제</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[다른 네트워크에서 Proton에 연결해 보세요 (혹은 <a href=\'%1$s\'>Tor</a> 사용)]]></string>
     <string name="troubleshootAntivirusProblemTitle">안티바이러스의 방해</string>
     <string name="troubleshootAntivirusProblemDescription">일시적으로 안티바이러스 소프트웨어를 비활성화하거나 제거하세요</string>
     <string name="troubleshootProxyFirewallProblemTitle">프록시/방화벽의 방해</string>
@@ -256,7 +256,7 @@
     <string name="nameAfricaAndMiddleEast">아프리카 &amp; 중동</string>
     <string name="nameOceania">오세아니아</string>
     <string name="tv_row_settings">설정</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">분할 터널링</string>
     <string name="tv_card_protocol_label">프로토콜</string>
     <string name="tv_detail_default_connection_checkbox_short">선호</string>
     <string name="tv_detail_connect_streaming">Plus 플랜으로 스트리밍을</string>
@@ -287,7 +287,7 @@
     <string name="tv_signout_dialog_description_connected">이렇게 하면 VPN 서버에서 TV 연결이 끊어집니다.</string>
     <string name="tv_signout_dialog_ok">로그아웃</string>
     <string name="tv_quick_connect_recommened">추천</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">즐겨찾기</string>
     <string name="tv_country_maintenance_dialog_title">국가를 사용할 수 없습니다</string>
     <string name="tv_country_maintenance_dialog_description">나중에 다시 시도하거나 다른 국가를 선택해주세요.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -321,7 +321,7 @@
     <string name="enable">활성화</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol은 현재 비활성화 되었습니다</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN이 현재 네트워크에서는 VPN에 연결할 수 없음을 감지했습니다. Smart Protocol을 활성화하면 이러한 제한을 우회할 수도 있습니다.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">고급 기능: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">전 세계 어디에서나 스트리밍 서비스(Netflix, Disney+ 등) 에 액세스</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -484,7 +484,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">더 빠른 속도로 브라우징 하세요 (최대 %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">분할 터널링</string>
     <string name="upsell_card_split_tunneling_description">한 번에 두 곳의 위치에서 브라우징하세요</string>
     <string name="upsell_card_streaming_title">스트리밍</string>
     <string name="upsell_card_streaming_description">선호하는 영화와 TV 쇼를 시청하세요</string>
@@ -965,7 +965,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">분할 터널링</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">킬 스위치</string>
     <!-- tag(Redesign_2023) -->
@@ -1098,7 +1098,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">높음 (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN이 평소보다 느릴 수 있습니다</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">프로토콜</string>
     <!-- tag(Redesign_2023) -->

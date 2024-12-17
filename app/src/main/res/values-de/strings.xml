@@ -288,7 +288,7 @@
     <string name="tv_signout_dialog_description_connected">Dadurch wird die Verbindung deines Fernsehers zu einem VPN-Server getrennt.</string>
     <string name="tv_signout_dialog_ok">Abmelden</string>
     <string name="tv_quick_connect_recommened">Empfohlen</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Favoriten</string>
     <string name="tv_country_maintenance_dialog_title">Land derzeit nicht verfügbar</string>
     <string name="tv_country_maintenance_dialog_description">Bitte versuche es später erneut oder wähle ein anderes Land.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -1383,7 +1383,7 @@
     <string name="initial_profile_name_work_school">Arbeit/Schule</string>
     <string name="initial_profile_name_anti_censorship">Zensurbekämpfung</string>
     <string name="initial_profile_name_gaming">Gaming</string>
-    <string name="initial_profile_name_max_security">Max security</string>
+    <string name="initial_profile_name_max_security">Maximale Sicherheit</string>
     <string name="create_profile_pick_country_title">Land</string>
     <string name="create_profile_pick_type_title">Typ</string>
     <string name="create_profile_type_standard">Standard</string>

@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Upewnij się, że Twoje połączenie sieciowe działa.</string>
     <string name="troubleshootNoInternetTitle">Brak połączenia z Internetem</string>
     <string name="troubleshootIspProblemTitle">Problem z dostawcą Internetu (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Spróbuj połączyć się z usługą Proton z innej sieci (lub skorzystaj z <a href=\'%1$s\'>sieci Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Konflikt z antywirusem</string>
     <string name="troubleshootAntivirusProblemDescription">Tymczasowo wyłącz lub usuń oprogramowanie antywirusowe.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Konflikt z zaporą sieciową / serwerem proxy</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Nadal potrzebujesz pomocy? Skontaktuj się z nami</string>
     <string name="troubleshootCustomerSupport">Wsparcie klienta</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternatywne przekierowanie połączenia</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[W przypadku zablokowania dostępu do usługi zezwól aplikacji na wypróbowanie alternatywnego połączenia, aby połączyć się z serwerami Proton. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Stale aktywny VPN i Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Jak włączyć stale aktywny VPN i funkcję Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Otwórz <b>ustawienia</b> urządzenia, klikając poniższy przycisk]]></string>
@@ -329,7 +329,7 @@
     <string name="enable">Włącz</string>
     <string name="notification_smart_protocol_disabled_title">Funkcja Smart Protocol jest obecnie wyłączona</string>
     <string name="notification_smart_protocol_disabled_content">Aplikacja Proton VPN wykryła, że Twoja obecna sieć blokuje połączenie z siecią VPN. Włączenie funkcji Smart Protocol może ominąć te ograniczenia.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Zaawansowane funkcje: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dostęp do usług streamingu (Netflix, Disney+ itp.) gdziekolwiek jesteś</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -1172,7 +1172,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Duże (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN może działać wolniej</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokół</string>
     <!-- tag(Redesign_2023) -->

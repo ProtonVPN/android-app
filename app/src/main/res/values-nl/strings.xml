@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Zorg ervoor dat uw internetverbinding werkt.</string>
     <string name="troubleshootNoInternetTitle">Geen internetverbinding</string>
     <string name="troubleshootIspProblemTitle">Probleem met Internet Service Provider (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Probeer verbinding te maken met Proton vanuit een ander netwerk (of gebruik <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirus-probleem</string>
     <string name="troubleshootAntivirusProblemDescription">Tijdelijk uitschakelen of verwijderen van uw antivirussoftware.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Proxy/Firewall interferentie</string>
@@ -1430,7 +1430,7 @@
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nieuw</string>
-    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <string name="create_profile_auto_open_url_input_label">URL van website</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Uit</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
