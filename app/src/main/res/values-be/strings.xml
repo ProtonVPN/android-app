@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Пераканайцеся, што ваша падключэнне да інтэрнэту працуе.</string>
     <string name="troubleshootNoInternetTitle">Няма падключэння да інтэрнэту</string>
     <string name="troubleshootIspProblemTitle">Праблема з пастаўшчыком паслуг інтэрнэту (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Паспрабуйце падлучыцца да Proton з іншай сеткі (або скарыстайцеся <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Канфлікт з антывірусам</string>
     <string name="troubleshootAntivirusProblemDescription">Часова адключыце або выдаліце антывірус.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Канфлікт з проксі-серверам/міжсеткавым экранам</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Усё яшчэ неабходна дапамога? Вы можаце звязацца непасрэдна з намі</string>
     <string name="troubleshootCustomerSupport">Падтрымка кліентаў</string>
     <string name="settingsAllowAlternativeRoutingTitle">Альтэрнатыўная маршрутызацыя</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У выпадку, калі Proton заблакіраваны, дазвольце праграме паспрабаваць альтэрнатыўныя шляхі для атрымання сувязі з серверамі Proton. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Дзяржаўная блакіроўка</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Магчыма, што ваша краіна блакіруе доступ да Proton. Для атрымання доступу, калі ласка, паспрабуйце скарыстацца <a href=\'%1$s\'>Tor</a>.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">\"Пастаянны VPN\" і Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Як уключыць \"Пастаянны VPN\" і Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Адкрыйце на сваёй прыладзе <b>Налады</b> націснуўшы на кнопку ніжэй]]></string>
@@ -261,7 +261,7 @@
     <string name="nameAfricaAndMiddleEast">Афрыка і Сярэдні Усход</string>
     <string name="nameOceania">Акіянія</string>
     <string name="tv_row_settings">Налады</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Пратакол</string>
     <string name="tv_detail_default_connection_checkbox_short">Абраная</string>
     <string name="tv_detail_connect_streaming">Трансляцыя з Plus</string>
@@ -292,7 +292,7 @@
     <string name="tv_signout_dialog_description_connected">Гэта адключыць ваш тэлевізар ад усіх сервераў VPN.</string>
     <string name="tv_signout_dialog_ok">Выйсці</string>
     <string name="tv_quick_connect_recommened">Рэкамендавана</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Улюблёны</string>
     <string name="tv_country_maintenance_dialog_title">Краіна недаступна</string>
     <string name="tv_country_maintenance_dialog_description">Паспрабуйце пазней або выберыце іншую краіну.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -329,7 +329,7 @@
     <string name="enable">Уключыць</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз адключаны</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN вызначыў, што ваша бягучая сетка блакіруе падключэнне да VPN. Уключэнне Smart Protocol можа дапамагчы абысці гэта абмежаванне.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Дадатковыя функцыі: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ да сэрвісаў трансляцый (Netflix, Disney+ і іншых) у любой краіне свету</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -531,7 +531,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Карыстайцеся інтэрнэтам на самай высокай хуткасці (да %1$d Гбіт/с)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Праглядайце з двух месцазнаходжанняў адначасова</string>
     <string name="upsell_card_streaming_title">Трансляцыі</string>
     <string name="upsell_card_streaming_description">Глядзіце свае абраныя фільмы і тэлеперадачы</string>
@@ -1039,7 +1039,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1172,7 +1172,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Высокая (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN можа працаваць павольней за звычайнае падключэнне</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Пратакол</string>
     <!-- tag(Redesign_2023) -->

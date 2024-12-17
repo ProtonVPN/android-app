@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Asigurați-vă că aveți conexiune la internet.</string>
     <string name="troubleshootNoInternetTitle">Fără conexiune la internet</string>
     <string name="troubleshootIspProblemTitle">Problemă cu furnizorul de servicii internet (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Încercați să vă conectați la Proton dintr-o altă rețea (sau folosiți <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferență antivirus</string>
     <string name="troubleshootAntivirusProblemDescription">Dezactivați temporar sau eliminați antivirusul.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferență Proxy/Paravan de protecție</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Încă aveți nevoie de ajutor? Contactați-ne direct.</string>
     <string name="troubleshootCustomerSupport">Asistență clienți</string>
     <string name="settingsAllowAlternativeRoutingTitle">Rută alternativă</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[În cazul în care Proton este blocat, permite aplicației să încerce căi alternative pentru a se conecta la serverele Proton. <a href="%1$s">Detalii</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocare guvernamentală</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Țara dvs. ar putea bloca accesul la Proton. Încercați să folosiți <a href=\'%1$s\'>Tor</a> pentru a accesa Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN permanent și întrerupător de conexiune</string>
     <string name="settingsAlwaysOnWindowHeader">Cum se activează funcția VPN permanent și întrerupătorul de conexiune</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Deschideți <b>Setările</b> dispozitivului apăsând pe butonul de mai jos]]></string>
@@ -259,7 +259,7 @@
     <string name="nameAfricaAndMiddleEast">Africa și Orientul Mijlociu</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Setări</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Divizare trafic</string>
     <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorită</string>
     <string name="tv_detail_connect_streaming">Transmisii în flux cu Plus</string>
@@ -290,7 +290,7 @@
     <string name="tv_signout_dialog_description_connected">Aceasta va deconecta televizorul de la orice server VPN.</string>
     <string name="tv_signout_dialog_ok">Deconectare</string>
     <string name="tv_quick_connect_recommened">Recomandat</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Favorită</string>
     <string name="tv_country_maintenance_dialog_title">Țara nu este disponibilă</string>
     <string name="tv_country_maintenance_dialog_description">Reîncercați mai târziu sau selectați o altă țară.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -515,7 +515,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Navigați pe web la viteze și mai mari (până la %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Divizare trafic</string>
     <string name="upsell_card_split_tunneling_description">Navigați pe internet din două locuri deodată</string>
     <string name="upsell_card_streaming_title">Transmisii în flux</string>
     <string name="upsell_card_streaming_description">Vizionați filmele și emisiunile TV favorite</string>
@@ -1014,7 +1014,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Divizare trafic</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Întrerupător de conexiune</string>
     <!-- tag(Redesign_2023) -->

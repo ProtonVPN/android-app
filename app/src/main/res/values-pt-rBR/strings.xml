@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Verifique se sua conexão com à internet esteja funcionando corretamente.</string>
     <string name="troubleshootNoInternetTitle">Sem conexão com a internet</string>
     <string name="troubleshootIspProblemTitle">Problema no provedor de serviços internet (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Tente conectar ao Proton a partir de uma rede diferente (ou use o<a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferência do antivírus</string>
     <string name="troubleshootAntivirusProblemDescription">Desative ou remova temporariamente o seu software antivírus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferência de Proxy/Firewall</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Ainda precisa de ajuda? Contate-nos diretamente</string>
     <string name="troubleshootCustomerSupport">Suporte ao cliente</string>
     <string name="settingsAllowAlternativeRoutingTitle">Roteamento alternativo</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que o aplicativo tente caminhos alternativos para acessar os servidores Proton. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueio governamental</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Seu país pode estar bloqueando o acesso ao Proton. Tente usar o <a href=\'%1$s\'>Tor</a> para acessar o Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN sempre ativa e kill switch</string>
     <string name="settingsAlwaysOnWindowHeader">Como ativar a VPN sempre ativa e o kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Abra as <b>Configurações</b> do seu dispositivo tocando no botão abaixo]]></string>
@@ -323,7 +323,7 @@
     <string name="enable">Ativar</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol está desativado</string>
     <string name="notification_smart_protocol_disabled_content">O Proton VPN detectou que sua rede atual está impedindo a conexão com a VPN. Ativar o Smart Protocol pode ignorar essas limitações.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Recursos avançados: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Acesse serviços de streaming (Netflix, Disney+, etc) em qualquer lugar do mundo</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.

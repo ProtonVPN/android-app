@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Varmista Internet-yhteytesi toiminta.</string>
     <string name="troubleshootNoInternetTitle">Ei Internet-yhteyttä</string>
     <string name="troubleshootIspProblemTitle">Internet-palveluntarjoajan (ISP) ongelma</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Yritä tavoittaa Proton eri verkon (tai <a href=\'%1$s\'>Tor-verkon</a>) välityksellä.]]></string>
     <string name="troubleshootAntivirusProblemTitle">Virustorjunnan aiheuttama häiriö</string>
     <string name="troubleshootAntivirusProblemDescription">Poista tietoturvasovellus tilapäisesti käytöstä tai poista sen asennus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Välityspalvelimen/palomuurin aiheuttama häiriö</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Tarvitsetko edelleen apua? Ota meihin yhteyttä</string>
     <string name="troubleshootCustomerSupport">Asiakaspalvelu</string>
     <string name="settingsAllowAlternativeRoutingTitle">Vaihtoehtoinen reititys</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Mikäli Protonia ei tavoiteta, salli sovelluksen pyrkiä tavoittamaan Protonin palvelimet vaihtoehtoisten reittien välityksellä. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hallinnollinen esto</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Maasi hallinto saattaa estää pääsyn Protoniin. Yritä tavoittaa Proton <a href=\'%1$s\'>Tor-verkon</a> välityksellä.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Jatkuvatoiminen VPN ja tappokytkin</string>
     <string name="settingsAlwaysOnWindowHeader">Miten jatkuvatoiminen VPN ja tappokytkin otetaan käyttöön:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Avaa laitteesi <b>Asetukset</b> napauttamalla alla olevaa painiketta]]></string>
@@ -257,7 +257,7 @@
     <string name="nameAfricaAndMiddleEast">Afrikka ja Lähi-Itä</string>
     <string name="nameOceania">Oseania</string>
     <string name="tv_row_settings">Asetukset</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Jaettu tunnelointi</string>
     <string name="tv_card_protocol_label">Protokolla</string>
     <string name="tv_detail_default_connection_checkbox_short">Suosikki</string>
     <string name="tv_detail_connect_streaming">Suoratoista Plus-tilauksella</string>
@@ -288,7 +288,7 @@
     <string name="tv_signout_dialog_description_connected">Tämä katkaisee televisiosi yhteyden kaikkiin VPN-palvelimiin.</string>
     <string name="tv_signout_dialog_ok">Kirjaudu ulos</string>
     <string name="tv_quick_connect_recommened">Suositus</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Suosikki</string>
     <string name="tv_country_maintenance_dialog_title">Maa ei ole käytettävissä</string>
     <string name="tv_country_maintenance_dialog_description">Yritä myöhemmin uudelleen tai valitse toinen maa.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -499,7 +499,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Selaa entistä korkeammilla nopeuksilla (jopa %1$d Gbit/s)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Jaettu tunnelointi</string>
     <string name="upsell_card_split_tunneling_description">Selaa kahdesta sijainnista yhtä aikaa.</string>
     <string name="upsell_card_streaming_title">Suoratoisto</string>
     <string name="upsell_card_streaming_description">Katsele suosikkielokuviasi ja -sarjojasi.</string>
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Jaettu tunnelointi</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Tappokytkin</string>
     <!-- tag(Redesign_2023) -->
@@ -1122,7 +1122,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Korkea (91-100 %)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN voi olla tavallista hitaampi</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokolla</string>
     <!-- tag(Redesign_2023) -->

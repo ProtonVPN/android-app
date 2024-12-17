@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">დარწმუნდით, რომ ინტერნეტი გაქვთ.</string>
     <string name="troubleshootNoInternetTitle">ინტერნეტი არ გაქვთ</string>
     <string name="troubleshootIspProblemTitle">ინტერნეტ სერვის პროვაიდერის (ISP) პრობლემა</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[სცადეთ მიუერთდეთ Proton-ს სხვა ქსელიდან (ან <a href=\'%1$s\'>Tor</a>-ი სცადეთ)]]></string>
     <string name="troubleshootAntivirusProblemTitle">ანტივირუსის ჩარევა</string>
     <string name="troubleshootAntivirusProblemDescription">დროებით გამორთეთ ან წაშალეთ ანტივირუსი.</string>
     <string name="troubleshootProxyFirewallProblemTitle">პროქსის/ბრანდმაუერის მიერ გამოწვეული პრობლემები</string>
@@ -188,7 +188,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">ალტერნატიული რაუტინგი</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">მთავრობის ბლოკი</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[შესაძლოა, თქვენი ქვეყანაში Proton-ზე წვდომა დაბლოკილია. Proton-თან წვდომისთვის სცადეთ <a href=\'%1$s\'>Tor-ი</a> გამოიყენოთ.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">ყოველთვის-ჩართული VPN &amp; Kill Switch-ი</string>
     <string name="settingsAlwaysOnWindowHeader">როგორ ჩავრთოთ ყოველთვის-ჩართული VPN და Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. გახსენთ თქვენი მოწყობილობის <b>პარამეტრები</b> ქვემოთ მდებრე ღილაკზე დატყაპუნებით]]></string>
@@ -257,7 +257,7 @@
     <string name="nameAfricaAndMiddleEast">აფრიკა და ახლო აღმოსავლეთი</string>
     <string name="nameOceania">ოკეანეთი</string>
     <string name="tv_row_settings">მორგება</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">პროტოკოლი</string>
     <string name="tv_detail_default_connection_checkbox_short">რჩეული</string>
     <string name="tv_detail_connect_streaming">Plus-ით სტრიმინგი</string>
@@ -288,7 +288,7 @@
     <string name="tv_signout_dialog_description_connected">ეს თქვენს TV-ს ყველა VPN სერვერიდან გათიშავს.</string>
     <string name="tv_signout_dialog_ok">გასვლა</string>
     <string name="tv_quick_connect_recommened">რეკომენდებულია</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">სანიშნი</string>
     <string name="tv_country_maintenance_dialog_title">ქვეყანა მიუწვდომელია</string>
     <string name="tv_country_maintenance_dialog_description">მოგვიანებით სცადეთ ან სხვა ქვეყანა აირჩიეთ.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -323,7 +323,7 @@
     <string name="enable">ჩართვა</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol-ი ამჟამად გათიშულია</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN-მა აღმოაჩინა, რომ თქვენი მიმდინარე ქსელი VPN-შეერთების დამყარებას ხელს უშლის. შეზღუდვის მოხსნის ცდა ჭკვიანი პროტოკოლის ჩართვით შეგიძლიათ.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">დამატებითი ფუნქციები: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">წვდომა სტრიმინგის სერვერებზე (Netflix, Disney+, და ა. შ.) მსოფლიოს ნებისმიერი ადგილიდან</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -499,7 +499,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">იმუშავეთ კიდევ უფრო სწრაფად (%1$d გბ/წმ-მდე)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">იმუშავეთ ინტერნეტში ერთდროულად ორი ადგილიდან</string>
     <string name="upsell_card_streaming_title">სტრიმინგი</string>
     <string name="upsell_card_streaming_description">უყურეთ თქვენს საყვარელ ფილმებსა და სერიალებს</string>
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1122,7 +1122,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">მაღალი (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN-მა, შეიძლება, ნორმალურზე ნელა იმუშაოს</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">პროტოკოლი</string>
     <!-- tag(Redesign_2023) -->
@@ -1427,7 +1427,7 @@
     <string name="generic_info_label">ინფორმაცია</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">მიერთება და გადასვლა</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">ახალი</string>
     <string name="create_profile_auto_open_url_input_label">ვებსაიტის URL</string>

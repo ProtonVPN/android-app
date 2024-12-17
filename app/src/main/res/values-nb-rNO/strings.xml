@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Forsikre deg om at internett-forbindelsen din fungerer.</string>
     <string name="troubleshootNoInternetTitle">Ingen internettforbindelse</string>
     <string name="troubleshootIspProblemTitle">Internett-leverandør (ISP) problem</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Prøv å koble til Proton fra et annet nettverk (eller bruk <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirus-forstyrrelser</string>
     <string name="troubleshootAntivirusProblemDescription">Deaktiver eller fjern antivirusprogramvaren midlertidig.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Proxy-/brannmurforstyrrelser</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Trenger du fortsatt hjelp? Kontakt oss direkte</string>
     <string name="troubleshootCustomerSupport">Kundestøtte</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativ ruting</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[I tilfelle Proton er blokkert, la appen prøve alternative baner for å nå Proton-tjenere. <a href="%1$s">Lær mer</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regjeringen blokkerer</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Kan hende landet ditt blokkerer tilgang til Proton. Prøv å bruke <a href=\'%1$s\'>Tor</a> for å få tilgang til Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Alltid på-VPN &amp; nødstopp</string>
     <string name="settingsAlwaysOnWindowHeader">Hvordan slå på alltid på-VPN og nødstopp:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Åpne enhetens <b>Innstillinger</b> ved å trykke på knappen nedenfor]]></string>
@@ -257,7 +257,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Midtøsten</string>
     <string name="nameOceania">Oseania</string>
     <string name="tv_row_settings">Innstillinger</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Delt tunnelering</string>
     <string name="tv_card_protocol_label">Protokoll</string>
     <string name="tv_detail_default_connection_checkbox_short">Favoritt</string>
     <string name="tv_detail_connect_streaming">Strøm med Plus</string>
@@ -288,7 +288,7 @@
     <string name="tv_signout_dialog_description_connected">Dette vil koble TV-en din fra en hvilken som helst VPN-tjener.</string>
     <string name="tv_signout_dialog_ok">Logg av</string>
     <string name="tv_quick_connect_recommened">Anbefalt</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Favoritt</string>
     <string name="tv_country_maintenance_dialog_title">Land er utilgjengelig</string>
     <string name="tv_country_maintenance_dialog_description">Forsøk igjen eller velg et annet land.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -323,7 +323,7 @@
     <string name="enable">Aktiver</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol er for øyeblikket deaktivert</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN oppdaget at ditt nåværende nettverk hindrer en tilkobling til VPN-et. Aktivering av Smart Protocol kan omgå disse begrensningene.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Avanserte funksjoner: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Få tilgang til strømmetjenester (Netflix, Disney+, osv) hvor som helst i verden</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -499,7 +499,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Surf med enda høyere hastigheter (opptil %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Delt tunnelering</string>
     <string name="upsell_card_split_tunneling_description">Surf samtidig fra to plasseringer</string>
     <string name="upsell_card_streaming_title">Strømming</string>
     <string name="upsell_card_streaming_description">Se favorittfilmene og TV-programmene dine</string>
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Delt tunnelering</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Nødstopp</string>
     <!-- tag(Redesign_2023) -->
@@ -1122,7 +1122,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Høy (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN kan kjøre tregere enn normalt</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokoll</string>
     <!-- tag(Redesign_2023) -->

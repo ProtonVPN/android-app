@@ -176,19 +176,19 @@
     <string name="troubleshootNoInternetDescription">インターネットに接続されていることをご確認ください。</string>
     <string name="troubleshootNoInternetTitle">インターネットに接続されていない</string>
     <string name="troubleshootIspProblemTitle">インターネットサービスプロバイダー (ISP) の問題</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[別のネットワークから Proton への接続を試みてみてください (または <a href=\'%1$s\'>Tor</a> を使用してみてください) 。]]></string>
     <string name="troubleshootAntivirusProblemTitle">ウイルス対策ソフトウェアの干渉</string>
     <string name="troubleshootAntivirusProblemDescription">ウイルス対策ソフトウェアを一時的に無効にするか、削除することで解決する可能性もあります。</string>
     <string name="troubleshootProxyFirewallProblemTitle">プロキシまたはファイアウォールの干渉</string>
     <string name="troubleshootProxyFirewallProblemDescription">プロキシまたはファイアウォールを無効にするか、ネットワーク管理者に問い合わせてみてください。</string>
     <string name="troubleshootProtonDownTitle">Proton のサービスが一時的にダウンしている</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[<a href=\"%1$s\">Proton ステータス</a> から私たちのシステムの動作状況をご確認ください。]]></string>
-    <string name="troubleshootContactUsSectionTitle">問題が解決しませんか? 直接お問い合わせる</string>
+    <string name="troubleshootContactUsSectionTitle">問題が解決しませんか？私たちに直接ご連絡ください</string>
     <string name="troubleshootCustomerSupport">カスタマーサポート</string>
     <string name="settingsAllowAlternativeRoutingTitle">代替ルーティング</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton がブロックされている場合、Proton サーバーに接続するために代替手段を試します。<a href="%1$s">詳細</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">政府等による検閲</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[あなたの国の政府が、 Proton への接続を検閲(遮断)している可能性があります。 Proton に接続するために <a href=\'%1$s\'>Tor</a> を使用してみてください。]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">常時接続 VPN &amp; キルスイッチ</string>
     <string name="settingsAlwaysOnWindowHeader">常時接続 VPN とキルスイッチを有効にする方法:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. 下のボタンをタップしてデバイスの<b>設定</b>を開きます]]></string>
@@ -213,8 +213,8 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[この統計にあなたの IP アドレスは含まれず、あなたを特定することはできません。この統計は第三者に共有しません。<a href="%1$s">詳細</a>]]></string>
     <string name="netshield_settings_description_not_html">ウェブサイトやアプリ上の広告、マルウェア、トラッカーから身を守ります。ウェブサイトが読み込まれない場合は、NetShield を無効にしてみてください。%1$s</string>
     <string name="settings_icon_change_description">Proton VPNアプリを目立たないアイコンで偽装します。通知には引き続きデフォルトのProton VPNの名前とアイコンが表示されます。%1$s</string>
-    <string name="settings_icon_change_learn_more">もっと詳しく知る</string>
-    <string name="learn_more">詳細</string>
+    <string name="settings_icon_change_learn_more">もっと詳しく</string>
+    <string name="learn_more">もっと詳しく</string>
     <string name="netshield_state_on" comment="Describes state, not action">オン</string>
     <string name="netshield_state_off" comment="Describes state, not action">オフ</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">オン</string>
@@ -255,7 +255,7 @@
     <string name="nameAfricaAndMiddleEast">アフリカ &amp; 中東</string>
     <string name="nameOceania">オセアニア</string>
     <string name="tv_row_settings">設定</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">スプリットトンネル</string>
     <string name="tv_card_protocol_label">プロトコル</string>
     <string name="tv_detail_default_connection_checkbox_short">お気に入り</string>
     <string name="tv_detail_connect_streaming">PLUS でストリーミング</string>
@@ -286,7 +286,7 @@
     <string name="tv_signout_dialog_description_connected">この操作により、あなたのテレビが VPN サーバーから切断されます。</string>
     <string name="tv_signout_dialog_ok">サインアウト</string>
     <string name="tv_quick_connect_recommened">推奨</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">お気に入り</string>
     <string name="tv_country_maintenance_dialog_title">この国は現在利用できません</string>
     <string name="tv_country_maintenance_dialog_description">後でもう一度試すか、別の国を選択してください。</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -320,7 +320,7 @@
     <string name="enable">有効化</string>
     <string name="notification_smart_protocol_disabled_title">スマートプロトコルは現在無効です</string>
     <string name="notification_smart_protocol_disabled_content">現在のネットワークが VPN に接続しようとしているのを妨げるのを検出しました。スマートプロトコルを有効にするとこれらの制限を回避できる可能性があります。</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">高度な機能: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">世界中どこでも Netflix や Disney+ などのストリーミングサービスにアクセス</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -483,10 +483,10 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">さらに高速なブラウジング(最大 %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">スプリットトンネル</string>
     <string name="upsell_card_split_tunneling_description">一度に2つの場所からブラウズ</string>
     <string name="upsell_card_streaming_title">ストリーミング</string>
-    <string name="upsell_card_streaming_description">好きな映画やテレビ番組を視聴</string>
+    <string name="upsell_card_streaming_description">お気に入りの映画やTV番組を見る</string>
     <string name="upsell_card_tor_title">VPN経由Tor</string>
     <string name="upsell_card_tor_description">VPN接続にTorネットワークを使用することで、プライバシーをさらに守ることができます</string>
     <!-- Format for price per period of time.
@@ -804,7 +804,7 @@
          %2$s - entry country name in nominative case
          Example: United States via Switzerland
      -->
-    <string name="connection_info_secure_core_full_other">%1$sに%2$s経由</string>
+    <string name="connection_info_secure_core_full_other">%2$s経由で%1$s</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection entry country being Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -930,7 +930,7 @@
     <!-- Displayed above the list of VPN Plus features in the home screen -->
     <string name="home_upsell_carousel_headline">VPN プラスを発見する</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">Pin</string>
+    <string name="recent_action_pin">ピン</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_unpin">ピン留めを解除</string>
     <!-- tag(Redesign_2023) -->
@@ -964,7 +964,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">スプリットトンネル</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">キルスイッチ</string>
     <!-- tag(Redesign_2023) -->
@@ -1063,7 +1063,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">戻る</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_my_ip">あなたの IP</string>
+    <string name="connection_details_my_ip">自分の IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN の IP</string>
     <!-- tag(Redesign_2023)
@@ -1081,7 +1081,7 @@
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates Server load, on the left side will be Server load, and on the right actual load values.
     -->
-    <string name="connection_details_server_load">サーバー利用率</string>
+    <string name="connection_details_server_load">サーバー負荷</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">サーバー負荷とは何ですか?</string>
     <!-- tag(Redesign_2023) -->
@@ -1097,7 +1097,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">高 (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPNは通常より遅くなる可能性があります</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">プロトコル</string>
     <!-- tag(Redesign_2023) -->
@@ -1132,8 +1132,8 @@
     <string name="info_dialog_how_to_stream_step_2">ストリーミングサービスを再スタート</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">いずれかのPlusサーバーに接続してストリーミングを開始</string>
-    <string name="info_dialog_profiles_title">プロフィール</string>
-    <string name="info_dialog_profiles_description">プロフィールは、お好きなように設定して、いつでも使えるように保存しておけるVPN接続設定のことです。\n\n特定の場所、安全性・性能の高い設定、ゲーム専用の設定など、様々な場面に合わせて設定しましょう。</string>
+    <string name="info_dialog_profiles_title">プロファイル</string>
+    <string name="info_dialog_profiles_description">プロファイルはカスタムVPN接続で、ニーズに合わせて素早くアクセスできるように保存できます。\n\nご希望の場所を設定し、セキュリティ、パフォーマンス、ゲーム、その他のシナリオで設定を最適化します。</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">ピアツーピアファイル共有はこのサーバーで有効化されています。</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1293,7 +1293,7 @@
     <string name="settings_split_tunneling_mode_description_standard">選択したアプリと IP アドレスは VPN 接続から除外されます.</string>
     <string name="settings_split_tunneling_mode_description_inverse">選択したアプリとIPアドレスだけがVPNを通して接続され、他の全てのトラフィックは保護されません。</string>
     <string name="settings_split_tunneling_excluded_apps">除外されたアプリ</string>
-    <string name="settings_split_tunneling_excluded_ips">除外されるIPアドレス</string>
+    <string name="settings_split_tunneling_excluded_ips">除外されたIPアドレス</string>
     <string name="settings_split_tunneling_included_apps">含まれるアプリ</string>
     <string name="settings_split_tunneling_included_ips">除外されたIPアドレス</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">なし</string>
@@ -1388,7 +1388,7 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">カラー%1$d</string>
-    <string name="generic_info_label">詳細</string>
+    <string name="generic_info_label">情報</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
     <string name="create_profile_connect_and_go_label">接続して続ける</string>

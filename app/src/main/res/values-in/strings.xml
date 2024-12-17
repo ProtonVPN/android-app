@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Mohon pastikan sambungan internet Anda bekerja.</string>
     <string name="troubleshootNoInternetTitle">Tidak ada koneksi internet</string>
     <string name="troubleshootIspProblemTitle">Masalah Penyedia Layanan Internet (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Mohon coba menyambungkan ke Proton dari jaringan lain (atau gunakan <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Halangan antivirus</string>
     <string name="troubleshootAntivirusProblemDescription">Nonaktifkan atau hapus perangkat lunak antivirus Anda untuk sementara waktu.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Halangan Proxy/Firewall</string>
@@ -188,7 +188,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Pengalihan lalu lintas alternatif</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Pemblokiran pemerintah</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Negara anda mungkin memblokir akses ke Proton. Coba gunakan <a href=\'%1$s\'>Tor</a> untuk mengakses Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Cara untuk mengaktifkan fitur always-on VPN dan kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Buka menu <b>Pengaturan</b> pada perangkat Anda dengan mengetuk tombol yang tertera pada gambar]]></string>
@@ -286,7 +286,7 @@
     <string name="tv_signout_dialog_description_connected">Tindakan ini akan memutus TV Anda dari server VPN mana pun yang terhubung.</string>
     <string name="tv_signout_dialog_ok">Keluar</string>
     <string name="tv_quick_connect_recommened">Direkomendasikan</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Favorit</string>
     <string name="tv_country_maintenance_dialog_title">Negara tidak tersedia</string>
     <string name="tv_country_maintenance_dialog_description">Silakan coba lagi nanti atau pilih negara yang berbeda.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -320,7 +320,7 @@
     <string name="enable">Aktifkan</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol saat ini sedang tidak aktif</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN mendeteksi bahwa jaringan Anda sedang mencegah Anda untuk dapat terhubung ke layanan VPN. Aktifkan Smart Protocol untuk melewati batasan ini.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Fitur lanjutan: Netshield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Akses berbagai layanan streaming (Netflix, Disney+, dll.) di mana pun Anda berada</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -1097,7 +1097,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Tinggi (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN dapat berjalan lebih lambat dari biasanya</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokol</string>
     <!-- tag(Redesign_2023) -->
@@ -1328,7 +1328,7 @@
     <string name="search_zero_screen_info_countries_examples">Swiss, Amerika Serikat, Italia, Kanada…</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
-    <string name="error_fetching_prices">Gagal memperoleh harga.</string>
+    <string name="error_fetching_prices">Terdapat kesalahan dalam memperoleh daftar harga.</string>
     <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi mana saja yang terlindung oleh VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplikasi yang dipilih dikecualikan dari koneksi VPN.</string>

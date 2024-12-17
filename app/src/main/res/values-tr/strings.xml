@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Lütfen internet bağlantınızın çalıştığından emin olun.</string>
     <string name="troubleshootNoInternetTitle">İnternet bağlantısı yok</string>
     <string name="troubleshootIspProblemTitle">İnternet hizmeti sağlayıcı (ISP) sorunu</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Proton\'a farklı bir ağdan bağlanmayı deneyin (veya <a href=\'%1$s\'>Tor</a> kullanın)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirüs çakışması</string>
     <string name="troubleshootAntivirusProblemDescription">Antivirus uygulamanızı geçici olarak kapatın ya da kaldırın.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Vekil sunucu veya güvenlik duvarı müdahalesi</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Hala yardım gerekiyor mu? Doğrudan bizimle görüşün</string>
     <string name="troubleshootCustomerSupport">Müşteri desteği</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternatif yöneltme</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton erişimi engelleniyorsa, uygulamanın Proton sunucularına erişmesi için alternatif yollar kullanmasını sağlar. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hükümet engellemesi</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton\'a erişimi engelliyor olabilir. Proton\'a erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Hep açık VPN ve bağlantı kesici</string>
     <string name="settingsAlwaysOnWindowHeader">Hep açık VPN ve bağlantı kesici özellikleri nasıl kullanılır:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Aşağıdaki düğmeye dokunarak aygıtınızın <b>Ayarlarını</b> açın]]></string>
@@ -257,7 +257,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika ve Orta Doğu</string>
     <string name="nameOceania">Okyanusya</string>
     <string name="tv_row_settings">Ayarlar</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Ayrılmış tünelleme</string>
     <string name="tv_card_protocol_label">İletişim kuralı</string>
     <string name="tv_detail_default_connection_checkbox_short">Yeğlenen</string>
     <string name="tv_detail_connect_streaming">Plus ile yayın akışı</string>
@@ -288,7 +288,7 @@
     <string name="tv_signout_dialog_description_connected">Bu işlem, televizyonunuzun herhangi bir VPN sunucusuyla bağlantısını kesecek.</string>
     <string name="tv_signout_dialog_ok">Oturumu kapat</string>
     <string name="tv_quick_connect_recommened">Önerilen</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Beğenilenlere ekle</string>
     <string name="tv_country_maintenance_dialog_title">Ülke kullanılamıyor</string>
     <string name="tv_country_maintenance_dialog_description">Lütfen bir süre sonra yeniden deneyin ya da başka bir ülke seçin.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -323,7 +323,7 @@
     <string name="enable">Aç</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol şu anda kapalı</string>
     <string name="notification_smart_protocol_disabled_content">ProtonVPN, kullandığınız ağın VPN bağlantısı engellediğini algıladı. Smart Protocol özelliğini açmak bu kısıtlamaları aşabilir.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Gelişmiş özellikler: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dünyanın her yerindeki yayın akışı hizmetlerine erişerek izleyin (Netflix, Disney+, vb)</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -499,7 +499,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Daha da yüksek hızlarda gezinin (%1$d Gb/sn değerine varan)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Ayrılmış tünelleme</string>
     <string name="upsell_card_split_tunneling_description">Aynı anda iki farklı konumdan gezinin</string>
     <string name="upsell_card_streaming_title">Yayın akışı</string>
     <string name="upsell_card_streaming_description">Beğendiğiniz film ve TV dizilerini izleyin</string>
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Ayrılmış tünelleme</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Bağlantı kesici</string>
     <!-- tag(Redesign_2023) -->
@@ -1122,7 +1122,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Yüksek (%91–100)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN hızı normalden düşük olabilir</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">İletişim kuralı</string>
     <!-- tag(Redesign_2023) -->
@@ -1427,7 +1427,7 @@
     <string name="generic_info_label">Bilgiler</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Bağlan ve git</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Yeni</string>
     <string name="create_profile_auto_open_url_input_label">Site adresi</string>

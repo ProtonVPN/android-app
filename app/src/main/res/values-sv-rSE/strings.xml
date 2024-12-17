@@ -103,7 +103,7 @@
     <string name="noVpnPermissionGrantPermissionTitle">Bevilja VPN-behörighet</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Android behöver din tillåtelse för att ansluta till Proton VPN. Tillåt det genom att trycka på \"OK\" när fönstret \"Anslutningsbegäran\" visas i Android.</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Inaktivera alltid-på för andra VPN-appar</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android stöder inte flera VPN-appar. Inaktivera alltid-på för andra VPN-appar förutom Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android stöder inte flera VPN-appar. Inaktivera alltid-på för alla VPN-appar förutom Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Proton VPN-app</string>
     <string name="noVpnPermissionOtherAppLabel">Andra VPN-appar</string>
     <string name="noVpnPermissionOpenSettings">Öppna Android VPN-inställningar</string>
@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Se till att din Internetanslutning fungerar.</string>
     <string name="troubleshootNoInternetTitle">Ingen Internetanslutning</string>
     <string name="troubleshootIspProblemTitle">Problem med Internetleverantör (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Försök att ansluta till Proton från ett annat nätverk (eller använd <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirusstörningar</string>
     <string name="troubleshootAntivirusProblemDescription">Inaktivera eller ta bort ditt antivirusprogram tillfälligt.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Proxy/brandväggsstörning</string>
@@ -186,11 +186,11 @@
     <string name="troubleshootContactUsSectionTitle">Behöver du fortfarande hjälp? Kontakta oss direkt</string>
     <string name="troubleshootCustomerSupport">Kundsupport</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativ routing</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Om Proton är blockerad, tillåt appen att prova alternativa vägar för att nå Proton-servrar. <a href="%1$s">Lär dig mer</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regeringsblockering</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ditt land kanske blockerar åtkomst till Proton. Testa att använda <a href=\'%1$s\'>Tor</a> för att komma åt Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Alltid-på-VPN &amp; kill switch</string>
-    <string name="settingsAlwaysOnWindowHeader">Hur man slår på alltid-på VPN och kill switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">Hur man aktiverar alltid-på VPN och kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Öppna din enhets <b>inställningar</b> genom att trycka på knappen nedan]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Hitta Proton VPN och tryck %1$s</string>
@@ -323,7 +323,7 @@
     <string name="enable">Aktivera</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol är för närvarande inaktiverat</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN upptäckte att ditt nuvarande nätverk förhindrar en anslutning till VPN. Aktivering av Smart Protocol kan kringgå dessa begränsningar.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Avancerade funktioner: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Åtkomst till streamingtjänster (Netflix, SVT Play, etc.) var som helst i världen</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -369,7 +369,7 @@
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Lås upp snabbare, mindre belastade servrar med hastigheter på upp till %1$d Gbps.</string>
+    <string name="upgrade_vpn_accelerator_message">Lås upp snabbare och mindre belastade servrar med hastigheter på upp till %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Få det bästa av två världar</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Dela upp din trafik i VPN- och icke-VPN-tunnlar med <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Lås upp avancerad VPN-anpassning</string>
@@ -667,7 +667,7 @@
     <string name="welcome_plus_description">Njut av extra integritetsfunktioner, kraftfullare prestanda och nästa nivå av VPN-anpassning.</string>
     <string name="welcome_plus_feature_security">Avancerade säkerhetsfunktioner</string>
     <string name="welcome_unlimited_title">Välkommen till Proton Unlimited</string>
-    <string name="welcome_unlimited_description"><![CDATA[Grattis! Du har låst upp premium säkerhets- och prestandafunktioner på alla Proton-tjänster, plus <b>%1$d&#160; GB</b> totalt lagringsutrymme.<br><br>Njut av det bästa av Protons integritet.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[Grattis! Du har låst upp premium säkerhets- och prestandafunktioner i alla Proton-tjänster, plus <b>%1$d&#160; GB</b> totalt lagringsutrymme.<br><br>Njut av det bästa av Proton-integritet.]]></string>
     <string name="welcome_generic_title">Grattis</string>
     <string name="welcome_generic_description">Du har uppgraderat din prenumeration. Njut av avancerade integritetsfunktioner och nästa nivå av prestanda.</string>
     <!-- Example: Up to 10 devices at once
@@ -947,7 +947,7 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">mer information om gratis anslutningar</string>
+    <string name="connection_card_accessbility_label_free_connections">mer information om gratisanslutningar</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -966,11 +966,11 @@
     -->
     <string name="recent_action_accessibility_state_pinned">Fäst</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">Alla servrar i detta land är under underhåll</string>
+    <string name="message_country_servers_in_maintenance">Alla servrar i detta land underhålls</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">Alla servrar i denna ort är under underhåll</string>
+    <string name="message_city_servers_in_maintenance">Alla servrar i denna ort underhålls</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">Alla servrar i denna delstat är under underhåll</string>
+    <string name="message_state_servers_in_maintenance">Alla servrar i denna delstat underhålls</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Server under underhåll</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1021,7 +1021,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_rate_us_title">Betygsätt Proton VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_app_version">App-version: %1$s</string>
+    <string name="settings_app_version">Appversion: %1$s</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Tredjepartslicenser</string>
     <!-- tag(Redesign_2023) -->
@@ -1283,7 +1283,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Öka din anslutningshastighet med upp till 400 %% med prestandaförbättrade teknologier. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Öka din anslutningshastighet med upp till 400 %% med prestandaförbättrande teknologier. %1$s</string>
     <string name="settings_account_settings_title">Kontoinställningar</string>
     <string name="settings_account_change_password">Ändra lösenord</string>
     <string name="settings_account_recovery_email">E-post för återställning</string>
@@ -1317,8 +1317,8 @@
     <string name="settings_protocol_wireguard_udp_description">Toppmodernt protokoll för säkerhet och prestanda.</string>
     <string name="settings_protocol_wireguard_tcp_description">Toppmodernt protokoll för säkerhet och prestanda.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Etablerad, väl beprövad och säker. OpenVPN är mindre batterieffektivt än vissa andra protokoll.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Etablerad, väl beprövad och säker. OpenVPN är pålitligt i dåliga nätverksförhållanden, men kanske inte är lika snabba som andra protokoll.</string>
+    <string name="settings_protocol_openvpn_udp_description">Etablerat, välbeprövat och säker. OpenVPN är mindre batterieffektivt än vissa andra protokoll.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Etablerat, välbeprövat och säker. OpenVPN är pålitligt i dåliga nätverksförhållanden, men kanske inte är lika snabba som andra protokoll.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Övervinner VPN-blockeringar genom att dölja din VPN-anslutning från censureringar. Detta protokoll är DPI-beständigt (deep packet inspection) men kanske inte är lika snabbt som andra protokoll. Stealth är exklusivt för Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1344,9 +1344,9 @@
     <string name="info_secure_core_advanced_privacy">Avancerad integritet</string>
     <string name="info_secure_core_higher_latency">Högre latens</string>
     <string name="info_p2p_what_title">Vad är P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P)-teknologi gör att du kan ansluta och dela filer direkt med andra enheter.\n\nVåra P2P-servrar är specialdesignade för att stödja denna typ av fildelning.</string>
+    <string name="info_p2p_what_description">Peer-to-peer-teknologi (P2P) gör att du kan ansluta och dela filer direkt med andra enheter.\n\nVåra P2P-servrar är specialdesignade för att stödja denna typ av fildelning.</string>
     <string name="info_p2p_torrenting_title">Vad är torrenting?</string>
-    <string name="info_p2p_torrenting_description">Snabb delning och nedladdning av stora filer över ett P2P-nätverk.</string>
+    <string name="info_p2p_torrenting_description">Den snabba delningen och nedladdningen av stora filer över ett P2P-nätverk.</string>
     <string name="info_p2p_why_title">Varför använda en P2P-server vid torrenting?</string>
     <string name="info_p2p_why_description_speed">Ökad upp- och nedladdningshastighet</string>
     <string name="info_p2p_why_description_logs">Inga aktivitetsloggar</string>
