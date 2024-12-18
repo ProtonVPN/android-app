@@ -158,7 +158,7 @@ class PaymentPanelFragment : Fragment() {
             anchorView = fragmentView
         }
         if (allowReportToSentry && shouldReportToSentry(throwable))
-            logToSentry(message, throwable) // Remove this once we know payments are in a good shape.
+            logToSentry(message ?: throwable?.message, throwable) // Remove this once we know payments are in a good shape.
     }
 
     private fun getUserMessage(context: Context, throwable: Throwable?): String? =
