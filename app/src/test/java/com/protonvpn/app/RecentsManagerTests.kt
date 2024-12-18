@@ -16,7 +16,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -25,6 +26,7 @@ import org.junit.Test
 class RecentsManagerTests {
 
     private lateinit var manager: RecentsManager
+    private lateinit var testScope: TestScope
 
     @RelaxedMockK private lateinit var vpnStatusProviderUI: VpnStatusProviderUI
 
@@ -37,7 +39,8 @@ class RecentsManagerTests {
         MockKAnnotations.init(this)
         Storage.setPreferences(MockSharedPreference())
         every { vpnStatusProviderUI.status } returns vpnStatus
-        manager = RecentsManager(TestCoroutineScope(), vpnStatusProviderUI, mockk(relaxed = true))
+        testScope = TestScope(UnconfinedTestDispatcher())
+        manager = RecentsManager(testScope.backgroundScope, vpnStatusProviderUI, mockk(relaxed = true))
     }
 
     private fun addRecent(connectionParams: ConnectionParams) {

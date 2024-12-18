@@ -167,7 +167,7 @@ class Telemetry(
         val isFirstEvent = pendingEvents.isEmpty()
         pendingEvents.add(event)
         if (pendingEvents.size > eventCountLimit) {
-            pendingEvents.removeFirst()
+            pendingEvents.removeAt(0)
         }
         logi("event added, total: ${pendingEvents.size}")
         cache.save(pendingEvents)

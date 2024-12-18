@@ -110,7 +110,7 @@ class RecentsManager @Inject constructor(
             removeFirst { it.serverName == server.serverName }
             addFirst(server)
             if (size > RECENT_SERVER_MAX_SIZE)
-                removeLast()
+                removeAt(lastIndex)
         }
     }
 
@@ -118,7 +118,7 @@ class RecentsManager @Inject constructor(
         if (server.exitCountry.isNotEmpty()) {
             recentCountries.remove(server.exitCountry)
             if (recentCountries.size > RECENT_MAX_SIZE) {
-                recentCountries.removeLast()
+                recentCountries.removeAt(recentCountries.lastIndex)
             }
             recentCountries.add(0, server.exitCountry)
         }

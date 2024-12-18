@@ -149,8 +149,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
     implementation 'com.google.guava:guava:33.2.1-android'
 
-    implementation "me.proton.test:fusion:0.9.62"
-    implementation 'me.proton.vpn:go-vpn-lib:0.1.39'
+    implementation "me.proton.test:fusion:$test_fusion_version"
+    implementation "me.proton.vpn:go-vpn-lib:$govpnlib_version"
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coroutines_version") {
         // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android

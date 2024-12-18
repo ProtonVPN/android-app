@@ -53,7 +53,6 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
 import com.protonvpn.android.R
-import com.protonvpn.android.logging.ProtonLogger
 import me.proton.core.util.kotlin.times
 import okhttp3.internal.toHexString
 import java.io.File
@@ -63,24 +62,6 @@ import java.nio.charset.StandardCharsets
 import java.util.Arrays
 
 object AndroidUtils {
-
-    fun isPackageSignedWith(
-        context: Context,
-        packageName: String,
-        expectedSignature: String
-    ): Boolean = with(context) {
-        val oldAppInfo = packageManager.getPackageInfo(packageName,
-            PackageManager.GET_SIGNING_CERTIFICATES or PackageManager.GET_SIGNATURES)
-                ?: return false
-
-        val signatures = if (Build.VERSION.SDK_INT < 28)
-            oldAppInfo.signatures
-        else
-            oldAppInfo.signingInfo.apkContentsSigners
-        return signatures.iterator().asSequence().any { signature ->
-            signature.toCharsString() == expectedSignature
-        }
-    }
 
     fun Context.isRtl() =
         resources.configuration.layoutDirection == ViewCompat.LAYOUT_DIRECTION_RTL
