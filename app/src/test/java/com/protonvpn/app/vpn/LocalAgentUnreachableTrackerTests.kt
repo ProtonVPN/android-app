@@ -25,7 +25,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
 import org.junit.Assert.assertFalse
@@ -45,7 +47,7 @@ class LocalAgentUnreachableTrackerTests {
     private lateinit var networkStatusFlow: MutableSharedFlow<NetworkStatus>
 
     private lateinit var unreachableTracker: LocalAgentUnreachableTracker
-    private lateinit var testCoroutineScope: TestCoroutineScope
+    private lateinit var testCoroutineScope: TestScope
     private var clockMs = 10_000L
 
     @Before
@@ -55,9 +57,9 @@ class LocalAgentUnreachableTrackerTests {
         networkStatusFlow = MutableSharedFlow(extraBufferCapacity = 1)
         every { mockNetworkManager.observe() } returns networkStatusFlow
 
-        testCoroutineScope = TestCoroutineScope()
+        testCoroutineScope = TestScope(UnconfinedTestDispatcher())
         clockMs = 10_000L
-        unreachableTracker = LocalAgentUnreachableTracker({ clockMs }, testCoroutineScope, mockNetworkManager)
+        unreachableTracker = LocalAgentUnreachableTracker({ clockMs }, testCoroutineScope.backgroundScope, mockNetworkManager)
     }
 
     @Test
@@ -98,7 +100,7 @@ class LocalAgentUnreachableTrackerTests {
     }
 
     @Test
-    fun `when network changes while unreachable then minimal interval is used`() {
+    fun `when network changes while unreachable then minimal interval is used`() = testCoroutineScope.runTest {
         unreachableTracker.onUnreachable()
         unreachableTracker.onFallbackTriggered()
         networkStatusFlow.tryEmit(NetworkStatus.Unmetered)
