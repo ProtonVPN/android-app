@@ -174,6 +174,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         resourceConfigurations = supportedLocales
 
+        manifestPlaceholders = ["gwpAsanMode": "default"]
+
         def availableLocalesJava = supportedLocales.collect { "\"$it\"" }.join(", ")
         buildConfigField "String[]", "SUPPORTED_LOCALES", "{$availableLocalesJava}"
 
@@ -308,6 +310,8 @@ android {
             applicationIdSuffix '.dev'
             buildConfigField "String", "STORE_SUFFIX", "\"\""
             buildConfigField "Boolean", "ALLOW_LOGCAT", "true"
+
+            manifestPlaceholders = ["gwpAsanMode": "always"]
         }
     }
     variantFilter { variant ->
@@ -332,6 +336,7 @@ android {
             signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "TEST_ACCOUNT_PASSWORD",  "\"${StringEscapeUtils.escapeJava(testAccountPassword)}\""
+            manifestPlaceholders = ["gwpAsanMode": "always"]
         }
         release {
             minifyEnabled true

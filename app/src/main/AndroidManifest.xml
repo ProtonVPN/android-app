@@ -50,6 +50,7 @@
         android:supportsRtl="true"
         android:theme="@style/ProtonTheme.Vpn.Mobile"
         android:requestLegacyExternalStorage="true"
+        android:gwpAsanMode="${gwpAsanMode}"
         android:taskAffinity=""
         tools:replace="android:theme">
 
