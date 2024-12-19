@@ -436,19 +436,23 @@ abstract class VpnBackend(
         connectToLocalAgent()
         return when (localAgentState) {
             agentConstants.stateConnected -> {
-                localAgentUnreachableTracker.reset()
+                localAgentUnreachableTracker.reset(true)
                 VpnState.Connected
             }
             agentConstants.stateConnectionError,
             agentConstants.stateServerUnreachable -> {
                 // When unreachable comes from local agent it means VPN tunnel is still active, set either
                 // UNREACHABLE or UNREACHABLE_INTERNAL to fallback with pings.
-                val shouldFallback = localAgentUnreachableTracker.onUnreachable()
-                if (shouldFallback) {
-                    localAgentUnreachableTracker.onFallbackTriggered()
-                    VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
-                } else {
-                    VpnState.Error(ErrorType.UNREACHABLE, isFinal = false)
+                val action = localAgentUnreachableTracker.onUnreachable()
+                when (action) {
+                    LocalAgentUnreachableTracker.UnreachableAction.SILENT_RECONNECT ->
+                        VpnState.Connected
+                    LocalAgentUnreachableTracker.UnreachableAction.FALLBACK -> {
+                        localAgentUnreachableTracker.onFallbackTriggered()
+                        VpnState.Error(ErrorType.UNREACHABLE_INTERNAL, isFinal = false)
+                    }
+                    LocalAgentUnreachableTracker.UnreachableAction.ERROR ->
+                        VpnState.Error(ErrorType.UNREACHABLE, isFinal = false)
                 }
             }
             agentConstants.stateClientCertificateExpiredError -> {
@@ -464,9 +468,13 @@ abstract class VpnBackend(
             agentConstants.stateWaitingForNetwork ->
                 VpnState.WaitingForNetwork
             agentConstants.stateHardJailed, // Error will be handled in NativeClient.onError method
-            agentConstants.stateSoftJailed,
-            agentConstants.stateConnecting ->
+            agentConstants.stateSoftJailed ->
                 VpnState.Connecting
+            agentConstants.stateConnecting ->
+                if (localAgentUnreachableTracker.isSilentReconnect())
+                    VpnState.Connected
+                else
+                    VpnState.Connecting
             else ->
                 VpnState.Connecting
         }
@@ -544,7 +552,7 @@ abstract class VpnBackend(
             reconnectionJob = null
             agentConnectionJob?.cancel()
             agentConnectionJob = null
-            localAgentUnreachableTracker.reset()
+            localAgentUnreachableTracker.reset(false)
             agent?.close()
             agent = null
         }

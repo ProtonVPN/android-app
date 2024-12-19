@@ -30,8 +30,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.NetworkStatus
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -65,8 +64,8 @@ class LocalAgentUnreachableTrackerTests {
     @Test
     fun `when unreachable errors before minimum time then fallback is not triggered`() {
         repeat(3) {
-            val shouldFallback = unreachableTracker.onUnreachable()
-            assertFalse(shouldFallback)
+            val action = unreachableTracker.onUnreachable()
+            assertEquals(LocalAgentUnreachableTracker.UnreachableAction.ERROR, action)
             clockMs += MIN_RETRY_TIME_MS / 3
         }
     }
@@ -74,11 +73,22 @@ class LocalAgentUnreachableTrackerTests {
     @Test
     fun `when unreachable error after minimum time then fallback is triggered`() {
         repeat(3) {
-            val shouldFallback = unreachableTracker.onUnreachable()
-            assertFalse(shouldFallback)
+            val action = unreachableTracker.onUnreachable()
+            assertEquals(LocalAgentUnreachableTracker.UnreachableAction.ERROR, action)
             clockMs += MAX_RETRY_TIME_MS / 3
         }
-        assertTrue(unreachableTracker.onUnreachable())
+        assertEquals(LocalAgentUnreachableTracker.UnreachableAction.FALLBACK, unreachableTracker.onUnreachable())
+    }
+
+
+    @Test
+    fun `when unreachable error happens while connected then the first response is silent`() {
+        unreachableTracker.reset(connected = true)
+        assertEquals(
+            LocalAgentUnreachableTracker.UnreachableAction.SILENT_RECONNECT,
+            unreachableTracker.onUnreachable()
+        )
+        `when unreachable error after minimum time then fallback is triggered`()
     }
 
     @Test
@@ -88,15 +98,15 @@ class LocalAgentUnreachableTrackerTests {
 
         unreachableTracker.onFallbackTriggered()
         clockMs += 4 * MIN_RETRY_TIME_MS - 1
-        assertFalse(unreachableTracker.onUnreachable())
+        assertEquals(LocalAgentUnreachableTracker.UnreachableAction.ERROR, unreachableTracker.onUnreachable())
         clockMs += 4 * MAX_JITTER_MS
-        assertTrue(unreachableTracker.onUnreachable())
+        assertEquals(LocalAgentUnreachableTracker.UnreachableAction.FALLBACK, unreachableTracker.onUnreachable())
 
         unreachableTracker.onFallbackTriggered()
         clockMs += 9 * MIN_RETRY_TIME_MS - 1
-        assertFalse(unreachableTracker.onUnreachable())
+        assertEquals(LocalAgentUnreachableTracker.UnreachableAction.ERROR, unreachableTracker.onUnreachable())
         clockMs += 9 * MAX_JITTER_MS
-        assertTrue(unreachableTracker.onUnreachable())
+        assertEquals(LocalAgentUnreachableTracker.UnreachableAction.FALLBACK, unreachableTracker.onUnreachable())
     }
 
     @Test
@@ -105,6 +115,7 @@ class LocalAgentUnreachableTrackerTests {
         unreachableTracker.onFallbackTriggered()
         networkStatusFlow.tryEmit(NetworkStatus.Unmetered)
         clockMs += MAX_RETRY_TIME_MS
-        assertTrue(unreachableTracker.onUnreachable())
+        assertEquals(LocalAgentUnreachableTracker.UnreachableAction.FALLBACK, unreachableTracker.onUnreachable())
     }
+
 }
