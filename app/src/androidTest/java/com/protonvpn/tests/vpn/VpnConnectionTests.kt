@@ -896,11 +896,15 @@ class VpnConnectionTests {
         nativeClient!!.onState(agentConsts.stateConnected)
         assertEquals(VpnState.Connected, mockWireguard.selfState)
 
-        every { mockLocalAgentUnreachableTracker.onUnreachable() } returns false
+        every {
+            mockLocalAgentUnreachableTracker.onUnreachable()
+        } returns LocalAgentUnreachableTracker.UnreachableAction.ERROR
         nativeClient!!.onState(agentConsts.stateServerUnreachable)
         coVerify(exactly = 0) { vpnErrorHandler.onUnreachableError(any()) }
 
-        every { mockLocalAgentUnreachableTracker.onUnreachable() } returns true
+        every {
+            mockLocalAgentUnreachableTracker.onUnreachable()
+        } returns  LocalAgentUnreachableTracker.UnreachableAction.FALLBACK
         nativeClient!!.onState(agentConsts.stateServerUnreachable)
         coVerify { vpnErrorHandler.onUnreachableError(any()) }
     }

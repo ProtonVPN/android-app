@@ -37,11 +37,17 @@ class LocalAgentUnreachableTracker @Inject constructor(
     mainScope: CoroutineScope,
     networkManager: NetworkManager
 ) {
+    enum class UnreachableAction {
+        SILENT_RECONNECT, FALLBACK, ERROR
+    }
+
     private val fallbackIntervalMinMs = TimeUnit.SECONDS.toMillis(30)
     private val fallbackIntervalMaxMs = TimeUnit.MINUTES.toMillis(15)
 
     private var lastFallbackMs = 0L
     private var fallbackTriggerCount = 0
+    private var isConnected = false
+    private var lastUnreachableAction: UnreachableAction? = null
 
     init {
         networkManager.observe()
@@ -50,15 +56,22 @@ class LocalAgentUnreachableTracker @Inject constructor(
             .launchIn(mainScope)
     }
 
-    /**
-     *  Returns true if fallback should be triggered.
-     */
-    fun onUnreachable(): Boolean {
+    fun onUnreachable(): UnreachableAction {
+        val wasConnected = isConnected
+        isConnected = false
+
+        // Note: silent reconnect does count towards timer for triggering fallback.
         val now = elapsedRealtimeMs()
         if (lastFallbackMs == 0L)
             lastFallbackMs = now
 
-        return now - lastFallbackMs >= fallbackIntervalMs()
+        val unreachableAction = when {
+            wasConnected -> UnreachableAction.SILENT_RECONNECT
+            now - lastFallbackMs >= fallbackIntervalMs() -> UnreachableAction.FALLBACK
+            else -> UnreachableAction.ERROR
+        }
+        lastUnreachableAction = unreachableAction
+        return unreachableAction
     }
 
     fun onFallbackTriggered() {
@@ -66,7 +79,11 @@ class LocalAgentUnreachableTracker @Inject constructor(
         lastFallbackMs = elapsedRealtimeMs()
     }
 
-    fun reset() {
+    fun isSilentReconnect() = lastUnreachableAction == UnreachableAction.SILENT_RECONNECT
+
+    fun reset(connected: Boolean) {
+        isConnected = connected
+        lastUnreachableAction = null
         fallbackTriggerCount = 0
         lastFallbackMs = 0
     }
