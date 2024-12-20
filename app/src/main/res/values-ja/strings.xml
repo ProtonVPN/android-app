@@ -32,7 +32,7 @@
     <string name="connectionAllocationHelpDescription2">この手順は数分かかります。その後、ログインしてすべてのデバイスを保護することができます。</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">現在、このアカウントでは VPN 接続が有効になっていません。Proton VPN を使い始めるには、管理者にご連絡ください。</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN 接続を有効にする</string>
-    <string name="connectionAllocationHelpLoginAgainButton">再度ログイン</string>
+    <string name="connectionAllocationHelpLoginAgainButton">もう一度サインイン</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">詳細</string>
@@ -82,7 +82,7 @@
     <string name="report_bug_email_label">メールアドレス</string>
     <string name="report_bug_email_hint">メールアドレスを入力</string>
     <string name="report_bug_message_label">メッセージ</string>
-    <string name="report_bug_message_hint">バグの内容と見つけ方を教えてください</string>
+    <string name="report_bug_message_hint">バグと見つけた場所を記述してください</string>
     <string name="send_report">レポートを送信</string>
     <string name="discardChanges">保存されていない変更を削除しますか?</string>
     <string name="discard">破棄</string>
@@ -563,7 +563,7 @@
     <string name="upgrade_moderate_nat_title2">ゲーム体験のレベルアップ</string>
     <string name="upgrade_moderate_nat_message2"><![CDATA[<b>NAT タイプ 2</b> により、オンライン ゲームとビデオ通話のパフォーマンスが向上します。]]></string>
     <string name="free_connections_info_message">Proton Freeでは、利用可能な最速のサーバーに自動的に接続されます。これは通常、あなたの所在地に最も近いサーバーとなります。</string>
-    <string name="free_connections_info_server_locations">フリーサーバロケーション (%1$d)</string>
+    <string name="free_connections_info_server_locations">無料サーバーの場所 (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plusで世界中をカバー</string>
     <string name="free_connection_info_title">無料接続</string>
     <string name="search_upsell_banner_title">どこからでもストリーミング</string>
@@ -584,7 +584,7 @@
     <string name="settings_change_icon_header_discreet">目立たないアプリアイコン</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
-    <string name="notification_banner_dismiss_accessibility_label">バナーを却下</string>
+    <string name="notification_banner_dismiss_accessibility_label">バナーを閉じる</string>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
          %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
@@ -632,27 +632,27 @@
       -->
     <string name="server_change_button_time_left_seconds_content_description">%1$s 内で可能</string>
     <string name="server_change_progress_finished_contend_description">今すぐ入手可能</string>
-    <string name="not_wanted_country_title">望んだ国ではなかった？</string>
-    <string name="not_wanted_country_description">アップグレードで好きなサーバーを選べる</string>
+    <string name="not_wanted_country_title">ご希望の国ではありませんか？</string>
+    <string name="not_wanted_country_description">アップグレードして任意のサーバーを選択</string>
     <string name="whats_new_title">最新情報</string>
     <string name="whats_new_new_look_title">新しい外観、変わらない保護</string>
     <string name="whats_new_new_look_description">私たちはデザインを更新し、アプリを使いやすくするためにいくつかのものを移動させました。</string>
-    <string name="whats_new_recents_title">最近の紹介</string>
+    <string name="whats_new_recents_title">最近あったことを紹介</string>
     <string name="whats_new_recents_description">お気に入りのサーバーへの再接続がさらに簡単になりました。最近の接続をホーム画面に表示したり、ピン留めしてすばやくアクセスできます。最近の接続はプロファイルに置き換わります。</string>
     <string name="whats_new_dismiss_button">確認する</string>
-    <string name="whats_new_added_countries_title">新しい自由の国</string>
+    <string name="whats_new_added_countries_title">新しい無料の国</string>
     <string name="whats_new_added_countries_description">ポーランドとルーマニアに無料サーバーができました。サーバーの混雑を防ぐため、手動での国選択を廃止し、自動サーバー選択を大幅に改善しました。</string>
     <string name="welcome_plus_title">VPN Plusへようこそ</string>
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
     <string name="welcome_plus_feature_security">高度なセキュリティ機能</string>
     <string name="welcome_unlimited_title">Proton Unlimitedへようこそ</string>
-    <string name="welcome_unlimited_description"><![CDATA[おめでとうございます！すべてのProtonサービスでプレミアムなセキュリティとパフォーマンスの機能、さらに<b>%1$d&#160;GB</b>の総ストレージを解除しました。<br><br>Protonプライバシーをお楽しみください。]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[おめでとうございます！すべてのProtonサービスでプレミアムなセキュリティとパフォーマンスの機能、さらに合計<b>%1$d&#160;GB</b>のストレージを解除しました。<br><br>Protonプライバシーをお楽しみください。]]></string>
     <string name="welcome_generic_title">おめでとうございます！</string>
     <string name="welcome_generic_description">サブスクリプションをアップグレードしました。高度なプライバシー機能と次世代のパフォーマンスをお楽しみください。</string>
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="other">一度に最大 %1$d デバイス</item>
+        <item quantity="other">一度に最大 %1$d 台のデバイス</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -661,7 +661,7 @@
      1200+ new servers
      -->
     <plurals name="welcome_plus_servers">
-        <item quantity="other">%d+ の新しいサーバー</item>
+        <item quantity="other">%d 台の新しいサーバー</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
 
@@ -1028,8 +1028,8 @@
     <string name="country_filter_servers_list_header">サーバー (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Secure Core の国 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P対応国 (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">P2P 都市 (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">P2P (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P 対応都市 (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P 対応州 (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor対応国 (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Torサーバー (%1$d)</string>
     <string name="country_filter_info_label">情報</string>

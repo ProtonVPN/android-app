@@ -247,7 +247,7 @@
     <string name="guestHoleNotificationContent">Proberen om de netwerkproblemen te omzeilen. Dit zal u helpen toegang te verkrijgen tot Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Kon de VPN-verbinding niet initialiseren vanwege een conflict tussen de dual-app (bijvoorbeeld Dual Messenger) en Split Tunneling. Schakel een van deze uit en herstart uw apparaat.</string>
     <string name="errorTorrentNotAllowed">P2P is niet toegestaan op deze server</string>
-    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
+    <string name="error_profile_fallback_unavailable">Verbinding mislukt. Uw serverkeuze is niet beschikbaar voor het profiel.</string>
     <string name="profileProtocolNotAvailable">Het VPN-protocol van dit profiel is momenteel niet beschikbaar. Probeer het protocol te veranderen om te verbinden.</string>
     <string name="stateConnectedTo">Verbonden met %1$s</string>
     <string name="stateNotConnected">U bent niet verbonden</string>
@@ -1427,7 +1427,7 @@
     <string name="generic_info_label">Informatie</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Verbinden en doorgaan</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nieuw</string>
     <string name="create_profile_auto_open_url_input_label">URL van website</string>
@@ -1435,6 +1435,6 @@
     <string name="profile_auto_open_off">Uit</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">Aan</string>
-    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
-    <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
+    <string name="create_profile_auto_open_description">Open automatisch een website naar keuze wanneer u verbinding maakt met dit profiel.</string>
+    <string name="profile_auto_open_error_invalid_url">Voer een geldige URL in</string>
 </resources>

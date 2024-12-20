@@ -103,14 +103,14 @@
     <string name="noVpnPermissionGrantPermissionTitle">Myönnä VPN-käyttöoikeus</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Proton VPN -yhteyden muodostamiseksi sille on myönnettävä Androidin VPN-käyttöoikeus. Tämä onnistuu napauttamalla avautuvasta Androidin yhteyspyynnöstä \"Salli\".</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Poista \"Aina päällä oleva VPN\" -asetus käytöstä muilta VPN-sovelluksilta</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ei tue useiden VPN-sovellusten samanaikaista käyttöä. Poista \"Aina päällä oleva VPN\" -asetus käytöstä muilta VPN-sovelluksilta.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Android ei tue useiden VPN-sovellusten samanaikaista käyttöä. Poista jatkuvatoiminen VPN käytöstä muilta VPN-sovelluksilta.</string>
     <string name="noVpnPermissionProtonAppLabel">Proton VPN -sovellus</string>
     <string name="noVpnPermissionOtherAppLabel">Muut VPN-sovellukset</string>
     <string name="noVpnPermissionOpenSettings">Avaa Androidin VPN-asetukset</string>
     <string name="noNotificationPermissionGrantTitle">Älä jää ilman suojausta…</string>
     <string name="noNotificationPermissionGrantDescription">Ota ilmoitukset käyttöön saadaksesi huomautuksia yhteytesi tilamuutoksista.</string>
     <string name="noNotificationPermissionGrantNowTitle">Salli ilmoitukset</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Poista "Aina päällä oleva VPN" -asetus käytöstä muilta VPN-sovelluksilta Andoidin VPN-asetuksista, koska se estää Proton VPN:ää muodostamasta VPN-yhteyttä. Myönnä myös VPN-käyttöoikeus, mikäli sitä pyytävä ilmoitus avautuu. On mahdollista, että jotkin VPN-sovellukset on poistettava kokonaan yhteensopivuusongelmien vuoksi. Kokeile sitten uudelleen. <a href="%1$s">Lue lisää</a>]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Poista jatkuvatoiminen VPN käytöstä muilta VPN-sovelluksilta Andoidin VPN-asetuksista, koska se estää Proton VPN:ää muodostamasta VPN-yhteyttä. Myönnä myös VPN-käyttöoikeus, mikäli sitä pyytävä ilmoitus avautuu. On mahdollista, että jotkin VPN-sovellukset on poistettava kokonaan yhteensopivuusongelmien vuoksi. Kokeile sitten uudelleen. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="error_prepare_vpn_settings">Avaa Androidin VPN-asetukset</string>
     <string name="error_prepare_vpn_title">Virhe: VPN-käyttöoikeusongelma</string>
     <string name="error_server_not_set">Palvelin ei ole enää käytettävissä</string>
@@ -228,11 +228,11 @@
     <string name="netshield_free_description">Estä mainoksia, seurantoja ja haittaohjelmia verkkosivustoilla ja sovelluksissa</string>
     <string name="netshield_what_data_means">Mitä NetShieldin tiedonsiirto tarkoittaa</string>
     <string name="netshield_ads_title">Mainokset</string>
-    <string name="netshield_ads_details">Mainokset ja näkymättömät mainosseuraajat</string>
-    <string name="netshield_trackers_title">Seuraajat</string>
-    <string name="netshield_trackers_details">Evästeet ja muut seuraajat, jotka tallentavat ja jakavat tietoja internetin käytöstäsi</string>
+    <string name="netshield_ads_details">Mainokset ja näkymättömät mainosseurannat</string>
+    <string name="netshield_trackers_title">Seurannat</string>
+    <string name="netshield_trackers_details">Evästeet ja muut seurannat, jotka tallentavat ja jakavat tietoja internetin käytöstäsi</string>
     <string name="netshield_data_title">Tiedonsiirto</string>
-    <string name="netshield_data_details">NetShieldin estämien ei-toivottujen mainosten, jäljittäjien ja haittaohjelmien tiedonsiirron määrä</string>
+    <string name="netshield_data_details">NetShieldin estämien ei-toivottujen mainosten, seurantojen ja haittaohjelmien tiedonsiirron määrä</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Mainos estetty</item>
         <item quantity="other">Mainosta estetty</item>
@@ -242,7 +242,7 @@
         <item quantity="other">Seurantaa estetty</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Säästetty</string>
-    <string name="netshield_setting_warning">Jotkin verkkosivustot eivät ehkä lataudu kunnolla, kun mainokset ja seuraajat on estetty.</string>
+    <string name="netshield_setting_warning">Jotkin verkkosivustot eivät ehkä lataudu oikein, kun mainokset ja seurannat on estetty.</string>
     <string name="dialogDontShowAgain">Älä näytä uudelleen</string>
     <string name="guestHoleNotificationContent">Verkkoyhteyden ongelmia yritetään kiertää. Tämä auttaa Proton VPN-yhteyden muodostuksessa.</string>
     <string name="errorTunMultiUserPermission">VPN-yhteyden muodostus ei onnistunut monistetun sovelluksen (esim. Dual Messenger) ja jaetun tunneloinnin ristiriidan vuoksi. Poista jompikumpi käytöstä ja käynnistä laite uudelleen.</string>
