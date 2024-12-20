@@ -65,7 +65,7 @@
     <string name="disconnect">Putuskan</string>
     <string name="state_connecting">Menghubungkan…</string>
     <string name="state_connected">Terhubung</string>
-    <string name="state_disconnecting">Memutus sambungan…</string>
+    <string name="state_disconnecting">Memutuskan hubungan…</string>
     <string name="state_error">Kesalahan</string>
     <string name="error_server_list_load_failed">Silakan periksa koneksi Anda dan coba lagi.</string>
     <string name="error_server_unreachable">Tidak dapat terhubung ke VPN. Mohon periksa koneksi Anda dan coba lagi.</string>
@@ -82,9 +82,9 @@
     <string name="report_bug_email_label">Email Anda</string>
     <string name="report_bug_email_hint">Masukkan alamat email Anda</string>
     <string name="report_bug_message_label">Pesan</string>
-    <string name="report_bug_message_hint">Mohon deskripsikan bug dan bagaimana Anda menemukannya</string>
+    <string name="report_bug_message_hint">Mohon jelaskan bug yang bersangkutan dan bagaimana Anda menemukan bug ini</string>
     <string name="send_report">Kirim laporan</string>
-    <string name="discardChanges">Urungkan perubahan yang belum disimpan?</string>
+    <string name="discardChanges">Buang perubahan yang belum disimpan?</string>
     <string name="discard">Buang</string>
     <string name="done">SELESAI</string>
     <string name="add">TAMBAH</string>
@@ -177,13 +177,13 @@
     <string name="troubleshootNoInternetTitle">Tidak ada koneksi internet</string>
     <string name="troubleshootIspProblemTitle">Masalah Penyedia Layanan Internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Mohon coba menyambungkan ke Proton dari jaringan lain (atau gunakan <a href=\'%1$s\'>Tor</a>)]]></string>
-    <string name="troubleshootAntivirusProblemTitle">Halangan antivirus</string>
+    <string name="troubleshootAntivirusProblemTitle">Gangguan antivirus</string>
     <string name="troubleshootAntivirusProblemDescription">Nonaktifkan atau hapus perangkat lunak antivirus Anda untuk sementara waktu.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">Halangan Proxy/Firewall</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Gangguan Proxy/Firewall</string>
     <string name="troubleshootProxyFirewallProblemDescription">Nonaktifkan seluruh proxy atau firewall yang aktif, atau hubungi pengelola jaringan Anda.</string>
     <string name="troubleshootProtonDownTitle">Proton sedang offline</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Periksa <a href=\"%1$s\">Proton Status</a> untuk status sistem kami.]]></string>
-    <string name="troubleshootContactUsSectionTitle">Masih butuh bantuan lebih lanjut? Hubungi kami secara langsung</string>
+    <string name="troubleshootContactUsSectionTitle">Masih memerlukan bantuan? Hubungi kami secara langsung</string>
     <string name="troubleshootCustomerSupport">Layanan dukungan</string>
     <string name="settingsAllowAlternativeRoutingTitle">Pengalihan lalu lintas alternatif</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
@@ -208,11 +208,11 @@
     <string name="settingsEnableTelemetryTitle">Bagikan statistik pemakaian anonim</string>
     <string name="settingsEnableTelemetryDescription">Statistik pemakaian membantu kami dalam menangkal pemblokiran VPN dan meningkatkan performa aplikasi.</string>
     <string name="settingsSendCrashReportsTitle">Bagikan laporan crash anonim</string>
-    <string name="settingsSendCrashReportsDescription">Laporan crash membantu kami dalam memperbaiki bug, mendeteksi firewall, dan menangkal pemblokiran VPN.</string>
+    <string name="settingsSendCrashReportsDescription">Laporan crash membantu kami dalam memperbaiki bug, mendeteksi firewall, dan menghindari pemblokiran VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistik pemakaian</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga mana pun. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. Apabila situs web yang ingin Anda kunjungi tidak termuat, cobalah untuk menonaktifkan NetShield. %1$s</string>
-    <string name="settings_icon_change_description">Samarkan Proton VPN dengan ikon aplikasi yang tidak terlihat mencolok. Notifikasi yang masuk akan tetap menampilkan nama dan ikon Proton VPN bawaan. %1$s</string>
+    <string name="settings_icon_change_description">Samarkan Proton VPN dengan ikon aplikasi yang tidak mencolok. Notifikasi yang masuk akan tetap menampilkan nama dan ikon Proton VPN bawaan. %1$s</string>
     <string name="settings_icon_change_learn_more">Pelajari lebih lanjut</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
     <string name="netshield_state_on" comment="Describes state, not action">Aktif</string>
@@ -245,7 +245,7 @@
     <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi Proton VPN Anda.</string>
     <string name="errorTunMultiUserPermission">Sambungan VPN tidak dapat dikukuhkan karena terdapat konflik antar aplikasi dual-app (semisal Dual Messenger) dan Split Tunneling. Silakan nonaktifkan salah satu aplikasi dan nyalakan ulang perangkat Anda.</string>
     <string name="errorTorrentNotAllowed">P2P tidak diizinkan pada server ini</string>
-    <string name="error_profile_fallback_unavailable">Koneksi gagal. Pemilihan server Anda untuk profil tidak tersedia.</string>
+    <string name="error_profile_fallback_unavailable">Koneksi gagal. Pilihan server Anda tidak tersedia untuk profil ini.</string>
     <string name="profileProtocolNotAvailable">Protokol VPN yang diusung oleh profil ini saat ini sedang tidak tersedia. Untuk dapat terhubung, cobalah untuk mengubah protokol.</string>
     <string name="stateConnectedTo">Terhubung ke %1$s</string>
     <string name="stateNotConnected">Anda tidak terhubung</string>
@@ -260,7 +260,7 @@
     <string name="tv_detail_default_connection_checkbox_short">Favorit</string>
     <string name="tv_detail_connect_streaming">Tonton dengan Plus</string>
     <string name="tv_detail_connect">Hubungkan</string>
-    <string name="tv_detail_description_streaming_country">Tonton konten favorit Anda. Akses lebih banyak aplikasi dengan paket Proton VPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Tonton konten streaming favorit Anda. Akses lebih banyak aplikasi dengan paket Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Tonton lebih banyak konten favorit Anda dengan paket Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Negara ini tidak tersedia. Dapatkan lebih banyak opsi tontonan dengan paket Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Tonton video, film, atau olahraga favorit dengan aplikasi Anda.</string>
@@ -273,13 +273,13 @@
     <string name="tv_login_step2_description">Masuk ke Proton VPN</string>
     <string name="tv_login_step3_description">Masukkan kode yang Anda miliki:</string>
     <string name="tv_login_timer_label">Kode ini akan kedaluwarsa dalam:</string>
-    <string name="tv_login_refresh">Muat Ulang</string>
+    <string name="tv_login_refresh">Muat ulang</string>
     <string name="tv_login_title_loading">Memuat…</string>
     <string name="tv_login_title_refresh">Sesi Anda telah kedaluwarsa. Muat ulang halaman untuk memulai proses dari awal.</string>
     <string name="tv_upgrade_title">Mulai menonton dengan Plus</string>
     <string name="back">Kembali</string>
     <string name="tv_upgrade_url_details"><![CDATA[Kunjungi <b>%1$s</b> untuk meningkatkan akun Anda ke Proton VPN Plus sekarang juga.]]></string>
-    <string name="tv_upgrade_description">Dapatkan paket Proton VPN Plus untuk mengakses 500+ server di seluruh dunia dan berbagai layanan streaming seperti Netflix, Amazon Prime Video, Disney+, dan masih banyak lagi.</string>
+    <string name="tv_upgrade_description">Dapatkan paket Proton VPN Plus untuk mengakses 500+ server di seluruh dunia dan berbagai pilihan streaming yang dioptimalkan untuk Netflix, Amazon Prime Video, Disney+, dan masih banyak lagi.</string>
     <string name="tv_vpn_error_dialog_title">Sambungan VPN gagal</string>
     <string name="tv_signout_label">Keluar</string>
     <string name="tv_signout_dialog_title">Apakah Anda yakin ingin keluar?</string>
@@ -308,9 +308,9 @@
     <string name="notification_max_sessions_title">Anda telah mencapai batas jumlah perangkat maksimum yang dapat Anda sambungkan</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="other">Silakan putuskan perangkat lain agar perangkat ini dapat terhubung, atau tingkatkan ke Plus untuk dapat menghubungkan hingga %1$d perangkat secara bersamaan.</item>
+        <item quantity="other">Silakan putuskan perangkat lain untuk menghubungkan perangkat ini, atau tingkatkan ke Plus untuk menghubungkan hingga %1$d perangkat secara bersamaan.</item>
     </plurals>
-    <string name="notification_max_sessions_content">Mohon putuskan perangkat lain agar perangkat ini dapat terhubung.</string>
+    <string name="notification_max_sessions_content">Silakan putuskan perangkat lain untuk menghubungkan perangkat ini.</string>
     <string name="notification_cancel_to_free">Anda sedang berada dalam paket Free. Anda akan dapat menikmati berbagai server dan fitur Free yang tersedia.</string>
     <string name="notification_cancel_to_basic">Anda sedang berada dalam paket Basic. Anda akan dapat menikmati berbagai server dan fitur Basic &amp; Free yang tersedia.</string>
     <string name="notification_cancel_to_delinquent">Anda akan kembali dapat mengakses berbagai fitur premium setelah seluruh faktur yang tertunggak dilunasi.</string>
@@ -535,8 +535,8 @@
     <string name="upgrade_success_get_started_button">Mulai</string>
     <string name="dynamic_report_suggestion_didnt_work">Apakah solusi di atas tidak membantu?</string>
     <string name="dynamic_report_contact_us">Hubungi kami</string>
-    <string name="dynamic_report_tips_description">Tips-tips berikut dapat membantu Anda untuk menyelesaikan masalah yang Anda hadapi dengan cepat.</string>
-    <string name="dynamic_report_tips_title">Solusi instan</string>
+    <string name="dynamic_report_tips_description">Tips-tips berikut dapat membantu untuk menyelesaikan masalah Anda dengan lebih cepat.</string>
+    <string name="dynamic_report_tips_title">Solusi kilat</string>
     <string name="dynamic_report_logs_title">Kirimkan log error</string>
     <string name="dynamic_report_success_title">Terima kasih atas tanggapan Anda</string>
     <string name="dynamic_report_success_description">Kami akan kembali menghubungi Anda sesegera mungkin.</string>
@@ -553,7 +553,7 @@
     <string name="dialog_create_account_action_create">Buat akun</string>
     <string name="dialog_create_account_action_signin">Masuk</string>
     <string name="server_search_menu_title">Pencarian</string>
-    <string name="search_empty_result_subtitle">Silakan coba kata kunci pencarian lainnya</string>
+    <string name="search_empty_result_subtitle">Silakan coba kata kunci pencarian yang berbeda</string>
     <string name="search_empty_result_title">Tidak ada hasil yang ditemukan</string>
     <!-- Content description for an icon button that clears search query in the input field. -->
     <string name="search_clear_query_content_description">Hapus</string>
@@ -994,7 +994,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_fight_censorship_title">Bantu kami melawan sensor</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_rate_us_title">Beri Ulasan pada Proton VPN</string>
+    <string name="settings_rate_us_title">Beri nilai Proton VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_app_version">Versi aplikasi: %1$s</string>
     <!-- tag(Redesign_2023) -->

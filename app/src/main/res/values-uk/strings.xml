@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Переконайтеся, що ваше інтернет-з\'єднання працює.</string>
     <string name="troubleshootNoInternetTitle">Немає з\'єднання з інтернетом</string>
     <string name="troubleshootIspProblemTitle">Проблема постачальника послуг інтернету (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Спробуйте під\'єднатися до Proton з іншої мережі (або скористайтеся <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Перешкоджання антивіруса</string>
     <string name="troubleshootAntivirusProblemDescription">Тимчасово вимкніть чи вилучіть свою антивірусну програму.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Взаємодія з проксі та мережевим екраном</string>
@@ -186,9 +186,9 @@
     <string name="troubleshootContactUsSectionTitle">Досі потребуєте допомоги? Зв\'яжіться з нами безпосередньо</string>
     <string name="troubleshootCustomerSupport">Клієнтська підтримка</string>
     <string name="settingsAllowAlternativeRoutingTitle">Альтернативна маршрутизація</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У разі блокування Proton, дозвольте програмі спробувати альтернативні способи з\'єднання з серверами Proton. <a href="%1$s">Докладніше</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Блокування урядом</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ваша країна може блокувати доступ до Proton. Спробуйте скористатися <a href=\'%1$s\'>Tor</a> для доступу до Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Постійна VPN та Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Як увімкнути постійну VPN та Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Відкрийте <b>Налаштування</b> вашого пристрою, торкнувшись кнопки нижче]]></string>
@@ -251,7 +251,7 @@
     <string name="guestHoleNotificationContent">Спроба обійти проблеми з мережею. Це допоможе вам одержати доступ до Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Не вдалося ініціалізувати VPN-з\'єднання через конфлікт між подвійним додатком (наприклад, Dual Messenger) та роздільним тунелюванням. Від\'єднайте один з них і перезавантажте пристрій.</string>
     <string name="errorTorrentNotAllowed">P2P не дозволено на цьому сервері</string>
-    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
+    <string name="error_profile_fallback_unavailable">Не вдалося встановити з\'єднання. Сервер, вибраний для профілю, недоступний.</string>
     <string name="profileProtocolNotAvailable">Протокол VPN цього профілю наразі недоступний. Для під\'єднання спробуйте змінити протокол.</string>
     <string name="stateConnectedTo">З\'єднано з %1$s</string>
     <string name="stateNotConnected">Ви не під\'єднані</string>
@@ -261,7 +261,7 @@
     <string name="nameAfricaAndMiddleEast">Африка та Близький Схід</string>
     <string name="nameOceania">Океанія</string>
     <string name="tv_row_settings">Налаштування</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Роздільне тунелювання</string>
     <string name="tv_card_protocol_label">Протокол</string>
     <string name="tv_detail_default_connection_checkbox_short">Улюблені</string>
     <string name="tv_detail_connect_streaming">Транслюйте з Plus</string>
@@ -292,7 +292,7 @@
     <string name="tv_signout_dialog_description_connected">Це від\'єднає ваше ТБ від усіх VPN-серверів.</string>
     <string name="tv_signout_dialog_ok">Вийти</string>
     <string name="tv_quick_connect_recommened">Рекомендовано</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Улюблене</string>
     <string name="tv_country_maintenance_dialog_title">Країна недоступна</string>
     <string name="tv_country_maintenance_dialog_description">Будь ласка, повторіть спробу пізніше або оберіть іншу країну.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -329,7 +329,7 @@
     <string name="enable">Увімкнути</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol зараз вимкнено</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN виявив, що ваша мережа запобігає з\'єднанню з VPN. Увімкнення Smart Protocol допоможе обійти це обмеження.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Додаткові функції: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ до сервісів потокової трансляції (Netflix, Disney+ та ін.) у будь-якій частині світу</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -531,7 +531,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Користуйтеся інтернетом зі ще вищою швидкістю (до %1$d Гбіт/с)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Роздільне тунелювання</string>
     <string name="upsell_card_split_tunneling_description">Виходьте в інтернет одночасно з двох розташувань</string>
     <string name="upsell_card_streaming_title">Потокова трансляція</string>
     <string name="upsell_card_streaming_description">Дивіться улюблені фільми й телешоу</string>
@@ -1039,7 +1039,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Роздільне тунелювання</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1172,7 +1172,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Високе (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN може працювати повільніше</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Протокол</string>
     <!-- tag(Redesign_2023) -->
@@ -1499,14 +1499,14 @@
     <string name="generic_info_label">Інформація</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Під\'єднатися й відкрити</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Новий</string>
-    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <string name="create_profile_auto_open_url_input_label">URL-адреса вебсайту</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Вимк</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">Ввімк</string>
-    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
-    <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
+    <string name="create_profile_auto_open_description">Автоматично відкривати вибраний вебсайт після під\'єднання до цього профілю.</string>
+    <string name="profile_auto_open_error_invalid_url">Введіть дійсну URL-адресу</string>
 </resources>
