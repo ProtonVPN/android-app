@@ -174,6 +174,7 @@ class VpnConnectionManagerTests {
         every { mockNetworkManager.isConnectedToNetwork() } returns true
         every { mockBackend.vpnProtocol } returns connectionParams.protocolSelection!!.vpn
         every { mockBackend.selfStateFlow } returns mockBackendSelfState
+        every { mockBackend.internalVpnProtocolState } returns mockBackendSelfState
         every { mockBackend.lastKnownExitIp } returns MutableStateFlow(null)
         every { mockVpnErrorHandler.switchConnectionFlow } returns MutableSharedFlow()
         every { mockVpnBackgroundUiDelegate.shouldSkipAccessRestrictions() } returns false

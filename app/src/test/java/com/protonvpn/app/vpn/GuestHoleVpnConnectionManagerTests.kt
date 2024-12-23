@@ -262,6 +262,7 @@ class GuestHoleVpnConnectionManagerTests {
         every { mock.setSelfState(any()) } answers { backendStateFlow.value = firstArg() }
         every { mock.selfStateFlow } returns backendStateFlow
         every { mock.selfState } answers { backendStateFlow.value }
+        every { mock.internalVpnProtocolState } answers { backendStateFlow }
         every { mock.lastKnownExitIp } returns MutableStateFlow(null)
         every { mock.netShieldStatsFlow } returns MutableStateFlow(NetShieldStats())
 

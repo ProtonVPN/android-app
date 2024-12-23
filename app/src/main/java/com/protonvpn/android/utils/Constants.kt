@@ -214,6 +214,7 @@ object Constants {
 
     val VPN_ROOT_CERTS = BuildConfig.VPN_SERVER_ROOT_CERT ?: DEFAULT_VPN_ROOT_CERTS
 
+    const val PROTON_DNS_LOCAL_IP = "10.2.0.1"
     const val LOCAL_AGENT_IP = "10.2.0.1"
     const val LOCAL_AGENT_ADDRESS = "$LOCAL_AGENT_IP:65432"
 

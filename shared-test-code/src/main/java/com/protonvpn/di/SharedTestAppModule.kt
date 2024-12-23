@@ -34,6 +34,7 @@ import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
 import com.protonvpn.android.di.AppDatabaseModule
 import com.protonvpn.android.di.AppModuleProd
+import com.protonvpn.android.di.CoreBaseNetworkModule
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ServersStore
 import com.protonvpn.android.models.vpn.usecase.GetConnectingDomain
@@ -82,7 +83,6 @@ import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asExecutor
 import me.proton.core.configuration.EnvironmentConfiguration
-import me.proton.core.network.dagger.CoreBaseNetworkModule
 import me.proton.core.network.data.di.AlternativeApiPins
 import me.proton.core.network.data.di.BaseProtonApiUrl
 import me.proton.core.network.data.di.CertificatePins

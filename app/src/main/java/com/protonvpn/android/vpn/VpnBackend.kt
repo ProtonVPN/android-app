@@ -335,10 +335,14 @@ abstract class VpnBackend(
         }
     }
 
-    protected var vpnProtocolState: VpnState = VpnState.Disabled
+    val internalVpnProtocolState = MutableStateFlow<VpnState>(VpnState.Disabled)
+
+    // internalVpnProtocolState serves as a backing field for this property
+    protected var vpnProtocolState: VpnState
+        get() = internalVpnProtocolState.value
         set(value) {
-            val hasChanged = field != value
-            field = value
+            val hasChanged = internalVpnProtocolState.value != value
+            internalVpnProtocolState.value = value
             if (hasChanged) onVpnProtocolStateChange(value)
         }
 

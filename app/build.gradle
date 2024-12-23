@@ -758,6 +758,9 @@ dependencies {
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:$kotlin_version"))
 
+    implementation 'dnsjava:dnsjava:3.6.2'
+    implementation "net.java.dev.jna:jna:5.13.0"
+
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.google.code.gson:gson:2.11.0'
@@ -849,7 +852,9 @@ dependencies {
     // Proton Core libs
     implementation "me.proton.vpn:go-vpn-lib:$govpnlib_version"
     implementation "me.proton.core:domain:$core_version"
-    implementation "me.proton.core:network:$core_version"
+    implementation "me.proton.core:network-data:$core_version"
+    implementation "me.proton.core:network-domain:$core_version"
+    implementation "me.proton.core:network-presentation:$core_version"
     implementation "me.proton.core:notification-data:$core_version"
     implementation "me.proton.core:notification-domain:$core_version"
     implementation "me.proton.core:notification-presentation:$core_version"

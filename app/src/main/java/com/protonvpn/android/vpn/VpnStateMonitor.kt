@@ -55,6 +55,10 @@ abstract class VpnStatusProvider {
 
     fun isConnectingToCountry(country: String) =
         connectingToServer?.exitCountry == country
+
+    // Internal state of a VPN protocol (like WireGuard). Doesn't take into account local agent and
+    // VpnConnectionManager states.
+    val internalVpnProtocolState = MutableStateFlow<VpnState>(Disabled)
 }
 
 @Singleton

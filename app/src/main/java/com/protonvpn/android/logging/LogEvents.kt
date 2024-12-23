@@ -62,6 +62,7 @@ val ApiLogResponse = LogEventType(LogCategory.API, "RESPONSE", LogLevel.INFO)
 val ApiLogError = LogEventType(LogCategory.API, "ERROR", LogLevel.WARN)
 
 val AppCrash = LogEventType(LogCategory.APP, "CRASH", LogLevel.FATAL)
+val AppDNS = LogEventType(LogCategory.APP, "DNS", LogLevel.INFO)
 @JvmField
 val AppProcessStart = LogEventType(LogCategory.APP, "PROCESS_START", LogLevel.INFO)
 @JvmField
