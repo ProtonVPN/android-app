@@ -59,6 +59,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -251,6 +252,17 @@ class VpnConnectionManager @Inject constructor(
             // dependency cycle.
             currentVpnServiceProvider.activeVpnBackend = it?.let { it::class }
         }.launchIn(scope)
+        scope.launch {
+            activeBackendFlow.collectLatest { backend ->
+                if (backend == null)
+                    vpnStateMonitor.internalVpnProtocolState.value = VpnState.Disabled
+                else {
+                    backend.internalVpnProtocolState.collect { state ->
+                        vpnStateMonitor.internalVpnProtocolState.value = state
+                    }
+                }
+            }
+        }
     }
 
     private fun setInternalState(newState: InternalState) {

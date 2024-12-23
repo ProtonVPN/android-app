@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL
@@ -92,6 +93,7 @@ class ConnectivityMonitor @Inject constructor(
         get() = defaultNetwork?.transports ?: emptySet()
 
     val networkCapabilitiesFlow = MutableStateFlow<Map<String, Boolean>?>(null)
+    val isPrivateDnsActive = MutableStateFlow<Boolean?>(null)
 
     private val capabilitiesConstantMap = mutableMapOf(
         "MMS" to NET_CAPABILITY_MMS,
@@ -190,6 +192,16 @@ class ConnectivityMonitor @Inject constructor(
                 getTransports(it).joinToString(", ")
             }.orEmpty()
             ProtonLogger.log(NetworkChanged, "$event: $network $transports")
+        }
+
+        override fun onLinkPropertiesChanged(
+            network: Network,
+            linkProperties: LinkProperties
+        ) {
+            if (Build.VERSION.SDK_INT >= 28) {
+                isPrivateDnsActive.value = linkProperties.isPrivateDnsActive
+                ProtonLogger.log(NetworkChanged, "isPrivateDnsActive: ${linkProperties.isPrivateDnsActive}")
+            }
         }
     }
 
