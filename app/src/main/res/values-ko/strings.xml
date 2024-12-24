@@ -79,8 +79,8 @@
     <string name="upgrade">업그레이드</string>
     <string name="retry">재시도</string>
     <string name="report_message">메시지 신고</string>
-    <string name="report_bug_email_label">당신의 이메일</string>
-    <string name="report_bug_email_hint">당신의 이메일 주소를 입력해주세요</string>
+    <string name="report_bug_email_label">나의 이메일</string>
+    <string name="report_bug_email_hint">이메일 주소를 입력해주세요</string>
     <string name="report_bug_message_label">메시지</string>
     <string name="report_bug_message_hint">어떤 버그인지, 어디서 발생했는지 알려주세요</string>
     <string name="send_report">전송하기</string>
@@ -264,11 +264,11 @@
     <string name="tv_detail_description_streaming_country">Proton VPN Plus 플랜으로 좋아하는 스트리밍과 더 많은 앱으로의 접근을.</string>
     <string name="tv_detail_description_no_streaming_country">Proton VPN Plus 플랜으로 좋아하는 스트리밍 콘텐츠를 더 즐겨보세요.</string>
     <string name="tv_detail_description_country_not_available">이 국가는 이용할 수 없습니다. Proton VPN Plus 플랜으로 더 많은 스트리밍 옵션을 이용해보세요.</string>
-    <string name="tv_detail_description_plus">당신의 앱으로 좋아하는 비디오, 영화, 스포츠를 스트리밍 해보세요.</string>
+    <string name="tv_detail_description_plus">내 앱으로 좋아하는 비디오, 영화, 스포츠를 스트리밍 해보세요.</string>
     <string name="tv_login_title_signin">Proton VPN 로그인</string>
     <string name="tv_login_title_welcome">좋아하는 비디오 컨텐츠를 스트리밍 해보세요</string>
     <string name="tv_login_welcome_description">Youtube, Twitch 등 50여 개국의 동영상 콘텐츠를 감상할 수 있습니다. Proton VPN Plus로 Netflix, Amazon Prime, Hulu를 스트리밍하세요.</string>
-    <string name="tv_login_welcome_description_bottom"><![CDATA[<b>%1$s</b>에서 당신의 Proton VPN 계정을 가입하세요]]></string>
+    <string name="tv_login_welcome_description_bottom"><![CDATA[<b>%1$s</b>에서 Proton VPN 계정을 가입하세요]]></string>
     <string name="tv_login_welcome_button">로그인</string>
     <string name="tv_login_step1_description"><![CDATA[모바일 장치 또는 컴퓨터에서<b>%1$s</b>로 이동합니다.]]></string>
     <string name="tv_login_step2_description">Proton VPN 로그인</string>
@@ -301,9 +301,9 @@
     <string name="tv_other_servers">다른 서버 (%1$d)</string>
     <string name="tv_server_list">서버 목록</string>
     <string name="tv_server_list_action_unavailable">사용할 수 없음</string>
-    <string name="notification_subscription_expired_title">당신의 Proton VPN 구독이 만료되었습니다</string>
-    <string name="notification_subscription_expired_content">비록 당신의 요금제가 다운그레이드 되었지만, 해당 요금제에서 사용 가능한 가장 빠른 서버에 접속하고 있습니다.</string>
-    <string name="notification_subscription_expired_no_reconnection_content">당신의 구독 단계가 하락되었습니다.</string>
+    <string name="notification_subscription_expired_title">회원님의 Proton VPN 구독이 만료되었습니다</string>
+    <string name="notification_subscription_expired_content">비록 회원님의 요금제가 다운그레이드 되었지만, 해당 요금제에서 사용 가능한 가장 빠른 서버에 접속하고 있습니다.</string>
+    <string name="notification_subscription_expired_no_reconnection_content">회원님의 구독 단계가 하락되었습니다.</string>
     <string name="notification_delinquent_title">나의 Proton VPN 계정에 보류 중인 청구서가 있습니다.</string>
     <string name="notification_delinquent_content">구독을 다시 활성화 시키기 위해 잠깐 시간을 내어 결제 정보를 업데이트 해주세요.</string>
     <string name="notification_max_sessions_title">기기를 연결할 수 있는 최대 개수에 도달했습니다.</string>
@@ -349,7 +349,7 @@
     <string name="upgrade_netshield_title">광고 없는 브라우징</string>
     <string name="upgrade_netshield_message"><![CDATA[<b>NetShield</b>가 광고와 트래커, 멀웨어를 차단합니다.]]></string>
     <string name="upgrade_secure_core_title">암호화가 두 배로</string>
-    <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b>가 당신의 VPN 연결에 한 겹의 암호화를 더합니다.]]></string>
+    <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b>가 사용자의 VPN 연결에 한 겹의 암호화를 더합니다.]]></string>
     <string name="upgrade_p2p_title">P2P (peer-to-peer) 다운로드와 파일 공유를 잠금 해제하세요 </string>
     <string name="upgrade_p2p_text">업로드와 다운로드 속도를 개선하면서 IP 주소는 숨깁니다.</string>
     <string name="upgrade_profiles_title">자주 연결하는 연결에 더 빠르게 접근하세요.</string>
