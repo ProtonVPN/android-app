@@ -278,7 +278,7 @@
     <string name="tv_login_title_refresh">Sesi Anda telah kedaluwarsa. Muat ulang halaman untuk memulai proses dari awal.</string>
     <string name="tv_upgrade_title">Mulai menonton dengan Plus</string>
     <string name="back">Kembali</string>
-    <string name="tv_upgrade_url_details"><![CDATA[Kunjungi <b>%1$s</b> untuk meningkatkan akun Anda ke Proton VPN Plus sekarang juga.]]></string>
+    <string name="tv_upgrade_url_details"><![CDATA[Kunjungi <b>%1$s</b> untuk meningkatkan ke Proton VPN Plus sekarang juga.]]></string>
     <string name="tv_upgrade_description">Dapatkan paket Proton VPN Plus untuk mengakses 500+ server di seluruh dunia dan berbagai pilihan streaming yang dioptimalkan untuk Netflix, Amazon Prime Video, Disney+, dan masih banyak lagi.</string>
     <string name="tv_vpn_error_dialog_title">Sambungan VPN gagal</string>
     <string name="tv_signout_label">Keluar</string>

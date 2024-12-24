@@ -1164,7 +1164,7 @@
     <string name="connection_feature_tor_title">Tor</string>
     <string name="connection_feature_tor_description">Voit muodostaa yhteyden .onion-sivustoihin tavallisella selaimellasi.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Toimintasi on suojattu 2 huipputurvallisella VPN-palvelimella.</string>
+    <string name="connection_feature_secure_core_description">Toimintasi on salattu kahdella huipputurvallisella VPN-palvelimella.</string>
     <string name="connection_feature_streaming_title">Suoratoisto</string>
     <string name="connection_feature_streaming_description">Tämä palvelin on optimoitu TV-ohjelmien ja elokuvien toistoon.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
