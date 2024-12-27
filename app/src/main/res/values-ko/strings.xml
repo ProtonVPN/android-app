@@ -210,7 +210,7 @@
     <string name="settingsSendCrashReportsTitle">익명 충돌 보고서 공유</string>
     <string name="settingsSendCrashReportsDescription">충돌 보고서는 버그를 수정하고 방화벽을 감지하며 VPN 차단을 방지하는 데 도움이 됩니다.</string>
     <string name="settingsTelemetryScreenTitle">사용 통계</string>
-    <string name="settingsTelemetryScreenInfo"><![CDATA[이 통계에는 당신의 IP 주소가 담기지 않으며 식별에 사용할 수 없습니다. 제 3자에게 공유하지도 않습니다. <a href="%1$s">더 알아보기</a>]]></string>
+    <string name="settingsTelemetryScreenInfo"><![CDATA[이 통계에는 회원님의 IP 주소가 담기지 않으며 식별에 사용할 수 없습니다. 제 3자에게 공유하지도 않습니다. <a href="%1$s">더 알아보기</a>]]></string>
     <string name="netshield_settings_description_not_html">웹사이트와 앱에서 광고와 멀웨어, 그리고 트래커로부터 보호받으세요. 웹사이트를 불러오는 데 문제가 있다면 NetShield를 비활성화해보세요. %1$s</string>
     <string name="settings_icon_change_description">비밀 아이콘으로 Proton VPN 앱을 위장하세요.
 알림은 여전히 기본 Proton VPN 이름 및 아이콘으로 표시됩니다. %1$s</string>
