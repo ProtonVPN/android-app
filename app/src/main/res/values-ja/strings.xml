@@ -311,7 +311,7 @@
         <item quantity="other">このデバイスを接続するために他のデバイスの接続を解除するか、同時に %1$d デバイス接続できる Plus プランにアップグレードしてください。</item>
     </plurals>
     <string name="notification_max_sessions_content">接続するには他のデバイスの接続を解除してください。</string>
-    <string name="notification_cancel_to_free">Free プランを利用しています。Free のサーバーと機能が利用可能です。</string>
+    <string name="notification_cancel_to_free">あなたは無料プランを利用しています。無料のサーバーと機能が利用可能です。</string>
     <string name="notification_cancel_to_basic">Basic プランを利用しています。Basic および Free のサーバーと機能が利用可能です。</string>
     <string name="notification_cancel_to_delinquent">未払いの請求が支払われると、再度プレミアム機能を利用することができます。</string>
     <string name="reconnect_from_server">サーバーから: </string>
@@ -349,7 +349,7 @@
     <string name="upgrade_netshield_message"><![CDATA[<b>NetShield</b> で広告、トラッカー、マルウェアをブロックします。]]></string>
     <string name="upgrade_secure_core_title">暗号化を2倍にする</string>
     <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> を使用して、VPN 接続に別の暗号化層を追加します。]]></string>
-    <string name="upgrade_p2p_title">ピアツーピア(P2P)でのダウンロードとファイル共有が可能になる </string>
+    <string name="upgrade_p2p_title">ピアツーピア(P2P)通信のダウンロードとファイル共有をアンロック </string>
     <string name="upgrade_p2p_text">あなたのIPアドレスを隠したままアップロードとダウンロード速度が向上します。</string>
     <string name="upgrade_profiles_title">よく使う接続先に素早くアクセスする</string>
     <string name="upgrade_profiles_text">VPN Plusでプロファイルをアンロック</string>
@@ -972,7 +972,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_protocol_title">プロトコル</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
+    <string name="settings_vpn_accelerator_title">VPN アクセラレーター</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_advanced_settings_title">高度な設定</string>
     <!-- tag(Redesign_2023) -->
@@ -1262,8 +1262,8 @@
     <string name="settings_advanced_allow_lan_description">デバイスのローカル ネットワーク内のプリンター、スピーカー、その他のデバイスに接続できるようにします。</string>
     <string name="settings_advanced_nat_type_title">NAT タイプ</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">接続のネットワーク アドレス変換タイプを選択します。 %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">接続のネットワーク アドレス変換タイプを選択します。</string>
+    <string name="settings_advanced_nat_type_description">接続用のネットワークアドレス変換タイプを選択してください。 %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">接続用のネットワークアドレス変換タイプを選択してください。</string>
     <string name="settings_advanced_nat_type_strict">厳密(タイプ 3)</string>
     <string name="settings_advanced_nat_type_strict_short">タイプ 3</string>
     <string name="settings_advanced_nat_type_moderate">中程度(タイプ 2)</string>

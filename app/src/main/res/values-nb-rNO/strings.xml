@@ -56,7 +56,7 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Under vedlikehold</string>
     <string name="restrictedMaintenanceDescription">Tjeneren du prøver å koble til, er under vedlikehold. Prøv en annen tjener.</string>
-    <string name="errorUserDelinquent"><![CDATA[Kontoen din har for øyeblikket en forfalt faktura. Vennligst betal alle ubetalte fakturaer på &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorUserDelinquent"><![CDATA[Kontoen din har for øyeblikket en forfalt faktura. Betal alle ubetalte fakturaer på &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Du har truffet maksimalt antall samtidige tilkoblinger som er tillatt for kontoen din. Oppgrader Proton VPN-planen din for å få flere tilkoblinger.</string>
     <string name="listItemMaintenance">Under vedlikehold</string>
     <string name="insufficientPermissionsTitle">Brukerhandling kreves</string>

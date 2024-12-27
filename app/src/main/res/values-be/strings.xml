@@ -266,12 +266,12 @@
     <string name="tv_detail_default_connection_checkbox_short">Абраная</string>
     <string name="tv_detail_connect_streaming">Трансляцыя з Plus</string>
     <string name="tv_detail_connect">Падключыцца</string>
-    <string name="tv_detail_description_streaming_country">Трансляцыя вашага абранага змесціва. Атрымайце доступ да большай колькасці праграм з дапамогай тарыфнага плана Proton VPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Прагляд вашага абранага змесціва. Атрымайце доступ да большай колькасці праграм з дапамогай тарыфнага плана Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Прымайце больш улюблёнага змесціва з дапамогай тарыфнага плана Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Гэта краіна недаступна. Атрымайце больш параметраў трансляцыі з тарыфным планам Proton VPN Plus.</string>
-    <string name="tv_detail_description_plus">Глядзіце вашы ўлюблёныя відэа, фільмы або спартыўныя перадачы ў вашых праграмах.</string>
+    <string name="tv_detail_description_plus">Глядзіце свае ўлюблёныя відэа, фільмы або спартыўныя перадачы ў сваіх праграмах.</string>
     <string name="tv_login_title_signin">Увайдзіце ў Proton VPN</string>
-    <string name="tv_login_title_welcome">Трансляцыя вашага абранага відэа</string>
+    <string name="tv_login_title_welcome">Глядзіце сваё абранае відэа</string>
     <string name="tv_login_welcome_description">Глядзіце відэа больш чым з 50 краін, уключаючы YouTube, Twitch, Netflix, Amazon Prime і Hulu з Proton VPN Plus.</string>
     <string name="tv_login_welcome_description_bottom"><![CDATA[Атрымайце свой уліковы запіс Proton VPN на <b>%1$s</b>]]></string>
     <string name="tv_login_welcome_button">Увайсці</string>
