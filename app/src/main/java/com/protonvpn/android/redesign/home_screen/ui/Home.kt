@@ -81,6 +81,7 @@ import com.protonvpn.android.redesign.home_screen.ui.HomeViewModel.DialogState
 import com.protonvpn.android.redesign.main_screen.ui.MainScreenViewModel
 import com.protonvpn.android.redesign.recents.ui.RecentBottomSheetDialog
 import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
+import com.protonvpn.android.redesign.recents.ui.RecentsExpandState
 import com.protonvpn.android.redesign.recents.ui.RecentsList
 import com.protonvpn.android.redesign.recents.ui.rememberRecentBottomSheetState
 import com.protonvpn.android.redesign.recents.ui.rememberRecentsExpandState
@@ -147,8 +148,8 @@ fun HomeRoute(
     val snackbarHostState = remember { androidx.compose.material.SnackbarHostState() }
     val fullyDrawn by remember { derivedStateOf { recentsViewState.value != null } }
 
-    val bottomPromo = bottomPromoBannerState?.let {
-        BottomPromo(
+    val bottomPromoComponent = bottomPromoBannerState?.let {
+        BottomPromoComponent(
             state = it,
             onClick = {
                 homeViewModel.openPromoOffer(it, context)
@@ -159,19 +160,7 @@ fun HomeRoute(
         )
     }
 
-    val prominentBannerPromo = prominentPromoBannerState?.let {
-        ProminentPromo(
-            state = it,
-            onClick = {
-                homeViewModel.openPromoOffer(it, context)
-            },
-            onDismiss = {
-                homeViewModel.dismissPromoOffer(it.notificationId)
-            }
-        )
-    }
-
-    val connectionCard = ConnectionCard(
+    val connectionCardComponent = ConnectionCardComponent(
         changeServerState = changeServerState,
         onConnect = remember(vpnUiDelegate) {
             {
@@ -199,12 +188,23 @@ fun HomeRoute(
         onEventCollapseRecentsConsumed = { mainScreenViewModel.consumeEventCollapseRecents() },
         onRecentClickedAction = remember(vpnUiDelegate) {
             { item -> coroutineScope.launch { homeViewModel.onRecentClicked(item, vpnUiDelegate) } }
-        }
+        },
+        recentsExpandState = rememberRecentsExpandState()
     )
 
+    val prominentBannerPromo = prominentPromoBannerState?.let {
+        ProminentPromoComponent(
+            state = it,
+            onClick = {
+                homeViewModel.openPromoOffer(it, context)
+            },
+            onDismiss = {
+                homeViewModel.dismissPromoOffer(it.notificationId)
+            }
+        )
+    }
+
     HomeView(
-        context = context,
-        coroutineScope = coroutineScope,
         vpnState = vpnStatusViewState,
         mapState = mapState,
         dialogState = dialogState,
@@ -213,9 +213,9 @@ fun HomeRoute(
         onDismissDialog = homeViewModel::dismissDialog,
         onNetshieldValueChanged = { homeViewModel.setNetShieldProtocol(it) },
         snackbarHostState = snackbarHostState,
-        bottomPromo = bottomPromo,
-        prominentPromo = prominentBannerPromo,
-        connectionCard = connectionCard,
+        bottomPromoComponent = bottomPromoComponent,
+        prominentPromoComponent = prominentBannerPromo,
+        connectionCardComponent = connectionCardComponent,
         recentsComponent = recentsComponent
     )
 
@@ -247,7 +247,6 @@ private val PromoOfferBannerState?.peekOffset get() = if (this?.isDismissible ==
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun HomeView(
-    context: Context,
     vpnState: VpnStatusViewState,
     mapState: Pair<String, CountryHighlight>?,
     dialogState: DialogState?,
@@ -255,22 +254,23 @@ fun HomeView(
     elapsedRealtimeClock: () -> Long,
     onDismissDialog: () -> Unit,
     onNetshieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
-    bottomPromo: BottomPromo?,
-    prominentPromo: ProminentPromo?,
-    connectionCard: ConnectionCard,
+    bottomPromoComponent: BottomPromoComponent?,
+    prominentPromoComponent: ProminentPromoComponent?,
+    connectionCardComponent: ConnectionCardComponent,
     snackbarHostState: SnackbarHostState,
-    coroutineScope: CoroutineScope,
     recentsComponent: RecentsComponent
 ) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val vpnStateTransitionProgress = rememberVpnStateAnimationProgress(vpnState)
     val recentBottomSheetState = rememberRecentBottomSheetState()
 
-    val changeServerButton: (@Composable ColumnScope.() -> Unit)? = connectionCard.changeServerState?.let { state ->
+    val changeServerButton: (@Composable ColumnScope.() -> Unit)? = connectionCardComponent.changeServerState?.let { state ->
         @Composable {
             ChangeServerButton(
                 state,
-                onChangeServerClick = connectionCard.onChangeServerClick,
-                onUpgradeButtonShown = connectionCard.onChangeServerUpgradeButtonShown
+                onChangeServerClick = connectionCardComponent.onChangeServerClick,
+                onUpgradeButtonShown = connectionCardComponent.onChangeServerUpgradeButtonShown
             )
         }
     }
@@ -294,7 +294,7 @@ fun HomeView(
     }
 
     val bottomPromoBanner: (@Composable (Modifier) -> Unit)? =
-        bottomPromo?.let {
+        bottomPromoComponent?.let {
             @Composable { modifier ->
                 PromoOfferBanner(
                     state = it.state,
@@ -320,7 +320,6 @@ fun HomeView(
         modifier = Modifier.fillMaxSize()
     ) {
         val (vpnStatusTop, vpnStatusBottom, map) = createRefs()
-        val recentsExpandState = rememberRecentsExpandState()
         if (mapState != null) {
             Box(modifier = Modifier
                 .constrainAs(map) {
@@ -328,8 +327,8 @@ fun HomeView(
                     bottom.linkTo(parent.bottom)
                 }
             ) {
-                val parallaxAlignment = remember(recentsExpandState.fullExpandProgress) {
-                    MapParallaxAlignment(recentsExpandState.fullExpandProgress)
+                val parallaxAlignment = remember(recentsComponent.recentsExpandState.fullExpandProgress) {
+                    MapParallaxAlignment(recentsComponent.recentsExpandState.fullExpandProgress)
                 }
                 HomeMap(
                     modifier = Modifier
@@ -375,9 +374,9 @@ fun HomeView(
         val recentsShowcaseRevealHeight = with (LocalDensity.current) { 56.dp.toPx() }
         recentsComponent.eventCollapseRecents.collectAsEffect { showcaseRecents ->
             recentsComponent.onEventCollapseRecentsConsumed()
-            recentsExpandState.collapse()
+            recentsComponent.recentsExpandState.collapse()
             if (showcaseRecents) {
-                recentsExpandState.peekBelowTheFold(recentsShowcaseRevealHeight)
+                recentsComponent.recentsExpandState.peekBelowTheFold(recentsShowcaseRevealHeight)
             }
         }
         BoxWithConstraints {
@@ -391,7 +390,7 @@ fun HomeView(
             val recentsViewStateValue = recentsComponent.recentsViewState.value
             if (recentsViewStateValue != null) {
                 val maxHeightPx = LocalDensity.current.run { maxHeight.toPx() }
-                recentsExpandState.setMaxHeight(maxHeightPx.roundToInt())
+                recentsComponent.recentsExpandState.setMaxHeight(maxHeightPx.roundToInt())
                 val horizontalPadding = ProtonTheme.extraPaddingForWindowSize(viewportSize)
 
                 val listBgGradientHeight =
@@ -401,14 +400,14 @@ fun HomeView(
 
                 RecentsList(
                     viewState = recentsViewStateValue,
-                    expandState = recentsExpandState,
+                    expandState = recentsComponent.recentsExpandState,
                     changeServerButton = changeServerButton,
                     promoBanner = bottomPromoBanner,
-                    promoBannerPeekOffset = bottomPromo?.state.peekOffset ?: 0.dp,
+                    promoBannerPeekOffset = bottomPromoComponent?.state.peekOffset ?: 0.dp,
                     upsellContent = upsellCarouselContent,
-                    onConnectClicked = connectionCard.onConnect,
-                    onDisconnectClicked = connectionCard.onDisconnect,
-                    onOpenConnectionPanelClicked = connectionCard.onConnectionCardClick,
+                    onConnectClicked = connectionCardComponent.onConnect,
+                    onDisconnectClicked = connectionCardComponent.onDisconnect,
+                    onOpenConnectionPanelClicked = connectionCardComponent.onConnectionCardClick,
                     onOpenDefaultConnection = onDefaultConnectionOpen,
                     onRecentClicked = recentsComponent.onRecentClickedAction,
                     onRecentOpen = { recentBottomSheetState.onRecentSettingOpen(it) },
@@ -416,7 +415,7 @@ fun HomeView(
                     topPadding = listBgGradientOffset,
                     errorSnackBar = snackbarHostState,
                     modifier = Modifier
-                        .offset { IntOffset(0, recentsExpandState.listOffsetPx) }
+                        .offset { IntOffset(0, recentsComponent.recentsExpandState.listOffsetPx) }
                         .drawBehind {
                             val gradientBottom = listBgGradientHeight.toPx()
                             drawRect(
@@ -443,7 +442,7 @@ fun HomeView(
             (ListBgGradientOffsetBasic - vpnStatusTopMinHeight).toPx()
         }
         val coverAlpha = remember(fullCoverThresholdPx) {
-            derivedStateOf { calculateOverlayAlpha(recentsExpandState.listOffsetPx, fullCoverThresholdPx) }
+            derivedStateOf { calculateOverlayAlpha(recentsComponent.recentsExpandState.listOffsetPx, fullCoverThresholdPx) }
         }
         VpnStatusTop(
             vpnState,
@@ -456,7 +455,7 @@ fun HomeView(
                 .constrainAs(vpnStatusTop) {}
         )
 
-        prominentPromo?.let {
+        prominentPromoComponent?.let {
             PromoOfferProminentBanner(
                 state = it.state,
                 onDismiss = it.onDismiss,
@@ -470,19 +469,19 @@ fun HomeView(
     HomeDialog(dialogState, onDismiss = onDismissDialog)
 }
 
-data class BottomPromo(
+data class BottomPromoComponent(
     val state: PromoOfferBannerState,
     val onDismiss: () -> Unit,
     val onClick: (suspend () -> Unit)
 )
 
-data class ProminentPromo(
+data class ProminentPromoComponent(
     val state: ProminentBannerState,
     val onDismiss: () -> Unit,
     val onClick: (suspend () -> Unit)
 )
 
-data class ConnectionCard(
+data class ConnectionCardComponent(
     val changeServerState: ChangeServerViewState?,
     val onConnect: () -> Unit,
     val onDisconnect: () -> Unit,
@@ -498,6 +497,7 @@ data class RecentsComponent(
     val eventCollapseRecents: SharedFlow<ShowcaseRecents>,
     val onEventCollapseRecentsConsumed: () -> Unit,
     val onRecentClickedAction: (RecentItemViewState) -> Unit,
+    val recentsExpandState: RecentsExpandState
 )
 
 private suspend fun handleSnackbarError(
