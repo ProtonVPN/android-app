@@ -266,10 +266,10 @@
     <string name="tv_detail_default_connection_checkbox_short">Абраная</string>
     <string name="tv_detail_connect_streaming">Трансляцыя з Plus</string>
     <string name="tv_detail_connect">Падключыцца</string>
-    <string name="tv_detail_description_streaming_country">Прагляд вашага абранага змесціва. Атрымайце доступ да большай колькасці праграм з дапамогай тарыфнага плана Proton VPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Глядзіце сваё абранае змесціва. Атрымайце доступ да большай колькасці праграм на тарыфным плане Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Прымайце больш улюблёнага змесціва з дапамогай тарыфнага плана Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Гэта краіна недаступна. Атрымайце больш параметраў трансляцыі з тарыфным планам Proton VPN Plus.</string>
-    <string name="tv_detail_description_plus">Глядзіце свае ўлюблёныя відэа, фільмы або спартыўныя перадачы ў сваіх праграмах.</string>
+    <string name="tv_detail_description_plus">Глядзіце сваё абранае відэа, фільмы або спартыўныя перадачы ў сваіх праграмах.</string>
     <string name="tv_login_title_signin">Увайдзіце ў Proton VPN</string>
     <string name="tv_login_title_welcome">Глядзіце сваё абранае відэа</string>
     <string name="tv_login_welcome_description">Глядзіце відэа больш чым з 50 краін, уключаючы YouTube, Twitch, Netflix, Amazon Prime і Hulu з Proton VPN Plus.</string>
@@ -340,7 +340,7 @@
         <item quantity="one">%1$d сервер</item>
         <item quantity="few">%1$d серверы</item>
         <item quantity="many">%1$d сервераў</item>
-        <item quantity="other">%1$d серверы</item>
+        <item quantity="other">%1$d сервераў</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -351,7 +351,7 @@
         <item quantity="one">%1$d краіна</item>
         <item quantity="few">%1$d краіны</item>
         <item quantity="many">%1$d краін</item>
-        <item quantity="other">%1$d краіны</item>
+        <item quantity="other">%1$d краін</item>
     </plurals>
     <string name="upsell_upgrade_again">Палепшыць яшчэ раз, каб карыстацца ўсімі функцыямі:</string>
     <plurals name="upgrade_devices_title">
@@ -507,7 +507,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">Больш за %1$d месцазнаходжанняў сервераў у %2$s</string>
+    <string name="upsell_card_countries_description">%1$d сервераў, якія знаходзяцца ў %2$s</string>
     <string name="upsell_card_customization_title">І многае іншае...</string>
     <string name="upsell_card_customization_description">Разблакіруйце яшчэ больш функцый прадукцыйнасці і прыватнасці</string>
     <plurals name="upsell_card_devices_title">
@@ -701,7 +701,7 @@
     <string name="whats_new_new_look_title">Новы выгляд, тая ж абарона</string>
     <string name="whats_new_new_look_description">Мы абнавілі дызайн і перанеслі некаторыя элементы, каб зрабіць праграму больш простай у выкарыстанні.</string>
     <string name="whats_new_recents_title">Уводзіны ў раздзел \"Нядаўнія\"</string>
-    <string name="whats_new_recents_description">Цяпер паўторна падключацца да вашых абраных сервераў стала яшчэ прасцей. Глядзіце свае нядаўнія падключэнні на галоўным экране ці замацоўвайце іх для хуткага доступу. Раздзел \"Нядаўнія\" замяняе \"Профілі\".</string>
+    <string name="whats_new_recents_description">Цяпер паўторна падключацца да вашых абраных сервераў стала яшчэ прасцей. Глядзіце свае нядаўнія падключэнні на галоўным экране або замацоўвайце іх для хуткага доступу. Раздзел \"Нядаўнія\" замяняе \"Профілі\".</string>
     <string name="whats_new_dismiss_button">Паглядзець</string>
     <string name="whats_new_added_countries_title">Новыя краіны з серверамі Free</string>
     <string name="whats_new_added_countries_description">Цяпер можна падключацца да бясплатных сервераў у Польшчы і Румыніі. Каб прадухіліць перагрузку сервераў, мы выдалілі магчымасць ручнога выбару краіны і значна палепшылі аўтаматычны выбар сервера.</string>
