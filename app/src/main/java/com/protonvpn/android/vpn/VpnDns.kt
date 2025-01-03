@@ -26,6 +26,7 @@ import com.protonvpn.android.utils.runCatchingCheckedExceptions
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import okhttp3.Dns
@@ -33,6 +34,7 @@ import org.xbill.DNS.Lookup
 import org.xbill.DNS.SimpleResolver
 import org.xbill.DNS.Type
 import java.net.InetAddress
+import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
@@ -45,10 +47,11 @@ class VpnDns @Inject constructor(
     private val connectivityMonitor: ConnectivityMonitor,
 ) : Dns {
 
-    val inTunnel =
+    private val inTunnel: StateFlow<Boolean> =
         vpnStateMonitor.internalVpnProtocolState.map { it != VpnState.Disabled }
             .stateIn(mainScope, SharingStarted.Eagerly, false)
 
+    @Throws(UnknownHostException::class)
     override fun lookup(hostname: String): List<InetAddress> = when {
         !inTunnel.value -> Dns.SYSTEM.lookup(hostname)
         connectivityMonitor.isPrivateDnsActive.value == true ->
@@ -69,7 +72,7 @@ private fun resolveHostname(hostname: String, dnsServer: String): List<InetAddre
     val lookup = Lookup(hostname, Type.A)
     lookup.setResolver(resolver)
     val records = lookup.run()
-    records?.map { (it as org.xbill.DNS.ARecord).address }
+    records?.mapNotNull { (it as? org.xbill.DNS.ARecord)?.address }
 }.runCatchingCheckedExceptions {
     ProtonLogger.log(AppDNS, "Failed to resolve $hostname (${it.message})")
     null
