@@ -397,7 +397,7 @@
         <item quantity="one">%d бяспечны сервер</item>
         <item quantity="few">%d бяспечныя серверы</item>
         <item quantity="many">%d бяспечных сервераў</item>
-        <item quantity="other">%d бяспечныя серверы</item>
+        <item quantity="other">%d бяспечных сервераў</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -405,10 +405,10 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="one">%d краіна</item>
-        <item quantity="few">%d краіны</item>
-        <item quantity="many">%d краін</item>
-        <item quantity="other">%d краіны</item>
+        <item quantity="one">%d краіне</item>
+        <item quantity="few">%d краінах</item>
+        <item quantity="many">%d краінах</item>
+        <item quantity="other">%d краінах</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -507,7 +507,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d сервераў, якія знаходзяцца ў %2$s</string>
+    <string name="upsell_card_countries_description">%1$d+ сервераў, якія знаходзяцца ў %2$s</string>
     <string name="upsell_card_customization_title">І многае іншае...</string>
     <string name="upsell_card_customization_description">Разблакіруйце яшчэ больш функцый прадукцыйнасці і прыватнасці</string>
     <plurals name="upsell_card_devices_title">
@@ -645,7 +645,7 @@
          1 hour 32 minutes left
          0 minutes 50 seconds left
      -->
-    <string name="offer_time_left">Засталася %1$s %2$s</string>
+    <string name="offer_time_left">Засталося %1$s %2$s</string>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d секунда</item>

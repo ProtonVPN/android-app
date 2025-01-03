@@ -284,7 +284,7 @@
     <string name="tv_upgrade_description">Obtenha um plano Proton VPN Plus para aceder a mais de 500 servidores em todo o mundo e otimizar as opções para Netflix, Amazon Prime Vídeo, Disney+ e muitos outros.</string>
     <string name="tv_vpn_error_dialog_title">Erro na ligação VPN</string>
     <string name="tv_signout_label">Terminar sessão</string>
-    <string name="tv_signout_dialog_title">Tem certeza de que deseja terminar a sessão?</string>
+    <string name="tv_signout_dialog_title">Tem a certeza de que deseja terminar a sessão?</string>
     <string name="tv_signout_dialog_description_connected">Isto desliga a sua TV de qualquer servidor VPN.</string>
     <string name="tv_signout_dialog_ok">Terminar sessão</string>
     <string name="tv_quick_connect_recommened">Recomendado</string>
@@ -323,7 +323,7 @@
     <string name="enable">Ativar</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol atualmente desativado</string>
     <string name="notification_smart_protocol_disabled_content">O Proton VPN detetou que a sua rede atual está a impedir uma ligação VPN. Ativar o Smart Protocol pode ultrapassar esta limitação.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Funcionalidades avançadas: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Aceda a serviços de streaming (Netflix, Disney+, etc.) em qualquer parte do mundo</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -423,28 +423,28 @@
         <item quantity="other">%1$d domínios de e-mail personalizados</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d MB attachment</item>
-        <item quantity="other">%1$d MB attachments</item>
+        <item quantity="one">Anexo de %1$d MB</item>
+        <item quantity="other">Anexos de %1$d MB</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d endereço de e-mail</item>
         <item quantity="other">%1$d endereços de e-mail</item>
     </plurals>
-    <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
-    <string name="upgrade_unlimited_mail_dark_web">Dark Web Monitoring</string>
+    <string name="upgrade_unlimited_mail_unlimited_folders">Pastas e filtros ilimitados</string>
+    <string name="upgrade_unlimited_mail_dark_web">Monitorização da Dark Web</string>
     <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
     <string name="upgrade_unlimited_mail_autoreply">Resposta automática</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d personal calendar</item>
-        <item quantity="other">%1$d personal calendars</item>
+        <item quantity="one">%1$d calendário pessoal</item>
+        <item quantity="other">%1$d calendários pessoais</item>
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">Partilha de calendário</string>
     <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
-    <string name="upgrade_unlimited_drive_encryption">Encrypted file storage</string>
+    <string name="upgrade_unlimited_drive_encryption">Armazenamento de ficheiros encriptados</string>
     <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
     <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
-    <string name="upgrade_unlimited_drive_sharing_security">Advanced sharing security</string>
+    <string name="upgrade_unlimited_drive_sharing_security">Segurança avançada de partilha</string>
     <string name="upgrade_unlimited_drive_version_history">Histórico de versões</string>
     <string name="upgrade_unlimited_pass_manager">Gestor de palavras-passe encriptado</string>
     <string name="upgrade_unlimited_pass_logins_aliases">Logins ilimitados e aliases hide-my-email</string>
@@ -469,7 +469,7 @@
          When the plan selection control is focused, and the first plan name is "VPN Plus"
          TalkBack will read:
          "VPN Plus, 1 of 2, in list Upgrade options" -->
-    <string name="upgrade_plan_selection_content_description">Upgrade options</string>
+    <string name="upgrade_plan_selection_content_description">Opções de melhoria</string>
     <string name="upsell_card_countries_title">Cobertura mundial</string>
     <!-- Parameters:
         %1$d - number of servers rounded up to 100s (e.g. 600, 1200)
@@ -966,9 +966,9 @@
     -->
     <string name="recent_action_accessibility_state_pinned">Fixado</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">All servers in this country are under maintenance</string>
+    <string name="message_country_servers_in_maintenance">Todos os servidores neste país estão em manutenção.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">All servers in this city are under maintenance</string>
+    <string name="message_city_servers_in_maintenance">Todos os servidores nesta cidade estão em manutenção.</string>
     <!-- State means here US state, like California -->
     <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -981,7 +981,7 @@
     <string name="settings_sign_out">Terminar sessão</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_title">Definições</string>
-    <string name="gateways_title">Gateways</string>
+    <string name="gateways_title">Portas de entrada</string>
     <string name="countries_title">Países</string>
     <string name="profiles_title">Perfis</string>
     <!-- tag(Redesign_2023) -->
@@ -1034,7 +1034,7 @@
     <string name="dialog_sign_out_action">Terminar sessão</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_action_cancel">Cancelar</string>
-    <string name="dialog_action_change_icon">Change icon</string>
+    <string name="dialog_action_change_icon">Alterar o ícone</string>
     <!-- tag(Redesign_2023) -->
     <string name="country_filter_all">Todos</string>
     <string name="country_filter_cities">Cidades</string>
@@ -1098,7 +1098,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Servidor</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_gateway">Gateway</string>
+    <string name="connection_details_gateway">Porta de entrada</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_country">País</string>
     <!-- tag(Redesign_2023) -->
@@ -1126,7 +1126,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocolo</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol_description">A protocol is a set of instructions your device follows to connect and communicate with a server.</string>
+    <string name="connection_details_protocol_description">Um protocolo é um conjunto de instruções que o seu dispositivo segue para se ligar e comunicar com um servidor.</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
@@ -1270,15 +1270,15 @@
     <string name="edit_profile_title">Editar %1$s</string>
     <string name="edit_profile_dialog_action">Editar o perfil</string>
     <string name="create_profile_name_hint">Nome do perfil</string>
-    <string name="create_profile_name_error_empty">Enter a profile name</string>
+    <string name="create_profile_name_error_empty">Introduza um nome de perfil</string>
     <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
     <string name="create_profile_type_and_location_title">Select connection type and location</string>
-    <string name="create_profile_features_and_settings_title">Features and settings</string>
+    <string name="create_profile_features_and_settings_title">Funcionalidades e definições</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">Step %1$d of %2$d</string>
+    <string name="create_profile_steps">Etapa %1$d de %2$d</string>
     <string name="create_profile_button_next">Seguinte</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
@@ -1307,8 +1307,8 @@
     <string name="settings_advanced_nat_type_strict_description">Restricts the data entering your network. This option is more secure, but can make peer-to-peer gaming connections more difficult.</string>
     <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
     <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
-    <string name="settings_protocol_description">A VPN protocol determines how data moves between a VPN server and your device. %1$s</string>
-    <string name="settings_protocol_description_no_link">A VPN protocol determines how data moves between a VPN server and your device.</string>
+    <string name="settings_protocol_description">Um protocolo VPN determina como os dados são transmitidos entre um servidor VPN e o seu dispositivo. %1$s</string>
+    <string name="settings_protocol_description_no_link">Um protocolo VPN determina como os dados são transmitidos entre um servidor VPN e o seu dispositivo.</string>
     <string name="settings_protocol_section_speed">Velocidade (UDP)</string>
     <string name="settings_protocol_section_reliability">Fiabilidade (TCP)</string>
     <string name="settings_protocol_smart_title">Inteligente</string>
@@ -1331,11 +1331,11 @@
     <string name="settings_split_tunneling_excluded_apps">Aplicações excluídas</string>
     <string name="settings_split_tunneling_excluded_ips">Endereços IP excluídos</string>
     <string name="settings_split_tunneling_included_apps">Aplicações incluídas</string>
-    <string name="settings_split_tunneling_included_ips">Included IP addresses</string>
+    <string name="settings_split_tunneling_included_ips">Endereços IP incluídos</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Nenhuma</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s e %3$d mais</string>
     <string name="settings_split_tunneling_already_excluded">Já excluído</string>
-    <string name="settings_split_tunneling_already_included">Already included</string>
+    <string name="settings_split_tunneling_already_included">Já incluído</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Remover endereço IP da lista?</string>
     <string name="settings_dialog_reconnect">As novas definições serão aplicadas na próxima vez que estabelecer ligação.</string>
     <string name="settings_needs_reconnect_banner">As novas definições serão aplicadas na próxima vez que estabelecer ligação.</string>
@@ -1380,8 +1380,8 @@
     <string name="profile_needs_reconnect">This will restart your connection.</string>
     <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
-    <string name="initial_profile_name_work_school">Work/School</string>
-    <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
+    <string name="initial_profile_name_work_school">Trabalho/Escola</string>
+    <string name="initial_profile_name_anti_censorship">Anti-censura</string>
     <string name="initial_profile_name_gaming">Jogos</string>
     <string name="initial_profile_name_max_security">Segurança máxima</string>
     <string name="create_profile_pick_country_title">País</string>
@@ -1389,11 +1389,11 @@
     <string name="create_profile_type_standard">Padrão</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
-    <string name="create_profile_gateway">Gateway</string>
+    <string name="create_profile_gateway">Porta de entrada</string>
     <string name="create_profile_pick_state_title">Estado</string>
     <string name="create_profile_pick_city_title">Cidade</string>
     <string name="create_profile_pick_server_title">Servidor</string>
-    <string name="create_profile_pick_gateway_title">Gateway</string>
+    <string name="create_profile_pick_gateway_title">Porta de entrada</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="create_profile_pick_protocol_title">Protocolo</string>
@@ -1410,11 +1410,11 @@
     <string name="profiles_zero_state_title">Create your first profile</string>
     <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
     <string name="profiles_button_create_profile">Criar um perfil</string>
-    <string name="profile_deleted_snackbar_message">Profile deleted</string>
+    <string name="profile_deleted_snackbar_message">O perfil foi eliminado.</string>
     <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
     <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
     <string name="undo">Anular</string>
-    <string name="profile_unavailable_dialog_title">Profile unavailable</string>
+    <string name="profile_unavailable_dialog_title">O perfil não é disponível.</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
     <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
@@ -1430,7 +1430,7 @@
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Novo</string>
-    <string name="create_profile_auto_open_url_input_label">Website URL</string>
+    <string name="create_profile_auto_open_url_input_label">URL do sítio web</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Desligado</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->

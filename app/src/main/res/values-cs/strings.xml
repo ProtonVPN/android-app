@@ -180,7 +180,7 @@
     <string name="troubleshootAntivirusProblemTitle">Interference antiviru</string>
     <string name="troubleshootAntivirusProblemDescription">Dočasně vypněte nebo odstraňte váš antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Rušení proxy/firewall</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Zakažte všechny proxy nebo brány firewall nebo se obraťte na správce sítě.</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Deaktivujte všechny proxy nebo brány firewall nebo se obraťte na správce sítě.</string>
     <string name="troubleshootProtonDownTitle">Proton je nedostupný</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Zkontrolujte <a href=\"%1$s\">Stav Protonu</a> pro zjištění stavu našeho systému.]]></string>
     <string name="troubleshootContactUsSectionTitle">Stále potřebujete pomoci? Kontaktujte nás přímo</string>
