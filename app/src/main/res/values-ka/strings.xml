@@ -1411,7 +1411,7 @@
     <string name="profiles_zero_state_description">პროფილები შენახული მიერთებებია თქვენი მდებარეობის, სერვერისა და პროტოკოლის არჩევნით.</string>
     <string name="profiles_button_create_profile">პროფილის შექმნა</string>
     <string name="profile_deleted_snackbar_message">პროფილი წაიშალა</string>
-    <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
+    <string name="profile_connected_edit_setting">ეს პარამეტრი თქვენს აქტიურ პროფილზეა მიბმული.\n\nჩაასწორეთ თქვენი პროფილი ცვლილებების შესატანად, ან გათიშეთ, რომ ზოგადი VPN-ის პარამეტრები ჩაასწოროთ.</string>
     <string name="profile_connected_dialog_title">%1$s-ის მართვა პროფილებში</string>
     <string name="undo">დაბრუნება</string>
     <string name="profile_unavailable_dialog_title">პროფილი ხელმიუწვდომელია</string>
