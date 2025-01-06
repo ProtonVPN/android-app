@@ -192,7 +192,8 @@ class AppConfig @Inject constructor(
         val defaultPorts = DefaultPortsConfig.defaultConfig
         val defaultFeatureFlags = FeatureFlags()
         val defaultSmartProtocolConfig = SmartProtocolConfig(
-            openVPNEnabled = true,
+            openVPNUdpEnabled = true,
+            openVPNTcpEnabledInternal = true,
             wireguardEnabled = true,
             wireguardTcpEnabled = true,
             wireguardTlsEnabled = true,

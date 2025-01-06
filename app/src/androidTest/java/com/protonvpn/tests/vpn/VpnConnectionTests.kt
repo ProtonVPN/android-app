@@ -240,7 +240,7 @@ class VpnConnectionTests {
 
         val profilesDao = db.profilesDao()
         val smartProtocolsConfig = SmartProtocolConfig(
-            openVPNEnabled = true, wireguardEnabled = true, wireguardTcpEnabled = true, wireguardTlsEnabled = true)
+            openVPNUdpEnabled = true, openVPNTcpEnabledInternal = true, wireguardEnabled = true, wireguardTcpEnabled = true, wireguardTlsEnabled = true)
         every { appConfig.getSmartProtocolConfig() } returns smartProtocolsConfig
 
         featureFlagsFlow = MutableStateFlow(FeatureFlags())

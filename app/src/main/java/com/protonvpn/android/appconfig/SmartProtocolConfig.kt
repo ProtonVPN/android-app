@@ -8,17 +8,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SmartProtocolConfig(
-    @SerialName(value = "OpenVPN") val openVPNEnabled: Boolean,
+    @SerialName(value = "OpenVPN") val openVPNUdpEnabled: Boolean,
+    @SerialName(value = "OpenVPNTCP") private val openVPNTcpEnabledInternal: Boolean? = null,
     @SerialName(value = "WireGuard") val wireguardEnabled: Boolean,
     @SerialName(value = "WireGuardTCP") val wireguardTcpEnabled: Boolean = true,
     @SerialName(value = "WireGuardTLS") val wireguardTlsEnabled: Boolean = true,
 ) {
+    val openVPNTcpEnabled: Boolean get() = openVPNTcpEnabledInternal ?: openVPNUdpEnabled
+
     fun getSmartProtocols(): List<ProtocolSelection> =
         buildList {
-            if (openVPNEnabled) {
+            if (openVPNUdpEnabled)
                 add(ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP))
+            if (openVPNTcpEnabled)
                 add(ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP))
-            }
             if (wireguardEnabled)
                 add(ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP))
             if (wireguardTcpEnabled)

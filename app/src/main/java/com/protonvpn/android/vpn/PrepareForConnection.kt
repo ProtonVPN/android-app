@@ -83,10 +83,11 @@ class PrepareForConnection @Inject constructor(
         VpnProtocol.WireGuard -> appConfig.getWireguardPorts()
         VpnProtocol.Smart -> error("Real protocol expected")
     }.let {
-        if (protocol.transmission == TransmissionProtocol.UDP)
-            it.udpPorts
-        else
-            it.tcpPorts
+        when (protocol.transmission) {
+            TransmissionProtocol.UDP, null -> it.udpPorts
+            TransmissionProtocol.TCP -> it.tcpPorts
+            TransmissionProtocol.TLS -> it.tlsPorts
+        }
     }
 
     private suspend fun scanPorts(
