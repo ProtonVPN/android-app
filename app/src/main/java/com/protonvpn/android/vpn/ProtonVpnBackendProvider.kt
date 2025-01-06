@@ -35,8 +35,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import me.proton.core.util.kotlin.mapAsync
 
-private val ALL_TRANSMISSION_PROTOCOLS = TransmissionProtocol.values().toSet()
-
 class ProtonVpnBackendProvider(
     val config: AppConfig,
     val openVpn: VpnBackend,
@@ -64,9 +62,7 @@ class ProtonVpnBackendProvider(
                 wireGuard.prepareForConnection(connectIntent, server, setOf(protocol.transmission!!), scan)
             VpnProtocol.Smart -> {
                 getSmartEnabledBackends(server, null).asFlow().map {
-                    val transmissionProtocols =
-                        if (it == wireGuard) getSmartWireGuardTransmissionProtocols(null)
-                        else ALL_TRANSMISSION_PROTOCOLS
+                    val transmissionProtocols = getSmartTransmissionProtocols(it.vpnProtocol, null)
                     it.prepareForConnection(connectIntent, server, transmissionProtocols, scan)
                 }.firstOrNull {
                     it.isNotEmpty()
@@ -78,14 +74,23 @@ class ProtonVpnBackendProvider(
             }
     }
 
-    private fun getSmartWireGuardTransmissionProtocols(orgProtocol: ProtocolSelection?) =
+    private fun getSmartTransmissionProtocols(vpnProtocol: VpnProtocol, orgProtocol: ProtocolSelection?) =
         mutableSetOf<TransmissionProtocol>().apply {
-            val wireGuardTxxEnabled = config.getFeatureFlags().wireguardTlsEnabled
             with(config.getSmartProtocolConfig()) {
-                if (wireguardEnabled) add(TransmissionProtocol.UDP)
-                if (wireguardTcpEnabled && wireGuardTxxEnabled) add(TransmissionProtocol.TCP)
-                if (wireguardTlsEnabled && wireGuardTxxEnabled) add(TransmissionProtocol.TLS)
-                if (orgProtocol?.vpn == VpnProtocol.WireGuard)
+                when (vpnProtocol) {
+                    VpnProtocol.OpenVPN -> {
+                        if (openVPNUdpEnabled) add(TransmissionProtocol.UDP)
+                        if (openVPNTcpEnabled) add(TransmissionProtocol.TCP)
+                    }
+                    VpnProtocol.WireGuard -> {
+                        val wireGuardTxxEnabled = config.getFeatureFlags().wireguardTlsEnabled
+                        if (wireguardEnabled) add(TransmissionProtocol.UDP)
+                        if (wireguardTcpEnabled && wireGuardTxxEnabled) add(TransmissionProtocol.TCP)
+                        if (wireguardTlsEnabled && wireGuardTxxEnabled) add(TransmissionProtocol.TLS)
+                    }
+                    VpnProtocol.Smart -> {}
+                }
+                if (orgProtocol?.vpn == vpnProtocol)
                     add(orgProtocol.transmission ?: TransmissionProtocol.UDP)
             }
         }
@@ -101,9 +106,7 @@ class ProtonVpnBackendProvider(
                 val fullScan = server === fullScanServer
                 val portsLimit = if (fullScan) Int.MAX_VALUE else PING_ALL_MAX_PORTS
                 val responses = getSmartEnabledBackends(server.server, orgProtocol.vpn).mapAsync {
-                    val transmissionProtocols =
-                        if (it == wireGuard) getSmartWireGuardTransmissionProtocols(orgProtocol)
-                        else ALL_TRANSMISSION_PROTOCOLS
+                    val transmissionProtocols = getSmartTransmissionProtocols(it.vpnProtocol, orgProtocol)
                     it.prepareForConnection(
                         orgIntent, server.server, transmissionProtocols, true, portsLimit, waitForAll = fullScan
                     )
@@ -128,7 +131,8 @@ class ProtonVpnBackendProvider(
             val wireGuardEnabled = wireguardEnabled || wireGuardTxxEnabled
             if (wireGuardEnabled && supportsProtocol(server, VpnProtocol.WireGuard))
                 add(wireGuard)
-            if (openVPNEnabled && supportsProtocol(server, VpnProtocol.OpenVPN))
+            val openVpnEnabled = openVPNUdpEnabled || openVPNTcpEnabled
+            if (openVpnEnabled && supportsProtocol(server, VpnProtocol.OpenVPN))
                 add(openVpn)
             if (orgVpnProtocol != null) {
                 getBackendFor(orgVpnProtocol)?.let { orgBackend ->

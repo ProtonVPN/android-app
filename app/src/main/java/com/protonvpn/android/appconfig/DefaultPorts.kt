@@ -24,5 +24,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DefaultPorts(
     @SerialName(value = "UDP") val udpPorts: List<Int>,
-    @SerialName(value = "TCP") val tcpPorts: List<Int> = emptyList()
-)
+    @SerialName(value = "TCP") val tcpPorts: List<Int> = emptyList(),
+    @SerialName(value = "TLS") private val tlsPortsInternal: List<Int>? = null
+) {
+    val tlsPorts: List<Int> get() = tlsPortsInternal ?: tcpPorts
+}
