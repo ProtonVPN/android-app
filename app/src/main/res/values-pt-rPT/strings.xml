@@ -186,7 +186,7 @@
     <string name="troubleshootContactUsSectionTitle">Ainda precisa de ajuda? Contacte-nos diretamente</string>
     <string name="troubleshootCustomerSupport">Apoio ao cliente</string>
     <string name="settingsAllowAlternativeRoutingTitle">Redirecionamento alternativo</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que a aplicação use caminhos alternativos para aceder aos servidores do Proton. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueio governamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN Sempre ligada e Kill switch</string>
@@ -457,8 +457,8 @@
     <string name="upgrade_unlimited_pass_credit_cards">Cartões de crédito ilimitados</string>
     <string name="upgrade_unlimited_pass_devices">Número ilimitado de dispositivos</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Share with up to %1$d other</item>
-        <item quantity="other">Share with up to %1$d others</item>
+        <item quantity="one">Partilhe com %1$d pessoa</item>
+        <item quantity="other">Partilhe com até %1$d pessoas</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Autenticador A2F integrado</string>
     <string name="upgrade_not_now_button">Agora não</string>
@@ -1271,7 +1271,7 @@
     <string name="edit_profile_dialog_action">Editar o perfil</string>
     <string name="create_profile_name_hint">Nome do perfil</string>
     <string name="create_profile_name_error_empty">Introduza um nome de perfil</string>
-    <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
+    <string name="create_profile_name_error_too_long">O nome do perfil deve ter 30 caracteres ou menos.</string>
     <string name="create_profile_type_and_location_title">Select connection type and location</string>
     <string name="create_profile_features_and_settings_title">Funcionalidades e definições</string>
     <!--

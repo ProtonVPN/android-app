@@ -531,7 +531,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN에 오신 것을 환영합니다</string>
-    <string name="onboarding_welcome_description">브라우징은 은밀하게, 막힌 컨텐츠는 열리게, 디지털 자유를 그렇게 누려보세요.</string>
+    <string name="onboarding_welcome_description">브라우징은 은밀하게, 막힌 컨텐츠는 열리게, 디지털 자유를 그렇게 누리세요.</string>
     <string name="onboarding_welcome_action">시작하기</string>
     <string name="upgrade_success_get_started_button">시작하기</string>
     <string name="dynamic_report_suggestion_didnt_work">작동하지 않습니까?</string>
@@ -565,7 +565,7 @@
     <string name="upgrade_moderate_nat_message2"><![CDATA[<b>NAT Type 2</b> 기술로 온라인 게이밍과 영상 통화 성능을 극대화 하세요.]]></string>
     <string name="free_connections_info_message">Proton Free가 사용 가능한 가장 빠른 서버에 자동으로 연결합니다. 보통 소재한 곳에서 가장 가까운 서버가 선택됩니다.</string>
     <string name="free_connections_info_server_locations">무료 서버 지역 (%1$d)</string>
-    <string name="free_connections_info_banner_text">전세계 커버리지를 VPN Plus로 누리세요</string>
+    <string name="free_connections_info_banner_text">전세계 커버리지를 VPN Plus로 누려보세요</string>
     <string name="free_connection_info_title">무료 연결</string>
     <string name="search_upsell_banner_title">언제 어디서나 스트리밍</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -647,7 +647,7 @@
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
     <string name="welcome_plus_feature_security">고급 제어 기능</string>
     <string name="welcome_unlimited_title">Proton Unlimited에 오신 것을 환영합니다</string>
-    <string name="welcome_unlimited_description"><![CDATA[축하합니다! Proton의 모든 서비스에서 프리미엄용 보안과 성능 기능을, 총 저장공간은 <b>%1$d&#160;GB </b> 더 사용할 수 있게 되었습니다.<br><br>Proton 프라이버시의 최고를 누리십시오.]]></string>
+    <string name="welcome_unlimited_description"><![CDATA[축하합니다! Proton의 모든 서비스에서 프리미엄용 보안과 성능 기능을, 총 저장공간은 <b>%1$d&#160;GB </b> 더 사용할 수 있게 되었습니다.<br><br>Proton 프라이버시의 최고를 누려보세요.]]></string>
     <string name="welcome_generic_title">축하합니다</string>
     <string name="welcome_generic_description">구독을 업그레이드 했습니다. 한 차원 높은 개인정보 보호 기능과 성능을 즐겨보세요.</string>
     <!-- Example: Up to 10 devices at once

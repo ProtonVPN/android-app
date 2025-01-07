@@ -1436,5 +1436,5 @@
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">Ein</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
-    <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
+    <string name="profile_auto_open_error_invalid_url">Gültige URL eingeben</string>
 </resources>

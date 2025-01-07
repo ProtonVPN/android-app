@@ -433,7 +433,7 @@
         <item quantity="other">Chráňte %1$d zariadení naraz</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Bezpečné streamovanie</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker a ochrana pred malvérom</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Blokovanie reklám a ochrana pred škodlivým softvérom</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Dvojitá VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">P2P podpora</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
