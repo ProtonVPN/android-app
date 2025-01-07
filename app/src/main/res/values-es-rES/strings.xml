@@ -1344,9 +1344,9 @@
     <string name="info_secure_core_advanced_privacy">Privacidad avanzada</string>
     <string name="info_secure_core_higher_latency">Latencia mayor</string>
     <string name="info_p2p_what_title">¿Qué es P2P?</string>
-    <string name="info_p2p_what_description">La tecnología de red entre pares (peer-to-peer P2P en inglés) te permite conectarte y compartir archivos directamente con otros dispositivos.\n\nNuestros servidores P2P están diseñados especialmente para soportar este intercambio de archivos.</string>
+    <string name="info_p2p_what_description">La tecnología de red entre pares (P2P) te permite conectarte y compartir archivos directamente con otros dispositivos.\n\nNuestros servidores P2P están diseñados especialmente para soportar este intercambio de archivos.</string>
     <string name="info_p2p_torrenting_title">¿Qué son los torrents?</string>
-    <string name="info_p2p_torrenting_description">El intercambio rápido y descarga de archivos grandes a través de una red entre pares (P2P).</string>
+    <string name="info_p2p_torrenting_description">El intercambio rápido y descarga de archivos grandes a través de una red entre pares.</string>
     <string name="info_p2p_why_title">¿Por qué usar un servidor P2P para descargar torrents?</string>
     <string name="info_p2p_why_description_speed">Velocidades de carga y descarga aumentadas</string>
     <string name="info_p2p_why_description_logs">Sin registros de actividad</string>
@@ -1411,7 +1411,7 @@
     <string name="profiles_zero_state_description">Los perfiles son conexiones guardadas con la ubicación, servidor y protocolo de tu elección.</string>
     <string name="profiles_button_create_profile">Crear un perfil</string>
     <string name="profile_deleted_snackbar_message">Se ha eliminado el perfil.</string>
-    <string name="profile_connected_edit_setting">Este ajuste está conectado a tu perfil activo.\n\nEdita tu perfil para realizar cambios o desconéctate para editar tu configuración general de VPN.</string>
+    <string name="profile_connected_edit_setting">Este ajuste está conectado a tu perfil activo. \n\nEdita tu perfil para realizar cambios o desconéctate para editar tu configuración general de VPN.</string>
     <string name="profile_connected_dialog_title">Administrar %1$s en los perfiles</string>
     <string name="undo">Deshacer</string>
     <string name="profile_unavailable_dialog_title">El perfil no está disponible.</string>

@@ -1506,7 +1506,7 @@
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">Вимк</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Ввімк</string>
+    <string name="profile_auto_open_on">Увімк</string>
     <string name="create_profile_auto_open_description">Автоматично відкривати вибраний вебсайт після під\'єднання до цього профілю.</string>
     <string name="profile_auto_open_error_invalid_url">Введіть дійсну URL-адресу</string>
 </resources>
