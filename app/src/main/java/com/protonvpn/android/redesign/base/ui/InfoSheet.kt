@@ -114,7 +114,7 @@ fun InfoSheet(
 }
 
 @Composable
-private fun InfoSheetContent(
+fun InfoSheetContent(
     info: InfoType,
     onOpenUrl: (url: String) -> Unit,
     modifier: Modifier = Modifier,
