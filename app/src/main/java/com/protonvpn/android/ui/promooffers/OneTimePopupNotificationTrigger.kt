@@ -27,6 +27,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.ForegroundActivityTracker
 import dagger.Reusable
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -41,6 +42,12 @@ class PromoActivityOpener @Inject constructor() {
         activity.startActivity(PromoOfferActivity.createIntent(activity, notificationId))
     }
 }
+@Reusable
+class NpsActivityOpener @Inject constructor() {
+    fun open(activity: Activity, notificationId: String) {
+        activity.startActivity(NpsActivity.createIntent(activity, notificationId))
+    }
+}
 
 @Singleton
 class OneTimePopupNotificationTrigger @Inject constructor(
@@ -49,8 +56,12 @@ class OneTimePopupNotificationTrigger @Inject constructor(
     private val apiNotificationManager: ApiNotificationManager,
     currentUser: CurrentUser,
     private val promoOffersPrefs: PromoOffersPrefs,
-    private val promoActivityOpener: PromoActivityOpener
+    private val promoActivityOpener: PromoActivityOpener,
+    private val npsActivityOpener: NpsActivityOpener
 ) {
+
+    private val NPS_NOTIFICATION_DELAY = 2000L
+
     init {
         // Don't use scan() with foregroundActivityFlow because it will leak activities.
         foregroundActivityTracker.isInForegroundFlow
@@ -69,15 +80,27 @@ class OneTimePopupNotificationTrigger @Inject constructor(
     }
 
     private suspend fun onOneTimeNotificationOpportunity(activity: Activity) {
-        val activeNotifications = apiNotificationManager.activeListFlow.first()
-        val oneTimeNotification = activeNotifications.firstOrNull { notification ->
-            notification.isOneTimeNotification() && !promoOffersPrefs.visitedOffers.contains(notification.id)
-        }
-        if (oneTimeNotification != null) {
-            promoOffersPrefs.addVisitedOffer(oneTimeNotification.id)
-            promoActivityOpener.open(activity, oneTimeNotification.id)
+        val oneTimeNotification = apiNotificationManager.activeListFlow
+            .first()
+            .firstOrNull { notification ->
+                (notification.isOneTimeNotification() || notification.isNpsType()) &&
+                        !promoOffersPrefs.visitedOffers.contains(notification.id)
+            }
+
+        oneTimeNotification?.let {
+            promoOffersPrefs.addVisitedOffer(it.id)
+
+            if (it.isNpsType()) {
+                delay(NPS_NOTIFICATION_DELAY)
+                npsActivityOpener.open(activity, it.id)
+            } else {
+                promoActivityOpener.open(activity, it.id)
+            }
         }
     }
+
+    private fun ApiNotification.isNpsType(): Boolean =
+        type == ApiNotificationTypes.TYPE_NPS
 
     private fun ApiNotification.isOneTimeNotification(): Boolean =
         type == ApiNotificationTypes.TYPE_ONE_TIME_POPUP && offer != null && offer.panel != null

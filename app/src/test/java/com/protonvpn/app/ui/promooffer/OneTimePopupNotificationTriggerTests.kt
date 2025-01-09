@@ -25,6 +25,7 @@ import com.protonvpn.android.appconfig.ApiNotificationManager
 import com.protonvpn.android.appconfig.ApiNotificationTypes
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.ui.ForegroundActivityTracker
+import com.protonvpn.android.ui.promooffers.NpsActivityOpener
 import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger
 import com.protonvpn.android.ui.promooffers.PromoActivityOpener
 import com.protonvpn.android.ui.promooffers.PromoOffersPrefs
@@ -42,6 +43,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -58,6 +60,8 @@ class OneTimePopupNotificationTriggerTests {
     private lateinit var mockApiNotificationManager: ApiNotificationManager
     @RelaxedMockK
     private lateinit var mockPromoActivityOpener: PromoActivityOpener
+    @RelaxedMockK
+    private lateinit var mockNpsActivityOpener: NpsActivityOpener
 
     private lateinit var activeNotificationsFlow: MutableStateFlow<List<ApiNotification>>
     private lateinit var foregroundActivityFlow: MutableStateFlow<Activity?>
@@ -88,7 +92,8 @@ class OneTimePopupNotificationTriggerTests {
             apiNotificationManager = mockApiNotificationManager,
             currentUser = CurrentUser(testUserProvider),
             promoOffersPrefs = promoOffersPrefs,
-            promoActivityOpener = mockPromoActivityOpener
+            promoActivityOpener = mockPromoActivityOpener,
+            npsActivityOpener = mockNpsActivityOpener
         )
     }
 
@@ -168,6 +173,18 @@ class OneTimePopupNotificationTriggerTests {
         foregroundActivityFlow.value = null
         foregroundActivityFlow.value = mockk()
         verify(exactly = 1) { mockPromoActivityOpener.open(any(), "popup 2") }
+    }
+
+    @Test
+    fun `nps notifications triggered with delay`() = testScope.runTest {
+        activeNotificationsFlow.value =
+            listOf(createTestNotification(NOTIFICATION_ID, ApiNotificationTypes.TYPE_NPS))
+
+        foregroundActivityFlow.value = mockk()
+        verify(exactly = 0) { mockNpsActivityOpener.open(any(), NOTIFICATION_ID) }
+
+        delay(3000)
+        verify(exactly = 1) { mockNpsActivityOpener.open(any(), NOTIFICATION_ID) }
     }
 
     private fun createTestNotification(

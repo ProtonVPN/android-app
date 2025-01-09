@@ -26,6 +26,7 @@ object ApiNotificationTypes {
     const val TYPE_ONE_TIME_POPUP = 1
     const val TYPE_HOME_SCREEN_BANNER = 2
     const val TYPE_HOME_PROMINENT_BANNER = 3
+    const val TYPE_NPS = 4
 }
 
 @Serializable

@@ -122,6 +122,9 @@
         <activity
             android:name=".ui.promooffers.PromoOfferActivity" />
         <activity
+            android:name=".ui.promooffers.NpsActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".ui.onboarding.OnboardingActivity"
             android:screenOrientation="portrait"/>
         <activity

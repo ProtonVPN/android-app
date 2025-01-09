@@ -34,6 +34,7 @@ import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
 import com.protonvpn.android.telemetry.StatsBody
 import com.protonvpn.android.telemetry.StatsEvent
+import com.protonvpn.android.ui.promooffers.usecase.PostNps
 import me.proton.core.network.domain.ApiResult
 import me.proton.core.network.domain.TimeoutOverride
 import me.proton.core.network.domain.session.SessionId
@@ -136,6 +137,9 @@ open class ProtonApiRetroFit @Inject constructor(
 
     open suspend fun postPromoCode(code: String): ApiResult<GenericResponse> =
         manager { postPromoCode(PromoCodesBody("VPN", listOf(code))) }
+
+    suspend fun postNps(data: PostNps.NpsData): ApiResult<GenericResponse> =
+        manager { postNps(data) }
 
     suspend fun postStats(events: List<StatsEvent>): ApiResult<GenericResponse> =
         manager { postStats(StatsBody(events)) }

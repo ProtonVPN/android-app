@@ -41,6 +41,7 @@ import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.telemetry.StatsBody
+import com.protonvpn.android.ui.promooffers.usecase.PostNps
 import me.proton.core.network.data.protonApi.BaseRetrofitApi
 import me.proton.core.network.domain.TimeoutOverride
 import okhttp3.RequestBody
@@ -109,6 +110,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @GET("vpn/v2/clientconfig")
     suspend fun getAppConfig(@HeaderMap headers: Map<String, String>): AppConfigResponse
+
+    @POST("vpn/v1/nps/submit")
+    suspend fun postNps(@Body data: PostNps.NpsData): GenericResponse
 
     @GET("core/v4/notifications")
     suspend fun getApiNotifications(
