@@ -125,7 +125,7 @@ import me.proton.core.network.data.di.Constants as CoreConstants
 )
 class SharedTestAppModule {
 
-    // https://jira.protontech.ch/browse/CP-4334 - Provide an abstraction over `WorkManager`
+    // CP-4334 - Provide an abstraction over `WorkManager`
     @Provides
     @Singleton
     fun provideWorkManager(): WorkManager = FakeWorkManager()
