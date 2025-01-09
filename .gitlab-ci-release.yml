@@ -1,5 +1,5 @@
 include:
-  - component: gitlab.protontech.ch/proton/devops/cicd-components/tools/artifactlift/s3-upload@0.1.24
+  - component: $CI_SERVER_HOST/proton/devops/cicd-components/tools/artifactlift/s3-upload@0.1.24
     inputs:
       destination-cluster: prod
       destination-repository: vpn-releases
