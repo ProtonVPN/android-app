@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.BasicTextField
@@ -52,6 +54,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.theme.VpnTheme
@@ -83,6 +86,7 @@ fun ProtonOutlinedTextField(
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
+    textHeightIn: Dp = Dp.Unspecified,
 ) {
     val supportingTextString =
         if (isError && errorText != null) errorText else assistiveText
@@ -149,7 +153,7 @@ fun ProtonOutlinedTextField(
                     unfocusedBorderColor = Color.Transparent,
                 )
                 // Wrap OutlinedTextFieldDecorationBox in a Box because there's no way to pass size modifier directly.
-                Box(Modifier.fillMaxWidth(), propagateMinConstraints = true) {
+                Box(Modifier.fillMaxWidth().heightIn(textHeightIn), propagateMinConstraints = true) {
                     OutlinedTextFieldDefaults.DecorationBox(
                         value = value.text,
                         innerTextField = innerTextField,

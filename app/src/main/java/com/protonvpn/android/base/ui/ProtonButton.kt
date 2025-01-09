@@ -98,7 +98,7 @@ fun ButtonDefaults.protonButtonColors(
     disabledBackgroundColor: Color = if (loading) {
         ProtonTheme.colors.interactionPressed
     } else {
-        ProtonTheme.colors.brandLighten40
+        ProtonTheme.colors.interactionDisabled
     },
     disabledContentColor: Color = if (loading) {
         Color.White
