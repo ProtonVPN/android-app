@@ -1346,7 +1346,7 @@
     <string name="info_p2p_what_title">¿Qué es P2P?</string>
     <string name="info_p2p_what_description">La tecnología de red entre pares (P2P) te permite conectarte y compartir archivos directamente con otros dispositivos.\n\nNuestros servidores P2P están diseñados especialmente para soportar este intercambio de archivos.</string>
     <string name="info_p2p_torrenting_title">¿Qué son los torrents?</string>
-    <string name="info_p2p_torrenting_description">El intercambio rápido y descarga de archivos grandes a través de una red entre pares.</string>
+    <string name="info_p2p_torrenting_description">El intercambio rápido y descarga de archivos grandes a través de una red entre pares (P2P).</string>
     <string name="info_p2p_why_title">¿Por qué usar un servidor P2P para descargar torrents?</string>
     <string name="info_p2p_why_description_speed">Velocidades de carga y descarga aumentadas</string>
     <string name="info_p2p_why_description_logs">Sin registros de actividad</string>
@@ -1437,4 +1437,11 @@
     <string name="profile_auto_open_on">Activado</string>
     <string name="create_profile_auto_open_description">Abre automáticamente un sitio web de tu elección cuando te conectes a este perfil.</string>
     <string name="profile_auto_open_error_invalid_url">Introduce una URL válida</string>
+    <string name="nps_how_likely_question">¿Qué tan probable es que recomiendes Proton VPN a un amigo o a un compañero de trabajo?</string>
+    <string name="nps_additional_comment_title">Cuéntanos por qué has dado esa calificación.</string>
+    <string name="nps_additional_comment_optional">Opcional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Gracias por compartir tu opinión. Tus comentarios nos ayudan a mejorar Proton VPN.</string>
+    <string name="nps_button_submit_title">Compartir de forma anónima</string>
 </resources>

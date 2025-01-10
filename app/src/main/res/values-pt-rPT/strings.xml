@@ -176,7 +176,7 @@
     <string name="troubleshootNoInternetDescription">Certifique-se de que a sua ligação à internet está a funcionar.</string>
     <string name="troubleshootNoInternetTitle">Sem ligação à Internet</string>
     <string name="troubleshootIspProblemTitle">Problema no fornecedor de serviços Internet (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Tente ligar ao Proton de uma rede diferente (ou utilize o <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferência do antivírus</string>
     <string name="troubleshootAntivirusProblemDescription">Desative temporariamente o antivírus ou remova-o.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferência de Proxy/Firewall</string>
@@ -188,7 +188,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Redirecionamento alternativo</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que a aplicação use caminhos alternativos para aceder aos servidores do Proton. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueio governamental</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[O seu país pode estar a bloquear o acesso ao Proton. Tente utilizar o <a href=\'%1$s\'>Tor</a> para aceder ao Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN Sempre ligada e Kill switch</string>
     <string name="settingsAlwaysOnWindowHeader">Como ativar a VPN sempre ativa e o kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Abra as <b>definições</b> do dispositivo tocando no botão abaixo]]></string>
@@ -247,7 +247,7 @@
     <string name="guestHoleNotificationContent">A tentar contornar problemas de rede. Isto irá ajudá-lo a aceder ao Proton VPN.</string>
     <string name="errorTunMultiUserPermission">Não é possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o Split Tunneling. Desative um desses e reinicie o dispositivo.</string>
     <string name="errorTorrentNotAllowed">O P2P não é permitido neste servidor.</string>
-    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
+    <string name="error_profile_fallback_unavailable">Erro na conexão. A sua seleção de servidor para o perfil não está disponível.</string>
     <string name="profileProtocolNotAvailable">O protocolo VPN deste perfil não está atualmente disponível. Para estabelecer ligação, tente alterar o protocolo.</string>
     <string name="stateConnectedTo">Ligado a %1$s</string>
     <string name="stateNotConnected">Não há ligação</string>
@@ -257,7 +257,7 @@
     <string name="nameAfricaAndMiddleEast">África &amp; Médio Oriente</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Definições</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Tunelamento dividido</string>
     <string name="tv_card_protocol_label">Protocolo</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorito</string>
     <string name="tv_detail_connect_streaming">Assista com o Plus</string>
@@ -416,7 +416,7 @@
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Streaming seguro</string>
     <string name="upgrade_unlimited_vpn_adblocker">Bloqueador de anúncios e proteção de malware</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">VPN dupla</string>
     <string name="upgrade_unlimited_vpn_p2p">Suporte a P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="one">%1$d domínio de e-mail personalizado</item>
@@ -432,9 +432,9 @@
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">Pastas e filtros ilimitados</string>
     <string name="upgrade_unlimited_mail_dark_web">Monitorização da Dark Web</string>
-    <string name="upgrade_unlimited_mail_aliases">Unlimited hide-my-email aliases</string>
+    <string name="upgrade_unlimited_mail_aliases">Aliases ilimitados do hide-my-email</string>
     <string name="upgrade_unlimited_mail_autoreply">Resposta automática</string>
-    <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
+    <string name="upgrade_unlimited_mail_scheduled_send">Envio agendado</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d calendário pessoal</item>
         <item quantity="other">%1$d calendários pessoais</item>
@@ -443,7 +443,7 @@
     <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
     <string name="upgrade_unlimited_drive_encryption">Armazenamento de ficheiros encriptados</string>
     <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
-    <string name="upgrade_unlimited_drive_link_share">Share photos and files via link</string>
+    <string name="upgrade_unlimited_drive_link_share">Partilhe ficheiros e fotos com uma ligação</string>
     <string name="upgrade_unlimited_drive_sharing_security">Segurança avançada de partilha</string>
     <string name="upgrade_unlimited_drive_version_history">Histórico de versões</string>
     <string name="upgrade_unlimited_pass_manager">Gestor de palavras-passe encriptado</string>
@@ -453,7 +453,7 @@
         <item quantity="other">%1$d cofres</item>
     </plurals>
     <string name="upgrade_unlimited_pass_logins">Logins ilimitados</string>
-    <string name="upgrade_unlimited_pass_aliases">Unlimited hide-my-email aliases</string>
+    <string name="upgrade_unlimited_pass_aliases">Aliases ilimitados do hide-my-email</string>
     <string name="upgrade_unlimited_pass_credit_cards">Cartões de crédito ilimitados</string>
     <string name="upgrade_unlimited_pass_devices">Número ilimitado de dispositivos</string>
     <plurals name="upgrade_unlimited_pass_users">
@@ -499,7 +499,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Navegue a velocidades ainda mais elevadas (até %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Tunelamento dividido</string>
     <string name="upsell_card_split_tunneling_description">Navegue a partir de dois locais em simultâneo</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Veja os seus filmes e programas de TV favoritos</string>
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Tunelamento dividido</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1027,7 +1027,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_title">Terminar sessão?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_message">You\'ll be disconnected from VPN.</string>
+    <string name="dialog_sign_out_message">Será desconectado da VPN.</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">Não perguntar novamente</string>
     <!-- tag(Redesign_2023) -->
@@ -1110,7 +1110,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_question">O que é a carga do servidor?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_description">Server load shows how close a server is to its maximum capacity. \n\nA high server load can slow down your connection.</string>
+    <string name="connection_details_server_load_description">A carga do servidor mostra o quão próximo um servidor está da sua capacidade máxima. \n\nUma carga elevada do servidor pode diminuir a sua conexão.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_low_title">Baixa (1–75%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1141,24 +1141,24 @@
     <string name="connection_details_vpn_speed_question">O que é a velocidade do VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core connects you to your destination server via a second, maximum security VPN server.\n\nThis higher level of protection may cause higher latency and slower speeds.</string>
+    <string name="info_dialog_secure_core_description">O Secure Core conecta-o ao seu servidor de destino através de um segundo servidor VPN de segurança máxima. \n\nEste nível mais alto de proteção pode causar maior latência e velocidades mais baixas.</string>
     <string name="info_secure_core_standard_header">Ligação VPN padrão</string>
     <string name="info_secure_core_secure_header">Secure Core VPN connection</string>
-    <string name="info_dialog_tor_description">Connect to a Tor server to access hidden services and onion sites using any browser.</string>
+    <string name="info_dialog_tor_description">Conecte-se a um servidor Tor para aceder aos serviços ocultos e sítios web onion ao usar qualquer navegador.</string>
     <string name="info_dialog_button_learn_more_tor">Como acessar a rede Tor</string>
     <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
     <string name="info_dialog_button_learn_more_streaming">Precisa de ajuda com o streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
-    <string name="info_dialog_streaming_description">Streaming servers are designed for fast and secure TV and movie playback.</string>
+    <string name="info_dialog_streaming_description">Os servidores de streaming são projetados para uma reprodução rápida e segura de TV e filmes.</string>
     <string name="info_dialog_how_to_stream">Como transmitir:</string>
     <!-- item 1 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
     <!-- item 2 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_2">Restart your streaming service</string>
+    <string name="info_dialog_how_to_stream_step_2">Reinicie o seu serviço de streaming</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
     <string name="info_dialog_profiles_title">Perfis</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_description">Os perfis são conexões à VPN personalizadas que pode adaptar às suas necessidades e guardar para um acesso rápido. \n\nDefina a sua localização preferida e otimize as suas definições para segurança, desempenho, jogos ou qualquer outro cenário.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1168,14 +1168,14 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <string name="connection_feature_smart_routing_description">Connects you to your destination country through servers that are physically located somewhere else.</string>
+    <string name="connection_feature_smart_routing_description">Conecta-o ao seu país de destino através de servidores localizados fisicamente em outro lugar.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
         For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
     -->
-    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
+    <string name="country_smart_routing_info">Os servidores estão localizados fisicamente em %1$s, mas parecerá estar a navegar a partir de %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1189,7 +1189,7 @@
     -->
     <string name="connection_details_unknown_ip">Desconhecido</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_vpn_speed_description">This graph shows the speed of your current upload and download activity. Your VPN connection is unlikely to slow down normal online activity.</string>
+    <string name="connection_details_vpn_speed_description">Este gráfico mostra a velocidade do seu evento atual de envio e receção de dados. É improvável que a sua conexão VPN afete a sua atividade normal online.</string>
     <string name="speed_bytes_per_second">%1$s B/s</string>
     <string name="speed_kilobytes_per_second">%1$s KB/s</string>
     <string name="speed_megabytes_per_second">%1$s MB/s</string>
@@ -1272,7 +1272,7 @@
     <string name="create_profile_name_hint">Nome do perfil</string>
     <string name="create_profile_name_error_empty">Introduza um nome de perfil</string>
     <string name="create_profile_name_error_too_long">O nome do perfil deve ter 30 caracteres ou menos.</string>
-    <string name="create_profile_type_and_location_title">Select connection type and location</string>
+    <string name="create_profile_type_and_location_title">Selecione o tipo de conexão e a localização</string>
     <string name="create_profile_features_and_settings_title">Funcionalidades e definições</string>
     <!--
         First input will be for current step, second one will be for total number of steps
@@ -1283,7 +1283,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Aumente a sua velocidade de conexão em até 400%% com tecnologias que aprimoram o desempenho. %1$s</string>
     <string name="settings_account_settings_title">Definições de conta</string>
     <string name="settings_account_change_password">Alterar a palavra-passe</string>
     <string name="settings_account_recovery_email">E-mail de recuperação</string>
@@ -1293,9 +1293,9 @@
     <string name="settings_account_button_my_account">A minha conta</string>
     <string name="settings_account_button_delete_account">Eliminar a conta</string>
     <string name="settings_advanced_alternative_routing_title">Redirecionamento alternativo</string>
-    <string name="settings_advanced_alternative_routing_description">If Proton services are blocked due to network restrictions, we’ll try using alternative network routing to connect you to our sites.</string>
+    <string name="settings_advanced_alternative_routing_description">Se os serviços do Proton estiverem bloqueados devido a restrições de rede, tentaremos usar o roteamento alternativo para conectá-lo aos nossos sítios web.</string>
     <string name="settings_advanced_allow_lan_title">Ligações LAN</string>
-    <string name="settings_advanced_allow_lan_description">Allows you to connect to printers, speakers, and other devices in your device’s local network.</string>
+    <string name="settings_advanced_allow_lan_description">Permite-lhe conectar-se a impressoras, altifalantes e outros dispositivos na rede local do seu dispositivo.</string>
     <string name="settings_advanced_nat_type_title">Tipo de NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
@@ -1304,9 +1304,9 @@
     <string name="settings_advanced_nat_type_strict_short">Tipo 3</string>
     <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
     <string name="settings_advanced_nat_type_moderate_short">Tipo 2</string>
-    <string name="settings_advanced_nat_type_strict_description">Restricts the data entering your network. This option is more secure, but can make peer-to-peer gaming connections more difficult.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Some restriction on data entering your network. This option is best for online video gaming.</string>
-    <string name="settings_split_tunneling_description">Customize your connection by deciding which apps and IP addresses are protected by VPN. %1$s</string>
+    <string name="settings_advanced_nat_type_strict_description">Restringe os dados que entram na sua rede. Esta opção é mais segura, mas pode dificultar as conexões de jogos P2P.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Algumas restrições em dados que entram na sua rede. Esta opção é a melhor para os jogos de vídeo online.</string>
+    <string name="settings_split_tunneling_description">Personalize a sua conexão ao decidir quais aplicações e endereços IP são protegidos por VPN. %1$s</string>
     <string name="settings_protocol_description">Um protocolo VPN determina como os dados são transmitidos entre um servidor VPN e o seu dispositivo. %1$s</string>
     <string name="settings_protocol_description_no_link">Um protocolo VPN determina como os dados são transmitidos entre um servidor VPN e o seu dispositivo.</string>
     <string name="settings_protocol_section_speed">Velocidade (UDP)</string>
@@ -1317,17 +1317,17 @@
     <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Established, well-tested, and secure. OpenVPN is less battery-efficient than some other protocols.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Established, well-tested, and secure. OpenVPN is reliable in poor network conditions, but may not be as fast as other protocols.</string>
+    <string name="settings_protocol_openvpn_udp_description">Estabelecido, bem testado e seguro. O OpenVPN é menos eficiente com a bateria do que alguns outros protocolos.</string>
+    <string name="settings_protocol_openvpn_tcp_description">Estabelecido, bem testado e seguro. OpenVPN é confiável em condições de rede más, mas pode não ser tão rápido quanto outros protocolos.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
-    <string name="settings_protocol_stealth_description">Overcomes VPN blocks by hiding your VPN connection from censors. This protocol is DPI (deep packet inspection) resistant, but may not be as fast as other protocols. Stealth is exclusive to Proton VPN.</string>
+    <string name="settings_protocol_stealth_description">Contorna os bloqueios de VPN ao ocultar a sua conexão VPN das autoridades de controlo. Este protocolo é resistente à inspeção profunda de pacotes (DPI, Deep Packet Inspection), mas pode não ser tão rápido quanto outros protocolos. O Stealth é um protocolo exclusivo do Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Recomendado</string>
     <string name="settings_split_tunneling_mode_title">Modo</string>
     <string name="settings_split_tunneling_mode_standard">Padrão</string>
     <string name="settings_split_tunneling_mode_inverse">Inverso</string>
     <string name="settings_split_tunneling_mode_description_standard">Selected apps and IP addresses are excluded from VPN connection.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Only selected apps and IP addresses connect through VPN, all other traffic is unprotected.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Apenas as aplicações e os endereços IP selecionados conectam-se através da VPN, todo o outro tráfego não é protegido.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicações excluídas</string>
     <string name="settings_split_tunneling_excluded_ips">Endereços IP excluídos</string>
     <string name="settings_split_tunneling_included_apps">Aplicações incluídas</string>
@@ -1344,14 +1344,14 @@
     <string name="info_secure_core_advanced_privacy">Privacidade avançada</string>
     <string name="info_secure_core_higher_latency">Latência mais alta</string>
     <string name="info_p2p_what_title">O que é P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P) technology allows you to connect and share files directly with other devices.\n\nOur P2P servers are specially designed to support this type of file sharing.</string>
+    <string name="info_p2p_what_description">A tecnologia peer-to-peer (P2P) permite que se conecte e partilhe ficheiros diretamente com outros dispositivos. \n\nOs nossos servidores P2P são especialmente projetados para suportar este tipo de partilha de ficheiros.</string>
     <string name="info_p2p_torrenting_title">O que é um torrent?</string>
     <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
     <string name="info_p2p_why_title">Why use a P2P server when torrenting?</string>
     <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
     <string name="info_p2p_why_description_logs">Sem registos de atividade</string>
     <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
-    <string name="info_dialog_smart_routing_description">Smart Routing uses virtual servers to provide VPN coverage in hard-to-reach countries.\n\nWhen you connect to a Smart Routing server, you’ll appear to be browsing in your destination country, even though the physical server is located elsewhere.  \n\nSmart Routing is typically used to get around anti-privacy laws and other forms of censorship.</string>
+    <string name="info_dialog_smart_routing_description">O Smart Routing utiliza servidores virtuais para fornecer cobertura VPN em países de difícil acesso. \n\nQuando se conecta a um servidor Smart Routing, parecerá estar a navegar no seu país de destino, embora o servidor físico esteja localizado noutro lugar. \n\nO Smart Routing é tipicamente utilizado para contornar leis contra a privacidade e outras formas de censura.</string>
     <string name="countries_upsell_banner_description">Obtenha uma cobertura global com a VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Adicione outra camada de encriptação à sua ligação VPN</string>
     <string name="p2p_upsell_banner_description">Download files through BitTorrent and other file sharing protocols</string>
@@ -1361,14 +1361,14 @@
     <string name="search_zero_screen_info_countries_title">Países</string>
     <string name="search_zero_screen_info_cities_title">Cidades</string>
     <string name="search_zero_screen_info_servers_title">Servidores</string>
-    <string name="search_zero_screen_info_countries_examples">Switzerland, United States, Italy, Canada…</string>
-    <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
+    <string name="search_zero_screen_info_countries_examples">Suíça, Estados Unidos, Itália, Canadá...</string>
+    <string name="search_zero_screen_info_cities_examples">Nova Iorque, Londres, Tóquio, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Erro ao obter os preços</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Customize your connection by deciding which apps are protected by VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Personalize a sua conexão ao decidir quais aplicações são protegidas por VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
-    <string name="tv_settings_split_tunneling_mode_description_inverse">Only selected apps connect through VPN, all other traffic is unprotected.</string>
+    <string name="tv_settings_split_tunneling_mode_description_inverse">Apenas as aplicações selecionadas conectam-se através da VPN, todo o outro tráfego não é protegido.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Editar</string>
     <string name="profile_action_duplicate">Duplicar</string>
@@ -1377,9 +1377,9 @@
     <string name="profile_bottom_sheet_nat_title">NAT</string>
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
-    <string name="profile_needs_reconnect">This will restart your connection.</string>
+    <string name="profile_needs_reconnect">Isto reiniciará a sua ligação.</string>
     <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
-    <string name="initial_profile_name_streaming_us">Streaming US</string>
+    <string name="initial_profile_name_streaming_us">Streaming EUA</string>
     <string name="initial_profile_name_work_school">Trabalho/Escola</string>
     <string name="initial_profile_name_anti_censorship">Anti-censura</string>
     <string name="initial_profile_name_gaming">Jogos</string>
@@ -1411,13 +1411,13 @@
     <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
     <string name="profiles_button_create_profile">Criar um perfil</string>
     <string name="profile_deleted_snackbar_message">O perfil foi eliminado.</string>
-    <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
-    <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
+    <string name="profile_connected_edit_setting">Esta definição está ligada ao seu perfil ativo. \n\nEdite o seu perfil para fazer alterações ou desconecte-se para editar as suas definições gerais de VPN.</string>
+    <string name="profile_connected_dialog_title">Gerir %1$s nos perfis</string>
     <string name="undo">Anular</string>
     <string name="profile_unavailable_dialog_title">O perfil não é disponível.</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">Your server selection for %1$s is unavailable. Select a different server or try again later.</string>
+    <string name="profile_unavailable_dialog_message">A sua seleção de servidor para %1$s não está disponível. Selecione um servidor diferente ou tente novamente mais tarde.</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Ícone %1$d</string>
@@ -1427,7 +1427,7 @@
     <string name="generic_info_label">Informação</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Conectar e pronto</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Novo</string>
     <string name="create_profile_auto_open_url_input_label">URL do sítio web</string>
@@ -1436,5 +1436,12 @@
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">Ligado</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
-    <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
+    <string name="profile_auto_open_error_invalid_url">Insira um URL válido</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>

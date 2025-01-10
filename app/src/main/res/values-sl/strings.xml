@@ -1208,7 +1208,7 @@
     <string name="info_dialog_how_to_stream_step_2">Ponovno zaženite storitve pretočnega predvajanja</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Povežite se s katerim koli strežnikom Plus in začnite pretakati</string>
-    <string name="info_dialog_profiles_title">Profiles</string>
+    <string name="info_dialog_profiles_title">Profili</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">V tem strežniku je omogočena izmenjava datotek peer-to-peer (P2P).</string>
@@ -1353,7 +1353,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
         Example: Step 3 of 7
      -->
     <string name="create_profile_steps">Step %1$d of %2$d</string>
-    <string name="create_profile_button_next">Next</string>
+    <string name="create_profile_button_next">Naslednji</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
@@ -1459,12 +1459,12 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="initial_profile_name_gaming">Gaming</string>
     <string name="initial_profile_name_max_security">Max security</string>
     <string name="create_profile_pick_country_title">Država</string>
-    <string name="create_profile_pick_type_title">Type</string>
-    <string name="create_profile_type_standard">Standard</string>
+    <string name="create_profile_pick_type_title">Vrsta</string>
+    <string name="create_profile_type_standard">Standardno</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
     <string name="create_profile_gateway">Prehod</string>
-    <string name="create_profile_pick_state_title">State</string>
+    <string name="create_profile_pick_state_title">Država</string>
     <string name="create_profile_pick_city_title">Mesto</string>
     <string name="create_profile_pick_server_title">Server</string>
     <string name="create_profile_pick_gateway_title">Prehod</string>
@@ -1503,12 +1503,19 @@ Ta naprava ne dovoljuje povezav VPN.</string>
          Please don't use & in translation and capitalize key words. -->
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
-    <string name="create_profile_auto_open_label_badge">New</string>
+    <string name="create_profile_auto_open_label_badge">Novo</string>
     <string name="create_profile_auto_open_url_input_label">Website URL</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_off">Off</string>
+    <string name="profile_auto_open_off">Izključeno</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">On</string>
+    <string name="profile_auto_open_on">Vključeno</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
     <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>
