@@ -186,7 +186,7 @@
     <string name="troubleshootContactUsSectionTitle">ჯერ კიდევ გჭირდებათ დახმარება? პირდაპირ დაგვიკავშირდით</string>
     <string name="troubleshootCustomerSupport">მხარდაჭერის გუნდი</string>
     <string name="settingsAllowAlternativeRoutingTitle">ალტერნატიული რაუტინგი</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[თუ Proton-ი დაბლოკილია, მიეცით ნება აპს, Proton-ის სერვერებამდე მისასველად სხვა გზებიც სცადოს. <a href="%1$s">გაგეთ მეტი</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">მთავრობის ბლოკი</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[შესაძლოა, თქვენი ქვეყანაში Proton-ზე წვდომა დაბლოკილია. Proton-თან წვდომისთვის სცადეთ <a href=\'%1$s\'>Tor-ი</a> გამოიყენოთ.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">ყოველთვის-ჩართული VPN &amp; Kill Switch-ი</string>
@@ -1437,4 +1437,11 @@
     <string name="profile_auto_open_on">ჩართ</string>
     <string name="create_profile_auto_open_description">ავტომატურად გაიხსნება ვებგვერდი, რომელსაც აირჩევთ, როცა ამ პროფილს მიუერთედებით.</string>
     <string name="profile_auto_open_error_invalid_url">შეიყვანეთ სწორი ბმული</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>

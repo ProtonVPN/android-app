@@ -292,7 +292,7 @@
     <string name="tv_signout_dialog_description_connected">Spowoduje to rozłączenie telewizora z serwerem VPN.</string>
     <string name="tv_signout_dialog_ok">Wyloguj</string>
     <string name="tv_quick_connect_recommened">Zalecane</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Ulubiony</string>
     <string name="tv_country_maintenance_dialog_title">Kraj jest niedostępny</string>
     <string name="tv_country_maintenance_dialog_description">Spróbuj ponownie później lub wybierz inny kraj.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -1509,4 +1509,11 @@
     <string name="profile_auto_open_on">Włączone</string>
     <string name="create_profile_auto_open_description">Automatycznie otwórz wybraną stronę internetową, kiedy się połączysz z tym profilem.</string>
     <string name="profile_auto_open_error_invalid_url">Wpisz prawidłowy adres URL</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>

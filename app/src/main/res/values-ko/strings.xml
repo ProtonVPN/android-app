@@ -188,7 +188,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">대체 라우팅</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">정부 차단</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[당신의 국가는 Proton 서비스를 사용하는 것을 막고 있을지도 모릅니다. Proton 서비스를 사용하기 위하여 <a href=\'%1$s\'>Tor</a>를 사용해보세요.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN 항상 켜기 &amp; 킬 스위치</string>
     <string name="settingsAlwaysOnWindowHeader">연결 유지 VPN 및 킬 스위치 활성화 방법:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. 아래의 버튼을 눌러 기기의 <b>설정</b> 앱을 엽니다]]></string>
@@ -1403,4 +1403,11 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="profile_auto_open_on">켬</string>
     <string name="create_profile_auto_open_description">이 프로필로 연결할 때 선택한 웹 사이트을 자동으로 열어줍니다.</string>
     <string name="profile_auto_open_error_invalid_url">유효한 URL을 입력하세요.</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>

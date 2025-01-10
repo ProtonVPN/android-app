@@ -1412,7 +1412,7 @@
     <string name="profiles_button_create_profile">Profil erstellen</string>
     <string name="profile_deleted_snackbar_message">Profil gelöscht</string>
     <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
-    <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
+    <string name="profile_connected_dialog_title">%1$s in den Profilen verwalten</string>
     <string name="undo">Rückgängig machen</string>
     <string name="profile_unavailable_dialog_title">Profil nicht verfügbar</string>
     <!-- %1$s - profile name
@@ -1427,7 +1427,7 @@
     <string name="generic_info_label">Information</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Verbinden und Los</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Neu</string>
     <string name="create_profile_auto_open_url_input_label">Webseiten-URL</string>
@@ -1435,6 +1435,13 @@
     <string name="profile_auto_open_off">Aus</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">Ein</string>
-    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
+    <string name="create_profile_auto_open_description">Öffne automatisch eine Website deiner Wahl, wenn du dich mit diesem Profil verbindest.</string>
     <string name="profile_auto_open_error_invalid_url">Gültige URL eingeben</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>

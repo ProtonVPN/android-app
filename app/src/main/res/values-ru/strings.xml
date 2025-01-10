@@ -1496,7 +1496,7 @@
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Цвет %1$d</string>
-    <string name="generic_info_label">Info</string>
+    <string name="generic_info_label">Информация</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
@@ -1509,4 +1509,11 @@
     <string name="profile_auto_open_on">Вкл.</string>
     <string name="create_profile_auto_open_description">Автоматическое открытие выбранного вами веб-сайта при подключении к этому профилю.</string>
     <string name="profile_auto_open_error_invalid_url">Введите действительный URL</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>

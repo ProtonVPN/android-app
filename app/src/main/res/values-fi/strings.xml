@@ -323,7 +323,7 @@
     <string name="enable">Ota käyttöön</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol ei ole tällä hetkellä käytössä</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN havaitsi nykyisen verkkosi estävän VPN-yhteyden. Smart Protocol -toiminto saattaa ohittaa rajoitukset.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Edistyneet ominaisuudet: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Käytä suoratoistopalveluita (Netflix, Disney+, yms.) kaikkialla maailmassa</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -1437,4 +1437,11 @@
     <string name="profile_auto_open_on">Päällä</string>
     <string name="create_profile_auto_open_description">Haluamasi verkkosivusto avataan automaattisesti, kun muodostat yhteyden tähän profiiliin.</string>
     <string name="profile_auto_open_error_invalid_url">Syötä kelvollinen URL-osoite</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>

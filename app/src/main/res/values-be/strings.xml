@@ -1509,4 +1509,11 @@
     <string name="profile_auto_open_on">Укл</string>
     <string name="create_profile_auto_open_description">Аўтаматычна адкрываць выбраны вэб-сайт пры падключэнні да гэтага профілю.</string>
     <string name="profile_auto_open_error_invalid_url">Увядзіце сапраўдны URL-адрас</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>

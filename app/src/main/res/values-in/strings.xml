@@ -186,7 +186,7 @@
     <string name="troubleshootContactUsSectionTitle">Masih memerlukan bantuan? Hubungi kami secara langsung</string>
     <string name="troubleshootCustomerSupport">Layanan dukungan</string>
     <string name="settingsAllowAlternativeRoutingTitle">Pengalihan lalu lintas alternatif</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Apabila layanan Proton diblokir, aplikasi VPN akan berusaha untuk terhubung ke server Proton melalui jalur lalu lintas alternatif. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Pemblokiran pemerintah</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Negara anda mungkin memblokir akses ke Proton. Coba gunakan <a href=\'%1$s\'>Tor</a> untuk mengakses Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On VPN &amp; Kill Switch</string>
@@ -1343,7 +1343,7 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Tindakan ini akan memulai ulang koneksi Anda.</string>
     <string name="profile_overrides_setting">Rangkaian pengaturan ini terhubung ke <b>%1$s</b> dan hanya dapat dikelola pada Profil.</string>
-    <string name="initial_profile_name_streaming_us">US Streaming</string>
+    <string name="initial_profile_name_streaming_us">Streaming AS</string>
     <string name="initial_profile_name_work_school">Kantor/Sekolah</string>
     <string name="initial_profile_name_anti_censorship">Anti-sensor</string>
     <string name="initial_profile_name_gaming">Permainan</string>
@@ -1401,4 +1401,11 @@
     <string name="profile_auto_open_on">Aktif</string>
     <string name="create_profile_auto_open_description">Membuka situs web yang Anda tentukan secara otomatis pada saat Anda terhubung ke profil ini.</string>
     <string name="profile_auto_open_error_invalid_url">Masukkan URL yang valid</string>
+    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
+    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_button_submit_title">Share anonymously</string>
 </resources>
