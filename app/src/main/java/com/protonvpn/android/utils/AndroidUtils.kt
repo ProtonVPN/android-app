@@ -53,6 +53,8 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.ViewCompat
 import com.protonvpn.android.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import me.proton.core.util.kotlin.times
 import okhttp3.internal.toHexString
 import java.io.File
@@ -299,3 +301,15 @@ tailrec fun Throwable.stacktraceMessage(
 
 fun ActivityManager.vpnProcessRunning(context: Context) =
     runningAppProcesses?.any { it.processName == context.packageName }
+
+// Convenience function for launching coroutines in BroadcastReceivers
+fun BroadcastReceiver.launchAsyncReceive(scope: CoroutineScope, block: suspend () -> Unit) {
+    val result = goAsync()
+    scope.launch {
+        try {
+            block()
+        } finally {
+            result.finish()
+        }
+    }
+}

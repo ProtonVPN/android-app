@@ -328,6 +328,22 @@
             android:enabled="true"
             android:exported="false"/>
 
+        <receiver
+            android:name=".widget.ProtonVpnWidgetReceiver"
+            android:exported="true"
+            android:enabled="@bool/enable_widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.WidgetActionBroadcastReceiver"
+            android:enabled="@bool/enable_widget" />
+
         <activity
             android:name=".ui.settings.OssLicensesActivity"
             android:label="@string/activityLicensesTitle" />
