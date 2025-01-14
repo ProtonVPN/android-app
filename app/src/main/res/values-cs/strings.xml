@@ -1509,11 +1509,11 @@
     <string name="profile_auto_open_on">Zapnuto</string>
     <string name="create_profile_auto_open_description">Automatické otevření vybrané webové stránky po připojení k tomuto profilu.</string>
     <string name="profile_auto_open_error_invalid_url">Zadejte platnou URL adresu</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
-    <string name="nps_additional_comment_optional">Optional</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
-    <string name="nps_button_submit_title">Share anonymously</string>
+    <string name="nps_how_likely_question">Jaká je pravděpodobnost, že doporučíte Proton VPN svému příteli nebo kolegovi?</string>
+    <string name="nps_additional_comment_title">Dejte nám prosím vědět, proč jste uvedli toto hodnocení</string>
+    <string name="nps_additional_comment_optional">Volitelné</string>
+    <string name="nps_rating_low_values_explain">0 je velmi nepravděpodobně</string>
+    <string name="nps_rating_high_values_explain">10 je velmi pravděpodobně</string>
+    <string name="nps_toast_submit_message">Děkujeme za sdílení. Vaše zpětná vazba nám pomáhá zlepšovat Proton VPN.</string>
+    <string name="nps_button_submit_title">Sdílet anonymě</string>
 </resources>

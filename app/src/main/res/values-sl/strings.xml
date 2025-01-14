@@ -261,7 +261,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika &amp; Bližnji vzhod</string>
     <string name="nameOceania">Oceanija</string>
     <string name="tv_row_settings">Nastavitve</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Razdeljeno tuneliranje</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Najljubša</string>
     <string name="tv_detail_connect_streaming">Pretakajte s Plusom</string>
@@ -422,7 +422,7 @@
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">All premium Proton services. One easy subscription.</string>
     <string name="upgrade_unlimited_all_apps_description">Get complete privacy coverage with Proton Unlimited.</string>
-    <string name="upgrade_unlimited_more">And more</string>
+    <string name="upgrade_unlimited_more">In več</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Unlock all countries</string>
     <string name="upgrade_unlimited_vpn_all_features">All other VPN Plus features</string>
     <string name="upgrade_unlimited_vpn_any_location">Izberite poljubno lokacijo</string>
@@ -433,7 +433,7 @@
         <item quantity="few">Protect %1$d devices at once</item>
         <item quantity="other">Protect %1$d devices at once</item>
     </plurals>
-    <string name="upgrade_unlimited_vpn_streaming">Secure streaming</string>
+    <string name="upgrade_unlimited_vpn_streaming">Varni pretočni prenos</string>
     <string name="upgrade_unlimited_vpn_adblocker">Ad-blocker and malware protection</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">Podpora za P2P</string>
@@ -532,7 +532,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Brskajte pri še večjih hitrostih (do %1$d Gb/s)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Razdeljeno tuneliranje</string>
     <string name="upsell_card_split_tunneling_description">Brskajte z dveh lokacij hkrati</string>
     <string name="upsell_card_streaming_title">Pretakanje</string>
     <string name="upsell_card_streaming_description">Glejte svoje najljubše filme in serije</string>
@@ -1040,7 +1040,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Razdeljeno tuneliranje</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Stikalo za izklop</string>
     <!-- tag(Redesign_2023) -->
@@ -1338,13 +1338,13 @@
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Povezava ni uspela</string>
     <string name="dialogVpnNotSupportedOnThisDeviceDescription">​
 Ta naprava ne dovoljuje povezav VPN.</string>
-    <string name="create_profile_title">Create profile</string>
+    <string name="create_profile_title">Ustvari profil</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
     <string name="edit_profile_title">Edit %1$s</string>
-    <string name="edit_profile_dialog_action">Edit profile</string>
-    <string name="create_profile_name_hint">Profile name</string>
-    <string name="create_profile_name_error_empty">Enter a profile name</string>
+    <string name="edit_profile_dialog_action">Urejanje profila</string>
+    <string name="create_profile_name_hint">Ime profila</string>
+    <string name="create_profile_name_error_empty">Vnesite ime profila</string>
     <string name="create_profile_name_error_too_long">Profile name must be 30 characters or less</string>
     <string name="create_profile_type_and_location_title">Select connection type and location</string>
     <string name="create_profile_features_and_settings_title">Features and settings</string>
@@ -1456,7 +1456,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="initial_profile_name_streaming_us">Streaming US</string>
     <string name="initial_profile_name_work_school">Work/School</string>
     <string name="initial_profile_name_anti_censorship">Anti-censorship</string>
-    <string name="initial_profile_name_gaming">Gaming</string>
+    <string name="initial_profile_name_gaming">Igranje</string>
     <string name="initial_profile_name_max_security">Max security</string>
     <string name="create_profile_pick_country_title">Država</string>
     <string name="create_profile_pick_type_title">Vrsta</string>
@@ -1466,7 +1466,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_gateway">Prehod</string>
     <string name="create_profile_pick_state_title">Država</string>
     <string name="create_profile_pick_city_title">Mesto</string>
-    <string name="create_profile_pick_server_title">Server</string>
+    <string name="create_profile_pick_server_title">Strežnik</string>
     <string name="create_profile_pick_gateway_title">Prehod</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
@@ -1483,7 +1483,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_pick_middle_country_title">Middle country</string>
     <string name="profiles_zero_state_title">Create your first profile</string>
     <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
-    <string name="profiles_button_create_profile">Create profile</string>
+    <string name="profiles_button_create_profile">Ustvari profil</string>
     <string name="profile_deleted_snackbar_message">Profile deleted</string>
     <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
     <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
@@ -1497,8 +1497,8 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profile_icon_accessibility">Icon %1$d</string>
     <!-- %1$d - profile icon number
          Example: Color 1, Color 2, ... -->
-    <string name="profile_color_accessibility">Color %1$d</string>
-    <string name="generic_info_label">Info</string>
+    <string name="profile_color_accessibility">Barva %1$d</string>
+    <string name="generic_info_label">Informacija</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
@@ -1513,7 +1513,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="profile_auto_open_error_invalid_url">Enter a valid URL</string>
     <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
     <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
-    <string name="nps_additional_comment_optional">Optional</string>
+    <string name="nps_additional_comment_optional">Neobvezno</string>
     <string name="nps_rating_low_values_explain">0 is very unlikely</string>
     <string name="nps_rating_high_values_explain">10 is very likely</string>
     <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
