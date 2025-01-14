@@ -20,4 +20,5 @@
 <resources>
     <bool name="isTablet">false</bool>
     <bool name="enable_hardware_acceleration_for_signup">true</bool>
+    <bool name="enable_widget">false</bool>
 </resources>

@@ -842,6 +842,13 @@ dependencies {
     implementation 'com.github.bumptech.glide:compose:1.0.0-beta01'
     ksp 'com.github.bumptech.glide:ksp:4.16.0'
 
+    // Widget
+    def glanceVersion = '1.1.1'
+    implementation "androidx.glance:glance-appwidget:$glanceVersion"
+    implementation "androidx.glance:glance-material3:$glanceVersion"
+    implementation "androidx.glance:glance-preview:$glanceVersion"
+    implementation "androidx.glance:glance-appwidget-preview:$glanceVersion"
+
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"

@@ -67,6 +67,7 @@ import com.protonvpn.android.vpn.MaintenanceTracker
 import com.protonvpn.android.vpn.UpdateSettingsOnFeatureFlagChange
 import com.protonvpn.android.vpn.UpdateSettingsOnVpnUserChange
 import com.protonvpn.android.vpn.VpnConnectionObservability
+import com.protonvpn.android.widget.WidgetStateUpdater
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -127,6 +128,7 @@ open class ProtonApplication : Application() {
         val updateSettingsOnFeatureFlagChange: UpdateSettingsOnFeatureFlagChange?
         val vpnConnectionObservability: VpnConnectionObservability?
         val vpnConnectionTelemetry: VpnConnectionTelemetry
+        val widgetStateUpdater: WidgetStateUpdater
         val goLangCrashReporter: dagger.Lazy<GoLangCrashReporter>
         val populateInitialProfiles: PopulateInitialProfiles
         val profileAutoOpenHandler: ProfileAutoOpenHandler
@@ -207,6 +209,8 @@ open class ProtonApplication : Application() {
         dependencies.showUpgradeSuccess
         dependencies.vpnConnectionObservability
         dependencies.vpnConnectionTelemetry.start()
+        if (resources.getBoolean(R.bool.enable_widget))
+            dependencies.widgetStateUpdater.start()
 
         // Start last.
         dependencies.periodicUpdateManager.start()
