@@ -56,7 +56,7 @@
     <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Em manutenção</string>
     <string name="restrictedMaintenanceDescription">O servidor a que se está a tentar ligar está em manutenção. Tente outro servidor.</string>
-    <string name="errorUserDelinquent"><![CDATA[A sua conta tem atualmente uma fatura em atraso. Por favor, pague todas as faturas não liquidadas em&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
+    <string name="errorUserDelinquent"><![CDATA[A sua conta tem atualmente uma fatura em atraso. Pague todas as faturas não liquidadas em&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
     <string name="errorMaxSessions">Atingiu o máximo de ligações simultâneas permitidas na sua conta. Atualize a sua subscrição Proton VPN para obter mais ligações.</string>
     <string name="listItemMaintenance">Em manutenção</string>
     <string name="insufficientPermissionsTitle">Ação do utilizador obrigatória</string>
@@ -186,7 +186,7 @@
     <string name="troubleshootContactUsSectionTitle">Ainda precisa de ajuda? Contacte-nos diretamente</string>
     <string name="troubleshootCustomerSupport">Apoio ao cliente</string>
     <string name="settingsAllowAlternativeRoutingTitle">Redirecionamento alternativo</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que a aplicação use caminhos alternativos para aceder aos servidores do Proton. <a href="%1$s">Saiba mais</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Caso o Proton esteja bloqueado, permita que a aplicação utilize caminhos alternativos para aceder aos servidores do Proton. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueio governamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[O seu país pode estar a bloquear o acesso ao Proton. Tente utilizar o <a href=\'%1$s\'>Tor</a> para aceder ao Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN Sempre ligada e Kill switch</string>
@@ -358,7 +358,7 @@
     <string name="upgrade_p2p_title">Desbloquear os downloads peer-to-peer (P2P) e a partilha de ficheiros </string>
     <string name="upgrade_p2p_text">Melhore as suas velocidades de upload e download enquanto oculta o seu endereço IP.</string>
     <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
-    <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
+    <string name="upgrade_profiles_text">Desbloqueie perfis com a VPN Plus</string>
     <string name="upgrade_streaming_title">Streaming em 4K</string>
     <string name="upgrade_streaming_text">Desfrute dos seus filmes e programas de televisão favoritos a partir de qualquer parte do mundo.</string>
     <string name="upgrade_tor_title">Aceda à rede Tor num só toque</string>
@@ -440,9 +440,9 @@
         <item quantity="other">%1$d calendários pessoais</item>
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">Partilha de calendário</string>
-    <string name="upgrade_unlimited_calendar_invites">Send and receive invitations</string>
+    <string name="upgrade_unlimited_calendar_invites">Envie e receba convites</string>
     <string name="upgrade_unlimited_drive_encryption">Armazenamento de ficheiros encriptados</string>
-    <string name="upgrade_unlimited_drive_storage_size">%1$d GB total storage for photos, files, and mail</string>
+    <string name="upgrade_unlimited_drive_storage_size">%1$d GB de armazenamento total para fotos, ficheiros e e-mails</string>
     <string name="upgrade_unlimited_drive_link_share">Partilhe ficheiros e fotos com uma ligação</string>
     <string name="upgrade_unlimited_drive_sharing_security">Segurança avançada de partilha</string>
     <string name="upgrade_unlimited_drive_version_history">Histórico de versões</string>
@@ -477,7 +477,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">%1$d+ server locations in %2$s</string>
+    <string name="upsell_card_countries_description">Mais de %1$d localizações de servidor em %2$s</string>
     <string name="upsell_card_customization_title">E muito mais…</string>
     <string name="upsell_card_customization_description">Desbloquear ainda mais funcionalidades de desempenho e privacidade</string>
     <plurals name="upsell_card_devices_title">
@@ -976,7 +976,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_not_available">Servidor indisponível</string>
     <!-- tag(Redesign_2023): Displayed in a dialog when all servers of a gateway are in maintenance -->
-    <string name="message_gateway_in_maintenance">Gateway under maintenance</string>
+    <string name="message_gateway_in_maintenance">A porta de entrada está em manutenção.</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_sign_out">Terminar sessão</string>
     <!-- tag(Redesign_2023) -->
@@ -1118,11 +1118,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_medium_title">Médio (76 – 90%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_description">Unlikely to affect VPN speed</string>
+    <string name="connection_details_server_load_medium_description">É improvável que afete a velocidade da VPN</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Alta (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">A VPN pode funcionar mais devagar do que o normal.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocolo</string>
     <!-- tag(Redesign_2023) -->
@@ -1143,10 +1143,10 @@
     <string name="info_dialog_p2p_title">P2P</string>
     <string name="info_dialog_secure_core_description">O Secure Core conecta-o ao seu servidor de destino através de um segundo servidor VPN de segurança máxima. \n\nEste nível mais alto de proteção pode causar maior latência e velocidades mais baixas.</string>
     <string name="info_secure_core_standard_header">Ligação VPN padrão</string>
-    <string name="info_secure_core_secure_header">Secure Core VPN connection</string>
-    <string name="info_dialog_tor_description">Conecte-se a um servidor Tor para aceder aos serviços ocultos e sítios web onion ao usar qualquer navegador.</string>
+    <string name="info_secure_core_secure_header">Conexão VPN Secure Core</string>
+    <string name="info_dialog_tor_description">Conecte-se a um servidor Tor para aceder aos serviços ocultos e sítios web onion ao utilizar qualquer navegador.</string>
     <string name="info_dialog_button_learn_more_tor">Como acessar a rede Tor</string>
-    <string name="info_dialog_button_learn_more_p2p">How to torrent with P2P</string>
+    <string name="info_dialog_button_learn_more_p2p">Como fazer torrent com P2P?</string>
     <string name="info_dialog_button_learn_more_streaming">Precisa de ajuda com o streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">Os servidores de streaming são projetados para uma reprodução rápida e segura de TV e filmes.</string>
@@ -1293,7 +1293,7 @@
     <string name="settings_account_button_my_account">A minha conta</string>
     <string name="settings_account_button_delete_account">Eliminar a conta</string>
     <string name="settings_advanced_alternative_routing_title">Redirecionamento alternativo</string>
-    <string name="settings_advanced_alternative_routing_description">Se os serviços do Proton estiverem bloqueados devido a restrições de rede, tentaremos usar o roteamento alternativo para conectá-lo aos nossos sítios web.</string>
+    <string name="settings_advanced_alternative_routing_description">Se os serviços do Proton estiverem bloqueados devido a restrições de rede, tentaremos utilizar o roteamento alternativo para conectá-lo aos nossos sítios web.</string>
     <string name="settings_advanced_allow_lan_title">Ligações LAN</string>
     <string name="settings_advanced_allow_lan_description">Permite-lhe conectar-se a impressoras, altifalantes e outros dispositivos na rede local do seu dispositivo.</string>
     <string name="settings_advanced_nat_type_title">Tipo de NAT</string>
@@ -1407,7 +1407,7 @@
     <string name="create_profile_fastest_state">O mais rápido</string>
     <string name="create_profile_fastest_server">O mais rápido</string>
     <string name="create_profile_pick_middle_country_title">País intermediário</string>
-    <string name="profiles_zero_state_title">Create your first profile</string>
+    <string name="profiles_zero_state_title">Crie o seu primeiro perfil</string>
     <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
     <string name="profiles_button_create_profile">Criar um perfil</string>
     <string name="profile_deleted_snackbar_message">O perfil foi eliminado.</string>
@@ -1437,11 +1437,11 @@
     <string name="profile_auto_open_on">Ligado</string>
     <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
     <string name="profile_auto_open_error_invalid_url">Insira um URL válido</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
-    <string name="nps_additional_comment_optional">Optional</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
-    <string name="nps_button_submit_title">Share anonymously</string>
+    <string name="nps_how_likely_question">Qual a probabilidade de recomendar o Proton VPN a um amigo ou colega?</string>
+    <string name="nps_additional_comment_title">Diga-nos por que razão deu essa classificação.</string>
+    <string name="nps_additional_comment_optional">Opcional</string>
+    <string name="nps_rating_low_values_explain">0: Muito improvável</string>
+    <string name="nps_rating_high_values_explain">10: Muito provável</string>
+    <string name="nps_toast_submit_message">Obrigado por partilhar os seus comentários. O seu feedback ajuda-nos a melhorar o Proton VPN.</string>
+    <string name="nps_button_submit_title">Partilhar anonimamente</string>
 </resources>

@@ -1437,11 +1437,11 @@
     <string name="profile_auto_open_on">Activado</string>
     <string name="create_profile_auto_open_description">Abra automáticamente un sitio web de su elección cuando se conecte a este perfil.</string>
     <string name="profile_auto_open_error_invalid_url">Ingrese una URL válida</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
-    <string name="nps_additional_comment_optional">Optional</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
-    <string name="nps_button_submit_title">Share anonymously</string>
+    <string name="nps_how_likely_question">¿Qué tan probable es que recomiende Proton VPN a un amigo o a un compañero de trabajo?</string>
+    <string name="nps_additional_comment_title">Cuéntenos por qué ha dado esa calificación.</string>
+    <string name="nps_additional_comment_optional">Opcional</string>
+    <string name="nps_rating_low_values_explain">0: Muy improbable</string>
+    <string name="nps_rating_high_values_explain">10: Muy probable</string>
+    <string name="nps_toast_submit_message">Gracias por compartir su opinión. Sus comentarios nos ayudan a mejorar Proton VPN.</string>
+    <string name="nps_button_submit_title">Compartir de forma anónima</string>
 </resources>
