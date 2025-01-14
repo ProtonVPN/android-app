@@ -17,14 +17,14 @@
   -->
 
 <resources>
+    <string name="core_app_scheme" translatable="false">protonvpn</string>
     <bool name="core_feature_account_recovery_enabled">true</bool>
     <bool name="core_feature_account_recovery_reset_enabled">false</bool>
-    <bool name="core_feature_auth_signin_two_step_enabled">false</bool>
+    <bool name="core_feature_auth_signin_two_step_enabled">true</bool>
     <bool name="core_feature_auth_signup_show_congrats">false</bool>
     <bool name="core_feature_auth_signin_show_long_login_toast">true</bool>
     <bool name="core_feature_auth_signin_show_troubleshoot_button">true</bool>
     <bool name="core_feature_auth_sso_enabled">true</bool>
-    <string name="core_feature_auth_sso_redirect_scheme" translatable="false">protonvpn</string>
     <bool name="core_feature_credential_less_enabled">false</bool>
     <bool name="core_feature_device_recovery_enabled">false</bool>
     <bool name="core_feature_notifications_enabled">true</bool>

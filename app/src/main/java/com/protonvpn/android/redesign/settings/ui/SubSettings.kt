@@ -61,9 +61,9 @@ import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.domain.entity.UserId
-import me.proton.core.usersettings.presentation.compose.view.SecurityKeysActivity
 import me.proton.core.usersettings.presentation.entity.SettingsInput
 import me.proton.core.usersettings.presentation.ui.StartPasswordManagement
+import me.proton.core.usersettings.presentation.ui.StartSecurityKeys
 import me.proton.core.usersettings.presentation.ui.StartUpdateRecoveryEmail
 import me.proton.core.presentation.R as CoreR
 
@@ -125,13 +125,14 @@ fun SubSettingsRoute(
                 val accountViewState = viewModel.accountSettings.collectAsStateWithLifecycle(initialValue = null).value
                 val changePasswordContract = rememberLauncherForActivityResult(StartPasswordManagement()) {}
                 val changeRecoveryEmailContract = rememberLauncherForActivityResult(StartUpdateRecoveryEmail()) {}
+                val securityKeysContract = rememberLauncherForActivityResult(StartSecurityKeys()) {}
                 if (accountViewState != null) {
                     AccountSettings(
                         viewState = accountViewState,
                         onClose = onClose,
                         onChangePassword = { changePasswordContract.launch(accountViewState.userId.toInput()) },
                         onChangeRecoveryEmail = { changeRecoveryEmailContract.launch(accountViewState.userId.toInput()) },
-                        onSecurityKeysClicked = { SecurityKeysActivity.start(context) },
+                        onSecurityKeysClicked = { securityKeysContract.launch(accountViewState.userId.toInput()) },
                         onOpenMyAccount = { context.openUrl(Constants.URL_ACCOUNT_LOGIN) },
                         onDeleteAccount = { context.openUrl(Constants.URL_ACCOUNT_DELETE) },
                         onUpgrade = {
