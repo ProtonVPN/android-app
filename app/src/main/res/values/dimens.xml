@@ -53,4 +53,10 @@
 
     <dimen name="tv_item_size_height">88dp</dimen>
     <dimen name="tv_item_size_width">134dp</dimen>
+
+    <!-- Widget -->
+    <dimen name="widget_min_width">100dp</dimen>
+    <dimen name="widget_min_height">126dp</dimen>
+    <!-- rough estimate of 5 columns based on https://developer.android.com/develop/ui/views/appwidgets/layouts -->
+    <dimen name="widget_big_min_width">697dp</dimen>
 </resources>
