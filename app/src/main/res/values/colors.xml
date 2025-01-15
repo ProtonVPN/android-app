@@ -23,6 +23,16 @@
 
     <color name="protonVpnGreen">#1C9C7C</color>
 
+    <color name="protonWidgetConnectedGradientStart">#3D1C9C7C</color>
+    <color name="protonWidgetConnectedGradientEnd">#001C9C7C</color>
+    <color name="protonWidgetConnectingGradientStart">#1F0C0C14</color>
+    <color name="protonWidgetConnectingGradientEnd">#000C0C14</color>
+    <color name="protonWidgetDisconnectedGradientStart">#33F08FA4</color>
+    <color name="protonWidgetDisconnectedGradientEnd">#00F08FA4</color>
+    <color name="protonWidgetNeedsLoginGradientStart">#37A7AE</color>
+    <color name="protonWidgetNeedsLoginGradientMiddle">#A6D4D7</color>
+    <color name="protonWidgetNeedsLoginGradientEnd">#FFFFFF</color>
+
     <!-- TV -->
     <color name="tvAccent">#6D4AFF</color>
     <color name="tvAccentLighten">#8A6EFF</color>

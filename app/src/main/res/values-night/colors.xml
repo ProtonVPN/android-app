@@ -21,4 +21,14 @@
     <color name="notificationDetailsStroke">#494D55</color>
 
     <color name="protonVpnGreen">#27DDB1</color>
+
+    <color name="protonWidgetConnectedGradientStart">#802CFFCC</color>
+    <color name="protonWidgetConnectedGradientEnd">#002CFFCC</color>
+    <color name="protonWidgetConnectingGradientStart">#80FFFFFF</color>
+    <color name="protonWidgetConnectingGradientEnd">#00FFFFFF</color>
+    <color name="protonWidgetDisconnectedGradientStart">#80F08FA4</color>
+    <color name="protonWidgetDisconnectedGradientEnd">#00F08FA4</color>
+    <color name="protonWidgetNeedsLoginGradientStart">#369FA7</color>
+    <color name="protonWidgetNeedsLoginGradientMiddle">#203C40</color>
+    <color name="protonWidgetNeedsLoginGradientEnd">#1C1B24</color>
 </resources>
