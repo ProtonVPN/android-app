@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.widget
 
+import android.content.ComponentName
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 
 enum class WidgetVpnStatus {
@@ -31,10 +32,16 @@ data class WidgetRecent(
 )
 
 sealed interface WidgetViewState {
-    object NeedLogin : WidgetViewState
+    val launchActivity: ComponentName
+
+    data class NeedLogin(
+        override val launchActivity: ComponentName
+    ) : WidgetViewState
+
     data class LoggedIn(
         val connectCard: ConnectIntentViewState,
         val vpnStatus: WidgetVpnStatus,
-        val recents: List<WidgetRecent>
+        val recents: List<WidgetRecent>,
+        override val launchActivity: ComponentName
     ) : WidgetViewState
 }
