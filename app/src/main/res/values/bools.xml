@@ -20,5 +20,6 @@
 <resources>
     <bool name="isTablet">false</bool>
     <bool name="enable_hardware_acceleration_for_signup">true</bool>
-    <bool name="enable_widget">false</bool>
+    <bool name="enable_widget">false</bool> <!-- When enabling, enable material widget ONLY for v31 -->
+    <bool name="enable_material_widget">false</bool> <!-- Only available for Android 12+ -->
 </resources>

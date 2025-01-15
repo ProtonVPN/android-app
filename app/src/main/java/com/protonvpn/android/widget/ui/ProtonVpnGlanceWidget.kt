@@ -19,11 +19,14 @@
 
 package com.protonvpn.android.widget.ui
 
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.provideContent
 import com.protonvpn.android.widget.WidgetStateUpdater
+import com.protonvpn.android.widget.hasMaterialYouTheme
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
@@ -39,9 +42,11 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val entryPoints = EntryPoints.get(context, Dependencies::class.java)
+        val manager = GlanceAppWidgetManager(context)
+        val widgetInfo = AppWidgetManager.getInstance(context).getAppWidgetInfo(manager.getAppWidgetId(id))
 
         provideContent {
-            ProtonGlanceTheme(isMaterialYou = false) {
+            ProtonGlanceTheme(isMaterialYou = hasMaterialYouTheme(widgetInfo.provider)) {
                 //TODO: Widget content
             }
         }

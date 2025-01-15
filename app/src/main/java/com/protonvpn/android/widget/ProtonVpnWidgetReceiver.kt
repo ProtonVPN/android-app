@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.widget
 
+import android.content.ComponentName
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import com.protonvpn.android.widget.ui.ProtonVpnGlanceWidget
@@ -27,3 +28,13 @@ class ProtonVpnWidgetReceiver : GlanceAppWidgetReceiver() {
 
     override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
 }
+
+class ProtonVpnWidgetMaterialReceiver : GlanceAppWidgetReceiver() {
+
+    override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
+}
+
+fun hasMaterialYouTheme(receiver: ComponentName) =
+    receiver.className in arrayOf(
+        ProtonVpnWidgetMaterialReceiver::class.java.name,
+    )
