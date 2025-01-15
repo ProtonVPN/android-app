@@ -63,7 +63,9 @@ class WidgetStateUpdater @Inject constructor(
                 VpnState.CheckingAvailability -> WidgetVpnStatus.Connecting
                 VpnState.Connected -> WidgetVpnStatus.Connected
                 VpnState.WaitingForNetwork -> WidgetVpnStatus.WaitingForNetwork
-                is VpnState.Error -> WidgetVpnStatus.Error
+                is VpnState.Error ->
+                    if (it.state.isFinal) WidgetVpnStatus.Disconnected
+                    else WidgetVpnStatus.Connecting
             }
         }
         .distinctUntilChanged()

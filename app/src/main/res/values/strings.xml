@@ -1469,4 +1469,10 @@
     <string name="nps_rating_high_values_explain">10 is very likely</string>
     <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
     <string name="nps_button_submit_title">Share anonymously</string>
+
+    <string name="widget_status_unprotected">Unprotected</string>
+    <string name="widget_status_error">Error</string>
+    <string name="widget_status_connecting">Connecting…</string>
+    <string name="widget_sign_in">Sign in</string>
+    <string name="widget_connection_secondary_label_auto_selected">Auto-selected from free countries.</string>
 </resources>
