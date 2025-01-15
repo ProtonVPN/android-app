@@ -23,6 +23,7 @@ import android.content.Context
 import androidx.glance.appwidget.updateAll
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
+import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.widget.ui.ProtonVpnGlanceWidget
@@ -30,7 +31,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -49,6 +49,7 @@ class WidgetStateUpdater @Inject constructor(
     vpnStatusProviderUi: VpnStatusProviderUI,
     recentsListViewStateFlow: RecentsListViewStateFlow,
     currentUser: CurrentUser,
+    appIconManager: AppIconManager,
 ) {
 
     private val vpnStatusFlow = vpnStatusProviderUi.uiStatus
@@ -68,9 +69,14 @@ class WidgetStateUpdater @Inject constructor(
         .distinctUntilChanged()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val widgetViewStateFlow: StateFlow<WidgetViewState?> = currentUser.vpnUserFlow.flatMapLatest { vpnUser ->
+    val widgetViewStateFlow = combine(
+        currentUser.vpnUserFlow,
+        appIconManager.currentIconData.map { it.getComponentName(appContext) },
+    ) { vpnUser, componentName ->
+        vpnUser to componentName
+    }.flatMapLatest { (vpnUser, componentName) ->
         if (vpnUser == null)
-            flowOf(WidgetViewState.NeedLogin)
+            flowOf(WidgetViewState.NeedLogin(componentName))
         else combine(
             vpnStatusFlow,
             recentsListViewStateFlow
@@ -78,7 +84,12 @@ class WidgetStateUpdater @Inject constructor(
             val widgetRecents = recents.recents.map {
                 WidgetRecent(it.id, it.connectIntent)
             }
-            WidgetViewState.LoggedIn(recents.connectionCard.connectIntentViewState, vpnStatus, widgetRecents)
+            WidgetViewState.LoggedIn(
+                recents.connectionCard.connectIntentViewState,
+                vpnStatus,
+                widgetRecents,
+                componentName
+            )
         }
     }.stateIn(
         mainScope,

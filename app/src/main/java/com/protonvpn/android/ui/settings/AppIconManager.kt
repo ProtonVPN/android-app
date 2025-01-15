@@ -26,6 +26,7 @@ import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.app.ui.CreateLaunchIntent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,11 +37,14 @@ class AppIconManager @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val createLaunchIntent: CreateLaunchIntent,
 ) {
+    val currentIconData by lazy { MutableStateFlow(getCurrentIconData()) }
+
     fun setNewAppIcon(desiredAppIcon: CustomAppIconData) {
         getCurrentIconData().let {
             appContext.packageManager.setComponentEnabledSetting(it.getComponentName(appContext), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
         }
         appContext.packageManager.setComponentEnabledSetting(desiredAppIcon.getComponentName(appContext), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+        currentIconData.value = desiredAppIcon
         createLaunchIntent.invalidateCache()
     }
 
