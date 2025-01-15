@@ -34,7 +34,18 @@ class ProtonVpnWidgetMaterialReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
 }
 
+class ProtonVpnWidgetBigReceiver : GlanceAppWidgetReceiver() {
+
+    override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
+}
+
+class ProtonVpnWidgetMaterialBigReceiver : GlanceAppWidgetReceiver() {
+
+    override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
+}
+
 fun hasMaterialYouTheme(receiver: ComponentName) =
     receiver.className in arrayOf(
         ProtonVpnWidgetMaterialReceiver::class.java.name,
+        ProtonVpnWidgetMaterialBigReceiver::class.java.name
     )

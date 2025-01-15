@@ -340,6 +340,18 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
+        <receiver
+            android:name=".widget.ProtonVpnWidgetBigReceiver"
+            android:exported="true"
+            android:enabled="@bool/enable_widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_big" />
+        </receiver>
+
         <receiver android:name=".widget.ProtonVpnWidgetMaterialReceiver"
             android:enabled="@bool/enable_material_widget"
             android:exported="true">
@@ -349,6 +361,17 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_material" />
+        </receiver>
+
+        <receiver android:name=".widget.ProtonVpnWidgetMaterialBigReceiver"
+            android:enabled="@bool/enable_material_widget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_material_big" />
         </receiver>
 
         <receiver
