@@ -41,7 +41,9 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
         val entryPoints = EntryPoints.get(context, Dependencies::class.java)
 
         provideContent {
-            //TODO: Widget content
+            ProtonGlanceTheme(isMaterialYou = false) {
+                //TODO: Widget content
+            }
         }
     }
 }
