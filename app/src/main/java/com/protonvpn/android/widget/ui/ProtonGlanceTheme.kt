@@ -20,10 +20,12 @@
 package com.protonvpn.android.widget.ui
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
@@ -35,8 +37,12 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import androidx.glance.unit.FixedColorProvider
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.LocalLocale
+import com.protonvpn.android.base.ui.LocalStringProvider
+import com.protonvpn.android.base.ui.StringProvider
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import me.proton.core.compose.theme.ProtonColors
+import java.util.Locale
 
 val LocalProtonColors: ProvidableCompositionLocal<ProtonGlanceColorProviders> =
     staticCompositionLocalOf { ProtonGlanceBrandedColorProviders }
@@ -158,6 +164,8 @@ fun ProtonGlanceTheme(
     CompositionLocalProvider(
         LocalProtonColors provides colorProviders,
         LocalProtonResources provides resources,
+        LocalStringProvider provides StringProvider { id, formatArgs -> glanceStringResource(id, *formatArgs) },
+        LocalLocale provides Locale.getDefault(),
         content = content
     )
 }

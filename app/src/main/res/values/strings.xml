@@ -1474,5 +1474,5 @@
     <string name="widget_status_error">Error</string>
     <string name="widget_status_connecting">Connecting…</string>
     <string name="widget_sign_in">Sign in</string>
-    <string name="widget_connection_secondary_label_auto_selected">Auto-selected from free countries.</string>
+    <string name="connection_info_auto_selected_free_countries_plain">Auto-selected from free countries.</string>
 </resources>

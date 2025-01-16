@@ -32,6 +32,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
+import androidx.glance.Visibility
 import androidx.glance.action.Action
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
@@ -58,9 +59,11 @@ import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.text.Text
+import androidx.glance.visibility
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.widget.WidgetActionBroadcastReceiver
 import com.protonvpn.android.widget.WidgetRecent
@@ -415,6 +418,35 @@ private fun GlanceRecentsRow(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun ConnectIntentGlanceLabels(state: ConnectIntentViewState, forceMaxHeight: Boolean, modifier: GlanceModifier = GlanceModifier) {
+    Box(modifier) {
+        Column {
+            Text(
+                state.primaryLabel.label(),
+                maxLines = if (state.secondaryLabel == null) 2 else 1,
+                style = ProtonGlanceTheme.typography.defaultNorm,
+            )
+            if (state.secondaryLabel != null) {
+                Text(
+                    state.secondaryLabel.label(plainText = true).text,
+                    maxLines = 1,
+                    style = ProtonGlanceTheme.typography.secondary,
+                )
+            }
+        }
+        // Invisible view forcing fixed max height of 2 lines of default text size.
+        if (forceMaxHeight) {
+            Text(
+                text = "\n",
+                style = ProtonGlanceTheme.typography.defaultNorm,
+                maxLines = 2,
+                modifier = GlanceModifier.visibility(Visibility.Invisible)
+            )
         }
     }
 }
