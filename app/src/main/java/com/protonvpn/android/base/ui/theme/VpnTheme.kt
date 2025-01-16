@@ -27,13 +27,19 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.protonvpn.android.base.ui.LocalLocale
+import com.protonvpn.android.base.ui.LocalStringProvider
+import com.protonvpn.android.base.ui.StringProvider
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.ProtonTheme3
 import me.proton.core.compose.theme.defaultUnspecified
 import me.proton.core.compose.theme.isNightMode
+import me.proton.core.presentation.utils.currentLocale
 
 @Composable
 fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
@@ -53,7 +59,9 @@ fun VpnTheme(isDark: Boolean = isNightMode(), content: @Composable () -> Unit) {
             }
             CompositionLocalProvider(
                 LocalContentColor provides ProtonTheme.colors.textNorm,
-                LocalTextStyle provides ProtonTheme.typography.defaultUnspecified
+                LocalTextStyle provides ProtonTheme.typography.defaultUnspecified,
+                LocalStringProvider provides StringProvider { id, formatArgs -> stringResource(id, *formatArgs) },
+                LocalLocale provides LocalConfiguration.current.currentLocale(),
             ) {
                 content()
             }

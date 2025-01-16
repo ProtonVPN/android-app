@@ -61,5 +61,5 @@ fun GlanceButton(
 }
 
 @Composable
-fun glanceStringResource(@StringRes id: Int, vararg arguments: String): String =
-    LocalContext.current.getString(id, arguments)
+fun glanceStringResource(@StringRes id: Int, vararg arguments: Any): String =
+    LocalContext.current.getString(id, *arguments)
