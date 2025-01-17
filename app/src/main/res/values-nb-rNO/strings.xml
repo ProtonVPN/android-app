@@ -86,7 +86,7 @@
     <string name="send_report">Send rapport</string>
     <string name="discardChanges">Vil du forkaste endringer som ikke er lagret?</string>
     <string name="discard">Forkast</string>
-    <string name="done">FERDIG</string>
+    <string name="done">UTFØRT</string>
     <string name="add">LEGG TIL</string>
     <string name="copy_to_clipboard">Kopier</string>
     <string name="got_it">Skjønner</string>
@@ -129,7 +129,7 @@
     <string name="settingsIncludedIPAddressesListHeader">Inkluderte IP-adresser (%1$d)</string>
     <string name="settingsExcludedApps">Ekskluderte apper</string>
     <string name="settingsExcludedAppsEmpty">Legg til apper som skal ekskluderes fra VPN-trafikken.</string>
-    <string name="settingsIncludedAppsEmpty">Legg til apper som skal ekskluderes fra VPN-trafikken.</string>
+    <string name="settingsIncludedAppsEmpty">Legg til apper som skal inkluderes i VPN-trafikken.</string>
     <string name="settingsExcludedAppsSelectedHeader">Ekskluderte apper (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Inkluderte apper (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Alle andre vanlige apper (%1$d)</string>
@@ -187,7 +187,7 @@
     <string name="troubleshootCustomerSupport">Kundestøtte</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativ ruting</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[I tilfelle Proton er blokkert, la appen prøve alternative baner for å nå Proton-tjenere. <a href="%1$s">Lær mer</a>]]></string>
-    <string name="troubleshootGovernmentBlockTitle">Regjeringen blokkerer</string>
+    <string name="troubleshootGovernmentBlockTitle">Regjeringsblokkering</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Kan hende landet ditt blokkerer tilgang til Proton. Prøv å bruke <a href=\'%1$s\'>Tor</a> for å få tilgang til Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Alltid på-VPN &amp; nødstopp</string>
     <string name="settingsAlwaysOnWindowHeader">Hvordan slå på alltid på-VPN og nødstopp:</string>
@@ -633,7 +633,7 @@
         <item quantity="other">%1$d dager</item>
     </plurals>
     <string name="server_change_max_reached">Du har nådd maksimalt antall gratis tjenerbytter for nå.</string>
-    <string name="server_change_upsell">Skaff deg ubegrensede bytter med VPN Plus.</string>
+    <string name="server_change_upsell">Skaff deg ubegrenset antall bytter med VPN Plus.</string>
     <string name="server_change_button_title">Endre tjener</string>
     <!-- Added to "Change server" button when it displays countdown until the button becomes active.
          Used only for accessibility services.
@@ -658,7 +658,7 @@
     <string name="whats_new_title">Hva er nytt</string>
     <string name="whats_new_new_look_title">Nytt utseende, samme beskyttelse</string>
     <string name="whats_new_new_look_description">Vi oppdaterte designene våre og flyttet rundt på noen ting for å gjøre appen enklere å bruke.</string>
-    <string name="whats_new_recents_title">Vi introduserer Nylige</string>
+    <string name="whats_new_recents_title">Introduserer seneste</string>
     <string name="whats_new_recents_description">Det er nå enda enklere å koble til favoritt-tjenerne dine igjen. Vis de siste tilkoblingene dine på startskjermen, eller fest dem for rask tilgang. Nylige erstatter profiler.</string>
     <string name="whats_new_dismiss_button">Ta en titt</string>
     <string name="whats_new_added_countries_title">Nye gratis land</string>
@@ -951,7 +951,7 @@
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
-    <string name="recents_headline">Nylige</string>
+    <string name="recents_headline">Seneste</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
     <string name="home_upsell_carousel_headline">Oppdag VPN Plus</string>
     <!-- tag(Redesign_2023) -->
@@ -1025,7 +1025,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Tredjepartslisenser</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Logg av?</string>
+    <string name="dialog_sign_out_title">Logge av?</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_message">Du blir koblet fra VPN</string>
     <!-- tag(Redesign_2023) -->
@@ -1051,7 +1051,7 @@
     <string name="country_filter_cities_list_header">Byer (%1$d)</string>
     <string name="country_filter_states_list_header">Stater (%1$d)</string>
     <string name="country_filter_servers_list_header">Tjenere (%1$d)</string>
-    <string name="country_filter_secure_core_list_header">Secure Core land (%1$d)</string>
+    <string name="country_filter_secure_core_list_header">Secure Core-land (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P-land (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P-land (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P-stater (%1$d)</string>

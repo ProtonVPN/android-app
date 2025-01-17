@@ -77,7 +77,7 @@
     <string name="try_reconnecting">Tente reconetar-se</string>
     <string name="connect">Ligar</string>
     <string name="upgrade">Actualizar</string>
-    <string name="retry">Repetir</string>
+    <string name="retry">Tentar novamente</string>
     <string name="report_message">Reportar mensagem</string>
     <string name="report_bug_email_label">O seu endereço de e-mail</string>
     <string name="report_bug_email_hint">Inserir o seu endereço de e-mail </string>
@@ -207,8 +207,8 @@
     <string name="settingsAlwaysOnWindowSplitTunellingWarning">A ativação do Kill switch desativará o túnel dividido, uma vez que o Kill switch bloqueia todas as ligações fora do túnel VPN.</string>
     <string name="settingsEnableTelemetryTitle">Partilhar estatísticas anónimas de utilização</string>
     <string name="settingsEnableTelemetryDescription">Os dados de utilização ajudam-nos a ultrapassar bloqueios de VPN e a melhorar a aplicação.</string>
-    <string name="settingsSendCrashReportsTitle">Partilhar relatórios de acidente anónimo</string>
-    <string name="settingsSendCrashReportsDescription">Os relatórios de falhas ajudam-nos a corrigir erros, a detetar firewalls e a evitar bloqueios de VPN.</string>
+    <string name="settingsSendCrashReportsTitle">Partilhar relatórios de erros anónimos</string>
+    <string name="settingsSendCrashReportsDescription">Os relatórios de erros ajudam-nos a corrigir os problemas, a detetar firewalls e a evitar bloqueios de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Estatísticas de utilização</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm o seu endereço IP e não podem ser utilizadas para o identificar. Nunca as partilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
     <string name="netshield_settings_description_not_html">Proteja-se de anúncios, malware e rastreadores em sites e aplicações. Se os websites não carregarem, tente desativar o NetShield. %1$s</string>
@@ -245,7 +245,7 @@
     <string name="netshield_setting_warning">Alguns websites podem não carregar corretamente quando os anúncios e os rastreadores estão bloqueados.</string>
     <string name="dialogDontShowAgain">Não mostrar novamente</string>
     <string name="guestHoleNotificationContent">A tentar contornar problemas de rede. Isto irá ajudá-lo a aceder ao Proton VPN.</string>
-    <string name="errorTunMultiUserPermission">Não é possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o Split Tunneling. Desative um desses e reinicie o dispositivo.</string>
+    <string name="errorTunMultiUserPermission">Não é possível inicializar a ligação VPN devido a um conflito entre aplicação dupla (por exemplo, Dual Messenger) e o tunelamento dividido. Desative um desses e reinicie o dispositivo.</string>
     <string name="errorTorrentNotAllowed">O P2P não é permitido neste servidor.</string>
     <string name="error_profile_fallback_unavailable">Erro na conexão. A sua seleção de servidor para o perfil não está disponível.</string>
     <string name="profileProtocolNotAvailable">O protocolo VPN deste perfil não está atualmente disponível. Para estabelecer ligação, tente alterar o protocolo.</string>
@@ -357,7 +357,7 @@
     <string name="upgrade_secure_core_message"><![CDATA[Adicione outra camada de encriptação à sua ligação VPN com o <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Desbloquear os downloads peer-to-peer (P2P) e a partilha de ficheiros </string>
     <string name="upgrade_p2p_text">Melhore as suas velocidades de upload e download enquanto oculta o seu endereço IP.</string>
-    <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
+    <string name="upgrade_profiles_title">Obtenha acesso rápido às suas conexões frequentes</string>
     <string name="upgrade_profiles_text">Desbloqueie perfis com a VPN Plus</string>
     <string name="upgrade_streaming_title">Streaming em 4K</string>
     <string name="upgrade_streaming_text">Desfrute dos seus filmes e programas de televisão favoritos a partir de qualquer parte do mundo.</string>
@@ -371,7 +371,7 @@
     -->
     <string name="upgrade_vpn_accelerator_message">Desbloqueie servidores mais rápidos e menos lotados com velocidades de até %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Tenha o melhor dos dois mundos</string>
-    <string name="upgrade_split_tunneling_message"><![CDATA[Divida o seu tráfego em túneis VPN e não VPN com <b>split tunneling</b>.]]></string>
+    <string name="upgrade_split_tunneling_message"><![CDATA[Divida o seu tráfego em túneis VPN e não VPN com o <b> tunelamento dividido</b>.]]></string>
     <string name="upgrade_customization_title">Desbloqueie personalizações avançadas da VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Aceda a dispositivos da sua <b>rede de área local (LAN)</b> com o VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Aceda a todos os países</string>
@@ -504,7 +504,7 @@
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Veja os seus filmes e programas de TV favoritos</string>
     <string name="upsell_card_tor_title">Tor sobre VPN</string>
-    <string name="upsell_card_tor_description">Utilize a rede Tor sobre a sua ligação VPN para privacidade extra</string>
+    <string name="upsell_card_tor_description">Utilize a rede Tor sobre a sua ligação VPN para uma privacidade adicional.</string>
     <!-- Format for price per period of time.
         %1$s - replaced with price and currency (e.g. "$100")
         %2$s - replaced with time period, one of payment_price_per_ (e.g. "month", "2 years")
@@ -551,7 +551,7 @@
     <string name="upgrade_success_get_started_button">Começar</string>
     <string name="dynamic_report_suggestion_didnt_work">Não funcionou?</string>
     <string name="dynamic_report_contact_us">Contacte-nos</string>
-    <string name="dynamic_report_tips_description">Estas dicas poderão ajudá-lo a resolver mais rapidamente o seu problema.</string>
+    <string name="dynamic_report_tips_description">Estas dicas podem ajudá-lo a resolver mais rapidamente o seu problema.</string>
     <string name="dynamic_report_tips_title">Correções rápidas</string>
     <string name="dynamic_report_logs_title">Enviar registos de erro</string>
     <string name="dynamic_report_success_title">Obrigado pelo seu comentário</string>
@@ -577,7 +577,7 @@
     <string name="upgrade_country_title">Pretende ligar-se a um país específico?</string>
     <string name="upgrade_country_message"><![CDATA[Desbloqueie a <b>seleção de países</b> com o VPN Plus.]]></string>
     <string name="upgrade_moderate_nat_title2">Leve a sua experiência em jogo ao próximo nível</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Melhore o desempenho dos jogos online e das videochamadas com <b>NAT tipo 2</b>.]]></string>
+    <string name="upgrade_moderate_nat_message2"><![CDATA[Melhore o desempenho dos jogos online e das chamadas de vídeo com o <b>NAT tipo 2</b>.]]></string>
     <string name="free_connections_info_message">O Proton Free liga-o automaticamente ao servidor mais rápido disponível. Este será, geralmente, o servidor mais próximo da sua localização.</string>
     <string name="free_connections_info_server_locations">Localizações dos servidores gratuitas (%1$d)</string>
     <string name="free_connections_info_banner_text">Obtenha uma cobertura global com a VPN Plus</string>
@@ -657,7 +657,7 @@
     <string name="not_wanted_country_description">Melhore para escolher qualquer servidor</string>
     <string name="whats_new_title">O que há de novo</string>
     <string name="whats_new_new_look_title">Novo visual, mesma proteção</string>
-    <string name="whats_new_new_look_description">Atualizámos os nossos designs e mudámos algumas coisas para tornar a aplicação mais fácil de utilizar.</string>
+    <string name="whats_new_new_look_description">Atualizámos o aspeto visual e alterámos algumas coisas para tornar a aplicação mais fácil de utilizar.</string>
     <string name="whats_new_recents_title">Aqui estão as ligações recentes</string>
     <string name="whats_new_recents_description">Agora é ainda mais fácil voltar a ligar-se aos seus servidores favoritos. Veja as suas ligações mais recentes no ecrã inicial ou fixe-as para um acesso rápido. Recentes substitui Perfis.</string>
     <string name="whats_new_dismiss_button">Dar uma vista de olhos</string>
@@ -947,7 +947,7 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
+    <string name="connection_card_accessbility_label_free_connections">mais informações sobre as conexões gratuitas</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -970,7 +970,7 @@
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_city_servers_in_maintenance">Todos os servidores nesta cidade estão em manutenção.</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">All servers in this state are under maintenance</string>
+    <string name="message_state_servers_in_maintenance">Todos os servidores neste estado estão em manutenção.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">Servidor em manutenção</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1152,21 +1152,21 @@
     <string name="info_dialog_streaming_description">Os servidores de streaming são projetados para uma reprodução rápida e segura de TV e filmes.</string>
     <string name="info_dialog_how_to_stream">Como transmitir:</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">Go to your phone settings and turn off location services</string>
+    <string name="info_dialog_how_to_stream_step_1">Dirija-se às definições do seu telefone e desative os serviços de localização.</string>
     <!-- item 2 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_2">Reinicie o seu serviço de streaming</string>
     <!-- item 3 in the numbered list (last item) -->
-    <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
+    <string name="info_dialog_how_to_stream_step_3">Conecte-se a qualquer servidor Plus e inicie o streaming</string>
     <string name="info_dialog_profiles_title">Perfis</string>
     <string name="info_dialog_profiles_description">Os perfis são conexões à VPN personalizadas que pode adaptar às suas necessidades e guardar para um acesso rápido. \n\nDefina a sua localização preferida e otimize as suas definições para segurança, desempenho, jogos ou qualquer outro cenário.</string>
     <string name="connection_feature_p2p_title">P2P</string>
-    <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
+    <string name="connection_feature_p2p_description">A partilha de ficheiros de ponto a ponto (P2P) está ativada neste servidor.</string>
     <string name="connection_feature_tor_title">Tor</string>
-    <string name="connection_feature_tor_description">You can connect to .onion sites with your regular browser.</string>
+    <string name="connection_feature_tor_description">Pode conectar-se a sítios web .onion com o seu navegador habitual.</string>
     <string name="connection_feature_secure_core_title">Secure Core</string>
-    <string name="connection_feature_secure_core_description">Your activity is encrypted behind 2 high-security VPN servers.</string>
+    <string name="connection_feature_secure_core_description">A sua atividade está encriptada atrás de 2 servidores VPN de alta segurança.</string>
     <string name="connection_feature_streaming_title">Streaming</string>
-    <string name="connection_feature_streaming_description">This server is optimized for TV and movie playback.</string>
+    <string name="connection_feature_streaming_description">Este servidor está otimizado para a transmissão de filmes e programas de TV.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
     <string name="connection_feature_smart_routing_description">Conecta-o ao seu país de destino através de servidores localizados fisicamente em outro lugar.</string>
     <!--
@@ -1263,7 +1263,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d seg</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Erro de ligação</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">This device does not allow VPN connections.</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Este dispositivo não permite conexões VPN.</string>
     <string name="create_profile_title">Criar um perfil</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
@@ -1298,8 +1298,8 @@
     <string name="settings_advanced_allow_lan_description">Permite-lhe conectar-se a impressoras, altifalantes e outros dispositivos na rede local do seu dispositivo.</string>
     <string name="settings_advanced_nat_type_title">Tipo de NAT</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Select a network address translation type for your connection. %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">Select a network address translation type for your connection.</string>
+    <string name="settings_advanced_nat_type_description">Selecione um tipo de tradução de endereços de rede para a sua conexão. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Selecione um tipo de tradução de endereços de rede para a sua conexão.</string>
     <string name="settings_advanced_nat_type_strict">Estrito (tipo 3)</string>
     <string name="settings_advanced_nat_type_strict_short">Tipo 3</string>
     <string name="settings_advanced_nat_type_moderate">Moderado (tipo 2)</string>
@@ -1312,10 +1312,10 @@
     <string name="settings_protocol_section_speed">Velocidade (UDP)</string>
     <string name="settings_protocol_section_reliability">Fiabilidade (TCP)</string>
     <string name="settings_protocol_smart_title">Inteligente</string>
-    <string name="settings_protocol_smart_description">Auto-selects the best protocol for your connection.</string>
+    <string name="settings_protocol_smart_description">Seleciona automaticamente o melhor protocolo para a sua conexão.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">State-of-the-art protocol for security and performance.</string>
-    <string name="settings_protocol_wireguard_tcp_description">State-of-the-art protocol for security and performance.</string>
+    <string name="settings_protocol_wireguard_udp_description">Protocolo de última geração em segurança e desempenho.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Protocolo de última geração em segurança e desempenho.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Estabelecido, bem testado e seguro. O OpenVPN é menos eficiente com a bateria do que alguns outros protocolos.</string>
     <string name="settings_protocol_openvpn_tcp_description">Estabelecido, bem testado e seguro. OpenVPN é confiável em condições de rede más, mas pode não ser tão rápido quanto outros protocolos.</string>
@@ -1326,7 +1326,7 @@
     <string name="settings_split_tunneling_mode_title">Modo</string>
     <string name="settings_split_tunneling_mode_standard">Padrão</string>
     <string name="settings_split_tunneling_mode_inverse">Inverso</string>
-    <string name="settings_split_tunneling_mode_description_standard">Selected apps and IP addresses are excluded from VPN connection.</string>
+    <string name="settings_split_tunneling_mode_description_standard">As aplicações e endereços IP selecionados estão excluídos da conexão VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Apenas as aplicações e os endereços IP selecionados conectam-se através da VPN, todo o outro tráfego não é protegido.</string>
     <string name="settings_split_tunneling_excluded_apps">Aplicações excluídas</string>
     <string name="settings_split_tunneling_excluded_ips">Endereços IP excluídos</string>
@@ -1346,16 +1346,16 @@
     <string name="info_p2p_what_title">O que é P2P?</string>
     <string name="info_p2p_what_description">A tecnologia peer-to-peer (P2P) permite que se conecte e partilhe ficheiros diretamente com outros dispositivos. \n\nOs nossos servidores P2P são especialmente projetados para suportar este tipo de partilha de ficheiros.</string>
     <string name="info_p2p_torrenting_title">O que é um torrent?</string>
-    <string name="info_p2p_torrenting_description">The fast sharing and downloading of large files over a P2P network.</string>
-    <string name="info_p2p_why_title">Why use a P2P server when torrenting?</string>
-    <string name="info_p2p_why_description_speed">Increased upload and download speeds</string>
+    <string name="info_p2p_torrenting_description">A partilha e descarregamento rápidos de ficheiros grandes através de uma rede P2P.</string>
+    <string name="info_p2p_why_title">Por que utilizar um servidor P2P ao fazer torrenting?</string>
+    <string name="info_p2p_why_description_speed">Velocidades de upload e download aumentadas</string>
     <string name="info_p2p_why_description_logs">Sem registos de atividade</string>
-    <string name="info_p2p_why_description_hide">Hide your IP address from your service provider and peers</string>
+    <string name="info_p2p_why_description_hide">Oculte o seu endereço IP do seu fornecedor de serviço e outras pessoas</string>
     <string name="info_dialog_smart_routing_description">O Smart Routing utiliza servidores virtuais para fornecer cobertura VPN em países de difícil acesso. \n\nQuando se conecta a um servidor Smart Routing, parecerá estar a navegar no seu país de destino, embora o servidor físico esteja localizado noutro lugar. \n\nO Smart Routing é tipicamente utilizado para contornar leis contra a privacidade e outras formas de censura.</string>
     <string name="countries_upsell_banner_description">Obtenha uma cobertura global com a VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Adicione outra camada de encriptação à sua ligação VPN</string>
-    <string name="p2p_upsell_banner_description">Download files through BitTorrent and other file sharing protocols</string>
-    <string name="tor_upsell_banner_description">Use the Tor network over your VPN connection for extra privacy</string>
+    <string name="p2p_upsell_banner_description">Transfere ficheiros via BitTorrent e de outros protocolos de partilha de ficheiros</string>
+    <string name="tor_upsell_banner_description">Utilize a rede Tor sobre a sua ligação VPN para uma privacidade adicional.</string>
     <string name="vpnplus_upsell_banner_description">Atualizar para VPN Plus</string>
     <string name="search_zero_screen_title">Tente pesquisar por…</string>
     <string name="search_zero_screen_info_countries_title">Países</string>
@@ -1367,7 +1367,7 @@
     <string name="error_fetching_prices">Erro ao obter os preços</string>
     <!-- TV settings -->
     <string name="tv_settings_split_tunneling_description">Personalize a sua conexão ao decidir quais aplicações são protegidas por VPN.</string>
-    <string name="tv_settings_split_tunneling_mode_description_standard">Selected apps are excluded from VPN connection.</string>
+    <string name="tv_settings_split_tunneling_mode_description_standard">As aplicações selecionadas estão excluídas da conexão VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Apenas as aplicações selecionadas conectam-se através da VPN, todo o outro tráfego não é protegido.</string>
     <!-- Temporary strings for auto-login feature -->
     <string name="profile_action_edit">Editar</string>
@@ -1378,7 +1378,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Isto reiniciará a sua ligação.</string>
-    <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
+    <string name="profile_overrides_setting">Estas definições estão ligadas a <b>%1$s</b> e só podem ser geridas nos perfis.</string>
     <string name="initial_profile_name_streaming_us">Streaming EUA</string>
     <string name="initial_profile_name_work_school">Trabalho/Escola</string>
     <string name="initial_profile_name_anti_censorship">Anti-censura</string>
@@ -1395,7 +1395,7 @@
     <string name="create_profile_pick_server_title">Servidor</string>
     <string name="create_profile_pick_gateway_title">Porta de entrada</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Block ads, trackers, and malware on websites and apps</string>
+    <string name="create_profile_pick_netshield_description">Bloqueia anúncios, rastreadores e malware em sítios web e aplicações</string>
     <string name="create_profile_pick_protocol_title">Protocolo</string>
     <string name="create_profile_pick_nat_title">Tipo de NAT</string>
     <!--
@@ -1408,7 +1408,7 @@
     <string name="create_profile_fastest_server">O mais rápido</string>
     <string name="create_profile_pick_middle_country_title">País intermediário</string>
     <string name="profiles_zero_state_title">Crie o seu primeiro perfil</string>
-    <string name="profiles_zero_state_description">Profiles are saved connections with your choice of location, server, and protocol.</string>
+    <string name="profiles_zero_state_description">Os perfis são conexões guardadas com a sua escolha de localização, servidor e protocolo.</string>
     <string name="profiles_button_create_profile">Criar um perfil</string>
     <string name="profile_deleted_snackbar_message">O perfil foi eliminado.</string>
     <string name="profile_connected_edit_setting">Esta definição está ligada ao seu perfil ativo. \n\nEdite o seu perfil para fazer alterações ou desconecte-se para editar as suas definições gerais de VPN.</string>
@@ -1435,8 +1435,8 @@
     <string name="profile_auto_open_off">Desligado</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">Ligado</string>
-    <string name="create_profile_auto_open_description">Automatically open a website of your choice when you connect to this profile.</string>
-    <string name="profile_auto_open_error_invalid_url">Insira um URL válido</string>
+    <string name="create_profile_auto_open_description">Abra automaticamente um sítio web da sua escolha quando se conectar a este perfil.</string>
+    <string name="profile_auto_open_error_invalid_url">Introduza um URL válido</string>
     <string name="nps_how_likely_question">Qual a probabilidade de recomendar o Proton VPN a um amigo ou colega?</string>
     <string name="nps_additional_comment_title">Diga-nos por que razão deu essa classificação.</string>
     <string name="nps_additional_comment_optional">Opcional</string>
