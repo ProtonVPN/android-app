@@ -1438,7 +1438,7 @@
     <string name="create_profile_auto_open_description">Open automatisch een website naar keuze wanneer u verbinding maakt met dit profiel.</string>
     <string name="profile_auto_open_error_invalid_url">Voer een geldige URL in</string>
     <string name="nps_how_likely_question">Hoe waarschijnlijk is het dat u Proton VPN aan een vriend of collega zult aanbevelen?</string>
-    <string name="nps_additional_comment_title">Laat ons weten waarom je die beoordeling hebt gegeven</string>
+    <string name="nps_additional_comment_title">Laat ons weten waarom u die beoordeling heeft gegeven</string>
     <string name="nps_additional_comment_optional">Optioneel</string>
     <string name="nps_rating_low_values_explain">0 is zeer onwaarschijnlijk</string>
     <string name="nps_rating_high_values_explain">10 is zeer waarschijnlijk</string>

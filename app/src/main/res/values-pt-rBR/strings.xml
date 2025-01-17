@@ -1263,7 +1263,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_seconds_shortened">%1$d s</string>
     <string name="dialogVpnNotSupportedOnThisDeviceTitle">Erro na conexão</string>
-    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Este dispositivo não permite conexões (VPN).</string>
+    <string name="dialogVpnNotSupportedOnThisDeviceDescription">Este dispositivo não permite conexões VPN.</string>
     <string name="create_profile_title">Criar perfil</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
