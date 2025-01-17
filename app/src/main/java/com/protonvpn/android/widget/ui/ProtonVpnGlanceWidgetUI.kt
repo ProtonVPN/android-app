@@ -97,7 +97,7 @@ fun GlanceVpnStatus(status: WidgetVpnStatus, wide: Boolean, modifier: GlanceModi
             WidgetVpnStatus.Connected ->
                 ProtonGlanceTheme.colors.protected to CoreR.drawable.ic_proton_lock_filled
             WidgetVpnStatus.Disconnected ->
-                ProtonGlanceTheme.colors.unprotected to CoreR.drawable.ic_proton_lock_open_filled
+                ProtonGlanceTheme.colors.unprotected to CoreR.drawable.ic_proton_lock_open_filled_2
             else ->
                 ProtonGlanceTheme.colors.textNorm to null
         }
