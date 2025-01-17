@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2025. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/widget_flag_fastest" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:lineHeight="16sp"
+            android:minHeight="32sp"
+            android:text="@string/fastest_country"
+            android:textColor="?attr/widget_preview_text_norm"
+            android:textFontWeight="600"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="40dp"
+        android:textColor="?attr/widget_preview_on_interaction_norm"
+        android:textFontWeight="600"
+        android:textSize="13sp"
+        android:lineHeight="16sp"
+        android:background="@drawable/widget_button_bg_interaction_norm"
+        android:backgroundTint="?attr/widget_preview_interaction_norm"
+        android:text="@string/connect" />
+</merge>

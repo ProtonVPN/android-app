@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (c) 2024. Proton AG
+<!--
+  Copyright (c) 2025. Proton AG
 
   This file is part of ProtonVPN.
 
@@ -17,12 +17,15 @@
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialLayout="@layout/glance_default_loading_layout"
-    android:previewLayout="@layout/widget_preview_2x2"
-    android:minWidth="@dimen/widget_min_width"
-    android:minHeight="@dimen/widget_min_height"
-    android:targetCellWidth="2"
-    android:targetCellHeight="2"
-    android:resizeMode="horizontal|vertical">
-</appwidget-provider>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="16dp"
+    android:viewportWidth="24"
+    android:viewportHeight="16">
+  <path
+      android:pathData="M24,3.997C24,1.788 22.209,-0.003 20,-0.003H4C1.791,-0.003 0,1.788 0,3.997V11.995C0,14.204 1.791,15.995 4,15.995H20C22.209,15.995 24,14.204 24,11.995V3.997Z"
+      android:fillColor="#D80027"/>
+  <path
+      android:pathData="M16.695,6.432H13.567V3.305H10.432V6.432H7.305V9.567H10.432V12.695H13.567V9.567H16.695V6.432V6.432Z"
+      android:fillColor="#F0F0F0"/>
+</vector>
