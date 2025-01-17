@@ -255,8 +255,7 @@ private fun GlanceRecentsRow(
                     Box(
                         modifier = GlanceModifier
                             .fillMaxSize()
-                            .background(ProtonGlanceTheme.colors.backgroundSecondary)
-                            .cornerRadius(8.dp)
+                            .background(ImageProvider(ProtonGlanceTheme.resources.buttonBackgroundSecondary))
                             .clickable(action)
                             .padding(8.dp),
                         contentAlignment = Alignment.CenterStart

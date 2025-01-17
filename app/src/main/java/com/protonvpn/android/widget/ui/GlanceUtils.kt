@@ -23,10 +23,10 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceModifier
+import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
 import androidx.glance.action.Action
 import androidx.glance.action.clickable
-import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
@@ -46,15 +46,17 @@ fun GlanceButton(
     // - can't set custom corner radius (though setting corner radius will work only on API 31+)
     val color =
         if (secondary) ProtonGlanceTheme.colors.onInteractionSecondary else ProtonGlanceTheme.colors.onInteractionNorm
-    val backgroundColor =
-        if (secondary) ProtonGlanceTheme.colors.interactionSecondary else ProtonGlanceTheme.colors.interactionNorm
+    val backgroundResource = if (secondary) {
+        ProtonGlanceTheme.resources.buttonBackgroundInteractionSecondary
+    } else {
+        ProtonGlanceTheme.resources.buttonBackgroundInteractionNorm
+    }
     Text(
         text = glanceStringResource(label),
         style = ProtonGlanceTheme.typography.defaultOnInteraction.copy(color = color, textAlign = TextAlign.Center),
         maxLines = 1,
         modifier = modifier
-            .background(backgroundColor)
-            .cornerRadius(8.dp)
+            .background(ImageProvider(backgroundResource))
             .clickable(action)
             .padding(vertical = 12.dp, horizontal = 8.dp),
     )

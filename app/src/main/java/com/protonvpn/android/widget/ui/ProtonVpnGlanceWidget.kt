@@ -177,12 +177,24 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
         Column(GlanceModifier.fillMaxSize()) {
             when {
                 size == SHORT_NARROW_SIZE ->
-                    ConnectWithIntent(context, viewState, showConnecting = true, wide = false, GlanceModifier.fillMaxSize())
+                    ConnectWithIntent(
+                        context,
+                        viewState,
+                        showConnecting = true,
+                        wide = false,
+                        GlanceModifier.fillMaxSize()
+                    )
 
                 size == MEDIUM_NARROW_SIZE ->
                     Column(GlanceModifier.fillMaxSize()) {
                         GlanceVpnStatus(viewState.vpnStatus, wide = false)
-                        ConnectWithIntent(context, viewState, showConnecting = false, wide = false, GlanceModifier.fillMaxWidth().defaultWeight())
+                        ConnectWithIntent(
+                            context,
+                            viewState,
+                            showConnecting = false,
+                            wide = false,
+                            GlanceModifier.fillMaxWidth().defaultWeight()
+                        )
                     }
 
                 size.height <= MEDIUM && size.width >= WIDE ->
@@ -193,9 +205,20 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                             Spacer(modifier = GlanceModifier.height(8.dp))
                         }
                         if (isDisconnected) {
-                            GlanceRecents(context, viewState.mergedRecents(), maxColumns = size.toMaxColumns(), maxRows = 1)
+                            GlanceRecents(
+                                context,
+                                viewState.mergedRecents(),
+                                maxColumns = size.toMaxColumns(),
+                                maxRows = 1
+                            )
                         } else {
-                            ConnectWithIntent(context, viewState, showConnecting = !showStatus, wide = true, GlanceModifier.defaultWeight())
+                            ConnectWithIntent(
+                                context,
+                                viewState,
+                                showConnecting = !showStatus,
+                                wide = true,
+                                GlanceModifier.defaultWeight()
+                            )
                         }
                     }
 
@@ -203,10 +226,21 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                     Column(GlanceModifier.fillMaxSize()) {
                         val isWide = size.width >= WIDE
                         GlanceVpnStatus(viewState.vpnStatus, wide = isWide)
-                        ConnectWithIntent(context, viewState, showConnecting = false, wide = isWide, GlanceModifier.defaultWeight())
+                        ConnectWithIntent(
+                            context,
+                            viewState,
+                            showConnecting = false,
+                            wide = isWide,
+                            GlanceModifier.defaultWeight()
+                        )
                         Spacer(modifier = GlanceModifier.height(8.dp))
                         val maxRows = if (size.height >= XTALL) 2 else 1
-                        GlanceRecents(context, viewState.recentsWithoutPinnedConnectCard(), maxColumns = size.toMaxColumns(), maxRows = maxRows)
+                        GlanceRecents(
+                            context,
+                            viewState.recentsWithoutPinnedConnectCard(),
+                            maxColumns = size.toMaxColumns(),
+                            maxRows = maxRows
+                        )
                     }
 
                 else -> DebugUtils.debugAssert("Unsupported widget size: $size") { false }
@@ -220,4 +254,3 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
         else -> 1
     }
 }
-

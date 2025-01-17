@@ -32,6 +32,9 @@
     <color name="protonWidgetNeedsLoginGradientStart">#37A7AE</color>
     <color name="protonWidgetNeedsLoginGradientMiddle">#A6D4D7</color>
     <color name="protonWidgetNeedsLoginGradientEnd">#FFFFFF</color>
+    <color name="protonWidgetBackgroundSecondary">#14000000</color>
+    <color name="protonWidgetInteractionNorm">@color/cornflower_blue</color>
+    <color name="protonWidgetInteractionSecondary">@color/interaction_weak</color>
 
     <!-- TV -->
     <color name="tvAccent">#6D4AFF</color>

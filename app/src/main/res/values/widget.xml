@@ -18,22 +18,7 @@
   along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-<item>
-    <shape android:shape="rectangle">
-        <solid android:color="@color/background_norm"/>
-        <corners android:radius="@dimen/widget_background_radius" />
-    </shape>
-</item>
-<item>
-    <shape>
-        <gradient
-            android:startColor="@color/protonWidgetConnectingGradientStart"
-            android:centerColor="@color/protonWidgetConnectingGradientEnd"
-            android:endColor="@color/protonWidgetConnectingGradientEnd"
-            android:centerY="0.5"
-            android:angle="270"/>
-        <corners android:radius="@dimen/widget_background_radius" />
-    </shape>
-</item>
-</layer-list>
+<resources>
+    <dimen name="widget_background_radius" type="dimen">16dp</dimen>
+    <dimen name="widget_button_radius" type="dimen">8dp</dimen>
+</resources>
