@@ -20,6 +20,7 @@
 package com.protonvpn.tests.promooffer
 
 import com.protonvpn.android.ui.promooffers.CountDownState
+import com.protonvpn.testRules.setVpnContent
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -56,7 +57,7 @@ class PromoOfferCountDownTests(
     @Test
     fun timeLeftText() {
         var text: String? = null
-        composeRule.setContent {
+        composeRule.setVpnContent {
             val countDownState = CountDownState(durationMs, { 0 })
             text = countDownState.timeLeftText
         }

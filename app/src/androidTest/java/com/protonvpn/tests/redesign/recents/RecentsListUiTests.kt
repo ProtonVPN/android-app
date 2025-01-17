@@ -43,6 +43,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.ui.home.vpn.ChangeServerButton
+import com.protonvpn.testRules.setVpnContent
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Test
@@ -57,7 +58,7 @@ class RecentsListUiTests : FusionComposeTest() {
             emptyList(),
             null
         )
-        composeRule.setContent {
+        composeRule.setVpnContent {
             RecentsList(viewState, {}, {}, {}, {}, {}, {}, expandState = null, errorSnackBar = null)
         }
         node.withText(R.string.fastest_country).assertIsDisplayed()
@@ -74,7 +75,7 @@ class RecentsListUiTests : FusionComposeTest() {
             ),
             null
         )
-        composeRule.setContent {
+        composeRule.setVpnContent {
             RecentsList(viewState, {}, {}, {}, {}, {}, {}, expandState = null, errorSnackBar = null)
         }
         node.withText(R.string.fastest_country).assertIsDisplayed()
@@ -89,7 +90,7 @@ class RecentsListUiTests : FusionComposeTest() {
             emptyList(),
             null
         )
-        composeRule.setContent {
+        composeRule.setVpnContent {
             val upsellContent = @Composable { modifier: Modifier, padding: Dp ->
                 Text("dummy upsell content", modifier = modifier)
             }
@@ -109,7 +110,7 @@ class RecentsListUiTests : FusionComposeTest() {
         )
         val changeServerButtonState = mutableStateOf<ChangeServerViewState?>(ChangeServerViewState.Unlocked)
         val upsellContentText = "dummy upsell content"
-        composeRule.setContent {
+        composeRule.setVpnContent {
             BoxWithConstraints(
                 modifier = Modifier.fillMaxSize()
             ) {

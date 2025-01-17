@@ -28,6 +28,7 @@ import com.protonvpn.android.redesign.vpn.ui.StatusBanner
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
+import com.protonvpn.testRules.setVpnContent
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
 import org.junit.Test
@@ -114,7 +115,7 @@ class VpnStatusViewTests : FusionComposeTest() {
     }
 
     private fun setContentForState(state: VpnStatusViewState) {
-        composeRule.setContent {
+        composeRule.setVpnContent {
             Column {
                 VpnStatusTop(state = state, transitionValue = { 1f })
                 VpnStatusBottom(

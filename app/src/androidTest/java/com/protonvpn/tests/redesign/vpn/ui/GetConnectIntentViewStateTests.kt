@@ -39,6 +39,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentLabels
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.test.shared.createServer
+import com.protonvpn.testRules.setVpnContent
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -488,7 +489,7 @@ class GetConnectIntentViewStateTests : FusionComposeTest() {
         isFreeUser: Boolean,
     ) {
         val state = getConnectIntentViewState.forConnectedIntent(connectIntent, isFreeUser, connectedServer)
-        composeRule.setContent {
+        composeRule.setVpnContent {
             Row {
                 ConnectIntentLabels(
                     primaryLabel = state.primaryLabel,

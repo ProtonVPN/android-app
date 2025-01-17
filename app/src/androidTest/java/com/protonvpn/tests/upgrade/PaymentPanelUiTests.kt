@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Column
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.RenewInfo
 import com.protonvpn.android.ui.planupgrade.ViewState
+import com.protonvpn.testRules.setVpnContent
 import me.proton.core.plan.presentation.entity.PlanCycle
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
@@ -44,7 +45,7 @@ class PaymentPanelUiTests : FusionComposeTest() {
 
     @Test
     fun renewPriceIsShownYear() {
-        composeRule.setContent {
+        composeRule.setVpnContent {
             RenewInfo(showRenewPrice = true, cycleInfoWithRenew)
         }
         node.withText("Welcome offer. Auto renews at 20 CHF/year").assertIsDisplayed()
@@ -52,7 +53,7 @@ class PaymentPanelUiTests : FusionComposeTest() {
 
     @Test
     fun renewPriceIsShownMonth() {
-        composeRule.setContent {
+        composeRule.setVpnContent {
             RenewInfo(showRenewPrice = true, cycleInfoWithRenew.copy(cycle = PlanCycle.MONTHLY))
         }
         node.withText("Welcome offer. Auto renews at 20 CHF/month").assertIsDisplayed()
@@ -60,7 +61,7 @@ class PaymentPanelUiTests : FusionComposeTest() {
 
     @Test
     fun killSwitchFallsBackToGenericText() {
-        composeRule.setContent {
+        composeRule.setVpnContent {
             RenewInfo(showRenewPrice = false, cycleInfoWithRenew.copy(cycle = PlanCycle.MONTHLY))
         }
         node.withText("Subscription auto renews monthly").assertIsDisplayed()
@@ -68,7 +69,7 @@ class PaymentPanelUiTests : FusionComposeTest() {
 
     @Test
     fun regularPriceIsShown() {
-        composeRule.setContent {
+        composeRule.setVpnContent {
             Column {
                 RenewInfo(showRenewPrice = true, cycleInfo)
             }

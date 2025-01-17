@@ -31,6 +31,7 @@ import com.protonvpn.android.redesign.home_screen.ui.ConnectionDetailsViewModel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.servers.StreamingService
+import com.protonvpn.testRules.setVpnContent
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.FusionConfig
@@ -75,7 +76,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
 
     @Test
     fun checkConnectionDetailsRendering() {
-        composeRule.setContent {
+        composeRule.setVpnContent {
             ConnectionDetails(sampleViewState, onClosePanel = {})
         }
 
@@ -89,7 +90,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
 
     @Test
     fun checkIPVisibilityToggle() {
-        composeRule.setContent {
+        composeRule.setVpnContent {
             ConnectionDetails(sampleViewState, onClosePanel = {})
         }
 
@@ -100,7 +101,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
 
     @Test
     fun checkFeaturesVisibility() {
-        composeRule.setContent {
+        composeRule.setVpnContent {
             ConnectionDetails(sampleViewState, onClosePanel = {})
         }
         val resources = FusionConfig.targetContext.resources
@@ -117,7 +118,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
 
     @Test
     fun checkServerLoadRowClickOpensBottomSheet() {
-        composeRule.setContent {
+        composeRule.setVpnContent {
             ConnectionDetails(sampleViewState, onClosePanel = {})
         }
 
@@ -134,7 +135,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
             trafficHistory = listOf(TrafficUpdate(0, 0, 100, 0, 0, 0, 6000))
         )
 
-        composeRule.setContent {
+        composeRule.setVpnContent {
             val viewState by viewStateFlow.collectAsState()
             ConnectionDetails(viewState, onClosePanel = {})
         }
@@ -155,7 +156,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
             trafficHistory = listOf(TrafficUpdate(0, 0, 0, 0, 0, 0, 6000))
         )
 
-        composeRule.setContent {
+        composeRule.setVpnContent {
             val viewState by viewStateFlow.collectAsState()
             ConnectionDetails(viewState, onClosePanel = {})
         }
