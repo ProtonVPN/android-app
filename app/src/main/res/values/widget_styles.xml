@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2025. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <declare-styleable name="ProtonVpnWidgetPreviewAttrs">
+        <attr name="widget_preview_background_secondary" format="color"/>
+        <attr name="widget_preview_interaction_norm" format="color"/>
+        <attr name="widget_preview_on_interaction_norm" format="color"/>
+        <attr name="widget_preview_text_norm" format="color" />
+        <attr name="widget_preview_unprotected" format="color" />
+    </declare-styleable>
+
+    <style name="Theme.ProtonVpnWidgetPreview" parent="ProtonTheme.Vpn">
+        <item name="widget_preview_background_secondary">@color/protonWidgetBackgroundSecondary</item>
+        <item name="widget_preview_interaction_norm">?attr/brand_norm</item>
+        <item name="widget_preview_on_interaction_norm">@color/white</item>
+        <item name="widget_preview_text_norm">?attr/proton_text_norm</item>
+        <item name="widget_preview_unprotected">?attr/proton_notification_error</item>
+    </style>
+
+    <style name="Theme.ProtonVpnMaterialWidgetPreview" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="widget_preview_background_secondary">@color/glance_colorSecondaryContainer</item>
+        <item name="widget_preview_interaction_norm">@color/glance_colorPrimary</item>
+        <item name="widget_preview_on_interaction_norm">@color/glance_colorOnPrimary</item>
+        <item name="widget_preview_text_norm">@color/glance_colorOnSurface</item>
+        <item name="widget_preview_unprotected">@color/glance_colorOnSurfaceVariant</item>
+    </style>
+
+</resources>

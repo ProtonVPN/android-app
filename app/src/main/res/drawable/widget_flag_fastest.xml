@@ -1,0 +1,31 @@
+<!--
+  Copyright (c) 2025. Proton AG
+
+  This file is part of ProtonVPN.
+
+  ProtonVPN is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ProtonVPN is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="16dp"
+    android:viewportWidth="24"
+    android:viewportHeight="16">
+  <path
+      android:pathData="M4,0L20,0A4,4 0,0 1,24 4L24,12A4,4 0,0 1,20 16L4,16A4,4 0,0 1,0 12L0,4A4,4 0,0 1,4 0z"
+      android:fillColor="#2CFFCC"/>
+  <path
+      android:pathData="M10.139,12.777C10.092,12.946 10.169,13.124 10.324,13.206C10.478,13.289 10.669,13.253 10.784,13.121L15.659,7.496C15.755,7.385 15.777,7.228 15.716,7.095C15.655,6.961 15.522,6.876 15.375,6.876H12.866L13.862,3.224C13.908,3.055 13.831,2.877 13.677,2.795C13.522,2.712 13.332,2.748 13.217,2.88L8.342,8.505C8.246,8.616 8.223,8.773 8.284,8.906C8.345,9.04 8.478,9.126 8.625,9.126H11.134L10.139,12.777Z"
+      android:fillColor="#16141C"/>
+</vector>

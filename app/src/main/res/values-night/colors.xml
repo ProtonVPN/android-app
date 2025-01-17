@@ -31,4 +31,5 @@
     <color name="protonWidgetNeedsLoginGradientStart">#369FA7</color>
     <color name="protonWidgetNeedsLoginGradientMiddle">#203C40</color>
     <color name="protonWidgetNeedsLoginGradientEnd">#1C1B24</color>
+    <color name="protonWidgetBackgroundSecondary">#14FFFFFF</color>
 </resources>
