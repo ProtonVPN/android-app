@@ -19,5 +19,6 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/glance_colorWidgetBackground"/>
+    <solid android:color="@color/glance_colorSecondaryContainer"/>
+    <corners android:radius="@dimen/widget_button_radius"/>
 </shape>

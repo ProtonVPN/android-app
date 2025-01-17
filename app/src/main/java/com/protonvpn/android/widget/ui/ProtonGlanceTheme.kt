@@ -20,12 +20,10 @@
 package com.protonvpn.android.widget.ui
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
@@ -51,11 +49,8 @@ val LocalProtonResources: ProvidableCompositionLocal<ProtonGlanceResources> =
     staticCompositionLocalOf { ProtonGlanceBrandedResources }
 
 data class ProtonGlanceColorProviders(
-    val backgroundNorm: ColorProvider,
-    val backgroundSecondary: ColorProvider,
     val interactionNorm: ColorProvider,
     val onInteractionNorm: ColorProvider,
-    val interactionSecondary: ColorProvider,
     val onInteractionSecondary: ColorProvider,
     val textNorm: ColorProvider,
     val textSecondary: ColorProvider,
@@ -66,6 +61,9 @@ data class ProtonGlanceColorProviders(
 )
 
 data class ProtonGlanceResources(
+    @DrawableRes val buttonBackgroundInteractionNorm: Int,
+    @DrawableRes val buttonBackgroundInteractionSecondary: Int,
+    @DrawableRes val buttonBackgroundSecondary: Int,
     @DrawableRes val logoIcon: Int,
     @DrawableRes val widgetBackgroundNeedsLogin: Int,
     @DrawableRes val widgetBackgroundDisconnected: Int,
@@ -74,17 +72,8 @@ data class ProtonGlanceResources(
 )
 
 private val ProtonGlanceBrandedColorProviders = ProtonGlanceColorProviders(
-    backgroundNorm = DayNightColorProvider(
-        day = ProtonColors.Light.backgroundNorm,
-        night = ProtonColors.Dark.backgroundNorm,
-    ),
-    backgroundSecondary = DayNightColorProvider(day = Color(0x14000000), night = Color(0x14000000)),
     interactionNorm = FixedColorProvider(ProtonColors.Light.brandNorm),
     onInteractionNorm = FixedColorProvider(Color.White),
-    interactionSecondary = DayNightColorProvider(
-        day = ProtonColors.Light.interactionWeakNorm,
-        night = ProtonColors.Dark.interactionWeakNorm
-    ),
     onInteractionSecondary = DayNightColorProvider(
         day = ProtonColors.Light.textNorm,
         night = ProtonColors.Dark.textNorm,
@@ -104,11 +93,8 @@ private val ProtonGlanceBrandedColorProviders = ProtonGlanceColorProviders(
 )
 
 private val ProtonGlanceDynamicColorProviders = ProtonGlanceColorProviders(
-    backgroundNorm = DynamicThemeColorProviders.background,
-    backgroundSecondary = DynamicThemeColorProviders.surfaceVariant,
     interactionNorm = DynamicThemeColorProviders.primary,
     onInteractionNorm = DynamicThemeColorProviders.onPrimary,
-    interactionSecondary = DynamicThemeColorProviders.secondary,
     onInteractionSecondary = DynamicThemeColorProviders.onSecondary,
     textNorm = DynamicThemeColorProviders.onSurface,
     textSecondary = DynamicThemeColorProviders.onSurfaceVariant,
@@ -119,6 +105,9 @@ private val ProtonGlanceDynamicColorProviders = ProtonGlanceColorProviders(
 )
 
 private val ProtonGlanceBrandedResources = ProtonGlanceResources(
+    buttonBackgroundInteractionNorm = R.drawable.widget_button_bg_interaction_norm,
+    buttonBackgroundInteractionSecondary = R.drawable.widget_button_bg_interaction_secondary,
+    buttonBackgroundSecondary = R.drawable.widget_button_bg_secondary,
     logoIcon = R.drawable.ic_vpn_icon_colorful,
     widgetBackgroundNeedsLogin = R.drawable.widget_background_needslogin,
     widgetBackgroundDisconnected = R.drawable.widget_background_disconnected,
@@ -127,6 +116,9 @@ private val ProtonGlanceBrandedResources = ProtonGlanceResources(
 )
 
 private val ProtonGlanceDynamicResources = ProtonGlanceResources(
+    buttonBackgroundInteractionNorm = R.drawable.widget_button_bg_interaction_norm_material,
+    buttonBackgroundInteractionSecondary = R.drawable.widget_button_bg_interaction_secondary_material,
+    buttonBackgroundSecondary = R.drawable.widget_button_bg_secondary_material,
     logoIcon = R.drawable.ic_vpn_icon_monochrome,
     widgetBackgroundNeedsLogin = R.drawable.widget_background_material,
     widgetBackgroundDisconnected = R.drawable.widget_background_material,
