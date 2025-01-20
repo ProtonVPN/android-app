@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.widget
 
-import android.content.ComponentName
+import androidx.glance.action.Action
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 
 enum class WidgetVpnStatus {
@@ -27,22 +27,23 @@ enum class WidgetVpnStatus {
 }
 
 data class WidgetRecent(
-    val recentId: Long?,
+    val action: Action,
     val connectIntentViewState: ConnectIntentViewState
 )
 
 sealed interface WidgetViewState {
-    val launchActivity: ComponentName
+    val launchMainActivityAction: Action
 
     data class NeedLogin(
-        override val launchActivity: ComponentName
+        override val launchMainActivityAction: Action
     ) : WidgetViewState
 
     data class LoggedIn(
         val connectCard: ConnectIntentViewState,
+        val connectCardAction: Action,
         val vpnStatus: WidgetVpnStatus,
         val recents: List<WidgetRecent>,
-        override val launchActivity: ComponentName
+        override val launchMainActivityAction: Action,
     ) : WidgetViewState
 
     {
@@ -50,7 +51,7 @@ sealed interface WidgetViewState {
             vpnStatus in listOf(WidgetVpnStatus.Connecting, WidgetVpnStatus.WaitingForNetwork)
 
         // List of recents to be used without separate quick connect card.
-        fun mergedRecents() = (listOf(WidgetRecent(null, connectCard)) + recents).distinct()
+        fun mergedRecents() = (listOf(WidgetRecent(connectCardAction, connectCard)) + recents).distinct()
 
         // Recents that are avoiding duplication with connect card (can happen when we're connected to pinned recent).
         fun recentsWithoutPinnedConnectCard(): List<WidgetRecent> = recents.filter { it.connectIntentViewState != connectCard }

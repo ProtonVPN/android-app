@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.widget.ui
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.glance.ColorFilter
@@ -27,10 +26,9 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.Visibility
+import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.CircularProgressIndicator
-import androidx.glance.appwidget.action.actionSendBroadcast
-import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
@@ -51,7 +49,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.label
-import com.protonvpn.android.widget.WidgetActionBroadcastReceiver
 import com.protonvpn.android.widget.WidgetRecent
 import com.protonvpn.android.widget.WidgetViewState
 import com.protonvpn.android.widget.WidgetVpnStatus
@@ -71,7 +68,7 @@ fun WidgetViewState.widgetBackground(): Int = when(this) {
 }
 
 @Composable
-fun ConnectWithIntent(context: Context, viewState: WidgetViewState.LoggedIn, showConnecting: Boolean, wide: Boolean, modifier: GlanceModifier) {
+fun ConnectWithIntent(viewState: WidgetViewState.LoggedIn, showConnecting: Boolean, wide: Boolean, modifier: GlanceModifier) {
     Column(modifier) {
         Spacer(modifier = GlanceModifier.defaultWeight())
         GlanceConnectIntent(
@@ -82,7 +79,7 @@ fun ConnectWithIntent(context: Context, viewState: WidgetViewState.LoggedIn, sho
         )
         Spacer(modifier = GlanceModifier.defaultWeight())
         Spacer(modifier = GlanceModifier.height(8.dp))
-        GlanceConnectButton(context, viewState.vpnStatus)
+        GlanceConnectButton(viewState.connectCardAction, viewState.vpnStatus)
     }
 }
 
@@ -168,19 +165,10 @@ private fun GlanceConnectIntentIconOrSpinner(label: ConnectIntentPrimaryLabel, i
 }
 
 @Composable
-fun GlanceConnectButton(context: Context, vpnStatus: WidgetVpnStatus, modifier: GlanceModifier = GlanceModifier.fillMaxWidth()) {
-    val connectButtonIntent = when(vpnStatus) {
-        WidgetVpnStatus.Connected,
-        WidgetVpnStatus.Connecting,
-        WidgetVpnStatus.WaitingForNetwork ->
-            WidgetActionBroadcastReceiver.intentDisconnect(context)
-
-        WidgetVpnStatus.Disconnected ->
-            WidgetActionBroadcastReceiver.intentConnect(context)
-    }
+fun GlanceConnectButton(action: Action, vpnStatus: WidgetVpnStatus, modifier: GlanceModifier = GlanceModifier.fillMaxWidth()) {
     GlanceButton(
         if (vpnStatus != WidgetVpnStatus.Disconnected) R.string.disconnect else R.string.connect,
-        actionSendBroadcast(connectButtonIntent),
+        action,
         secondary = vpnStatus != WidgetVpnStatus.Disconnected,
         modifier = modifier
     )
@@ -216,7 +204,7 @@ fun ConnectIntentGlanceLabels(state: ConnectIntentViewState, forceMaxHeight: Boo
 }
 
 @Composable
-fun ColumnScope.GlanceRecents(context: Context, recents: List<WidgetRecent>, maxColumns: Int, maxRows: Int) {
+fun ColumnScope.GlanceRecents(recents: List<WidgetRecent>, maxColumns: Int, maxRows: Int) {
     if (recents.isEmpty()) return
 
     val recentCount = recents.size
@@ -229,13 +217,12 @@ fun ColumnScope.GlanceRecents(context: Context, recents: List<WidgetRecent>, max
     recentsRows.forEachIndexed { rowIdx, row ->
         if (rowIdx > 0)
             Spacer(modifier = GlanceModifier.height(8.dp))
-        GlanceRecentsRow(context, row, columns, rowModifier)
+        GlanceRecentsRow(row, columns, rowModifier)
     }
 }
 
 @Composable
 private fun GlanceRecentsRow(
-    context: Context,
     recents: List<WidgetRecent>,
     columnsCount: Int,
     modifier: GlanceModifier = GlanceModifier
@@ -249,14 +236,11 @@ private fun GlanceRecentsRow(
             Box(GlanceModifier.fillMaxHeight().defaultWeight()) {
                 val recent = recents.getOrNull(i)
                 if (recent != null) {
-                    val action = actionSendBroadcast(
-                        WidgetActionBroadcastReceiver.intentConnect(context, recent.recentId)
-                    )
                     Box(
                         modifier = GlanceModifier
                             .fillMaxSize()
                             .background(ImageProvider(ProtonGlanceTheme.resources.buttonBackgroundSecondary))
-                            .clickable(action)
+                            .clickable(recent.action)
                             .padding(8.dp),
                         contentAlignment = Alignment.CenterStart
                     ) {

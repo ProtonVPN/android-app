@@ -33,7 +33,6 @@ import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
 import androidx.glance.action.Action
-import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
@@ -119,18 +118,17 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                     .value
                     ?: return@ProtonGlanceTheme
 
-                val mainActivityAction = actionStartActivity(viewState.launchActivity)
                 Box(
                     modifier = GlanceModifier
                         .fillMaxSize()
                         .appWidgetBackground()
                         .background(ImageProvider(viewState.widgetBackground()))
-                        .clickable(mainActivityAction)
+                        .clickable(viewState.launchMainActivityAction)
                         .padding(8.dp)
                 ) {
                     when (viewState) {
-                        is WidgetViewState.NeedLogin -> NeedLogin(mainActivityAction)
-                        is WidgetViewState.LoggedIn -> LoggedIn(context, viewState)
+                        is WidgetViewState.NeedLogin -> NeedLogin(viewState.launchMainActivityAction)
+                        is WidgetViewState.LoggedIn -> LoggedIn(viewState)
                     }
                 }
             }
@@ -168,17 +166,13 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     }
 
     @Composable
-    private fun LoggedIn(
-        context: Context,
-        viewState: WidgetViewState.LoggedIn,
-    ) {
+    private fun LoggedIn(viewState: WidgetViewState.LoggedIn) {
         val size = LocalSize.current
         val isDisconnected = viewState.vpnStatus == WidgetVpnStatus.Disconnected
         Column(GlanceModifier.fillMaxSize()) {
             when {
                 size == SHORT_NARROW_SIZE ->
                     ConnectWithIntent(
-                        context,
                         viewState,
                         showConnecting = true,
                         wide = false,
@@ -189,7 +183,6 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                     Column(GlanceModifier.fillMaxSize()) {
                         GlanceVpnStatus(viewState.vpnStatus, wide = false)
                         ConnectWithIntent(
-                            context,
                             viewState,
                             showConnecting = false,
                             wide = false,
@@ -206,14 +199,12 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                         }
                         if (isDisconnected) {
                             GlanceRecents(
-                                context,
                                 viewState.mergedRecents(),
                                 maxColumns = size.toMaxColumns(),
                                 maxRows = 1
                             )
                         } else {
                             ConnectWithIntent(
-                                context,
                                 viewState,
                                 showConnecting = !showStatus,
                                 wide = true,
@@ -227,7 +218,6 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                         val isWide = size.width >= WIDE
                         GlanceVpnStatus(viewState.vpnStatus, wide = isWide)
                         ConnectWithIntent(
-                            context,
                             viewState,
                             showConnecting = false,
                             wide = isWide,
@@ -236,7 +226,6 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                         Spacer(modifier = GlanceModifier.height(8.dp))
                         val maxRows = if (size.height >= XTALL) 2 else 1
                         GlanceRecents(
-                            context,
                             viewState.recentsWithoutPinnedConnectCard(),
                             maxColumns = size.toMaxColumns(),
                             maxRows = maxRows

@@ -22,12 +22,7 @@ package com.protonvpn.android.widget
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.protonvpn.android.redesign.recents.data.RecentsDao
-import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.utils.launchAsyncReceive
-import com.protonvpn.android.vpn.ConnectTrigger
-import com.protonvpn.android.vpn.DisconnectTrigger
-import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
@@ -36,23 +31,14 @@ import javax.inject.Inject
 class WidgetActionBroadcastReceiver : BroadcastReceiver() {
 
     @Inject lateinit var mainScope: CoroutineScope
-    @Inject lateinit var getQuickConnectIntent: GetQuickConnectIntent
-    @Inject lateinit var vpnConnectionManager: VpnConnectionManager
-    @Inject lateinit var recentDao: RecentsDao
+    @Inject lateinit var widgetActionHandler: WidgetActionHandler
 
     override fun onReceive(context: Context, intent: Intent) = launchAsyncReceive(mainScope) {
         when (intent.action) {
-            ACTION_CONNECT -> {
-                val recentId = intent.getLongExtra(EXTRA_RECENT_ID, -1).takeIf { it >= 0 }
-                val recent = recentId?.let { recentDao.getById(it) }
-                val connectIntent = recent?.connectIntent ?: getQuickConnectIntent()
-
-                vpnConnectionManager.connectInBackground(
-                    connectIntent,
-                    ConnectTrigger.QuickConnect("widget")
-                )
-            }
-            ACTION_DISCONNECT -> vpnConnectionManager.disconnect(DisconnectTrigger.QuickConnect("widget"))
+            ACTION_CONNECT -> widgetActionHandler.connectToRecentInBackground(
+                intent.getLongExtra(EXTRA_RECENT_ID, -1).takeIf { it >= 0 }
+            )
+            ACTION_DISCONNECT -> widgetActionHandler.disconnect()
         }
     }
 
