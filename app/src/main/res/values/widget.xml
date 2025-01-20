@@ -19,6 +19,14 @@
   -->
 
 <resources>
+    <bool name="enable_widget">false</bool> <!-- When enabling, enable material widget ONLY for v31 -->
+    <bool name="enable_material_widget">false</bool> <!-- Only available for Android 12+ -->
+
     <dimen name="widget_background_radius" type="dimen">16dp</dimen>
     <dimen name="widget_button_radius" type="dimen">8dp</dimen>
+
+    <dimen name="widget_min_width">100dp</dimen>
+    <dimen name="widget_min_height">126dp</dimen>
+    <!-- rough estimate of 5 columns based on https://developer.android.com/develop/ui/views/appwidgets/layouts -->
+    <dimen name="widget_big_min_width">697dp</dimen>
 </resources>
