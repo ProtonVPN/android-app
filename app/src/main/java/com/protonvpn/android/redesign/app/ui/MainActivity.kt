@@ -69,6 +69,7 @@ import com.protonvpn.android.ui.vpn.VpnUiActivityDelegate
 import com.protonvpn.android.ui.vpn.VpnUiActivityDelegateMobile
 import com.protonvpn.android.update.UpdatePromptForStaleVersion
 import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.widget.WidgetActionHandler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -77,6 +78,8 @@ import kotlinx.coroutines.launch
 import me.proton.core.compose.component.ProtonCenteredProgress
 import me.proton.core.notification.presentation.deeplink.HandleDeeplinkIntent
 import javax.inject.Inject
+
+private const val GLANCE_ACTION_SCHEME = "glance-action"
 
 @AndroidEntryPoint
 class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
@@ -99,6 +102,8 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     lateinit var deepLinkHandler: DeepLinkHandler
     @Inject
     lateinit var handleCoreDeepLink: HandleDeeplinkIntent
+    @Inject
+    lateinit var widgetActionHandler: WidgetActionHandler
 
     // public for now until there is need to bridge old code, as LocalVpnUiDelegate is not available in non-compose
     val vpnActivityDelegate = VpnUiActivityDelegateMobile(this) {
@@ -263,6 +268,11 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
     fun processIntent(intent: Intent) {
         processDeepLink(intent)
         handleCoreDeepLink(intent)
+        if (intent.data?.scheme == GLANCE_ACTION_SCHEME) {
+            lifecycleScope.launch {
+                widgetActionHandler.onIntent(vpnActivityDelegate, intent)
+            }
+        }
     }
 
     private fun retryConnectionAfterPermissions(connectIntent: AnyConnectIntent) {
