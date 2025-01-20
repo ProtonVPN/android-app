@@ -251,14 +251,17 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
                 }
             }
         }
-
-        processDeepLink()
-        handleCoreDeepLink(intent)
+        processIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         helper.onNewIntent(accountViewModel)
+        processIntent(intent)
+    }
+
+    fun processIntent(intent: Intent) {
+        processDeepLink(intent)
         handleCoreDeepLink(intent)
     }
 
@@ -270,7 +273,7 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
 
     override fun getVpnUiDelegate(): VpnUiActivityDelegate = vpnActivityDelegate
 
-    private fun processDeepLink() {
+    private fun processDeepLink(intent: Intent) {
         val intentUri = intent.data
         if (intent.action == Intent.ACTION_VIEW && intentUri != null) {
             deepLinkHandler.processDeepLink(intentUri)
