@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -76,7 +77,7 @@ import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.DIALOG_CONTENT_PADDING
 import com.protonvpn.android.redesign.base.ui.Flag
-import com.protonvpn.android.redesign.base.ui.FlagDefaults
+import com.protonvpn.android.redesign.base.ui.FlagDimensions
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.ProtonDialogButton
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
@@ -175,7 +176,7 @@ fun ProfileCountryItem(
                 Flag(
                     exitCountry = exitCountry.id,
                     entryCountry = if (secureCore) CountryId.fastest else null,
-                    modifier = Modifier.scale(24f / FlagDefaults.singleFlagSize.width.value)
+                    modifier = Modifier.scale(24f / FlagDimensions.singleFlagSize.width.value)
                 )
             },
             modal = { closeModal ->
@@ -251,7 +252,7 @@ private fun PickCountry(
                         entryCountry = if (isSecureCore) CountryId.fastest else null,
                         modifier = Modifier
                             .padding(end = 12.dp)
-                            .scale(24f / FlagDefaults.singleFlagSize.width.value)
+                            .scale(24f / FlagDimensions.singleFlagSize.width.value)
                     )
                 },
                 trailingTitleContent = {
@@ -919,7 +920,8 @@ private fun ProfileValueItem(
                 }
                 .clickable(onClick = { showDialog = true })
                 .background(ProtonTheme.colors.backgroundSecondary)
-                .padding(vertical = 12.dp, horizontal = 16.dp),
+                .heightIn(min = 48.dp)
+                .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (iconContent != null) {
