@@ -27,6 +27,7 @@ import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun ProtonVpnPreview(
+    isDark: Boolean = true,
     addSurface: Boolean = true,
     surfaceColor: @Composable () -> Color = { ProtonTheme.colors.backgroundNorm },
     content: @Composable () -> Unit
@@ -44,7 +45,7 @@ fun ProtonVpnPreview(
         }
     }
 
-    VpnTheme(isDark = true) {
+    VpnTheme(isDark = isDark) {
         OptionalSurface(addSurface, content)
     }
 }

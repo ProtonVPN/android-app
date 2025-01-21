@@ -28,9 +28,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,8 +51,6 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,9 +62,9 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isSpecified
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.createHueRotationMatrix
 import com.protonvpn.android.base.ui.rgbToHueInRadians
-import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.toColor
@@ -479,11 +475,17 @@ private fun DrawScope.drawScUnderlineArc(offset: Offset, path: Path, color: Colo
 
 @Composable
 @DrawableRes
-fun CountryId.flagResource(context: Context, opaque: Boolean = false): Int =
-    if (isFastest || LocalInspectionMode.current) {
+private fun CountryId.flagResource(context: Context, opaque: Boolean = false): Int =
+    if (isFastest) {
         if (opaque) R.drawable.fastest_flag_opaque else R.drawable.flag_fastest
     } else {
+        // CountryTools is not available in Android Studio previews.
+        // Normally LocalInspectionMode should be used to avoid calling it but its also enabled for screenshot
+        // tests. Flag resources are needed in screenshot tests.
+        // Fall back to fastest flag, previews crash trying to load resource with ID 0.
         CountryTools.getFlagResource(context, countryCode)
+            .takeIf { it > 0 }
+            ?: R.drawable.flag_fastest
     }
 
 // Note: once context-receivers become stable this can be improved.
@@ -493,109 +495,116 @@ private fun DpOffset.toOffset(density: Density): Offset = with(density) {
 
 @Preview
 @Composable
-private fun ProfileIconViewPreview() {
-    VpnTheme {
-        Column {
-            ProfileIconWithIndicator(
-                country = CountryId("US"),
-                icon = ProfileIcon.Icon5,
-                color = ProfileColor.Color4,
-                isGateway = false,
-                connectIntentIconSize = ConnectIntentIconSize.LARGE
-            )
-            ProfileIconWithIndicator(
-                country = CountryId("US"),
-                icon = ProfileIcon.Icon3,
-                color = ProfileColor.Color6,
-                isGateway = false,
-                connectIntentIconSize = ConnectIntentIconSize.MEDIUM
-            )
-            ProfileIconWithIndicator(
-                country = CountryId("US"),
-                icon = ProfileIcon.Icon5,
-                color = ProfileColor.Color4,
-                isGateway = false,
-                connectIntentIconSize = ConnectIntentIconSize.MEDIUM
-            )
-            ProfileIconWithIndicator(
-                country = CountryId("US"),
-                icon = ProfileIcon.Icon3,
-                color = ProfileColor.Color6,
-                isGateway = false,
-                connectIntentIconSize = ConnectIntentIconSize.SMALL
-            )
-            ProfileIcon(
-                icon = ProfileIcon.Icon2,
-                color = ProfileColor.Color4,
-                connectIntentIconSize = ConnectIntentIconSize.MEDIUM
-            )
-        }
+private fun ProfileIconViewDarkPreview() {
+    ProtonVpnPreview {
+        ProfileIconsPreviewHelper()
+    }
+}
+
+@Preview(locale = "fa")
+@Composable
+private fun ProfileIconViewLightRtlPreview() {
+    ProtonVpnPreview(isDark = false) {
+        ProfileIconsPreviewHelper()
     }
 }
 
 @Preview
 @Composable
 private fun FlagPreviewDark() {
-    VpnTheme(isDark = true) {
+    ProtonVpnPreview(isDark = true) {
         FlagsPreviewHelper()
     }
 }
 
-@Preview
+@Preview(locale = "fa")
 @Composable
 private fun FlagPreviewRtlLight() {
-    VpnTheme {
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            FlagsPreviewHelper()
-        }
+    ProtonVpnPreview(isDark = false) {
+        FlagsPreviewHelper()
     }
 }
 
 @Composable
 private fun FlagsPreviewHelper() {
-    Surface(color = ProtonTheme.colors.backgroundNorm) {
-        Box(Modifier.padding(8.dp)) {
-            Column {
-                val modifier = Modifier.padding(8.dp)
-                Flag(
-                    mainFlag = R.drawable.flag_fastest,
-                    secondaryFlag = null,
-                    isSecureCore = true,
-                    isFastest = true,
-                    modifier = modifier
-                )
-                Flag(
-                    mainFlag = R.drawable.flag_fastest,
-                    secondaryFlag = CountryR.drawable.flag_us,
-                    isSecureCore = true,
-                    isFastest = true,
-                    modifier = modifier
-                )
-                Flag(
-                    mainFlag = CountryR.drawable.flag_au,
-                    secondaryFlag = CountryR.drawable.flag_ch,
-                    isSecureCore = true,
-                    isFastest = false,
-                    modifier = modifier
-                )
-                Flag(
-                    mainFlag = CountryR.drawable.flag_us,
-                    secondaryFlag = null,
-                    isSecureCore = false,
-                    isFastest = false,
-                    modifier = modifier
-                )
-                Flag(
-                    mainFlag = R.drawable.flag_fastest,
-                    secondaryFlag = CountryR.drawable.flag_ch,
-                    isSecureCore = false,
-                    isFastest = true,
-                    modifier = modifier
-                )
-                GatewayIndicator(countryFlag = null, modifier = modifier)
-                GatewayIndicator(countryFlag = CountryR.drawable.flag_us, modifier = modifier)
-                FlagRecentConnection(modifier)
-            }
-        }
+    Column {
+        val modifier = Modifier.padding(8.dp)
+        Flag(
+            mainFlag = R.drawable.flag_fastest,
+            secondaryFlag = null,
+            isSecureCore = true,
+            isFastest = true,
+            modifier = modifier
+        )
+        Flag(
+            mainFlag = R.drawable.flag_fastest,
+            secondaryFlag = CountryR.drawable.flag_us,
+            isSecureCore = true,
+            isFastest = true,
+            modifier = modifier
+        )
+        Flag(
+            mainFlag = CountryR.drawable.flag_au,
+            secondaryFlag = CountryR.drawable.flag_ch,
+            isSecureCore = true,
+            isFastest = false,
+            modifier = modifier
+        )
+        Flag(
+            mainFlag = CountryR.drawable.flag_us,
+            secondaryFlag = null,
+            isSecureCore = false,
+            isFastest = false,
+            modifier = modifier
+        )
+        Flag(
+            mainFlag = R.drawable.flag_fastest,
+            secondaryFlag = CountryR.drawable.flag_ch,
+            isSecureCore = false,
+            isFastest = true,
+            modifier = modifier
+        )
+        GatewayIndicator(countryFlag = null, modifier = modifier)
+        GatewayIndicator(countryFlag = CountryR.drawable.flag_us, modifier = modifier)
+        FlagRecentConnection(modifier)
+    }
+}
+
+@Composable
+private fun ProfileIconsPreviewHelper() {
+    Column {
+        ProfileIconWithIndicator(
+            country = CountryId("US"),
+            icon = ProfileIcon.Icon5,
+            color = ProfileColor.Color4,
+            isGateway = false,
+            connectIntentIconSize = ConnectIntentIconSize.LARGE
+        )
+        ProfileIconWithIndicator(
+            country = CountryId("US"),
+            icon = ProfileIcon.Icon3,
+            color = ProfileColor.Color6,
+            isGateway = false,
+            connectIntentIconSize = ConnectIntentIconSize.MEDIUM
+        )
+        ProfileIconWithIndicator(
+            country = CountryId("US"),
+            icon = ProfileIcon.Icon5,
+            color = ProfileColor.Color4,
+            isGateway = false,
+            connectIntentIconSize = ConnectIntentIconSize.MEDIUM
+        )
+        ProfileIconWithIndicator(
+            country = CountryId("US"),
+            icon = ProfileIcon.Icon3,
+            color = ProfileColor.Color6,
+            isGateway = false,
+            connectIntentIconSize = ConnectIntentIconSize.SMALL
+        )
+        ProfileIcon(
+            icon = ProfileIcon.Icon2,
+            color = ProfileColor.Color4,
+            connectIntentIconSize = ConnectIntentIconSize.MEDIUM
+        )
     }
 }
