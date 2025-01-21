@@ -20,46 +20,46 @@
 package com.protonvpn.android.redesign.base.ui
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.ColorFilter
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
+import android.graphics.Path.Direction
+import android.graphics.Picture
+import android.graphics.PointF
+import android.graphics.RectF
+import android.graphics.drawable.Drawable
+import android.util.SizeF
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.CacheDrawScope
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.scale
-import androidx.compose.ui.graphics.drawscope.withTransform
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.isSpecified
+import androidx.core.graphics.record
+import androidx.core.graphics.withSave
+import androidx.core.graphics.withScale
+import androidx.core.graphics.withTranslation
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.createHueRotationMatrix
@@ -72,35 +72,96 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.country.presentation.R as CountryR
+import kotlin.math.max
+import me.proton.core.country.presentation.R as CoreR
 
-object FlagShapes {
-    val regular = RoundedCornerShape(size = 4.dp)
-    val small = RoundedCornerShape(size = 2.5.dp)
-    val sharp = RoundedCornerShape(0)
-}
-
-object FlagDefaults {
-    val singleFlagSize = DpSize(30.dp, 20.dp)
-    val twoFlagSize = DpSize(30.dp, 30.dp)
+private object Dimensions {
+    val flagAreaSize = SizeF(30f, 30f)
+    val singleFlagSize = SizeF(30f, 20f)
     val twoFlagTop = 3.dp
-    val twoFlagMainSizeSmall = DpSize(16.dp, 10.5.dp)
-    val twoFlagMainSize = DpSize(24.dp, 16.dp)
-    val companionFlagSizeSmall = DpSize(13.dp, 9.dp)
-    val companionFlagSize = DpSize(18.dp, 12.dp)
-    val profileCompanionFlagSize = DpSize(20.dp, 13.33.dp)
-    val bigProfileIconSize = DpSize(36.dp, 24.dp)
-    val companionFlagTop = 15.dp
-    val scUnderlineArcSize = DpSize(26.dp, 16.dp)
-    val scUnderlineArcOffset = DpOffset(-4.dp, 4.dp + (singleFlagSize.height - scUnderlineArcSize.height))
-    val scUnderlineArcRadius = 6.dp
+    val twoFlagMainSizeSmall = SizeF(16f, 10.5f)
+    val twoFlagMainSize = SizeF(24f, 16f)
+    val companionFlagSizeSmall = SizeF(13f, 9f)
+    val companionFlagSize = SizeF(18f, 12f)
+    val profileCompanionFlagSize = SizeF(20f, 13.33f)
+    val bigProfileIconSize = SizeF(36f, 24f)
+    const val companionFlagTop = 15f
+    val scUnderlineArcSize = SizeF(26f, 16f)
+    val scUnderlineArcOffset = PointF(-4f, 4f + (singleFlagSize.height - scUnderlineArcSize.height))
+    const val scUnderlineArcRadius = 6f
     val shadowColor = Color(0x66000000)
+    const val smallCorner = 2.5f
+    const val regularCorner = 4f
 }
 
-enum class ConnectIntentIconSize(val size: Dp, val backFlagSize: DpSize, val frontFlagSize: DpSize, val verticalPadding: Dp) {
-    SMALL(20.dp, FlagDefaults.twoFlagMainSizeSmall, FlagDefaults.companionFlagSizeSmall, 2.dp),
-    MEDIUM(30.dp, FlagDefaults.twoFlagMainSize, FlagDefaults.profileCompanionFlagSize, 2.dp),
-    LARGE(48.dp, FlagDefaults.bigProfileIconSize, FlagDefaults.singleFlagSize, 4.dp)
+object FlagDimensions {
+    val singleFlagSize = Dimensions.singleFlagSize.toDpSize()
+    val regularShape = RoundedCornerShape(Dimensions.regularCorner.dp)
+}
+
+enum class ConnectIntentIconSize(
+    val size: Float,
+    val backFlagSize: SizeF,
+    val frontFlagSize: SizeF,
+    val profileVerticalPadding: Float
+) {
+    SMALL(20f, Dimensions.twoFlagMainSizeSmall, Dimensions.companionFlagSizeSmall, 2f),
+    MEDIUM(30f, Dimensions.twoFlagMainSize, Dimensions.profileCompanionFlagSize, 2f),
+    LARGE(48f, Dimensions.bigProfileIconSize, Dimensions.singleFlagSize, 4f)
+}
+
+private data class ConnectIntentIconDrawScope(
+    private val context: Context,
+    val canvas: Canvas,
+    val isRtl: Boolean,
+    val drawingSize: SizeF,
+    val secureCoreArcColorFastest: Color,
+    val secureCoreArcColorRegular: Color,
+) {
+    private val paint: Paint = Paint()
+
+    fun getDrawable(@DrawableRes id: Int): Drawable = requireNotNull(
+        AppCompatResources.getDrawable(context, id)
+    ).mutate()
+
+    fun getPaint() = paint.apply { reset() }
+
+    // Translates the canvas and adjusts the `drawingSize` to the cropped region.
+    fun withCropped(dx: Float, dy: Float, size: SizeF? = null, block: ConnectIntentIconDrawScope.() -> Unit) {
+        val transformedScope =
+            this.copy(drawingSize = size ?: SizeF(drawingSize.width - dx, drawingSize.height - dy))
+        canvas.withTranslation(dx, dy) {
+            transformedScope.block()
+        }
+    }
+
+    fun withCentered(size: SizeF, block: ConnectIntentIconDrawScope.() -> Unit) {
+        val dx = (drawingSize.width - size.width) / 2
+        val dy = (drawingSize.height - size.height) / 2
+        withCropped(dx, dy, size, block)
+    }
+}
+
+private fun DrawScope.drawWithNativeCanvas(
+    context: Context,
+    secureCoreArcColorFastest: Color,
+    secureCoreArcColorRegular: Color,
+    block: ConnectIntentIconDrawScope.() -> Unit
+) {
+    val connectIntentIconDrawScope =
+        ConnectIntentIconDrawScope(
+            context = context,
+            canvas = drawContext.canvas.nativeCanvas,
+            isRtl = layoutDirection == LayoutDirection.Rtl,
+            drawingSize = drawContext.size.div(density).toSizeF(),
+            secureCoreArcColorFastest = secureCoreArcColorFastest,
+            secureCoreArcColorRegular = secureCoreArcColorRegular
+        )
+    with (connectIntentIconDrawScope) {
+        canvas.withScale(x = density, y = density) {
+            block()
+        }
+    }
 }
 
 @Composable
@@ -109,33 +170,38 @@ fun ConnectIntentIcon(
     modifier: Modifier = Modifier,
     connectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
 ) {
-    when(label) {
-        is ConnectIntentPrimaryLabel.Fastest ->
-            FlagFastest(label.isSecureCore, label.connectedCountry, modifier = modifier)
-        is ConnectIntentPrimaryLabel.Country ->
-            Flag(label.exitCountry, label.entryCountry, modifier = modifier)
-        is ConnectIntentPrimaryLabel.Gateway ->
-            GatewayIndicator(label.country, modifier = modifier)
-        is ConnectIntentPrimaryLabel.Profile ->
-            ProfileIconWithIndicator(label.country, label.icon, label.color, label.isGateway, connectIntentIconSize = connectIntentIconSize, modifier = modifier)
-    }
+    ConnectIntentIcon(label.toIconState(), modifier, connectIntentIconSize)
 }
 
 @Composable
-fun FlagFastest(
-    isSecureCore: Boolean,
-    connectedCountry: CountryId?,
+private fun ConnectIntentIcon(
+    iconState: ConnectIntentIconState,
     modifier: Modifier = Modifier,
+    connectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
 ) {
-    val context = LocalContext.current
-    val secondaryFlag = connectedCountry?.flagResource(context)
-    Flag(
-        mainFlag = R.drawable.flag_fastest,
-        secondaryFlag = secondaryFlag,
-        isSecureCore = isSecureCore,
-        isFastest = true,
-        modifier = modifier
-    )
+    val size = if (iconState is ConnectIntentIconState.Profile) connectIntentIconSize.size else 30f
+    ConnectIntentIconDrawing(modifier.size(size.dp)) {
+        connectIntentIcon(iconState, connectIntentIconSize)
+    }
+}
+
+private fun ConnectIntentIconDrawScope.connectIntentIcon(
+    state: ConnectIntentIconState,
+    connectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
+) {
+    when (state) {
+        is ConnectIntentIconState.Fastest -> with(state) {
+            flag(R.drawable.flag_fastest, connectedCountry, drawSecureCoreArc = isSecureCore, isFastest = true)
+        }
+        is ConnectIntentIconState.Country -> with(state) {
+            flag(exitCountry, entryCountry, drawSecureCoreArc = false, isFastest = false)
+        }
+        is ConnectIntentIconState.Gateway ->
+            gatewayIndicator(state.country)
+        is ConnectIntentIconState.Profile -> with(state) {
+            profile(country, icon, color, connectIntentIconSize, isGateway)
+        }
+    }
 }
 
 @Composable
@@ -143,19 +209,17 @@ fun Flag(
     exitCountry: CountryId,
     entryCountry: CountryId? = null,
     modifier: Modifier = Modifier,
-    opaque: Boolean = false
 ) {
     val context = LocalContext.current
-    val entryCountryFlag =
+    val mainFlag = exitCountry.flagResource(context)
+    val secondaryFlag =
         if (entryCountry == null || entryCountry.isFastest) null
-        else entryCountry.flagResource(context, opaque)
-    Flag(
-        mainFlag = exitCountry.flagResource(context, opaque),
-        secondaryFlag = entryCountryFlag,
-        isSecureCore = entryCountry != null,
-        isFastest = exitCountry.isFastest,
-        modifier = modifier
-    )
+        else entryCountry.flagResource(context)
+    ConnectIntentIconDrawing(
+        modifier.size(Dimensions.flagAreaSize.toDpSize())
+    ) {
+        flag(mainFlag, secondaryFlag, drawSecureCoreArc = entryCountry != null, isFastest = exitCountry.isFastest)
+    }
 }
 
 @Composable
@@ -176,62 +240,67 @@ fun ProfileIcon(
     color: ProfileColor,
     connectIntentIconSize: ConnectIntentIconSize,
     addContentDescription: Boolean = false,
-    frontContent: @Composable (() -> Unit)? = null,
 ) {
-    Box(
-        modifier = modifier
+    val semantics = if (addContentDescription) {
+        val description = stringResource(id = R.string.profile_icon_accessibility, icon.ordinal + 1)
+        Modifier.semantics { contentDescription = description }
+    } else {
+        null
+    }
+    ConnectIntentIconDrawing(
+        modifier
+            .size(connectIntentIconSize.frontFlagSize.toDpSize())
+            .thenNotNull(semantics)
     ) {
-        val hueRotationMatrix = remember(color) {
-            val newHue = color.toColor().let { rgbToHueInRadians(it.red, it.green, it.blue) }
-            val hueDelta = newHue - profileIconOrgHue
-            createHueRotationMatrix(hueDelta)
-        }
-        Image(
-            painter = painterResource(id = icon.toDrawableRes()),
-            contentDescription =
-                if (addContentDescription) stringResource(id = R.string.profile_icon_accessibility, icon.ordinal + 1) else null,
-            modifier = Modifier
-                .size(connectIntentIconSize.backFlagSize)
-                .align(if (frontContent != null) Alignment.TopStart else Alignment.Center),
-            colorFilter = ColorFilter.colorMatrix(
-                ColorMatrix(hueRotationMatrix)
-            )
-        )
-
-        frontContent?.let {
-            Box(
-                modifier = Modifier
-                    .size(connectIntentIconSize.frontFlagSize)
-                    .align(Alignment.BottomEnd)
-            ) {
-                it()
-            }
-        }
+        profileIcon(icon, color, connectIntentIconSize)
     }
 }
 
-@Composable
-fun ProfileIconWithIndicator(
-    country: CountryId?,
+private fun ConnectIntentIconDrawScope.profileIcon(
     icon: ProfileIcon,
     color: ProfileColor,
-    isGateway: Boolean,
     connectIntentIconSize: ConnectIntentIconSize,
-    modifier: Modifier = Modifier
 ) {
-    ProfileIcon(
-        icon = icon,
-        color = color,
-        modifier = modifier.size(connectIntentIconSize.size).padding(vertical = connectIntentIconSize.verticalPadding),
-        connectIntentIconSize = connectIntentIconSize,
-        frontContent = {
-            if (isGateway) {
-                GatewayIndicator(countryFlag = null)
-            } else {
-                Flag(exitCountry = country ?: CountryId.fastest, opaque = true)
-            }
+    val newHue = color.toColor().let { rgbToHueInRadians(it.red, it.green, it.blue) }
+    val hueDelta = newHue - profileIconOrgHue
+    val hueRotationMatrix =  createHueRotationMatrix(hueDelta)
+    val colorFilter = ColorMatrixColorFilter(ColorMatrix(hueRotationMatrix))
+
+    withCentered(connectIntentIconSize.backFlagSize) {
+        drawFillImage(icon.toDrawableRes(), connectIntentIconSize.backFlagSize, colorFilter = colorFilter)
+    }
+}
+
+private fun ConnectIntentIconDrawScope.profile(
+    @DrawableRes countryFlag: Int?,
+    icon: ProfileIcon,
+    color: ProfileColor,
+    connectIntentIconSize: ConnectIntentIconSize,
+    isGateway: Boolean,
+) {
+    withCropped(
+        if (isRtl) (connectIntentIconSize.size - connectIntentIconSize.backFlagSize.width) else 0f,
+        connectIntentIconSize.profileVerticalPadding,
+        size = connectIntentIconSize.backFlagSize
+    ) {
+        profileIcon(icon, color, connectIntentIconSize)
+    }
+
+    withCropped(
+        if (isRtl) 0f else with (connectIntentIconSize) { size - frontFlagSize.width },
+        with (connectIntentIconSize) { size - frontFlagSize.height - profileVerticalPadding },
+        connectIntentIconSize.frontFlagSize
+    ) {
+        val scaleFactor = drawingSize.width / Dimensions.singleFlagSize.width
+        canvas.scale(scaleFactor, scaleFactor) // Restored by withCropped block.
+
+        val image = when {
+            isGateway -> R.drawable.ic_gateway_flag
+            countryFlag != null -> countryFlag
+            else -> R.drawable.fastest_flag_opaque
         }
-    )
+        drawFillImage(image, Dimensions.singleFlagSize, if (isGateway) 0f else Dimensions.regularCorner)
+    }
 }
 
 @Composable
@@ -239,44 +308,32 @@ private fun GatewayIndicator(
     countryFlag: Int?,
     modifier: Modifier = Modifier
 ) {
-    if (countryFlag == null) {
-        Image(
-            painterResource(id = R.drawable.ic_gateway_flag),
-            contentDescription = null,
-            modifier = modifier
-        )
-    } else {
-        TwoFlagsSmallOnTop(
-            largeImage = R.drawable.ic_gateway_flag,
-            smallImage = countryFlag,
-            isRounded = false,
-            isSecureCore = false,
-            modifier = modifier
-        )
+    ConnectIntentIconDrawing(modifier.size(Dimensions.singleFlagSize.toDpSize())) {
+        gatewayIndicator(countryFlag)
     }
 }
 
-@Composable
-private fun Flag(
+private fun ConnectIntentIconDrawScope.gatewayIndicator(countryFlag: Int?) {
+    if (countryFlag == null) {
+        drawFillImage(R.drawable.ic_gateway_flag, Dimensions.singleFlagSize)
+    } else {
+        twoFlagsSmallOnTop(R.drawable.ic_gateway_flag, countryFlag,isRounded = false, drawSecureCoreArc = false)
+    }
+}
+
+private fun ConnectIntentIconDrawScope.flag(
     @DrawableRes mainFlag: Int,
     secondaryFlag: Int?,
-    isSecureCore: Boolean,
+    drawSecureCoreArc: Boolean,
     isFastest: Boolean,
-    modifier: Modifier = Modifier
 ) {
     when {
         secondaryFlag != null && !isFastest ->
-            TwoFlagsLargeOnTop(largeImage = mainFlag, smallImage = secondaryFlag, modifier = modifier)
+            twoFlagsLargeOnTop(largeImage = mainFlag, smallImage = secondaryFlag)
         secondaryFlag != null && isFastest ->
-            TwoFlagsSmallOnTop(
-                largeImage = mainFlag,
-                smallImage = secondaryFlag,
-                isRounded = true,
-                isSecureCore = isSecureCore,
-                modifier = modifier
-            )
+            twoFlagsSmallOnTop(largeImage = mainFlag, smallImage = secondaryFlag, isRounded = true, drawSecureCoreArc = drawSecureCoreArc)
         else ->
-            SingleFlag(mainFlag, isSecureCore, isFastest, modifier)
+            singleFlag(mainFlag, drawSecureCoreArc, isFastest)
     }
 }
 
@@ -286,173 +343,165 @@ private fun secureCoreArcColor(isFastest: Boolean) =
     else ProtonTheme.colors.textHint
 
 @Composable
-private fun SingleFlag(
-    @DrawableRes flagImage: Int,
-    isSecureCore: Boolean,
-    isFastest: Boolean,
-    modifier: Modifier = Modifier
+private fun ConnectIntentIconDrawing(
+    modifier: Modifier = Modifier,
+    block: ConnectIntentIconDrawScope.() -> Unit
 ) {
-    val drawScIndicatorModifier = if (isSecureCore) {
-        val color = secureCoreArcColor(isFastest)
-        Modifier.drawWithCache {
-            val path = with(FlagDefaults) {
-                createScUnderlineArc(scUnderlineArcSize.toSize(), scUnderlineArcRadius.toPx())
-            }
-            onDrawBehind {
-                // The underline arc is outside the layout area for this component, same as in
-                // designs. This should make it easier to position the flag.
-                drawScUnderlineArc(FlagDefaults.scUnderlineArcOffset.toOffset(this), path, color)
-            }
-        }
-    } else {
-        Modifier
+    val scColorRegular = secureCoreArcColor(false)
+    val scColorFastest = secureCoreArcColor(true)
+    val context = LocalContext.current
+    val drawModifier = Modifier.drawBehind {
+        drawWithNativeCanvas(context, scColorFastest, scColorRegular, block)
     }
-    Image(
-        painterResource(id = flagImage),
-        contentDescription = null,
-        alignment = Alignment.Center,
-        contentScale = ContentScale.Crop,
-        modifier = modifier
-            .size(FlagDefaults.singleFlagSize)
-            .then(drawScIndicatorModifier)
-            .clip(FlagShapes.regular)
-    )
+    Spacer(modifier.then(drawModifier))
 }
 
-@Composable
-private fun TwoFlagsLargeOnTop(
+private fun ConnectIntentIconDrawScope.singleFlag(
+    @DrawableRes flagImage: Int,
+    drawSecureCoreArc: Boolean,
+    isFastest: Boolean,
+) {
+    withCentered(Dimensions.singleFlagSize) {
+        if (drawSecureCoreArc) {
+            drawScUnderlineArc(if (isFastest) secureCoreArcColorFastest else secureCoreArcColorRegular)
+        }
+        drawFillImage(flagImage, Dimensions.singleFlagSize, Dimensions.regularCorner)
+    }
+}
+
+private fun ConnectIntentIconDrawScope.twoFlagsLargeOnTop(
     @DrawableRes largeImage: Int,
     @DrawableRes smallImage: Int,
-    modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
-        Image(
-            painterResource(id = smallImage),
-            contentDescription = null,
-            alignment = Alignment.Center,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .padding(top = 15.dp)
-                .size(18.dp, 12.dp)
-                .clip(FlagShapes.small)
-                .drawWithCache {
-                    val shadowPath = createScFlagShadow(Offset(4.dp.toPx(), -6.dp.toPx()), bottomRadius = 6.dp.toPx())
-                    onDrawWithContent {
-                        drawContent()
-                        drawScFlagShadow(shadowPath, FlagDefaults.shadowColor)
-                    }
-                }
-        )
-        Image(
-            painterResource(id = largeImage),
-            contentDescription = null,
-            alignment = Alignment.Center,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .padding(top = FlagDefaults.twoFlagTop, start = 6.dp)
-                .size(FlagDefaults.twoFlagMainSize)
-                .clip(FlagShapes.regular)
-        )
+    val companionFlagSize =  Dimensions.companionFlagSize
+    withCropped(
+        if (isRtl) Dimensions.flagAreaSize.width - companionFlagSize.width else 0f,
+        15f,
+        companionFlagSize
+    ) {
+        drawFillImage(smallImage, companionFlagSize, Dimensions.smallCorner)
+        drawScFlagShadow(4f, -6f, companionFlagSize, bottomRadius = 6f)
+    }
+
+    canvas.withTranslation(if (isRtl) 0f else 6f, Dimensions.twoFlagTop.value) {
+        drawFillImage(largeImage, Dimensions.twoFlagMainSize, Dimensions.regularCorner)
     }
 }
 
-@Composable
-private fun TwoFlagsSmallOnTop(
+private fun ConnectIntentIconDrawScope.twoFlagsSmallOnTop(
     @DrawableRes largeImage: Int,
     @DrawableRes smallImage: Int,
     isRounded: Boolean,
-    isSecureCore: Boolean,
-    modifier: Modifier = Modifier
+    drawSecureCoreArc: Boolean,
 ) {
-    Box(modifier = modifier.size(FlagDefaults.twoFlagSize)) {
-        val color = secureCoreArcColor(isFastest = true)
-        val secureCoreLine = Modifier.drawWithCache {
-            val path = with(FlagDefaults) {
-                createScUnderlineArc(scUnderlineArcSize.toSize(), scUnderlineArcRadius.toPx())
-            }
-            val flagScale = with(FlagDefaults) { twoFlagMainSize.width / singleFlagSize.width }
-            onDrawBehind {
-                val isRtl = layoutDirection == LayoutDirection.Rtl
-                scale(flagScale, pivot = if (isRtl) Offset(size.width, 0f) else Offset.Zero) {
-                    // The underline arc is outside the layout area for this component, same as in
-                    // designs. This should make it easier to position the flag.
-                    drawScUnderlineArc(FlagDefaults.scUnderlineArcOffset.toOffset(this), path, color)
+    val largeFlagSize = Dimensions.twoFlagMainSize
+    withCropped(
+        dx = if (isRtl) drawingSize.width - largeFlagSize.width else 0f,
+        dy = Dimensions.twoFlagTop.value,
+        size = largeFlagSize
+    ) {
+        if (drawSecureCoreArc) {
+            with(Dimensions) {
+                val flagScale = twoFlagMainSize.width / singleFlagSize.width
+                canvas.withScale(flagScale, flagScale,  pivotX = if (isRtl) drawingSize.width else 0f,  pivotY = 0f) {
+                    drawScUnderlineArc(secureCoreArcColorFastest)
                 }
             }
         }
-        Image(
-            painterResource(id = largeImage),
-            contentDescription = null,
-            modifier = Modifier
-                .padding(top = FlagDefaults.twoFlagTop)
-                .size(FlagDefaults.twoFlagMainSize)
-                .optional({ isSecureCore }, secureCoreLine)
-                .clip(if (isRounded) FlagShapes.regular else FlagShapes.sharp) // Sharp clipping needed for the shadow.
-                .drawWithCache {
-                    val shadowPath = createScFlagShadow(Offset(10.dp.toPx(), 10.dp.toPx(),), topRadius = 6.dp.toPx())
-                    onDrawWithContent {
-                        drawContent()
-                        drawScFlagShadow(shadowPath, FlagDefaults.shadowColor)
-                    }
-                }
-        )
-        Image(
-            painterResource(id = smallImage),
-            contentDescription = null,
-            alignment = Alignment.Center,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .padding(top = FlagDefaults.companionFlagTop, start = 12.dp)
-                .size(FlagDefaults.companionFlagSize)
-                .clip(FlagShapes.small)
-        )
+
+        drawFillImage(largeImage, largeFlagSize, if (isRounded) Dimensions.regularCorner else 0f)
+        drawScFlagShadow(10f, 10f, largeFlagSize, topRadius = 4f)
+    }
+
+    canvas.withTranslation(
+        x = if (isRtl) 0f else 12f,
+        y = Dimensions.companionFlagTop,
+    ) {
+        drawFillImage(smallImage, Dimensions.companionFlagSize, Dimensions.smallCorner)
     }
 }
 
-private fun CacheDrawScope.createScFlagShadow(
-    offsetTopLeft: Offset,
+private fun createClipPath(size: SizeF, radius: Float) = android.graphics.Path().apply {
+    addRoundRect(0f, 0f, size.width, size.height, radius, radius, Direction.CW)
+}
+
+private fun ConnectIntentIconDrawScope.drawScFlagShadow(
+    offsetLeft: Float,
+    offsetTop: Float,
+    size: SizeF,
     topRadius: Float = 0f,
     bottomRadius: Float = 0f
-) =
-    Path().apply {
-        addRoundRect(
-            RoundRect(
-                rect = Rect(offsetTopLeft, size),
-                topLeft = if (topRadius > 0f) CornerRadius(topRadius) else CornerRadius.Zero,
-                bottomLeft = if (bottomRadius > 0f) CornerRadius(bottomRadius) else CornerRadius.Zero
-            )
-        )
-    }
-
-private fun DrawScope.drawScFlagShadow(path: Path, color: Color) {
-    val isRtl = layoutDirection == LayoutDirection.Rtl
-    withTransform({
-        if (isRtl) scale(-1f, 1f)
-    }) {
-        drawPath(path, color)
+) {
+    canvas.withSave {
+        clipRect(RectF(0f, 0f, size.width, size.height))
+        if (isRtl) canvas.scale(-1f, 1f, drawingSize.width / 2, 0f)
+        val paint = getPaint().apply {
+            color = Dimensions.shadowColor.toArgb()
+            style = Paint.Style.FILL
+        }
+        val shadowPath = android.graphics.Path().apply {
+            val radii =
+                floatArrayOf(topRadius, topRadius, topRadius, topRadius, bottomRadius, bottomRadius, bottomRadius, bottomRadius)
+            addRoundRect(offsetLeft, offsetTop, size.width + offsetLeft, size.height + offsetTop, radii, Direction.CW)
+        }
+        canvas.drawPath(shadowPath, paint)
     }
 }
 
-private fun createScUnderlineArc(size: Size, radius: Float) =
-    Path().apply {
-        relativeLineTo(0f, size.height - radius)
+private fun ConnectIntentIconDrawScope.drawScUnderlineArc(color: Color) {
+    val size = Dimensions.scUnderlineArcSize
+    val radius = Dimensions.scUnderlineArcRadius
+
+    val path = android.graphics.Path().apply {
+        rLineTo(0f, size.height - radius)
+        val arcY = size.height - 2 * radius
         addArc(
-            Rect(Offset(0f, size.height - 2 * radius), Size(2 * radius, 2 * radius)),
+            RectF(0f, arcY, 2 * radius, arcY + 2 * radius),
             180f,
             -90f
         )
-        relativeLineTo(size.width - radius, 0f)
+        rLineTo(size.width - radius, 0f)
+    }
+    val paint = getPaint().apply {
+        this.style = Paint.Style.STROKE
+        this.color = color.toArgb()
+        this.strokeCap = Paint.Cap.ROUND
+        this.strokeWidth = 1.85f
+    }
+    canvas.withSave {
+        if (isRtl) scale(-1f, 1f, drawingSize.width / 2, 0f)
+        with (Dimensions.scUnderlineArcOffset) { translate(x, y) }
+        drawPath(path, paint)
+    }
+}
+
+private fun ConnectIntentIconDrawScope.drawFillImage(
+    @DrawableRes imageRes: Int,
+    dstSize: SizeF,
+    radius: Float = 0f,
+    colorFilter: ColorFilter? = null
+) {
+    val drawable = getDrawable(imageRes)
+    // Drawable.setBounds only accepts int values, use an intermediate Picture to scale and position with float
+    // precision.
+    val p = Picture()
+    val srcWidth = drawable.intrinsicWidth
+    val srcHeight = drawable.intrinsicHeight
+    p.record(srcWidth, srcHeight) {
+        with (drawable) {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            if (colorFilter != null) this.colorFilter = colorFilter
+        }
+
+        drawable.draw(this)
     }
 
-private fun DrawScope.drawScUnderlineArc(offset: Offset, path: Path, color: Color) {
-    val isRtl = layoutDirection == LayoutDirection.Rtl
-    withTransform(
-        transformBlock = {
-            if (isRtl) scale(-1f, 1f)
-            translate(offset.x, offset.y)
-        }
-    ) {
-        drawPath(path, color, style = Stroke(width = 1.85.dp.toPx(), cap = StrokeCap.Round))
+    val fillScale = max(dstSize.width / srcWidth, dstSize.height / srcHeight)
+    val pictureRect = RectF(0f, 0f, srcWidth * fillScale, srcHeight * fillScale)
+    with (pictureRect)  { offset((dstSize.width - width()) / 2f, (dstSize.height - height()) / 2f) }
+    canvas.withSave {
+        if (radius > 0f) clipPath(createClipPath(dstSize, radius))
+        drawPicture(p, pictureRect)
     }
 }
 
@@ -471,10 +520,45 @@ private fun CountryId.flagResource(context: Context, opaque: Boolean = false): I
             ?: R.drawable.flag_fastest
     }
 
-// Note: once context-receivers become stable this can be improved.
-private fun DpOffset.toOffset(density: Density): Offset = with(density) {
-    if (isSpecified) Offset(x.toPx(), y.toPx()) else Offset.Unspecified
+private sealed interface ConnectIntentIconState {
+    data class Fastest(@DrawableRes val connectedCountry: Int?, val isSecureCore: Boolean, val isFree: Boolean) : ConnectIntentIconState
+    data class Country(@DrawableRes val exitCountry: Int, @DrawableRes val entryCountry: Int?) : ConnectIntentIconState
+
+    data class Gateway(@DrawableRes val country: Int?) : ConnectIntentIconState
+    data class Profile(@DrawableRes val country: Int, val isGateway: Boolean, val icon: ProfileIcon, val color: ProfileColor) : ConnectIntentIconState
 }
+
+@Composable
+private fun ConnectIntentPrimaryLabel.toIconState(): ConnectIntentIconState {
+    val context = LocalContext.current
+    return when (this) {
+        is ConnectIntentPrimaryLabel.Fastest ->
+            ConnectIntentIconState.Fastest(connectedCountry?.flagResource(context), isSecureCore, isFree)
+        is ConnectIntentPrimaryLabel.Country ->
+            ConnectIntentIconState.Country(exitCountry.flagResource(context), entryCountry?.flagResource(context))
+        is ConnectIntentPrimaryLabel.Gateway ->
+            ConnectIntentIconState.Gateway(country?.flagResource(context))
+        is ConnectIntentPrimaryLabel.Profile ->
+            ConnectIntentIconState.Profile(country.flagResource(context, opaque = true), isGateway, icon, color)
+    }
+}
+
+private fun SizeF.toDpSize() = DpSize(width.dp, height.dp)
+private fun Size.toSizeF() = SizeF(width, height)
+
+private val previewIcons = listOf(
+        ConnectIntentIconState.Fastest(null, false, true),
+        ConnectIntentIconState.Fastest(CoreR.drawable.flag_se, false, true),
+        ConnectIntentIconState.Fastest(CoreR.drawable.flag_lt, true, false),
+        ConnectIntentIconState.Country(CoreR.drawable.flag_ch, null),
+        ConnectIntentIconState.Country(CoreR.drawable.flag_pl, CoreR.drawable.flag_ch),
+        ConnectIntentIconState.Gateway(null),
+        ConnectIntentIconState.Gateway(CoreR.drawable.flag_ch),
+        ConnectIntentIconState.Profile(R.drawable.fastest_flag_opaque, false, ProfileIcon.Icon1, ProfileColor.Color1),
+        ConnectIntentIconState.Profile(R.drawable.fastest_flag_opaque, true, ProfileIcon.Icon5, ProfileColor.Color1),
+        ConnectIntentIconState.Profile(CoreR.drawable.flag_lt, true, ProfileIcon.Icon5, ProfileColor.Color3),
+        ConnectIntentIconState.Profile(CoreR.drawable.flag_ao, false, ProfileIcon.Icon7, ProfileColor.Color6),
+    )
 
 @Preview
 @Composable
@@ -512,81 +596,27 @@ private fun FlagPreviewRtlLight() {
 private fun FlagsPreviewHelper() {
     Column {
         val modifier = Modifier.padding(8.dp)
-        Flag(
-            mainFlag = R.drawable.flag_fastest,
-            secondaryFlag = null,
-            isSecureCore = true,
-            isFastest = true,
-            modifier = modifier
-        )
-        Flag(
-            mainFlag = R.drawable.flag_fastest,
-            secondaryFlag = CountryR.drawable.flag_us,
-            isSecureCore = true,
-            isFastest = true,
-            modifier = modifier
-        )
-        Flag(
-            mainFlag = CountryR.drawable.flag_au,
-            secondaryFlag = CountryR.drawable.flag_ch,
-            isSecureCore = true,
-            isFastest = false,
-            modifier = modifier
-        )
-        Flag(
-            mainFlag = CountryR.drawable.flag_us,
-            secondaryFlag = null,
-            isSecureCore = false,
-            isFastest = false,
-            modifier = modifier
-        )
-        Flag(
-            mainFlag = R.drawable.flag_fastest,
-            secondaryFlag = CountryR.drawable.flag_ch,
-            isSecureCore = false,
-            isFastest = true,
-            modifier = modifier
-        )
-        GatewayIndicator(countryFlag = null, modifier = modifier)
-        GatewayIndicator(countryFlag = CountryR.drawable.flag_us, modifier = modifier)
+        previewIcons.forEach { icon ->
+            ConnectIntentIcon(icon, modifier)
+        }
     }
 }
 
 @Composable
 private fun ProfileIconsPreviewHelper() {
-    Column {
-        ProfileIconWithIndicator(
-            country = CountryId("US"),
-            icon = ProfileIcon.Icon5,
-            color = ProfileColor.Color4,
-            isGateway = false,
-            connectIntentIconSize = ConnectIntentIconSize.LARGE
-        )
-        ProfileIconWithIndicator(
-            country = CountryId("US"),
-            icon = ProfileIcon.Icon3,
-            color = ProfileColor.Color6,
-            isGateway = false,
-            connectIntentIconSize = ConnectIntentIconSize.MEDIUM
-        )
-        ProfileIconWithIndicator(
-            country = CountryId("US"),
-            icon = ProfileIcon.Icon5,
-            color = ProfileColor.Color4,
-            isGateway = false,
-            connectIntentIconSize = ConnectIntentIconSize.MEDIUM
-        )
-        ProfileIconWithIndicator(
-            country = CountryId("US"),
-            icon = ProfileIcon.Icon3,
-            color = ProfileColor.Color6,
-            isGateway = false,
-            connectIntentIconSize = ConnectIntentIconSize.SMALL
-        )
-        ProfileIcon(
-            icon = ProfileIcon.Icon2,
-            color = ProfileColor.Color4,
-            connectIntentIconSize = ConnectIntentIconSize.MEDIUM
-        )
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        ConnectIntentIconSize.entries.forEach { size ->
+            previewIcons
+                .filter { it is ConnectIntentIconState.Profile }
+                .forEach { profileIcon ->
+                    ConnectIntentIcon(profileIcon, connectIntentIconSize = size)
+                }
+            Spacer(Modifier.height(8.dp))
+            ProfileIcon(
+                icon = ProfileIcon.Icon2,
+                color = ProfileColor.Color4,
+                connectIntentIconSize = size
+            )
+        }
     }
 }

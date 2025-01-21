@@ -42,10 +42,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.redesign.base.ui.FlagFastest
+import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
-import com.protonvpn.android.redesign.base.ui.FlagDefaults
-import com.protonvpn.android.redesign.base.ui.FlagShapes
+import com.protonvpn.android.redesign.base.ui.Flag
+import com.protonvpn.android.redesign.base.ui.FlagDimensions
 import com.protonvpn.android.redesign.recents.ui.DefaultConnectionViewModel
 import com.protonvpn.android.redesign.recents.usecases.DefaultConnItem
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -100,7 +100,7 @@ fun DefaultConnectionSelection(
                                     if (item is DefaultConnItem.MostRecentItem)
                                         IconRecent()
                                     else
-                                        FlagFastest(isSecureCore = false, connectedCountry = null)
+                                        Flag(CountryId.fastest)
                                 },
                                 title = stringResource(id = item.titleRes),
                                 subTitle = buildAnnotatedString {
@@ -162,10 +162,10 @@ private fun IconRecent(
         colorFilter = ColorFilter.tint(ProtonTheme.colors.iconNorm),
         contentDescription = null,
         modifier = modifier
-            .background(color = ProtonTheme.colors.shade40, shape = FlagShapes.regular)
-            .size(FlagDefaults.singleFlagSize)
+            .background(color = ProtonTheme.colors.shade40, shape = FlagDimensions.regularShape)
+            .size(FlagDimensions.singleFlagSize)
             .padding(2.dp)
-            .clip(FlagShapes.regular)
+            .clip(FlagDimensions.regularShape)
     )
 }
 
