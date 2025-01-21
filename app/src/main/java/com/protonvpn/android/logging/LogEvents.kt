@@ -45,7 +45,8 @@ enum class LogCategory(private val categoryName: String) {
     UI("UI"),
     USER("USER"),
     USER_CERT("USER.CERT"),
-    USER_PLAN("USER.PLAN");
+    USER_PLAN("USER.PLAN"),
+    WIDGET("WIDGET");
 
     fun toLog() = categoryName
 }
@@ -119,3 +120,8 @@ val UserCertStoreError = LogEventType(LogCategory.USER_CERT, "STORE_ERROR", LogL
 val UserPlanCurrent = LogEventType(LogCategory.USER_PLAN, "CURRENT", LogLevel.INFO)
 val UserPlanChanged = LogEventType(LogCategory.USER_PLAN, "CHANGED", LogLevel.INFO)
 val UserPlanMaxSessionsReached = LogEventType(LogCategory.USER_PLAN, "MAX_SESSIONS_REACHED", LogLevel.INFO)
+
+val WidgetUpdate = LogEventType(LogCategory.WIDGET, "UPDATE", LogLevel.INFO)
+val WidgetRemoved = LogEventType(LogCategory.WIDGET, "REMOVED", LogLevel.INFO)
+val WidgetsRestored = LogEventType(LogCategory.WIDGET, "RESTORED", LogLevel.INFO)
+val WidgetStateUpdate = LogEventType(LogCategory.WIDGET, "STATE_UPDATE", LogLevel.INFO)

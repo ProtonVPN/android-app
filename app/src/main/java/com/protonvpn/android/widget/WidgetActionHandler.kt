@@ -38,7 +38,7 @@ class WidgetActionHandler @Inject constructor(
     private val vpnConnectionManager: VpnConnectionManager,
     private val recentDao: RecentsDao
 ) {
-    suspend fun connectToRecentInBackground(recentId: Long?) {
+    suspend fun connectInBackground(recentId: Long?) {
         vpnConnectionManager.connectInBackground(
             intentForRecentId(recentId),
             triggerForRecentId(recentId)

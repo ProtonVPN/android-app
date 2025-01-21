@@ -35,7 +35,7 @@ class WidgetActionBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) = launchAsyncReceive(mainScope) {
         when (intent.action) {
-            ACTION_CONNECT -> widgetActionHandler.connectToRecentInBackground(
+            ACTION_CONNECT -> widgetActionHandler.connectInBackground(
                 intent.getLongExtra(EXTRA_RECENT_ID, -1).takeIf { it >= 0 }
             )
             ACTION_DISCONNECT -> widgetActionHandler.disconnect()
