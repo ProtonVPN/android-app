@@ -22,7 +22,6 @@ package com.protonvpn.android.redesign.base.ui
 import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -74,9 +73,8 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.country.presentation.R as CountryR
-import me.proton.core.presentation.R as CoreR
 
-private object FlagShapes {
+object FlagShapes {
     val regular = RoundedCornerShape(size = 4.dp)
     val small = RoundedCornerShape(size = 2.5.dp)
     val sharp = RoundedCornerShape(0)
@@ -137,21 +135,6 @@ fun FlagFastest(
         isSecureCore = isSecureCore,
         isFastest = true,
         modifier = modifier
-    )
-}
-@Composable
-fun FlagRecentConnection(
-    modifier: Modifier = Modifier,
-) {
-    Image(
-        painterResource(id = CoreR.drawable.ic_proton_clock_rotate_left),
-        colorFilter = ColorFilter.tint(ProtonTheme.colors.iconNorm),
-        contentDescription = null,
-        modifier = modifier
-            .background(color = ProtonTheme.colors.shade40, shape = FlagShapes.regular)
-            .size(FlagDefaults.singleFlagSize)
-            .padding(2.dp)
-            .clip(FlagShapes.regular)
     )
 }
 
@@ -566,7 +549,6 @@ private fun FlagsPreviewHelper() {
         )
         GatewayIndicator(countryFlag = null, modifier = modifier)
         GatewayIndicator(countryFlag = CountryR.drawable.flag_us, modifier = modifier)
-        FlagRecentConnection(modifier)
     }
 }
 
