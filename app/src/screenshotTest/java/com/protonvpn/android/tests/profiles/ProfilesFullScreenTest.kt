@@ -75,21 +75,24 @@ private object ProfilesData {
         profileList.add(
             createProfileViewItem(
                 "CAPS LOCK PROFILE VERY LONG",
-                CountryId("CH"),
+                CountryId.sweden,
                 ConnectIntentSecondaryLabel.Country(CountryId("CH")),
                 true
             )
         )
         profileList.add(createProfileViewItem(
             profileName = "WHITE       SPACE",
+            exitCountryId = CountryId.fastest,
             isConnected = false
         ))
         profileList.add(createProfileViewItem(
             profileName = "يوم جيد",
+            exitCountryId = CountryId.iceland,
             isConnected = false
         ))
         profileList.add(createProfileViewItem(
             profileName = "@#$%^&*()_+=[]{}|;:,.<>!~",
+            exitCountryId = CountryId.switzerland,
             isConnected = false
         ))
         return profileList
@@ -97,7 +100,7 @@ private object ProfilesData {
 
     fun createProfileViewItem(
         profileName: String,
-        entryCountryId: CountryId? = null,
+        exitCountryId: CountryId,
         secondaryLabel: ConnectIntentSecondaryLabel? = null,
         isConnected: Boolean = false
     ): ProfileViewItem {
@@ -114,9 +117,12 @@ private object ProfilesData {
             isConnected = isConnected,
             availability = ConnectIntentAvailability.ONLINE,
             intent = ConnectIntentViewState(
-                primaryLabel = ConnectIntentPrimaryLabel.Country(
-                    exitCountry = CountryId(profileName),
-                    entryCountry = entryCountryId
+                primaryLabel = ConnectIntentPrimaryLabel.Profile(
+                    name = profileName,
+                    country = exitCountryId,
+                    isGateway = false,
+                    icon = ProfileIcon.Icon5,
+                    color = ProfileColor.Color3
                 ),
                 secondaryLabel = secondaryLabel,
                 serverFeatures = setOf()
