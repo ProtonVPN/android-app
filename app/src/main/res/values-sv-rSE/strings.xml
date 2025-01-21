@@ -887,6 +887,7 @@
         <item quantity="one">Autovald från %1$d land</item>
         <item quantity="other">Autovald från %1$d länder</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Autovald från gratisländer</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1444,4 +1445,10 @@
     <string name="nps_rating_high_values_explain">10 är mycket troligt</string>
     <string name="nps_toast_submit_message">Tack för att du delar med dig. Din feedback hjälper oss att förbättra Proton VPN.</string>
     <string name="nps_button_submit_title">Dela anonymt</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Oskyddad</string>
+    <string name="widget_status_error">Fel</string>
+    <string name="widget_status_connecting">Ansluter…</string>
+    <string name="widget_sign_in">Logga in</string>
 </resources>

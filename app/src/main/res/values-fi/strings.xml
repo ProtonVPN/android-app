@@ -884,9 +884,10 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="one">Automaattivalittu %1$d maasta</item>
-        <item quantity="other">Automaattivalittu %1$d maasta</item>
+        <item quantity="one">Valittu automaattisesti %1$d maasta</item>
+        <item quantity="other">Valittu automaattisesti %1$d maasta</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Valittu automaattisesti ilmaisista maista.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1437,11 +1438,17 @@
     <string name="profile_auto_open_on">Päällä</string>
     <string name="create_profile_auto_open_description">Haluamasi verkkosivusto avataan automaattisesti, kun muodostat yhteyden tähän profiiliin.</string>
     <string name="profile_auto_open_error_invalid_url">Syötä kelvollinen URL-osoite</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
+    <string name="nps_how_likely_question">Kuinka todennäköisesti suosittelisit Proton VPN:ää ystävällesi tai kollegallesi?</string>
     <string name="nps_additional_comment_title">Kerro meille, miksi annoit kyseisen arvion</string>
     <string name="nps_additional_comment_optional">Valinnainen</string>
     <string name="nps_rating_low_values_explain">0 on hyvin epätodennäköistä</string>
     <string name="nps_rating_high_values_explain">10 on hyvin todennäköistä</string>
     <string name="nps_toast_submit_message">Kiitos jakamisesta! Palautteesi auttaa meitä Proton VPN:n kehityksessä.</string>
     <string name="nps_button_submit_title">Jaa anonyymisti</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Suojaamaton</string>
+    <string name="widget_status_error">Virhe</string>
+    <string name="widget_status_connecting">Yhdistetään…</string>
+    <string name="widget_sign_in">Kirjaudu sisään</string>
 </resources>

@@ -887,6 +887,7 @@
         <item quantity="one">Selezionato automaticamente tra %1$d paese</item>
         <item quantity="other">Selezionato automaticamente tra %1$d paesi</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Selezionato automaticamente da paesi gratuiti.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1444,4 +1445,10 @@
     <string name="nps_rating_high_values_explain">10 è molto probabile</string>
     <string name="nps_toast_submit_message">Grazie per la condivisione. Il tuo feedback ci aiuta a migliorare Proton VPN.</string>
     <string name="nps_button_submit_title">Condividi in modo anonimo</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Non protetto</string>
+    <string name="widget_status_error">Errore</string>
+    <string name="widget_status_connecting">Connessione…</string>
+    <string name="widget_sign_in">Accedi</string>
 </resources>

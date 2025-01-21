@@ -247,7 +247,7 @@
     <string name="guestHoleNotificationContent">Es wird versucht, Netzwerkprobleme zu umgehen. Dies wird dir helfen, auf Proton VPN zuzugreifen.</string>
     <string name="errorTunMultiUserPermission">Die VPN-Verbindung konnte aufgrund eines Konflikts zwischen Dual-App (z.B. Dual Messenger) und Split-Tunneling nicht initialisiert werden. Bitte deaktiviere eine davon und starte dein Gerät neu.</string>
     <string name="errorTorrentNotAllowed">P2P ist auf diesem Server nicht zulässig</string>
-    <string name="error_profile_fallback_unavailable">Connection failed. Your server selection for profile is unavailable.</string>
+    <string name="error_profile_fallback_unavailable">Verbindung fehlgeschlagen. Deine Serverauswahl für das Profil ist nicht verfügbar.</string>
     <string name="profileProtocolNotAvailable">Das VPN-Protokoll dieses Profils ist derzeit nicht verfügbar. Versuche, das Protokoll zu ändern, um eine Verbindung herzustellen.</string>
     <string name="stateConnectedTo">Verbunden mit %1$s</string>
     <string name="stateNotConnected">Verbindung getrennt</string>
@@ -887,6 +887,7 @@
         <item quantity="one">Automatisch ausgewählt aus %1$d Land</item>
         <item quantity="other">Automatisch ausgewählt aus %1$d Ländern</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Auto-selected from free countries.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1440,8 +1441,14 @@
     <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
     <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
     <string name="nps_additional_comment_optional">Optional</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
-    <string name="nps_button_submit_title">Share anonymously</string>
+    <string name="nps_rating_low_values_explain">0 ist sehr unwahrscheinlich</string>
+    <string name="nps_rating_high_values_explain">10 ist sehr wahrscheinlich</string>
+    <string name="nps_toast_submit_message">Vielen Dank! Dein Feedback hilft uns, Proton zu verbessern.</string>
+    <string name="nps_button_submit_title">Anonym teilen</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Ungeschützt</string>
+    <string name="widget_status_error">Fehler</string>
+    <string name="widget_status_connecting">Verbindung wird hergestellt …</string>
+    <string name="widget_sign_in">Sign in</string>
 </resources>
