@@ -887,6 +887,7 @@
         <item quantity="one">Επιλέχθηκε αυτόματα από %1$d χώρα</item>
         <item quantity="other">Επιλέχθηκε αυτόματα από %1$d χώρες</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Επιλέχθηκε αυτόματα από δωρεάν χώρες.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1444,4 +1445,10 @@
     <string name="nps_rating_high_values_explain">10 είναι το πιθανότερο</string>
     <string name="nps_toast_submit_message">Σας ευχαριστούμε! Τα σχόλιά σας μας βοηθούν να βελτιώσουμε το Proton VPN.</string>
     <string name="nps_button_submit_title">Μοιραστείτε ανώνυμα</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Χωρίς προστασία</string>
+    <string name="widget_status_error">Σφάλμα</string>
+    <string name="widget_status_connecting">Γίνεται σύνδεση</string>
+    <string name="widget_sign_in">Είσοδος</string>
 </resources>

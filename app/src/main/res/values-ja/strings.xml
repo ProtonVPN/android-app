@@ -862,6 +862,7 @@
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
         <item quantity="other">%1$dヶ国から自動選択</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Auto-selected from free countries.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1408,4 +1409,10 @@
     <string name="nps_rating_high_values_explain">10はとても可能性が高い</string>
     <string name="nps_toast_submit_message">共有していただきありがとうございます。あなたのフィードバックはProtonVPNの改善に役立ちます。</string>
     <string name="nps_button_submit_title">匿名で共有</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Unprotected</string>
+    <string name="widget_status_error">Error</string>
+    <string name="widget_status_connecting">Connecting…</string>
+    <string name="widget_sign_in">Sign in</string>
 </resources>

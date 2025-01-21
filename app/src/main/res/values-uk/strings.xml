@@ -937,6 +937,7 @@
         <item quantity="many">Автоматично вибрано з %1$d країн</item>
         <item quantity="other">Автоматично вибрано з %1$d країн</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Auto-selected from free countries.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1509,11 +1510,17 @@
     <string name="profile_auto_open_on">Увімк</string>
     <string name="create_profile_auto_open_description">Автоматично відкривати вибраний вебсайт після під\'єднання до цього профілю.</string>
     <string name="profile_auto_open_error_invalid_url">Введіть дійсну URL-адресу</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
-    <string name="nps_additional_comment_optional">Optional</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
-    <string name="nps_button_submit_title">Share anonymously</string>
+    <string name="nps_how_likely_question">Наскільки ймовірно, що ви порекомендуєте Proton VPN друзям або колегам?</string>
+    <string name="nps_additional_comment_title">Повідомте нам, чому так нас оцінили</string>
+    <string name="nps_additional_comment_optional">Необов\'язково</string>
+    <string name="nps_rating_low_values_explain">0 — дуже малоймовірно</string>
+    <string name="nps_rating_high_values_explain">10 — цілком ймовірно</string>
+    <string name="nps_toast_submit_message">Дякуємо, що поділилися. Ваші відгуки допомагають нам покращувати Proton VPN.</string>
+    <string name="nps_button_submit_title">Поділитися анонімно</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Unprotected</string>
+    <string name="widget_status_error">Error</string>
+    <string name="widget_status_connecting">Connecting…</string>
+    <string name="widget_sign_in">Sign in</string>
 </resources>

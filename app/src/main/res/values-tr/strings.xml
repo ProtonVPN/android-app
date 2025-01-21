@@ -887,6 +887,7 @@
         <item quantity="one">%1$d ülke arasından otomatik seçilir</item>
         <item quantity="other">%1$d ülke arasından otomatik seçilir</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Ücretsiz ülkelerden otomatik olarak seçildi.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1444,4 +1445,10 @@
     <string name="nps_rating_high_values_explain">10 çok öneririm</string>
     <string name="nps_toast_submit_message">Paylaşımınız için teşekkürler. Geri bildiriminiz Proton VPN hizmetini geliştirmemize yardımcı olacak.</string>
     <string name="nps_button_submit_title">Anonim olarak paylaş</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Korunmuyor</string>
+    <string name="widget_status_error">Hata</string>
+    <string name="widget_status_connecting">Bağlanıyor…</string>
+    <string name="widget_sign_in">Oturum aç</string>
 </resources>

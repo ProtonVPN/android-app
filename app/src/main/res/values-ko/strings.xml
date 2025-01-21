@@ -863,6 +863,7 @@
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
         <item quantity="other">%1$d개 국가에서 자동 선택됨</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">무료 국가에서 자동 선택되었습니다.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1407,7 +1408,13 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="nps_additional_comment_title">저희에게 이 점수를 주신 이유를 알려주세요</string>
     <string name="nps_additional_comment_optional">선택</string>
     <string name="nps_rating_low_values_explain">0은 매우 가능성이 낮습니다</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_rating_high_values_explain">10은 매우 가능성 있음</string>
     <string name="nps_toast_submit_message">공유해주셔서 감사합니다. 귀하의 피드백은 Proton VPN을 향상시키는데 도움이 됩니다.</string>
     <string name="nps_button_submit_title">익명으로 공유</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">보호되지 않음</string>
+    <string name="widget_status_error">오류</string>
+    <string name="widget_status_connecting">연결 중…</string>
+    <string name="widget_sign_in">로그인</string>
 </resources>

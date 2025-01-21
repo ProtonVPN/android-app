@@ -887,6 +887,7 @@
         <item quantity="one">Auto-valgt fra %1$d land</item>
         <item quantity="other">Auto-valgt fra %1$d land</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Auto-valgt fra gratis land.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1361,7 +1362,7 @@
     <string name="search_zero_screen_info_countries_title">Land</string>
     <string name="search_zero_screen_info_cities_title">Byer</string>
     <string name="search_zero_screen_info_servers_title">Tjenere</string>
-    <string name="search_zero_screen_info_countries_examples">Sveits, Amerikas Forente Stater, Italia, Canada...</string>
+    <string name="search_zero_screen_info_countries_examples">Sveits, USA, Italia, Canada...</string>
     <string name="search_zero_screen_info_cities_examples">New York, London, Tokyo, Sydney…</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Feil ved henting av priser.</string>
@@ -1444,4 +1445,10 @@
     <string name="nps_rating_high_values_explain">10 er svært sannsynlig</string>
     <string name="nps_toast_submit_message">Takk for at du deler. Tilbakemeldingen din hjelper oss med å forbedre Proton VPN.</string>
     <string name="nps_button_submit_title">Del anonymt</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Ubeskyttet</string>
+    <string name="widget_status_error">Feil</string>
+    <string name="widget_status_connecting">Kobler til...</string>
+    <string name="widget_sign_in">Logg på</string>
 </resources>

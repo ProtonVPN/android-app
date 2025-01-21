@@ -862,6 +862,7 @@
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
         <item quantity="other">Terpilih secara otomatis dari %1$d negara</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Terpilih secara otomatis dari negara yang terliput dalam paket gratis.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1408,4 +1409,10 @@
     <string name="nps_rating_high_values_explain">10 adalah sangat mungkin</string>
     <string name="nps_toast_submit_message">Terima kasih telah membagikan. Masukan Anda membantu kami meningkatkan Proton VPN.</string>
     <string name="nps_button_submit_title">Bagikan secara anonim</string>
+    <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_status_unprotected">Tidak terlindung</string>
+    <string name="widget_status_error">Error</string>
+    <string name="widget_status_connecting">Menghubungkan…</string>
+    <string name="widget_sign_in">Masuk</string>
 </resources>

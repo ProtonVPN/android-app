@@ -887,6 +887,7 @@
         <item quantity="one">Selecionado automaticamente de %1$d país</item>
         <item quantity="other">Selecionado automaticamente de %1$d países</item>
     </plurals>
+    <string name="connection_info_auto_selected_free_countries_plain">Seleção automática entre os países gratuitos</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1437,11 +1438,17 @@
     <string name="profile_auto_open_on">Ativado</string>
     <string name="create_profile_auto_open_description">Abra Automaticamente um site de sua escolha quando você conectar nesse perfil.</string>
     <string name="profile_auto_open_error_invalid_url">Digite um URL válido</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_how_likely_question">Qual a probabilidade de você recomendar o Proton VPN a um amigo ou colega?</string>
+    <string name="nps_additional_comment_title">Por favor, diga-nos por que você deu essa classificação</string>
     <string name="nps_additional_comment_optional">Opcional</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_rating_low_values_explain">0 é muito improvável</string>
+    <string name="nps_rating_high_values_explain">10 é muito provável</string>
+    <string name="nps_toast_submit_message">Obrigado por compartilhar. Seu feedback nos ajuda a melhorar o Proton VPN.</string>
     <string name="nps_button_submit_title">Compartilhar anonimamente</string>
+    <string name="widget_preview_switzerland">Suíça</string>
+    <string name="widget_preview_unitedstates">Estados Unidos</string>
+    <string name="widget_status_unprotected">Sem proteção</string>
+    <string name="widget_status_error">Erro</string>
+    <string name="widget_status_connecting">Conectando…</string>
+    <string name="widget_sign_in">Iniciar sessão</string>
 </resources>
