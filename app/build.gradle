@@ -141,7 +141,7 @@ def debugKeystorePath = System.getenv("DEBUG_KEYSTORE_FILE")
 android {
     namespace "com.protonvpn.android"
     testNamespace 'com.protonvpn'
-    buildToolsVersion "34.0.0"
+    buildToolsVersion "35.0.0"
     ndkVersion rootProject.ext.compileNdkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
     useLibrary 'org.apache.http.legacy'
@@ -163,7 +163,7 @@ android {
     defaultConfig {
         applicationId appId
         minSdkVersion rootProject.ext.minSdkVersion // See also build flavors.
-        targetSdkVersion 34
+        targetSdkVersion 35
         multiDexEnabled true
         versionName helpers.fullVersionName
         versionCode helpers.getVersionCode()
