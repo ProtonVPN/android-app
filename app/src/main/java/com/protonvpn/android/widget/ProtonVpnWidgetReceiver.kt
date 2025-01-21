@@ -19,30 +19,63 @@
 
 package com.protonvpn.android.widget
 
+import android.appwidget.AppWidgetManager
 import android.content.ComponentName
+import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import com.protonvpn.android.widget.data.WidgetTracker
 import com.protonvpn.android.widget.ui.ProtonVpnGlanceWidget
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class ProtonVpnWidgetReceiver : GlanceAppWidgetReceiver() {
+abstract class TrackedWidgetReceiver(val receiverId: String) : GlanceAppWidgetReceiver() {
+
+    @Inject
+    lateinit var widgetTracker: WidgetTracker
+
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds)
+        widgetTracker.onUpdated(receiverId, appWidgetIds.toSet())
+    }
+
+    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
+        super.onDeleted(context, appWidgetIds)
+        widgetTracker.onDeleted(receiverId, appWidgetIds.toSet())
+    }
+
+    override fun onDisabled(context: Context?) {
+        super.onDisabled(context)
+        widgetTracker.onCleared(receiverId)
+    }
+
+    override fun onRestored(
+        context: Context?,
+        oldWidgetIds: IntArray?,
+        newWidgetIds: IntArray?
+    ) {
+        super.onRestored(context, oldWidgetIds, newWidgetIds)
+        widgetTracker.onRestored(receiverId, oldWidgetIds?.toSet(), newWidgetIds?.toSet())
+    }
 
     override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
 }
 
-class ProtonVpnWidgetMaterialReceiver : GlanceAppWidgetReceiver() {
+@AndroidEntryPoint
+class ProtonVpnWidgetReceiver : TrackedWidgetReceiver("small")
 
-    override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
-}
+@AndroidEntryPoint
+class ProtonVpnWidgetMaterialReceiver : TrackedWidgetReceiver("small_material")
 
-class ProtonVpnWidgetBigReceiver : GlanceAppWidgetReceiver() {
+@AndroidEntryPoint
+class ProtonVpnWidgetBigReceiver : TrackedWidgetReceiver("big")
 
-    override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
-}
-
-class ProtonVpnWidgetMaterialBigReceiver : GlanceAppWidgetReceiver() {
-
-    override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
-}
+@AndroidEntryPoint
+class ProtonVpnWidgetMaterialBigReceiver : TrackedWidgetReceiver("big_material")
 
 fun hasMaterialYouTheme(receiver: ComponentName) =
     receiver.className in arrayOf(
