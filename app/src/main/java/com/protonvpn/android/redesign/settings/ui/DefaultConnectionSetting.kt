@@ -18,14 +18,20 @@
  */
 package com.protonvpn.android.redesign.settings.ui
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.AnnotatedString
@@ -38,7 +44,8 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.redesign.base.ui.FlagFastest
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
-import com.protonvpn.android.redesign.base.ui.FlagRecentConnection
+import com.protonvpn.android.redesign.base.ui.FlagDefaults
+import com.protonvpn.android.redesign.base.ui.FlagShapes
 import com.protonvpn.android.redesign.recents.ui.DefaultConnectionViewModel
 import com.protonvpn.android.redesign.recents.usecases.DefaultConnItem
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -90,10 +97,10 @@ fun DefaultConnectionSelection(
                         is DefaultConnItem.PreDefinedItem -> {
                             DefaultSelectionRow(
                                 leadingIcon = {
-                                    if (item is DefaultConnItem.MostRecentItem) FlagRecentConnection() else FlagFastest(
-                                        isSecureCore = false,
-                                        connectedCountry = null
-                                    )
+                                    if (item is DefaultConnItem.MostRecentItem)
+                                        IconRecent()
+                                    else
+                                        FlagFastest(isSecureCore = false, connectedCountry = null)
                                 },
                                 title = stringResource(id = item.titleRes),
                                 subTitle = buildAnnotatedString {
@@ -121,7 +128,7 @@ fun DefaultConnectionSelection(
 }
 
 @Composable
-fun DefaultSelectionRow(
+private fun DefaultSelectionRow(
     leadingIcon: @Composable () -> Unit,
     title: String,
     subTitle: AnnotatedString?,
@@ -146,13 +153,29 @@ fun DefaultSelectionRow(
     )
 }
 
+@Composable
+private fun IconRecent(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        painterResource(id = me.proton.core.presentation.R.drawable.ic_proton_clock_rotate_left),
+        colorFilter = ColorFilter.tint(ProtonTheme.colors.iconNorm),
+        contentDescription = null,
+        modifier = modifier
+            .background(color = ProtonTheme.colors.shade40, shape = FlagShapes.regular)
+            .size(FlagDefaults.singleFlagSize)
+            .padding(2.dp)
+            .clip(FlagShapes.regular)
+    )
+}
+
 @Preview
 @Composable
 fun DefaultSelectionPreview() {
     ProtonVpnPreview {
         Column {
             DefaultSelectionRow(
-                leadingIcon = { FlagRecentConnection() },
+                leadingIcon = { IconRecent() },
                 title = "Most recent",
                 subTitle = buildAnnotatedString { append("#53-TOR") },
                 serverFeatures = setOf(ServerFeature.Tor),
