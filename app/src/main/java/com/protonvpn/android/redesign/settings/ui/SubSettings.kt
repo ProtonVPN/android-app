@@ -58,6 +58,7 @@ import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.openUrl
+import com.protonvpn.android.widget.ui.WidgetAddScreen
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.domain.entity.UserId
@@ -252,6 +253,10 @@ fun SubSettingsRoute(
                     onIconChange = { viewModel.setNewAppIcon(it) },
                     onClose = onClose
                 )
+            }
+
+            SubSettingsScreen.Type.Widget -> {
+                WidgetAddScreen(onClose = onClose)
             }
         }
     }

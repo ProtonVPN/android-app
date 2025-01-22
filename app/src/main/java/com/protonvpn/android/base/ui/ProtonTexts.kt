@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -81,3 +82,30 @@ fun AnnotatedClickableText(
         }
     )
 }
+
+@Composable
+fun textMultiStyle(
+    originalText: String,
+    customStyleTexts: List<TextWithStyle>
+): AnnotatedString {
+    return buildAnnotatedString {
+        append(originalText)
+
+        customStyleTexts.forEach { textWithStyle ->
+            val startIndex = originalText.indexOf(textWithStyle.customText)
+            if (startIndex != -1) {
+                val endIndex = startIndex + textWithStyle.customText.length
+                addStyle(
+                    style = textWithStyle.style.toSpanStyle(),
+                    start = startIndex,
+                    end = endIndex
+                )
+            }
+        }
+    }
+}
+
+data class TextWithStyle(
+    val customText: String,
+    val style: TextStyle
+)
