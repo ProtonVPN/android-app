@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.tests.base.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -34,10 +35,10 @@ import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ConnectIntentIconMediumDark() {
-    ProtonVpnPreview(isDark = true) {
+    ProtonVpnPreview {
         ConnectIntentIcons(ConnectIntentIconSize.MEDIUM)
     }
 }
@@ -45,15 +46,15 @@ fun ConnectIntentIconMediumDark() {
 @Preview(locale = "fa")
 @Composable
 fun ConnectIntentIconMediumRtlLight() {
-    ProtonVpnPreview(isDark = false) {
+    ProtonVpnPreview {
         ConnectIntentIcons(ConnectIntentIconSize.MEDIUM)
     }
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ConnectIntentIconSmallDark() {
-    ProtonVpnPreview(isDark = true) {
+    ProtonVpnPreview {
         ConnectIntentIcons(ConnectIntentIconSize.SMALL)
     }
 }
@@ -61,15 +62,15 @@ fun ConnectIntentIconSmallDark() {
 @Preview(locale = "fa")
 @Composable
 fun ConnectIntentIconSmallRtlLight() {
-    ProtonVpnPreview(isDark = false) {
+    ProtonVpnPreview {
         ConnectIntentIcons(ConnectIntentIconSize.SMALL)
     }
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ConnectIntentIconLargeDark() {
-    ProtonVpnPreview(isDark = true) {
+    ProtonVpnPreview {
         ConnectIntentIcons(ConnectIntentIconSize.LARGE)
     }
 }
@@ -77,7 +78,7 @@ fun ConnectIntentIconLargeDark() {
 @Preview(locale = "fa")
 @Composable
 fun ConnectIntentIconLargeRtlLight() {
-    ProtonVpnPreview(isDark = false) {
+    ProtonVpnPreview {
         ConnectIntentIcons(ConnectIntentIconSize.LARGE)
     }
 }
