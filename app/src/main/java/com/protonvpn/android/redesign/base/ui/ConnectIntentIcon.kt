@@ -75,6 +75,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.utils.CountryTools
 import me.proton.core.compose.theme.ProtonTheme
 import kotlin.math.max
+import kotlin.math.roundToInt
 import me.proton.core.country.presentation.R as CoreR
 
 private object Dimensions {
@@ -112,13 +113,38 @@ enum class ConnectIntentIconSize(
     LARGE(48f, Dimensions.bigProfileIconSize, Dimensions.singleFlagSize, 4f)
 }
 
+sealed interface ConnectIntentIconState {
+    data class Fastest(@DrawableRes val flagFastest: Int, @DrawableRes val connectedCountry: Int?, val isSecureCore: Boolean) : ConnectIntentIconState
+    data class Country(@DrawableRes val exitCountry: Int, @DrawableRes val entryCountry: Int?) : ConnectIntentIconState
+
+    data class Gateway(@DrawableRes val country: Int?) : ConnectIntentIconState
+    data class Profile(@DrawableRes val country: Int, val isGateway: Boolean, val icon: ProfileIcon, val color: ProfileColor) : ConnectIntentIconState
+}
+
+fun ConnectIntentPrimaryLabel.toIconState(flagProvider: CountryId.() -> Int): ConnectIntentIconState {
+    return when (this) {
+        is ConnectIntentPrimaryLabel.Fastest ->
+            ConnectIntentIconState.Fastest(
+                CountryId.fastest.flagProvider(),
+                connectedCountry?.flagProvider(),
+                isSecureCore
+            )
+        is ConnectIntentPrimaryLabel.Country ->
+            ConnectIntentIconState.Country(exitCountry.flagProvider(), entryCountry?.flagProvider())
+        is ConnectIntentPrimaryLabel.Gateway ->
+            ConnectIntentIconState.Gateway(country?.flagProvider())
+        is ConnectIntentPrimaryLabel.Profile ->
+            ConnectIntentIconState.Profile(country.flagProvider(), isGateway, icon, color)
+    }
+}
+
 private data class ConnectIntentIconDrawScope(
     private val context: Context,
     val canvas: Canvas,
     val isRtl: Boolean,
     val drawingSize: SizeF,
-    val secureCoreArcColorFastest: Color,
-    val secureCoreArcColorRegular: Color,
+    val secureCoreArcColorFastest: Color?,
+    val secureCoreArcColorRegular: Color?,
 ) {
     private val paint: Paint = Paint()
 
@@ -187,25 +213,6 @@ private fun ConnectIntentIcon(
     }
 }
 
-private fun ConnectIntentIconDrawScope.connectIntentIcon(
-    state: ConnectIntentIconState,
-    connectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
-) {
-    when (state) {
-        is ConnectIntentIconState.Fastest -> with(state) {
-            flag(R.drawable.flag_fastest, connectedCountry, drawSecureCoreArc = isSecureCore, isFastest = true)
-        }
-        is ConnectIntentIconState.Country -> with(state) {
-            flag(exitCountry, entryCountry, drawSecureCoreArc = false, isFastest = false)
-        }
-        is ConnectIntentIconState.Gateway ->
-            gatewayIndicator(state.country)
-        is ConnectIntentIconState.Profile -> with(state) {
-            profile(country, icon, color, connectIntentIconSize, isGateway)
-        }
-    }
-}
-
 @Composable
 fun Flag(
     exitCountry: CountryId,
@@ -230,6 +237,16 @@ fun GatewayIndicator(
     modifier: Modifier = Modifier
 ) {
     GatewayIndicator(countryFlag = country?.flagResource(LocalContext.current), modifier)
+}
+
+@Composable
+private fun GatewayIndicator(
+    countryFlag: Int?,
+    modifier: Modifier = Modifier
+) {
+    ConnectIntentIconDrawing(modifier.size(Dimensions.singleFlagSize.toDpSize())) {
+        gatewayIndicator(countryFlag)
+    }
 }
 
 // Hue in radians as used in profile icon drawables
@@ -258,6 +275,25 @@ fun ProfileIcon(
     }
 }
 
+private fun ConnectIntentIconDrawScope.connectIntentIcon(
+    state: ConnectIntentIconState,
+    connectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
+) {
+    when (state) {
+        is ConnectIntentIconState.Fastest -> with(state) {
+            flag(flagFastest, connectedCountry, drawSecureCoreArc = isSecureCore, isFastest = true)
+        }
+        is ConnectIntentIconState.Country -> with(state) {
+            flag(exitCountry, entryCountry, drawSecureCoreArc = false, isFastest = false)
+        }
+        is ConnectIntentIconState.Gateway ->
+            gatewayIndicator(state.country)
+        is ConnectIntentIconState.Profile -> with(state) {
+            profile(country, icon, color, connectIntentIconSize, isGateway)
+        }
+    }
+}
+
 private fun ConnectIntentIconDrawScope.profileIcon(
     icon: ProfileIcon,
     color: ProfileColor,
@@ -274,7 +310,7 @@ private fun ConnectIntentIconDrawScope.profileIcon(
 }
 
 private fun ConnectIntentIconDrawScope.profile(
-    @DrawableRes countryFlag: Int?,
+    @DrawableRes countryFlag: Int,
     icon: ProfileIcon,
     color: ProfileColor,
     connectIntentIconSize: ConnectIntentIconSize,
@@ -296,22 +332,8 @@ private fun ConnectIntentIconDrawScope.profile(
         val scaleFactor = drawingSize.width / Dimensions.singleFlagSize.width
         canvas.scale(scaleFactor, scaleFactor) // Restored by withCropped block.
 
-        val image = when {
-            isGateway -> R.drawable.ic_gateway_flag
-            countryFlag != null -> countryFlag
-            else -> R.drawable.flag_fastest
-        }
+        val image = if (isGateway) R.drawable.ic_gateway_flag else countryFlag
         drawFillImage(image, Dimensions.singleFlagSize, if (isGateway) 0f else Dimensions.regularCorner)
-    }
-}
-
-@Composable
-private fun GatewayIndicator(
-    countryFlag: Int?,
-    modifier: Modifier = Modifier
-) {
-    ConnectIntentIconDrawing(modifier.size(Dimensions.singleFlagSize.toDpSize())) {
-        gatewayIndicator(countryFlag)
     }
 }
 
@@ -358,14 +380,35 @@ private fun ConnectIntentIconDrawing(
     Spacer(modifier.then(drawModifier))
 }
 
+fun paintConnectIntentIcon(
+    context: Context,
+    isRtl: Boolean,
+    density: Float,
+    connectIntentIconState: ConnectIntentIconState,
+    connectIntentIconSize: ConnectIntentIconSize,
+): Bitmap {
+    val size = connectIntentIconSize.size
+    val sizePx = (size * density).roundToInt()
+    val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
+
+    val canvas = Canvas(bitmap)
+    ConnectIntentIconDrawScope(context, canvas, isRtl, SizeF(size, size), null, null).apply {
+        canvas.withScale(density, density) {
+            connectIntentIcon(connectIntentIconState, connectIntentIconSize)
+        }
+    }
+    return bitmap
+}
+
 private fun ConnectIntentIconDrawScope.singleFlag(
     @DrawableRes flagImage: Int,
     drawSecureCoreArc: Boolean,
     isFastest: Boolean,
 ) {
     withCentered(Dimensions.singleFlagSize) {
-        if (drawSecureCoreArc) {
-            drawScUnderlineArc(if (isFastest) secureCoreArcColorFastest else secureCoreArcColorRegular)
+        val arcColor = if (isFastest) secureCoreArcColorFastest else secureCoreArcColorRegular
+        if (drawSecureCoreArc && arcColor != null) {
+            drawScUnderlineArc(arcColor)
         }
         drawFillImage(flagImage, Dimensions.singleFlagSize, Dimensions.regularCorner)
     }
@@ -402,7 +445,7 @@ private fun ConnectIntentIconDrawScope.twoFlagsSmallOnTop(
         dy = Dimensions.twoFlagTop.value,
         size = largeFlagSize
     ) {
-        if (drawSecureCoreArc) {
+        if (drawSecureCoreArc && secureCoreArcColorFastest != null) {
             with(Dimensions) {
                 val flagScale = twoFlagMainSize.width / singleFlagSize.width
                 canvas.withScale(flagScale, flagScale,  pivotX = if (isRtl) drawingSize.width else 0f,  pivotY = 0f) {
@@ -507,7 +550,6 @@ private fun ConnectIntentIconDrawScope.drawFillImage(
     }
 }
 
-@Composable
 @DrawableRes
 private fun CountryId.flagResource(context: Context): Int =
     if (isFastest) {
@@ -522,36 +564,19 @@ private fun CountryId.flagResource(context: Context): Int =
             ?: R.drawable.flag_fastest
     }
 
-private sealed interface ConnectIntentIconState {
-    data class Fastest(@DrawableRes val connectedCountry: Int?, val isSecureCore: Boolean, val isFree: Boolean) : ConnectIntentIconState
-    data class Country(@DrawableRes val exitCountry: Int, @DrawableRes val entryCountry: Int?) : ConnectIntentIconState
-
-    data class Gateway(@DrawableRes val country: Int?) : ConnectIntentIconState
-    data class Profile(@DrawableRes val country: Int, val isGateway: Boolean, val icon: ProfileIcon, val color: ProfileColor) : ConnectIntentIconState
-}
-
 @Composable
 private fun ConnectIntentPrimaryLabel.toIconState(): ConnectIntentIconState {
     val context = LocalContext.current
-    return when (this) {
-        is ConnectIntentPrimaryLabel.Fastest ->
-            ConnectIntentIconState.Fastest(connectedCountry?.flagResource(context), isSecureCore, isFree)
-        is ConnectIntentPrimaryLabel.Country ->
-            ConnectIntentIconState.Country(exitCountry.flagResource(context), entryCountry?.flagResource(context))
-        is ConnectIntentPrimaryLabel.Gateway ->
-            ConnectIntentIconState.Gateway(country?.flagResource(context))
-        is ConnectIntentPrimaryLabel.Profile ->
-            ConnectIntentIconState.Profile(country.flagResource(context), isGateway, icon, color)
-    }
+    return toIconState { this.flagResource(context) }
 }
 
 private fun SizeF.toDpSize() = DpSize(width.dp, height.dp)
 private fun Size.toSizeF() = SizeF(width, height)
 
 private val previewIcons = listOf(
-        ConnectIntentIconState.Fastest(null, false, true),
-        ConnectIntentIconState.Fastest(CoreR.drawable.flag_se, false, true),
-        ConnectIntentIconState.Fastest(CoreR.drawable.flag_lt, true, false),
+        ConnectIntentIconState.Fastest(R.drawable.flag_fastest, null, false),
+        ConnectIntentIconState.Fastest(R.drawable.flag_fastest, CoreR.drawable.flag_se, false),
+        ConnectIntentIconState.Fastest(R.drawable.flag_fastest, CoreR.drawable.flag_lt, true),
         ConnectIntentIconState.Country(CoreR.drawable.flag_ch, null),
         ConnectIntentIconState.Country(CoreR.drawable.flag_pl, CoreR.drawable.flag_ch),
         ConnectIntentIconState.Gateway(null),
