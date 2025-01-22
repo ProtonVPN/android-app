@@ -20,6 +20,8 @@
 package com.protonvpn.android.redesign.base.ui
 
 import android.content.Context
+import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.ColorFilter
 import android.graphics.ColorMatrix
@@ -297,7 +299,7 @@ private fun ConnectIntentIconDrawScope.profile(
         val image = when {
             isGateway -> R.drawable.ic_gateway_flag
             countryFlag != null -> countryFlag
-            else -> R.drawable.fastest_flag_opaque
+            else -> R.drawable.flag_fastest
         }
         drawFillImage(image, Dimensions.singleFlagSize, if (isGateway) 0f else Dimensions.regularCorner)
     }
@@ -339,7 +341,7 @@ private fun ConnectIntentIconDrawScope.flag(
 
 @Composable
 private fun secureCoreArcColor(isFastest: Boolean) =
-    if (isFastest) ProtonTheme.colors.vpnGreen.copy(alpha = 0.24f)
+    if (isFastest) ProtonTheme.colors.vpnGreen
     else ProtonTheme.colors.textHint
 
 @Composable
@@ -507,9 +509,9 @@ private fun ConnectIntentIconDrawScope.drawFillImage(
 
 @Composable
 @DrawableRes
-private fun CountryId.flagResource(context: Context, opaque: Boolean = false): Int =
+private fun CountryId.flagResource(context: Context): Int =
     if (isFastest) {
-        if (opaque) R.drawable.fastest_flag_opaque else R.drawable.flag_fastest
+        R.drawable.flag_fastest
     } else {
         // CountryTools is not available in Android Studio previews.
         // Normally LocalInspectionMode should be used to avoid calling it but its also enabled for screenshot
@@ -539,7 +541,7 @@ private fun ConnectIntentPrimaryLabel.toIconState(): ConnectIntentIconState {
         is ConnectIntentPrimaryLabel.Gateway ->
             ConnectIntentIconState.Gateway(country?.flagResource(context))
         is ConnectIntentPrimaryLabel.Profile ->
-            ConnectIntentIconState.Profile(country.flagResource(context, opaque = true), isGateway, icon, color)
+            ConnectIntentIconState.Profile(country.flagResource(context), isGateway, icon, color)
     }
 }
 
@@ -554,13 +556,13 @@ private val previewIcons = listOf(
         ConnectIntentIconState.Country(CoreR.drawable.flag_pl, CoreR.drawable.flag_ch),
         ConnectIntentIconState.Gateway(null),
         ConnectIntentIconState.Gateway(CoreR.drawable.flag_ch),
-        ConnectIntentIconState.Profile(R.drawable.fastest_flag_opaque, false, ProfileIcon.Icon1, ProfileColor.Color1),
-        ConnectIntentIconState.Profile(R.drawable.fastest_flag_opaque, true, ProfileIcon.Icon5, ProfileColor.Color1),
+        ConnectIntentIconState.Profile(R.drawable.flag_fastest, false, ProfileIcon.Icon1, ProfileColor.Color1),
+        ConnectIntentIconState.Profile(R.drawable.flag_fastest, true, ProfileIcon.Icon5, ProfileColor.Color1),
         ConnectIntentIconState.Profile(CoreR.drawable.flag_lt, true, ProfileIcon.Icon5, ProfileColor.Color3),
         ConnectIntentIconState.Profile(CoreR.drawable.flag_ao, false, ProfileIcon.Icon7, ProfileColor.Color6),
     )
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun ProfileIconViewDarkPreview() {
     ProtonVpnPreview {
@@ -576,10 +578,10 @@ private fun ProfileIconViewLightRtlPreview() {
     }
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun FlagPreviewDark() {
-    ProtonVpnPreview(isDark = true) {
+    ProtonVpnPreview {
         FlagsPreviewHelper()
     }
 }
