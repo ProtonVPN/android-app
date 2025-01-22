@@ -45,6 +45,7 @@ fun SettingsCredentialless() {
     ProtonVpnPreview(addSurface = false) {
         SettingsView(accountSettingsViewState = settings.credentiallessAccountViewState,
             viewState = settings.settingsViewState,
+            widgetEnabled = true,
             onVpnAcceleratorClick = {},
             onAccountClick = {},
             onProtocolClick = {},
@@ -67,6 +68,7 @@ fun SettingsCredentialless() {
             onThirdPartyLicensesClick = {},
             onDefaultConnectionClick = {},
             onAdvancedSettingsClick = {},
+            onWidgetClick = {},
             onDebugToolsClick = {})
     }
 }
@@ -120,6 +122,7 @@ fun SettingsPaidProfileConnected() {
     ProtonVpnPreview(addSurface = false) {
         SettingsView(accountSettingsViewState = settingsPaid.credentiallessAccountViewState,
             viewState = settingsPaid.settingsViewState,
+            widgetEnabled = true,
             onVpnAcceleratorClick = {},
             onAccountClick = {},
             onProtocolClick = {},
@@ -142,6 +145,7 @@ fun SettingsPaidProfileConnected() {
             onThirdPartyLicensesClick = {},
             onDefaultConnectionClick = {},
             onAdvancedSettingsClick = {},
+            onWidgetClick = {},
             onDebugToolsClick = {})
     }
 }
@@ -178,6 +182,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false)
         lanConnections = lanConnections,
         natType = natType,
         versionName = "1.2.3.4",
+        isWidgetDiscovered = false,
         showDebugTools = false
     )
 

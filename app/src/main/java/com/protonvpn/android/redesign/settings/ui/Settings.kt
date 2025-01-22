@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
@@ -128,6 +129,7 @@ fun SettingsRoute(
             SettingsView(
                 viewState = viewState,
                 accountSettingsViewState = accountSettingsViewState,
+                widgetEnabled = context.resources.getBoolean(R.bool.enable_widget),
                 onSignUpClick = onSignUpClick,
                 onSignInClick = onSignInClick,
                 onSignOutClick = onSignOutClick,
@@ -199,6 +201,12 @@ fun SettingsRoute(
                 onThirdPartyLicensesClick = {
                     context.startActivity(Intent(context, OssLicensesActivity::class.java))
                 },
+                onWidgetClick = {
+                    viewModel.onWidgetSettingClick(
+                        onNativeSelectionUnavailable = {
+                            onNavigateToSubSetting(SubSettingsScreen.Type.Widget)
+                    })
+                },
                 onDebugToolsClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.DebugTools)
                 }
@@ -212,6 +220,7 @@ fun SettingsView(
     modifier: Modifier = Modifier,
     viewState: SettingsViewModel.SettingsViewState,
     accountSettingsViewState: AccountSettingsViewState,
+    widgetEnabled: Boolean,
     onAccountClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onSignInClick: () -> Unit,
@@ -228,6 +237,7 @@ fun SettingsView(
     onAdvancedSettingsClick: () -> Unit,
     onNotificationsClick: () -> Unit,
     onIconChangeClick: () -> Unit,
+    onWidgetClick: () -> Unit,
     onOnHelpCenterClick: () -> Unit,
     onReportBugClick: () -> Unit,
     onDebugLogsClick: () -> Unit,
@@ -322,6 +332,14 @@ fun SettingsView(
                     trailingIconTint = false,
                     onClick = onIconChangeClick
                 )
+                if (widgetEnabled) {
+                    SettingRowWithIcon(
+                        icon = CoreR.drawable.ic_proton_mobile,
+                        title = stringResource(id = R.string.settings_widget_title),
+                        hasNewLabel = !viewState.isWidgetDiscovered,
+                        onClick = onWidgetClick
+                    )
+                }
             }
             Category(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
@@ -496,6 +514,7 @@ fun SettingRow(
     subtitleComposable: (@Composable () -> Unit)? = null,
     leadingComposable: (@Composable () -> Unit)? = null,
     trailingComposable: (@Composable () -> Unit)? = null,
+    hasNewLabel: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
     var baseModifier = modifier
@@ -522,17 +541,28 @@ fun SettingRow(
                 leadingComposable()
             }
         }
-        Column(
-            modifier = Modifier
-                .weight(1f),
-            verticalArrangement = Arrangement.Center
+        Row(
+            modifier = Modifier.weight(1f),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = title,
-                style = ProtonTheme.typography.defaultNorm,
-            )
-            subtitleComposable?.let {
-                it()
+            Column(
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = title,
+                    style = ProtonTheme.typography.defaultNorm,
+                )
+                subtitleComposable?.let {
+                    it()
+                }
+            }
+            if (hasNewLabel) {
+                Spacer(Modifier.width(8.dp))
+                LabelBadge(
+                    text = stringResource(R.string.settings_new_label_badge),
+                    textColor = ProtonTheme.colors.notificationWarning,
+                    borderColor = ProtonTheme.colors.notificationWarning,
+                )
             }
         }
         trailingComposable?.invoke()
@@ -548,6 +578,7 @@ fun SettingRowWithIcon(
     @DrawableRes trailingIcon: Int? = null,
     iconTint: Boolean = true,
     trailingIconTint: Boolean = true,
+    hasNewLabel: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
     SettingRow(
@@ -570,6 +601,7 @@ fun SettingRowWithIcon(
             }
         },
         title = title,
+        hasNewLabel = hasNewLabel,
         subtitleComposable = settingValue?.let { { SettingValueView(settingValue = it) } },
         onClick = onClick,
         modifier = modifier
@@ -708,6 +740,11 @@ fun CategoryPreview() {
                     icon = CoreR.drawable.ic_proton_earth,
                     title = stringResource(id = R.string.settings_split_tunneling_title),
                     settingValue = SettingValue.SettingStringRes(R.string.netshield_state_on)
+                )
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_mobile,
+                    title = stringResource(id = R.string.settings_widget_title),
+                    hasNewLabel = true,
                 )
                 SettingRowWithIcon(
                     icon = CoreR.drawable.ic_proton_earth,

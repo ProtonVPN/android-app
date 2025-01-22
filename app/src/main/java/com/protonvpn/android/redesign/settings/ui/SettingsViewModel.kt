@@ -23,6 +23,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.auth.usecase.uiName
 import com.protonvpn.android.components.InstalledAppsProvider
@@ -42,6 +43,7 @@ import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -74,7 +76,9 @@ class SettingsViewModel @Inject constructor(
     private val appIconManager: AppIconManager,
     private val managedConfig: ManagedConfig,
     private val isFido2Enabled: IsFido2Enabled,
-    private val observeRegisteredSecurityKeys: ObserveRegisteredSecurityKeys
+    private val observeRegisteredSecurityKeys: ObserveRegisteredSecurityKeys,
+    private val appWidgetManager: WidgetManager,
+    private val appFeaturePrefs: AppFeaturesPrefs
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -237,6 +241,7 @@ class SettingsViewModel @Inject constructor(
         val buildInfo: String?,
         val showSignOut: Boolean,
         val showDebugTools: Boolean,
+        val isWidgetDiscovered: Boolean,
         val accountScreenEnabled: Boolean,
         val versionName: String,
     )
@@ -250,8 +255,9 @@ class SettingsViewModel @Inject constructor(
             currentUser.jointUserFlow,
             recentsManager.getDefaultConnectionFlow(),
             // Will return override settings if connected else global
-            settingsForConnection.getFlowForCurrentConnection()
-        ) { user, defaultConnection, connectionSettings ->
+            settingsForConnection.getFlowForCurrentConnection(),
+            appFeaturePrefs.isWidgetDiscoveredFlow
+        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -307,6 +313,7 @@ class SettingsViewModel @Inject constructor(
                 showDebugTools = displayDebugUi,
                 showSignOut = !isCredentialLess && !managedConfig.isManaged,
                 accountScreenEnabled = !managedConfig.isManaged,
+                isWidgetDiscovered = isWidgetDiscovered,
                 versionName = BuildConfig.VERSION_NAME,
             )
         }
@@ -375,6 +382,14 @@ class SettingsViewModel @Inject constructor(
 
     fun setNewAppIcon(newIcon: CustomAppIconData) = appIconManager.setNewAppIcon(newIcon)
 
+    fun onWidgetSettingClick(onNativeSelectionUnavailable: () -> Unit) {
+        if (appWidgetManager.supportsNativeWidgetSelector) {
+            appWidgetManager.openNativeWidgetSelector()
+        } else {
+            onNativeSelectionUnavailable()
+        }
+        appFeaturePrefs.isWidgetDiscovered = true
+    }
 }
 
 private fun UserRecovery.State?.passwordHint(): Int? = when(this) {

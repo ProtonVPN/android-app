@@ -22,6 +22,7 @@ package com.protonvpn.app.redesign.settings.ui
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.appconfig.ChangeServerConfig
 import com.protonvpn.android.appconfig.FeatureFlags
 import com.protonvpn.android.appconfig.GetFeatureFlags
@@ -46,7 +47,9 @@ import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.widget.WidgetManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
+import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
@@ -103,6 +106,8 @@ class SettingsViewModelTests {
     private lateinit var mockProfilesDao: ProfilesDao
     @RelaxedMockK
     private lateinit var observeRegisteredSecurityKeys: ObserveRegisteredSecurityKeys
+    @RelaxedMockK
+    private lateinit var mockWidgetManager: WidgetManager
 
     private lateinit var effectiveSettings: EffectiveCurrentUserSettings
     private lateinit var settingsForConnection: SettingsForConnection
@@ -112,6 +117,7 @@ class SettingsViewModelTests {
 
     private lateinit var settingsViewModel: SettingsViewModel
     private lateinit var vpnStateMonitor: VpnStateMonitor
+    private lateinit var prefs: AppFeaturesPrefs
 
     private val businessEssentialUser = TestUser.businessEssential.vpnUser
     private val freeUser = TestUser.freeUser.vpnUser
@@ -124,6 +130,7 @@ class SettingsViewModelTests {
         val testDispatcher = UnconfinedTestDispatcher()
         Dispatchers.setMain(testDispatcher)
         testScope = TestScope(testDispatcher)
+        prefs = AppFeaturesPrefs(MockSharedPreferencesProvider())
         every { mockIsTvCheck.invoke() } returns false
         coEvery { mockRecentManager.getDefaultConnectionFlow() } returns flowOf(Constants.DEFAULT_CONNECTION)
         val accountUser = createAccountUser()
@@ -162,7 +169,9 @@ class SettingsViewModelTests {
             mockAppIconManager,
             ManagedConfig(MutableStateFlow(null)),
             isFido2Enabled,
-            observeRegisteredSecurityKeys
+            observeRegisteredSecurityKeys,
+            mockWidgetManager,
+            prefs
         )
     }
 

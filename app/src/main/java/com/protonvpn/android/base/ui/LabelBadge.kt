@@ -41,10 +41,11 @@ fun LabelBadge(
         style = ProtonTheme.typography.overlineMedium,
         color = textColor,
         modifier = modifier
+            .background(
+                color = ProtonTheme.colors.backgroundSecondary,
+                shape = ProtonTheme.shapes.small
+            )
             .border(width = 1.dp, color = borderColor, shape = ProtonTheme.shapes.small)
             .padding(horizontal = 6.dp, vertical = 3.dp)
-            .background(
-                ProtonTheme.colors.backgroundSecondary
-            )
     )
 }

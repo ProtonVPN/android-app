@@ -58,10 +58,14 @@ class AppFeaturesPrefs @Inject constructor(
     var lastUpdatePromptTimestamp: Long by long(0)
     var lastUpdatePromptTryCount: Int by int(0)
 
+    var isWidgetDiscovered: Boolean by boolean(default = false, key = KEY_WIDGET_DISCOVERED)
+    val isWidgetDiscoveredFlow: Flow<Boolean> = preferences.observe<Boolean>(KEY_WIDGET_DISCOVERED).map { it ?: false }
+
     companion object {
         private const val PREFS_NAME = "AppFeaturePrefs"
         private const val KEY_SHOW_WHATS_NEW = "showWhatsNew"
         private const val KEY_REPORTED_ONBOARDING_EVENTS = "reportedOnboardingEvents"
         private const val KEY_SHOW_ONBOARDING_USER_ID = "showOnboardingUserId"
+        private const val KEY_WIDGET_DISCOVERED = "widgetDiscovered"
     }
 }
