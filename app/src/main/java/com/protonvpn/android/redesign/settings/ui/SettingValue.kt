@@ -28,7 +28,7 @@ sealed class SettingValue {
     data class SettingStringRes(@StringRes val subtitleRes: Int) : SettingValue()
 
     data class SettingOverrideValue(
-        val connectIntentPrimaryLabel: ConnectIntentPrimaryLabel,
+        val connectIntentPrimaryLabel: ConnectIntentPrimaryLabel.Profile,
         @StringRes val subtitleRes: Int
     ) : SettingValue()
 }

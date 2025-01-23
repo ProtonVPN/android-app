@@ -23,8 +23,11 @@ import androidx.compose.runtime.Immutable
 import com.protonvpn.android.redesign.vpn.ServerFeature
 
 @Immutable
-data class ConnectIntentViewState(
-    val primaryLabel: ConnectIntentPrimaryLabel,
+data class ConnectIntentViewStateBase<out LabelType : ConnectIntentPrimaryLabel>(
+    val primaryLabel: LabelType,
     val secondaryLabel: ConnectIntentSecondaryLabel?,
     val serverFeatures: Set<ServerFeature>,
 )
+
+typealias ConnectIntentViewState = ConnectIntentViewStateBase<ConnectIntentPrimaryLabel>
+typealias ConnectIntentViewStateProfile = ConnectIntentViewStateBase<ConnectIntentPrimaryLabel.Profile>

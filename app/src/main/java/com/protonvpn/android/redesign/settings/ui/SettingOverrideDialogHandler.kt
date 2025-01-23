@@ -52,6 +52,7 @@ import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
+import com.protonvpn.android.redesign.base.ui.ProfileConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import me.proton.core.compose.theme.ProtonTheme
@@ -123,7 +124,7 @@ fun ProfileOverrideView(
             .background(ProtonTheme.colors.backgroundSecondary)
             .padding(12.dp)
     ) {
-        ConnectIntentIcon(
+        ProfileConnectIntentIcon(
             profileOverrideInfo.primaryLabel,
             profileConnectIntentIconSize = ConnectIntentIconSize.MEDIUM
         )
@@ -155,7 +156,7 @@ fun OverrideSettingLabel(
             .background(ProtonTheme.colors.backgroundSecondary)
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
-        ConnectIntentIcon(
+        ProfileConnectIntentIcon(
             settingValue.connectIntentPrimaryLabel,
             profileConnectIntentIconSize = ConnectIntentIconSize.SMALL
         )

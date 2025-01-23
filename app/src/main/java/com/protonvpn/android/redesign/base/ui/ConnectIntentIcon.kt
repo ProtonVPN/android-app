@@ -193,23 +193,42 @@ private fun DrawScope.drawWithNativeCanvas(
 }
 
 @Composable
-fun ConnectIntentIcon(
-    label: ConnectIntentPrimaryLabel,
-    modifier: Modifier = Modifier,
-    profileConnectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
-) {
-    ConnectIntentIcon(label.toIconState(), modifier, profileConnectIntentIconSize)
+fun ConnectIntentIcon(label: ConnectIntentPrimaryLabel, modifier: Modifier = Modifier) {
+    ConnectIntentIcon(label.toIconState(), modifier)
 }
 
 @Composable
 private fun ConnectIntentIcon(
     iconState: ConnectIntentIconState,
     modifier: Modifier = Modifier,
+) {
+    val connectIntentIconSize = ConnectIntentIconSize.MEDIUM
+    ConnectIntentIconDrawing(modifier.size(connectIntentIconSize.size.dp)) {
+        connectIntentIcon(iconState, connectIntentIconSize)
+    }
+}
+
+@Composable
+fun ProfileConnectIntentIcon(
+    label: ConnectIntentPrimaryLabel.Profile,
+    profileConnectIntentIconSize: ConnectIntentIconSize,
+    modifier: Modifier = Modifier,
+) {
+    val iconState = with(label) {
+        ConnectIntentIconState.Profile(country.flagResource(LocalContext.current), isGateway, icon, color)
+    }
+    ProfileConnectIntentIcon(iconState, modifier, profileConnectIntentIconSize)
+}
+
+@Composable
+private fun ProfileConnectIntentIcon(
+    iconState: ConnectIntentIconState.Profile,
+    modifier: Modifier = Modifier,
     profileConnectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
 ) {
-    val size = if (iconState is ConnectIntentIconState.Profile) profileConnectIntentIconSize.size else 30f
+    val size = profileConnectIntentIconSize.size
     ConnectIntentIconDrawing(modifier.size(size.dp)) {
-        connectIntentIcon(iconState, profileConnectIntentIconSize)
+        with (iconState) { profile(country, icon, color, profileConnectIntentIconSize, isGateway) }
     }
 }
 
@@ -634,9 +653,9 @@ private fun ProfileIconsPreviewHelper() {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         ConnectIntentIconSize.entries.forEach { size ->
             previewIcons
-                .filter { it is ConnectIntentIconState.Profile }
+                .filterIsInstance<ConnectIntentIconState.Profile>()
                 .forEach { profileIcon ->
-                    ConnectIntentIcon(profileIcon, profileConnectIntentIconSize = size)
+                    ProfileConnectIntentIcon(profileIcon, profileConnectIntentIconSize = size)
                 }
             Spacer(Modifier.height(8.dp))
             ProfileIcon(

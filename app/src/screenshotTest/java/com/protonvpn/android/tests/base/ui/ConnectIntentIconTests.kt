@@ -33,6 +33,7 @@ import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
+import com.protonvpn.android.redesign.base.ui.ProfileConnectIntentIcon
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import me.proton.core.compose.theme.isNightMode
 
@@ -108,7 +109,11 @@ private fun ConnectIntentIcons(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         labels.forEach { label ->
-            ConnectIntentIcon(label, Modifier, size)
+            if (label is ConnectIntentPrimaryLabel.Profile) {
+                ProfileConnectIntentIcon(label, size)
+            } else {
+                ConnectIntentIcon(label)
+            }
         }
     }
 }

@@ -37,6 +37,7 @@ import com.protonvpn.android.redesign.recents.usecases.GetIntentAvailability
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewStateProfile
 import com.protonvpn.android.redesign.vpn.ui.GetConnectIntentViewState
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.storage.UiStateStorage
@@ -74,7 +75,7 @@ data class ProfileViewItem(
     val profile: ProfileInfo,
     val isConnected: Boolean,
     val availability: ConnectIntentAvailability,
-    val intent: ConnectIntentViewState,
+    val intent: ConnectIntentViewStateProfile,
     val netShieldEnabled: Boolean,
     val protocol: ProtocolSelection,
     val natType: NatType,
