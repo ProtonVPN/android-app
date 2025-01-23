@@ -73,8 +73,6 @@ import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ActiveDot
-import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
-import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.optional
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
 import com.protonvpn.android.redesign.vpn.ServerFeature
@@ -189,27 +187,6 @@ fun ConnectIntentRow(
                 )
             }
         }
-    )
-}
-
-// Intent row without actions and connection/availability state.
-@Composable
-fun StaticConnectIntentRow(
-    intent: ConnectIntentViewState,
-    connectIntentIconSize: ConnectIntentIconSize,
-    modifier: Modifier = Modifier,
-) {
-    ConnectIntentBlankRow(
-        title = intent.primaryLabel.label(),
-        subTitle = intent.secondaryLabel?.label(),
-        serverFeatures = intent.serverFeatures,
-        isConnected = false,
-        isUnavailable = false,
-        leadingComposable = {
-            ConnectIntentIcon(intent.primaryLabel, profileConnectIntentIconSize = connectIntentIconSize)
-        },
-        trailingComposable = {},
-        modifier = modifier
     )
 }
 

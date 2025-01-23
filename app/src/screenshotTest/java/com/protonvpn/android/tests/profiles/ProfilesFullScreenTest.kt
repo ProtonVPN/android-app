@@ -36,7 +36,7 @@ import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewStateProfile
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlin.random.Random
 
@@ -116,7 +116,7 @@ private object ProfilesData {
             ),
             isConnected = isConnected,
             availability = ConnectIntentAvailability.ONLINE,
-            intent = ConnectIntentViewState(
+            intent = ConnectIntentViewStateProfile(
                 primaryLabel = ConnectIntentPrimaryLabel.Profile(
                     name = profileName,
                     country = exitCountryId,

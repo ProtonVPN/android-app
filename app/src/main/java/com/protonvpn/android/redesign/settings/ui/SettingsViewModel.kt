@@ -94,7 +94,7 @@ class SettingsViewModel @Inject constructor(
         class NetShield(
             netShieldEnabled: Boolean,
             isRestricted: Boolean,
-            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel?,
+            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
             override val iconRes: Int = if (netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off
         ) : SettingViewState<Boolean>(
             value = netShieldEnabled,
@@ -155,7 +155,7 @@ class SettingsViewModel @Inject constructor(
         )
         class Protocol(
             protocol: ProtocolSelection,
-            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel?,
+            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
             override val iconRes: Int = CoreR.drawable.ic_proton_servers,
         ) : SettingViewState<ProtocolSelection>(
             value = protocol,
@@ -185,7 +185,7 @@ class SettingsViewModel @Inject constructor(
         class LanConnections(
             enabled: Boolean,
             isFreeUser: Boolean,
-            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel?,
+            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
         ) : SettingViewState<Boolean>(
             value = enabled,
             isRestricted = isFreeUser,
@@ -205,7 +205,7 @@ class SettingsViewModel @Inject constructor(
         class Nat(
             natType: NatType,
             isFreeUser: Boolean,
-            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel?,
+            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
         ) : SettingViewState<NatType>(
             value = natType,
             isRestricted = isFreeUser,
@@ -224,7 +224,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     data class ProfileOverrideInfo(
-        val primaryLabel: ConnectIntentPrimaryLabel,
+        val primaryLabel: ConnectIntentPrimaryLabel.Profile,
         val profileName: String
     )
 

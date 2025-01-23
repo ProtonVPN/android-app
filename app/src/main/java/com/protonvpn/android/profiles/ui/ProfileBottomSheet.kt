@@ -52,13 +52,15 @@ import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
+import com.protonvpn.android.redesign.base.ui.ProfileConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentBlankRow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
-import com.protonvpn.android.redesign.vpn.ui.StaticConnectIntentRow
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewStateProfile
+import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.R as CoreR
@@ -99,7 +101,7 @@ private fun ProfileSheetContent(
     modifier: Modifier = Modifier
 ) {
     Column(modifier) {
-        StaticConnectIntentRow(
+        StaticProfileConnectIntentRow(
             profile.intent,
             connectIntentIconSize = ConnectIntentIconSize.LARGE,
             modifier = Modifier.padding(horizontal = 16.dp)
@@ -216,6 +218,27 @@ fun ProfileSettingItem(
     }
 }
 
+// Intent row without actions and connection/availability state.
+@Composable
+private fun StaticProfileConnectIntentRow(
+    intent: ConnectIntentViewStateProfile,
+    connectIntentIconSize: ConnectIntentIconSize,
+    modifier: Modifier = Modifier,
+) {
+    ConnectIntentBlankRow(
+        title = intent.primaryLabel.label(),
+        subTitle = intent.secondaryLabel?.label(),
+        serverFeatures = intent.serverFeatures,
+        isConnected = false,
+        isUnavailable = false,
+        leadingComposable = {
+            ProfileConnectIntentIcon(intent.primaryLabel, profileConnectIntentIconSize = connectIntentIconSize)
+        },
+        trailingComposable = {},
+        modifier = modifier
+    )
+}
+
 @Preview
 @Composable
 private fun ProfileBottomSheetPreview() {
@@ -232,7 +255,7 @@ private fun ProfileBottomSheetPreview() {
                 ),
                 isConnected = false,
                 availability = ConnectIntentAvailability.ONLINE,
-                intent = ConnectIntentViewState(
+                intent = ConnectIntentViewStateProfile(
                     ConnectIntentPrimaryLabel.Profile(
                         "Profile name",
                         CountryId.fastest,

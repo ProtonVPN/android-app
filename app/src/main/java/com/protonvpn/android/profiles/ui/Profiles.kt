@@ -53,14 +53,14 @@ import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.data.ProfileInfo
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarTitle
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
-import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
+import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarTitle
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.InfoButton
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
+import com.protonvpn.android.redesign.base.ui.ProfileConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.VpnDivider
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
@@ -69,7 +69,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentRow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewStateProfile
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
@@ -221,7 +221,7 @@ fun ProfileItem(
         onClick = { onConnect(profile) },
         onOpen = { onSelect(profile) },
         leadingComposable = {
-            ConnectIntentIcon(
+            ProfileConnectIntentIcon(
                 profile.intent.primaryLabel,
                 profileConnectIntentIconSize = ConnectIntentIconSize.LARGE
             )
@@ -246,7 +246,7 @@ fun ProfileItemPreview() {
                 ),
                 isConnected = false,
                 availability = ConnectIntentAvailability.ONLINE,
-                intent = ConnectIntentViewState(
+                intent = ConnectIntentViewStateProfile(
                     ConnectIntentPrimaryLabel.Profile("Profile name", CountryId.sweden, false, ProfileIcon.Icon1, ProfileColor.Color1),
                     ConnectIntentSecondaryLabel.Country(CountryId.sweden),
                     emptySet(),

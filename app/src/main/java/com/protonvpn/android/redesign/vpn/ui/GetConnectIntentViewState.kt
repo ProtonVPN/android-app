@@ -46,7 +46,7 @@ class GetConnectIntentViewState @Inject constructor(
             is RecentConnection.UnnamedRecent -> getUnnamedIntentViewState(recentConnection.connectIntent, isFreeUser)
         }
 
-    suspend fun forProfile(profile: Profile, connectedIntent: ConnectIntent? = null): ConnectIntentViewState {
+    suspend fun forProfile(profile: Profile, connectedIntent: ConnectIntent? = null): ConnectIntentViewStateProfile {
         // If connectIntent is given use it instead of getting one from Profile (profile might
         // be already edited and for active connection we want to use intent as it was at
         // connection time)
@@ -81,11 +81,11 @@ class GetConnectIntentViewState @Inject constructor(
             val isGateway = connectIntent is ConnectIntent.Gateway
             ConnectIntentPrimaryLabel.Profile(info.name, exit, isGateway, info.icon, info.color)
         }
-        return ConnectIntentViewState(
+        return ConnectIntentViewStateProfile(
             primaryLabel, secondaryLabel, effectiveServerFeatures(profile.connectIntent, null))
     }
 
-    private suspend fun forProfileId(profileId: Long, connectedIntent: ConnectIntent?): ConnectIntentViewState? {
+    private suspend fun forProfileId(profileId: Long, connectedIntent: ConnectIntent?): ConnectIntentViewStateProfile? {
         val profile = getProfileById(profileId) ?: return null
         return forProfile(profile, connectedIntent)
     }
