@@ -146,6 +146,7 @@ private fun RateMeScreen(
     var selectedRating by rememberSaveable { mutableStateOf<Int?>(null) }
     var additionalDetails by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue()) }
     var showAdditionalDetails by rememberSaveable { mutableStateOf(false) }
+    var inputLimitReached by rememberSaveable { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     val isScrolled = remember { derivedStateOf { scrollState.value > 0 } }
     val topAppBarColor = animateColorAsState(
@@ -219,8 +220,15 @@ private fun RateMeScreen(
                 ProtonOutlinedTextField(
                     value = additionalDetails,
                     onValueChange = {
-                        additionalDetails = it
+                        if (it.text.codePoints().count() <= 250) {
+                            additionalDetails = it
+                            inputLimitReached = false
+                        } else {
+                            inputLimitReached = true
+                        }
                     },
+                    errorText = stringResource(R.string.nps_submit_error_char_limit),
+                    isError = inputLimitReached,
                     assistiveText = stringResource(R.string.nps_additional_comment_optional),
                     textStyle = ProtonTheme.typography.defaultNorm,
                     backgroundColor = ProtonTheme.colors.backgroundSecondary,
