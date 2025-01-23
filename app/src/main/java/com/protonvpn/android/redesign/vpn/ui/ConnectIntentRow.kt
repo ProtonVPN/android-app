@@ -206,7 +206,7 @@ fun StaticConnectIntentRow(
         isConnected = false,
         isUnavailable = false,
         leadingComposable = {
-            ConnectIntentIcon(intent.primaryLabel, connectIntentIconSize = connectIntentIconSize)
+            ConnectIntentIcon(intent.primaryLabel, profileConnectIntentIconSize = connectIntentIconSize)
         },
         trailingComposable = {},
         modifier = modifier
