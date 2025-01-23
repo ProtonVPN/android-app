@@ -34,11 +34,12 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
+import me.proton.core.compose.theme.isNightMode
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ConnectIntentIconMediumDark() {
-    ProtonVpnPreview {
+    ProtonVpnPreview(isDark = isNightMode()) {
         ConnectIntentIcons(ConnectIntentIconSize.MEDIUM)
     }
 }
@@ -46,7 +47,7 @@ fun ConnectIntentIconMediumDark() {
 @Preview(locale = "fa")
 @Composable
 fun ConnectIntentIconMediumRtlLight() {
-    ProtonVpnPreview {
+    ProtonVpnPreview(isDark = isNightMode()) {
         ConnectIntentIcons(ConnectIntentIconSize.MEDIUM)
     }
 }
@@ -54,7 +55,7 @@ fun ConnectIntentIconMediumRtlLight() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ConnectIntentIconSmallDark() {
-    ProtonVpnPreview {
+    ProtonVpnPreview(isDark = isNightMode()) {
         ConnectIntentIcons(ConnectIntentIconSize.SMALL)
     }
 }
@@ -62,7 +63,7 @@ fun ConnectIntentIconSmallDark() {
 @Preview(locale = "fa")
 @Composable
 fun ConnectIntentIconSmallRtlLight() {
-    ProtonVpnPreview {
+    ProtonVpnPreview(isDark = isNightMode()) {
         ConnectIntentIcons(ConnectIntentIconSize.SMALL)
     }
 }
@@ -70,7 +71,7 @@ fun ConnectIntentIconSmallRtlLight() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ConnectIntentIconLargeDark() {
-    ProtonVpnPreview {
+    ProtonVpnPreview(isDark = isNightMode()) {
         ConnectIntentIcons(ConnectIntentIconSize.LARGE)
     }
 }
@@ -78,7 +79,7 @@ fun ConnectIntentIconLargeDark() {
 @Preview(locale = "fa")
 @Composable
 fun ConnectIntentIconLargeRtlLight() {
-    ProtonVpnPreview {
+    ProtonVpnPreview(isDark = isNightMode()) {
         ConnectIntentIcons(ConnectIntentIconSize.LARGE)
     }
 }
