@@ -39,11 +39,12 @@ private enum class ConnectStatsKeyword {
     TRAY,
     AUTO,
     RECENT,
-    PIN
+    PIN,
+    WIDGET
 }
 
 private enum class DisconnectStatsKeyword {
-    CONNECTION_CARD, QUICK, COUNTRY, SERVER, PROFILE, MAP, TRAY, AUTO, NEW_CONNECTION
+    CONNECTION_CARD, QUICK, COUNTRY, SERVER, PROFILE, MAP, TRAY, AUTO, NEW_CONNECTION, WIDGET
 }
 
 sealed class ConnectTrigger(statsKeyword: ConnectStatsKeyword, val description: String) {
@@ -69,6 +70,7 @@ sealed class ConnectTrigger(statsKeyword: ConnectStatsKeyword, val description: 
     class Auto(description: String) : ConnectTrigger(ConnectStatsKeyword.AUTO, description)
     object GuestHole : ConnectTrigger(ConnectStatsKeyword.AUTO, "guest hole")
     object Reconnect : ConnectTrigger(ConnectStatsKeyword.AUTO, "reconnection")
+    class Widget(description: String) : ConnectTrigger(ConnectStatsKeyword.WIDGET, description)
     // Fallback doesn't send an abort event for connection being established, instead it preserves the original trigger.
     class Fallback(description: String) : ConnectTrigger(ConnectStatsKeyword.AUTO, description)
 
@@ -96,6 +98,7 @@ sealed class DisconnectTrigger(
     class Onboarding(description: String) : DisconnectTrigger(DisconnectStatsKeyword.QUICK, description)
     object ServiceDestroyed : DisconnectTrigger(DisconnectStatsKeyword.AUTO, "VPN service destroyed")
     class Test(description: String = "test") : DisconnectTrigger(DisconnectStatsKeyword.AUTO, description)
+    object Widget : DisconnectTrigger(DisconnectStatsKeyword.WIDGET, "widget")
 
     val statsName = statsKeyword.name.lowercase()
 }

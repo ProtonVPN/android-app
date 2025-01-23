@@ -27,8 +27,10 @@ import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
+import com.protonvpn.android.widget.data.WidgetTracker
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
 
@@ -41,6 +43,7 @@ class SettingsSnapshotWorker @AssistedInject constructor(
     private val appIconManager: AppIconManager,
     private val helper: TelemetryFlowHelper,
     private val appInUseMonitor: AppInUseMonitor,
+    private val widgetTracker: WidgetTracker,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -51,6 +54,8 @@ class SettingsSnapshotWorker @AssistedInject constructor(
                 val dimensions = buildMap {
                     this["default_connection_type"] = defaultValue
                     this["app_icon"] = currentIcon
+                    val widgetCount = widgetTracker.widgetCount.filterNotNull().first()
+                    this["widget_count"] = widgetCount.toWidgetCountBucketString()
                     commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 }
                 TelemetryEventData(
@@ -61,6 +66,7 @@ class SettingsSnapshotWorker @AssistedInject constructor(
         }
         return Result.success()
     }
+
     private fun DefaultConnection.getTelemetryName(): String {
         return when (this) {
             is DefaultConnection.FastestConnection -> "fastest"
@@ -78,6 +84,13 @@ class SettingsSnapshotWorker @AssistedInject constructor(
             CustomAppIconData.NOTES -> "notes"
             CustomAppIconData.CALCULATOR -> "calculator"
         }
+    }
+
+    private fun Int.toWidgetCountBucketString(): String = when {
+        this == 0 -> "0"
+        this == 1 -> "1"
+        this <= 4 -> "2-4"
+        else -> ">=5"
     }
 
     companion object {
