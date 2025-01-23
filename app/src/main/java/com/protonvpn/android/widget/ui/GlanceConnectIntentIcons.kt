@@ -32,8 +32,6 @@ import androidx.glance.layout.ContentScale
 import androidx.glance.layout.size
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.LocalLocale
-import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconState
 import com.protonvpn.android.redesign.base.ui.paintConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.toIconState
@@ -56,7 +54,6 @@ fun ConnectIntentGlanceIcon(
         isRtl,
         GLANCE_ICON_DENSITY,
         intentLabel.toIcon(context),
-        ConnectIntentIconSize.MEDIUM
     )
     Image(
         ImageProvider(iconBitmap),

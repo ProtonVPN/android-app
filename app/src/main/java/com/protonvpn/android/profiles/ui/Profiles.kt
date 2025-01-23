@@ -223,7 +223,7 @@ fun ProfileItem(
         leadingComposable = {
             ConnectIntentIcon(
                 profile.intent.primaryLabel,
-                connectIntentIconSize = ConnectIntentIconSize.LARGE
+                profileConnectIntentIconSize = ConnectIntentIconSize.LARGE
             )
         },
         modifier = modifier,

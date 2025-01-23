@@ -125,7 +125,7 @@ fun ProfileOverrideView(
     ) {
         ConnectIntentIcon(
             profileOverrideInfo.primaryLabel,
-            connectIntentIconSize = ConnectIntentIconSize.MEDIUM
+            profileConnectIntentIconSize = ConnectIntentIconSize.MEDIUM
         )
         Spacer(Modifier.size(12.dp))
         val parts = stringResource(id = R.string.profile_overrides_setting).split("%1\$s")
@@ -157,7 +157,7 @@ fun OverrideSettingLabel(
     ) {
         ConnectIntentIcon(
             settingValue.connectIntentPrimaryLabel,
-            connectIntentIconSize = ConnectIntentIconSize.SMALL
+            profileConnectIntentIconSize = ConnectIntentIconSize.SMALL
         )
         Spacer(Modifier.size(8.dp))
         Text(

@@ -196,20 +196,20 @@ private fun DrawScope.drawWithNativeCanvas(
 fun ConnectIntentIcon(
     label: ConnectIntentPrimaryLabel,
     modifier: Modifier = Modifier,
-    connectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
+    profileConnectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
 ) {
-    ConnectIntentIcon(label.toIconState(), modifier, connectIntentIconSize)
+    ConnectIntentIcon(label.toIconState(), modifier, profileConnectIntentIconSize)
 }
 
 @Composable
 private fun ConnectIntentIcon(
     iconState: ConnectIntentIconState,
     modifier: Modifier = Modifier,
-    connectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
+    profileConnectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
 ) {
-    val size = if (iconState is ConnectIntentIconState.Profile) connectIntentIconSize.size else 30f
+    val size = if (iconState is ConnectIntentIconState.Profile) profileConnectIntentIconSize.size else 30f
     ConnectIntentIconDrawing(modifier.size(size.dp)) {
-        connectIntentIcon(iconState, connectIntentIconSize)
+        connectIntentIcon(iconState, profileConnectIntentIconSize)
     }
 }
 
@@ -277,7 +277,7 @@ fun ProfileIcon(
 
 private fun ConnectIntentIconDrawScope.connectIntentIcon(
     state: ConnectIntentIconState,
-    connectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
+    profileConnectIntentIconSize: ConnectIntentIconSize = ConnectIntentIconSize.MEDIUM,
 ) {
     when (state) {
         is ConnectIntentIconState.Fastest -> with(state) {
@@ -289,7 +289,7 @@ private fun ConnectIntentIconDrawScope.connectIntentIcon(
         is ConnectIntentIconState.Gateway ->
             gatewayIndicator(state.country)
         is ConnectIntentIconState.Profile -> with(state) {
-            profile(country, icon, color, connectIntentIconSize, isGateway)
+            profile(country, icon, color, profileConnectIntentIconSize, isGateway)
         }
     }
 }
@@ -385,8 +385,8 @@ fun paintConnectIntentIcon(
     isRtl: Boolean,
     density: Float,
     connectIntentIconState: ConnectIntentIconState,
-    connectIntentIconSize: ConnectIntentIconSize,
 ): Bitmap {
+    val connectIntentIconSize = ConnectIntentIconSize.MEDIUM // MEDIUM is the only size supported by non-profile icons.
     val size = connectIntentIconSize.size
     val sizePx = (size * density).roundToInt()
     val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
@@ -636,7 +636,7 @@ private fun ProfileIconsPreviewHelper() {
             previewIcons
                 .filter { it is ConnectIntentIconState.Profile }
                 .forEach { profileIcon ->
-                    ConnectIntentIcon(profileIcon, connectIntentIconSize = size)
+                    ConnectIntentIcon(profileIcon, profileConnectIntentIconSize = size)
                 }
             Spacer(Modifier.height(8.dp))
             ProfileIcon(
