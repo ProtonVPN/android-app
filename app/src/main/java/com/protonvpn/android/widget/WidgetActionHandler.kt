@@ -54,7 +54,7 @@ class WidgetActionHandler @Inject constructor(
     }
 
     fun disconnect() {
-        vpnConnectionManager.disconnect(DisconnectTrigger.QuickConnect("widget"))
+        vpnConnectionManager.disconnect(DisconnectTrigger.Widget)
     }
 
     private suspend fun intentForRecentId(recentId: Long?): ConnectIntent {
@@ -63,7 +63,7 @@ class WidgetActionHandler @Inject constructor(
     }
 
     private fun triggerForRecentId(recentId: Long?) =
-        ConnectTrigger.QuickConnect(if (recentId != null) "widget recent" else "widget")
+        ConnectTrigger.Widget(if (recentId != null) "widget recent" else "widget")
 
     suspend fun onIntent(uiDelegate: VpnUiDelegate, intent: Intent) {
         val connect = intent.hasExtra(EXTRA_ACTION_CONNECT)
