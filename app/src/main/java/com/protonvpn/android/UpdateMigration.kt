@@ -19,6 +19,7 @@
 
 package com.protonvpn.android
 
+import com.protonvpn.android.appconfig.AppFeaturesPrefs
 import com.protonvpn.android.logging.AppUpdateUpdated
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.CertificateData
@@ -32,6 +33,7 @@ import javax.inject.Inject
 @Reusable
 class UpdateMigration @Inject constructor(
     private val mainScope: CoroutineScope,
+    private val appPrefs: AppFeaturesPrefs,
     private val uiStateStorage: UiStateStorage,
 ) {
 
@@ -44,6 +46,7 @@ class UpdateMigration @Inject constructor(
             val strippedOldVersionCode = stripArchitecture(oldVersionCode)
             clearCertificateData(strippedOldVersionCode)
             promoteProfiles(strippedOldVersionCode)
+            whatsNewWidget(strippedOldVersionCode)
         }
     }
 
@@ -66,6 +69,13 @@ class UpdateMigration @Inject constructor(
             mainScope.launch {
                 uiStateStorage.update { it.copy(hasShownProfilesInfo = true) }
             }
+        }
+    }
+
+    @SuppressWarnings("MagicNumver")
+    private fun whatsNewWidget(oldVersionCode: Int) {
+        if (oldVersionCode <= 5_08_85_00) {
+            appPrefs.showWhatsNew = true
         }
     }
 

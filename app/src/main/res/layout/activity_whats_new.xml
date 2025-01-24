@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="16dp"
     android:orientation="vertical">
 
     <ScrollView
@@ -17,8 +19,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:src="@drawable/whats_new_welcome"/>
 
             <TextView
@@ -30,32 +33,36 @@
                 android:text="@string/whats_new_title"/>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:drawablePadding="8dp"
+                app:drawableEndCompat="@drawable/vpn_plus_badge"
                 style="@style/Proton.Text.Default.Bold"
-                android:text="@string/whats_new_new_look_title"/>
+                android:text="@string/whats_new_profiles_title"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 style="@style/Proton.Text.DefaultSmall.Weak"
-                android:text="@string/whats_new_new_look_description"/>
+                android:text="@string/whats_new_profiles_description"/>
 
             <TextView
                 android:id="@+id/text_second_section_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                style="@style/Proton.Text.Default.Bold" />
+                style="@style/Proton.Text.Default.Bold"
+                android:text="@string/whats_new_widget_title"/>
 
             <TextView
                 android:id="@+id/text_second_section_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                style="@style/Proton.Text.DefaultSmall.Weak" />
+                style="@style/Proton.Text.DefaultSmall.Weak"
+                android:text="@string/whats_new_widget_description"/>
         </LinearLayout>
     </ScrollView>
 
@@ -63,8 +70,17 @@
         android:id="@+id/got_it_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginHorizontal="16dp"
-        android:text="@string/whats_new_dismiss_button"/>
+        android:text="@string/got_it"/>
 
+    <me.proton.core.presentation.ui.view.ProtonButton
+        android:id="@+id/add_widget_button"
+        style="@style/ProtonButton.Borderless.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/whats_new_add_widget_button"
+        android:visibility="gone" />
 </LinearLayout>
