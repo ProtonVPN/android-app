@@ -24,12 +24,13 @@ import android.content.ComponentName
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import com.protonvpn.android.widget.data.WidgetReceiverId
 import com.protonvpn.android.widget.data.WidgetTracker
 import com.protonvpn.android.widget.ui.ProtonVpnGlanceWidget
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-abstract class TrackedWidgetReceiver(val receiverId: String) : GlanceAppWidgetReceiver() {
+abstract class TrackedWidgetReceiver(val receiverId: WidgetReceiverId) : GlanceAppWidgetReceiver() {
 
     @Inject
     lateinit var widgetTracker: WidgetTracker
