@@ -78,7 +78,6 @@ fun ConnectWithIntent(viewState: WidgetViewState.LoggedIn, showConnecting: Boole
             modifier = GlanceModifier.padding(horizontal = 8.dp)
         )
         Spacer(modifier = GlanceModifier.defaultWeight())
-        Spacer(modifier = GlanceModifier.height(8.dp))
         GlanceConnectButton(viewState.connectCardAction, viewState.vpnStatus)
     }
 }

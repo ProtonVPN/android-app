@@ -220,16 +220,19 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                         ConnectWithIntent(
                             viewState,
                             showConnecting = false,
-                            wide = isWide,
+                            wide = true, // There's not always enough vertical space for intent,
+                                         // let's force wide layout for it.
                             GlanceModifier.defaultWeight()
                         )
-                        Spacer(modifier = GlanceModifier.height(8.dp))
-                        val maxRows = if (size.height >= XTALL) 2 else 1
-                        GlanceRecents(
-                            viewState.recentsWithoutPinnedConnectCard(),
-                            maxColumns = size.toMaxColumns(),
-                            maxRows = maxRows
-                        )
+                        if (viewState.recents.isNotEmpty()) {
+                            Spacer(modifier = GlanceModifier.height(8.dp))
+                            val maxRows = if (size.height >= XTALL) 2 else 1
+                            GlanceRecents(
+                                viewState.recentsWithoutPinnedConnectCard(),
+                                maxColumns = size.toMaxColumns(),
+                                maxRows = maxRows
+                            )
+                        }
                     }
 
                 else -> DebugUtils.debugAssert("Unsupported widget size: $size") { false }
