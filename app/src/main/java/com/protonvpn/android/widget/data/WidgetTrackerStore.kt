@@ -34,12 +34,13 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.builtins.SetSerializer
-import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.Serializable
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.plus
+
+typealias WidgetReceiverId = String
+typealias WidgetId = Int
 
 @Singleton
 class WidgetTracker @Inject constructor(
@@ -48,53 +49,58 @@ class WidgetTracker @Inject constructor(
 ) {
     private val store = mainScope.async { widgetTrackerStoreProvider.dataStoreWithSuffix("shared") }
     val widgetCount = flow {
-        emitAll(store.await().data.map { currentMap -> currentMap.values.sumOf { it.size } })
+        emitAll(store.await().data.map { data -> data.receiverToWidgets.values.sumOf { it.size } })
     }.stateIn(mainScope, SharingStarted.WhileSubscribed(), null)
 
     val haveWidgets = widgetCount.mapState { count -> count?.let { it > 0 } }
 
-    fun onUpdated(receiverId: String, widgetIds: Set<Int>) {
-        update { currentMap ->
-            val widgets = currentMap.getOrDefault(receiverId, emptySet())
+    fun onUpdated(receiverId: WidgetReceiverId, widgetIds: Set<WidgetId>) {
+        update { data ->
+            val widgets = data.receiverToWidgets.getOrDefault(receiverId, emptySet())
             val newWidgets = widgets + widgetIds
             ProtonLogger.log(WidgetUpdate, "$receiverId new count: ${newWidgets.size}")
-            currentMap + (receiverId to newWidgets)
+            data.copy(receiverToWidgets = data.receiverToWidgets + (receiverId to newWidgets))
         }
     }
 
-    fun onDeleted(receiverId: String, widgetIds: Set<Int>) {
-        update { currentMap ->
-            val widgets = currentMap.getOrDefault(receiverId, emptySet())
+    fun onDeleted(receiverId: WidgetReceiverId, widgetIds: Set<WidgetId>) {
+        update { data ->
+            val widgets = data.receiverToWidgets.getOrDefault(receiverId, emptySet())
             val newWidgets = widgets - widgetIds
             ProtonLogger.log(WidgetRemoved, "$receiverId new count: ${newWidgets.size}")
-            currentMap + (receiverId to widgets - widgetIds)
+            data.copy(receiverToWidgets = data.receiverToWidgets + (receiverId to widgets - widgetIds))
         }
     }
 
-    fun onCleared(receiverId: String) {
-        update { currentMap -> currentMap - receiverId }
+    fun onCleared(receiverId: WidgetReceiverId) {
+        update { data -> data.copy(data.receiverToWidgets - receiverId) }
         ProtonLogger.log(WidgetRemoved, "widgets cleared for $receiverId")
     }
 
-    fun onRestored(receiverId: String, oldWidgetIds: Set<Int>?, newWidgetIds: Set<Int>?) {
-        update { currentMap ->
-            val widgets = currentMap.getOrDefault(receiverId, emptySet())
+    fun onRestored(receiverId: String, oldWidgetIds: Set<WidgetId>?, newWidgetIds: Set<WidgetId>?) {
+        update { data ->
+            val widgets = data.receiverToWidgets.getOrDefault(receiverId, emptySet())
             val newWidgets = widgets - (oldWidgetIds ?: emptySet()) + (newWidgetIds ?: emptySet())
             ProtonLogger.log(WidgetsRestored, "$receiverId new count: ${newWidgets.size}")
-            currentMap + (receiverId to newWidgets)
+            data.copy(receiverToWidgets = data.receiverToWidgets + (receiverId to newWidgets))
         }
     }
 
-    private fun update(transform: suspend (Map<String,Set<Int>>) -> Map<String,Set<Int>>) =
+    private fun update(transform: suspend (WidgetTrackerData) -> WidgetTrackerData) =
         mainScope.launch { store.await().updateData(transform) }
 }
+
+@Serializable
+data class WidgetTrackerData(
+    val receiverToWidgets: Map<WidgetReceiverId, Set<WidgetId>>
+)
 
 @Singleton
 class WidgetTrackerStoreProvider @Inject constructor(
     factory: LocalDataStoreFactory
-) : StoreProvider<Map<String, Set<Int>>>(
-    "widget_tracker",
-    emptyMap(),
-    MapSerializer(String.serializer(), SetSerializer(Int.serializer())),
+) : StoreProvider<WidgetTrackerData>(
+    "widget_tracker_store",
+    WidgetTrackerData(emptyMap()),
+    WidgetTrackerData.serializer(),
     factory
 )
