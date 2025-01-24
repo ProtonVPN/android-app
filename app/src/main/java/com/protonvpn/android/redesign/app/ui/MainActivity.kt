@@ -242,10 +242,11 @@ class MainActivity : VpnUiDelegateProvider, AppCompatActivity() {
         }
         whatsNewDialogController.shouldShowDialog()
             .flowWithLifecycle(lifecycle)
-            .filterNotNull()
-            .onEach { dialogType ->
-                WhatsNewActivity.launch(this, dialogType)
-                whatsNewDialogController.onDialogShown()
+            .onEach { show ->
+                if (show) {
+                    WhatsNewActivity.launch(this)
+                    whatsNewDialogController.onDialogShown()
+                }
             }
             .launchIn(lifecycleScope)
         lifecycleScope.launch {

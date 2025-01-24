@@ -23,51 +23,40 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.protonvpn.android.R
+import androidx.core.view.isVisible
 import com.protonvpn.android.databinding.ActivityWhatsNewBinding
+import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.AndroidEntryPoint
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.viewBinding
-
-enum class WhatsNewDialogType {
-    Free, Paid
-}
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WhatsNewActivity : AppCompatActivity() {
+
+    @Inject lateinit var widgetManager: WidgetManager
 
     private val binding by viewBinding(ActivityWhatsNewBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val typeString = intent.getStringExtra(EXTRA_TYPE)
-        val type = requireNotNull(WhatsNewDialogType.values().find { it.name == typeString })
 
         with(binding) {
-            when(type) {
-                WhatsNewDialogType.Free -> {
-                    textSecondSectionTitle.setText(R.string.whats_new_added_countries_title)
-                    textSecondSectionDescription.setText(R.string.whats_new_added_countries_description)
-                }
-                WhatsNewDialogType.Paid -> {
-                    textSecondSectionTitle.setText(R.string.whats_new_recents_title)
-                    textSecondSectionDescription.setText(R.string.whats_new_recents_description)
-                }
-            }
             gotItButton.onClick {
+                finish()
+            }
+            addWidgetButton.isVisible = widgetManager.supportsNativeWidgetSelector
+            addWidgetButton.onClick {
+                widgetManager.openNativeWidgetSelector()
                 finish()
             }
         }
     }
 
     companion object {
-        private const val EXTRA_TYPE = "type"
-
-        fun launch(context: Context, type: WhatsNewDialogType) {
-            val intent = Intent(context, WhatsNewActivity::class.java).apply {
-                putExtra(EXTRA_TYPE, type.name)
-            }
+        fun launch(context: Context) {
+            val intent = Intent(context, WhatsNewActivity::class.java)
             context.startActivity(intent)
         }
     }
