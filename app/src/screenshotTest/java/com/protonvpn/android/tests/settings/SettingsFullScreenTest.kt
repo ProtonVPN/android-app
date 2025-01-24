@@ -45,7 +45,6 @@ fun SettingsCredentialless() {
     ProtonVpnPreview(addSurface = false) {
         SettingsView(accountSettingsViewState = settings.credentiallessAccountViewState,
             viewState = settings.settingsViewState,
-            widgetEnabled = true,
             onVpnAcceleratorClick = {},
             onAccountClick = {},
             onProtocolClick = {},
@@ -122,7 +121,6 @@ fun SettingsPaidProfileConnected() {
     ProtonVpnPreview(addSurface = false) {
         SettingsView(accountSettingsViewState = settingsPaid.credentiallessAccountViewState,
             viewState = settingsPaid.settingsViewState,
-            widgetEnabled = true,
             onVpnAcceleratorClick = {},
             onAccountClick = {},
             onProtocolClick = {},

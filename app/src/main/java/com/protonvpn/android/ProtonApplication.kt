@@ -209,8 +209,7 @@ open class ProtonApplication : Application() {
         dependencies.showUpgradeSuccess
         dependencies.vpnConnectionObservability
         dependencies.vpnConnectionTelemetry.start()
-        if (resources.getBoolean(R.bool.enable_widget))
-            dependencies.widgetStateUpdater.start()
+        dependencies.widgetStateUpdater.start()
 
         // Start last.
         dependencies.periodicUpdateManager.start()

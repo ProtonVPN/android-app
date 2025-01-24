@@ -18,7 +18,7 @@
   -->
 
 <resources>
-    <bool name="enable_material_widget">false</bool>
+    <bool name="enable_material_widget">true</bool>
 
     <!-- The launcher will clip the background to match system rounded corners -->
     <dimen name="widget_background_radius" type="dimen">0dp</dimen>
