@@ -129,7 +129,6 @@ fun SettingsRoute(
             SettingsView(
                 viewState = viewState,
                 accountSettingsViewState = accountSettingsViewState,
-                widgetEnabled = context.resources.getBoolean(R.bool.enable_widget),
                 onSignUpClick = onSignUpClick,
                 onSignInClick = onSignInClick,
                 onSignOutClick = onSignOutClick,
@@ -220,7 +219,6 @@ fun SettingsView(
     modifier: Modifier = Modifier,
     viewState: SettingsViewModel.SettingsViewState,
     accountSettingsViewState: AccountSettingsViewState,
-    widgetEnabled: Boolean,
     onAccountClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onSignInClick: () -> Unit,
@@ -332,14 +330,12 @@ fun SettingsView(
                     trailingIconTint = false,
                     onClick = onIconChangeClick
                 )
-                if (widgetEnabled) {
-                    SettingRowWithIcon(
-                        icon = CoreR.drawable.ic_proton_mobile,
-                        title = stringResource(id = R.string.settings_widget_title),
-                        hasNewLabel = !viewState.isWidgetDiscovered,
-                        onClick = onWidgetClick
-                    )
-                }
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_mobile,
+                    title = stringResource(id = R.string.settings_widget_title),
+                    hasNewLabel = !viewState.isWidgetDiscovered,
+                    onClick = onWidgetClick
+                )
             }
             Category(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),

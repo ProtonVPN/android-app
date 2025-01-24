@@ -331,7 +331,7 @@
         <receiver
             android:name=".widget.ProtonVpnWidgetReceiver"
             android:exported="true"
-            android:enabled="@bool/enable_widget">
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
@@ -344,7 +344,7 @@
         <receiver
             android:name=".widget.ProtonVpnWidgetBigReceiver"
             android:exported="true"
-            android:enabled="@bool/enable_widget">
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
@@ -380,7 +380,7 @@
 
         <receiver
             android:name=".widget.WidgetActionBroadcastReceiver"
-            android:enabled="@bool/enable_widget" />
+            android:enabled="true" />
 
         <activity
             android:name=".ui.settings.OssLicensesActivity"
