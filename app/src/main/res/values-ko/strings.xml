@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">IP 주소</string>
     <string name="inputIpAddressHint">IP 주소 입력</string>
     <string name="inputIpAddressErrorInvalid">유효하지 않은 IP 주소</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">신규</string>
     <string name="settingsExcludedIPAddressesListHeader">제외된 IP 주소 (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">포함된 IP 주소 (%1$d)</string>
     <string name="settingsExcludedApps">제외된 앱</string>
@@ -583,6 +585,13 @@
     <string name="settings_change_icon_confirmation_details">이 작업은 Proton VPN 앱을 종료시킵니다. Proton VPN을 재시작하려면, 새 앱 아이콘을 탭 하세요.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">위장 앱 아이콘</string>
+    <string name="settings_widget_title">위젯</string>
+    <string name="settings_widget_selection_title">Proton VPN 위젯을 사용해 보세요</string>
+    <string name="settings_widget_selection_description">홈 화면에서 VPN에 연결되어 있는지 여부와 기본 및 즐겨찾는 연결에 접근하세요.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">위젯을 추가하려면, 홈 화면의 아무 곳이나 길게 누른 다음 위젯 메뉴에서 %1$s을 선택하세요.</string>
+    <string name="settings_widget_selection_button_title">위젯 추가</string>
+    <string name="setting_widget_try_title">Proton VPN 위젯을 사용해 보세요</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">배너 무시</string>
@@ -1410,9 +1419,10 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="nps_rating_low_values_explain">0은 매우 가능성이 낮습니다</string>
     <string name="nps_rating_high_values_explain">10은 매우 가능성 있음</string>
     <string name="nps_toast_submit_message">공유해주셔서 감사합니다. 귀하의 피드백은 Proton VPN을 향상시키는데 도움이 됩니다.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">익명으로 공유</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_preview_switzerland">스위스</string>
+    <string name="widget_preview_unitedstates">미국</string>
     <string name="widget_status_unprotected">보호되지 않음</string>
     <string name="widget_status_error">오류</string>
     <string name="widget_status_connecting">연결 중…</string>

@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">IP adresi</string>
     <string name="inputIpAddressHint">IP adresini yazın</string>
     <string name="inputIpAddressErrorInvalid">IP adresi geçersiz</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">YENİ</string>
     <string name="settingsExcludedIPAddressesListHeader">Katılmayacak IP adresleri (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Katılacak IP adresleri (%1$d)</string>
     <string name="settingsExcludedApps">Katılmayacak uygulamalar</string>
@@ -599,6 +601,13 @@
     <string name="settings_change_icon_confirmation_details">Bu işlem, Proton VPN uygulamasının kapanmasına neden olur. Proton VPN uygulamasını yeniden başlatmak için yeni uygulama simgesine dokunmanız yeterlidir.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Gizli uygulama simgesi</string>
+    <string name="settings_widget_title">Araç takımı</string>
+    <string name="settings_widget_selection_title">Proton VPN araç takımını deneyin</string>
+    <string name="settings_widget_selection_description">VPN hizmetine bağlı olup olmadığınızı kontrol edin ve varsayılan ya da sık kullanılan bağlantılarınıza giriş ekranından erişin.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">Araç takımı eklemek için giriş ekranınızda herhangi bir yere basılı tutun ve ardından araç takımı menüsünden %1$s seçeneğini seçin.</string>
+    <string name="settings_widget_selection_button_title">Araç takımı ekle</string>
+    <string name="setting_widget_try_title">Proton VPN araç takımını deneyin</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Uyarıyı yok say</string>
@@ -1444,9 +1453,10 @@
     <string name="nps_rating_low_values_explain">0 hiç önermem</string>
     <string name="nps_rating_high_values_explain">10 çok öneririm</string>
     <string name="nps_toast_submit_message">Paylaşımınız için teşekkürler. Geri bildiriminiz Proton VPN hizmetini geliştirmemize yardımcı olacak.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Anonim olarak paylaş</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_preview_switzerland">İsviçre</string>
+    <string name="widget_preview_unitedstates">Birleşik Devletler</string>
     <string name="widget_status_unprotected">Korunmuyor</string>
     <string name="widget_status_error">Hata</string>
     <string name="widget_status_connecting">Bağlanıyor…</string>

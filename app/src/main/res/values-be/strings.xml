@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">IP-адрас</string>
     <string name="inputIpAddressHint">Напішыце IP-адрас</string>
     <string name="inputIpAddressErrorInvalid">Памылковы IP-адрас</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">NEW</string>
     <string name="settingsExcludedIPAddressesListHeader">Выключаныя IP-адрасы (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Уключаючы IP-адрасы (%1$d)</string>
     <string name="settingsExcludedApps">Выключаныя праграмы</string>
@@ -633,6 +635,13 @@
     <string name="settings_change_icon_confirmation_details">Гэта прывядзе да закрыцця праграмы Proton VPN. Проста націсніце на новы значок праграмы, каб перазапусціць Proton VPN.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Непрыкметны значок праграмы</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
+    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="settings_widget_selection_button_title">Add widget</string>
+    <string name="setting_widget_try_title">Try the Proton VPN widget</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Ігнараваць банер</string>
@@ -1516,11 +1525,12 @@
     <string name="nps_rating_low_values_explain">0 is very unlikely</string>
     <string name="nps_rating_high_values_explain">10 is very likely</string>
     <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Share anonymously</string>
     <string name="widget_preview_switzerland">Switzerland</string>
     <string name="widget_preview_unitedstates">United States</string>
     <string name="widget_status_unprotected">Unprotected</string>
-    <string name="widget_status_error">Error</string>
-    <string name="widget_status_connecting">Connecting…</string>
+    <string name="widget_status_error">Памылка</string>
+    <string name="widget_status_connecting">Падключэнне…</string>
     <string name="widget_sign_in">Sign in</string>
 </resources>

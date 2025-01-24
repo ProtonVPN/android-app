@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">Adresse IP</string>
     <string name="inputIpAddressHint">Écrire l\'adresse IP</string>
     <string name="inputIpAddressErrorInvalid">L\'adresse IP n’est pas valide.</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">NOUVEAU</string>
     <string name="settingsExcludedIPAddressesListHeader">Adresses IP exclues (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Adresses IP incluses (%1$d)</string>
     <string name="settingsExcludedApps">Applications exclues</string>
@@ -599,6 +601,13 @@
     <string name="settings_change_icon_confirmation_details">Cette action va fermer Proton VPN. Pour redémarrer Proton VPN, veuillez appuyer sur la nouvelle icône de votre application.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Icône d\'application discrète</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Essayez le widget Proton VPN</string>
+    <string name="settings_widget_selection_description">Vérifiez si vous êtes connecté au VPN et accédez à vos connexions par défaut et favorites depuis l\'écran d\'accueil.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">Pour ajouter le widget, appuyez et maintenez la pression n\'importe où sur votre écran d\'accueil, puis sélectionnez %1$s dans le menu des widgets.</string>
+    <string name="settings_widget_selection_button_title">Ajouter le widget</string>
+    <string name="setting_widget_try_title">Essayez le widget Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Fermer la bannière</string>
@@ -1444,6 +1453,7 @@
     <string name="nps_rating_low_values_explain">0 : Très peu probable</string>
     <string name="nps_rating_high_values_explain">10 : Très probable</string>
     <string name="nps_toast_submit_message">Merci pour votre contribution. Vos commentaires nous aident à améliorer Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Votre réponse doit comporter 250 caractères ou moins.</string>
     <string name="nps_button_submit_title">Partager anonymement</string>
     <string name="widget_preview_switzerland">Suisse</string>
     <string name="widget_preview_unitedstates">États-Unis</string>

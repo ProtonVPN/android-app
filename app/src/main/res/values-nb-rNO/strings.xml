@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">IP-adresse</string>
     <string name="inputIpAddressHint">Skriv IP-adresse</string>
     <string name="inputIpAddressErrorInvalid">Ugyldig IP-adresse</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">NY</string>
     <string name="settingsExcludedIPAddressesListHeader">Ekskluderte IP-adresser (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Inkluderte IP-adresser (%1$d)</string>
     <string name="settingsExcludedApps">Ekskluderte apper</string>
@@ -599,6 +601,13 @@
     <string name="settings_change_icon_confirmation_details">Dette vil føre til at Proton VPN-appen lukkes. For å starte Proton VPN på nytt, trykk bare på det nye appikonet.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Diskret app-ikon</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Prøv Proton VPN-widgeten</string>
+    <string name="settings_widget_selection_description">Sjekk om du er koblet til VPN og få tilgang til standard- og favoritt-tilkoblingene dine fra startskjermen.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">For å legge til widgeten, trykk og hold hvor som helst på startskjermen, og velg deretter %1$s fra widgetmenyen.</string>
+    <string name="settings_widget_selection_button_title">Legg til widget</string>
+    <string name="setting_widget_try_title">Prøv Proton VPN-widgeten</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Avvis banner</string>
@@ -1444,9 +1453,10 @@
     <string name="nps_rating_low_values_explain">0 er svært usannsynlig</string>
     <string name="nps_rating_high_values_explain">10 er svært sannsynlig</string>
     <string name="nps_toast_submit_message">Takk for at du deler. Tilbakemeldingen din hjelper oss med å forbedre Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Del anonymt</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_preview_switzerland">Sveits</string>
+    <string name="widget_preview_unitedstates">USA</string>
     <string name="widget_status_unprotected">Ubeskyttet</string>
     <string name="widget_status_error">Feil</string>
     <string name="widget_status_connecting">Kobler til...</string>
