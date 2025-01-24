@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">IPアドレス</string>
     <string name="inputIpAddressHint">IP アドレスを記載</string>
     <string name="inputIpAddressErrorInvalid">無効な IP アドレスです</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">新規</string>
     <string name="settingsExcludedIPAddressesListHeader">除外されたIPアドレス(%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">含まれているIPアドレス(%1$d)</string>
     <string name="settingsExcludedApps">除外するアプリ</string>
@@ -582,6 +584,13 @@
     <string name="settings_change_icon_confirmation_details">これにより、Proton VPN アプリが終了します。 Proton VPN を再起動するには、新しいアプリのアイコンをタップするだけです。</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">目立たないアプリアイコン</string>
+    <string name="settings_widget_title">ウィジェット</string>
+    <string name="settings_widget_selection_title">ProtonVPNウィジェットを試す</string>
+    <string name="settings_widget_selection_description">VPNに接続しているかどうかを確認し、ホーム画面からデフォルトとお気に入りの接続にアクセスします。</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">ウィジェットを追加するには、ホーム画面の任意の場所を押したままウィジェットメニューから %1$s を選択します。</string>
+    <string name="settings_widget_selection_button_title">ウィジェットを追加</string>
+    <string name="setting_widget_try_title">ProtonVPNウィジェットを試す</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">バナーを閉じる</string>
@@ -862,7 +871,7 @@
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
         <item quantity="other">%1$dヶ国から自動選択</item>
     </plurals>
-    <string name="connection_info_auto_selected_free_countries_plain">Auto-selected from free countries.</string>
+    <string name="connection_info_auto_selected_free_countries_plain">無料の国から自動選択。</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1408,11 +1417,12 @@
     <string name="nps_rating_low_values_explain">0はとても可能性が低い</string>
     <string name="nps_rating_high_values_explain">10はとても可能性が高い</string>
     <string name="nps_toast_submit_message">共有していただきありがとうございます。あなたのフィードバックはProtonVPNの改善に役立ちます。</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">匿名で共有</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
-    <string name="widget_status_unprotected">Unprotected</string>
-    <string name="widget_status_error">Error</string>
-    <string name="widget_status_connecting">Connecting…</string>
-    <string name="widget_sign_in">Sign in</string>
+    <string name="widget_preview_switzerland">スイス</string>
+    <string name="widget_preview_unitedstates">アメリカ</string>
+    <string name="widget_status_unprotected">保護されていません</string>
+    <string name="widget_status_error">エラー</string>
+    <string name="widget_status_connecting">接続中…</string>
+    <string name="widget_sign_in">サインイン</string>
 </resources>

@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">IP-adress</string>
     <string name="inputIpAddressHint">Skriv IP-adress</string>
     <string name="inputIpAddressErrorInvalid">Ogiltig IP-adress</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">NY</string>
     <string name="settingsExcludedIPAddressesListHeader">Exkluderade IP-adresser (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Inkluderade IP-adresser (%1$d)</string>
     <string name="settingsExcludedApps">Exkluderade appar</string>
@@ -599,6 +601,13 @@
     <string name="settings_change_icon_confirmation_details">Detta gör att Proton VPN-appen stängs. För att starta om Proton VPN, tryck bara på din nya appikon.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Diskret appikon</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Prova Proton VPN-widgeten</string>
+    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="settings_widget_selection_button_title">Lägg till widget</string>
+    <string name="setting_widget_try_title">Prova Proton VPN-widgeten</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Avfärda banner</string>
@@ -1444,9 +1453,10 @@
     <string name="nps_rating_low_values_explain">0 är minst troligt</string>
     <string name="nps_rating_high_values_explain">10 är mycket troligt</string>
     <string name="nps_toast_submit_message">Tack för att du delar med dig. Din feedback hjälper oss att förbättra Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Dela anonymt</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_preview_switzerland">Schweiz</string>
+    <string name="widget_preview_unitedstates">Förenta Staterna</string>
     <string name="widget_status_unprotected">Oskyddad</string>
     <string name="widget_status_error">Fel</string>
     <string name="widget_status_connecting">Ansluter…</string>

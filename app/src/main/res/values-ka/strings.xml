@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">IP მისამართი</string>
     <string name="inputIpAddressHint">ჩაწერეთ IP მისამართი</string>
     <string name="inputIpAddressErrorInvalid">არასწორი IP მისამართი</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">ახალი</string>
     <string name="settingsExcludedIPAddressesListHeader">გამორიცხული IP მისამართები (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">ჩართული IP მისამართები (%1$d)</string>
     <string name="settingsExcludedApps">გამორიცხული აპები</string>
@@ -599,6 +601,13 @@
     <string name="settings_change_icon_confirmation_details">ეს Proton VPN-ის აპს დახურავს.იმისათვის, რომ გადატვირთოთ Proton VPN, უბრალოდ დაატყაპუნეთ ახალი აპის ხატულაზე.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">დისკრეტული აპლიკაციის ხატულა</string>
+    <string name="settings_widget_title">ვიჯეტი</string>
+    <string name="settings_widget_selection_title">Proton VPN-ის ვიჯეტის ცდა</string>
+    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="settings_widget_selection_button_title">ვიჯეტის დამატება</string>
+    <string name="setting_widget_try_title">Proton VPN-ის ვიჯეტის ცდა</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">ბარენის მოცილება</string>
@@ -1444,9 +1453,10 @@
     <string name="nps_rating_low_values_explain">ნულის შანსი მცირეა</string>
     <string name="nps_rating_high_values_explain">10 დიდი ალბათობით</string>
     <string name="nps_toast_submit_message">მადლობა გაზიარებისთვის. თქვენი უკუკავშირი Proton VPN-ის გაუმჯობესებაში გვეხმარება.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">ანონიმურად გაზიარება</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_preview_switzerland">შვეიცარია</string>
+    <string name="widget_preview_unitedstates">აშშ</string>
     <string name="widget_status_unprotected">დაუცველი</string>
     <string name="widget_status_error">შეცდომა</string>
     <string name="widget_status_connecting">დაკავშირება…</string>

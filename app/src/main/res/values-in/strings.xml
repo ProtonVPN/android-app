@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">Alamat IP</string>
     <string name="inputIpAddressHint">Tulis alamat IP</string>
     <string name="inputIpAddressErrorInvalid">Alamat IP tidak valid</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">BARU</string>
     <string name="settingsExcludedIPAddressesListHeader">Alamat IP yang dikecualikan (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Alamat IP yang disertakan (%1$d)</string>
     <string name="settingsExcludedApps">Aplikasi yang Dikecualikan</string>
@@ -582,6 +584,13 @@
     <string name="settings_change_icon_confirmation_details">Tindakan ini akan menutup aplikasi Proton VPN. Untuk memulai ulang Proton VPN, cukup ketuk ikon aplikasi baru Anda.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Ikon aplikasi rahasia</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Coba widget Proton VPN</string>
+    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="settings_widget_selection_button_title">Add widget</string>
+    <string name="setting_widget_try_title">Try the Proton VPN widget</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Tutup pengumuman</string>
@@ -1408,6 +1417,7 @@
     <string name="nps_rating_low_values_explain">0 adalah sangat tidak mungkin</string>
     <string name="nps_rating_high_values_explain">10 adalah sangat mungkin</string>
     <string name="nps_toast_submit_message">Terima kasih telah membagikan. Masukan Anda membantu kami meningkatkan Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Bagikan secara anonim</string>
     <string name="widget_preview_switzerland">Switzerland</string>
     <string name="widget_preview_unitedstates">United States</string>

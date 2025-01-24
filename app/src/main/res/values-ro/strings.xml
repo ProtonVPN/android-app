@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">Adresa IP</string>
     <string name="inputIpAddressHint">Scrieți adresa IP</string>
     <string name="inputIpAddressErrorInvalid">Adresă IP nevalidă</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">NEW</string>
     <string name="settingsExcludedIPAddressesListHeader">Adrese IP excluse (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Adrese IP incluse (%1$d)</string>
     <string name="settingsExcludedApps">Aplicații excluse</string>
@@ -616,6 +618,13 @@
     <string name="settings_change_icon_confirmation_details">Acest lucru va determina închiderea aplicației Proton VPN. Pentru a reporni Proton VPN, trebuie doar să atingeți nou pictogramă a aplicației.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Pictogramă discretă aplicație</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
+    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="settings_widget_selection_button_title">Add widget</string>
+    <string name="setting_widget_try_title">Try the Proton VPN widget</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Ascundere banner</string>
@@ -889,7 +898,7 @@
          [flags] - replaced with an image of 3 flags.
 
      -->
-    <string name="connection_info_auto_selected_free_countries">Autoselectat din [flags]</string>
+    <string name="connection_info_auto_selected_free_countries">Autoselectare din [flags]</string>
     <!-- tag(Redesign_2023)
          Label describing a connection to a free server automatically selected from one in
          several countries. Used instead of connection_info_auto_selected_free_countries when there
@@ -900,7 +909,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Autoselectat din [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Autoselectare din [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -908,11 +917,11 @@
          $1%d - replaced with number of countries.
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
-        <item quantity="one">Autoselectat din %1$d țară</item>
-        <item quantity="few">Autoselectat din %1$d țări</item>
-        <item quantity="other">Autoselectat din %1$d de țări</item>
+        <item quantity="one">Autoselectare din %1$d țară</item>
+        <item quantity="few">Autoselectare din %1$d țări</item>
+        <item quantity="other">Autoselectare din %1$d de țări</item>
     </plurals>
-    <string name="connection_info_auto_selected_free_countries_plain">Auto-selected from free countries.</string>
+    <string name="connection_info_auto_selected_free_countries_plain">Autoselectare din țările planului gratuit.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1480,6 +1489,7 @@
     <string name="nps_rating_low_values_explain">0 este foarte improbabil</string>
     <string name="nps_rating_high_values_explain">10 este foarte probabil</string>
     <string name="nps_toast_submit_message">Mulțumim pentru feedback. Acesta ne va ajuta să îmbunătățim Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Partajare anonimă</string>
     <string name="widget_preview_switzerland">Switzerland</string>
     <string name="widget_preview_unitedstates">United States</string>

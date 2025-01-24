@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">IP-Adresse</string>
     <string name="inputIpAddressHint">IP-Adresse eingeben</string>
     <string name="inputIpAddressErrorInvalid">Ungültige IP-Adresse</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">NEU</string>
     <string name="settingsExcludedIPAddressesListHeader">Ausgeschlossene IP-Adressen (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Einbezogene IP-Adressen (%1$d)</string>
     <string name="settingsExcludedApps">Ausgeschlossene Apps</string>
@@ -599,6 +601,13 @@
     <string name="settings_change_icon_confirmation_details">Dadurch wird die Proton VPN-App geschlossen. Um Proton VPN neu zu starten, tippe einfach auf dein neues App-Symbol.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Diskretes App-Symbol</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Probiere das Proton VPN Widget aus</string>
+    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="settings_widget_selection_button_title">Widget hinzufügen</string>
+    <string name="setting_widget_try_title">Probiere das Proton VPN Widget aus</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Banner schließen</string>
@@ -1444,11 +1453,12 @@
     <string name="nps_rating_low_values_explain">0 ist sehr unwahrscheinlich</string>
     <string name="nps_rating_high_values_explain">10 ist sehr wahrscheinlich</string>
     <string name="nps_toast_submit_message">Vielen Dank! Dein Feedback hilft uns, Proton zu verbessern.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Anonym teilen</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_preview_switzerland">Schweiz</string>
+    <string name="widget_preview_unitedstates">Vereinigte Staaten</string>
     <string name="widget_status_unprotected">Ungeschützt</string>
     <string name="widget_status_error">Fehler</string>
     <string name="widget_status_connecting">Verbindung wird hergestellt …</string>
-    <string name="widget_sign_in">Sign in</string>
+    <string name="widget_sign_in">Anmelden</string>
 </resources>

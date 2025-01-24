@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">Adres IP</string>
     <string name="inputIpAddressHint">Wpisz adres IP</string>
     <string name="inputIpAddressErrorInvalid">Adres IP jest nieprawidłowy</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">NEW</string>
     <string name="settingsExcludedIPAddressesListHeader">Wykluczone adresy IP (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Uwzględnione adresy IP (%1$d)</string>
     <string name="settingsExcludedApps">Wykluczone aplikacje</string>
@@ -633,6 +635,13 @@
     <string name="settings_change_icon_confirmation_details">Spowoduje to zamknięcie aplikacji Proton VPN. Aby uruchomić ponownie Proton VPN, kliknij ikonę nowej aplikacji.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Dyskretna ikona aplikacji</string>
+    <string name="settings_widget_title">Widżet</string>
+    <string name="settings_widget_selection_title">Wypróbuj widżet Proton VPN</string>
+    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="settings_widget_selection_button_title">Dodaj widżet</string>
+    <string name="setting_widget_try_title">Wypróbuj widżet Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Odrzuć powiadomienie</string>
@@ -937,7 +946,7 @@
         <item quantity="many">Automatycznie wybrany z %1$d krajów</item>
         <item quantity="other">Automatycznie wybrany z %1$d krajów</item>
     </plurals>
-    <string name="connection_info_auto_selected_free_countries_plain">Auto-selected from free countries.</string>
+    <string name="connection_info_auto_selected_free_countries_plain">Automatycznie wybrany z darmowych krajów.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1515,12 +1524,13 @@
     <string name="nps_additional_comment_optional">Opcjonalne</string>
     <string name="nps_rating_low_values_explain">0 is very unlikely</string>
     <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
+    <string name="nps_toast_submit_message">Dziękujemy. Twoja opinia pomoże nam ulepszyć usługi Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Udostępnij anonimowo</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_preview_switzerland">Szwajcaria</string>
+    <string name="widget_preview_unitedstates">Stany Zjednoczone</string>
     <string name="widget_status_unprotected">Unprotected</string>
     <string name="widget_status_error">Błąd</string>
     <string name="widget_status_connecting">Łączenie...</string>
-    <string name="widget_sign_in">Sign in</string>
+    <string name="widget_sign_in">Zaloguj się</string>
 </resources>

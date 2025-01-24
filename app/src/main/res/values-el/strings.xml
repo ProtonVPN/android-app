@@ -125,6 +125,8 @@
     <string name="inputIpAddressLabel">Διεύθυνση IP</string>
     <string name="inputIpAddressHint">Καταχωρήστε την IP Διεύθυνση</string>
     <string name="inputIpAddressErrorInvalid">Μη έγκυρη IP Διεύθυνση</string>
+    <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
+    <string name="settings_new_label_badge">ΝΕΟ</string>
     <string name="settingsExcludedIPAddressesListHeader">Εξαιρούμενες IP διευθύνσεις (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Συμπεριλαμβανόμενες διευθύνσεις IP (%1$d)</string>
     <string name="settingsExcludedApps">Εξαιρούμενες εφαρμογές</string>
@@ -599,6 +601,13 @@
     <string name="settings_change_icon_confirmation_details">Αυτό θα προκαλέσει το κλείσιμο της εφαρμογής Proton VPN. Για να επανεκκινήσετε το Proton VPN, απλώς πατήστε το εικονίδιο της νέας σας εφαρμογής.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Διακριτικό εικονίδιο εφαρμογής</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Δοκιμάστε το Proton VPN widget</string>
+    <string name="settings_widget_selection_description">Ελέγξτε αν είστε συνδεδεμένοι στο VPN και αποκτήστε πρόσβαση στις προεπιλεγμένες και αγαπημένες συνδέσεις σας από την αρχική οθόνη.</string>
+    <!-- Placeholder is for non-translatable app_name-->
+    <string name="setting_widget_selection_additional_description">Για να προσθέσετε το widget, απλώς πατήστε παρατεταμένα οπουδήποτε στην αρχική οθόνη και, στη συνέχεια, επιλέξτε %1$s από το μενού του widget.</string>
+    <string name="settings_widget_selection_button_title">Προσθήκη widget</string>
+    <string name="setting_widget_try_title">Δοκιμάστε το Proton VPN widget</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Παράβλεψη banner</string>
@@ -1444,9 +1453,10 @@
     <string name="nps_rating_low_values_explain">0 είναι το πλέον απίθανο</string>
     <string name="nps_rating_high_values_explain">10 είναι το πιθανότερο</string>
     <string name="nps_toast_submit_message">Σας ευχαριστούμε! Τα σχόλιά σας μας βοηθούν να βελτιώσουμε το Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Μοιραστείτε ανώνυμα</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_preview_switzerland">Ελβετία</string>
+    <string name="widget_preview_unitedstates">Ηνωμένες Πολιτείες</string>
     <string name="widget_status_unprotected">Χωρίς προστασία</string>
     <string name="widget_status_error">Σφάλμα</string>
     <string name="widget_status_connecting">Γίνεται σύνδεση</string>
