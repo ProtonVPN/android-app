@@ -108,7 +108,7 @@ import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnErrorUIManager
-import kotlinx.coroutines.CoroutineScope
+import com.protonvpn.android.widget.ui.OnboardingWidgetBottomSheetContent
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
@@ -143,6 +143,7 @@ fun HomeRoute(
     val prominentPromoBannerState =
         homeViewModel.prominentPromoBannerStateFlow.collectAsStateWithLifecycle().value
     val snackError = homeViewModel.snackbarErrorFlow.collectAsStateWithLifecycle().value
+    val showWidgetAdoption = homeViewModel.showWidgetAdoptionFlow.collectAsStateWithLifecycle(initialValue = false).value
 
     // Not using material3 snackbar because of inability to show multiline correctly
     val snackbarHostState = remember { androidx.compose.material.SnackbarHostState() }
@@ -203,6 +204,11 @@ fun HomeRoute(
             }
         )
     }
+    val widgetAdoptionComponent = if (showWidgetAdoption)
+        WidgetAdoptionComponent(
+            onDismiss = { homeViewModel.onWidgetAdoptionShown() },
+            onAddWidget = homeViewModel.widgetAdoptionAddNewAction
+        ) else null
 
     HomeView(
         vpnState = vpnStatusViewState,
@@ -216,7 +222,8 @@ fun HomeRoute(
         bottomPromoComponent = bottomPromoComponent,
         prominentPromoComponent = prominentBannerPromo,
         connectionCardComponent = connectionCardComponent,
-        recentsComponent = recentsComponent
+        recentsComponent = recentsComponent,
+        widgetAdoptionComponent = widgetAdoptionComponent
     )
 
     LaunchedEffect(key1 = Unit) {
@@ -258,7 +265,8 @@ fun HomeView(
     prominentPromoComponent: ProminentPromoComponent?,
     connectionCardComponent: ConnectionCardComponent,
     snackbarHostState: SnackbarHostState,
-    recentsComponent: RecentsComponent
+    recentsComponent: RecentsComponent,
+    widgetAdoptionComponent: WidgetAdoptionComponent?,
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -271,6 +279,16 @@ fun HomeView(
                 state,
                 onChangeServerClick = connectionCardComponent.onChangeServerClick,
                 onUpgradeButtonShown = connectionCardComponent.onChangeServerUpgradeButtonShown
+            )
+        }
+    }
+    widgetAdoptionComponent?.let {
+        SimpleModalBottomSheet(
+            onDismissRequest = it.onDismiss,
+        ) {
+            OnboardingWidgetBottomSheetContent(
+                onClose = it.onDismiss,
+                onAddWidget = it.onAddWidget
             )
         }
     }
@@ -473,6 +491,11 @@ data class BottomPromoComponent(
     val state: PromoOfferBannerState,
     val onDismiss: () -> Unit,
     val onClick: (suspend () -> Unit)
+)
+
+data class WidgetAdoptionComponent(
+    val onDismiss: () -> Unit,
+    val onAddWidget: (() -> Unit)?
 )
 
 data class ProminentPromoComponent(

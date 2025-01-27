@@ -21,6 +21,7 @@ package com.protonvpn.android.tests.settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.widget.ui.OnboardingWidgetBottomSheetContent
 import com.protonvpn.android.widget.ui.WidgetAddScreen
 
 @Preview
@@ -28,5 +29,21 @@ import com.protonvpn.android.widget.ui.WidgetAddScreen
 fun WidgetSettingsScreenPreview() {
     ProtonVpnPreview(addSurface = true) {
         WidgetAddScreen(onClose = {})
+    }
+}
+
+@Preview
+@Composable
+fun WidgetOnboardingContent() {
+    ProtonVpnPreview(addSurface = true) {
+        OnboardingWidgetBottomSheetContent({}, {})
+    }
+}
+
+@Preview
+@Composable
+fun WidgetOnboardingContentFallback() {
+    ProtonVpnPreview(addSurface = true) {
+        OnboardingWidgetBottomSheetContent({}, null)
     }
 }
