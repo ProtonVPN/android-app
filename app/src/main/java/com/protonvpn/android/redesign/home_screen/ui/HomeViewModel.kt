@@ -61,6 +61,7 @@ import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.android.widget.WidgetManager
 import dagger.Reusable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -116,6 +117,7 @@ class HomeViewModel @Inject constructor(
     private val promoOffersPrefs: PromoOffersPrefs,
     @ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
     private val setNetShield: SetNetShield,
+    private val widgetManager: WidgetManager,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -126,6 +128,11 @@ class HomeViewModel @Inject constructor(
         else
             null
     }.distinctUntilChanged()
+
+    fun onWidgetAdoptionShown() = widgetManager.onWidgetAdoptionShown()
+
+    val widgetAdoptionAddNewAction = widgetManager.widgetAdoptionAddNewAction
+    val showWidgetAdoptionFlow = widgetManager.showWidgetAdoptionFlow
 
     val mapHighlightState = combine(
         connectionMapHighlightsFlow,

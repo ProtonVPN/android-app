@@ -41,6 +41,8 @@ data class UiStoredState(
     val hasPopulatedDefaultProfiles: Boolean = false,
     val shouldPromoteProfiles: Boolean = false,
     val hasShownProfilesInfo: Boolean = false,
+    // if null will be scheduled to be true after 2 days.
+    val shouldShowWidgetAdoption: Boolean? = null,
     val searchHistory: List<String> = emptyList(),
 ) {
     companion object {

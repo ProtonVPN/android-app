@@ -61,30 +61,38 @@ fun WidgetAddScreen(
             modifier = Modifier.padding(16.dp)
         ) {
             WidgetLottieAnimation()
-            Text(
-                color = ProtonTheme.colors.textNorm,
-                style = ProtonTheme.typography.body2Regular,
-                text = textMultiStyle(
-                    originalText = stringResource(
-                        R.string.setting_widget_selection_additional_description,
-                        stringResource(R.string.app_name)
-                    ),
-                    customStyleTexts = listOf(
-                        TextWithStyle(
-                            stringResource(R.string.app_name),
-                            ProtonTheme.typography.body2Medium
-                        )
-                    )
-                )
-            )
+            StyledAddWidgetDescription()
         }
     }
 }
 
 @Composable
+private fun StyledAddWidgetDescription(
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier,
+        color = ProtonTheme.colors.textNorm,
+        style = ProtonTheme.typography.body2Regular,
+        text = textMultiStyle(
+            originalText = stringResource(
+                R.string.setting_widget_selection_additional_description,
+                stringResource(R.string.app_name)
+            ),
+            customStyleTexts = listOf(
+                TextWithStyle(
+                    stringResource(R.string.app_name),
+                    ProtonTheme.typography.body2Medium
+                )
+            )
+        )
+    )
+}
+
+@Composable
 fun OnboardingWidgetBottomSheetContent(
     onClose: () -> Unit,
-    onAddWidget: () -> Unit,
+    onAddWidget: (() -> Unit)?,
 ) {
     Column(
         modifier = Modifier.padding(16.dp)
@@ -98,15 +106,25 @@ fun OnboardingWidgetBottomSheetContent(
 
         WidgetLottieAnimation()
         Spacer(Modifier.height(16.dp))
-        VpnSolidButton(
-            text = stringResource(R.string.settings_widget_selection_button_title),
-            onClick = onAddWidget,
-        )
-        Spacer(Modifier.height(8.dp))
-        VpnTextButton(
-            text = stringResource(R.string.no_thanks),
-            onClick = onClose,
-        )
+
+        if (onAddWidget != null) {
+            VpnSolidButton(
+                text = stringResource(R.string.settings_widget_selection_button_title),
+                onClick = onAddWidget,
+            )
+            Spacer(Modifier.height(8.dp))
+            VpnTextButton(
+                text = stringResource(R.string.no_thanks),
+                onClick = onClose,
+            )
+        } else {
+            StyledAddWidgetDescription()
+            Spacer(Modifier.height(32.dp))
+            VpnSolidButton(
+                text = stringResource(R.string.got_it),
+                onClick = onClose,
+            )
+        }
     }
 }
 
@@ -162,6 +180,17 @@ fun WidgetOnboardingBottomSheetPreview() {
         OnboardingWidgetBottomSheetContent(
             onClose = {},
             onAddWidget = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun WidgetOnboardingBottomSheetNonNativePreview() {
+    VpnTheme(isDark = true) {
+        OnboardingWidgetBottomSheetContent(
+            onClose = {},
+            onAddWidget = null
         )
     }
 }
