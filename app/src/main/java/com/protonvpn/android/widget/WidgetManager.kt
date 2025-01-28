@@ -21,6 +21,7 @@ package com.protonvpn.android.widget
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
+import android.os.Build
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
@@ -52,8 +53,16 @@ class WidgetManager @Inject constructor(
 ) {
     private val widgetManager = AppWidgetManager.getInstance(context)
 
+    companion object {
+        // Some manufacturers override native picker with their own implementation
+        // use fallback UI in that case instead of native picker
+        // Add manufacturers in lowercase to the list.
+        val PICKER_NOT_SUPPORTED_MANUFACTURER_LIST = listOf("xiaomi")
+    }
+
     val supportsNativeWidgetSelector: Boolean
-        get() = widgetManager.isRequestPinAppWidgetSupported
+        get() = widgetManager.isRequestPinAppWidgetSupported &&
+                Build.MANUFACTURER.lowercase() !in PICKER_NOT_SUPPORTED_MANUFACTURER_LIST
 
     val hasAddedWidget = widgetTracker.haveWidgets
 
