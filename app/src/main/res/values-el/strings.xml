@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Διακριτικό εικονίδιο εφαρμογής</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Δοκιμάστε το Proton VPN widget</string>
-    <string name="settings_widget_selection_description">Ελέγξτε αν είστε συνδεδεμένοι στο VPN και αποκτήστε πρόσβαση στις προεπιλεγμένες και αγαπημένες συνδέσεις σας από την αρχική οθόνη.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Για να προσθέσετε το widget, απλώς πατήστε παρατεταμένα οπουδήποτε στην αρχική οθόνη και, στη συνέχεια, επιλέξτε %1$s από το μενού του widget.</string>
     <string name="settings_widget_selection_button_title">Προσθήκη widget</string>
@@ -665,13 +665,11 @@
     <string name="not_wanted_country_title">Δεν είναι η χώρα που θέλατε;</string>
     <string name="not_wanted_country_description">Αναβάθμιση για να επιλέξετε οποιονδήποτε διακομιστή</string>
     <string name="whats_new_title">Τι νέο υπάρχει</string>
-    <string name="whats_new_new_look_title">Νέα εμφάνιση, ίδια προστασία</string>
-    <string name="whats_new_new_look_description">Ενημερώσαμε τα σχέδιά μας και μετακινήσαμε ορισμένα πράγματα για να κάνουμε την εφαρμογή πιο εύχρηστη.</string>
-    <string name="whats_new_recents_title">Παρουσιάζουμε τα Πρόσφατα</string>
-    <string name="whats_new_recents_description">Τώρα είναι ακόμα πιο εύκολο να επανασυνδεθείτε στους αγαπημένους σας διακομιστές. Προβάλετε τις πιο πρόσφατες συνδέσεις σας στην αρχική οθόνη ή καρφιτσώστε τις για γρήγορη πρόσβαση. Τα \"Πρόσφατα\" αντικαθιστούν τα \"Προφίλ\".</string>
-    <string name="whats_new_dismiss_button">Ρίξτε μια ματιά</string>
-    <string name="whats_new_added_countries_title">Νέες Δωρεάν χώρες</string>
-    <string name="whats_new_added_countries_description">Υπάρχουν τώρα δωρεάν διακομιστές στην Πολωνία και τη Ρουμανία. Για να αποτρέψουμε τον συνωστισμό διακομιστών, καταργήσαμε τη μην αυτόματη επιλογή χώρας και πραγματοποιήσαμε σημαντικές βελτιώσεις στην αυτόματη επιλογή διακομιστή.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Καλώς ήλθατε στο VPN Plus</string>
     <string name="welcome_plus_description">Απολαύστε επιπλέον λειτουργίες απορρήτου, υπερφορτισμένη απόδοση και επόμενου επιπέδου προσαρμογές VPN.</string>
     <string name="welcome_plus_feature_security">Προηγμένες λειτουργίες ασφαλείας</string>
@@ -1453,7 +1451,7 @@
     <string name="nps_rating_low_values_explain">0 είναι το πλέον απίθανο</string>
     <string name="nps_rating_high_values_explain">10 είναι το πιθανότερο</string>
     <string name="nps_toast_submit_message">Σας ευχαριστούμε! Τα σχόλιά σας μας βοηθούν να βελτιώσουμε το Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Η απάντησή σας πρέπει να είναι 250 χαρακτήρες ή μικρότερη</string>
     <string name="nps_button_submit_title">Μοιραστείτε ανώνυμα</string>
     <string name="widget_preview_switzerland">Ελβετία</string>
     <string name="widget_preview_unitedstates">Ηνωμένες Πολιτείες</string>

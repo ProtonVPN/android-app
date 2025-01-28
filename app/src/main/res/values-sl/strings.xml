@@ -638,7 +638,7 @@
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
-    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
     <string name="settings_widget_selection_button_title">Add widget</string>
@@ -708,13 +708,11 @@
     <string name="not_wanted_country_title">Ni država, ki ste jo želeli?</string>
     <string name="not_wanted_country_description">Nadgradite, da izberete kateri koli strežnik</string>
     <string name="whats_new_title">Novosti</string>
-    <string name="whats_new_new_look_title">Nov videz, enaka zaščita</string>
-    <string name="whats_new_new_look_description">Posodobili smo svoje zasnove in premaknili nekatere stvari, da bi olajšali uporabo aplikacije.</string>
-    <string name="whats_new_recents_title">Predstavljamo nedavno</string>
-    <string name="whats_new_recents_description">Zdaj je še lažje ponovno vzpostaviti povezavo z vašimi najljubšimi strežniki. Oglejte si najnovejše povezave na začetnem zaslonu ali jih pripnite za hiter dostop. Nedavno je zamenjalo profile.</string>
-    <string name="whats_new_dismiss_button">Poglej</string>
-    <string name="whats_new_added_countries_title">Nove brezplačne države</string>
-    <string name="whats_new_added_countries_description">Zdaj so brezplačni strežniki na Poljskem in v Romuniji. Da bi preprečili gnečo na strežniku, smo odstranili ročno izbiro države in bistveno izboljšali samodejno izbiro strežnika.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
     <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, okrepljeni zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
     <string name="welcome_plus_feature_security">Napredne varnostne funkcije</string>

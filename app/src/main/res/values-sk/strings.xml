@@ -637,7 +637,7 @@
     <string name="settings_change_icon_header_discreet">Nenápadná ikona aplikácie</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Vyskúšajte Proton VPN widget</string>
-    <string name="settings_widget_selection_description">Skontrolujte, či máte pripojenie k VPN, a získajte prístup k predvoleným a obľúbeným pripojeniam z domovskej obrazovky.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Pre pridanie widgetu stačí stlačiť a pridržať ľubovoľné miesto na domovskej obrazovke a potom vybrať %1$s z ponuky widgetov.</string>
     <string name="settings_widget_selection_button_title">Pridať widget</string>
@@ -707,13 +707,11 @@
     <string name="not_wanted_country_title">Nie je to krajina, ktorú ste chceli?</string>
     <string name="not_wanted_country_description">Aktualizujte a vyberte si ľubovoľný server</string>
     <string name="whats_new_title">Čo je nové</string>
-    <string name="whats_new_new_look_title">Nový vzhľad, tá istá ochrana</string>
-    <string name="whats_new_new_look_description">Aktualizovali sme náš dizajn a presunuli niektoré veci, aby sa aplikácia ľahšie používala.</string>
-    <string name="whats_new_recents_title">Predstavujeme posledné novinky</string>
-    <string name="whats_new_recents_description">Teraz je ešte jednoduchšie znova sa pripojiť k obľúbeným serverom. Zobrazte najnovšie pripojenia na domovskej obrazovke alebo ich pripnite pre rýchly prístup. Nedávne nahrádza položku Profily.</string>
-    <string name="whats_new_dismiss_button">Pozrieť sa</string>
-    <string name="whats_new_added_countries_title">Nové Bezplatné krajiny</string>
-    <string name="whats_new_added_countries_description">Bezplatné servery sú teraz v Poľsku a Rumunsku. Aby sme zabránili preplneniu serverov, odstránili sme manuálny výber krajiny a výrazne sme zlepšili automatický výber serverov.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Vitajte vo VPN Plus</string>
     <string name="welcome_plus_description">Vychutnajte si ďalšie funkcie ochrany súkromia, vyšší výkon a prispôsobenie VPN na novej úrovni.</string>
     <string name="welcome_plus_feature_security">Pokročilé bezpečnostné funkcie</string>
@@ -1525,7 +1523,7 @@
     <string name="nps_rating_low_values_explain">0 je veľmi nepravdepodobne</string>
     <string name="nps_rating_high_values_explain">10 je vysoko pravdepodobne</string>
     <string name="nps_toast_submit_message">Ďakujeme za zdieľanie. Vaša spätná väzba nám pomáha zlepšovať Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Vaša odpoveď by mala mať maximálne 250 znakov</string>
     <string name="nps_button_submit_title">Zdieľať anonymne</string>
     <string name="widget_preview_switzerland">Švajčiarsko</string>
     <string name="widget_preview_unitedstates">Spojené štáty americké</string>

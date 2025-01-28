@@ -586,7 +586,7 @@
     <string name="settings_change_icon_header_discreet">目立たないアプリアイコン</string>
     <string name="settings_widget_title">ウィジェット</string>
     <string name="settings_widget_selection_title">ProtonVPNウィジェットを試す</string>
-    <string name="settings_widget_selection_description">VPNに接続しているかどうかを確認し、ホーム画面からデフォルトとお気に入りの接続にアクセスします。</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">ウィジェットを追加するには、ホーム画面の任意の場所を押したままウィジェットメニューから %1$s を選択します。</string>
     <string name="settings_widget_selection_button_title">ウィジェットを追加</string>
@@ -644,13 +644,11 @@
     <string name="not_wanted_country_title">ご希望の国ではありませんか？</string>
     <string name="not_wanted_country_description">アップグレードして任意のサーバーを選択</string>
     <string name="whats_new_title">最新情報</string>
-    <string name="whats_new_new_look_title">新しい外観、変わらない保護</string>
-    <string name="whats_new_new_look_description">私たちはデザインを更新し、アプリを使いやすくするためにいくつかのものを移動させました。</string>
-    <string name="whats_new_recents_title">最近あったことを紹介</string>
-    <string name="whats_new_recents_description">お気に入りのサーバーへの再接続がさらに簡単になりました。最近の接続をホーム画面に表示したり、ピン留めしてすばやくアクセスできます。最近の接続はプロファイルに置き換わります。</string>
-    <string name="whats_new_dismiss_button">確認する</string>
-    <string name="whats_new_added_countries_title">新しい無料の国</string>
-    <string name="whats_new_added_countries_description">ポーランドとルーマニアに無料サーバーができました。サーバーの混雑を防ぐため、手動での国選択を廃止し、自動サーバー選択を大幅に改善しました。</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">VPN Plusへようこそ</string>
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
     <string name="welcome_plus_feature_security">高度なセキュリティ機能</string>
@@ -1417,7 +1415,7 @@
     <string name="nps_rating_low_values_explain">0はとても可能性が低い</string>
     <string name="nps_rating_high_values_explain">10はとても可能性が高い</string>
     <string name="nps_toast_submit_message">共有していただきありがとうございます。あなたのフィードバックはProtonVPNの改善に役立ちます。</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">回答は 250 文字以下でなければなりません</string>
     <string name="nps_button_submit_title">匿名で共有</string>
     <string name="widget_preview_switzerland">スイス</string>
     <string name="widget_preview_unitedstates">アメリカ</string>

@@ -351,7 +351,7 @@
     <string name="upgrade_netshield_message"><![CDATA[使用 <b>NetShield</b> 封鎖廣告、追蹤器與惡意軟體。]]></string>
     <string name="upgrade_secure_core_title">雙重加密</string>
     <string name="upgrade_secure_core_message"><![CDATA[使用 <b>Secure Core</b> 為您的 VPN 連線多添一層加密。]]></string>
-    <string name="upgrade_p2p_title">解鎖點對點 (P2P) 下載與檔案共享</string>
+    <string name="upgrade_p2p_title">解鎖點對點 (P2P) 下載與檔案共享 </string>
     <string name="upgrade_p2p_text">提升上、下載速度，同時不失隱藏您的 IP 位址。</string>
     <string name="upgrade_profiles_title">Get quick access to your frequent connections</string>
     <string name="upgrade_profiles_text">Unlock profiles with VPN Plus</string>
@@ -586,7 +586,7 @@
     <string name="settings_change_icon_header_discreet">Discreet app icon</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
-    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
     <string name="settings_widget_selection_button_title">Add widget</string>
@@ -644,13 +644,11 @@
     <string name="not_wanted_country_title">不是您想要的國家？</string>
     <string name="not_wanted_country_description">升級以選擇任何伺服器。</string>
     <string name="whats_new_title">最新消息！</string>
-    <string name="whats_new_new_look_title">嶄新視覺、極度保護</string>
-    <string name="whats_new_new_look_description">我們更新了設計與佈局，讓應用程式更得心應手。</string>
-    <string name="whats_new_recents_title">介紹「最近使用」</string>
-    <string name="whats_new_recents_description">重新連接您喜愛的伺服器，現在更方便。在主畫面中檢視您最近的連線，亦可釘選作快速存取。「最近使用」取代昔日的設定檔。</string>
-    <string name="whats_new_dismiss_button">立即查看</string>
-    <string name="whats_new_added_countries_title">新增的免費國家</string>
-    <string name="whats_new_added_countries_description">免費伺服器現已加入波蘭和羅馬尼亞。為分散伺服器負載，我們移除了手動選擇國家，並大幅提升自動選取伺服器。</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">歡迎加入 VPN Plus</string>
     <string name="welcome_plus_description">享受額外的隱私功能，最好的性能以及前瞻性的虛擬私有網路自定義。</string>
     <string name="welcome_plus_feature_security">進階安全功能</string>
@@ -1422,7 +1420,7 @@
     <string name="widget_preview_switzerland">Switzerland</string>
     <string name="widget_preview_unitedstates">United States</string>
     <string name="widget_status_unprotected">Unprotected</string>
-    <string name="widget_status_error">Error</string>
+    <string name="widget_status_error">錯誤</string>
     <string name="widget_status_connecting">Connecting…</string>
     <string name="widget_sign_in">Sign in</string>
 </resources>

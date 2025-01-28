@@ -637,7 +637,7 @@
     <string name="settings_change_icon_header_discreet">Незаметный значок приложения</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
-    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
     <string name="settings_widget_selection_button_title">Add widget</string>
@@ -707,13 +707,11 @@
     <string name="not_wanted_country_title">Не та страна, которую вы хотели?</string>
     <string name="not_wanted_country_description">Улучшите для выбора любого сервера</string>
     <string name="whats_new_title">Что нового</string>
-    <string name="whats_new_new_look_title">Новый внешний вид, та же защита</string>
-    <string name="whats_new_new_look_description">Мы обновили дизайн и переместили некоторые элементы, чтобы сделать приложение более удобным в использовании.</string>
-    <string name="whats_new_recents_title">Представляем Недавние</string>
-    <string name="whats_new_recents_description">Теперь переподключаться к любимым серверам стало еще проще. Просматривайте последние подключения на главном экране или закрепите их для быстрого доступа. Недавние заменяет Профили.</string>
-    <string name="whats_new_dismiss_button">Посмотреть</string>
-    <string name="whats_new_added_countries_title">Новые страны с бесплатными серверами</string>
-    <string name="whats_new_added_countries_description">Теперь есть бесплатные серверы в Польше и Румынии. Чтобы предотвратить переполнение серверов, мы убрали ручной выбор страны и внесли значительные улучшения в автоматический выбор серверов.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Добро пожаловать в VPN Plus</string>
     <string name="welcome_plus_description">Используйте расширенные функции конфиденциальности, максимальную производительность и настройку VPN нового уровня.</string>
     <string name="welcome_plus_feature_security">Расширенные функции безопасности</string>

@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Icona dell\'app discreta</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Prova il widget di Proton VPN</string>
-    <string name="settings_widget_selection_description">Verifica se sei connesso alla VPN e accedi alle tue connessioni predefinite e preferite dalla schermata principale.</string>
+    <string name="settings_widget_selection_description">Visualizza lo stato della tua connessione e accedi alle tue connessioni VPN preferite dalla schermata iniziale.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Per aggiungere il widget, basta premere e tenere premuto in qualsiasi punto della schermata principale e selezionare %1$s dal menu dei widget.</string>
     <string name="settings_widget_selection_button_title">Aggiungi widget</string>
@@ -665,13 +665,11 @@
     <string name="not_wanted_country_title">Non è il Paese che cercavi?</string>
     <string name="not_wanted_country_description">Effettua l\'upgrade per scegliere qualsiasi server</string>
     <string name="whats_new_title">Cosa c\'è di nuovo</string>
-    <string name="whats_new_new_look_title">Nuovo aspetto, stessa protezione</string>
-    <string name="whats_new_new_look_description">Abbiamo aggiornato la nostra interfaccia e spostato alcune cose per rendere l\'app più facile da usare.</string>
-    <string name="whats_new_recents_title">Introduzione a Recenti</string>
-    <string name="whats_new_recents_description">Ora è ancora più semplice riconnettersi ai server preferiti. Visualizza le tue connessioni più recenti nella schermata iniziale o fissale per accedere velocemente. \"Recenti\" sostituisce \"Profili\".</string>
-    <string name="whats_new_dismiss_button">Dai un\'occhiata</string>
-    <string name="whats_new_added_countries_title">Nuovi Paesi gratuiti</string>
-    <string name="whats_new_added_countries_description">Ora ci sono server gratuiti in Polonia e Romania. Per evitare l\'affollamento dei server, abbiamo rimosso la selezione manuale del Paese e apportato importanti miglioramenti alla selezione automatica del server.</string>
+    <string name="whats_new_profiles_title">I profili sono di ritorno</string>
+    <string name="whats_new_profiles_description">Crea e salva connessioni personalizzate con la tua scelta di posizione, server e protocollo.</string>
+    <string name="whats_new_widget_title">Introduzione ai widget</string>
+    <string name="whats_new_widget_description">Ora puoi visualizzare e gestire la tua VPN senza lasciare la schermata principale. </string>
+    <string name="whats_new_add_widget_button">Aggiungi widget</string>
     <string name="welcome_plus_title">Benvenuto in VPN Plus</string>
     <string name="welcome_plus_description">Approfitta di funzioni aggiuntive per la privacy, di prestazioni potenziate e di una personalizzazione della VPN di livello superiore.</string>
     <string name="welcome_plus_feature_security">Funzioni di sicurezza avanzate</string>
@@ -1453,7 +1451,7 @@
     <string name="nps_rating_low_values_explain">0 è molto improbabile</string>
     <string name="nps_rating_high_values_explain">10 è molto probabile</string>
     <string name="nps_toast_submit_message">Grazie per la condivisione. Il tuo feedback ci aiuta a migliorare Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">La tua risposta dovrebbe contenere 250 caratteri o meno</string>
     <string name="nps_button_submit_title">Condividi in modo anonimo</string>
     <string name="widget_preview_switzerland">Svizzera</string>
     <string name="widget_preview_unitedstates">Stati Uniti</string>

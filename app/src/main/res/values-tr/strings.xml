@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Gizli uygulama simgesi</string>
     <string name="settings_widget_title">Araç takımı</string>
     <string name="settings_widget_selection_title">Proton VPN araç takımını deneyin</string>
-    <string name="settings_widget_selection_description">VPN hizmetine bağlı olup olmadığınızı kontrol edin ve varsayılan ya da sık kullanılan bağlantılarınıza giriş ekranından erişin.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Araç takımı eklemek için giriş ekranınızda herhangi bir yere basılı tutun ve ardından araç takımı menüsünden %1$s seçeneğini seçin.</string>
     <string name="settings_widget_selection_button_title">Araç takımı ekle</string>
@@ -665,13 +665,11 @@
     <string name="not_wanted_country_title">İstediğiniz ülke değil mi?</string>
     <string name="not_wanted_country_description">İstediğiniz sunucuyu seçebilmek için tarifenizi yükseltin</string>
     <string name="whats_new_title">Yenilikler</string>
-    <string name="whats_new_new_look_title">Yeni görünüm, aynı koruma</string>
-    <string name="whats_new_new_look_description">Uygulamanın daha kolay kullanılması için tasarımı güncelledik ve bazı şeylerin yerini değiştirdik</string>
-    <string name="whats_new_recents_title">Son kullanılanlar özelliği</string>
-    <string name="whats_new_recents_description">Sık kullandığınız sunuculara yeniden bağlanmak artık daha kolay. Son bağlantılarınızı giriş ekranında görüntüleyin veya hızlı erişmek için sabitleyin. Son kullanılanlar, Profillerin yerini aldı.</string>
-    <string name="whats_new_dismiss_button">Göz atın</string>
-    <string name="whats_new_added_countries_title">Yeni Free ülkeleri</string>
-    <string name="whats_new_added_countries_description">Artık Polonya ve Romanya içinde de Free sunucuları var. Sunucu kalabalığını önlemek için el ile ülke seçimini kaldırdık ve otomatik sunucu seçiminde büyük iyileştirmeler yaptık.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">VPN Plus tarifesine hoş geldiniz</string>
     <string name="welcome_plus_description">Ek gizlilik özelliklerinin, güçlendirilmiş başarımın ve üst düzey VPN özelleştirmenin tadını çıkarın.</string>
     <string name="welcome_plus_feature_security">Gelişmiş güvenlik özellikleri</string>
@@ -1453,7 +1451,7 @@
     <string name="nps_rating_low_values_explain">0 hiç önermem</string>
     <string name="nps_rating_high_values_explain">10 çok öneririm</string>
     <string name="nps_toast_submit_message">Paylaşımınız için teşekkürler. Geri bildiriminiz Proton VPN hizmetini geliştirmemize yardımcı olacak.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Yanıtınız en fazla 250 karakter uzunluğunda olmalıdır</string>
     <string name="nps_button_submit_title">Anonim olarak paylaş</string>
     <string name="widget_preview_switzerland">İsviçre</string>
     <string name="widget_preview_unitedstates">Birleşik Devletler</string>

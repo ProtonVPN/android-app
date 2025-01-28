@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Diskret app-ikon</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Prøv Proton VPN-widgeten</string>
-    <string name="settings_widget_selection_description">Sjekk om du er koblet til VPN og få tilgang til standard- og favoritt-tilkoblingene dine fra startskjermen.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">For å legge til widgeten, trykk og hold hvor som helst på startskjermen, og velg deretter %1$s fra widgetmenyen.</string>
     <string name="settings_widget_selection_button_title">Legg til widget</string>
@@ -665,13 +665,11 @@
     <string name="not_wanted_country_title">Ikke det landet du ønsket?</string>
     <string name="not_wanted_country_description">Oppgrader for å velge hvilken som helst tjener</string>
     <string name="whats_new_title">Hva er nytt</string>
-    <string name="whats_new_new_look_title">Nytt utseende, samme beskyttelse</string>
-    <string name="whats_new_new_look_description">Vi oppdaterte designene våre og flyttet rundt på noen ting for å gjøre appen enklere å bruke.</string>
-    <string name="whats_new_recents_title">Introduserer seneste</string>
-    <string name="whats_new_recents_description">Det er nå enda enklere å koble til favoritt-tjenerne dine igjen. Vis de siste tilkoblingene dine på startskjermen, eller fest dem for rask tilgang. Nylige erstatter profiler.</string>
-    <string name="whats_new_dismiss_button">Ta en titt</string>
-    <string name="whats_new_added_countries_title">Nye gratis land</string>
-    <string name="whats_new_added_countries_description">Det er nå Free-tjenere i Polen og Romania. For å forhindre trengsel på tjenerne fjernet vi manuelt valg av land og gjorde store forbedringer i det automatiske tjenervalget.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Velkommen til VPN Plus</string>
     <string name="welcome_plus_description">Nyt ekstra personvernfunksjoner, forbedret ytelse og VPN-tilpasning på neste nivå.</string>
     <string name="welcome_plus_feature_security">Avanserte sikkerhetsfunksjoner</string>
@@ -1453,7 +1451,7 @@
     <string name="nps_rating_low_values_explain">0 er svært usannsynlig</string>
     <string name="nps_rating_high_values_explain">10 er svært sannsynlig</string>
     <string name="nps_toast_submit_message">Takk for at du deler. Tilbakemeldingen din hjelper oss med å forbedre Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Svaret ditt må være på 250 tegn eller kortere</string>
     <string name="nps_button_submit_title">Del anonymt</string>
     <string name="widget_preview_switzerland">Sveits</string>
     <string name="widget_preview_unitedstates">USA</string>
