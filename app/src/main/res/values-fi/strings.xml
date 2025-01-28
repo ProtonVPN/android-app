@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Huomaamaton sovelluskuvake</string>
     <string name="settings_widget_title">Widgetti</string>
     <string name="settings_widget_selection_title">Kokeile Proton VPN -widgettiä</string>
-    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
     <string name="settings_widget_selection_button_title">Lisää widgetti</string>
@@ -665,13 +665,11 @@
     <string name="not_wanted_country_title">Eikö tämä ole haluamasi maa?</string>
     <string name="not_wanted_country_description">Päivitä tilauksesi ja valitse mikä tahansa palvelin</string>
     <string name="whats_new_title">Mitä uutta</string>
-    <string name="whats_new_new_look_title">Uusi ilme, sama suojaus</string>
-    <string name="whats_new_new_look_description">Päivitimme ulkoasuamme ja siirtelimme joitain asioita, jotta sovelluksen käyttäminen olisi helpompaa.</string>
-    <string name="whats_new_recents_title">Tässä on viimeisimmät</string>
-    <string name="whats_new_recents_description">Suosikkipalvelimiisi uudelleenyhdistäminen on nyt entistäkin helpompaa. Voit nähdä viimeisimmät yhteytesi aloitusnäytössä tai kiinnittää ne pikakäyttöä varten. Tämä korvaa profiilit.</string>
-    <string name="whats_new_dismiss_button">Tutustu</string>
-    <string name="whats_new_added_countries_title">Uusia ilmaismaita</string>
-    <string name="whats_new_added_countries_description">Puolassa ja Romaniassa on nyt ilmaisia palvelimia. Palvelimien ruuhkautumisen estämiseksi poistimme manuaalisen maavalinnan käytöstä, ja teimme merkittäviä parannuksia automaattiseen palvelinvalintaan.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Tervetluoa VPN Plussaan</string>
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja seuraavan tason VPN-mukautuksesta.</string>
     <string name="welcome_plus_feature_security">Edistyneet suojausominaisuudet</string>

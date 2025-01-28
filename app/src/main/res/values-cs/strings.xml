@@ -637,7 +637,7 @@
     <string name="settings_change_icon_header_discreet">Diskrétní ikona aplikace</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Zkuste widget Proton VPN</string>
-    <string name="settings_widget_selection_description">Zkontrolujte, zda jste připojeni k síti VPN, a přistupte ke svým výchozím a oblíbeným připojením z domovské obrazovky.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Chcete-li přidat widget, stiskněte a podržte kdekoli na své domovské obrazovce a poté v nabídce widgetů vyberte možnost %1$s.</string>
     <string name="settings_widget_selection_button_title">Přidat widget</string>
@@ -707,13 +707,11 @@
     <string name="not_wanted_country_title">Není to země, kterou jste si přáli?</string>
     <string name="not_wanted_country_description">Navyšte tarif pro výběr libovolného serveru</string>
     <string name="whats_new_title">Co je nového</string>
-    <string name="whats_new_new_look_title">Nový vzhled, stejná ochrana</string>
-    <string name="whats_new_new_look_description">Aktualizovali jsme design a uspořádali některé prvky tak, aby se aplikace snáze používala.</string>
-    <string name="whats_new_recents_title">Představujeme Nedávné</string>
-    <string name="whats_new_recents_description">Připojení k oblíbeným serverům je nyní ještě snazší. Na domovské obrazovce si můžete zobrazit nedávná připojení nebo si je připnout pro rychlý přístup. Funkce Nedávné nahrazuje funkci Profily.</string>
-    <string name="whats_new_dismiss_button">Podívejte se</string>
-    <string name="whats_new_added_countries_title">Nové Free země</string>
-    <string name="whats_new_added_countries_description">V Polsku a Rumunsku jsou nyní k dispozici bezplatné servery. Pro předcházení zahlcování serverů jsme odstranili ruční výběr země a výrazně jsme vylepšili automatický výběr serverů.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Vítejte ve VPN Plus</string>
     <string name="welcome_plus_description">Užívejte si další funkce pro ochranu soukromí, vyšší výkon a další úroveň přizpůsobení VPN.</string>
     <string name="welcome_plus_feature_security">Pokročilé funkce zabezpečení</string>
@@ -1525,7 +1523,7 @@
     <string name="nps_rating_low_values_explain">0 je velmi nepravděpodobně</string>
     <string name="nps_rating_high_values_explain">10 je velmi pravděpodobně</string>
     <string name="nps_toast_submit_message">Děkujeme za sdílení. Vaše zpětná vazba nám pomáhá zlepšovat Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Vaše odpověď by měla mít maximálně 250 znaků</string>
     <string name="nps_button_submit_title">Sdílet anonymě</string>
     <string name="widget_preview_switzerland">Švýcarsko</string>
     <string name="widget_preview_unitedstates">Spojené státy americké</string>

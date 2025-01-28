@@ -192,7 +192,7 @@
     <string name="troubleshootGovernmentBlockTitle">Regeringsblockering</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ditt land kanske blockerar åtkomst till Proton. Testa att använda <a href=\'%1$s\'>Tor</a> för att komma åt Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Alltid-på-VPN &amp; kill switch</string>
-    <string name="settingsAlwaysOnWindowHeader">Hur man aktiverar alltid-på VPN och kill switch:</string>
+    <string name="settingsAlwaysOnWindowHeader">Hur man slår på alltid-på VPN och kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Öppna din enhets <b>inställningar</b> genom att trycka på knappen nedan]]></string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsAlwaysOnWindowStep2">2. Hitta Proton VPN och tryck %1$s</string>
@@ -603,9 +603,9 @@
     <string name="settings_change_icon_header_discreet">Diskret appikon</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Prova Proton VPN-widgeten</string>
-    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="setting_widget_selection_additional_description">För att lägga till widgeten, tryck och håll vart som helst på din hemskärm och välj sedan %1$s i widgetmenyn.</string>
     <string name="settings_widget_selection_button_title">Lägg till widget</string>
     <string name="setting_widget_try_title">Prova Proton VPN-widgeten</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -665,13 +665,11 @@
     <string name="not_wanted_country_title">Inte det land du ville ha?</string>
     <string name="not_wanted_country_description">Uppgradera för att välja vilken server som helst</string>
     <string name="whats_new_title">Nyheter</string>
-    <string name="whats_new_new_look_title">Nytt utseende, samma skydd</string>
-    <string name="whats_new_new_look_description">Vi uppdaterade vår design och flyttade runt några saker för att göra appen enklare att använda.</string>
-    <string name="whats_new_recents_title">Introducerar senaste</string>
-    <string name="whats_new_recents_description">Det är nu ännu enklare att ansluta till dina favoritservrar igen. Visa dina senaste anslutningar på startskärmen eller fäst dem för snabb åtkomst. Senaste ersätter profiler.</string>
-    <string name="whats_new_dismiss_button">Ta en titt</string>
-    <string name="whats_new_added_countries_title">Nya Free-länder</string>
-    <string name="whats_new_added_countries_description">Det finns nu gratisservrar i Polen och Rumänien. För att förhindra serverbelastning tog vi bort manuellt val av land och gjorde stora förbättringar av automatiskt serverval.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Välkommen till VPN Plus</string>
     <string name="welcome_plus_description">Njut av extra integritetsfunktioner, kraftfullare prestanda och nästa nivå av VPN-anpassning.</string>
     <string name="welcome_plus_feature_security">Avancerade säkerhetsfunktioner</string>
@@ -1453,7 +1451,7 @@
     <string name="nps_rating_low_values_explain">0 är minst troligt</string>
     <string name="nps_rating_high_values_explain">10 är mycket troligt</string>
     <string name="nps_toast_submit_message">Tack för att du delar med dig. Din feedback hjälper oss att förbättra Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Ditt svar ska vara 250 tecken eller kortare</string>
     <string name="nps_button_submit_title">Dela anonymt</string>
     <string name="widget_preview_switzerland">Schweiz</string>
     <string name="widget_preview_unitedstates">Förenta Staterna</string>

@@ -603,9 +603,9 @@
     <string name="settings_change_icon_header_discreet">დისკრეტული აპლიკაციის ხატულა</string>
     <string name="settings_widget_title">ვიჯეტი</string>
     <string name="settings_widget_selection_title">Proton VPN-ის ვიჯეტის ცდა</string>
-    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="setting_widget_selection_additional_description">ვიჯეტის დასამატებლად უბრალოდ დააწექით და გეჭიროთ თქვენი საწყისი ეკრანის თავისუფალ ადგილას და შემდეგ ვიჯეტების მენიუდან აირჩიეთ %1$s.</string>
     <string name="settings_widget_selection_button_title">ვიჯეტის დამატება</string>
     <string name="setting_widget_try_title">Proton VPN-ის ვიჯეტის ცდა</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -665,13 +665,11 @@
     <string name="not_wanted_country_title">ის ქვეყანა არაა, რომელიც გნებავდათ?</string>
     <string name="not_wanted_country_description">ასწიეთ ტრაფიკი ნებისმიერი სერვერის ასარჩევად</string>
     <string name="whats_new_title">სიახლეები</string>
-    <string name="whats_new_new_look_title">ახალი გარეგნობა, იგივე დაცვა</string>
-    <string name="whats_new_new_look_description">ჩვენ განვაახლეთ დიზაინები და ზოგიერთი საგანი გადავაადგილეთ, რომ აპი უფრო ადვილი მოსახმარი იყოს.</string>
-    <string name="whats_new_recents_title">წარმოგიდგენთ \'უახლესებს\'</string>
-    <string name="whats_new_recents_description">ახლა თქვენს რჩეულ სერვერებთან თავიდან მიერთება კიდევ უფრო ადვილია. იხილეთ თქვენი უახლესი მიერთებები საწყის ეკრანზე, ან მიამაგრეთ ისინი უფრო სწრაფი წვდომიისთვის. უახლესები პროფილებს ცვლის.</string>
-    <string name="whats_new_dismiss_button">შეხედვა</string>
-    <string name="whats_new_added_countries_title">ახალი უფასო ქვეყნები</string>
-    <string name="whats_new_added_countries_description">ახლა უფასო სერვერები პოლონეთში და რუმინეთშიც გვაქვს. სერვერების გადავსების თავიდან ასაცილებლად ჩვენ მოვაცილეთ ქვეყნის ხელით არჩევის ფუნქცია და გავაუმჯობესეთ ავტომატური სერვერის არჩევანი.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">მოგესალმებათ VPN Plus</string>
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
     <string name="welcome_plus_feature_security">დამატებითი უსაფრთხოების ფუნქციები</string>
@@ -1453,7 +1451,7 @@
     <string name="nps_rating_low_values_explain">ნულის შანსი მცირეა</string>
     <string name="nps_rating_high_values_explain">10 დიდი ალბათობით</string>
     <string name="nps_toast_submit_message">მადლობა გაზიარებისთვის. თქვენი უკუკავშირი Proton VPN-ის გაუმჯობესებაში გვეხმარება.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">თქვენი პასუხი 250 ან ნაკლებ სიმბოლოს უნდა შეიცავდეს</string>
     <string name="nps_button_submit_title">ანონიმურად გაზიარება</string>
     <string name="widget_preview_switzerland">შვეიცარია</string>
     <string name="widget_preview_unitedstates">აშშ</string>

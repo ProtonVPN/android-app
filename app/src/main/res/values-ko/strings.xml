@@ -233,7 +233,7 @@
     <string name="netshield_ads_title">광고</string>
     <string name="netshield_ads_details">광고와 보이지 않는 광고 트래커</string>
     <string name="netshield_trackers_title">트래커</string>
-    <string name="netshield_trackers_details">당신의 인터넷 활동에 대한 정보를 저장하고 공유하는 쿠키와 기타 트래커</string>
+    <string name="netshield_trackers_details">인터넷 활동에 대한 정보를 저장하고 공유하는 쿠키와 기타 트래커</string>
     <string name="netshield_data_title">데이터</string>
     <string name="netshield_data_details">NetShield로 차단된 광고, 트래커, 멀웨어의 개수</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
@@ -359,7 +359,7 @@
     <string name="upgrade_streaming_title">4K로 스트리밍</string>
     <string name="upgrade_streaming_text">전세계에 있는 영화와 TV 콘텐츠를 즐겨보세요.</string>
     <string name="upgrade_tor_title">한 번의 탭으로 Tor 네트워크에 접근하세요</string>
-    <string name="upgrade_tor_text">일반 브라우저로 숨겨진 서비스와 onion 사이트에 연결하세요.</string>
+    <string name="upgrade_tor_text">쓰던 브라우저에서 숨겨진 서비스와 onion 사이트로 연결하세요.</string>
     <string name="upgrade_vpn_accelerator_title">더욱 빠른 브라우징</string>
     <!--
         %1$s - speed in Gbps
@@ -379,7 +379,7 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="other">%d 보안 서버</item>
+        <item quantity="other">%d개 보안 서버</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -587,7 +587,7 @@
     <string name="settings_change_icon_header_discreet">위장 앱 아이콘</string>
     <string name="settings_widget_title">위젯</string>
     <string name="settings_widget_selection_title">Proton VPN 위젯을 사용해 보세요</string>
-    <string name="settings_widget_selection_description">홈 화면에서 VPN에 연결되어 있는지 여부와 기본 및 즐겨찾는 연결에 접근하세요.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">위젯을 추가하려면, 홈 화면의 아무 곳이나 길게 누른 다음 위젯 메뉴에서 %1$s을 선택하세요.</string>
     <string name="settings_widget_selection_button_title">위젯 추가</string>
@@ -645,13 +645,11 @@
     <string name="not_wanted_country_title">원하신 국가가 아닌가요?</string>
     <string name="not_wanted_country_description">모든 서버에 접근하기 위해 업그레이드</string>
     <string name="whats_new_title">새로운 소식</string>
-    <string name="whats_new_new_look_title">새로운 비주얼, 동일한 보안</string>
-    <string name="whats_new_new_look_description">앱을 더 쉽게 사용할 수 있도록 디자인을 업데이트하고 몇 가지를 옮겼습니다.</string>
-    <string name="whats_new_recents_title">최근 항목 보기를 소개합니다.</string>
-    <string name="whats_new_recents_description">선호하는 서버로의 연결이 더욱 쉬워졌습니다. 홈 화면에서 가장 최근의 연결을 보거나, 빠른 접속을 위해 고정할 수 있습니다. 최근 항목은 프로필을 대체합니다.</string>
-    <string name="whats_new_dismiss_button">둘러보기</string>
-    <string name="whats_new_added_countries_title">새로운 무료 서버 국가</string>
-    <string name="whats_new_added_countries_description">폴란드와 루마니아에도 Free 서버가 생겼습니다. 서버 혼잡을 막기 위해, 수동 국가 선택을 없애고 자동 서버 설정을 상당히 개선했습니다.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">VPN Plus에 오신 것을 환영합니다</string>
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
     <string name="welcome_plus_feature_security">고급 제어 기능</string>
@@ -1013,7 +1011,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_title">로그아웃하시겠습니까?</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_message">VPN 연결이 끊어질 것입니다.</string>
+    <string name="dialog_sign_out_message">VPN 연결이 해제됩니다.</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_dont_ask_again">다시 묻지 않기</string>
     <!-- tag(Redesign_2023) -->
@@ -1104,7 +1102,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_medium_title">보통 (76-90%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_medium_description">웬만해서는 VPN 속도에 문제 없음</string>
+    <string name="connection_details_server_load_medium_description">웬만해서는 VPN 속도에 영향을 미치지 않음</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">높음 (91-100%)</string>
     <!-- tag(Redesign_2023) -->
@@ -1326,7 +1324,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="info_p2p_why_title">토렌트에 P2P 서버를 쓰는 이유라면?</string>
     <string name="info_p2p_why_description_speed">업로드와 다운로드 속도가 더욱 빠릅니다</string>
     <string name="info_p2p_why_description_logs">활동 로그 없음</string>
-    <string name="info_p2p_why_description_hide">귀하의 IP 주소를 서비스 제공자와 피어로부터 숨깁니다</string>
+    <string name="info_p2p_why_description_hide">사용자의 IP 주소를 서비스 제공자와 피어로부터 숨깁니다</string>
     <string name="info_dialog_smart_routing_description">Smart Routing은 가상 서버를 이용하여 접근이 어려운 국가에 VPN 커버리지를 제공합니다.\n\nSmart Routing 서버에 접속했다면 물리적 서버의 위치와 상관없이 목적지 국가에서 탐색하는 것으로 보이게 됩니다.\n\nSmart Routing은 보통 안티-프라이버시 법령과 기타 유형의 검열을 우회하는 데 쓸모가 있습니다.</string>
     <string name="countries_upsell_banner_description">VPN Plus 전세계적 커버리지 받기</string>
     <string name="secure_core_upsell_banner_description">VPN 연결에 암호화 계층 추가</string>
@@ -1419,7 +1417,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="nps_rating_low_values_explain">0은 매우 가능성이 낮습니다</string>
     <string name="nps_rating_high_values_explain">10은 매우 가능성 있음</string>
     <string name="nps_toast_submit_message">공유해주셔서 감사합니다. 귀하의 피드백은 Proton VPN을 향상시키는데 도움이 됩니다.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">응답이 250자 이상이여야 합니다.</string>
     <string name="nps_button_submit_title">익명으로 공유</string>
     <string name="widget_preview_switzerland">스위스</string>
     <string name="widget_preview_unitedstates">미국</string>

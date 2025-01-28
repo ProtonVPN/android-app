@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Ícone discreto do aplicativo</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Experimente o widget do Proton VPN</string>
-    <string name="settings_widget_selection_description">Verifique se você está conectado à VPN e acesse suas conexões padrão e favoritas na tela inicial.</string>
+    <string name="settings_widget_selection_description">Consulta o estado da sua conexão e acesse suas conexões VPN favoritas na tela inicial.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Para adicionar o widget, pressione e mantenha pressionado em qualquer lugar na sua tela inicial e selecione %1$s no menu de widgets.</string>
     <string name="settings_widget_selection_button_title">Adicionar o widget</string>
@@ -665,13 +665,11 @@
     <string name="not_wanted_country_title">Não é o país que você queria?</string>
     <string name="not_wanted_country_description">Faça upgrade para escolher qualquer servidor</string>
     <string name="whats_new_title">Novidades</string>
-    <string name="whats_new_new_look_title">Nova aparência, mesma proteção</string>
-    <string name="whats_new_new_look_description">Atualizamos nossos designs e movemos algumas coisas para que o aplicativo seja mais fácil de usar.</string>
-    <string name="whats_new_recents_title">Apresentando Recentes</string>
-    <string name="whats_new_recents_description">Agora é ainda mais fácil reconectar-se aos seus servidores favoritos. Veja suas conexões mais recentes na tela inicial ou fixe-as para acesso rápido. Recentes substitui Perfis.</string>
-    <string name="whats_new_dismiss_button">Dê uma olhada</string>
-    <string name="whats_new_added_countries_title">Novos países gratuitos</string>
-    <string name="whats_new_added_countries_description">Existem agora servidores gratuitos na Polônia e na Romênia. Para evitar a aglomeração de servidores, removemos a seleção manual de países e fizemos grandes melhorias na seleção automática de servidores.</string>
+    <string name="whats_new_profiles_title">Os perfis estão de volta</string>
+    <string name="whats_new_profiles_description">Crie e guarde conexões personalizadas com sua escolha de localização, servidor e protocolo.</string>
+    <string name="whats_new_widget_title">Apresentamos os widgets</string>
+    <string name="whats_new_widget_description">Agora você pode ver e gerir sua VPN sem sair da tela inicial. </string>
+    <string name="whats_new_add_widget_button">Adicionar o widget</string>
     <string name="welcome_plus_title">Boas-vindas ao VPN Plus</string>
     <string name="welcome_plus_description">Aproveite recursos extras de privacidade, desempenho aprimorado e customização de VPN de próximo nível.</string>
     <string name="welcome_plus_feature_security">Recursos avançados de segurança</string>

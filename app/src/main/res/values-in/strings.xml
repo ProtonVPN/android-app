@@ -70,7 +70,7 @@
     <string name="error_server_list_load_failed">Silakan periksa koneksi Anda dan coba lagi.</string>
     <string name="error_server_unreachable">Tidak dapat terhubung ke VPN. Mohon periksa koneksi Anda dan coba lagi.</string>
     <string name="error_auth_failed">Autentikasi pengguna gagal.</string>
-    <string name="error_generic">Terdapat kesalahan yang tak terperinci saat menghubungkan.</string>
+    <string name="error_generic">Terdapat kegagalan yang tak terperinci pada saat menghubungkan.</string>
     <string name="error_generic_with_reason">Proton VPN tidak dapat mengukuhkan sambungan VPN. Silakan coba lagi dalam beberapa detik.<br/><br/> Rincian: %1$s</string>
     <string name="reconnect">Hubungkan Ulang</string>
     <string name="reconnect_now">Hubungkan ulang sekarang</string>
@@ -90,7 +90,7 @@
     <string name="add">TAMBAH</string>
     <string name="copy_to_clipboard">Salin</string>
     <string name="got_it">Mengerti</string>
-    <string name="something_went_wrong">Terjadi kesalahan</string>
+    <string name="something_went_wrong">Terdapat suatu kesalahan</string>
     <string name="try_again">Coba lagi</string>
     <string name="delete">Hapus</string>
     <string name="remove">Hapus</string>
@@ -101,9 +101,9 @@
     <string name="noVpnPermissionMainTitle">Tindakan diperlukan untuk dapat terhubung ke VPN</string>
     <string name="noVpnPermissionMainMessage">Untuk dapat terhubung ke Proton VPN, harap lakukan hal-hal berikut:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Berikan VPN izin</string>
-    <string name="noVpnPermissionGrantPemrissionMessage">Sistem Android membutuhkan izin Anda untuk dapat terhubung ke Proton VPN. Untuk memberikan izin, ketuk \"OK\" pada saat Android menampilkan layar \"Connection request\".</string>
+    <string name="noVpnPermissionGrantPemrissionMessage">Sistem Android memerlukan izin Anda untuk terhubung ke Proton VPN. Berikan izin ini dengan mengetuk \"OK\" pada saat sistem Android menampilkan layar \"Permintaan hubungan\".</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Nonaktifkan fitur always-on milik aplikasi VPN lain</string>
-    <string name="noVpnPermissionDisableAlwaysOnMessage">Sistem Android tidak mendukung penggunaan beberapa aplikasi VPN secara bersamaan. Nonaktifkan fitur always-on milik aplikasi selain Proton VPN.</string>
+    <string name="noVpnPermissionDisableAlwaysOnMessage">Sistem Android tidak mendukung penggunaan lebih dari satu aplikasi VPN secara bersamaan. Nonaktifkan fitur always-on milik aplikasi selain Proton VPN.</string>
     <string name="noVpnPermissionProtonAppLabel">Aplikasi Proton VPN</string>
     <string name="noVpnPermissionOtherAppLabel">Aplikasi VPN lain</string>
     <string name="noVpnPermissionOpenSettings">Buka pengaturan VPN Android</string>
@@ -185,7 +185,7 @@
     <string name="troubleshootProxyFirewallProblemDescription">Nonaktifkan seluruh proxy atau firewall yang aktif, atau hubungi pengelola jaringan Anda.</string>
     <string name="troubleshootProtonDownTitle">Proton sedang offline</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Periksa <a href=\"%1$s\">Proton Status</a> untuk status sistem kami.]]></string>
-    <string name="troubleshootContactUsSectionTitle">Masih memerlukan bantuan? Hubungi kami secara langsung</string>
+    <string name="troubleshootContactUsSectionTitle">Masih butuh bantuan? Hubungi kami secara langsung</string>
     <string name="troubleshootCustomerSupport">Layanan dukungan</string>
     <string name="settingsAllowAlternativeRoutingTitle">Pengalihan lalu lintas alternatif</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Apabila layanan Proton diblokir, aplikasi VPN akan berusaha untuk terhubung ke server Proton melalui jalur lalu lintas alternatif. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
@@ -245,10 +245,10 @@
     <string name="netshield_setting_warning">Beberapa situs web mungkin tidak akan termuat dengan benar ketika iklan dan pelacak diblokir.</string>
     <string name="dialogDontShowAgain">Jangan tampilkan lagi</string>
     <string name="guestHoleNotificationContent">Cobalah untuk mengatasi masalah-masalah jaringan yang ada. Tindakan ini dapat melancarkan koneksi Proton VPN Anda.</string>
-    <string name="errorTunMultiUserPermission">Sambungan VPN tidak dapat dikukuhkan karena terdapat konflik antar aplikasi dual-app (semisal Dual Messenger) dan Split Tunneling. Silakan nonaktifkan salah satu aplikasi dan nyalakan ulang perangkat Anda.</string>
+    <string name="errorTunMultiUserPermission">Koneksi VPN tidak dapat dikukuhkan karena terdapat konflik antar aplikasi dual-app (semisal Dual Messenger) dan Split Tunneling. Silakan nonaktifkan salah satu aplikasi ini dan nyalakan ulang perangkat Anda.</string>
     <string name="errorTorrentNotAllowed">P2P tidak diizinkan pada server ini</string>
     <string name="error_profile_fallback_unavailable">Koneksi gagal. Pilihan server Anda tidak tersedia untuk profil ini.</string>
-    <string name="profileProtocolNotAvailable">Protokol VPN yang diusung oleh profil ini saat ini sedang tidak tersedia. Untuk dapat terhubung, cobalah untuk mengubah protokol.</string>
+    <string name="profileProtocolNotAvailable">Protokol VPN yang diusung oleh profil ini sedang tidak tersedia. Untuk dapat terhubung, cobalah untuk mengubah protokol.</string>
     <string name="stateConnectedTo">Terhubung ke %1$s</string>
     <string name="stateNotConnected">Anda tidak terhubung</string>
     <string name="nameEurope">Eropa</string>
@@ -265,7 +265,7 @@
     <string name="tv_detail_description_streaming_country">Tonton konten streaming favorit Anda. Akses lebih banyak aplikasi dengan paket Proton VPN Plus.</string>
     <string name="tv_detail_description_no_streaming_country">Tonton lebih banyak konten favorit Anda dengan paket Proton VPN Plus.</string>
     <string name="tv_detail_description_country_not_available">Negara ini tidak tersedia. Dapatkan lebih banyak opsi tontonan dengan paket Proton VPN Plus.</string>
-    <string name="tv_detail_description_plus">Tonton video, film, atau olahraga favorit dengan aplikasi Anda.</string>
+    <string name="tv_detail_description_plus">Tonton video, film, atau tayangan olahraga favorit Anda dengan aplikasi Anda.</string>
     <string name="tv_login_title_signin">Masuk ke Proton VPN</string>
     <string name="tv_login_title_welcome">Tonton konten video favorit Anda</string>
     <string name="tv_login_welcome_description">Tonton berbagai konten video dari lebih dari 50 negara, termasuk YouTube dan Twitch. Tonton Netflix, Amazon Prime, dan Hulu dengan Proton VPN Plus.</string>
@@ -278,7 +278,7 @@
     <string name="tv_login_refresh">Muat ulang</string>
     <string name="tv_login_title_loading">Memuat…</string>
     <string name="tv_login_title_refresh">Sesi Anda telah kedaluwarsa. Muat ulang halaman untuk memulai proses dari awal.</string>
-    <string name="tv_upgrade_title">Mulai menonton dengan Plus</string>
+    <string name="tv_upgrade_title">Mulai streaming dengan Plus</string>
     <string name="back">Kembali</string>
     <string name="tv_upgrade_url_details"><![CDATA[Kunjungi <b>%1$s</b> untuk meningkatkan ke Proton VPN Plus sekarang juga.]]></string>
     <string name="tv_upgrade_description">Dapatkan paket Proton VPN Plus untuk mengakses 500+ server di seluruh dunia dan berbagai pilihan streaming yang dioptimalkan untuk Netflix, Amazon Prime Video, Disney+, dan masih banyak lagi.</string>
@@ -296,7 +296,7 @@
 
          Example: 76% Server Load -->
     <string name="tv_server_list_load">Muatan Server %1$s%%</string>
-    <string name="tv_recently_used_servers">Server yang baru dipakai (%1$d)</string>
+    <string name="tv_recently_used_servers">Server yang baru digunakan (%1$d)</string>
     <string name="tv_available_servers">Server yang tersedia (%1$d)</string>
     <string name="tv_locked_servers">Server yang terkunci (%1$d)</string>
     <string name="tv_other_servers">Server lainnya (%1$d)</string>
@@ -306,7 +306,7 @@
     <string name="notification_subscription_expired_content">Kami telah menurunkan paket Anda, namun kami menghubungkan ulang Anda ke server tercepat yang tersedia di paket tesebut.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Paket langganan Anda telah diturunkan.</string>
     <string name="notification_delinquent_title">Akun Proton VPN Anda memiliki tagihan yang belum dilunasi</string>
-    <string name="notification_delinquent_content">Silakan perbarui informasi tagihan Anda agar langganan Anda tetap aktif.</string>
+    <string name="notification_delinquent_content">Silakan luangkan waktu sejenak untuk memperbarui informasi tagihan Anda agar langganan Anda tetap aktif.</string>
     <string name="notification_max_sessions_title">Anda telah mencapai batas jumlah perangkat maksimum yang dapat Anda sambungkan</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
@@ -349,14 +349,14 @@
     <string name="upgrade_plus_message">Dapatkan berbagai fitur privasi mutakhir dan kecepatan yang lebih tinggi dengan VPN Plus.</string>
     <string name="upgrade_netshield_title">Nikmati penjelajahan tanpa iklan</string>
     <string name="upgrade_netshield_message"><![CDATA[Blok iklan, pelacak, dan malware dengan <b>NetShield</b>.]]></string>
-    <string name="upgrade_secure_core_title">Gandakan enkripsi</string>
-    <string name="upgrade_secure_core_message"><![CDATA[Tambah lapisan enkripsi lainnya pada koneksi VPN Anda dengan <b>SecureCore</b>.]]></string>
+    <string name="upgrade_secure_core_title">Gandakan enkripsi Anda</string>
+    <string name="upgrade_secure_core_message"><![CDATA[Terapkan enkripsi berlapis pada koneksi VPN Anda dengan <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Akses unduhan peer-to-peer (P2P) dan fitur berbagi berkas </string>
-    <string name="upgrade_p2p_text">Tingkatkan kecepatan unggahan dan unduhan Anda sembari menyembunyikan alamat IP Anda.</string>
+    <string name="upgrade_p2p_text">Tingkatkan kecepatan unggahan dan unduhan Anda sambil menyembunyikan alamat IP Anda.</string>
     <string name="upgrade_profiles_title">Dapatkan akses kilat ke koneksi yang sering Anda gunakan</string>
     <string name="upgrade_profiles_text">Akses profil dengan VPN Plus</string>
     <string name="upgrade_streaming_title">Streaming dengan kualitas 4K</string>
-    <string name="upgrade_streaming_text">Nikmati berbagai film dan tayangan TV kesayangan Anda di mana pun Anda berada.</string>
+    <string name="upgrade_streaming_text">Nikmati film dan tayangan TV kesayangan Anda di mana pun Anda berada.</string>
     <string name="upgrade_tor_title">Akses jaringan Tor dengan sekali ketuk</string>
     <string name="upgrade_tor_text">Hubungkan diri Anda ke berbagai layanan tersembunyi dan situs onion melalui browser yang biasa Anda gunakan.</string>
     <string name="upgrade_vpn_accelerator_title">Jelajahi internet pada kecepatan yang jauh lebih tinggi</string>
@@ -365,11 +365,11 @@
         Example:
         Unlock faster, less crowded servers with speeds of up to 10 Gbps.
     -->
-    <string name="upgrade_vpn_accelerator_message">Dapatkan akses ke server yang lebih cepat dan lebih lowong dengan kecepatan koneksi hingga %1$d Gbps.</string>
+    <string name="upgrade_vpn_accelerator_message">Dapatkan akses ke server yang lebih cepat dan lebih lowong dengan kecepatan hingga %1$d Gbps.</string>
     <string name="upgrade_split_tunneling_title">Dapatkan yang terbaik dari koneksi VPN dan non-VPN</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Pisahkan lalu lintas jaringan Anda ke dalam tunnel VPN dan non-VPN dengan <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Akses opsi kustomisasi VPN lanjutan</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Akses perangkat melalui <b>Local Area Network (LAN)</b> Anda dengan VPN Plus.]]></string>
+    <string name="upgrade_lan_access_message"><![CDATA[Akses perangkat yang terdapat pada <b>jaringan lokal (LAN) Anda</b> dengan VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Akses seluruh negara</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -464,7 +464,7 @@
 
         Example:
         1700+ server locations in 63 countries -->
-    <string name="upsell_card_countries_description">Dengan %1$d+ server yang terletak di %2$s</string>
+    <string name="upsell_card_countries_description">Dengan %1$d+ lokasi server di %2$s</string>
     <string name="upsell_card_customization_title">Dan masih banyak lagi…</string>
     <string name="upsell_card_customization_description">Akses lebih banyak fitur performa dan privasi</string>
     <plurals name="upsell_card_devices_title">
@@ -586,11 +586,11 @@
     <string name="settings_change_icon_header_discreet">Ikon aplikasi rahasia</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Coba widget Proton VPN</string>
-    <string name="settings_widget_selection_description">Check if you’re connected to VPN and access your default and favorite connections from the home screen.</string>
+    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
-    <string name="settings_widget_selection_button_title">Add widget</string>
-    <string name="setting_widget_try_title">Try the Proton VPN widget</string>
+    <string name="setting_widget_selection_additional_description">Untuk menambahkan widget ini, cukup tekan dan tahan di mana saja pada layar beranda Anda, lalu pilih %1$s dari menu widget yang muncul.</string>
+    <string name="settings_widget_selection_button_title">Tambah widget</string>
+    <string name="setting_widget_try_title">Coba widget Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Tutup pengumuman</string>
@@ -644,13 +644,11 @@
     <string name="not_wanted_country_title">Bukan negara yang Anda inginkan?</string>
     <string name="not_wanted_country_description">Tingkatkan untuk memilih server mana pun</string>
     <string name="whats_new_title">Apa yang baru</string>
-    <string name="whats_new_new_look_title">Tampilan baru, perlindungan yang sama</string>
-    <string name="whats_new_new_look_description">Kami telah memperbarui tata letak kami dan memindahkan sebagian fitur agar aplikasi kami lebih mudah digunakan.</string>
-    <string name="whats_new_recents_title">Memperkenalkan fitur Terkini</string>
-    <string name="whats_new_recents_description">Kini Anda dapat terhubung ulang ke server favorit Anda secara lebih mudah. Anda dapat melihat koneksi terkini Anda di layar beranda, atau menyematkan koneksi tertentu untuk akses yang cepat. Tab Terkini sekarang hadir menggantikan Profil.</string>
-    <string name="whats_new_dismiss_button">Lihat apa yang baru</string>
-    <string name="whats_new_added_countries_title">Negara Free baru</string>
-    <string name="whats_new_added_countries_description">Server Free kini tersedia di Polandia dan Romania. Untuk mengatasi keramaian server, kami telah meniadakan fitur pemilihan negara manual dan melakukan peningkatan besar-besaran terhadap mekanisme pemilihan server otomatis.</string>
+    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Selamat datang di VPN Plus</string>
     <string name="welcome_plus_description">Nikmati berbagai fitur privasi tambahan, performa yang jauh lebih cepat, dan opsi kostumisasi VPN lanjutan.</string>
     <string name="welcome_plus_feature_security">Fitur keamanan mutakhir</string>
@@ -781,7 +779,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Negara tercepat</string>
-    <string name="fastest_country_excluding_my_country">Negara tercepat (di samping negara saya saat ini)</string>
+    <string name="fastest_country_excluding_my_country">Negara tercepat (selain dari negara saya)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Server Free tercepat</string>
     <!-- tag(Redesign_2023)
@@ -1129,9 +1127,9 @@
     <string name="info_dialog_secure_core_description">Secure Core menghubungkan Anda ke server tujuan melalui server VPN kedua yang berkeamanan maksimum.\n\nPerlindungan tingkat tinggi ini dapat meningkatkan latensi dan menurunkan kecepatan.</string>
     <string name="info_secure_core_standard_header">Koneksi VPN standar</string>
     <string name="info_secure_core_secure_header">Koneksi VPN Secure Core</string>
-    <string name="info_dialog_tor_description">Hubungkan ke server Tor untuk mengakses layanan tersembunyi dan situs onion melalui browser mana pun.</string>
+    <string name="info_dialog_tor_description">Hubungkan VPN ke server Tor untuk mengakses layanan tersembunyi dan situs onion melalui browser mana pun.</string>
     <string name="info_dialog_button_learn_more_tor">Cara mengakses jaringan Tor</string>
-    <string name="info_dialog_button_learn_more_p2p">Cara menggunakan torrent dengan P2P</string>
+    <string name="info_dialog_button_learn_more_p2p">Cara mengambil torrent dengan P2P</string>
     <string name="info_dialog_button_learn_more_streaming">Butuh bantuan streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">Server streaming dirancang untuk pemutaran tayangan TV dan film yang cepat dan aman.</string>
@@ -1153,7 +1151,7 @@
     <string name="connection_feature_streaming_title">Streaming</string>
     <string name="connection_feature_streaming_description">Server ini dioptimalkan untuk pemutaran tayangan TV dan film.</string>
     <string name="connection_feature_smart_routing_title">Smart Routing</string>
-    <string name="connection_feature_smart_routing_description">Menghubungkan Anda ke server tujuan Anda melalui rangkaian server yang secara fisik terletak di tempat lain.</string>
+    <string name="connection_feature_smart_routing_description">Menghubungkan Anda ke negara tujuan Anda melalui rangkaian server yang secara fisik terletak di lokasi yang berbeda.</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
@@ -1272,12 +1270,12 @@
     <string name="settings_advanced_allow_lan_description">Memungkinkan Anda untuk terhubung ke printer, speaker, dan perangkat lainnya pada jaringan lokal milik perangkat Anda.</string>
     <string name="settings_advanced_nat_type_title">Tipe NAT</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">Pilih jenis terjemahan alamat jaringan (NAT) untuk koneksi Anda. %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">Pilih jenis terjemahan alamat jaringan (NAT) untuk koneksi Anda.</string>
+    <string name="settings_advanced_nat_type_description">Pilih tipe terjemahan alamat jaringan (NAT) untuk koneksi Anda. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Pilih tipe terjemahan alamat jaringan (NAT) untuk koneksi Anda.</string>
     <string name="settings_advanced_nat_type_strict">Ketat (tipe 3)</string>
-    <string name="settings_advanced_nat_type_strict_short">Jenis 3</string>
+    <string name="settings_advanced_nat_type_strict_short">Tipe 3</string>
     <string name="settings_advanced_nat_type_moderate">Moderat (tipe 2)</string>
-    <string name="settings_advanced_nat_type_moderate_short">Jenis 2</string>
+    <string name="settings_advanced_nat_type_moderate_short">Tipe 2</string>
     <string name="settings_advanced_nat_type_strict_description">Membatasi data yang memasuki jaringan Anda. Opsi ini lebih aman, namun dapat mempersulit koneksi peer-to-peer antar aplikasi permainan.</string>
     <string name="settings_advanced_nat_type_moderate_description">Menerapkan beberapa pembatasan bagi data yang memasuki jaringan Anda. Opsi ini merupakan opsi terbaik untuk permainan video online.</string>
     <string name="settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi dan alamat IP mana saja yang akan terlindung oleh VPN. %1$s</string>
@@ -1308,23 +1306,23 @@
     <string name="settings_split_tunneling_included_ips">Alamat IP yang disertakan</string>
     <string name="settings_split_tunneling_empty" comment="Used to indicate that no IP or Apps are included in split tunneling">Tidak ada</string>
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s, dan %3$d lainnya</string>
-    <string name="settings_split_tunneling_already_excluded">Sudah dikecualikan</string>
+    <string name="settings_split_tunneling_already_excluded">Telah dikecualikan</string>
     <string name="settings_split_tunneling_already_included">Telah disertakan</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">Hapus alamat IP dari daftar?</string>
     <string name="settings_dialog_reconnect">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
     <string name="settings_needs_reconnect_banner">Pengaturan baru akan diterapkan saat Anda kembali terhubung ke depannya.</string>
     <string name="info_secure_core_standard_high_privacy">Privasi tinggi</string>
     <string name="info_secure_core_standard_lower_latency">Latensi rendah</string>
-    <string name="info_secure_core_advanced_privacy">Privasi lanjutan</string>
+    <string name="info_secure_core_advanced_privacy">Privasi mutakhir</string>
     <string name="info_secure_core_higher_latency">Latensi tinggi</string>
     <string name="info_p2p_what_title">Apa itu P2P?</string>
-    <string name="info_p2p_what_description">Peer-to-peer (P2P) merupakan teknologi yang memungkinkan Anda untuk menghubungkan dan membagikan berkas secara langsung dengan perangkat lain.\n\nServer P2P kami dirancang secara khusus untuk mendukung jenis pembagian berkas ini.</string>
+    <string name="info_p2p_what_description">Peer-to-peer (P2P) merupakan teknologi yang memungkinkan Anda untuk menghubungkan dan membagikan berkas secara langsung dengan perangkat lain.\n\nServer P2P kami khusus dirancang untuk mendukung jenis pembagian berkas ini.</string>
     <string name="info_p2p_torrenting_title">Apa itu torrenting?</string>
-    <string name="info_p2p_torrenting_description">Torrent merupakan proses pembagian dan pengunduhan berkas berukuran besar secara kilat melalui jaringan P2P.</string>
-    <string name="info_p2p_why_title">Mengapa saya sebaiknya menggunakan server P2P saat mengambil torrent?</string>
-    <string name="info_p2p_why_description_speed">Kecepatan unggah dan unduh yang ditingkatkan</string>
+    <string name="info_p2p_torrenting_description">Torrenting merupakan proses pembagian dan pengunduhan berkas berukuran besar secara kilat melalui jaringan P2P.</string>
+    <string name="info_p2p_why_title">Mengapa saya sebaiknya menggunakan server P2P pada saat mengambil torrent?</string>
+    <string name="info_p2p_why_description_speed">Kecepatan unggahan dan unduhan yang ditingkatkan</string>
     <string name="info_p2p_why_description_logs">Tanpa log aktivitas</string>
-    <string name="info_p2p_why_description_hide">Sembunyikan alamat IP Anda dari penyedia layanan internet dan rekan kerja Anda</string>
+    <string name="info_p2p_why_description_hide">Sembunyikan alamat IP Anda dari penyedia layanan internet dan komputer lain pada jaringan Anda</string>
     <string name="info_dialog_smart_routing_description">Smart Routing menggunakan server virtual untuk menyediakan VPN di negara dengan pembatasan internet yang ketat.\n\nPada saat Anda terhubung ke server dengan Smart Routing, Anda akan terlihat seolah-olah Anda sedang menjelajah dari negara tujuan Anda, meskipun server yang melayani Anda secara fisik berada di tempat lain.  \n\nSmart Routing pada umumnya digunakan untuk menghindari undang-undang anti-privasi dan bentuk sensor lainnya.</string>
     <string name="countries_upsell_banner_description">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>
     <string name="secure_core_upsell_banner_description">Terapkan lapisan perlindungan tambahan pada koneksi VPN Anda</string>
@@ -1340,7 +1338,7 @@
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">Terdapat kesalahan dalam memperoleh daftar harga.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi mana saja yang terlindung oleh VPN.</string>
+    <string name="tv_settings_split_tunneling_description">Sesuaikan koneksi Anda dengan menentukan aplikasi mana saja yang akan terlindung oleh VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">Aplikasi yang dipilih dikecualikan dari koneksi VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Hanya aplikasi yang dipilih yang akan terhubung melalui VPN, lalu lintas lainnya tidak terlindungi.</string>
     <!-- Temporary strings for auto-login feature -->
@@ -1359,7 +1357,7 @@
     <string name="initial_profile_name_gaming">Permainan</string>
     <string name="initial_profile_name_max_security">Keamanan maksimum</string>
     <string name="create_profile_pick_country_title">Negara</string>
-    <string name="create_profile_pick_type_title">Jenis</string>
+    <string name="create_profile_pick_type_title">Tipe</string>
     <string name="create_profile_type_standard">Standar</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
@@ -1401,7 +1399,7 @@
     <string name="generic_info_label">Info</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Hubungkan dan Luncurkan</string>
+    <string name="create_profile_connect_and_go_label">Sambung dan Luncurkan</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Baru</string>
     <string name="create_profile_auto_open_url_input_label">URL situs web</string>
@@ -1417,10 +1415,10 @@
     <string name="nps_rating_low_values_explain">0 adalah sangat tidak mungkin</string>
     <string name="nps_rating_high_values_explain">10 adalah sangat mungkin</string>
     <string name="nps_toast_submit_message">Terima kasih telah membagikan. Masukan Anda membantu kami meningkatkan Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Jawaban Anda harus 250 karakter atau lebih pendek</string>
     <string name="nps_button_submit_title">Bagikan secara anonim</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
+    <string name="widget_preview_switzerland">Swiss</string>
+    <string name="widget_preview_unitedstates">Amerika Serikat</string>
     <string name="widget_status_unprotected">Tidak terlindung</string>
     <string name="widget_status_error">Error</string>
     <string name="widget_status_connecting">Menghubungkan…</string>
