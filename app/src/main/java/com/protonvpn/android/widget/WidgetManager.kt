@@ -75,6 +75,13 @@ class WidgetManager @Inject constructor(
                     .enqueueUniqueWork(UNIQUE_WORK_NAME, ExistingWorkPolicy.KEEP, workRequest)
             }
         }
+        scope.launch {
+            hasAddedWidget.collect { hasAdded ->
+                if (hasAdded == true) {
+                    workManager.cancelUniqueWork(UNIQUE_WORK_NAME)
+                }
+            }
+        }
     }
 
     private val adoptWidgetLambda: () -> Unit = {
