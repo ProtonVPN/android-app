@@ -23,6 +23,7 @@
         <attr name="widget_preview_interaction_norm" format="color"/>
         <attr name="widget_preview_on_interaction_norm" format="color"/>
         <attr name="widget_preview_text_norm" format="color" />
+        <attr name="widget_preview_text_secondary" format="color" />
         <attr name="widget_preview_unprotected" format="color" />
     </declare-styleable>
 
@@ -31,6 +32,7 @@
         <item name="widget_preview_interaction_norm">?attr/brand_norm</item>
         <item name="widget_preview_on_interaction_norm">@color/white</item>
         <item name="widget_preview_text_norm">?attr/proton_text_norm</item>
+        <item name="widget_preview_text_secondary">?attr/proton_text_weak</item>
         <item name="widget_preview_unprotected">?attr/proton_notification_error</item>
     </style>
 
@@ -39,6 +41,7 @@
         <item name="widget_preview_interaction_norm">@color/glance_colorPrimary</item>
         <item name="widget_preview_on_interaction_norm">@color/glance_colorOnPrimary</item>
         <item name="widget_preview_text_norm">@color/glance_colorOnSurface</item>
+        <item name="widget_preview_text_secondary">@color/glance_colorOnSurfaceVariant</item>
         <item name="widget_preview_unprotected">@color/glance_colorOnSurfaceVariant</item>
     </style>
 

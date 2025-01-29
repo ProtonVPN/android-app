@@ -127,22 +127,26 @@ private val ProtonGlanceDynamicResources = ProtonGlanceResources(
 )
 
 object ProtonGlanceTypography {
-    val defaultNorm: TextStyle
+    val big: TextStyle
         @GlanceComposable @Composable
-        get() = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Medium, color = ProtonGlanceTheme.colors.textNorm)
+        get() = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Medium, color = ProtonGlanceTheme.colors.textNorm)
+
+    val bigSecondary
+        @GlanceComposable @Composable
+        get() = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Normal, color = ProtonGlanceTheme.colors.textSecondary)
+
+    val medium: TextStyle @GlanceComposable @Composable get() = big.copy(fontSize = 15.sp)
+    val mediumSecondary @GlanceComposable @Composable get() = bigSecondary.copy(fontSize = 13.sp)
+
+    val small: TextStyle @GlanceComposable @Composable get() = big.copy(fontSize = 14.sp)
+    val smallSecondary @GlanceComposable @Composable get() = bigSecondary.copy(fontSize = 12.sp)
+
     val defaultOnInteraction: TextStyle
         @GlanceComposable @Composable
-        get() = defaultNorm.copy(color = ProtonGlanceTheme.colors.onInteractionNorm)
+        get() = medium.copy(color = ProtonGlanceTheme.colors.onInteractionNorm)
 
-    val secondary
-        @GlanceComposable @Composable
-        get() = TextStyle(
-            fontSize = 11.sp,
-            fontWeight = FontWeight.Normal,
-            color = ProtonGlanceTheme.colors.textSecondary
-        )
-
-    val status = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold)
+    val status = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
+    val statusSmall = status.copy(fontSize = 14.sp)
 }
 
 @Composable

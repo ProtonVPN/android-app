@@ -1402,7 +1402,6 @@
     <string name="nps_submit_error_char_limit">回答は 250 文字以下でなければなりません</string>
     <string name="nps_button_submit_title">匿名で共有</string>
     <string name="widget_preview_switzerland">スイス</string>
-    <string name="widget_preview_unitedstates">アメリカ</string>
     <string name="widget_status_unprotected">保護されていません</string>
     <string name="widget_status_error">エラー</string>
     <string name="widget_status_connecting">接続中…</string>

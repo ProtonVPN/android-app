@@ -28,7 +28,10 @@ import androidx.glance.LocalContext
 import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.background
+import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.fillMaxWidth
+import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
@@ -51,15 +54,21 @@ fun GlanceButton(
     } else {
         ProtonGlanceTheme.resources.buttonBackgroundInteractionNorm
     }
-    Text(
-        text = glanceStringResource(label),
-        style = ProtonGlanceTheme.typography.defaultOnInteraction.copy(color = color, textAlign = TextAlign.Center),
-        maxLines = 1,
-        modifier = modifier
+    // Text wrapped in a box as Glance won't center the text with fixed height vertically.
+    Box(
+        modifier
             .background(ImageProvider(backgroundResource))
             .clickable(action)
-            .padding(vertical = 12.dp, horizontal = 8.dp),
-    )
+            .height(40.dp)
+            .padding(horizontal = 8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = glanceStringResource(label),
+            style = ProtonGlanceTheme.typography.defaultOnInteraction.copy(color = color, textAlign = TextAlign.Center),
+            maxLines = 1,
+        )
+    }
 }
 
 @Composable

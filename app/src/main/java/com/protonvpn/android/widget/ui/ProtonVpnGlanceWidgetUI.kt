@@ -20,6 +20,7 @@
 package com.protonvpn.android.widget.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.glance.ColorFilter
 import androidx.glance.GlanceModifier
@@ -36,22 +37,24 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.ColumnScope
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxHeight
-import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
+import androidx.glance.text.TextStyle
 import androidx.glance.visibility
 import com.protonvpn.android.R
-import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.widget.WidgetRecent
 import com.protonvpn.android.widget.WidgetViewState
 import com.protonvpn.android.widget.WidgetVpnStatus
+import com.protonvpn.android.widget.ui.GlanceIntentLabelSize.Big
+import com.protonvpn.android.widget.ui.GlanceIntentLabelSize.Medium
+import com.protonvpn.android.widget.ui.GlanceIntentLabelSize.Small
 import kotlin.math.min
 import me.proton.core.presentation.R as CoreR
 
@@ -68,25 +71,10 @@ fun WidgetViewState.widgetBackground(): Int = when(this) {
 }
 
 @Composable
-fun ConnectWithIntent(viewState: WidgetViewState.LoggedIn, showConnecting: Boolean, wide: Boolean, modifier: GlanceModifier) {
-    Column(modifier) {
-        Spacer(modifier = GlanceModifier.defaultWeight())
-        GlanceConnectIntent(
-            viewState.connectCard,
-            horizontal = wide,
-            isConnecting = showConnecting && viewState.isConnecting,
-            modifier = GlanceModifier.padding(horizontal = 8.dp)
-        )
-        Spacer(modifier = GlanceModifier.defaultWeight())
-        GlanceConnectButton(viewState.connectCardAction, viewState.vpnStatus)
-    }
-}
-
-@Composable
-fun GlanceVpnStatus(status: WidgetVpnStatus, wide: Boolean, modifier: GlanceModifier = GlanceModifier) {
+fun GlanceVpnStatus(status: WidgetVpnStatus, wide: Boolean, small: Boolean, modifier: GlanceModifier = GlanceModifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.padding(top = 4.dp).fillMaxWidth()
+        modifier = modifier.padding(top = 2.dp).fillMaxWidth()
     ) {
         Spacer(modifier = GlanceModifier.defaultWeight())
         val (color, iconRes) = when (status) {
@@ -111,6 +99,7 @@ fun GlanceVpnStatus(status: WidgetVpnStatus, wide: Boolean, modifier: GlanceModi
             )
         }
         if (wide) {
+            val statusStyle = if (small) ProtonGlanceTheme.typography.statusSmall else ProtonGlanceTheme.typography.status
             Text(
                 when (status) {
                     WidgetVpnStatus.Connected -> glanceStringResource(R.string.connected)
@@ -118,7 +107,7 @@ fun GlanceVpnStatus(status: WidgetVpnStatus, wide: Boolean, modifier: GlanceModi
                     WidgetVpnStatus.Connecting -> glanceStringResource(R.string.widget_status_connecting)
                     WidgetVpnStatus.WaitingForNetwork -> glanceStringResource(R.string.error_vpn_waiting_for_network)
                 },
-                style = ProtonGlanceTheme.typography.status.copy(color = color),
+                style = statusStyle.copy(color = color),
                 modifier = GlanceModifier.padding(start = 8.dp, top = 4.dp)
             )
         }
@@ -127,39 +116,65 @@ fun GlanceVpnStatus(status: WidgetVpnStatus, wide: Boolean, modifier: GlanceModi
 }
 
 @Composable
-private fun GlanceConnectIntent(
+fun GlanceConnectIntent(
     state: ConnectIntentViewState,
-    horizontal: Boolean,
-    isConnecting: Boolean = false,
-    modifier: GlanceModifier = GlanceModifier
+    dimensions: GlanceIntentDimensions,
+    center: Boolean,
+    modifier: GlanceModifier = GlanceModifier,
+    fakeContent: Boolean = false,
 ) {
-    if (horizontal) {
-        Row(
-            modifier = modifier,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            GlanceConnectIntentIconOrSpinner(state.primaryLabel, isConnecting)
-            Spacer(modifier = GlanceModifier.width(8.dp))
-            ConnectIntentGlanceLabels(state, forceMaxHeight = false)
-        }
-    } else {
-        Column(modifier) {
-            GlanceConnectIntentIconOrSpinner(state.primaryLabel, isConnecting)
-            Spacer(modifier = GlanceModifier.height(8.dp))
-            ConnectIntentGlanceLabels(state, forceMaxHeight = true)
+    val iconModifier = GlanceModifier.size(dimensions.iconSize)
+    @Composable
+    fun Icon() {
+        if (fakeContent) {
+            Box(iconModifier) {}
+        } else {
+            ConnectIntentGlanceIcon(state.primaryLabel, iconModifier)
         }
     }
-}
 
-@Composable
-private fun GlanceConnectIntentIconOrSpinner(label: ConnectIntentPrimaryLabel, isConnecting: Boolean) {
-    if (isConnecting) {
-        CircularProgressIndicator(
-            color = ProtonGlanceTheme.colors.textNorm,
-            modifier = GlanceModifier.size(24.dp)
-        )
+    @Composable
+    fun Label(modifier: GlanceModifier = GlanceModifier) {
+        if (fakeContent) {
+            EmptyFullSizeLabel(dimensions.labelSize)
+        } else {
+            ConnectIntentGlanceLabels(
+                state,
+                dimensions.labelSize,
+                forceMaxHeight = dimensions.forceMaxHeight,
+                center = center,
+                modifier = modifier
+            )
+        }
+    }
+
+    if (dimensions.horizontal) {
+        Row(
+            modifier = modifier,
+            verticalAlignment = if (center) Alignment.CenterVertically else Alignment.Top
+        ) {
+            if (dimensions.showIcon) {
+                Icon()
+                Spacer(modifier = GlanceModifier.width(8.dp))
+            }
+            val topPadding = if (center) 0.dp else when (dimensions.labelSize) {
+                Small -> 1.dp
+                Medium -> 2.dp
+                Big -> 3.dp
+            }
+            Label(GlanceModifier.padding(top = topPadding))
+        }
     } else {
-        ConnectIntentGlanceIcon(label)
+        Column(
+            modifier = modifier,
+            horizontalAlignment = if (center) Alignment.CenterHorizontally else Alignment.Start
+        ) {
+            if (dimensions.showIcon) {
+                Icon()
+                Spacer(modifier = GlanceModifier.height(8.dp))
+            }
+            Label()
+        }
     }
 }
 
@@ -173,33 +188,77 @@ fun GlanceConnectButton(action: Action, vpnStatus: WidgetVpnStatus, modifier: Gl
     )
 }
 
+enum class GlanceIntentLabelSize {
+    Small, Medium, Big;
+
+    val mainTextSize: TextStyle
+        @Composable get() = when (this) {
+            Small -> ProtonGlanceTheme.typography.small
+            Medium -> ProtonGlanceTheme.typography.medium
+            Big -> ProtonGlanceTheme.typography.big
+        }
+
+    val secondaryTextSize: TextStyle
+        @Composable get() = when (this) {
+            Small -> ProtonGlanceTheme.typography.smallSecondary
+            Medium -> ProtonGlanceTheme.typography.mediumSecondary
+            Big -> ProtonGlanceTheme.typography.bigSecondary
+        }
+}
+
+data class GlanceIntentDimensions(
+    val labelSize: GlanceIntentLabelSize,
+    val horizontal: Boolean,
+    val showIcon: Boolean,
+    val forceMaxHeight: Boolean
+) {
+    val iconSize: Dp get() = when (labelSize) {
+        Small, Medium -> 24.dp
+        Big -> 30.dp
+    }
+}
+
 @Composable
-fun ConnectIntentGlanceLabels(state: ConnectIntentViewState, forceMaxHeight: Boolean, modifier: GlanceModifier = GlanceModifier) {
+fun ConnectIntentGlanceLabels(
+    state: ConnectIntentViewState,
+    size: GlanceIntentLabelSize,
+    forceMaxHeight: Boolean,
+    center: Boolean,
+    modifier: GlanceModifier = GlanceModifier
+) {
     Box(modifier) {
-        Column {
+        val textAlign = if (center) TextAlign.Center else TextAlign.Start
+        Column(
+            horizontalAlignment = if (center) Alignment.CenterHorizontally else Alignment.Start
+        ) {
             Text(
                 state.primaryLabel.label(),
                 maxLines = if (state.secondaryLabel == null) 2 else 1,
-                style = ProtonGlanceTheme.typography.defaultNorm,
+                style = size.mainTextSize.copy(textAlign = textAlign),
             )
             if (state.secondaryLabel != null) {
                 Text(
                     state.secondaryLabel.label(plainText = true).text,
                     maxLines = 1,
-                    style = ProtonGlanceTheme.typography.secondary,
+                    style = size.secondaryTextSize.copy(textAlign = textAlign),
                 )
             }
         }
         // Invisible view forcing fixed max height of 2 lines of default text size.
-        if (forceMaxHeight) {
-            Text(
-                text = "\n",
-                style = ProtonGlanceTheme.typography.defaultNorm,
-                maxLines = 2,
-                modifier = GlanceModifier.visibility(Visibility.Invisible)
-            )
-        }
+        if (forceMaxHeight)
+            EmptyFullSizeLabel(size, modifier.visibility(Visibility.Invisible))
     }
+}
+
+// Fake view used to force max size label for layouts.
+@Composable
+private fun EmptyFullSizeLabel(size: GlanceIntentLabelSize, modifier: GlanceModifier = GlanceModifier) {
+    Text(
+        modifier = modifier,
+        text = "\n",
+        style = size.mainTextSize,
+        maxLines = 2,
+    )
 }
 
 @Composable
@@ -207,16 +266,15 @@ fun ColumnScope.GlanceRecents(recents: List<WidgetRecent>, maxColumns: Int, maxR
     if (recents.isEmpty()) return
 
     val recentCount = recents.size
-    val columns = min(maxColumns, recentCount)
-    val rows = min(maxRows, (columns + recentCount - 1) / columns)
+    val rows = min(maxRows, (maxColumns + recentCount - 1) / maxColumns)
     val recentsRows = recents
-        .take(rows * columns)
-        .chunked(columns)
-    val rowModifier = GlanceModifier.fillMaxWidth().defaultWeight()
+        .take(rows * maxColumns)
+        .chunked(maxColumns)
+    val rowModifier = GlanceModifier.fillMaxWidth()
     recentsRows.forEachIndexed { rowIdx, row ->
         if (rowIdx > 0)
             Spacer(modifier = GlanceModifier.height(8.dp))
-        GlanceRecentsRow(row, columns, rowModifier)
+        GlanceRecentsRow(row, maxColumns, rowModifier)
     }
 }
 
@@ -232,18 +290,44 @@ private fun GlanceRecentsRow(
         repeat(columnsCount) { i ->
             if (i > 0)
                 Spacer(modifier = GlanceModifier.width(8.dp))
-            Box(GlanceModifier.fillMaxHeight().defaultWeight()) {
+            Box(GlanceModifier.defaultWeight()) {
                 val recent = recents.getOrNull(i)
                 if (recent != null) {
                     Box(
                         modifier = GlanceModifier
-                            .fillMaxSize()
+                            .fillMaxWidth()
                             .background(ImageProvider(ProtonGlanceTheme.resources.buttonBackgroundSecondary))
                             .clickable(recent.action)
                             .padding(8.dp),
-                        contentAlignment = Alignment.CenterStart
+                        contentAlignment = Alignment.Center
                     ) {
-                        GlanceConnectIntent(recent.connectIntentViewState, horizontal = false)
+                        @Composable
+                        fun Intent(
+                            invisible: Boolean = false,
+                            forceMaxHeight: Boolean = false,
+                        ) {
+                            val visibilityModifier =
+                                if (invisible) GlanceModifier.visibility(Visibility.Invisible)
+                                else GlanceModifier
+                            GlanceConnectIntent(
+                                recent.connectIntentViewState,
+                                dimensions = GlanceIntentDimensions(
+                                    labelSize = Small,
+                                    horizontal = false,
+                                    forceMaxHeight = forceMaxHeight,
+                                    showIcon = true,
+                                ),
+                                fakeContent = invisible,
+                                center = true,
+                                modifier = GlanceModifier.fillMaxWidth().then(visibilityModifier)
+                            )
+                        }
+
+                        // Invisible intent forcing box to fit max size intent.
+                        Intent(invisible = true, forceMaxHeight = true)
+
+                        // Actual intent view
+                        Intent()
                     }
                 }
             }

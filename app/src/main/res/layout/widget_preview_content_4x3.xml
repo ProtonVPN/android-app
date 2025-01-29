@@ -21,8 +21,8 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:showIn="@layout/widget_preview_material_5x2">
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/widget_preview_material_4x3">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -43,6 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:text="@string/widget_status_unprotected"
             android:textColor="?widget_preview_unprotected"
             android:textFontWeight="700"
@@ -52,95 +53,144 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/widget_flag_ch" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center_vertical"
+            android:lineHeight="17.58sp"
+            android:text="@string/widget_preview_switzerland"
+            android:textColor="?attr/widget_preview_text_norm"
+            android:textFontWeight="600"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginHorizontal="8dp"
+        android:minHeight="40dp"
+        android:textColor="?attr/widget_preview_on_interaction_norm"
+        android:textFontWeight="600"
+        android:textSize="15sp"
+        android:lineHeight="17.9sp"
+        android:background="@drawable/widget_button_bg_interaction_norm"
+        android:backgroundTint="?attr/widget_preview_interaction_norm"
+        android:text="@string/connect" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginHorizontal="8dp"
+        android:textColor="?attr/widget_preview_text_secondary"
+        android:textFontWeight="600"
+        android:textSize="12sp"
+        android:text="@string/recents_headline" />
+
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingHorizontal="5dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
         android:paddingVertical="8dp">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="3dp"
+            android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:background="@drawable/widget_button_bg_no_color"
             android:backgroundTint="?attr/widget_preview_background_secondary"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="vertical"
             android:padding="8dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/widget_flag_fastest" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/widget_flag_es" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:lineHeight="16sp"
-                android:minHeight="30sp"
-                android:text="@string/fastest_country"
+                android:gravity="center_horizontal"
+                android:text="@string/widget_preview_spain"
                 android:textColor="?attr/widget_preview_text_norm"
                 android:textFontWeight="600"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="3dp"
+            android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:background="@drawable/widget_button_bg_no_color"
             android:backgroundTint="?attr/widget_preview_background_secondary"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="vertical"
             android:padding="8dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/widget_flag_us" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/widget_flag_de" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:lineHeight="16sp"
-                android:minHeight="30sp"
-                android:text="@string/widget_preview_unitedstates"
+                android:gravity="center_horizontal"
+                android:text="@string/widget_preview_germany"
                 android:textColor="?attr/widget_preview_text_norm"
                 android:textFontWeight="600"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="3dp"
+            android:layout_marginHorizontal="4dp"
             android:layout_weight="1"
             android:background="@drawable/widget_button_bg_no_color"
             android:backgroundTint="?attr/widget_preview_background_secondary"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="vertical"
             android:padding="8dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/widget_flag_ch" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/widget_flag_fr" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:lineHeight="16sp"
-                android:minHeight="30sp"
-                android:text="@string/widget_preview_switzerland"
+                android:gravity="center_horizontal"
+                android:text="@string/widget_preview_france"
                 android:textColor="?attr/widget_preview_text_norm"
                 android:textFontWeight="600"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>

@@ -1438,7 +1438,6 @@
     <string name="nps_submit_error_char_limit">Ditt svar ska vara 250 tecken eller kortare</string>
     <string name="nps_button_submit_title">Dela anonymt</string>
     <string name="widget_preview_switzerland">Schweiz</string>
-    <string name="widget_preview_unitedstates">Förenta Staterna</string>
     <string name="widget_status_unprotected">Oskyddad</string>
     <string name="widget_status_error">Fel</string>
     <string name="widget_status_connecting">Ansluter…</string>

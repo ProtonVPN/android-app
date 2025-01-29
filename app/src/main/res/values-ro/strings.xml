@@ -1474,7 +1474,6 @@
     <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Partajare anonimă</string>
     <string name="widget_preview_switzerland">Elveția</string>
-    <string name="widget_preview_unitedstates">Statele Unite</string>
     <string name="widget_status_unprotected">Neprotejat</string>
     <string name="widget_status_error">Eroare</string>
     <string name="widget_status_connecting">Se conectează…</string>

@@ -1510,7 +1510,6 @@
     <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Share anonymously</string>
     <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_unitedstates">United States</string>
     <string name="widget_status_unprotected">Unprotected</string>
     <string name="widget_status_error">Памылка</string>
     <string name="widget_status_connecting">Падключэнне…</string>

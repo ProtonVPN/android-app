@@ -1438,7 +1438,6 @@
     <string name="nps_submit_error_char_limit">თქვენი პასუხი 250 ან ნაკლებ სიმბოლოს უნდა შეიცავდეს</string>
     <string name="nps_button_submit_title">ანონიმურად გაზიარება</string>
     <string name="widget_preview_switzerland">შვეიცარია</string>
-    <string name="widget_preview_unitedstates">აშშ</string>
     <string name="widget_status_unprotected">დაუცველი</string>
     <string name="widget_status_error">შეცდომა</string>
     <string name="widget_status_connecting">დაკავშირება…</string>

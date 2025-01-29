@@ -42,17 +42,9 @@ sealed interface WidgetViewState {
         val connectCard: ConnectIntentViewState,
         val connectCardAction: Action,
         val vpnStatus: WidgetVpnStatus,
-        val recents: List<WidgetRecent>,
+        private val recents: List<WidgetRecent>,
         override val launchMainActivityAction: Action,
-    ) : WidgetViewState
-
-    {
-        val isConnecting get() =
-            vpnStatus in listOf(WidgetVpnStatus.Connecting, WidgetVpnStatus.WaitingForNetwork)
-
-        // List of recents to be used without separate quick connect card.
-        fun mergedRecents() = (listOf(WidgetRecent(connectCardAction, connectCard)) + recents).distinct()
-
+    ) : WidgetViewState {
         // Recents that are avoiding duplication with connect card (can happen when we're connected to pinned recent).
         fun recentsWithoutPinnedConnectCard(): List<WidgetRecent> = recents.filter { it.connectIntentViewState != connectCard }
     }

@@ -1404,7 +1404,6 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="nps_submit_error_char_limit">응답이 250자 이상이여야 합니다.</string>
     <string name="nps_button_submit_title">익명으로 공유</string>
     <string name="widget_preview_switzerland">스위스</string>
-    <string name="widget_preview_unitedstates">미국</string>
     <string name="widget_status_unprotected">보호되지 않음</string>
     <string name="widget_status_error">오류</string>
     <string name="widget_status_connecting">연결 중…</string>

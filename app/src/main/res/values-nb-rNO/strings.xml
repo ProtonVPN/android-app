@@ -1438,7 +1438,6 @@
     <string name="nps_submit_error_char_limit">Svaret ditt må være på 250 tegn eller kortere</string>
     <string name="nps_button_submit_title">Del anonymt</string>
     <string name="widget_preview_switzerland">Sveits</string>
-    <string name="widget_preview_unitedstates">USA</string>
     <string name="widget_status_unprotected">Ubeskyttet</string>
     <string name="widget_status_error">Feil</string>
     <string name="widget_status_connecting">Kobler til...</string>

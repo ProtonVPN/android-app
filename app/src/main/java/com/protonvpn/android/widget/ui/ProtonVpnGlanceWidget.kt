@@ -24,6 +24,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.glance.ColorFilter
@@ -45,16 +46,15 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
+import androidx.glance.layout.wrapContentHeight
+import androidx.glance.text.Text
 import com.protonvpn.android.R
-import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.widget.WidgetStateUpdater
 import com.protonvpn.android.widget.WidgetViewState
-import com.protonvpn.android.widget.WidgetVpnStatus
 import com.protonvpn.android.widget.hasMaterialYouTheme
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
@@ -70,38 +70,36 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     }
 
     companion object {
-        private val SHORT = 126.dp
-        private val MEDIUM = 160.dp
-        private val TALL = 260.dp
-        private val XTALL = 368.dp
+        private val SHORT = 149.dp
+        private val MEDIUM = 200.dp
+        private val TALL = 315.dp
+        private val XTALL = 410.dp
 
         private val NARROW = 100.dp
-        private val WIDE = 180.dp
-        private val XWIDE = 254.dp
+        private val SLIM = 140.dp
+        private val WIDE = 210.dp
+        private val XWIDE = 280.dp
 
         private val SHORT_NARROW_SIZE = DpSize(NARROW, SHORT)
+        private val SHORT_SLIM_SIZE = DpSize(SLIM, SHORT)
         private val SHORT_WIDE_SIZE = DpSize(WIDE, SHORT)
-        private val SHORT_XWIDE_SIZE = DpSize(XWIDE, SHORT)
 
         private val MEDIUM_NARROW_SIZE = DpSize(NARROW, MEDIUM)
         private val MEDIUM_WIDE_SIZE = DpSize(WIDE, MEDIUM)
-        private val MEDIUM_XWIDE_SIZE = DpSize(XWIDE, MEDIUM)
 
-        private val TALL_NARROW_SIZE = DpSize(NARROW, TALL)
         private val TALL_WIDE_SIZE = DpSize(WIDE, TALL)
         private val TALL_XWIDE_SIZE = DpSize(XWIDE, TALL)
 
-        private val XTALL_NARROW_SIZE = DpSize(NARROW, XTALL)
         private val XTALL_WIDE_SIZE = DpSize(WIDE, XTALL)
         private val XTALL_XWIDE_SIZE = DpSize(XWIDE, XTALL)
     }
 
     override val sizeMode = SizeMode.Responsive(
         setOf(
-            SHORT_NARROW_SIZE, SHORT_WIDE_SIZE, SHORT_XWIDE_SIZE,
-            MEDIUM_NARROW_SIZE, MEDIUM_WIDE_SIZE, MEDIUM_XWIDE_SIZE,
-            TALL_NARROW_SIZE, TALL_WIDE_SIZE, TALL_XWIDE_SIZE,
-            XTALL_NARROW_SIZE, XTALL_WIDE_SIZE, XTALL_XWIDE_SIZE
+            SHORT_NARROW_SIZE, SHORT_SLIM_SIZE, SHORT_WIDE_SIZE,
+            MEDIUM_NARROW_SIZE, MEDIUM_WIDE_SIZE,
+            TALL_WIDE_SIZE, TALL_XWIDE_SIZE,
+            XTALL_WIDE_SIZE, XTALL_XWIDE_SIZE
         )
     )
 
@@ -118,18 +116,30 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                     .value
                     ?: return@ProtonGlanceTheme
 
-                Box(
-                    modifier = GlanceModifier
-                        .fillMaxSize()
-                        .appWidgetBackground()
-                        .background(ImageProvider(viewState.widgetBackground()))
-                        .clickable(viewState.launchMainActivityAction)
-                        .padding(8.dp)
+                val size = LocalSize.current
+
+                // Using wrapContentHeight with 2 spacers, theoretically shouldn't do anything but
+                // there seems to be a bug on API 31 where wrap content doesn't seem to be
+                // applied sometimes and we get max height.
+                Column(
+                    GlanceModifier
+                        .fillMaxWidth()
+                        .wrapContentHeight() // Somehow keeps widget centered in the grid bounds
                 ) {
-                    when (viewState) {
-                        is WidgetViewState.NeedLogin -> NeedLogin(viewState.launchMainActivityAction)
-                        is WidgetViewState.LoggedIn -> LoggedIn(viewState)
+                    Spacer(GlanceModifier.defaultWeight())
+                    Box(
+                        modifier = GlanceModifier
+                            .appWidgetBackground()
+                            .background(ImageProvider(viewState.widgetBackground()))
+                            .clickable(viewState.launchMainActivityAction)
+                            .padding(if (size.width >= WIDE && size.height >= TALL) 12.dp else 8.dp)
+                    ) {
+                        when (viewState) {
+                            is WidgetViewState.NeedLogin -> NeedLogin(viewState.launchMainActivityAction)
+                            is WidgetViewState.LoggedIn -> LoggedIn(viewState)
+                        }
                     }
+                    Spacer(GlanceModifier.defaultWeight())
                 }
             }
         }
@@ -139,11 +149,11 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     private fun NeedLogin(mainActivityAction: Action) {
         val size = LocalSize.current
         Column(
-            modifier = GlanceModifier.fillMaxSize(),
+            modifier = GlanceModifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
-                modifier = GlanceModifier.defaultWeight(),
+                modifier = GlanceModifier.padding(vertical = 20.dp).padding(bottom = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -152,7 +162,7 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                     contentDescription = null,
                     modifier = GlanceModifier.size(36.dp)
                 )
-                if (size.width >= XWIDE) {
+                if (size.width >= WIDE) {
                     Image(
                         ImageProvider(R.drawable.protonvpn_text_logo),
                         colorFilter = ColorFilter.tint(ProtonGlanceTheme.colors.logoText),
@@ -168,76 +178,63 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     @Composable
     private fun LoggedIn(viewState: WidgetViewState.LoggedIn) {
         val size = LocalSize.current
-        val isDisconnected = viewState.vpnStatus == WidgetVpnStatus.Disconnected
-        Column(GlanceModifier.fillMaxSize()) {
-            when {
-                size == SHORT_NARROW_SIZE ->
-                    ConnectWithIntent(
-                        viewState,
-                        showConnecting = true,
-                        wide = false,
-                        GlanceModifier.fillMaxSize()
+        val width = size.width
+        val height = size.height
+        val isWide = width >= WIDE
+        Column(GlanceModifier.fillMaxWidth()) {
+            GlanceVpnStatus(viewState.vpnStatus, small = height < TALL, wide = isWide)
+
+            val intentDimensions = size.connectCardDimensions()
+            Box(
+                // Use fixed height for connect card so that font scaling doesn't affect it's size.
+                // cardIntentFixedHeight will need to be updated if the card layout changes.
+                GlanceModifier.height(intentDimensions.cardIntentFixedHeight()),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                GlanceConnectIntent(viewState.connectCard, dimensions = intentDimensions, center = false)
+            }
+            GlanceConnectButton(viewState.connectCardAction, viewState.vpnStatus)
+
+            if (height >= TALL && width >= WIDE) {
+                val recents = viewState.recentsWithoutPinnedConnectCard()
+                if (recents.isNotEmpty()) {
+                    Text(
+                        text = glanceStringResource(R.string.recents_headline),
+                        style = ProtonGlanceTheme.typography.smallSecondary,
+                        modifier = GlanceModifier.padding(top = 16.dp, bottom = 12.dp)
                     )
-
-                size == MEDIUM_NARROW_SIZE ->
-                    Column(GlanceModifier.fillMaxSize()) {
-                        GlanceVpnStatus(viewState.vpnStatus, wide = false)
-                        ConnectWithIntent(
-                            viewState,
-                            showConnecting = false,
-                            wide = false,
-                            GlanceModifier.fillMaxWidth().defaultWeight()
-                        )
-                    }
-
-                size.height <= MEDIUM && size.width >= WIDE ->
-                    Column(GlanceModifier.fillMaxSize()) {
-                        val showStatus = size.height >= MEDIUM
-                        if (showStatus) {
-                            GlanceVpnStatus(viewState.vpnStatus, wide = size.width >= XWIDE)
-                            Spacer(modifier = GlanceModifier.height(8.dp))
-                        }
-                        if (isDisconnected) {
-                            GlanceRecents(
-                                viewState.mergedRecents(),
-                                maxColumns = size.toMaxColumns(),
-                                maxRows = 1
-                            )
-                        } else {
-                            ConnectWithIntent(
-                                viewState,
-                                showConnecting = !showStatus,
-                                wide = true,
-                                GlanceModifier.defaultWeight()
-                            )
-                        }
-                    }
-
-                size.height >= TALL ->
-                    Column(GlanceModifier.fillMaxSize()) {
-                        val isWide = size.width >= WIDE
-                        GlanceVpnStatus(viewState.vpnStatus, wide = isWide)
-                        ConnectWithIntent(
-                            viewState,
-                            showConnecting = false,
-                            wide = true, // There's not always enough vertical space for intent,
-                                         // let's force wide layout for it.
-                            GlanceModifier.defaultWeight()
-                        )
-                        if (viewState.recents.isNotEmpty()) {
-                            Spacer(modifier = GlanceModifier.height(8.dp))
-                            val maxRows = if (size.height >= XTALL) 2 else 1
-                            GlanceRecents(
-                                viewState.recentsWithoutPinnedConnectCard(),
-                                maxColumns = size.toMaxColumns(),
-                                maxRows = maxRows
-                            )
-                        }
-                    }
-
-                else -> DebugUtils.debugAssert("Unsupported widget size: $size") { false }
+                    val maxRows = if (size.height >= XTALL) 2 else 1
+                    GlanceRecents(
+                        recents,
+                        maxColumns = size.toMaxColumns(),
+                        maxRows = maxRows,
+                    )
+                }
             }
         }
+    }
+
+    private fun GlanceIntentDimensions.cardIntentFixedHeight(): Dp {
+        // 16dp + 16dp vertical padding that will be consumed if labels font will be scaled with
+        // system setting
+        val extraSpace = 32.dp
+        return extraSpace + if (labelSize == GlanceIntentLabelSize.Big) {
+            if (horizontal) 36.dp else 64.dp
+        } else {
+            if (horizontal) 35.dp else 59.dp
+        }
+    }
+
+    private fun DpSize.connectCardDimensions() : GlanceIntentDimensions {
+        val isLargerCardIntent = height >= TALL && width >= WIDE
+        val intentSize = if (isLargerCardIntent) GlanceIntentLabelSize.Big else GlanceIntentLabelSize.Medium
+        val intentHorizontal = this != MEDIUM_NARROW_SIZE
+        return GlanceIntentDimensions(
+            labelSize = intentSize,
+            forceMaxHeight = false,
+            horizontal = intentHorizontal,
+            showIcon = this != SHORT_NARROW_SIZE,
+        )
     }
 
     private fun DpSize.toMaxColumns() = when (width) {
