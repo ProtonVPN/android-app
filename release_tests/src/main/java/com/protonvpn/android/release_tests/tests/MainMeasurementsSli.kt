@@ -55,9 +55,7 @@ class MainMeasurementsSli {
 
     @Before
     fun setup() {
-        LoginRobot.navigateToSignIn()
-            .enterCredentials("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
-            .pressSignIn()
+        LoginRobot.signIn("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
     }
 
     @Test

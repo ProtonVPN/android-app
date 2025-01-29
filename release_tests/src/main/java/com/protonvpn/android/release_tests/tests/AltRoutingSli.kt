@@ -63,9 +63,7 @@ class AltRoutingSli {
             .addMeasurement(DurationMeasurement())
             .setLogcatFilter(LokiConfig.logcatFilter)
 
-        LoginRobot.navigateToSignIn()
-            .enterCredentials("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
-            .pressSignIn()
+        LoginRobot.signIn("testas3", BuildConfig.TEST_ACCOUNT_PASSWORD)
 
         profile.measure {
             LoginRobot.waitUntilLoggedIn()
