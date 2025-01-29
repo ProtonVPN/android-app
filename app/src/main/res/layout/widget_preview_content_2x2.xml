@@ -19,15 +19,30 @@
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_proton_lock_open_filled_2"
+            android:tint="?widget_preview_unprotected" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="11dp"
+        android:paddingBottom="16dp">
 
         <ImageView
             android:layout_width="24dp"
@@ -37,13 +52,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="8dp"
             android:gravity="center_vertical"
-            android:lineHeight="16sp"
-            android:minHeight="32sp"
+            android:lineHeight="17.58sp"
             android:text="@string/fastest_country"
             android:textColor="?attr/widget_preview_text_norm"
             android:textFontWeight="600"
-            android:textSize="13sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <TextView
@@ -53,8 +69,8 @@
         android:minHeight="40dp"
         android:textColor="?attr/widget_preview_on_interaction_norm"
         android:textFontWeight="600"
-        android:textSize="13sp"
-        android:lineHeight="16sp"
+        android:textSize="15sp"
+        android:lineHeight="17.9sp"
         android:background="@drawable/widget_button_bg_interaction_norm"
         android:backgroundTint="?attr/widget_preview_interaction_norm"
         android:text="@string/connect" />

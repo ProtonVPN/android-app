@@ -20,10 +20,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:theme="@style/Theme.ProtonVpnWidgetPreview"
     android:background="@drawable/widget_background_disconnected">
 
-    <include layout="@layout/widget_preview_content_5x2" />
+    <include layout="@layout/widget_preview_content_4x3" />
 
 </LinearLayout>

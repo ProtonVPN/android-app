@@ -19,12 +19,13 @@
 
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/glance_default_loading_layout"
-    android:previewImage="@drawable/widget_preview_5x2"
-    android:previewLayout="@layout/widget_preview_5x2"
+    android:previewImage="@drawable/widget_preview_4x3"
+    android:previewLayout="@layout/widget_preview_4x3"
     android:minResizeWidth="@dimen/widget_min_width"
+    android:minResizeHeight="@dimen/widget_min_height"
     android:minWidth="@dimen/widget_big_min_width"
-    android:minHeight="@dimen/widget_min_height"
-    android:targetCellWidth="5"
-    android:targetCellHeight="2"
+    android:minHeight="@dimen/widget_big_min_height"
+    android:targetCellWidth="4"
+    android:targetCellHeight="3"
     android:resizeMode="horizontal|vertical">
 </appwidget-provider>

@@ -1438,7 +1438,6 @@
     <string name="nps_submit_error_char_limit">Yanıtınız en fazla 250 karakter uzunluğunda olmalıdır</string>
     <string name="nps_button_submit_title">Anonim olarak paylaş</string>
     <string name="widget_preview_switzerland">İsviçre</string>
-    <string name="widget_preview_unitedstates">Birleşik Devletler</string>
     <string name="widget_status_unprotected">Korunmuyor</string>
     <string name="widget_status_error">Hata</string>
     <string name="widget_status_connecting">Bağlanıyor…</string>

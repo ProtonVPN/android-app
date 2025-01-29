@@ -1402,7 +1402,6 @@
     <string name="nps_submit_error_char_limit">Jawaban Anda harus 250 karakter atau lebih pendek</string>
     <string name="nps_button_submit_title">Bagikan secara anonim</string>
     <string name="widget_preview_switzerland">Swiss</string>
-    <string name="widget_preview_unitedstates">Amerika Serikat</string>
     <string name="widget_status_unprotected">Tidak terlindung</string>
     <string name="widget_status_error">Error</string>
     <string name="widget_status_connecting">Menghubungkan…</string>

@@ -1438,7 +1438,6 @@
     <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Jaa anonyymisti</string>
     <string name="widget_preview_switzerland">Sveitsi</string>
-    <string name="widget_preview_unitedstates">Yhdysvallat</string>
     <string name="widget_status_unprotected">Suojaamaton</string>
     <string name="widget_status_error">Virhe</string>
     <string name="widget_status_connecting">Yhdistetään…</string>

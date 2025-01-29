@@ -1438,7 +1438,6 @@
     <string name="nps_submit_error_char_limit">La tua risposta dovrebbe contenere 250 caratteri o meno</string>
     <string name="nps_button_submit_title">Condividi in modo anonimo</string>
     <string name="widget_preview_switzerland">Svizzera</string>
-    <string name="widget_preview_unitedstates">Stati Uniti</string>
     <string name="widget_status_unprotected">Non protetto</string>
     <string name="widget_status_error">Errore</string>
     <string name="widget_status_connecting">Connessione…</string>

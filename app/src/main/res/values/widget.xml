@@ -25,7 +25,8 @@
     <dimen name="widget_button_radius" type="dimen">8dp</dimen>
 
     <dimen name="widget_min_width">100dp</dimen>
-    <dimen name="widget_min_height">126dp</dimen>
-    <!-- rough estimate of 5 columns based on https://developer.android.com/develop/ui/views/appwidgets/layouts -->
-    <dimen name="widget_big_min_width">697dp</dimen>
+    <dimen name="widget_min_height">130dp</dimen>
+    <!-- rough estimate of 4 columns based on https://developer.android.com/develop/ui/views/appwidgets/layouts -->
+    <dimen name="widget_big_min_width">554dp</dimen>
+    <dimen name="widget_big_min_height">278dp</dimen>
 </resources>
