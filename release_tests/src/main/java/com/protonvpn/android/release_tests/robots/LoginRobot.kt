@@ -21,33 +21,35 @@
 
 package com.protonvpn.android.release_tests.robots
 
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
 import com.protonvpn.android.release_tests.data.TestConstants
 import me.proton.test.fusion.Fusion.byObject
-import me.proton.test.fusion.Fusion.device
 import me.proton.test.fusion.ui.uiautomator.ByObject
 
 object LoginRobot {
-    fun signIn(username: String, password: String) {
+    fun signIn(username: String, password: String): LoginRobot {
         navigateToSignIn()
-        enterCredentials(username, password)
-        pressSignIn()
-        waitUntilLoggedIn()
+
+        // Skip Fusion, it's nothing but limitations.
+        val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val hasNewUsernameInput = uiDevice.wait(
+            Until.hasObject(By.res("LOGIN_USERNAME_FIELD_TAG")),
+            TestConstants.FIVE_SECONDS_TIMEOUT_MS
+        )
+        if (hasNewUsernameInput) {
+            fillSignIn(username, password)
+        } else {
+            fillSignInLegacy(username, password)
+        }
+
+        return this
     }
 
     fun navigateToSignIn(): LoginRobot {
         byObject.withTimeout(TestConstants.TWENTY_SECOND_TIMEOUT).withText("Sign in").click()
-        return this
-    }
-
-    fun enterCredentials(username: String, password: String): LoginRobot {
-        protonInput("usernameInput").typeText(username)
-        protonInput("passwordInput").typeText(password)
-        return this
-    }
-
-    fun pressSignIn(): LoginRobot {
-        // Use ID for the button because "Sign in" text is not unique (also used in header).
-        byObject.withResId(TestConstants.TEST_PACKAGE, "signInButton").click()
         return this
     }
 
@@ -57,7 +59,25 @@ object LoginRobot {
         return this
     }
 
-    private fun protonInput(resourceId: String): ByObject =
-        byObject.withResId(TestConstants.TEST_PACKAGE, resourceId)
+    private fun fillSignIn(username: String, password: String) {
+        byObject.protonComposeInput("LOGIN_USERNAME_FIELD_TAG").typeText(username)
+        byObject.withText("Continue").click()
+        byObject.protonComposeInput("LOGIN_PASSWORD_FIELD_TAG").typeText(password)
+        byObject.withText("Continue").click()
+    }
+
+    private fun fillSignInLegacy(username: String, password: String) {
+        byObject.protonInput("usernameInput").typeText(username)
+        byObject.protonInput("passwordInput").typeText(password)
+        // Use ID for the button because "Sign in" text is not unique (also used in header).
+        byObject.withResId(TestConstants.TEST_PACKAGE, "signInButton").click()
+    }
+
+    private fun ByObject.protonInput(resourceId: String): ByObject =
+        withResId(TestConstants.TEST_PACKAGE, resourceId)
             .onDescendant(byObject.withResId(TestConstants.TEST_PACKAGE, "input"))
+
+    private fun ByObject.protonComposeInput(testTag: String): ByObject =
+        withResName(testTag)
+            .onDescendant(byObject.withResName("PROTON_OUTLINED_TEXT_INPUT_TAG"))
 }
