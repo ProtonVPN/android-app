@@ -95,6 +95,15 @@ class ConnectingUpdatesRecentsTests {
     }
 
     @Test
+    fun `when recent is disconnected and connected again recent is reinserted`() = testScope.runTest {
+        val connectionParams = ConnectionParams(connectIntent, server, null, null)
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Disabled, connectionParams))
+        vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, connectionParams))
+        coVerify(exactly = 2) { mockRecentsDao.insertOrUpdateForConnection(plusUser.userId, connectIntent, any()) }
+    }
+
+    @Test
     fun `when plus user attempts to connect and fails then connection is added to recents`() = testScope.runTest {
         val connectionParams = ConnectionParams(connectIntent, server, null, null)
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connecting, connectionParams))
