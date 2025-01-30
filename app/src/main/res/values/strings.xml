@@ -181,7 +181,7 @@
     <string name="troubleshootNoInternetDescription">Please make sure your internet connection is working.</string>
     <string name="troubleshootNoInternetTitle">No internet connection</string>
     <string name="troubleshootIspProblemTitle">Internet Service Provider (ISP) problem</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirus interference</string>
     <string name="troubleshootAntivirusProblemDescription">Temporarily disable or remove your antivirus software.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Proxy/Firewall interference</string>
@@ -191,9 +191,9 @@
     <string name="troubleshootContactUsSectionTitle">Still need help? Contact us directly</string>
     <string name="troubleshootCustomerSupport">Customer support</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternative routing</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Government block</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-on VPN &amp; kill switch</string>
     <string name="settingsAlwaysOnWindowHeader">How to turn on always-on VPN and kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
@@ -270,7 +270,7 @@
     <string name="nameAfricaAndMiddleEast">Africa &amp; Middle East</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Settings</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Protocol</string>
     <string name="tv_detail_default_connection_checkbox_short">Favorite</string>
     <string name="tv_detail_connect_streaming">Stream with Plus</string>
@@ -301,7 +301,7 @@
     <string name="tv_signout_dialog_description_connected">This will disconnect your TV from any VPN server.</string>
     <string name="tv_signout_dialog_ok">Sign out</string>
     <string name="tv_quick_connect_recommened">Recommended</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Favourite</string>
     <string name="tv_country_maintenance_dialog_title">Country is unavailable</string>
     <string name="tv_country_maintenance_dialog_description">Please try again later or select a different country.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -336,7 +336,7 @@
     <string name="enable">Enable</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol is currently disabled</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN detected that your current network is preventing a connection to the VPN. Enabling Smart Protocol might bypass these limitations.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -515,7 +515,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
@@ -624,7 +624,6 @@
     <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
     <string name="settings_widget_selection_button_title">Add widget</string>
     <string name="setting_widget_try_title">Try the Proton VPN widget</string>
-
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Dismiss banner</string>
@@ -816,7 +815,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">Tor</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Fastest country</string>
@@ -1014,7 +1013,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1147,7 +1146,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">High (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocol</string>
     <!-- tag(Redesign_2023) -->
@@ -1457,7 +1456,6 @@
          Example: Color 1, Color 2, ... -->
     <string name="profile_color_accessibility">Color %1$d</string>
     <string name="generic_info_label">Info</string>
-
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
     <string name="create_profile_connect_and_go_label">Connect and Go</string>
@@ -1479,7 +1477,6 @@
     <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
     <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Share anonymously</string>
-
     <string name="widget_preview_switzerland">Switzerland</string>
     <string name="widget_preview_unitedstates">United States</string>
     <string name="widget_status_unprotected">Unprotected</string>
