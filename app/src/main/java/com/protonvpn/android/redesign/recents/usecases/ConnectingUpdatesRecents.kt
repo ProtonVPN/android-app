@@ -27,9 +27,10 @@ import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,10 +47,11 @@ class ConnectingUpdatesRecents @Inject constructor(
         currentUser.vpnUserFlow.flatMapLatestNotNull { user ->
             if (!user.isFreeUser) {
                 vpnStatusProvider.uiStatus
-                    .mapNotNull { vpnStatus ->
+                    .map { vpnStatus ->
                         vpnStatus.connectIntent.takeIf { vpnStatus.state !is VpnState.Disabled }
                     }
                     .distinctUntilChanged()
+                    .filterNotNull()
                     .onEach { connectIntent ->
                         recentsDao.insertOrUpdateForConnection(user.userId, connectIntent, clock())
                     }
