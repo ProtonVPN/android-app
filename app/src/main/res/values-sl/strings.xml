@@ -178,7 +178,7 @@
     <string name="troubleshootNoInternetDescription">Prepričajte se, da vaša spletna povezava deluje.</string>
     <string name="troubleshootNoInternetTitle">Ni spletne povezave</string>
     <string name="troubleshootIspProblemTitle">Težava s ponudnikom spletnih storitev (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Protivirusne motnje</string>
     <string name="troubleshootAntivirusProblemDescription">Začasno onemogočite ali odstranite protivirusni program.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Motnje na povezavi posredniškega strežnika ali požarnega zidu</string>
@@ -188,9 +188,9 @@
     <string name="troubleshootContactUsSectionTitle">Še vedno potrebuješ pomoč? Kontaktirajte nas neposredno</string>
     <string name="troubleshootCustomerSupport">Podpora strankam</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativno usmerjanje</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada s strani države</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Vedno vključen VPN &amp; stikalo za izklop</string>
     <string name="settingsAlwaysOnWindowHeader">Kako vklopiti vedno vključen VPN in stikalo za izklop:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Odprite <b>Nastavitve</b> vaše naprave tako, da tapnete spodnji gumb]]></string>
@@ -331,7 +331,7 @@
     <string name="enable">Omogoči</string>
     <string name="notification_smart_protocol_disabled_title">Pametni protokol je trenutno onemogočen</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN je zaznal, da vaše trenutno omrežje preprečuje povezavo z VPN. Če omogočite pametni protokol, lahko zaobidete te omejitve.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Dostopajte do storitev pretakanja (Netflix, Disney+ itd.) kjer koli na svetu</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -1181,7 +1181,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Visoka (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokol</string>
     <!-- tag(Redesign_2023) -->

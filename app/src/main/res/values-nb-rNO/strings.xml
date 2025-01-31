@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Diskret app-ikon</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Prøv Proton VPN-widgeten</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Se tilkoblingsstatusen din og få tilgang til favoritt-VPN-tilkoblingene dine fra startskjermen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">For å legge til widgeten, trykk og hold hvor som helst på startskjermen, og velg deretter %1$s fra widgetmenyen.</string>
     <string name="settings_widget_selection_button_title">Legg til widget</string>
@@ -665,11 +665,11 @@
     <string name="not_wanted_country_title">Ikke det landet du ønsket?</string>
     <string name="not_wanted_country_description">Oppgrader for å velge hvilken som helst tjener</string>
     <string name="whats_new_title">Hva er nytt</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">Profiler er tilbake</string>
+    <string name="whats_new_profiles_description">Opprett og lagre tilpassede tilkoblinger med ditt valg av plassering, tjener og protokoll.</string>
+    <string name="whats_new_widget_title">Vi introduserer widgets</string>
+    <string name="whats_new_widget_description">Du kan nå se og administrere VPN-en din uten å forlate startskjermen. </string>
+    <string name="whats_new_add_widget_button">Legg til widget</string>
     <string name="welcome_plus_title">Velkommen til VPN Plus</string>
     <string name="welcome_plus_description">Nyt ekstra personvernfunksjoner, forbedret ytelse og VPN-tilpasning på neste nivå.</string>
     <string name="welcome_plus_feature_security">Avanserte sikkerhetsfunksjoner</string>

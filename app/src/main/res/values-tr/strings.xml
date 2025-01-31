@@ -178,7 +178,7 @@
     <string name="troubleshootNoInternetDescription">Lütfen internet bağlantınızın çalıştığından emin olun.</string>
     <string name="troubleshootNoInternetTitle">İnternet bağlantısı yok</string>
     <string name="troubleshootIspProblemTitle">İnternet hizmeti sağlayıcı (ISP) sorunu</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Proton\'a farklı bir ağdan bağlanmayı deneyin (veya <a href=\'%1$s\'>Tor</a> kullanın)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Farklı bir ağ kullanarak Proton bağlantısı kurmayı deneyin (ya da <a href=\'%1$s\'>Tor</a> kullanın)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Antivirüs çakışması</string>
     <string name="troubleshootAntivirusProblemDescription">Antivirus uygulamanızı geçici olarak kapatın ya da kaldırın.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Vekil sunucu veya güvenlik duvarı müdahalesi</string>
@@ -190,7 +190,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Alternatif yöneltme</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton erişimi engelleniyorsa, uygulamanın Proton sunucularına erişmesi için alternatif yollar kullanmasını sağlar. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hükümet engellemesi</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton\'a erişimi engelliyor olabilir. Proton\'a erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton ağına erişimi engelliyor olabilir. Proton ağına erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Hep açık VPN ve bağlantı kesici</string>
     <string name="settingsAlwaysOnWindowHeader">Hep açık VPN ve bağlantı kesici özellikleri nasıl kullanılır:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Aşağıdaki düğmeye dokunarak aygıtınızın <b>Ayarlarını</b> açın]]></string>
@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Gizli uygulama simgesi</string>
     <string name="settings_widget_title">Araç takımı</string>
     <string name="settings_widget_selection_title">Proton VPN araç takımını deneyin</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Bağlantı durumunuzu görüntüleyin ve sık kullandığınız VPN bağlantılarınıza giriş ekranından erişin.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Araç takımı eklemek için giriş ekranınızda herhangi bir yere basılı tutun ve ardından araç takımı menüsünden %1$s seçeneğini seçin.</string>
     <string name="settings_widget_selection_button_title">Araç takımı ekle</string>
@@ -665,11 +665,11 @@
     <string name="not_wanted_country_title">İstediğiniz ülke değil mi?</string>
     <string name="not_wanted_country_description">İstediğiniz sunucuyu seçebilmek için tarifenizi yükseltin</string>
     <string name="whats_new_title">Yenilikler</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">Profiller geri döndü</string>
+    <string name="whats_new_profiles_description">Konum, sunucu ve iletişim kuralı seçiminizle özel bağlantılar oluşturun ve kaydedin.</string>
+    <string name="whats_new_widget_title">Araç takımları</string>
+    <string name="whats_new_widget_description">Artık ana ekrandan çıkmadan VPN bağlantınızı görüntüleyebilir ve yönetebilirsiniz.</string>
+    <string name="whats_new_add_widget_button">Araç takımı ekle</string>
     <string name="welcome_plus_title">VPN Plus tarifesine hoş geldiniz</string>
     <string name="welcome_plus_description">Ek gizlilik özelliklerinin, güçlendirilmiş başarımın ve üst düzey VPN özelleştirmenin tadını çıkarın.</string>
     <string name="welcome_plus_feature_security">Gelişmiş güvenlik özellikleri</string>

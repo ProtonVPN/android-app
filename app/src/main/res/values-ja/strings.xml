@@ -586,7 +586,7 @@
     <string name="settings_change_icon_header_discreet">目立たないアプリアイコン</string>
     <string name="settings_widget_title">ウィジェット</string>
     <string name="settings_widget_selection_title">ProtonVPNウィジェットを試す</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">接続状況を確認してホーム画面からお気に入りの VPN 接続にアクセスしましょう。</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">ウィジェットを追加するには、ホーム画面の任意の場所を押したままウィジェットメニューから %1$s を選択します。</string>
     <string name="settings_widget_selection_button_title">ウィジェットを追加</string>
@@ -644,11 +644,11 @@
     <string name="not_wanted_country_title">ご希望の国ではありませんか？</string>
     <string name="not_wanted_country_description">アップグレードして任意のサーバーを選択</string>
     <string name="whats_new_title">最新情報</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">プロファイルが戻ってきました</string>
+    <string name="whats_new_profiles_description">お好みの場所、サーバー、プロトコルを選択してカスタム接続として保存できます。</string>
+    <string name="whats_new_widget_title">ウィジェットの紹介</string>
+    <string name="whats_new_widget_description">ホームスクリーンから直接、VPNを確認・管理することができるようになりました。</string>
+    <string name="whats_new_add_widget_button">ウィジェットを追加</string>
     <string name="welcome_plus_title">VPN Plusへようこそ</string>
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
     <string name="welcome_plus_feature_security">高度なセキュリティ機能</string>
@@ -938,7 +938,7 @@
     <!-- Displayed above the list of VPN Plus features in the home screen -->
     <string name="home_upsell_carousel_headline">VPN プラスを発見する</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">ピン</string>
+    <string name="recent_action_pin">ピン留め</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_unpin">ピン留めを解除</string>
     <!-- tag(Redesign_2023) -->

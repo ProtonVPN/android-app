@@ -188,7 +188,7 @@
     <string name="troubleshootContactUsSectionTitle">여전히 도움이 필요한가요? 저희에게 바로 연락주세요</string>
     <string name="troubleshootCustomerSupport">고객 지원</string>
     <string name="settingsAllowAlternativeRoutingTitle">대체 라우팅</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton이 차단된 경우 앱이 Proton 서버에 연결하기 위해 대체 경로를 사용하도록 허용하세요. <a href="%1$s">도 알아보기</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">정부 차단</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[당신의 국가는 Proton 서비스를 사용하는 것을 막고 있을지도 모릅니다. Proton 서비스를 사용하기 위하여 <a href=\'%1$s\'>Tor</a>를 사용해보세요.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN 항상 켜기 &amp; 킬 스위치</string>
@@ -587,7 +587,7 @@
     <string name="settings_change_icon_header_discreet">위장 앱 아이콘</string>
     <string name="settings_widget_title">위젯</string>
     <string name="settings_widget_selection_title">Proton VPN 위젯을 사용해 보세요</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">홈 화면에서 연결 상태를 확인하고 선호하는 VPN 서버에 연결하세요.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">위젯을 추가하려면, 홈 화면의 아무 곳이나 길게 누른 다음 위젯 메뉴에서 %1$s을 선택하세요.</string>
     <string name="settings_widget_selection_button_title">위젯 추가</string>
@@ -645,11 +645,11 @@
     <string name="not_wanted_country_title">원하신 국가가 아닌가요?</string>
     <string name="not_wanted_country_description">모든 서버에 접근하기 위해 업그레이드</string>
     <string name="whats_new_title">새로운 소식</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">프로필 기능이 돌아왔습니다</string>
+    <string name="whats_new_profiles_description">선택한 위치, 서버 및 프로토콜로 사용자 지정 연결을 만들고 저장하세요.</string>
+    <string name="whats_new_widget_title">위젯을 소개합니다</string>
+    <string name="whats_new_widget_description">이제 더 이상 홈 화면을 떠나지 않고 VPN을 확인하고 관리할 수 있습니다. </string>
+    <string name="whats_new_add_widget_button">위젯 추가</string>
     <string name="welcome_plus_title">VPN Plus에 오신 것을 환영합니다</string>
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
     <string name="welcome_plus_feature_security">고급 제어 기능</string>
@@ -1106,7 +1106,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">높음 (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN이 평소보다 느릴 수 있습니다</string>
+    <string name="connection_details_server_load_high_description">VPN이 평소보다 느릴 수 있습니다 </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">프로토콜</string>
     <!-- tag(Redesign_2023) -->
@@ -1416,7 +1416,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="nps_additional_comment_optional">선택</string>
     <string name="nps_rating_low_values_explain">0은 매우 가능성이 낮습니다</string>
     <string name="nps_rating_high_values_explain">10은 매우 가능성 있음</string>
-    <string name="nps_toast_submit_message">공유해주셔서 감사합니다. 귀하의 피드백은 Proton VPN을 향상시키는데 도움이 됩니다.</string>
+    <string name="nps_toast_submit_message">공유해주셔서 감사합니다. 회원님의 피드백은 Proton VPN을 향상시키는데 도움이 됩니다.</string>
     <string name="nps_submit_error_char_limit">응답이 250자 이상이여야 합니다.</string>
     <string name="nps_button_submit_title">익명으로 공유</string>
     <string name="widget_preview_switzerland">스위스</string>

@@ -637,7 +637,7 @@
     <string name="settings_change_icon_header_discreet">Diskrétní ikona aplikace</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Zkuste widget Proton VPN</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Na domovské obrazovce můžete sledovat stav připojení a přistupovat k oblíbeným připojením VPN.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Chcete-li přidat widget, stiskněte a podržte kdekoli na své domovské obrazovce a poté v nabídce widgetů vyberte možnost %1$s.</string>
     <string name="settings_widget_selection_button_title">Přidat widget</string>
@@ -707,11 +707,11 @@
     <string name="not_wanted_country_title">Není to země, kterou jste si přáli?</string>
     <string name="not_wanted_country_description">Navyšte tarif pro výběr libovolného serveru</string>
     <string name="whats_new_title">Co je nového</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">Profily jsou zpět</string>
+    <string name="whats_new_profiles_description">Vytvářejte a ukládejte vlastní připojení s výběrem umístění, serveru a protokolu.</string>
+    <string name="whats_new_widget_title">Představujeme widgety</string>
+    <string name="whats_new_widget_description">Svou VPN nyní můžete zobrazit a spravovat, aniž byste opustili domovskou obrazovku. </string>
+    <string name="whats_new_add_widget_button">Přidat widget</string>
     <string name="welcome_plus_title">Vítejte ve VPN Plus</string>
     <string name="welcome_plus_description">Užívejte si další funkce pro ochranu soukromí, vyšší výkon a další úroveň přizpůsobení VPN.</string>
     <string name="welcome_plus_feature_security">Pokročilé funkce zabezpečení</string>
@@ -1180,7 +1180,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Vysoké (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN může fungovat pomaleji, než je zvykem</string>
+    <string name="connection_details_server_load_high_description">VPN může fungovat pomaleji, než je běžné </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokol</string>
     <!-- tag(Redesign_2023) -->

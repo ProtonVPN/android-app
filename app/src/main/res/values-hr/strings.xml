@@ -178,7 +178,7 @@
     <string name="troubleshootNoInternetDescription">Provjerite da li vaša internetska veza radi.</string>
     <string name="troubleshootNoInternetTitle">Nema internetske veze</string>
     <string name="troubleshootIspProblemTitle">Problem s pružateljem internetskih usluga (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Smetnje s antivirusom</string>
     <string name="troubleshootAntivirusProblemDescription">Privremeno onemogućite ili uklonite svoj antivirusni softver.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Smetnje s Proxy-em/Vatrozidom</string>
@@ -188,9 +188,9 @@
     <string name="troubleshootContactUsSectionTitle">Još trebate pomoć? Javite nam se izravno</string>
     <string name="troubleshootCustomerSupport">Korisnička podrška</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternativno usmjeravanje</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Državna cenzura</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Always-on VPN &amp; kill switch</string>
     <string name="settingsAlwaysOnWindowHeader">How to turn on always-on VPN and kill switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
@@ -261,7 +261,7 @@
     <string name="nameAfricaAndMiddleEast">Afrika i Bliski istok</string>
     <string name="nameOceania">Oceanija</string>
     <string name="tv_row_settings">Postavke</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Protokol</string>
     <string name="tv_detail_default_connection_checkbox_short">Omiljeno</string>
     <string name="tv_detail_connect_streaming">Streamajte s Plus</string>
@@ -292,7 +292,7 @@
     <string name="tv_signout_dialog_description_connected">To će odspojiti vaš TV od bilo kojeg VPN poslužitelja.</string>
     <string name="tv_signout_dialog_ok">Odjava</string>
     <string name="tv_quick_connect_recommened">Preporučeno</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Favourite</string>
     <string name="tv_country_maintenance_dialog_title">Država nije dostupna</string>
     <string name="tv_country_maintenance_dialog_description">Pokušajte ponovno kasnije ili odaberite drugu državu.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -328,7 +328,7 @@
     <string name="enable">Omogući</string>
     <string name="notification_smart_protocol_disabled_title">Pametni protokol je trenutno onemogućen</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN je otkrio da vaša trenutna mreža spriječava vezu s VPN-om. Omogućavanje pametnog protokola moglo bi zaobići ta ograničenja.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Access streaming services (Netflix, Disney+, etc) anywhere in the world</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -517,7 +517,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Browse at even higher speeds (up to %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Browse from two locations at once</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Watch your favorite movies and TV shows</string>
@@ -823,7 +823,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">Tor</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Fastest country</string>
@@ -1022,7 +1022,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1155,7 +1155,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">High (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokol</string>
     <!-- tag(Redesign_2023) -->

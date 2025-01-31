@@ -178,7 +178,7 @@
     <string name="troubleshootNoInternetDescription">لطفاً مطمئن شوید که اتصال اینترنت شما کار میکند.</string>
     <string name="troubleshootNoInternetTitle">اتصال اینترنت برقرار نیست</string>
     <string name="troubleshootIspProblemTitle">مشکل ارائه‌دهندهً خدمات اینترنتی (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Try connecting to Proton from a different network (or use <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">تداخل با ضد ویروس</string>
     <string name="troubleshootAntivirusProblemDescription">نرم‌افزار ضد ویروس خود را بطور موقت غیرفعال یا حذف کنید.</string>
     <string name="troubleshootProxyFirewallProblemTitle">تداخل پروکسی/دیوار آتشین</string>
@@ -188,9 +188,9 @@
     <string name="troubleshootContactUsSectionTitle">هنوز به کمک نیاز دارید؟ با ما مستقیم تماس بگیرید</string>
     <string name="troubleshootCustomerSupport">پشتیبانی مشتری</string>
     <string name="settingsAllowAlternativeRoutingTitle">مسیریابی جایگزین</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN همیشه روشن &amp; kill switch</string>
     <string name="settingsAlwaysOnWindowHeader">چگونه VPN همیشه-روشن و Kill Switch را روشن کنید:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[۱. <b>تنظیمات</b> دستگاه خود را با ضربه زدن روی دکمهٔ زیر باز کنید]]></string>
@@ -259,7 +259,7 @@
     <string name="nameAfricaAndMiddleEast">آفریقا &amp; خاورمیانه</string>
     <string name="nameOceania">اقیانوسیه</string>
     <string name="tv_row_settings">تنظیمات</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">پروتکل</string>
     <string name="tv_detail_default_connection_checkbox_short">مورد علاقه</string>
     <string name="tv_detail_connect_streaming">پخش با Plus</string>
@@ -290,7 +290,7 @@
     <string name="tv_signout_dialog_description_connected">این تلویزیون شما را از هر سرور VPN قطع خواهد کرد.</string>
     <string name="tv_signout_dialog_ok">خروج</string>
     <string name="tv_quick_connect_recommened">توصیه شده</string>
-    <string name="tv_quick_connect_favourite">Favorite</string>
+    <string name="tv_quick_connect_favourite">Favourite</string>
     <string name="tv_country_maintenance_dialog_title">کشور در دسترس نیست</string>
     <string name="tv_country_maintenance_dialog_description">لطفاً بعداً دوباره امتحان کنید یا کشور دیگری انتخاب کنید.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -325,7 +325,7 @@
     <string name="enable">فعال‌سازی</string>
     <string name="notification_smart_protocol_disabled_title">پروتکل هوشمند در حال حاضر غیرفعال است</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN تشخیص داد که شبکهٔ فعلی شما از اتصال VPN جلوگیری می‌کند. فعال‌سازی پروتکل هوشمند ممکن است بتواند این محدودیت‌ها را دور بزند.</string>
-    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Advanced features: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">به سرویس‌های پخش آنلاین (Netflix و Disney+ و...) از هرجایی از دنیا دسترسی پیدا کنید</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -501,7 +501,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">با حتی سرعت‌های بیشتر مرور کنید (تا %1$d Gbps)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">همزمان از دو مکان مرور کنید</string>
     <string name="upsell_card_streaming_title">پخش جریانی</string>
     <string name="upsell_card_streaming_description">فیلم‌ها و برنامه‌های تلویزیونی مورد علاقه‌تان را تماشا کنید</string>
@@ -799,7 +799,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">Tor</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">سریع‌ترین کشور</string>
@@ -997,7 +997,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1130,7 +1130,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">High (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN may run slower than normal</string>
+    <string name="connection_details_server_load_high_description">VPN may run slower than normal </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">پروتکل</string>
     <!-- tag(Redesign_2023) -->

@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">დისკრეტული აპლიკაციის ხატულა</string>
     <string name="settings_widget_title">ვიჯეტი</string>
     <string name="settings_widget_selection_title">Proton VPN-ის ვიჯეტის ცდა</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">იხილეთ თქვენი კავშირის სტატუსი და იქონიეთ წვდომა თქვენს რჩეულ VPN კავშირებთან საწყისი ეკრანიდან.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">ვიჯეტის დასამატებლად უბრალოდ დააწექით და გეჭიროთ თქვენი საწყისი ეკრანის თავისუფალ ადგილას და შემდეგ ვიჯეტების მენიუდან აირჩიეთ %1$s.</string>
     <string name="settings_widget_selection_button_title">ვიჯეტის დამატება</string>
@@ -665,11 +665,11 @@
     <string name="not_wanted_country_title">ის ქვეყანა არაა, რომელიც გნებავდათ?</string>
     <string name="not_wanted_country_description">ასწიეთ ტრაფიკი ნებისმიერი სერვერის ასარჩევად</string>
     <string name="whats_new_title">სიახლეები</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">პროფილები ისევ დაბრუნდა</string>
+    <string name="whats_new_profiles_description">შექმენით და შეინახეთ მორგებული კავშირები თქვენი არჩეული მდებარეობით, სერვერით და პროტოკოლით.</string>
+    <string name="whats_new_widget_title">წარმოგიდგენთ ვიჯეტებს</string>
+    <string name="whats_new_widget_description">ახლა შეგიძლიათ ნახოთ და მართოთ თქვენი VPN საწყისი ეკრანიდან გაუსვლელად. </string>
+    <string name="whats_new_add_widget_button">ვიჯეტის დამატება</string>
     <string name="welcome_plus_title">მოგესალმებათ VPN Plus</string>
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
     <string name="welcome_plus_feature_security">დამატებითი უსაფრთხოების ფუნქციები</string>

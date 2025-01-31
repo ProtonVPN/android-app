@@ -178,7 +178,7 @@
     <string name="troubleshootNoInternetDescription">Nous vous invitons à vérifier que votre connexion internet fonctionne.</string>
     <string name="troubleshootNoInternetTitle">Aucune connexion internet</string>
     <string name="troubleshootIspProblemTitle">Problème de fournisseur d\'accès internet (FAI)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Essayez de vous connecter à Proton depuis un autre réseau (ou utilisez <a href=\'%1$s\'>TOR</a>).]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Essayez de vous connecter à Proton depuis un autre réseau (ou utilisez <a href=\'%1$s\'>Tor</a>).]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interférence avec l’antivirus</string>
     <string name="troubleshootAntivirusProblemDescription">Désactivez ou retirez temporairement votre logiciel antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interférence avec le proxy/pare-feu</string>
@@ -190,7 +190,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Routage alternatif</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Si Proton est bloqué, autorisez l\'application à essayer des chemins alternatifs pour atteindre les serveurs Proton. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocage gouvernemental</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Votre pays bloque peut-être l\'accès à Proton. Essayez d\'utiliser <a href=\'%1$s\'>TOR</a> pour accéder à Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Votre pays bloque peut-être l\'accès à Proton. Essayez d\'utiliser <a href=\'%1$s\'>Tor</a> pour accéder à Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN permanent et Arrêt d\'urgence (kill switch)</string>
     <string name="settingsAlwaysOnWindowHeader">Voici comment activer les fonctionnalités VPN permanent et Arrêt d\'urgence (kill switch) :</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Ouvrez les <b>Paramètres</b> de votre appareil en appuyant sur le bouton ci-dessous]]></string>
@@ -1130,7 +1130,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Haute (91–100 %)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">Le VPN peut fonctionner plus lentement que d\'habitude</string>
+    <string name="connection_details_server_load_high_description">Le VPN peut fonctionner plus lentement que d\'habitude </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocole</string>
     <!-- tag(Redesign_2023) -->

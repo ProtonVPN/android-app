@@ -190,7 +190,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Альтернативная маршрутизация</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>TOR</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">Постоянная VPN &amp; Kill Switch</string>
     <string name="settingsAlwaysOnWindowHeader">Как включить VPN постоянно и активировать и Kill Switch:</string>
     <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Откройте <b>Настройки</b> вашего устройства, нажав на кнопку ниже]]></string>
@@ -263,7 +263,7 @@
     <string name="nameAfricaAndMiddleEast">Африка и Ближний и Средний Восток</string>
     <string name="nameOceania">Океания</string>
     <string name="tv_row_settings">Настройки</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Протокол</string>
     <string name="tv_detail_default_connection_checkbox_short">Избранная</string>
     <string name="tv_detail_connect_streaming">Стримить с Plus</string>
@@ -533,7 +533,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Просматривайте веб-страницы на ещё более высоких скоростях (до %1$d Гбит/с)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Просматривайте веб-страницы из двух мест одновременно</string>
     <string name="upsell_card_streaming_title">Стриминг</string>
     <string name="upsell_card_streaming_description">Смотрите свои любимые фильмы и телепрограммы</string>
@@ -1047,7 +1047,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->

@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Διακριτικό εικονίδιο εφαρμογής</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Δοκιμάστε το Proton VPN widget</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Δείτε την κατάσταση σύνδεσής σας και αποκτήστε πρόσβαση στις αγαπημένες σας συνδέσεις VPN από την αρχική οθόνη.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Για να προσθέσετε το widget, απλώς πατήστε παρατεταμένα οπουδήποτε στην αρχική οθόνη και, στη συνέχεια, επιλέξτε %1$s από το μενού του widget.</string>
     <string name="settings_widget_selection_button_title">Προσθήκη widget</string>
@@ -665,11 +665,11 @@
     <string name="not_wanted_country_title">Δεν είναι η χώρα που θέλατε;</string>
     <string name="not_wanted_country_description">Αναβάθμιση για να επιλέξετε οποιονδήποτε διακομιστή</string>
     <string name="whats_new_title">Τι νέο υπάρχει</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">Τα προφίλ επέστρεψαν</string>
+    <string name="whats_new_profiles_description">Δημιουργήστε και αποθηκεύστε προσαρμοσμένες συνδέσεις με την τοποθεσία, το διακομιστή και το πρωτόκολλο της επιλογής σας.</string>
+    <string name="whats_new_widget_title">Παρουσιάζουμε τα widgets</string>
+    <string name="whats_new_widget_description">Τώρα μπορείτε να δείτε και να διαχειριστείτε το VPN σας χωρίς να φύγετε από την αρχική οθόνη. </string>
+    <string name="whats_new_add_widget_button">Προσθήκη widget</string>
     <string name="welcome_plus_title">Καλώς ήλθατε στο VPN Plus</string>
     <string name="welcome_plus_description">Απολαύστε επιπλέον λειτουργίες απορρήτου, υπερφορτισμένη απόδοση και επόμενου επιπέδου προσαρμογές VPN.</string>
     <string name="welcome_plus_feature_security">Προηγμένες λειτουργίες ασφαλείας</string>

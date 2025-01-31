@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Discreet app-icoon</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Probeer de Proton VPN-widget</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Zie de status van de verbinding en krijg toegang tot uw favoriete VPN-verbindingen vanaf het beginscherm.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Om de widget toe te voegen, houdt u gewoon overal op het startscherm ingedrukt en selecteer %1$s in het widgetmenu.</string>
     <string name="settings_widget_selection_button_title">Widget toevoegen</string>
@@ -665,11 +665,11 @@
     <string name="not_wanted_country_title">Niet het land dat u wenste?</string>
     <string name="not_wanted_country_description">Upgrade om elke server te kiezen</string>
     <string name="whats_new_title">Nieuw</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">Profielen zijn terug</string>
+    <string name="whats_new_profiles_description">Maak en bewaar aangepaste verbindingen met uw keuze van locatie, server en protocol.</string>
+    <string name="whats_new_widget_title">Widgets introduceren</string>
+    <string name="whats_new_widget_description">U kunt nu uw VPN bekijken en beheren zonder het startscherm te verlaten. </string>
+    <string name="whats_new_add_widget_button">Widget toevoegen</string>
     <string name="welcome_plus_title">Welkom bij VPN Plus</string>
     <string name="welcome_plus_description">Geniet van de extra privacyfuncties, verhoogde prestaties en geoptimaliseerde VPN-aanpassingen.</string>
     <string name="welcome_plus_feature_security">Geavanceerde beveiligingsfuncties</string>

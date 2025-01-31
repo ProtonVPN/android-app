@@ -586,7 +586,7 @@
     <string name="settings_change_icon_header_discreet">Ikon aplikasi rahasia</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Coba widget Proton VPN</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Periksa status koneksi Anda dan akses koneksi VPN favorit Anda dari layar beranda.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Untuk menambahkan widget ini, cukup tekan dan tahan di mana saja pada layar beranda Anda, lalu pilih %1$s dari menu widget yang muncul.</string>
     <string name="settings_widget_selection_button_title">Tambah widget</string>
@@ -644,11 +644,11 @@
     <string name="not_wanted_country_title">Bukan negara yang Anda inginkan?</string>
     <string name="not_wanted_country_description">Tingkatkan untuk memilih server mana pun</string>
     <string name="whats_new_title">Apa yang baru</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">Profil kini kembali hadir</string>
+    <string name="whats_new_profiles_description">Buat dan simpan koneksi khusus dengan lokasi, server, dan protokol pilihan Anda.</string>
+    <string name="whats_new_widget_title">Memperkenalkan widget</string>
+    <string name="whats_new_widget_description">Anda kini dapat melihat dan mengelola VPN Anda tanpa meninggalkan layar beranda. </string>
+    <string name="whats_new_add_widget_button">Tambah widget</string>
     <string name="welcome_plus_title">Selamat datang di VPN Plus</string>
     <string name="welcome_plus_description">Nikmati berbagai fitur privasi tambahan, performa yang jauh lebih cepat, dan opsi kostumisasi VPN lanjutan.</string>
     <string name="welcome_plus_feature_security">Fitur keamanan mutakhir</string>
