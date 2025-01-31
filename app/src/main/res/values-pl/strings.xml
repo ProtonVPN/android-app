@@ -126,7 +126,7 @@
     <string name="inputIpAddressHint">Wpisz adres IP</string>
     <string name="inputIpAddressErrorInvalid">Adres IP jest nieprawidłowy</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
-    <string name="settings_new_label_badge">NEW</string>
+    <string name="settings_new_label_badge">NOWOŚĆ</string>
     <string name="settingsExcludedIPAddressesListHeader">Wykluczone adresy IP (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Uwzględnione adresy IP (%1$d)</string>
     <string name="settingsExcludedApps">Wykluczone aplikacje</string>
@@ -263,7 +263,7 @@
     <string name="nameAfricaAndMiddleEast">Afryka i Bliski Wschód</string>
     <string name="nameOceania">Oceania</string>
     <string name="tv_row_settings">Ustawienia</string>
-    <string name="tv_card_split_tunneling_label">Split tunneling</string>
+    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
     <string name="tv_card_protocol_label">Protokół</string>
     <string name="tv_detail_default_connection_checkbox_short">Ulubione</string>
     <string name="tv_detail_connect_streaming">Rozpocznij streaming z planem Plus</string>
@@ -533,7 +533,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Przeglądaj Internet z najwyższą prędkością (do %1$d Gb/s)</string>
-    <string name="upsell_card_split_tunneling_title">Split tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
     <string name="upsell_card_split_tunneling_description">Przeglądaj Internet z dwóch lokalizacji jednocześnie</string>
     <string name="upsell_card_streaming_title">Streaming</string>
     <string name="upsell_card_streaming_description">Oglądaj ulubione filmy i programy telewizyjne</string>
@@ -709,9 +709,9 @@
     <string name="whats_new_title">Co nowego</string>
     <string name="whats_new_profiles_title">Profiles are back</string>
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
+    <string name="whats_new_widget_title">Przedstawiamy widżety</string>
     <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_add_widget_button">Dodaj widżet</string>
     <string name="welcome_plus_title">Witaj w planie VPN Plus</string>
     <string name="welcome_plus_description">Ciesz się dodatkowymi funkcjami prywatności, zwiększoną wydajnością i dostosowaniem VPN na wyższym poziomie.</string>
     <string name="welcome_plus_feature_security">Zaawansowane funkcje bezpieczeństwa</string>
@@ -1047,7 +1047,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split tunneling</string>
+    <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1529,6 +1529,6 @@
     <string name="widget_preview_unitedstates">Stany Zjednoczone</string>
     <string name="widget_status_unprotected">Brak ochrony</string>
     <string name="widget_status_error">Błąd</string>
-    <string name="widget_status_connecting">Łączenie...</string>
+    <string name="widget_status_connecting">Łączenie…</string>
     <string name="widget_sign_in">Zaloguj się</string>
 </resources>

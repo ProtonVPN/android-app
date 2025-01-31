@@ -665,11 +665,11 @@
     <string name="not_wanted_country_title">Inte det land du ville ha?</string>
     <string name="not_wanted_country_description">Uppgradera för att välja vilken server som helst</string>
     <string name="whats_new_title">Nyheter</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">Profiler är tillbaka</string>
+    <string name="whats_new_profiles_description">Skapa och spara anpassade anslutningar med ditt val av plats, server och protokoll.</string>
+    <string name="whats_new_widget_title">Introducerar widgetar</string>
+    <string name="whats_new_widget_description">Du kan nu visa och hantera din VPN utan att lämna startskärmen. </string>
+    <string name="whats_new_add_widget_button">Lägg till widget</string>
     <string name="welcome_plus_title">Välkommen till VPN Plus</string>
     <string name="welcome_plus_description">Njut av extra integritetsfunktioner, kraftfullare prestanda och nästa nivå av VPN-anpassning.</string>
     <string name="welcome_plus_feature_security">Avancerade säkerhetsfunktioner</string>
@@ -1130,7 +1130,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Hög (91–100 %)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN kan gå långsammare än normalt</string>
+    <string name="connection_details_server_load_high_description">VPN kan gå långsammare än normalt </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokoll</string>
     <!-- tag(Redesign_2023) -->
