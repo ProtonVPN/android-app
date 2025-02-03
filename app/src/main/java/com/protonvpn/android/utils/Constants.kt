@@ -24,7 +24,6 @@ import com.protonvpn.android.redesign.recents.data.DefaultConnection
 
 object Constants {
 
-    const val MAX_LOG_SIZE = 200 * 1024.toLong()
     const val NOTIFICATION_ID = 6
     const val NOTIFICATION_INFO_ID = 7
     const val NOTIFICATION_GUESTHOLE_ID = 8
@@ -62,18 +61,11 @@ object Constants {
     const val TV_CLIENT_ID: String = "android_tv-vpn"
     val DEFAULT_NETSHIELD_AFTER_UPGRADE = NetShieldProtocol.ENABLED_EXTENDED
 
-    const val SMART_ROUTING_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+smart+routing+support&t=h_&ia=web"
-    const val STREAMING_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+streaming+guide&t=h_&ia=web"
-    const val P2P_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+share+files+securely+p2p+guide&t=h_&ia=web"
-    const val TOR_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+tor+guide&t=h_&ia=web"
-    const val SERVER_LOAD_INFO_URL = "https://duckduckgo.com/?q=site%3Aprotonvpn.com+server+load+support&t=h_&ia=web"
     const val VPN_ACCELERATOR_INFO_URL = "https://protonvpn.com/support/how-to-use-vpn-accelerator"
-    const val SAFE_MODE_INFO_URL = "https://protonvpn.com/support/non-standard-ports"
     const val SECURE_CORE_INFO_URL = "https://protonvpn.com/support/secure-core-vpn/"
     const val MODERATE_NAT_INFO_URL = "https://protonvpn.com/support/moderate-nat"
     const val TELEMETRY_INFO_URL = "https://protonvpn.com/support/share-usage-statistics"
     const val SPLIT_TUNNELING_INFO_URL = "https://protonvpn.com/support/protonvpn-split-tunneling"
-    const val DEDICATED_IPS_INFO_URL = "https://protonvpn.com/support/dedicated-ips/"
     const val NO_LOGS_AUDIT_URL = "https://protonvpn.com/blog/no-logs-audit/"
     const val PROTOCOL_INFO_URL = "https://protonvpn.com/blog/whats-the-best-vpn-protocol/"
     const val CHANGE_ICON_URL = "https://protonvpn.com/support/hide-app-icon"
