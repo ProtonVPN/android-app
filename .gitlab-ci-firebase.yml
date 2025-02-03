@@ -121,7 +121,7 @@ release tests:
 
 robo tests:
   stage: test
-  timeout: 2h
+  timeout: 3h
   needs:
     - build google play dev (monitoring release)
     - export archive name # For ARCHIVES_BASE_NAME
