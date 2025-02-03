@@ -175,6 +175,7 @@ class VpnConnectionTelemetry @Inject constructor(
         this["outcome"] = outcome.statsKeyword
         this["vpn_country"] = connectionParams?.server?.exitCountry?.uppercase() ?: NO_VALUE
         this["server"] = connectionParams?.server?.serverName ?: NO_VALUE
+        this["entry_ip"] = connectionParams?.connectingDomain?.getEntryIp(connectionParams.protocolSelection) ?: NO_VALUE
         this["port"] = connectionParams?.port?.toString() ?: NO_VALUE
         this["protocol"] = connectionParams?.protocolSelection?.toTelemetry() ?: NO_VALUE
         this["network_type"] = getNetworkType()
