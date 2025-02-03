@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">محدودیت حکومتی</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN همیشه روشن &amp; kill switch</string>
-    <string name="settingsAlwaysOnWindowHeader">چگونه VPN همیشه-روشن و Kill Switch را روشن کنید:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[۱. <b>تنظیمات</b> دستگاه خود را با ضربه زدن روی دکمهٔ زیر باز کنید]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">۲. Proton VPN را پیدا کنید و روی %1$s ضربه بزنید</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[۳. روی کلید کنار <b>VPN همیشه روشن</b> ضربه بزنید تا آن را فعال کنید]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[۴. دکمهٔ کنار <b>مسدود کردن اتصالات بدون VPN </b> را لمس کنید تا Kill Switch فعال شود]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">باز کردن تنظیمات اندروید</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">فعال‌سازی kill switch قابلیت split tunneling را غیرفعال خواهد کرد، چون kill switch همهٔ اتصالات خارج از تونل VPN را مسدود می‌کند</string>
     <string name="settingsEnableTelemetryTitle">آمارهای استفاده به‌طور ناشناس در اشتراک بگذارید</string>
     <string name="settingsEnableTelemetryDescription">داده‌های استفاده در غلبه بر مسدود سازی‌های VPN و بهبود یابی عملکرد برنامه به ما کمک می‌کند.</string>
     <string name="settingsSendCrashReportsTitle">گزارش‌های فروپاشی را به‌طور ناشناس در اشتراک بگذارید</string>

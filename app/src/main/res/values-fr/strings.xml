@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Si Proton est bloqué, autorisez l\'application à essayer des chemins alternatifs pour atteindre les serveurs Proton. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocage gouvernemental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Votre pays bloque peut-être l\'accès à Proton. Essayez d\'utiliser <a href=\'%1$s\'>Tor</a> pour accéder à Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN permanent et Arrêt d\'urgence (kill switch)</string>
-    <string name="settingsAlwaysOnWindowHeader">Voici comment activer les fonctionnalités VPN permanent et Arrêt d\'urgence (kill switch) :</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Ouvrez les <b>Paramètres</b> de votre appareil en appuyant sur le bouton ci-dessous]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Trouvez Proton VPN et appuyez sur %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Appuyez sur le sélecteur à côté de <b>VPN permanent</b> pour l\'activer]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Appuyez sur le sélecteur à côté de <b>Bloquer les connexions sans VPN</b> pour activer la fonctionnalité Arrêt d\'urgence (kill switch)]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Ouvrir les paramètres Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activer la fonctionnalité Arrêt d\'urgence (kill switch) désactivera le Split tunneling, car elle bloquera toutes les connexions en dehors du tunnel VPN.</string>
     <string name="settingsEnableTelemetryTitle">Partager des statistiques d\'utilisation anonymes</string>
     <string name="settingsEnableTelemetryDescription">Les données d\'utilisation nous aident à contourner les blocages VPN et à améliorer les performances de l\'application.</string>
     <string name="settingsSendCrashReportsTitle">Partager des rapports de plantage anonymes</string>

@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[W przypadku zablokowania dostępu do usługi zezwól aplikacji na wypróbowanie alternatywnego połączenia, aby połączyć się z serwerami Proton. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Stale aktywny VPN i Kill Switch</string>
-    <string name="settingsAlwaysOnWindowHeader">Jak włączyć stale aktywny VPN i funkcję Kill Switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Otwórz <b>ustawienia</b> urządzenia, klikając poniższy przycisk]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Znajdź aplikację Proton VPN i kliknij ikonę %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Kliknij przycisk <b>Stale aktywny VPN</b>, aby włączyć funkcję]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Kliknij przycisk <b>Blokuj połączenia bez VPN</b>, aby włączyć funkcję Kill Switch]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otwórz ustawienia systemu Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Włączenie funkcji Kill Switch, która blokuje wszystkie płączenia poza tunelem VPN, spowoduje wyłączenie funkcji Split Tunneling</string>
     <string name="settingsEnableTelemetryTitle">Udostępnij anonimowe statystyki użytkowania</string>
     <string name="settingsEnableTelemetryDescription">Dane użytkowania pomagają nam ominąć blokady VPN i poprawić wydajność aplikacji.</string>
     <string name="settingsSendCrashReportsTitle">Udostępnij anonimowe raporty o awariach</string>

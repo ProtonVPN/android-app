@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Als Proton geblokkeerd is, laat de app dan alternatieve paden proberen om de Protonservers te bereiken. <a href="%1$s">Meer leren</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Altijd-actief VPN &amp; Kill Switch</string>
-    <string name="settingsAlwaysOnWindowHeader">Hoe zet u Altijd-actief VPN en Kill Switch aan:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open de <b>Instellingen</b> van uw toestel door op de onderstaande knop te tikken]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Zoek Proton VPN en tik op %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tik op de schakelaar naast <b>Altijd-aan VPN</b> om het in te schakelen]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tik op de schakelaar naast <b>Blokkeer verbindingen zonder VPN</b> om kill switch in te schakelen]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android instellingen openen</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Kill switch activeren schakelt split tunneling uit, aangezien kill switch alle verbindingen buiten de VPN-tunnel blokkeert</string>
     <string name="settingsEnableTelemetryTitle">Anonieme gebruiksstatistieken delen</string>
     <string name="settingsEnableTelemetryDescription">Gebruiksgegevens helpen ons om VPN-blokkering te omzeilen en de prestaties van de app te verbeteren.</string>
     <string name="settingsSendCrashReportsTitle">Anonieme crashrapporten delen</string>

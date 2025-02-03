@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[თუ Proton-ი დაბლოკილია, მიეცით ნება აპს, Proton-ის სერვერებამდე მისასველად სხვა გზებიც სცადოს. <a href="%1$s">გაგეთ მეტი</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">მთავრობის ბლოკი</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[შესაძლოა, თქვენი ქვეყანაში Proton-ზე წვდომა დაბლოკილია. Proton-თან წვდომისთვის სცადეთ <a href=\'%1$s\'>Tor-ი</a> გამოიყენოთ.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">ყოველთვის-ჩართული VPN &amp; Kill Switch-ი</string>
-    <string name="settingsAlwaysOnWindowHeader">როგორ ჩავრთოთ ყოველთვის-ჩართული VPN და Kill Switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. გახსენთ თქვენი მოწყობილობის <b>პარამეტრები</b> ქვემოთ მდებრე ღილაკზე დატყაპუნებით]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. მოძებნეთ Proton VPN და დაატყაპუნეთ %1$s -ზე</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. ჩასართავად დაატყაპუნეთ გადამრთველზე <b>ყოველთვის ჩართული VPN</b>-ის გვერდზე]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Kill Switch-ის ჩასართავად <b>შეერთებების VPN-ის გარეშე დაბლოკვის</b> გასწვრივ დაატყაპუნეთ]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android-ის პარამეტრების გახსნა</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Kill Switch-ის ჩართვა Split Tunneling-ს გამორთავს. Kill Switch-ი VPN გვირაბში გამავალი შეერთებების გარდა ყველაფერს ბლოკავს</string>
     <string name="settingsEnableTelemetryTitle">გამოყენების ანონიმური სტატისტიკის გაზიარება</string>
     <string name="settingsEnableTelemetryDescription">გამოყენების მონაცემები გვეხმარება VPN ბლოკების დაძლევაში და აპლიკაციის მუშაობის გაუმჯობესებაში.</string>
     <string name="settingsSendCrashReportsTitle">ავარიის ანგარიშების ანონიმურად გაზიარება</string>

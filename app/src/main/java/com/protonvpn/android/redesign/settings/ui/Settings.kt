@@ -80,7 +80,6 @@ import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeSplitTunnelingHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeVpnAcceleratorHighlightsFragment
 import com.protonvpn.android.ui.settings.OssLicensesActivity
-import com.protonvpn.android.ui.settings.SettingsAlwaysOnActivity
 import com.protonvpn.android.ui.settings.SettingsTelemetryActivity
 import com.protonvpn.android.utils.openUrl
 import me.proton.core.accountmanager.presentation.compose.AccountSettingsInfo
@@ -151,8 +150,7 @@ fun SettingsRoute(
                     CarouselUpgradeDialogActivity.launch<UpgradeSplitTunnelingHighlightsFragment>(context)
                 },
                 onAlwaysOnClick = {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        context.startActivity(Intent(context, SettingsAlwaysOnActivity::class.java))
+                    onNavigateToSubSetting(SubSettingsScreen.Type.KillSwitch)
                 },
                 onProtocolClick = {
                     onOverrideSettingClick(OverrideType.Protocol) {

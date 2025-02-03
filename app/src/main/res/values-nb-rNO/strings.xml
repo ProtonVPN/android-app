@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[I tilfelle Proton er blokkert, la appen prøve alternative baner for å nå Proton-tjenere. <a href="%1$s">Lær mer</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regjeringsblokkering</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Kan hende landet ditt blokkerer tilgang til Proton. Prøv å bruke <a href=\'%1$s\'>Tor</a> for å få tilgang til Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Alltid på-VPN &amp; nødstopp</string>
-    <string name="settingsAlwaysOnWindowHeader">Hvordan slå på alltid på-VPN og nødstopp:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Åpne enhetens <b>Innstillinger</b> ved å trykke på knappen nedenfor]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Finn Proton VPN og klikk %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Trykk på bryteren ved siden av <b>Alltid på-VPN</b> for å aktivere den]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Klikk på bryteren ved siden av <b>Blokkér forbindelser uten VPN</b> for å aktivere nødstopp]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Åpne Android-innstillinger</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Aktivering av nødstopp vil deaktivere delt tunnelering, da nødstopp blokkerer alle tilkoblinger utenfor VPN-tunnelen.</string>
     <string name="settingsEnableTelemetryTitle">Del anonym bruksstatistikk</string>
     <string name="settingsEnableTelemetryDescription">Bruksdata hjelper oss med å overvinne VPN-blokkeringer og forbedre appytelsen.</string>
     <string name="settingsSendCrashReportsTitle">Del anonyme programkrasjrapporter</string>

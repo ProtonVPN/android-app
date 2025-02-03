@@ -37,6 +37,7 @@ object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsS
         DebugTools,
         DefaultConnection,
         IconChange,
+        KillSwitch,
         NatType,
         NetShield,
         Protocol,

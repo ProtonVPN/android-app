@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У выпадку, калі Proton заблакіраваны, дазвольце праграме паспрабаваць альтэрнатыўныя шляхі для атрымання сувязі з серверамі Proton. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Дзяржаўная блакіроўка</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Магчыма, што ваша краіна блакіруе доступ да Proton. Для атрымання доступу, калі ласка, паспрабуйце скарыстацца <a href=\'%1$s\'>Tor</a>.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">\"Пастаянны VPN\" і Kill Switch</string>
-    <string name="settingsAlwaysOnWindowHeader">Як уключыць \"Пастаянны VPN\" і Kill Switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Адкрыйце на сваёй прыладзе <b>Налады</b> націснуўшы на кнопку ніжэй]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Знайдзіце Proton VPN і націсніце %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Націсніце тумблер побач з надпісам <b>Пастаянны VPN</b>, каб уключыць яго]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Націсніце тумблер побач з надпісам <b>Блакіраваць падключэнні без VPN</b>, каб уключыць Kill Switch]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Адкрыць налады Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Актывацыя Kill Switch адключыць Split Tunneling, бо Kill Switch блакіруе ўсе падключэнні па-за тунэлем VPN</string>
     <string name="settingsEnableTelemetryTitle">Абагульваць ананімную статыстыку выкарыстання</string>
     <string name="settingsEnableTelemetryDescription">Даныя аб выкарыстанні дапамагаюць нам пераадольваць блакіроўкі VPN і паляпшаць прадукцыйнасць праграмы.</string>
     <string name="settingsSendCrashReportsTitle">Абагульванне ананімных справаздач аб збоях</string>

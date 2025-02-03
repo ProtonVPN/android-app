@@ -396,9 +396,6 @@
         <activity
             android:name=".ui.settings.SettingsSplitTunnelIpsActivity" />
         <activity
-            android:name=".ui.settings.SettingsAlwaysOnActivity"
-            android:label="@string/settingsAlwaysOnAndKillSwitchTitle" />
-        <activity
             android:name=".ui.settings.SettingsTelemetryActivity"
             android:label="@string/settingsTelemetryScreenTitle"/>
         <activity

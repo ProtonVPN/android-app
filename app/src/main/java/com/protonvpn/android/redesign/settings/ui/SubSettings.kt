@@ -58,6 +58,7 @@ import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsActivity
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.openUrl
+import com.protonvpn.android.utils.openVpnSettings
 import com.protonvpn.android.widget.ui.WidgetAddScreen
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultStrongNorm
@@ -210,6 +211,14 @@ fun SubSettingsRoute(
                 }
             }
 
+            SubSettingsScreen.Type.KillSwitch -> {
+                KillSwitchInfo(
+                    onOpenVpnSettings = { context.openVpnSettings() },
+                    onLearnMore = { context.openUrl(Constants.KILL_SWITCH_INFO_URL) },
+                    onClose = onClose,
+                )
+            }
+
             SubSettingsScreen.Type.Protocol -> {
                 val protocolSettings = viewModel.protocol.collectAsStateWithLifecycle(initialValue = null).value
                 if (protocolSettings != null) {
@@ -266,7 +275,7 @@ private fun UserId.toInput() = SettingsInput(this.id)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SubSettingBase(
+fun BasicSubSetting(
     modifier: Modifier = Modifier,
     title: String,
     onClose: () -> Unit,
@@ -303,7 +312,7 @@ fun SubSetting(
     onClose: () -> Unit,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    SubSettingBase(
+    BasicSubSetting(
         modifier = modifier,
         title = title,
         onClose = onClose,
@@ -325,7 +334,7 @@ fun SubSettingWithLazyContent(
     onClose: () -> Unit,
     content: @Composable () -> Unit,
 ) {
-    SubSettingBase(
+    BasicSubSetting(
         modifier = modifier,
         title = title,
         onClose = onClose

@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton erişimi engelleniyorsa, uygulamanın Proton sunucularına erişmesi için alternatif yollar kullanmasını sağlar. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hükümet engellemesi</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton ağına erişimi engelliyor olabilir. Proton ağına erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Hep açık VPN ve bağlantı kesici</string>
-    <string name="settingsAlwaysOnWindowHeader">Hep açık VPN ve bağlantı kesici özellikleri nasıl kullanılır:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Aşağıdaki düğmeye dokunarak aygıtınızın <b>Ayarlarını</b> açın]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Proton VPN uygulamasını bulun ve %1$s seçeneğine dokunun</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Açmak için <b>Hep açık VPN</b> seçeneğinin yanındaki anahtara dokunun]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Bağlantı kesici özelliğini açmak için <b>VPN olmadan bağlantılar engellensin</b> seçeneğinin yanındaki anahtara dokunun]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android ayarlarını aç</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Bağlantı kesici özelliğini açıldığında, VPN tüneli dışındaki tüm bağlantılar engelleneceğinden ayrılmış tünelleme özelliği kapatılır</string>
     <string name="settingsEnableTelemetryTitle">Anonim kullanım istatistikleri paylaşılsın</string>
     <string name="settingsEnableTelemetryDescription">Kullanım verileri VPN engellemelerini aşmamıza ve uygulamanın başarımını artırmamıza yardımcı olur.</string>
     <string name="settingsSendCrashReportsTitle">Anonim çökme bildirimleri paylaşılsın</string>
