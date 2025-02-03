@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton이 차단된 경우 앱이 Proton 서버에 연결하기 위해 대체 경로를 사용하도록 허용하세요. <a href="%1$s">도 알아보기</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">정부 차단</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[당신의 국가는 Proton 서비스를 사용하는 것을 막고 있을지도 모릅니다. Proton 서비스를 사용하기 위하여 <a href=\'%1$s\'>Tor</a>를 사용해보세요.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN 항상 켜기 &amp; 킬 스위치</string>
-    <string name="settingsAlwaysOnWindowHeader">연결 유지 VPN 및 킬 스위치 활성화 방법:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. 아래의 버튼을 눌러 기기의 <b>설정</b> 앱을 엽니다]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Proton VPN을 찾아 %1$s 버튼을 누릅니다</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. <b>연결 유지 VPN</b> 옆의 스위치를 눌러 활성화합니다]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. <b>VPN 없는 연결 차단</b> 옆의 스위치를 눌러 킬 스위치를 활성화합니다]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android 설정 열기</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">킬 스위치를 활성화하면 분할 터널링이 비활성화되고, VPN 터널 밖의 모든 연결이 차단됩니다.</string>
     <string name="settingsEnableTelemetryTitle">익명 사용 통계 공유</string>
     <string name="settingsEnableTelemetryDescription">사용 데이터는 VPN 차단을 무력화하고 앱 성능을 개선하는 데 도움이 됩니다.</string>
     <string name="settingsSendCrashReportsTitle">익명 충돌 보고서 공유</string>

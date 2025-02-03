@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Om Proton är blockerad, tillåt appen att prova alternativa vägar för att nå Proton-servrar. <a href="%1$s">Lär dig mer</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regeringsblockering</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ditt land kanske blockerar åtkomst till Proton. Testa att använda <a href=\'%1$s\'>Tor</a> för att komma åt Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Alltid-på-VPN &amp; kill switch</string>
-    <string name="settingsAlwaysOnWindowHeader">Hur man slår på alltid-på VPN och kill switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Öppna din enhets <b>inställningar</b> genom att trycka på knappen nedan]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Hitta Proton VPN och tryck %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tryck på knappen bredvid <b>Alltid-på-VPN</b> för att aktivera det]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tryck på knappen bredvid <b>Blockera anslutningar utan VPN</b> för att aktivera kill switch]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Öppna Android-inställningar</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Aktivering av kill switch kommer inaktivera delad tunnling eftersom kill switch blockerar samtliga anslutningar utanför VPN-tunneln</string>
     <string name="settingsEnableTelemetryTitle">Dela anonym användningsstatistik</string>
     <string name="settingsEnableTelemetryDescription">Användningsdata hjälper oss att övervinna VPN-blockeringar och förbättra appens prestanda.</string>
     <string name="settingsSendCrashReportsTitle">Dela anonyma kraschrapporter</string>

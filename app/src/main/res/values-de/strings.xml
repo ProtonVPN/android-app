@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Falls Proton gesperrt wurde, erlaube der App es mit alternativen Pfaden zu versuchen, um die Proton-Server zu erreichen. <a href="%1$s">Mehr erfahren</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regierungssperren</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ihr Land sperrt möglicherweise den Zugang zu Proton. Versuchen Sie, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Always-On-VPN &amp; Kill Switch</string>
-    <string name="settingsAlwaysOnWindowHeader">So können Always-On-VPN und Kill Switch aktiviert werden:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1.) Öffne die <b>Einstellungen</b> auf deinem Gerät, indem du auf die nachfolgende Schaltfläche tippst]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2.) Suche Proton VPN und tippe auf „%1$s“</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tippe auf den Schalter neben <b>Always-On-VPN</b> (VPN immer eingeschaltet), um es zu aktivieren]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[Tippe auf den Schalter neben <b>Verbindungen ohne VPN sperren</b>, um Kill Switch zu aktivieren]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android Einstellungen öffnen</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Aktivieren des Notausschalters wird Split-Tunneling deaktivieren, da der Notausschalter alle Verbindungen außerhalb des VPN Tunnels blockiert</string>
     <string name="settingsEnableTelemetryTitle">Anonyme Nutzungsstatistiken teilen</string>
     <string name="settingsEnableTelemetryDescription">Nutzungsdaten helfen uns, VPN-Sperren zu überwinden und die Leistung der App zu verbessern.</string>
     <string name="settingsSendCrashReportsTitle">Anonyme Absturzberichte teilen</string>

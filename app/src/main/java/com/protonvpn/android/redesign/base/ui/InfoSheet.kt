@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SimpleModalBottomSheet
+import com.protonvpn.android.base.ui.TextBulletRow
 import com.protonvpn.android.base.ui.VpnOutlinedButton
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.utils.Constants
@@ -298,21 +299,10 @@ private fun SubDetailsComposableP2P(modifier: Modifier) {
             R.drawable.p2p_speed,
             R.string.info_p2p_why_title,
         ) {
-            P2PBulletRow(R.string.info_p2p_why_description_speed)
-            P2PBulletRow(R.string.info_p2p_why_description_logs)
-            P2PBulletRow(R.string.info_p2p_why_description_hide)
+            TextBulletRow(R.string.info_p2p_why_description_speed)
+            TextBulletRow(R.string.info_p2p_why_description_logs)
+            TextBulletRow(R.string.info_p2p_why_description_hide)
         }
-    }
-}
-
-@Composable
-private fun P2PBulletRow(@StringRes textRes: Int) {
-    Row(Modifier.semantics(mergeDescendants = true) {}) {
-        Text(
-            text = "•",
-            modifier = Modifier.padding(horizontal = 5.dp)
-        )
-        Text(text = stringResource(id = textRes))
     }
 }
 

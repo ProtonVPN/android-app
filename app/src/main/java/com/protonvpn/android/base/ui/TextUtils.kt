@@ -22,7 +22,6 @@ package com.protonvpn.android.base.ui
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
-import com.protonvpn.android.third_party.ApacheStringUtils
 
 /**
  * Replaces a SINGLE occurrence of "replace" with inline content annotation.

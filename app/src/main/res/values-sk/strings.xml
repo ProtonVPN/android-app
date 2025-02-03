@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V prípade, že je Proton blokovaný, povoľte aplikácii vyskúšať alternatívne cesty na dosiahnutie Proton serverov. <a href="%1$s">Zistiť viac</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Vládne blokovanie</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša krajina môže blokovať prístup k Protonu. Skúste na prístup k Protonu použiť <a href=\'%1$s\'>Tor</a>.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Trvalá sieť VPN &amp; Kill switch</string>
-    <string name="settingsAlwaysOnWindowHeader">Ako zapnúť Trvalú sieť VPN a Kill Switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Otvorte <b>Nastavenia</b> vašeho zariadenia klepnutím na tlačidlo nižšie]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Nájdite Proton VPN a klepnite na %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Klepnutím na prepínač vedľa položky <b>Trvalá sieť VPN</b> ju povoľte]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Klepnutím na prepínač vedľa položky <b>Blokovať pripojenia bez VPN</b> povolíte Kill switch]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otvoriť nastavenia systému Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Aktiváciou prepínača Kill Switch sa vypne rozdelené tunelovanie, pretože Kill Switch blokuje všetky pripojenia okrem VPN tunela.</string>
     <string name="settingsEnableTelemetryTitle">Zdieľať anonymné štatistiky používania</string>
     <string name="settingsEnableTelemetryDescription">Údaje o používaní nám pomáhajú obchádzať blokovanie VPN a vylepšovať výkon aplikácie.</string>
     <string name="settingsSendCrashReportsTitle">Zdieľať anonymné hlásenia o zlyhaní</string>

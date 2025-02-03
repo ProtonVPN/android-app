@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Στην περίπτωση που το Proton είναι μπλοκαρισμένο, επιτρέψτε στην εφαρμογή να χρησιμοποιήσει εναλλακτικές διαδρομές για την επικοινωνία με τους διακομιστές της Proton. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Κυβερνητική απαγόρευση</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Η χώρα σας μπορεί να εμποδίζει την πρόσβαση στο Proton. Δοκιμάστε να χρησιμοποιήσετε <a href=\'%1$s\'>Tor</a> για πρόσβαση στο Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">\"Πάντα-Ενεργό\" VPN &amp; Kill Switch</string>
-    <string name="settingsAlwaysOnWindowHeader">Πως ενεργοποιείται το \"Πάντα-Ενεργό\" VPN και το Kill Switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Ανοίξτε τις <b>ρυθμίσεις</b> της συσκευής σας πατώντας στο παρακάτω κουμπί]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Βρείτε το Proton VPN και πατήστε %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[Πατήστε τον διακόπτη δίπλα στο <b>Πάντα-Ενεργό VPN</b> για να το ενεργοποιήσετε]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Πατήστε τον διακόπτη δίπλα από το <b>Μπλοκάρισμα συνδέσεων χωρίς VPN</b> για να ενεργοποιήσετε το "Kill Switch"]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Άνοιγμα ρυθμίσεων Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Ενεργοποιώντας το Kill Switch θα απενεργοποιηθεί το split tunneling καθώς ο Kill Switch μπλοκάρει όλες τις συνδέσεις εκτός του VPN tunnel</string>
     <string name="settingsEnableTelemetryTitle">Κοινοποιήστε ανώνυμα στατιστικά χρήσης</string>
     <string name="settingsEnableTelemetryDescription">Τα δεδομένα χρήσης μας βοηθούν να ξεπεράσουμε τα μπλοκαρίσματα VPN και να βελτιώσουμε την απόδοση των εφαρμογών.</string>
     <string name="settingsSendCrashReportsTitle">Κοινοποιήστε ανώνυμες αναφορές σφαλμάτων</string>

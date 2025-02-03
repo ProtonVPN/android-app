@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Mikäli Protonia ei tavoiteta, salli sovelluksen pyrkiä tavoittamaan Protonin palvelimet vaihtoehtoisten reittien välityksellä. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hallinnollinen esto</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Maasi hallinto saattaa estää pääsyn Protoniin. Yritä tavoittaa Proton <a href=\'%1$s\'>Tor-verkon</a> välityksellä.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Jatkuvatoiminen VPN ja tappokytkin</string>
-    <string name="settingsAlwaysOnWindowHeader">Miten jatkuvatoiminen VPN ja tappokytkin otetaan käyttöön:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Avaa laitteesi <b>Asetukset</b> napauttamalla alla olevaa painiketta]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Etsi Proton VPN ja napauta %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Ota <b>Jatkuvatoiminen VPN</b> -asetus käyttöön napauttamalla sen vieressä olevaa kytkintä.]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Ota tappokytkin käyttöön napauttamalla <b>Estä VPN:n ulkopuoliset yhteydet</b> -asetuksen vieressä olevaa kytkintä]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Avaa Androidin asetukset</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Tappokytkimen aktivointi poistaa jaetun tunneloinnin käytöstä, koska se estää kaikki VPN-tunnelin ulkopuoliset yhteydet</string>
     <string name="settingsEnableTelemetryTitle">Jaa anonyymejä käyttötilastoja</string>
     <string name="settingsEnableTelemetryDescription">Käyttötilastot auttavat meitä kiertämään VPN-estoja ja parantamaan sovelluksen suorituskykyä.</string>
     <string name="settingsSendCrashReportsTitle">Jaa anonyymejä virheraportteja</string>

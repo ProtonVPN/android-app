@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton がブロックされている場合、Proton サーバーに接続するために代替手段を試します。<a href="%1$s">詳細</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">政府等による検閲</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[あなたの国の政府が、 Proton への接続を検閲(遮断)している可能性があります。 Proton に接続するために <a href=\'%1$s\'>Tor</a> を使用してみてください。]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">常時接続 VPN &amp; キルスイッチ</string>
-    <string name="settingsAlwaysOnWindowHeader">常時接続 VPN とキルスイッチを有効にする方法:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. 下のボタンをタップしてデバイスの<b>設定</b>を開きます]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Proton VPN を探して %1$s をタップします</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. <b>常時接続 VPN</b> の横にあるスイッチをタップして有効にします]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. <b>VPN 以外の接続をブロック</b>の横にあるスイッチをタップしてキルスイッチを有効にします]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Android の設定を開く</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">キルスイッチを有効にするとスプリットトンネリングは無効になります。キルスイッチは VPN トンネル外のすべての接続をブロックします。</string>
     <string name="settingsEnableTelemetryTitle">匿名の使用統計を共有</string>
     <string name="settingsEnableTelemetryDescription">使用状況データは VPN 検閲に打ち勝ち、アプリのパフォーマンスを改善するために使用されます。</string>
     <string name="settingsSendCrashReportsTitle">匿名のクラッシュレポートを共有</string>

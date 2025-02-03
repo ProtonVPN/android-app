@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[În cazul în care Proton este blocat, se permite aplicației să încerce căi alternative pentru a se conecta la serverele Proton. <a href="%1$s">Detalii</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocare guvernamentală</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Țara dvs. ar putea bloca accesul la Proton. Încercați să folosiți <a href=\'%1$s\'>Tor</a> pentru a accesa Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN permanent și întrerupător de conexiune</string>
-    <string name="settingsAlwaysOnWindowHeader">Cum se activează funcția VPN permanent și întrerupătorul de conexiune</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Deschideți <b>Setările</b> dispozitivului apăsând pe butonul de mai jos]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Găsiți Proton VPN și apăsați pe %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Apăsați pe comutatorul <b>VPN permanent</b> pentru activare]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Apăsați butonul <b>Blocare conexiuni fără VPN</b> pentru activarea întrerupătorului de conexiune]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Deschiderere setări Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activarea întrerupătorului de conexiune va dezactiva divizarea traficului, deoarece aceasta blochează toate conexiunile din afara tunelului VPN.</string>
     <string name="settingsEnableTelemetryTitle">Partajare anonimă statistici de utilizare</string>
     <string name="settingsEnableTelemetryDescription">Datele de utilizare ne ajută să depășim blocările VPN-ului și să îmbunătățim performanța aplicației.</string>
     <string name="settingsSendCrashReportsTitle">Partajare anonimă rapoarte de erori</string>

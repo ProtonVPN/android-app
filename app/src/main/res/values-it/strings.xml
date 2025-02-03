@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Nel caso in cui Proton sia bloccato, consenti all\'app di provare percorsi alternativi per raggiungere i server Proton. <a href="%1$s">Scopri di più</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocco di governo</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Il tuo paese potrebbe bloccare l\'accesso a Proton. Prova ad utilizzare <a href=\'%1$s\'>Tor</a> per accedere a Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">VPN sempre attiva &amp; kill switch</string>
-    <string name="settingsAlwaysOnWindowHeader">Come attivare VPN sempre attiva e kill switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Apri le <b>Impostazioni</b> del tuo dispositivo toccando il pulsante qui sotto]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Trova Proton VPN e tocca l\'icona %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tocca il pulsante accanto a <b>VPN sempre attiva</b> per abilitarla]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tocca il pulsante accanto a <b>Blocca connessioni senza VPN</b> per abilitare il kill switch]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Apri impostazioni Android</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Abilitare il kill switch disabiliterà lo split tunneling, poiché il kill switch blocca tutte le connessioni al di fuori del tunnel VPN.</string>
     <string name="settingsEnableTelemetryTitle">Telemetria anonima</string>
     <string name="settingsEnableTelemetryDescription">I dati sull\'utilizzo ci aiutano a superare i blocchi VPN e a migliorare le prestazioni delle app.</string>
     <string name="settingsSendCrashReportsTitle">Segnalazioni anonime</string>

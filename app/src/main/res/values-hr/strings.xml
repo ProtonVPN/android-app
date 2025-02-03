@@ -191,22 +191,6 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Državna cenzura</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
-    <string name="settingsAlwaysOnAndKillSwitchTitle">Always-on VPN &amp; kill switch</string>
-    <string name="settingsAlwaysOnWindowHeader">How to turn on always-on VPN and kill switch:</string>
-    <string name="settingsAlwaysOnWindowStep1"><![CDATA[1. Open your device’s <b>Settings</b> by tapping the button below]]></string>
-    <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsAlwaysOnWindowStep2">2. Find Proton VPN and tap %1$s</string>
-    <!-- The phrase "Always-on VPN" needs to be translated exactly the same as in Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep3"><![CDATA[3. Tap the switch next to <b>Always-on VPN</b> to enable it]]></string>
-    <!-- The phrase "Block connections without VPN" needs to be translated exactly the same as in
-         Android settings.
-         Open Proton VPN -> Settings -> Always-on and follow the instructions you are translating to
-         find this phrase in your phone\'s settings. -->
-    <string name="settingsAlwaysOnWindowStep4"><![CDATA[4. Tap the switch next to <b>Block connections without VPN</b> to enable kill switch]]></string>
-    <string name="settingsAlwaysOnWindowAndroidSettingsButton">Otvori postavke Androida</string>
-    <string name="settingsAlwaysOnWindowSplitTunellingWarning">Activating kill switch will disable split tunneling, as kill switch blocks all connections outside the VPN tunnel</string>
     <string name="settingsEnableTelemetryTitle">Share anonymous usage statistics</string>
     <string name="settingsEnableTelemetryDescription">Usage data helps us overcome VPN blocks and improve app performance.</string>
     <string name="settingsSendCrashReportsTitle">Share anonymous crash reports</string>
