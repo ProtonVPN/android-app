@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.BasicTextField
@@ -35,7 +34,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -64,7 +62,6 @@ import me.proton.core.compose.theme.captionUnspecified
 import me.proton.core.compose.theme.defaultHint
 import me.proton.core.compose.theme.defaultNorm
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @SuppressWarnings("LongParameterList")
 fun ProtonOutlinedTextField(
@@ -87,6 +84,129 @@ fun ProtonOutlinedTextField(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
     textHeightIn: Dp = Dp.Unspecified,
+    trailingIcon: @Composable (() -> Unit)? = null
+) {
+    val decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit = @Composable { innerTextField ->
+        ProtonOutlineDecorationBox(
+            value = value.text,
+            labelText = labelText,
+            placeholderText = placeholderText,
+            assistiveText = assistiveText,
+            isError = isError,
+            errorText = errorText,
+            enabled = enabled,
+            singleLine = singleLine,
+            visualTransformation = visualTransformation,
+            backgroundColor = backgroundColor,
+            textHeightIn = textHeightIn,
+            interactionSource = interactionSource,
+            innerTextField = innerTextField,
+            trailingIcon = trailingIcon,
+        )
+    }
+    BasicTextField(
+        value = value,
+        modifier = if (labelText != null) {
+            modifier.semantics(mergeDescendants = true) {}
+        } else {
+            modifier
+        },
+        onValueChange = onValueChange,
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = textStyle,
+        cursorBrush = SolidColor(cursorColor(textStyle, isError).value),
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        interactionSource = interactionSource,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        decorationBox = decorationBox
+    )
+}
+
+@Composable
+@SuppressWarnings("LongParameterList")
+fun ProtonOutlinedTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    textStyle: TextStyle = ProtonTheme.typography.defaultNorm,
+    labelText: String? = null,
+    placeholderText: String? = null,
+    assistiveText: String? = null,
+    isError: Boolean = false,
+    errorText: String? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    singleLine: Boolean = false,
+    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
+    textHeightIn: Dp = Dp.Unspecified,
+    trailingIcon: @Composable (() -> Unit)? = null,
+) {
+    val decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit = @Composable { innerTextField ->
+        ProtonOutlineDecorationBox(
+            value = value,
+            labelText = labelText,
+            placeholderText = placeholderText,
+            assistiveText = assistiveText,
+            isError = isError,
+            errorText = errorText,
+            enabled = enabled,
+            singleLine = singleLine,
+            visualTransformation = visualTransformation,
+            backgroundColor = backgroundColor,
+            textHeightIn = textHeightIn,
+            interactionSource = interactionSource,
+            innerTextField = innerTextField,
+            trailingIcon = trailingIcon,
+        )
+    }
+    BasicTextField(
+        value = value,
+        modifier = if (labelText != null) {
+            modifier.semantics(mergeDescendants = true) {}
+        } else {
+            modifier
+        },
+        onValueChange = onValueChange,
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = textStyle,
+        cursorBrush = SolidColor(cursorColor(textStyle, isError).value),
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        interactionSource = interactionSource,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        decorationBox = decorationBox
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ProtonOutlineDecorationBox(
+    value: String,
+    labelText: String? = null,
+    placeholderText: String? = null,
+    assistiveText: String? = null,
+    isError: Boolean = false,
+    errorText: String? = null,
+    enabled: Boolean = true,
+    singleLine: Boolean = false,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
+    textHeightIn: Dp = Dp.Unspecified,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    innerTextField: @Composable () -> Unit,
 ) {
     val supportingTextString =
         if (isError && errorText != null) errorText else assistiveText
@@ -107,83 +227,66 @@ fun ProtonOutlinedTextField(
     }
     val placeholder: @Composable (() -> Unit)? =
         placeholderText?.let { @Composable { Text(placeholderText, style = ProtonTheme.typography.defaultHint) } }
-    val cursorColor = rememberUpdatedState(
-        if (isError) {
-            ProtonTheme.colors.notificationError
-        } else {
-            textStyle.color.takeOrElse { ProtonTheme.colors.textNorm }
+    Column(
+        modifier = Modifier
+            .width(IntrinsicSize.Max)
+            .widthIn(min = TextFieldDefaults.MinWidth)
+    ) {
+        if (labelText != null) {
+            Text(
+                labelText,
+                style = ProtonTheme.typography.captionMedium,
+                color = if (isError) ProtonTheme.colors.notificationError else ProtonTheme.colors.textNorm)
+            VerticalSpacer()
         }
-    )
-    BasicTextField(
-        value = value,
-        modifier = if (labelText != null) {
-            modifier.semantics(mergeDescendants = true) {}
-        } else {
-            modifier
-        },
-        onValueChange = onValueChange,
-        enabled = enabled,
-        readOnly = readOnly,
-        textStyle = textStyle,
-        cursorBrush = SolidColor(cursorColor.value),
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        interactionSource = interactionSource,
-        singleLine = singleLine,
-        maxLines = maxLines,
-        decorationBox = @Composable { innerTextField ->
-            Column(
-                modifier = Modifier
-                    .width(IntrinsicSize.Max)
-                    .widthIn(min = TextFieldDefaults.MinWidth)
-            ) {
-                if (labelText != null) {
-                    Text(
-                        labelText,
-                        style = ProtonTheme.typography.captionMedium,
-                        color = if (isError) ProtonTheme.colors.notificationError else ProtonTheme.colors.textNorm)
-                    VerticalSpacer()
-                }
-                val colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = backgroundColor,
-                    unfocusedContainerColor = backgroundColor,
-                    disabledContainerColor = backgroundColor,
-                    focusedBorderColor = ProtonTheme.colors.interactionNorm,
-                    unfocusedBorderColor = Color.Transparent,
-                )
-                // Wrap OutlinedTextFieldDecorationBox in a Box because there's no way to pass size modifier directly.
-                Box(Modifier.fillMaxWidth().heightIn(textHeightIn), propagateMinConstraints = true) {
-                    OutlinedTextFieldDefaults.DecorationBox(
-                        value = value.text,
-                        innerTextField = innerTextField,
+        val colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = backgroundColor,
+            unfocusedContainerColor = backgroundColor,
+            disabledContainerColor = backgroundColor,
+            focusedBorderColor = ProtonTheme.colors.interactionNorm,
+            unfocusedBorderColor = Color.Transparent,
+        )
+        // Wrap OutlinedTextFieldDecorationBox in a Box because there's no way to pass size modifier directly.
+        Box(Modifier
+            .fillMaxWidth()
+            .heightIn(textHeightIn), propagateMinConstraints = true) {
+            OutlinedTextFieldDefaults.DecorationBox(
+                value = value,
+                innerTextField = innerTextField,
+                enabled = enabled,
+                singleLine = singleLine,
+                visualTransformation = visualTransformation,
+                interactionSource = interactionSource,
+                isError = isError,
+                label = null,
+                placeholder = placeholder,
+                leadingIcon = null,
+                trailingIcon = trailingIcon,
+                supportingText = supportingText,
+                colors = colors,
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+                container = {
+                    OutlinedTextFieldDefaults.Container(
                         enabled = enabled,
-                        singleLine = singleLine,
-                        visualTransformation = visualTransformation,
-                        interactionSource = interactionSource,
                         isError = isError,
-                        label = null,
-                        placeholder = placeholder,
-                        leadingIcon = null,
-                        trailingIcon = null,
-                        supportingText = supportingText,
+                        interactionSource = interactionSource,
                         colors = colors,
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                        container = {
-                            OutlinedTextFieldDefaults.ContainerBox(
-                                enabled = enabled,
-                                isError = isError,
-                                interactionSource = interactionSource,
-                                colors = colors,
-                                shape = ProtonTheme.shapes.medium,
-                            )
-                        },
+                        shape = ProtonTheme.shapes.medium,
                     )
-                }
-            }
+                },
+            )
         }
-    )
+    }
 }
+
+@Composable
+private inline fun cursorColor(textStyle: TextStyle, isError: Boolean) = rememberUpdatedState(
+    if (isError) {
+        ProtonTheme.colors.notificationError
+    } else {
+        textStyle.color.takeOrElse { ProtonTheme.colors.textNorm }
+    }
+)
 
 @Preview(
     showBackground = true,

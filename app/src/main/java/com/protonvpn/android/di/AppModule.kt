@@ -33,6 +33,7 @@ import com.protonvpn.android.api.GuestHole
 import com.protonvpn.android.api.ProtonVPNRetrofit
 import com.protonvpn.android.api.VpnApiClient
 import com.protonvpn.android.api.VpnApiManager
+import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.appconfig.AppConfig
 import com.protonvpn.android.appconfig.DefaultUserCountryProvider
 import com.protonvpn.android.appconfig.GlideImagePrefetcher
@@ -328,6 +329,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDelegatedSnackManager() = DelegatedSnackManager(SystemClock::elapsedRealtime)
+
+    @Provides
+    @Singleton
+    fun provideDebugApiPrefs(provider: SharedPreferencesProvider): DebugApiPrefs? =
+        if (BuildConfig.DEBUG) DebugApiPrefs(provider) else null
 
     @Module
     @InstallIn(SingletonComponent::class)

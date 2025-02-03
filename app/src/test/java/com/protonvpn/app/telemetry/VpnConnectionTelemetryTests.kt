@@ -49,6 +49,7 @@ import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import com.protonvpn.test.shared.createAccountUser
 import com.protonvpn.test.shared.createServer
+import com.protonvpn.test.shared.dummyConnectingDomain
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -163,7 +164,8 @@ class VpnConnectionTelemetryTests {
             "isp" to "Test ISP",
             "protocol" to "wireguard_udp",
             "port" to "443",
-            "network_type" to "wifi"
+            "network_type" to "wifi",
+            "entry_ip" to "1.2.3.4",
         )
         verify {
             mockTelemetry.event(
@@ -212,7 +214,8 @@ class VpnConnectionTelemetryTests {
             "isp" to "Test ISP",
             "protocol" to "n/a",
             "port" to "n/a",
-            "network_type" to "wifi"
+            "network_type" to "wifi",
+            "entry_ip" to "n/a",
         )
         verify {
             mockTelemetry.event(
@@ -365,7 +368,7 @@ class VpnConnectionTelemetryTests {
         ConnectionParams(
             ConnectIntent.FastestInCountry(CountryId.fastest, emptySet()),
             server,
-            ConnectingDomain(entryDomain = "dummy", id = null),
+            server.connectingDomains.first(),
             protocolSelection.vpn,
             transmissionProtocol = protocolSelection.transmission,
             port = port
