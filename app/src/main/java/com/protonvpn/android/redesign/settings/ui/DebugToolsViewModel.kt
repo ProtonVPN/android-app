@@ -21,9 +21,14 @@ package com.protonvpn.android.redesign.settings.ui
 
 import androidx.lifecycle.ViewModel
 import com.protonvpn.android.api.GuestHole
+import com.protonvpn.android.api.data.DebugApiPrefs
+import com.protonvpn.android.appconfig.AppConfig
+import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.ui.home.ServerListUpdater
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -31,8 +36,24 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 class DebugToolsViewModel @Inject constructor(
     private val mainScope: CoroutineScope,
-    private val guestHole: GuestHole
+    private val guestHole: GuestHole,
+    private val currentUser: CurrentUser,
+    private val appConfig: AppConfig,
+    private val serverListUpdater: ServerListUpdater,
+    debugApiPrefsNullable: DebugApiPrefs?,
 ): ViewModel() {
+
+    private val debugApiPrefs = requireNotNull(debugApiPrefsNullable)
+
+    val state = combine(
+        debugApiPrefs.netzoneFlow,
+        debugApiPrefs.countryFlow,
+    ) { netzone, country ->
+        DebugToolsState(
+            netzone = netzone,
+            country = country,
+        )
+    }
 
     fun connectGuestHole() {
         mainScope.launch {
@@ -41,4 +62,24 @@ class DebugToolsViewModel @Inject constructor(
             }
         }
     }
+
+    fun refreshConfig() {
+        mainScope.launch {
+            appConfig.forceUpdate(currentUser.vpnUser()?.userId)
+            serverListUpdater.updateServerList()
+        }
+    }
+
+    fun setNetzone(netzone: String) {
+        debugApiPrefs.netzone = netzone.takeIf { it.isNotBlank() }
+    }
+
+    fun setCountry(country: String) {
+        debugApiPrefs.country = country.takeIf { it.isNotBlank() }
+    }
 }
+
+data class DebugToolsState(
+    val netzone: String?,
+    val country: String?,
+)

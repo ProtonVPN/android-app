@@ -19,14 +19,32 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.protonvpn.android.base.ui.ProtonSecondaryButton
+import com.protonvpn.android.base.ui.VpnSolidButton
+import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.redesign.base.ui.SettingsItem
+import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun DebugTools(
     onConnectGuestHole: () -> Unit,
+    onRefreshConfig: () -> Unit,
+    netzone: String,
+    country: String,
+    setNetzone: (String) -> Unit,
+    setCountry: (String) -> Unit,
     onClose: () -> Unit,
 ) {
     SubSetting(
@@ -41,5 +59,58 @@ fun DebugTools(
                 Text("Connect")
             }
         }
+
+        val paddingModifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp).fillMaxWidth()
+        DebugTextInputRow(
+            value = netzone,
+            onValueChange = setNetzone,
+            labelText = "x-pm-netzone",
+            placeholderText = "IP address",
+            modifier = paddingModifier,
+        )
+        DebugTextInputRow(
+            value = country,
+            onValueChange = setCountry,
+            labelText = "x-pm-country",
+            placeholderText = "2-letter country code",
+            modifier = paddingModifier,
+        )
+        VpnSolidButton(
+            onClick = onRefreshConfig,
+            text = "Refresh config and servers",
+            modifier = paddingModifier,
+        )
+    }
+}
+
+@Composable
+private fun DebugTextInputRow(
+    value: String,
+    onValueChange: (String) -> Unit,
+    labelText: String,
+    placeholderText: String,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.Bottom,
+    ) {
+        ProtonOutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            labelText = labelText,
+            placeholderText = placeholderText,
+            singleLine = true,
+            modifier = Modifier.weight(1f),
+            trailingIcon = {
+                Icon(
+                    painter = painterResource(id = CoreR.drawable.ic_proton_close),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { onValueChange("") }
+                )
+            },
+        )
     }
 }

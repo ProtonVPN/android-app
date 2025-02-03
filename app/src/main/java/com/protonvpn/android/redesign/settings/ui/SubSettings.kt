@@ -191,9 +191,15 @@ fun SubSettingsRoute(
 
             SubSettingsScreen.Type.DebugTools -> {
                 val debugToolsViewModel = hiltViewModel<DebugToolsViewModel>()
+                val state = debugToolsViewModel.state.collectAsStateWithLifecycle(initialValue = null).value
                 DebugTools(
                     onClose = onClose,
-                    onConnectGuestHole = debugToolsViewModel::connectGuestHole
+                    onConnectGuestHole = debugToolsViewModel::connectGuestHole,
+                    onRefreshConfig = debugToolsViewModel::refreshConfig,
+                    netzone = state?.netzone ?: "",
+                    country = state?.country ?: "",
+                    setNetzone = debugToolsViewModel::setNetzone,
+                    setCountry = debugToolsViewModel::setCountry,
                 )
             }
 
