@@ -1481,4 +1481,5 @@
     <string name="widget_status_error">Error</string>
     <string name="widget_status_connecting">Connecting…</string>
     <string name="widget_sign_in">Sign in</string>
+    <string name="widget_toast_added_message">Widget added to home screen</string>
 </resources>
