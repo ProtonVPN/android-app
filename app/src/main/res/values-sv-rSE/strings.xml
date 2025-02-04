@@ -603,7 +603,7 @@
     <string name="settings_change_icon_header_discreet">Diskret appikon</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Prova Proton VPN-widgeten</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Se din anslutningsstatus och kom åt dina favorit-VPN-anslutningar från hemskärmen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">För att lägga till widgeten, tryck och håll vart som helst på din hemskärm och välj sedan %1$s i widgetmenyn.</string>
     <string name="settings_widget_selection_button_title">Lägg till widget</string>

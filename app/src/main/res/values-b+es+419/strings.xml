@@ -93,7 +93,7 @@
     <string name="something_went_wrong">Hubo un problema</string>
     <string name="try_again">Volver a intentar</string>
     <string name="delete">Eliminar</string>
-    <string name="remove">Borrar</string>
+    <string name="remove">Eliminar</string>
     <string name="saveButton">Guardar</string>
     <string name="ipWithPlaceholder">IP: %1$s</string>
     <string name="activityLicensesTitle">Licencias de terceros</string>
@@ -154,7 +154,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Eliminar de aplicaciones excluidas</string>
+    <string name="accessibility_action_remove_excluded_app">Eliminar de las aplicaciones excluidas</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -168,7 +168,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Eliminar de aplicaciones incluidas</string>
+    <string name="accessibility_action_remove_included_app">Eliminar de las aplicaciones incluidas</string>
     <string name="tileConnected">Conectado: %1$s</string>
     <string name="openUrlError">No se pudo abrir %1$s. No se detectó un navegador en el dispositivo.</string>
     <string name="loaderErrorTimeout">Tiempo de conexión agotado. Inténtelo de nuevo.</string>
@@ -180,7 +180,7 @@
     <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
     <string name="troubleshootIspProblemDescription"><![CDATA[Intente conectarse a Proton desde una red diferente (o use <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferencia del antivirus</string>
-    <string name="troubleshootAntivirusProblemDescription">Desactive temporalmente o borre el software antivirus.</string>
+    <string name="troubleshootAntivirusProblemDescription">Desactive temporalmente o elimine el software antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferencia de Proxy/Firewall</string>
     <string name="troubleshootProxyFirewallProblemDescription">Desactive cualquier proxy o firewall, o contacte con el administrador de la red.</string>
     <string name="troubleshootProtonDownTitle">Proton está caído</string>
@@ -1344,7 +1344,7 @@
     <string name="settings_split_tunneling_excluded_format" comment="Used for describing excluded items. Example: Chrome, Facebook and 2 more. The same logic used for IP addresses too.">%1$s, %2$s y %3$d más</string>
     <string name="settings_split_tunneling_already_excluded">Ya excluida</string>
     <string name="settings_split_tunneling_already_included">Ya incluida</string>
-    <string name="settings_split_tunneling_remove_ip_dialog_message">¿Borrar la dirección IP de la lista?</string>
+    <string name="settings_split_tunneling_remove_ip_dialog_message">¿Eliminar la dirección IP de la lista?</string>
     <string name="settings_dialog_reconnect">Los ajustes nuevos se aplicarán la próxima vez que se conecte.</string>
     <string name="settings_needs_reconnect_banner">Los ajustes nuevos se aplicarán la próxima vez que se conecte.</string>
     <string name="info_secure_core_standard_high_privacy">Gran privacidad</string>
