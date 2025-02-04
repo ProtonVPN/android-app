@@ -102,7 +102,7 @@ fun GlanceVpnStatus(status: WidgetVpnStatus, wide: Boolean, small: Boolean, modi
             val statusStyle = if (small) ProtonGlanceTheme.typography.statusSmall else ProtonGlanceTheme.typography.status
             Text(
                 when (status) {
-                    WidgetVpnStatus.Connected -> glanceStringResource(R.string.connected)
+                    WidgetVpnStatus.Connected -> glanceStringResource(R.string.vpn_status_connected)
                     WidgetVpnStatus.Disconnected -> glanceStringResource(R.string.widget_status_unprotected)
                     WidgetVpnStatus.Connecting -> glanceStringResource(R.string.widget_status_connecting)
                     WidgetVpnStatus.WaitingForNetwork -> glanceStringResource(R.string.error_vpn_waiting_for_network)
