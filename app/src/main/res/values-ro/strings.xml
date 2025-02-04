@@ -188,7 +188,7 @@
     <string name="troubleshootContactUsSectionTitle">Încă aveți nevoie de ajutor? Contactați-ne direct.</string>
     <string name="troubleshootCustomerSupport">Asistență clienți</string>
     <string name="settingsAllowAlternativeRoutingTitle">Rută alternativă</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[În cazul în care Proton este blocat, permite aplicației să încerce căi alternative pentru a se conecta la serverele Proton. <a href="%1$s">Detalii</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[În cazul în care Proton este blocat, se permite aplicației să încerce căi alternative pentru a se conecta la serverele Proton. <a href="%1$s">Detalii</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocare guvernamentală</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Țara dvs. ar putea bloca accesul la Proton. Încercați să folosiți <a href=\'%1$s\'>Tor</a> pentru a accesa Proton.]]></string>
     <string name="settingsAlwaysOnAndKillSwitchTitle">VPN permanent și întrerupător de conexiune</string>
@@ -618,13 +618,13 @@
     <string name="settings_change_icon_confirmation_details">Acest lucru va determina închiderea aplicației Proton VPN. Pentru a reporni Proton VPN, trebuie doar să atingeți nou pictogramă a aplicației.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Pictogramă discretă aplicație</string>
-    <string name="settings_widget_title">Widget</string>
-    <string name="settings_widget_selection_title">Încearcă widgetul Proton VPN</string>
-    <string name="settings_widget_selection_description">Vezi starea conexiunii și accesează conexiunile VPN preferate direct pe ecranul principal.</string>
+    <string name="settings_widget_title">Modul</string>
+    <string name="settings_widget_selection_title">Încercați modulul Proton VPN</string>
+    <string name="settings_widget_selection_description">Vedeți starea conexiunii și accesați conexiunile VPN preferate direct de pe ecranul principal.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">Pentru a adăuga widgetul, ține apăsat oriunde pe ecranul de pornire, apoi selectează %1$s din meniul de widgeturi.</string>
-    <string name="settings_widget_selection_button_title">Adaugă widget</string>
-    <string name="setting_widget_try_title">Încearcă widgetul Proton VPN</string>
+    <string name="setting_widget_selection_additional_description">Pentru a adăuga modulul, țineți apăsat oriunde pe ecranul de pornire, apoi selectați %1$s din meniul de module.</string>
+    <string name="settings_widget_selection_button_title">Adăugare modul</string>
+    <string name="setting_widget_try_title">Încercați modulul Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Ascundere banner</string>
@@ -686,11 +686,11 @@
     <string name="not_wanted_country_title">Nu este țara pe care o doriți?</string>
     <string name="not_wanted_country_description">Schimbați planul abonamentului pentru alege orice server</string>
     <string name="whats_new_title">Ce este nou</string>
-    <string name="whats_new_profiles_title">Profilurile s-au întors</string>
-    <string name="whats_new_profiles_description">Creează și salvează conexiuni personalizate cu locația, serverul și protocolul la alegerea ta.</string>
-    <string name="whats_new_widget_title">Introducem widget-uri</string>
-    <string name="whats_new_widget_description">Acum poți vizualiza și gestiona VPN-ul tău fără a părăsi ecranul principal. </string>
-    <string name="whats_new_add_widget_button">Adaugă widget</string>
+    <string name="whats_new_profiles_title">Profilurile au revenit</string>
+    <string name="whats_new_profiles_description">Creați și salvați conexiuni personale alegându-vă locul, serverul și protocolul.</string>
+    <string name="whats_new_widget_title">Vă prezentăm modulele</string>
+    <string name="whats_new_widget_description">Acum vă puteți vedea și gestiona VPN-ul fără a părăsi ecranul principal.</string>
+    <string name="whats_new_add_widget_button">Adăugare modul</string>
     <string name="welcome_plus_title">Bun venit la VPN Plus</string>
     <string name="welcome_plus_description">Bucurați-vă de funcții suplimentare de confidențialitate, performanță îmbunătățită și personalizare VPN la nivelul următor.</string>
     <string name="welcome_plus_feature_security">Funcții avansate de securitate</string>
@@ -823,7 +823,7 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">persoană-la-persoană</string>
-    <string name="server_feature_content_description_tor">tor</string>
+    <string name="server_feature_content_description_tor">Tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Cea mai rapidă țară</string>
@@ -1155,7 +1155,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Mare (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">Viteza prin VPN ar putea fi mai redusă decât normal</string>
+    <string name="connection_details_server_load_high_description">Viteza prin VPN e mai redusă decât cea normală</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocol</string>
     <!-- tag(Redesign_2023) -->

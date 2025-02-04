@@ -347,7 +347,7 @@
     <string name="upgrade_devices_text">Proton VPN 可用於 8 個不同的作業平台。</string>
     <string name="upgrade_plus_title">升級您的隱私</string>
     <string name="upgrade_plus_message">選用 VPN Plus 獲享進階的隱私功能與更快速度。</string>
-    <string name="upgrade_netshield_title">享受吳廣告的瀏覽體驗</string>
+    <string name="upgrade_netshield_title">享受無廣告的瀏覽體驗</string>
     <string name="upgrade_netshield_message"><![CDATA[使用 <b>NetShield</b> 封鎖廣告、追蹤器與惡意軟體。]]></string>
     <string name="upgrade_secure_core_title">雙重加密</string>
     <string name="upgrade_secure_core_message"><![CDATA[使用 <b>Secure Core</b> 為您的 VPN 連線多添一層加密。]]></string>
