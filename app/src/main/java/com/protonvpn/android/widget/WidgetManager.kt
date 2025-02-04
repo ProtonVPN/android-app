@@ -18,19 +18,24 @@
  */
 package com.protonvpn.android.widget
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
+import android.widget.Toast
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.protonvpn.android.R
 import com.protonvpn.android.ui.storage.UiStateStorage
+import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
 import com.protonvpn.android.widget.data.WidgetTracker
-import dagger.Reusable
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -42,8 +47,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@Reusable
+@Singleton
 class WidgetManager @Inject constructor(
     private val scope: CoroutineScope,
     @ApplicationContext private val context: Context,
@@ -58,6 +64,7 @@ class WidgetManager @Inject constructor(
         // use fallback UI in that case instead of native picker
         // Add manufacturers in lowercase to the list.
         val PICKER_NOT_SUPPORTED_MANUFACTURER_LIST = listOf("xiaomi")
+        val WIDGET_ADDED_ACTION = "intent.action.WIDGET_ADDED";
     }
 
     val supportsNativeWidgetSelector: Boolean
@@ -91,6 +98,9 @@ class WidgetManager @Inject constructor(
                 }
             }
         }
+        context.registerBroadcastReceiver(IntentFilter(WIDGET_ADDED_ACTION)) {
+            Toast.makeText(context, R.string.widget_toast_added_message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private val adoptWidgetLambda: () -> Unit = {
@@ -109,10 +119,18 @@ class WidgetManager @Inject constructor(
 
     fun openNativeWidgetSelector() {
         val myWidgetProvider = ComponentName(context, ProtonVpnWidgetReceiver::class.java)
+        val intent = Intent(WIDGET_ADDED_ACTION).apply { setPackage(context.packageName) }
+        val successPendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         widgetManager.requestPinAppWidget(
             myWidgetProvider,
             null,
-            null
+            successPendingIntent
         )
     }
 }

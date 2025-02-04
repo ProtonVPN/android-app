@@ -25,6 +25,7 @@ import android.app.ApplicationExitInfo
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.RECEIVER_NOT_EXPORTED
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
@@ -96,7 +97,12 @@ object AndroidUtils {
                 onReceive(intent)
             }
         }
-        this.registerReceiver(receiver, intentFilter)
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            this.registerReceiver(receiver, intentFilter, RECEIVER_NOT_EXPORTED)
+        } else {
+            this.registerReceiver(receiver, intentFilter)
+        }
         return receiver
     }
 
