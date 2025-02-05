@@ -53,6 +53,7 @@ import androidx.glance.layout.size
 import androidx.glance.layout.wrapContentHeight
 import androidx.glance.text.Text
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentSecondaryLabel
 import com.protonvpn.android.widget.WidgetStateUpdater
 import com.protonvpn.android.widget.WidgetViewState
 import com.protonvpn.android.widget.hasMaterialYouTheme
@@ -191,7 +192,12 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                 GlanceModifier.height(intentDimensions.cardIntentFixedHeight()),
                 contentAlignment = Alignment.CenterStart
             ) {
-                GlanceConnectIntent(viewState.connectCard, dimensions = intentDimensions, center = false)
+                val isFastestFreeServer = viewState.connectCard.secondaryLabel is ConnectIntentSecondaryLabel.FastestFreeServer
+                val card =
+                    if (isFastestFreeServer && width < WIDE) viewState.connectCard.copy(secondaryLabel = null)
+                    else viewState.connectCard
+
+                GlanceConnectIntent(card, dimensions = intentDimensions, center = false)
             }
             GlanceConnectButton(viewState.connectCardAction, viewState.vpnStatus)
 
