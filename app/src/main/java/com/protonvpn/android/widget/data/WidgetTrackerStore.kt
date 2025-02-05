@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.widget.data
 
+import android.appwidget.AppWidgetManager
+import android.content.Context
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.WidgetRemoved
 import com.protonvpn.android.logging.WidgetUpdate
@@ -26,10 +28,14 @@ import com.protonvpn.android.logging.WidgetsRestored
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.userstorage.StoreProvider
 import com.protonvpn.android.utils.mapState
+import com.protonvpn.android.widget.toWidgetReceiverId
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -44,10 +50,37 @@ typealias WidgetId = Int
 
 @Singleton
 class WidgetTracker @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val mainScope: CoroutineScope,
     widgetTrackerStoreProvider: WidgetTrackerStoreProvider
 ) {
     private val store = mainScope.async { widgetTrackerStoreProvider.dataStoreWithSuffix("shared") }
+
+    init {
+        mainScope.launch {
+            val firstStart = store.await().data.first().firstStart
+            if (firstStart) {
+                delay(3000)
+                firstTimeSetupRestore()
+                store.await().updateData { it.copy(firstStart = false) }
+            }
+        }
+    }
+
+    // If app data was cleared but some widgets were still present we need to restore them.
+    private fun firstTimeSetupRestore() {
+        val manager = AppWidgetManager.getInstance(appContext)
+        val providers =
+            manager.getInstalledProvidersForPackage(appContext.packageName, null)
+        providers.forEach { provider ->
+            val receiverId = provider.provider.className.toWidgetReceiverId()
+            val widgetIds = manager.getAppWidgetIds(provider.provider)
+            if (widgetIds.isNotEmpty() && receiverId != null) {
+                onUpdated(receiverId, widgetIds.toSet())
+            }
+        }
+    }
+
     val widgetCount = flow {
         emitAll(store.await().data.map { data -> data.receiverToWidgets.values.sumOf { it.size } })
     }.stateIn(mainScope, SharingStarted.WhileSubscribed(), null)
@@ -92,7 +125,8 @@ class WidgetTracker @Inject constructor(
 
 @Serializable
 data class WidgetTrackerData(
-    val receiverToWidgets: Map<WidgetReceiverId, Set<WidgetId>>
+    val receiverToWidgets: Map<WidgetReceiverId, Set<WidgetId>>,
+    val firstStart: Boolean = true
 )
 
 @Singleton

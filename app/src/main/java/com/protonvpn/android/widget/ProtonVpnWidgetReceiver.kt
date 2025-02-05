@@ -29,8 +29,11 @@ import com.protonvpn.android.widget.data.WidgetTracker
 import com.protonvpn.android.widget.ui.ProtonVpnGlanceWidget
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.reflect.jvm.jvmName
 
-abstract class TrackedWidgetReceiver(val receiverId: WidgetReceiverId) : GlanceAppWidgetReceiver() {
+abstract class TrackedWidgetReceiver() : GlanceAppWidgetReceiver() {
+
+    val receiverId: WidgetReceiverId = requireNotNull(javaClass.name.toWidgetReceiverId())
 
     @Inject
     lateinit var widgetTracker: WidgetTracker
@@ -66,17 +69,25 @@ abstract class TrackedWidgetReceiver(val receiverId: WidgetReceiverId) : GlanceA
     override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
 }
 
-@AndroidEntryPoint
-class ProtonVpnWidgetReceiver : TrackedWidgetReceiver("small")
+fun String.toWidgetReceiverId() = when (this) {
+    ProtonVpnWidgetReceiver::class.jvmName -> "small"
+    ProtonVpnWidgetMaterialReceiver::class.jvmName -> "small_material"
+    ProtonVpnWidgetBigReceiver::class.jvmName -> "big"
+    ProtonVpnWidgetMaterialBigReceiver::class.jvmName -> "big_material"
+    else -> null
+}
 
 @AndroidEntryPoint
-class ProtonVpnWidgetMaterialReceiver : TrackedWidgetReceiver("small_material")
+class ProtonVpnWidgetReceiver : TrackedWidgetReceiver()
 
 @AndroidEntryPoint
-class ProtonVpnWidgetBigReceiver : TrackedWidgetReceiver("big")
+class ProtonVpnWidgetMaterialReceiver : TrackedWidgetReceiver()
 
 @AndroidEntryPoint
-class ProtonVpnWidgetMaterialBigReceiver : TrackedWidgetReceiver("big_material")
+class ProtonVpnWidgetBigReceiver : TrackedWidgetReceiver()
+
+@AndroidEntryPoint
+class ProtonVpnWidgetMaterialBigReceiver : TrackedWidgetReceiver()
 
 fun hasMaterialYouTheme(receiver: ComponentName) =
     receiver.className in arrayOf(
