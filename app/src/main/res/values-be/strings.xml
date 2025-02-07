@@ -126,7 +126,7 @@
     <string name="inputIpAddressHint">Напішыце IP-адрас</string>
     <string name="inputIpAddressErrorInvalid">Памылковы IP-адрас</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
-    <string name="settings_new_label_badge">NEW</string>
+    <string name="settings_new_label_badge">НОВЫ</string>
     <string name="settingsExcludedIPAddressesListHeader">Выключаныя IP-адрасы (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Уключаючы IP-адрасы (%1$d)</string>
     <string name="settingsExcludedApps">Выключаныя праграмы</string>
@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У выпадку, калі Proton заблакіраваны, дазвольце праграме паспрабаваць альтэрнатыўныя шляхі для атрымання сувязі з серверамі Proton. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Дзяржаўная блакіроўка</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Магчыма, што ваша краіна блакіруе доступ да Proton. Для атрымання доступу, калі ласка, паспрабуйце скарыстацца <a href=\'%1$s\'>Tor</a>.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Як уключыць Kill Switch?</string>
+    <string name="settingsKillSwitchEnableStep1">1. Адкрыйце налады вашай прылады</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Знайдзіце Proton VPN і націсніце %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">налады</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Уключыце ‘<b>Пастаянны VPN</b>’ і ‘<b>Блакіраваць падключэнні без VPN</b>’]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Налады</string>
+    <string name="settingsKillSwitchLearnMoreButton">Што такое Kill Switch?</string>
+    <string name="settingsKillSwitchWarningMain">Пры ўключаным Kill Switch, вы не зможаце падключыцца да:</string>
+    <string name="settingsKillSwitchWarningPoint1">Вэб-сайты і праграмы, якія выключаны з вашага падключэння VPN праз Split Tunneling</string>
+    <string name="settingsKillSwitchWarningPoint2">Прылады ў вашай лакальнай сетцы (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Абагульваць ананімную статыстыку выкарыстання</string>
     <string name="settingsEnableTelemetryDescription">Даныя аб выкарыстанні дапамагаюць нам пераадольваць блакіроўкі VPN і паляпшаць прадукцыйнасць праграмы.</string>
     <string name="settingsSendCrashReportsTitle">Абагульванне ананімных справаздач аб збоях</string>
@@ -619,13 +633,13 @@
     <string name="settings_change_icon_confirmation_details">Гэта прывядзе да закрыцця праграмы Proton VPN. Проста націсніце на новы значок праграмы, каб перазапусціць Proton VPN.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Непрыкметны значок праграмы</string>
-    <string name="settings_widget_title">Widget</string>
-    <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_title">Віджэт</string>
+    <string name="settings_widget_selection_title">Паспрабуйце віджэт Proton VPN</string>
+    <string name="settings_widget_selection_description">Сачыце за сваім статусам падключэння і атрымлівайце доступ да абраных падключэнняў VPN з галоўнага экрана.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
-    <string name="settings_widget_selection_button_title">Add widget</string>
-    <string name="setting_widget_try_title">Try the Proton VPN widget</string>
+    <string name="setting_widget_selection_additional_description">Націсніце і ўтрымлівайце ў любым месцы на галоўным экране і выберыце %1$s з меню віджэтаў, каб дадаць яго.</string>
+    <string name="settings_widget_selection_button_title">Дадаць віджэт</string>
+    <string name="setting_widget_try_title">Паспрабаваць віджэт Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Ігнараваць банер</string>
@@ -691,7 +705,7 @@
     <string name="not_wanted_country_title">Не тая краіна, якую хацелі?</string>
     <string name="not_wanted_country_description">Палепшыць свой тарыфны план, каб выбіраць любы сервер</string>
     <string name="whats_new_title">Што новага</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_title">Профілі вярнуліся</string>
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
     <string name="whats_new_widget_title">Introducing widgets</string>
     <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
@@ -1510,8 +1524,12 @@
     <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Share anonymously</string>
     <string name="widget_preview_switzerland">Switzerland</string>
+    <string name="widget_preview_spain">Spain</string>
+    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">Unprotected</string>
     <string name="widget_status_error">Памылка</string>
     <string name="widget_status_connecting">Падключэнне…</string>
     <string name="widget_sign_in">Sign in</string>
+    <string name="widget_toast_added_message">Widget added to home screen</string>
 </resources>

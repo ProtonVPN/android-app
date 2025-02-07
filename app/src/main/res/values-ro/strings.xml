@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[În cazul în care Proton este blocat, se permite aplicației să încerce căi alternative pentru a se conecta la serverele Proton. <a href="%1$s">Detalii</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocare guvernamentală</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Țara dvs. ar putea bloca accesul la Proton. Încercați să folosiți <a href=\'%1$s\'>Tor</a> pentru a accesa Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Cum se activează întrerupătorul de conexiune</string>
+    <string name="settingsKillSwitchEnableStep1">1. Deschideți setările dispozitivului</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Găsiți Proton VPN și apăsați pe %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">setări</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activați „<b>VPM permanent</b>” și „<b>Blocare conexiuni fără VPN</b>”]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Setări</string>
+    <string name="settingsKillSwitchLearnMoreButton">Ce este întrerupătorul de conexiune?</string>
+    <string name="settingsKillSwitchWarningMain">Când întrerupătorul de conexiune este activat, nu vă veți putea conecta la:</string>
+    <string name="settingsKillSwitchWarningPoint1">Pagini web și aplicații excluse de la conexiunea VPN prin divizarea traficului.</string>
+    <string name="settingsKillSwitchWarningPoint2">Dispozitive din rețeaua locală (LAN).</string>
     <string name="settingsEnableTelemetryTitle">Partajare anonimă statistici de utilizare</string>
     <string name="settingsEnableTelemetryDescription">Datele de utilizare ne ajută să depășim blocările VPN-ului și să îmbunătățim performanța aplicației.</string>
     <string name="settingsSendCrashReportsTitle">Partajare anonimă rapoarte de erori</string>
@@ -1471,11 +1485,15 @@
     <string name="nps_rating_low_values_explain">0 este foarte improbabil</string>
     <string name="nps_rating_high_values_explain">10 este foarte probabil</string>
     <string name="nps_toast_submit_message">Mulțumim pentru feedback. Acesta ne va ajuta să îmbunătățim Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Răspunsul ar trebui să aibă maxim 250 de caractere.</string>
     <string name="nps_button_submit_title">Partajare anonimă</string>
     <string name="widget_preview_switzerland">Elveția</string>
+    <string name="widget_preview_spain">Spain</string>
+    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">Neprotejat</string>
     <string name="widget_status_error">Eroare</string>
     <string name="widget_status_connecting">Se conectează…</string>
     <string name="widget_sign_in">Conectare</string>
+    <string name="widget_toast_added_message">Modulul a fost adăugat pe ecran.</string>
 </resources>

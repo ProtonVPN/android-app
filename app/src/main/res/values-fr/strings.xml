@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Si Proton est bloqué, autorisez l\'application à essayer des chemins alternatifs pour atteindre les serveurs Proton. <a href="%1$s">En savoir plus</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocage gouvernemental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Votre pays bloque peut-être l\'accès à Proton. Essayez d\'utiliser <a href=\'%1$s\'>Tor</a> pour accéder à Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Comment activer la fonction Arrêt d\'urgence (kill switch) ?</string>
+    <string name="settingsKillSwitchEnableStep1">1. Ouvrez les paramètres de votre appareil</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Trouvez Proton VPN et appuyez sur %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">paramètres</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activez « <b>VPN permanent</b> » et « <b>Bloquer les connexions sans VPN</b> ».]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Paramètres</string>
+    <string name="settingsKillSwitchLearnMoreButton">Qu\'est-ce que la fonctionnalité Arrêt d\'urgence (kill switch) ?</string>
+    <string name="settingsKillSwitchWarningMain">Quand l\'arrêt d\'urgence (kill switch) est activé, vous ne pourrez pas vous connecter à :</string>
+    <string name="settingsKillSwitchWarningPoint1">Sites internet et applications exclus de votre connexion VPN via le split tunneling</string>
+    <string name="settingsKillSwitchWarningPoint2">Appareils sur votre réseau local (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Partager des statistiques d\'utilisation anonymes</string>
     <string name="settingsEnableTelemetryDescription">Les données d\'utilisation nous aident à contourner les blocages VPN et à améliorer les performances de l\'application.</string>
     <string name="settingsSendCrashReportsTitle">Partager des rapports de plantage anonymes</string>
@@ -1438,8 +1452,12 @@
     <string name="nps_submit_error_char_limit">Votre réponse doit comporter 250 caractères ou moins.</string>
     <string name="nps_button_submit_title">Partager anonymement</string>
     <string name="widget_preview_switzerland">Suisse</string>
+    <string name="widget_preview_spain">Espagne</string>
+    <string name="widget_preview_germany">Allemagne</string>
+    <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">Sans protection</string>
     <string name="widget_status_error">Erreur</string>
     <string name="widget_status_connecting">Connexion…</string>
     <string name="widget_sign_in">Se connecter</string>
+    <string name="widget_toast_added_message">Le widget a été ajouté à l\'écran d\'accueil.</string>
 </resources>

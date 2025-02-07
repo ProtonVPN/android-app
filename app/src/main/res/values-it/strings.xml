@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Nel caso in cui Proton sia bloccato, consenti all\'app di provare percorsi alternativi per raggiungere i server Proton. <a href="%1$s">Scopri di più</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blocco di governo</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Il tuo paese potrebbe bloccare l\'accesso a Proton. Prova ad utilizzare <a href=\'%1$s\'>Tor</a> per accedere a Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Come abilitare kill switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Aprire le impostazioni del tuo dispositivo</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Trova Proton VPN e tocca %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">impostazioni</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Abilita "<b>VPN sempre attiva</b>" e "<b>Blocca connessioni senza VPN</b>"]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Impostazioni</string>
+    <string name="settingsKillSwitchLearnMoreButton">Cos\'è kill switch?</string>
+    <string name="settingsKillSwitchWarningMain">Quando kill switch è attivo, non sarai in grado di connetterti a:</string>
+    <string name="settingsKillSwitchWarningPoint1">Siti web e app esclusi dalla tua connessione VPN tramite split tunneling</string>
+    <string name="settingsKillSwitchWarningPoint2">Dispositivi sulla rete locale (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Telemetria anonima</string>
     <string name="settingsEnableTelemetryDescription">I dati sull\'utilizzo ci aiutano a superare i blocchi VPN e a migliorare le prestazioni delle app.</string>
     <string name="settingsSendCrashReportsTitle">Segnalazioni anonime</string>
@@ -649,7 +663,7 @@
     <string name="not_wanted_country_title">Non è il Paese che cercavi?</string>
     <string name="not_wanted_country_description">Effettua l\'upgrade per scegliere qualsiasi server</string>
     <string name="whats_new_title">Cosa c\'è di nuovo</string>
-    <string name="whats_new_profiles_title">I profili sono di ritorno</string>
+    <string name="whats_new_profiles_title">I profili sono tornati</string>
     <string name="whats_new_profiles_description">Crea e salva connessioni personalizzate con la tua scelta di posizione, server e protocollo.</string>
     <string name="whats_new_widget_title">Introduzione ai widget</string>
     <string name="whats_new_widget_description">Ora puoi visualizzare e gestire la tua VPN senza lasciare la schermata principale. </string>
@@ -1438,8 +1452,12 @@
     <string name="nps_submit_error_char_limit">La tua risposta dovrebbe contenere 250 caratteri o meno</string>
     <string name="nps_button_submit_title">Condividi in modo anonimo</string>
     <string name="widget_preview_switzerland">Svizzera</string>
+    <string name="widget_preview_spain">Spagna</string>
+    <string name="widget_preview_germany">Germania</string>
+    <string name="widget_preview_france">Francia</string>
     <string name="widget_status_unprotected">Non protetto</string>
     <string name="widget_status_error">Errore</string>
     <string name="widget_status_connecting">Connessione…</string>
     <string name="widget_sign_in">Accedi</string>
+    <string name="widget_toast_added_message">Widget aggiunto alla schermata principale</string>
 </resources>

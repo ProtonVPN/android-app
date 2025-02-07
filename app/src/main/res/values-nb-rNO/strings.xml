@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[I tilfelle Proton er blokkert, la appen prøve alternative baner for å nå Proton-tjenere. <a href="%1$s">Lær mer</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regjeringsblokkering</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Kan hende landet ditt blokkerer tilgang til Proton. Prøv å bruke <a href=\'%1$s\'>Tor</a> for å få tilgang til Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Hvordan aktivere nødstopp</string>
+    <string name="settingsKillSwitchEnableStep1">1. Åpne enhetsinnstillingene</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Finn Proton VPN og klikk %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">innstillinger</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3.Aktiver ‘<b>Alltid på-VPN</b>’ og ‘<b>blokker tilkoblinger uten VPN</b>’]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Innstillinger</string>
+    <string name="settingsKillSwitchLearnMoreButton">Hva er nødstopp?</string>
+    <string name="settingsKillSwitchWarningMain">Når nødstopp er på, vil du ikke kunne koble til:</string>
+    <string name="settingsKillSwitchWarningPoint1">Nettsteder og apper ekskludert fra VPN-tilkoblingen din gjennom delt tunnelering</string>
+    <string name="settingsKillSwitchWarningPoint2">Enheter på ditt lokale nettverk (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Del anonym bruksstatistikk</string>
     <string name="settingsEnableTelemetryDescription">Bruksdata hjelper oss med å overvinne VPN-blokkeringer og forbedre appytelsen.</string>
     <string name="settingsSendCrashReportsTitle">Del anonyme programkrasjrapporter</string>
@@ -1438,8 +1452,12 @@
     <string name="nps_submit_error_char_limit">Svaret ditt må være på 250 tegn eller kortere</string>
     <string name="nps_button_submit_title">Del anonymt</string>
     <string name="widget_preview_switzerland">Sveits</string>
+    <string name="widget_preview_spain">Spania</string>
+    <string name="widget_preview_germany">Tyskland</string>
+    <string name="widget_preview_france">Frankrike</string>
     <string name="widget_status_unprotected">Ubeskyttet</string>
     <string name="widget_status_error">Feil</string>
     <string name="widget_status_connecting">Kobler til...</string>
     <string name="widget_sign_in">Logg på</string>
+    <string name="widget_toast_added_message">Widget lagt til på startskjermen</string>
 </resources>

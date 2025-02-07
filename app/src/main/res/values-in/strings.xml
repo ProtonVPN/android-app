@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Apabila layanan Proton diblokir, aplikasi VPN akan berusaha untuk terhubung ke server Proton melalui jalur lalu lintas alternatif. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Pemblokiran pemerintah</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Negara anda mungkin memblokir akses ke Proton. Coba gunakan <a href=\'%1$s\'>Tor</a> untuk mengakses Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">How to enable kill-switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Open your device settings</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Find Proton VPN and tap %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">settings</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Always-on VPN</b>’ and ‘<b>Block connections without VPN</b>’]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Settings</string>
+    <string name="settingsKillSwitchLearnMoreButton">What is kill switch?</string>
+    <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
+    <string name="settingsKillSwitchWarningPoint1">Websites and apps excluded from your VPN connection through split tunneling</string>
+    <string name="settingsKillSwitchWarningPoint2">Devices on your local area network (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Bagikan statistik pemakaian anonim</string>
     <string name="settingsEnableTelemetryDescription">Statistik pemakaian membantu kami dalam menangkal pemblokiran VPN dan meningkatkan performa aplikasi.</string>
     <string name="settingsSendCrashReportsTitle">Bagikan laporan crash anonim</string>
@@ -1402,8 +1416,12 @@
     <string name="nps_submit_error_char_limit">Jawaban Anda harus 250 karakter atau lebih pendek</string>
     <string name="nps_button_submit_title">Bagikan secara anonim</string>
     <string name="widget_preview_switzerland">Swiss</string>
+    <string name="widget_preview_spain">Spain</string>
+    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">Tidak terlindung</string>
     <string name="widget_status_error">Error</string>
     <string name="widget_status_connecting">Menghubungkan…</string>
     <string name="widget_sign_in">Masuk</string>
+    <string name="widget_toast_added_message">Widget added to home screen</string>
 </resources>

@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton erişimi engelleniyorsa, uygulamanın Proton sunucularına erişmesi için alternatif yollar kullanmasını sağlar. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hükümet engellemesi</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton ağına erişimi engelliyor olabilir. Proton ağına erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Bağlantı kesici nasıl açılır</string>
+    <string name="settingsKillSwitchEnableStep1">1. Aygıt ayarlarını açın</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Proton VPN uygulamasını bulun ve %1$s üzerine dokunun</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">ayarlar</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. \'<b>Her zaman açık VPN</b>\' ve \'<b>VPN olmadan bağlantılar engellensin</b>\' seçeneklerini açın]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Ayarlar</string>
+    <string name="settingsKillSwitchLearnMoreButton">Bağlantı kesici nedir?</string>
+    <string name="settingsKillSwitchWarningMain">Bağlantı kesici açıkken şunlarla bağlantı kuramazsınız:</string>
+    <string name="settingsKillSwitchWarningPoint1">Ayrılmış tünelleme ile VPN bağlantınıza katılmayan siteler ve uygulamalar</string>
+    <string name="settingsKillSwitchWarningPoint2">Yerel alan ağınızdaki (LAN) aygıtlar</string>
     <string name="settingsEnableTelemetryTitle">Anonim kullanım istatistikleri paylaşılsın</string>
     <string name="settingsEnableTelemetryDescription">Kullanım verileri VPN engellemelerini aşmamıza ve uygulamanın başarımını artırmamıza yardımcı olur.</string>
     <string name="settingsSendCrashReportsTitle">Anonim çökme bildirimleri paylaşılsın</string>
@@ -939,7 +953,7 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">Free bağlantıları hakkında ayrıntılı bilgi</string>
+    <string name="connection_card_accessbility_label_free_connections">Free bağlantıları ile ilgili ayrıntılı bilgi</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1438,8 +1452,12 @@
     <string name="nps_submit_error_char_limit">Yanıtınız en fazla 250 karakter uzunluğunda olmalıdır</string>
     <string name="nps_button_submit_title">Anonim olarak paylaş</string>
     <string name="widget_preview_switzerland">İsviçre</string>
+    <string name="widget_preview_spain">İspanya</string>
+    <string name="widget_preview_germany">Almanya</string>
+    <string name="widget_preview_france">Fransa</string>
     <string name="widget_status_unprotected">Korunmuyor</string>
     <string name="widget_status_error">Hata</string>
     <string name="widget_status_connecting">Bağlanıyor…</string>
     <string name="widget_sign_in">Oturum aç</string>
+    <string name="widget_toast_added_message">Araç takımı ana ekrana eklendi</string>
 </resources>

@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Mikäli Protonia ei tavoiteta, salli sovelluksen pyrkiä tavoittamaan Protonin palvelimet vaihtoehtoisten reittien välityksellä. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hallinnollinen esto</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Maasi hallinto saattaa estää pääsyn Protoniin. Yritä tavoittaa Proton <a href=\'%1$s\'>Tor-verkon</a> välityksellä.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Miten tappokytkin otetaan käyttöön</string>
+    <string name="settingsKillSwitchEnableStep1">1. Avaa laitteesi asetukset</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Etsi Proton VPN ja napauta %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">asetukset</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Always-on VPN</b>’ and ‘<b>Block connections without VPN</b>’]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Asetukset</string>
+    <string name="settingsKillSwitchLearnMoreButton">Mikä on tappokytkin?</string>
+    <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
+    <string name="settingsKillSwitchWarningPoint1">Websites and apps excluded from your VPN connection through split tunneling</string>
+    <string name="settingsKillSwitchWarningPoint2">Devices on your local area network (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Jaa anonyymejä käyttötilastoja</string>
     <string name="settingsEnableTelemetryDescription">Käyttötilastot auttavat meitä kiertämään VPN-estoja ja parantamaan sovelluksen suorituskykyä.</string>
     <string name="settingsSendCrashReportsTitle">Jaa anonyymejä virheraportteja</string>
@@ -589,7 +603,7 @@
     <string name="settings_widget_selection_title">Kokeile Proton VPN -widgettiä</string>
     <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="setting_widget_selection_additional_description">Voit lisätä widgetin painamalla ja pitämällä pohjassa mitä tahansa kohtaa aloitusnäytölläsi, ja valitsemalla sitten widget-valikosta %1$s.</string>
     <string name="settings_widget_selection_button_title">Lisää widgetti</string>
     <string name="setting_widget_try_title">Kokeile Proton VPN -widgettiä</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -649,11 +663,11 @@
     <string name="not_wanted_country_title">Eikö tämä ole haluamasi maa?</string>
     <string name="not_wanted_country_description">Päivitä tilauksesi ja valitse mikä tahansa palvelin</string>
     <string name="whats_new_title">Mitä uutta</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">Profiilit ovat palanneet</string>
+    <string name="whats_new_profiles_description">Luo ja tallenna mukautettuja yhteyksiä, jotka sisältävät valitsemasi sijainnin, palvelimen ja protokollan.</string>
+    <string name="whats_new_widget_title">Esittelyssä widgetit</string>
+    <string name="whats_new_widget_description">Voit nyt tarkastella ja hallita VPN:ääsi poistumatta aloitusnäytöltä. </string>
+    <string name="whats_new_add_widget_button">Lisää widgetti</string>
     <string name="welcome_plus_title">Tervetluoa VPN Plussaan</string>
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja seuraavan tason VPN-mukautuksesta.</string>
     <string name="welcome_plus_feature_security">Edistyneet suojausominaisuudet</string>
@@ -1435,11 +1449,15 @@
     <string name="nps_rating_low_values_explain">0 on hyvin epätodennäköistä</string>
     <string name="nps_rating_high_values_explain">10 on hyvin todennäköistä</string>
     <string name="nps_toast_submit_message">Kiitos jakamisesta! Palautteesi auttaa meitä Proton VPN:n kehityksessä.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Vastauksesi tulisi olla enintään 250 merkkiä</string>
     <string name="nps_button_submit_title">Jaa anonyymisti</string>
     <string name="widget_preview_switzerland">Sveitsi</string>
+    <string name="widget_preview_spain">Spain</string>
+    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">Suojaamaton</string>
     <string name="widget_status_error">Virhe</string>
     <string name="widget_status_connecting">Yhdistetään…</string>
     <string name="widget_sign_in">Kirjaudu sisään</string>
+    <string name="widget_toast_added_message">Widgetti lisättiin aloitusnäytölle</string>
 </resources>

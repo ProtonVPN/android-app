@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton がブロックされている場合、Proton サーバーに接続するために代替手段を試します。<a href="%1$s">詳細</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">政府等による検閲</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[あなたの国の政府が、 Proton への接続を検閲(遮断)している可能性があります。 Proton に接続するために <a href=\'%1$s\'>Tor</a> を使用してみてください。]]></string>
+    <string name="settingsKillSwitchEnableTitle">キルスイッチを有効にする方法</string>
+    <string name="settingsKillSwitchEnableStep1">1. デバイスの設定を開きます</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Proton VPN を探して %1$s をタップします</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">設定</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. 「<b>常時接続VPN</b>」と「<b>VPN接続なしの通信をブロックする</b>」を有効にする]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">設定</string>
+    <string name="settingsKillSwitchLearnMoreButton">キルスイッチとは？</string>
+    <string name="settingsKillSwitchWarningMain">キルスイッチがオンになっていると、以下に接続できなくなります:</string>
+    <string name="settingsKillSwitchWarningPoint1">スプリットトンネルを通じてVPN接続から除外されるウェブサイトとアプリ</string>
+    <string name="settingsKillSwitchWarningPoint2">ローカルエリアネットワーク (LAN)上のデバイス</string>
     <string name="settingsEnableTelemetryTitle">匿名の使用統計を共有</string>
     <string name="settingsEnableTelemetryDescription">使用状況データは VPN 検閲に打ち勝ち、アプリのパフォーマンスを改善するために使用されます。</string>
     <string name="settingsSendCrashReportsTitle">匿名のクラッシュレポートを共有</string>
@@ -1402,8 +1416,12 @@
     <string name="nps_submit_error_char_limit">回答は 250 文字以下でなければなりません</string>
     <string name="nps_button_submit_title">匿名で共有</string>
     <string name="widget_preview_switzerland">スイス</string>
+    <string name="widget_preview_spain">スペイン</string>
+    <string name="widget_preview_germany">ドイツ</string>
+    <string name="widget_preview_france">フランス</string>
     <string name="widget_status_unprotected">保護されていません</string>
     <string name="widget_status_error">エラー</string>
     <string name="widget_status_connecting">接続中…</string>
     <string name="widget_sign_in">サインイン</string>
+    <string name="widget_toast_added_message">ホーム画面にウィジェットを追加</string>
 </resources>

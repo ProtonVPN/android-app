@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[თუ Proton-ი დაბლოკილია, მიეცით ნება აპს, Proton-ის სერვერებამდე მისასველად სხვა გზებიც სცადოს. <a href="%1$s">გაგეთ მეტი</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">მთავრობის ბლოკი</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[შესაძლოა, თქვენი ქვეყანაში Proton-ზე წვდომა დაბლოკილია. Proton-თან წვდომისთვის სცადეთ <a href=\'%1$s\'>Tor-ი</a> გამოიყენოთ.]]></string>
+    <string name="settingsKillSwitchEnableTitle">როგორ ჩავრთო Kill switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. გახსენით თქვენი მოწყობილობის მორგების აპლიკაცია</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. მოძებნეთ Proton VPN და დაატყაპუნეთ %1$s -ზე</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">მორგება</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. ჩართეთ \'<b>ყოველთვის ჩართული VPN</b>\' და \'<b>VPN-ის გარეშე კავშირის აკრძალვა</b>\']]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">მორგება</string>
+    <string name="settingsKillSwitchLearnMoreButton">სადაა Kill switch?</string>
+    <string name="settingsKillSwitchWarningMain">როცა Kill switch ჩართულია, თქვენ ვერ დაუკავშირდებით:</string>
+    <string name="settingsKillSwitchWarningPoint1">ვებსაიტები და აპები, ამოღებული თქვენი VPN-დან გვირაბის გაყოფის საშუალებით</string>
+    <string name="settingsKillSwitchWarningPoint2">მოწყობილობები თქვენს ლოკალურ ქსელში (LAN)</string>
     <string name="settingsEnableTelemetryTitle">გამოყენების ანონიმური სტატისტიკის გაზიარება</string>
     <string name="settingsEnableTelemetryDescription">გამოყენების მონაცემები გვეხმარება VPN ბლოკების დაძლევაში და აპლიკაციის მუშაობის გაუმჯობესებაში.</string>
     <string name="settingsSendCrashReportsTitle">ავარიის ანგარიშების ანონიმურად გაზიარება</string>
@@ -1438,8 +1452,12 @@
     <string name="nps_submit_error_char_limit">თქვენი პასუხი 250 ან ნაკლებ სიმბოლოს უნდა შეიცავდეს</string>
     <string name="nps_button_submit_title">ანონიმურად გაზიარება</string>
     <string name="widget_preview_switzerland">შვეიცარია</string>
+    <string name="widget_preview_spain">Spain</string>
+    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">დაუცველი</string>
     <string name="widget_status_error">შეცდომა</string>
     <string name="widget_status_connecting">დაკავშირება…</string>
     <string name="widget_sign_in">Შესვლა</string>
+    <string name="widget_toast_added_message">ვიჯეტი დაემატა საწყის ეკრანზე</string>
 </resources>

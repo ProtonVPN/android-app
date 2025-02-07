@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Om Proton är blockerad, tillåt appen att prova alternativa vägar för att nå Proton-servrar. <a href="%1$s">Lär dig mer</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regeringsblockering</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ditt land kanske blockerar åtkomst till Proton. Testa att använda <a href=\'%1$s\'>Tor</a> för att komma åt Proton.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Hur man aktiverar kill switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Öppna inställningarna på din enhet</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Hitta Proton VPN och tryck %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">inställningar</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Always-on VPN</b>’ and ‘<b>Block connections without VPN</b>’]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Inställningar</string>
+    <string name="settingsKillSwitchLearnMoreButton">Vad är kill switch?</string>
+    <string name="settingsKillSwitchWarningMain">När kill switch är på kommer du inte att kunna ansluta till:</string>
+    <string name="settingsKillSwitchWarningPoint1">Webbplatser och appar exkluderade från din VPN-anslutning genom split tunneling</string>
+    <string name="settingsKillSwitchWarningPoint2">Enheter på ditt lokala nätverk (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Dela anonym användningsstatistik</string>
     <string name="settingsEnableTelemetryDescription">Användningsdata hjälper oss att övervinna VPN-blockeringar och förbättra appens prestanda.</string>
     <string name="settingsSendCrashReportsTitle">Dela anonyma kraschrapporter</string>
@@ -1438,8 +1452,12 @@
     <string name="nps_submit_error_char_limit">Ditt svar ska vara 250 tecken eller kortare</string>
     <string name="nps_button_submit_title">Dela anonymt</string>
     <string name="widget_preview_switzerland">Schweiz</string>
+    <string name="widget_preview_spain">Spanien</string>
+    <string name="widget_preview_germany">Tyskland</string>
+    <string name="widget_preview_france">Frankrike</string>
     <string name="widget_status_unprotected">Oskyddad</string>
     <string name="widget_status_error">Fel</string>
     <string name="widget_status_connecting">Ansluter…</string>
     <string name="widget_sign_in">Logga in</string>
+    <string name="widget_toast_added_message">Widgetten har lagts till på hemskärmen</string>
 </resources>

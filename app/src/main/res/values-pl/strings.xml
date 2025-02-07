@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[W przypadku zablokowania dostępu do usługi zezwól aplikacji na wypróbowanie alternatywnego połączenia, aby połączyć się z serwerami Proton. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
+    <string name="settingsKillSwitchEnableTitle">How to enable kill-switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Open your device settings</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Find Proton VPN and tap %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">settings</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Always-on VPN</b>’ and ‘<b>Block connections without VPN</b>’]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Settings</string>
+    <string name="settingsKillSwitchLearnMoreButton">What is kill switch?</string>
+    <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
+    <string name="settingsKillSwitchWarningPoint1">Websites and apps excluded from your VPN connection through split tunneling</string>
+    <string name="settingsKillSwitchWarningPoint2">Devices on your local area network (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Udostępnij anonimowe statystyki użytkowania</string>
     <string name="settingsEnableTelemetryDescription">Dane użytkowania pomagają nam ominąć blokady VPN i poprawić wydajność aplikacji.</string>
     <string name="settingsSendCrashReportsTitle">Udostępnij anonimowe raporty o awariach</string>
@@ -1510,8 +1524,12 @@
     <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Udostępnij anonimowo</string>
     <string name="widget_preview_switzerland">Szwajcaria</string>
+    <string name="widget_preview_spain">Spain</string>
+    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">Brak ochrony</string>
     <string name="widget_status_error">Błąd</string>
     <string name="widget_status_connecting">Łączenie…</string>
     <string name="widget_sign_in">Zaloguj się</string>
+    <string name="widget_toast_added_message">Widget added to home screen</string>
 </resources>
