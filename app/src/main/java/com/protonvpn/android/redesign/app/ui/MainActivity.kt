@@ -71,7 +71,6 @@ import com.protonvpn.android.update.UpdatePromptForStaleVersion
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.widget.WidgetActionHandler
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

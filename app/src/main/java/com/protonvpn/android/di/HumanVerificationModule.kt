@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.di
 
-import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.api.VpnHumanVerificationListener
 import dagger.Binds
 import dagger.Module

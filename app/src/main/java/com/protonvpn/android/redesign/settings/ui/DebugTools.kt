@@ -38,6 +38,7 @@ import com.protonvpn.android.redesign.base.ui.SettingsItem
 import me.proton.core.presentation.R as CoreR
 
 @Composable
+@Suppress("LongParameterList")
 fun DebugTools(
     onConnectGuestHole: () -> Unit,
     onRefreshConfig: () -> Unit,

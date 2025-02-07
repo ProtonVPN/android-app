@@ -31,8 +31,6 @@ import android.view.LayoutInflater
 import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewPropertyAnimator
-import android.view.ViewTreeObserver
-import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
@@ -43,12 +41,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import androidx.core.widget.NestedScrollView
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.RequestBuilder

@@ -24,7 +24,6 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 import java.io.Serializable
-import java.util.Locale
 import java.util.UUID
 
 data class Profile @JvmOverloads constructor(
