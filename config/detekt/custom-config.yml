@@ -1,3 +1,6 @@
+build:
+  maxIssues: 99999
+
 ProtonVPN:
   MissingInjectScope:
     active: true
