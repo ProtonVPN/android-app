@@ -194,7 +194,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Government block</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
-    <string name="settingsKillSwitchEnableTitle">How to enable kill-switch</string>
+    <string name="settingsKillSwitchEnableTitle">How to enable kill switch</string>
     <string name="settingsKillSwitchEnableStep1">1. Open your device settings</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Find Proton VPN and tap %1$s</string>
@@ -202,7 +202,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">settings</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Always-on VPN</b>’ and ‘<b>Block connections without VPN</b>’]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable "<b>Always-on VPN</b>" and "<b>Block connections without VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Settings</string>
     <string name="settingsKillSwitchLearnMoreButton">What is kill switch?</string>
     <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
