@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton이 차단된 경우 앱이 Proton 서버에 연결하기 위해 대체 경로를 사용하도록 허용하세요. <a href="%1$s">도 알아보기</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">정부 차단</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[당신의 국가는 Proton 서비스를 사용하는 것을 막고 있을지도 모릅니다. Proton 서비스를 사용하기 위하여 <a href=\'%1$s\'>Tor</a>를 사용해보세요.]]></string>
+    <string name="settingsKillSwitchEnableTitle">킬 스위치 활성화 방법</string>
+    <string name="settingsKillSwitchEnableStep1">1. 기기 설정을 엽니다</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Proton VPN을 찾아 %1$s 버튼을 누릅니다</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">설정</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. \'<b>VPN 항상 켜짐</b>\'과 \'<b>VPN을 제외한 연결 차단</b>\'을 활성화합니다.]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">설정</string>
+    <string name="settingsKillSwitchLearnMoreButton">킬 스위치란?</string>
+    <string name="settingsKillSwitchWarningMain">킬 스위치가 활성화된 상태라면, 다음으로 연결할 수 없게 됩니다:</string>
+    <string name="settingsKillSwitchWarningPoint1">분할 터널링을 통해 VPN 연결에서 제외된 웹사이트와 앱</string>
+    <string name="settingsKillSwitchWarningPoint2">사용자의 LAN 상의 기기</string>
     <string name="settingsEnableTelemetryTitle">익명 사용 통계 공유</string>
     <string name="settingsEnableTelemetryDescription">사용 데이터는 VPN 차단을 무력화하고 앱 성능을 개선하는 데 도움이 됩니다.</string>
     <string name="settingsSendCrashReportsTitle">익명 충돌 보고서 공유</string>
@@ -1404,8 +1418,12 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="nps_submit_error_char_limit">응답이 250자 이상이여야 합니다.</string>
     <string name="nps_button_submit_title">익명으로 공유</string>
     <string name="widget_preview_switzerland">스위스</string>
+    <string name="widget_preview_spain">Spain</string>
+    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">보호되지 않음</string>
     <string name="widget_status_error">오류</string>
     <string name="widget_status_connecting">연결 중…</string>
     <string name="widget_sign_in">로그인</string>
+    <string name="widget_toast_added_message">위젯이 홈 화면에 추가되었습니다.</string>
 </resources>

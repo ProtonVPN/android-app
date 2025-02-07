@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Als Proton geblokkeerd is, laat de app dan alternatieve paden proberen om de Protonservers te bereiken. <a href="%1$s">Meer leren</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Hoe kill-switch activeren</string>
+    <string name="settingsKillSwitchEnableStep1">1. Open uw apparaatinstellingen</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Zoek Proton VPN en tik op %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">instellingen</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Schakel \'<b>Altijd-actieve VPN</b> in en \'<b>Blokkeer verbindingen zonder VPN</b> \']]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Instellingen</string>
+    <string name="settingsKillSwitchLearnMoreButton">Wat is een kill switch?</string>
+    <string name="settingsKillSwitchWarningMain">Wanneer de kill switch is ingeschakeld, kan u geen verbinding maken met:</string>
+    <string name="settingsKillSwitchWarningPoint1">Websites en apps uitgesloten van uw VPN-verbinding via split-tunneling</string>
+    <string name="settingsKillSwitchWarningPoint2">Apparaten op uw lokale netwerk (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Anonieme gebruiksstatistieken delen</string>
     <string name="settingsEnableTelemetryDescription">Gebruiksgegevens helpen ons om VPN-blokkering te omzeilen en de prestaties van de app te verbeteren.</string>
     <string name="settingsSendCrashReportsTitle">Anonieme crashrapporten delen</string>
@@ -1438,8 +1452,12 @@
     <string name="nps_submit_error_char_limit">Uw antwoord moet 250 tekens of korter zijn</string>
     <string name="nps_button_submit_title">Anoniem delen</string>
     <string name="widget_preview_switzerland">Zwitserland</string>
+    <string name="widget_preview_spain">Spanje</string>
+    <string name="widget_preview_germany">Duitsland</string>
+    <string name="widget_preview_france">Frankrijk</string>
     <string name="widget_status_unprotected">Onbeschermd</string>
     <string name="widget_status_error">Fout</string>
     <string name="widget_status_connecting">Verbinden...</string>
     <string name="widget_sign_in">Aanmelden</string>
+    <string name="widget_toast_added_message">Widget toegevoegd aan startscherm</string>
 </resources>

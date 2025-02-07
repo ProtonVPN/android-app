@@ -191,6 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V prípade, že je Proton blokovaný, povoľte aplikácii vyskúšať alternatívne cesty na dosiahnutie Proton serverov. <a href="%1$s">Zistiť viac</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Vládne blokovanie</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaša krajina môže blokovať prístup k Protonu. Skúste na prístup k Protonu použiť <a href=\'%1$s\'>Tor</a>.]]></string>
+    <string name="settingsKillSwitchEnableTitle">Ako povoliť kill switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Otvorte nastavenia vášho zariadenia</string>
+    <!-- %1$s here will be replaced by "gear" icon -->
+    <string name="settingsKillSwitchEnableStep2">2. Nájdite Proton VPN a klepnite na %1$s</string>
+    <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">nastavenia</string>
+    <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
+         the same as in Android VPN settings. -->
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Vždy zapnutá VPN</b>’ a ‘<b>Blokovať pripojenia bez VPN</b>’]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Nastavenia</string>
+    <string name="settingsKillSwitchLearnMoreButton">Čo je kill switch?</string>
+    <string name="settingsKillSwitchWarningMain">Keď je kill switch zapnutý, nebudete sa môcť pripojiť k:</string>
+    <string name="settingsKillSwitchWarningPoint1">Webovým lokalitám a aplikáciám vylúčeným z vášho VPN pripojenia prostredníctvom rozdeleného tunelovania</string>
+    <string name="settingsKillSwitchWarningPoint2">Zariadeniam vo vašej lokálnej sieti (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Zdieľať anonymné štatistiky používania</string>
     <string name="settingsEnableTelemetryDescription">Údaje o používaní nám pomáhajú obchádzať blokovanie VPN a vylepšovať výkon aplikácie.</string>
     <string name="settingsSendCrashReportsTitle">Zdieľať anonymné hlásenia o zlyhaní</string>
@@ -1510,8 +1524,12 @@
     <string name="nps_submit_error_char_limit">Vaša odpoveď by mala mať maximálne 250 znakov</string>
     <string name="nps_button_submit_title">Zdieľať anonymne</string>
     <string name="widget_preview_switzerland">Švajčiarsko</string>
+    <string name="widget_preview_spain">Spain</string>
+    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">Nechránené</string>
     <string name="widget_status_error">Chyba</string>
     <string name="widget_status_connecting">Pripájanie…</string>
     <string name="widget_sign_in">Prihlásiť sa</string>
+    <string name="widget_toast_added_message">Widget bol pridaný na domovskú obrazovku</string>
 </resources>
