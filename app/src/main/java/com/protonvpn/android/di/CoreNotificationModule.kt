@@ -19,14 +19,11 @@
 
 package com.protonvpn.android.di
 
-import android.content.Context
-import com.protonvpn.android.R
 import com.protonvpn.android.tv.IsTvCheck
 import dagger.Binds
 import dagger.Module
 import dagger.Reusable
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import me.proton.core.domain.entity.UserId
 import me.proton.core.notification.data.local.NotificationLocalDataSourceImpl

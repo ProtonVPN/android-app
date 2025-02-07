@@ -191,6 +191,7 @@ fun ProtonOutlinedTextField(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Suppress("LongParameterList")
 @Composable
 private fun ProtonOutlineDecorationBox(
     value: String,

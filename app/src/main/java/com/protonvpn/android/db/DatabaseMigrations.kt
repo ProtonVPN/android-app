@@ -19,8 +19,6 @@
 
 package com.protonvpn.android.db
 
-import androidx.room.DeleteColumn
-import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
