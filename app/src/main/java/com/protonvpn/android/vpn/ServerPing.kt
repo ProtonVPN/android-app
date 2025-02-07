@@ -31,8 +31,6 @@ import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import me.proton.core.util.kotlin.DispatcherProvider
-import org.apache.commons.codec.digest.HmacAlgorithms
-import org.apache.commons.codec.digest.HmacUtils
 import java.io.IOException
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -41,9 +39,12 @@ import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketAddress
 import java.net.UnknownHostException
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
+private const val HMAC_SHA_256 = "HmacSHA256"
 private const val PING_KEY = "lci6UYRryo5rcQVpxfJ0fCs6UBY5eGyV" // gitleaks:allow
 
 @Reusable
@@ -56,9 +57,9 @@ class ServerPing @Inject constructor(
         val timestampSeconds = wallClock() / 1000
         val timestampBytes = NetUtils.byteArrayBuilder { writeInt(timestampSeconds.toInt()) }
             .reversedArray() // Timestamp is written in little-endian.
-        val hmacBytes = HmacUtils.getInitializedMac(
-            HmacAlgorithms.HMAC_SHA_256, PING_KEY.toByteArray(Charsets.US_ASCII)
-        ).apply {
+        val pingkey = SecretKeySpec(PING_KEY.toByteArray(Charsets.US_ASCII), HMAC_SHA_256)
+        val hmacBytes = Mac.getInstance(HMAC_SHA_256).apply {
+            init(pingkey)
             if (serverKeyBase64 != null) update(Base64.decode(serverKeyBase64, 0))
             update(timestampBytes)
         }.doFinal()
