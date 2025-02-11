@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">ayarlar</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. \'<b>Her zaman açık VPN</b>\' ve \'<b>VPN olmadan bağlantılar engellensin</b>\' seçeneklerini açın]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. "<b>Her zaman açık VPN</b>" ve "<b>VPN olmadan bağlantılar engellensin</b>" seçeneklerini açın]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Ayarlar</string>
     <string name="settingsKillSwitchLearnMoreButton">Bağlantı kesici nedir?</string>
     <string name="settingsKillSwitchWarningMain">Bağlantı kesici açıkken şunlarla bağlantı kuramazsınız:</string>

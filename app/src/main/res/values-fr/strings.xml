@@ -202,7 +202,7 @@
     <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activez « <b>VPN permanent</b> » et « <b>Bloquer les connexions sans VPN</b> ».]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Paramètres</string>
     <string name="settingsKillSwitchLearnMoreButton">Qu\'est-ce que la fonctionnalité Arrêt d\'urgence (kill switch) ?</string>
-    <string name="settingsKillSwitchWarningMain">Quand l\'arrêt d\'urgence (kill switch) est activé, vous ne pourrez pas vous connecter à :</string>
+    <string name="settingsKillSwitchWarningMain">Quand la fonction Arrêt d\'urgence (kill switch) est activé, vous ne pourrez pas vous connecter à :</string>
     <string name="settingsKillSwitchWarningPoint1">Sites internet et applications exclus de votre connexion VPN via le split tunneling</string>
     <string name="settingsKillSwitchWarningPoint2">Appareils sur votre réseau local (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Partager des statistiques d\'utilisation anonymes</string>

@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">setări</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activați „<b>VPM permanent</b>” și „<b>Blocare conexiuni fără VPN</b>”]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activați „<b>VPN permanent</b>” și „<b>Blocare conexiuni fără VPN</b>”]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Setări</string>
     <string name="settingsKillSwitchLearnMoreButton">Ce este întrerupătorul de conexiune?</string>
     <string name="settingsKillSwitchWarningMain">Când întrerupătorul de conexiune este activat, nu vă veți putea conecta la:</string>
@@ -1488,9 +1488,9 @@
     <string name="nps_submit_error_char_limit">Răspunsul ar trebui să aibă maxim 250 de caractere.</string>
     <string name="nps_button_submit_title">Partajare anonimă</string>
     <string name="widget_preview_switzerland">Elveția</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
-    <string name="widget_preview_france">France</string>
+    <string name="widget_preview_spain">Spania</string>
+    <string name="widget_preview_germany">Germania</string>
+    <string name="widget_preview_france">Franța</string>
     <string name="widget_status_unprotected">Neprotejat</string>
     <string name="widget_status_error">Eroare</string>
     <string name="widget_status_connecting">Se conectează…</string>

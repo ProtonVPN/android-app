@@ -191,15 +191,15 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[W przypadku zablokowania dostępu do usługi zezwól aplikacji na wypróbowanie alternatywnego połączenia, aby połączyć się z serwerami Proton. <a href="%1$s">Dowiedz się więcej</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada rządowa</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Twój kraj może blokować dostęp do usług Proton. Spróbuj połączyć się przez <a href=\'%1$s\'>sieć Tor</a>, aby uzyskać połączenie.]]></string>
-    <string name="settingsKillSwitchEnableTitle">How to enable kill-switch</string>
-    <string name="settingsKillSwitchEnableStep1">1. Open your device settings</string>
+    <string name="settingsKillSwitchEnableTitle">Jak włączyć Kill Switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Otwórz ustawienia urządzenia</string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsKillSwitchEnableStep2">2. Find Proton VPN and tap %1$s</string>
+    <string name="settingsKillSwitchEnableStep2">2. Znajdź aplikację Proton VPN i kliknij ikonę %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">settings</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Always-on VPN</b>’ and ‘<b>Block connections without VPN</b>’]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable "<b>Always-on VPN</b>" and "<b>Block connections without VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Settings</string>
     <string name="settingsKillSwitchLearnMoreButton">What is kill switch?</string>
     <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
@@ -234,16 +234,16 @@
     <string name="netshield_data_title">Dane</string>
     <string name="netshield_data_details">Ilość niechcianych reklam, elementów śledzących i złośliwego oprogramowania zablokowanych przez funkcję NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">reklama zablokowana</item>
-        <item quantity="few">reklamy zablokowane</item>
-        <item quantity="many">reklam zablokowanych</item>
-        <item quantity="other">reklam zablokowanych</item>
+        <item quantity="one">zablokowana reklama</item>
+        <item quantity="few">zablokowane reklamy</item>
+        <item quantity="many">zablokowanych reklam</item>
+        <item quantity="other">zablokowanych reklam</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">element śledzący zatrzymany</item>
-        <item quantity="few">elementy śledzące zatrzymane</item>
-        <item quantity="many">elementów śledzących zatrzymanych</item>
-        <item quantity="other">elementów śledzących zatrzymanych</item>
+        <item quantity="one">zatrzymany element śledzący</item>
+        <item quantity="few">zatrzymane elementy śledzące</item>
+        <item quantity="many">zatrzymanych elementów śledzących</item>
+        <item quantity="other">zatrzymanych elementów śledzących</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">zaoszczędzonych danych</string>
     <string name="netshield_setting_warning">Niektóre strony mogą nie działać poprawnie po zablokowaniu reklam i elementów śledzących.</string>
@@ -1520,14 +1520,14 @@
     <string name="nps_additional_comment_optional">Opcjonalne</string>
     <string name="nps_rating_low_values_explain">0 is very unlikely</string>
     <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Dziękujemy. Twoja opinia pomoże nam ulepszyć usługi Proton VPN.</string>
+    <string name="nps_toast_submit_message">Dziękujemy. Twoja opinia pomoże nam ulepszyć usługę Proton VPN.</string>
     <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Udostępnij anonimowo</string>
     <string name="widget_preview_switzerland">Szwajcaria</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
-    <string name="widget_preview_france">France</string>
-    <string name="widget_status_unprotected">Brak ochrony</string>
+    <string name="widget_preview_spain">Hiszpania</string>
+    <string name="widget_preview_germany">Niemcy</string>
+    <string name="widget_preview_france">Francja</string>
+    <string name="widget_status_unprotected">Niechroniony</string>
     <string name="widget_status_error">Błąd</string>
     <string name="widget_status_connecting">Łączenie…</string>
     <string name="widget_sign_in">Zaloguj się</string>

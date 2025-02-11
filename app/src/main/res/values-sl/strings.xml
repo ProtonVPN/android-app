@@ -126,7 +126,7 @@
     <string name="inputIpAddressHint">Napišite IP naslov</string>
     <string name="inputIpAddressErrorInvalid">Neveljaven IP naslov</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
-    <string name="settings_new_label_badge">NEW</string>
+    <string name="settings_new_label_badge">NOVO</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
     <string name="settingsExcludedApps">Izključene aplikacije</string>
@@ -191,7 +191,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[In case Proton is blocked, allow app to try alternative paths to reach Proton servers. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokada s strani države</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
-    <string name="settingsKillSwitchEnableTitle">How to enable kill-switch</string>
+    <string name="settingsKillSwitchEnableTitle">How to enable kill switch</string>
     <string name="settingsKillSwitchEnableStep1">1. Open your device settings</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Find Proton VPN and tap %1$s</string>
@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">settings</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Always-on VPN</b>’ and ‘<b>Block connections without VPN</b>’]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable "<b>Always-on VPN</b>" and "<b>Block connections without VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Settings</string>
     <string name="settingsKillSwitchLearnMoreButton">What is kill switch?</string>
     <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
@@ -386,7 +386,7 @@
     <string name="upgrade_split_tunneling_title">Izkoristite najboljše iz obeh svetov</string>
     <string name="upgrade_split_tunneling_message"><![CDATA[Razdelite promet na tunele VPN in tunele brez VPN z <b>deljenim tuneliranjem</b>.]]></string>
     <string name="upgrade_customization_title">Odklenite napredno prilagoditev VPN</string>
-    <string name="upgrade_lan_access_message"><![CDATA[Postopajte do naprav v vašem <b>lokalnem omrežju (LAN)</b> z VPN Plus.]]></string>
+    <string name="upgrade_lan_access_message"><![CDATA[Dostopajte do naprav v vašem <b>lokalnem omrežju (LAN)</b> z VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Dostop do vseh držav</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -639,7 +639,7 @@
     <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
-    <string name="settings_widget_selection_button_title">Add widget</string>
+    <string name="settings_widget_selection_button_title">Dodaj gradnik</string>
     <string name="setting_widget_try_title">Try the Proton VPN widget</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -710,7 +710,7 @@
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
     <string name="whats_new_widget_title">Introducing widgets</string>
     <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_add_widget_button">Dodaj gradnik</string>
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
     <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, okrepljeni zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
     <string name="welcome_plus_feature_security">Napredne varnostne funkcije</string>
@@ -1525,13 +1525,13 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
     <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
     <string name="nps_button_submit_title">Share anonymously</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
+    <string name="widget_preview_switzerland">Švica</string>
+    <string name="widget_preview_spain">Španija</string>
+    <string name="widget_preview_germany">Nemčija</string>
     <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">Unprotected</string>
     <string name="widget_status_error">Napaka</string>
     <string name="widget_status_connecting">Connecting…</string>
-    <string name="widget_sign_in">Sign in</string>
+    <string name="widget_sign_in">Prijava</string>
     <string name="widget_toast_added_message">Widget added to home screen</string>
 </resources>

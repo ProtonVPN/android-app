@@ -191,7 +191,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[V případě, že je Proton blokován, povolte aplikaci vyzkoušet alternativní cesty pro dosažení serverů Proton. <a href="%1$s">Zjistit více</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Vládní blokování</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Vaše země může blokovat přístup k Protonu. K přístupu k Protonu zkuste použít <a href=\'%1$s\'>Tor</a>.]]></string>
-    <string name="settingsKillSwitchEnableTitle">Jak povolit Kill Switch?</string>
+    <string name="settingsKillSwitchEnableTitle">Jak povolit Kill Switch</string>
     <string name="settingsKillSwitchEnableStep1">1. Otevřete nastavení zařízení</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Vyhledejte Proton VPN a klepněte na %1$s</string>
@@ -199,11 +199,11 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">nastavení</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Povolte ‘<b>Trvalou síť VPN</b>’ a ‘<b>Blokování připojení bez VPN</b>’]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Povolte "<b>Trvalá síť VPN</b>" a "<b>Blokovat připojení bez VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Nastavení</string>
     <string name="settingsKillSwitchLearnMoreButton">Co je to Kill Switch?</string>
-    <string name="settingsKillSwitchWarningMain">Pokud je Kill Switch povolen, nebudede moci se připojit k:</string>
-    <string name="settingsKillSwitchWarningPoint1">Webovým stránkám a aplikacím vyloučených z připojení VPN prostřednictvím děleného tunelu.</string>
+    <string name="settingsKillSwitchWarningMain">Pokud je Kill Switch povolen, nebudede se moci připojit k:</string>
+    <string name="settingsKillSwitchWarningPoint1">Webovým stránkám a aplikacím vyloučeným z připojení VPN prostřednictvím split tunnelingu</string>
     <string name="settingsKillSwitchWarningPoint2">Zařízením ve vaší místní síti (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Sdílejte anonymní statistiky o používání</string>
     <string name="settingsEnableTelemetryDescription">Údaje o používání nám pomáhají obcházet blokování VPN a vylepšovat výkon aplikace.</string>

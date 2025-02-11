@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">nastavenia</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Vždy zapnutá VPN</b>’ a ‘<b>Blokovať pripojenia bez VPN</b>’]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Povoľte ‘<b>Vždy zapnutá VPN</b>’ a ‘<b>Blokovať pripojenia bez VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Nastavenia</string>
     <string name="settingsKillSwitchLearnMoreButton">Čo je kill switch?</string>
     <string name="settingsKillSwitchWarningMain">Keď je kill switch zapnutý, nebudete sa môcť pripojiť k:</string>
@@ -1524,9 +1524,9 @@
     <string name="nps_submit_error_char_limit">Vaša odpoveď by mala mať maximálne 250 znakov</string>
     <string name="nps_button_submit_title">Zdieľať anonymne</string>
     <string name="widget_preview_switzerland">Švajčiarsko</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
-    <string name="widget_preview_france">France</string>
+    <string name="widget_preview_spain">Španielsko</string>
+    <string name="widget_preview_germany">Nemecko</string>
+    <string name="widget_preview_france">Francúzsko</string>
     <string name="widget_status_unprotected">Nechránené</string>
     <string name="widget_status_error">Chyba</string>
     <string name="widget_status_connecting">Pripájanie…</string>

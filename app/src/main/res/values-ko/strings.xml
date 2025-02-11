@@ -190,7 +190,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">대체 라우팅</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton이 차단된 경우 앱이 Proton 서버에 연결하기 위해 대체 경로를 사용하도록 허용하세요. <a href="%1$s">도 알아보기</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">정부 차단</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[당신의 국가는 Proton 서비스를 사용하는 것을 막고 있을지도 모릅니다. Proton 서비스를 사용하기 위하여 <a href=\'%1$s\'>Tor</a>를 사용해보세요.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[사용자의 국가에서 Proton 서비스를 사용하는 것을 차단하고 있을 수 있습니다. Proton 서비스를 사용하기 위하여 <a href=\'%1$s\'>Tor</a>를 사용해보세요.]]></string>
     <string name="settingsKillSwitchEnableTitle">킬 스위치 활성화 방법</string>
     <string name="settingsKillSwitchEnableStep1">1. 기기 설정을 엽니다</string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -1418,9 +1418,9 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="nps_submit_error_char_limit">응답이 250자 이상이여야 합니다.</string>
     <string name="nps_button_submit_title">익명으로 공유</string>
     <string name="widget_preview_switzerland">스위스</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
-    <string name="widget_preview_france">France</string>
+    <string name="widget_preview_spain">스페인</string>
+    <string name="widget_preview_germany">독일</string>
+    <string name="widget_preview_france">프랑스</string>
     <string name="widget_status_unprotected">보호되지 않음</string>
     <string name="widget_status_error">오류</string>
     <string name="widget_status_connecting">연결 중…</string>
