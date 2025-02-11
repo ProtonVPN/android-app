@@ -1452,9 +1452,9 @@
     <string name="nps_submit_error_char_limit">Tu respuesta debe tener 250 caracteres o menos.</string>
     <string name="nps_button_submit_title">Compartir de forma anónima</string>
     <string name="widget_preview_switzerland">Suiza</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
-    <string name="widget_preview_france">France</string>
+    <string name="widget_preview_spain">España</string>
+    <string name="widget_preview_germany">Alemania</string>
+    <string name="widget_preview_france">Francia</string>
     <string name="widget_status_unprotected">Sin protección</string>
     <string name="widget_status_error">Error</string>
     <string name="widget_status_connecting">Conectando…</string>

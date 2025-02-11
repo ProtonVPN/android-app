@@ -178,7 +178,7 @@
     <string name="troubleshootNoInternetDescription">Пераканайцеся, што ваша падключэнне да інтэрнэту працуе.</string>
     <string name="troubleshootNoInternetTitle">Няма падключэння да інтэрнэту</string>
     <string name="troubleshootIspProblemTitle">Праблема з пастаўшчыком паслуг інтэрнэту (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Паспрабуйце падлучыцца да Proton з іншай сеткі (або скарыстайцеся <a href=\'%1$s\'>Tor</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Паспрабуйце падключыцца да Proton з іншай сеткі (або скарыстайцеся <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Канфлікт з антывірусам</string>
     <string name="troubleshootAntivirusProblemDescription">Часова адключыце або выдаліце антывірус.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Канфлікт з проксі-серверам/міжсеткавым экранам</string>
@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">налады</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Уключыце ‘<b>Пастаянны VPN</b>’ і ‘<b>Блакіраваць падключэнні без VPN</b>’]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Уключыце "<b>Пастаянны VPN</b>" і "<b>Блакіраваць падключэнні без VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Налады</string>
     <string name="settingsKillSwitchLearnMoreButton">Што такое Kill Switch?</string>
     <string name="settingsKillSwitchWarningMain">Пры ўключаным Kill Switch, вы не зможаце падключыцца да:</string>
@@ -292,7 +292,7 @@
     <string name="tv_signout_dialog_description_connected">Гэта адключыць ваш тэлевізар ад усіх сервераў VPN.</string>
     <string name="tv_signout_dialog_ok">Выйсці</string>
     <string name="tv_quick_connect_recommened">Рэкамендавана</string>
-    <string name="tv_quick_connect_favourite">Улюблёны</string>
+    <string name="tv_quick_connect_favourite">Абраны</string>
     <string name="tv_country_maintenance_dialog_title">Краіна недаступна</string>
     <string name="tv_country_maintenance_dialog_description">Паспрабуйце пазней або выберыце іншую краіну.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
@@ -706,10 +706,10 @@
     <string name="not_wanted_country_description">Палепшыць свой тарыфны план, каб выбіраць любы сервер</string>
     <string name="whats_new_title">Што новага</string>
     <string name="whats_new_profiles_title">Профілі вярнуліся</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_description">Стварыце і захоўвайце карыстальніцкія падключэнні з вабраным месцазнаходжаннем, серверам і пратаколам.</string>
+    <string name="whats_new_widget_title">Уводзіны ў віджэты</string>
+    <string name="whats_new_widget_description">Цяпер вы можаце прагледзець і кіраваць сваім VPN не пакідаючы галоўны экран. </string>
+    <string name="whats_new_add_widget_button">Дадаць віджэт</string>
     <string name="welcome_plus_title">Вітаем у VPN Plus</string>
     <string name="welcome_plus_description">Атрымлівайце асалоду ад дадатковых функцый прыватнасці, палепшанай прадукцыйнасці і больш гнуткага наладжвання вашага падключэння да VPN.</string>
     <string name="welcome_plus_feature_security">Пашыраныя функцыі бяспекі</string>
@@ -942,7 +942,7 @@
         <item quantity="many">Аўтаматычна выбрана з %1$d краін</item>
         <item quantity="other">Аўтаматычна выбрана з %1$d краін</item>
     </plurals>
-    <string name="connection_info_auto_selected_free_countries_plain">Auto-selected from free countries.</string>
+    <string name="connection_info_auto_selected_free_countries_plain">Атавыбар з бясплатных краін.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1515,21 +1515,21 @@
     <string name="profile_auto_open_on">Укл</string>
     <string name="create_profile_auto_open_description">Аўтаматычна адкрываць выбраны вэб-сайт пры падключэнні да гэтага профілю.</string>
     <string name="profile_auto_open_error_invalid_url">Увядзіце сапраўдны URL-адрас</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
-    <string name="nps_additional_comment_optional">Optional</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
-    <string name="nps_button_submit_title">Share anonymously</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
-    <string name="widget_preview_france">France</string>
-    <string name="widget_status_unprotected">Unprotected</string>
+    <string name="nps_how_likely_question">З якой верагоднасцю вы парэкамендуеце Proton VPN сябрам або калегам?</string>
+    <string name="nps_additional_comment_title">Паведаміце нам, чаму вы так нас ацанілі</string>
+    <string name="nps_additional_comment_optional">Неабавязкова</string>
+    <string name="nps_rating_low_values_explain">0 - гэта вельмі малаверагодна</string>
+    <string name="nps_rating_high_values_explain">10 - гэта вельмі верагодна</string>
+    <string name="nps_toast_submit_message">Дзякуй, што падзяліліся водгукам! Ваш водгук дапаможа нам удасканаліць Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Ваш адказ павінен змяшчаць да 250 сімвалаў</string>
+    <string name="nps_button_submit_title">Абагуліць ананімна</string>
+    <string name="widget_preview_switzerland">Швейцарыя</string>
+    <string name="widget_preview_spain">Іспанія</string>
+    <string name="widget_preview_germany">Германія</string>
+    <string name="widget_preview_france">Францыя</string>
+    <string name="widget_status_unprotected">Не абаронена</string>
     <string name="widget_status_error">Памылка</string>
     <string name="widget_status_connecting">Падключэнне…</string>
-    <string name="widget_sign_in">Sign in</string>
-    <string name="widget_toast_added_message">Widget added to home screen</string>
+    <string name="widget_sign_in">Увайсці</string>
+    <string name="widget_toast_added_message">Віджэт дадзены на галоўны экран</string>
 </resources>

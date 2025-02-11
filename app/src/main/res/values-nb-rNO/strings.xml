@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">innstillinger</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3.Aktiver ‘<b>Alltid på-VPN</b>’ og ‘<b>blokker tilkoblinger uten VPN</b>’]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3.Aktiver "<b>Alltid på-VPN</b>" og "<b>blokker tilkoblinger uten VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Innstillinger</string>
     <string name="settingsKillSwitchLearnMoreButton">Hva er nødstopp?</string>
     <string name="settingsKillSwitchWarningMain">Når nødstopp er på, vil du ikke kunne koble til:</string>

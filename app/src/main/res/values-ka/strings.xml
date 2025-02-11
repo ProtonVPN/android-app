@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">მორგება</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. ჩართეთ \'<b>ყოველთვის ჩართული VPN</b>\' და \'<b>VPN-ის გარეშე კავშირის აკრძალვა</b>\']]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. ჩართეთ "<b>ყოველთვის ჩართული VPN</b>" და"\'<b>VPN-ის გარეშე კავშირის აკრძალვა</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">მორგება</string>
     <string name="settingsKillSwitchLearnMoreButton">სადაა Kill switch?</string>
     <string name="settingsKillSwitchWarningMain">როცა Kill switch ჩართულია, თქვენ ვერ დაუკავშირდებით:</string>
@@ -1452,9 +1452,9 @@
     <string name="nps_submit_error_char_limit">თქვენი პასუხი 250 ან ნაკლებ სიმბოლოს უნდა შეიცავდეს</string>
     <string name="nps_button_submit_title">ანონიმურად გაზიარება</string>
     <string name="widget_preview_switzerland">შვეიცარია</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
-    <string name="widget_preview_france">France</string>
+    <string name="widget_preview_spain">ესპანეთი</string>
+    <string name="widget_preview_germany">გერმანია</string>
+    <string name="widget_preview_france">საფრანგეთი</string>
     <string name="widget_status_unprotected">დაუცველი</string>
     <string name="widget_status_error">შეცდომა</string>
     <string name="widget_status_connecting">დაკავშირება…</string>

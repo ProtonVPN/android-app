@@ -57,7 +57,7 @@
     <string name="restrictedMaintenanceTitle">Υπό Συντήρηση</string>
     <string name="restrictedMaintenanceDescription">Ο διακομιστής που προσπαθείτε αυτήν τη στιγμή να συνδεθείτε βρίσκεται υπό συντήρηση. Δοκιμάστε κάποιον άλλο διακομιστή.</string>
     <string name="errorUserDelinquent"><![CDATA[Ο λογαριασμός σας έχει εκπρόθεσμο λογαριασμό. Καταβάλλετε όλο το μη καταβληθέν ποσό στο&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Έχετε φτάσει τον μέγιστο αριθμό ταυτόχρονων συνδέσεων που επιτρέπονται για το λογαριασμό σας. Κάντε αναβάθμιση του πακέτου Proton VPN σας για περισσότερες συνδέσεις.</string>
+    <string name="errorMaxSessions">Έχετε φτάσει τον μέγιστο αριθμό ταυτόχρονων συνδέσεων που επιτρέπονται για το λογαριασμό σας. Κάντε αναβάθμιση του πλάνο Proton VPN σας για περισσότερες συνδέσεις.</string>
     <string name="listItemMaintenance">Υπό συντήρηση</string>
     <string name="insufficientPermissionsTitle">Απαιτείται ενέργεια από τον χρήστη</string>
     <string name="insufficientPermissionsDetails">Δεν ήταν δυνατή η αυτόματη σύνδεση VPN. Συνδεθείτε χειροκίνητα μία φορά για να χορηγηθούν τα δικαιώματα.</string>
@@ -191,7 +191,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Στην περίπτωση που το Proton είναι μπλοκαρισμένο, επιτρέψτε στην εφαρμογή να χρησιμοποιήσει εναλλακτικές διαδρομές για την επικοινωνία με τους διακομιστές της Proton. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Κυβερνητική απαγόρευση</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Η χώρα σας μπορεί να εμποδίζει την πρόσβαση στο Proton. Δοκιμάστε να χρησιμοποιήσετε <a href=\'%1$s\'>Tor</a> για πρόσβαση στο Proton.]]></string>
-    <string name="settingsKillSwitchEnableTitle">Πώς να ενεργοποιήσετε τη λειτουργία kill-switch</string>
+    <string name="settingsKillSwitchEnableTitle">Πώς να ενεργοποιήσετε τη λειτουργία kill switch</string>
     <string name="settingsKillSwitchEnableStep1">1. Ανοίξτε τις ρυθμίσεις της συσκευής σας</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Βρείτε το Proton VPN και πατήστε %1$s</string>
@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">ρυθμίσεις</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Ενεργοποιήστε το \'<b>Πάντα ενεργό VPN</b>\' και το \'<b>Αποκλεισμός συνδέσεων χωρίς VPN</b>\']]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Ενεργοποιήστε το "<b>Πάντα ενεργό VPN</b>" και το "<b>Αποκλεισμός συνδέσεων χωρίς VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Ρυθμίσεις</string>
     <string name="settingsKillSwitchLearnMoreButton">Τι είναι το kill switch;</string>
     <string name="settingsKillSwitchWarningMain">Όταν είναι ενεργοποιημένη η λειτουργία kill switch, δε θα μπορείτε να συνδεθείτε σε:</string>
@@ -262,9 +262,9 @@
     <string name="tv_detail_default_connection_checkbox_short">Αγαπημένο</string>
     <string name="tv_detail_connect_streaming">Stream με Plus</string>
     <string name="tv_detail_connect">Σύνδεση</string>
-    <string name="tv_detail_description_streaming_country">Μεταδώστε το περιεχόμενο που προτιμάτε. Προσπελάστε περισσότερες εφαρμογές με ένα πρόγραμμα Proton VPN Plus.</string>
-    <string name="tv_detail_description_no_streaming_country">Μεταδόστε περισσότερο από το αγαπημένο σας περιεχόμενο με ένα πρόγραμμα Proton VPN Plus.</string>
-    <string name="tv_detail_description_country_not_available">Μη διαθέσιμη χώρα. Αποκτήστε περισσότερες επιλογές μετάδοσης, με ένα πρόγραμμα Proton VPN Plus.</string>
+    <string name="tv_detail_description_streaming_country">Μεταδώστε το περιεχόμενο που προτιμάτε. Προσπελάστε περισσότερες εφαρμογές με ένα πλάνο Proton VPN Plus.</string>
+    <string name="tv_detail_description_no_streaming_country">Μεταδόστε περισσότερο από το αγαπημένο σας περιεχόμενο με ένα πλάνο Proton VPN Plus.</string>
+    <string name="tv_detail_description_country_not_available">Μη διαθέσιμη χώρα. Αποκτήστε περισσότερες επιλογές μετάδοσης, με ένα πλάνο Proton VPN Plus.</string>
     <string name="tv_detail_description_plus">Δείτε τα αγαπημένα σας βίντεο, ταινίες ή αθλήματα με τις εφαρμογές σας.</string>
     <string name="tv_login_title_signin">Είσοδος στο Proton VPN</string>
     <string name="tv_login_title_welcome">Μεταδώστε το αγαπημένο σας περιεχόμενο βίντεο</string>
@@ -281,7 +281,7 @@
     <string name="tv_upgrade_title">Ξεκινήστε το streaming με Plus</string>
     <string name="back">Πίσω</string>
     <string name="tv_upgrade_url_details"><![CDATA[Επισκεφθείτε το <b>%1$s</b> για άμεση αναβάθμιση σε Proton VPN Plus.]]></string>
-    <string name="tv_upgrade_description">Αποκτήστε το Proton VPN Plus για πρόσβαση σε 500+ διακομιστές παγκοσμίως και βελτιστοποιημένες επιλογές streaming για Netflix, Amazon Prime Video, Disney+, και πολλά άλλα.</string>
+    <string name="tv_upgrade_description">Αποκτήστε το πλάνο Proton VPN Plus για πρόσβαση σε 500+ διακομιστές παγκοσμίως και βελτιστοποιημένες επιλογές streaming για Netflix, Amazon Prime Video, Disney+, και πολλά άλλα.</string>
     <string name="tv_vpn_error_dialog_title">Η σύνδεση VPN απέτυχε</string>
     <string name="tv_signout_label">Αποσύνδεση</string>
     <string name="tv_signout_dialog_title">Είστε βέβαιοι ότι θέλετε να αποσυνδεθείτε;</string>
@@ -302,8 +302,8 @@
     <string name="tv_other_servers">Άλλοι διακομιστές (%1$d)</string>
     <string name="tv_server_list">Λίστα διακομιστών</string>
     <string name="tv_server_list_action_unavailable">Μη διαθέσιμο</string>
-    <string name="notification_subscription_expired_title">Η συνδρομή σας στο πρόγραμμά του Proton VPN έχει λήξει</string>
-    <string name="notification_subscription_expired_content">Πρέπει να υποβιβάσουμε το πρόγραμμά σας αλλά σας επανασυνδέουμε στον γρηγορότερο, διαθέσιμο, διακομιστή του τωρινού προγράμματος.</string>
+    <string name="notification_subscription_expired_title">Η συνδρομή σας στο πλάνο του Proton VPN έχει λήξει</string>
+    <string name="notification_subscription_expired_content">Πρέπει να υποβιβάσουμε το πλάνο σας αλλά σας επανασυνδέουμε στον γρηγορότερο, διαθέσιμο, διακομιστή του τωρινού προγράμματος.</string>
     <string name="notification_subscription_expired_no_reconnection_content">Η συνδρομή σας έχει υποβαθμιστεί.</string>
     <string name="notification_delinquent_title">Ο Proton VPN λογαριασμός έχει οφειλόμενα τιμολόγια</string>
     <string name="notification_delinquent_content">Παρακαλούμε ενημερώστε τις πληροφορίες πληρωμών σας για να διατηρήσετε την συνδρομή σας ενεργή.</string>
@@ -314,8 +314,8 @@
         <item quantity="other">Παρακαλούμε αποσυνδεθείτε από την άλλη συσκευή, που είναι συνδεδεμένη, για να συνδεθείτε με αυτή ή αναβαθμίστε τη συνδρομή σε Plus με τη δυνατότητα ταυτόχρονης σύνδεσης %1$d συσκευών.</item>
     </plurals>
     <string name="notification_max_sessions_content">Παρακαλούμε αποσυνδέστε την άλλη συσκευή για να συνδεθείτε με αυτή.</string>
-    <string name="notification_cancel_to_free">Χρησιμοποιήτε το Δωρεάν πρόγραμμα. Δωρεάν διακομιστές και υπηρεσίες είναι στη διάθεσή σας.</string>
-    <string name="notification_cancel_to_basic">Χρησιμοποιήτε το πρόγραμμα Basic. Οι Basic &amp; οι Δωρεάν διακομιστές και υπηρεσίες είναι στη διάθεσή σας.</string>
+    <string name="notification_cancel_to_free">Χρησιμοποιήτε το Free πλάνο. Δωρεάν διακομιστές και υπηρεσίες είναι στη διάθεσή σας.</string>
+    <string name="notification_cancel_to_basic">Χρησιμοποιήτε το Basic πλάνο. Οι Basic &amp; οι Δωρεάν διακομιστές και υπηρεσίες είναι στη διάθεσή σας.</string>
     <string name="notification_cancel_to_delinquent">Η πρόσβασή σας στις premium υπηρεσίες θα αποκατασταθεί μετά την τακτοποίηση των οικονομικών εκκρεμοτήτων σας.</string>
     <string name="reconnect_from_server">Από διακομιστή: </string>
     <string name="reconnect_to_server">Προς διακομιστή: </string>

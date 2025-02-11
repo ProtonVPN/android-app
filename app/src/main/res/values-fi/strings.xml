@@ -191,7 +191,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Mikäli Protonia ei tavoiteta, salli sovelluksen pyrkiä tavoittamaan Protonin palvelimet vaihtoehtoisten reittien välityksellä. <a href="%1$s">Lue lisää</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hallinnollinen esto</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Maasi hallinto saattaa estää pääsyn Protoniin. Yritä tavoittaa Proton <a href=\'%1$s\'>Tor-verkon</a> välityksellä.]]></string>
-    <string name="settingsKillSwitchEnableTitle">Miten tappokytkin otetaan käyttöön</string>
+    <string name="settingsKillSwitchEnableTitle">How to enable kill switch</string>
     <string name="settingsKillSwitchEnableStep1">1. Avaa laitteesi asetukset</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Etsi Proton VPN ja napauta %1$s</string>
@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">asetukset</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable ‘<b>Always-on VPN</b>’ and ‘<b>Block connections without VPN</b>’]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable "<b>Always-on VPN</b>" and "<b>Block connections without VPN</b>"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Asetukset</string>
     <string name="settingsKillSwitchLearnMoreButton">Mikä on tappokytkin?</string>
     <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
@@ -1452,9 +1452,9 @@
     <string name="nps_submit_error_char_limit">Vastauksesi tulisi olla enintään 250 merkkiä</string>
     <string name="nps_button_submit_title">Jaa anonyymisti</string>
     <string name="widget_preview_switzerland">Sveitsi</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
-    <string name="widget_preview_france">France</string>
+    <string name="widget_preview_spain">Espanja</string>
+    <string name="widget_preview_germany">Saksa</string>
+    <string name="widget_preview_france">Ranska</string>
     <string name="widget_status_unprotected">Suojaamaton</string>
     <string name="widget_status_error">Virhe</string>
     <string name="widget_status_connecting">Yhdistetään…</string>
