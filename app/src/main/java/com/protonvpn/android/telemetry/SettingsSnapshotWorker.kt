@@ -27,6 +27,7 @@ import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
+import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.data.WidgetTracker
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -56,6 +57,10 @@ class SettingsSnapshotWorker @AssistedInject constructor(
                     this["app_icon"] = currentIcon
                     val widgetCount = widgetTracker.widgetCount.filterNotNull().first()
                     this["widget_count"] = widgetCount.toWidgetCountBucketString()
+                    widgetTracker.firstWidgetType()?.let {
+                        this["first_widget_size"] = it.getTelemetrySizeName()
+                        this["first_widget_theme"] = it.getTelemetryThemeName()
+                    }
                     commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 }
                 TelemetryEventData(
@@ -74,6 +79,9 @@ class SettingsSnapshotWorker @AssistedInject constructor(
             is DefaultConnection.Recent -> "recent"
         }
     }
+
+    private fun WidgetType.getTelemetrySizeName() = if (isSmall) "small" else "large"
+    private fun WidgetType.getTelemetryThemeName() = if (isMaterial) "material" else "proton"
 
     private fun CustomAppIconData.getTelemetryName(): String {
         return when (this) {
