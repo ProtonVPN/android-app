@@ -42,6 +42,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
@@ -99,14 +101,23 @@ fun KillSwitchInfo(
                     20.sp,
                     20.sp,
                     CoreR.drawable.ic_proton_cog_wheel,
-                    stringResource(R.string.settingsKillSwitchEnableStep2_gearIconContentDescription)
                 )
                 val step2InlineContentMap = mapOf(cogwheelId to cogwheelInlineIcon)
                 val step2TextWithInlineId =
                     stringResource(R.string.settingsKillSwitchEnableStep2).replaceWithInlineContent("%1\$s", cogwheelId)
 
+                val step2TextWithIconDescription = stringResource(R.string.settingsKillSwitchEnableStep2)
+                    .replace("%1\$s", stringResource(R.string.settingsKillSwitchEnableStep2_gearIconContentDescription))
+
                 Text(stringResource(R.string.settingsKillSwitchEnableStep1), style = bulletPointStyle)
-                Text(step2TextWithInlineId, inlineContent = step2InlineContentMap, style = bulletPointStyle)
+                Text(
+                    step2TextWithInlineId,
+                    inlineContent = step2InlineContentMap,
+                    style = bulletPointStyle,
+                    modifier = Modifier.semantics(mergeDescendants = true) {
+                        text = AnnotatedString(step2TextWithIconDescription)
+                    }
+                )
                 Text(
                     AnnotatedString.fromHtml(stringResource(R.string.settingsKillSwitchEnableStep3)),
                     style = bulletPointStyle
@@ -177,13 +188,14 @@ private fun ButtonTextWithExternalIcon(
     }
 }
 
-private fun inlineIcon(width: TextUnit, height: TextUnit, @DrawableRes iconRes: Int, contentDescription: String) =
+// Note: remember to provide accessibility version for the Text with inline icons.
+private fun inlineIcon(width: TextUnit, height: TextUnit, @DrawableRes iconRes: Int) =
     InlineTextContent(
         Placeholder(width, height, PlaceholderVerticalAlign.Center)
     ) {
         Icon(
             painterResource(iconRes),
-            contentDescription = contentDescription,
+            contentDescription = null,
             modifier = Modifier.fillMaxSize()
         )
     }
