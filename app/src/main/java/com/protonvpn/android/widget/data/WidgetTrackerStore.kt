@@ -28,6 +28,7 @@ import com.protonvpn.android.logging.WidgetsRestored
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.userstorage.StoreProvider
 import com.protonvpn.android.utils.mapState
+import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.toWidgetReceiverId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -35,15 +36,14 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.collections.plus
 
 typealias WidgetReceiverId = String
 typealias WidgetId = Int
@@ -54,6 +54,8 @@ class WidgetTracker @Inject constructor(
     private val mainScope: CoroutineScope,
     widgetTrackerStoreProvider: WidgetTrackerStoreProvider
 ) {
+    private val manager = AppWidgetManager.getInstance(appContext)
+
     private val store = mainScope.async { widgetTrackerStoreProvider.dataStoreWithSuffix("shared") }
 
     init {
@@ -69,7 +71,6 @@ class WidgetTracker @Inject constructor(
 
     // If app data was cleared but some widgets were still present we need to restore them.
     private fun firstTimeSetupRestore() {
-        val manager = AppWidgetManager.getInstance(appContext)
         val providers =
             manager.getInstalledProvidersForPackage(appContext.packageName, null)
         providers.forEach { provider ->
@@ -81,9 +82,11 @@ class WidgetTracker @Inject constructor(
         }
     }
 
-    val widgetCount = flow {
-        emitAll(store.await().data.map { data -> data.receiverToWidgets.values.sumOf { it.size } })
+    private val data = flow {
+        emitAll(store.await().data)
     }.stateIn(mainScope, SharingStarted.WhileSubscribed(), null)
+
+    val widgetCount = data.mapState { data -> data?.receiverToWidgets?.values?.sumOf { it.size } }
 
     val haveWidgets = widgetCount.mapState { count -> count?.let { it > 0 } }
 
@@ -121,6 +124,14 @@ class WidgetTracker @Inject constructor(
 
     private fun update(transform: suspend (WidgetTrackerData) -> WidgetTrackerData) =
         mainScope.launch { store.await().updateData(transform) }
+
+    suspend fun firstWidgetType(): WidgetType? {
+        val firstNonEmptyReceiverId = data.filterNotNull().first().receiverToWidgets.asSequence()
+            .filter { it.value.isNotEmpty() }
+            .minByOrNull { it.value.min() }
+            ?.key
+        return WidgetType.getById(firstNonEmptyReceiverId)
+    }
 }
 
 @Serializable

@@ -29,9 +29,10 @@ import com.protonvpn.android.widget.data.WidgetTracker
 import com.protonvpn.android.widget.ui.ProtonVpnGlanceWidget
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.reflect.KClass
 import kotlin.reflect.jvm.jvmName
 
-abstract class TrackedWidgetReceiver() : GlanceAppWidgetReceiver() {
+abstract class TrackedWidgetReceiver : GlanceAppWidgetReceiver() {
 
     val receiverId: WidgetReceiverId = requireNotNull(javaClass.name.toWidgetReceiverId())
 
@@ -69,13 +70,20 @@ abstract class TrackedWidgetReceiver() : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = ProtonVpnGlanceWidget()
 }
 
-fun String.toWidgetReceiverId() = when (this) {
-    ProtonVpnWidgetReceiver::class.jvmName -> "small"
-    ProtonVpnWidgetMaterialReceiver::class.jvmName -> "small_material"
-    ProtonVpnWidgetBigReceiver::class.jvmName -> "big"
-    ProtonVpnWidgetMaterialBigReceiver::class.jvmName -> "big_material"
-    else -> null
+enum class WidgetType(val isSmall: Boolean, val isMaterial: Boolean, val kclass: KClass<*>) {
+    SMALL(isSmall = true, isMaterial = false, kclass = ProtonVpnWidgetReceiver::class),
+    SMALL_MATERIAL(isSmall = true, isMaterial = true, kclass = ProtonVpnWidgetMaterialReceiver::class),
+    BIG(isSmall = false, isMaterial = false, kclass = ProtonVpnWidgetBigReceiver::class),
+    BIG_MATERIAL(isSmall = false, isMaterial = true, kclass = ProtonVpnWidgetMaterialBigReceiver::class);
+
+    val id: String get() = name.lowercase()
+
+    companion object {
+        fun getById(id: String?) = WidgetType.entries.firstOrNull { it.id == id }
+    }
 }
+
+fun String.toWidgetReceiverId() = WidgetType.entries.find { it.kclass.jvmName == this }?.id
 
 @AndroidEntryPoint
 class ProtonVpnWidgetReceiver : TrackedWidgetReceiver()
