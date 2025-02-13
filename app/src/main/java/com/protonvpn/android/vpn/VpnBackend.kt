@@ -51,9 +51,11 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.utils.suspendForCallbackWithTimeout
+import io.sentry.Sentry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -65,6 +67,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.yield
 import me.proton.core.network.data.di.SharedOkHttpClient
@@ -124,12 +127,21 @@ abstract class VpnBackend(
         private val agentConstants = LocalAgent.constants()
         private var gatherStatsJob: Job? = null
 
+        @Volatile
+        private var isClosed: Boolean = false
+
+        fun close() {
+            isClosed = true
+            gatherStatsJob?.cancel()
+        }
+
         override fun log(msg: String) {
             ProtonLogger.logCustom(LogCategory.LOCAL_AGENT, msg)
         }
 
         override fun onError(code: Long, description: String) {
             mainScope.launch {
+                if (isClosed) return@launch
                 ProtonLogger.log(LocalAgentError, "code: $code, $description")
                 when (code) {
                     agentConstants.errorCodeMaxSessionsBasic,
@@ -180,6 +192,7 @@ abstract class VpnBackend(
 
         override fun onState(state: String) {
             mainScope.launch {
+                if (isClosed) return@launch
                 ProtonLogger.log(LocalAgentStateChanged, state)
                 processCombinedState(vpnProtocolState, state)
             }
@@ -187,6 +200,7 @@ abstract class VpnBackend(
 
         override fun onStatusUpdate(status: StatusMessage) {
             mainScope.launch {
+                if (isClosed) return@launch
                 val stats = status.featuresStatistics?.toStats()
                 if (stats != null) {
                     netShieldStatsFlow.tryEmit(
@@ -313,6 +327,7 @@ abstract class VpnBackend(
         }
 
         override fun close() {
+            nativeClient.close()
             agent.close()
         }
     }
@@ -331,6 +346,16 @@ abstract class VpnBackend(
                 closeVpnTunnel(withStateChange = false)
             }
 
+            // Wait for backend to finish closing the tunnel, otherwise it overwrites the error with the Disabled state.
+            // The timeout shouldn't be necessary but in case the backend doesn't reach the Disabled state it's safer
+            // to continue than get stuck.
+            try {
+                withTimeout(1000L) {
+                    internalVpnProtocolState.first { it is VpnState.Disabled }
+                }
+            } catch (e: TimeoutCancellationException) {
+                Sentry.captureException(e)
+            }
             selfStateFlow.value = VpnState.Error(error, description, isFinal = disconnectVPN)
         }
     }
