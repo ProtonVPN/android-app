@@ -28,6 +28,8 @@ class NpsViewModel @Inject constructor(
     private val postNpsScore: PostNps
 ): ViewModel() {
 
+    fun dismissNps() = postNpsScore(-1, "")
+
     fun postNps(score: Int, comment: String) {
         postNpsScore(score, comment)
     }

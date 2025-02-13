@@ -23,6 +23,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.animateColorAsState
@@ -114,6 +115,12 @@ fun NpsRoute(
     onClose: () -> Unit
 ) {
     val activityViewModel: NpsViewModel = hiltViewModel()
+    val dismissNps = {
+        activityViewModel.dismissNps()
+        onClose()
+    }
+
+    BackHandler(onBack = dismissNps)
     Surface(
         modifier = Modifier
             .padding(WindowInsets.navigationBars.asPaddingValues())
@@ -121,9 +128,7 @@ fun NpsRoute(
     ) {
         val context = LocalContext.current
         RateMeScreen(
-            onClose = {
-                onClose()
-            },
+            onClose = dismissNps,
             onSubmit = { score, comment ->
                 activityViewModel.postNps(score, comment)
                 Toast.makeText(
