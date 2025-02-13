@@ -162,7 +162,7 @@ class WireguardBackend @Inject constructor(
         }
     }
 
-    private suspend fun startMonitoringJob() {
+    private fun startMonitoringJob() {
         monitoringJob = mainScope.launch(dispatcherProvider.infiniteIo) {
             ProtonLogger.logCustom(LogCategory.CONN_WIREGUARD, "start monitoring job")
             val networkJob = launch(dispatcherProvider.Main) {
