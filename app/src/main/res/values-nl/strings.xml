@@ -191,7 +191,7 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Als Proton geblokkeerd is, laat de app dan alternatieve paden proberen om de Protonservers te bereiken. <a href="%1$s">Meer leren</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Blokkade door overheidsinstanties</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Uw land kan de toegang tot Proton geblokkeerd hebben. Probeer <a href=\'%1$s\'>Tor</a> om Proton te raadplegen.]]></string>
-    <string name="settingsKillSwitchEnableTitle">Hoe kill-switch activeren</string>
+    <string name="settingsKillSwitchEnableTitle">Hoe de kill switch in te schakelen</string>
     <string name="settingsKillSwitchEnableStep1">1. Open uw apparaatinstellingen</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Zoek Proton VPN en tik op %1$s</string>
@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">instellingen</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Schakel \'<b>Altijd-actieve VPN</b> in en \'<b>Blokkeer verbindingen zonder VPN</b> \']]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Schakel \"<b>Altijd-aan VPN</b>\" in en \"<b>Blokkeer verbindingen zonder VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Instellingen</string>
     <string name="settingsKillSwitchLearnMoreButton">Wat is een kill switch?</string>
     <string name="settingsKillSwitchWarningMain">Wanneer de kill switch is ingeschakeld, kan u geen verbinding maken met:</string>

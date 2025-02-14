@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">ajustes</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activa «<b>VPN siempre activa</b>» y «<b>Bloquear conexiones sin VPN</b>»]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Ajustes</string>
     <string name="settingsKillSwitchLearnMoreButton">¿Qué es el interruptor de bloqueo?</string>
     <string name="settingsKillSwitchWarningMain">Cuando el interruptor de bloqueo está activo, no podrás conectarte a:</string>

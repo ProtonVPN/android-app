@@ -44,7 +44,7 @@
     <string name="loaderDisconnecting">Bağlantı kesiliyor</string>
     <string name="loaderReconnecting">Yeniden bağlanılıyor</string>
     <string name="loaderReconnectNoNetwork">Kullanılabilecek ağ bekleniyor</string>
-    <string name="loaderCheckingAvailability">Sunucunun uygunluğu denetleniyor</string>
+    <string name="loaderCheckingAvailability">Sunucunun kullanılabilirliği denetleniyor</string>
     <string name="quickConnect">Hızlı bağlan</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
@@ -187,7 +187,7 @@
     <string name="troubleshootProtonDownDescription"><![CDATA[Sistemimizin durumunu görmek için <a href=\"%1$s\">Proton durumunu</a> sayfasına bakın.]]></string>
     <string name="troubleshootContactUsSectionTitle">Hala yardım gerekiyor mu? Doğrudan bizimle görüşün</string>
     <string name="troubleshootCustomerSupport">Müşteri desteği</string>
-    <string name="settingsAllowAlternativeRoutingTitle">Alternatif yöneltme</string>
+    <string name="settingsAllowAlternativeRoutingTitle">Alternatif yönlendirme</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton erişimi engelleniyorsa, uygulamanın Proton sunucularına erişmesi için alternatif yollar kullanmasını sağlar. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hükümet engellemesi</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton ağına erişimi engelliyor olabilir. Proton ağına erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">ayarlar</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. "<b>Her zaman açık VPN</b>" ve "<b>VPN olmadan bağlantılar engellensin</b>" seçeneklerini açın]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. \"<b>Her zaman açık VPN</b>\" ve \"<b>VPN olmadan bağlantılar engellensin</b>\" seçeneklerini açın]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Ayarlar</string>
     <string name="settingsKillSwitchLearnMoreButton">Bağlantı kesici nedir?</string>
     <string name="settingsKillSwitchWarningMain">Bağlantı kesici açıkken şunlarla bağlantı kuramazsınız:</string>
@@ -1298,8 +1298,8 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Hesabım</string>
     <string name="settings_account_button_delete_account">Hesabı sil</string>
-    <string name="settings_advanced_alternative_routing_title">Alternatif yöneltme</string>
-    <string name="settings_advanced_alternative_routing_description">Ağ kısıtlamaları nedeniyle Proton hizmetleri engelleniyorsa sitelerimize bağlanmanız için alternatif ağ yöneltmesini kullanmayı deneriz.</string>
+    <string name="settings_advanced_alternative_routing_title">Alternatif yönlendirme</string>
+    <string name="settings_advanced_alternative_routing_description">Proton hizmetleri ağ kısıtlamaları nedeniyle engellenirse sizi sitelerimize bağlamak için alternatif ağ yönlendirmesi kullanmayı deneyeceğiz.</string>
     <string name="settings_advanced_allow_lan_title">Yerel ağ bağlantıları</string>
     <string name="settings_advanced_allow_lan_description">Aygıtınızın aynı yerel ağda bulunan yazıcı, hoparlör gibi diğer aygıtlara bağlanmasını sağlar.</string>
     <string name="settings_advanced_nat_type_title">NAT Type</string>

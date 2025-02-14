@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">მორგება</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. ჩართეთ "<b>ყოველთვის ჩართული VPN</b>" და"\'<b>VPN-ის გარეშე კავშირის აკრძალვა</b>"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">მორგება</string>
     <string name="settingsKillSwitchLearnMoreButton">სადაა Kill switch?</string>
     <string name="settingsKillSwitchWarningMain">როცა Kill switch ჩართულია, თქვენ ვერ დაუკავშირდებით:</string>

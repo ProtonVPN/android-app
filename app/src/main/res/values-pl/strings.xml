@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">settings</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable "<b>Always-on VPN</b>" and "<b>Block connections without VPN</b>"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Settings</string>
     <string name="settingsKillSwitchLearnMoreButton">What is kill switch?</string>
     <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
@@ -705,7 +705,7 @@
     <string name="not_wanted_country_title">Chcesz wybrać inny kraj?</string>
     <string name="not_wanted_country_description">Ulepsz plan, aby wybrać inny serwer</string>
     <string name="whats_new_title">Co nowego</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
+    <string name="whats_new_profiles_title">Profile powróciły</string>
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
     <string name="whats_new_widget_title">Przedstawiamy widżety</string>
     <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
