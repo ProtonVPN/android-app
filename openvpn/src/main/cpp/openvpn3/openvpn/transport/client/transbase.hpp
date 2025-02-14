@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Abstract base classes for client transport objects that implement UDP, TCP,
 // HTTP Proxy, etc.
@@ -36,6 +26,7 @@
 #include <openvpn/error/error.hpp>
 #include <openvpn/crypto/cryptodc.hpp>
 #include <openvpn/transport/protocol.hpp>
+#include <openvpn/common/options.hpp>
 
 namespace openvpn {
 struct TransportClientParent;
@@ -52,14 +43,14 @@ struct TransportClient : public virtual RC<thread_unsafe_refcount>
     virtual bool transport_send_queue_empty() = 0;
     virtual bool transport_has_send_queue() = 0;
     virtual void transport_stop_requeueing() = 0;
-    virtual unsigned int transport_send_queue_size() = 0;
+    virtual size_t transport_send_queue_size() = 0;
     virtual void reset_align_adjust(const size_t align_adjust) = 0;
     virtual IP::Addr server_endpoint_addr() const = 0;
     virtual unsigned short server_endpoint_port() const
     {
         return 0;
     }
-    virtual int native_handle()
+    virtual openvpn_io::detail::socket_type native_handle()
     {
         return 0;
     }
@@ -102,9 +93,7 @@ struct TransportClientParent
                                    unsigned int &keepalive_timeout) = 0;
     // clang-format on
 
-    virtual ~TransportClientParent()
-    {
-    }
+    virtual ~TransportClientParent() = default;
 };
 
 // Factory for client transport object.

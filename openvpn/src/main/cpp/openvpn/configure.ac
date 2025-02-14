@@ -4,7 +4,7 @@ dnl             session authentication and key exchange,
 dnl             packet encryption, packet authentication, and
 dnl             packet compression.
 dnl
-dnl  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+dnl  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
 dnl  Copyright (C) 2006-2012 Alon Bar-Lev <alon.barlev@gmail.com>
 dnl
 dnl  This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@ dnl  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 dnl Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)
+AC_PREREQ(2.60)
 
 m4_include(version.m4)
 AC_INIT([PRODUCT_NAME], [PRODUCT_VERSION], [PRODUCT_BUGREPORT], [PRODUCT_TARNAME])
@@ -41,20 +41,6 @@ AC_CONFIG_HEADERS([config.h include/openvpn-plugin.h])
 AC_CONFIG_SRCDIR([src/openvpn/syshead.h])
 AC_CONFIG_MACRO_DIR([m4])
 
-dnl Initialize automake.  automake < 1.12 didn't have serial-tests and
-dnl gives an error if it sees this, but for automake >= 1.13
-dnl serial-tests is required so we have to include it.  Solution is to
-dnl test for the version of automake (by running an external command)
-dnl and provide it if necessary.  Note we have to do this entirely using
-dnl m4 macros since automake queries this macro by running
-dnl 'autoconf --trace ...'.
-m4_define([serial_tests], [
-    m4_esyscmd([automake --version |
-                head -1 |
-                awk '{split ($NF,a,"."); if (a[1] == 1 && a[2] >= 12) { print "serial-tests" }}'
-    ])
-])
-
 dnl Automake 1.14+ warns if sources are in sub-directories but subdir-objects
 dnl options is not enabled. However, automake before 1.15a has a bug that causes
 dnl variable expansion to fail in foo_SOURCES when this option is used.
@@ -69,7 +55,8 @@ m4_define([subdir_objects], [
 
 # This foreign option prevents autoreconf from overriding our COPYING and
 # INSTALL targets:
-AM_INIT_AUTOMAKE(foreign serial_tests subdir_objects 1.9) dnl NB: Do not [quote] this parameter.
+AM_INIT_AUTOMAKE(foreign subdir_objects 1.9) dnl NB: Do not [quote] this parameter.
+AM_SILENT_RULES([yes])
 AC_CANONICAL_HOST
 AC_USE_SYSTEM_EXTENSIONS
 
@@ -106,6 +93,13 @@ AC_ARG_ENABLE(
 	[AS_HELP_STRING([--enable-x509-alt-username], [enable the --x509-username-field feature @<:@default=no@:>@])],
 	,
 	[enable_x509_alt_username="no"]
+)
+
+AC_ARG_ENABLE(
+	[ntlm],
+	[AS_HELP_STRING([--disable-ntlm], [disable NTLMv2 proxy support @<:@default=yes@:>@])],
+	,
+	[enable_ntlm="yes"]
 )
 
 AC_ARG_ENABLE(
@@ -329,6 +323,7 @@ case "$host" in
 		AM_CONDITIONAL([TARGET_LINUX], [true])
 		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["L"], [Target prefix])
 		have_sitnl="yes"
+		pkg_config_required="yes"
 		;;
 	*-*-solaris*)
 		AC_DEFINE([TARGET_SOLARIS], [1], [Are we running on Solaris?])
@@ -373,6 +368,11 @@ case "$host" in
 		have_tap_header="yes"
 		ac_cv_header_net_if_h="no"	# exists, but breaks things
 		;;
+	*-*-haiku*)
+		AC_DEFINE([TARGET_HAIKU], [1], [Are we running Haiku?])
+		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["H"], [Target prefix])
+		LIBS="${LIBS} -lnetwork"
+		;;
 	*)
 		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["X"], [Target prefix])
 		have_tap_header="yes"
@@ -382,6 +382,17 @@ esac
 AM_CONDITIONAL([CROSS_COMPILING], test "${cross_compiling}" = "yes")
 
 PKG_PROG_PKG_CONFIG
+# Add variable to print if pkg-config is found or not. Users often miss that
+if test "${PKG_CONFIG}" = ""; then
+	if test "${pkg_config_required}" = "yes"; then
+		AC_MSG_ERROR([pkg-config is required])
+	fi
+	pkg_config_found="(not found)"
+else
+	pkg_config_found="(${PKG_CONFIG})"
+fi
+
+AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -416,10 +427,10 @@ AC_CHECK_PROGS([RST2MAN], [rst2man rst2man.py])
 AC_CHECK_PROGS([RST2HTML], [rst2html rst2html.py])
 AM_CONDITIONAL([HAVE_PYDOCUTILS], [test "${RST2MAN}" -a "${RST2HTML}"])
 
-# Set -std=c99 unless user already specified a -std=
+# Set -std=c11 unless user already specified a -std=
 case "${CFLAGS}" in
   *-std=*) ;;
-  *)       CFLAGS="${CFLAGS} -std=c99" ;;
+  *)       CFLAGS="${CFLAGS} -std=c11" ;;
 esac
 
 #
@@ -438,14 +449,11 @@ ifdef(
 	]
 )
 
-AC_C_CONST
 AC_C_INLINE
-AC_C_VOLATILE
 AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_UID_T
-AC_TYPE_SIGNAL
 AX_TYPE_SOCKLEN_T
 AC_CHECK_SIZEOF([unsigned int])
 AC_CHECK_SIZEOF([unsigned long])
@@ -455,7 +463,6 @@ AC_CHECK_HEADERS([ \
 	unistd.h dlfcn.h \
 	netinet/in.h \
 	netinet/tcp.h arpa/inet.h netdb.h \
-	versionhelpers.h \
 ])
 AC_CHECK_HEADERS([ \
 	sys/time.h sys/ioctl.h sys/stat.h \
@@ -495,7 +502,7 @@ SOCKET_INCLUDES="
 "
 
 AC_CHECK_HEADERS(
-	[net/if.h netinet/ip.h resolv.h sys/un.h net/if_utun.h sys/kern_control.h],
+	[net/if.h netinet/ip.h resolv.h sys/un.h sys/kern_control.h],
 	,
 	,
 	[[${SOCKET_INCLUDES}]]
@@ -560,28 +567,6 @@ AC_CHECK_DECLS(
 	,
 	,
 	[[${SOCKET_INCLUDES}]]
-)
-AC_MSG_CHECKING([anonymous union support])
-AC_COMPILE_IFELSE(
-	[AC_LANG_PROGRAM(
-		[[
-			struct mystruct {
-			  union {
-			    int m1;
-			    char m2;
-			  };
-			};
-		]],
-		[[
-			struct mystruct s;
-			s.m1 = 1; s.m2 = 2;
-		]]
-	)],
-	[
-		AC_MSG_RESULT([yes])
-		AC_DEFINE([HAVE_ANONYMOUS_UNION_SUPPORT], [], [Compiler supports anonymous unions])
-	],
-	[AC_MSG_RESULT([no])]
 )
 
 saved_LDFLAGS="$LDFLAGS"
@@ -655,7 +640,7 @@ AC_FUNC_FORK
 AC_CHECK_FUNCS([ \
 	daemon chroot getpwnam setuid nice system dup dup2 \
 	syslog openlog mlockall getrlimit getgrnam setgid \
-	setgroups flock readv writev time gettimeofday \
+	setgroups flock time gettimeofday \
 	setsid chdir \
 	chsize ftruncate execve getpeereid basename dirname access \
 	epoll_create strsep \
@@ -818,11 +803,11 @@ if test "$enable_dco" != "no"; then
 					  [libnl-genl-3.0 >= 3.4.0],
 					  [have_libnl="yes"],
 					  [
-					   AC_MSG_ERROR([libnl-genl-3.0 package not found or too old. Is the development package and pkg-config installed? Must be version 3.4.0 or newer for DCO])
+					   AC_MSG_ERROR([libnl-genl-3.0 package not found or too old. Is the development package and pkg-config ${pkg_config_found} installed? Must be version 3.4.0 or newer for DCO])
 					  ]
 				)
-				CFLAGS="${CFLAGS} ${LIBNL_GENL_CFLAGS}"
-				LIBS="${LIBS} ${LIBNL_GENL_LIBS}"
+				OPTIONAL_LIBNL_GENL_CFLAGS="${LIBNL_GENL_CFLAGS}"
+				OPTIONAL_LIBNL_GENL_LIBS="${LIBNL_GENL_LIBS}"
 
 				AC_DEFINE(ENABLE_DCO, 1, [Enable shared data channel offload])
 				AC_MSG_NOTICE([Enabled ovpn-dco support for Linux])
@@ -865,12 +850,12 @@ case "$host" in
 		PKG_CHECK_MODULES([LIBCAPNG],
 				  [libcap-ng],
 				  [],
-				  [AC_MSG_ERROR([libcap-ng package not found. Is the development package and pkg-config installed?])]
+				  [AC_MSG_ERROR([libcap-ng package not found. Is the development package and pkg-config ${pkg_config_found} installed?])]
 		)
 		AC_CHECK_HEADER([sys/prctl.h],,[AC_MSG_ERROR([sys/prctl.h not found!])])
 
-		CFLAGS="${CFLAGS} ${LIBCAPNG_CFALGS}"
-		LIBS="${LIBS} ${LIBCAPNG_LIBS}"
+		OPTIONAL_LIBCAPNG_CFLAGS="${LIBCAPNG_CFLAGS}"
+		OPTIONAL_LIBCAPNG_LIBS="${LIBCAPNG_LIBS}"
 		AC_DEFINE(HAVE_LIBCAPNG, 1, [Enable libcap-ng support])
 	;;
 esac
@@ -884,9 +869,9 @@ if test "${with_crypto_library}" = "openssl"; then
 		# if the user did not explicitly specify flags, try to autodetect
 		PKG_CHECK_MODULES(
 			[OPENSSL],
-			[openssl >= 1.0.2],
+			[openssl >= 1.1.0],
 			[have_openssl="yes"],
-			[] # If this fails, we will do another test next
+			[AC_MSG_WARN([OpenSSL not found by pkg-config ${pkg_config_found}])] # If this fails, we will do another test next
 		)
 		OPENSSL_LIBS=${OPENSSL_LIBS:--lssl -lcrypto}
 	fi
@@ -899,7 +884,7 @@ if test "${with_crypto_library}" = "openssl"; then
 	# If pkgconfig check failed or OPENSSL_CFLAGS/OPENSSL_LIBS env vars
 	# are used, check the version directly in the OpenSSL include file
 	if test "${have_openssl}" != "yes"; then
-		AC_MSG_CHECKING([additionally if OpenSSL is available and version >= 1.0.2])
+		AC_MSG_CHECKING([additionally if OpenSSL is available and version >= 1.1.0])
 		AC_COMPILE_IFELSE(
 			[AC_LANG_PROGRAM(
 				[[
@@ -907,7 +892,7 @@ if test "${with_crypto_library}" = "openssl"; then
 				]],
 				[[
 /*	     Version encoding: MNNFFPPS - see opensslv.h for details */
-#if OPENSSL_VERSION_NUMBER < 0x10002000L
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 #error OpenSSL too old
 #endif
 				]]
@@ -927,11 +912,17 @@ if test "${with_crypto_library}" = "openssl"; then
 				    [AC_LANG_PROGRAM(
 					    [[
 	    #include <openssl/opensslv.h>
+	    #include <openssl/opensslconf.h>
 					    ]],
 					    [[
 	    /*	     Version encoding: MNNFFPPS - see opensslv.h for details */
 	    #if OPENSSL_VERSION_NUMBER >= 0x30000000L
-	    #error Engine supported disabled by default in OpenSSL 3.0+
+	    #error Engine support disabled by default in OpenSSL 3.0+
+	    #endif
+
+	    /*	     BoringSSL and LibreSSL >= 3.8.1 removed engine support */
+	    #ifdef OPENSSL_NO_ENGINE
+	    #error Engine support disabled in openssl/opensslconf.h
 	    #endif
 					    ]]
 				    )],
@@ -971,7 +962,7 @@ if test "${with_crypto_library}" = "openssl"; then
 		[AC_MSG_ERROR([OpenSSL check for AES-256-GCM support failed])]
 	)
 
-	# All supported OpenSSL version (>= 1.0.2)
+	# All supported OpenSSL versions (>= 1.1.0)
 	# have this feature
 	have_export_keying_material="yes"
 
@@ -990,14 +981,21 @@ elif test "${with_crypto_library}" = "mbedtls"; then
 
 	if test -z "${MBEDTLS_CFLAGS}" -a -z "${MBEDTLS_LIBS}"; then
 		# if the user did not explicitly specify flags, try to autodetect
-		LIBS="${LIBS} -lmbedtls -lmbedx509 -lmbedcrypto"
-		AC_CHECK_LIB(
-			[mbedtls],
-			[mbedtls_ssl_init],
-			[MBEDTLS_LIBS="-lmbedtls -lmbedx509 -lmbedcrypto"],
-			[AC_MSG_ERROR([Could not find mbed TLS.])],
-			[${PKCS11_HELPER_LIBS}]
+		PKG_CHECK_MODULES([MBEDTLS],
+			[mbedtls >= 2.0.0 mbedx509 >= 2.0.0 mbedcrypto >= 2.0.0],
+			[have_mbedtls="yes"],
+			[LIBS="${LIBS} -lmbedtls -lmbedx509 -lmbedcrypto"]
 		)
+		# mbedtls might not have pkgconfig integration, so try manually
+                if test "${have_mbedtls}" != "yes"; then
+			AC_CHECK_LIB(
+				[mbedtls],
+				[mbedtls_ssl_init],
+				[MBEDTLS_LIBS="-lmbedtls -lmbedx509 -lmbedcrypto"],
+				[AC_MSG_ERROR([Could not find mbed TLS.])],
+				[${PKCS11_HELPER_LIBS}]
+			)
+		fi
 	fi
 
 	CFLAGS="${MBEDTLS_CFLAGS} ${PKCS11_HELPER_CFLAGS} ${CFLAGS}"
@@ -1010,13 +1008,19 @@ elif test "${with_crypto_library}" = "mbedtls"; then
 #include <mbedtls/version.h>
 			]],
 			[[
-#if MBEDTLS_VERSION_NUMBER < 0x02000000 || MBEDTLS_VERSION_NUMBER >= 0x03000000
+#if MBEDTLS_VERSION_NUMBER < 0x02000000 || (MBEDTLS_VERSION_NUMBER >= 0x03000000 && MBEDTLS_VERSION_NUMBER < 0x03020100)
 #error invalid version
 #endif
 			]]
 		)],
 		[AC_MSG_RESULT([ok])],
-		[AC_MSG_ERROR([mbed TLS 2.y.z required])]
+		[AC_MSG_ERROR([mbed TLS version >= 2.0.0 or >= 3.2.1 required])]
+	)
+
+	AC_CHECK_HEADER(
+		psa/crypto.h,
+		[AC_DEFINE([HAVE_MBEDTLS_PSA_CRYPTO_H], [1], [yes])],
+		[AC_DEFINE([HAVE_MBEDTLS_PSA_CRYPTO_H], [0], [no])]
 	)
 
 	AC_CHECK_FUNCS(
@@ -1028,16 +1032,32 @@ elif test "${with_crypto_library}" = "mbedtls"; then
 		[AC_MSG_ERROR([mbed TLS check for AEAD support failed])]
 	)
 
+	AC_CHECK_FUNC(
+		[mbedtls_ssl_tls_prf],
+		[AC_DEFINE([HAVE_MBEDTLS_SSL_TLS_PRF], [1], [yes])],
+		[AC_DEFINE([HAVE_MBEDTLS_SSL_TLS_PRF], [0], [no])]
+	)
+
 	have_export_keying_material="yes"
 	AC_CHECK_FUNC(
 		[mbedtls_ssl_conf_export_keys_ext_cb],
-		,
-		[have_export_keying_material="no"]
+		[AC_DEFINE([HAVE_MBEDTLS_SSL_CONF_EXPORT_KEYS_EXT_CB], [1], [yes])],
+		[AC_DEFINE([HAVE_MBEDTLS_SSL_CONF_EXPORT_KEYS_EXT_CB], [0], [no])]
 	)
+	if test "x$ac_cv_func_mbedtls_ssl_conf_export_keys_ext_cb" != xyes; then
+		AC_CHECK_FUNC(
+			[mbedtls_ssl_set_export_keys_cb],
+			[AC_DEFINE([HAVE_MBEDTLS_SSL_SET_EXPORT_KEYS_CB], [1], [yes])],
+			[AC_DEFINE([HAVE_MBEDTLS_SSL_SET_EXPORT_KEYS_CB], [0], [no])]
+		)
+		if test "x$ac_cv_func_mbedtls_ssl_set_export_keys_cb" != xyes; then
+			have_export_keying_material="no"
+		fi
+	fi
 
 	AC_CHECK_FUNC(
 		[mbedtls_ctr_drbg_update_ret],
-		AC_DEFINE([HAVE_CTR_DRBG_UPDATE_RET], [1],
+		AC_DEFINE([HAVE_MBEDTLS_CTR_DRBG_UPDATE_RET], [1],
 			  [Use mbedtls_ctr_drbg_update_ret from mbed TLS]),
 	)
 
@@ -1049,9 +1069,8 @@ elif test "${with_crypto_library}" = "mbedtls"; then
 
 elif test "${with_crypto_library}" = "wolfssl"; then
 	AC_ARG_VAR([WOLFSSL_CFLAGS], [C compiler flags for wolfssl. The include directory should
-								  contain the regular wolfSSL header files but also the
-								  wolfSSL OpenSSL header files. Ex: -I/usr/local/include
-								  -I/usr/local/include/wolfssl])
+ contain the regular wolfSSL header files but also the wolfSSL OpenSSL header files.
+ Ex: -I/usr/local/include -I/usr/local/include/wolfssl])
 	AC_ARG_VAR([WOLFSSL_LIBS], [linker flags for wolfssl])
 
 	saved_CFLAGS="${CFLAGS}"
@@ -1063,7 +1082,7 @@ elif test "${with_crypto_library}" = "wolfssl"; then
 			[WOLFSSL],
 			[wolfssl],
 			[],
-			[AC_MSG_ERROR([Could not find wolfSSL.])]
+			[AC_MSG_ERROR([Could not find wolfSSL using pkg-config ${pkg_config_found}])]
 		)
 		PKG_CHECK_VAR(
 			[WOLFSSL_INCLUDEDIR],
@@ -1111,8 +1130,17 @@ fi
 
 AC_ARG_VAR([LZO_CFLAGS], [C compiler flags for lzo])
 AC_ARG_VAR([LZO_LIBS], [linker flags for lzo])
-have_lzo="yes"
-if test -z "${LZO_LIBS}"; then
+if test -z "${LZO_CFLAGS}" -a -z "${LZO_LIBS}"; then
+    # if the user did not explicitly specify flags, try to autodetect
+    PKG_CHECK_MODULES([LZO],
+		[lzo2],
+		[have_lzo="yes"],
+		[]
+    )
+
+    if test "${have_lzo}" != "yes"; then
+	# try to detect without pkg-config
+	have_lzo="yes"
 	AC_CHECK_LIB(
 		[lzo2],
 		[lzo1x_1_15_compress],
@@ -1124,27 +1152,25 @@ if test -z "${LZO_LIBS}"; then
 			[have_lzo="no"]
 		)]
 	)
+    fi
+else
+    # assume the user configured it correctly
+    have_lzo="yes"
 fi
 if test "${have_lzo}" = "yes"; then
 	saved_CFLAGS="${CFLAGS}"
 	CFLAGS="${CFLAGS} ${LZO_CFLAGS}"
-	AC_CHECK_HEADERS(
-		[lzo/lzoutil.h],
-		,
-		[AC_CHECK_HEADERS(
-			[lzoutil.h],
-			,
-			[AC_MSG_ERROR([lzoutil.h is missing])]
-		)]
-	)
 	AC_CHECK_HEADERS(
 		[lzo/lzo1x.h],
 		,
 		[AC_CHECK_HEADERS(
 			[lzo1x.h],
 			,
-			[AC_MSG_ERROR([lzo1x.h is missing])]
-		)]
+			[AC_MSG_ERROR([lzo1x.h is missing])],
+                        [#include <limits.h>
+                         #include <lzodefs.h>
+                         #include <lzoconf.h>]
+		)],
 	)
 	CFLAGS="${saved_CFLAGS}"
 fi
@@ -1235,7 +1261,7 @@ if test "$enable_systemd" = "yes" ; then
                       [PKG_CHECK_MODULES([libsystemd], [libsystemd-daemon])]
                       )
 
-    PKG_CHECK_EXISTS( [libsystemd > 216],
+    PKG_CHECK_EXISTS([libsystemd > 216],
                      [AC_DEFINE([SYSTEMD_NEWER_THAN_216], [1],
                            [systemd is newer than v216])]
                     )
@@ -1269,9 +1295,11 @@ fi
 
 AC_MSG_CHECKING([git checkout])
 GIT_CHECKOUT="no"
-if test -n "${GIT}" -a -d "${srcdir}/.git"; then
-	AC_DEFINE([HAVE_CONFIG_VERSION_H], [1], [extra version available in config-version.h])
-	GIT_CHECKOUT="yes"
+if test -n "${GIT}"; then
+	if ${GIT} -C "$srcdir" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		AC_DEFINE([HAVE_CONFIG_VERSION_H], [1], [extra version available in config-version.h])
+		GIT_CHECKOUT="yes"
+	fi
 fi
 AC_MSG_RESULT([${GIT_CHECKOUT}])
 
@@ -1290,6 +1318,7 @@ test "${enable_small}" = "yes" && AC_DEFINE([ENABLE_SMALL], [1], [Enable smaller
 test "${enable_fragment}" = "yes" && AC_DEFINE([ENABLE_FRAGMENT], [1], [Enable internal fragmentation support])
 test "${enable_port_share}" = "yes" && AC_DEFINE([ENABLE_PORT_SHARE], [1], [Enable TCP Server port sharing])
 
+test "${enable_ntlm}" = "yes" && AC_DEFINE([ENABLE_NTLM], [1], [Enable NTLMv2 proxy support])
 test "${enable_crypto_ofb_cfb}" = "yes" && AC_DEFINE([ENABLE_OFB_CFB_MODE], [1], [Enable OFB and CFB cipher modes])
 if test "${have_export_keying_material}" = "yes"; then
 	AC_DEFINE(
@@ -1374,7 +1403,7 @@ fi
 
 # When testing a compiler option, we add -Werror to force
 # an error when the option is unsupported. This is not
-# required for gcc, but some compilers such as clang needs it.
+# required for gcc, but some compilers such as clang need it.
 AC_DEFUN([ACL_CHECK_ADD_COMPILE_FLAGS], [
     old_cflags="$CFLAGS"
     CFLAGS="$1 -Werror $CFLAGS"
@@ -1384,6 +1413,8 @@ AC_DEFUN([ACL_CHECK_ADD_COMPILE_FLAGS], [
 )
 
 ACL_CHECK_ADD_COMPILE_FLAGS([-Wno-stringop-truncation])
+ACL_CHECK_ADD_COMPILE_FLAGS([-Wstrict-prototypes])
+ACL_CHECK_ADD_COMPILE_FLAGS([-Wold-style-definition])
 ACL_CHECK_ADD_COMPILE_FLAGS([-Wall])
 
 if test "${enable_pedantic}" = "yes"; then
@@ -1448,6 +1479,10 @@ AC_SUBST([OPTIONAL_DL_LIBS])
 AC_SUBST([OPTIONAL_SELINUX_LIBS])
 AC_SUBST([OPTIONAL_CRYPTO_CFLAGS])
 AC_SUBST([OPTIONAL_CRYPTO_LIBS])
+AC_SUBST([OPTIONAL_LIBCAPNG_CFLAGS])
+AC_SUBST([OPTIONAL_LIBCAPNG_LIBS])
+AC_SUBST([OPTIONAL_LIBNL_GENL_CFLAGS])
+AC_SUBST([OPTIONAL_LIBNL_GENL_LIBS])
 AC_SUBST([OPTIONAL_LZO_CFLAGS])
 AC_SUBST([OPTIONAL_LZO_LIBS])
 AC_SUBST([OPTIONAL_LZ4_CFLAGS])
@@ -1487,15 +1522,16 @@ AC_ARG_ENABLE(
 PKG_CHECK_MODULES(
 	[CMOCKA], [cmocka],
 	[have_cmocka="yes"],
-	[AC_MSG_WARN([cmocka.pc not found on the system.  Unit tests disabled])]
+	[AC_MSG_WARN([cmocka.pc not found on the system using pkg-config ${pkg_config_found}.  Unit tests disabled])]
 )
 AM_CONDITIONAL([ENABLE_UNITTESTS], [test "${enable_unit_tests}" = "yes" -a "${have_cmocka}" = "yes" ])
 AC_SUBST([ENABLE_UNITTESTS])
 
-TEST_LDFLAGS="${OPTIONAL_CRYPTO_LIBS} ${OPTIONAL_PKCS11_HELPER_LIBS}"
+TEST_LDFLAGS="${OPTIONAL_CRYPTO_LIBS} ${OPTIONAL_PKCS11_HELPER_LIBS} ${OPTIONAL_LIBCAPNG_LIBS}"
+TEST_LDFLAGS="${TEST_LDFLAGS} ${OPTIONAL_LIBNL_GENL_LIBS}"
 TEST_LDFLAGS="${TEST_LDFLAGS} ${OPTIONAL_LZO_LIBS} ${CMOCKA_LIBS}"
-TEST_CFLAGS="${OPTIONAL_CRYPTO_CFLAGS} ${OPTIONAL_PKCS11_HELPER_CFLAGS}"
-TEST_CFLAGS="${TEST_CFLAGS} ${OPTIONAL_LZO_CFLAGS}"
+TEST_CFLAGS="${OPTIONAL_CRYPTO_CFLAGS} ${OPTIONAL_PKCS11_HELPER_CFLAGS} ${OPTIONAL_LIBCAPNG_CFLAGS}"
+TEST_CFLAGS="${TEST_CFLAGS} ${OPTIONAL_LIBNL_GENL_CFLAGS} ${OPTIONAL_LZO_CFLAGS}"
 TEST_CFLAGS="${TEST_CFLAGS} -I\$(top_srcdir)/include ${CMOCKA_CFLAGS}"
 
 AC_SUBST([TEST_LDFLAGS])
@@ -1503,9 +1539,6 @@ AC_SUBST([TEST_CFLAGS])
 
 AC_CONFIG_FILES([
 	Makefile
-	build/Makefile
-	build/msvc/Makefile
-	build/msvc/msvc-generate/Makefile
 	distro/Makefile
 	distro/systemd/Makefile
 	doc/Makefile
@@ -1528,7 +1561,6 @@ AC_CONFIG_FILES([
         tests/unit_tests/openvpn/Makefile
         tests/unit_tests/plugins/Makefile
         tests/unit_tests/plugins/auth-pam/Makefile
-	tests/unit_tests/engine-key/Makefile
 	sample/Makefile
 ])
 AC_CONFIG_FILES([tests/t_client.sh], [chmod +x tests/t_client.sh])

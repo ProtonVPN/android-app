@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // A class that handles statistics tracking in an OpenVPN session
 
@@ -38,6 +28,7 @@ class SessionStats : public RC<thread_safe_refcount>
 {
   public:
     typedef RCPtr<SessionStats> Ptr;
+    using inc_callback_t = std::function<void(const count_t value)>;
 
     enum Stats
     {
@@ -77,7 +68,11 @@ class SessionStats : public RC<thread_safe_refcount>
         inc_stat(const size_t type, const count_t value)
     {
         if (type < N_STATS)
+        {
             stats_[type] += value;
+            if (auto lock = inc_callbacks_[type].lock())
+                std::invoke(*lock, value);
+        }
     }
 
     count_t get_stat(const size_t type) const
@@ -133,6 +128,11 @@ class SessionStats : public RC<thread_safe_refcount>
             count_t tun_bytes_in = 0;
             count_t tun_bytes_out = 0;
 
+            count_t transport_pkts_in = 0;
+            count_t transport_pkts_out = 0;
+            count_t tun_pkts_in = 0;
+            count_t tun_pkts_out = 0;
+
             Data() = default;
 
             Data(count_t transport_bytes_in_arg, count_t transport_bytes_out_arg)
@@ -148,6 +148,26 @@ class SessionStats : public RC<thread_safe_refcount>
             {
             }
 
+            Data(count_t transport_bytes_in_arg,
+                 count_t transport_bytes_out_arg,
+                 count_t tun_bytes_in_arg,
+                 count_t tun_bytes_out_arg,
+                 count_t transport_pkts_in_arg,
+                 count_t transport_pkts_out_arg,
+                 count_t tun_pkts_in_arg,
+                 count_t tun_pkts_out_arg)
+
+                : transport_bytes_in(transport_bytes_in_arg),
+                  transport_bytes_out(transport_bytes_out_arg),
+                  tun_bytes_in(tun_bytes_in_arg),
+                  tun_bytes_out(tun_bytes_out_arg),
+                  transport_pkts_in(transport_pkts_in_arg),
+                  transport_pkts_out(transport_pkts_out_arg),
+                  tun_pkts_in(tun_pkts_in_arg),
+                  tun_pkts_out(tun_pkts_out_arg)
+            {
+            }
+
             Data operator-(const Data &rhs) const
             {
                 Data data;
@@ -159,6 +179,14 @@ class SessionStats : public RC<thread_safe_refcount>
                     data.tun_bytes_in = tun_bytes_in - rhs.tun_bytes_in;
                 if (tun_bytes_out > rhs.tun_bytes_out)
                     data.tun_bytes_out = tun_bytes_out - rhs.tun_bytes_out;
+                if (transport_pkts_in > rhs.transport_pkts_in)
+                    data.transport_pkts_in = transport_pkts_in - rhs.transport_pkts_in;
+                if (transport_pkts_out > rhs.transport_pkts_out)
+                    data.transport_pkts_out = transport_pkts_out - rhs.transport_pkts_out;
+                if (tun_pkts_in > rhs.tun_pkts_in)
+                    data.tun_pkts_in = tun_pkts_in - rhs.tun_pkts_in;
+                if (tun_pkts_out > rhs.tun_pkts_out)
+                    data.tun_pkts_out = tun_pkts_out - rhs.tun_pkts_out;
                 return data;
             }
         };
@@ -171,16 +199,46 @@ class SessionStats : public RC<thread_safe_refcount>
         dco_.reset(source);
     }
 
-    void dco_update()
+    bool dco_update()
     {
         if (dco_)
         {
             const DCOTransportSource::Data data = dco_->dco_transport_stats_delta();
+
+            if (data.transport_bytes_in > 0)
+            {
+                update_last_packet_received(Time::now());
+            }
+
             stats_[BYTES_IN] += data.transport_bytes_in;
             stats_[BYTES_OUT] += data.transport_bytes_out;
             stats_[TUN_BYTES_IN] += data.tun_bytes_in;
             stats_[TUN_BYTES_OUT] += data.tun_bytes_out;
+            stats_[PACKETS_IN] += data.transport_pkts_in;
+            stats_[PACKETS_OUT] += data.transport_pkts_out;
+            stats_[TUN_PACKETS_IN] += data.tun_pkts_in;
+            stats_[TUN_PACKETS_OUT] += data.tun_pkts_out;
+
+            return true;
         }
+
+        return false;
+    }
+
+    /**
+     * @brief Sets a callback to be triggered upon increment of stats
+     *
+     * The callback can be removed by client code by deleting the returned shared pointer
+     *
+     * @param stat Type of stat to be tracked
+     * @param callback Notification callback
+     * @return Shared pointer which maintains the lifetime of the callback
+     */
+    [[nodiscard]] std::shared_ptr<inc_callback_t> set_inc_callback(Stats stat, inc_callback_t callback)
+    {
+        auto cb_ptr = std::make_shared<inc_callback_t>(callback);
+        inc_callbacks_[stat] = cb_ptr;
+        return cb_ptr;
     }
 
   protected:
@@ -194,6 +252,7 @@ class SessionStats : public RC<thread_safe_refcount>
     Time last_packet_received_;
     DCOTransportSource::Ptr dco_;
     volatile count_t stats_[N_STATS];
+    std::array<std::weak_ptr<inc_callback_t>, N_STATS> inc_callbacks_;
 };
 
 } // namespace openvpn

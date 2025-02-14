@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -143,7 +143,7 @@ static __inline unsigned int _strlen31(const char *str)
 #     undef stdin
 #     undef stdout
 #     undef stderr
-FILE *__iob_func();
+FILE *__iob_func(void);
 #     define stdin  (&__iob_func()[0])
 #     define stdout (&__iob_func()[1])
 #     define stderr (&__iob_func()[2])
@@ -249,7 +249,7 @@ FILE *__iob_func();
 /***********************************************/
 
 # if defined(OPENSSL_SYS_WINDOWS)
-#  if (_MSC_VER >= 1310) && !defined(_WIN32_WCE)
+#  if defined(_MSC_VER) && (_MSC_VER >= 1310) && !defined(_WIN32_WCE)
 #   define open _open
 #   define fdopen _fdopen
 #   define close _close
@@ -258,6 +258,7 @@ FILE *__iob_func();
 #   endif
 #   define unlink _unlink
 #   define fileno _fileno
+#   define isatty _isatty
 #  endif
 # else
 #  include <strings.h>
@@ -286,54 +287,6 @@ struct servent *getservbyname(const char *name, const char *proto);
 # endif
 /* end vxworks */
 
-/* system-specific variants defining ossl_sleep() */
-#if defined(OPENSSL_SYS_UNIX) || defined(__DJGPP__)
-# include <unistd.h>
-static ossl_inline void ossl_sleep(unsigned long millis)
-{
-# ifdef OPENSSL_SYS_VXWORKS
-    struct timespec ts;
-    ts.tv_sec = (long int) (millis / 1000);
-    ts.tv_nsec = (long int) (millis % 1000) * 1000000ul;
-    nanosleep(&ts, NULL);
-# elif defined(__TANDEM)
-#  if !defined(_REENTRANT)
-#   include <cextdecs.h(PROCESS_DELAY_)>
-    /* HPNS does not support usleep for non threaded apps */
-    PROCESS_DELAY_(millis * 1000);
-#  elif defined(_SPT_MODEL_)
-#   include <spthread.h>
-#   include <spt_extensions.h>
-    usleep(millis * 1000);
-#  else
-    usleep(millis * 1000);
-#  endif
-# else
-    usleep(millis * 1000);
-# endif
-}
-#elif defined(_WIN32)
-# include <windows.h>
-static ossl_inline void ossl_sleep(unsigned long millis)
-{
-    Sleep(millis);
-}
-#else
-/* Fallback to a busy wait */
-static ossl_inline void ossl_sleep(unsigned long millis)
-{
-    struct timeval start, now;
-    unsigned long elapsedms;
-
-    gettimeofday(&start, NULL);
-    do {
-        gettimeofday(&now, NULL);
-        elapsedms = (((now.tv_sec - start.tv_sec) * 1000000)
-                     + now.tv_usec - start.tv_usec) / 1000;
-    } while (elapsedms < millis);
-}
-#endif /* defined OPENSSL_SYS_UNIX */
-
 /* ----------------------------- HP NonStop -------------------------------- */
 /* Required to support platform variant without getpid() and pid_t. */
 # if defined(__TANDEM) && defined(_GUARDIAN_TARGET)
@@ -343,12 +296,12 @@ static ossl_inline void ossl_sleep(unsigned long millis)
 #  define gethostbyname(name)                gethostbyname((char*)name)
 #  define ioctlsocket(a,b,c)	ioctl(a,b,c)
 #  ifdef NO_GETPID
-inline int nssgetpid();
+inline int nssgetpid(void);
 #   ifndef NSSGETPID_MACRO
 #    define NSSGETPID_MACRO
 #    include <cextdecs.h(PROCESSHANDLE_GETMINE_)>
 #    include <cextdecs.h(PROCESSHANDLE_DECOMPOSE_)>
-       inline int nssgetpid()
+       inline int nssgetpid(void)
        {
          short phandle[10]={0};
          union pseudo_pid {

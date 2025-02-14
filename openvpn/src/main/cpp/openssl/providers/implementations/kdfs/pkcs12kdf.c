@@ -1,5 +1,5 @@
 /*
- * Copyright 1999-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1999-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -60,7 +60,7 @@ static int pkcs12kdf_derive(const unsigned char *pass, size_t passlen,
 
     ctx = EVP_MD_CTX_new();
     if (ctx == NULL) {
-        ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_PROV, ERR_R_EVP_LIB);
         goto end;
     }
     vi = EVP_MD_get_block_size(md_type);
@@ -81,10 +81,8 @@ static int pkcs12kdf_derive(const unsigned char *pass, size_t passlen,
         Plen = 0;
     Ilen = Slen + Plen;
     I = OPENSSL_malloc(Ilen);
-    if (D == NULL || Ai == NULL || B == NULL || I == NULL) {
-        ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+    if (D == NULL || Ai == NULL || B == NULL || I == NULL)
         goto end;
-    }
     for (i = 0; i < v; i++)
         D[i] = id;
     p = I;
@@ -144,10 +142,8 @@ static void *kdf_pkcs12_new(void *provctx)
         return NULL;
 
     ctx = OPENSSL_zalloc(sizeof(*ctx));
-    if (ctx == NULL) {
-        ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+    if (ctx == NULL)
         return NULL;
-    }
     ctx->provctx = provctx;
     return ctx;
 }
@@ -210,10 +206,8 @@ static int pkcs12kdf_set_membuf(unsigned char **buffer, size_t *buflen,
     *buflen = 0;
 
     if (p->data_size == 0) {
-        if ((*buffer = OPENSSL_malloc(1)) == NULL) {
-            ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+        if ((*buffer = OPENSSL_malloc(1)) == NULL)
             return 0;
-        }
     } else if (p->data != NULL) {
         if (!OSSL_PARAM_get_octet_string(p, (void **)buffer, 0, buflen))
             return 0;
@@ -262,7 +256,7 @@ static int kdf_pkcs12_set_ctx_params(void *vctx, const OSSL_PARAM params[])
             return 0;
 
     if ((p = OSSL_PARAM_locate_const(params, OSSL_KDF_PARAM_SALT)) != NULL)
-        if (!pkcs12kdf_set_membuf(&ctx->salt, &ctx->salt_len,p))
+        if (!pkcs12kdf_set_membuf(&ctx->salt, &ctx->salt_len, p))
             return 0;
 
     if ((p = OSSL_PARAM_locate_const(params, OSSL_KDF_PARAM_PKCS12_ID)) != NULL)
@@ -321,5 +315,5 @@ const OSSL_DISPATCH ossl_kdf_pkcs12_functions[] = {
     { OSSL_FUNC_KDF_GETTABLE_CTX_PARAMS,
       (void(*)(void))kdf_pkcs12_gettable_ctx_params },
     { OSSL_FUNC_KDF_GET_CTX_PARAMS, (void(*)(void))kdf_pkcs12_get_ctx_params },
-    { 0, NULL }
+    OSSL_DISPATCH_END
 };

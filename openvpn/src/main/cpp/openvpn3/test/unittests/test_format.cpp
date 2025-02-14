@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 #include <iostream>
 
 
@@ -121,7 +121,7 @@ void perf()
 {
     const MyObj seven(7);
     // const double pi = 3.14159265;
-    long count = 0;
+    size_t count = 0;
     const std::string weather = "partly cloudy";
     for (long i = 0; i < 1000000; ++i)
     {

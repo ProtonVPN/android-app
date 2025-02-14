@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,8 @@
  */
 
 /**
- * @file Control Channel mbed TLS Backend
+ * @file
+ * Control Channel mbed TLS Backend
  */
 
 #ifndef SSL_MBEDTLS_H_
@@ -38,6 +39,8 @@
 #if defined(ENABLE_PKCS11)
 #include <pkcs11-helper-1.0/pkcs11h-certificate.h>
 #endif
+
+#include "mbedtls_compat.h"
 
 typedef struct _buffer_entry buffer_entry;
 
@@ -65,9 +68,9 @@ typedef struct {
  *
  * @param sign_ctx  The context for the signing function.
  * @param src       The data to be signed,
- * @param src_len   The length of src, in bytes.
+ * @param src_size  The length of src, in bytes.
  * @param dst       The destination buffer for the signature.
- * @param dst_len   The length of the destination buffer.
+ * @param dst_size  The length of the destination buffer.
  *
  * @return true if signing succeeded, false otherwise.
  */
@@ -118,7 +121,7 @@ struct tls_root_ctx {
 #endif
     struct external_context external_key; /**< External key context */
     int *allowed_ciphers;       /**< List of allowed ciphers for this connection */
-    mbedtls_ecp_group_id *groups;     /**< List of allowed groups for this connection */
+    mbedtls_compat_group_id *groups;     /**< List of allowed groups for this connection */
     mbedtls_x509_crt_profile cert_profile; /**< Allowed certificate types */
 };
 

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // OpenVPN TLS-Crypt classes
 
@@ -32,7 +22,7 @@
 #include <openvpn/common/memneq.hpp>
 #include <openvpn/crypto/static_key.hpp>
 #include <openvpn/crypto/cryptoalgs.hpp>
-#include <openvpn/crypto/packet_id.hpp>
+#include <openvpn/crypto/packet_id_control.hpp>
 #include <openvpn/ssl/psid.hpp>
 
 namespace openvpn {
@@ -190,7 +180,7 @@ class TLSCryptContext : public RC<thread_unsafe_refcount>
     // [OP]  [PSID]  [PID]  [HMAC] [...]
     //
 
-    constexpr const static size_t hmac_offset = 1 + ProtoSessionID::SIZE + PacketID::longidsize;
+    constexpr const static size_t hmac_offset = 1 + ProtoSessionID::SIZE + PacketIDControl::idsize;
 };
 
 
@@ -270,22 +260,22 @@ class CryptoTLSCryptContext : public TLSCryptContext
     {
     }
 
-    virtual size_t digest_size() const
+    size_t digest_size() const override
     {
         return CryptoAlgs::size(digest);
     }
 
-    virtual size_t cipher_key_size() const
+    size_t cipher_key_size() const override
     {
         return CryptoAlgs::key_length(cipher);
     }
 
-    virtual TLSCryptInstance::Ptr new_obj_send()
+    TLSCryptInstance::Ptr new_obj_send() override
     {
         return new CryptoTLSCryptInstance<CRYPTO_API>(libctx, digest, cipher, CRYPTO_API::CipherContext::ENCRYPT);
     }
 
-    virtual TLSCryptInstance::Ptr new_obj_recv()
+    TLSCryptInstance::Ptr new_obj_recv() override
     {
         return new CryptoTLSCryptInstance<CRYPTO_API>(libctx, digest, cipher, CRYPTO_API::CipherContext::DECRYPT);
     }

@@ -4,30 +4,21 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_ADDR_IP_H
 #define OPENVPN_ADDR_IP_H
 
+#include <algorithm>
+#include <functional>
 #include <string>
 #include <cstring> // for std::memset
 
 #include <openvpn/io/io.hpp>
 
-#include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/ostream.hpp>
 #include <openvpn/common/hash.hpp>
@@ -37,14 +28,13 @@
 
 #define OPENVPN_IP_THROW(ERR) throw openvpn::IP::ip_exception(ERR)
 
-namespace openvpn {
-// This is our fundamental IP address class that handles IPv4 or IPv6
-// IP addresses.  It is implemented as a discriminated union of IPv4::Addr
-// and IPv6::Addr.
-namespace IP {
+namespace openvpn::IP {
 
 OPENVPN_EXCEPTION(ip_exception);
 
+// This is our fundamental IP address class that handles IPv4 or IPv6
+// IP addresses.  It is implemented as a discriminated union of IPv4::Addr
+// and IPv6::Addr.
 class Addr
 {
   public:
@@ -142,7 +132,7 @@ class Addr
                                 const TITLE &title,
                                 const Version required_version)
     {
-        Addr a = from_string(ipstr, title, required_version);
+        const Addr a = from_string(ipstr, title, required_version);
         return a.to_string();
     }
 
@@ -242,15 +232,9 @@ class Addr
     static bool is_valid(const std::string &ipstr)
     {
         // fast path -- rule out validity if invalid chars
-        for (size_t i = 0; i < ipstr.length(); ++i)
-        {
-            const char c = ipstr[i];
-            if (!((c >= '0' && c <= '9')
-                  || (c >= 'a' && c <= 'f')
-                  || (c >= 'A' && c <= 'F')
-                  || (c == '.' || c == ':' || c == '%')))
-                return false;
-        }
+        if (std::any_of(ipstr.begin(), ipstr.end(), [](auto c)
+                        { return !(std::isxdigit(c) || c == '.' || c == ':' || c == '%'); }))
+            return false;
 
         // slow path
         {
@@ -262,12 +246,15 @@ class Addr
 
     static Addr from_hex(Version v, const std::string &s)
     {
-        if (v == V4)
+        switch (v)
+        {
+        case V4:
             return from_ipv4(IPv4::Addr::from_hex(s));
-        else if (v == V6)
+        case V6:
             return from_ipv6(IPv6::Addr::from_hex(s));
-        else
+        default:
             OPENVPN_IP_THROW("from_hex: address unspecified");
+        }
     }
 
     static Addr from_ipv4(IPv4::Addr addr)
@@ -290,36 +277,40 @@ class Addr
     {
         if (ver == V4)
             return u.v4;
-        else
-            OPENVPN_IP_THROW("to_ipv4: address is not IPv4");
+        OPENVPN_IP_THROW("to_ipv4: address is not IPv4");
     }
 
     IPv4::Addr to_ipv4_zero() const
     {
-        if (ver == V4)
+        switch (ver)
+        {
+        case V4:
             return u.v4;
-        else if (ver == UNSPEC)
+        case UNSPEC:
             return IPv4::Addr::from_zero();
-        else
+        default:
             OPENVPN_IP_THROW("to_ipv4_zero: address is not IPv4");
+        }
     }
 
     const IPv6::Addr &to_ipv6() const
     {
         if (ver == V6)
             return u.v6;
-        else
-            OPENVPN_IP_THROW("to_ipv6: address is not IPv6");
+        OPENVPN_IP_THROW("to_ipv6: address is not IPv6");
     }
 
     IPv6::Addr to_ipv6_zero() const
     {
-        if (ver == V6)
+        switch (ver)
+        {
+        case V6:
             return u.v6;
-        else if (ver == UNSPEC)
+        case UNSPEC:
             return IPv6::Addr::from_zero();
-        else
+        default:
             OPENVPN_IP_THROW("to_ipv6_zero: address is not IPv6");
+        }
     }
 
     const IPv4::Addr &to_ipv4_nocheck() const
@@ -335,11 +326,10 @@ class Addr
     static Addr from_sockaddr(const struct sockaddr *sa)
     {
         if (sa->sa_family == AF_INET)
-            return from_ipv4(IPv4::Addr::from_sockaddr((struct sockaddr_in *)sa));
-        else if (sa->sa_family == AF_INET6)
-            return from_ipv6(IPv6::Addr::from_sockaddr((struct sockaddr_in6 *)sa));
-        else
-            return Addr();
+            return from_ipv4(IPv4::Addr::from_sockaddr(reinterpret_cast<const struct sockaddr_in *>(sa)));
+        if (sa->sa_family == AF_INET6)
+            return from_ipv6(IPv6::Addr::from_sockaddr(reinterpret_cast<const struct sockaddr_in6 *>(sa)));
+        return Addr();
     }
 
     static bool sockaddr_defined(const struct sockaddr *sa)
@@ -349,44 +339,56 @@ class Addr
 
     static Addr from_ulong(Version v, unsigned long ul)
     {
-        if (v == V4)
+        switch (v)
+        {
+        case V4:
             return from_ipv4(IPv4::Addr::from_ulong(ul));
-        else if (v == V6)
+        case V6:
             return from_ipv6(IPv6::Addr::from_ulong(ul));
-        else
+        default:
             OPENVPN_IP_THROW("from_ulong: address unspecified");
+        }
     }
 
     // return *this as a ulong, will raise exception on overflow
     unsigned long to_ulong() const
     {
-        if (ver == V4)
+        switch (ver)
+        {
+        case V4:
             return u.v4.to_ulong();
-        else if (ver == V6)
+        case V6:
             return u.v6.to_ulong();
-        else
+        default:
             OPENVPN_IP_THROW("to_ulong: address unspecified");
+        }
     }
 
-    static Addr from_long(Version v, long ul)
+    static Addr from_long(Version v, const long ul)
     {
-        if (v == V4)
+        switch (v)
+        {
+        case V4:
             return from_ipv4(IPv4::Addr::from_long(ul));
-        else if (v == V6)
+        case V6:
             return from_ipv6(IPv6::Addr::from_long(ul));
-        else
+        default:
             OPENVPN_IP_THROW("from_long: address unspecified");
+        }
     }
 
     // return *this as a long, will raise exception on overflow
     long to_long() const
     {
-        if (ver == V4)
+        switch (ver)
+        {
+        case V4:
             return u.v4.to_long();
-        else if (ver == V6)
+        case V6:
             return u.v6.to_long();
-        else
+        default:
             OPENVPN_IP_THROW("to_long: address unspecified");
+        }
     }
 
     // return Addr from 16 byte binary string
@@ -409,102 +411,118 @@ class Addr
     // convert Addr to 16 byte binary string
     void to_byte_string(unsigned char *bytestr) const
     {
-        if (ver == V4)
+        switch (ver)
+        {
+        case V4:
             IPv6::Addr::v4_to_byte_string(bytestr, u.v4.to_uint32_net());
-        else if (ver == V6)
+            break;
+        case V6:
             u.v6.to_byte_string(bytestr);
-        else
+            break;
+        default:
             std::memset(bytestr, 0, 16);
+            break;
+        }
     }
 
     // convert Addr to variable length byte string
     void to_byte_string_variable(unsigned char *bytestr) const
     {
-        if (ver == V4)
+        switch (ver)
+        {
+        case V4:
             u.v4.to_byte_string(bytestr);
-        else if (ver == V6)
+            break;
+        case V6:
             u.v6.to_byte_string(bytestr);
-        else
+            break;
+        default:
             OPENVPN_IP_THROW("to_byte_string_variable: address unspecified");
+        }
     }
 
     std::uint32_t to_uint32_net() const // return value in net byte order
     {
-        if (ver == V4)
-            return u.v4.to_uint32_net();
-        else
-            return 0;
+        return (ver == V4) ? u.v4.to_uint32_net() : 0;
     }
 
     // construct an address where all bits are zero
     static Addr from_zero(const Version v)
     {
-        if (v == V4)
+        switch (v)
+        {
+        case V4:
             return from_ipv4(IPv4::Addr::from_zero());
-        else if (v == V6)
+        case V6:
             return from_ipv6(IPv6::Addr::from_zero());
-        else
+        default:
             OPENVPN_IP_THROW("from_zero: IP version unspecified");
+        }
     }
 
     // construct the "one" address
     static Addr from_one(const Version v)
     {
-        if (v == V4)
+        switch (v)
+        {
+        case V4:
             return from_ipv4(IPv4::Addr::from_one());
-        else if (v == V6)
+        case V6:
             return from_ipv6(IPv6::Addr::from_one());
-        else
+        default:
             OPENVPN_IP_THROW("from_one: IP version unspecified");
+        }
     }
 
     // construct an address where all bits are one
     static Addr from_zero_complement(const Version v)
     {
-        if (v == V4)
+        switch (v)
+        {
+        case V4:
             return from_ipv4(IPv4::Addr::from_zero_complement());
-        else if (v == V6)
+        case V6:
             return from_ipv6(IPv6::Addr::from_zero_complement());
-        else
+        default:
             OPENVPN_IP_THROW("from_zero_complement: IP version unspecified");
+        }
     }
 
     // validate the prefix length for the IP version
     static bool validate_prefix_len(Version v, const unsigned int prefix_len)
     {
-        if (v == V4)
-        {
-            if (prefix_len <= V4_SIZE)
-                return true;
-        }
-        else if (v == V6)
-        {
-            if (prefix_len <= V6_SIZE)
-                return true;
-        }
+        if (v == V4 && prefix_len <= V4_SIZE)
+            return true;
+        if (v == V6 && prefix_len <= V6_SIZE)
+            return true;
         return false;
     }
 
     // build a netmask using given prefix_len
     static Addr netmask_from_prefix_len(Version v, const unsigned int prefix_len)
     {
-        if (v == V4)
+        switch (v)
+        {
+        case V4:
             return from_ipv4(IPv4::Addr::netmask_from_prefix_len(prefix_len));
-        else if (v == V6)
+        case V6:
             return from_ipv6(IPv6::Addr::netmask_from_prefix_len(prefix_len));
-        else
+        default:
             OPENVPN_IP_THROW("netmask_from_prefix_len: address unspecified");
+        }
     }
 
-    // build a netmask using *this as extent
-    Addr netmask_from_extent() const
+    Addr netmask_from_this_as_extent() const
     {
-        if (ver == V4)
-            return from_ipv4(u.v4.netmask_from_extent());
-        else if (ver == V6)
-            return from_ipv6(u.v6.netmask_from_extent());
-        else
+        switch (ver)
+        {
+        case V4:
+            return from_ipv4(u.v4.netmask_from_this_as_extent());
+        case V6:
+            return from_ipv6(u.v6.netmask_from_this_as_extent());
+        default:
             OPENVPN_IP_THROW("netmask_from_extent: address unspecified");
+        }
     }
 
     std::string to_string() const
@@ -515,8 +533,7 @@ class Addr
             std::string ret = a.to_string();
             return ret;
         }
-        else
-            return "UNSPEC";
+        return "UNSPEC";
     }
 
     std::string to_string_bracket_ipv6() const
@@ -532,42 +549,46 @@ class Addr
 
     std::string to_hex() const
     {
-        if (ver == V4)
+        switch (ver)
+        {
+        case V4:
             return u.v4.to_hex();
-        else if (ver == V6)
+        case V6:
             return u.v6.to_hex();
-        else
+        default:
             OPENVPN_IP_THROW("to_hex: address unspecified");
+        }
     }
 
     std::string arpa() const
     {
-        if (ver == V4)
+        switch (ver)
+        {
+        case V4:
             return u.v4.arpa();
-        else if (ver == V6)
+        case V6:
             return u.v6.arpa();
-        else
+        default:
             OPENVPN_IP_THROW("arpa: address unspecified");
+        }
     }
 
     static Addr from_asio(const openvpn_io::ip::address &addr)
     {
+        Addr ret;
         if (addr.is_v4())
         {
-            Addr a;
-            a.ver = V4;
-            a.u.v4 = IPv4::Addr::from_asio(addr.to_v4());
-            return a;
+            ret.ver = V4;
+            ret.u.v4 = IPv4::Addr::from_asio(addr.to_v4());
         }
         else if (addr.is_v6())
         {
-            Addr a;
-            a.ver = V6;
-            a.u.v6 = IPv6::Addr::from_asio(addr.to_v6());
-            return a;
+            ret.ver = V6;
+            ret.u.v6 = IPv6::Addr::from_asio(addr.to_v6());
         }
-        else
+        else if (ret.ver == UNSPEC)
             OPENVPN_IP_THROW("from_asio: address unspecified");
+        return ret;
     }
 
     openvpn_io::ip::address to_asio() const
@@ -610,42 +631,6 @@ class Addr
     {
         return operator+(-delta);
     }
-
-#define OPENVPN_IP_OPERATOR_BINOP(OP)                         \
-    Addr operator OP(const Addr &other) const                 \
-    {                                                         \
-        if (ver != other.ver)                                 \
-            OPENVPN_IP_THROW("binop: version inconsistency"); \
-        switch (ver)                                          \
-        {                                                     \
-        case V4:                                              \
-            {                                                 \
-                Addr ret;                                     \
-                ret.ver = V4;                                 \
-                ret.u.v4 = u.v4 OP other.u.v4;                \
-                return ret;                                   \
-            }                                                 \
-        case V6:                                              \
-            {                                                 \
-                Addr ret;                                     \
-                ret.ver = V6;                                 \
-                ret.u.v6 = u.v6 OP other.u.v6;                \
-                return ret;                                   \
-            }                                                 \
-        default:                                              \
-            OPENVPN_IP_THROW("binop: address unspecified");   \
-        }                                                     \
-    }
-
-    OPENVPN_IP_OPERATOR_BINOP(+)
-    OPENVPN_IP_OPERATOR_BINOP(-)
-    OPENVPN_IP_OPERATOR_BINOP(*)
-    OPENVPN_IP_OPERATOR_BINOP(/)
-    OPENVPN_IP_OPERATOR_BINOP(%)
-    OPENVPN_IP_OPERATOR_BINOP(&)
-    OPENVPN_IP_OPERATOR_BINOP(|)
-
-#undef OPENVPN_IP_OPERATOR_BINOP
 
     Addr operator<<(const unsigned int shift) const
     {
@@ -762,33 +747,61 @@ class Addr
         return !operator==(other);
     }
 
-#define OPENVPN_IP_OPERATOR_REL(OP)           \
-    bool operator OP(const Addr &other) const \
-    {                                         \
-        if (ver == other.ver)                 \
-        {                                     \
-            switch (ver)                      \
-            {                                 \
-            case V4:                          \
-                return u.v4 OP other.u.v4;    \
-            case V6:                          \
-                return u.v6 OP other.u.v6;    \
-            default:                          \
-                return false;                 \
-            }                                 \
-        }                                     \
-        else if (ver OP other.ver)            \
-            return true;                      \
-        else                                  \
-            return false;                     \
+    bool operator<(const Addr &other) const
+    {
+        return compare(other, std::less<>{});
     }
 
-    OPENVPN_IP_OPERATOR_REL(<)
-    OPENVPN_IP_OPERATOR_REL(>)
-    OPENVPN_IP_OPERATOR_REL(<=)
-    OPENVPN_IP_OPERATOR_REL(>=)
+    bool operator>(const Addr &other) const
+    {
+        return compare(other, std::greater<>{});
+    }
 
-#undef OPENVPN_IP_OPERATOR_REL
+    bool operator<=(const Addr &other) const
+    {
+        return compare(other, std::less_equal<>{});
+    }
+
+    bool operator>=(const Addr &other) const
+    {
+        return compare(other, std::greater_equal<>{});
+    }
+
+    // Operator overloads for binary operations
+    Addr operator+(const Addr &other) const
+    {
+        return binary_op(other, std::plus<>{});
+    }
+
+    Addr operator-(const Addr &other) const
+    {
+        return binary_op(other, std::minus<>{});
+    }
+
+    Addr operator*(const Addr &other) const
+    {
+        return binary_op(other, std::multiplies<>{});
+    }
+
+    Addr operator/(const Addr &other) const
+    {
+        return binary_op(other, std::divides<>{});
+    }
+
+    Addr operator%(const Addr &other) const
+    {
+        return binary_op(other, std::modulus<>{});
+    }
+
+    Addr operator&(const Addr &other) const
+    {
+        return binary_op(other, std::bit_and<>{});
+    }
+
+    Addr operator|(const Addr &other) const
+    {
+        return binary_op(other, std::bit_or<>{});
+    }
 
     bool unspecified() const
     {
@@ -838,6 +851,23 @@ class Addr
             return false;
         }
     }
+
+    /**
+     * Determines if the IP address is a mapped IP address (e.g. \::ffff:127.0.0.1)
+     */
+    bool is_mapped_address() const
+    {
+        if (ver != V6)
+            return false;
+
+        return u.v6.is_mapped_address();
+    }
+
+    IP::Addr to_v4_addr() const
+    {
+        const std::uint32_t ipv4 = u.v6.get_mapped_ipv4_address();
+        return IP::Addr::from_ipv4(IPv4::Addr::from_uint32(ipv4));
+    };
 
     bool defined() const
     {
@@ -928,7 +958,7 @@ class Addr
     }
 
     // throw exception if address is not a valid netmask
-    void validate_netmask()
+    void validate_netmask() const
     {
         prefix_len();
     }
@@ -997,12 +1027,15 @@ class Addr
     // address size in bits of particular IP version
     static unsigned int version_size(Version v)
     {
-        if (v == V4)
+        switch (v)
+        {
+        case V4:
             return IPv4::Addr::SIZE;
-        else if (v == V6)
+        case V6:
             return IPv6::Addr::SIZE;
-        else
+        default:
             return 0;
+        }
     }
 
     template <typename HASH>
@@ -1022,7 +1055,7 @@ class Addr
     }
 
 #ifdef USE_OPENVPN_HASH
-    std::size_t hashval() const
+    std::uint64_t hashval() const
     {
         Hash64 h;
         hash(h);
@@ -1112,11 +1145,54 @@ class Addr
     } u{};
 
     Version ver;
+
+    template <typename Comparator>
+    bool compare(const Addr &other, Comparator comp) const
+    {
+        if (ver == other.ver)
+        {
+            switch (ver)
+            {
+            case V4:
+                return comp(u.v4, other.u.v4);
+            case V6:
+                return comp(u.v6, other.u.v6);
+            default:
+                return false;
+            }
+        }
+        return comp(ver, other.ver);
+    }
+
+    template <typename BinaryOp>
+    Addr binary_op(const Addr &other, BinaryOp op) const
+    {
+        if (ver != other.ver)
+        {
+            OPENVPN_IP_THROW("binop: version inconsistency");
+        }
+
+        Addr ret;
+        ret.ver = ver;
+
+        switch (ver)
+        {
+        case V4:
+            ret.u.v4 = op(u.v4, other.u.v4);
+            break;
+        case V6:
+            ret.u.v6 = op(u.v6, other.u.v6);
+            break;
+        default:
+            OPENVPN_IP_THROW("binop: address unspecified");
+        }
+
+        return ret;
+    }
 };
 
 OPENVPN_OSTREAM(Addr, to_string)
-} // namespace IP
-} // namespace openvpn
+} // namespace openvpn::IP
 
 #ifdef USE_OPENVPN_HASH
 OPENVPN_HASH_METHOD(openvpn::IP::Addr, hashval);

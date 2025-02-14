@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2018-2024 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright Siemens AG 2018-2020
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -20,14 +20,19 @@ OSSL_CMP_SRV_CTX *ossl_cmp_mock_srv_new(OSSL_LIB_CTX *libctx,
                                         const char *propq);
 void ossl_cmp_mock_srv_free(OSSL_CMP_SRV_CTX *srv_ctx);
 
+int ossl_cmp_mock_srv_set1_refCert(OSSL_CMP_SRV_CTX *srv_ctx, X509 *cert);
 int ossl_cmp_mock_srv_set1_certOut(OSSL_CMP_SRV_CTX *srv_ctx, X509 *cert);
+int ossl_cmp_mock_srv_set1_crlOut(OSSL_CMP_SRV_CTX *srv_ctx, X509_CRL *crl);
 int ossl_cmp_mock_srv_set1_chainOut(OSSL_CMP_SRV_CTX *srv_ctx,
                                     STACK_OF(X509) *chain);
 int ossl_cmp_mock_srv_set1_caPubsOut(OSSL_CMP_SRV_CTX *srv_ctx,
                                      STACK_OF(X509) *caPubs);
+int ossl_cmp_mock_srv_set1_newWithNew(OSSL_CMP_SRV_CTX *srv_ctx, X509 *cert);
+int ossl_cmp_mock_srv_set1_newWithOld(OSSL_CMP_SRV_CTX *srv_ctx, X509 *cert);
+int ossl_cmp_mock_srv_set1_oldWithNew(OSSL_CMP_SRV_CTX *srv_ctx, X509 *cert);
 int ossl_cmp_mock_srv_set_statusInfo(OSSL_CMP_SRV_CTX *srv_ctx, int status,
                                      int fail_info, const char *text);
-int ossl_cmp_mock_srv_set_send_error(OSSL_CMP_SRV_CTX *srv_ctx, int val);
+int ossl_cmp_mock_srv_set_sendError(OSSL_CMP_SRV_CTX *srv_ctx, int bodytype);
 int ossl_cmp_mock_srv_set_pollCount(OSSL_CMP_SRV_CTX *srv_ctx, int count);
 int ossl_cmp_mock_srv_set_checkAfterTime(OSSL_CMP_SRV_CTX *srv_ctx, int sec);
 

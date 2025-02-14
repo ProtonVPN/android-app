@@ -7,7 +7,8 @@ package de.blinkt.openvpn.api;
  */
 interface ExternalCertificateProvider {
     /**
-     * @deprecated use {@link #getSignedDataWithExtra} instead
+     * deprecated use {@link #getSignedDataWithExtra} instead
+     *
      * Requests signing the data with RSA/ECB/PKCS1PADDING
      * for RSA certficate and with NONEwithECDSA for EC certificates
      * @param alias user certificate identifier

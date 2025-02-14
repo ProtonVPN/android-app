@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/time/time.hpp>
 #include <openvpn/random/mtrandapi.hpp>
@@ -70,7 +70,7 @@ void test_skew(const Time::Duration &dur,
                RandomAPI &prng)
 {
     const Time::Duration after = TimeSkew::skew(dur, skew_factor, prng);
-    md.mean.add(after.to_binary_ms());
+    md.mean.add(static_cast<int>(after.to_binary_ms()));
     md.dev.add(my_abs(int(dur.to_binary_ms()) - int(after.to_binary_ms())));
     if (verbose)
         OPENVPN_LOG("BEFORE=" << dur.to_binary_ms() << " AFTER=" << after.to_binary_ms());

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Client tun setup for Mac
 
@@ -39,7 +29,7 @@
 #include <openvpn/tun/layer.hpp>
 #include <openvpn/tun/mac/tunutil.hpp>
 #include <openvpn/tun/mac/utun.hpp>
-#include <openvpn/tun/mac/macgw.hpp>
+#include <openvpn/tun/mac/gw.hpp>
 #include <openvpn/tun/mac/macdns_watchdog.hpp>
 #include <openvpn/tun/proxy.hpp>
 #include <openvpn/tun/mac/macproxy.hpp>
@@ -50,8 +40,7 @@
 #include <openvpn/common/jsonhelper.hpp>
 #endif
 
-namespace openvpn {
-namespace TunMac {
+namespace openvpn::TunMac {
 class Setup : public TunBuilderSetup::Base
 {
   public:
@@ -67,7 +56,7 @@ class Setup : public TunBuilderSetup::Base
         bool add_bypass_routes_on_establish = false;
 
 #ifdef HAVE_JSON
-        virtual Json::Value to_json() override
+        Json::Value to_json() override
         {
             Json::Value root(Json::objectValue);
             root["iface_name"] = Json::Value(iface_name);
@@ -76,7 +65,7 @@ class Setup : public TunBuilderSetup::Base
             return root;
         };
 
-        virtual void from_json(const Json::Value &root, const std::string &title) override
+        void from_json(const Json::Value &root, const std::string &title) override
         {
             json::assert_dict(root, title);
             json::to_string(root, iface_name, "iface_name", title);
@@ -94,10 +83,10 @@ class Setup : public TunBuilderSetup::Base
         return true;
     }
 
-    virtual int establish(const TunBuilderCapture &pull, // defined by TunBuilderSetup::Base
-                          TunBuilderSetup::Config *config,
-                          Stop *stop,
-                          std::ostream &os) override
+    int establish(const TunBuilderCapture &pull, // defined by TunBuilderSetup::Base
+                  TunBuilderSetup::Config *config,
+                  Stop *stop,
+                  std::ostream &os) override
     {
         // get configuration
         Config *conf = dynamic_cast<Config *>(config);
@@ -161,7 +150,7 @@ class Setup : public TunBuilderSetup::Base
         return fd;
     }
 
-    virtual void destroy(std::ostream &os) override // defined by DestructorBase
+    void destroy(std::ostream &os) override // defined by DestructorBase
     {
         if (remove_cmds)
         {
@@ -303,9 +292,6 @@ class Setup : public TunBuilderSetup::Base
                            ActionList &destroy,
                            std::ostream &os)
     {
-        // get default gateway
-        MacGWInfo gw;
-
         // set local4 and local6 to point to IPv4/6 route configurations
         const TunBuilderCapture::RouteAddress *local4 = nullptr;
         const TunBuilderCapture::RouteAddress *local6 = nullptr;
@@ -380,6 +366,10 @@ class Setup : public TunBuilderSetup::Base
         // Process exclude routes
         if (!pull.exclude_routes.empty())
         {
+            // get default gateways
+            MacGatewayInfo gw4{IP::Addr::from_ipv4(IPv4::Addr::from_zero()), &os};
+            MacGatewayInfo gw6{IP::Addr::from_ipv6(IPv6::Addr::from_zero()), &os};
+
             for (std::vector<TunBuilderCapture::Route>::const_iterator i = pull.exclude_routes.begin(); i != pull.exclude_routes.end(); ++i)
             {
                 const TunBuilderCapture::Route &route = *i;
@@ -387,16 +377,16 @@ class Setup : public TunBuilderSetup::Base
                 {
                     if (!pull.block_ipv6)
                     {
-                        if (gw.v6.defined())
-                            add_del_route(route.address, route.prefix_length, gw.v6.router.to_string(), gw.v6.iface, R_IPv6 | R_IFACE_HINT, create, destroy);
+                        if (gw6.flags() & MacGatewayInfo::ADDR_DEFINED)
+                            add_del_route(route.address, route.prefix_length, gw6.gateway_addr_str(), gw6.iface(), R_IPv6 | R_IFACE_HINT, create, destroy);
                         else
                             os << "NOTE: cannot determine gateway for exclude IPv6 routes" << std::endl;
                     }
                 }
                 else
                 {
-                    if (gw.v4.defined())
-                        add_del_route(route.address, route.prefix_length, gw.v4.router.to_string(), gw.v4.iface, 0, create, destroy);
+                    if (gw4.flags() & MacGatewayInfo::ADDR_DEFINED)
+                        add_del_route(route.address, route.prefix_length, gw4.gateway_addr_str(), gw4.iface(), 0, create, destroy);
                     else
                         os << "NOTE: cannot determine gateway for exclude IPv4 routes" << std::endl;
                 }
@@ -406,20 +396,29 @@ class Setup : public TunBuilderSetup::Base
         // Process IPv4 redirect-gateway
         if (pull.reroute_gw.ipv4)
         {
-            // add server bypass route
-            if (gw.v4.defined())
+            // add server bypass route if remote is also IPv4
+            if (!pull.remote_address.ipv6)
             {
-                if (!pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
+                MacGatewayInfo gw4{IP::Addr::from_ipv4(IPv4::Addr::from_string(pull.remote_address.address)), &os};
+                if (gw4.flags() & MacGatewayInfo::ADDR_DEFINED)
                 {
-                    Action::Ptr c, d;
-                    add_del_route(pull.remote_address.address, 32, gw.v4.router.to_string(), gw.v4.iface, 0, c, d);
-                    create.add(c);
-                    destroy.add(d);
-                    // add_del_route(gw.v4.router.to_string(), 32, "", gw.v4.iface, R_ONLINK, create, destroy); // fixme -- needed for block-local
+                    if (!pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
+                    {
+                        Action::Ptr c, d;
+                        add_del_route(pull.remote_address.address, 32, gw4.gateway_addr_str(), gw4.iface(), 0, c, d);
+                        create.add(c);
+                        destroy.add(d);
+                    }
+                }
+                else
+                {
+                    os << "ERROR: cannot detect IPv4 default gateway" << std::endl;
                 }
             }
             else
-                os << "ERROR: cannot detect IPv4 default gateway" << std::endl;
+            {
+                os << "remote is IPv6, skip bypass route for reroute-ipv4" << std::endl;
+            }
 
             if (!(pull.reroute_gw.flags & RGWFlags::EmulateExcludeRoutes))
             {
@@ -431,20 +430,29 @@ class Setup : public TunBuilderSetup::Base
         // Process IPv6 redirect-gateway
         if (pull.reroute_gw.ipv6 && !pull.block_ipv6)
         {
-            // add server bypass route
-            if (gw.v6.defined())
+            // add server bypass route if remote is also ipv6
+            if (pull.remote_address.ipv6)
             {
-                if (pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
+                MacGatewayInfo gw6{IP::Addr::from_ipv6(IPv6::Addr::from_string(pull.remote_address.address)), &os};
+                if (gw6.flags() & MacGatewayInfo::ADDR_DEFINED)
                 {
-                    Action::Ptr c, d;
-                    add_del_route(pull.remote_address.address, 128, gw.v6.router.to_string(), gw.v6.iface, R_IPv6 | R_IFACE_HINT, c, d);
-                    create.add(c);
-                    destroy.add(d);
-                    // add_del_route(gw.v6.router.to_string(), 128, "", gw.v6.iface, R_IPv6|R_ONLINK, create, destroy); // fixme -- needed for block-local
+                    if (pull.remote_address.ipv6 && !(pull.reroute_gw.flags & RedirectGatewayFlags::RG_LOCAL))
+                    {
+                        Action::Ptr c, d;
+                        add_del_route(pull.remote_address.address, 128, gw6.gateway_addr_str(), gw6.iface(), R_IPv6 | R_IFACE_HINT, c, d);
+                        create.add(c);
+                        destroy.add(d);
+                    }
+                }
+                else
+                {
+                    os << "ERROR: cannot detect IPv6 default gateway" << std::endl;
                 }
             }
             else
-                os << "ERROR: cannot detect IPv6 default gateway" << std::endl;
+            {
+                os << "remote is IPv4, skip bypass route for reroute-ipv6" << std::endl;
+            }
 
             if (!(pull.reroute_gw.flags & RGWFlags::EmulateExcludeRoutes))
             {
@@ -490,21 +498,20 @@ class Setup : public TunBuilderSetup::Base
                                  ActionList &add_cmds,
                                  ActionList &remove_cmds_bypass_gw)
     {
-        MacGWInfo gw;
-
-        if (!ipv6)
+        MacGatewayInfo gw{IP::Addr{route}};
+        if (gw.flags() & MacGatewayInfo::ADDR_DEFINED)
         {
-            if (gw.v4.defined())
-                add_del_route(route, 32, gw.v4.router.to_string(), gw.v4.iface, 0, add_cmds, remove_cmds_bypass_gw);
-        }
-        else
-        {
-            if (gw.v6.defined())
-                add_del_route(route, 128, gw.v6.router.to_string(), gw.v6.iface, R_IPv6 | R_IFACE_HINT, add_cmds, remove_cmds_bypass_gw);
+            if (!ipv6)
+            {
+                add_del_route(route, 32, gw.gateway_addr_str(), gw.iface(), 0, add_cmds, remove_cmds_bypass_gw);
+            }
+            else
+            {
+                add_del_route(route, 128, gw.gateway_addr_str(), gw.iface(), R_IPv6 | R_IFACE_HINT, add_cmds, remove_cmds_bypass_gw);
+            }
         }
     }
 };
-} // namespace TunMac
-} // namespace openvpn
+} // namespace openvpn::TunMac
 
 #endif

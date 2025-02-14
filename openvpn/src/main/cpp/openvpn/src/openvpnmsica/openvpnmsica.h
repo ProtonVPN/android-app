@@ -2,7 +2,7 @@
  *  openvpnmsica -- Custom Action DLL to provide OpenVPN-specific support to MSI packages
  *                  https://community.openvpn.net/openvpn/wiki/OpenVPNMSICA
  *
- *  Copyright (C) 2018-2023 Simon Rozman <simon@rozman.si>
+ *  Copyright (C) 2018-2024 Simon Rozman <simon@rozman.si>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -38,7 +38,7 @@
  */
 struct openvpnmsica_thread_data
 {
-    MSIHANDLE hInstall; /** Handle to the installation session. */
+    MSIHANDLE hInstall; /**< Handle to the installation session. */
 };
 
 
@@ -66,7 +66,11 @@ extern DWORD openvpnmsica_thread_data_idx;
 extern "C" {
 #endif
 
-#ifdef __GNUC__
+/* Ensure that clang-cl, which does not understand the cl specific
+ * preprocessor defines like #pragma comment(linker, DLLEXP_EXPORT)
+ * is handled the same way as mingw and uses the alternative instead
+ * and does not define DLLEXP_EXPORT */
+#if defined(__GNUC__) || defined(__clang__)
 #define DLLEXP_DECL __declspec(dllexport)
 #else
 #define DLLEXP_DECL

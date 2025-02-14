@@ -4,21 +4,12 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //    Copyright (C) 2020-2022 Lev Stipakov <lev@openvpn.net>
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
+
 
 // tun/transport client for ovpn-dco
 
@@ -53,9 +44,9 @@ class OvpnDcoClient : public Client,
             return GeNLImpl::available();
     }
 
-    virtual void tun_start(const OptionList &opt,
-                           TransportClient &transcli,
-                           CryptoDCSettings &dc_settings) override
+    void tun_start(const OptionList &opt,
+                   TransportClient &transcli,
+                   CryptoDCSettings &dc_settings) override
     {
         // extract peer ID from pushed options
         try
@@ -143,12 +134,12 @@ class OvpnDcoClient : public Client,
         tun_parent->tun_connected();
     }
 
-    virtual std::string tun_name() const override
+    std::string tun_name() const override
     {
         return "ovpn-dco";
     }
 
-    virtual IP::Addr server_endpoint_addr() const override
+    IP::Addr server_endpoint_addr() const override
     {
         if (transport)
             return transport->server_endpoint_addr();
@@ -156,7 +147,7 @@ class OvpnDcoClient : public Client,
             return IP::Addr();
     }
 
-    virtual unsigned short server_endpoint_port() const override
+    unsigned short server_endpoint_port() const override
     {
         if (transport)
             return transport->server_endpoint_port();
@@ -164,12 +155,12 @@ class OvpnDcoClient : public Client,
             return 0;
     }
 
-    virtual Protocol transport_protocol() const override
+    Protocol transport_protocol() const override
     {
         return transport->transport_protocol();
     }
 
-    virtual void transport_start() override
+    void transport_start() override
     {
         TransportClientFactory::Ptr transport_factory;
 
@@ -199,26 +190,12 @@ class OvpnDcoClient : public Client,
         transport->transport_start();
     }
 
-    virtual bool transport_send_const(const Buffer &buf) override
+    bool transport_send_const(const Buffer &buf) override
     {
-        if (peer_id == OVPN_PEER_ID_UNDEF)
-            return transport->transport_send_const(buf);
-
-        if (config->builder)
-        {
-            Buffer tmp(buf);
-            tmp.prepend(&peer_id, sizeof(peer_id));
-            pipe->write_some(tmp.const_buffer());
-        }
-        else
-        {
-            genl->send_data(peer_id, buf.c_data(), buf.size());
-        }
-
-        return true;
+        return transport->transport_send_const(buf);
     }
 
-    virtual bool transport_send(BufferAllocated &buf) override
+    bool transport_send(BufferAllocated &buf) override
     {
         OPENVPN_THROW(dcocli_error,
                       "Non-const send expected for data channel only, but "
@@ -273,8 +250,6 @@ class OvpnDcoClient : public Client,
                                          salen,
                                          ipv4,
                                          ipv6);
-
-            queue_read_pipe(nullptr);
             return;
         }
 
@@ -307,12 +282,12 @@ class OvpnDcoClient : public Client,
         last_delta = last_stats - old_stats;
     }
 
-    virtual void resolve_callback(const openvpn_io::error_code &error,
-                                  results_type results) override
+    void resolve_callback(const openvpn_io::error_code &error,
+                          results_type results) override
     {
     }
 
-    virtual void stop_() override
+    void stop_() override
     {
         if (!halt)
         {
@@ -345,8 +320,8 @@ class OvpnDcoClient : public Client,
         }
     }
 
-    virtual void rekey(const CryptoDCInstance::RekeyType rktype,
-                       const KoRekey::Info &rkinfo) override
+    void rekey(const CryptoDCInstance::RekeyType rktype,
+               const KoRekey::Info &rkinfo) override
     {
         if (halt)
             return;
@@ -436,7 +411,7 @@ class OvpnDcoClient : public Client,
         }
     }
 
-    virtual void transport_recv(BufferAllocated &buf) override
+    void transport_recv(BufferAllocated &buf) override
     {
         transport_parent->transport_recv(buf);
     }
@@ -451,10 +426,6 @@ class OvpnDcoClient : public Client,
 
         switch (cmd)
         {
-        case OVPN_CMD_PACKET:
-            transport_parent->transport_recv(buf);
-            break;
-
         case OVPN_CMD_DEL_PEER:
             {
                 uint32_t peer_id;
@@ -505,7 +476,15 @@ class OvpnDcoClient : public Client,
                 struct OvpnDcoPeer peer;
                 buf.read(&peer, sizeof(peer));
 
-                last_stats = SessionStats::DCOTransportSource::Data(peer.rx_bytes, peer.tx_bytes);
+                last_stats = SessionStats::DCOTransportSource::Data(peer.transport.rx_bytes,
+                                                                    peer.transport.tx_bytes,
+                                                                    peer.vpn.rx_bytes,
+                                                                    peer.vpn.tx_bytes,
+                                                                    peer.transport.rx_pkts,
+                                                                    peer.transport.tx_pkts,
+                                                                    peer.vpn.rx_pkts,
+                                                                    peer.vpn.tx_pkts);
+
                 break;
             }
 
@@ -524,55 +503,55 @@ class OvpnDcoClient : public Client,
         return true;
     }
 
-    virtual void transport_needs_send() override
+    void transport_needs_send() override
     {
         transport_parent->transport_needs_send();
     }
 
-    virtual void transport_error(const Error::Type fatal_err,
-                                 const std::string &err_text) override
+    void transport_error(const Error::Type fatal_err,
+                         const std::string &err_text) override
     {
         transport_parent->transport_error(fatal_err, err_text);
     }
 
-    virtual void proxy_error(const Error::Type fatal_err,
-                             const std::string &err_text) override
+    void proxy_error(const Error::Type fatal_err,
+                     const std::string &err_text) override
     {
         transport_parent->proxy_error(fatal_err, err_text);
     }
 
-    virtual bool transport_is_openvpn_protocol() override
+    bool transport_is_openvpn_protocol() override
     {
         return transport_parent->transport_is_openvpn_protocol();
     }
 
-    virtual void transport_pre_resolve() override
+    void transport_pre_resolve() override
     {
         transport_parent->transport_pre_resolve();
     }
 
-    virtual void transport_wait_proxy() override
+    void transport_wait_proxy() override
     {
         transport_parent->transport_wait_proxy();
     }
 
-    virtual void transport_wait() override
+    void transport_wait() override
     {
         transport_parent->transport_wait();
     }
 
-    virtual void transport_connecting() override
+    void transport_connecting() override
     {
         transport_parent->transport_connecting();
     }
 
-    virtual bool is_keepalive_enabled() const override
+    bool is_keepalive_enabled() const override
     {
         return transport_parent->is_keepalive_enabled();
     }
 
-    virtual void disable_keepalive(unsigned int &keepalive_ping,
-                                   unsigned int &keepalive_timeout) override
+    void disable_keepalive(unsigned int &keepalive_ping,
+                           unsigned int &keepalive_timeout) override
     {
         transport_parent->disable_keepalive(keepalive_ping, keepalive_timeout);
     }
@@ -612,7 +591,6 @@ class OvpnDcoClient : public Client,
 
         genl.reset(new GeNLImpl(
             io_context_arg, if_nametoindex(config_arg->dev_name.c_str()), this));
-        genl->register_packet();
     }
 
     void handle_keepalive()
@@ -656,33 +634,33 @@ class OvpnDcoClient : public Client,
         // good enough values for control channel packets
         pkt->buf.reset(512,
                        3072,
-                       BufferAllocated::GROW | BufferAllocated::CONSTRUCT_ZERO | BufferAllocated::DESTRUCT_ZERO);
+                       BufAllocFlags::GROW | BufAllocFlags::CONSTRUCT_ZERO | BufAllocFlags::DESTRUCT_ZERO);
         pipe->async_read_some(
             pkt->buf.mutable_buffer(),
             [self = Ptr(this),
              pkt = PacketFrom::SPtr(pkt)](const openvpn_io::error_code &error,
                                           const size_t bytes_recvd) mutable
             {
-            if (!error)
-            {
-                pkt->buf.set_size(bytes_recvd);
-                if (self->tun_read_handler(pkt->buf))
-                    self->queue_read_pipe(pkt.release());
-            }
-            else
-            {
-                if (!self->halt)
+                if (!error)
                 {
-                    OPENVPN_LOG("ovpn-dco pipe read error: " << error.message());
-                    self->stop_();
-                    self->transport_parent->transport_error(Error::TUN_HALT,
-                                                            error.message());
+                    pkt->buf.set_size(bytes_recvd);
+                    if (self->tun_read_handler(pkt->buf))
+                        self->queue_read_pipe(pkt.release());
                 }
-            }
+                else
+                {
+                    if (!self->halt)
+                    {
+                        OPENVPN_LOG("ovpn-dco pipe read error: " << error.message());
+                        self->stop_();
+                        self->transport_parent->transport_error(Error::TUN_HALT,
+                                                                error.message());
+                    }
+                }
             });
     }
 
-    virtual SessionStats::DCOTransportSource::Data dco_transport_stats_delta() override
+    SessionStats::DCOTransportSource::Data dco_transport_stats_delta() override
     {
         if (halt)
         {

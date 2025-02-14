@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/common/string.hpp>
 #include <openvpn/common/process.hpp>

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap a mbed TLS pk_context object.
 
@@ -34,9 +24,9 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/rc.hpp>
 #include <openvpn/mbedtls/util/error.hpp>
+#include <openvpn/mbedtls/util/rand.hpp>
 
-namespace openvpn {
-namespace MbedTLSPKI {
+namespace openvpn::MbedTLSPKI {
 
 class PKContext : public RC<thread_unsafe_refcount>
 {
@@ -48,12 +38,12 @@ class PKContext : public RC<thread_unsafe_refcount>
     {
     }
 
-    PKContext(const std::string &key_txt, const std::string &title, const std::string &priv_key_pwd)
+    PKContext(const std::string &key_txt, const std::string &title, const std::string &priv_key_pwd, MbedTLSRandom &rand)
         : ctx(nullptr)
     {
         try
         {
-            parse(key_txt, title, priv_key_pwd);
+            parse(key_txt, title, priv_key_pwd, rand);
         }
         catch (...)
         {
@@ -92,7 +82,7 @@ class PKContext : public RC<thread_unsafe_refcount>
         return mbedtls_pk_get_bitlen(ctx);
     }
 
-    void parse(const std::string &key_txt, const std::string &title, const std::string &priv_key_pwd)
+    void parse(const std::string &key_txt, const std::string &title, const std::string &priv_key_pwd, MbedTLSRandom &rand)
     {
         alloc();
         // key_txt.length() is increased by 1 as it does not include the NULL-terminator
@@ -101,7 +91,13 @@ class PKContext : public RC<thread_unsafe_refcount>
                                                 (const unsigned char *)key_txt.c_str(),
                                                 key_txt.length() + 1,
                                                 (const unsigned char *)priv_key_pwd.c_str(),
-                                                priv_key_pwd.length());
+                                                priv_key_pwd.length()
+#if MBEDTLS_VERSION_NUMBER > 0x03000000
+                                                    ,
+                                                mbedtls_ctr_drbg_random,
+                                                rand.get_ctr_drbg_ctx()
+#endif
+        );
         if (status < 0)
             throw MbedTLSException("error parsing " + title + " private key", status);
     }
@@ -116,6 +112,11 @@ class PKContext : public RC<thread_unsafe_refcount>
             throw MbedTLSException("extract priv_key: can't write to buffer", ret);
 
         return std::string((const char *)buff.data());
+    }
+
+    std::string render_pem() const
+    {
+        return extract();
     }
 
     void epki_enable(void *arg,
@@ -162,6 +163,5 @@ class PKContext : public RC<thread_unsafe_refcount>
     mbedtls_pk_context *ctx;
 };
 
-} // namespace MbedTLSPKI
-} // namespace openvpn
+} // namespace openvpn::MbedTLSPKI
 #endif

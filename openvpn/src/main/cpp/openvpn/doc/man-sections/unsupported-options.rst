@@ -30,8 +30,9 @@ longer supported
   VPN tunnel security.  This has been a NOOP option since OpenVPN 2.4.
 
 --no-replay
-  Removed in OpenVPN 2.5.  This option should not be used as it weakens the
-  VPN tunnel security.
+  Removed in OpenVPN 2.7.  This option should not be used as it weakens the
+  VPN tunnel security.  Previously we claimed to have removed this in
+  OpenVPN 2.5, but this wasn't actually the case.
 
 --ns-cert-type
   Removed in OpenVPN 2.5.  The ``nsCertType`` field is no longer supported
@@ -41,3 +42,6 @@ longer supported
 
 --prng
   Removed in OpenVPN 2.6.  We now always use the PRNG of the SSL library.
+
+--persist-key
+  Ignored since OpenVPN 2.7. Keys are now always persisted across restarts.

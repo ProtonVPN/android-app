@@ -4,44 +4,12 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
-// These are our fundamental Time and Time Duration classes.
-// We normally deal with time in units of 1/1024 of a second.
-// This allows us to use 32-bit values to represent most time
-// and time duration values, but still gives us reasonable
-// accuracy.  Using units of 1/1024 of a second vs. straight
-// milliseconds gives us an advantage of not needing to do
-// very much integer multiplication and division which can
-// help us on platforms such as ARM that lack integer division
-// instructions.  Note that the data type used to store the time
-// is an oulong, so it will automatically expand to 64 bits on
-// 64-bit machines (see olong.hpp).  Using a 32-bit
-// data type for time durations is normally fine for clients,
-// but imposes a wraparound limit of ~ 48 days.  Servers
-// should always use a 64-bit data type to avoid this
-// limitation.
-
-// This code was originally designed to be efficient on 32-bit
-// processors.  On 64-bit processors, define OPENVPN_TIME_NO_BASE
-// to optimize out the base_ variable.  This also has the benefit
-// of allowing Time to represent any arbitrary time_t value.
-
-#ifndef OPENVPN_TIME_TIME_H
-#define OPENVPN_TIME_TIME_H
+#pragma once
 
 #include <limits>
 #include <cstdint> // for std::uint32_t, uint64_t
@@ -50,10 +18,12 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/olong.hpp>
 #include <openvpn/common/to_string.hpp>
+#include <openvpn/common/numeric_cast.hpp>
+
 
 #ifdef OPENVPN_PLATFORM_WIN
 #include <time.h>    // for ::time() on Windows
-#include <windows.h> // for GetTickCount
+#include <windows.h> // for GetTickCount64
 #else
 #include <sys/time.h> // for ::time() and ::gettimeofday()
 #endif
@@ -61,6 +31,27 @@
 namespace openvpn {
 OPENVPN_SIMPLE_EXCEPTION(get_time_error);
 
+/** These are our fundamental Time and Time Duration classes.
+    We normally deal with time in units of 1/1024 of a second.
+    This allows us to use 32-bit values to represent most time
+    and time duration values, but still gives us reasonable
+    accuracy.  Using units of 1/1024 of a second vs. straight
+    milliseconds gives us an advantage of not needing to do
+    very much integer multiplication and division which can
+    help us on platforms such as ARM that lack integer division
+    instructions.  Note that the data type used to store the time
+    is an oulong, so it will automatically expand to 64 bits on
+    64-bit machines (see olong.hpp).  Using a 32-bit
+    data type for time durations is normally fine for clients,
+    but imposes a wraparound limit of ~ 48 days.  Servers
+    should always use a 64-bit data type to avoid this
+    limitation.
+
+    This code was originally designed to be efficient on 32-bit
+    processors.  On 64-bit processors, define OPENVPN_TIME_NO_BASE
+    to optimize out the base_ variable.  This also has the benefit
+    of allowing Time to represent any arbitrary time_t value.
+*/
 template <typename T>
 class TimeType
 {
@@ -95,6 +86,12 @@ class TimeType
             // NOTE: assumes that prec == 1024
             // Also note that this might wrap if v is larger than 1/3 of max size of T
             return Duration(v + (v * T(3) / T(128)));
+        }
+
+        static Duration milliseconds(std::chrono::milliseconds ms)
+        {
+            /* Windows on 32 bit platforms warns about loss of precision otherwise */
+            return milliseconds(openvpn::numeric_util::numeric_cast<T>(ms.count()));
         }
 
         Duration() noexcept
@@ -137,6 +134,8 @@ class TimeType
 
         Duration operator+(const int delta) const
         {
+            if (is_infinite())
+                return infinite();
             T duration = duration_;
             if (delta >= 0)
                 duration += delta;
@@ -366,19 +365,24 @@ class TimeType
         return (double(time_) - double(t.time_)) / double(prec);
     }
 
-    // Return a human-readable number of seconds that *this is ahead of t.
-    // t is usually now().
+    /** Return a human-readable number of seconds that *this is ahead of t.
+        t is usually now().
+    */
     std::string delta_str(const TimeType &t) const
     {
         if (!defined())
             return "UNDEF-TIME";
         if (is_infinite())
-            return "INF";
+            return "+INF";
         const double df = delta_float(t);
         std::string ret;
         if (df >= 0.0)
             ret += '+';
-        ret += openvpn::to_string(df);
+        const int idf = int(df);
+        if (df == static_cast<double>(idf))
+            ret += openvpn::to_string(idf);
+        else
+            ret += openvpn::to_string(df);
         return ret;
     }
 
@@ -395,6 +399,12 @@ class TimeType
     OPENVPN_TIME_REL(<=)
 #undef OPENVPN_TIME_REL
 
+    template <typename HASH>
+    void hash(HASH &h) const
+    {
+        h(time_);
+    }
+
     T raw() const
     {
         return time_;
@@ -405,7 +415,7 @@ class TimeType
         // on 32-bit systems, reset time base after 30 days
         if (sizeof(T) == 4)
         {
-            const base_type newbase = ::time(0);
+            const base_type newbase = ::time(NULL);
             if (newbase - base_ >= (60 * 60 * 24 * 30))
                 reset_base();
         }
@@ -416,18 +426,14 @@ class TimeType
 #ifdef OPENVPN_TIME_NO_BASE
         static_assert(sizeof(base_type) >= 8, "OPENVPN_TIME_NO_BASE requires time_t to be 64 bits");
 #else
-        base_ = ::time(0);
+        base_ = ::time(NULL);
 #ifdef OPENVPN_PLATFORM_WIN
-#if (_WIN32_WINNT >= 0x0600)
-        win_recalibrate((DWORD)::GetTickCount64());
-#else
-        win_recalibrate(::GetTickCount());
-#endif
+        win_recalibrate(::GetTickCount64());
 #endif
 #endif
     }
 
-    // number of tenths of a microsecond since January 1, 1601.
+    /** number of tenths of a microsecond since January 1, 1601. */
     static uint64_t win_time()
     {
         // NOTE: assumes that prec == 1024
@@ -442,19 +448,15 @@ class TimeType
 
 #ifdef OPENVPN_PLATFORM_WIN
 
-    static void win_recalibrate(const DWORD gtc)
+    static void win_recalibrate(const ULONGLONG gtc)
     {
         gtc_last = gtc;
-        gtc_base = ::time(0) - gtc_last / 1000;
+        gtc_base = ::time(NULL) - gtc_last / 1000;
     }
 
     static T now_()
     {
-#if (_WIN32_WINNT >= 0x0600)
-        const DWORD gtc = (DWORD)::GetTickCount64();
-#else
-        const DWORD gtc = ::GetTickCount();
-#endif
+        const ULONGLONG gtc = ::GetTickCount64();
         if (gtc < gtc_last)
             win_recalibrate(gtc);
         const time_t sec = gtc_base + gtc / 1000;
@@ -462,8 +464,8 @@ class TimeType
         return T((sec - base_) * prec + msec * prec / 1000);
     }
 
-    static DWORD gtc_last;
-    static time_t gtc_base;
+    static inline ULONGLONG gtc_last = 0;
+    static inline time_t gtc_base = 0;
 
 #else
 
@@ -480,28 +482,14 @@ class TimeType
 #ifdef OPENVPN_TIME_NO_BASE
     static constexpr base_type base_ = 0;
 #else
-    static base_type base_;
+    static inline base_type base_ = 0;
 #endif
 
     T time_;
 };
-
-#ifdef OPENVPN_PLATFORM_WIN
-template <typename T>
-DWORD TimeType<T>::gtc_last;
-template <typename T>
-time_t TimeType<T>::gtc_base;
-#endif
-
-#ifndef OPENVPN_TIME_NO_BASE
-template <typename T>
-typename TimeType<T>::base_type TimeType<T>::base_;
-#endif
 
 typedef TimeType<oulong> Time;
 
 typedef Time *TimePtr;
 
 } // namespace openvpn
-
-#endif // OPENVPN_TIME_TIME_H

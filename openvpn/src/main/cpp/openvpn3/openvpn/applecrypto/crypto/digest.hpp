@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap the Apple digest API defined in <CommonCrypto/CommonDigest.h>
 // so that it can be used as part of the crypto layer of the OpenVPN core.
@@ -36,27 +26,29 @@
 #include <openvpn/crypto/cryptoalgs.hpp>
 #include <openvpn/apple/cf/error.hpp>
 
+/// \cond KNOWN_WARNINGS
+/// error: no matching file member found for openvpn::AppleCrypto::DigestCTX::@9::OPENVPN_DIGEST_CONTEXT(MD4)
 #define OPENVPN_DIGEST_CONTEXT(TYPE) CC_##TYPE##_CTX TYPE##_ctx
 
-#define OPENVPN_DIGEST_ALG_CLASS(TYPE)                                                   \
-    class DigestAlgorithm##TYPE : public DigestAlgorithm                                 \
-    {                                                                                    \
-      public:                                                                            \
-        DigestAlgorithm##TYPE()                                                          \
-        {                                                                                \
-        }                                                                                \
-        virtual int init(DigestCTX &ctx) const                                           \
-        {                                                                                \
-            return CC_##TYPE##_Init(&ctx.u.TYPE##_ctx);                                  \
-        }                                                                                \
-        virtual int update(DigestCTX &ctx, const unsigned char *data, size_t size) const \
-        {                                                                                \
-            return CC_##TYPE##_Update(&ctx.u.TYPE##_ctx, data, size);                    \
-        }                                                                                \
-        virtual int final(DigestCTX &ctx, unsigned char *md) const                       \
-        {                                                                                \
-            return CC_##TYPE##_Final(md, &ctx.u.TYPE##_ctx);                             \
-        }                                                                                \
+#define OPENVPN_DIGEST_ALG_CLASS(TYPE)                                                    \
+    class DigestAlgorithm##TYPE : public DigestAlgorithm                                  \
+    {                                                                                     \
+      public:                                                                             \
+        DigestAlgorithm##TYPE()                                                           \
+        {                                                                                 \
+        }                                                                                 \
+        int init(DigestCTX &ctx) const override                                           \
+        {                                                                                 \
+            return CC_##TYPE##_Init(&ctx.u.TYPE##_ctx);                                   \
+        }                                                                                 \
+        int update(DigestCTX &ctx, const unsigned char *data, size_t size) const override \
+        {                                                                                 \
+            return CC_##TYPE##_Update(&ctx.u.TYPE##_ctx, data, size);                     \
+        }                                                                                 \
+        int final(DigestCTX &ctx, unsigned char *md) const override                       \
+        {                                                                                 \
+            return CC_##TYPE##_Final(md, &ctx.u.TYPE##_ctx);                              \
+        }                                                                                 \
     }
 
 #define OPENVPN_DIGEST_ALG_DECLARE(TYPE) const DigestAlgorithm##TYPE alg_##TYPE;
@@ -65,8 +57,7 @@
 
 #define OPENVPN_DIGEST_INFO_DECLARE_NO_HMAC(TYPE) const DigestInfo info_##TYPE(CryptoAlgs::TYPE, &alg_##TYPE, DigestInfo::NO_HMAC_ALG)
 
-namespace openvpn {
-namespace AppleCrypto {
+namespace openvpn::AppleCrypto {
 typedef CC_SHA256_CTX CC_SHA224_CTX;
 typedef CC_SHA512_CTX CC_SHA384_CTX;
 
@@ -98,6 +89,8 @@ OPENVPN_DIGEST_ALG_CLASS(SHA224);
 OPENVPN_DIGEST_ALG_CLASS(SHA256);
 OPENVPN_DIGEST_ALG_CLASS(SHA384);
 OPENVPN_DIGEST_ALG_CLASS(SHA512);
+
+/// \endcond
 
 class DigestInfo
 {
@@ -270,8 +263,7 @@ class DigestContext
     const DigestAlgorithm *meth;
     DigestCTX ctx;
 };
-} // namespace AppleCrypto
-} // namespace openvpn
+} // namespace openvpn::AppleCrypto
 
 #undef OPENVPN_DIGEST_CONTEXT
 #undef OPENVPN_DIGEST_ALG_CLASS

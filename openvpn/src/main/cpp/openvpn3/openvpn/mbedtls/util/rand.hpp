@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap the mbed TLS Cryptographic Random API defined in <mbedtls/ctr_drbg.h>
 // so that it can be used as the primary source of cryptographic entropy by
@@ -27,7 +17,9 @@
 #define OPENVPN_MBEDTLS_UTIL_RAND_H
 
 #include <mbedtls/entropy.h>
+#if MBEDTLS_VERSION_NUMBER < 0x03000000
 #include <mbedtls/entropy_poll.h>
+#endif
 #include <mbedtls/ctr_drbg.h>
 
 #include <openvpn/random/randapi.hpp>
@@ -35,14 +27,15 @@
 
 namespace openvpn {
 
-class MbedTLSRandom : public RandomAPI
+class MbedTLSRandom : public StrongRandomAPI
 {
   public:
     OPENVPN_EXCEPTION(rand_error_mbedtls);
 
     typedef RCPtr<MbedTLSRandom> Ptr;
 
-    MbedTLSRandom(const bool prng, RandomAPI::Ptr entropy_source)
+
+    MbedTLSRandom(StrongRandomAPI::Ptr entropy_source)
         : entropy(std::move(entropy_source))
     {
         // Init RNG context
@@ -52,15 +45,10 @@ class MbedTLSRandom : public RandomAPI
         const int errnum = mbedtls_ctr_drbg_seed(&ctx, entropy_poll, entropy.get(), nullptr, 0);
         if (errnum < 0)
             throw MbedTLSException("mbedtls_ctr_drbg_seed", errnum);
-
-        // If prng is set, configure for higher performance
-        // by reseeding less frequently.
-        if (prng)
-            mbedtls_ctr_drbg_set_reseed_interval(&ctx, 1000000);
     }
 
-    MbedTLSRandom(const bool prng)
-        : MbedTLSRandom(prng, RandomAPI::Ptr())
+    MbedTLSRandom()
+        : MbedTLSRandom(StrongRandomAPI::Ptr())
     {
     }
 
@@ -71,7 +59,7 @@ class MbedTLSRandom : public RandomAPI
     }
 
     // Random algorithm name
-    virtual std::string name() const
+    std::string name() const override
     {
         const std::string n = "mbedTLS-CTR_DRBG";
         if (entropy)
@@ -80,14 +68,8 @@ class MbedTLSRandom : public RandomAPI
             return n;
     }
 
-    // Return true if algorithm is crypto-strength
-    virtual bool is_crypto() const
-    {
-        return true;
-    }
-
     // Fill buffer with random bytes
-    virtual void rand_bytes(unsigned char *buf, size_t size)
+    void rand_bytes(unsigned char *buf, size_t size) override
     {
         const int errnum = rndbytes(buf, size);
         if (errnum < 0)
@@ -96,9 +78,20 @@ class MbedTLSRandom : public RandomAPI
 
     // Like rand_bytes, but don't throw exception.
     // Return true on successs, false on fail.
-    virtual bool rand_bytes_noexcept(unsigned char *buf, size_t size)
+    bool rand_bytes_noexcept(unsigned char *buf, size_t size) override
     {
         return rndbytes(buf, size) >= 0;
+    }
+
+    /**
+     * function to get the mbedtls_ctr_drbg_context. This is needed for the pk_parse
+     * methods in mbed TLS 3.0 that require a random number generator to avoid side
+     * channel attacks when loading private keys. The returned context is tied
+     * to the internal state of this random number generator.
+     */
+    mbedtls_ctr_drbg_context *get_ctr_drbg_ctx()
+    {
+        return &ctx;
     }
 
   private:

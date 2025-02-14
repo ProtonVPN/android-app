@@ -4,29 +4,21 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef OPENVPN_TUN_WIN_WFP_H
-#define OPENVPN_TUN_WIN_WFP_H
+#pragma once
 
 #include <ostream>
 
 #include <openvpn/common/rc.hpp>
 #include <openvpn/common/wstring.hpp>
 #include <openvpn/common/action.hpp>
+#include <openvpn/common/uniqueptr.hpp>
 #include <openvpn/buffer/bufstr.hpp>
 #include <openvpn/tun/win/tunutil.hpp>
 #include <openvpn/win/winerr.hpp>
@@ -46,7 +38,7 @@
 #define FWPM_SESSION_FLAG_DYNAMIC 0x00000001
 #endif
 
-// defines below are taken from openvpn2 code (https://github.com/OpenVPN/openvpn/blob/master/src/openvpn/block_dns.c)
+// defines below are taken from openvpn2 code
 // which likely borrowed them from Windows SDK header fwpmu.h
 
 /* c38d57d1-05a7-4c33-904f-7fbceee60e82 */
@@ -124,42 +116,28 @@ DEFINE_GUID(
     0x90,
     0xa4);
 
-/* UUID of WFP sublayer used by all instances of openvpn
- * 2f660d7e-6a37-11e6-a181-001e8c6e04a2 */
+/* 632ce23b-5167-435c-86d7-e903684aa80c */
 DEFINE_GUID(
-    OPENVPN_BLOCK_OUTSIDE_DNS_SUBLAYER,
-    0x2f660d7e,
-    0x6a37,
-    0x11e6,
-    0xa1,
-    0x81,
-    0x00,
-    0x1e,
-    0x8c,
-    0x6e,
-    0x04,
-    0xa2);
-
-/* b235ae9a-1d64-49b8-a44c-5ff3d9095045 */
-DEFINE_GUID(
-    FWPM_CONDITION_IP_REMOTE_ADDRESS,
-    0xb235ae9a,
-    0x1d64,
-    0x49b8,
-    0xa4,
-    0x4c,
-    0x5f,
-    0xf3,
-    0xd9,
-    0x09,
-    0x50,
-    0x45);
+    FWPM_CONDITION_FLAGS,
+    0x632ce23b,
+    0x5167,
+    0x435c,
+    0x86,
+    0xd7,
+    0xe9,
+    0x03,
+    0x68,
+    0x4a,
+    0xa8,
+    0x0c);
 
 #endif
 
-namespace openvpn {
-namespace TunWin {
+namespace openvpn::TunWin {
 
+/**
+ * @brief Add WFP rules to block traffic from escaping the VPN
+ */
 class WFP : public RC<thread_unsafe_refcount>
 {
   public:
@@ -167,28 +145,169 @@ class WFP : public RC<thread_unsafe_refcount>
 
     OPENVPN_EXCEPTION(wfp_error);
 
-    // Block DNS from all apps except openvpn_app_path and
-    // from all interfaces except tap_index.
-    // Derived from https://github.com/ValdikSS/openvpn-with-patches/commit/3bd4d503d21aa34636e4f97b3e32ae0acca407f0
-    void block_dns(const std::wstring &openvpn_app_path,
-                   const NET_IFINDEX tap_index,
-                   const bool allow_local_dns_resolvers,
+    /**
+     * @brief Enum for type of local traffic to block
+     */
+    enum class Block
+    {
+        All,
+        AllButLocalDns,
+        Dns,
+    };
+
+    class ActionBase;
+
+    /**
+     * @brief Wrapper class for a WFP session
+     */
+    class Context : public RC<thread_unsafe_refcount>
+    {
+      public:
+        typedef RCPtr<Context> Ptr;
+
+      private:
+        friend class ActionBase;
+
+        void block(const std::wstring &openvpn_app_path,
+                   const NET_IFINDEX itf_index,
+                   const Block block_type,
                    std::ostream &log)
+        {
+            unblock(log);
+            wfp.reset(new WFP());
+            wfp->block(openvpn_app_path, itf_index, block_type, log);
+        }
+
+        void unblock(std::ostream &log)
+        {
+            if (wfp)
+            {
+                wfp->reset(log);
+                wfp.reset();
+            }
+        }
+
+        WFP::Ptr wfp;
+    };
+
+    /**
+     * @brief Base class for WFP actions
+     *
+     * It holds a pointer to the WFP context and blocks / unblocks using
+     * the context, when it is invoked. This class cannot be constructed,
+     * use the derived ActionBlock and ActionUnblock classes to manage
+     * the firewall rules.
+     */
+    class ActionBase : public Action
+    {
+      public:
+        /**
+         * @brief Invoke the context class to block / unblock traffic.
+         *
+         * @param log   the log stream for diagnostics
+         */
+        void execute(std::ostream &log) override
+        {
+            log << to_string() << std::endl;
+            if (block_)
+                ctx_->block(openvpn_app_path_, itf_index_, block_type_, log);
+            else
+                ctx_->unblock(log);
+        }
+
+        std::string to_string() const override
+        {
+            return "ActionBase openvpn_app_path=" + wstring::to_utf8(openvpn_app_path_)
+                   + " tap_index=" + std::to_string(itf_index_)
+                   + " enable=" + std::to_string(block_);
+        }
+
+      protected:
+        ActionBase(const bool block,
+                   const std::wstring &openvpn_app_path,
+                   const NET_IFINDEX itf_index,
+                   const Block block_type,
+                   const Context::Ptr &ctx)
+            : block_(block),
+              openvpn_app_path_(openvpn_app_path),
+              itf_index_(itf_index),
+              block_type_(block_type),
+              ctx_(ctx)
+        {
+        }
+
+      private:
+        const bool block_;
+        const std::wstring openvpn_app_path_;
+        const NET_IFINDEX itf_index_;
+        const Block block_type_;
+        Context::Ptr ctx_;
+    };
+
+    struct ActionBlock : public ActionBase
+    {
+        ActionBlock(const std::wstring &openvpn_app_path,
+                    const NET_IFINDEX itf_index,
+                    const Block block_type,
+                    const Context::Ptr &wfp)
+            : ActionBase(true, openvpn_app_path, itf_index, block_type, wfp)
+        {
+        }
+    };
+
+    struct ActionUnblock : public ActionBase
+    {
+        ActionUnblock(const std::wstring &openvpn_app_path,
+                      const NET_IFINDEX itf_index,
+                      const Block block_type,
+                      const Context::Ptr &wfp)
+            : ActionBase(false, openvpn_app_path, itf_index, block_type, wfp)
+        {
+        }
+    };
+
+  private:
+    friend class Context;
+
+    /**
+     * @brief Add WFP block filters to prevent VPN traffic from leaking
+     *
+     * Block traffic to all interfaces besides the VPN interface.
+     * The OpenVPN process gets an exception to this rule.
+     * If dns_only is set this only concerns traffic to port 53.
+     *
+     * Derived from code in openvpn 2, originally:
+     * https://github.com/ValdikSS/openvpn-with-patches/commit/3bd4d503d21aa34636e4f97b3e32ae0acca407f0
+     *
+     * @param openvpn_app_path  path to the openvpn executable
+     * @param itf_index         interface index of the VPN interface
+     * @param block_type        which type of traffic should be blocked
+     * @param log               the log ostream to use for diagnostics
+     */
+    void block(const std::wstring &openvpn_app_path,
+               NET_IFINDEX itf_index,
+               Block block_type,
+               std::ostream &log)
     {
         // WFP filter/conditions
-        FWPM_FILTER0 filter = {0};
-        FWPM_FILTER_CONDITION0 condition[2] = {0};
+        FWPM_FILTER0 filter = {};
+        FWPM_FILTER_CONDITION0 condition[2] = {};
+        FWPM_FILTER_CONDITION0 match_openvpn = {};
+        FWPM_FILTER_CONDITION0 match_port_53 = {};
+        FWPM_FILTER_CONDITION0 match_interface = {};
+        FWPM_FILTER_CONDITION0 match_loopback = {};
+        FWPM_FILTER_CONDITION0 match_not_loopback = {};
         UINT64 filterid = 0;
 
         // Get NET_LUID object for adapter
-        NET_LUID tap_luid = adapter_index_to_luid(tap_index);
+        NET_LUID itf_luid = adapter_index_to_luid(itf_index);
 
         // Get app ID
         unique_ptr_del<FWP_BYTE_BLOB> openvpn_app_id_blob = get_app_id_blob(openvpn_app_path);
 
         // Populate packet filter layer information
         {
-            FWPM_SUBLAYER0 subLayer = {0};
+            FWPM_SUBLAYER0 subLayer = {};
             subLayer.subLayerKey = subLayerGUID;
             subLayer.displayData.name = const_cast<wchar_t *>(L"OpenVPN");
             subLayer.displayData.description = const_cast<wchar_t *>(L"OpenVPN");
@@ -201,6 +320,32 @@ class WFP : public RC<thread_unsafe_refcount>
                 OPENVPN_THROW(wfp_error, "FwpmSubLayerAdd0 failed with status=0x" << std::hex << status);
         }
 
+        /* Prepare match conditions */
+        match_openvpn.fieldKey = FWPM_CONDITION_ALE_APP_ID;
+        match_openvpn.matchType = FWP_MATCH_EQUAL;
+        match_openvpn.conditionValue.type = FWP_BYTE_BLOB_TYPE;
+        match_openvpn.conditionValue.byteBlob = openvpn_app_id_blob.get();
+
+        match_port_53.fieldKey = FWPM_CONDITION_IP_REMOTE_PORT;
+        match_port_53.matchType = FWP_MATCH_EQUAL;
+        match_port_53.conditionValue.type = FWP_UINT16;
+        match_port_53.conditionValue.uint16 = 53;
+
+        match_interface.fieldKey = FWPM_CONDITION_IP_LOCAL_INTERFACE;
+        match_interface.matchType = FWP_MATCH_EQUAL;
+        match_interface.conditionValue.type = FWP_UINT64;
+        match_interface.conditionValue.uint64 = &itf_luid.Value;
+
+        match_loopback.fieldKey = FWPM_CONDITION_FLAGS;
+        match_loopback.matchType = FWP_MATCH_FLAGS_ALL_SET;
+        match_loopback.conditionValue.type = FWP_UINT32;
+        match_loopback.conditionValue.uint32 = FWP_CONDITION_FLAG_IS_LOOPBACK;
+
+        match_not_loopback.fieldKey = FWPM_CONDITION_FLAGS;
+        match_not_loopback.matchType = FWP_MATCH_FLAGS_NONE_SET;
+        match_not_loopback.conditionValue.type = FWP_UINT32;
+        match_not_loopback.conditionValue.uint32 = FWP_CONDITION_FLAG_IS_LOOPBACK;
+
         // Prepare filter
         filter.subLayerKey = subLayerGUID;
         filter.displayData.name = const_cast<wchar_t *>(L"OpenVPN");
@@ -208,110 +353,98 @@ class WFP : public RC<thread_unsafe_refcount>
         filter.weight.uint8 = 0xF;
         filter.filterCondition = condition;
 
-        if (allow_local_dns_resolvers)
-        {
-            // Filter #1 -- permit IPv4 DNS requests to 127.0.0.1
-            filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;
-            filter.action.type = FWP_ACTION_PERMIT;
-            filter.numFilterConditions = 2;
-
-            condition[0].fieldKey = FWPM_CONDITION_IP_REMOTE_PORT;
-            condition[0].matchType = FWP_MATCH_EQUAL;
-            condition[0].conditionValue.type = FWP_UINT16;
-            condition[0].conditionValue.uint16 = 53;
-
-            UINT8 localhost[4] = {1, 0, 0, 127};
-
-            condition[1].fieldKey = FWPM_CONDITION_IP_REMOTE_ADDRESS;
-            condition[1].matchType = FWP_MATCH_EQUAL;
-            condition[1].conditionValue.type = FWP_UINT32;
-            condition[1].conditionValue.uint32 = *(UINT32 *)localhost;
-
-            add_filter(&filter, NULL, &filterid);
-            log << "permit IPv4 DNS requests to 127.0.0.1" << std::endl;
-
-            // Filter #2 -- permit IPv6 DNS requests to ::1
-            filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
-            UINT8 localhostv6[16] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-            condition[1].conditionValue.type = FWP_BYTE_ARRAY16_TYPE;
-            condition[1].conditionValue.byteArray16 = (FWP_BYTE_ARRAY16 *)localhostv6;
-
-            add_filter(&filter, NULL, &filterid);
-            log << "permit IPv6 DNS requests to ::1" << std::endl;
-        }
-
-        // Filter #3 -- permit IPv4 DNS requests from OpenVPN app
+        // Filter #1 -- permit IPv4 requests from OpenVPN app
         filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;
         filter.action.type = FWP_ACTION_PERMIT;
-        filter.numFilterConditions = 2;
-
-        condition[0].fieldKey = FWPM_CONDITION_IP_REMOTE_PORT;
-        condition[0].matchType = FWP_MATCH_EQUAL;
-        condition[0].conditionValue.type = FWP_UINT16;
-        condition[0].conditionValue.uint16 = 53;
-
-        condition[1].fieldKey = FWPM_CONDITION_ALE_APP_ID;
-        condition[1].matchType = FWP_MATCH_EQUAL;
-        condition[1].conditionValue.type = FWP_BYTE_BLOB_TYPE;
-        condition[1].conditionValue.byteBlob = openvpn_app_id_blob.get();
-
+        filter.numFilterConditions = 1;
+        condition[0] = match_openvpn;
         add_filter(&filter, NULL, &filterid);
-        log << "permit IPv4 DNS requests from OpenVPN app" << std::endl;
+        log << "permit IPv4 requests from OpenVPN app" << std::endl;
 
-        // Filter #4 -- permit IPv6 DNS requests from OpenVPN app
+
+        // Filter #2 -- permit IPv6 requests from OpenVPN app
         filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
-
         add_filter(&filter, NULL, &filterid);
-        log << "permit IPv6 DNS requests from OpenVPN app" << std::endl;
+        log << "permit IPv6 requests from OpenVPN app" << std::endl;
 
-        // Filter #5 -- block IPv4 DNS requests from other apps
+
+        // Filter #3 -- block IPv4 (DNS) requests, except to loopback, from other apps
         filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;
         filter.action.type = FWP_ACTION_BLOCK;
         filter.weight.type = FWP_EMPTY;
         filter.numFilterConditions = 1;
-
+        condition[0] = match_not_loopback;
+        if (block_type == Block::Dns)
+        {
+            filter.numFilterConditions = 2;
+            condition[1] = match_port_53;
+        }
         add_filter(&filter, NULL, &filterid);
-        log << "block IPv4 DNS requests from other apps" << std::endl;
+        log << "block IPv4 requests from other apps" << std::endl;
 
-        // Filter #6 -- block IPv6 DNS requests from other apps
+
+        // Filter #4 -- block IPv6 (DNS) requests, except to loopback, from other apps
         filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
-
         add_filter(&filter, NULL, &filterid);
-        log << "block IPv6 DNS requests from other apps" << std::endl;
+        log << "block IPv6 requests from other apps" << std::endl;
 
-        // Filter #7 -- allow IPv4 traffic from TAP
+
+        // Filter #5 -- allow IPv4 traffic from VPN interface
         filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;
         filter.action.type = FWP_ACTION_PERMIT;
-        filter.numFilterConditions = 2;
-
-        condition[1].fieldKey = FWPM_CONDITION_IP_LOCAL_INTERFACE;
-        condition[1].matchType = FWP_MATCH_EQUAL;
-        condition[1].conditionValue.type = FWP_UINT64;
-        condition[1].conditionValue.uint64 = &tap_luid.Value;
-
+        filter.numFilterConditions = 1;
+        condition[0] = match_interface;
         add_filter(&filter, NULL, &filterid);
         log << "allow IPv4 traffic from TAP" << std::endl;
 
-        // Filter #8 -- allow IPv6 traffic from TAP
-        filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
 
+        // Filter #6 -- allow IPv6 traffic from VPN interface
+        filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
         add_filter(&filter, NULL, &filterid);
         log << "allow IPv6 traffic from TAP" << std::endl;
+
+        if (block_type != Block::AllButLocalDns)
+        {
+            // Filter #7 -- block IPv4 DNS requests to loopback from other apps
+            filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V4;
+            filter.action.type = FWP_ACTION_BLOCK;
+            filter.weight.type = FWP_EMPTY;
+            filter.numFilterConditions = 2;
+            condition[0] = match_loopback;
+            condition[1] = match_port_53;
+            add_filter(&filter, NULL, &filterid);
+            log << "block IPv4 DNS requests to loopback from other apps" << std::endl;
+
+
+            // Filter #8 -- block IPv6 DNS requests to loopback from other apps
+            filter.layerKey = FWPM_LAYER_ALE_AUTH_CONNECT_V6;
+            add_filter(&filter, NULL, &filterid);
+            log << "block IPv6 DNS requests to loopback from other apps" << std::endl;
+        }
     }
 
+    /**
+     * @brief Remove WFP block filters
+     *
+     * @param log   the log ostream to use for disgnostics
+     */
     void reset(std::ostream &log)
     {
         engineHandle.reset(&log);
     }
 
-  private:
-    class WFPEngine
+    /**
+     * @class Wrapper for the WFP engine handle
+     */
+    class EngineHandle
     {
       public:
-        WFPEngine()
+        /**
+         * @brief Open a new WFP session and store the handle
+         */
+        EngineHandle()
         {
-            FWPM_SESSION0 session = {0};
+            FWPM_SESSION0 session = {};
 
             // delete all filters when engine handle is closed
             session.flags = FWPM_SESSION_FLAG_DYNAMIC;
@@ -321,23 +454,30 @@ class WFP : public RC<thread_unsafe_refcount>
                 OPENVPN_THROW(wfp_error, "FwpmEngineOpen0 failed with status=0x" << std::hex << status);
         }
 
+        /**
+         * @brief Close the engine handle.
+         *
+         * This will effectively remove all block filter rules set using this engine handle.
+         *
+         * @param log   the log ostream to use for disgnostics
+         */
         void reset(std::ostream *log)
         {
             if (defined())
             {
                 const DWORD status = ::FwpmEngineClose0(handle);
-                handle = NULL;
+                handle = INVALID_HANDLE_VALUE;
                 if (log)
                 {
                     if (status != ERROR_SUCCESS)
                         *log << "FwpmEngineClose0 failed, status=" << status << std::endl;
                     else
-                        *log << "WFPEngine closed" << std::endl;
+                        *log << "WFP Engine closed" << std::endl;
                 }
             }
         }
 
-        ~WFPEngine()
+        ~EngineHandle()
         {
             reset(nullptr);
         }
@@ -347,16 +487,21 @@ class WFP : public RC<thread_unsafe_refcount>
             return Win::Handle::defined(handle);
         }
 
+        /**
+         * @brief Return the engine handle.
+         *
+         * @return HANDLE   The engine handle. May not represent an open session.
+         */
         HANDLE operator()() const
         {
             return handle;
         }
 
       private:
-        WFPEngine(const WFPEngine &) = delete;
-        WFPEngine &operator=(const WFPEngine &) = delete;
+        EngineHandle(const EngineHandle &) = delete;
+        EngineHandle &operator=(const EngineHandle &) = delete;
 
-        HANDLE handle = NULL;
+        HANDLE handle = INVALID_HANDLE_VALUE;
     };
 
     static GUID new_guid()
@@ -370,11 +515,11 @@ class WFP : public RC<thread_unsafe_refcount>
 
     static NET_LUID adapter_index_to_luid(const NET_IFINDEX index)
     {
-        NET_LUID tap_luid;
-        const NETIO_STATUS ret = ::ConvertInterfaceIndexToLuid(index, &tap_luid);
+        NET_LUID itf_luid;
+        const NETIO_STATUS ret = ::ConvertInterfaceIndexToLuid(index, &itf_luid);
         if (ret != NO_ERROR)
             throw wfp_error("ConvertInterfaceIndexToLuid failed");
-        return tap_luid;
+        return itf_luid;
     }
 
     static unique_ptr_del<FWP_BYTE_BLOB> get_app_id_blob(const std::wstring &app_path)
@@ -397,77 +542,7 @@ class WFP : public RC<thread_unsafe_refcount>
     }
 
     const GUID subLayerGUID{new_guid()};
-    WFPEngine engineHandle;
+    EngineHandle engineHandle;
 };
 
-class WFPContext : public RC<thread_unsafe_refcount>
-{
-  public:
-    typedef RCPtr<WFPContext> Ptr;
-
-  private:
-    friend class ActionWFP;
-
-    void block(const std::wstring &openvpn_app_path,
-               const NET_IFINDEX tap_index,
-               const bool allow_local_dns_resolvers,
-               std::ostream &log)
-    {
-        unblock(log);
-        wfp.reset(new WFP());
-        wfp->block_dns(openvpn_app_path, tap_index, allow_local_dns_resolvers, log);
-    }
-
-    void unblock(std::ostream &log)
-    {
-        if (wfp)
-        {
-            wfp->reset(log);
-            wfp.reset();
-        }
-    }
-
-    WFP::Ptr wfp;
-};
-
-class ActionWFP : public Action
-{
-  public:
-    ActionWFP(const std::wstring &openvpn_app_path_arg,
-              const NET_IFINDEX tap_index_arg,
-              const bool enable_arg,
-              const bool allow_local_dns_resolvers_arg,
-              const WFPContext::Ptr &wfp_arg)
-        : openvpn_app_path(openvpn_app_path_arg),
-          tap_index(tap_index_arg),
-          enable(enable_arg),
-          wfp(wfp_arg),
-          allow_local_dns_resolvers(allow_local_dns_resolvers_arg)
-    {
-    }
-
-    virtual void execute(std::ostream &log) override
-    {
-        log << to_string() << std::endl;
-        if (enable)
-            wfp->block(openvpn_app_path, tap_index, allow_local_dns_resolvers, log);
-        else
-            wfp->unblock(log);
-    }
-
-    virtual std::string to_string() const override
-    {
-        return "ActionWFP openvpn_app_path=" + wstring::to_utf8(openvpn_app_path) + " tap_index=" + std::to_string(tap_index) + " enable=" + std::to_string(enable);
-    }
-
-  private:
-    const std::wstring openvpn_app_path;
-    const NET_IFINDEX tap_index;
-    const bool enable;
-    WFPContext::Ptr wfp;
-    const bool allow_local_dns_resolvers;
-};
-} // namespace TunWin
-} // namespace openvpn
-
-#endif
+} // namespace openvpn::TunWin

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,8 @@
  */
 
 /**
- * @file Control Channel SSL library backend module
+ * @file
+ * Control Channel SSL library backend module
  */
 
 
@@ -52,15 +53,6 @@
  *  prototype for struct tls_session from ssl_common.h
  */
 struct tls_session;
-
-/**
- * Get a tls_cipher_name_pair containing OpenSSL and IANA names for supplied TLS cipher name
- *
- * @param cipher_name   Can be either OpenSSL or IANA cipher name
- * @return              tls_cipher_name_pair* if found, NULL otherwise
- */
-typedef struct { const char *openssl_name; const char *iana_name; } tls_cipher_name_pair;
-const tls_cipher_name_pair *tls_get_cipher_name_pair(const char *cipher_name, size_t len);
 
 /*
  *
@@ -261,7 +253,7 @@ int tls_ctx_load_pkcs12(struct tls_root_ctx *ctx, const char *pkcs12_file,
  * context.
  *
  * @param ctx                   TLS context to use
- * @param crypto_api_cert       String representing the certificate to load.
+ * @param cryptoapi_cert       String representing the certificate to load.
  */
 #ifdef ENABLE_CRYPTOAPI
 void tls_ctx_load_cryptoapi(struct tls_root_ctx *ctx, const char *cryptoapi_cert);
@@ -370,6 +362,13 @@ void tls_ctx_personalise_random(struct tls_root_ctx *ctx);
  */
 void key_state_ssl_init(struct key_state_ssl *ks_ssl,
                         const struct tls_root_ctx *ssl_ctx, bool is_server, struct tls_session *session);
+
+/**
+ * Sets a TLS session to be shutdown state, so the TLS library will generate
+ * a shutdown alert.
+ */
+void
+key_state_ssl_shutdown(struct key_state_ssl *ks_ssl);
 
 /**
  * Free the SSL channel part of the given key state.
@@ -508,7 +507,6 @@ int key_state_write_ciphertext(struct key_state_ssl *ks_ssl,
  * @param ks_ssl       - The security parameter state for this %key
  *                       session.
  * @param buf          - A buffer in which to store the plaintext.
- * @param maxlen       - The maximum number of bytes to extract.
  *
  * @return The return value indicates whether the data was successfully
  *     processed:
@@ -531,12 +529,12 @@ int key_state_read_plaintext(struct key_state_ssl *ks_ssl, struct buffer *buf);
  *
  ***************************************/
 
-/*
+/**
  * Print a one line summary of SSL/TLS session handshake.
  */
 void print_details(struct key_state_ssl *ks_ssl, const char *prefix);
 
-/*
+/**
  * Show the TLS ciphers that are available for us to use in the
  * library depending on the TLS version. This function prints
  * a list of ciphers without headers/footers.
@@ -551,16 +549,10 @@ show_available_tls_ciphers_list(const char *cipher_list,
                                 const char *tls_cert_profile,
                                 bool tls13);
 
-/*
+/**
  * Show the available elliptic curves in the crypto library
  */
 void show_available_curves(void);
-
-/*
- * The OpenSSL library has a notion of preference in TLS ciphers.  Higher
- * preference == more secure. Return the highest preference cipher.
- */
-void get_highest_preference_tls_cipher(char *buf, int size);
 
 /**
  * return a pointer to a static memory area containing the

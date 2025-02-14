@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -90,9 +90,13 @@ static void chacha20_core(chacha_buf *output, const u32 input[16])
     }
 }
 
-void ChaCha20_ctr32(unsigned char *out, const unsigned char *inp,
-                    size_t len, const unsigned int key[8],
-                    const unsigned int counter[4])
+#ifdef INCLUDE_C_CHACHA20
+void ChaCha20_ctr32_c(unsigned char *out, const unsigned char *inp, size_t len,
+                      const unsigned int key[8], const unsigned int counter[4])
+#else
+void ChaCha20_ctr32(unsigned char *out, const unsigned char *inp, size_t len,
+                    const unsigned int key[8], const unsigned int counter[4])
+#endif
 {
     u32 input[16];
     chacha_buf buf;

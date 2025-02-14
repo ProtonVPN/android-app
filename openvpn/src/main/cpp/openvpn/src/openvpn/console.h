@@ -5,9 +5,9 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2014-2015 David Sommerseth <davids@redhat.com>
- *  Copyright (C) 2016-2023 David Sommerseth <davids@openvpn.net>
+ *  Copyright (C) 2016-2024 David Sommerseth <davids@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -65,10 +65,9 @@ void query_user_add(char *prompt, size_t prompt_len,
 
 
 /**
- * Executes a configured setup, using the built-in method for querying the user.
+ * Loop through configured query_user slots, using the built-in method for
+ * querying the user.
  * This method uses the console/TTY directly.
- *
- * @param setup    Pointer to the setup defining what to ask the user
  *
  * @return True if executing all the defined steps completed successfully
  */
@@ -77,21 +76,34 @@ bool query_user_exec_builtin(void);
 
 #if defined(ENABLE_SYSTEMD)
 /**
- * Executes a configured setup, using the compiled method for querying the user
- *
- * @param setup    Pointer to the setup defining what to ask the user
+ * Loop through configured query_user slots, using the systemd method for
+ * querying the user.
+ * If systemd is not running it will fall back to use
+ * query_user_exec_builtin() instead.
  *
  * @return True if executing all the defined steps completed successfully
  */
-bool query_user_exec(void);
+bool query_user_exec_systemd(void);
 
-#else  /* ENABLE_SYSTEMD not defined*/
+/**
+ * Loop through configured query_user slots, using the compiled method for
+ * querying the user.
+ *
+ * @return True if executing all the defined steps completed successfully
+ */
+static inline bool
+query_user_exec(void)
+{
+    return query_user_exec_systemd();
+}
+
+#else  /* ENABLE_SYSTEMD not defined */
 /**
  * Wrapper function enabling query_user_exec() if no alternative methods have
  * been enabled
  *
  */
-static bool
+static inline bool
 query_user_exec(void)
 {
     return query_user_exec_builtin();
@@ -100,7 +112,7 @@ query_user_exec(void)
 
 
 /**
- * A plain "make Gert happy" wrapper.  Same arguments as @query_user_add
+ * A plain "make Gert happy" wrapper.  Same arguments as query_user_add()
  *
  * FIXME/TODO: Remove this when refactoring the complete user query process
  *             to be called at start-up initialization of OpenVPN.

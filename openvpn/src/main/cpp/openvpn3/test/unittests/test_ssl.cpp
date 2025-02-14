@@ -4,21 +4,13 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
 
-#include "test_common.h"
+
+#include "test_common.hpp"
 
 
 using namespace openvpn;
@@ -39,7 +31,7 @@ TEST(ssl, sslciphersuites)
 
 
     sslcfg->set_tls_ciphersuite_list("TLS_CHACHA2000");
-#if defined(USE_MBEDTLS) || OPENSSL_VERSION_NUMBER < 0x10100000L
+#if defined(USE_MBEDTLS)
     /* Ignored on non TLS 1.3 implementations */
     sslfact = sslcfg->new_factory();
 #else
@@ -50,7 +42,7 @@ TEST(ssl, sslciphersuites)
 
 TEST(ssl, sslciphers)
 {
-    RandomAPI::Ptr rng(new FakeSecureRand);
+    StrongRandomAPI::Ptr rng(new FakeSecureRand);
 
     bool previousLogOutput = testLog->isStdoutEnabled();
     testLog->setPrintOutput(false);
@@ -71,7 +63,7 @@ TEST(ssl, sslciphers)
 
 TEST(ssl, tls_groups)
 {
-    RandomAPI::Ptr rng(new FakeSecureRand);
+    StrongRandomAPI::Ptr rng(new FakeSecureRand);
 
     SSLFactoryAPI::Ptr sslfact;
 
@@ -79,6 +71,7 @@ TEST(ssl, tls_groups)
     sslcfg->set_local_cert_enabled(false);
     sslcfg->set_flags(SSLConst::NO_VERIFY_PEER);
     sslcfg->set_rng(rng);
+    sslcfg->set_debug_level(1);
 
     sslcfg->set_tls_groups("secp521r1:secp384r1");
 
@@ -88,9 +81,9 @@ TEST(ssl, tls_groups)
 
     sslcfg->set_tls_groups("secp521r1:secp384r1:greenhell");
 
-
     testLog->startCollecting();
     f = sslcfg->new_factory();
+    f->set_log_level(logging::LOG_LEVEL_INFO);
     f->ssl();
 #ifdef USE_OPENSSL
     EXPECT_EQ("OpenSSL -- warning ignoring unknown group 'greenhell' in tls-groups\n", testLog->stopCollecting());
@@ -116,7 +109,7 @@ TEST(ssl, translate_ciphers_openssl)
 #if defined(USE_OPENSSL) && OPENSSL_VERSION_NUMBER >= 0x30000000L
 TEST(ssl, enablelegacyProvider)
 {
-    RandomAPI::Ptr rng(new FakeSecureRand);
+    StrongRandomAPI::Ptr rng(new FakeSecureRand);
 
     SSLLib::SSLAPI::Config::Ptr sslcfg(new SSLLib::SSLAPI::Config);
     sslcfg->set_local_cert_enabled(false);

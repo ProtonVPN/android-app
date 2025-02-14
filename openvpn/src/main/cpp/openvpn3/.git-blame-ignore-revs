@@ -7,3 +7,5 @@
 
 # First major code style update
 dde1574596aa39e218be4d44a9bfe30e2e458bb4
+# Reformat code with clang-format-18
+28ccaff741e8d017d76661fd5cef800b53429e70

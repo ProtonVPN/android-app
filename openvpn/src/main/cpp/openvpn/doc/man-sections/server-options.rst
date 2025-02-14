@@ -406,7 +406,7 @@ fast hardware. SSL/TLS authentication must be used in this mode.
   Options that will be compared for compatibility include ``dev-type``,
   ``link-mtu``, ``tun-mtu``, ``proto``, ``ifconfig``,
   ``comp-lzo``, ``fragment``, ``keydir``, ``cipher``,
-  ``auth``, ``keysize``, ``secret``, ``no-replay``,
+  ``auth``, ``keysize``,
   ``tls-auth``, ``key-method``, ``tls-server``
   and ``tls-client``.
 
@@ -429,7 +429,7 @@ fast hardware. SSL/TLS authentication must be used in this mode.
 
   ``dir`` specifies an optional directory where a temporary file with name
   N containing content C will be dynamically generated for each proxy
-  connection, where N is the source IP:port of the client connection and C
+  connection, where C is the source IP:port of the client connection and N
   is the source IP:port of the connection to the proxy receiver. This
   directory can be used as a dictionary by the proxy receiver to determine
   the origin of the connection. Each generated file will be automatically
@@ -452,7 +452,7 @@ fast hardware. SSL/TLS authentication must be used in this mode.
   ``--route``, ``--route-gateway``, ``--route-delay``,
   ``--redirect-gateway``, ``--ip-win32``, ``--dhcp-option``, ``--dns``,
   ``--inactive``, ``--ping``, ``--ping-exit``, ``--ping-restart``,
-  ``--setenv``, ``--auth-token``, ``--persist-key``, ``--persist-tun``,
+  ``--setenv``, ``--auth-token``, ``--persist-tun``,
   ``--echo``, ``--comp-lzo``, ``--socket-flags``, ``--sndbuf``,
   ``--rcvbuf``, ``--session-timeout``
 
@@ -739,7 +739,7 @@ fast hardware. SSL/TLS authentication must be used in this mode.
 
 --vlan-pvid v
   Specifies which VLAN identifier a "port" is associated with. Only valid
-  when ``--vlan-tagging`` is speficied.
+  when ``--vlan-tagging`` is specified.
 
   In the client context, the setting specifies which VLAN ID a client is
   associated with. In the global context, the VLAN ID of the server TAP

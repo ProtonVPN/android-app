@@ -273,7 +273,7 @@ static int bio_write(BIO *bio, const char *buf, int num_)
 
     BIO_clear_retry_flags(bio);
 
-    if (!bio->init || buf == NULL || num == 0)
+    if (!bio->init || buf == NULL || num_ <= 0)
         return 0;
 
     b = bio->ptr;
@@ -620,20 +620,16 @@ static int bio_make_pair(BIO *bio1, BIO *bio2)
 
     if (b1->buf == NULL) {
         b1->buf = OPENSSL_malloc(b1->size);
-        if (b1->buf == NULL) {
-            ERR_raise(ERR_LIB_BIO, ERR_R_MALLOC_FAILURE);
+        if (b1->buf == NULL)
             return 0;
-        }
         b1->len = 0;
         b1->offset = 0;
     }
 
     if (b2->buf == NULL) {
         b2->buf = OPENSSL_malloc(b2->size);
-        if (b2->buf == NULL) {
-            ERR_raise(ERR_LIB_BIO, ERR_R_MALLOC_FAILURE);
+        if (b2->buf == NULL)
             return 0;
-        }
         b2->len = 0;
         b2->offset = 0;
     }

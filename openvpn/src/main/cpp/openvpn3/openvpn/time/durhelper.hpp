@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_TIME_DURHELPER_H
 #define OPENVPN_TIME_DURHELPER_H
@@ -38,7 +28,7 @@ inline void set_duration_parm(Time::Duration &dur,
     unsigned int value = 0;
     const bool status = parse_number<unsigned int>(valstr, value);
     if (!status)
-        OPENVPN_THROW(option_error, name << ": error parsing number of " << (ms ? "milliseconds" : "seconds"));
+        OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, name << ": error parsing number of " << (ms ? "milliseconds" : "seconds"));
     if (x2)
         value *= 2;
     if (value == 0 || value > maxdur)

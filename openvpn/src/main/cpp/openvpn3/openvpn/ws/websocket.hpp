@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -36,8 +26,7 @@
 #include <openvpn/buffer/buffer.hpp>
 #include <openvpn/random/randapi.hpp>
 
-namespace openvpn {
-namespace WebSocket {
+namespace openvpn::WebSocket {
 
 OPENVPN_EXCEPTION(websocket_error);
 
@@ -123,7 +112,7 @@ class Status
 
     Status(unsigned int opcode,
            bool fin = true,
-           unsigned int close_status_code = 0)
+           uint16_t close_status_code = 0)
         : opcode_(std::move(opcode)),
           fin_(std::move(fin)),
           close_status_code_(std::move(close_status_code))
@@ -153,7 +142,7 @@ class Status
         return fin_;
     }
 
-    unsigned int close_status_code() const
+    auto close_status_code() const
     {
         return close_status_code_;
     }
@@ -191,17 +180,15 @@ class Status
 
     unsigned int opcode_;
     bool fin_;
-    unsigned int close_status_code_;
+    uint16_t close_status_code_;
 };
 
 class Sender
 {
   public:
-    Sender(RandomAPI::Ptr cli_rng_arg) // only provide rng on client side
+    Sender(StrongRandomAPI::Ptr cli_rng_arg) // only provide rng on client side
         : cli_rng(std::move(cli_rng_arg))
     {
-        if (cli_rng)
-            cli_rng->assert_crypto();
     }
 
     void frame(Buffer &buf, const Status &s) const
@@ -235,11 +222,11 @@ class Sender
         std::uint8_t len8;
 
         if (len <= 125)
-            len8 = len;
+            len8 = static_cast<std::uint8_t>(len);
         else if (len <= 65535)
         {
             len8 = 126;
-            const std::uint16_t len16 = htons(len);
+            const std::uint16_t len16 = htons(static_cast<std::uint16_t>(len));
             buf.prepend(&len16, sizeof(len16));
         }
         else
@@ -254,7 +241,7 @@ class Sender
         buf.prepend(&len8, sizeof(len8));
     }
 
-    RandomAPI::Ptr cli_rng;
+    StrongRandomAPI::Ptr cli_rng;
 };
 
 class Receiver
@@ -271,7 +258,7 @@ class Receiver
         verify_message_complete();
         if (size > buf.size())
             throw websocket_error("Receiver::buf_unframed: internal error");
-        return Buffer(buf.data(), size, true);
+        return Buffer(buf.data(), static_cast<size_t>(size), true);
     }
 
     // return true if message is complete
@@ -336,7 +323,7 @@ class Receiver
         if (!buf.allocated())
         {
             buf = std::move(inbuf);
-            buf.or_flags(BufferAllocated::GROW);
+            buf.or_flags(BufAllocFlags::GROW);
         }
         else
             buf.append(inbuf);
@@ -363,7 +350,7 @@ class Receiver
         {
             if (size < buf.size())
             {
-                buf.advance(size);
+                buf.advance(static_cast<size_t>(size));
                 buf.realign(0);
             }
             else if (size == buf.size())
@@ -397,7 +384,7 @@ class Receiver
             // un-xor the data on the server side only
             if (!is_client)
             {
-                Buffer b(buf.data(), size, true);
+                Buffer b(buf.data(), static_cast<size_t>(size), true);
                 const Protocol::MaskingKey mk(mask);
                 mk.xor_buf(b);
             }
@@ -434,7 +421,7 @@ struct Config : public RC<thread_unsafe_refcount>
 
     std::string origin;
     std::string protocol;
-    RandomAPI::Ptr rng;
+    StrongRandomAPI::Ptr rng;
     DigestFactory::Ptr digest_factory;
 
     // compression
@@ -483,7 +470,6 @@ class PerRequest : public RC<thread_unsafe_refcount>
     {
         if (!conf)
             throw websocket_error("no config");
-        conf->rng->assert_crypto();
         if (!conf->digest_factory)
             throw websocket_error("no digest factory in config");
         return conf;
@@ -521,7 +507,7 @@ class PerRequest : public RC<thread_unsafe_refcount>
 
     PerRequest(Config::Ptr conf_arg)
         : conf(validate_conf(std::move(conf_arg))),
-          sender(RandomAPI::Ptr()),
+          sender(StrongRandomAPI::Ptr()),
           receiver(false)
     {
     }
@@ -559,5 +545,4 @@ class PerRequest : public RC<thread_unsafe_refcount>
 
 } // namespace Server
 
-} // namespace WebSocket
-} // namespace openvpn
+} // namespace openvpn::WebSocket

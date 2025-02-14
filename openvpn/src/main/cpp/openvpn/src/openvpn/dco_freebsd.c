@@ -20,8 +20,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #if defined(ENABLE_DCO) && defined(TARGET_FREEBSD)
@@ -77,10 +75,10 @@ sockaddr_to_nvlist(const struct sockaddr *sa)
 int
 dco_new_peer(dco_context_t *dco, unsigned int peerid, int sd,
              struct sockaddr *localaddr, struct sockaddr *remoteaddr,
-             struct in_addr *remote_in4, struct in6_addr *remote_in6)
+             struct in_addr *vpn_ipv4, struct in6_addr *vpn_ipv6)
 {
     struct ifdrv drv;
-    nvlist_t *nvl;
+    nvlist_t *nvl, *local_nvl, *remote_nvl;
     int ret;
 
     nvl = nvlist_create(0);
@@ -89,23 +87,25 @@ dco_new_peer(dco_context_t *dco, unsigned int peerid, int sd,
 
     if (localaddr)
     {
-        nvlist_add_nvlist(nvl, "local", sockaddr_to_nvlist(localaddr));
+        local_nvl = sockaddr_to_nvlist(localaddr);
+        nvlist_add_nvlist(nvl, "local", local_nvl);
     }
 
     if (remoteaddr)
     {
-        nvlist_add_nvlist(nvl, "remote", sockaddr_to_nvlist(remoteaddr));
+        remote_nvl = sockaddr_to_nvlist(remoteaddr);
+        nvlist_add_nvlist(nvl, "remote", remote_nvl);
     }
 
-    if (remote_in4)
+    if (vpn_ipv4)
     {
-        nvlist_add_binary(nvl, "vpn_ipv4", &remote_in4->s_addr,
-                          sizeof(remote_in4->s_addr));
+        nvlist_add_binary(nvl, "vpn_ipv4", &vpn_ipv4->s_addr,
+                          sizeof(vpn_ipv4->s_addr));
     }
 
-    if (remote_in6)
+    if (vpn_ipv6)
     {
-        nvlist_add_binary(nvl, "vpn_ipv6", remote_in6, sizeof(*remote_in6));
+        nvlist_add_binary(nvl, "vpn_ipv6", vpn_ipv6, sizeof(*vpn_ipv6));
     }
 
     nvlist_add_number(nvl, "fd", sd);
@@ -123,6 +123,14 @@ dco_new_peer(dco_context_t *dco, unsigned int peerid, int sd,
     }
 
     free(drv.ifd_data);
+    if (localaddr)
+    {
+        nvlist_destroy(local_nvl);
+    }
+    if (remoteaddr)
+    {
+        nvlist_destroy(remote_nvl);
+    }
     nvlist_destroy(nvl);
 
     return ret;
@@ -221,6 +229,9 @@ create_interface(struct tuntap *tt, const char *dev)
     {
         ifr.ifr_data = (char *)dev;
     }
+
+    snprintf(tt->dco.ifname, IFNAMSIZ, "%s", ifr.ifr_data);
+
     ret = ioctl(tt->dco.fd, SIOCSIFNAME, &ifr);
     if (ret)
     {
@@ -230,16 +241,6 @@ create_interface(struct tuntap *tt, const char *dev)
         msg(M_WARN|M_ERRNO, "Failed to create interface %s (SIOCSIFNAME)", ifr.ifr_data);
         return ret;
     }
-
-    snprintf(tt->dco.ifname, IFNAMSIZ, "%s", ifr.ifr_data);
-
-    /* see "Interface Flags" in ifnet(9) */
-    int i = IFF_POINTOPOINT | IFF_MULTICAST;
-    if (tt->topology == TOP_SUBNET)
-    {
-        i = IFF_BROADCAST | IFF_MULTICAST;
-    }
-    dco_set_ifmode(&tt->dco, i);
 
     return 0;
 }
@@ -267,7 +268,20 @@ remove_interface(struct tuntap *tt)
 int
 open_tun_dco(struct tuntap *tt, openvpn_net_ctx_t *ctx, const char *dev)
 {
-    return create_interface(tt, dev);
+    int ret = create_interface(tt, dev);
+
+    if (ret >= 0 || ret == -EEXIST)
+    {
+        /* see "Interface Flags" in ifnet(9) */
+        int i = IFF_POINTOPOINT | IFF_MULTICAST;
+        if (tt->topology == TOP_SUBNET)
+        {
+            i = IFF_BROADCAST | IFF_MULTICAST;
+        }
+        dco_set_ifmode(&tt->dco, i);
+    }
+
+    return ret;
 }
 
 void
@@ -414,7 +428,7 @@ dco_new_key(dco_context_t *dco, unsigned int peerid, int keyid,
             const char *ciphername)
 {
     struct ifdrv drv;
-    nvlist_t *nvl;
+    nvlist_t *nvl, *encrypt_nvl, *decrypt_nvl;
     int ret;
 
     msg(D_DCO_DEBUG, "%s: slot %d, key-id %d, peer-id %d, cipher %s",
@@ -426,10 +440,11 @@ dco_new_key(dco_context_t *dco, unsigned int peerid, int keyid,
     nvlist_add_number(nvl, "keyid", keyid);
     nvlist_add_number(nvl, "peerid", peerid);
 
-    nvlist_add_nvlist(nvl, "encrypt",
-                      key_to_nvlist(encrypt_key, encrypt_iv, ciphername));
-    nvlist_add_nvlist(nvl, "decrypt",
-                      key_to_nvlist(decrypt_key, decrypt_iv, ciphername));
+    encrypt_nvl = key_to_nvlist(encrypt_key, encrypt_iv, ciphername);
+    decrypt_nvl = key_to_nvlist(decrypt_key, decrypt_iv, ciphername);
+
+    nvlist_add_nvlist(nvl, "encrypt", encrypt_nvl);
+    nvlist_add_nvlist(nvl, "decrypt", decrypt_nvl);
 
     CLEAR(drv);
     snprintf(drv.ifd_name, IFNAMSIZ, "%s", dco->ifname);
@@ -447,6 +462,8 @@ dco_new_key(dco_context_t *dco, unsigned int peerid, int keyid,
     }
 
     free(drv.ifd_data);
+    nvlist_destroy(encrypt_nvl);
+    nvlist_destroy(decrypt_nvl);
     nvlist_destroy(nvl);
 
     return ret;
@@ -550,6 +567,10 @@ dco_do_read(dco_context_t *dco)
             dco->dco_message_type = OVPN_CMD_DEL_PEER;
             break;
 
+        case OVPN_NOTIF_ROTATE_KEY:
+            dco->dco_message_type = OVPN_CMD_SWAP_KEYS;
+            break;
+
         default:
             msg(M_WARN, "Unknown kernel notification %d", type);
             break;
@@ -590,6 +611,10 @@ dco_available(int msglevel)
     }
 
     buf = malloc(ifcr.ifcr_total * IFNAMSIZ);
+    if (!buf)
+    {
+        goto out;
+    }
 
     ifcr.ifcr_count = ifcr.ifcr_total;
     ifcr.ifcr_buffer = buf;
@@ -692,7 +717,8 @@ dco_get_peer_stats_multi(dco_context_t *dco, struct multi_context *m)
 {
 
     struct ifdrv drv;
-    uint8_t buf[4096];
+    uint8_t *buf = NULL;
+    size_t buf_size = 4096;
     nvlist_t *nvl;
     const nvlist_t *const *nvpeers;
     size_t npeers;
@@ -706,17 +732,28 @@ dco_get_peer_stats_multi(dco_context_t *dco, struct multi_context *m)
     CLEAR(drv);
     snprintf(drv.ifd_name, IFNAMSIZ, "%s", dco->ifname);
     drv.ifd_cmd = OVPN_GET_PEER_STATS;
-    drv.ifd_len = sizeof(buf);
+
+retry:
+    buf = realloc(buf, buf_size);
+    drv.ifd_len = buf_size;
     drv.ifd_data = buf;
 
     ret = ioctl(dco->fd, SIOCGDRVSPEC, &drv);
+    if (ret && errno == ENOSPC)
+    {
+        buf_size *= 2;
+        goto retry;
+    }
+
     if (ret)
     {
+        free(buf);
         msg(M_WARN | M_ERRNO, "Failed to get peer stats");
         return -EINVAL;
     }
 
     nvl = nvlist_unpack(buf, drv.ifd_len, 0);
+    free(buf);
     if (!nvl)
     {
         msg(M_WARN, "Failed to unpack nvlist");
@@ -726,6 +763,7 @@ dco_get_peer_stats_multi(dco_context_t *dco, struct multi_context *m)
     if (!nvlist_exists_nvlist_array(nvl, "peers"))
     {
         /* no peers */
+        nvlist_destroy(nvl);
         return 0;
     }
 
@@ -738,6 +776,7 @@ dco_get_peer_stats_multi(dco_context_t *dco, struct multi_context *m)
         dco_update_peer_stat(m, peerid, nvlist_get_nvlist(peer, "bytes"));
     }
 
+    nvlist_destroy(nvl);
     return 0;
 }
 
@@ -749,7 +788,7 @@ dco_get_peer_stats(struct context *c)
 }
 
 const char *
-dco_get_supported_ciphers()
+dco_get_supported_ciphers(void)
 {
     return "none:AES-256-GCM:AES-192-GCM:AES-128-GCM:CHACHA20-POLY1305";
 }

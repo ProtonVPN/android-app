@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 #ifdef HAVE_CONFIG_VERSION_H
 #include "config-version.h"
@@ -262,7 +260,7 @@ plugin_init_item(struct plugin *p, const struct plugin_option *o)
     {
         char full[PATH_MAX];
 
-        openvpn_snprintf(full, sizeof(full), "%s/%s", PLUGIN_LIBDIR, p->so_pathname);
+        snprintf(full, sizeof(full), "%s/%s", PLUGIN_LIBDIR, p->so_pathname);
         p->handle = dlopen(full, RTLD_NOW);
     }
     else
@@ -279,11 +277,23 @@ plugin_init_item(struct plugin *p, const struct plugin_option *o)
 
 #else  /* ifndef _WIN32 */
 
-    rel = !platform_absolute_pathname(p->so_pathname);
-    p->module = LoadLibraryW(wide_string(p->so_pathname, &gc));
+    WCHAR *wpath = wide_string(p->so_pathname, &gc);
+    WCHAR normalized_plugin_path[MAX_PATH] = {0};
+    /* Normalize the plugin path, converting any relative paths to absolute paths. */
+    if (!GetFullPathNameW(wpath, MAX_PATH, normalized_plugin_path, NULL))
+    {
+        msg(M_ERR, "PLUGIN_INIT: could not load plugin DLL: %ls. Failed to normalize plugin path.", wpath);
+    }
+
+    if (!plugin_in_trusted_dir(normalized_plugin_path))
+    {
+        msg(M_FATAL, "PLUGIN_INIT: could not load plugin DLL: %ls. The DLL is not in a trusted directory.", normalized_plugin_path);
+    }
+
+    p->module = LoadLibraryW(normalized_plugin_path);
     if (!p->module)
     {
-        msg(M_ERR, "PLUGIN_INIT: could not load plugin DLL: %s", p->so_pathname);
+        msg(M_ERR, "PLUGIN_INIT: could not load plugin DLL: %ls", normalized_plugin_path);
     }
 
 #define PLUGIN_SYM(var, name, flags) dll_resolve_symbol(p->module, (void *)&p->var, name, p->so_pathname, flags)
@@ -399,7 +409,7 @@ plugin_vlog(openvpn_plugin_log_flags_t flags, const char *name, const char *form
 
         gc_init(&gc);
         msg_fmt = gc_malloc(ERR_BUF_SIZE, false, &gc);
-        openvpn_snprintf(msg_fmt, ERR_BUF_SIZE, "PLUGIN %s: %s", name, format);
+        snprintf(msg_fmt, ERR_BUF_SIZE, "PLUGIN %s: %s", name, format);
         x_msg_va(msg_flags, msg_fmt, arglist);
 
         gc_free(&gc);

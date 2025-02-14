@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -37,8 +35,7 @@
 #include <cmocka.h>
 
 #include "auth_token.c"
-
-#include "mock_msg.h"
+#include "test_common.h"
 
 struct test_context {
     struct tls_multi multi;
@@ -90,7 +87,8 @@ setup(void **state)
     struct test_context *ctx = calloc(1, sizeof(*ctx));
     *state = ctx;
 
-    struct key key = { 0 };
+    struct key_parameters key = { 0 };
+    key.hmac_size = MAX_HMAC_KEY_LENGTH;     /* 64 byte of 0 */
 
     ctx->kt = auth_token_kt();
     if (!ctx->kt.digest)
@@ -151,15 +149,17 @@ auth_token_fail_invalid_key(void **state)
                      AUTH_TOKEN_HMAC_OK);
 
     /* Change auth-token key */
-    struct key key;
-    memset(&key, '1', sizeof(key));
+    struct key_parameters key;
+    memset(key.hmac, '1', sizeof(key.hmac));
+    key.hmac_size = MAX_HMAC_KEY_LENGTH;
+
     free_key_ctx(&ctx->multi.opt.auth_token_key);
     init_key_ctx(&ctx->multi.opt.auth_token_key, &key, &ctx->kt, false, "TEST");
 
     assert_int_equal(verify_auth_token(&ctx->up, &ctx->multi, ctx->session), 0);
 
     /* Load original test key again */
-    memset(&key, 0, sizeof(key));
+    memset(&key.hmac, 0, sizeof(key.hmac));
     free_key_ctx(&ctx->multi.opt.auth_token_key);
     init_key_ctx(&ctx->multi.opt.auth_token_key, &key, &ctx->kt, false, "TEST");
     assert_int_equal(verify_auth_token(&ctx->up, &ctx->multi, ctx->session),
@@ -248,6 +248,7 @@ auth_token_test_known_keys(void **state)
     now = 0;
     /* Preload the session id so the same session id is used here */
     ctx->multi.auth_token_initial = strdup(now0key0);
+    assert_non_null(ctx->multi.auth_token_initial);
 
     /* Zero the hmac part to ensure we have a newly generated token */
     zerohmac(ctx->multi.auth_token_initial);
@@ -377,6 +378,7 @@ auth_token_test_random_keys(void **state)
     now = 0x5c331e9c;
     /* Preload the session id so the same session id is used here */
     ctx->multi.auth_token_initial = strdup(random_token);
+    assert_non_null(ctx->multi.auth_token_initial);
 
     free_key_ctx(&ctx->multi.opt.auth_token_key);
     auth_token_init_secret(&ctx->multi.opt.auth_token_key, random_key, true);
@@ -411,6 +413,7 @@ auth_token_test_key_load(void **state)
 int
 main(void)
 {
+    openvpn_unit_test_setup();
     const struct CMUnitTest tests[] = {
         cmocka_unit_test_setup_teardown(auth_token_basic_test, setup, teardown),
         cmocka_unit_test_setup_teardown(auth_token_fail_invalid_key, setup, teardown),

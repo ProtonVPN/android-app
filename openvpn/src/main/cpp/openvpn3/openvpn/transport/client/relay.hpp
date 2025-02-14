@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Create a special transport factory that persists an existing
 // transport client.  This is used to preserve the transport
@@ -57,53 +47,53 @@ class TransportRelayFactory : public TransportClientFactory
         }
 
       private:
-        virtual void transport_start()
+        void transport_start() override
         {
         }
-        virtual void stop()
+        void stop() override
         {
         }
-        virtual bool transport_send_const(const Buffer &buf)
-        {
-            return false;
-        }
-        virtual bool transport_send(BufferAllocated &buf)
+        bool transport_send_const(const Buffer &buf) override
         {
             return false;
         }
-        virtual bool transport_send_queue_empty()
+        bool transport_send(BufferAllocated &buf) override
         {
             return false;
         }
-        virtual bool transport_has_send_queue()
+        bool transport_send_queue_empty() override
         {
             return false;
         }
-        virtual unsigned int transport_send_queue_size()
+        bool transport_has_send_queue() override
+        {
+            return false;
+        }
+        size_t transport_send_queue_size() override
         {
             return 0;
         }
-        virtual void transport_stop_requeueing()
+        void transport_stop_requeueing() override
         {
         }
-        virtual void reset_align_adjust(const size_t align_adjust)
+        void reset_align_adjust(const size_t align_adjust) override
         {
         }
-        virtual void transport_reparent(TransportClientParent *parent)
+        void transport_reparent(TransportClientParent *parent) override
         {
         }
 
-        virtual IP::Addr server_endpoint_addr() const
+        IP::Addr server_endpoint_addr() const override
         {
             return endpoint_;
         }
 
-        virtual Protocol transport_protocol() const
+        Protocol transport_protocol() const override
         {
             return protocol_;
         }
 
-        virtual void server_endpoint_info(std::string &host, std::string &port, std::string &proto, std::string &ip_addr) const
+        void server_endpoint_info(std::string &host, std::string &port, std::string &proto, std::string &ip_addr) const override
         {
             host = host_;
             port = port_;
@@ -129,52 +119,52 @@ class TransportRelayFactory : public TransportClientFactory
         }
 
       private:
-        virtual void transport_recv(BufferAllocated &buf)
+        void transport_recv(BufferAllocated &buf) override
         {
         }
-        virtual void transport_needs_send()
+        void transport_needs_send() override
         {
         }
 
-        virtual void transport_error(const Error::Type fatal_err, const std::string &err_text)
+        void transport_error(const Error::Type fatal_err, const std::string &err_text) override
         {
             OPENVPN_LOG("TransportRelayFactory: Transport Error in null parent: " << Error::name(fatal_err) << " : " << err_text);
         }
 
-        virtual void proxy_error(const Error::Type fatal_err, const std::string &err_text)
+        void proxy_error(const Error::Type fatal_err, const std::string &err_text) override
         {
             OPENVPN_LOG("TransportRelayFactory: Proxy Error in null parent: " << Error::name(fatal_err) << " : " << err_text);
         }
 
         // Return true if we are transporting OpenVPN protocol
-        virtual bool transport_is_openvpn_protocol()
+        bool transport_is_openvpn_protocol() override
         {
             return is_openvpn_protocol;
         }
 
         // progress notifications
-        virtual void transport_pre_resolve()
+        void transport_pre_resolve() override
         {
         }
-        virtual void transport_wait_proxy()
+        void transport_wait_proxy() override
         {
         }
-        virtual void transport_wait()
+        void transport_wait() override
         {
         }
-        virtual void transport_connecting()
+        void transport_connecting() override
         {
         }
 
         // Return true if keepalive parameter(s) are enabled.
-        virtual bool is_keepalive_enabled() const
+        bool is_keepalive_enabled() const override
         {
             return false;
         }
 
         // Disable keepalive for rest of session, but fetch
         // the keepalive parameters (in seconds).
-        virtual void disable_keepalive(unsigned int &keepalive_ping, unsigned int &keepalive_timeout)
+        void disable_keepalive(unsigned int &keepalive_ping, unsigned int &keepalive_timeout) override
         {
             keepalive_ping = 0;
             keepalive_timeout = 0;
@@ -183,8 +173,8 @@ class TransportRelayFactory : public TransportClientFactory
         bool is_openvpn_protocol;
     };
 
-    virtual TransportClient::Ptr new_transport_client_obj(openvpn_io::io_context &io_context,
-                                                          TransportClientParent *parent) override
+    TransportClient::Ptr new_transport_client_obj(openvpn_io::io_context &io_context,
+                                                  TransportClientParent *parent) override
     {
         // io_context MUST stay consistent
         if (&io_context != &io_context_)
@@ -194,7 +184,7 @@ class TransportRelayFactory : public TransportClientFactory
         return transport_;
     }
 
-    virtual bool is_relay() override
+    bool is_relay() override
     {
         return true;
     }

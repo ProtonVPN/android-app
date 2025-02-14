@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_ERROR_EXCODE_H
 #define OPENVPN_ERROR_EXCODE_H
@@ -75,9 +65,13 @@ class ExceptionCode : public std::exception
         return code_ != 0;
     }
 
-    virtual ~ExceptionCode() noexcept
+    //! Some errors may justify letting the underlying SSL library send out TLS alerts.
+    bool is_tls_alert() const
     {
+        return code() >= Error::TLS_VERSION_MIN && code() <= Error::TLS_ALERT_MISC;
     }
+
+    virtual ~ExceptionCode() noexcept = default;
 
   private:
     static unsigned int mkcode(const Error::Type code, const bool fatal)
@@ -99,14 +93,12 @@ class ErrorCode : public ExceptionCode
     {
     }
 
-    virtual const char *what() const noexcept
+    const char *what() const noexcept override
     {
         return err_.c_str();
     }
 
-    virtual ~ErrorCode() noexcept
-    {
-    }
+    virtual ~ErrorCode() noexcept = default;
 
   private:
     std::string err_;

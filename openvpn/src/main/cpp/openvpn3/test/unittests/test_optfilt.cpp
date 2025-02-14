@@ -4,21 +4,13 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
 
-#include "test_common.h"
+
+#include "test_common.hpp"
 
 #include <openvpn/client/optfilt.hpp>
 
@@ -147,6 +139,37 @@ TEST(PushedOptionsFilter, PullFilterMalformedLong)
 {
     OptionList cfg;
     cfg.parse_from_config("pull-filter ignore one two", nullptr);
+    cfg.update_map();
+
+    ASSERT_THROW(PushedOptionsFilter x(cfg), option_error);
+}
+
+TEST(PushedOptionsFilter, PullFilterSingleQuote)
+{
+    OptionList cfg;
+    cfg.parse_from_config("pull-filter ignore 'route 1.2.3.4'", nullptr);
+    cfg.update_map();
+    PushedOptionsFilter filter(cfg);
+
+    OptionList src;
+    OptionList dst;
+
+    dst.extend(src, &filter);
+
+    testLog->startCollecting();
+    src.parse_from_config("route 1.1.1.1\nroute 2.2.2.2\nroute 1.2.3.4", nullptr);
+    dst.extend(src, &filter);
+    std::string filter_output(testLog->stopCollecting());
+
+    ASSERT_EQ(2u, dst.size())
+        << "Too many options have been accepted by --pull-filter" << std::endl
+        << filter_output;
+}
+
+TEST(PushedOptionsFilter, PullFilterMisplacedQuote)
+{
+    OptionList cfg;
+    cfg.parse_from_config("pull-filter ignore 'a b' c", nullptr);
     cfg.update_map();
 
     ASSERT_THROW(PushedOptionsFilter x(cfg), option_error);

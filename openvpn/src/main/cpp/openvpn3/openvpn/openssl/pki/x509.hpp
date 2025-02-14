@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap an OpenSSL X509 object
 
@@ -30,22 +20,20 @@
 #include <openssl/bio.h>
 
 #include <openvpn/common/size.hpp>
+#include <openvpn/common/numeric_cast.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/openssl/util/error.hpp>
 
-namespace openvpn {
-namespace OpenSSLPKI {
+namespace openvpn::OpenSSLPKI {
 
 class X509
 {
+    using X509_unique_ptr = std::unique_ptr<::X509, decltype(&::X509_free)>;
+
   public:
-    X509()
-        : x509_(nullptr)
-    {
-    }
+    X509() = default;
 
     X509(const std::string &cert_txt, const std::string &title)
-        : x509_(nullptr)
     {
         parse_pem(cert_txt, title);
     }
@@ -53,28 +41,25 @@ class X509
     explicit X509(::X509 *x509, const bool create = true)
     {
         if (create)
-            x509_ = x509;
+            x509_ = {x509, ::X509_free};
         else
-            x509_ = dup(x509);
+            x509_ = {dup(x509), ::X509_free};
     }
 
     X509(const X509 &other)
-        : x509_(dup(other.x509_))
+        : x509_{dup(other.x509_.get()), ::X509_free}
     {
     }
 
-    X509(X509 &&other)
-    noexcept
-        : x509_(other.x509_)
+    X509(X509 &&other) noexcept
+        : x509_(std::move(other.x509_))
     {
-        other.x509_ = nullptr;
     }
 
     X509 &operator=(const X509 &other)
     {
         if (this != &other)
         {
-            erase();
             x509_ = dup(other.x509_);
         }
         return *this;
@@ -84,29 +69,29 @@ class X509
     {
         if (this != &other)
         {
-            erase();
-            x509_ = other.x509_;
-            other.x509_ = nullptr;
+            x509_ = std::move(other.x509_);
         }
         return *this;
     }
 
     bool defined() const
     {
-        return x509_ != nullptr;
+        return static_cast<bool>(x509_);
     }
+
     ::X509 *obj() const
     {
-        return x509_;
+        return x509_.get();
     }
-    ::X509 *obj_dup() const
+
+    [[nodiscard]] ::X509 *obj_dup() const
     {
-        return dup(x509_);
+        return dup(x509_.get());
     }
 
     void parse_pem(const std::string &cert_txt, const std::string &title)
     {
-        BIO *bio = ::BIO_new_mem_buf(const_cast<char *>(cert_txt.c_str()), cert_txt.length());
+        BIO *bio = ::BIO_new_mem_buf(const_cast<char *>(cert_txt.c_str()), numeric_cast<int>(cert_txt.length()));
         if (!bio)
             throw OpenSSLException();
 
@@ -115,16 +100,15 @@ class X509
         if (!cert)
             throw OpenSSLException(std::string("X509::parse_pem: error in ") + title + std::string(":"));
 
-        erase();
-        x509_ = cert;
+        x509_ = {cert, X509_free};
     }
 
-    std::string render_pem() const
+    [[nodiscard]] std::string render_pem() const
     {
         if (x509_)
         {
             BIO *bio = ::BIO_new(BIO_s_mem());
-            const int ret = ::PEM_write_bio_X509(bio, x509_);
+            const int ret = ::PEM_write_bio_X509(bio, x509_.get());
             if (ret == 0)
             {
                 ::BIO_free(bio);
@@ -133,7 +117,7 @@ class X509
 
             {
                 char *temp;
-                const int buf_len = ::BIO_get_mem_data(bio, &temp);
+                const auto buf_len = ::BIO_get_mem_data(bio, &temp);
                 std::string ret = std::string(temp, buf_len);
                 ::BIO_free(bio);
                 return ret;
@@ -143,12 +127,21 @@ class X509
             return "";
     }
 
-    ~X509()
-    {
-        erase();
-    }
+
 
   private:
+    static X509_unique_ptr dup(const X509_unique_ptr &x509)
+    {
+        if (x509)
+        {
+            ::X509 *dup = ::X509_dup(const_cast<::X509 *>(x509.get()));
+            return {dup, ::X509_free};
+        }
+        else
+        {
+            return {nullptr, ::X509_free};
+        }
+    }
     static ::X509 *dup(const ::X509 *x509)
     {
         if (x509)
@@ -157,13 +150,7 @@ class X509
             return nullptr;
     }
 
-    void erase()
-    {
-        if (x509_)
-            ::X509_free(x509_);
-    }
-
-    ::X509 *x509_;
+    X509_unique_ptr x509_{nullptr, ::X509_free};
 };
 
 class X509List : public std::vector<X509>
@@ -184,5 +171,4 @@ class X509List : public std::vector<X509>
         return ret;
     }
 };
-} // namespace OpenSSLPKI
-} // namespace openvpn
+} // namespace openvpn::OpenSSLPKI

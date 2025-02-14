@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2023 Selva Nair <selva.nair@gmail.com>
+ *  Copyright (C) 2023-2024 Selva Nair <selva.nair@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by the
@@ -24,8 +24,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -39,12 +37,25 @@
 
 #include <setjmp.h>
 #include <cmocka.h>
+#include "test_common.h"
 
 #define token_name "Test Token"
 #define PIN "12345"
 #define HASHSIZE 20
 
+
 struct management *management; /* global */
+
+/* replacement for crypto_print_openssl_errors() */
+void
+crypto_print_openssl_errors(const unsigned int flags)
+{
+    unsigned long e;
+    while ((e = ERR_get_error()))
+    {
+        msg(flags, "OpenSSL error %lu: %s\n", e, ERR_error_string(e, NULL));
+    }
+}
 
 /* stubs for some unused functions instead of pulling in too many dependencies */
 int
@@ -64,6 +75,14 @@ query_user_clear(void)
 {
     assert_true(0);
 }
+#if defined(ENABLE_SYSTEMD)
+bool
+query_user_exec_systemd(void)
+{
+    assert_true(0);
+    return false;
+}
+#endif
 bool
 query_user_exec_builtin(void)
 {
@@ -123,7 +142,7 @@ struct env_set *es;
 
 /* Fill-in certs[] array */
 void
-init_cert_data()
+init_cert_data(void)
 {
     struct test_cert certs_local[] = {
         {cert1,  key1,  cname1,  "OVPN TEST CA1",  "OVPN Test Cert 1",  {0},  NULL},
@@ -150,7 +169,7 @@ get_user_pass_cr(struct user_pass *up, const char *auth_file, const char *prefix
     }
     else if (flags & GET_USER_PASS_PASSWORD_ONLY)
     {
-        openvpn_snprintf(up->password, sizeof(up->password), "%s", PIN);
+        snprintf(up->password, sizeof(up->password), "%s", PIN);
     }
     else
     {
@@ -193,8 +212,8 @@ init(void **state)
     {
         fail_msg("make tmpfile using template <%s> failed (error = %d)", softhsm2_conf_path, errno);
     }
-    openvpn_snprintf(config, sizeof(config), "directories.tokendir=%s/",
-                     softhsm2_tokens_path);
+    snprintf(config, sizeof(config), "directories.tokendir=%s/",
+             softhsm2_tokens_path);
     assert_int_equal(write(fd, config, strlen(config)), strlen(config));
     close(fd);
 
@@ -254,6 +273,8 @@ init(void **state)
 
         assert_int_equal(ftruncate(cert_fd, 0), 0);
         assert_int_equal(ftruncate(key_fd, 0), 0);
+        assert_int_equal(lseek(cert_fd, 0, SEEK_SET), 0);
+        assert_int_equal(lseek(key_fd, 0, SEEK_SET), 0);
         num_certs++;
     }
 
@@ -450,6 +471,7 @@ test_tls_ctx_use_pkcs11__management(void **state)
 int
 main(void)
 {
+    openvpn_unit_test_setup();
     const struct CMUnitTest tests[] = {
         cmocka_unit_test_setup_teardown(test_pkcs11_ids, setup_pkcs11,
                                         teardown_pkcs11),

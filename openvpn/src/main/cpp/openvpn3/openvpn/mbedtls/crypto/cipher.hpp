@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap the mbed TLS cipher API defined in <mbedtls/cipher.h> so
 // that it can be used as part of the crypto layer of the OpenVPN core.
@@ -33,10 +23,8 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/crypto/static_key.hpp>
 #include <openvpn/crypto/cryptoalgs.hpp>
-#include <openvpn/ssl/sslapi.hpp>
 
-namespace openvpn {
-namespace MbedTLSCrypto {
+namespace openvpn::MbedTLSCrypto {
 class CipherContextCommon
 {
   public:
@@ -62,6 +50,34 @@ class CipherContextCommon
     }
 
   protected:
+    CipherContextCommon() = default;
+
+    virtual ~CipherContextCommon()
+    {
+        erase();
+    }
+
+    CipherContextCommon(const CipherContextCommon &other) = delete;
+    CipherContextCommon &operator=(const CipherContextCommon &other) = delete;
+
+
+    CipherContextCommon(CipherContextCommon &&other) noexcept
+    {
+        ctx = other.ctx;
+        initialized = other.initialized;
+        other.ctx = {};
+        other.initialized = false;
+    }
+
+    CipherContextCommon &operator=(CipherContextCommon &&other)
+    {
+        ctx = other.ctx;
+        initialized = other.initialized;
+        other.ctx = {};
+        other.initialized = false;
+        return *this;
+    }
+
     static void check_mode(int mode)
     {
         // check that mode is valid
@@ -143,7 +159,7 @@ class CipherContext
             throw mbedtls_cipher_error("mbedtls_cipher_setup");
 
         // set key and encrypt/decrypt mode
-        if (mbedtls_cipher_setkey(&ctx, key, ci->key_bitlen, (mbedtls_operation_t)mode) < 0)
+        if (mbedtls_cipher_setkey(&ctx, key, mbedtls_cipher_get_key_bitlen(&ctx), (mbedtls_operation_t)mode) < 0)
             throw mbedtls_cipher_error("mbedtls_cipher_setkey");
 
         initialized = true;
@@ -229,14 +245,16 @@ class CipherContext
             return mbedtls_cipher_info_from_type(MBEDTLS_CIPHER_DES_CBC);
         case CryptoAlgs::DES_EDE3_CBC:
             return mbedtls_cipher_info_from_type(MBEDTLS_CIPHER_DES_EDE3_CBC);
+#if MBEDTLS_VERSION_NUMBER < 0x03000000
+            /* no longer supported in newer mbed TLS versions */
         case CryptoAlgs::BF_CBC:
             return mbedtls_cipher_info_from_type(MBEDTLS_CIPHER_BLOWFISH_CBC);
+#endif
         default:
             return nullptr;
         }
     }
 };
-} // namespace MbedTLSCrypto
-} // namespace openvpn
+} // namespace openvpn::MbedTLSCrypto
 
 #endif

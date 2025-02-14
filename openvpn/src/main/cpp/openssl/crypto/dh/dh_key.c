@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -46,6 +46,12 @@ int ossl_dh_compute_key(unsigned char *key, const BIGNUM *pub_key, DH *dh)
 
     if (BN_num_bits(dh->params.p) > OPENSSL_DH_MAX_MODULUS_BITS) {
         ERR_raise(ERR_LIB_DH, DH_R_MODULUS_TOO_LARGE);
+        goto err;
+    }
+
+    if (dh->params.q != NULL
+        && BN_num_bits(dh->params.q) > OPENSSL_DH_MAX_MODULUS_BITS) {
+        ERR_raise(ERR_LIB_DH, DH_R_Q_TOO_LARGE);
         goto err;
     }
 
@@ -184,13 +190,16 @@ static int dh_bn_mod_exp(const DH *dh, BIGNUM *r,
                          const BIGNUM *a, const BIGNUM *p,
                          const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *m_ctx)
 {
+#ifdef S390X_MOD_EXP
+    return s390x_mod_exp(r, a, p, m, ctx, m_ctx);
+#else
     return BN_mod_exp_mont(r, a, p, m, ctx, m_ctx);
+#endif
 }
 
 static int dh_init(DH *dh)
 {
     dh->flags |= DH_FLAG_CACHE_MONT_P;
-    ossl_ffc_params_init(&dh->params);
     dh->dirty_cnt++;
     return 1;
 }
@@ -265,6 +274,12 @@ static int generate_key(DH *dh)
 
     if (BN_num_bits(dh->params.p) > OPENSSL_DH_MAX_MODULUS_BITS) {
         ERR_raise(ERR_LIB_DH, DH_R_MODULUS_TOO_LARGE);
+        return 0;
+    }
+
+    if (dh->params.q != NULL
+        && BN_num_bits(dh->params.q) > OPENSSL_DH_MAX_MODULUS_BITS) {
+        ERR_raise(ERR_LIB_DH, DH_R_Q_TOO_LARGE);
         return 0;
     }
 
@@ -418,14 +433,15 @@ size_t ossl_dh_key2buf(const DH *dh, unsigned char **pbuf_out, size_t size,
         if (!alloc) {
             if (size >= (size_t)p_size)
                 pbuf = *pbuf_out;
+            if (pbuf == NULL)
+                ERR_raise(ERR_LIB_DH, DH_R_INVALID_SIZE);
         } else {
             pbuf = OPENSSL_malloc(p_size);
         }
 
-        if (pbuf == NULL) {
-            ERR_raise(ERR_LIB_DH, ERR_R_MALLOC_FAILURE);
+        /* Errors raised above */
+        if (pbuf == NULL)
             return 0;
-        }
         /*
          * As per Section 4.2.8.1 of RFC 8446 left pad public
          * key with zeros to the size of p

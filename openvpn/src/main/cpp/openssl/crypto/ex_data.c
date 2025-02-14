@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -26,8 +26,10 @@ int ossl_do_ex_data_init(OSSL_LIB_CTX *ctx)
  * Return the EX_CALLBACKS from the |ex_data| array that corresponds to
  * a given class.  On success, *holds the lock.*
  * The |global| parameter is assumed to be non null (checked by the caller).
+ * If |read| is 1 then a read lock is obtained. Otherwise it is a write lock.
  */
-static EX_CALLBACKS *get_and_lock(OSSL_EX_DATA_GLOBAL *global, int class_index)
+static EX_CALLBACKS *get_and_lock(OSSL_EX_DATA_GLOBAL *global, int class_index,
+                                  int read)
 {
     EX_CALLBACKS *ip;
 
@@ -44,8 +46,14 @@ static EX_CALLBACKS *get_and_lock(OSSL_EX_DATA_GLOBAL *global, int class_index)
          return NULL;
     }
 
-    if (!CRYPTO_THREAD_write_lock(global->ex_data_lock))
-        return NULL;
+    if (read) {
+        if (!CRYPTO_THREAD_read_lock(global->ex_data_lock))
+            return NULL;
+    } else {
+        if (!CRYPTO_THREAD_write_lock(global->ex_data_lock))
+            return NULL;
+    }
+
     ip = &global->ex_data[class_index];
     return ip;
 }
@@ -112,7 +120,7 @@ int ossl_crypto_free_ex_index_ex(OSSL_LIB_CTX *ctx, int class_index, int idx)
     if (global == NULL)
         return 0;
 
-    ip = get_and_lock(global, class_index);
+    ip = get_and_lock(global, class_index, 0);
     if (ip == NULL)
         return 0;
 
@@ -153,7 +161,7 @@ int ossl_crypto_get_ex_new_index_ex(OSSL_LIB_CTX *ctx, int class_index,
     if (global == NULL)
         return -1;
 
-    ip = get_and_lock(global, class_index);
+    ip = get_and_lock(global, class_index, 0);
     if (ip == NULL)
         return -1;
 
@@ -163,16 +171,16 @@ int ossl_crypto_get_ex_new_index_ex(OSSL_LIB_CTX *ctx, int class_index,
          * "app_data" routines use ex_data index zero.  See RT 3710. */
         if (ip->meth == NULL
             || !sk_EX_CALLBACK_push(ip->meth, NULL)) {
-            ERR_raise(ERR_LIB_CRYPTO, ERR_R_MALLOC_FAILURE);
+            sk_EX_CALLBACK_free(ip->meth);
+            ip->meth = NULL;
+            ERR_raise(ERR_LIB_CRYPTO, ERR_R_CRYPTO_LIB);
             goto err;
         }
     }
 
     a = (EX_CALLBACK *)OPENSSL_malloc(sizeof(*a));
-    if (a == NULL) {
-        ERR_raise(ERR_LIB_CRYPTO, ERR_R_MALLOC_FAILURE);
+    if (a == NULL)
         goto err;
-    }
     a->argl = argl;
     a->argp = argp;
     a->new_func = new_func;
@@ -181,7 +189,7 @@ int ossl_crypto_get_ex_new_index_ex(OSSL_LIB_CTX *ctx, int class_index,
     a->priority = priority;
 
     if (!sk_EX_CALLBACK_push(ip->meth, NULL)) {
-        ERR_raise(ERR_LIB_CRYPTO, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_CRYPTO, ERR_R_CRYPTO_LIB);
         OPENSSL_free(a);
         goto err;
     }
@@ -221,7 +229,7 @@ int ossl_crypto_new_ex_data_ex(OSSL_LIB_CTX *ctx, int class_index, void *obj,
     if (global == NULL)
         return 0;
 
-    ip = get_and_lock(global, class_index);
+    ip = get_and_lock(global, class_index, 1);
     if (ip == NULL)
         return 0;
 
@@ -239,10 +247,8 @@ int ossl_crypto_new_ex_data_ex(OSSL_LIB_CTX *ctx, int class_index, void *obj,
     }
     CRYPTO_THREAD_unlock(global->ex_data_lock);
 
-    if (mx > 0 && storage == NULL) {
-        ERR_raise(ERR_LIB_CRYPTO, ERR_R_MALLOC_FAILURE);
+    if (mx > 0 && storage == NULL)
         return 0;
-    }
     for (i = 0; i < mx; i++) {
         if (storage[i] != NULL && storage[i]->new_func != NULL) {
             ptr = CRYPTO_get_ex_data(ad, i);
@@ -284,7 +290,7 @@ int CRYPTO_dup_ex_data(int class_index, CRYPTO_EX_DATA *to,
     if (global == NULL)
         return 0;
 
-    ip = get_and_lock(global, class_index);
+    ip = get_and_lock(global, class_index, 1);
     if (ip == NULL)
         return 0;
 
@@ -305,10 +311,8 @@ int CRYPTO_dup_ex_data(int class_index, CRYPTO_EX_DATA *to,
 
     if (mx == 0)
         return 1;
-    if (storage == NULL) {
-        ERR_raise(ERR_LIB_CRYPTO, ERR_R_MALLOC_FAILURE);
+    if (storage == NULL)
         return 0;
-    }
     /*
      * Make sure the ex_data stack is at least |mx| elements long to avoid
      * issues in the for loop that follows; so go get the |mx|'th element
@@ -373,7 +377,7 @@ void CRYPTO_free_ex_data(int class_index, void *obj, CRYPTO_EX_DATA *ad)
     if (global == NULL)
         goto err;
 
-    ip = get_and_lock(global, class_index);
+    ip = get_and_lock(global, class_index, 1);
     if (ip == NULL)
         goto err;
 
@@ -440,7 +444,7 @@ int ossl_crypto_alloc_ex_data_intern(int class_index, void *obj,
     if (global == NULL)
         return 0;
 
-    ip = get_and_lock(global, class_index);
+    ip = get_and_lock(global, class_index, 1);
     if (ip == NULL)
         return 0;
     f = sk_EX_CALLBACK_value(ip->meth, idx);
@@ -468,14 +472,14 @@ int CRYPTO_set_ex_data(CRYPTO_EX_DATA *ad, int idx, void *val)
 
     if (ad->sk == NULL) {
         if ((ad->sk = sk_void_new_null()) == NULL) {
-            ERR_raise(ERR_LIB_CRYPTO, ERR_R_MALLOC_FAILURE);
+            ERR_raise(ERR_LIB_CRYPTO, ERR_R_CRYPTO_LIB);
             return 0;
         }
     }
 
     for (i = sk_void_num(ad->sk); i <= idx; ++i) {
         if (!sk_void_push(ad->sk, NULL)) {
-            ERR_raise(ERR_LIB_CRYPTO, ERR_R_MALLOC_FAILURE);
+            ERR_raise(ERR_LIB_CRYPTO, ERR_R_CRYPTO_LIB);
             return 0;
         }
     }

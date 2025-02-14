@@ -45,7 +45,7 @@ class TLSCryptV2ServerKey
 
     TLSCryptV2ServerKey()
         : key_size(128),
-          key(key_size, BufferAllocated::DESTRUCT_ZERO)
+          key(key_size, BufAllocFlags::DESTRUCT_ZERO)
     {
     }
 
@@ -111,7 +111,7 @@ class TLSCryptV2ClientKey
 
     void parse(const std::string &key_text)
     {
-        BufferAllocated data(key_size + WKC_MAX_SIZE, BufferAllocated::DESTRUCT_ZERO);
+        BufferAllocated data(key_size + WKC_MAX_SIZE, BufAllocFlags::DESTRUCT_ZERO);
 
         if (!SSLLib::PEMAPI::pem_decode(data, key_text.c_str(), key_text.length(), tls_crypt_v2_client_key_name))
             throw tls_crypt_v2_client_key_parse_error();
@@ -119,8 +119,8 @@ class TLSCryptV2ClientKey
         if (data.size() < (tag_size + key_size))
             throw tls_crypt_v2_client_key_bad_size();
 
-        key.init(data.data(), key_size, BufferAllocated::DESTRUCT_ZERO);
-        wkc.init(data.data() + key_size, data.size() - key_size, BufferAllocated::DESTRUCT_ZERO);
+        key.init(data.data(), key_size, BufAllocFlags::DESTRUCT_ZERO);
+        wkc.init(data.data() + key_size, data.size() - key_size, BufAllocFlags::DESTRUCT_ZERO);
     }
 
     void extract_key(OpenVPNStaticKey &tls_key)
@@ -131,7 +131,7 @@ class TLSCryptV2ClientKey
     std::string render() const
     {
         BufferAllocated data(32 + 2 * (key.size() + wkc.size()), 0);
-        BufferAllocated in(key, BufferAllocated::GROW);
+        BufferAllocated in(key, BufAllocFlags::GROW);
         in.append(wkc);
 
         if (!SSLLib::PEMAPI::pem_encode(data, in.c_data(), in.size(), tls_crypt_v2_client_key_name))

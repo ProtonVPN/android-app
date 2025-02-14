@@ -5,9 +5,9 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2021-2023 Arne Schwabe <arne@rfc2549.org>
- *  Copyright (C) 2021-2023 Antonio Quartulli <a@unstable.cc>
- *  Copyright (C) 2021-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2021-2024 Arne Schwabe <arne@rfc2549.org>
+ *  Copyright (C) 2021-2024 Antonio Quartulli <a@unstable.cc>
+ *  Copyright (C) 2021-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -26,8 +26,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #if defined(ENABLE_DCO)
@@ -43,6 +41,11 @@
 #include "ssl_common.h"
 #include "ssl_ncp.h"
 #include "tun.h"
+#include "tun_afunix.h"
+
+#if defined(_WIN32)
+#include "dco_win.h"
+#endif
 
 #ifdef HAVE_LIBCAPNG
 #include <cap-ng.h>
@@ -187,7 +190,7 @@ dco_update_keys(dco_context_t *dco, struct tls_multi *multi)
         }
         else
         {
-            msg(D_DCO_DEBUG, "Swapping primary and secondary keys to"
+            msg(D_DCO_DEBUG, "Swapping primary and secondary keys to "
                 "primary-id=%d secondary-id=(to be deleted)",
                 primary->key_id);
         }
@@ -236,7 +239,7 @@ dco_update_keys(dco_context_t *dco, struct tls_multi *multi)
 }
 
 static bool
-dco_check_option_ce(const struct connection_entry *ce, int msglevel)
+dco_check_option_ce(const struct connection_entry *ce, int msglevel, int mode)
 {
     if (ce->fragment)
     {
@@ -265,9 +268,21 @@ dco_check_option_ce(const struct connection_entry *ce, int msglevel)
 #endif
 
 #if defined(_WIN32)
-    if (!ce->remote)
+    if (!proto_is_udp(ce->proto) && mode == MODE_SERVER)
     {
-        msg(msglevel, "NOTE: --remote is not defined, disabling data channel offload.");
+        msg(msglevel, "NOTE: TCP transport disables data channel offload on Windows in server mode.");
+        return false;
+    }
+
+    if (!ce->remote && !dco_win_supports_multipeer())
+    {
+        msg(msglevel, "NOTE: --remote is not defined. This DCO version doesn't support multipeer. Disabling Data Channel Offload");
+        return false;
+    }
+
+    if ((mode == MODE_SERVER) && (ce->local_list->len > 1))
+    {
+        msg(msglevel, "NOTE: multiple --local options defined, disabling data channel offload");
         return false;
     }
 #endif
@@ -300,12 +315,24 @@ dco_check_startup_option(int msglevel, const struct options *o)
         return false;
     }
 
+    if (is_tun_afunix(o->dev_node))
+    {
+        msg(msglevel, "Note: afunix tun type selected, disabling data channel offload");
+        return false;
+    }
+
+    if (is_dev_type(o->dev, o->dev_type, "null"))
+    {
+        msg(msglevel, "Note: null tun type selected, disabling data channel offload");
+        return false;
+    }
+
     if (o->connection_list)
     {
         const struct connection_list *l = o->connection_list;
         for (int i = 0; i < l->len; ++i)
         {
-            if (!dco_check_option_ce(l->array[i], msglevel))
+            if (!dco_check_option_ce(l->array[i], msglevel, o->mode))
             {
                 return false;
             }
@@ -313,16 +340,16 @@ dco_check_startup_option(int msglevel, const struct options *o)
     }
     else
     {
-        if (!dco_check_option_ce(&o->ce, msglevel))
+        if (!dco_check_option_ce(&o->ce, msglevel, o->mode))
         {
             return false;
         }
     }
 
 #if defined(_WIN32)
-    if (o->mode == MODE_SERVER)
+    if ((o->mode == MODE_SERVER) && !dco_win_supports_multipeer())
     {
-        msg(msglevel, "--mode server is set. Disabling Data Channel Offload");
+        msg(msglevel, "--mode server is set. This DCO version doesn't support multipeer. Disabling Data Channel Offload");
         return false;
     }
 
@@ -330,7 +357,13 @@ dco_check_startup_option(int msglevel, const struct options *o)
         || (o->windows_driver == WINDOWS_DRIVER_TAP_WINDOWS6))
     {
         msg(msglevel, "--windows-driver is set to '%s'. Disabling Data Channel Offload",
-            print_windows_driver(o->windows_driver));
+            print_tun_backend_driver(o->windows_driver));
+        return false;
+    }
+
+    if ((o->mode == MODE_SERVER) && o->ce.local_list->len > 1)
+    {
+        msg(msglevel, "multiple --local options defined, disabling data channel offload");
         return false;
     }
 
@@ -389,6 +422,12 @@ dco_check_startup_option(int msglevel, const struct options *o)
         return false;
     }
 
+    if (o->management_flags & MF_QUERY_PROXY)
+    {
+        msg(msglevel, "Note: --management-query-proxy disables data channel offload.");
+        return false;
+    }
+
     /* now that all options have been confirmed to be supported, check
      * if DCO is truly available on the system
      */
@@ -402,15 +441,14 @@ dco_check_option(int msglevel, const struct options *o)
     if (o->enable_ncp_fallback
         && !tls_item_in_cipher_list(o->ciphername, dco_get_supported_ciphers()))
     {
-        msg(msglevel, "Note: --data-cipher-fallback with cipher '%s' "
+        msg(msglevel, "Note: --data-ciphers-fallback with cipher '%s' "
             "disables data channel offload.", o->ciphername);
         return false;
     }
 
 #if defined(USE_COMP)
     if (o->comp.alg != COMP_ALG_UNDEF
-        || o->comp.flags & COMP_F_ALLOW_ASYM
-        || o->comp.flags & COMP_F_ALLOW_COMPRESS)
+        || o->comp.flags & COMP_F_ALLOW_ASYM)
     {
         msg(msglevel, "Note: '--allow-compression' is not set to 'no', disabling data channel offload.");
 
@@ -462,11 +500,11 @@ dco_p2p_add_new_peer(struct context *c)
         return 0;
     }
 
-    struct link_socket *ls = c->c2.link_socket;
+    struct link_socket *sock = c->c2.link_sockets[0];
 
-    ASSERT(ls->info.connection_established);
+    ASSERT(sock->info.connection_established);
 
-    struct sockaddr *remoteaddr = &ls->info.lsa->actual.dest.addr.sa;
+    struct sockaddr *remoteaddr = &sock->info.lsa->actual.dest.addr.sa;
     struct tls_multi *multi = c->c2.tls_multi;
 #ifdef TARGET_FREEBSD
     /* In Linux in P2P mode the kernel automatically removes an existing peer
@@ -478,7 +516,7 @@ dco_p2p_add_new_peer(struct context *c)
     }
 #endif
     int ret = dco_new_peer(&c->c1.tuntap->dco, multi->peer_id,
-                           c->c2.link_socket->sd, NULL, remoteaddr, NULL, NULL);
+                           c->c2.link_sockets[0]->sd, NULL, remoteaddr, NULL, NULL);
     if (ret < 0)
     {
         return ret;
@@ -511,12 +549,12 @@ dco_multi_get_localaddr(struct multi_context *m, struct multi_instance *mi,
 #if ENABLE_IP_PKTINFO
     struct context *c = &mi->context;
 
-    if (!(c->options.sockflags & SF_USE_IP_PKTINFO))
+    if (!proto_is_udp(c->c2.link_sockets[0]->info.proto) || !(c->options.sockflags & SF_USE_IP_PKTINFO))
     {
         return false;
     }
 
-    struct link_socket_actual *actual = &c->c2.link_socket_info->lsa->actual;
+    struct link_socket_actual *actual = &c->c2.link_socket_infos[0]->lsa->actual;
 
     switch (actual->dest.addr.sa.sa_family)
     {
@@ -561,7 +599,7 @@ dco_multi_add_new_peer(struct multi_context *m, struct multi_instance *mi)
     int peer_id = c->c2.tls_multi->peer_id;
     struct sockaddr *remoteaddr, *localaddr = NULL;
     struct sockaddr_storage local = { 0 };
-    int sd = c->c2.link_socket->sd;
+    int sd = c->c2.link_sockets[0]->sd;
 
 
     if (c->mode == CM_CHILD_TCP)
@@ -571,8 +609,8 @@ dco_multi_add_new_peer(struct multi_context *m, struct multi_instance *mi)
     }
     else
     {
-        ASSERT(c->c2.link_socket_info->connection_established);
-        remoteaddr = &c->c2.link_socket_info->lsa->actual.dest.addr.sa;
+        ASSERT(c->c2.link_socket_infos[0]->connection_established);
+        remoteaddr = &c->c2.link_socket_infos[0]->lsa->actual.dest.addr.sa;
     }
 
     /* In server mode we need to fetch the remote addresses from the push config */

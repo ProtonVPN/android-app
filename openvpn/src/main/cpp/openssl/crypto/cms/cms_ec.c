@@ -8,10 +8,12 @@
  */
 
 #include <assert.h>
+#include <limits.h>
 #include <openssl/cms.h>
 #include <openssl/err.h>
 #include <openssl/decoder.h>
 #include "internal/sizes.h"
+#include "crypto/asn1.h"
 #include "crypto/evp.h"
 #include "cms_local.h"
 
@@ -257,7 +259,7 @@ static int ecdh_cms_encrypt(CMS_RecipientInfo *ri)
     ASN1_STRING *wrap_str;
     ASN1_OCTET_STRING *ukm;
     unsigned char *penc = NULL;
-    size_t penclen;
+    int penclen;
     int rv = 0;
     int ecdh_nid, kdf_type, kdf_nid, wrap_nid;
     const EVP_MD *kdf_md;
@@ -274,15 +276,17 @@ static int ecdh_cms_encrypt(CMS_RecipientInfo *ri)
     /* Is everything uninitialised? */
     if (aoid == OBJ_nid2obj(NID_undef)) {
         /* Set the key */
+        size_t enckeylen;
 
-        penclen = EVP_PKEY_get1_encoded_public_key(pkey, &penc);
-        ASN1_STRING_set0(pubkey, penc, penclen);
-        pubkey->flags &= ~(ASN1_STRING_FLAG_BITS_LEFT | 0x07);
-        pubkey->flags |= ASN1_STRING_FLAG_BITS_LEFT;
+        enckeylen = EVP_PKEY_get1_encoded_public_key(pkey, &penc);
+        if (enckeylen > INT_MAX || enckeylen == 0)
+            goto err;
+        ASN1_STRING_set0(pubkey, penc, (int)enckeylen);
+        ossl_asn1_string_set_bits_left(pubkey, 0);
 
         penc = NULL;
-        X509_ALGOR_set0(talg, OBJ_nid2obj(NID_X9_62_id_ecPublicKey),
-                        V_ASN1_UNDEF, NULL);
+        (void)X509_ALGOR_set0(talg, OBJ_nid2obj(NID_X9_62_id_ecPublicKey),
+                              V_ASN1_UNDEF, NULL); /* cannot fail */
     }
 
     /* See if custom parameters set */
@@ -358,16 +362,16 @@ static int ecdh_cms_encrypt(CMS_RecipientInfo *ri)
      * of another AlgorithmIdentifier.
      */
     penclen = i2d_X509_ALGOR(wrap_alg, &penc);
-    if (penc == NULL || penclen == 0)
+    if (penclen <= 0)
         goto err;
     wrap_str = ASN1_STRING_new();
     if (wrap_str == NULL)
         goto err;
     ASN1_STRING_set0(wrap_str, penc, penclen);
     penc = NULL;
-    X509_ALGOR_set0(talg, OBJ_nid2obj(kdf_nid), V_ASN1_SEQUENCE, wrap_str);
-
-    rv = 1;
+    rv = X509_ALGOR_set0(talg, OBJ_nid2obj(kdf_nid), V_ASN1_SEQUENCE, wrap_str);
+    if (!rv)
+        ASN1_STRING_free(wrap_str);
 
  err:
     OPENSSL_free(penc);

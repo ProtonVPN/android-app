@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -22,9 +22,10 @@
  */
 
 /**
- * @file SSL control channel wrap/unwrap and decode functions. This file
- *        (and its .c file) is designed to to be included in units/etc without
- *        pulling in a lot of dependencies
+ * @file
+ * SSL control channel wrap/unwrap and decode functions.
+ * This file (and its .c file) is designed to to be included in units/etc without
+ * pulling in a lot of dependencies.
  */
 
 #ifndef SSL_PKT_H
@@ -182,7 +183,7 @@ calculate_session_id_hmac(struct session_id client_sid,
 /**
  * Checks if a control packet has a correct HMAC server session id
  *
- * @param client_sid    session id of the client
+ * @param state         session information
  * @param from          link_socket from the client
  * @param hmac          the hmac context to use for the calculation
  * @param handwindow    the quantisation of the current time
@@ -229,6 +230,20 @@ tls_reset_standalone(struct tls_wrap_ctx *ctx,
                      struct session_id *remote_sid,
                      uint8_t header,
                      bool request_resend_wkc);
+
+
+/**
+ * Extracts a control channel message from buf and adjusts the size of
+ * buf after the message has been extracted
+ * @param buf   The buffer the message should be extracted from
+ * @param gc    gc_arena to be used for the returned buffer and displaying
+ *              diagnostic messages
+ * @return      A buffer with a control channel message or a buffer with
+ *              with length 0 if there is no message or the message has
+ *              invalid characters.
+ */
+struct buffer
+extract_command_buffer(struct buffer *buf, struct gc_arena *gc);
 
 static inline const char *
 packet_opcode_name(int op)

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap an OpenSSL X509_CRL object
 
@@ -33,8 +23,7 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/openssl/util/error.hpp>
 
-namespace openvpn {
-namespace OpenSSLPKI {
+namespace openvpn::OpenSSLPKI {
 
 class CRL
 {
@@ -55,8 +44,7 @@ class CRL
     {
     }
 
-    CRL(CRL &&other)
-    noexcept
+    CRL(CRL &&other) noexcept
         : crl_(other.crl_)
     {
         other.crl_ = nullptr;
@@ -94,7 +82,7 @@ class CRL
 
     void parse_pem(const std::string &crl_txt)
     {
-        BIO *bio = ::BIO_new_mem_buf(const_cast<char *>(crl_txt.c_str()), crl_txt.length());
+        BIO *bio = ::BIO_new_mem_buf(const_cast<char *>(crl_txt.c_str()), numeric_cast<int>(crl_txt.length()));
         if (!bio)
             throw OpenSSLException();
 
@@ -121,7 +109,7 @@ class CRL
 
             {
                 char *temp;
-                const int buf_len = ::BIO_get_mem_data(bio, &temp);
+                const auto buf_len = ::BIO_get_mem_data(bio, &temp);
                 std::string ret = std::string(temp, buf_len);
                 ::BIO_free(bio);
                 return ret;
@@ -172,5 +160,4 @@ class CRLList : public std::vector<CRL>
         return ret;
     }
 };
-} // namespace OpenSSLPKI
-} // namespace openvpn
+} // namespace openvpn::OpenSSLPKI

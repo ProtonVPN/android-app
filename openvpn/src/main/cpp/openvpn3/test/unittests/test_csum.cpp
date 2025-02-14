@@ -1,5 +1,5 @@
 #include <iostream>
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/common/size.hpp>
 
@@ -25,7 +25,7 @@ std::uint16_t ip_checksum_slow(const void *ip, size_t size)
 
     cksum = (cksum >> 16) + (cksum & 0xffff);
     cksum += (cksum >> 16);
-    return ~cksum;
+    return static_cast<uint16_t>(~cksum);
 }
 
 TEST(misc, stress_csum)

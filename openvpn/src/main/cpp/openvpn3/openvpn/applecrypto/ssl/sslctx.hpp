@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap the Apple SSL API as defined in <Security/SecureTransport.h>
 // so that it can be used as the SSL layer by the OpenVPN core.
@@ -92,27 +82,27 @@ class AppleSSLContext : public SSLFactoryAPI
                 OPENVPN_THROW(ssl_context_error, "AppleSSLContext: identity '" << subject_match << "' undefined");
         }
 
-        virtual SSLFactoryAPI::Ptr new_factory()
+        SSLFactoryAPI::Ptr new_factory() override
         {
             return SSLFactoryAPI::Ptr(new AppleSSLContext(this));
         }
 
-        virtual void set_mode(const Mode &mode_arg)
+        void set_mode(const Mode &mode_arg) override
         {
             mode = mode_arg;
         }
 
-        virtual const Mode &get_mode() const
+        const Mode &get_mode() const override
         {
             return mode;
         }
 
-        virtual void set_frame(const Frame::Ptr &frame_arg)
+        void set_frame(const Frame::Ptr &frame_arg) override
         {
             frame = frame_arg;
         }
 
-        virtual void load(const OptionList &opt, const unsigned int lflags)
+        void load(const OptionList &opt, const unsigned int lflags) override
         {
             // client/server
             if (lflags & LF_PARSE_MODE)
@@ -125,87 +115,87 @@ class AppleSSLContext : public SSLFactoryAPI
             }
         }
 
-        virtual void set_external_pki_callback(ExternalPKIBase *external_pki_arg)
+        void set_external_pki_callback(ExternalPKIBase *external_pki_arg, const std::string &alias) override
         {
             not_implemented("set_external_pki_callback");
         }
 
-        virtual void set_private_key_password(const std::string &pwd)
+        void set_private_key_password(const std::string &pwd) override
         {
             return not_implemented("set_private_key_password");
         }
 
-        virtual void load_ca(const std::string &ca_txt, bool strict)
+        void load_ca(const std::string &ca_txt, bool strict) override
         {
             return not_implemented("load_ca");
         }
 
-        virtual void load_crl(const std::string &crl_txt)
+        void load_crl(const std::string &crl_txt) override
         {
             return not_implemented("load_crl");
         }
 
-        virtual void load_cert(const std::string &cert_txt)
+        void load_cert(const std::string &cert_txt) override
         {
             return not_implemented("load_cert");
         }
 
-        virtual void load_cert(const std::string &cert_txt, const std::string &extra_certs_txt)
+        void load_cert(const std::string &cert_txt, const std::string &extra_certs_txt) override
         {
             return not_implemented("load_cert");
         }
 
-        virtual void load_private_key(const std::string &key_txt)
+        void load_private_key(const std::string &key_txt) override
         {
             return not_implemented("load_private_key");
         }
 
-        virtual void load_dh(const std::string &dh_txt)
+        void load_dh(const std::string &dh_txt) override
         {
             return not_implemented("load_dh");
         }
 
-        virtual void set_debug_level(const int debug_level)
+        void set_debug_level(const int debug_level) override
         {
             return not_implemented("set_debug_level");
         }
 
-        virtual void set_flags(const unsigned int flags_arg)
+        void set_flags(const unsigned int flags_arg) override
         {
             return not_implemented("set_flags");
         }
 
-        virtual void set_ns_cert_type(const NSCert::Type ns_cert_type_arg)
+        void set_ns_cert_type(const NSCert::Type ns_cert_type_arg) override
         {
             return not_implemented("set_ns_cert_type");
         }
 
-        virtual void set_remote_cert_tls(const KUParse::TLSWebType wt)
+        void set_remote_cert_tls(const KUParse::TLSWebType wt) override
         {
             return not_implemented("set_remote_cert_tls");
         }
 
-        virtual void set_tls_remote(const std::string &tls_remote_arg)
+        void set_tls_remote(const std::string &tls_remote_arg) override
         {
             return not_implemented("set_tls_remote");
         }
 
-        virtual void set_tls_version_min(const TLSVersion::Type tvm)
+        void set_tls_version_min(const TLSVersion::Type tvm) override
         {
             return not_implemented("set_tls_version_min");
         }
 
-        virtual void set_local_cert_enabled(const bool v)
+        void set_local_cert_enabled(const bool v) override
         {
             return not_implemented("set_local_cert_enabled");
         }
 
-        virtual void set_enable_renegotiation(const bool v)
+        void set_enable_renegotiation(const bool v) override
         {
             return not_implemented("set_enable_renegotiation");
         }
 
-        virtual void set_rng(const RandomAPI::Ptr &rng_arg)
+        void set_rng(const StrongRandomAPI::Ptr &rng_arg) override
         {
             return not_implemented("set_rng");
         }
@@ -230,12 +220,12 @@ class AppleSSLContext : public SSLFactoryAPI
       public:
         typedef RCPtr<SSL> Ptr;
 
-        virtual void start_handshake()
+        void start_handshake() override
         {
             SSLHandshake(ssl);
         }
 
-        virtual ssize_t write_cleartext_unbuffered(const void *data, const size_t size)
+        ssize_t write_cleartext_unbuffered(const void *data, const size_t size) override
         {
             size_t actual = 0;
             const OSStatus status = SSLWrite(ssl, data, size, &actual);
@@ -250,7 +240,7 @@ class AppleSSLContext : public SSLFactoryAPI
                 return actual;
         }
 
-        virtual ssize_t read_cleartext(void *data, const size_t capacity)
+        ssize_t read_cleartext(void *data, const size_t capacity) override
         {
             if (!overflow)
             {
@@ -270,13 +260,13 @@ class AppleSSLContext : public SSLFactoryAPI
                 throw ssl_ciphertext_in_overflow();
         }
 
-        virtual bool read_cleartext_ready() const
+        bool read_cleartext_ready() const override
         {
             // fixme: need to detect data buffered at SSL layer
             return !ct_in.empty();
         }
 
-        virtual void write_ciphertext(const BufferPtr &buf)
+        void write_ciphertext(const BufferPtr &buf) override
         {
             if (ct_in.size() < MAX_CIPHERTEXT_IN)
                 ct_in.write_buf(buf);
@@ -284,22 +274,22 @@ class AppleSSLContext : public SSLFactoryAPI
                 overflow = true;
         }
 
-        virtual bool read_ciphertext_ready() const
+        bool read_ciphertext_ready() const override
         {
             return !ct_out.empty();
         }
 
-        virtual BufferPtr read_ciphertext()
+        BufferPtr read_ciphertext() override
         {
             return ct_out.read_buf();
         }
 
-        virtual std::string ssl_handshake_details() const // fixme -- code me
+        std::string ssl_handshake_details() const override // fixme -- code me
         {
             return "[AppleSSL not implemented]";
         }
 
-        virtual const AuthCert::Ptr &auth_cert() const
+        const AuthCert::Ptr &auth_cert() const override
         {
             OPENVPN_THROW(ssl_context_error, "AppleSSL::SSL: auth_cert() not implemented");
         }
@@ -438,18 +428,18 @@ class AppleSSLContext : public SSLFactoryAPI
     /////// start of main class implementation
 
     // create a new SSL instance
-    virtual SSLAPI::Ptr ssl()
+    SSLAPI::Ptr ssl() override
     {
         return SSL::Ptr(new SSL(*this));
     }
 
     // like ssl() above but verify hostname against cert CommonName and/or SubjectAltName
-    virtual SSLAPI::Ptr ssl(const std::string &hostname)
+    SSLAPI::Ptr ssl(const std::string &hostname) override
     {
         OPENVPN_THROW(ssl_context_error, "AppleSSLContext: ssl session with CommonName and/or SubjectAltName verification not implemented");
     }
 
-    virtual const Mode &mode() const
+    const Mode &mode() const override
     {
         return config_->mode;
     }

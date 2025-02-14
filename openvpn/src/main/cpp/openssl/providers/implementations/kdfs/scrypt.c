@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2017-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -63,10 +63,8 @@ static void *kdf_scrypt_new_inner(OSSL_LIB_CTX *libctx)
         return NULL;
 
     ctx = OPENSSL_zalloc(sizeof(*ctx));
-    if (ctx == NULL) {
-        ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+    if (ctx == NULL)
         return NULL;
-    }
     ctx->libctx = libctx;
     kdf_scrypt_init(ctx);
     return ctx;
@@ -94,7 +92,9 @@ static void kdf_scrypt_reset(void *vctx)
     KDF_SCRYPT *ctx = (KDF_SCRYPT *)vctx;
 
     OPENSSL_free(ctx->salt);
+    ctx->salt = NULL;
     OPENSSL_clear_free(ctx->pass, ctx->pass_len);
+    ctx->pass = NULL;
     kdf_scrypt_init(ctx);
 }
 
@@ -150,10 +150,8 @@ static int scrypt_set_membuf(unsigned char **buffer, size_t *buflen,
     *buflen = 0;
 
     if (p->data_size == 0) {
-        if ((*buffer = OPENSSL_malloc(1)) == NULL) {
-            ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+        if ((*buffer = OPENSSL_malloc(1)) == NULL)
             return 0;
-        }
     } else if (p->data != NULL) {
         if (!OSSL_PARAM_get_octet_string(p, (void **)buffer, 0, buflen))
             return 0;
@@ -166,7 +164,6 @@ static int set_digest(KDF_SCRYPT *ctx)
     EVP_MD_free(ctx->sha256);
     ctx->sha256 = EVP_MD_fetch(ctx->libctx, "sha256", ctx->propq);
     if (ctx->sha256 == NULL) {
-        OPENSSL_free(ctx);
         ERR_raise(ERR_LIB_PROV, PROV_R_UNABLE_TO_LOAD_SHA256);
         return 0;
     }
@@ -179,10 +176,8 @@ static int set_property_query(KDF_SCRYPT *ctx, const char *propq)
     ctx->propq = NULL;
     if (propq != NULL) {
         ctx->propq = OPENSSL_strdup(propq);
-        if (ctx->propq == NULL) {
-            ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+        if (ctx->propq == NULL)
             return 0;
-        }
     }
     return 1;
 }
@@ -323,7 +318,7 @@ const OSSL_DISPATCH ossl_kdf_scrypt_functions[] = {
     { OSSL_FUNC_KDF_GETTABLE_CTX_PARAMS,
       (void(*)(void))kdf_scrypt_gettable_ctx_params },
     { OSSL_FUNC_KDF_GET_CTX_PARAMS, (void(*)(void))kdf_scrypt_get_ctx_params },
-    { 0, NULL }
+    OSSL_DISPATCH_END
 };
 
 #define R(a,b) (((a) << (b)) | ((a) >> (32 - (b))))
@@ -527,10 +522,8 @@ static int scrypt_alg(const char *pass, size_t passlen,
         return 1;
 
     B = OPENSSL_malloc((size_t)(Blen + Vlen));
-    if (B == NULL) {
-        ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+    if (B == NULL)
         return 0;
-    }
     X = (uint32_t *)(B + Blen);
     T = X + 32 * r;
     V = T + 32 * r;

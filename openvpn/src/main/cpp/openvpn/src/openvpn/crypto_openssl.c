@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,13 +23,12 @@
  */
 
 /**
- * @file Data Channel Cryptography OpenSSL-specific backend interface
+ * @file
+ * Data Channel Cryptography OpenSSL-specific backend interface
  */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -51,11 +50,12 @@
 #include <openssl/rand.h>
 #include <openssl/ssl.h>
 
-#if (OPENSSL_VERSION_NUMBER >= 0x10100000L) && !defined(LIBRESSL_VERSION_NUMBER)
+#if !defined(LIBRESSL_VERSION_NUMBER)
 #include <openssl/kdf.h>
 #endif
 #if OPENSSL_VERSION_NUMBER >= 0x30000000L
 #include <openssl/provider.h>
+#include <openssl/core_names.h>
 #endif
 
 #if defined(_WIN32) && defined(OPENSSL_NO_EC)
@@ -194,11 +194,7 @@ crypto_unload_provider(const char *provname, provider_t *provider)
 void
 crypto_init_lib(void)
 {
-#if (OPENSSL_VERSION_NUMBER >= 0x10100000L)
     OPENSSL_init_crypto(OPENSSL_INIT_LOAD_CONFIG, NULL);
-#else
-    OPENSSL_config(NULL);
-#endif
     /*
      * If you build the OpenSSL library and OpenVPN with
      * CRYPTO_MDEBUG, you will get a listing of OpenSSL
@@ -240,9 +236,16 @@ void
 crypto_print_openssl_errors(const unsigned int flags)
 {
     unsigned long err = 0;
+    int line, errflags;
+    const char *file, *data, *func;
 
-    while ((err = ERR_get_error()))
+    while ((err = ERR_get_error_all(&file, &line, &func, &data, &errflags)) != 0)
     {
+        if (!(errflags & ERR_TXT_STRING))
+        {
+            data = "";
+        }
+
         /* Be more clear about frequently occurring "no shared cipher" error */
         if (ERR_GET_REASON(err) == SSL_R_NO_SHARED_CIPHER)
         {
@@ -260,7 +263,17 @@ crypto_print_openssl_errors(const unsigned int flags)
                 "tls-version-min 1.0 to the client configuration to use TLS 1.0+ "
                 "instead of TLS 1.0 only");
         }
-        msg(flags, "OpenSSL: %s", ERR_error_string(err, NULL));
+
+        /* print file and line if verb >=8 */
+        if (!check_debug_level(D_TLS_DEBUG_MED))
+        {
+            msg(flags, "OpenSSL: %s:%s", ERR_error_string(err, NULL), data);
+        }
+        else
+        {
+            msg(flags, "OpenSSL: %s:%s:%s:%d:%s", ERR_error_string(err, NULL),
+                data, file, line, func);
+        }
     }
 }
 
@@ -371,7 +384,19 @@ show_available_ciphers(void)
 #else
     for (int nid = 0; nid < 10000; ++nid)
     {
+#if defined(LIBRESSL_VERSION_NUMBER)
+        /* OpenBSD/LibreSSL reimplemented EVP_get_cipherbyname and broke
+         * calling EVP_get_cipherbynid with an invalid nid in the process
+         * so that it would segfault. */
+        const EVP_CIPHER *cipher = NULL;
+        const char *name = OBJ_nid2sn(nid);
+        if (name)
+        {
+            cipher = EVP_get_cipherbyname(name);
+        }
+#else  /* if defined(LIBRESSL_VERSION_NUMBER) */
         const EVP_CIPHER *cipher = EVP_get_cipherbynid(nid);
+#endif
         /* We cast the const away so we can keep the function prototype
          * compatible with EVP_CIPHER_do_all_provided */
         collect_ciphers((EVP_CIPHER *) cipher, &cipher_list);
@@ -425,7 +450,19 @@ show_available_digests(void)
 #else
     for (int nid = 0; nid < 10000; ++nid)
     {
+        /* OpenBSD/LibreSSL reimplemented EVP_get_digestbyname and broke
+         * calling EVP_get_digestbynid with an invalid nid in the process
+         * so that it would segfault. */
+#ifdef LIBRESSL_VERSION_NUMBER
+        const EVP_MD *digest = NULL;
+        const char *name = OBJ_nid2sn(nid);
+        if (name)
+        {
+            digest = EVP_get_digestbyname(name);
+        }
+#else  /* ifdef LIBRESSL_VERSION_NUMBER */
         const EVP_MD *digest = EVP_get_digestbynid(nid);
+#endif
         if (digest)
         {
             /* We cast the const away so we can keep the function prototype
@@ -433,7 +470,7 @@ show_available_digests(void)
             print_digest((EVP_MD *)digest, NULL);
         }
     }
-#endif
+#endif /* if OPENSSL_VERSION_NUMBER >= 0x30000000L */
     printf("\n");
 }
 
@@ -824,24 +861,20 @@ cipher_ctx_free(EVP_CIPHER_CTX *ctx)
 
 void
 cipher_ctx_init(EVP_CIPHER_CTX *ctx, const uint8_t *key,
-                const char *ciphername, int enc)
+                const char *ciphername, crypto_operation_t enc)
 {
     ASSERT(NULL != ciphername && NULL != ctx);
     evp_cipher_type *kt = cipher_get(ciphername);
 
     EVP_CIPHER_CTX_reset(ctx);
-    if (!EVP_CipherInit(ctx, kt, NULL, NULL, enc))
-    {
-        crypto_msg(M_FATAL, "EVP cipher init #1");
-    }
-    if (!EVP_CipherInit_ex(ctx, NULL, NULL, key, NULL, enc))
+    if (!EVP_CipherInit_ex(ctx, kt, NULL, key, NULL, enc))
     {
         crypto_msg(M_FATAL, "EVP cipher init #2");
     }
 
-    EVP_CIPHER_free(kt);
     /* make sure we used a big enough key */
     ASSERT(EVP_CIPHER_CTX_key_length(ctx) <= EVP_CIPHER_key_length(kt));
+    EVP_CIPHER_free(kt);
 }
 
 int
@@ -973,50 +1006,6 @@ cipher_ctx_final_check_tag(EVP_CIPHER_CTX *ctx, uint8_t *dst, int *dst_len,
     return cipher_ctx_final(ctx, dst, dst_len);
 }
 
-void
-cipher_des_encrypt_ecb(const unsigned char key[DES_KEY_LENGTH],
-                       unsigned char src[DES_KEY_LENGTH],
-                       unsigned char dst[DES_KEY_LENGTH])
-{
-    /* We are using 3DES here with three times the same key to cheat
-     * and emulate DES as 3DES is better supported than DES */
-    EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-    if (!ctx)
-    {
-        crypto_msg(M_FATAL, "%s: EVP_CIPHER_CTX_new() failed", __func__);
-    }
-
-    unsigned char key3[DES_KEY_LENGTH*3];
-    for (int i = 0; i < 3; i++)
-    {
-        memcpy(key3 + (i * DES_KEY_LENGTH), key, DES_KEY_LENGTH);
-    }
-
-    if (!EVP_EncryptInit_ex(ctx, EVP_des_ede3_ecb(), NULL, key3, NULL))
-    {
-        crypto_msg(M_FATAL, "%s: EVP_EncryptInit_ex() failed", __func__);
-    }
-
-    int len;
-
-    /* The EVP_EncryptFinal method will write to the dst+len pointer even
-     * though there is nothing to encrypt anymore, provide space for that to
-     * not overflow the stack */
-    unsigned char dst2[DES_KEY_LENGTH * 2];
-    if (!EVP_EncryptUpdate(ctx, dst2, &len, src, DES_KEY_LENGTH))
-    {
-        crypto_msg(M_FATAL, "%s: EVP_EncryptUpdate() failed", __func__);
-    }
-
-    if (!EVP_EncryptFinal(ctx, dst2 + len, &len))
-    {
-        crypto_msg(M_FATAL, "%s: EVP_EncryptFinal() failed", __func__);
-    }
-
-    memcpy(dst, dst2, DES_KEY_LENGTH);
-
-    EVP_CIPHER_CTX_free(ctx);
-}
 
 /*
  *
@@ -1358,68 +1347,65 @@ memcmp_constant_time(const void *a, const void *b, size_t size)
 {
     return CRYPTO_memcmp(a, b, size);
 }
-
-#if HAVE_OPENSSL_ENGINE
-static int
-ui_reader(UI *ui, UI_STRING *uis)
+#if (OPENSSL_VERSION_NUMBER >= 0x30000000L) && !defined(LIBRESSL_VERSION_NUMBER)
+bool
+ssl_tls1_PRF(const uint8_t *seed, int seed_len, const uint8_t *secret,
+             int secret_len, uint8_t *output, int output_len)
 {
-    SSL_CTX *ctx = UI_get0_user_data(ui);
+    bool ret = true;
+    EVP_KDF_CTX *kctx = NULL;
 
-    if (UI_get_string_type(uis) == UIT_PROMPT)
+
+    EVP_KDF *kdf = EVP_KDF_fetch(NULL, "TLS1-PRF", NULL);
+    if (!kdf)
     {
-        pem_password_cb *cb = SSL_CTX_get_default_passwd_cb(ctx);
-        void *d = SSL_CTX_get_default_passwd_cb_userdata(ctx);
-        char password[64];
-
-        cb(password, sizeof(password), 0, d);
-        UI_set_result(ui, uis, password);
-
-        return 1;
+        goto err;
     }
-    return 0;
-}
-#endif
 
-EVP_PKEY *
-engine_load_key(const char *file, SSL_CTX *ctx)
+    kctx = EVP_KDF_CTX_new(kdf);
+
+    if (!kctx)
+    {
+        goto err;
+    }
+
+    OSSL_PARAM params[4];
+
+    /* The OpenSSL APIs require us to cast the const aways even though the
+     * strings are never changed and only read */
+    params[0] = OSSL_PARAM_construct_utf8_string(OSSL_KDF_PARAM_DIGEST,
+                                                 SN_md5_sha1, strlen(SN_md5_sha1));
+    params[1] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_SECRET,
+                                                  (uint8_t *) secret, (size_t) secret_len);
+    params[2] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_SEED,
+                                                  (uint8_t *) seed, (size_t) seed_len);
+    params[3] = OSSL_PARAM_construct_end();
+
+    if (EVP_KDF_derive(kctx, output, output_len, params) <= 0)
+    {
+        crypto_msg(D_TLS_DEBUG_LOW, "Generating TLS 1.0 PRF using "
+                   "EVP_KDF_derive failed");
+        goto err;
+    }
+
+    goto out;
+
+err:
+    ret = false;
+out:
+    EVP_KDF_CTX_free(kctx);
+    EVP_KDF_free(kdf);
+
+    return ret;
+}
+#elif defined(OPENSSL_IS_AWSLC)
+bool
+ssl_tls1_PRF(const uint8_t *label, int label_len, const uint8_t *sec,
+             int slen, uint8_t *out1, int olen)
 {
-#if HAVE_OPENSSL_ENGINE
-    UI_METHOD *ui;
-    EVP_PKEY *pkey;
-
-    if (!engine_persist)
-    {
-        return NULL;
-    }
-
-    /* this will print out the error from BIO_read */
-    crypto_msg(M_INFO, "PEM_read_bio failed, now trying engine method to load private key");
-
-    ui = UI_create_method("openvpn");
-    if (!ui)
-    {
-        crypto_msg(M_FATAL, "Engine UI creation failed");
-        return NULL;
-    }
-
-    UI_method_set_reader(ui, ui_reader);
-
-    ENGINE_init(engine_persist);
-    pkey = ENGINE_load_private_key(engine_persist, file, ui, ctx);
-    ENGINE_finish(engine_persist);
-    if (!pkey)
-    {
-        crypto_msg(M_FATAL, "Engine could not load key file");
-    }
-
-    UI_destroy_method(ui);
-    return pkey;
-#else  /* if HAVE_OPENSSL_ENGINE */
-    return NULL;
-#endif /* if HAVE_OPENSSL_ENGINE */
+    CRYPTO_tls1_prf(EVP_md5_sha1(), out1, olen, sec, slen, label, label_len, NULL, 0, NULL, 0);
 }
-
-#if (OPENSSL_VERSION_NUMBER >= 0x10100000L) && !defined(LIBRESSL_VERSION_NUMBER)
+#elif !defined(LIBRESSL_VERSION_NUMBER) && !defined(ENABLE_CRYPTO_WOLFSSL)
 bool
 ssl_tls1_PRF(const uint8_t *seed, int seed_len, const uint8_t *secret,
              int secret_len, uint8_t *output, int output_len)
@@ -1465,184 +1451,15 @@ out:
     EVP_PKEY_CTX_free(pctx);
     return ret;
 }
-#else  /* if OPENSSL_VERSION_NUMBER >= 0x10100000L */
-/*
- * Generate the hash required by for the \c tls1_PRF function.
- *
- * We cannot use our normal hmac_* function as they do not work
- * in a FIPS environment (no MD5 allowed, which we need). Instead
- * we need to directly use the EVP_MD_* API with the special
- * EVP_MD_CTX_FLAG_NON_FIPS_ALLOW flag.
- *
- * The function below is adapted from OpenSSL 1.0.2t
- *
- * @param md_kt         Message digest to use
- * @param sec           Secret to base the hash on
- * @param sec_len       Length of the secret
- * @param seed          Seed to hash
- * @param seed_len      Length of the seed
- * @param out           Output buffer
- * @param olen          Length of the output buffer
- */
-static
-bool
-tls1_P_hash(const EVP_MD *md, const unsigned char *sec,
-            int sec_len, const void *seed, int seed_len,
-            unsigned char *out, int olen)
-{
-    int chunk;
-    size_t j;
-    EVP_MD_CTX *ctx, *ctx_tmp, *ctx_init;
-    EVP_PKEY *mac_key;
-    unsigned char A1[EVP_MAX_MD_SIZE];
-    size_t A1_len = EVP_MAX_MD_SIZE;
-    int ret = false;
-
-    chunk = EVP_MD_size(md);
-    OPENSSL_assert(chunk >= 0);
-
-    ctx = md_ctx_new();
-    ctx_tmp = md_ctx_new();
-    ctx_init = md_ctx_new();
-    EVP_MD_CTX_set_flags(ctx_init, EVP_MD_CTX_FLAG_NON_FIPS_ALLOW);
-    mac_key = EVP_PKEY_new_mac_key(EVP_PKEY_HMAC, NULL, sec, sec_len);
-    if (!mac_key)
-    {
-        goto err;
-    }
-    if (!EVP_DigestSignInit(ctx_init, NULL, md, NULL, mac_key))
-    {
-        goto err;
-    }
-    if (!EVP_MD_CTX_copy_ex(ctx, ctx_init))
-    {
-        goto err;
-    }
-    if (!EVP_DigestSignUpdate(ctx, seed, seed_len))
-    {
-        goto err;
-    }
-    if (!EVP_DigestSignFinal(ctx, A1, &A1_len))
-    {
-        goto err;
-    }
-
-    for (;; )
-    {
-        /* Reinit mac contexts */
-        if (!EVP_MD_CTX_copy_ex(ctx, ctx_init))
-        {
-            goto err;
-        }
-        if (!EVP_DigestSignUpdate(ctx, A1, A1_len))
-        {
-            goto err;
-        }
-        if (olen > chunk && !EVP_MD_CTX_copy_ex(ctx_tmp, ctx))
-        {
-            goto err;
-        }
-        if (!EVP_DigestSignUpdate(ctx, seed, seed_len))
-        {
-            goto err;
-        }
-
-        if (olen > chunk)
-        {
-            j = olen;
-            if (!EVP_DigestSignFinal(ctx, out, &j))
-            {
-                goto err;
-            }
-            out += j;
-            olen -= j;
-            /* calc the next A1 value */
-            if (!EVP_DigestSignFinal(ctx_tmp, A1, &A1_len))
-            {
-                goto err;
-            }
-        }
-        else
-        {
-            A1_len = EVP_MAX_MD_SIZE;
-            /* last one */
-            if (!EVP_DigestSignFinal(ctx, A1, &A1_len))
-            {
-                goto err;
-            }
-            memcpy(out, A1, olen);
-            break;
-        }
-    }
-    ret = true;
-err:
-    EVP_PKEY_free(mac_key);
-    EVP_MD_CTX_free(ctx);
-    EVP_MD_CTX_free(ctx_tmp);
-    EVP_MD_CTX_free(ctx_init);
-    OPENSSL_cleanse(A1, sizeof(A1));
-    return ret;
-}
-
-/*
- * Use the TLS PRF function for generating data channel keys.
- * This code is based on the OpenSSL library.
- *
- * TLS generates keys as such:
- *
- * master_secret[48] = PRF(pre_master_secret[48], "master secret",
- *                         ClientHello.random[32] + ServerHello.random[32])
- *
- * key_block[] = PRF(SecurityParameters.master_secret[48],
- *                 "key expansion",
- *                 SecurityParameters.server_random[32] +
- *                 SecurityParameters.client_random[32]);
- *
- * Notes:
- *
- * (1) key_block contains a full set of 4 keys.
- * (2) The pre-master secret is generated by the client.
- */
+#else  /* if defined(LIBRESSL_VERSION_NUMBER) */
+/* LibreSSL and wolfSSL do not expose a TLS 1.0/1.1 PRF via the same APIs as
+ * OpenSSL does. As result they will only be able to support
+ * peers that support TLS EKM like when running with OpenSSL 3.x FIPS */
 bool
 ssl_tls1_PRF(const uint8_t *label, int label_len, const uint8_t *sec,
              int slen, uint8_t *out1, int olen)
 {
-    bool ret = true;
-    struct gc_arena gc = gc_new();
-    /* For some reason our md_get("MD5") fails otherwise in the unit test */
-    const EVP_MD *md5 = EVP_md5();
-    const EVP_MD *sha1 = EVP_sha1();
-
-    uint8_t *out2 = (uint8_t *)gc_malloc(olen, false, &gc);
-
-    int len = slen/2;
-    const uint8_t *S1 = sec;
-    const uint8_t *S2 = &(sec[len]);
-    len += (slen&1); /* add for odd, make longer */
-
-    if (!tls1_P_hash(md5, S1, len, label, label_len, out1, olen))
-    {
-        ret = false;
-        goto done;
-    }
-
-    if (!tls1_P_hash(sha1, S2, len, label, label_len, out2, olen))
-    {
-        ret = false;
-        goto done;
-    }
-
-    for (int i = 0; i < olen; i++)
-    {
-        out1[i] ^= out2[i];
-    }
-
-    secure_memzero(out2, olen);
-
-    dmsg(D_SHOW_KEY_SOURCE, "tls1_PRF out[%d]: %s", olen, format_hex(out1, olen, 0, &gc));
-done:
-    gc_free(&gc);
-    return ret;
+    return false;
 }
-#endif /* if OPENSSL_VERSION_NUMBER >= 0x10100000L */
+#endif /* if LIBRESSL_VERSION_NUMBER */
 #endif /* ENABLE_CRYPTO_OPENSSL */

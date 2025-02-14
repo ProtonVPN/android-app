@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -61,9 +51,6 @@ class WinCommandAgent : public TunWin::SetupFactory
 
         // Build JSON request
         Json::Value jreq(Json::objectValue);
-#if _WIN32_WINNT < 0x0600 // pre-Vista needs us to explicitly communicate our PID
-        jreq["pid"] = Json::Value((Json::UInt)::GetProcessId(::GetCurrentProcess()));
-#endif
 
         jreq["host"] = endpoint.to_string();
         jreq["ipv6"] = endpoint.is_ipv6();
@@ -122,7 +109,6 @@ class WinCommandAgent : public TunWin::SetupFactory
             ts->http_config = hc;
             ts->debug_level = debug_level;
 
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
             ts->post_connect = [host, client_exe, cb = std::move(cb)](WS::ClientSet::TransactionSet &ts, AsioPolySock::Base &sock)
             {
                 AsioPolySock::NamedPipe *np = dynamic_cast<AsioPolySock::NamedPipe *>(&sock);
@@ -135,7 +121,6 @@ class WinCommandAgent : public TunWin::SetupFactory
                     cb(npinfo.proc.release());
                 }
             };
-#endif
             return ts;
         }
 
@@ -154,11 +139,9 @@ class WinCommandAgent : public TunWin::SetupFactory
         {
             // Build JSON request
             Json::Value jreq(Json::objectValue);
-#if _WIN32_WINNT < 0x0600 // pre-Vista needs us to explicitly communicate our PID
-            jreq["pid"] = Json::Value((Json::UInt)::GetProcessId(::GetCurrentProcess()));
-#endif
             jreq["confirm_event"] = confirm_event.duplicate_local();
             jreq["destroy_event"] = destroy_event.duplicate_local();
+            jreq["allow_local_dns_resolvers"] = config->allow_local_dns_resolvers;
             const std::string jtxt = jreq.toStyledString();
             os << jtxt; // dump it
 
@@ -171,7 +154,6 @@ class WinCommandAgent : public TunWin::SetupFactory
 	    if (!service_process.is_open())
 	      service_process.assign(handle); });
 
-            jreq["allow_local_dns_resolvers"] = config->allow_local_dns_resolvers;
             make_transaction("tun-open", jtxt, ts);
 
             // Execute transaction
@@ -189,6 +171,7 @@ class WinCommandAgent : public TunWin::SetupFactory
             os << "TAP handle: " << tap_handle_hex << std::endl;
             const HANDLE h = BufHex::parse<HANDLE>(tap_handle_hex, "TAP handle");
 
+            tap_.guid = json::get_string(jres, "adapter_guid");
             tap_.index = (DWORD)json::get_int(jres, "adapter_index");
             tap_.name = json::get_string(jres, "adapter_name");
 
@@ -207,19 +190,16 @@ class WinCommandAgent : public TunWin::SetupFactory
             return tap_;
         }
 
-        virtual HANDLE establish(const TunBuilderCapture &pull,
-                                 const std::wstring &openvpn_app_path,
-                                 Stop *stop,
-                                 std::ostream &os,
-                                 TunWin::RingBuffer::Ptr ring_buffer) override // TunWin::SetupBase
+        HANDLE establish(const TunBuilderCapture &pull,
+                         const std::wstring &openvpn_app_path,
+                         Stop *stop,
+                         std::ostream &os,
+                         TunWin::RingBuffer::Ptr ring_buffer) override // TunWin::SetupBase
         {
             os << "SetupClient: transmitting tun setup list to " << config->npserv << std::endl;
 
             // Build JSON request
             Json::Value jreq(Json::objectValue);
-#if _WIN32_WINNT < 0x0600 // pre-Vista needs us to explicitly communicate our PID
-            jreq["pid"] = Json::Value((Json::UInt)::GetProcessId(::GetCurrentProcess()));
-#endif
 
             if (ring_buffer)
                 ring_buffer->serialize(jreq);
@@ -231,8 +211,9 @@ class WinCommandAgent : public TunWin::SetupFactory
             }
             else
             {
-                jreq["adapter_name"] = tap_.name;
+                jreq["adapter_guid"] = tap_.guid;
                 jreq["adapter_index"] = Json::Int(tap_.index);
+                jreq["adapter_name"] = tap_.name;
             }
 
             jreq["allow_local_dns_resolvers"] = config->allow_local_dns_resolvers;
@@ -269,19 +250,19 @@ class WinCommandAgent : public TunWin::SetupFactory
             return tap;
         }
 
-        virtual void l2_finish(const TunBuilderCapture &pull,
-                               Stop *stop,
-                               std::ostream &os) override
+        void l2_finish(const TunBuilderCapture &pull,
+                       Stop *stop,
+                       std::ostream &os) override
         {
             throw ovpnagent("l2_finish not implemented");
         }
 
-        virtual bool l2_ready(const TunBuilderCapture &pull) override
+        bool l2_ready(const TunBuilderCapture &pull) override
         {
             throw ovpnagent("l2_ready not implemented");
         }
 
-        virtual void confirm() override
+        void confirm() override
         {
             confirm_event.signal_event();
         }
@@ -297,7 +278,7 @@ class WinCommandAgent : public TunWin::SetupFactory
             }
         }
 
-        virtual void destroy(std::ostream &os) override // defined by DestructorBase
+        void destroy(std::ostream &os) override // defined by DestructorBase
         {
             os << "SetupClient: signaling tun destroy event" << std::endl;
             service_process.close();
@@ -359,7 +340,7 @@ class WinCommandAgent : public TunWin::SetupFactory
         Win::DestroyEvent destroy_event;
     };
 
-    virtual TunWin::SetupBase::Ptr new_setup_obj(openvpn_io::io_context &io_context, TunWin::Type tun_type, bool allow_local_dns_resolvers) override
+    TunWin::SetupBase::Ptr new_setup_obj(openvpn_io::io_context &io_context, TunWin::Type tun_type, bool allow_local_dns_resolvers) override
     {
         if (config)
         {

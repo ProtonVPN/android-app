@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,8 @@
  */
 
 /**
- * @file Control Channel Verification Module
+ * @file
+ * Control Channel Verification Module
  */
 
 #ifndef SSL_VERIFY_H_
@@ -64,7 +65,6 @@ struct cert_hash_set {
 #define VERIFY_X509_SUBJECT_DN          1
 #define VERIFY_X509_SUBJECT_RDN         2
 #define VERIFY_X509_SUBJECT_RDN_PREFIX  3
-#define VERIFY_X509_SAN                 4
 
 enum tls_auth_status
 {

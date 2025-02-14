@@ -282,6 +282,9 @@ id-smime-ct 35		: id-ct-rpkiGhostbusters
 id-smime-ct 36		: id-ct-resourceTaggedAttest
 id-smime-ct 47		: id-ct-geofeedCSVwithCRLF
 id-smime-ct 48		: id-ct-signedChecklist
+id-smime-ct 49		: id-ct-ASPA
+id-smime-ct 50		: id-ct-signedTAL
+id-smime-ct 51		: id-ct-rpkiSignedPrefixList
 
 # S/MIME Attributes
 id-smime-aa 1		: id-smime-aa-receiptRequest
@@ -315,7 +318,10 @@ id-smime-aa 26		: id-smime-aa-ets-certCRLTimestamp
 id-smime-aa 27		: id-smime-aa-ets-archiveTimeStamp
 id-smime-aa 28		: id-smime-aa-signatureType
 id-smime-aa 29		: id-smime-aa-dvcs-dvc
+id-smime-aa 44		: id-aa-ets-attrCertificateRefs
+id-smime-aa 45		: id-aa-ets-attrRevocationRefs
 id-smime-aa 47		: id-smime-aa-signingCertificateV2
+id-smime-aa 48		: id-aa-ets-archiveTimestampV2
 
 # S/MIME Algorithm Identifiers
 # obsolete
@@ -348,14 +354,17 @@ id-smime-cti 6		: id-smime-cti-ets-proofOfCreation
 
 pkcs9 20		:			: friendlyName
 pkcs9 21		:			: localKeyID
+!Alias ms-corp 1 3 6 1 4 1 311
 !Cname ms-csp-name
-1 3 6 1 4 1 311 17 1	: CSPName		: Microsoft CSP Name
-1 3 6 1 4 1 311 17 2	: LocalKeySet		: Microsoft Local Key set
+ms-corp 17 1	: CSPName		: Microsoft CSP Name
+ms-corp 17 2	: LocalKeySet		: Microsoft Local Key set
 !Alias certTypes pkcs9 22
 certTypes 1		:			: x509Certificate
 certTypes 2		:			: sdsiCertificate
 !Alias crlTypes pkcs9 23
 crlTypes 1		:			: x509Crl
+
+pkcs9 52		: id-aa-CMSAlgorithmProtection
 
 !Alias pkcs12 pkcs 12
 !Alias pkcs12-pbeids pkcs12 1
@@ -396,6 +405,9 @@ sm-scheme 504           : RSA-SM3		: sm3WithRSAEncryption
 
 sm-scheme 501           : SM2-SM3               : SM2-with-SM3
 
+# From GM/T 0091-2020
+sm3 3 1			:			: hmacWithSM3
+
 # From RFC4231
 rsadsi 2 8		:			: hmacWithSHA224
 rsadsi 2 9		:			: hmacWithSHA256
@@ -425,21 +437,26 @@ rsadsi 3 8		: RC5-CBC		: rc5-cbc
 			: RC5-OFB		: rc5-ofb
 
 !Cname ms-ext-req
-1 3 6 1 4 1 311 2 1 14	: msExtReq		: Microsoft Extension Request
+ms-corp 2 1 14	: msExtReq		: Microsoft Extension Request
 !Cname ms-code-ind
-1 3 6 1 4 1 311 2 1 21	: msCodeInd		: Microsoft Individual Code Signing
+ms-corp 2 1 21	: msCodeInd		: Microsoft Individual Code Signing
 !Cname ms-code-com
-1 3 6 1 4 1 311 2 1 22	: msCodeCom		: Microsoft Commercial Code Signing
+ms-corp 2 1 22	: msCodeCom		: Microsoft Commercial Code Signing
 !Cname ms-ctl-sign
-1 3 6 1 4 1 311 10 3 1	: msCTLSign		: Microsoft Trust List Signing
+ms-corp 10 3 1	: msCTLSign		: Microsoft Trust List Signing
 !Cname ms-sgc
-1 3 6 1 4 1 311 10 3 3	: msSGC			: Microsoft Server Gated Crypto
+ms-corp 10 3 3	: msSGC			: Microsoft Server Gated Crypto
 !Cname ms-efs
-1 3 6 1 4 1 311 10 3 4	: msEFS			: Microsoft Encrypted File System
+ms-corp 10 3 4	: msEFS			: Microsoft Encrypted File System
 !Cname ms-smartcard-login
-1 3 6 1 4 1 311 20 2 2	: msSmartcardLogin	: Microsoft Smartcard Login
+ms-corp 20 2 2	: msSmartcardLogin	: Microsoft Smartcard Login
 !Cname ms-upn
-1 3 6 1 4 1 311 20 2 3	: msUPN			: Microsoft User Principal Name
+ms-corp 20 2 3	: msUPN			: Microsoft User Principal Name
+
+ms-corp 25 2	: ms-ntds-sec-ext	: Microsoft NTDS CA Extension
+ms-corp 25 2 1	: ms-ntds-obj-sid	: Microsoft NTDS AD objectSid
+ms-corp 21 7	: ms-cert-templ		: Microsoft certificate template
+ms-corp 21 10	: ms-app-policies	: Microsoft Application Policies Extension
 
 1 3 6 1 4 1 188 7 1 1 2	: IDEA-CBC		: idea-cbc
 			: IDEA-ECB		: idea-ecb
@@ -493,13 +510,17 @@ id-pkix-mod 13		: id-mod-timestamp-protocol
 id-pkix-mod 14		: id-mod-ocsp
 id-pkix-mod 15		: id-mod-dvcs
 id-pkix-mod 16		: id-mod-cmp2000
+id-pkix-mod 50		: id-mod-cmp2000-02
+id-pkix-mod 99		: id-mod-cmp2021-88
+id-pkix-mod 100		: id-mod-cmp2021-02
 
 # PKIX Private Extensions
 !Cname info-access
 id-pe 1			: authorityInfoAccess	: Authority Information Access
 id-pe 2			: biometricInfo		: Biometric Info
 id-pe 3			: qcStatements
-id-pe 4			: ac-auditEntity
+id-pe 4         : ac-auditIdentity      : X509v3 Audit Identity
+!Alias ac-auditEntity ac-auditIdentity
 id-pe 5			: ac-targeting
 id-pe 6			: aaControls
 id-pe 7			: sbgp-ipAddrBlock
@@ -565,9 +586,9 @@ id-it 4			: id-it-preferredSymmAlg
 id-it 5			: id-it-caKeyUpdateInfo
 id-it 6			: id-it-currentCRL
 id-it 7			: id-it-unsupportedOIDs
-# obsolete
+# [Reserved and Obsolete]:
 id-it 8			: id-it-subscriptionRequest
-# obsolete
+# [Reserved and Obsolete]:
 id-it 9			: id-it-subscriptionResponse
 id-it 10		: id-it-keyPairParamReq
 id-it 11		: id-it-keyPairParamRep
@@ -579,6 +600,10 @@ id-it 16		: id-it-suppLangTags
 id-it 17		: id-it-caCerts
 id-it 18		: id-it-rootCaKeyUpdate
 id-it 19		: id-it-certReqTemplate
+id-it 20		: id-it-rootCaCert
+id-it 21		: id-it-certProfile
+id-it 22		: id-it-crlStatusList
+id-it 23		: id-it-crls
 
 # CRMF registration
 id-pkip 1		: id-regCtrl
@@ -591,6 +616,12 @@ id-regCtrl 3		: id-regCtrl-pkiPublicationInfo
 id-regCtrl 4		: id-regCtrl-pkiArchiveOptions
 id-regCtrl 5		: id-regCtrl-oldCertID
 id-regCtrl 6		: id-regCtrl-protocolEncrKey
+id-regCtrl 7		: id-regCtrl-altCertTemplate
+# id-regCtrl 8		: id-regCtrl-wtlsTemplate	[Reserved and Obsolete]
+# id-regCtrl 9		: id-regCtrl-regTokenUTF8	[Reserved and Obsolete]
+# id-regCtrl 10		: id-regCtrl-authenticatorUTF8	[Reserved and Obsolete]
+id-regCtrl 11		: id-regCtrl-algId
+id-regCtrl 12		: id-regCtrl-rsaKeyLen
 
 # CRMF registration information
 id-regInfo 1		: id-regInfo-utf8Pairs
@@ -627,6 +658,7 @@ id-cmc 24		: id-cmc-confirmCertAcceptance
 # other names
 id-on 1			: id-on-personalData
 id-on 3			: id-on-permanentIdentifier : Permanent Identifier
+id-on 4			: id-on-hardwareModuleName : Hardware Module Name
 id-on 5			: id-on-xmppAddr : XmppAddr
 id-on 7			: id-on-dnsSRV : SRVName
 id-on 8			: id-on-NAIRealm : NAIRealm
@@ -850,14 +882,64 @@ id-ce 35		: authorityKeyIdentifier : X509v3 Authority Key Identifier
 id-ce 36		: policyConstraints	: X509v3 Policy Constraints
 !Cname ext-key-usage
 id-ce 37		: extendedKeyUsage	: X509v3 Extended Key Usage
+!Cname authority-attribute-identifier
+id-ce 38		: authorityAttributeIdentifier : X509v3 Authority Attribute Identifier
+!Cname role-spec-cert-identifier
+id-ce 39		: roleSpecCertIdentifier	: X509v3 Role Specification Certificate Identifier
+!Cname basic-att-constraints
+id-ce 41		: basicAttConstraints		: X509v3 Basic Attribute Certificate Constraints
+!Cname delegated-name-constraints
+id-ce 42 		: delegatedNameConstraints	: X509v3 Delegated Name Constraints
+!Cname time-specification
+id-ce 43		: timeSpecification			: X509v3 Time Specification
 !Cname freshest-crl
 id-ce 46		: freshestCRL		: X509v3 Freshest CRL
+!Cname attribute-descriptor
+id-ce 48		: attributeDescriptor		: X509v3 Attribute Descriptor
+!Cname user-notice
+id-ce 49		: userNotice				: X509v3 User Notice
+!Cname soa-identifier
+id-ce 50        : sOAIdentifier     : X509v3 Source of Authority Identifier
+!Cname acceptable-cert-policies
+id-ce 52		: acceptableCertPolicies	: X509v3 Acceptable Certification Policies
 !Cname inhibit-any-policy
 id-ce 54		: inhibitAnyPolicy	: X509v3 Inhibit Any Policy
 !Cname target-information
 id-ce 55		: targetInformation	: X509v3 AC Targeting
 !Cname no-rev-avail
 id-ce 56		: noRevAvail		: X509v3 No Revocation Available
+!Cname acceptable-privilege-policies
+id-ce 57		: acceptablePrivPolicies	: X509v3 Acceptable Privilege Policies
+!Cname indirect-issuer
+id-ce 61		: indirectIssuer			: X509v3 Indirect Issuer
+!Cname no-assertion
+id-ce 62        : noAssertion       : X509v3 No Assertion
+!Cname id-aa-issuing-distribution-point
+id-ce 63		: aAissuingDistributionPoint : X509v3 Attribute Authority Issuing Distribution Point
+!Cname issued-on-behalf-of
+id-ce 64		: issuedOnBehalfOf	: X509v3 Issued On Behalf Of
+!Cname single-use
+id-ce 65		: singleUse			: X509v3 Single Use
+!Cname group-ac
+id-ce 66		: groupAC			: X509v3 Group Attribute Certificate
+!Cname allowed-attribute-assignments
+id-ce 67		: allowedAttributeAssignments		: X509v3 Allowed Attribute Assignments
+!Cname attribute-mappings
+id-ce 68		: attributeMappings		: X509v3 Attribute Mappings
+!Cname holder-name-constraints
+id-ce 69		: holderNameConstraints	: X509v3 Holder Name Constraints
+!Cname authorization-validation
+id-ce 70		: authorizationValidation : X509v3 Authorization Validation
+!Cname prot-restrict
+id-ce 71		: protRestrict : X509v3 Protocol Restriction
+!Cname subject-alt-public-key-info
+id-ce 72		: subjectAltPublicKeyInfo : X509v3 Subject Alternative Public Key Info
+!Cname alt-signature-algorithm
+id-ce 73		: altSignatureAlgorithm : X509v3 Alternative Signature Algorithm
+!Cname alt-signature-value
+id-ce 74		: altSignatureValue : X509v3 Alternative Signature Value
+!Cname associated-information
+id-ce 75		: associatedInformation : X509v3 Associated Information
 
 # From RFC5280
 ext-key-usage 0		: anyExtendedKeyUsage	: Any Extended Key Usage
@@ -913,6 +995,9 @@ Private 1		: enterprises		: Enterprises
 
 # RFC 2247
 Enterprises 1466 344	: dcobject		: dcObject
+
+# Wi-SUN Assigned Value Registry
+Enterprises 45605 1     : id-kp-wisun-fan-device : Wi-SUN Alliance Field Area Network (FAN)
 
 # RFC 1495
 Mail 1			: mime-mhs		: MIME MHS
@@ -1050,6 +1135,27 @@ holdInstruction 3	: holdInstructionReject	: Hold Instruction Reject
 
 # OID's from ITU-T.  Most of this is defined in RFC 1274.  A couple of
 # them are also mentioned in RFC 2247
+# OIDs specific to Electronic Signature Standard/CAdES are as specified in
+# ETSI EN 319 122-1 V1.2.1 (2021-10):
+# Electronic Signatures and Infrastructures (ESI); CAdES digital signatures; 
+# Part 1: Building blocks and CAdES baseline signatures
+itu-t 4			: itu-t-identified-organization
+itu-t-identified-organization 0: etsi
+etsi 1733		: electronic-signature-standard
+electronic-signature-standard 2: ess-attributes
+ess-attributes 1	: id-aa-ets-mimeType
+ess-attributes 2	: id-aa-ets-longTermValidation
+ess-attributes 3	: id-aa-ets-SignaturePolicyDocument
+ess-attributes 4	: id-aa-ets-archiveTimestampV3
+ess-attributes 5	: id-aa-ATSHashIndex
+etsi 19122		: cades
+cades 1			: cades-attributes
+cades-attributes 1	: id-aa-ets-signerAttrV2
+cades-attributes 3	: id-aa-ets-sigPolicyStore
+cades-attributes 4	: id-aa-ATSHashIndex-v2
+cades-attributes 5	: id-aa-ATSHashIndex-v3
+cades-attributes 6	: signedAssertion
+
 itu-t 9			: data
 data 2342		: pss
 pss 19200300		: ucl
@@ -1565,6 +1671,9 @@ sm-scheme 104 4         : SM4-CFB             : sm4-cfb
 sm-scheme 104 5         : SM4-CFB1            : sm4-cfb1
 sm-scheme 104 6         : SM4-CFB8            : sm4-cfb8
 sm-scheme 104 7         : SM4-CTR             : sm4-ctr
+sm-scheme 104 8         : SM4-GCM             : sm4-gcm
+sm-scheme 104 9         : SM4-CCM             : sm4-ccm
+sm-scheme 104 10        : SM4-XTS             : sm4-xts
 
 # There is no OID that just denotes "HMAC" oddly enough...
 
@@ -1597,12 +1706,18 @@ ISO-US 10046 2 1	: dhpublicnumber		: X9.42 DH
 1 3 36 3 3 2 8 1 1 5 : brainpoolP224r1
 1 3 36 3 3 2 8 1 1 6 : brainpoolP224t1
 1 3 36 3 3 2 8 1 1 7 : brainpoolP256r1
+# Alternate NID to represent the TLSv1.3 brainpoolP256r1 group
+                     : brainpoolP256r1tls13
 1 3 36 3 3 2 8 1 1 8 : brainpoolP256t1
 1 3 36 3 3 2 8 1 1 9 : brainpoolP320r1
 1 3 36 3 3 2 8 1 1 10 : brainpoolP320t1
 1 3 36 3 3 2 8 1 1 11 : brainpoolP384r1
+# Alternate NID to represent the TLSv1.3 brainpoolP384r1 group
+                      : brainpoolP384r1tls13
 1 3 36 3 3 2 8 1 1 12 : brainpoolP384t1
 1 3 36 3 3 2 8 1 1 13 : brainpoolP512r1
+# Alternate NID to represent the TLSv1.3 brainpoolP512r1 group
+                      : brainpoolP512r1tls13
 1 3 36 3 3 2 8 1 1 14 : brainpoolP512t1
 
 # ECDH schemes from RFC5753
@@ -1633,9 +1748,9 @@ secg-scheme 14 3 : dhSinglePass-cofactorDH-sha512kdf-scheme
 # CABForum EV SSL Certificate Guidelines
 # (see https://cabforum.org/extended-validation/)
 # OIDs for Subject Jurisdiction of Incorporation or Registration
-1 3 6 1 4 1 311 60 2 1 1	: jurisdictionL		: jurisdictionLocalityName
-1 3 6 1 4 1 311 60 2 1 2	: jurisdictionST	: jurisdictionStateOrProvinceName
-1 3 6 1 4 1 311 60 2 1 3	: jurisdictionC		: jurisdictionCountryName
+ms-corp 60 2 1 1	: jurisdictionL		: jurisdictionLocalityName
+ms-corp 60 2 1 2	: jurisdictionST	: jurisdictionStateOrProvinceName
+ms-corp 60 2 1 3	: jurisdictionC		: jurisdictionCountryName
 
 # SCRYPT algorithm
 !Cname id-scrypt
@@ -1744,3 +1859,13 @@ dstu4145le 2 9 : uacurve9 : DSTU curve 9
                             : AES-128-SIV  : aes-128-siv
                             : AES-192-SIV  : aes-192-siv
                             : AES-256-SIV  : aes-256-siv
+
+
+!Cname oracle
+joint-iso-itu-t 16 840 1 113894 : oracle-organization : Oracle organization
+# Jdk trustedKeyUsage attribute
+oracle 746875 1 1 : oracle-jdk-trustedkeyusage : Trusted key usage (Oracle)
+
+# NID for compression
+                            : brotli : Brotli compression
+			    : zstd : Zstandard compression

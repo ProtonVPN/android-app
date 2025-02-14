@@ -18,9 +18,9 @@
         <item>External Auth Provider</item>
     </string-array>
     <string-array name="tls_directions_entries">
-        <item translatable="false">0</item>
-        <item translatable="false">1</item>
-        <item>Unspecified</item>
+        <item translatable="false">tls-auth - --direction 0</item>
+        <item translatable="false">tls-auth - --direction 1</item>
+        <item>tls-auth --direction not specified</item>
         <item>Encryption (--tls-crypt)</item>
         <item>TLS Crypt V2</item>
     </string-array>
@@ -45,7 +45,7 @@
     <string-array name="tls_profile_entries">
         <item>insecure (not recommend, allows insecure crypto)</item>
         <item>legacy (default)</item>
-        <item>preferred (recommended but limited compabbility)</item>
+        <item>preferred (recommended but limited compatibility)</item>
         <item>Suite B (only NIST approved elliptic curves)</item>
     </string-array>
 </resources>

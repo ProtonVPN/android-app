@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // kovpn crypto wrappers
 
@@ -33,8 +23,7 @@
 #include <openvpn/crypto/cryptodc.hpp>
 #include <openvpn/crypto/bs64_data_limit.hpp>
 
-namespace openvpn {
-namespace KoRekey {
+namespace openvpn::KoRekey {
 
 OPENVPN_EXCEPTION(korekey_error);
 
@@ -57,7 +46,6 @@ struct Info
     CompressContext comp_ctx;
     unsigned int key_id = 0;
     int remote_peer_id = -1;
-    bool tcp_linear = false;
     StaticKey encrypt_cipher;
     StaticKey encrypt_hmac;
     StaticKey decrypt_cipher;
@@ -138,8 +126,7 @@ class Key
             std::memset(dest + NONCE_TAIL_SIZE, 0, dest_size - NONCE_TAIL_SIZE);
     }
 };
-} // namespace KoRekey
-} // namespace openvpn
+} // namespace openvpn::KoRekey
 
 #ifdef ENABLE_KOVPN
 #include <openvpn/kovpn/kovpnkocrypto.hpp>

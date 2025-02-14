@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMPRESS_LZ4_H
 #define OPENVPN_COMPRESS_LZ4_H
@@ -26,6 +16,8 @@
 // Should only be included by compress.hpp
 
 #include <algorithm> // for std::max
+
+#include <openvpn/common/numeric_util.hpp>
 
 #include <lz4.h>
 
@@ -41,8 +33,12 @@ class CompressLZ4Base : public Compress
 
     bool do_decompress(BufferAllocated &buf)
     {
+        auto prepRes = frame->prepare(Frame::DECOMPRESS_WORK, work);
+        if (!numeric_util::is_safe_conversion<const int>(prepRes))
+            return false;
+
         // initialize work buffer
-        const int payload_size = frame->prepare(Frame::DECOMPRESS_WORK, work);
+        auto payload_size = static_cast<const int>(prepRes);
 
         // do uncompress
         const int decomp_size = LZ4_decompress_safe((const char *)buf.c_data(),
@@ -54,7 +50,7 @@ class CompressLZ4Base : public Compress
             error(buf);
             return false;
         }
-        OPENVPN_LOG_COMPRESS_VERBOSE("LZ4 uncompress " << buf.size() << " -> " << decomp_size);
+        OVPN_LOG_VERBOSE("LZ4 uncompress " << buf.size() << " -> " << decomp_size);
         work.set_size(decomp_size);
         buf.swap(work);
         return true;
@@ -86,7 +82,7 @@ class CompressLZ4Base : public Compress
                 error(buf);
                 return false;
             }
-            OPENVPN_LOG_COMPRESS_VERBOSE("LZ4 compress " << buf.size() << " -> " << comp_size);
+            OVPN_LOG_VERBOSE("LZ4 compress " << buf.size() << " -> " << comp_size);
             work.set_size(comp_size);
             buf.swap(work);
             return true;
@@ -124,15 +120,15 @@ class CompressLZ4 : public CompressLZ4Base
         : CompressLZ4Base(frame, stats),
           asym(asym_arg)
     {
-        OPENVPN_LOG_COMPRESS("LZ4 init asym=" << asym_arg);
+        OVPN_LOG_INFO("LZ4 init asym=" << asym_arg);
     }
 
-    virtual const char *name() const
+    const char *name() const override
     {
         return "lz4";
     }
 
-    virtual void compress(BufferAllocated &buf, const bool hint)
+    void compress(BufferAllocated &buf, const bool hint) override
     {
         // skip null packets
         if (!buf.size())
@@ -151,7 +147,7 @@ class CompressLZ4 : public CompressLZ4Base
         do_swap(buf, NO_COMPRESS_SWAP);
     }
 
-    virtual void decompress(BufferAllocated &buf)
+    void decompress(BufferAllocated &buf) override
     {
         // skip null packets
         if (!buf.size())
@@ -183,15 +179,15 @@ class CompressLZ4v2 : public CompressLZ4Base
         : CompressLZ4Base(frame, stats),
           asym(asym_arg)
     {
-        OPENVPN_LOG_COMPRESS("LZ4v2 init asym=" << asym_arg);
+        OVPN_LOG_INFO("LZ4v2 init asym=" << asym_arg);
     }
 
-    virtual const char *name() const
+    const char *name() const override
     {
         return "lz4v2";
     }
 
-    virtual void compress(BufferAllocated &buf, const bool hint)
+    void compress(BufferAllocated &buf, const bool hint) override
     {
         // skip null packets
         if (!buf.size())
@@ -210,7 +206,7 @@ class CompressLZ4v2 : public CompressLZ4Base
         v2_push(buf, OVPN_COMPv2_NONE);
     }
 
-    virtual void decompress(BufferAllocated &buf)
+    void decompress(BufferAllocated &buf) override
     {
         // skip null packets
         if (!buf.size())

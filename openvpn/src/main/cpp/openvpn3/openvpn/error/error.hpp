@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Define OpenVPN error codes and a method to convert them to a string representation
 
@@ -26,8 +16,7 @@
 
 #include <openvpn/common/arraysize.hpp>
 
-namespace openvpn {
-namespace Error {
+namespace openvpn::Error {
 
 enum Type
 {
@@ -74,10 +63,19 @@ enum Type
     CONNECTION_TIMEOUT,                   // connection failed to establish within given time
     PRIMARY_EXPIRE,                       // primary key context expired
     TLS_VERSION_MIN,                      // peer cannot handshake at our minimum required TLS version
+    CERT_VERIFY_FAIL,                     // peer certificate verification failure
     TLS_SIGALG_DISALLOWED_OR_UNSUPPORTED, // signature algorithm required by TLS peer is not supported
+    TLS_ALERT_PROTOCOL_VERSION,           // TLS Alert: No common TLS version between server and client
+    TLS_ALERT_UNKNOWN_CA,                 // TLS Alert: Unknown CA (client certificate verify failed or peer-fingerprint failed)
+    TLS_ALERT_HANDSHAKE_FAILURE,          // TLS Alert: Generic handshake failure from the other side
+    TLS_ALERT_CERTIFICATE_REQUIRED,       // TLS Alert: certificate is required
+    TLS_ALERT_CERTIFICATE_EXPIRED,        // TLS Alert: certificate has expired
+    TLS_ALERT_CERTIFICATE_REVOKED,        // TLS Alert: certificate is revoked
+    TLS_ALERT_BAD_CERTIFICATE,            // TLS Alert: bad/rejected certificate
+    TLS_ALERT_UNSUPPORTED_CERTIFICATE,    // TLS Alert: unsupported certificate (X509 key usage)
+    TLS_ALERT_MISC,                       // Any TLS Alert that is in any of the previous TLS alerts
     TLS_AUTH_FAIL,                        // tls-auth HMAC verification failed
     TLS_CRYPT_META_FAIL,                  // tls-crypt-v2 metadata verification failed
-    CERT_VERIFY_FAIL,                     // peer certificate verification failure
     PEM_PASSWORD_FAIL,                    // incorrect or missing PEM private key decryption password
     AUTH_FAILED,                          // general authentication failure
     CLIENT_HALT,                          // HALT message from server received
@@ -92,6 +90,10 @@ enum Type
     PROXY_ERROR,                          // HTTP proxy error
     PROXY_NEED_CREDS,                     // HTTP proxy needs credentials
     EARLY_NEG_INVALID,                    // Early protoctol negotiation information invalid/parse error
+    NTLM_MISSING_CRYPTO,                  // crypto primitives requires for NTLM are unavailable
+    UNUSED_OPTIONS,                       // unused/unknown options found in configuration
+    SESSION_EXPIRED,                      // authentication error when using session-id and password is not cache
+    NEED_CREDS,                           // credentials are required but are missing (likely due to auth-nocache)
 
     // key event errors
     KEV_NEGOTIATE_ERROR,
@@ -158,10 +160,19 @@ inline const char *name(const size_t type)
         "CONNECTION_TIMEOUT",
         "PRIMARY_EXPIRE",
         "TLS_VERSION_MIN",
+        "CERT_VERIFY_FAIL",
         "TLS_SIGALG_DISALLOWED_OR_UNSUPPORTED",
+        "TLS_ALERT_PROTOCOL_VERSION",
+        "TLS_ALERT_UNKNOWN_CA",
+        "TLS_ALERT_HANDSHAKE_FAILURE",
+        "TLS_ALERT_CERTIFICATE_REQUIRED",
+        "TLS_ALERT_CERTIFICATE_EXPIRED",
+        "TLS_ALERT_CERTIFICATE_REVOKED",
+        "TLS_ALERT_BAD_CERTIFICATE",
+        "TLS_ALERT_UNSUPPORTED_CERTIFICATE",
+        "TLS_ALERT_MISC",
         "TLS_AUTH_FAIL",
         "TLS_CRYPT_META_FAIL",
-        "CERT_VERIFY_FAIL",
         "PEM_PASSWORD_FAIL",
         "AUTH_FAILED",
         "CLIENT_HALT",
@@ -176,6 +187,10 @@ inline const char *name(const size_t type)
         "PROXY_ERROR",
         "PROXY_NEED_CREDS",
         "EARLY_NEG_INVALID",
+        "NTLM_MISSING_CRYPTO",
+        "UNUSED_OPTIONS_ERROR",
+        "SESSION_EXPIRED",
+        "NEED_CREDS",
         "KEV_NEGOTIATE_ERROR",
         "KEV_PENDING_ERROR",
         "N_KEV_EXPIRE",
@@ -193,7 +208,6 @@ inline const char *name(const size_t type)
     else
         return "UNKNOWN_ERROR_TYPE";
 }
-} // namespace Error
-} // namespace openvpn
+} // namespace openvpn::Error
 
 #endif // OPENVPN_ERROR_ERROR_H

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Abstract base classes for server transport objects that implement UDP, TCP,
 // HTTP Proxy, etc.
@@ -35,11 +25,21 @@
 #include <openvpn/buffer/buffer.hpp>
 #include <openvpn/addr/route.hpp>
 #include <openvpn/crypto/cryptodc.hpp>
-#include <openvpn/tun/server/tunbase.hpp>
 #include <openvpn/server/servhalt.hpp>
 #include <openvpn/server/peerstats.hpp>
 #include <openvpn/server/peeraddr.hpp>
 #include <openvpn/ssl/datalimit.hpp>
+#include <openvpn/ssl/psid.hpp>
+
+// TunClientInstance fwd decl replaces
+// #include <openvpn/tun/server/tunbase.hpp>
+namespace openvpn {
+class PsidCookie;
+namespace TunClientInstance {
+struct Recv;
+struct Send;
+} // namespace TunClientInstance
+} // namespace openvpn
 
 // used by ipma_notify()
 struct ovpn_tun_head_ipma;
@@ -100,7 +100,8 @@ struct Recv : public virtual RC<thread_unsafe_refcount>
 
     virtual void start(const Send::Ptr &parent,
                        const PeerAddr::Ptr &addr,
-                       const int local_peer_id) = 0;
+                       const int local_peer_id,
+                       const ProtoSessionID cookie_psid = ProtoSessionID()) = 0;
 
     // Called with OpenVPN-encapsulated packets from transport layer.
     // Returns true if packet successfully validated.
@@ -138,7 +139,7 @@ struct Recv : public virtual RC<thread_unsafe_refcount>
     // push a halt or restart message to client
     virtual void push_halt_restart_msg(const HaltRestart::Type type,
                                        const std::string &reason,
-                                       const bool tell_client) = 0;
+                                       const std::string &client_reason) = 0;
     // clang-format on
 };
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -22,20 +22,15 @@ static EVP_KEYEXCH *evp_keyexch_new(OSSL_PROVIDER *prov)
 {
     EVP_KEYEXCH *exchange = OPENSSL_zalloc(sizeof(EVP_KEYEXCH));
 
-    if (exchange == NULL) {
-        ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+    if (exchange == NULL)
         return NULL;
-    }
 
-    exchange->lock = CRYPTO_THREAD_lock_new();
-    if (exchange->lock == NULL) {
-        ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+    if (!CRYPTO_NEW_REF(&exchange->refcnt, 1)) {
         OPENSSL_free(exchange);
         return NULL;
     }
     exchange->prov = prov;
     ossl_provider_up_ref(prov);
-    exchange->refcnt = 1;
 
     return exchange;
 }
@@ -49,7 +44,7 @@ static void *evp_keyexch_from_algorithm(int name_id,
     int fncnt = 0, sparamfncnt = 0, gparamfncnt = 0;
 
     if ((exchange = evp_keyexch_new(prov)) == NULL) {
-        ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_EVP, ERR_R_EVP_LIB);
         goto err;
     }
 
@@ -150,12 +145,12 @@ void EVP_KEYEXCH_free(EVP_KEYEXCH *exchange)
 
     if (exchange == NULL)
         return;
-    CRYPTO_DOWN_REF(&exchange->refcnt, &i, exchange->lock);
+    CRYPTO_DOWN_REF(&exchange->refcnt, &i);
     if (i > 0)
         return;
     OPENSSL_free(exchange->type_name);
     ossl_provider_free(exchange->prov);
-    CRYPTO_THREAD_lock_free(exchange->lock);
+    CRYPTO_FREE_REF(&exchange->refcnt);
     OPENSSL_free(exchange);
 }
 
@@ -163,7 +158,7 @@ int EVP_KEYEXCH_up_ref(EVP_KEYEXCH *exchange)
 {
     int ref = 0;
 
-    CRYPTO_UP_REF(&exchange->refcnt, &ref, exchange->lock);
+    CRYPTO_UP_REF(&exchange->refcnt, &ref);
     return 1;
 }
 
@@ -332,7 +327,11 @@ int EVP_PKEY_derive_init_ex(EVP_PKEY_CTX *ctx, const OSSL_PARAM params[])
 
     /* No more legacy from here down to legacy: */
 
+    /* A Coverity false positive with up_ref/down_ref and free */
+    /* coverity[use_after_free] */
     ctx->op.kex.exchange = exchange;
+    /* A Coverity false positive with up_ref/down_ref and free */
+    /* coverity[deref_arg] */
     ctx->op.kex.algctx = exchange->newctx(ossl_provider_ctx(exchange->prov));
     if (ctx->op.kex.algctx == NULL) {
         /* The provider key can stay in the cache */
@@ -420,6 +419,8 @@ int EVP_PKEY_derive_set_peer_ex(EVP_PKEY_CTX *ctx, EVP_PKEY *peer,
                                     EVP_KEYMGMT_get0_name(ctx->keymgmt),
                                     ctx->propquery);
     if (tmp_keymgmt != NULL)
+        /* A Coverity issue with up_ref/down_ref and free */
+        /* coverity[pass_freed_arg] */
         provkey = evp_pkey_export_to_provider(peer, ctx->libctx,
                                               &tmp_keymgmt, ctx->propquery);
     EVP_KEYMGMT_free(tmp_keymgmt_tofree);

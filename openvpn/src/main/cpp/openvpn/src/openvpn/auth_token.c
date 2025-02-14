@@ -1,7 +1,5 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -154,7 +152,10 @@ auth_token_init_secret(struct key_ctx *key_ctx, const char *key_file,
     {
         msg(M_FATAL, "ERROR: not enough data in auth-token secret");
     }
-    init_key_ctx(key_ctx, &key, &kt, false, "auth-token secret");
+
+    struct key_parameters key_params;
+    key_parameters_from_key(&key_params, &key);
+    init_key_ctx(key_ctx, &key_params, &kt, false, "auth-token secret");
 
     free_buf(&server_secret_key);
 }
@@ -184,24 +185,18 @@ generate_auth_token(const struct user_pass *up, struct tls_multi *multi)
         char *initial_token_copy = string_alloc(multi->auth_token_initial, &gc);
 
         char *old_sessid = initial_token_copy + strlen(SESSION_ID_PREFIX);
-        char *old_tsamp_initial = old_sessid + AUTH_TOKEN_SESSION_ID_LEN*8/6;
+        char *old_tstamp_initial = old_sessid + AUTH_TOKEN_SESSION_ID_LEN*8/6;
 
         /*
          * We null terminate the old token just after the session ID to let
          * our base64 decode function only decode the session ID
          */
-        old_tsamp_initial[12] = '\0';
-        ASSERT(openvpn_base64_decode(old_tsamp_initial, old_tstamp_decode, 9) == 9);
+        old_tstamp_initial[12] = '\0';
+        ASSERT(openvpn_base64_decode(old_tstamp_initial, old_tstamp_decode, 9) == 9);
 
-        /*
-         * Avoid old gcc (4.8.x) complaining about strict aliasing
-         * by using a temporary variable instead of doing it in one
-         * line
-         */
-        uint64_t *tstamp_ptr = (uint64_t *) old_tstamp_decode;
-        initial_timestamp = *tstamp_ptr;
+        memcpy(&initial_timestamp, &old_tstamp_decode, sizeof(initial_timestamp));
 
-        old_tsamp_initial[0] = '\0';
+        old_tstamp_initial[0] = '\0';
         ASSERT(openvpn_base64_decode(old_sessid, sessid, AUTH_TOKEN_SESSION_ID_LEN) == AUTH_TOKEN_SESSION_ID_LEN);
     }
     else if (!rand_bytes(sessid, AUTH_TOKEN_SESSION_ID_LEN))
@@ -303,6 +298,7 @@ verify_auth_token(struct user_pass *up, struct tls_multi *multi,
      * Base64 is <= input and input is < USER_PASS_LEN, so using USER_PASS_LEN
      * is safe here but a bit overkill
      */
+    ASSERT(up && !up->protected);
     uint8_t b64decoded[USER_PASS_LEN];
     int decoded_len = openvpn_base64_decode(up->password + strlen(SESSION_ID_PREFIX),
                                             b64decoded, USER_PASS_LEN);
@@ -453,6 +449,7 @@ check_send_auth_token(struct context *c)
     }
 
     struct user_pass up;
+    CLEAR(up);
     strncpynt(up.username, multi->locked_username, sizeof(up.username));
 
     generate_auth_token(&up, multi);

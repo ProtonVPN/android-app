@@ -24,6 +24,8 @@ fi
 GCC_EXTRA="$GCC_EXTRA -DOPENVPN_VERSION=\"$($(dirname $0)/../../scripts/version)\""
 export GCC_EXTRA
 
+export EXTRA_CPP_OBJS=../../openvpn/crypto/data_epoch.cpp
+
 # determine platform
 if [ "$(uname)" == "Darwin" ]; then
     export PROF=${PROF:-osx64}

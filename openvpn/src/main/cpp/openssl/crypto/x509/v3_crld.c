@@ -1,5 +1,5 @@
 /*
- * Copyright 1999-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1999-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -70,7 +70,12 @@ static int set_dist_point_name(DIST_POINT_NAME **pdp, X509V3_CTX *ctx,
     STACK_OF(GENERAL_NAME) *fnm = NULL;
     STACK_OF(X509_NAME_ENTRY) *rnm = NULL;
 
-    if (strncmp(cnf->name, "fullname", 9) == 0) {
+    if (cnf->value == NULL) {
+        ERR_raise(ERR_LIB_X509V3, X509V3_R_MISSING_VALUE);
+        goto err;
+    }
+
+    if (HAS_PREFIX(cnf->name, "fullname")) {
         fnm = gnames_from_sectname(ctx, cnf->value);
         if (!fnm)
             goto err;
@@ -244,8 +249,10 @@ static void *v2i_crld(const X509V3_EXT_METHOD *method,
     int i;
 
     crld = sk_DIST_POINT_new_reserve(NULL, num);
-    if (crld == NULL)
-        goto merr;
+    if (crld == NULL) {
+        ERR_raise(ERR_LIB_X509V3, ERR_R_CRYPTO_LIB);
+        goto err;
+    }
     for (i = 0; i < num; i++) {
         DIST_POINT *point;
 
@@ -263,16 +270,24 @@ static void *v2i_crld(const X509V3_EXT_METHOD *method,
         } else {
             if ((gen = v2i_GENERAL_NAME(method, ctx, cnf)) == NULL)
                 goto err;
-            if ((gens = GENERAL_NAMES_new()) == NULL)
-                goto merr;
-            if (!sk_GENERAL_NAME_push(gens, gen))
-                goto merr;
+            if ((gens = GENERAL_NAMES_new()) == NULL) {
+                ERR_raise(ERR_LIB_X509V3, ERR_R_ASN1_LIB);
+                goto err;
+            }
+            if (!sk_GENERAL_NAME_push(gens, gen)) {
+                ERR_raise(ERR_LIB_X509V3, ERR_R_CRYPTO_LIB);
+                goto err;
+            }
             gen = NULL;
-            if ((point = DIST_POINT_new()) == NULL)
-                goto merr;
+            if ((point = DIST_POINT_new()) == NULL) {
+                ERR_raise(ERR_LIB_X509V3, ERR_R_ASN1_LIB);
+                goto err;
+            }
             sk_DIST_POINT_push(crld, point); /* no failure as it was reserved */
-            if ((point->distpoint = DIST_POINT_NAME_new()) == NULL)
-                goto merr;
+            if ((point->distpoint = DIST_POINT_NAME_new()) == NULL) {
+                ERR_raise(ERR_LIB_X509V3, ERR_R_ASN1_LIB);
+                goto err;
+            }
             point->distpoint->name.fullname = gens;
             point->distpoint->type = 0;
             gens = NULL;
@@ -280,8 +295,6 @@ static void *v2i_crld(const X509V3_EXT_METHOD *method,
     }
     return crld;
 
- merr:
-    ERR_raise(ERR_LIB_X509V3, ERR_R_MALLOC_FAILURE);
  err:
     GENERAL_NAME_free(gen);
     GENERAL_NAMES_free(gens);
@@ -314,6 +327,7 @@ ASN1_CHOICE_cb(DIST_POINT_NAME, dpn_cb) = {
 
 
 IMPLEMENT_ASN1_FUNCTIONS(DIST_POINT_NAME)
+IMPLEMENT_ASN1_DUP_FUNCTION(DIST_POINT_NAME)
 
 ASN1_SEQUENCE(DIST_POINT) = {
         ASN1_EXP_OPT(DIST_POINT, distpoint, DIST_POINT_NAME, 0),
@@ -364,8 +378,10 @@ static void *v2i_idp(const X509V3_EXT_METHOD *method, X509V3_CTX *ctx,
     char *name, *val;
     int i, ret;
     idp = ISSUING_DIST_POINT_new();
-    if (idp == NULL)
-        goto merr;
+    if (idp == NULL) {
+        ERR_raise(ERR_LIB_X509V3, ERR_R_ASN1_LIB);
+        goto err;
+    }
     for (i = 0; i < sk_CONF_VALUE_num(nval); i++) {
         cnf = sk_CONF_VALUE_value(nval, i);
         name = cnf->name;
@@ -398,30 +414,17 @@ static void *v2i_idp(const X509V3_EXT_METHOD *method, X509V3_CTX *ctx,
     }
     return idp;
 
- merr:
-    ERR_raise(ERR_LIB_X509V3, ERR_R_MALLOC_FAILURE);
  err:
     ISSUING_DIST_POINT_free(idp);
     return NULL;
-}
-
-static int print_gens(BIO *out, STACK_OF(GENERAL_NAME) *gens, int indent)
-{
-    int i;
-    for (i = 0; i < sk_GENERAL_NAME_num(gens); i++) {
-        if (i > 0)
-            BIO_puts(out, "\n");
-        BIO_printf(out, "%*s", indent + 2, "");
-        GENERAL_NAME_print(out, sk_GENERAL_NAME_value(gens, i));
-    }
-    return 1;
 }
 
 static int print_distpoint(BIO *out, DIST_POINT_NAME *dpn, int indent)
 {
     if (dpn->type == 0) {
         BIO_printf(out, "%*sFull Name:\n", indent, "");
-        print_gens(out, dpn->name.fullname, indent);
+        OSSL_GENERAL_NAMES_print(out, dpn->name.fullname, indent);
+        BIO_puts(out, "\n");
     } else {
         X509_NAME ntmp;
         ntmp.entries = dpn->name.relativename;
@@ -472,7 +475,7 @@ static int i2r_crldp(const X509V3_EXT_METHOD *method, void *pcrldp, BIO *out,
             print_reasons(out, "Reasons", point->reasons, indent);
         if (point->CRLissuer) {
             BIO_printf(out, "%*sCRL Issuer:\n", indent, "");
-            print_gens(out, point->CRLissuer, indent);
+            OSSL_GENERAL_NAMES_print(out, point->CRLissuer, indent);
         }
     }
     return 1;

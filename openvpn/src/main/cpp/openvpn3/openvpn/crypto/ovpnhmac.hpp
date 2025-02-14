@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // OpenVPN HMAC classes
 
@@ -159,15 +149,13 @@ class OvpnHMACInstance : public RC<thread_unsafe_refcount>
                                const size_t data_size,
                                const size_t l1,
                                const size_t l2,
-                               const size_t l3)
-        = 0;
+                               const size_t l3) = 0;
 
     virtual bool ovpn_hmac_cmp(const unsigned char *data,
                                const size_t data_size,
                                const size_t l1,
                                const size_t l2,
-                               const size_t l3)
-        = 0;
+                               const size_t l3) = 0;
 };
 
 class OvpnHMACContext : public RC<thread_unsafe_refcount>
@@ -199,30 +187,30 @@ class CryptoOvpnHMACInstance : public OvpnHMACInstance
     {
     }
 
-    virtual void init(const StaticKey &key)
+    void init(const StaticKey &key) override
     {
         ovpn_hmac.init(digest, key);
     }
 
-    virtual size_t output_size() const
+    size_t output_size() const override
     {
         return ovpn_hmac.output_size();
     }
 
-    virtual void ovpn_hmac_gen(unsigned char *data,
-                               const size_t data_size,
-                               const size_t l1,
-                               const size_t l2,
-                               const size_t l3)
+    void ovpn_hmac_gen(unsigned char *data,
+                       const size_t data_size,
+                       const size_t l1,
+                       const size_t l2,
+                       const size_t l3) override
     {
         ovpn_hmac.ovpn_hmac_gen(data, data_size, l1, l2, l3);
     }
 
-    virtual bool ovpn_hmac_cmp(const unsigned char *data,
-                               const size_t data_size,
-                               const size_t l1,
-                               const size_t l2,
-                               const size_t l3)
+    bool ovpn_hmac_cmp(const unsigned char *data,
+                       const size_t data_size,
+                       const size_t l1,
+                       const size_t l2,
+                       const size_t l3) override
     {
         return ovpn_hmac.ovpn_hmac_cmp(data, data_size, l1, l2, l3);
     }
@@ -241,12 +229,12 @@ class CryptoOvpnHMACContext : public OvpnHMACContext
     {
     }
 
-    virtual size_t size() const
+    size_t size() const override
     {
         return CryptoAlgs::size(digest);
     }
 
-    virtual OvpnHMACInstance::Ptr new_obj()
+    OvpnHMACInstance::Ptr new_obj() override
     {
         return new CryptoOvpnHMACInstance<CRYPTO_API>(digest);
     }
@@ -259,7 +247,7 @@ template <typename CRYPTO_API>
 class CryptoOvpnHMACFactory : public OvpnHMACFactory
 {
   public:
-    virtual OvpnHMACContext::Ptr new_obj(const CryptoAlgs::Type digest_type)
+    OvpnHMACContext::Ptr new_obj(const CryptoAlgs::Type digest_type) override
     {
         return new CryptoOvpnHMACContext<CRYPTO_API>(digest_type);
     }

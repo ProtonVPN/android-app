@@ -2,7 +2,7 @@
 // impl/awaitable.hpp
 // ~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -29,6 +29,12 @@
 #include "asio/post.hpp"
 #include "asio/system_error.hpp"
 #include "asio/this_coro.hpp"
+
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+# if defined(ASIO_HAS_SOURCE_LOCATION)
+#  include "asio/detail/source_location.hpp"
+# endif // defined(ASIO_HAS_SOURCE_LOCATION)
+#endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
 
 #include "asio/detail/push_options.hpp"
 
@@ -169,15 +175,27 @@ public:
 
   template <typename Op>
   auto await_transform(Op&& op,
-      typename constraint<is_async_operation<Op>::value>::type = 0)
+      constraint_t<is_async_operation<Op>::value> = 0
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+# if defined(ASIO_HAS_SOURCE_LOCATION)
+      , detail::source_location location = detail::source_location::current()
+# endif // defined(ASIO_HAS_SOURCE_LOCATION)
+#endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
+    )
   {
     if (attached_thread_->entry_point()->throw_if_cancelled_)
       if (!!attached_thread_->get_cancellation_state().cancelled())
         throw_error(asio::error::operation_aborted, "co_await");
 
-    return awaitable_async_op<typename completion_signature_of<Op>::type,
-      typename decay<Op>::type, Executor>{
-        std::forward<Op>(op), this};
+    return awaitable_async_op<
+      completion_signature_of_t<Op>, decay_t<Op>, Executor>{
+        std::forward<Op>(op), this
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+# if defined(ASIO_HAS_SOURCE_LOCATION)
+        , location
+# endif // defined(ASIO_HAS_SOURCE_LOCATION)
+#endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
+      };
   }
 
   // This await transformation obtains the associated executor of the thread of
@@ -279,11 +297,11 @@ public:
       auto await_resume()
       {
         return this_->attached_thread_->reset_cancellation_state(
-            ASIO_MOVE_CAST(Filter)(filter_));
+            static_cast<Filter&&>(filter_));
       }
     };
 
-    return result{this, ASIO_MOVE_CAST(Filter)(reset.filter)};
+    return result{this, static_cast<Filter&&>(reset.filter)};
   }
 
   // This await transformation resets the associated cancellation state.
@@ -310,14 +328,14 @@ public:
       auto await_resume()
       {
         return this_->attached_thread_->reset_cancellation_state(
-            ASIO_MOVE_CAST(InFilter)(in_filter_),
-            ASIO_MOVE_CAST(OutFilter)(out_filter_));
+            static_cast<InFilter&&>(in_filter_),
+            static_cast<OutFilter&&>(out_filter_));
       }
     };
 
     return result{this,
-        ASIO_MOVE_CAST(InFilter)(reset.in_filter),
-        ASIO_MOVE_CAST(OutFilter)(reset.out_filter)};
+        static_cast<InFilter&&>(reset.in_filter),
+        static_cast<OutFilter&&>(reset.out_filter)};
   }
 
   // This await transformation determines whether cancellation is propagated as
@@ -381,12 +399,12 @@ public:
   // race condition.
   template <typename Function>
   auto await_transform(Function f,
-      typename enable_if<
+      enable_if_t<
         is_convertible<
-          typename result_of<Function(awaitable_frame_base*)>::type,
+          result_of_t<Function(awaitable_frame_base*)>,
           awaitable_thread<Executor>*
         >::value
-      >::type* = nullptr)
+      >* = nullptr)
   {
     struct result
     {
@@ -520,14 +538,14 @@ public:
   ~awaitable_frame()
   {
     if (has_result_)
-      static_cast<T*>(static_cast<void*>(result_))->~T();
+      std::launder(static_cast<T*>(static_cast<void*>(result_)))->~T();
   }
 
   awaitable<T, Executor> get_return_object() noexcept
   {
     this->coro_ = coroutine_handle<awaitable_frame>::from_promise(*this);
     return awaitable<T, Executor>(this);
-  };
+  }
 
   template <typename U>
   void return_value(U&& u)
@@ -546,7 +564,8 @@ public:
   {
     this->caller_ = nullptr;
     this->rethrow_exception();
-    return std::move(*static_cast<T*>(static_cast<void*>(result_)));
+    return std::move(*std::launder(
+          static_cast<T*>(static_cast<void*>(result_))));
   }
 
 private:
@@ -563,7 +582,7 @@ public:
   {
     this->coro_ = coroutine_handle<awaitable_frame>::from_promise(*this);
     return awaitable<void, Executor>(this);
-  };
+  }
 
   void return_void()
   {
@@ -601,7 +620,7 @@ public:
   {
     this->coro_ = coroutine_handle<awaitable_frame>::from_promise(*this);
     return awaitable<awaitable_thread_entry_point, Executor>(this);
-  };
+  }
 
   void return_void()
   {
@@ -700,21 +719,21 @@ public:
   }
 
   template <typename Filter>
-  void reset_cancellation_state(ASIO_MOVE_ARG(Filter) filter)
+  void reset_cancellation_state(Filter&& filter)
   {
     bottom_of_stack_.frame_->cancellation_state_ =
       cancellation_state(bottom_of_stack_.frame_->parent_cancellation_slot_,
-        ASIO_MOVE_CAST(Filter)(filter));
+        static_cast<Filter&&>(filter));
   }
 
   template <typename InFilter, typename OutFilter>
-  void reset_cancellation_state(ASIO_MOVE_ARG(InFilter) in_filter,
-      ASIO_MOVE_ARG(OutFilter) out_filter)
+  void reset_cancellation_state(InFilter&& in_filter,
+      OutFilter&& out_filter)
   {
     bottom_of_stack_.frame_->cancellation_state_ =
       cancellation_state(bottom_of_stack_.frame_->parent_cancellation_slot_,
-        ASIO_MOVE_CAST(InFilter)(in_filter),
-        ASIO_MOVE_CAST(OutFilter)(out_filter));
+        static_cast<InFilter&&>(in_filter),
+        static_cast<OutFilter&&>(out_filter));
   }
 
   bool throw_if_cancelled() const
@@ -1085,10 +1104,21 @@ class awaitable_async_op
 public:
   typedef awaitable_async_op_handler<Signature, Executor> handler_type;
 
-  awaitable_async_op(Op&& o, awaitable_frame_base<Executor>* frame)
+  awaitable_async_op(Op&& o, awaitable_frame_base<Executor>* frame
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+# if defined(ASIO_HAS_SOURCE_LOCATION)
+      , const detail::source_location& location
+# endif // defined(ASIO_HAS_SOURCE_LOCATION)
+#endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
+    )
     : op_(std::forward<Op>(o)),
       frame_(frame),
       result_()
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+# if defined(ASIO_HAS_SOURCE_LOCATION)
+    , location_(location)
+# endif // defined(ASIO_HAS_SOURCE_LOCATION)
+#endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
   {
   }
 
@@ -1103,6 +1133,12 @@ public:
         [](void* arg)
         {
           awaitable_async_op* self = static_cast<awaitable_async_op*>(arg);
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+# if defined(ASIO_HAS_SOURCE_LOCATION)
+          ASIO_HANDLER_LOCATION((self->location_.file_name(),
+              self->location_.line(), self->location_.function_name()));
+# endif // defined(ASIO_HAS_SOURCE_LOCATION)
+#endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
           std::forward<Op&&>(self->op_)(
               handler_type(self->frame_->detach_thread(), self->result_));
         }, this);
@@ -1117,6 +1153,11 @@ private:
   Op&& op_;
   awaitable_frame_base<Executor>* frame_;
   typename handler_type::result_type result_;
+#if defined(ASIO_ENABLE_HANDLER_TRACKING)
+# if defined(ASIO_HAS_SOURCE_LOCATION)
+  detail::source_location location_;
+# endif // defined(ASIO_HAS_SOURCE_LOCATION)
+#endif // defined(ASIO_ENABLE_HANDLER_TRACKING)
 };
 
 } // namespace detail

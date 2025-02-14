@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Build HTTPS context for AWS queries
 
@@ -33,12 +23,11 @@
 #include <openvpn/aws/awsca.hpp>
 #include <openvpn/ssl/sslchoose.hpp>
 
-namespace openvpn {
-namespace AWS {
+namespace openvpn::AWS {
 class HTTPContext
 {
   public:
-    HTTPContext(RandomAPI::Ptr rng,
+    HTTPContext(StrongRandomAPI::Ptr rng,
                 const int debug_level)
         : frame_(frame_init_simple(2048)),
           digest_factory_(new CryptoDigestFactory<SSLLib::CryptoAPI>()),
@@ -49,7 +38,7 @@ class HTTPContext
     }
 
 #ifdef VPN_BINDING_PROFILES
-    HTTPContext(RandomAPI::Ptr rng,
+    HTTPContext(StrongRandomAPI::Ptr rng,
                 const int debug_level,
                 const OptionList &opt) // for VPN binding profile
         : HTTPContext(rng, debug_level)
@@ -84,7 +73,7 @@ class HTTPContext
         return *digest_factory_;
     }
 
-    RandomAPI *rng() const
+    StrongRandomAPI *rng() const
     {
         return rng_.get();
     }
@@ -120,14 +109,13 @@ class HTTPContext
 
     Frame::Ptr frame_;
     DigestFactory::Ptr digest_factory_;
-    RandomAPI::Ptr rng_;
+    StrongRandomAPI::Ptr rng_;
     WS::Client::Config::Ptr http_config_;
 #ifdef VPN_BINDING_PROFILES
     WS::ViaVPN::Ptr via_vpn_;
 #endif
     int debug_level_;
 };
-} // namespace AWS
-} // namespace openvpn
+} // namespace openvpn::AWS
 
 #endif

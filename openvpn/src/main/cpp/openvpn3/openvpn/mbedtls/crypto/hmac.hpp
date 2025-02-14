@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap the mbed TLS HMAC API defined in <mbedtls/md.h> so
 // that it can be used as part of the crypto layer of the OpenVPN core.
@@ -30,9 +20,9 @@
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/mbedtls/crypto/digest.hpp>
+#include <openvpn/mbedtls/mbedtls_compat.hpp>
 
-namespace openvpn {
-namespace MbedTLSCrypto {
+namespace openvpn::MbedTLSCrypto {
 class HMACContext
 {
     HMACContext(const HMACContext &) = delete;
@@ -66,7 +56,6 @@ class HMACContext
     void init(const CryptoAlgs::Type digest, const unsigned char *key, const size_t key_size)
     {
         erase();
-        ctx.md_ctx = nullptr;
 
         mbedtls_md_init(&ctx);
         if (mbedtls_md_setup(&ctx, DigestContext::digest_type(digest), 1) < 0)
@@ -121,7 +110,7 @@ class HMACContext
 
     size_t size_() const
     {
-        return mbedtls_md_get_size(ctx.md_info);
+        return mbedtls_md_get_size(mbedtls_md_info_from_ctx(&ctx));
     }
 
     void check_initialized() const
@@ -135,7 +124,6 @@ class HMACContext
     bool initialized;
     mbedtls_md_context_t ctx;
 };
-} // namespace MbedTLSCrypto
-} // namespace openvpn
+} // namespace openvpn::MbedTLSCrypto
 
 #endif

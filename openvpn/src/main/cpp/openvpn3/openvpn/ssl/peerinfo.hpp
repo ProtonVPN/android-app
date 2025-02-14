@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // These objects are primary concerned with generating the Peer Info on the
 // client side before transmission to server.  For the reverse case (parsing
@@ -40,8 +30,7 @@
 #include <openvpn/common/jsonhelper.hpp>
 #endif
 
-namespace openvpn {
-namespace PeerInfo {
+namespace openvpn::PeerInfo {
 
 OPENVPN_EXCEPTION(peer_info_error);
 
@@ -88,6 +77,13 @@ struct Set : public std::vector<KeyValue>, public RCCopyable<thread_unsafe_refco
     {
         for (const auto &kv : other)
             emplace_back(kv.key, kv.value);
+    }
+
+    [[nodiscard]] bool contains_key(const std::string &key)
+    {
+        return std::find_if(begin(), end(), [&](const PeerInfo::KeyValue &kv)
+                            { return kv.key == key; })
+               != end();
     }
 
     Ptr copy() const
@@ -140,7 +136,7 @@ struct Set : public std::vector<KeyValue>, public RCCopyable<thread_unsafe_refco
     {
         if (!src.isObject())
             OPENVPN_THROW(peer_info_error, title << ": top level JSON object must be a dictionary");
-        auto m = src.map();
+        auto m = src.asObject();
         for (auto &e : m)
         {
             if (e.second.isString())
@@ -164,7 +160,6 @@ struct Set : public std::vector<KeyValue>, public RCCopyable<thread_unsafe_refco
     }
 };
 
-} // namespace PeerInfo
-} // namespace openvpn
+} // namespace openvpn::PeerInfo
 
 #endif

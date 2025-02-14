@@ -20,28 +20,36 @@ aes_gcm_enc_128_kernel:
 	stp	d14, d15, [sp, #96]
 
 	ldp	x10, x11, [x16]              //ctr96_b64, ctr96_t32
+#ifdef __AARCH64EB__
+	rev	x10, x10
+	rev	x11, x11
+#endif
 	ldp	x13, x14, [x8, #160]                     //load rk10
-
+#ifdef __AARCH64EB__
+	ror	x13, x13, #32
+	ror	x14, x14, #32
+#endif
 	ld1	{v11.16b}, [x3]
 	ext	v11.16b, v11.16b, v11.16b, #8
 	rev64	v11.16b, v11.16b
 	lsr	x5, x1, #3              //byte_len
 	mov	x15, x5
 
-	ldr	q27, [x8, #144]                                //load rk9
+	ld1	{v18.4s}, [x8], #16								  //load rk0
 	add	x4, x0, x1, lsr #3   //end_input_ptr
 	sub	x5, x5, #1      //byte_len - 1
 
 	lsr	x12, x11, #32
 	ldr	q15, [x3, #112]                        //load h4l | h4h
+#ifndef __AARCH64EB__
 	ext	v15.16b, v15.16b, v15.16b, #8
-
+#endif
 	fmov	d1, x10                               //CTR block 1
 	rev	w12, w12                                //rev_ctr32
 
 	add	w12, w12, #1                            //increment rev_ctr32
 	orr	w11, w11, w11
-	ldr	q18, [x8, #0]                                  //load rk0
+	ld1	{v19.4s}, [x8], #16								  //load rk1
 
 	rev	w9, w12                                 //CTR block 1
 	add	w12, w12, #1                            //CTR block 1
@@ -61,30 +69,33 @@ aes_gcm_enc_128_kernel:
 	rev	w9, w12                                 //CTR block 3
 
 	orr	x9, x11, x9, lsl #32            //CTR block 3
-	ldr	q19, [x8, #16]                                 //load rk1
+	ld1	{v20.4s}, [x8], #16								  //load rk2
 
 	add	w12, w12, #1                            //CTR block 3
 	fmov	v3.d[1], x9                               //CTR block 3
 
 	ldr	q14, [x3, #80]                         //load h3l | h3h
+#ifndef __AARCH64EB__
 	ext	v14.16b, v14.16b, v14.16b, #8
-
+#endif
 	aese	v1.16b, v18.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 0
-	ldr	q20, [x8, #32]                                 //load rk2
+	ld1	{v21.4s}, [x8], #16								  //load rk3
 
 	aese	v2.16b, v18.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 0
 	ldr	q12, [x3, #32]                         //load h1l | h1h
+#ifndef __AARCH64EB__
 	ext	v12.16b, v12.16b, v12.16b, #8
+#endif
 
 	aese	v0.16b, v18.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 0
-	ldr	q26, [x8, #128]                                //load rk8
+	ld1	{v22.4s}, [x8], #16								  //load rk4
 
 	aese	v3.16b, v18.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 0
-	ldr	q21, [x8, #48]                                 //load rk3
+	ld1	{v23.4s}, [x8], #16								  //load rk5
 
 	aese	v2.16b, v19.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 1
@@ -92,11 +103,11 @@ aes_gcm_enc_128_kernel:
 
 	aese	v0.16b, v19.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 1
-	ldr	q24, [x8, #96]                                 //load rk6
+	ld1	{v24.4s}, [x8], #16								  //load rk6
 
 	aese	v1.16b, v19.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 1
-	ldr	q25, [x8, #112]                                //load rk7
+	ld1	{v25.4s}, [x8], #16								  //load rk7
 
 	aese	v3.16b, v19.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 1
@@ -104,12 +115,14 @@ aes_gcm_enc_128_kernel:
 
 	aese	v0.16b, v20.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 2
-	ldr	q23, [x8, #80]                                 //load rk5
+	ld1	{v26.4s}, [x8], #16								  //load rk8
 
 	aese	v1.16b, v20.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 2
 	ldr	q13, [x3, #64]                         //load h2l | h2h
+#ifndef __AARCH64EB__
 	ext	v13.16b, v13.16b, v13.16b, #8
+#endif
 
 	aese	v3.16b, v20.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 2
@@ -126,7 +139,7 @@ aes_gcm_enc_128_kernel:
 
 	aese	v2.16b, v21.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 3
-	ldr	q22, [x8, #64]                                 //load rk4
+	ld1	{v27.4s}, [x8], #16								  //load rk9
 
 	aese	v3.16b, v21.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 3
@@ -209,13 +222,25 @@ aes_gcm_enc_128_kernel:
 	b.ge	.L128_enc_tail                                    //handle tail
 
 	ldp	x6, x7, [x0, #0]            //AES block 0 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	ldp	x21, x22, [x0, #32]           //AES block 2 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x21, x21
+	rev	x22, x22
+#endif
 	ldp	x19, x20, [x0, #16]           //AES block 1 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x19, x19
+	rev	x20, x20
+#endif
 	ldp	x23, x24, [x0, #48]           //AES block 3 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+	rev	x24, x24
+#endif
 	eor	x6, x6, x13                     //AES block 0 - round 10 low
 	eor	x7, x7, x14                     //AES block 0 - round 10 high
 
@@ -280,6 +305,10 @@ aes_gcm_enc_128_kernel:
 
 .L128_enc_main_loop:	//main	loop start
 	ldp	x23, x24, [x0, #48]           //AES block 4k+3 - load plaintext
+#ifdef __AARCH64EB__
+	rev	x23, x23
+	rev	x24, x24
+#endif
 	rev64	v4.16b, v4.16b                                    //GHASH block 4k (only t0 is free)
 	rev64	v6.16b, v6.16b                                    //GHASH block 4k+2 (t0, t1, and t2 free)
 
@@ -314,7 +343,10 @@ aes_gcm_enc_128_kernel:
 	pmull2	v28.1q, v5.2d, v14.2d                          //GHASH block 4k+1 - high
 	eor	v31.8b, v31.8b, v6.8b                          //GHASH block 4k+2 - mid
 	ldp	x6, x7, [x0, #0]            //AES block 4k+4 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	aese	v0.16b, v19.16b
 	aesmc	v0.16b, v0.16b          //AES block 4k+4 - round 1
 	rev	w9, w12                                 //CTR block 4k+8
@@ -396,7 +428,10 @@ aes_gcm_enc_128_kernel:
 	aese	v1.16b, v23.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 5
 	ldp	x19, x20, [x0, #16]           //AES block 4k+5 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x19, x19
+	rev	x20, x20
+#endif
 	aese	v3.16b, v21.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 3
 	eor	v10.16b, v10.16b, v31.16b                         //GHASH block 4k+2 - mid
@@ -404,7 +439,10 @@ aes_gcm_enc_128_kernel:
 	aese	v0.16b, v23.16b
 	aesmc	v0.16b, v0.16b          //AES block 4k+4 - round 5
 	ldp	x21, x22, [x0, #32]           //AES block 4k+6 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x21, x21
+	rev	x22, x22
+#endif
 	pmull	v31.1q, v9.1d, v8.1d            //MODULO - top 64b align with mid
 	eor	v11.16b, v11.16b, v29.16b                         //GHASH block 4k+3 - low
 
@@ -713,7 +751,10 @@ aes_gcm_enc_128_kernel:
 
 	sub	x5, x4, x0   //main_end_input_ptr is number of bytes left to process
 	ldp	x6, x7, [x0], #16           //AES block 4k+4 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	cmp	x5, #48
 
 	ext	v8.16b, v11.16b, v11.16b, #8                     //prepare final partial tag
@@ -751,7 +792,10 @@ aes_gcm_enc_128_kernel:
 	st1	{ v5.16b}, [x2], #16                     //AES final-3 block  - store result
 
 	ldp	x6, x7, [x0], #16           //AES final-2 block - load input low & high
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	rev64	v4.16b, v5.16b                                    //GHASH final-3 block
 
 	eor	v4.16b, v4.16b, v8.16b                           //feed in partial tag
@@ -780,7 +824,10 @@ aes_gcm_enc_128_kernel:
 
 	rev64	v4.16b, v5.16b                                    //GHASH final-2 block
 	ldp	x6, x7, [x0], #16           //AES final-1 block - load input low & high
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	eor	v4.16b, v4.16b, v8.16b                           //feed in partial tag
 
 	eor	x6, x6, x13                     //AES final-1 block - round 10 low
@@ -814,7 +861,10 @@ aes_gcm_enc_128_kernel:
 
 	rev64	v4.16b, v5.16b                                    //GHASH final-1 block
 	ldp	x6, x7, [x0], #16           //AES final block - load input low & high
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	eor	v4.16b, v4.16b, v8.16b                           //feed in partial tag
 
 	eor	x7, x7, x14                     //AES final block - round 10 high
@@ -877,9 +927,11 @@ aes_gcm_enc_128_kernel:
 	ld1	{ v18.16b}, [x2]                            //load existing bytes where the possibly partial last block is to be stored
 
 	eor	v8.8b, v8.8b, v4.8b                          //GHASH final block - mid
-
+#ifndef __AARCH64EB__
 	rev	w9, w12
-
+#else
+	mov	w9, w12
+#endif
 	pmull2	v20.1q, v4.2d, v12.2d                          //GHASH final block - high
 
 	pmull	v8.1q, v8.1d, v16.1d                          //GHASH final block - mid
@@ -953,20 +1005,29 @@ aes_gcm_dec_128_kernel:
 	lsr	x5, x1, #3              //byte_len
 	mov	x15, x5
 	ldp	x10, x11, [x16]              //ctr96_b64, ctr96_t32
-
+#ifdef __AARCH64EB__
+	rev	x10, x10
+	rev	x11, x11
+#endif
+	ldp	x13, x14, [x8, #160]                     //load rk10
+#ifdef __AARCH64EB__
+	ror	x14, x14, 32
+	ror	x13, x13, 32
+#endif
 	sub	x5, x5, #1      //byte_len - 1
-	ldr	q18, [x8, #0]                                  //load rk0
+	ld1	{v18.4s}, [x8], #16                                //load rk0
 
 	and	x5, x5, #0xffffffffffffffc0 //number of bytes to be processed in main loop (at least 1 byte must be handled by tail)
 	ld1	{ v0.16b}, [x16]                             //special case vector load initial counter so we can start first AES block as quickly as possible
 
 	ldr	q13, [x3, #64]                         //load h2l | h2h
+#ifndef __AARCH64EB__
 	ext	v13.16b, v13.16b, v13.16b, #8
-
+#endif
 	lsr	x12, x11, #32
 	fmov	d2, x10                               //CTR block 2
 
-	ldr	q19, [x8, #16]                                 //load rk1
+	ld1	{v19.4s}, [x8], #16                                //load rk1
 	orr	w11, w11, w11
 	rev	w12, w12                                //rev_ctr32
 
@@ -978,7 +1039,7 @@ aes_gcm_dec_128_kernel:
 	rev	w9, w12                                 //CTR block 1
 
 	orr	x9, x11, x9, lsl #32            //CTR block 1
-	ldr	q20, [x8, #32]                                 //load rk2
+	ld1	{v20.4s}, [x8], #16                                //load rk2
 	add	w12, w12, #1                            //CTR block 1
 
 	fmov	v1.d[1], x9                               //CTR block 1
@@ -1001,19 +1062,19 @@ aes_gcm_dec_128_kernel:
 
 	aese	v1.16b, v18.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 0
-	ldr	q21, [x8, #48]                                 //load rk3
+	ld1	{v21.4s}, [x8], #16                                //load rk3
 
 	aese	v0.16b, v20.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 2
-	ldr	q24, [x8, #96]                                 //load rk6
+	ld1	{v22.4s}, [x8], #16                                //load rk4
 
 	aese	v2.16b, v18.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 0
-	ldr	q25, [x8, #112]                                //load rk7
+	ld1	{v23.4s}, [x8], #16                                //load rk5
 
 	aese	v1.16b, v19.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 1
-	ldr	q22, [x8, #64]                                 //load rk4
+	ld1	{v24.4s}, [x8], #16                                //load rk6
 
 	aese	v3.16b, v18.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 0
@@ -1023,7 +1084,6 @@ aes_gcm_dec_128_kernel:
 
 	aese	v1.16b, v20.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 2
-	ldp	x13, x14, [x8, #160]                     //load rk10
 
 	aese	v3.16b, v19.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 1
@@ -1033,7 +1093,7 @@ aes_gcm_dec_128_kernel:
 
 	aese	v0.16b, v21.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 3
-	ldr	q23, [x8, #80]                                 //load rk5
+	ld1	{v25.4s}, [x8], #16                                //load rk7
 
 	aese	v1.16b, v21.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 3
@@ -1043,7 +1103,7 @@ aes_gcm_dec_128_kernel:
 
 	aese	v2.16b, v20.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 2
-	ldr	q27, [x8, #144]                                //load rk9
+	ld1	{v26.4s}, [x8], #16                                //load rk8
 
 	aese	v1.16b, v22.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 4
@@ -1054,11 +1114,12 @@ aes_gcm_dec_128_kernel:
 	aese	v2.16b, v21.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 3
 	ldr	q14, [x3, #80]                         //load h3l | h3h
+#ifndef __AARCH64EB__
 	ext	v14.16b, v14.16b, v14.16b, #8
-
+#endif
 	aese	v0.16b, v22.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 4
-	ldr	q26, [x8, #128]                                //load rk8
+	ld1	{v27.4s}, [x8], #16                                //load rk9
 
 	aese	v1.16b, v23.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 5
@@ -1075,8 +1136,9 @@ aes_gcm_dec_128_kernel:
 	aese	v2.16b, v23.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 5
 	ldr	q12, [x3, #32]                         //load h1l | h1h
+#ifndef __AARCH64EB__
 	ext	v12.16b, v12.16b, v12.16b, #8
-
+#endif
 	aese	v3.16b, v23.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 5
 
@@ -1094,7 +1156,9 @@ aes_gcm_dec_128_kernel:
 	trn1	v8.2d,    v12.2d,    v13.2d                      //h2h | h1h
 
 	ldr	q15, [x3, #112]                        //load h4l | h4h
+#ifndef __AARCH64EB__
 	ext	v15.16b, v15.16b, v15.16b, #8
+#endif
 	trn2	v16.2d,  v12.2d,    v13.2d                      //h2l | h1l
 	add	x5, x5, x0
 
@@ -1136,12 +1200,10 @@ aes_gcm_dec_128_kernel:
 	eor	v17.16b, v17.16b, v9.16b                  //h4k | h3k
 	b.ge	.L128_dec_tail                                    //handle tail
 
-	ldr	q5, [x0, #16]                         //AES block 1 - load ciphertext
-
-	ldr	q4, [x0, #0]                          //AES block 0 - load ciphertext
+	ld1	{v4.16b, v5.16b}, [x0], #32               //AES block 0 - load ciphertext; AES block 1 - load ciphertext
 
 	eor	v1.16b, v5.16b, v1.16b                            //AES block 1 - result
-	ldr	q6, [x0, #32]                         //AES block 2 - load ciphertext
+	ld1	{v6.16b}, [x0], #16                       //AES block 2 - load ciphertext
 
 	eor	v0.16b, v4.16b, v0.16b                            //AES block 0 - result
 	rev64	v4.16b, v4.16b                                    //GHASH block 0
@@ -1149,10 +1211,9 @@ aes_gcm_dec_128_kernel:
 
 	orr	x9, x11, x9, lsl #32            //CTR block 4
 	add	w12, w12, #1                            //CTR block 4
-	ldr	q7, [x0, #48]                         //AES block 3 - load ciphertext
+	ld1	{v7.16b}, [x0], #16                       //AES block 3 - load ciphertext
 
 	rev64	v5.16b, v5.16b                                    //GHASH block 1
-	add	x0, x0, #64                       //AES input_ptr update
 	mov	x19, v1.d[0]                            //AES block 1 - mov low
 
 	mov	x20, v1.d[1]                            //AES block 1 - mov high
@@ -1167,7 +1228,9 @@ aes_gcm_dec_128_kernel:
 	fmov	v0.d[1], x9                               //CTR block 4
 	rev	w9, w12                                 //CTR block 5
 	eor	x19, x19, x13                   //AES block 1 - round 10 low
-
+#ifdef __AARCH64EB__
+	rev	x19, x19
+#endif
 	fmov	d1, x10                               //CTR block 5
 	add	w12, w12, #1                            //CTR block 5
 	orr	x9, x11, x9, lsl #32            //CTR block 5
@@ -1179,10 +1242,19 @@ aes_gcm_dec_128_kernel:
 	orr	x9, x11, x9, lsl #32            //CTR block 6
 
 	eor	x20, x20, x14                   //AES block 1 - round 10 high
+#ifdef __AARCH64EB__
+	rev	x20, x20
+#endif
 	eor	x6, x6, x13                   //AES block 0 - round 10 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	eor	v2.16b, v6.16b, v2.16b                            //AES block 2 - result
 
 	eor	x7, x7, x14                   //AES block 0 - round 10 high
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	stp	x6, x7, [x2], #16        //AES block 0 - store result
 
 	stp	x19, x20, [x2], #16        //AES block 1 - store result
@@ -1250,9 +1322,14 @@ aes_gcm_dec_128_kernel:
 	aese	v3.16b, v19.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 1
 	eor	x23, x23, x13                   //AES block 4k+3 - round 10 low
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+#endif
 	pmull	v30.1q, v30.1d, v17.1d                          //GHASH block 4k+1 - mid
 	eor	x22, x22, x14                   //AES block 4k+2 - round 10 high
+#ifdef __AARCH64EB__
+	rev	x22, x22
+#endif
 	mov	d31, v6.d[1]                                  //GHASH block 4k+2 - mid
 
 	aese	v0.16b, v19.16b
@@ -1290,7 +1367,9 @@ aes_gcm_dec_128_kernel:
 
 	pmull2	v31.1q, v31.2d, v16.2d                          //GHASH block 4k+2 - mid
 	eor	x24, x24, x14                   //AES block 4k+3 - round 10 high
-
+#ifdef __AARCH64EB__
+	rev	x24, x24
+#endif
 	aese	v2.16b, v20.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 2
 	eor	v30.8b, v30.8b, v7.8b                          //GHASH block 4k+3 - mid
@@ -1298,7 +1377,9 @@ aes_gcm_dec_128_kernel:
 	aese	v1.16b, v23.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 5
 	eor	x21, x21, x13                   //AES block 4k+2 - round 10 low
-
+#ifdef __AARCH64EB__
+	rev	x21, x21
+#endif
 	aese	v0.16b, v23.16b
 	aesmc	v0.16b, v0.16b          //AES block 4k+4 - round 5
 	movi	v8.8b, #0xc2
@@ -1320,7 +1401,7 @@ aes_gcm_dec_128_kernel:
 
 	pmull	v30.1q, v30.1d, v16.1d                          //GHASH block 4k+3 - mid
 	eor	v9.16b, v9.16b, v4.16b                         //GHASH block 4k+3 - high
-	ldr	q4, [x0, #0]                          //AES block 4k+4 - load ciphertext
+	ld1	{v4.16b}, [x0], #16                       //AES block 4k+3 - load ciphertext
 
 	aese	v1.16b, v25.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 7
@@ -1347,7 +1428,7 @@ aes_gcm_dec_128_kernel:
 	rev	w9, w12                                 //CTR block 4k+8
 
 	pmull	v31.1q, v9.1d, v8.1d            //MODULO - top 64b align with mid
-	ldr	q5, [x0, #16]                         //AES block 4k+5 - load ciphertext
+	ld1	{v5.16b}, [x0], #16                       //AES block 4k+4 - load ciphertext
 	ext	v9.16b, v9.16b, v9.16b, #8                     //MODULO - other top alignment
 
 	aese	v0.16b, v27.16b                                      //AES block 4k+4 - round 9
@@ -1365,7 +1446,7 @@ aes_gcm_dec_128_kernel:
 
 	aese	v3.16b, v23.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 5
-	ldr	q6, [x0, #32]                         //AES block 4k+6 - load ciphertext
+	ld1	{v6.16b}, [x0], #16                       //AES block 4k+5 - load ciphertext
 
 	add	w12, w12, #1                            //CTR block 4k+8
 	eor	v10.16b, v10.16b, v31.16b                      //MODULO - fold into mid
@@ -1373,11 +1454,10 @@ aes_gcm_dec_128_kernel:
 
 	aese	v2.16b, v25.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 7
-	ldr	q7, [x0, #48]                         //AES block 4k+3 - load ciphertext
+	ld1	{v7.16b}, [x0], #16                       //AES block 4k+6 - load ciphertext
 
 	aese	v3.16b, v24.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 6
-	add	x0, x0, #64                       //AES input_ptr update
 
 	rev64	v5.16b, v5.16b                                    //GHASH block 4k+5
 	eor	v10.16b, v10.16b, v9.16b                         //MODULO - fold into mid
@@ -1402,11 +1482,15 @@ aes_gcm_dec_128_kernel:
 	aese	v3.16b, v26.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 8
 	eor	x7, x7, x14                   //AES block 4k+4 - round 10 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	eor	v11.16b, v11.16b, v8.16b               //MODULO - fold into low
 	mov	x20, v1.d[1]                            //AES block 4k+5 - mov high
 	eor	x6, x6, x13                   //AES block 4k+4 - round 10 low
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	eor	v2.16b, v6.16b, v2.16b                            //AES block 4k+6 - result
 	mov	x19, v1.d[0]                            //AES block 4k+5 - mov low
 	add	w12, w12, #1                            //CTR block 4k+9
@@ -1423,9 +1507,15 @@ aes_gcm_dec_128_kernel:
 	add	w12, w12, #1                            //CTR block 4k+10
 
 	eor	x20, x20, x14                   //AES block 4k+5 - round 10 high
+#ifdef __AARCH64EB__
+	rev	x20, x20
+#endif
 	stp	x6, x7, [x2], #16        //AES block 4k+4 - store result
 
 	eor	x19, x19, x13                   //AES block 4k+5 - round 10 low
+#ifdef __AARCH64EB__
+	rev	x19, x19
+#endif
 	stp	x19, x20, [x2], #16        //AES block 4k+5 - store result
 
 	orr	x9, x11, x9, lsl #32            //CTR block 4k+10
@@ -1530,9 +1620,14 @@ aes_gcm_dec_128_kernel:
 	aese	v3.16b, v20.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 2
 	eor	x23, x23, x13                   //AES block 4k+3 - round 10 low
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+#endif
 	pmull	v30.1q, v30.1d, v16.1d                          //GHASH block 4k+3 - mid
 	eor	x21, x21, x13                   //AES block 4k+2 - round 10 low
+#ifdef __AARCH64EB__
+	rev	x21, x21
+#endif
 	eor	v11.16b, v11.16b, v29.16b                         //GHASH block 4k+3 - low
 
 	aese	v2.16b, v21.16b
@@ -1605,7 +1700,9 @@ aes_gcm_dec_128_kernel:
 
 	pmull	v8.1q, v10.1d, v8.1d     //MODULO - mid 64b align with low
 	eor	x24, x24, x14                   //AES block 4k+3 - round 10 high
-
+#ifdef __AARCH64EB__
+	rev	x24, x24
+#endif
 	aese	v2.16b, v25.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 7
 	ext	v10.16b, v10.16b, v10.16b, #8                     //MODULO - other mid alignment
@@ -1623,7 +1720,9 @@ aes_gcm_dec_128_kernel:
 	aese	v3.16b, v26.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 8
 	eor	x22, x22, x14                   //AES block 4k+2 - round 10 high
-
+#ifdef __AARCH64EB__
+	rev	x22, x22
+#endif
 	aese	v0.16b, v27.16b                                      //AES block 4k+4 - round 9
 	stp	x21, x22, [x2], #16        //AES block 4k+2 - store result
 
@@ -1647,9 +1746,14 @@ aes_gcm_dec_128_kernel:
 	cmp	x5, #48
 
 	eor	x7, x7, x14                   //AES block 4k+4 - round 10 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	ext	v8.16b, v11.16b, v11.16b, #8                     //prepare final partial tag
 	eor	x6, x6, x13                   //AES block 4k+4 - round 10 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	b.gt	.L128_dec_blocks_more_than_3
 
 	mov	v3.16b, v2.16b
@@ -1693,9 +1797,14 @@ aes_gcm_dec_128_kernel:
 
 	movi	v8.8b, #0                                        //suppress further partial tag feed in
 	eor	x7, x7, x14                   //AES final-2 block - round 10 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	pmull	v10.1q, v22.1d, v10.1d                    //GHASH final-3 block - mid
 	eor	x6, x6, x13                   //AES final-2 block - round 10 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 .L128_dec_blocks_more_than_2:	//blocks	left >  2
 
 	rev64	v4.16b, v5.16b                                    //GHASH final-2 block
@@ -1721,12 +1830,18 @@ aes_gcm_dec_128_kernel:
 	pmull	v22.1q, v22.1d, v17.1d                      //GHASH final-2 block - mid
 
 	eor	x6, x6, x13                   //AES final-1 block - round 10 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	eor	v11.16b, v11.16b, v21.16b                            //GHASH final-2 block - low
 
 	eor	v9.16b, v9.16b, v20.16b                            //GHASH final-2 block - high
 
 	eor	v10.16b, v10.16b, v22.16b                       //GHASH final-2 block - mid
 	eor	x7, x7, x14                   //AES final-1 block - round 10 high
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 .L128_dec_blocks_more_than_1:	//blocks	left >  1
 
 	rev64	v4.16b, v5.16b                                    //GHASH final-1 block
@@ -1757,8 +1872,13 @@ aes_gcm_dec_128_kernel:
 
 	eor	v9.16b, v9.16b, v20.16b                            //GHASH final-1 block - high
 	eor	x7, x7, x14                   //AES final block - round 10 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	eor	x6, x6, x13                   //AES final block - round 10 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	eor	v10.16b, v10.16b, v22.16b                       //GHASH final-1 block - mid
 .L128_dec_blocks_less_than_1:	//blocks	left <= 1
 
@@ -1804,7 +1924,11 @@ aes_gcm_dec_128_kernel:
 	bic	x4, x4, x9           //mask out low existing bytes
 	and	x6, x6, x9
 
+#ifndef __AARCH64EB__
 	rev	w9, w12
+#else
+	mov	w9, w12
+#endif
 
 	eor	v10.16b, v10.16b, v8.16b                         //GHASH final block - mid
 	movi	v8.8b, #0xc2
@@ -1872,18 +1996,26 @@ aes_gcm_enc_192_kernel:
 	stp	d14, d15, [sp, #96]
 
 	ldp	x10, x11, [x16]             //ctr96_b64, ctr96_t32
+#ifdef __AARCH64EB__
+	rev	x10, x10
+	rev	x11, x11
+#endif
+	ldp	x13, x14, [x8, #192]                     //load rk12
+#ifdef __AARCH64EB__
+	ror	x13, x13, #32
+	ror	x14, x14, #32
+#endif
+	ld1	{v18.4s}, [x8], #16	                             //load rk0
 
-	ldr	q23, [x8, #80]                                //load rk5
+	ld1	{v19.4s}, [x8], #16	                             //load rk1
 
-	ldr	q22, [x8, #64]                                //load rk4
-
-	ldr	q26, [x8, #128]                               //load rk8
+	ld1	{v20.4s}, [x8], #16	                             //load rk2
 
 	lsr	x12, x11, #32
-	ldr	q24, [x8, #96]                                //load rk6
+	ld1	{v21.4s}, [x8], #16	                             //load rk3
 	orr	w11, w11, w11
 
-	ldr	q25, [x8, #112]                               //load rk7
+	ld1	{v22.4s}, [x8], #16	                             //load rk4
 	rev	w12, w12                               //rev_ctr32
 
 	add	w12, w12, #1                           //increment rev_ctr32
@@ -1907,15 +2039,13 @@ aes_gcm_enc_192_kernel:
 	rev	w9, w12                                //CTR block 3
 
 	orr	x9, x11, x9, lsl #32           //CTR block 3
-	ldr	q18, [x8, #0]                                 //load rk0
+	ld1	{v23.4s}, [x8], #16	                             //load rk5
 
 	fmov	v3.d[1], x9                              //CTR block 3
 
-	ldr	q21, [x8, #48]                                //load rk3
+	ld1	{v24.4s}, [x8], #16	                             //load rk6
 
-	ldp	x13, x14, [x8, #192]                    //load rk12
-
-	ldr	q19, [x8, #16]                                //load rk1
+	ld1	{v25.4s}, [x8], #16	                             //load rk7
 
 	aese	v0.16b, v18.16b
 	aesmc	v0.16b, v0.16b         //AES block 0 - round 0
@@ -1925,35 +2055,38 @@ aes_gcm_enc_192_kernel:
 
 	aese	v3.16b, v18.16b
 	aesmc	v3.16b, v3.16b         //AES block 3 - round 0
-	ldr	q29, [x8, #176]                              //load rk11
+	ld1	{v26.4s}, [x8], #16	                             //load rk8
 
 	aese	v1.16b, v18.16b
 	aesmc	v1.16b, v1.16b         //AES block 1 - round 0
 	ldr	q15, [x3, #112]                       //load h4l | h4h
+#ifndef __AARCH64EB__
 	ext	v15.16b, v15.16b, v15.16b, #8
-
+#endif
 	aese	v2.16b, v18.16b
 	aesmc	v2.16b, v2.16b         //AES block 2 - round 0
-	ldr	q20, [x8, #32]                                //load rk2
+	ld1	{v27.4s}, [x8], #16	                             //load rk9
 
 	aese	v0.16b, v19.16b
 	aesmc	v0.16b, v0.16b         //AES block 0 - round 1
-	ldr	q28, [x8, #160]                              //load rk10
+	ld1	{v28.4s}, [x8], #16	                         //load rk10
 
 	aese	v1.16b, v19.16b
 	aesmc	v1.16b, v1.16b         //AES block 1 - round 1
 	ldr	q12, [x3, #32]                        //load h1l | h1h
+#ifndef __AARCH64EB__
 	ext	v12.16b, v12.16b, v12.16b, #8
-
+#endif
 	aese	v2.16b, v19.16b
 	aesmc	v2.16b, v2.16b         //AES block 2 - round 1
-	ldr	q27, [x8, #144]                               //load rk9
+	ld1	{v29.4s}, [x8], #16	                         //load rk11
 
 	aese	v3.16b, v19.16b
 	aesmc	v3.16b, v3.16b         //AES block 3 - round 1
 	ldr	q14, [x3, #80]                        //load h3l | h3h
+#ifndef __AARCH64EB__
 	ext	v14.16b, v14.16b, v14.16b, #8
-
+#endif
 	aese	v0.16b, v20.16b
 	aesmc	v0.16b, v0.16b         //AES block 0 - round 2
 
@@ -2010,8 +2143,9 @@ aes_gcm_enc_192_kernel:
 	aese	v2.16b, v24.16b
 	aesmc	v2.16b, v2.16b         //AES block 2 - round 6
 	ldr	q13, [x3, #64]                        //load h2l | h2h
+#ifndef __AARCH64EB__
 	ext	v13.16b, v13.16b, v13.16b, #8
-
+#endif
 	aese	v1.16b, v24.16b
 	aesmc	v1.16b, v1.16b         //AES block 1 - round 6
 
@@ -2091,13 +2225,26 @@ aes_gcm_enc_192_kernel:
 
 	rev	w9, w12                                //CTR block 4
 	ldp	x6, x7, [x0, #0]           //AES block 0 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	orr	x9, x11, x9, lsl #32           //CTR block 4
 	ldp	x21, x22, [x0, #32]          //AES block 2 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x21, x21
+	rev	x22, x22
+#endif
 	ldp	x23, x24, [x0, #48]          //AES block 3 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+	rev	x24, x24
+#endif
 	ldp	x19, x20, [x0, #16]          //AES block 1 - load plaintext
+#ifdef __AARCH64EB__
+	rev	x19, x19
+	rev	x20, x20
+#endif
 	add	x0, x0, #64                      //AES input_ptr update
 	cmp	x0, x5                  //check if we have <= 8 blocks
 
@@ -2169,7 +2316,10 @@ aes_gcm_enc_192_kernel:
 	aese	v1.16b, v18.16b
 	aesmc	v1.16b, v1.16b         //AES block 4k+5 - round 0
 	ldp	x19, x20, [x0, #16]          //AES block 4k+5 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x19, x19
+	rev	x20, x20
+#endif
 	ext	v11.16b, v11.16b, v11.16b, #8                    //PRE 0
 	fmov	d3, x10                              //CTR block 4k+3
 	rev64	v4.16b, v4.16b                                   //GHASH block 4k (only t0 is free)
@@ -2181,11 +2331,17 @@ aes_gcm_enc_192_kernel:
 	pmull2	v30.1q, v5.2d, v14.2d                         //GHASH block 4k+1 - high
 	rev64	v7.16b, v7.16b                                   //GHASH block 4k+3 (t0, t1, t2 and t3 free)
 	ldp	x21, x22, [x0, #32]          //AES block 4k+6 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x21, x21
+	rev	x22, x22
+#endif
 	aese	v0.16b, v18.16b
 	aesmc	v0.16b, v0.16b         //AES block 4k+4 - round 0
 	ldp	x23, x24, [x0, #48]          //AES block 4k+3 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+	rev	x24, x24
+#endif
 	pmull	v31.1q, v5.1d, v14.1d                         //GHASH block 4k+1 - low
 	eor	v4.16b, v4.16b, v11.16b                          //PRE 1
 
@@ -2278,7 +2434,10 @@ aes_gcm_enc_192_kernel:
 	aese	v1.16b, v22.16b
 	aesmc	v1.16b, v1.16b         //AES block 4k+5 - round 4
 	ldp	x6, x7, [x0, #0]           //AES block 4k+4 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	aese	v0.16b, v24.16b
 	aesmc	v0.16b, v0.16b         //AES block 4k+4 - round 6
 	eor	v11.16b, v11.16b, v8.16b                        //GHASH block 4k+2 - low
@@ -2643,7 +2802,10 @@ aes_gcm_enc_192_kernel:
 
 	sub	x5, x4, x0  //main_end_input_ptr is number of bytes left to process
 	ldp	x6, x7, [x0], #16          //AES block 4k+4 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	eor	x6, x6, x13                    //AES block 4k+4 - round 12 low
 	eor	x7, x7, x14                    //AES block 4k+4 - round 12 high
 
@@ -2680,7 +2842,10 @@ aes_gcm_enc_192_kernel:
 	st1	{ v5.16b}, [x2], #16                    //AES final-3 block  - store result
 
 	ldp	x6, x7, [x0], #16          //AES final-2 block - load input low & high
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	rev64	v4.16b, v5.16b                                   //GHASH final-3 block
 
 	eor	x6, x6, x13                    //AES final-2 block - round 12 low
@@ -2711,7 +2876,10 @@ aes_gcm_enc_192_kernel:
 
 	rev64	v4.16b, v5.16b                                   //GHASH final-2 block
 	ldp	x6, x7, [x0], #16          //AES final-1 block - load input low & high
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	eor	v4.16b, v4.16b, v8.16b                          //feed in partial tag
 
 	eor	x7, x7, x14                    //AES final-1 block - round 12 high
@@ -2742,7 +2910,10 @@ aes_gcm_enc_192_kernel:
 	st1	{ v5.16b}, [x2], #16                    //AES final-1 block - store result
 
 	ldp	x6, x7, [x0], #16          //AES final block - load input low & high
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	rev64	v4.16b, v5.16b                                   //GHASH final-1 block
 
 	eor	x6, x6, x13                    //AES final block - round 12 low
@@ -2774,7 +2945,11 @@ aes_gcm_enc_192_kernel:
 .L192_enc_blocks_less_than_1:	//blocks	left <= 1
 
 	ld1	{ v18.16b}, [x2]                           //load existing bytes where the possibly partial last block is to be stored
+#ifndef __AARCH64EB__
 	rev	w9, w12
+#else
+	mov	w9, w12
+#endif
 	and	x1, x1, #127                   //bit_length %= 128
 
 	sub	x1, x1, #128                   //bit_length -= 128
@@ -2880,14 +3055,22 @@ aes_gcm_dec_192_kernel:
 
 	add	x4, x0, x1, lsr #3   //end_input_ptr
 	ldp	x10, x11, [x16]              //ctr96_b64, ctr96_t32
-
+#ifdef __AARCH64EB__
+	rev	x10, x10
+	rev	x11, x11
+#endif
+	ldp	x13, x14, [x8, #192]                     //load rk12
+#ifdef __AARCH64EB__
+	ror	x13, x13, #32
+	ror	x14, x14, #32
+#endif
 	ld1	{ v0.16b}, [x16]                             //special case vector load initial counter so we can start first AES block as quickly as possible
 
-	ldr	q18, [x8, #0]                                  //load rk0
+	ld1	{v18.4s}, [x8], #16                                  //load rk0
 
 	lsr	x5, x1, #3              //byte_len
 	mov	x15, x5
-	ldr	q20, [x8, #32]                                 //load rk2
+	ld1	{v19.4s}, [x8], #16                               //load rk1
 
 	lsr	x12, x11, #32
 	orr	w11, w11, w11
@@ -2897,7 +3080,7 @@ aes_gcm_dec_192_kernel:
 	fmov	d1, x10                               //CTR block 1
 
 	add	w12, w12, #1                            //increment rev_ctr32
-	ldr	q19, [x8, #16]                                 //load rk1
+	ld1	{v20.4s}, [x8], #16                               //load rk2
 
 	aese	v0.16b, v18.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 0
@@ -2905,7 +3088,7 @@ aes_gcm_dec_192_kernel:
 
 	add	w12, w12, #1                            //CTR block 1
 	orr	x9, x11, x9, lsl #32            //CTR block 1
-	ldr	q21, [x8, #48]                                 //load rk3
+	ld1	{v21.4s}, [x8], #16                               //load rk3
 
 	fmov	v1.d[1], x9                               //CTR block 1
 	rev	w9, w12                                 //CTR block 2
@@ -2923,54 +3106,57 @@ aes_gcm_dec_192_kernel:
 
 	fmov	v3.d[1], x9                               //CTR block 3
 
-	ldr	q26, [x8, #128]                                //load rk8
+	ld1	{v22.4s}, [x8], #16                               //load rk4
 
 	aese	v0.16b, v20.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 2
 
 	aese	v2.16b, v18.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 0
-	ldr	q29, [x8, #176]                               //load rk11
+	ld1	{v23.4s}, [x8], #16                               //load rk5
 
 	aese	v1.16b, v18.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 0
 	ldr	q15, [x3, #112]                        //load h4l | h4h
+#ifndef __AARCH64EB__
 	ext	v15.16b, v15.16b, v15.16b, #8
-
+#endif
 	aese	v3.16b, v18.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 0
 	ldr	q13, [x3, #64]                         //load h2l | h2h
+#ifndef __AARCH64EB__
 	ext	v13.16b, v13.16b, v13.16b, #8
-
+#endif
 	aese	v2.16b, v19.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 1
 	ldr	q14, [x3, #80]                         //load h3l | h3h
+#ifndef __AARCH64EB__
 	ext	v14.16b, v14.16b, v14.16b, #8
-
+#endif
 	aese	v1.16b, v19.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 1
-	ldp	x13, x14, [x8, #192]                     //load rk12
 
 	aese	v3.16b, v19.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 1
 	ldr	q12, [x3, #32]                         //load h1l | h1h
+#ifndef __AARCH64EB__
 	ext	v12.16b, v12.16b, v12.16b, #8
-
+#endif
 	aese	v2.16b, v20.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 2
-	ldr	q28, [x8, #160]                               //load rk10
+	ld1	{v24.4s}, [x8], #16                               //load rk6
 
 	aese	v0.16b, v21.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 3
-	ldr	q27, [x8, #144]                                //load rk9
+	ld1	{v25.4s}, [x8], #16                               //load rk7
 
 	aese	v1.16b, v20.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 2
-	ldr	q25, [x8, #112]                                //load rk7
+	ld1	{v26.4s}, [x8], #16                               //load rk8
 
 	aese	v3.16b, v20.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 2
-	ldr	q22, [x8, #64]                                 //load rk4
+	ld1	{v27.4s}, [x8], #16                               //load rk9
 
 	aese	v2.16b, v21.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 3
@@ -2988,7 +3174,7 @@ aes_gcm_dec_192_kernel:
 
 	aese	v0.16b, v22.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 4
-	ldr	q23, [x8, #80]                                 //load rk5
+	ld1	{v28.4s}, [x8], #16                              //load rk10
 
 	aese	v1.16b, v22.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 4
@@ -3003,7 +3189,7 @@ aes_gcm_dec_192_kernel:
 
 	aese	v0.16b, v23.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 5
-	ldr	q24, [x8, #96]                                 //load rk6
+	ld1	{v29.4s}, [x8], #16                              //load rk11
 
 	aese	v1.16b, v23.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 5
@@ -3090,17 +3276,13 @@ aes_gcm_dec_192_kernel:
 	aese	v0.16b, v29.16b                                     //AES block 0 - round 11
 	b.ge	.L192_dec_tail                                    //handle tail
 
-	ldr	q5, [x0, #16]                         //AES block 1 - load ciphertext
-
-	ldr	q4, [x0, #0]                          //AES block 0 - load ciphertext
+	ld1	{v4.16b, v5.16b}, [x0], #32               //AES block 0,1 - load ciphertext
 
 	eor	v1.16b, v5.16b, v1.16b                            //AES block 1 - result
 
 	eor	v0.16b, v4.16b, v0.16b                            //AES block 0 - result
 	rev	w9, w12                                 //CTR block 4
-	ldr	q7, [x0, #48]                         //AES block 3 - load ciphertext
-
-	ldr	q6, [x0, #32]                         //AES block 2 - load ciphertext
+	ld1	{v6.16b, v7.16b}, [x0], #32               //AES block 2,3 - load ciphertext
 
 	mov	x19, v1.d[0]                            //AES block 1 - mov low
 
@@ -3112,27 +3294,35 @@ aes_gcm_dec_192_kernel:
 
 	mov	x7, v0.d[1]                            //AES block 0 - mov high
 	rev64	v4.16b, v4.16b                                    //GHASH block 0
-	add	x0, x0, #64                       //AES input_ptr update
 
 	fmov	d0, x10                               //CTR block 4
 	rev64	v5.16b, v5.16b                                    //GHASH block 1
 	cmp	x0, x5                   //check if we have <= 8 blocks
 
 	eor	x19, x19, x13                   //AES block 1 - round 12 low
+#ifdef __AARCH64EB__
+	rev	x19, x19
+#endif
 	fmov	v0.d[1], x9                               //CTR block 4
 	rev	w9, w12                                 //CTR block 5
 
 	orr	x9, x11, x9, lsl #32            //CTR block 5
 	fmov	d1, x10                               //CTR block 5
 	eor	x20, x20, x14                   //AES block 1 - round 12 high
-
+#ifdef __AARCH64EB__
+	rev	x20, x20
+#endif
 	add	w12, w12, #1                            //CTR block 5
 	fmov	v1.d[1], x9                               //CTR block 5
 	eor	x6, x6, x13                   //AES block 0 - round 12 low
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	rev	w9, w12                                 //CTR block 6
 	eor	x7, x7, x14                   //AES block 0 - round 12 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	stp	x6, x7, [x2], #16        //AES block 0 - store result
 	orr	x9, x11, x9, lsl #32            //CTR block 6
 
@@ -3195,7 +3385,9 @@ aes_gcm_dec_192_kernel:
 	aese	v0.16b, v20.16b
 	aesmc	v0.16b, v0.16b          //AES block 4k+4 - round 2
 	eor	x22, x22, x14                   //AES block 4k+2 - round 12 high
-
+#ifdef __AARCH64EB__
+	rev	x22, x22
+#endif
 	aese	v2.16b, v19.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 1
 	eor	v4.8b, v4.8b, v5.8b                          //GHASH block 4k+1 - mid
@@ -3212,7 +3404,9 @@ aes_gcm_dec_192_kernel:
 	pmull	v4.1q, v4.1d, v17.1d                          //GHASH block 4k+1 - mid
 	eor	v11.16b, v11.16b, v31.16b                         //GHASH block 4k+1 - low
 	eor	x21, x21, x13                   //AES block 4k+2 - round 12 low
-
+#ifdef __AARCH64EB__
+	rev	x21, x21
+#endif
 	aese	v1.16b, v22.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 4
 
@@ -3314,16 +3508,18 @@ aes_gcm_dec_192_kernel:
 
 	aese	v2.16b, v24.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 6
-	ldr	q6, [x0, #32]                         //AES block 4k+6 - load ciphertext
+	ld1	{v4.16b}, [x0], #16                       //AES block 4k+4 - load ciphertext
 
 	aese	v3.16b, v24.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 6
 	eor	v10.16b, v10.16b, v30.16b                         //MODULO - karatsuba tidy up
 
 	pmull	v31.1q, v9.1d, v8.1d            //MODULO - top 64b align with mid
-	ldr	q7, [x0, #48]                         //AES block 4k+7 - load ciphertext
+	ld1	{v5.16b}, [x0], #16                       //AES block 4k+5 - load ciphertext
 	eor	x23, x23, x13                   //AES block 4k+3 - round 12 low
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+#endif
 	aese	v2.16b, v25.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 7
 	ext	v9.16b, v9.16b, v9.16b, #8                     //MODULO - other top alignment
@@ -3337,10 +3533,10 @@ aes_gcm_dec_192_kernel:
 
 	aese	v2.16b, v26.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 8
-	ldr	q4, [x0, #0]                          //AES block 4k+4 - load ciphertext
+	ld1	{v6.16b}, [x0], #16                       //AES block 4k+6 - load ciphertext
 
 	aese	v1.16b, v29.16b                                     //AES block 4k+5 - round 11
-	ldr	q5, [x0, #16]                         //AES block 4k+5 - load ciphertext
+	ld1	{v7.16b}, [x0], #16                       //AES block 4k+7 - load ciphertext
 	rev	w9, w12                                 //CTR block 4k+8
 
 	aese	v3.16b, v26.16b
@@ -3351,11 +3547,13 @@ aes_gcm_dec_192_kernel:
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 9
 	eor	v10.16b, v10.16b, v9.16b                         //MODULO - fold into mid
 
-	add	x0, x0, #64                       //AES input_ptr update
 	cmp	x0, x5                   //.LOOP CONTROL
 
 	eor	v0.16b, v4.16b, v0.16b                            //AES block 4k+4 - result
 	eor	x24, x24, x14                   //AES block 4k+3 - round 12 high
+#ifdef __AARCH64EB__
+	rev	x24, x24
+#endif
 	eor	v1.16b, v5.16b, v1.16b                            //AES block 4k+5 - result
 
 	aese	v2.16b, v28.16b
@@ -3388,18 +3586,28 @@ aes_gcm_dec_192_kernel:
 	rev	w9, w12                                 //CTR block 4k+9
 
 	eor	x6, x6, x13                   //AES block 4k+4 - round 12 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	orr	x9, x11, x9, lsl #32            //CTR block 4k+9
 	eor	v11.16b, v11.16b, v8.16b               //MODULO - fold into low
 
 	fmov	d1, x10                               //CTR block 4k+9
 	add	w12, w12, #1                            //CTR block 4k+9
 	eor	x19, x19, x13                   //AES block 4k+5 - round 12 low
-
+#ifdef __AARCH64EB__
+	rev	x19, x19
+#endif
 	fmov	v1.d[1], x9                               //CTR block 4k+9
 	rev	w9, w12                                 //CTR block 4k+10
 	eor	x20, x20, x14                   //AES block 4k+5 - round 12 high
-
+#ifdef __AARCH64EB__
+	rev	x20, x20
+#endif
 	eor	x7, x7, x14                   //AES block 4k+4 - round 12 high
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	stp	x6, x7, [x2], #16        //AES block 4k+4 - store result
 	eor	v11.16b, v11.16b, v10.16b                         //MODULO - fold into low
 
@@ -3453,18 +3661,29 @@ aes_gcm_dec_192_kernel:
 
 	pmull	v31.1q, v5.1d, v14.1d                          //GHASH block 4k+1 - low
 	eor	x24, x24, x14                   //AES block 4k+3 - round 12 high
+#ifdef __AARCH64EB__
+	rev	x24, x24
+#endif
 	fmov	v3.d[1], x9                               //CTR block 4k+7
 
 	aese	v0.16b, v20.16b
 	aesmc	v0.16b, v0.16b          //AES block 4k+4 - round 2
 	eor	x21, x21, x13                   //AES block 4k+2 - round 12 low
-
+#ifdef __AARCH64EB__
+	rev	x21, x21
+#endif
 	pmull2	v30.1q, v5.2d, v14.2d                          //GHASH block 4k+1 - high
 	eor	x22, x22, x14                   //AES block 4k+2 - round 12 high
+#ifdef __AARCH64EB__
+	rev	x22, x22
+#endif
 	eor	v4.8b, v4.8b, v5.8b                          //GHASH block 4k+1 - mid
 
 	pmull	v10.1q, v8.1d, v10.1d                      //GHASH block 4k - mid
 	eor	x23, x23, x13                   //AES block 4k+3 - round 12 low
+#ifdef __AARCH64EB__
+	rev	x23, x23
+#endif
 	stp	x21, x22, [x2], #16        //AES block 4k+2 - store result
 
 	rev64	v7.16b, v7.16b                                    //GHASH block 4k+3
@@ -3654,8 +3873,13 @@ aes_gcm_dec_192_kernel:
 	cmp	x5, #48
 
 	eor	x7, x7, x14                   //AES block 4k+4 - round 12 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	eor	x6, x6, x13                   //AES block 4k+4 - round 12 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	b.gt	.L192_dec_blocks_more_than_3
 
 	movi	v11.8b, #0
@@ -3699,10 +3923,16 @@ aes_gcm_dec_192_kernel:
 	pmull2	v9.1q, v4.2d, v15.2d                       //GHASH final-3 block - high
 
 	eor	x6, x6, x13                   //AES final-2 block - round 12 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	movi	v8.8b, #0                                        //suppress further partial tag feed in
 
 	pmull	v10.1q, v22.1d, v10.1d                    //GHASH final-3 block - mid
 	eor	x7, x7, x14                   //AES final-2 block - round 12 high
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 .L192_dec_blocks_more_than_2:	//blocks	left >  2
 
 	rev64	v4.16b, v5.16b                                    //GHASH final-2 block
@@ -3732,8 +3962,13 @@ aes_gcm_dec_192_kernel:
 
 	eor	v9.16b, v9.16b, v20.16b                            //GHASH final-2 block - high
 	eor	x7, x7, x14                   //AES final-1 block - round 12 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	eor	x6, x6, x13                   //AES final-1 block - round 12 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	eor	v10.16b, v10.16b, v22.16b                       //GHASH final-2 block - mid
 .L192_dec_blocks_more_than_1:	//blocks	left >  1
 
@@ -3764,9 +3999,13 @@ aes_gcm_dec_192_kernel:
 	movi	v8.8b, #0                                        //suppress further partial tag feed in
 	eor	v11.16b, v11.16b, v21.16b                            //GHASH final-1 block - low
 	eor	x7, x7, x14                   //AES final block - round 12 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	eor	x6, x6, x13                   //AES final block - round 12 low
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	eor	v10.16b, v10.16b, v22.16b                       //GHASH final-1 block - mid
 .L192_dec_blocks_less_than_1:	//blocks	left <= 1
 
@@ -3793,8 +4032,11 @@ aes_gcm_dec_192_kernel:
 
 	orr	x6, x6, x4
 	mov	v0.d[1], x10
-
+#ifndef __AARCH64EB__
 	rev	w9, w12
+#else
+	mov	w9, w12
+#endif
 
 	and	v5.16b, v5.16b, v0.16b                            //possibly partial last block has zeroes in highest bits
 	str	w9, [x16, #12]                          //store the updated counter
@@ -3883,14 +4125,22 @@ aes_gcm_enc_256_kernel:
 	lsr	x5, x1, #3              //byte_len
 	mov	x15, x5
 	ldp	x10, x11, [x16]              //ctr96_b64, ctr96_t32
-
+#ifdef __AARCH64EB__
+	rev	x10, x10
+	rev	x11, x11
+#endif
+	ldp	x13, x14, [x8, #224]                     //load rk14
+#ifdef __AARCH64EB__
+	ror	x13, x13, #32
+	ror	x14, x14, #32
+#endif
 	ld1	{ v0.16b}, [x16]                             //special case vector load initial counter so we can start first AES block as quickly as possible
 	sub	x5, x5, #1      //byte_len - 1
 
-	ldr	q18, [x8, #0]                                  //load rk0
+	ld1	{v18.4s}, [x8], #16                               //load rk0
 	and	x5, x5, #0xffffffffffffffc0 //number of bytes to be processed in main loop (at least 1 byte must be handled by tail)
 
-	ldr	q25, [x8, #112]                                //load rk7
+	ld1	{v19.4s}, [x8], #16                               //load rk1
 	add	x5, x5, x0
 
 	lsr	x12, x11, #32
@@ -3910,14 +4160,14 @@ aes_gcm_enc_256_kernel:
 
 	orr	x9, x11, x9, lsl #32            //CTR block 1
 	add	w12, w12, #1                            //CTR block 1
-	ldr	q19, [x8, #16]                                 //load rk1
+	ld1	{v20.4s}, [x8], #16                               //load rk2
 
 	fmov	v1.d[1], x9                               //CTR block 1
 	rev	w9, w12                                 //CTR block 2
 	add	w12, w12, #1                            //CTR block 2
 
 	orr	x9, x11, x9, lsl #32            //CTR block 2
-	ldr	q20, [x8, #32]                                 //load rk2
+	ld1	{v21.4s}, [x8], #16                               //load rk3
 
 	fmov	v2.d[1], x9                               //CTR block 2
 	rev	w9, w12                                 //CTR block 3
@@ -3930,50 +4180,53 @@ aes_gcm_enc_256_kernel:
 
 	aese	v1.16b, v18.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 0
-	ldr	q21, [x8, #48]                                 //load rk3
+	ld1	{v22.4s}, [x8], #16                               //load rk4
 
 	aese	v0.16b, v20.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 2
-	ldr	q24, [x8, #96]                                 //load rk6
+	ld1	{v23.4s}, [x8], #16                               //load rk5
 
 	aese	v2.16b, v18.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 0
-	ldr	q23, [x8, #80]                                 //load rk5
+	ld1	{v24.4s}, [x8], #16                               //load rk6
 
 	aese	v1.16b, v19.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 1
 	ldr	q14, [x3, #80]                         //load h3l | h3h
+#ifndef __AARCH64EB__
 	ext	v14.16b, v14.16b, v14.16b, #8
-
+#endif
 	aese	v3.16b, v18.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 0
-	ldr	q31, [x8, #208]                               //load rk13
+	ld1	{v25.4s}, [x8], #16                               //load rk7
 
 	aese	v2.16b, v19.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 1
-	ldr	q22, [x8, #64]                                 //load rk4
+	ld1	{v26.4s}, [x8], #16                               //load rk8
 
 	aese	v1.16b, v20.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 2
 	ldr	q13, [x3, #64]                         //load h2l | h2h
+#ifndef __AARCH64EB__
 	ext	v13.16b, v13.16b, v13.16b, #8
-
+#endif
 	aese	v3.16b, v19.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 1
-	ldr	q30, [x8, #192]                               //load rk12
+	ld1	{v27.4s}, [x8], #16                               //load rk9
 
 	aese	v2.16b, v20.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 2
 	ldr	q15, [x3, #112]                        //load h4l | h4h
+#ifndef __AARCH64EB__
 	ext	v15.16b, v15.16b, v15.16b, #8
-
+#endif
 	aese	v1.16b, v21.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 3
-	ldr	q29, [x8, #176]                               //load rk11
+	ld1	{v28.4s}, [x8], #16                              //load rk10
 
 	aese	v3.16b, v20.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 2
-	ldr	q26, [x8, #128]                                //load rk8
+	ld1	{v29.4s}, [x8], #16                              //load rk11
 
 	aese	v2.16b, v21.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 3
@@ -3981,7 +4234,6 @@ aes_gcm_enc_256_kernel:
 
 	aese	v0.16b, v21.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 3
-	ldp	x13, x14, [x8, #224]                     //load rk14
 
 	aese	v3.16b, v21.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 3
@@ -4019,16 +4271,17 @@ aes_gcm_enc_256_kernel:
 
 	aese	v3.16b, v24.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 6
-	ldr	q27, [x8, #144]                                //load rk9
+	ld1	{v30.4s}, [x8], #16                              //load rk12
 
 	aese	v0.16b, v24.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 6
 	ldr	q12, [x3, #32]                         //load h1l | h1h
+#ifndef __AARCH64EB__
 	ext	v12.16b, v12.16b, v12.16b, #8
-
+#endif
 	aese	v2.16b, v24.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 6
-	ldr	q28, [x8, #160]                               //load rk10
+	ld1	{v31.4s}, [x8], #16                              //load rk13
 
 	aese	v1.16b, v25.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 7
@@ -4117,13 +4370,26 @@ aes_gcm_enc_256_kernel:
 	b.ge	.L256_enc_tail                                    //handle tail
 
 	ldp	x19, x20, [x0, #16]           //AES block 1 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x19, x19
+	rev	x20, x20
+#endif
 	rev	w9, w12                                 //CTR block 4
 	ldp	x6, x7, [x0, #0]            //AES block 0 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	ldp	x23, x24, [x0, #48]           //AES block 3 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+	rev	x24, x24
+#endif
 	ldp	x21, x22, [x0, #32]           //AES block 2 - load plaintext
+#ifdef __AARCH64EB__
+	rev	x21, x21
+	rev	x22, x22
+#endif
 	add	x0, x0, #64                       //AES input_ptr update
 
 	eor	x19, x19, x13                     //AES block 1 - round 14 low
@@ -4206,11 +4472,17 @@ aes_gcm_enc_256_kernel:
 	aese	v1.16b, v19.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 1
 	ldp	x23, x24, [x0, #48]           //AES block 4k+7 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+	rev	x24, x24
+#endif
 	aese	v2.16b, v19.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 1
 	ldp	x21, x22, [x0, #32]           //AES block 4k+6 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x21, x21
+	rev	x22, x22
+#endif
 	aese	v0.16b, v20.16b
 	aesmc	v0.16b, v0.16b          //AES block 4k+4 - round 2
 	eor	v4.16b, v4.16b, v11.16b                           //PRE 1
@@ -4320,7 +4592,10 @@ aes_gcm_enc_256_kernel:
 	aese	v3.16b, v24.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 6
 	ldp	x19, x20, [x0, #16]           //AES block 4k+5 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x19, x19
+	rev	x20, x20
+#endif
 	aese	v1.16b, v26.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 8
 	mov	d4, v7.d[1]                                  //GHASH block 4k+3 - mid
@@ -4357,7 +4632,10 @@ aes_gcm_enc_256_kernel:
 	aese	v2.16b, v26.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 8
 	ldp	x6, x7, [x0, #0]            //AES block 4k+4 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	aese	v0.16b, v28.16b
 	aesmc	v0.16b, v0.16b          //AES block 4k+4 - round 10
 	shl	d8, d8, #56               //mod_constant
@@ -4719,7 +4997,10 @@ aes_gcm_enc_256_kernel:
 	ext	v8.16b, v11.16b, v11.16b, #8                     //prepare final partial tag
 	sub	x5, x4, x0   //main_end_input_ptr is number of bytes left to process
 	ldp	x6, x7, [x0], #16           //AES block 4k+4 - load plaintext
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	eor	x6, x6, x13                     //AES block 4k+4 - round 14 low
 	eor	x7, x7, x14                     //AES block 4k+4 - round 14 high
 
@@ -4754,7 +5035,10 @@ aes_gcm_enc_256_kernel:
 	st1	{ v5.16b}, [x2], #16                    //AES final-3 block  - store result
 
 	ldp	x6, x7, [x0], #16          //AES final-2 block - load input low & high
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	rev64	v4.16b, v5.16b                                   //GHASH final-3 block
 
 	eor	x6, x6, x13                    //AES final-2 block - round 14 low
@@ -4783,7 +5067,10 @@ aes_gcm_enc_256_kernel:
 	st1	{ v5.16b}, [x2], #16                    //AES final-2 block - store result
 
 	ldp	x6, x7, [x0], #16          //AES final-1 block - load input low & high
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	rev64	v4.16b, v5.16b                                   //GHASH final-2 block
 
 	eor	x6, x6, x13                    //AES final-1 block - round 14 low
@@ -4819,7 +5106,10 @@ aes_gcm_enc_256_kernel:
 	rev64	v4.16b, v5.16b                                   //GHASH final-1 block
 
 	ldp	x6, x7, [x0], #16          //AES final block - load input low & high
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+	rev	x7, x7
+#endif
 	eor	v4.16b, v4.16b, v8.16b                          //feed in partial tag
 
 	movi	v8.8b, #0                                       //suppress further partial tag feed in
@@ -4880,7 +5170,11 @@ aes_gcm_enc_256_kernel:
 
 	pmull2	v20.1q, v4.2d, v12.2d                         //GHASH final block - high
 	mov	d8, v4.d[1]                                 //GHASH final block - mid
+#ifndef __AARCH64EB__
 	rev	w9, w12
+#else
+	mov	w9, w12
+#endif
 
 	pmull	v21.1q, v4.1d, v12.1d                         //GHASH final block - low
 
@@ -4955,21 +5249,29 @@ aes_gcm_dec_256_kernel:
 	lsr	x5, x1, #3              //byte_len
 	mov	x15, x5
 	ldp	x10, x11, [x16]              //ctr96_b64, ctr96_t32
-
-	ldr	q26, [x8, #128]                                //load rk8
+#ifdef __AARCH64EB__
+	rev	x10, x10
+	rev	x11, x11
+#endif
+	ldp	x13, x14, [x8, #224]                     //load rk14
+#ifdef __AARCH64EB__
+	ror	x14, x14, #32
+	ror	x13, x13, #32
+#endif
+	ld1	{v18.4s}, [x8], #16                               //load rk0
 	sub	x5, x5, #1      //byte_len - 1
 
-	ldr	q25, [x8, #112]                                //load rk7
+	ld1	{v19.4s}, [x8], #16                               //load rk1
 	and	x5, x5, #0xffffffffffffffc0 //number of bytes to be processed in main loop (at least 1 byte must be handled by tail)
 
 	add	x4, x0, x1, lsr #3   //end_input_ptr
-	ldr	q24, [x8, #96]                                 //load rk6
+	ld1	{v20.4s}, [x8], #16                               //load rk2
 
 	lsr	x12, x11, #32
-	ldr	q23, [x8, #80]                                 //load rk5
+	ld1	{v21.4s}, [x8], #16                               //load rk3
 	orr	w11, w11, w11
 
-	ldr	q21, [x8, #48]                                 //load rk3
+	ld1	{v22.4s}, [x8], #16                               //load rk4
 	add	x5, x5, x0
 	rev	w12, w12                                //rev_ctr32
 
@@ -4994,39 +5296,44 @@ aes_gcm_dec_256_kernel:
 	rev	w9, w12                                 //CTR block 3
 
 	orr	x9, x11, x9, lsl #32            //CTR block 3
-	ldr	q18, [x8, #0]                                  //load rk0
+	ld1	{v23.4s}, [x8], #16                               //load rk5
 
 	fmov	v3.d[1], x9                               //CTR block 3
 	add	w12, w12, #1                            //CTR block 3
 
-	ldr	q22, [x8, #64]                                 //load rk4
+	ld1	{v24.4s}, [x8], #16                               //load rk6
 
-	ldr	q31, [x8, #208]                               //load rk13
+	ld1	{v25.4s}, [x8], #16                               //load rk7
 
-	ldr	q19, [x8, #16]                                 //load rk1
+	ld1	{v26.4s}, [x8], #16                               //load rk8
 
 	aese	v0.16b, v18.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 0
 	ldr	q14, [x3, #80]                         //load h3l | h3h
+#ifndef __AARCH64EB__
 	ext	v14.16b, v14.16b, v14.16b, #8
+#endif
 
 	aese	v3.16b, v18.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 0
 	ldr	q15, [x3, #112]                        //load h4l | h4h
+#ifndef __AARCH64EB__
 	ext	v15.16b, v15.16b, v15.16b, #8
+#endif
 
 	aese	v1.16b, v18.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 0
 	ldr	q13, [x3, #64]                         //load h2l | h2h
+#ifndef __AARCH64EB__
 	ext	v13.16b, v13.16b, v13.16b, #8
+#endif
 
 	aese	v2.16b, v18.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 0
-	ldr	q20, [x8, #32]                                 //load rk2
+	ld1	{v27.4s}, [x8], #16                                 //load rk9
 
 	aese	v0.16b, v19.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 1
-	ldp	x13, x14, [x8, #224]                     //load rk14
 
 	aese	v1.16b, v19.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 1
@@ -5036,20 +5343,21 @@ aes_gcm_dec_256_kernel:
 
 	aese	v2.16b, v19.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 1
-	ldr	q27, [x8, #144]                                //load rk9
+	ld1	{v28.4s}, [x8], #16                              //load rk10
 
 	aese	v3.16b, v19.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 1
-	ldr	q30, [x8, #192]                               //load rk12
+	ld1	{v29.4s}, [x8], #16                              //load rk11
 
 	aese	v0.16b, v20.16b
 	aesmc	v0.16b, v0.16b          //AES block 0 - round 2
 	ldr	q12, [x3, #32]                         //load h1l | h1h
+#ifndef __AARCH64EB__
 	ext	v12.16b, v12.16b, v12.16b, #8
-
+#endif
 	aese	v2.16b, v20.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 2
-	ldr	q28, [x8, #160]                               //load rk10
+	ld1	{v30.4s}, [x8], #16                              //load rk12
 
 	aese	v3.16b, v20.16b
 	aesmc	v3.16b, v3.16b          //AES block 3 - round 2
@@ -5132,7 +5440,7 @@ aes_gcm_dec_256_kernel:
 
 	aese	v2.16b, v26.16b
 	aesmc	v2.16b, v2.16b          //AES block 2 - round 8
-	ldr	q29, [x8, #176]                               //load rk11
+	ld1	{v31.4s}, [x8], #16                             //load rk13
 
 	aese	v1.16b, v27.16b
 	aesmc	v1.16b, v1.16b          //AES block 1 - round 9
@@ -5197,9 +5505,7 @@ aes_gcm_dec_256_kernel:
 	aese	v0.16b, v31.16b                                     //AES block 0 - round 13
 	b.ge	.L256_dec_tail                                    //handle tail
 
-	ldr	q4, [x0, #0]                          //AES block 0 - load ciphertext
-
-	ldr	q5, [x0, #16]                         //AES block 1 - load ciphertext
+	ld1	{v4.16b, v5.16b}, [x0], #32               //AES block 0,1 - load ciphertext
 
 	rev	w9, w12                                 //CTR block 4
 
@@ -5207,7 +5513,7 @@ aes_gcm_dec_256_kernel:
 
 	eor	v1.16b, v5.16b, v1.16b                            //AES block 1 - result
 	rev64	v5.16b, v5.16b                                    //GHASH block 1
-	ldr	q7, [x0, #48]                         //AES block 3 - load ciphertext
+	ld1	{v6.16b}, [x0], #16                       //AES block 2 - load ciphertext
 
 	mov	x7, v0.d[1]                            //AES block 0 - mov high
 
@@ -5227,22 +5533,32 @@ aes_gcm_dec_256_kernel:
 	orr	x9, x11, x9, lsl #32            //CTR block 5
 	mov	x20, v1.d[1]                            //AES block 1 - mov high
 	eor	x7, x7, x14                   //AES block 0 - round 14 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	eor	x6, x6, x13                   //AES block 0 - round 14 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	stp	x6, x7, [x2], #16        //AES block 0 - store result
 	fmov	d1, x10                               //CTR block 5
 
-	ldr	q6, [x0, #32]                         //AES block 2 - load ciphertext
-	add	x0, x0, #64                       //AES input_ptr update
+	ld1	{v7.16b}, [x0], #16                       //AES block 3 - load ciphertext
 
 	fmov	v1.d[1], x9                               //CTR block 5
 	rev	w9, w12                                 //CTR block 6
 	add	w12, w12, #1                            //CTR block 6
 
 	eor	x19, x19, x13                   //AES block 1 - round 14 low
+#ifdef __AARCH64EB__
+	rev	x19, x19
+#endif
 	orr	x9, x11, x9, lsl #32            //CTR block 6
 
 	eor	x20, x20, x14                   //AES block 1 - round 14 high
+#ifdef __AARCH64EB__
+	rev	x20, x20
+#endif
 	stp	x19, x20, [x2], #16        //AES block 1 - store result
 
 	eor	v2.16b, v6.16b, v2.16b                            //AES block 2 - result
@@ -5293,7 +5609,9 @@ aes_gcm_dec_256_kernel:
 	aese	v0.16b, v21.16b
 	aesmc	v0.16b, v0.16b          //AES block 4k+4 - round 3
 	eor	x22, x22, x14                   //AES block 4k+2 - round 14 high
-
+#ifdef __AARCH64EB__
+	rev	x22, x22
+#endif
 	aese	v2.16b, v19.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 1
 	mov	d10, v17.d[1]                               //GHASH block 4k - mid
@@ -5305,7 +5623,9 @@ aes_gcm_dec_256_kernel:
 	aese	v3.16b, v18.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 0
 	eor	x21, x21, x13                   //AES block 4k+2 - round 14 low
-
+#ifdef __AARCH64EB__
+	rev	x21, x21
+#endif
 	aese	v2.16b, v20.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 2
 	stp	x21, x22, [x2], #16        //AES block 4k+2 - store result
@@ -5320,9 +5640,14 @@ aes_gcm_dec_256_kernel:
 
 	pmull	v10.1q, v8.1d, v10.1d                      //GHASH block 4k - mid
 	eor	x23, x23, x13                   //AES block 4k+3 - round 14 low
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+#endif
 	pmull	v8.1q, v5.1d, v14.1d                          //GHASH block 4k+1 - low
 	eor	x24, x24, x14                   //AES block 4k+3 - round 14 high
+#ifdef __AARCH64EB__
+	rev	x24, x24
+#endif
 	eor	v9.16b, v9.16b, v4.16b                         //GHASH block 4k+1 - high
 
 	aese	v2.16b, v22.16b
@@ -5443,7 +5768,7 @@ aes_gcm_dec_256_kernel:
 
 	aese	v1.16b, v27.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 9
-	ldr	q4, [x0, #0]                          //AES block 4k+4 - load ciphertext
+	ld1	{v4.16b}, [x0], #16                       //AES block 4k+4 - load ciphertext
 
 	aese	v0.16b, v31.16b                                     //AES block 4k+4 - round 13
 	ext	v9.16b, v9.16b, v9.16b, #8                     //MODULO - other top alignment
@@ -5454,7 +5779,7 @@ aes_gcm_dec_256_kernel:
 
 	aese	v2.16b, v27.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 9
-	ldr	q5, [x0, #16]                         //AES block 4k+5 - load ciphertext
+	ld1	{v5.16b}, [x0], #16                       //AES block 4k+5 - load ciphertext
 
 	aese	v3.16b, v26.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 8
@@ -5470,11 +5795,11 @@ aes_gcm_dec_256_kernel:
 
 	aese	v3.16b, v27.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 9
-	ldr	q7, [x0, #48]                         //AES block 4k+7 - load ciphertext
+	ld1	{v6.16b}, [x0], #16                       //AES block 4k+6 - load ciphertext
 
 	aese	v1.16b, v30.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 12
-	ldr	q6, [x0, #32]                         //AES block 4k+6 - load ciphertext
+	ld1	{v7.16b}, [x0], #16                       //AES block 4k+7 - load ciphertext
 
 	aese	v2.16b, v29.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 11
@@ -5485,7 +5810,6 @@ aes_gcm_dec_256_kernel:
 	eor	v10.16b, v10.16b, v9.16b                         //MODULO - fold into mid
 
 	aese	v1.16b, v31.16b                                     //AES block 4k+5 - round 13
-	add	x0, x0, #64                       //AES input_ptr update
 	mov	x6, v0.d[0]                            //AES block 4k+4 - mov low
 
 	aese	v2.16b, v30.16b
@@ -5507,8 +5831,13 @@ aes_gcm_dec_256_kernel:
 	add	w12, w12, #1                            //CTR block 4k+9
 
 	eor	x6, x6, x13                   //AES block 4k+4 - round 14 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	eor	x7, x7, x14                   //AES block 4k+4 - round 14 high
-
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	mov	x20, v1.d[1]                            //AES block 4k+5 - mov high
 	eor	v2.16b, v6.16b, v2.16b                            //AES block 4k+6 - result
 	eor	v11.16b, v11.16b, v8.16b               //MODULO - fold into low
@@ -5529,9 +5858,15 @@ aes_gcm_dec_256_kernel:
 
 	rev64	v5.16b, v5.16b                                    //GHASH block 4k+5
 	eor	x20, x20, x14                   //AES block 4k+5 - round 14 high
+#ifdef __AARCH64EB__
+	rev	x20, x20
+#endif
 	stp	x6, x7, [x2], #16        //AES block 4k+4 - store result
 
 	eor	x19, x19, x13                   //AES block 4k+5 - round 14 low
+#ifdef __AARCH64EB__
+	rev	x19, x19
+#endif
 	stp	x19, x20, [x2], #16        //AES block 4k+5 - store result
 
 	rev64	v4.16b, v4.16b                                    //GHASH block 4k+4
@@ -5738,11 +6073,15 @@ aes_gcm_dec_256_kernel:
 	aese	v0.16b, v28.16b
 	aesmc	v0.16b, v0.16b          //AES block 4k+4 - round 10
 	eor	x22, x22, x14                   //AES block 4k+2 - round 14 high
-
+#ifdef __AARCH64EB__
+	rev	x22, x22
+#endif
 	aese	v1.16b, v28.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 10
 	eor	x23, x23, x13                   //AES block 4k+3 - round 14 low
-
+#ifdef __AARCH64EB__
+	rev	x23, x23
+#endif
 	aese	v2.16b, v29.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 11
 	eor	v10.16b, v10.16b, v9.16b                         //MODULO - fold into mid
@@ -5754,12 +6093,18 @@ aes_gcm_dec_256_kernel:
 	aese	v1.16b, v29.16b
 	aesmc	v1.16b, v1.16b          //AES block 4k+5 - round 11
 	eor	x21, x21, x13                   //AES block 4k+2 - round 14 low
+#ifdef __AARCH64EB__
+	rev	x21, x21
+#endif
 
 	aese	v2.16b, v30.16b
 	aesmc	v2.16b, v2.16b          //AES block 4k+6 - round 12
 
 	pmull	v8.1q, v10.1d, v8.1d     //MODULO - mid 64b align with low
 	eor	x24, x24, x14                   //AES block 4k+3 - round 14 high
+#ifdef __AARCH64EB__
+	rev	x24, x24
+#endif
 
 	aese	v3.16b, v29.16b
 	aesmc	v3.16b, v3.16b          //AES block 4k+7 - round 11
@@ -5800,8 +6145,14 @@ aes_gcm_dec_256_kernel:
 	cmp	x5, #48
 
 	eor	x6, x6, x13                   //AES block 4k+4 - round 14 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 
 	eor	x7, x7, x14                   //AES block 4k+4 - round 14 high
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 	b.gt	.L256_dec_blocks_more_than_3
 
 	sub	w12, w12, #1
@@ -5849,9 +6200,15 @@ aes_gcm_dec_256_kernel:
 
 	pmull	v10.1q, v22.1d, v10.1d                   //GHASH final-3 block - mid
 	eor	x6, x6, x13                  //AES final-2 block - round 14 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 
 	pmull	v11.1q, v4.1d, v15.1d                      //GHASH final-3 block - low
 	eor	x7, x7, x14                  //AES final-2 block - round 14 high
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 .L256_dec_blocks_more_than_2:	//blocks	left >  2
 
 	rev64	v4.16b, v5.16b                                   //GHASH final-2 block
@@ -5879,9 +6236,15 @@ aes_gcm_dec_256_kernel:
 
 	eor	v9.16b, v9.16b, v20.16b                           //GHASH final-2 block - high
 	eor	x6, x6, x13                  //AES final-1 block - round 14 low
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 
 	eor	v10.16b, v10.16b, v22.16b                      //GHASH final-2 block - mid
 	eor	x7, x7, x14                  //AES final-1 block - round 14 high
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 .L256_dec_blocks_more_than_1:	//blocks	left >  1
 
 	stp	x6, x7, [x2], #16       //AES final-1 block  - store result
@@ -5909,13 +6272,18 @@ aes_gcm_dec_256_kernel:
 
 	pmull2	v22.1q, v22.2d, v16.2d                     //GHASH final-1 block - mid
 	eor	x6, x6, x13                  //AES final block - round 14 low
-
+#ifdef __AARCH64EB__
+	rev	x6, x6
+#endif
 	eor	v11.16b, v11.16b, v21.16b                           //GHASH final-1 block - low
 
 	eor	v9.16b, v9.16b, v20.16b                           //GHASH final-1 block - high
 
 	eor	v10.16b, v10.16b, v22.16b                      //GHASH final-1 block - mid
 	eor	x7, x7, x14                  //AES final block - round 14 high
+#ifdef __AARCH64EB__
+	rev	x7, x7
+#endif
 .L256_dec_blocks_less_than_1:	//blocks	left <= 1
 
 	and	x1, x1, #127                   //bit_length %= 128
@@ -5941,7 +6309,11 @@ aes_gcm_dec_256_kernel:
 	mov	v0.d[1], x10
 	bic	x4, x4, x9          //mask out low existing bytes
 
+#ifndef __AARCH64EB__
 	rev	w9, w12
+#else
+	mov	w9, w12
+#endif
 
 	bic	x5, x5, x10      //mask out high existing bytes
 

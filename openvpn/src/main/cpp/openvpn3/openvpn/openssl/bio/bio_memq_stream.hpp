@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // This code implements an OpenSSL BIO object for streams based on the
 // MemQ buffer queue object.
@@ -30,14 +20,14 @@
 #include <openssl/bio.h>
 
 #include <openvpn/common/size.hpp>
+#include <openvpn/common/numeric_util.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/frame/frame.hpp>
 #include <openvpn/frame/memq_stream.hpp>
 
 #include <openvpn/openssl/compat.hpp>
 
-namespace openvpn {
-namespace bmq_stream {
+namespace openvpn::bmq_stream {
 
 class MemQ : public MemQStream
 {
@@ -91,8 +81,8 @@ class MemQ : public MemQStream
 class bio_memq_internal
 {
   public:
-    static int memq_method_type;
-    static BIO_METHOD *memq_method;
+    inline static int memq_method_type = -1;
+    inline static BIO_METHOD *memq_method = nullptr;
 
 
     static inline int memq_new(BIO *b)
@@ -180,8 +170,12 @@ class bio_memq_internal
 
     static inline int memq_puts(BIO *b, const char *str)
     {
-        const int len = std::strlen(str);
-        const int ret = memq_write(b, str, len);
+        int ret = -1;
+        auto len = std::strlen(str);
+        if (is_safe_conversion<int>(len))
+        {
+            ret = memq_write(b, str, static_cast<int>(len));
+        }
         return ret;
     }
 
@@ -204,11 +198,6 @@ class bio_memq_internal
         memq_method = nullptr;
     }
 }; // class bio_memq_internal
-
-#if defined(OPENVPN_NO_EXTERN)
-int bio_memq_internal::memq_method_type = -1;
-BIO_METHOD *bio_memq_internal::memq_method = nullptr;
-#endif
 
 inline void init_static()
 {
@@ -235,5 +224,4 @@ inline const MemQ *const_memq_from_bio(const BIO *b)
     else
         return nullptr;
 }
-} // namespace bmq_stream
-} // namespace openvpn
+} // namespace openvpn::bmq_stream

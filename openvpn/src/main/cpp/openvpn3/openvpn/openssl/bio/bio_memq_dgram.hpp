@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // This code implements an OpenSSL BIO object for datagrams based on the
 // MemQ buffer queue object.
@@ -35,8 +25,7 @@
 #include <openvpn/frame/frame.hpp>
 #include <openvpn/frame/memq_dgram.hpp>
 
-namespace openvpn {
-namespace bmq_dgram {
+namespace openvpn::bmq_dgram {
 
 class MemQ : public MemQDgram
 {
@@ -268,7 +257,6 @@ MemQ()
 {
     bio_memq_internal::free_bio_method();
 }
-} // namespace bmq_dgram
-} // namespace openvpn
+} // namespace openvpn::bmq_dgram
 
 #endif // OPENVPN_OPENSSL_BIO_BIO_MEMQ_DGRAM_H

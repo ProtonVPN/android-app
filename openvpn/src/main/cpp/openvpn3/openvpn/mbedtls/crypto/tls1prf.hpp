@@ -4,27 +4,16 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
 #include <mbedtls/ssl.h>
 
-namespace openvpn {
-namespace MbedTLSCrypto {
+namespace openvpn::MbedTLSCrypto {
 class TLS1PRF
 {
   public:
@@ -141,5 +130,4 @@ class TLS1PRF
 #endif
 };
 
-} // namespace MbedTLSCrypto
-} // namespace openvpn
+} // namespace openvpn::MbedTLSCrypto

@@ -17,6 +17,11 @@
 #include "crypto/asn1.h"
 #include "crypto/x509.h"
 
+void OSSL_STACK_OF_X509_free(STACK_OF(X509) *certs)
+{
+    sk_X509_pop_free(certs, X509_free);
+}
+
 #ifndef OPENSSL_NO_STDIO
 int X509_print_fp(FILE *fp, X509 *x)
 {
@@ -60,10 +65,8 @@ int X509_print_ex(BIO *bp, X509 *x, unsigned long nmflags,
         nmindent = 12;
     }
 
-    if (nmflags == X509_FLAG_COMPAT) {
-        nmindent = 16;
+    if (nmflags == XN_FLAG_COMPAT)
         printok = 1;
-    }
 
     if (!(cflag & X509_FLAG_NO_HEADER)) {
         if (BIO_write(bp, "Certificate:\n", 13) <= 0)
@@ -455,7 +458,7 @@ static int print_store_certs(BIO *bio, X509_STORE *store)
         STACK_OF(X509) *certs = X509_STORE_get1_all_certs(store);
         int ret = print_certs(bio, certs);
 
-        sk_X509_pop_free(certs, X509_free);
+        OSSL_STACK_OF_X509_free(certs);
         return ret;
     } else {
         return BIO_printf(bio, "    (no trusted store)\n") >= 0;
@@ -469,6 +472,8 @@ int X509_STORE_CTX_print_verify_cb(int ok, X509_STORE_CTX *ctx)
         int cert_error = X509_STORE_CTX_get_error(ctx);
         BIO *bio = BIO_new(BIO_s_mem()); /* may be NULL */
 
+        if (bio == NULL)
+            return 0;
         BIO_printf(bio, "%s at depth = %d error = %d (%s)\n",
                    X509_STORE_CTX_get0_parent_ctx(ctx) != NULL
                    ? "CRL path validation"

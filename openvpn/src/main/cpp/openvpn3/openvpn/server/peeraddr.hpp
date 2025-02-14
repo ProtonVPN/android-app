@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_SERVER_PEERADDR_H
 #define OPENVPN_SERVER_PEERADDR_H
@@ -43,10 +33,18 @@ struct AddrPort
     }
 
 #ifdef HAVE_JSON
-    Json::Value to_json() const
+    Json::Value to_json(bool convert_mapped_addresses = false) const
     {
         Json::Value jret(Json::objectValue);
-        jret["addr"] = Json::Value(addr.to_string());
+        if (convert_mapped_addresses && addr.is_mapped_address())
+        {
+            auto v4addr = addr.to_v4_addr();
+            jret["addr"] = Json::Value(v4addr.to_string());
+        }
+        else
+        {
+            jret["addr"] = Json::Value(addr.to_string());
+        }
         jret["port"] = Json::Value(port);
         return jret;
     }
@@ -76,12 +74,12 @@ struct PeerAddr : public RCCopyable<thread_unsafe_refcount>
     }
 
 #ifdef HAVE_JSON
-    Json::Value to_json() const
+    Json::Value to_json(bool convert_mapped_addresses = false) const
     {
         Json::Value jret(Json::objectValue);
         jret["tcp"] = Json::Value(tcp);
-        jret["local"] = local.to_json();
-        jret["remote"] = remote.to_json();
+        jret["local"] = local.to_json(convert_mapped_addresses);
+        jret["remote"] = remote.to_json(convert_mapped_addresses);
         return jret;
     }
 #endif

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -25,8 +15,7 @@
 #include <openvpn/win/scoped_handle.hpp>
 #include <openvpn/win/secattr.hpp>
 
-namespace openvpn {
-namespace Acceptor {
+namespace openvpn::Acceptor {
 
 class NamedPipe : public Base
 {
@@ -44,18 +33,15 @@ class NamedPipe : public Base
     {
     }
 
-    virtual void async_accept(ListenerBase *listener,
-                              const size_t acceptor_index,
-                              openvpn_io::io_context &io_context) override
+    void async_accept(ListenerBase *listener,
+                      const size_t acceptor_index,
+                      openvpn_io::io_context &io_context) override
     {
         // create the named pipe
         const HANDLE h = ::CreateNamedPipeA(
             name.c_str(),
             PIPE_ACCESS_DUPLEX | FILE_FLAG_OVERLAPPED,
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
-            PIPE_REJECT_REMOTE_CLIENTS |
-#endif
-                PIPE_TYPE_BYTE | PIPE_READMODE_BYTE,
+            PIPE_REJECT_REMOTE_CLIENTS | PIPE_TYPE_BYTE | PIPE_READMODE_BYTE,
             PIPE_UNLIMITED_INSTANCES,
             2048, // output buffer size
             2048, // input buffer size
@@ -76,11 +62,11 @@ class NamedPipe : public Base
                  listener = ListenerBase::Ptr(listener),
                  acceptor_index](const openvpn_io::error_code &ec, size_t bytes_transferred)
                 {
-                // accept client connection
-                listener->handle_accept(new AsioPolySock::NamedPipe(std::move(self->handle), acceptor_index),
-                                        ec.value() == ERROR_PIPE_CONNECTED // not an error
-                                            ? openvpn_io::error_code()
-                                            : ec);
+                    // accept client connection
+                    listener->handle_accept(new AsioPolySock::NamedPipe(std::move(self->handle), acceptor_index),
+                                            ec.value() == ERROR_PIPE_CONNECTED // not an error
+                                                ? openvpn_io::error_code()
+                                                : ec);
                 });
 
             const BOOL ok = ::ConnectNamedPipe(handle.native_handle(), over.get());
@@ -105,7 +91,7 @@ class NamedPipe : public Base
         }
     }
 
-    virtual void close() override
+    void close() override
     {
         handle.close();
     }
@@ -116,5 +102,4 @@ class NamedPipe : public Base
     Win::SecurityAttributes sa;
 };
 
-} // namespace Acceptor
-} // namespace openvpn
+} // namespace openvpn::Acceptor

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // TCP transport object specialized for client.
 
@@ -36,8 +26,7 @@
 #include <openvpn/transport/socket_protect.hpp>
 #include <openvpn/client/remotelist.hpp>
 
-namespace openvpn {
-namespace TCPTransport {
+namespace openvpn::TCPTransport {
 
 class ClientConfig : public TransportClientFactory
 {
@@ -85,7 +74,7 @@ class Client : public TransportClient, AsyncResolvableTCP
 {
     typedef RCPtr<Client> Ptr;
 
-    typedef Link<openvpn_io::ip::tcp, Client *, false> LinkImpl;
+    typedef TCPLink<openvpn_io::ip::tcp, Client *, false> LinkImpl;
 #ifdef OPENVPN_TLS_LINK
     typedef TLSLink<openvpn_io::ip::tcp, Client *, false> LinkImplTLS;
 #endif
@@ -138,7 +127,7 @@ class Client : public TransportClient, AsyncResolvableTCP
         return true;
     }
 
-    unsigned int transport_send_queue_size() override
+    size_t transport_send_queue_size() override
     {
         if (impl)
             return impl->send_queue_size();
@@ -171,7 +160,7 @@ class Client : public TransportClient, AsyncResolvableTCP
         return server_endpoint.port();
     }
 
-    int native_handle() override
+    openvpn_io::detail::socket_type native_handle() override
     {
         return socket.native_handle();
     }
@@ -339,7 +328,7 @@ class Client : public TransportClient, AsyncResolvableTCP
                     ssl_conf->set_mode(Mode(Mode::CLIENT));
                     ssl_conf->set_local_cert_enabled(false);
                     ssl_conf->set_frame(config->frame);
-                    ssl_conf->set_rng(new SSLLib::RandomAPI(false));
+                    ssl_conf->set_rng(new SSLLib::RandomAPI());
 
                     if (!config->tls_ca.empty())
                     {
@@ -414,7 +403,6 @@ inline TransportClient::Ptr ClientConfig::new_transport_client_obj(openvpn_io::i
 {
     return TransportClient::Ptr(new Client(io_context, this, parent));
 }
-} // namespace TCPTransport
-} // namespace openvpn
+} // namespace openvpn::TCPTransport
 
 #endif

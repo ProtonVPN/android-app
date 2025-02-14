@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Receiver side of reliability layer
 
@@ -47,14 +37,14 @@ class ReliableRecvTemplate
     ReliableRecvTemplate()
     {
     }
-    ReliableRecvTemplate(const id_t span)
+    ReliableRecvTemplate(const id_t span, id_t start_at = 0)
     {
-        init(span);
+        init(span, start_at);
     }
 
-    void init(const id_t span)
+    void init(const id_t span, id_t start_at = 0)
     {
-        window_.init(0, span);
+        window_.init(start_at, span);
     }
 
     // Call with unsequenced packet off of the wire.
@@ -66,15 +56,17 @@ class ReliableRecvTemplate
     };
     unsigned int receive(const PACKET &packet, const id_t id)
     {
+        unsigned int rflags;
         if (window_.in_window(id))
         {
             Message &m = window_.ref_by_id(id);
             m.id_ = id;
             m.packet = packet;
-            return ACK_TO_SENDER | IN_WINDOW;
+            rflags = ACK_TO_SENDER | IN_WINDOW;
         }
         else
-            return window_.pre_window(id) ? ACK_TO_SENDER : 0;
+            rflags = window_.pre_window(id) ? ACK_TO_SENDER : 0;
+        return rflags;
     }
 
     // Return true if next_sequenced() is ready to return next message

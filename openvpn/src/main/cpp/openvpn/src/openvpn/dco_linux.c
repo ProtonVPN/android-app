@@ -1,9 +1,9 @@
 /*
  *  Interface to linux dco networking code
  *
- *  Copyright (C) 2020-2023 Antonio Quartulli <a@unstable.cc>
- *  Copyright (C) 2020-2023 Arne Schwabe <arne@rfc2549.org>
- *  Copyright (C) 2020-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2020-2024 Antonio Quartulli <a@unstable.cc>
+ *  Copyright (C) 2020-2024 Arne Schwabe <arne@rfc2549.org>
+ *  Copyright (C) 2020-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #if defined(ENABLE_DCO) && defined(TARGET_LINUX)
@@ -82,6 +80,12 @@ resolve_ovpn_netlink_id(int msglevel)
 {
     int ret;
     struct nl_sock *nl_sock = nl_socket_alloc();
+
+    if (!nl_sock)
+    {
+        msg(msglevel, "Allocating net link socket failed");
+        return -ENOMEM;
+    }
 
     ret = genl_connect(nl_sock);
     if (ret)
@@ -216,7 +220,7 @@ mapped_v4_to_v6(struct sockaddr *sock, struct gc_arena *gc)
 int
 dco_new_peer(dco_context_t *dco, unsigned int peerid, int sd,
              struct sockaddr *localaddr, struct sockaddr *remoteaddr,
-             struct in_addr *remote_in4, struct in6_addr *remote_in6)
+             struct in_addr *vpn_ipv4, struct in6_addr *vpn_ipv6)
 {
     struct gc_arena gc = gc_new();
     const char *remotestr = "[undefined]";
@@ -259,14 +263,14 @@ dco_new_peer(dco_context_t *dco, unsigned int peerid, int sd,
     }
 
     /* Set the primary VPN IP addresses of the peer */
-    if (remote_in4)
+    if (vpn_ipv4)
     {
-        NLA_PUT_U32(nl_msg, OVPN_NEW_PEER_ATTR_IPV4, remote_in4->s_addr);
+        NLA_PUT_U32(nl_msg, OVPN_NEW_PEER_ATTR_IPV4, vpn_ipv4->s_addr);
     }
-    if (remote_in6)
+    if (vpn_ipv6)
     {
         NLA_PUT(nl_msg, OVPN_NEW_PEER_ATTR_IPV6, sizeof(struct in6_addr),
-                remote_in6);
+                vpn_ipv6);
     }
     nla_nest_end(nl_msg, attr);
 
@@ -287,6 +291,25 @@ ovpn_nl_cb_finish(struct nl_msg (*msg) __attribute__ ((unused)), void *arg)
     return NL_SKIP;
 }
 
+/* The following enum members exist in netlink.h since linux-6.1.
+ * However, some distro we support still ship an old header, thus
+ * failing the OpenVPN compilation.
+ *
+ * For the time being we add the needed defines manually.
+ * We will drop this definition once we stop supporting those old
+ * distros.
+ *
+ * @NLMSGERR_ATTR_MISS_TYPE: type of a missing required attribute,
+ *  %NLMSGERR_ATTR_MISS_NEST will not be present if the attribute was
+ *  missing at the message level
+ * @NLMSGERR_ATTR_MISS_NEST: offset of the nest where attribute was missing
+ */
+enum ovpn_nlmsgerr_attrs {
+    OVPN_NLMSGERR_ATTR_MISS_TYPE = 5,
+    OVPN_NLMSGERR_ATTR_MISS_NEST = 6,
+    OVPN_NLMSGERR_ATTR_MAX = 6,
+};
+
 /* This function is used as error callback on the netlink socket.
  * When something goes wrong and the kernel returns an error, this function is
  * invoked.
@@ -300,7 +323,7 @@ ovpn_nl_cb_error(struct sockaddr_nl (*nla) __attribute__ ((unused)),
                  struct nlmsgerr *err, void *arg)
 {
     struct nlmsghdr *nlh = (struct nlmsghdr *)err - 1;
-    struct nlattr *tb_msg[NLMSGERR_ATTR_MAX + 1];
+    struct nlattr *tb_msg[OVPN_NLMSGERR_ATTR_MAX + 1];
     int len = nlh->nlmsg_len;
     struct nlattr *attrs;
     int *ret = arg;
@@ -326,13 +349,25 @@ ovpn_nl_cb_error(struct sockaddr_nl (*nla) __attribute__ ((unused)),
     attrs = (void *)((unsigned char *)nlh + ack_len);
     len -= ack_len;
 
-    nla_parse(tb_msg, NLMSGERR_ATTR_MAX, attrs, len, NULL);
+    nla_parse(tb_msg, OVPN_NLMSGERR_ATTR_MAX, attrs, len, NULL);
     if (tb_msg[NLMSGERR_ATTR_MSG])
     {
         len = strnlen((char *)nla_data(tb_msg[NLMSGERR_ATTR_MSG]),
                       nla_len(tb_msg[NLMSGERR_ATTR_MSG]));
         msg(M_WARN, "kernel error: %*s\n", len,
             (char *)nla_data(tb_msg[NLMSGERR_ATTR_MSG]));
+    }
+
+    if (tb_msg[OVPN_NLMSGERR_ATTR_MISS_NEST])
+    {
+        msg(M_WARN, "kernel error: missing required nesting type %u\n",
+            nla_get_u32(tb_msg[OVPN_NLMSGERR_ATTR_MISS_NEST]));
+    }
+
+    if (tb_msg[OVPN_NLMSGERR_ATTR_MISS_TYPE])
+    {
+        msg(M_WARN, "kernel error: missing required attribute type %u\n",
+            nla_get_u32(tb_msg[OVPN_NLMSGERR_ATTR_MISS_TYPE]));
     }
 
     return NL_STOP;
@@ -827,7 +862,7 @@ dco_update_peer_stat(struct context_2 *c2, struct nlattr *tb[], uint32_t id)
     if (tb[OVPN_GET_PEER_RESP_ATTR_LINK_RX_BYTES])
     {
         c2->dco_read_bytes = nla_get_u64(tb[OVPN_GET_PEER_RESP_ATTR_LINK_RX_BYTES]);
-        msg(D_DCO_DEBUG, "%s / dco_read_bytes: %lu", __func__,
+        msg(D_DCO_DEBUG, "%s / dco_read_bytes: " counter_format, __func__,
             c2->dco_read_bytes);
     }
     else
@@ -839,7 +874,7 @@ dco_update_peer_stat(struct context_2 *c2, struct nlattr *tb[], uint32_t id)
     if (tb[OVPN_GET_PEER_RESP_ATTR_LINK_TX_BYTES])
     {
         c2->dco_write_bytes = nla_get_u64(tb[OVPN_GET_PEER_RESP_ATTR_LINK_TX_BYTES]);
-        msg(D_DCO_DEBUG, "%s / dco_write_bytes: %lu", __func__,
+        msg(D_DCO_DEBUG, "%s / dco_write_bytes: " counter_format, __func__,
             c2->dco_write_bytes);
     }
     else
@@ -851,7 +886,7 @@ dco_update_peer_stat(struct context_2 *c2, struct nlattr *tb[], uint32_t id)
     if (tb[OVPN_GET_PEER_RESP_ATTR_VPN_RX_BYTES])
     {
         c2->tun_read_bytes = nla_get_u64(tb[OVPN_GET_PEER_RESP_ATTR_VPN_RX_BYTES]);
-        msg(D_DCO_DEBUG, "%s / tun_read_bytes: %lu", __func__,
+        msg(D_DCO_DEBUG, "%s / tun_read_bytes: " counter_format, __func__,
             c2->tun_read_bytes);
     }
     else
@@ -863,7 +898,7 @@ dco_update_peer_stat(struct context_2 *c2, struct nlattr *tb[], uint32_t id)
     if (tb[OVPN_GET_PEER_RESP_ATTR_VPN_TX_BYTES])
     {
         c2->tun_write_bytes = nla_get_u64(tb[OVPN_GET_PEER_RESP_ATTR_VPN_TX_BYTES]);
-        msg(D_DCO_DEBUG, "%s / tun_write_bytes: %lu", __func__,
+        msg(D_DCO_DEBUG, "%s / tun_write_bytes: " counter_format, __func__,
             c2->tun_write_bytes);
     }
     else
@@ -925,7 +960,10 @@ dco_get_peer_stats_multi(dco_context_t *dco, struct multi_context *m)
 
     nlmsg_hdr(nl_msg)->nlmsg_flags |= NLM_F_DUMP;
 
-    return ovpn_nl_msg_send(dco, nl_msg, dco_parse_peer_multi, m, __func__);
+    int ret = ovpn_nl_msg_send(dco, nl_msg, dco_parse_peer_multi, m, __func__);
+
+    nlmsg_free(nl_msg);
+    return ret;
 }
 
 static int
@@ -1020,6 +1058,7 @@ dco_version_string(struct gc_arena *gc)
 
     if (!fgets(BSTR(&out), BCAP(&out), fp))
     {
+        fclose(fp);
         return "ERR";
     }
 
@@ -1031,6 +1070,7 @@ dco_version_string(struct gc_arena *gc)
         *nl = '\0';
     }
 
+    fclose(fp);
     return BSTR(&out);
 }
 
@@ -1044,7 +1084,7 @@ dco_event_set(dco_context_t *dco, struct event_set *es, void *arg)
 }
 
 const char *
-dco_get_supported_ciphers()
+dco_get_supported_ciphers(void)
 {
     return "AES-128-GCM:AES-256-GCM:AES-192-GCM:CHACHA20-POLY1305";
 }

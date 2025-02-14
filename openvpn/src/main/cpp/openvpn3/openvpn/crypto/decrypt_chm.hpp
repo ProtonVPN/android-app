@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // General-purpose OpenVPN protocol decrypt method (CBC/HMAC) that is independent of the underlying CRYPTO_API
 
@@ -34,7 +24,7 @@
 #include <openvpn/crypto/cipher.hpp>
 #include <openvpn/crypto/ovpnhmac.hpp>
 #include <openvpn/crypto/static_key.hpp>
-#include <openvpn/crypto/packet_id.hpp>
+#include <openvpn/crypto/packet_id_control.hpp>
 #include <openvpn/log/sessionstats.hpp>
 
 namespace openvpn {
@@ -45,7 +35,7 @@ class DecryptCHM
   public:
     OPENVPN_SIMPLE_EXCEPTION(chm_unsupported_cipher_mode);
 
-    Error::Type decrypt(BufferAllocated &buf, const PacketID::time_t now)
+    Error::Type decrypt(BufferAllocated &buf, const std::time_t now)
     {
         // skip null packets
         if (!buf.size())
@@ -118,19 +108,14 @@ class DecryptCHM
     Frame::Ptr frame;
     CipherContext<CRYPTO_API> cipher;
     OvpnHMAC<CRYPTO_API> hmac;
-    PacketIDReceive pid_recv;
+    PacketIDDataReceive pid_recv;
+    SessionStats::Ptr stats;
 
   private:
-    bool verify_packet_id(BufferAllocated &buf, const PacketID::time_t now)
+    bool verify_packet_id(BufferAllocated &buf, const std::time_t now)
     {
-        // ignore packet ID if pid_recv is not initialized
-        if (pid_recv.initialized())
-        {
-            const PacketID pid = pid_recv.read_next(buf);
-            if (!pid_recv.test_add(pid, now, true)) // verify packet ID
-                return false;
-        }
-        return true;
+        const PacketIDData pid = pid_recv.read_next(buf);
+        return pid_recv.test_add(pid, now, stats);
     }
 
     BufferAllocated work;

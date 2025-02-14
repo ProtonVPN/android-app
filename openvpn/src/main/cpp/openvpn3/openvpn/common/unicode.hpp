@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // General-purpose function for dealing with unicode.
 
@@ -35,8 +25,7 @@
 #include <openvpn/common/unicode-impl.hpp>
 #include <openvpn/buffer/buffer.hpp>
 
-namespace openvpn {
-namespace Unicode {
+namespace openvpn::Unicode {
 
 OPENVPN_SIMPLE_EXCEPTION(unicode_src_overflow);
 OPENVPN_SIMPLE_EXCEPTION(unicode_dest_overflow);
@@ -232,7 +221,7 @@ inline BufferPtr string_to_utf16(const STRING &str)
                                                     dest + str.length(),
                                                     lenientConversion);
     conversion_result_throw(res);
-    BufferPtr ret(new BufferAllocated((dest - utf16_dest.get()) * 2, BufferAllocated::ARRAY));
+    auto ret = BufferAllocatedRc::Create((dest - utf16_dest.get()) * 2, BufAllocFlags::ARRAY);
     UTF8 *d = ret->data();
     for (const UTF16 *s = utf16_dest.get(); s < dest; ++s)
     {
@@ -300,7 +289,6 @@ class UTF8Iterator
     const unsigned char *str;
     size_t size;
 };
-} // namespace Unicode
-} // namespace openvpn
+} // namespace openvpn::Unicode
 
 #endif

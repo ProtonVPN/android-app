@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -119,6 +119,7 @@ static int pem2der_decode(void *vctx, OSSL_CORE_BIO *cin, int selection,
         { PEM_STRING_DSAPARAMS, OSSL_OBJECT_PKEY, "DSA", "type-specific" },
         { PEM_STRING_ECPRIVATEKEY, OSSL_OBJECT_PKEY, "EC", "type-specific" },
         { PEM_STRING_ECPARAMETERS, OSSL_OBJECT_PKEY, "EC", "type-specific" },
+        { PEM_STRING_SM2PARAMETERS, OSSL_OBJECT_PKEY, "SM2", "type-specific" },
         { PEM_STRING_RSA, OSSL_OBJECT_PKEY, "RSA", "type-specific" },
         { PEM_STRING_RSA_PUBLIC, OSSL_OBJECT_PKEY, "RSA", "type-specific" },
 
@@ -215,5 +216,5 @@ const OSSL_DISPATCH ossl_pem_to_der_decoder_functions[] = {
     { OSSL_FUNC_DECODER_NEWCTX, (void (*)(void))pem2der_newctx },
     { OSSL_FUNC_DECODER_FREECTX, (void (*)(void))pem2der_freectx },
     { OSSL_FUNC_DECODER_DECODE, (void (*)(void))pem2der_decode },
-    { 0, NULL }
+    OSSL_DISPATCH_END
 };

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMMON_PIPE_H
 #define OPENVPN_COMMON_PIPE_H
@@ -34,8 +24,7 @@
 #include <openvpn/common/strerror.hpp>
 #include <openvpn/buffer/buflist.hpp>
 
-namespace openvpn {
-namespace Pipe {
+namespace openvpn::Pipe {
 class SD
 {
   public:
@@ -73,16 +62,16 @@ class SD_OUT : public SD
         sd->async_write_some(buf.const_buffer_limit(2048),
                              [this](const openvpn_io::error_code &ec, const size_t bytes_sent)
                              {
-            if (!ec && bytes_sent < buf.size())
-            {
-                buf.advance(bytes_sent);
-                queue_write();
-            }
-            else
-            {
-                sd->close();
-            }
-        });
+                                 if (!ec && bytes_sent < buf.size())
+                                 {
+                                     buf.advance(bytes_sent);
+                                     queue_write();
+                                 }
+                                 else
+                                 {
+                                     sd->close();
+                                 }
+                             });
     }
 
     BufferAllocated buf;
@@ -110,17 +99,17 @@ class SD_IN : public SD
         sd->async_read_some(buf.mutable_buffer_clamp(),
                             [this](const openvpn_io::error_code &ec, const size_t bytes_recvd)
                             {
-            if (!ec)
-            {
-                buf.set_size(bytes_recvd);
-                data.put_consume(buf);
-                queue_read();
-            }
-            else
-            {
-                sd->close();
-            }
-        });
+                                if (!ec)
+                                {
+                                    buf.set_size(bytes_recvd);
+                                    data.put_consume(buf);
+                                    queue_read();
+                                }
+                                else
+                                {
+                                    sd->close();
+                                }
+                            });
     }
 
     BufferAllocated buf;
@@ -143,7 +132,6 @@ inline void make_pipe(ScopedFD &read, ScopedFD &write)
     read.reset(fd[0]);
     write.reset(fd[1]);
 }
-} // namespace Pipe
-} // namespace openvpn
+} // namespace openvpn::Pipe
 
 #endif

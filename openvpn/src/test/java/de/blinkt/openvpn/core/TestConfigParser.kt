@@ -252,7 +252,7 @@ class TestConfigParser {
 
         val c:Context = ApplicationProvider.getApplicationContext()
         val err = vp.checkProfile(c, false)
-        Assert.assertTrue("Failed with " + c.getString(err), err == R.string.no_error_found)
+        Assert.assertTrue("Failed with wrong error code: $err", err == R.string.no_error_found)
     }
 
     @Test

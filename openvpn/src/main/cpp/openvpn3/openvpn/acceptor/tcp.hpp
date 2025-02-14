@@ -4,28 +4,17 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
 #include <openvpn/acceptor/base.hpp>
 #include <openvpn/ssl/sslconsts.hpp>
 
-namespace openvpn {
-namespace Acceptor {
+namespace openvpn::Acceptor {
 
 struct TCP : public Base
 {
@@ -36,9 +25,9 @@ struct TCP : public Base
     {
     }
 
-    virtual void async_accept(ListenerBase *listener,
-                              const size_t acceptor_index,
-                              openvpn_io::io_context &io_context) override
+    void async_accept(ListenerBase *listener,
+                      const size_t acceptor_index,
+                      openvpn_io::io_context &io_context) override
     {
         AsioPolySock::TCP::Ptr sock(new AsioPolySock::TCP(io_context, acceptor_index));
         acceptor.async_accept(sock->socket,
@@ -46,7 +35,7 @@ struct TCP : public Base
                               { listener->handle_accept(std::move(sock), error); });
     }
 
-    virtual void close() override
+    void close() override
     {
 #ifdef OPENVPN_DEBUG_ACCEPT
         OPENVPN_LOG("ACCEPTOR CLOSE " << local_endpoint);
@@ -93,5 +82,4 @@ struct TCP : public Base
     openvpn_io::ip::tcp::acceptor acceptor;
 };
 
-} // namespace Acceptor
-} // namespace openvpn
+} // namespace openvpn::Acceptor

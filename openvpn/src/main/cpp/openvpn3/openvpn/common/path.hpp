@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // General-purpose methods for handling filesystem pathnames
 
@@ -30,8 +20,7 @@
 #include <openvpn/common/platform.hpp>
 #include <openvpn/common/string.hpp>
 
-namespace openvpn {
-namespace path {
+namespace openvpn::path {
 
 // Directory separators.  The first char in dirsep is the primary
 // separator for the platform, while subsequent chars are also
@@ -202,7 +191,6 @@ inline std::string join(const std::string &p1, const std::string &p2, Args... ar
     return join(join(p1, p2), args...);
 }
 
-} // namespace path
-} // namespace openvpn
+} // namespace openvpn::path
 
 #endif // OPENVPN_COMMON_STRING_H

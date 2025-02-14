@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 #include <iostream>
 
 #include <openvpn/common/size.hpp>
@@ -37,7 +37,7 @@ TEST(statickey, key1)
 
 TEST(statickey, key2)
 {
-    RandomAPI::Ptr rng(new SSLLib::RandomAPI(false));
+    StrongRandomAPI::Ptr rng(new SSLLib::RandomAPI());
     const size_t key_len = 16;
     StaticKey sk1;
     sk1.init_from_rng(*rng, key_len);
@@ -60,12 +60,12 @@ class StaticSinkBase : public RC<thread_unsafe_refcount>
 class StaticSink : public StaticSinkBase
 {
   public:
-    virtual void init(StaticKey &&key)
+    void init(StaticKey &&key) override
     {
         k = std::move(key);
     }
 
-    virtual std::string dump()
+    std::string dump() override
     {
         return k.render_hex();
     }

@@ -2,7 +2,7 @@
 // ip/impl/network_v6.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2014 Oliver Kowalke (oliver dot kowalke at gmail dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -42,7 +42,7 @@ network_v6::network_v6(const address_v6& addr, unsigned short prefix_len)
   }
 }
 
-ASIO_DECL address_v6 network_v6::network() const ASIO_NOEXCEPT
+ASIO_DECL address_v6 network_v6::network() const noexcept
 {
   address_v6::bytes_type bytes(address_.to_bytes());
   for (std::size_t i = 0; i < 16; ++i)
@@ -55,7 +55,7 @@ ASIO_DECL address_v6 network_v6::network() const ASIO_NOEXCEPT
   return address_v6(bytes, address_.scope_id());
 }
 
-address_v6_range network_v6::hosts() const ASIO_NOEXCEPT
+address_v6_range network_v6::hosts() const noexcept
 {
   address_v6::bytes_type begin_bytes(address_.to_bytes());
   address_v6::bytes_type end_bytes(address_.to_bytes());

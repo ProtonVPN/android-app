@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2007-2023 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright Nokia 2007-2019
  * Copyright Siemens AG 2015-2019
  *
@@ -14,7 +14,6 @@
 
 #include <openssl/asn1t.h>
 #include <openssl/http.h>
-#include "internal/sockets.h"
 
 #include <openssl/cmp.h>
 #include "cmp_local.h"
@@ -45,7 +44,6 @@ static int keep_alive(int keep_alive, int body_type)
 
 /*
  * Send the PKIMessage req and on success return the response, else NULL.
- * Any previous error queue entries will likely be removed by ERR_clear_error().
  */
 OSSL_CMP_MSG *OSSL_CMP_MSG_http_perform(OSSL_CMP_CTX *ctx,
                                         const OSSL_CMP_MSG *req)
@@ -70,7 +68,8 @@ OSSL_CMP_MSG *OSSL_CMP_MSG_http_perform(OSSL_CMP_CTX *ctx,
 
     if (ctx->serverPort != 0)
         BIO_snprintf(server_port, sizeof(server_port), "%d", ctx->serverPort);
-    tls_used = OSSL_CMP_CTX_get_http_cb_arg(ctx) != NULL;
+    tls_used = ctx->tls_used >= 0 ? ctx->tls_used != 0
+        : OSSL_CMP_CTX_get_http_cb_arg(ctx) != NULL; /* backward compat */
     if (ctx->http_ctx == NULL)
         ossl_cmp_log3(DEBUG, ctx, "connecting to CMP server %s:%s%s",
                       ctx->server, server_port, tls_used ? " using TLS" : "");

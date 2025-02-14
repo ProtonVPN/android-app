@@ -50,8 +50,6 @@ else
 
     # enable MD4 (needed for NTLM auth)
     perl -pi -e 's/^\/\/// if /#define MBEDTLS_MD4_C/' include/mbedtls/config.h
-
-    apply_patches "mbedtls"
 fi
 
 if [ "x$NO_BUILD" == x1 ]; then

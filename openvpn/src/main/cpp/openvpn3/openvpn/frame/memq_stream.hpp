@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // A queue of buffers for handling streamed data such as data received
 // from or to be sent to a TCP socket
@@ -77,7 +67,7 @@ class MemQStream : public MemQBase
                 // Start a new buffer
                 while (b.size())
                 {
-                    BufferPtr newbuf(new BufferAllocated);
+                    auto newbuf = BufferAllocatedRc::Create();
                     fc.prepare(*newbuf);
                     const size_t write_size = std::min(b.size(), fc.payload());
                     const unsigned char *from = b.read_alloc(write_size);

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -72,9 +72,12 @@
 /* Indicates than IPv4 addr was extracted from ARP packet */
 #define MR_ARP                   16
 
+/* Address type mask indicating that proto # is part of address */
+#define MR_WITH_PROTO            32
+
 struct mroute_addr {
     uint8_t len;    /* length of address */
-    uint8_t unused;
+    uint8_t proto;
     uint8_t type;   /* MR_ADDR/MR_WITH flags */
     uint8_t netbits; /* number of bits in network part of address,
                       * valid if MR_WITH_NETBITS is set */
@@ -96,17 +99,7 @@ struct mroute_addr {
             uint8_t prefix[12];
             in_addr_t addr;     /* _network order_ IPv4 address */
         } v4mappedv6;
-    }
-#ifndef HAVE_ANONYMOUS_UNION_SUPPORT
-/* Wrappers to support compilers that do not grok anonymous unions */
-        mroute_union
-#define raw_addr mroute_union.raw_addr
-#define ether mroute_union.ether
-#define v4 mroute_union.v4
-#define v6 mroute_union.v6
-#define v4mappedv6 mroute_union.v4mappedv6
-#endif
-    ;
+    };
 };
 
 /* Double-check that struct packing works as expected */
@@ -193,6 +186,15 @@ mroute_extract_addr_from_packet(struct mroute_addr *src,
 {
     unsigned int ret = 0;
     verify_align_4(buf);
+
+    /*
+     * Since we don't really need the protocol on vaddresses for internal VPN
+     * payload packets, make sure we have the same value to avoid hashing insert
+     * and search issues.
+     */
+    src->proto = 0;
+    dest->proto = src->proto;
+
     if (tunnel_type == DEV_TYPE_TUN)
     {
         ret = mroute_extract_addr_ip(src, dest, buf);
@@ -211,6 +213,10 @@ mroute_addr_equal(const struct mroute_addr *a1, const struct mroute_addr *a2)
     {
         return false;
     }
+    if (a1->proto != a2->proto)
+    {
+        return false;
+    }
     if (a1->netbits != a2->netbits)
     {
         return false;
@@ -226,13 +232,13 @@ static inline const uint8_t *
 mroute_addr_hash_ptr(const struct mroute_addr *a)
 {
     /* NOTE: depends on ordering of struct mroute_addr */
-    return (uint8_t *) &a->type;
+    return (uint8_t *) &a->proto;
 }
 
 static inline uint32_t
 mroute_addr_hash_len(const struct mroute_addr *a)
 {
-    return (uint32_t) a->len + 2;
+    return (uint32_t) a->len + 3;
 }
 
 static inline void

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -25,7 +25,6 @@ struct ossl_endecode_base_st {
     OSSL_PROPERTY_LIST *parsed_propdef;
 
     CRYPTO_REF_COUNT refcnt;
-    CRYPTO_RWLOCK *lock;
 };
 
 struct ossl_encoder_st {

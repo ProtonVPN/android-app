@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2013-2023 Heiko Hund <heiko.hund@sophos.com>
+ *  Copyright (C) 2013-2024 Heiko Hund <heiko.hund@sophos.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -24,6 +24,9 @@
 #ifndef OPENVPN_MSG_H_
 #define OPENVPN_MSG_H_
 
+#include <windef.h>
+#include <ws2tcpip.h>
+
 typedef enum {
     msg_acknowledgement,
     msg_add_address,
@@ -35,12 +38,14 @@ typedef enum {
     msg_add_nbt_cfg,
     msg_del_nbt_cfg,
     msg_flush_neighbors,
-    msg_add_block_dns,
-    msg_del_block_dns,
+    msg_add_wfp_block,
+    msg_del_wfp_block,
     msg_register_dns,
     msg_enable_dhcp,
     msg_register_ring_buffers,
-    msg_set_mtu
+    msg_set_mtu,
+    msg_add_wins_cfg,
+    msg_del_wins_cfg
 } message_type_t;
 
 typedef struct {
@@ -58,6 +63,11 @@ typedef struct {
     int index;
     char name[256];
 } interface_t;
+
+typedef enum {
+    wfp_block_local = 1<<0,
+    wfp_block_dns = 1<<1
+} wfp_block_flags_t;
 
 typedef struct {
     message_header_t header;
@@ -89,6 +99,13 @@ typedef struct {
 typedef struct {
     message_header_t header;
     interface_t iface;
+    int addr_len;
+    inet_address_t addr[4]; /* support up to 4 dns addresses */
+} wins_cfg_message_t;
+
+typedef struct {
+    message_header_t header;
+    interface_t iface;
     int disable_nbt;
     int nbt_type;
     char scope_id[256];
@@ -111,8 +128,9 @@ typedef struct {
 
 typedef struct {
     message_header_t header;
+    wfp_block_flags_t flags;
     interface_t iface;
-} block_dns_message_t;
+} wfp_block_message_t;
 
 typedef struct {
     message_header_t header;

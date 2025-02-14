@@ -3,9 +3,9 @@ option(CLI_NULLTUN "Build ovpncli variant with null tun" OFF)
 option(CLI_KOVPN "Build ovpncli variant with kovpn kernel module support" OFF)
 option(CLI_OVPNDCO "Build ovpncli with ovpn-dco kernel module support" OFF)
 option(CLI_OVPNDCOWIN "Build ovpncli with ovpn-dco-win driver support" OFF)
+option(CLI_TUNBUILDER "Build ovpncli with tunbuilder interface support" OFF)
 
 set(KOVPN_SOURCE "${CORE_DIR}/../kovpn" CACHE PATH "ovpn-dco kernel module source tree")
-set(OVPN_DCO_SOURCE "${CORE_DIR}/../ovpn-dco" CACHE PATH "ovpn-dco kernel module source tree")
 
 add_library(
         xkey
@@ -50,7 +50,7 @@ if (${CLI_OVPNDCO})
     find_package(PkgConfig)
     pkg_search_module(LIBNL REQUIRED libnl-genl-3.0)
 
-    target_include_directories(ovpncli PRIVATE ${OVPN_DCO_SOURCE}/include/uapi ${LIBNL_INCLUDE_DIRS})
+    target_include_directories(ovpncli PRIVATE ${LIBNL_INCLUDE_DIRS})
     target_link_libraries(ovpncli ${LIBNL_LIBRARIES})
 endif()
 
@@ -76,4 +76,8 @@ if (APPLE)
     add_core_dependencies(ovpncliagent)
     add_json_library(ovpncliagent)
     target_compile_definitions(ovpncliagent PRIVATE -DOPENVPN_COMMAND_AGENT)
+endif ()
+
+if (${CLI_TUNBUILDER})
+    target_compile_definitions(ovpncli PRIVATE USE_TUN_BUILDER)
 endif ()

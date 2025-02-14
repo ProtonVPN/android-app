@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_TRANSPORT_SOCKET_PROTECT_H
 #define OPENVPN_TRANSPORT_SOCKET_PROTECT_H
@@ -35,7 +25,9 @@ namespace openvpn {
 class BaseSocketProtect
 {
   public:
-    virtual bool socket_protect(int socket, IP::Addr endpoint) = 0;
+    virtual ~BaseSocketProtect() = default;
+
+    virtual bool socket_protect(openvpn_io::detail::socket_type socket, IP::Addr endpoint) = 0;
 };
 
 #ifdef OPENVPN_PLATFORM_UWP

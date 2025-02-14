@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -131,12 +131,8 @@ int platform_access(const char *path, int mode);
 
 void platform_sleep_milliseconds(unsigned int n);
 
-void platform_sleep_until_signal(void);
-
 /* delete a file, return true if succeeded */
 bool platform_unlink(const char *filename);
-
-int platform_putenv(char *string);
 
 FILE *platform_fopen(const char *path, const char *mode);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2015-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -278,6 +278,8 @@ struct x509_store_ctx_st {      /* X509_STORE_CTX */
     SSL_DANE *dane;
     /* signed via bare TA public key, rather than CA certificate */
     int bare_ta_signed;
+    /* Raw Public Key */
+    EVP_PKEY *rpk;
 
     OSSL_LIB_CTX *libctx;
     char *propq;
@@ -309,7 +311,7 @@ struct x509_object_st {
 };
 
 int ossl_a2i_ipadd(unsigned char *ipout, const char *ipasc);
-int ossl_x509_set1_time(ASN1_TIME **ptm, const ASN1_TIME *tm);
+int ossl_x509_set1_time(int *modified, ASN1_TIME **ptm, const ASN1_TIME *tm);
 int ossl_x509_print_ex_brief(BIO *bio, X509 *cert, unsigned long neg_cflags);
 int ossl_x509v3_cache_extensions(X509 *x);
 int ossl_x509_init_sig_info(X509 *x);
@@ -334,7 +336,8 @@ int ossl_x509_PUBKEY_get0_libctx(OSSL_LIB_CTX **plibctx, const char **ppropq,
 ASN1_OCTET_STRING *ossl_x509_pubkey_hash(X509_PUBKEY *pubkey);
 
 X509_PUBKEY *ossl_d2i_X509_PUBKEY_INTERNAL(const unsigned char **pp,
-                                           long len, OSSL_LIB_CTX *libctx);
+                                           long len, OSSL_LIB_CTX *libctx,
+                                           const char *propq);
 void ossl_X509_PUBKEY_INTERNAL_free(X509_PUBKEY *xpub);
 
 RSA *ossl_d2i_RSA_PSS_PUBKEY(RSA **a, const unsigned char **pp, long length);
@@ -364,7 +367,31 @@ int ossl_i2d_X448_PUBKEY(const ECX_KEY *a, unsigned char **pp);
 # endif /* OPENSSL_NO_EC */
 EVP_PKEY *ossl_d2i_PUBKEY_legacy(EVP_PKEY **a, const unsigned char **pp,
                                  long length);
+int ossl_x509_check_private_key(const EVP_PKEY *k, const EVP_PKEY *pkey);
 
 int x509v3_add_len_value_uchar(const char *name, const unsigned char *value,
                                size_t vallen, STACK_OF(CONF_VALUE) **extlist);
+/* Attribute addition functions not checking for duplicate attributes */
+STACK_OF(X509_ATTRIBUTE) *ossl_x509at_add1_attr(STACK_OF(X509_ATTRIBUTE) **x,
+                                                const X509_ATTRIBUTE *attr);
+STACK_OF(X509_ATTRIBUTE) *ossl_x509at_add1_attr_by_OBJ(STACK_OF(X509_ATTRIBUTE) **x,
+                                                       const ASN1_OBJECT *obj,
+                                                       int type,
+                                                       const unsigned char *bytes,
+                                                       int len);
+STACK_OF(X509_ATTRIBUTE) *ossl_x509at_add1_attr_by_NID(STACK_OF(X509_ATTRIBUTE) **x,
+                                                       int nid, int type,
+                                                       const unsigned char *bytes,
+                                                       int len);
+STACK_OF(X509_ATTRIBUTE) *ossl_x509at_add1_attr_by_txt(STACK_OF(X509_ATTRIBUTE) **x,
+                                                       const char *attrname,
+                                                       int type,
+                                                       const unsigned char *bytes,
+                                                       int len);
+                                            
+int ossl_print_attribute_value(BIO *out,
+                               int obj_nid,
+                               const ASN1_TYPE *av,
+                               int indent);
+
 #endif  /* OSSL_CRYPTO_X509_H */

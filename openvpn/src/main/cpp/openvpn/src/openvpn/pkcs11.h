@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -35,7 +35,7 @@ pkcs11_initialize(
     );
 
 void
-pkcs11_terminate();
+pkcs11_terminate(void);
 
 bool
 pkcs11_addProvider(
@@ -46,10 +46,10 @@ pkcs11_addProvider(
     );
 
 int
-pkcs11_logout();
+pkcs11_logout(void);
 
 int
-pkcs11_management_id_count();
+pkcs11_management_id_count(void);
 
 bool
 pkcs11_management_id_get(

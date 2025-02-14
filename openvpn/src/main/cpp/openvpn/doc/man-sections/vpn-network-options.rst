@@ -117,6 +117,16 @@ routing.
   figure out whether ``node`` is a TUN or TAP device based on the name,
   you should also specify ``--dev-type tun`` or ``--dev-type tap``.
 
+  If ``node`` starts with the string ``unix:`` openvpn will treat the rest
+  of the argument as a program.
+  OpenVPN will start the program and create a temporary unix domain socket that
+  will be passed to the program together with the tun configuration as
+  environment variables.  The temporary unix domain socket  will be be passed
+  in the environment variable :code:`TUNTAP_SOCKET_FD`.
+
+  This ``unix:`` mode is designed mainly to use with the lwipovpn network
+  emulator (https://github.com/OpenVPN/lwipovpn).
+
 --dev-type device-type
   Which device type are we using? ``device-type`` should be :code:`tun`
   (OSI Layer 3) or :code:`tap` (OSI Layer 2). Use this option only if
@@ -140,7 +150,7 @@ routing.
   Valid syntax:
   ::
 
-     dhcp-options type [parm]
+     dhcp-option type [parm]
 
   :code:`DOMAIN` ``name``
         Set Connection-specific DNS Suffix to :code:`name`.
@@ -235,7 +245,7 @@ routing.
   address and subnet mask just as a physical ethernet adapter would be
   similarly configured. If you are attempting to connect to a remote
   ethernet bridge, the IP address and subnet should be set to values which
-  would be valid on the the bridged ethernet segment (note also that DHCP
+  would be valid on the bridged ethernet segment (note also that DHCP
   can be used for the same purpose).
 
   This option, while primarily a proxy for the ``ifconfig``\(8) command,
@@ -302,6 +312,15 @@ routing.
   :code:`SIGUSR1` is a restart signal similar to :code:`SIGHUP`, but which
   offers finer-grained control over reset options.
 
+  On Linux, this option can be useful when OpenVPN is not executed as
+  root and the CAP_NET_ADMIN has not been granted, because the process
+  would otherwise not be allowed to bring the interface down and back up.
+
+  Alongside the above, using ``--persist-tun`` allows the tunnel interface
+  to retain all IP/route settings, thus allowing the user to implement
+  any advanced traffic leaking protection (please note that for full
+  protection, extra route/firewall rules must be in place).
+
 --redirect-gateway flags
   Automatically execute routing commands to cause all outgoing IP traffic
   to be redirected over the VPN. This is a client-side option.
@@ -352,6 +371,10 @@ routing.
       Block access to local LAN when the tunnel is active, except for
       the LAN gateway itself. This is accomplished by routing the local
       LAN (except for the LAN gateway address) into the tunnel.
+      On Windows WFP filters are added in addition to the routes which
+      block access to resources not routed through the VPN adapter.
+      Push this flag to protect against TunnelCrack type of attacks
+      (see: https://tunnelcrack.mathyvanhoef.com/).
 
   :code:`ipv6`
       Redirect IPv6 routing into the tunnel. This works similar to
@@ -420,7 +443,7 @@ routing.
 
        route-delay
        route-delay n
-       route-delay n m
+       route-delay n w
 
   Delay ``n`` seconds (default :code:`0`) after connection establishment,
   before adding routes. If ``n`` is :code:`0`, routes will be added
@@ -434,7 +457,7 @@ routing.
   to complete before routes are added.
 
   On Windows, ``--route-delay`` tries to be more intelligent by waiting
-  ``w`` seconds (default :code:`30` by default) for the TAP-Win32 adapter
+  ``w`` seconds (default :code:`30`) for the TAP-Win32 adapter
   to come up before adding routes.
 
 --route-ipv6 args
@@ -495,11 +518,17 @@ routing.
 
   ``mode`` can be one of:
 
+  :code:`subnet`
+    Use a subnet rather than a point-to-point topology by
+    configuring the tun interface with a local IP address and subnet mask,
+    similar to the topology used in ``--dev tap`` and ethernet bridging
+    mode. This mode allocates a single IP address per connecting client and
+    works on Windows as well. This is the default.
+
   :code:`net30`
     Use a point-to-point topology, by allocating one /30 subnet
     per client. This is designed to allow point-to-point semantics when some
-    or all of the connecting clients might be Windows systems. This is the
-    default on OpenVPN 2.0.
+    or all of the connecting clients might be Windows systems.
 
   :code:`p2p`
     Use a point-to-point topology where the remote endpoint of
@@ -508,20 +537,8 @@ routing.
     connecting client. Only use when none of the connecting clients are
     Windows systems.
 
-  :code:`subnet`
-    Use a subnet rather than a point-to-point topology by
-    configuring the tun interface with a local IP address and subnet mask,
-    similar to the topology used in ``--dev tap`` and ethernet bridging
-    mode. This mode allocates a single IP address per connecting client and
-    works on Windows as well. Only available when server and clients are
-    OpenVPN 2.1 or higher, or OpenVPN 2.0.x which has been manually patched
-    with the ``--topology`` directive code. When used on Windows, requires
-    version 8.2 or higher of the TAP-Win32 driver. When used on \*nix,
-    requires that the tun driver supports an ``ifconfig``\(8) command which
-    sets a subnet instead of a remote endpoint IP address.
-
   *Note:* Using ``--topology subnet`` changes the interpretation of the
-  arguments of ``--ifconfig`` to mean "address netmask", no longer "local
+  arguments of ``--ifconfig`` to mean "address netmask", and not "local
   remote".
 
 --tun-mtu args
@@ -553,7 +570,7 @@ routing.
   It's best to use the ``--fragment`` and/or ``--mssfix`` options to deal
   with MTU sizing issues.
 
-  Note: Depending on the platform, the operating system allows to receive
+  Note: Depending on the platform, the operating system allows one to receive
   packets larger than ``tun-mtu`` (e.g. Linux and FreeBSD) but other platforms
   (like macOS) limit received packets to the same size as the MTU.
 
@@ -589,7 +606,7 @@ These two standalone operations will require ``--dev`` and optionally
   One of the advantages of persistent tunnels is that they eliminate the
   need for separate ``--up`` and ``--down`` scripts to run the appropriate
   ``ifconfig``\(8) and ``route``\(8) commands. These commands can be
-  placed in the the same shell script which starts or terminates an
+  placed in the same shell script which starts or terminates an
   OpenVPN session.
 
   Another advantage is that open connections through the TUN/TAP-based

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 //
 
 #pragma once
@@ -28,8 +18,7 @@
 #include <openvpn/tun/persist/tunpersist.hpp>
 #include <openvpn/tun/win/client/tunsetup.hpp>
 
-namespace openvpn {
-namespace TunWin {
+namespace openvpn::TunWin {
 
 // These types manage the underlying TAP driver HANDLE
 typedef openvpn_io::windows::stream_handle TAPStream;
@@ -84,20 +73,24 @@ class ClientConfig : public TunClientFactory
         return new ClientConfig;
     }
 
-    virtual TunClient::Ptr new_tun_client_obj(openvpn_io::io_context &io_context,
-                                              TunClientParent &parent,
-                                              TransportClient *transcli) override;
+    TunClient::Ptr new_tun_client_obj(openvpn_io::io_context &io_context,
+                                      TunClientParent &parent,
+                                      TransportClient *transcli) override;
 
-    virtual void finalize(const bool disconnected) override
+    bool supports_proto_v3() override
+    {
+        return tun_type != TunWin::OvpnDco;
+    }
+
+    void finalize(const bool disconnected) override
     {
         if (disconnected)
             tun_persist.reset();
     }
 
-    virtual bool layer_2_supported() const override
+    bool layer_2_supported() const override
     {
         return true;
     }
 };
-} // namespace TunWin
-} // namespace openvpn
+} // namespace openvpn::TunWin

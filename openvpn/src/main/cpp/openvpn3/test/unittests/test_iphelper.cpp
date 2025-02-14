@@ -4,22 +4,14 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
+
 
 #include <fstream>
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/common/argv.hpp>
 #include <openvpn/win/call.hpp>
@@ -42,7 +34,7 @@ class IpHelperTest : public testing::Test
         ::GetBestInterface(addr, &tap.index);
     }
 
-    virtual void TearDown()
+    virtual void TearDown() override
     {
         remove_cmds.execute(os);
         remove_cmds.clear();

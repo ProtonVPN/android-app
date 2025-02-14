@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -8,11 +8,10 @@
  */
 
 #include <stddef.h>
-#include <string.h>
 #include <stdio.h>
 #include <openssl/e_os2.h>
 #include "crypto/punycode.h"
-#include "internal/cryptlib.h"
+#include "internal/common.h" /* for HAS_PREFIX */
 #include "internal/packet.h" /* for WPACKET */
 
 static const unsigned int base = 36;
@@ -271,7 +270,7 @@ int ossl_a2ulabel(const char *in, char *out, size_t outlen)
         char *tmpptr = strchr(inptr, '.');
         size_t delta = tmpptr != NULL ? (size_t)(tmpptr - inptr) : strlen(inptr);
 
-        if (strncmp(inptr, "xn--", 4) != 0) {
+        if (!HAS_PREFIX(inptr, "xn--")) {
             if (!WPACKET_memcpy(&pkt, inptr, delta))
                 result = 0;
         } else {
@@ -310,23 +309,4 @@ int ossl_a2ulabel(const char *in, char *out, size_t outlen)
  end:
     WPACKET_cleanup(&pkt);
     return result;
-}
-
-/*-
- * a MUST be A-label
- * u MUST be U-label
- * Returns 0 if compared values are equal
- * 1 if not
- * -1 in case of errors
- */
-
-int ossl_a2ucompare(const char *a, const char *u)
-{
-    char a_ulabel[LABEL_BUF_SIZE + 1];
-    size_t a_size = sizeof(a_ulabel);
-
-    if (ossl_a2ulabel(a, a_ulabel, a_size) <= 0)
-        return -1;
-
-    return strcmp(a_ulabel, u) != 0;
 }

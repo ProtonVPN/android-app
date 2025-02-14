@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -57,7 +47,7 @@ class TLSSessionTicketBase
       public:
         static constexpr size_t SIZE = 16;
 
-        explicit Name(RandomAPI &rng)
+        explicit Name(StrongRandomAPI &rng)
         {
             rng.rand_bytes(value_, SIZE);
         }
@@ -104,7 +94,7 @@ class TLSSessionTicketBase
         }
 
 #ifdef USE_OPENVPN_HASH
-        std::size_t hashval() const
+        std::uint64_t hashval() const
         {
             Hash64 h;
             hash(h);
@@ -130,9 +120,8 @@ class TLSSessionTicketBase
         static constexpr size_t CIPHER_KEY_SIZE = 32;
         static constexpr size_t HMAC_KEY_SIZE = 16;
 
-        explicit Key(RandomAPI &rng)
+        explicit Key(StrongRandomAPI &rng)
         {
-            rng.assert_crypto();
             rng.rand_bytes(cipher_value_, CIPHER_KEY_SIZE);
             rng.rand_bytes(hmac_value_, HMAC_KEY_SIZE);
         }
@@ -223,9 +212,7 @@ class TLSSessionTicketBase
     // return string that identifies the app
     virtual std::string session_id_context() const = 0;
 
-    virtual ~TLSSessionTicketBase()
-    {
-    }
+    virtual ~TLSSessionTicketBase() = default;
 
   private:
     static void b64_to_key(const std::string &b64, const char *title, unsigned char *out, const size_t outlen)

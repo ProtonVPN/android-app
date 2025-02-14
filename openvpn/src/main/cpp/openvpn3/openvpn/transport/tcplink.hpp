@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Low-level TCP transport object.
 
@@ -44,13 +34,12 @@
 #include <openvpn/transport/gremlin.hpp>
 #endif
 
-namespace openvpn {
-namespace TCPTransport {
+namespace openvpn::TCPTransport {
 
 template <typename Protocol, typename ReadHandler, bool RAW_MODE_ONLY>
-class Link : public LinkCommon<Protocol,
-                               ReadHandler,
-                               RAW_MODE_ONLY>
+class TCPLink : public LinkCommon<Protocol,
+                                  ReadHandler,
+                                  RAW_MODE_ONLY>
 {
     typedef std::deque<BufferPtr> Queue;
 
@@ -59,18 +48,18 @@ class Link : public LinkCommon<Protocol,
                        ReadHandler,
                        RAW_MODE_ONLY>
         Base;
-    typedef RCPtr<Link> Ptr;
+    typedef RCPtr<TCPLink> Ptr;
 
     typedef Protocol protocol;
 
     friend Base;
 
-    Link(ReadHandler read_handler_arg,
-         typename Protocol::socket &socket_arg,
-         const size_t send_queue_max_size_arg, // 0 to disable
-         const size_t free_list_max_size_arg,
-         const Frame::Context &frame_context_arg,
-         const SessionStats::Ptr &stats_arg)
+    TCPLink(ReadHandler read_handler_arg,
+            typename Protocol::socket &socket_arg,
+            const size_t send_queue_max_size_arg, // 0 to disable
+            const size_t free_list_max_size_arg,
+            const Frame::Context &frame_context_arg,
+            const SessionStats::Ptr &stats_arg)
         : Base(read_handler_arg,
                socket_arg,
                send_queue_max_size_arg,
@@ -99,7 +88,6 @@ class Link : public LinkCommon<Protocol,
             Base::queue_recv(pfp.release()); // reuse PacketFrom object
     }
 };
-} // namespace TCPTransport
-} // namespace openvpn
+} // namespace openvpn::TCPTransport
 
 #endif

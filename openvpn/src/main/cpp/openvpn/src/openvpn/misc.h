@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -60,6 +60,7 @@ struct user_pass
      * use this second bool to track if the token (password) is defined */
     bool token_defined;
     bool nocache;
+    bool protected;
 
 /* max length of username/password */
 #ifdef ENABLE_PKCS11
@@ -86,13 +87,12 @@ struct auth_challenge_info {
     const char *challenge_text;
 };
 
-struct auth_challenge_info *get_auth_challenge(const char *auth_challenge, struct gc_arena *gc);
-
 /*
  * Challenge response info on client as pushed by server.
  */
 struct static_challenge_info {
 #define SC_ECHO     (1<<0)  /* echo response when typed by user */
+#define SC_CONCAT   (1<<1)  /* concatenate password and response and do not base64 encode */
     unsigned int flags;
 
     const char *challenge_text;
@@ -119,13 +119,33 @@ struct static_challenge_info {};
 #define GET_USER_PASS_STATIC_CHALLENGE_ECHO  (1<<9) /* SCRV1 protocol -- echo response */
 
 #define GET_USER_PASS_INLINE_CREDS (1<<10)  /* indicates that auth_file is actually inline creds */
+#define GET_USER_PASS_STATIC_CHALLENGE_CONCAT (1<<11)  /* indicates password and response should be concatenated */
 
+/**
+ * Retrieves the user credentials from various sources depending on the flags.
+ *
+ * @param up The user_pass structure to store the retrieved credentials.
+ * @param auth_file The path to the authentication file. Might be NULL.
+ * @param prefix The prefix to prepend to user prompts.
+ * @param flags Additional flags to control the behavior of the function.
+ * @param auth_challenge The authentication challenge string.
+ * @return true if the user credentials were successfully retrieved, false otherwise.
+ */
 bool get_user_pass_cr(struct user_pass *up,
                       const char *auth_file,
                       const char *prefix,
                       const unsigned int flags,
                       const char *auth_challenge);
 
+/**
+ * Retrieves the user credentials from various sources depending on the flags.
+ *
+ * @param up The user_pass structure to store the retrieved credentials.
+ * @param auth_file The path to the authentication file. Might be NULL.
+ * @param prefix The prefix to prepend to user prompts.
+ * @param flags Additional flags to control the behavior of the function.
+ * @return true if the user credentials were successfully retrieved, false otherwise.
+ */
 static inline bool
 get_user_pass(struct user_pass *up,
               const char *auth_file,
@@ -135,26 +155,18 @@ get_user_pass(struct user_pass *up,
     return get_user_pass_cr(up, auth_file, prefix, flags, NULL);
 }
 
-void fail_user_pass(const char *prefix,
-                    const unsigned int flags,
-                    const char *reason);
-
 void purge_user_pass(struct user_pass *up, const bool force);
 
 /**
- * Sets the auth-token to token. If a username is available from
- * either up or already present in tk that will be used as default
- * username for the token. The method will also purge up if
+ * Sets the auth-token to token. The method will also purge up if
  * the auth-nocache option is active.
  *
- * @param up        (non Auth-token) Username/password
  * @param tk        auth-token userpass to set
  * @param token     token to use as password for the auth-token
  *
  * @note    all parameters to this function must not be null.
  */
-void set_auth_token(struct user_pass *up, struct user_pass *tk,
-                    const char *token);
+void set_auth_token(struct user_pass *tk, const char *token);
 
 /**
  * Sets the auth-token username by base64 decoding the passed
@@ -174,9 +186,6 @@ void set_auth_token_user(struct user_pass *tk, const char *username);
  */
 const char *safe_print(const char *str, struct gc_arena *gc);
 
-
-void configure_path(void);
-
 const char *sanitize_control_message(const char *str, struct gc_arena *gc);
 
 /*
@@ -193,24 +202,23 @@ bool validate_peer_info_line(char *line);
 void output_peer_info_env(struct env_set *es, const char *peer_info);
 
 /**
- * Returns the occurrences of 'delimiter' in a string +1
- * This is typically used to find out the number elements in a
- * cipher string or similar that is separated by : like
- *
- *   X25519:secp256r1:X448:secp512r1:secp384r1:brainpoolP384r1
- *
- * @param string        the string to work on
- * @param delimiter     the delimiter to count, typically ':'
- * @return              occrrences of delimiter + 1
- */
-int
-get_num_elements(const char *string, char delimiter);
-
-/**
  * Prepend a directory to a path.
  */
 struct buffer
 prepend_dir(const char *dir, const char *path, struct gc_arena *gc);
+
+/**
+ * Encrypt username and password buffers in user_pass
+ */
+void
+protect_user_pass(struct user_pass *up);
+
+/**
+ * Decrypt username and password buffers in user_pass
+ */
+void
+unprotect_user_pass(struct user_pass *up);
+
 
 #define _STRINGIFY(S) #S
 /* *INDENT-OFF* - uncrustify need to ignore this macro */

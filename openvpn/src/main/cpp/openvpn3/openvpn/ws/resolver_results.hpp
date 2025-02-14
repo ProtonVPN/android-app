@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -26,14 +16,13 @@
 #include <openvpn/random/randapi.hpp>
 #include <openvpn/addr/ip.hpp>
 
-namespace openvpn {
-namespace WS {
+namespace openvpn::WS {
 
-// These methods become no-ops unless building with a patched Asio and C++14 or higher.
+// These methods become no-ops unless building with a patched Asio.
 // Define ASIO_RESOLVER_RESULTS_DATA_REQUIRED to force an error if these methods
 // cannot be compiled.
 
-#if defined(HAVE_ASIO_RESOLVER_RESULTS_DATA) && __cplusplus >= 201402L
+#if defined(HAVE_ASIO_RESOLVER_RESULTS_DATA)
 
 template <typename RESULTS>
 inline void randomize_results(RESULTS &results, RandomAPI &prng)
@@ -73,7 +62,7 @@ inline void filter_by_ip_version(RESULTS &results, const IP::Addr::Version ip_ve
 }
 
 #elif defined(ASIO_RESOLVER_RESULTS_DATA_REQUIRED)
-#error ASIO_RESOLVER_RESULTS_DATA_REQUIRED is defined but Asio results data are not available or compiler is pre-C++14
+#error ASIO_RESOLVER_RESULTS_DATA_REQUIRED is defined but Asio results data are not available
 #else
 
 template <typename RESULTS>
@@ -88,5 +77,4 @@ inline void filter_by_ip_version(RESULTS &results, const IP::Addr::Version ip_ve
 
 #endif
 
-} // namespace WS
-} // namespace openvpn
+} // namespace openvpn::WS

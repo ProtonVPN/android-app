@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 //
 
 #pragma once
@@ -34,8 +24,7 @@
 
 #define MBEDTLS_MAX_SUBJECT_LENGTH 256
 
-namespace openvpn {
-namespace MbedTLSPKI {
+namespace openvpn::MbedTLSPKI {
 
 /**
  *  Retrieve the complete X.509 Certificate Subject field
@@ -138,5 +127,4 @@ static std::string x509_get_common_name(const mbedtls_x509_crt *cert)
                  : std::string(""));
 }
 
-} // namespace MbedTLSPKI
-} // namespace openvpn
+} // namespace openvpn::MbedTLSPKI

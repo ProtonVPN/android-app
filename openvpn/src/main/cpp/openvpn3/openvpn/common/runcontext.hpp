@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Manage a pool of threads for a multi-threaded server.
 //
@@ -200,13 +190,13 @@ class RunContext : public RunContextBase
             log_history.reset(new std::vector<RunContextLogEntry>());
     }
 
-    virtual void disable_log_history() override
+    void disable_log_history() override
     {
         std::lock_guard<std::recursive_mutex> lock(mutex);
         log_history.reset();
     }
 
-    virtual std::vector<RunContextLogEntry> add_log_observer(const unsigned int unit) override
+    std::vector<RunContextLogEntry> add_log_observer(const unsigned int unit) override
     {
         std::lock_guard<std::recursive_mutex> lock(mutex);
         auto lu = std::find(log_observers.begin(), log_observers.end(), unit);
@@ -225,9 +215,9 @@ class RunContext : public RunContextBase
         exit_sock->async_read_some(openvpn_io::null_buffers(),
                                    [self = Ptr(this)](const openvpn_io::error_code &error, const size_t bytes_recvd)
                                    {
-            if (!error)
-                self->cancel();
-        });
+                                       if (!error)
+                                           self->cancel();
+                                   });
     }
 #endif
 
@@ -276,7 +266,7 @@ class RunContext : public RunContextBase
         OPENVPN_LOG(thread_name << " thread exception: " << e.what());
     }
 
-    virtual void log(const std::string &str) override
+    void log(const std::string &str) override
     {
         time_t now;
         const std::string ts = date_time_store_time_t(now);
@@ -300,7 +290,7 @@ class RunContext : public RunContextBase
     }
 
     // called from main or worker thread
-    virtual void cancel() override
+    void cancel() override
     {
         if (halt)
             return;
@@ -349,7 +339,7 @@ class RunContext : public RunContextBase
         stats = stats_arg;
     }
 
-    virtual Stop *async_stop() override
+    Stop *async_stop() override
     {
         return async_stop_;
     }

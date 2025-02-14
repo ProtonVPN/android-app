@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Base class and factory for compression/decompression objects.
 // Currently we support LZO, Snappy, and LZ4 implementations.
@@ -32,23 +22,17 @@
 #include <openvpn/buffer/buffer.hpp>
 #include <openvpn/frame/frame.hpp>
 #include <openvpn/log/sessionstats.hpp>
-
-#define OPENVPN_LOG_COMPRESS(x)
-#define OPENVPN_LOG_COMPRESS_VERBOSE(x)
-
-#if defined(OPENVPN_DEBUG_COMPRESS)
-#if OPENVPN_DEBUG_COMPRESS >= 1
-#undef OPENVPN_LOG_COMPRESS
-#define OPENVPN_LOG_COMPRESS(x) OPENVPN_LOG(x)
-#endif
-#if OPENVPN_DEBUG_COMPRESS >= 2
-#undef OPENVPN_LOG_COMPRESS_VERBOSE
-#define OPENVPN_LOG_COMPRESS_VERBOSE(x) OPENVPN_LOG(x)
-#endif
-#endif
+#include <openvpn/log/logger.hpp>
 
 namespace openvpn {
-class Compress : public RC<thread_unsafe_refcount>
+
+//! Debugging level for message emitted from compression
+#if !defined(OPENVPN_DEBUG_COMPRESS)
+#define OPENVPN_DEBUG_COMPRESS 1
+#endif
+
+class Compress : public RC<thread_unsafe_refcount>,
+                 public logging::LoggingMixin<OPENVPN_DEBUG_COMPRESS, logging::LOG_LEVEL_TRACE, Compress>
 {
   public:
     typedef RCPtr<Compress> Ptr;
@@ -221,10 +205,10 @@ class CompressContext
         {
         case NONE:
             return new CompressNull(frame, stats);
-        case ANY:
         case ANY_LZO:
         case LZO_STUB:
             return new CompressStub(frame, stats, false);
+        case ANY:
         case COMP_STUB:
             return new CompressStub(frame, stats, true);
         case COMP_STUBv2:

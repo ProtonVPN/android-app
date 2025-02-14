@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMPRESS_SNAPPY_H
 #define OPENVPN_COMPRESS_SNAPPY_H
@@ -42,15 +32,15 @@ class CompressSnappy : public Compress
         : Compress(frame, stats),
           asym(asym_arg)
     {
-        OPENVPN_LOG_COMPRESS("SNAPPY init asym=" << asym_arg);
+        OVPN_LOG_INFO("SNAPPY init asym=" << asym_arg);
     }
 
-    virtual const char *name() const
+    const char *name() const override
     {
         return "snappy";
     }
 
-    virtual void compress(BufferAllocated &buf, const bool hint)
+    void compress(BufferAllocated &buf, const bool hint) override
     {
         // skip null packets
         if (!buf.size())
@@ -75,7 +65,7 @@ class CompressSnappy : public Compress
             // did compression actually reduce data length?
             if (comp_size < buf.size())
             {
-                OPENVPN_LOG_COMPRESS_VERBOSE("SNAPPY compress " << buf.size() << " -> " << comp_size);
+                OVPN_LOG_VERBOSE("SNAPPY compress " << buf.size() << " -> " << comp_size);
                 work.set_size(comp_size);
                 do_swap(work, SNAPPY_COMPRESS);
                 buf.swap(work);
@@ -87,7 +77,7 @@ class CompressSnappy : public Compress
         do_swap(buf, NO_COMPRESS_SWAP);
     }
 
-    virtual void decompress(BufferAllocated &buf)
+    void decompress(BufferAllocated &buf) override
     {
         // skip null packets
         if (!buf.size())
@@ -119,7 +109,7 @@ class CompressSnappy : public Compress
                     error(buf);
                     break;
                 }
-                OPENVPN_LOG_COMPRESS_VERBOSE("SNAPPY uncompress " << buf.size() << " -> " << decomp_size);
+                OVPN_LOG_VERBOSE("SNAPPY uncompress " << buf.size() << " -> " << decomp_size);
                 work.set_size(decomp_size);
                 buf.swap(work);
             }

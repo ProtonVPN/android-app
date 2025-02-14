@@ -4,73 +4,69 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2023 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef OPENVPN_COMMON_WSTRING_H
-#define OPENVPN_COMMON_WSTRING_H
+#pragma once
+
+#ifdef _WIN32
 
 #include <string>
 #include <vector>
-#include <locale>
-#include <codecvt>
 #include <memory>
 
-namespace openvpn {
-namespace wstring {
+namespace openvpn::wstring {
 
+/**
+ * @brief Convert a UTF-8 string to UTF-16
+ *
+ * @param str           The UTF-8 string to be converted
+ * @return std::wstring The converted UTF-16 string
+ */
 inline std::wstring from_utf8(const std::string &str)
 {
-#ifdef WIN32
     std::wstring wStr; // enable RVO
     if (str.empty())
         return wStr;
-    const auto reqSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+    const int str_size = static_cast<int>(str.size());
+    const auto reqSize = ::MultiByteToWideChar(CP_UTF8, 0, str.data(), str_size, nullptr, 0);
     if (reqSize == 0)
         throw std::runtime_error("MultiByteToWideChar(1) failed with code: [" + std::to_string(::GetLastError()) + "]");
     wStr.resize(reqSize, L'\0'); // Allocate space
-    if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &wStr[0], reqSize) == 0)
+    if (::MultiByteToWideChar(CP_UTF8, 0, str.data(), str_size, wStr.data(), reqSize) == 0)
         throw std::runtime_error("MultiByteToWideChar(2) failed with code: [" + std::to_string(::GetLastError()) + "]");
     return wStr;
-#else
-    typedef std::codecvt_utf8<wchar_t> cvt_type;
-    std::wstring_convert<cvt_type, wchar_t> cvt;
-    return cvt.from_bytes(str);
-#endif
 }
 
+/**
+ * @brief Convert a UTF-16 string to UTF-8
+ *
+ * @param wstr          The UTF-16 string to be converted
+ * @return std::string  The converted UTF-8 string
+ */
 inline std::string to_utf8(const std::wstring &wstr)
 {
-#ifdef WIN32
     std::string str; // For RVO
     if (wstr.empty())
         return str;
-    const auto reqSize = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    const int wstr_size = static_cast<int>(wstr.size());
+    const auto reqSize = ::WideCharToMultiByte(CP_UTF8, 0, wstr.data(), wstr_size, nullptr, 0, nullptr, nullptr);
     if (reqSize == 0)
         throw std::runtime_error("WideCharToMultiByte(1) failed with code: [" + std::to_string(::GetLastError()) + "]");
     str.resize(reqSize, '\0'); // Allocate space
-    if (WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &str[0], reqSize, nullptr, nullptr) == 0)
+    if (::WideCharToMultiByte(CP_UTF8, 0, wstr.data(), wstr_size, str.data(), reqSize, nullptr, nullptr) == 0)
         throw std::runtime_error("WideCharToMultiByte(2) failed with code: [" + std::to_string(::GetLastError()) + "]");
     return str;
-#else
-    typedef std::codecvt_utf8<wchar_t> cvt_type;
-    std::wstring_convert<cvt_type, wchar_t> cvt;
-    return cvt.to_bytes(wstr);
-#endif
 }
 
+/**
+ * @brief Split a wide character string into a C array of it's letters
+ *
+ * @param wstr                          The wide string to be split
+ * @return std::unique_ptr<wchar_t[]>   Smart pointer to the generated array
+ */
 inline std::unique_ptr<wchar_t[]> to_wchar_t(const std::wstring &wstr)
 {
     const size_t len = wstr.length();
@@ -82,18 +78,32 @@ inline std::unique_ptr<wchar_t[]> to_wchar_t(const std::wstring &wstr)
     return ret;
 }
 
-// return value corresponds to the MULTI_SZ string format on Windows
+/**
+ * @brief Convert a UTF-8 string vector to a UTF-16 MULTI_SZ string
+ *
+ * MULTI_SZ is a format used in the Windows Registry. It's a buffer
+ * containing multiple NUL terminated strings concatenated with each
+ * other, with an extra NUL at the end to signal termination of the
+ * MULTI_SZ string itself.
+ *
+ * @param strvec        The vector of strings to convert
+ * @return std::wstring The converted MULTI_SZ string
+ */
 inline std::wstring pack_string_vector(const std::vector<std::string> &strvec)
 {
+    if (strvec.empty())
+    {
+        return std::wstring(2, L'\0'); // empty MULTI_SZ
+    }
     std::wstring ret;
     for (auto &s : strvec)
     {
         ret += from_utf8(s);
         ret += L'\0';
     }
+    ret += L'\0';
     return ret;
 }
-} // namespace wstring
-} // namespace openvpn
 
-#endif
+#endif // #ifdef _WIN32
+}

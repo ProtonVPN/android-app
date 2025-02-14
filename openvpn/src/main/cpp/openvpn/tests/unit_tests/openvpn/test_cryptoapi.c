@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2023 Selva Nair <selva.nair@gmail.com>
+ *  Copyright (C) 2023-2024 Selva Nair <selva.nair@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by the
@@ -24,8 +24,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -42,6 +40,7 @@
 #include <openssl/core_names.h>
 #include <openssl/evp.h>
 #include <openssl/pkcs12.h>
+#include "test_common.h"
 
 #include <cryptoapi.h>
 #include <cryptoapi.c> /* pull-in the whole file to test static functions */
@@ -58,6 +57,17 @@ management_query_pk_sig(struct management *man, const char *b64_data,
     (void) b64_data;
     (void) algorithm;
     return NULL;
+}
+
+/* replacement for crypto_print_openssl_errors() */
+void
+crypto_print_openssl_errors(const unsigned int flags)
+{
+    unsigned long e;
+    while ((e = ERR_get_error()))
+    {
+        msg(flags, "OpenSSL error %lu: %s\n", e, ERR_error_string(e, NULL));
+    }
 }
 
 /* tls_libctx is defined in ssl_openssl.c which we do not want to compile in */
@@ -261,7 +271,7 @@ test_find_cert_bythumb(void **state)
 
     for (struct test_cert *c = certs; c->cert; c++)
     {
-        openvpn_snprintf(select_string, sizeof(select_string), "THUMB:%s", c->hash);
+        snprintf(select_string, sizeof(select_string), "THUMB:%s", c->hash);
         ctx = find_certificate_in_store(select_string, user_store);
         if (ctx)
         {
@@ -294,7 +304,7 @@ test_find_cert_byname(void **state)
 
     for (struct test_cert *c = certs; c->cert; c++)
     {
-        openvpn_snprintf(select_string, sizeof(select_string), "SUBJ:%s", c->cname);
+        snprintf(select_string, sizeof(select_string), "SUBJ:%s", c->cname);
         ctx = find_certificate_in_store(select_string, user_store);
         /* In this case we expect a successful return as there is at least one valid
          * cert that matches the common name. But the returned cert may not exactly match
@@ -327,7 +337,7 @@ test_find_cert_byissuer(void **state)
 
     for (struct test_cert *c = certs; c->cert; c++)
     {
-        openvpn_snprintf(select_string, sizeof(select_string), "ISSUER:%s", c->issuer);
+        snprintf(select_string, sizeof(select_string), "ISSUER:%s", c->issuer);
         ctx = find_certificate_in_store(select_string, user_store);
         /* In this case we expect a successful return as there is at least one valid
          * cert that matches the issuer. But the returned cert may not exactly match
@@ -401,7 +411,7 @@ test_cryptoapi_sign(void **state)
         {
             continue;
         }
-        openvpn_snprintf(select_string, sizeof(select_string), "THUMB:%s", c->hash);
+        snprintf(select_string, sizeof(select_string), "THUMB:%s", c->hash);
         if (Load_CryptoAPI_certificate(select_string, &x509, &privkey) != 1)
         {
             fail_msg("Load_CryptoAPI_certificate failed: <%s>", c->friendly_name);
@@ -436,7 +446,7 @@ test_ssl_ctx_use_cryptoapicert(void **state)
         SSL_CTX *ssl_ctx = SSL_CTX_new_ex(tls_libctx, NULL, SSLv23_client_method());
         assert_non_null(ssl_ctx);
 
-        openvpn_snprintf(select_string, sizeof(select_string), "THUMB:%s", c->hash);
+        snprintf(select_string, sizeof(select_string), "THUMB:%s", c->hash);
         if (!SSL_CTX_use_CryptoAPI_certificate(ssl_ctx, select_string))
         {
             fail_msg("SSL_CTX_use_CryptoAPI_certificate failed: <%s>", c->friendly_name);
@@ -477,6 +487,7 @@ test_parse_hexstring(void **state)
 int
 main(void)
 {
+    openvpn_unit_test_setup();
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_parse_hexstring),
         cmocka_unit_test(import_certs),

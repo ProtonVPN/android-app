@@ -4,19 +4,11 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
+
 
 #pragma once
 
@@ -31,13 +23,6 @@
 #include <gtest/gtest.h>
 #include <fstream>
 #include <mutex>
-
-// does <regex> work?
-#if defined(__clang__) || !defined(__GNUC__) || __GNUC__ >= 5
-#define REGEX_WORKS 1
-#else
-#define REGEX_WORKS 0
-#endif
 
 namespace openvpn {
 class LogOutputCollector : public LogBase
@@ -310,7 +295,7 @@ class FakeAsyncResolvable : public RESOLVABLE
             EndpointType ep(openvpn_io::ip::make_address(result.first), result.second);
             endpoints.push_back(ep);
         }
-        results_[host + ":" + service] = endpoints;
+        results_[host + ":" + service] = std::move(endpoints);
     }
 
     FakeAsyncResolvable(CTOR_ARGS... args)
@@ -346,7 +331,7 @@ class FakeAsyncResolvable : public RESOLVABLE
  * its maximum range is [0x03020100, 0xfffefdfc]. Especially the lower
  * bound makes the std::shuffle implementation in libc++ loop endlessly.
  */
-class FakeSecureRand : public openvpn::RandomAPI
+class FakeSecureRand : public openvpn::StrongRandomAPI
 {
   public:
     FakeSecureRand(const unsigned char initial = 0)
@@ -357,11 +342,6 @@ class FakeSecureRand : public openvpn::RandomAPI
     virtual std::string name() const override
     {
         return "FakeRNG";
-    }
-
-    virtual bool is_crypto() const override
-    {
-        return true;
     }
 
     virtual void rand_bytes(unsigned char *buf, size_t size) override
@@ -385,6 +365,48 @@ class FakeSecureRand : public openvpn::RandomAPI
     }
 
     unsigned char next;
+};
+
+class unit_test_uniform_int_distribution
+{
+    /* std::uniform_int_distribution is unfortunately implementation specific and generates different
+     * random numbers on different platforms. So use our own implementation to guarantee it for the unit tests.
+     *
+     * Based on https://arxiv.org/abs/1805.10941
+     *
+     * No guarantees that it is implemented correctly but even a bad implementation is good enough for unit tests
+     * if it is deterministic */
+
+  public:
+    template <typename generator>
+    uint32_t operator()(generator &prng)
+    {
+        /* Get random number in (0, range) first */
+        uint32_t range = B - A + 1;
+
+        uint64_t product = uint64_t{prng()} * uint64_t{range};
+
+        uint32_t low = static_cast<uint32_t>(product);
+
+        if (low < range)
+        {
+            uint32_t threshold = -range % range;
+            while (low < threshold)
+            {
+                product = uint64_t{prng()} * uint64_t{range};
+                low = static_cast<uint32_t>(product);
+            }
+        }
+        return A + (product >> 32u);
+    }
+
+    explicit unit_test_uniform_int_distribution(uint32_t low = 0, uint32_t high = std::numeric_limits<uint32_t>::max())
+        : A(low), B(high)
+    {
+    }
+
+    std::uint32_t A;
+    std::uint32_t B;
 };
 
 // googletest is missing the ability to test for specific

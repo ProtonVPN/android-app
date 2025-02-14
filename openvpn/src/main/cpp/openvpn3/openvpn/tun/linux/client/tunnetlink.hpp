@@ -4,40 +4,29 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
 #include <sys/ioctl.h>
 #include <fcntl.h>
-#include <errno.h>
 #include <net/if.h>
 #include <linux/if_tun.h>
 
 #include <openvpn/asio/asioerr.hpp>
 #include <openvpn/netconf/linux/gwnetlink.hpp>
 #include <openvpn/common/action.hpp>
+#include <openvpn/common/numeric_cast.hpp>
 #include <openvpn/tun/builder/setup.hpp>
 #include <openvpn/tun/client/tunbase.hpp>
 #include <openvpn/tun/client/tunconfigflags.hpp>
 #include <openvpn/tun/linux/client/sitnl.hpp>
 #include <openvpn/tun/linux/client/tunsetup.hpp>
 
-namespace openvpn {
-namespace TunNetlink {
+namespace openvpn::TunNetlink {
 
 using namespace openvpn::TunLinuxSetup;
 
@@ -67,15 +56,13 @@ struct NetlinkLinkSet : public Action
 
     virtual void execute(std::ostream &os) override
     {
-        int ret;
-
         if (dev.empty())
         {
             os << "Error: can't call NetlinkLinkSet with no interface" << std::endl;
             return;
         }
 
-        ret = SITNL::net_iface_mtu_set(dev, mtu);
+        auto ret = SITNL::net_iface_mtu_set(dev, mtu);
         if (ret)
         {
             os << "Error while executing NetlinkLinkSet " << dev << " mtu " << mtu
@@ -112,7 +99,7 @@ struct NetlinkAddr4 : public Action
 
     NetlinkAddr4(std::string dev_arg,
                  IPv4::Addr &addr_arg,
-                 int prefixlen_arg,
+                 unsigned char prefixlen_arg,
                  IPv4::Addr &broadcast_arg,
                  bool add_arg)
         : dev(dev_arg),
@@ -136,14 +123,13 @@ struct NetlinkAddr4 : public Action
 
     virtual void execute(std::ostream &os) override
     {
-        int ret;
-
         if (dev.empty())
         {
             os << "Error: can't call NetlinkAddr4 with no interface" << std::endl;
             return;
         }
 
+        int ret;
         if (add)
         {
             ret = SITNL::net_addr_add(dev, addr, prefixlen, broadcast);
@@ -171,7 +157,7 @@ struct NetlinkAddr4 : public Action
 
     std::string dev;
     IPv4::Addr addr;
-    int prefixlen = 0;
+    unsigned char prefixlen = 0;
     IPv4::Addr broadcast;
     bool add = true;
 };
@@ -186,7 +172,7 @@ struct NetlinkAddr6 : public Action
 
     NetlinkAddr6(std::string dev_arg,
                  IPv6::Addr &addr_arg,
-                 int prefixlen_arg,
+                 unsigned char prefixlen_arg,
                  bool add_arg)
         : dev(dev_arg),
           addr(addr_arg),
@@ -207,14 +193,13 @@ struct NetlinkAddr6 : public Action
 
     virtual void execute(std::ostream &os) override
     {
-        int ret;
-
         if (dev.empty())
         {
             os << "Error: can't call NetlinkAddr6 with no interface" << std::endl;
             return;
         }
 
+        int ret;
         if (add)
         {
             ret = SITNL::net_addr_add(dev, addr, prefixlen);
@@ -241,7 +226,7 @@ struct NetlinkAddr6 : public Action
 
     std::string dev;
     IPv6::Addr addr;
-    int prefixlen = 0;
+    unsigned char prefixlen = 0;
     bool add = true;
 };
 
@@ -276,14 +261,13 @@ struct NetlinkAddr4PtP : public Action
 
     virtual void execute(std::ostream &os) override
     {
-        int ret;
-
         if (dev.empty())
         {
             os << "Error: can't call NetlinkAddr4PtP with no interface" << std::endl;
             return;
         }
 
+        int ret;
         if (add)
         {
             ret = SITNL::net_addr_ptp_add(dev, local, remote);
@@ -324,10 +308,12 @@ struct NetlinkRoute4 : public Action
                   int prefixlen_arg,
                   IPv4::Addr &gw_arg,
                   std::string dev_arg,
+                  int metric_arg,
                   bool add_arg)
         : route(dst_arg, prefixlen_arg),
           gw(gw_arg),
           dev(dev_arg),
+          metric(metric_arg),
           add(add_arg)
     {
     }
@@ -338,26 +324,26 @@ struct NetlinkRoute4 : public Action
         ret->route = route;
         ret->gw = gw;
         ret->dev = dev;
+        ret->metric = metric;
         return ret;
     }
 
     virtual void execute(std::ostream &os) override
     {
-        int ret;
-
         if (dev.empty())
         {
             os << "Error: can't call NetlinkRoute4 with no interface" << std::endl;
             return;
         }
 
+        int ret;
         if (add)
         {
-            ret = SITNL::net_route_add(route, gw, dev, 0, 0);
+            ret = SITNL::net_route_add(route, gw, dev, 0, metric);
         }
         else
         {
-            ret = SITNL::net_route_del(route, gw, dev, 0, 0);
+            ret = SITNL::net_route_del(route, gw, dev, 0, metric);
         }
 
         if (ret)
@@ -371,13 +357,14 @@ struct NetlinkRoute4 : public Action
     {
         std::ostringstream os;
         os << "netlink route " << (add ? "add" : "del") << " dev " << dev << " "
-           << route << " via " << gw.to_string();
+           << route << " via " << gw.to_string() << " metric " << metric;
         return os.str();
     }
 
     IP::Route4 route;
     IPv4::Addr gw;
     std::string dev;
+    int metric = -1;
     bool add = true;
 };
 
@@ -393,10 +380,12 @@ struct NetlinkRoute6 : public Action
                   int prefixlen_arg,
                   IPv6::Addr &gw_arg,
                   std::string dev_arg,
+                  int metric_arg,
                   bool add_arg)
         : route(dst_arg, prefixlen_arg),
           gw(gw_arg),
           dev(dev_arg),
+          metric(metric_arg),
           add(add_arg)
     {
     }
@@ -407,26 +396,26 @@ struct NetlinkRoute6 : public Action
         ret->route = route;
         ret->gw = gw;
         ret->dev = dev;
+        ret->metric = metric;
         return ret;
     }
 
     virtual void execute(std::ostream &os) override
     {
-        int ret;
-
         if (dev.empty())
         {
             os << "Error: can't call NetlinkRoute6 with no interface" << std::endl;
             return;
         }
 
+        int ret;
         if (add)
         {
-            ret = SITNL::net_route_add(route, gw, dev, 0, 0);
+            ret = SITNL::net_route_add(route, gw, dev, 0, metric);
         }
         else
         {
-            ret = SITNL::net_route_del(route, gw, dev, 0, 0);
+            ret = SITNL::net_route_del(route, gw, dev, 0, metric);
         }
 
         if (ret)
@@ -440,13 +429,14 @@ struct NetlinkRoute6 : public Action
     {
         std::ostringstream os;
         os << "netlink route " << (add ? "add" : "del") << " dev " << dev << " "
-           << route << " via " << gw.to_string();
+           << route << " via " << gw.to_string() << " metric " << metric;
         return os.str();
     }
 
     IP::Route6 route;
     IPv6::Addr gw;
     std::string dev;
+    int metric = -1;
     bool add = true;
 };
 
@@ -512,7 +502,7 @@ inline int iface_del(std::ostringstream &os, const std::string &dev)
 
 /*inline IPv4::Addr cvt_pnr_ip_v4(const std::string& hexaddr)
 {
-  BufferAllocated v(4, BufferAllocated::CONSTRUCT_ZERO);
+  BufferAllocated v(4, BufAllocFlags::CONSTRUCT_ZERO);
   parse_hex(v, hexaddr);
   if (v.size() != 4)
 throw tun_linux_error("bad hex address");
@@ -524,6 +514,7 @@ inline void add_del_route(const std::string &addr_str,
                           const int prefix_len,
                           const std::string &gateway_str,
                           const std::string &dev,
+                          const int metric,
                           const unsigned int flags,
                           std::vector<IP::Route> *rtvec,
                           Action::Ptr &create,
@@ -543,6 +534,7 @@ inline void add_del_route(const std::string &addr_str,
             add->route.prefix_len = prefix_len;
             add->gw = IPv6::Addr::from_string(gateway_str);
             add->dev = dev;
+            add->metric = metric;
             add->add = true;
 
             create = add;
@@ -569,6 +561,7 @@ inline void add_del_route(const std::string &addr_str,
             add->route.prefix_len = prefix_len;
             add->gw = IPv4::Addr::from_string(gateway_str);
             add->dev = dev;
+            add->metric = metric;
             add->add = true;
 
             create = add;
@@ -587,13 +580,14 @@ inline void add_del_route(const std::string &addr_str,
                           const int prefix_len,
                           const std::string &gateway_str,
                           const std::string &dev,
+                          const int metric,
                           const unsigned int flags, // add interface route to rtvec if defined
                           std::vector<IP::Route> *rtvec,
                           ActionList &create,
                           ActionList &destroy)
 {
     Action::Ptr c, d;
-    add_del_route(addr_str, prefix_len, gateway_str, dev, flags, rtvec, c, d);
+    add_del_route(addr_str, prefix_len, gateway_str, dev, metric, flags, rtvec, c, d);
     create.add(c);
     destroy.add(d);
 }
@@ -655,6 +649,7 @@ inline void iface_config(const std::string &iface_name,
                       local4->prefix_length,
                       local4->address,
                       iface_name,
+                      0,
                       R_ADD_DCO,
                       rtvec,
                       create,
@@ -682,6 +677,7 @@ inline void iface_config(const std::string &iface_name,
                       local6->prefix_length,
                       local6->address,
                       iface_name,
+                      0,
                       R_ADD_DCO | R_IPv6,
                       rtvec,
                       create,
@@ -718,6 +714,7 @@ struct TunMethods
                                       route.prefix_length,
                                       local6->gateway,
                                       iface_name,
+                                      route.metric,
                                       R_ADD_ALL | R_IPv6,
                                       rtvec,
                                       create,
@@ -730,6 +727,7 @@ struct TunMethods
                                       route.prefix_length,
                                       local4->gateway,
                                       iface_name,
+                                      route.metric,
                                       R_ADD_ALL,
                                       rtvec,
                                       create,
@@ -758,6 +756,7 @@ struct TunMethods
                                       route.prefix_length,
                                       gw.v4.addr().to_string(),
                                       gw.v4.dev(),
+                                      route.metric,
                                       R_ADD_SYS,
                                       rtvec,
                                       create,
@@ -786,8 +785,8 @@ struct TunMethods
                                      destroy);
                 }
 
-                add_del_route("0.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
-                add_del_route("128.0.0.0", 1, local4->gateway, iface_name, R_ADD_ALL, rtvec, create, destroy);
+                add_del_route("0.0.0.0", 1, local4->gateway, iface_name, 0, R_ADD_ALL, rtvec, create, destroy);
+                add_del_route("128.0.0.0", 1, local4->gateway, iface_name, 0, R_ADD_ALL, rtvec, create, destroy);
             }
 
             // Process IPv6 redirect-gateway
@@ -806,8 +805,8 @@ struct TunMethods
                                      destroy);
                 }
 
-                add_del_route("0000::", 1, local6->gateway, iface_name, R_ADD_ALL | R_IPv6, rtvec, create, destroy);
-                add_del_route("8000::", 1, local6->gateway, iface_name, R_ADD_ALL | R_IPv6, rtvec, create, destroy);
+                add_del_route("0000::", 1, local6->gateway, iface_name, 0, R_ADD_ALL | R_IPv6, rtvec, create, destroy);
+                add_del_route("8000::", 1, local6->gateway, iface_name, 0, R_ADD_ALL | R_IPv6, rtvec, create, destroy);
             }
         }
 
@@ -830,6 +829,7 @@ struct TunMethods
                           32,
                           gw.v4.addr().to_string(),
                           gw.dev(),
+                          0,
                           R_ADD_SYS,
                           rtvec,
                           create,
@@ -840,11 +840,11 @@ struct TunMethods
                           128,
                           gw.v6.addr().to_string(),
                           gw.dev(),
+                          0,
                           R_IPv6 | R_ADD_SYS,
                           rtvec,
                           create,
                           destroy);
     }
 };
-} // namespace TunNetlink
-} // namespace openvpn
+} // namespace openvpn::TunNetlink

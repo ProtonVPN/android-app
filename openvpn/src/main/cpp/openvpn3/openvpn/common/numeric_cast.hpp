@@ -4,20 +4,11 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2023 OpenVPN Inc.
+//    Copyright (C) 2023- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
+
 
 
 #pragma once
@@ -25,6 +16,7 @@
 #include "numeric_util.hpp"
 
 #include <stdexcept>
+#include <cstdint>
 
 #include <openvpn/common/exception.hpp> // For OPENVPN_EXCEPTION_INHERIT
 
@@ -56,6 +48,7 @@ namespace openvpn::numeric_util {
  *  @return The safely converted inVal.
  *  @tparam InT  Source (input) type, inferred from 'inVal'
  *  @tparam OutT Desired result type
+ *  @throws numeric_out_of_range if the conversion is not safe
  */
 template <typename OutT, typename InT>
 OutT numeric_cast(InT inVal)
@@ -70,11 +63,14 @@ OutT numeric_cast(InT inVal)
     }
     else if constexpr (!numeric_util::is_int_rangesafe<OutT, InT>() && numeric_util::is_int_s2u<OutT, InT>())
     {
-        // Cast to uintmax_t only applied if inVal is positive ...
-        if (inVal < 0 || static_cast<uintmax_t>(inVal) > static_cast<uintmax_t>(std::numeric_limits<OutT>::max()))
-        {
-            throw numeric_out_of_range("Range exceeded for signed --> unsigned integer conversion");
-        }
+        // This is certainly bad
+        if (inVal < 0)
+            throw numeric_out_of_range("Cannot store negative value for signed --> unsigned integer conversion");
+
+        // Is it possibly unsafe? If so do the runtime positive val range test
+        if constexpr (std::numeric_limits<OutT>::digits - 1 < std::numeric_limits<InT>::digits)
+            if (static_cast<uintmax_t>(inVal) > static_cast<uintmax_t>(std::numeric_limits<OutT>::max()))
+                throw numeric_out_of_range("Range exceeded for signed --> unsigned integer conversion");
     }
     else if constexpr (!numeric_util::is_int_rangesafe<OutT, InT>())
     {

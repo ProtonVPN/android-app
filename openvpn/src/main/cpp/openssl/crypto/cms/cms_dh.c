@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2006-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -13,6 +13,7 @@
 #include <openssl/err.h>
 #include <openssl/core_names.h>
 #include "internal/sizes.h"
+#include "crypto/asn1.h"
 #include "crypto/evp.h"
 #include "cms_local.h"
 
@@ -34,7 +35,7 @@ static int dh_cms_set_peerkey(EVP_PKEY_CTX *pctx,
     if (OBJ_obj2nid(aoid) != NID_dhpublicnumber)
         goto err;
     /* Only absent parameters allowed in RFC XXXX */
-    if (atype != V_ASN1_UNDEF && atype == V_ASN1_NULL)
+    if (atype != V_ASN1_UNDEF && atype != V_ASN1_NULL)
         goto err;
 
     pk = EVP_PKEY_CTX_get0_pkey(pctx);
@@ -122,7 +123,7 @@ static int dh_cms_set_shared_info(EVP_PKEY_CTX *pctx, CMS_RecipientInfo *ri)
         goto err;
 
     kekcipher = EVP_CIPHER_fetch(pctx->libctx, name, pctx->propquery);
-    if (kekcipher == NULL 
+    if (kekcipher == NULL
         || EVP_CIPHER_get_mode(kekcipher) != EVP_CIPH_WRAP_MODE)
         goto err;
     if (!EVP_EncryptInit_ex(kekctx, kekcipher, NULL, NULL, NULL))
@@ -234,12 +235,11 @@ static int dh_cms_encrypt(CMS_RecipientInfo *ri)
         if (penclen <= 0)
             goto err;
         ASN1_STRING_set0(pubkey, penc, penclen);
-        pubkey->flags &= ~(ASN1_STRING_FLAG_BITS_LEFT | 0x07);
-        pubkey->flags |= ASN1_STRING_FLAG_BITS_LEFT;
+        ossl_asn1_string_set_bits_left(pubkey, 0);
 
         penc = NULL;
-        X509_ALGOR_set0(talg, OBJ_nid2obj(NID_dhpublicnumber),
-                        V_ASN1_UNDEF, NULL);
+        (void)X509_ALGOR_set0(talg, OBJ_nid2obj(NID_dhpublicnumber),
+                              V_ASN1_UNDEF, NULL); /* cannot fail */
     }
 
     /* See if custom parameters set */
@@ -309,17 +309,17 @@ static int dh_cms_encrypt(CMS_RecipientInfo *ri)
      */
     penc = NULL;
     penclen = i2d_X509_ALGOR(wrap_alg, &penc);
-    if (penc == NULL || penclen == 0)
+    if (penclen <= 0)
         goto err;
     wrap_str = ASN1_STRING_new();
     if (wrap_str == NULL)
         goto err;
     ASN1_STRING_set0(wrap_str, penc, penclen);
     penc = NULL;
-    X509_ALGOR_set0(talg, OBJ_nid2obj(NID_id_smime_alg_ESDH),
-                    V_ASN1_SEQUENCE, wrap_str);
-
-    rv = 1;
+    rv = X509_ALGOR_set0(talg, OBJ_nid2obj(NID_id_smime_alg_ESDH),
+                         V_ASN1_SEQUENCE, wrap_str);
+    if (!rv)
+        ASN1_STRING_free(wrap_str);
 
  err:
     OPENSSL_free(penc);

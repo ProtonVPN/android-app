@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2021-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -73,12 +63,8 @@ class OvpnDcoWinClient : public Client,
         return send_(buf);
     }
 
-    void tun_start(const OptionList &opt,
-                   TransportClient &transcli,
-                   CryptoDCSettings &dc_settings) override
+    void setup_tun(const OptionList &opt, TransportClient &transcli, bool is_tun_start = true)
     {
-        halt = false;
-
         const IP::Addr server_addr = transcli.server_endpoint_addr();
 
         // Check if persisted tun session matches properties of to-be-created session
@@ -117,7 +103,8 @@ class OvpnDcoWinClient : public Client,
 
             // persist tun settings state
             if (tun_persist->persist_tun_state(handle_(),
-                                               {state, tun_setup_->get_adapter_state()}))
+                                               {state, tun_setup_->get_adapter_state()},
+                                               is_tun_start))
                 OPENVPN_LOG("TunPersist: saving tun context:" << std::endl
                                                               << tun_persist->options());
 
@@ -129,6 +116,28 @@ class OvpnDcoWinClient : public Client,
             // arm fail handler which is invoked when service process exits
             set_service_fail_handler();
         }
+    }
+
+    void apply_push_update(const OptionList &opt, TransportClient &transcli) override
+    {
+        auto adapter_state = tun_setup_->get_adapter_state();
+
+        // create new tun setup object
+        tun_setup_ = config->tun.new_setup_obj(io_context, config->tun.allow_local_dns_resolvers);
+        tun_setup_->set_adapter_state(adapter_state);
+
+        setup_tun(opt, transcli, false);
+
+        tun_parent->tun_connected();
+    }
+
+    void tun_start(const OptionList &opt,
+                   TransportClient &transcli,
+                   CryptoDCSettings &dc_settings) override
+    {
+        halt = false;
+
+        setup_tun(opt, transcli);
 
         set_keepalive_();
 
@@ -241,7 +250,7 @@ class OvpnDcoWinClient : public Client,
             return;
 
         // create new tun setup object
-        tun_setup_ = config->tun.new_setup_obj(io_context, config->allow_local_dns_resolvers);
+        tun_setup_ = config->tun.new_setup_obj(io_context, config->tun.allow_local_dns_resolvers);
 
         if (config->tun.tun_persist)
             tun_persist = config->tun.tun_persist; // long-term persistent
@@ -300,21 +309,21 @@ class OvpnDcoWinClient : public Client,
             [self = Ptr(this)](const openvpn_io::error_code &error,
                                const size_t bytes_recvd)
             {
-            if (self->halt)
-                return;
-            if (!error)
-            {
-                self->buf_.set_size(bytes_recvd);
-                self->transport_parent->transport_recv(self->buf_);
-                if (!self->halt)
-                    self->queue_read_();
-            }
-            else if (!self->halt)
-            {
-                self->stop_();
-                self->transport_parent->transport_error(Error::TRANSPORT_ERROR,
-                                                        error.message());
-            }
+                if (self->halt)
+                    return;
+                if (!error)
+                {
+                    self->buf_.set_size(bytes_recvd);
+                    self->transport_parent->transport_recv(self->buf_);
+                    if (!self->halt)
+                        self->queue_read_();
+                }
+                else if (!self->halt)
+                {
+                    self->stop_();
+                    self->transport_parent->transport_error(Error::TRANSPORT_ERROR,
+                                                            error.message());
+                }
             });
     }
 
@@ -391,18 +400,18 @@ class OvpnDcoWinClient : public Client,
                                                [self = Ptr(this), complete](const openvpn_io::error_code &ec,
                                                                             std::size_t len)
                                                {
-            if (self->halt)
-                return;
-            if (!ec)
-                complete();
-            else
-            {
-                std::ostringstream errmsg;
-                errmsg << "TCP connection error: " << ec.message();
-                self->config->transport.stats->error(Error::TCP_CONNECT_ERROR);
-                self->transport_parent->transport_error(Error::UNDEF, errmsg.str());
-                self->stop_();
-            }
+                                                   if (self->halt)
+                                                       return;
+                                                   if (!ec)
+                                                       complete();
+                                                   else
+                                                   {
+                                                       std::ostringstream errmsg;
+                                                       errmsg << "TCP connection error: " << ec.message();
+                                                       self->config->transport.stats->error(Error::TCP_CONNECT_ERROR);
+                                                       self->transport_parent->transport_error(Error::UNDEF, errmsg.str());
+                                                       self->stop_();
+                                                   }
                                                }};
 
         const DWORD ec = dco_ioctl_(OVPN_IOCTL_NEW_PEER, &peer, sizeof(peer), NULL, 0, &ov);

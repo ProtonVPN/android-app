@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Abstract base classes for server tun objects
 
@@ -33,8 +23,7 @@
 #include <openvpn/addr/ip.hpp>
 #include <openvpn/server/servhalt.hpp>
 
-namespace openvpn {
-namespace TunClientInstance {
+namespace openvpn::TunClientInstance {
 
 typedef Function<void(int fd)> PostCloseFunc;
 
@@ -83,7 +72,7 @@ struct Recv : public virtual RC<thread_unsafe_refcount>
     // push a halt or restart message to client
     virtual void push_halt_restart_msg(const HaltRestart::Type type,
                                        const std::string &reason,
-                                       const bool tell_client) = 0;
+                                       const std::string &client_reason) = 0;
     // clang-format on
 };
 
@@ -113,10 +102,9 @@ struct Factory : public RC<thread_unsafe_refcount>
 {
     typedef RCPtr<Factory> Ptr;
 
-    virtual Send::Ptr new_obj(Recv *parent) = 0;
+    virtual Send::Ptr new_tun_obj(Recv *parent) = 0;
 };
 
-} // namespace TunClientInstance
-} // namespace openvpn
+} // namespace openvpn::TunClientInstance
 
 #endif

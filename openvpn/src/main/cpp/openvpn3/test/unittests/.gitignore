@@ -20,3 +20,5 @@ test_sitnl
 test_ssl
 test_verify_x509_name
 test_buffer
+test_time
+test_pushlex

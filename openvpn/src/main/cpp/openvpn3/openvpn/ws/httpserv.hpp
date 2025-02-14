@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -80,9 +70,7 @@
 #define OPENVPN_HTTP_SERV_RC RC<thread_unsafe_refcount>
 #endif
 
-namespace openvpn {
-namespace WS {
-namespace Server {
+namespace openvpn::WS::Server {
 
 OPENVPN_EXCEPTION(http_server_exception);
 
@@ -308,7 +296,7 @@ class Listener : public ProxyListener
 
             content_info = std::move(ci);
 
-            outbuf.reset(new BufferAllocated(512, BufferAllocated::GROW));
+            outbuf = BufferAllocatedRc::Create(512, BufAllocFlags::GROW);
             BufferStreamOut os(*outbuf);
 
             // websocket?
@@ -326,7 +314,7 @@ class Listener : public ProxyListener
                 begin_websocket();
         }
 
-        void generate_custom_reply_headers(BufferPtr &buf)
+        void generate_custom_reply_headers(BufferPtr &&buf)
         {
             http_out_begin();
             outbuf = std::move(buf);
@@ -401,7 +389,7 @@ class Listener : public ProxyListener
         Time::Duration timeout_duration;
 
       private:
-        typedef TCPTransport::Link<AsioProtocol, Client *, false> LinkImpl;
+        typedef TCPTransport::TCPLink<AsioProtocol, Client *, false> LinkImpl;
         friend LinkImpl::Base; // calls tcp_* handlers
 
         void generate_reply_headers_http(std::ostream &os)
@@ -798,7 +786,7 @@ class Listener : public ProxyListener
     {
     }
 
-    virtual void start() override
+    void start() override
     {
         if (halt)
             return;
@@ -922,7 +910,7 @@ class Listener : public ProxyListener
         }
     }
 
-    virtual void stop() override
+    void stop() override
     {
         if (halt)
             return;
@@ -1018,7 +1006,7 @@ class Listener : public ProxyListener
             throttle_timer_wait();
     }
 
-    virtual void handle_accept(AsioPolySock::Base::Ptr sock, const openvpn_io::error_code &error) override
+    void handle_accept(AsioPolySock::Base::Ptr sock, const openvpn_io::error_code &error) override
     {
         if (halt)
             return;
@@ -1048,7 +1036,7 @@ class Listener : public ProxyListener
                 if (ssl_mode == Acceptor::Item::AltRouting)
                 {
                     const KovpnSockMark ksm(sock->native_handle());
-                    if (!ksm.is_internal())
+                    if (!ksm.is_internal()) // error if !OVPN_SHIM_INTERNAL in shim flags
                         throw http_server_exception("non alt-routing socket: " + ksm.to_string());
                 }
 #endif
@@ -1131,6 +1119,4 @@ class Listener : public ProxyListener
     ClientMap clients;
 };
 
-} // namespace Server
-} // namespace WS
-} // namespace openvpn
+} // namespace openvpn::WS::Server

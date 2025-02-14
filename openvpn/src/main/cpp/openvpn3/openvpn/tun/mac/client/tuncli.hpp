@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Client tun interface for Mac OS X
 
@@ -43,8 +33,7 @@
 #include <openvpn/client/cliemuexr.hpp>
 #endif
 
-namespace openvpn {
-namespace TunMac {
+namespace openvpn::TunMac {
 
 OPENVPN_EXCEPTION(tun_mac_error);
 
@@ -117,12 +106,17 @@ class ClientConfig : public TunClientFactory
         return new ClientConfig;
     }
 
-    virtual TunClient::Ptr new_tun_client_obj(openvpn_io::io_context &io_context,
-                                              TunClientParent &parent,
-                                              TransportClient *transcli);
+    bool supports_proto_v3() override
+    {
+        return true;
+    }
+
+    TunClient::Ptr new_tun_client_obj(openvpn_io::io_context &io_context,
+                                      TunClientParent &parent,
+                                      TransportClient *transcli) override;
 
     // return true if layer 2 tunnels are supported
-    virtual bool layer_2_supported() const
+    bool layer_2_supported() const override
     {
 #if defined(MAC_TUNTAP_FALLBACK)
         return false; // change to true after TAP support is added
@@ -132,7 +126,7 @@ class ClientConfig : public TunClientFactory
     }
 
     // called just prior to transmission of Disconnect event
-    virtual void finalize(const bool disconnected)
+    void finalize(const bool disconnected) override
     {
         if (disconnected)
             tun_persist.reset();
@@ -147,7 +141,7 @@ class Client : public TunClient
     typedef Tun<Client *, TunPersist> TunImpl;
 
   public:
-    virtual void tun_start(const OptionList &opt, TransportClient &transcli, CryptoDCSettings &) override
+    void tun_start(const OptionList &opt, TransportClient &transcli, CryptoDCSettings &) override
     {
         if (!impl)
         {
@@ -264,12 +258,12 @@ class Client : public TunClient
         }
     }
 
-    virtual bool tun_send(BufferAllocated &buf) override
+    bool tun_send(BufferAllocated &buf) override
     {
         return send(buf);
     }
 
-    virtual std::string tun_name() const override
+    std::string tun_name() const override
     {
         if (impl)
             return impl->name();
@@ -277,7 +271,7 @@ class Client : public TunClient
             return "UNDEF_TUN";
     }
 
-    virtual std::string vpn_ip4() const override
+    std::string vpn_ip4() const override
     {
         if (state->vpn_ip4_addr.specified())
             return state->vpn_ip4_addr.to_string();
@@ -285,7 +279,7 @@ class Client : public TunClient
             return "";
     }
 
-    virtual std::string vpn_ip6() const override
+    std::string vpn_ip6() const override
     {
         if (state->vpn_ip6_addr.specified())
             return state->vpn_ip6_addr.to_string();
@@ -293,7 +287,7 @@ class Client : public TunClient
             return "";
     }
 
-    virtual std::string vpn_gw4() const override
+    std::string vpn_gw4() const override
     {
         if (state->vpn_ip4_gw.specified())
             return state->vpn_ip4_gw.to_string();
@@ -301,7 +295,7 @@ class Client : public TunClient
             return "";
     }
 
-    virtual std::string vpn_gw6() const override
+    std::string vpn_gw6() const override
     {
         if (state->vpn_ip6_gw.specified())
             return state->vpn_ip6_gw.to_string();
@@ -314,11 +308,11 @@ class Client : public TunClient
         return state->mtu;
     }
 
-    virtual void set_disconnect() override
+    void set_disconnect() override
     {
     }
 
-    virtual void stop() override
+    void stop() override
     {
         stop_();
     }
@@ -388,7 +382,6 @@ inline TunClient::Ptr ClientConfig::new_tun_client_obj(openvpn_io::io_context &i
     return TunClient::Ptr(new Client(io_context, this, parent));
 }
 
-} // namespace TunMac
-} // namespace openvpn
+} // namespace openvpn::TunMac
 
 #endif

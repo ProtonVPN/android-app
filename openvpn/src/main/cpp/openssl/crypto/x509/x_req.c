@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -74,7 +74,7 @@ static int req_cb(int operation, ASN1_VALUE **pval, const ASN1_ITEM *it,
                 if (pkey != NULL) {
                     pkey = EVP_PKEY_dup(pkey);
                     if (pkey == NULL) {
-                        ERR_raise(ERR_LIB_X509, ERR_R_MALLOC_FAILURE);
+                        ERR_raise(ERR_LIB_X509, ERR_R_EVP_LIB);
                         return 0;
                     }
                     if (!X509_PUBKEY_set(&ret->req_info.pubkey, pkey)) {

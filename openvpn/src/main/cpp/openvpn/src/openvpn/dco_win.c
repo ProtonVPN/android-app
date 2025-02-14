@@ -1,8 +1,8 @@
 /*
  *  Interface to ovpn-win-dco networking code
  *
- *  Copyright (C) 2020-2023 Arne Schwabe <arne@rfc2549.org>
- *  Copyright (C) 2020-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2020-2024 Arne Schwabe <arne@rfc2549.org>
+ *  Copyright (C) 2020-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -21,8 +21,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #if defined(_WIN32)
@@ -46,12 +44,63 @@ const IN_ADDR in4addr_any = { 0 };
 struct tuntap
 create_dco_handle(const char *devname, struct gc_arena *gc)
 {
-    struct tuntap tt = { .windows_driver = WINDOWS_DRIVER_DCO };
+    struct tuntap tt = { .backend_driver = DRIVER_DCO };
     const char *device_guid;
 
     tun_open_device(&tt, devname, &device_guid, gc);
 
     return tt;
+}
+
+/**
+ * Gets version of dco-win driver
+ *
+ * Fills Major/Minor/Patch fields in a passed OVPN_VERSION
+ * struct. If version cannot be obtained, fields are set to 0.
+ *
+ * @param version pointer to OVPN_VERSION struct
+ * @returns true if version has been obtained, false otherwise
+ */
+static bool
+dco_get_version(OVPN_VERSION *version)
+{
+    CLEAR(*version);
+
+    bool res = false;
+
+    HANDLE h = CreateFile("\\\\.\\ovpn-dco-ver", GENERIC_READ,
+                          0, NULL, OPEN_EXISTING, 0, NULL);
+
+    if (h == INVALID_HANDLE_VALUE)
+    {
+        /* fallback to a "normal" device, this will fail if device is already in use */
+        h = CreateFile("\\\\.\\ovpn-dco", GENERIC_READ,
+                       0, NULL, OPEN_EXISTING, 0, NULL);
+    }
+
+    if (h == INVALID_HANDLE_VALUE)
+    {
+        goto done;
+    }
+
+    DWORD bytes_returned = 0;
+    if (!DeviceIoControl(h, OVPN_IOCTL_GET_VERSION, NULL, 0,
+                         version, sizeof(*version), &bytes_returned, NULL))
+    {
+        goto done;
+    }
+
+    res = true;
+
+done:
+    if (h != INVALID_HANDLE_VALUE)
+    {
+        CloseHandle(h);
+    }
+
+    msg(D_DCO_DEBUG, "dco version: %ld.%ld.%ld", version->Major, version->Minor, version->Patch);
+
+    return res;
 }
 
 bool
@@ -249,7 +298,7 @@ dco_create_socket(HANDLE handle, struct addrinfo *remoteaddr, bool bind_local,
 int
 dco_new_peer(dco_context_t *dco, unsigned int peerid, int sd,
              struct sockaddr *localaddr, struct sockaddr *remoteaddr,
-             struct in_addr *remote_in4, struct in6_addr *remote_in6)
+             struct in_addr *vpn_ipv4, struct in6_addr *vpn_ipv6)
 {
     msg(D_DCO_DEBUG, "%s: peer-id %d, fd %d", __func__, peerid, sd);
     return 0;
@@ -388,7 +437,17 @@ dco_available(int msglevel)
 const char *
 dco_version_string(struct gc_arena *gc)
 {
-    return "v0";
+    OVPN_VERSION version = {0};
+    if (dco_get_version(&version))
+    {
+        struct buffer out = alloc_buf_gc(256, gc);
+        buf_printf(&out, "%ld.%ld.%ld", version.Major, version.Minor, version.Patch);
+        return BSTR(&out);
+    }
+    else
+    {
+        return "N/A";
+    }
 }
 
 int
@@ -443,7 +502,7 @@ dco_event_set(dco_context_t *dco, struct event_set *es, void *arg)
 }
 
 const char *
-dco_get_supported_ciphers()
+dco_get_supported_ciphers(void)
 {
     /*
      * this API can be called either from user mode or kernel mode,
@@ -462,6 +521,13 @@ dco_get_supported_ciphers()
     {
         return "AES-128-GCM:AES-256-GCM:AES-192-GCM";
     }
+}
+
+bool
+dco_win_supports_multipeer(void)
+{
+    OVPN_VERSION ver = { 0 };
+    return dco_get_version(&ver) && ver.Major >= 2;
 }
 
 #endif /* defined(_WIN32) */

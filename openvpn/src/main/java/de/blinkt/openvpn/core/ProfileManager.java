@@ -6,9 +6,11 @@
 package de.blinkt.openvpn.core;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Build;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,10 +53,10 @@ public class ProfileManager {
         return instance.profiles.get(key);
     }
 
-    private static void checkInstance(Context context) {
+    private synchronized static void checkInstance(Context context) {
         if (instance == null) {
             instance = new ProfileManager();
-            ProfileEncryption.initMasterCryptAlias();
+            ProfileEncryption.initMasterCryptAlias(context);
             instance.loadVPNList(context);
         }
     }
@@ -99,6 +101,7 @@ public class ProfileManager {
     public static void setTemporaryProfile(Context c, VpnProfile tmp) {
         tmp.mTemporaryProfile = true;
         ProfileManager.tmpprofile = tmp;
+        tmp.addChangeLogEntry("temporary profile saved");
         saveProfile(c, tmp);
     }
 
@@ -113,6 +116,10 @@ public class ProfileManager {
             preferEncryption = false;
 
         profile.mVersion += 1;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            profile.addChangeLogEntry("Saving from version " + profile.mVersion +
+                    " from process " + Application.getProcessName());
+        }
         ObjectOutputStream vpnFile;
 
         String filename = profile.getUUID().toString();
@@ -146,7 +153,7 @@ public class ProfileManager {
                     if (encryptedFileOld.exists()) {
                         encryptedFileOld.delete();
                     }
-                } catch (IOException ioe)
+                } catch (IOException | GeneralSecurityException ioe)
                 {
                     VpnStatus.logException(VpnStatus.LogLevel.INFO, "Error trying to write an encrypted VPN profile, disabling " +
                             "encryption", ioe);
@@ -172,9 +179,8 @@ public class ProfileManager {
                 //noinspection ResultOfMethodCallIgnored
                 delete.delete();
             }
-
-
-        } catch (IOException | GeneralSecurityException e) {
+            VpnStatus.notifyProfileVersionChanged(profile.getUUIDString(), profile.mVersion, true);
+        } catch (IOException e) {
             VpnStatus.logException("saving VPN profile", e);
             throw new RuntimeException(e);
         }
@@ -220,8 +226,21 @@ public class ProfileManager {
     public static void updateLRU(Context c, VpnProfile profile) {
         profile.mLastUsed = System.currentTimeMillis();
         // LRU does not change the profile, no need for the service to refresh
-        if (profile != tmpprofile)
+        if (profile != tmpprofile) {
+            profile.addChangeLogEntry("Saved last recently used");
             saveProfile(c, profile);
+        }
+    }
+
+
+    public static void notifyProfileVersionChanged(Context c, String uuid, int version) {
+        /* The profile has been saved/modified. Potentially on the other process. We might need
+         * to reload the profile from storage */
+
+        VpnProfile loadedProfile = get(c, uuid, version, 100);
+        if (loadedProfile != null & loadedProfile.mVersion >= version) {
+            VpnStatus.notifyProfileVersionChanged(uuid, version, false);
+        }
     }
 
     public Collection<VpnProfile> getProfiles() {

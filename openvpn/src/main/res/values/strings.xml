@@ -26,8 +26,8 @@
     <string name="pkcs12pwquery">PKCS12 Password</string>
     <string name="file_select">Select…</string>
     <string name="file_nothing_selected">You must select a file</string>
-    <string name="useTLSAuth">Use TLS Authentication</string>
-    <string name="tls_direction">TLS Direction</string>
+    <string name="useTLSAuth">Use Control Channel Authentication/Encryption</string>
+    <string name="tls_direction">Authentication/encryption method</string>
     <string name="ipv6_dialog_tile">Enter IPv6 Address/Netmask in CIDR Format (e.g. 2000:dd::23/64)</string>
     <string name="ipv4_dialog_title">Enter IPv4 Address/Netmask in CIDR Format (e.g. 1.2.3.4/24)</string>
     <string name="ipv4_address">IPv4 Address</string>
@@ -68,8 +68,8 @@
     <string name="remote_tlscn_check_title">Certificate Hostname Check</string>
     <string name="enter_tlscn_dialog">Specify the check used to verify the remote certificate DN (e.g. C=DE, L=Paderborn, OU=Avian IP Carriers, CN=openvpn.blinkt.de)\n\nSpecify the complete DN or the RDN (openvpn.blinkt.de in the example) or an RDN prefix for verification.\n\nWhen using RDN prefix \"Server\" matches \"Server-1\" and \"Server-2\"\n\nLeaving the text field empty will check the RDN against the server hostname.\n\nFor more details see the OpenVPN 2.3.1+ manpage under —verify-x509-name</string>
     <string name="enter_tlscn_title">Remote certificate subject</string>
-    <string name="tls_key_auth">Enables the TLS Key Authentication</string>
-    <string name="tls_auth_file">TLS Auth File</string>
+    <string name="tls_key_auth">Enables an additional authentication/encryption layer for the OpenVPN control channel</string>
+    <string name="tls_auth_file">TLS Auth/TLS Encryption File</string>
     <string name="pull_on_summary">Requests IP addresses, routes and timing options from the server.</string>
     <string name="pull_off_summary">No information is requested from the server. Settings need to be specified below.</string>
     <string name="use_pull">Pull Settings</string>
@@ -203,8 +203,8 @@
     <string name="using_proxy">Using proxy %1$s %2$s</string>
     <string name="use_system_proxy">Use system proxy</string>
     <string name="use_system_proxy_summary">Use the system wide configuration for HTTP/HTTPS proxies to connect.</string>
-    <string name="onbootrestartsummary">OpenVPN will connect the specified VPN if it was active on system boot. Please read the connection warning FAQ before using this option on Android &lt; 5.0.</string>
-    <string name="onbootrestart">Connect on boot</string>
+    <string name="keep_vpn_connected_summary">OpenVPN will connect the specified VPN on system boot and will try to keep the VPN connected.</string>
+    <string name="keep_vpn_connected">Keep VPN connected</string>
     <string name="ignore">Ignore</string>
     <string name="restart">Restart</string>
     <string name="restart_vpn_after_change">Configuration changes are applied after restarting the VPN. (Re)start the VPN now?</string>
@@ -260,9 +260,10 @@
     <string name="encryption_cipher">Encryption ciphers</string>
     <string name="packet_auth">Packet authentication</string>
     <string name="auth_dialog_title">Enter packet authentication method</string>
-    <string name="built_by">built by %s</string>
+    <string name="built_by">built by %1$s (FP: %2$s)</string>
     <string name="debug_build">debug build</string>
     <string name="official_build">official build</string>
+    <string name="official_o2build">official OpenVPN2 only build</string>
     <string name="make_selection_inline">Copy into profile</string>
     <string name="crashdump">Crashdump</string>
     <string name="add">Add</string>
@@ -506,5 +507,16 @@
     <string name="tls_profile">TLS Security Profile</string>
     <string name="encrypt_profiles">Try to encrypt profiles on storage (if supported by Android OS)</string>
     <string name="missing_notification_permission">Notification permission missing. This is used to display the status of the VPN and to notify about required user interaction like multi factor authorisation.\n\nClick this message to give the app notification permissions</string>
+    <string name="proxy_auth_username">Username</string>
+    <string name="permission_requested">Permission to start a VPN connection is required</string>
+    <string name="missing_vpn_permission_log">VPN Service is missing permission to connect a VPN. Requesting permission via notification.</string>
+    <string name="ignore_vpn_start_request">VPN already running (%s). Ignoring request to start VPN.</string>
+    <string name="name_of_the_vpn_profile">Name of the VPN Profile</string>
+    <string name="dnsserver_ignore_port">Note ignoring port %1$d for DNS server with address %2$s"</string>
+    <string name="dnsserver_ignore_dnnsec">Skipping DNS server entry %1$d as it requires DNSSEC: %2$s</string>
+    <string name="dnsserver_ignore_tls_doh"> Skipping DNS server entry %1$d as it requires DNS over TLS or DNS over HTTPS: %2$s</string>
+    <string name="dnsserver_ignore_dnsport">Skipping address %1$s:%2$d for DNS server entry %1$d as uses a non-default port: %2$s</string>
+    <string name="dnsserver_no_valid_server">No valid DNS server left. Terminating connection.</string>
+    <string name="editor_close_profile_changed">Profile has changed outside the editor. Closing configuration editor.</string>
 
 </resources>

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -608,7 +606,6 @@ ifconfig_pool_read(struct ifconfig_pool_persist *persist, struct ifconfig_pool *
         struct gc_arena gc = gc_new();
         struct buffer in = alloc_buf_gc(256, &gc);
         char *cn_buf, *ip_buf, *ip6_buf;
-        int line = 0;
 
         ALLOC_ARRAY_CLEAR_GC(cn_buf, char, buf_size, &gc);
         ALLOC_ARRAY_CLEAR_GC(ip_buf, char, buf_size, &gc);
@@ -621,7 +618,6 @@ ifconfig_pool_read(struct ifconfig_pool_persist *persist, struct ifconfig_pool *
             {
                 break;
             }
-            ++line;
             if (!BLEN(&in))
             {
                 continue;
@@ -770,7 +766,7 @@ ifconfig_pool_test(in_addr_t start, in_addr_t end)
         ifconfig_pool_handle h;
         in_addr_t local, remote;
         char buf[256];
-        openvpn_snprintf(buf, sizeof(buf), "common-name-%d", i);
+        snprintf(buf, sizeof(buf), "common-name-%d", i);
 #ifdef DUP_CN
         cn = NULL;
 #else

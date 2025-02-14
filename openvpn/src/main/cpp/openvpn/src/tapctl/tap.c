@@ -2,7 +2,7 @@
  *  tapctl -- Utility to manipulate TUN/TAP adapters on Windows
  *            https://community.openvpn.net/openvpn/wiki/Tapctl
  *
- *  Copyright (C) 2018-2023 Simon Rozman <simon@rozman.si>
+ *  Copyright (C) 2018-2024 Simon Rozman <simon@rozman.si>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -20,8 +20,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#elif defined(_MSC_VER)
-#include <config-msvc.h>
 #endif
 
 #include "tap.h"
@@ -634,7 +632,7 @@ get_net_adapter_guid(
  * @param dwProperty     Specifies the property to be retrieved. See
  *                       https://msdn.microsoft.com/en-us/library/windows/hardware/ff551967.aspx
  *
- * @pdwPropertyRegDataType  A pointer to a variable that receives the data type of the
+ * @param pdwPropertyRegDataType  A pointer to a variable that receives the data type of the
  *                       property that is being retrieved. This is one of the standard
  *                       registry data types. This parameter is optional and can be NULL.
  *

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_PKI_EPKIBASE_H
 #define OPENVPN_PKI_EPKIBASE_H
@@ -33,11 +23,9 @@ class ExternalPKIBase
   public:
     // Sign data (base64) and return signature as sig (base64).
     // Return true on success or false on error.
-    virtual bool sign(const std::string &data, std::string &sig, const std::string &algorithm, const std::string &hashalg, const std::string &saltlen) = 0;
+    virtual bool sign(const std::string &alias, const std::string &data, std::string &sig, const std::string &algorithm, const std::string &hashalg, const std::string &saltlen) = 0;
 
-    virtual ~ExternalPKIBase()
-    {
-    }
+    virtual ~ExternalPKIBase() = default;
 };
 
 class ExternalPKIImpl

@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2004-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -84,10 +84,8 @@ X509_VERIFY_PARAM *X509_VERIFY_PARAM_new(void)
     X509_VERIFY_PARAM *param;
 
     param = OPENSSL_zalloc(sizeof(*param));
-    if (param == NULL) {
-        ERR_raise(ERR_LIB_X509, ERR_R_MALLOC_FAILURE);
+    if (param == NULL)
         return NULL;
-    }
     param->trust = X509_TRUST_DEFAULT;
     /* param->inh_flags = X509_VP_FLAG_DEFAULT; */
     param->depth = -1;
@@ -337,7 +335,10 @@ int X509_VERIFY_PARAM_add0_policy(X509_VERIFY_PARAM *param,
         if (param->policies == NULL)
             return 0;
     }
-    return sk_ASN1_OBJECT_push(param->policies, policy);
+
+    if (sk_ASN1_OBJECT_push(param->policies, policy) <= 0)
+        return 0;
+    return 1;
 }
 
 int X509_VERIFY_PARAM_set1_policies(X509_VERIFY_PARAM *param,
@@ -504,6 +505,18 @@ const char *X509_VERIFY_PARAM_get0_name(const X509_VERIFY_PARAM *param)
 
 static const X509_VERIFY_PARAM default_table[] = {
     {
+     "code_sign",               /* Code sign parameters */
+     0,                         /* check time to use */
+     0,                         /* inheritance flags */
+     0,                         /* flags */
+     X509_PURPOSE_CODE_SIGN,    /* purpose */
+     X509_TRUST_OBJECT_SIGN,    /* trust */
+     -1,                        /* depth */
+     -1,                        /* auth_level */
+     NULL,                      /* policies */
+     vpm_empty_id
+    },
+    {
      "default",                 /* X509 default parameters */
      0,                         /* check time to use */
      0,                         /* inheritance flags */
@@ -513,7 +526,8 @@ static const X509_VERIFY_PARAM default_table[] = {
      100,                       /* depth */
      -1,                        /* auth_level */
      NULL,                      /* policies */
-     vpm_empty_id},
+     vpm_empty_id
+    },
     {
      "pkcs7",                   /* S/MIME sign parameters */
      0,                         /* check time to use */
@@ -524,7 +538,8 @@ static const X509_VERIFY_PARAM default_table[] = {
      -1,                        /* depth */
      -1,                        /* auth_level */
      NULL,                      /* policies */
-     vpm_empty_id},
+     vpm_empty_id
+    },
     {
      "smime_sign",              /* S/MIME sign parameters */
      0,                         /* check time to use */
@@ -535,7 +550,8 @@ static const X509_VERIFY_PARAM default_table[] = {
      -1,                        /* depth */
      -1,                        /* auth_level */
      NULL,                      /* policies */
-     vpm_empty_id},
+     vpm_empty_id
+    },
     {
      "ssl_client",              /* SSL/TLS client parameters */
      0,                         /* check time to use */
@@ -546,7 +562,8 @@ static const X509_VERIFY_PARAM default_table[] = {
      -1,                        /* depth */
      -1,                        /* auth_level */
      NULL,                      /* policies */
-     vpm_empty_id},
+     vpm_empty_id
+    },
     {
      "ssl_server",              /* SSL/TLS server parameters */
      0,                         /* check time to use */
@@ -557,7 +574,8 @@ static const X509_VERIFY_PARAM default_table[] = {
      -1,                        /* depth */
      -1,                        /* auth_level */
      NULL,                      /* policies */
-     vpm_empty_id}
+     vpm_empty_id
+    }
 };
 
 static STACK_OF(X509_VERIFY_PARAM) *param_table = NULL;
@@ -592,7 +610,10 @@ int X509_VERIFY_PARAM_add0_table(X509_VERIFY_PARAM *param)
             X509_VERIFY_PARAM_free(ptmp);
         }
     }
-    return sk_X509_VERIFY_PARAM_push(param_table, param);
+
+    if (sk_X509_VERIFY_PARAM_push(param_table, param) <= 0)
+        return 0;
+    return 1;
 }
 
 int X509_VERIFY_PARAM_get_count(void)
@@ -620,6 +641,8 @@ const X509_VERIFY_PARAM *X509_VERIFY_PARAM_lookup(const char *name)
 
     pm.name = (char *)name;
     if (param_table != NULL) {
+        /* Ideally, this would be done under a lock */
+        sk_X509_VERIFY_PARAM_sort(param_table);
         idx = sk_X509_VERIFY_PARAM_find(param_table, &pm);
         if (idx >= 0)
             return sk_X509_VERIFY_PARAM_value(param_table, idx);

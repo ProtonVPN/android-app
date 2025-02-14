@@ -1,16 +1,16 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13...3.28)
 
 set(CMAKE_CXX_STANDARD 17)
-
-#cmake_policy(SET CMP0079 NEW)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CORE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
-
 
 set(DEP_DIR ${CORE_DIR}/../deps CACHE PATH "Dependencies")
 option(USE_MBEDTLS "Use mbed TLS instead of OpenSSL")
 
 option(USE_WERROR "Treat compiler warnings as errors (-Werror)")
+option(USE_WCONVERSION "Enable -Wconversion")
 
 if (DEFINED ENV{DEP_DIR})
     message("Overriding DEP_DIR setting with environment variable $ENV{DEP_DIR}")
@@ -43,6 +43,28 @@ endfunction()
 
 
 function(add_core_dependencies target)
+    # It would be nice if we could just do organise the files that make up the OpenVPN3 core library in
+    # a static library called openvpn3 or similar and be able to do
+    #      target_link_libraries(${target} openvpn3)
+    # here.
+    #
+    # Unfortunately, too much currently depends on per-target compile flags and defines like #define OPENVPN_LOG
+    # that require compilation of all core files as part of the target that uses the core library.
+    #
+    # If even with this approach of adding some extra files to the sources of a target, we need to careful that
+    # we are depending on definitions that are can be defined differently in another compilation unit.
+    #
+    # Until we refactor these problematic defines to be in a common header (like config.h in autoconf land)
+    # or in set then for the whole target in the cmake files (instead of using #define xy in the top of a cpp file)
+    # we have to live with this restriction.
+    #
+    # The unit test work around this problem by always including test_common.h as very first include in every
+    # file that double as a config.h equivalent.
+    add_corelibrary_dependencies(${target})
+    target_sources(${target} PRIVATE ${CORE_DIR}/openvpn/crypto/data_epoch.cpp)
+endfunction()
+
+function(add_corelibrary_dependencies target)
     set(PLAT ${OPENVPN_PLAT})
 
     target_include_directories(${target} PRIVATE ${CORE_DIR})
@@ -51,7 +73,7 @@ function(add_core_dependencies target)
             -DASIO_STANDALONE
             -DUSE_ASIO
             -DHAVE_LZ4
-            -DMBEDTLS_DEPRECATED_REMOVED
+            #-DMBEDTLS_DEPRECATED_REMOVED  # with mbed TLS 3.0 we currently still need the deprecated APIs
             )
 
     if (WIN32)
@@ -123,12 +145,23 @@ function(add_core_dependencies target)
     endif ()
 
     if (MSVC)
-        # I think this is too much currently
-        # target_compile_options(${target} PRIVATE /W4)
+        # C4200: nonstandard extension used : zero-sized array in struct/union
+        # C4146: unary minus operator applied to unsigned type, result still unsigned
+        target_compile_options(${target} PRIVATE /W3 /wd4200 /wd4146)
     else()
-        target_compile_options(${target} PRIVATE -Wall -Wsign-compare)
+        target_compile_options(${target} PRIVATE -Wall -Wsign-compare -Wnon-virtual-dtor)
+        if (USE_WCONVERSION)
+            target_compile_options(${target} PRIVATE -Wconversion -Wno-sign-conversion)
+        endif()
+        if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            # disable noisy warnings
+            target_compile_options(${target} PRIVATE -Wno-maybe-uninitialized)
+        endif()
+        if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+            # display all warnings
+            target_compile_options(${target} PRIVATE -ferror-limit=0 -Wno-enum-enum-conversion)
+        endif()
     endif()
-
 endfunction()
 
 function (add_json_library target)

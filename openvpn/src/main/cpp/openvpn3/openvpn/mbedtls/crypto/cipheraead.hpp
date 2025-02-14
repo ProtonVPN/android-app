@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap the mbed TLS AEAD API.
 
@@ -32,15 +22,12 @@
 #include <openvpn/common/likely.hpp>
 #include <openvpn/crypto/static_key.hpp>
 #include <openvpn/crypto/cryptoalgs.hpp>
+#include <openvpn/crypto/aead_usage_limit.hpp>
 #include <openvpn/mbedtls/crypto/cipher.hpp>
 
-namespace openvpn {
-namespace MbedTLSCrypto {
+namespace openvpn::MbedTLSCrypto {
 class CipherContextAEAD : public CipherContextCommon
 {
-    CipherContextAEAD(const CipherContextAEAD &) = delete;
-    CipherContextAEAD &operator=(const CipherContextAEAD &) = delete;
-
   public:
     OPENVPN_EXCEPTION(mbedtls_aead_error);
 
@@ -66,6 +53,23 @@ class CipherContextAEAD : public CipherContextCommon
     {
         erase();
     }
+
+    CipherContextAEAD(CipherContextAEAD &&other) noexcept
+        : CipherContextCommon(std::move(other)), aead_usage_limit_(other.aead_usage_limit_)
+    {
+    }
+
+    CipherContextAEAD &operator=(CipherContextAEAD &&other)
+    {
+        CipherContextAEAD temp(std::move(other));
+        ctx = temp.ctx;
+        initialized = temp.initialized;
+        temp.ctx = {};
+        temp.initialized = false;
+        aead_usage_limit_ = temp.aead_usage_limit_;
+        return *this;
+    }
+
 
     void init(SSLLib::Ctx libctx,
               const CryptoAlgs::Type alg,
@@ -95,6 +99,7 @@ class CipherContextAEAD : public CipherContextCommon
         if (mbedtls_cipher_setkey(&ctx, key, ckeysz * 8, (mbedtls_operation_t)mode) < 0)
             throw mbedtls_aead_error("mbedtls_cipher_setkey");
 
+        aead_usage_limit_ = {alg};
         initialized = true;
     }
 
@@ -122,9 +127,29 @@ class CipherContextAEAD : public CipherContextCommon
                                                            AUTH_TAG_LEN);
         if (unlikely(status))
             OPENVPN_THROW(mbedtls_aead_error, "mbedtls_cipher_auth_encrypt failed with status=" << status);
+        aead_usage_limit_.update(length + ad_len);
     }
 
-    // input and output may NOT be equal
+    /** Returns the AEAD usage limit associated with this AEAD cipher instance to check the limits */
+    [[nodiscard]] const Crypto::AEADUsageLimit &get_usage_limit()
+    {
+        return aead_usage_limit_;
+    }
+
+    /**
+     * Decrypts AEAD encrypted data. Note that this method ignores the tag parameter
+     * and the tag is assumed to be part of input and at the end of the input.
+     *
+     * @param input     Input data to decrypt
+     * @param output    Where decrypted data will be written to
+     * @param iv        IV of the encrypted data.
+     * @param length    length the of the data, this includes the tag at the end.
+     * @param ad        start of the additional data
+     * @param ad_len    length of the additional data
+     * @param tag       ignored by the mbed TLS variant of the method. (see OpenSSL variant of the method for more details).
+     *
+     * input and output may NOT be equal
+     */
     bool decrypt(const unsigned char *input,
                  unsigned char *output,
                  size_t length,
@@ -134,6 +159,12 @@ class CipherContextAEAD : public CipherContextCommon
                  size_t ad_len)
     {
         check_initialized();
+
+        if (unlikely(tag != nullptr))
+        {
+            /* If we are called with a non-null tag, the function is not going to be able to decrypt */
+            throw mbedtls_aead_error("tag must be null for aead decrypt");
+        }
 
         size_t olen;
         const int status = mbedtls_cipher_auth_decrypt_ext(&ctx,
@@ -163,6 +194,7 @@ class CipherContextAEAD : public CipherContextCommon
     }
 
   private:
+    Crypto::AEADUsageLimit aead_usage_limit_ = {};
     static mbedtls_cipher_type_t cipher_type(const CryptoAlgs::Type alg, unsigned int &keysize)
     {
         switch (alg)
@@ -187,5 +219,4 @@ class CipherContextAEAD : public CipherContextCommon
         }
     }
 };
-} // namespace MbedTLSCrypto
-} // namespace openvpn
+} // namespace openvpn::MbedTLSCrypto

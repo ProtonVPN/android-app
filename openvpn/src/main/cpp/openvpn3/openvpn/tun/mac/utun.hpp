@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 //
 
 // Thanks to Jonathan Levin for proof-of-concept utun code for Mac OS X.
@@ -48,9 +38,7 @@
 #include <openvpn/common/to_string.hpp>
 #include <openvpn/common/scoped_fd.hpp>
 
-namespace openvpn {
-namespace TunMac {
-namespace UTun {
+namespace openvpn::TunMac::UTun {
 OPENVPN_EXCEPTION(utun_error);
 
 // Open specific utun device unit and return fd.
@@ -108,8 +96,6 @@ inline int utun_open(std::string &name)
     }
     throw utun_error("cannot open available utun device");
 }
-} // namespace UTun
-} // namespace TunMac
-} // namespace openvpn
+} // namespace openvpn::TunMac::UTun
 
 #endif

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_CLIENT_OPTFILT_H
 #define OPENVPN_CLIENT_OPTFILT_H
@@ -25,6 +15,7 @@
 #include <vector>
 
 #include <openvpn/common/options.hpp>
+#include <openvpn/common/numeric_util.hpp>
 #include <openvpn/common/string.hpp>
 #include <openvpn/client/dns.hpp>
 
@@ -44,11 +35,11 @@ class PushedOptionsFilter : public OptionList::FilterBase
         for (auto i : opt.get_index("pull-filter"))
         {
             FilterAction action = None;
-            auto o = opt[i];
+            auto &o = opt[i];
             o.exact_args(3);
             o.touch();
 
-            auto action_str = o.get(1, -1);
+            const auto &action_str = o.get(1, -1);
             if (action_str == "accept")
                 action = Accept;
             else if (action_str == "ignore")
@@ -56,14 +47,14 @@ class PushedOptionsFilter : public OptionList::FilterBase
             else if (action_str == "reject")
                 action = Reject;
             else
-                throw option_error("invalid pull-filter action: " + action_str);
+                throw option_error(ERR_INVALID_OPTION_VAL, "invalid pull-filter action: " + action_str);
 
             Option match = OptionList::parse_option_from_line(o.get(2, -1), nullptr);
             pull_filter_list_.push_back({action, match});
         }
     }
 
-    virtual bool filter(const Option &opt)
+    bool filter(const Option &opt) override
     {
         return filter_(opt) == Accept ? true : false;
     }
@@ -104,9 +95,9 @@ class PushedOptionsFilter : public OptionList::FilterBase
         if (o.size() >= 3
             && o.ref(0) == "dns"
             && o.ref(1) == "server"
-            && DnsServer::parse_priority(o.ref(2)) < 0)
+            && DnsOptionsParser::parse_priority(o.ref(2)) < 0)
         {
-            throw option_error(o.escape(false));
+            throw option_error(ERR_INVALID_CONFIG, o.escape(false));
         }
     }
 
@@ -135,8 +126,9 @@ class PushedOptionsFilter : public OptionList::FilterBase
     {
         if (pushed.size() < match.size())
             return false;
-
-        int i = match.size() - 1;
+        if (!is_safe_conversion<int>(match.size() - 1))
+            return false;
+        int i = static_cast<int>(match.size() - 1);
         if (!string::starts_with(pushed.get(i, -1), match.get(i, -1)))
             return false;
 

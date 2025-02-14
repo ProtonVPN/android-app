@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2025 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -26,9 +26,6 @@ static int wsa_init_done = 0;
 # if defined __TANDEM
 #  include <unistd.h>
 #  include <sys/time.h> /* select */
-#  if defined(OPENSSL_TANDEM_FLOSS)
-#   include <floss.h(floss_select)>
-#  endif
 # elif defined _WIN32
 #  include <winsock.h> /* for type fd_set */
 # else
@@ -130,6 +127,11 @@ struct hostent *BIO_gethostbyname(const char *name)
 }
 # endif
 
+# ifdef BIO_HAVE_WSAMSG
+LPFN_WSARECVMSG bio_WSARecvMsg;
+LPFN_WSASENDMSG bio_WSASendMsg;
+# endif
+
 int BIO_sock_init(void)
 {
 # ifdef OPENSSL_SYS_WINDOWS
@@ -150,6 +152,39 @@ int BIO_sock_init(void)
             ERR_raise(ERR_LIB_BIO, BIO_R_WSASTARTUP);
             return -1;
         }
+
+        /*
+         * On Windows, some socket functions are not exposed as a prototype.
+         * Instead, their function pointers must be loaded via this elaborate
+         * process...
+         */
+#  ifdef BIO_HAVE_WSAMSG
+        {
+            GUID id_WSARecvMsg = WSAID_WSARECVMSG;
+            GUID id_WSASendMsg = WSAID_WSASENDMSG;
+            DWORD len_out = 0;
+            SOCKET s;
+
+            s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+            if (s != INVALID_SOCKET) {
+                if (WSAIoctl(s, SIO_GET_EXTENSION_FUNCTION_POINTER,
+                             &id_WSARecvMsg, sizeof(id_WSARecvMsg),
+                             &bio_WSARecvMsg, sizeof(bio_WSARecvMsg),
+                             &len_out, NULL, NULL) != 0
+                    || len_out != sizeof(bio_WSARecvMsg))
+                    bio_WSARecvMsg = NULL;
+
+                if (WSAIoctl(s, SIO_GET_EXTENSION_FUNCTION_POINTER,
+                             &id_WSASendMsg, sizeof(id_WSASendMsg),
+                             &bio_WSASendMsg, sizeof(bio_WSASendMsg),
+                             &len_out, NULL, NULL) != 0
+                    || len_out != sizeof(bio_WSASendMsg))
+                    bio_WSASendMsg = NULL;
+
+                closesocket(s);
+            }
+        }
+#  endif
     }
 # endif                         /* OPENSSL_SYS_WINDOWS */
 # ifdef WATT32
@@ -222,7 +257,7 @@ int BIO_get_accept_socket(char *host, int bind_mode)
         return INVALID_SOCKET;
 
     if (BIO_sock_init() != 1)
-        return INVALID_SOCKET;
+        goto err;
 
     if (BIO_lookup(h, p, BIO_LOOKUP_SERVER, AF_UNSPEC, SOCK_STREAM, &res) != 0)
         goto err;
@@ -267,13 +302,14 @@ int BIO_accept(int sock, char **ip_port)
     if (ip_port != NULL) {
         char *host = BIO_ADDR_hostname_string(&res, 1);
         char *port = BIO_ADDR_service_string(&res, 1);
-        if (host != NULL && port != NULL)
+        if (host != NULL && port != NULL) {
             *ip_port = OPENSSL_zalloc(strlen(host) + strlen(port) + 2);
-        else
+        } else {
             *ip_port = NULL;
+            ERR_raise(ERR_LIB_BIO, ERR_R_BIO_LIB);
+        }
 
         if (*ip_port == NULL) {
-            ERR_raise(ERR_LIB_BIO, ERR_R_MALLOC_FAILURE);
             BIO_closesocket(ret);
             ret = (int)INVALID_SOCKET;
         } else {
@@ -396,7 +432,11 @@ int BIO_socket_wait(int fd, int for_read, time_t max_time)
     struct timeval tv;
     time_t now;
 
+#ifdef _WIN32
+    if ((SOCKET)fd == INVALID_SOCKET)
+#else
     if (fd < 0 || fd >= FD_SETSIZE)
+#endif
         return -1;
     if (max_time == 0)
         return 1;

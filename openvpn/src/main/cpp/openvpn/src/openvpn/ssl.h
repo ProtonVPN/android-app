@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,8 @@
  */
 
 /**
- * @file Control Channel SSL/Data channel negotiation module
+ * @file
+ * Control Channel SSL/Data channel negotiation module
  */
 
 #ifndef OPENVPN_SSL_H
@@ -94,7 +95,7 @@
  * result. */
 #define IV_PROTO_NCP_P2P         (1<<5)
 
-/** Supports the --dns option introduced in version 2.6 */
+/** Supports the --dns option introduced in version 2.6. Not sent anymore. */
 #define IV_PROTO_DNS_OPTION      (1<<6)
 
 /** Support for explicit exit notify via control channel
@@ -106,6 +107,12 @@
 
 /** Support to dynamic tls-crypt (renegotiation with TLS-EKM derived tls-crypt key) */
 #define IV_PROTO_DYN_TLS_CRYPT   (1<<9)
+
+/** Support the extended packet id and epoch format for data channel packets */
+#define IV_PROTO_DATA_EPOCH      (1<<10)
+
+/** Supports the --dns option after all the incompatible changes */
+#define IV_PROTO_DNS_OPTION_V2   (1<<11)
 
 /* Default field in X509 to be username */
 #define X509_USERNAME_FIELD_DEFAULT "CN"
@@ -381,7 +388,7 @@ void tls_post_encrypt(struct tls_multi *multi, struct buffer *buf);
 void pem_password_setup(const char *auth_file);
 
 /* Enables the use of user/password authentication */
-void enable_auth_user_pass();
+void enable_auth_user_pass(void);
 
 /*
  * Setup authentication username and password. If auth_file is given, use the
@@ -397,6 +404,11 @@ void auth_user_pass_setup(const char *auth_file, bool is_inline,
 void ssl_set_auth_nocache(void);
 
 /*
+ * Getter method for retrieving the auth-nocache option.
+ */
+bool ssl_get_auth_nocache(void);
+
+/*
  * Purge any stored authentication information, both for key files and tunnel
  * authentication. If PCKS #11 is enabled, purge authentication for that too.
  * Note that auth_token is not cleared.
@@ -410,11 +422,7 @@ void ssl_set_auth_token_user(const char *username);
 bool ssl_clean_auth_token(void);
 
 #ifdef ENABLE_MANAGEMENT
-/*
- * ssl_get_auth_challenge will parse the server-pushed auth-failed
- * reason string and return a dynamically allocated
- * auth_challenge_info struct.
- */
+
 void ssl_purge_auth_challenge(void);
 
 void ssl_put_auth_challenge(const char *cr_str);
@@ -456,6 +464,8 @@ void tls_update_remote_addr(struct tls_multi *multi,
  * @param frame_fragment  The fragment frame options.
  * @param lsi             link socket info to adjust MTU related options
  *                        depending on the current protocol
+ * @param dco             The dco context to perform dco_set_peer()
+ *                        whenever a crypto param update occurs.
  *
  * @return true if updating succeeded or keys are already generated, false otherwise.
  */
@@ -464,7 +474,8 @@ bool tls_session_update_crypto_params(struct tls_multi *multi,
                                       struct options *options,
                                       struct frame *frame,
                                       struct frame *frame_fragment,
-                                      struct link_socket_info *lsi);
+                                      struct link_socket_info *lsi,
+                                      dco_context_t *dco);
 
 /*
  * inline functions
@@ -525,6 +536,7 @@ tls_set_single_session(struct tls_multi *multi)
 #define PD_SHOW_DATA               (1<<8)
 #define PD_TLS                     (1<<9)
 #define PD_VERBOSE                 (1<<10)
+#define PD_TLS_CRYPT               (1<<11)
 
 const char *protocol_dump(struct buffer *buffer,
                           unsigned int flags,
@@ -538,9 +550,6 @@ const char *protocol_dump(struct buffer *buffer,
 void show_tls_performance_stats(void);
 
 #endif
-
-/*#define EXTRACT_X509_FIELD_TEST*/
-void extract_x509_field_test(void);
 
 /**
  * Given a key_method, return true if opcode represents the one of the
@@ -572,6 +581,9 @@ show_available_tls_ciphers(const char *cipher_list,
 bool
 tls_session_generate_data_channel_keys(struct tls_multi *multi,
                                        struct tls_session *session);
+
+void
+tls_session_soft_reset(struct tls_multi *multi);
 
 /**
  * Load ovpn.xkey provider used for external key signing

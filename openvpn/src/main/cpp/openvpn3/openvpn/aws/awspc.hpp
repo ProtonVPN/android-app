@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Get AWS info such as instanceId, region, and privateIp.
 // Also optionally call AWSPC API with product code to get
@@ -40,8 +30,7 @@
 #include <openvpn/openssl/sign/pkcs7verify.hpp>
 #include <openvpn/ssl/sslchoose.hpp>
 
-namespace openvpn {
-namespace AWS {
+namespace openvpn::AWS {
 
 class PCQuery : public RC<thread_unsafe_refcount>
 {
@@ -111,6 +100,25 @@ class PCQuery : public RC<thread_unsafe_refcount>
     {
     }
 
+    WS::ClientSet::TransactionSet::Ptr prepare_transaction_set()
+    {
+        // make HTTP context
+        WS::Client::Config::Ptr http_config(new WS::Client::Config());
+        http_config->frame = frame;
+        http_config->connect_timeout = 15;
+        http_config->general_timeout = 30;
+
+        // make transation set
+        WS::ClientSet::TransactionSet::Ptr ts = new WS::ClientSet::TransactionSet;
+        ts->host.host = "169.254.169.254";
+        ts->host.port = "80";
+        ts->http_config = http_config;
+        ts->max_retries = 3;
+        ts->debug_level = debug_level;
+
+        return ts;
+    }
+
     void start(std::function<void(Info info)> completion_arg)
     {
         // make sure we are not in a pending state
@@ -126,58 +134,20 @@ class PCQuery : public RC<thread_unsafe_refcount>
 
         try
         {
-            // make HTTP context
-            WS::Client::Config::Ptr http_config(new WS::Client::Config());
-            http_config->frame = frame;
-            http_config->connect_timeout = 15;
-            http_config->general_timeout = 30;
+            auto ts = prepare_transaction_set();
 
-            // make transaction set for initial local query
-            WS::ClientSet::TransactionSet::Ptr ts = new WS::ClientSet::TransactionSet;
-            ts->host.host = "169.254.169.254";
-            ts->host.port = "80";
-            ts->http_config = http_config;
-            ts->max_retries = 3;
-            ts->debug_level = debug_level;
-
-            // transaction #1
             {
                 std::unique_ptr<WS::ClientSet::Transaction> t(new WS::ClientSet::Transaction);
-                t->req.method = "GET";
-                t->req.uri = "/latest/dynamic/instance-identity/document";
-                ts->transactions.push_back(std::move(t));
-            }
-
-            // transaction #2
-            {
-                std::unique_ptr<WS::ClientSet::Transaction> t(new WS::ClientSet::Transaction);
-                t->req.method = "GET";
-                t->req.uri = "/latest/dynamic/instance-identity/pkcs7";
-                ts->transactions.push_back(std::move(t));
-            }
-
-            // transaction #3
-            if (lookup_product_code)
-            {
-                std::unique_ptr<WS::ClientSet::Transaction> t(new WS::ClientSet::Transaction);
-                t->req.method = "GET";
-                t->req.uri = "/latest/meta-data/product-codes";
-                ts->transactions.push_back(std::move(t));
-            }
-
-            // transaction #4
-            if (!role_for_credentials.empty())
-            {
-                std::unique_ptr<WS::ClientSet::Transaction> t(new WS::ClientSet::Transaction);
-                t->req.method = "GET";
-                t->req.uri = "/latest/meta-data/iam/security-credentials/" + role_for_credentials;
+                t->req.method = "PUT";
+                t->req.uri = "/latest/api/token";
+                t->ci.extra_headers.emplace_back("X-aws-ec2-metadata-token-ttl-seconds: 60");
                 ts->transactions.push_back(std::move(t));
             }
 
             // completion handler
             ts->completion = [self = Ptr(this)](WS::ClientSet::TransactionSet &ts)
             {
-                self->local_query_complete(ts);
+                self->token_query_complete(ts);
             };
 
             // do the request
@@ -289,6 +259,74 @@ class PCQuery : public RC<thread_unsafe_refcount>
             }
             else
                 done("");
+        }
+        catch (const std::exception &e)
+        {
+            done(e.what());
+        }
+    }
+
+    void token_query_complete(WS::ClientSet::TransactionSet &lts)
+    {
+        try
+        {
+            // get transaction and check that they succeeded
+            WS::ClientSet::Transaction &token_trans = *lts.transactions.at(0);
+            if (!token_trans.request_status_success())
+            {
+                done("could not fetch AWS session token: " + token_trans.format_status(lts));
+                return;
+            }
+            const std::string token = token_trans.content_in.to_string();
+
+            auto ts = prepare_transaction_set();
+
+            // transaction #1
+            {
+                std::unique_ptr<WS::ClientSet::Transaction> t(new WS::ClientSet::Transaction);
+                t->req.method = "GET";
+                t->req.uri = "/latest/dynamic/instance-identity/document";
+                t->ci.extra_headers.emplace_back("X-aws-ec2-metadata-token: " + token);
+                ts->transactions.push_back(std::move(t));
+            }
+
+            // transaction #2
+            {
+                std::unique_ptr<WS::ClientSet::Transaction> t(new WS::ClientSet::Transaction);
+                t->req.method = "GET";
+                t->req.uri = "/latest/dynamic/instance-identity/pkcs7";
+                t->ci.extra_headers.emplace_back("X-aws-ec2-metadata-token: " + token);
+                ts->transactions.push_back(std::move(t));
+            }
+
+            // transaction #3
+            if (lookup_product_code)
+            {
+                std::unique_ptr<WS::ClientSet::Transaction> t(new WS::ClientSet::Transaction);
+                t->req.method = "GET";
+                t->req.uri = "/latest/meta-data/product-codes";
+                t->ci.extra_headers.emplace_back("X-aws-ec2-metadata-token: " + token);
+                ts->transactions.push_back(std::move(t));
+            }
+
+            // transaction #4
+            if (!role_for_credentials.empty())
+            {
+                std::unique_ptr<WS::ClientSet::Transaction> t(new WS::ClientSet::Transaction);
+                t->req.method = "GET";
+                t->req.uri = "/latest/meta-data/iam/security-credentials/" + role_for_credentials;
+                t->ci.extra_headers.emplace_back("X-aws-ec2-metadata-token: " + token);
+                ts->transactions.push_back(std::move(t));
+            }
+
+            // completion handler
+            ts->completion = [self = Ptr(this)](WS::ClientSet::TransactionSet &ts)
+            {
+                self->local_query_complete(ts);
+            };
+
+            // do the request
+            cs->new_request(ts);
         }
         catch (const std::exception &e)
         {
@@ -467,7 +505,6 @@ class PCQuery : public RC<thread_unsafe_refcount>
     std::string nonce() const
     {
         unsigned char data[16];
-        rng->assert_crypto();
         rng->rand_fill(data);
         return render_hex(data, sizeof(data));
     }
@@ -549,7 +586,7 @@ class PCQuery : public RC<thread_unsafe_refcount>
     }
 
     WS::ClientSet::Ptr cs;
-    RandomAPI::Ptr rng;
+    StrongRandomAPI::Ptr rng;
     Frame::Ptr frame;
     const bool lookup_product_code;
     const int debug_level;
@@ -561,5 +598,4 @@ class PCQuery : public RC<thread_unsafe_refcount>
     Json::Value awspc_req;
     bool pending = false;
 };
-} // namespace AWS
-} // namespace openvpn
+} // namespace openvpn::AWS

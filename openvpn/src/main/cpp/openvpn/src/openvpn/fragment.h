@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -137,8 +137,6 @@ struct fragment_master {
     struct event_timeout wakeup; /**< Timeout structure used by the main
                                   *   event loop to know when to do
                                   *   fragmentation housekeeping. */
-    bool received_os_mtu_hint;  /**< Whether the operating system has
-                                 *   explicitly recommended an MTU value. */
 #define N_SEQ_ID            256
     /**< One more than the maximum fragment
      *   sequence ID, above which the IDs wrap
@@ -314,7 +312,7 @@ void fragment_free(struct fragment_master *f);
  *    reassembly buffer.  If the incoming part completes the packet being
  *    reassembled, the \a buf argument is modified to point to the fully
  *    reassembled packet.  If, on the other hand, reassembly is not yet
- *    complete, then the the \a buf buffer is set to empty.
+ *    complete, then the \a buf buffer is set to empty.
  *  - Any other value: error.
  *
  * If an error occurs during processing, an error message is logged and

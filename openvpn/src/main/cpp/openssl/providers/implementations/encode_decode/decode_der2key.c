@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -32,6 +32,7 @@
 #include "crypto/ecx.h"
 #include "crypto/rsa.h"
 #include "crypto/x509.h"
+#include "openssl/obj_mac.h"
 #include "prov/bio.h"
 #include "prov/implementations.h"
 #include "endecoder_local.h"
@@ -89,6 +90,7 @@ struct keytype_desc_st {
  */
 struct der2key_ctx_st {
     PROV_CTX *provctx;
+    char propq[OSSL_MAX_PROPQUERY_SIZE];
     const struct keytype_desc_st *desc;
     /* The selection that is passed to der2key_decode() */
     int selection;
@@ -108,8 +110,11 @@ static void *der2key_decode_p8(const unsigned char **input_der,
 
     if ((p8inf = d2i_PKCS8_PRIV_KEY_INFO(NULL, input_der, input_der_len)) != NULL
         && PKCS8_pkey_get0(NULL, NULL, NULL, &alg, p8inf)
-        && OBJ_obj2nid(alg->algorithm) == ctx->desc->evp_type)
-        key = key_from_pkcs8(p8inf, PROV_LIBCTX_OF(ctx->provctx), NULL);
+        && (OBJ_obj2nid(alg->algorithm) == ctx->desc->evp_type
+            /* Allow decoding sm2 private key with id_ecPublicKey */
+            || (OBJ_obj2nid(alg->algorithm) == NID_X9_62_id_ecPublicKey
+                && ctx->desc->evp_type == NID_sm2)))
+        key = key_from_pkcs8(p8inf, PROV_LIBCTX_OF(ctx->provctx), ctx->propq);
     PKCS8_PRIV_KEY_INFO_free(p8inf);
 
     return key;
@@ -120,6 +125,8 @@ static void *der2key_decode_p8(const unsigned char **input_der,
 static OSSL_FUNC_decoder_freectx_fn der2key_freectx;
 static OSSL_FUNC_decoder_decode_fn der2key_decode;
 static OSSL_FUNC_decoder_export_object_fn der2key_export_object;
+static OSSL_FUNC_decoder_settable_ctx_params_fn der2key_settable_ctx_params;
+static OSSL_FUNC_decoder_set_ctx_params_fn der2key_set_ctx_params;
 
 static struct der2key_ctx_st *
 der2key_newctx(void *provctx, const struct keytype_desc_st *desc)
@@ -131,6 +138,28 @@ der2key_newctx(void *provctx, const struct keytype_desc_st *desc)
         ctx->desc = desc;
     }
     return ctx;
+}
+
+static const OSSL_PARAM *der2key_settable_ctx_params(ossl_unused void *provctx)
+{
+    static const OSSL_PARAM settables[] = {
+        OSSL_PARAM_utf8_string(OSSL_DECODER_PARAM_PROPERTIES, NULL, 0),
+        OSSL_PARAM_END
+    };
+    return settables;
+}
+
+static int der2key_set_ctx_params(void *vctx, const OSSL_PARAM params[])
+{
+    struct der2key_ctx_st *ctx = vctx;
+    const OSSL_PARAM *p;
+    char *str = ctx->propq;
+
+    p = OSSL_PARAM_locate_const(params, OSSL_DECODER_PARAM_PROPERTIES);
+    if (p != NULL && !OSSL_PARAM_get_utf8_string(p, &str, sizeof(ctx->propq)))
+        return 0;
+
+    return 1;
 }
 
 static void der2key_freectx(void *vctx)
@@ -287,10 +316,19 @@ static int der2key_decode(void *vctx, OSSL_CORE_BIO *cin, int selection,
 
         params[0] =
             OSSL_PARAM_construct_int(OSSL_OBJECT_PARAM_TYPE, &object_type);
-        params[1] =
-            OSSL_PARAM_construct_utf8_string(OSSL_OBJECT_PARAM_DATA_TYPE,
-                                             (char *)ctx->desc->keytype_name,
-                                             0);
+
+#ifndef OPENSSL_NO_SM2
+        if (strcmp(ctx->desc->keytype_name, "EC") == 0
+            && (EC_KEY_get_flags(key) & EC_FLAG_SM2_RANGE) != 0)
+            params[1] =
+                OSSL_PARAM_construct_utf8_string(OSSL_OBJECT_PARAM_DATA_TYPE,
+                                                 "SM2", 0);
+        else
+#endif
+            params[1] =
+                OSSL_PARAM_construct_utf8_string(OSSL_OBJECT_PARAM_DATA_TYPE,
+                                                 (char *)ctx->desc->keytype_name,
+                                                 0);
         /* The address of the key becomes the octet string */
         params[2] =
             OSSL_PARAM_construct_octet_string(OSSL_OBJECT_PARAM_REFERENCE,
@@ -317,10 +355,14 @@ static int der2key_export_object(void *vctx,
     void *keydata;
 
     if (reference_sz == sizeof(keydata) && export != NULL) {
+        int selection = ctx->selection;
+
+        if (selection == 0)
+            selection = OSSL_KEYMGMT_SELECT_ALL;
         /* The contents of the reference is the address to our object */
         keydata = *(void **)reference;
 
-        return export(keydata, ctx->selection, export_cb, export_cbarg);
+        return export(keydata, selection, export_cb, export_cbarg);
     }
     return 0;
 }
@@ -406,10 +448,16 @@ static void *ec_d2i_PKCS8(void **key, const unsigned char **der, long der_len,
 static int ec_check(void *key, struct der2key_ctx_st *ctx)
 {
     /* We're trying to be clever by comparing two truths */
-
+    int ret = 0;
     int sm2 = (EC_KEY_get_flags(key) & EC_FLAG_SM2_RANGE) != 0;
 
-    return sm2 == (ctx->desc->evp_type == EVP_PKEY_SM2);
+    if (sm2)
+        ret = ctx->desc->evp_type == EVP_PKEY_SM2
+            || ctx->desc->evp_type == NID_X9_62_id_ecPublicKey;
+    else
+        ret = ctx->desc->evp_type != EVP_PKEY_SM2;
+
+    return ret;
 }
 
 static void ec_adjust(void *key, struct der2key_ctx_st *ctx)
@@ -417,6 +465,7 @@ static void ec_adjust(void *key, struct der2key_ctx_st *ctx)
     ossl_ec_key_set0_libctx(key, PROV_LIBCTX_OF(ctx->provctx));
 }
 
+# ifndef OPENSSL_NO_ECX
 /*
  * ED25519, ED448, X25519, X448 only implement PKCS#8 and SubjectPublicKeyInfo,
  * so no d2i functions to be had.
@@ -434,45 +483,46 @@ static void ecx_key_adjust(void *key, struct der2key_ctx_st *ctx)
     ossl_ecx_key_set0_libctx(key, PROV_LIBCTX_OF(ctx->provctx));
 }
 
-# define ed25519_evp_type               EVP_PKEY_ED25519
-# define ed25519_d2i_private_key        NULL
-# define ed25519_d2i_public_key         NULL
-# define ed25519_d2i_key_params         NULL
-# define ed25519_d2i_PKCS8              ecx_d2i_PKCS8
-# define ed25519_d2i_PUBKEY             (d2i_of_void *)ossl_d2i_ED25519_PUBKEY
-# define ed25519_free                   (free_key_fn *)ossl_ecx_key_free
-# define ed25519_check                  NULL
-# define ed25519_adjust                 ecx_key_adjust
+#  define ed25519_evp_type               EVP_PKEY_ED25519
+#  define ed25519_d2i_private_key        NULL
+#  define ed25519_d2i_public_key         NULL
+#  define ed25519_d2i_key_params         NULL
+#  define ed25519_d2i_PKCS8              ecx_d2i_PKCS8
+#  define ed25519_d2i_PUBKEY             (d2i_of_void *)ossl_d2i_ED25519_PUBKEY
+#  define ed25519_free                   (free_key_fn *)ossl_ecx_key_free
+#  define ed25519_check                  NULL
+#  define ed25519_adjust                 ecx_key_adjust
 
-# define ed448_evp_type                 EVP_PKEY_ED448
-# define ed448_d2i_private_key          NULL
-# define ed448_d2i_public_key           NULL
-# define ed448_d2i_key_params           NULL
-# define ed448_d2i_PKCS8                ecx_d2i_PKCS8
-# define ed448_d2i_PUBKEY               (d2i_of_void *)ossl_d2i_ED448_PUBKEY
-# define ed448_free                     (free_key_fn *)ossl_ecx_key_free
-# define ed448_check                    NULL
-# define ed448_adjust                   ecx_key_adjust
+#  define ed448_evp_type                 EVP_PKEY_ED448
+#  define ed448_d2i_private_key          NULL
+#  define ed448_d2i_public_key           NULL
+#  define ed448_d2i_key_params           NULL
+#  define ed448_d2i_PKCS8                ecx_d2i_PKCS8
+#  define ed448_d2i_PUBKEY               (d2i_of_void *)ossl_d2i_ED448_PUBKEY
+#  define ed448_free                     (free_key_fn *)ossl_ecx_key_free
+#  define ed448_check                    NULL
+#  define ed448_adjust                   ecx_key_adjust
 
-# define x25519_evp_type                EVP_PKEY_X25519
-# define x25519_d2i_private_key         NULL
-# define x25519_d2i_public_key          NULL
-# define x25519_d2i_key_params          NULL
-# define x25519_d2i_PKCS8               ecx_d2i_PKCS8
-# define x25519_d2i_PUBKEY              (d2i_of_void *)ossl_d2i_X25519_PUBKEY
-# define x25519_free                    (free_key_fn *)ossl_ecx_key_free
-# define x25519_check                   NULL
-# define x25519_adjust                  ecx_key_adjust
+#  define x25519_evp_type                EVP_PKEY_X25519
+#  define x25519_d2i_private_key         NULL
+#  define x25519_d2i_public_key          NULL
+#  define x25519_d2i_key_params          NULL
+#  define x25519_d2i_PKCS8               ecx_d2i_PKCS8
+#  define x25519_d2i_PUBKEY              (d2i_of_void *)ossl_d2i_X25519_PUBKEY
+#  define x25519_free                    (free_key_fn *)ossl_ecx_key_free
+#  define x25519_check                   NULL
+#  define x25519_adjust                  ecx_key_adjust
 
-# define x448_evp_type                  EVP_PKEY_X448
-# define x448_d2i_private_key           NULL
-# define x448_d2i_public_key            NULL
-# define x448_d2i_key_params            NULL
-# define x448_d2i_PKCS8                 ecx_d2i_PKCS8
-# define x448_d2i_PUBKEY                (d2i_of_void *)ossl_d2i_X448_PUBKEY
-# define x448_free                      (free_key_fn *)ossl_ecx_key_free
-# define x448_check                     NULL
-# define x448_adjust                    ecx_key_adjust
+#  define x448_evp_type                  EVP_PKEY_X448
+#  define x448_d2i_private_key           NULL
+#  define x448_d2i_public_key            NULL
+#  define x448_d2i_key_params            NULL
+#  define x448_d2i_PKCS8                 ecx_d2i_PKCS8
+#  define x448_d2i_PUBKEY                (d2i_of_void *)ossl_d2i_X448_PUBKEY
+#  define x448_free                      (free_key_fn *)ossl_ecx_key_free
+#  define x448_check                     NULL
+#  define x448_adjust                    ecx_key_adjust
+# endif /* OPENSSL_NO_ECX */
 
 # ifndef OPENSSL_NO_SM2
 #  define sm2_evp_type                  EVP_PKEY_SM2
@@ -513,15 +563,23 @@ static void *rsa_d2i_PKCS8(void **key, const unsigned char **der, long der_len,
 
 static int rsa_check(void *key, struct der2key_ctx_st *ctx)
 {
+    int valid;
+
     switch (RSA_test_flags(key, RSA_FLAG_TYPE_MASK)) {
     case RSA_FLAG_TYPE_RSA:
-        return ctx->desc->evp_type == EVP_PKEY_RSA;
+        valid = (ctx->desc->evp_type == EVP_PKEY_RSA);
+        break;
     case RSA_FLAG_TYPE_RSASSAPSS:
-        return ctx->desc->evp_type == EVP_PKEY_RSA_PSS;
+        valid = (ctx->desc->evp_type == EVP_PKEY_RSA_PSS);
+        break;
+    default:
+        /* Currently unsupported RSA key type */
+        valid = 0;
     }
 
-    /* Currently unsupported RSA key type */
-    return 0;
+    valid = (valid && ossl_rsa_check_factors(key));
+
+    return valid;
 }
 
 static void rsa_adjust(void *key, struct der2key_ctx_st *ctx)
@@ -749,7 +807,11 @@ static void rsa_adjust(void *key, struct der2key_ctx_st *ctx)
           (void (*)(void))der2key_decode },                             \
         { OSSL_FUNC_DECODER_EXPORT_OBJECT,                              \
           (void (*)(void))der2key_export_object },                      \
-        { 0, NULL }                                                     \
+        { OSSL_FUNC_DECODER_SETTABLE_CTX_PARAMS,                        \
+          (void (*)(void))der2key_settable_ctx_params },                \
+        { OSSL_FUNC_DECODER_SET_CTX_PARAMS,                             \
+          (void (*)(void))der2key_set_ctx_params },                     \
+        OSSL_DISPATCH_END                                               \
     }
 
 #ifndef OPENSSL_NO_DH
@@ -773,6 +835,7 @@ MAKE_DECODER("EC", ec, ec, PrivateKeyInfo);
 MAKE_DECODER("EC", ec, ec, SubjectPublicKeyInfo);
 MAKE_DECODER("EC", ec, ec, type_specific_no_pub);
 MAKE_DECODER("EC", ec, ec, EC);
+# ifndef OPENSSL_NO_ECX
 MAKE_DECODER("X25519", x25519, ecx, PrivateKeyInfo);
 MAKE_DECODER("X25519", x25519, ecx, SubjectPublicKeyInfo);
 MAKE_DECODER("X448", x448, ecx, PrivateKeyInfo);
@@ -781,9 +844,11 @@ MAKE_DECODER("ED25519", ed25519, ecx, PrivateKeyInfo);
 MAKE_DECODER("ED25519", ed25519, ecx, SubjectPublicKeyInfo);
 MAKE_DECODER("ED448", ed448, ecx, PrivateKeyInfo);
 MAKE_DECODER("ED448", ed448, ecx, SubjectPublicKeyInfo);
+# endif
 # ifndef OPENSSL_NO_SM2
 MAKE_DECODER("SM2", sm2, ec, PrivateKeyInfo);
 MAKE_DECODER("SM2", sm2, ec, SubjectPublicKeyInfo);
+MAKE_DECODER("SM2", sm2, sm2, type_specific_no_pub);
 # endif
 #endif
 MAKE_DECODER("RSA", rsa, rsa, PrivateKeyInfo);

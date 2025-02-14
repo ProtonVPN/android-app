@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -189,9 +189,13 @@ encoder_construct_pkey(OSSL_ENCODER_INSTANCE *encoder_inst, void *arg)
         const OSSL_PROVIDER *e_prov = OSSL_ENCODER_get0_provider(encoder);
 
         if (k_prov != e_prov) {
+            int selection = data->selection;
+
+            if ((selection & OSSL_KEYMGMT_SELECT_PRIVATE_KEY) != 0)
+                selection |= OSSL_KEYMGMT_SELECT_PUBLIC_KEY;
             data->encoder_inst = encoder_inst;
 
-            if (!evp_keymgmt_export(pk->keymgmt, pk->keydata, data->selection,
+            if (!evp_keymgmt_export(pk->keymgmt, pk->keydata, selection,
                                     &encoder_import_cb, data))
                 return NULL;
             data->obj = data->constructed_obj;
@@ -247,10 +251,8 @@ static int ossl_encoder_ctx_setup_for_pkey(OSSL_ENCODER_CTX *ctx,
         struct collected_encoder_st encoder_data;
         struct collected_names_st keymgmt_data;
 
-        if ((data = OPENSSL_zalloc(sizeof(*data))) == NULL) {
-            ERR_raise(ERR_LIB_OSSL_ENCODER, ERR_R_MALLOC_FAILURE);
+        if ((data = OPENSSL_zalloc(sizeof(*data))) == NULL)
             goto err;
-        }
 
         /*
          * Select the first encoder implementations in two steps.
@@ -258,7 +260,7 @@ static int ossl_encoder_ctx_setup_for_pkey(OSSL_ENCODER_CTX *ctx,
          */
         keymgmt_data.names = sk_OPENSSL_CSTRING_new_null();
         if (keymgmt_data.names == NULL) {
-            ERR_raise(ERR_LIB_OSSL_ENCODER, ERR_R_MALLOC_FAILURE);
+            ERR_raise(ERR_LIB_OSSL_ENCODER, ERR_R_CRYPTO_LIB);
             goto err;
         }
 
@@ -286,8 +288,10 @@ static int ossl_encoder_ctx_setup_for_pkey(OSSL_ENCODER_CTX *ctx,
         end = sk_OPENSSL_CSTRING_num(encoder_data.names);
         if (end > 0) {
             encoder_data.id_names = OPENSSL_malloc(end * sizeof(int));
-            if (encoder_data.id_names == NULL)
+            if (encoder_data.id_names == NULL) {
+                sk_OPENSSL_CSTRING_free(keymgmt_data.names);
                 goto err;
+            }
             for (i = 0; i < end; ++i) {
                 const char *name = sk_OPENSSL_CSTRING_value(keymgmt_data.names, i);
 
@@ -311,7 +315,7 @@ static int ossl_encoder_ctx_setup_for_pkey(OSSL_ENCODER_CTX *ctx,
         OPENSSL_free(encoder_data.id_names);
         sk_OPENSSL_CSTRING_free(keymgmt_data.names);
         if (encoder_data.error_occurred) {
-            ERR_raise(ERR_LIB_OSSL_ENCODER, ERR_R_MALLOC_FAILURE);
+            ERR_raise(ERR_LIB_OSSL_ENCODER, ERR_R_CRYPTO_LIB);
             goto err;
         }
     }
@@ -358,7 +362,7 @@ OSSL_ENCODER_CTX *OSSL_ENCODER_CTX_new_for_pkey(const EVP_PKEY *pkey,
     }
 
     if ((ctx = OSSL_ENCODER_CTX_new()) == NULL) {
-        ERR_raise(ERR_LIB_OSSL_ENCODER, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_OSSL_ENCODER, ERR_R_OSSL_ENCODER_LIB);
         return NULL;
     }
 

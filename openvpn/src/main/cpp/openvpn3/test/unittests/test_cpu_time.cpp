@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2019-2022 OpenVPN Inc.
+//    Copyright (C) 2019- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 
 // We have two set of measurements for these tests
@@ -39,7 +29,7 @@
 
 // #define DEBUG  // Define this macro to get more details
 
-#include "test_common.h"
+#include "test_common.hpp"
 #include <cstdint>
 #include <unistd.h>
 #include <memory>
@@ -69,7 +59,7 @@
 #define MEASURE(v, chkv, thread)          \
     double v = openvpn::cpu_time(thread); \
     ASSERT_GE(v, 0);                      \
-    double chkv = time(NULL)
+    double chkv = static_cast<double>(time(NULL))
 
 #define CALCULATE(msg, st, en, rt, chst, chen, chrt, md) \
     double rt = en - st;                                 \
@@ -111,7 +101,7 @@ static void workload(const uint16_t multiplier)
     double d = 0;
     for (unsigned int i = UINT16_MAX * multiplier; i > 0; i--)
     {
-        d += gen();
+        d += static_cast<double>(gen());
     }
     (void)d;
 }
@@ -180,7 +170,7 @@ void run_threads(const uint8_t num_threads)
         ThreadPtr tp;
         tp = std::make_shared<std::thread>([id = i]()
                                            { worker_thread(id); });
-        threads.push_back(tp);
+        threads.push_back(std::move(tp));
     }
 
     for (const auto &t : threads)
@@ -217,7 +207,7 @@ TEST(CPUTime, cpu_time_thread_numcores)
 
     // Meassure running a single worker thread
     MEASURE(parent_start, chk_parent_start, false);
-    run_threads(num_cores);
+    run_threads(static_cast<uint8_t>(num_cores));
     MEASURE(parent_end, chk_parent_end, false);
 
     CALCULATE("Parent thread - " << std::to_string(num_cores) << " child thread",

@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/buffer/bufstr.hpp>
 
@@ -14,7 +14,7 @@ TEST(buffer, const_buffer_ref_1)
     EXPECT_EQ(buf_to_string(buf), buf_to_string(cbuf));
 }
 
-// test equality of BufferAllocated and ConstBuffer
+// test equality of BufferAllocatedRc and ConstBuffer
 TEST(buffer, const_buffer_ref_2)
 {
     BufferAllocated buf(64, 0);
@@ -165,7 +165,7 @@ TEST(buffer, alloc_buffer_access1)
 // Test read/write access and bounds check
 TEST(buffer, alloc_buffer_access2)
 {
-    BufferAllocated buf(64, BufferAllocated::CONSTRUCT_ZERO | BufferAllocated::DESTRUCT_ZERO);
+    BufferAllocated buf(64, BufAllocFlags::CONSTRUCT_ZERO | BufAllocFlags::DESTRUCT_ZERO);
     buf_append_string(buf, "hello world");
 
     buf[0] = 'j';
@@ -342,4 +342,213 @@ TEST(buffer, alloc_buffer_read1)
     buf.read(raw, sizeof(raw));
 
     EXPECT_EQ(memcmp(raw, data, sizeof(raw)), 0);
+}
+
+TEST(buffer, prepend_alloc)
+{
+    BufferAllocated buf(64, 0);
+    buf_append_string(buf, "hello world");
+    EXPECT_EQ(buf.offset(), 0u);
+
+    buf.prepend_alloc(5);
+    EXPECT_EQ(buf.size(), 16u);
+    EXPECT_EQ(buf.remaining(), 48u);
+}
+
+
+TEST(buffer, prepend_alloc_2)
+{
+    BufferAllocated buf(64, 0);
+    EXPECT_EQ(buf.offset(), 0u);
+    buf.init_headroom(2);
+    EXPECT_EQ(buf.offset(), 2u);
+    buf_append_string(buf, "hello world");
+    EXPECT_EQ(buf.offset(), 2u);
+
+    buf.prepend_alloc(5);
+    EXPECT_EQ(buf.offset(), 0u);
+    EXPECT_EQ(buf.size(), 16u);
+    EXPECT_EQ(buf.remaining(), 48u);
+}
+
+
+TEST(buffer, prepend_alloc_fits)
+{
+    BufferAllocated buf(64, 0);
+    EXPECT_EQ(buf.offset(), 0u);
+    buf.init_headroom(5);
+    EXPECT_EQ(buf.offset(), 5u);
+    buf_append_string(buf, "hello world");
+    EXPECT_EQ(buf.offset(), 5u);
+
+    buf.prepend_alloc(5);
+    EXPECT_EQ(buf.offset(), 0u);
+    EXPECT_EQ(buf.size(), 16u);
+    EXPECT_EQ(buf.remaining(), 48u);
+}
+
+TEST(buffer, prepend_alloc_fail)
+{
+    BufferAllocated buf(11, 0);
+    buf_append_string(buf, "hello world");
+
+    EXPECT_THROW(buf.prepend_alloc(5), std::exception);
+    EXPECT_EQ(buf.size(), 11u);
+    EXPECT_EQ(buf.remaining(), 0u);
+}
+
+TEST(buffer, prepend_alloc_fail2)
+{
+    BufferAllocated buf(14, 0);
+    buf_append_string(buf, "hello world");
+
+    EXPECT_THROW(buf.prepend_alloc(5), std::exception);
+    EXPECT_EQ(buf.size(), 11u);
+    EXPECT_EQ(buf.remaining(), 3u);
+}
+
+TEST(buffer, realign)
+{
+    BufferAllocated buf(64, 0);
+    buf_append_string(buf, "hello world");
+
+    buf.advance(5);
+    EXPECT_EQ(buf.c_data_raw()[0], 'h');
+
+    buf.realign(0);
+
+    EXPECT_EQ(buf[0], ' ');
+    EXPECT_EQ(buf[5], 'd');
+    EXPECT_THROW(buf[6], BufferException);
+    EXPECT_EQ(buf.size(), 6u);
+    EXPECT_EQ(buf.c_data_raw()[0], ' ');
+}
+
+TEST(buffer, realign2)
+{
+    BufferAllocated buf(64, 0);
+    buf_append_string(buf, "hello world");
+
+    EXPECT_EQ(buf.c_data_raw()[0], 'h');
+
+    buf.realign(5);
+
+    EXPECT_EQ(buf.c_data_raw()[5], 'h');
+    EXPECT_EQ(buf[0], 'h');
+    EXPECT_EQ(buf.size(), 11u);
+}
+
+TEST(buffer, realign3)
+{
+    BufferAllocated buf(11, 0);
+    buf_append_string(buf, "hello world");
+
+    EXPECT_EQ(buf.c_data_raw()[0], 'h');
+
+    buf.realign(5);
+
+    EXPECT_EQ(buf.c_data_raw()[5], 'h');
+    EXPECT_EQ(buf[0], 'h');
+    EXPECT_EQ(buf.size(), 11u);
+    EXPECT_EQ(buf.offset(), 5u);
+}
+
+TEST(buffer, realign4)
+{
+    BufferAllocated buf(32, 0);
+    buf.realign(7u);
+    buf_append_string(buf, "hello world");
+    EXPECT_EQ(buf.offset(), 7u);
+    buf.realign(0);
+
+    EXPECT_EQ(buf.c_data_raw()[0], 'h');
+    EXPECT_EQ(buf[0], 'h');
+    EXPECT_EQ(buf.offset(), 0);
+}
+
+/*
+   We need to be sure the object is in a useable state after a move operation. This
+   reflects implied expectations in our codebase and does not violate the standard. The
+   following tests are to ensure that the object is in a usable state after a move
+   operation. The invariants of the object will be checked in unit tests post-move and
+   the PR and relevant notes will be noted in Coverity and the codebase. The goal is
+   to ensure such use cases do not lead to undefined behavior. The preexisting move
+   implementation is correct and the object is in a valid state post-move. This set
+   of tests seeks to ensure that stays true.
+
+   The standard says:
+
+   C++11 Standard, Section 12.8/32: "If the parameter is a non-const lvalue reference
+   to a non-volatile object type or a non-const rvalue reference to a non-volatile
+   object type, the implicit move constructor ([class.copy.ctor], [class.copy.ctor]/2)
+   and the implicit move assignment operator ([class.copy.assign], [class.copy.assign]/2)
+   are invoked to initialize the parameter object or to assign to it, respectively. The
+   object referred to by the rvalue expression is guaranteed to be left in a valid but
+   unspecified state."
+*/
+
+TEST(buffer, invariants_after_move_safe)
+{
+    BufferAllocated buf(32, 0u);
+    buf_append_string(buf, "hello world");
+
+    BufferAllocated buf2(std::move(buf));
+
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf.size(), 0u);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf.capacity(), 0u);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_THROW(buf[0], BufferException);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf.c_data(), nullptr);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf.c_data_raw(), nullptr);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf.data(), nullptr);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf.data_raw(), nullptr);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf.offset(), 0u);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf.remaining(), 0u);
+}
+
+TEST(buffer, push_back_after_move_safe)
+{
+    BufferAllocated buf(32, 0u);
+    buf_append_string(buf, "hello world");
+
+    BufferAllocated buf2(std::move(buf));
+    buf.realloc(11);
+    buf.push_back('X');
+
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf2.size(), 11u);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf2[0], 'h');
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf2[10], 'd');
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf[0], 'X');
+}
+
+TEST(buffer, append_after_move_safe)
+{
+    BufferAllocated buf(32, 0u);
+    buf_append_string(buf, "hello world");
+
+    BufferAllocated buf2(std::move(buf));
+    auto buf3 = BufferAllocated(32, 0u);
+    buf_append_string(buf3, "hello again");
+    buf = buf3;
+
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf2.size(), 11u);
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf2[0], 'h');
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf2[10], 'd');
+    // coverity[USE_AFTER_MOVE]
+    EXPECT_EQ(buf, buf3);
 }

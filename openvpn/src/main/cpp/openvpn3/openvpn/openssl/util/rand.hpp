@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap the OpenSSL Cryptographic Random API defined in <openssl/rand.h>
 // so that it can be used as the primary source of cryptographic entropy by
@@ -29,32 +19,25 @@
 #include <openssl/rand.h>
 
 #include <openvpn/random/randapi.hpp>
+#include <openvpn/common/numeric_util.hpp>
 
 namespace openvpn {
-class OpenSSLRandom : public RandomAPI
+class OpenSSLRandom : public StrongRandomAPI
 {
   public:
     OPENVPN_EXCEPTION(rand_error_openssl);
 
     typedef RCPtr<OpenSSLRandom> Ptr;
 
-    OpenSSLRandom(const bool prng)
-    {
-    }
+    OpenSSLRandom() = default;
 
-    virtual std::string name() const
+    std::string name() const override
     {
         return "OpenSSLRandom";
     }
 
-    // Return true if algorithm is crypto-strength
-    virtual bool is_crypto() const
-    {
-        return true;
-    }
-
     // Fill buffer with random bytes
-    virtual void rand_bytes(unsigned char *buf, size_t size)
+    void rand_bytes(unsigned char *buf, size_t size) override
     {
         if (!rndbytes(buf, size))
             throw rand_error_openssl("rand_bytes");
@@ -62,7 +45,7 @@ class OpenSSLRandom : public RandomAPI
 
     // Like rand_bytes, but don't throw exception.
     // Return true on successs, false on fail.
-    virtual bool rand_bytes_noexcept(unsigned char *buf, size_t size)
+    bool rand_bytes_noexcept(unsigned char *buf, size_t size) override
     {
         return rndbytes(buf, size);
     }
@@ -70,7 +53,7 @@ class OpenSSLRandom : public RandomAPI
   private:
     bool rndbytes(unsigned char *buf, size_t size)
     {
-        return RAND_bytes(buf, size) == 1;
+        return is_safe_conversion<int>(size) ? RAND_bytes(buf, static_cast<int>(size)) == 1 : false;
     }
 };
 } // namespace openvpn

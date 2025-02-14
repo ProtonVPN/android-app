@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Define the UDP header
 
@@ -52,19 +42,19 @@ inline std::uint16_t udp_checksum(const std::uint8_t *buf,
     /* calculate the sum of all 16 bit words */
     for (unsigned int i = 0; i < len_udp; i += 2)
     {
-        std::uint16_t word16 = ((buf[i] << 8) & 0xFF00) + ((i + 1 < len_udp) ? (buf[i + 1] & 0xFF) : 0);
+        std::uint16_t word16 = static_cast<uint16_t>(((buf[i] << 8) & 0xFF00) + ((i + 1 < len_udp) ? (buf[i + 1] & 0xFF) : 0));
         sum += word16;
     }
 
     /* add the UDP pseudo header which contains the IP source and destination addresses */
     for (unsigned int i = 0; i < 4; i += 2)
     {
-        std::uint16_t word16 = ((src_addr[i] << 8) & 0xFF00) + (src_addr[i + 1] & 0xFF);
+        std::uint16_t word16 = static_cast<uint16_t>(((src_addr[i] << 8) & 0xFF00) + (src_addr[i + 1] & 0xFF));
         sum += word16;
     }
     for (unsigned int i = 0; i < 4; i += 2)
     {
-        std::uint16_t word16 = ((dest_addr[i] << 8) & 0xFF00) + (dest_addr[i + 1] & 0xFF);
+        std::uint16_t word16 = static_cast<uint16_t>(((dest_addr[i] << 8) & 0xFF00) + (dest_addr[i + 1] & 0xFF));
         sum += word16;
     }
 

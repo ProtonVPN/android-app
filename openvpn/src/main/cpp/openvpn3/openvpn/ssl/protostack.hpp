@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_SSL_PROTOSTACK_H
 #define OPENVPN_SSL_PROTOSTACK_H
@@ -100,12 +90,16 @@ class ProtoStackBase
                    TimePtr now_arg,                       // pointer to current time
                    const Time::Duration &tls_timeout_arg, // packet retransmit timeout
                    const Frame::Ptr &frame,               // contains info on how to allocate and align buffers
-                   const SessionStats::Ptr &stats_arg)    // error statistics
+                   const SessionStats::Ptr &stats_arg,    // error statistics
+                   bool psid_cookie_mode)                 // start the reliability layer at packet id 1, not 0
+
         : tls_timeout(tls_timeout_arg),
           ssl_(ssl_factory.ssl()),
           frame_(frame),
           stats(stats_arg),
-          now(now_arg)
+          now(now_arg),
+          rel_recv(ovpn_receiving_window, psid_cookie_mode ? 1 : 0),
+          rel_send(ovpn_sending_window, psid_cookie_mode ? 1 : 0)
     {
     }
 
@@ -320,6 +314,46 @@ class ProtoStackBase
         return *static_cast<PARENT *>(this);
     }
 
+    //! If there are any pending SSL ciphertext packets, encapsulate and send them out.
+    void send_pending_ssl_ciphertext_packets()
+    {
+        // encapsulate SSL ciphertext packets
+        while (ssl_->read_ciphertext_ready() && rel_send.ready())
+        {
+            typename ReliableSend::Message &m = rel_send.send(*now, tls_timeout);
+            m.packet = PACKET(ssl_->read_ciphertext());
+
+            // encapsulate and send cloned packet, preserve original one for retransmit
+            PACKET pkt = m.packet.clone();
+
+            // encapsulate packet
+            try
+            {
+                parent().encapsulate(m.id(), pkt);
+            }
+            catch (...)
+            {
+                error(Error::ENCAPSULATION_ERROR);
+                throw;
+            }
+
+            // transmit it
+            parent().net_send(pkt, NET_SEND_SSL);
+        }
+    }
+
+    //! A version of send_pending_ssl_ciphertext_packets() that guarantees no exceptions.
+    void send_pending_ssl_ciphertext_packets_nothrow() noexcept
+    {
+        try
+        {
+            send_pending_ssl_ciphertext_packets();
+        }
+        catch (...)
+        {
+        }
+    }
+
     // app data -> SSL -> protocol encapsulation -> reliability layer -> network
     void down_stack_app()
     {
@@ -356,29 +390,7 @@ class ProtoStackBase
                 }
             }
 
-            // encapsulate SSL ciphertext packets
-            while (ssl_->read_ciphertext_ready() && rel_send.ready())
-            {
-                typename ReliableSend::Message &m = rel_send.send(*now, tls_timeout);
-                m.packet = PACKET(ssl_->read_ciphertext());
-
-                // encapsulate and send cloned packet, preserve original one for retransmit
-                PACKET pkt = m.packet.clone();
-
-                // encapsulate packet
-                try
-                {
-                    parent().encapsulate(m.id(), pkt);
-                }
-                catch (...)
-                {
-                    error(Error::ENCAPSULATION_ERROR);
-                    throw;
-                }
-
-                // transmit it
-                parent().net_send(pkt, NET_SEND_SSL);
-            }
+            send_pending_ssl_ciphertext_packets();
         }
     }
 
@@ -447,11 +459,25 @@ class ProtoStackBase
             while (ssl_->read_cleartext_ready())
             {
                 ssize_t size;
-                to_app_buf.reset(new BufferAllocated());
+                to_app_buf = BufferAllocatedRc::Create();
                 frame_->prepare(Frame::READ_SSL_CLEARTEXT, *to_app_buf);
                 try
                 {
                     size = ssl_->read_cleartext(to_app_buf->data(), to_app_buf->max_size());
+                }
+                catch (const ExceptionCode &ec)
+                {
+                    if (ec.is_tls_alert())
+                    {
+                        // The SSL library may have generated a TLS alert in case of error: send it out now.
+                        // Use the nothrow() version of the function, since this best-effort only, and we
+                        // also need `error()` below to get called, to invalidate the session.
+                        send_pending_ssl_ciphertext_packets_nothrow();
+                    }
+
+                    // SSL fatal errors will invalidate the session
+                    error(Error::SSL_ERROR);
+                    throw;
                 }
                 catch (...)
                 {
@@ -510,8 +536,8 @@ class ProtoStackBase
 
   protected:
     TimePtr now;
-    ReliableRecv rel_recv{ovpn_receiving_window};
-    ReliableSend rel_send{ovpn_sending_window};
+    ReliableRecv rel_recv;
+    ReliableSend rel_send;
     ReliableAck xmit_acks{};
 };
 

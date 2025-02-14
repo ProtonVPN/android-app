@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -40,8 +30,7 @@
 #include <openvpn/ssl/sslconsts.hpp>
 #include <openvpn/ws/chunked.hpp>
 
-namespace openvpn {
-namespace WS {
+namespace openvpn::WS {
 OPENVPN_EXCEPTION(http_exception);
 
 template <typename PARENT,
@@ -231,7 +220,7 @@ class HTTPBase : public REFCOUNT_BASE
         if (ssl_sess)
         {
             // HTTPS
-            BufferPtr buf(new BufferAllocated());
+            auto buf = BufferAllocatedRc::Create();
             buf->swap(b); // take ownership
             ssl_sess->write_ciphertext(buf);
             ssl_up_stack();
@@ -253,10 +242,10 @@ class HTTPBase : public REFCOUNT_BASE
     //   void base_http_content_out_needed();
     //   void base_http_out_eof();
     //   bool base_http_headers_received();
-    //   void base_http_content_in(BufferAllocated& buf);
-    //   bool base_link_send(BufferAllocated& buf);
+    //   void base_http_content_in(BufferAllocatedRc& buf);
+    //   bool base_link_send(BufferAllocatedRc& buf);
     //   bool base_send_queue_empty();
-    //   void base_http_done_handler(BufferAllocated& residual)
+    //   void base_http_done_handler(BufferAllocatedRc& residual)
     //   void base_error_handler(const int errcode, const std::string& err);
 
     // protected member vars
@@ -441,7 +430,7 @@ class HTTPBase : public REFCOUNT_BASE
             }
             else if (rr_content_length >= 0)
             {
-                const size_t needed = std::max(rr_content_length - rr_content_bytes, CONTENT_LENGTH_TYPE(0));
+                const size_t needed = static_cast<size_t>(std::max(rr_content_length - rr_content_bytes, CONTENT_LENGTH_TYPE(0)));
                 if (needed <= buf.size())
                 {
                     done = true;
@@ -566,5 +555,4 @@ class HTTPBase : public REFCOUNT_BASE
     HTTPOutState out_state;
 };
 
-} // namespace WS
-} // namespace openvpn
+} // namespace openvpn::WS

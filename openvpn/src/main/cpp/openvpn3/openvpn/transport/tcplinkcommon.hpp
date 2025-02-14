@@ -1,4 +1,6 @@
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
+//
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 
 // Base class for TCP link objects.
 
@@ -37,8 +39,7 @@
 #define OPENVPN_LOG_TCPLINK_VERBOSE(x)
 #endif
 
-namespace openvpn {
-namespace TCPTransport {
+namespace openvpn::TCPTransport {
 
 template <typename Protocol,
           typename ReadHandler,
@@ -50,6 +51,7 @@ class LinkCommon : public LinkBase
   public:
     typedef RCPtr<LinkCommon<Protocol, ReadHandler, RAW_MODE_ONLY>> Ptr;
     typedef Protocol protocol;
+    typedef PacketStream<std::uint16_t> OpenVPNPacketStream;
 
     // In raw mode, data is sent and received without any special encapsulation.
     // In non-raw mode, data is packetized by prepending a 16-bit length word
@@ -122,7 +124,7 @@ class LinkCommon : public LinkBase
         frame_context.reset_align_adjust(align_adjust + (is_raw_mode() ? 0 : 2));
     }
 
-    unsigned int send_queue_size() const
+    size_t send_queue_size() const
     {
         return queue.size()
 #ifdef OPENVPN_GREMLIN
@@ -153,12 +155,12 @@ class LinkCommon : public LinkBase
         }
         else
         {
-            buf.reset(new BufferAllocated());
+            buf = BufferAllocatedRc::Create();
         }
         buf->swap(b);
         if (!is_raw_mode_write())
         {
-            PacketStream::prepend_size(*buf);
+            OpenVPNPacketStream::prepend_size(*buf);
         }
         if (mutate)
         {
@@ -187,32 +189,32 @@ class LinkCommon : public LinkBase
         socket.async_receive(frame_context.mutable_buffer_clamp(tcpfrom->buf),
                              [self = Ptr(this), tcpfrom = PacketFrom::SPtr(tcpfrom)](const openvpn_io::error_code &error, const size_t bytes_recvd) mutable
                              {
-            OPENVPN_ASYNC_HANDLER;
-            try
-            {
-                self->handle_recv(std::move(tcpfrom), error, bytes_recvd);
-            }
-            catch (const std::exception &e)
-            {
-                Error::Type err = Error::TCP_SIZE_ERROR;
-                const char *msg = "TCP_SIZE_ERROR";
-                // if exception is an ExceptionCode, translate the code
-                // to return status string
-                {
-                    const ExceptionCode *ec = dynamic_cast<const ExceptionCode *>(&e);
-                    if (ec && ec->code_defined())
-                    {
-                        err = ec->code();
-                        msg = ec->what();
-                    }
-                }
+                                 OPENVPN_ASYNC_HANDLER;
+                                 try
+                                 {
+                                     self->handle_recv(std::move(tcpfrom), error, bytes_recvd);
+                                 }
+                                 catch (const std::exception &e)
+                                 {
+                                     Error::Type err = Error::TCP_SIZE_ERROR;
+                                     const char *msg = "TCP_SIZE_ERROR";
+                                     // if exception is an ExceptionCode, translate the code
+                                     // to return status string
+                                     {
+                                         const ExceptionCode *ec = dynamic_cast<const ExceptionCode *>(&e);
+                                         if (ec && ec->code_defined())
+                                         {
+                                             err = ec->code();
+                                             msg = ec->what();
+                                         }
+                                     }
 
-                OPENVPN_LOG_TCPLINK_ERROR("TCP packet extract exception: " << e.what());
-                self->stats->error(err);
-                self->read_handler->tcp_error_handler(msg);
-                self->stop();
-            }
-        });
+                                     OPENVPN_LOG_TCPLINK_ERROR("TCP packet extract exception: " << e.what());
+                                     self->stats->error(err);
+                                     self->read_handler->tcp_error_handler(msg);
+                                     self->stop();
+                                 }
+                             });
     }
 
   protected:
@@ -279,9 +281,9 @@ class LinkCommon : public LinkBase
         socket.async_send(buf.const_buffer_clamp(),
                           [self = Ptr(this)](const openvpn_io::error_code &error, const size_t bytes_sent)
                           {
-            OPENVPN_ASYNC_HANDLER;
-            self->handle_send(error, bytes_sent);
-        });
+                              OPENVPN_ASYNC_HANDLER;
+                              self->handle_send(error, bytes_sent);
+                          });
     }
 
     void handle_send(const openvpn_io::error_code &error, const size_t bytes_sent)
@@ -344,7 +346,7 @@ class LinkCommon : public LinkBase
                 if (!buf.allocated() && pkt.allocated()) // recycle pkt allocated buffer
                     buf.move(pkt);
             }
-            catch (const std::exception &e)
+            catch ([[maybe_unused]] const std::exception &e)
             {
                 OPENVPN_LOG_TCPLINK_ERROR("TLS-TCP packet extract error: " << e.what());
                 stats->error(Error::TCP_SIZE_ERROR);
@@ -375,7 +377,7 @@ class LinkCommon : public LinkBase
 
     void handle_recv(PacketFrom::SPtr pfp, const openvpn_io::error_code &error, const size_t bytes_recvd)
     {
-        OPENVPN_LOG_TCPLINK_VERBOSE("Link::handle_recv: " << error.message());
+        OPENVPN_LOG_TCPLINK_VERBOSE("TCPLink::handle_recv: " << error.message());
         if (!halt)
         {
             if (!error)
@@ -459,7 +461,7 @@ class LinkCommon : public LinkBase
     const size_t free_list_max_size;
     Queue queue;     // send queue
     Queue free_list; // recycled free buffers for send queue
-    PacketStream pktstream;
+    OpenVPNPacketStream pktstream;
     TransportMutateStream::Ptr mutate;
     bool raw_mode_read;
     bool raw_mode_write;
@@ -473,7 +475,6 @@ class LinkCommon : public LinkBase
     virtual void recv_buffer(PacketFrom::SPtr &pfp, const size_t bytes_recvd) = 0;
     virtual void from_app_send_buffer(BufferPtr &buf) = 0;
 };
-} // namespace TCPTransport
-} // namespace openvpn
+} // namespace openvpn::TCPTransport
 
 #endif

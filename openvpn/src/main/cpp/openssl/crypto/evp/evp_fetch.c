@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -17,6 +17,7 @@
 #include "internal/core.h"
 #include "internal/provider.h"
 #include "internal/namemap.h"
+#include "crypto/decoder.h"
 #include "crypto/evp.h"    /* evp_local.h needs it */
 #include "evp_local.h"
 
@@ -317,13 +318,26 @@ inner_evp_generic_fetch(struct evp_method_data_st *methdata,
              * there is a correct name_id and meth_id, since those have
              * already been calculated in get_evp_method_from_store() and
              * put_evp_method_in_store() above.
+             * Note that there is a corner case here, in which, if a user
+             * passes a name of the form name1:name2:..., then the construction
+             * will create a method against all names, but the lookup will fail
+             * as ossl_namemap_name2num treats the name string as a single name
+             * rather than introducing new features where in the EVP_<obj>_fetch
+             * parses the string and queries for each, return an error.
              */
             if (name_id == 0)
                 name_id = ossl_namemap_name2num(namemap, name);
-            meth_id = evp_method_id(name_id, operation_id);
-            if (name_id != 0)
-                ossl_method_store_cache_set(store, prov, meth_id, propq,
-                                            method, up_ref_method, free_method);
+            if (name_id == 0) {
+                ERR_raise_data(ERR_LIB_EVP, ERR_R_FETCH_FAILED,
+                               "Algorithm %s cannot be found", name);
+                free_method(method);
+                method = NULL;
+            } else {
+                meth_id = evp_method_id(name_id, operation_id);
+                if (meth_id != 0)
+                    ossl_method_store_cache_set(store, prov, meth_id, propq,
+                                                method, up_ref_method, free_method);
+            }
         }
 
         /*
@@ -422,6 +436,7 @@ static int evp_set_parsed_default_properties(OSSL_LIB_CTX *libctx,
     OSSL_PROPERTY_LIST **plp = ossl_ctx_global_properties(libctx, loadconfig);
 
     if (plp != NULL && store != NULL) {
+        int ret;
 #ifndef FIPS_MODULE
         char *propstr = NULL;
         size_t strsz;
@@ -455,8 +470,12 @@ static int evp_set_parsed_default_properties(OSSL_LIB_CTX *libctx,
 #endif
         ossl_property_free(*plp);
         *plp = def_prop;
-        if (store != NULL)
-            return ossl_method_store_cache_flush_all(store);
+
+        ret = ossl_method_store_cache_flush_all(store);
+#ifndef FIPS_MODULE
+        ossl_decoder_cache_flush(libctx);
+#endif
+        return ret;
     }
     ERR_raise(ERR_LIB_EVP, ERR_R_INTERNAL_ERROR);
     return 0;
@@ -500,7 +519,7 @@ static int evp_default_properties_merge(OSSL_LIB_CTX *libctx, const char *propq,
     pl2 = ossl_property_merge(pl1, *plp);
     ossl_property_free(pl1);
     if (pl2 == NULL) {
-        ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_EVP, ERR_R_CRYPTO_LIB);
         return 0;
     }
     if (!evp_set_parsed_default_properties(libctx, pl2, 0, 0)) {
@@ -552,10 +571,8 @@ char *evp_get_global_properties_str(OSSL_LIB_CTX *libctx, int loadconfig)
     }
 
     propstr = OPENSSL_malloc(sz);
-    if (propstr == NULL) {
-        ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+    if (propstr == NULL)
         return NULL;
-    }
     if (ossl_property_list_to_string(libctx, *plp, propstr, sz) == 0) {
         ERR_raise(ERR_LIB_EVP, ERR_R_INTERNAL_ERROR);
         OPENSSL_free(propstr);

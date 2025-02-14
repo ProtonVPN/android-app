@@ -86,7 +86,7 @@ public class DisconnectVPN extends Activity implements DialogInterface.OnClickLi
         } else if (which == DialogInterface.BUTTON_NEUTRAL) {
             Intent intent = new Intent(this, LaunchVPN.class);
             intent.putExtra(LaunchVPN.EXTRA_KEY, VpnStatus.getLastConnectedVPNProfile());
-            intent.putExtra(LaunchVPN.EXTRA_START_REASON, "Reconnect button pressed.");
+            intent.putExtra(OpenVPNService.EXTRA_START_REASON, "Reconnect button pressed.");
             intent.setAction(Intent.ACTION_MAIN);
             startActivity(intent);
         }

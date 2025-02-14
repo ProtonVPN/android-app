@@ -3,7 +3,7 @@
 
 #include <arpa/inet.h>
 
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/buffer/bufstatic.hpp>
 #include <openvpn/buffer/bufip.hpp>
@@ -40,7 +40,7 @@ TEST(buffer_ip, hex)
     }
 }
 
-#ifdef HAVE_VALGRIND
+#ifdef INSTRUMENTATION_SLOWDOWN
 static constexpr int ITER = 10000;
 #else
 static constexpr int ITER = 1000000;

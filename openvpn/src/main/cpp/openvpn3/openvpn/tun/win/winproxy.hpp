@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 //
 
 // proxy settings for Windows
@@ -32,8 +22,7 @@
 
 using namespace openvpn::Win;
 
-namespace openvpn {
-namespace TunWin {
+namespace openvpn::TunWin {
 class WinProxySettings : public ProxySettings
 {
   public:
@@ -49,8 +38,8 @@ class WinProxySettings : public ProxySettings
         Impersonate imp{false};
 
         LONG status;
-        RegKey hkcu;
-        RegKey key;
+        Reg::Key hkcu;
+        Reg::Key key;
 
         status = ::RegOpenCurrentUser(KEY_QUERY_VALUE | KEY_SET_VALUE, hkcu.ref());
         check_reg_error<proxy_error>(status, "RegOpenCurrentUser");
@@ -80,14 +69,14 @@ class WinProxySettings : public ProxySettings
     }
 
   private:
-    void restore_key(Win::RegKey &regkey, const std::string &key, bool str)
+    void restore_key(Win::Reg::Key &regkey, const std::string &key, bool str)
     {
         LONG status;
         char prev_val_str[1024] = {0}; // should be enough to fit proxy URL
         DWORD prev_val_dword;
         DWORD prev_buf_size = str ? sizeof(prev_val_str) : sizeof(prev_val_dword);
         bool del = false;
-        Win::RegKey hkcu;
+        Win::Reg::Key hkcu;
 
         status = ::RegOpenCurrentUser(KEY_QUERY_VALUE | KEY_SET_VALUE, hkcu.ref());
         check_reg_error<proxy_error>(status, "RegOpenCurrentUser");
@@ -118,17 +107,17 @@ class WinProxySettings : public ProxySettings
                              key.c_str(),
                              0,
                              str ? REG_SZ : REG_DWORD,
-                             str ? (const BYTE *)prev_val_str : (CONST BYTE *)&prev_val_dword,
-                             str ? strlen(prev_val_str) + 1 : sizeof(prev_val_dword));
+                             str ? reinterpret_cast<const BYTE *>(prev_val_str) : reinterpret_cast<CONST BYTE *>(&prev_val_dword),
+                             str ? static_cast<DWORD>(strlen(prev_val_str) + 1) : sizeof(prev_val_dword));
     }
 
-    void save_key(Win::RegKey &regkey, const std::string &key, const std::string &value, bool str)
+    void save_key(Win::Reg::Key &regkey, const std::string &key, const std::string &value, bool str)
     {
         LONG status;
         char prev_val_str[1024] = {0}; // should be enought to fit proxy URL
         DWORD prev_val_dword;
         DWORD prev_buf_size = str ? sizeof(prev_val_str) : sizeof(prev_val_dword);
-        Win::RegKey hkcu;
+        Win::Reg::Key hkcu;
 
         status = ::RegOpenCurrentUser(KEY_QUERY_VALUE | KEY_SET_VALUE, hkcu.ref());
         check_reg_error<proxy_error>(status, "RegOpenCurrentUser");
@@ -160,8 +149,8 @@ class WinProxySettings : public ProxySettings
                                   prev_key_name.c_str(),
                                   0,
                                   str ? REG_SZ : REG_DWORD,
-                                  str ? (const BYTE *)prev_val_str : (CONST BYTE *)&prev_val_dword,
-                                  str ? strlen(prev_val_str) + 1 : sizeof(DWORD));
+                                  str ? reinterpret_cast<const BYTE *>(prev_val_str) : reinterpret_cast<CONST BYTE *>(&prev_val_dword),
+                                  str ? static_cast<DWORD>(strlen(prev_val_str) + 1) : sizeof(prev_val_dword));
         check_reg_error<proxy_error>(status, prev_key_name);
 
         // save new value
@@ -172,8 +161,8 @@ class WinProxySettings : public ProxySettings
                                   key.c_str(),
                                   0,
                                   str ? REG_SZ : REG_DWORD,
-                                  str ? (const BYTE *)value.c_str() : (CONST BYTE *)&val_dword,
-                                  str ? value.length() + 1 : sizeof(val_dword));
+                                  str ? reinterpret_cast<const BYTE *>(value.c_str()) : reinterpret_cast<CONST BYTE *>(&val_dword),
+                                  str ? static_cast<DWORD>(value.length() + 1) : sizeof(val_dword));
         check_reg_error<proxy_error>(status, key);
     }
 
@@ -181,5 +170,4 @@ class WinProxySettings : public ProxySettings
     const char *delete_value_str = "DeleteValue";
     const DWORD delete_value_dword = 0xCAFEBABE;
 };
-} // namespace TunWin
-} // namespace openvpn
+} // namespace openvpn::TunWin
