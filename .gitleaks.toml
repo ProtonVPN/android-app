@@ -14,6 +14,14 @@ paths = [
     # OpenSSL and mbedtls - never modified by us.
     '''^openvpn/src/main/cpp/openssl/(.*)$''',
     '''^openvpn/src/main/cpp/mbedtls/(.*)''',
+    # A patch file with false positive - never modified by us.
+    '''^openvpn/src/main/cpp/openvpn/contrib/vcpkg-ports/pkcs11-helper/pkcs11-helper-001-RFC7512.patch''',
     # R8 mapping file, contains function names, line numbers and other symbols that can be picked as false positives.
     '''^app/build/outputs/mapping/(.*)/mapping.txt$''',
+    '''^app/build/outputs/mapping/(.*)/seeds.txt$''',
+    '''^app/build/outputs/mapping/(.*)/usage.txt$''',
+    # Semgrep configuration file
+    '''^custom/semgrep/rules.yaml$''',
+    # Added by CI job
+    '''^appetize-information.json$''',
 ]
