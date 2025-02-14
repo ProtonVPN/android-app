@@ -52,7 +52,11 @@ class WireguardParamsTests {
     private val vpnAppPackage = "ch.protonvpn.android"
     private val dummyKeyBase64 = "o0AixWIjxr61AwsKjrTIM+f9iHWZlWUOYZQyroX+zz4="
     private val exampleAppPackage = "com.example.app"
-    private val ipv6Include = "2000:0:0:0:0:0:0:0/3"
+    private val ipv6IncludeAll = "0:0:0:0:0:0:0:0/0"
+    private val ipv6IncludeLAN = listOf(
+        "0:0:0:0:0:0:0:0/1", "8000:0:0:0:0:0:0:0/2", "c000:0:0:0:0:0:0:0/3", "e000:0:0:0:0:0:0:0/4",
+        "f000:0:0:0:0:0:0:0/5", "f800:0:0:0:0:0:0:0/6", "fe00:0:0:0:0:0:0:0/9",
+        "fec0:0:0:0:0:0:0:0/10", "ff00:0:0:0:0:0:0:0/8")
     private val splitTunnelingIncludeOnly1App = SplitTunnelingSettings(
         isEnabled = true,
         mode = SplitTunnelingMode.INCLUDE_ONLY,
@@ -144,7 +148,7 @@ class WireguardParamsTests {
         val settings = LocalUserSettings(splitTunneling = splitTunnelingIncludeOnly1App)
         val config = getTunnelConfigInTest(settings)
         val allowedIps = config.peers.first().allowedIps.map { it.toString() }
-        assertEquals(listOf("0.0.0.0/0", ipv6Include), allowedIps)
+        assertEquals(listOf("0.0.0.0/0", ipv6IncludeAll), allowedIps)
     }
 
     @Test
@@ -160,7 +164,7 @@ class WireguardParamsTests {
         val expectedIpv4s = connectionParams.excludedIpsToAllowedIps(localNetworks)
             .map { it.toString() }
             .toSet()
-        assertEquals(expectedIpv4s + ipv6Include, allowedIps.toSet())
+        assertEquals(expectedIpv4s + ipv6IncludeLAN, allowedIps.toSet())
     }
 
     @Test
@@ -188,7 +192,7 @@ class WireguardParamsTests {
         val settings = LocalUserSettings(splitTunneling = splitTunnelingIncludeOnly1Ip)
         val config = getTunnelConfigInTest(settings)
         val allowedIps = config.peers.first().allowedIps.map { it.toString() }
-        assertEquals(setOf("1.2.3.4/32", "10.2.0.1/32", ipv6Include), allowedIps.toSet())
+        assertEquals(setOf("1.2.3.4/32", "10.2.0.1/32", ipv6IncludeAll), allowedIps.toSet())
     }
 
     @Test
@@ -200,7 +204,7 @@ class WireguardParamsTests {
             assertTrue(excludedApplications.isEmpty())
         }
         val allowedIps = config.peers.first().allowedIps.map { it.toString() }
-        assertEquals(setOf("0.0.0.0/0", ipv6Include), allowedIps.toSet())
+        assertEquals(setOf("0.0.0.0/0", ipv6IncludeAll), allowedIps.toSet())
     }
 
     @Test
@@ -215,7 +219,7 @@ class WireguardParamsTests {
             .map { it.toString() }
             .toSet()
         val allowedIps = config.peers.first().allowedIps.map { it.toString() }
-        assertEquals(expectedIpv4s + ipv6Include, allowedIps.toSet())
+        assertEquals(expectedIpv4s + ipv6IncludeLAN, allowedIps.toSet())
     }
 
     @Test
@@ -227,7 +231,7 @@ class WireguardParamsTests {
             assertEquals(setOf(exampleAppPackage), excludedApplications)
         }
         val allowedIps = config.peers.first().allowedIps.map { it.toString() }
-        assertEquals(setOf("0.0.0.0/0", ipv6Include), allowedIps.toSet())
+        assertEquals(setOf("0.0.0.0/0", ipv6IncludeAll), allowedIps.toSet())
     }
 
     @Test
@@ -243,7 +247,7 @@ class WireguardParamsTests {
             .map { it.toString() }
             .toSet()
         val allowedIps = config.peers.first().allowedIps.map { it.toString() }
-        assertEquals(expectedIpv4s + ipv6Include, allowedIps.toSet())
+        assertEquals(expectedIpv4s + ipv6IncludeAll, allowedIps.toSet())
     }
 
     @Test
@@ -255,7 +259,7 @@ class WireguardParamsTests {
                 assertTrue(excludedApplications.isEmpty())
             }
             val allowedIps = config.peers.first().allowedIps.map { it.toString() }
-            assertEquals(setOf("0.0.0.0/0", ipv6Include), allowedIps.toSet())
+            assertEquals(setOf("0.0.0.0/0", ipv6IncludeAll), allowedIps.toSet())
         }
 
         connectionParams = createConnectionParams(AnyConnectIntent.GuestHole("dummyServerId"))

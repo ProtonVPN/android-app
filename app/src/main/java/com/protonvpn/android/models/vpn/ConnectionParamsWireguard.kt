@@ -24,8 +24,8 @@ import com.protonvpn.android.logging.LogCategory
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.utils.Constants
@@ -40,6 +40,8 @@ import inet.ipaddr.IPAddress
 import inet.ipaddr.IPAddressString
 import inet.ipaddr.ipv4.IPv4Address
 import inet.ipaddr.ipv4.IPv4AddressSeqRange
+import inet.ipaddr.ipv6.IPv6Address
+import inet.ipaddr.ipv6.IPv6AddressSeqRange
 import me.proton.core.network.domain.session.SessionId
 
 private const val WG_CLIENT_IP = "10.2.0.2"
@@ -98,9 +100,12 @@ class ConnectionParamsWireguard(
             val allowedIps = allowedIps(localNetworksProvider, userSettings.splitTunneling, userSettings.lanConnections)
             allowedIps.joinToString(separator = ", ") { it.toCanonicalString() }
         }
-        // Don't leak IPv6 for Wireguard when split tunneling is used
-        // Also ::/0 CIDR should not be used for IPv6 as it causes LAN connection issues
-        val allowedIpsString = "$allowedIps4String, 2000::/3"
+
+        val allowedIps6String =
+            if (userSettings.lanConnections) ipV6FullWithExcludedLocalRanges().joinToString(", ")
+            else "::/0"
+
+        val allowedIpsString = "$allowedIps4String, $allowedIps6String"
 
         ProtonLogger.logCustom(LogCategory.CONN, "WireGuard port: $port, allowed IPs: $allowedIpsString")
 
@@ -181,6 +186,17 @@ class ConnectionParamsWireguard(
             allowedIps4 = ranges.flatMap { it.spanWithPrefixBlocks().toList() }
         }
         return allowedIps4
+    }
+
+    private fun ipV6FullWithExcludedLocalRanges(): List<IPAddress> {
+        val excluded = listOf("fc00::/7", "fe80::/10")
+        val all6 = IPv6AddressSeqRange(
+            IPv6Address(ByteArray(16)),
+            IPv6Address(ByteArray(16) { 0xff.toByte() }),
+        )
+        val excludedRanges = excluded.map { IPAddressString(it).address as IPv6Address }
+        val allowedRanges = excludedRanges.fold(listOf(all6), ::removeIpFromRanges)
+        return allowedRanges.flatMap { it.spanWithPrefixBlocks().toList() }
     }
 
     private class SplitTunnelAppsWgConfigurator(private val builder: Interface.Builder) : SplitTunnelAppsConfigurator {
