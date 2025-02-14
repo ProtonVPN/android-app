@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 //
 // Source: pkg:github/chriskohlhoff/asio@asio-1-8-0#asio/src/examples/http
 //  Adapted from code Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
@@ -33,8 +23,7 @@
 #include <openvpn/http/header.hpp>
 #include <openvpn/http/parseutil.hpp>
 
-namespace openvpn {
-namespace HTTP {
+namespace openvpn::HTTP {
 
 struct Request
 {
@@ -399,7 +388,6 @@ struct RequestType
     typedef Request State;
     typedef RequestParser Parser;
 };
-} // namespace HTTP
-} // namespace openvpn
+} // namespace openvpn::HTTP
 
 #endif

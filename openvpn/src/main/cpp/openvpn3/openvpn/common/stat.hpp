@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMMON_STAT_H
 #define OPENVPN_COMMON_STAT_H
@@ -36,6 +26,22 @@ inline bool file_exists(const std::string &filename)
         return false;
     struct stat buffer;
     return ::stat(filename.c_str(), &buffer) == 0;
+}
+
+/**
+ * Check if file exists AND is nonempty.
+ *
+ * @param filename File to check.
+ * @return true if file exists AND is nonempty.
+ */
+inline bool file_exists_nonempty(const std::string &filename)
+{
+    if (filename.empty())
+        return false;
+    struct stat s;
+    if (::stat(filename.c_str(), &s) != 0)
+        return false;
+    return s.st_size > 0;
 }
 
 // Return true if dirname is a directory

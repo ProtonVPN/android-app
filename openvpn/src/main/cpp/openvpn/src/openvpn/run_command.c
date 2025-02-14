@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Technologies, Inc. <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Technologies, Inc. <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -108,6 +106,47 @@ system_error_message(int stat, struct gc_arena *gc)
     return (const char *)out.data;
 }
 
+#ifndef WIN32
+bool
+openvpn_waitpid_check(pid_t pid, const char *msg_prefix, int msglevel)
+{
+    if (pid == 0)
+    {
+        return false;
+    }
+    int status;
+    pid_t pidret = waitpid(pid, &status, WNOHANG);
+    if (pidret != pid)
+    {
+        return true;
+    }
+
+    if (WIFEXITED(status))
+    {
+        int exitcode = WEXITSTATUS(status);
+
+        if (exitcode == OPENVPN_EXECVE_FAILURE)
+        {
+            msg(msglevel, "%scould not execute external program (exit code 127)",
+                msg_prefix);
+        }
+        else
+        {
+            msg(msglevel, "%sexternal program exited with error status: %d",
+                msg_prefix, exitcode);
+        }
+
+    }
+    else if (WIFSIGNALED(status))
+    {
+        msg(msglevel, "%sexternal program received signal %d",
+            msg_prefix, WTERMSIG(status));
+    }
+
+    return false;
+}
+#endif /* ifndef WIN32 */
+
 bool
 openvpn_execve_allowed(const unsigned int flags)
 {
@@ -157,6 +196,10 @@ openvpn_execve(const struct argv *a, const struct env_set *es, const unsigned in
             {
                 msg(M_ERR, "openvpn_execve: unable to fork");
             }
+            else if (flags & S_NOWAITPID)
+            {
+                ret = pid;
+            }
             else /* parent side */
             {
                 if (waitpid(pid, &ret, 0) != pid)
@@ -205,6 +248,11 @@ openvpn_execve_check(const struct argv *a, const struct env_set *es, const unsig
         {
             goto done;
         }
+    }
+    else if (flags & S_NOWAITPID && (stat > 0))
+    {
+        ret = stat;
+        goto done;
     }
     else if (platform_system_ok(stat))
     {

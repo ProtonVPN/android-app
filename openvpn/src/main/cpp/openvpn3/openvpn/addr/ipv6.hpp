@@ -4,48 +4,34 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_ADDR_IPV6_H
 #define OPENVPN_ADDR_IPV6_H
 
-#include <cstring>   // for std::memcpy, std::memset
-#include <algorithm> // for std::min
-#include <cstdint>   // for std::uint32_t
+#include <cstring> // for std::memcpy, std::memset
+#include <cstdint> // for std::uint32_t
 
 #include <openvpn/io/io.hpp>
 
-#include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/ostream.hpp>
 #include <openvpn/common/socktypes.hpp>
 #include <openvpn/common/ffs.hpp>
 #include <openvpn/common/hexstr.hpp>
-#include <openvpn/common/hash.hpp>
 #include <openvpn/addr/ipv4.hpp>
 #include <openvpn/addr/iperr.hpp>
 
-namespace openvpn {
-namespace IP {
+namespace openvpn::IP {
 class Addr;
 }
 
 // Fundamental classes for representing an IPv6 IP address.
 
-namespace IPv6 {
+namespace openvpn::IPv6 {
 
 OPENVPN_EXCEPTION(ipv6_exception);
 
@@ -64,7 +50,7 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         return 6;
     }
 
-    bool defined() const
+    static constexpr bool defined()
     {
         return true;
     }
@@ -74,7 +60,7 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         return addr;
     }
 
-    static Addr from_in6_addr(const struct in6_addr *in6)
+    static Addr from_in6_addr(const in6_addr *in6)
     {
         Addr ret;
         /* Alignment of in6_addr is only 4 while our ipv6 addr requires an
@@ -86,29 +72,32 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         return ret;
     }
 
-    struct in6_addr to_in6_addr() const
+    in6_addr to_in6_addr() const
     {
-        struct in6_addr ret;
-        host_to_network_order((union ipv6addr *)&ret, &u);
+        in6_addr ret;
+        host_to_network_order(reinterpret_cast<ipv6addr *>(&ret), &u);
         return ret;
     }
 
-    static Addr from_sockaddr(const struct sockaddr_in6 *sa)
+    static Addr from_sockaddr(const sockaddr_in6 *sa)
     {
         Addr ret;
-        network_to_host_order(&ret.u, (const union ipv6addr *)sa->sin6_addr.s6_addr);
+        network_to_host_order(&ret.u, reinterpret_cast<const ipv6addr *>(sa->sin6_addr.s6_addr));
         ret.scope_id_ = sa->sin6_scope_id;
         return ret;
     }
 
-    struct sockaddr_in6 to_sockaddr(const unsigned short port = 0) const
+    sockaddr_in6 to_sockaddr(const unsigned short port = 0) const
     {
-        struct sockaddr_in6 ret;
-        std::memset(&ret, 0, sizeof(ret));
+        sockaddr_in6 ret = {};
         ret.sin6_family = AF_INET6;
         ret.sin6_port = htons(port);
-        host_to_network_order((union ipv6addr *)&ret.sin6_addr.s6_addr, &u);
+        host_to_network_order(reinterpret_cast<ipv6addr *>(&ret.sin6_addr.s6_addr), &u);
         ret.sin6_scope_id = scope_id_;
+#ifdef SIN6_LEN
+        /* This is defined on both macOS and FreeBSD that have the sin6_len member */
+        ret.sin6_len = sizeof(sockaddr_in6);
+#endif
         return ret;
     }
 
@@ -169,7 +158,7 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         if (len < 1 || len > 32)
             throw ipv6_exception("parse hex error");
         size_t di = (len - 1) >> 1;
-        for (int i = (len & 1) ? -1 : 0; i < int(len); i += 2)
+        for (int i = (len & 1) ? -1 : 0; i < static_cast<int>(len); i += 2)
         {
             const size_t idx = base + i;
             const int bh = (i >= 0) ? parse_hex_char(s[idx]) : 0;
@@ -204,16 +193,15 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
     static Addr from_ulong(unsigned long ul)
     {
         Addr ret;
-        ret.u.u64[Endian::e2(0)] = std::uint64_t(ul);
+        ret.u.u64[Endian::e2(0)] = ul;
         ret.u.u64[Endian::e2(1)] = 0;
         return ret;
     }
 
-    // return *this as a unsigned long
     unsigned long to_ulong() const
     {
-        const unsigned long ret = (unsigned long)u.u64[Endian::e2(0)];
-        const std::uint64_t cmp = std::uint64_t(ret);
+        const unsigned long ret = static_cast<unsigned long>(u.u64[Endian::e2(0)]);
+        const auto cmp = std::uint64_t(ret);
         if (u.u64[Endian::e2(1)] || cmp != u.u64[Endian::e2(0)])
             throw ipv6_exception("overflow in conversion from IPv6.Addr to unsigned long");
         return ret;
@@ -235,7 +223,6 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         return ret;
     }
 
-    // return *this as a long
     long to_long() const
     {
         bool neg = false;
@@ -245,14 +232,14 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
             a.negate();
             neg = true;
         }
-        const long ret = (long)a.u.u64[Endian::e2(0)];
-        const std::uint64_t cmp = std::uint64_t(ret);
+        const long ret = static_cast<long>(a.u.u64[Endian::e2(0)]);
+        const auto cmp = std::uint64_t(ret);
         if (a.u.u64[Endian::e2(1)] || cmp != a.u.u64[Endian::e2(0)])
             throw ipv6_exception("overflow in conversion from IPv6.Addr to long");
         return neg ? -(ret + 1) : ret;
     }
 
-    std::string arpa() const
+    static std::string arpa()
     {
         throw ipv6_exception("arpa() not implemented");
     }
@@ -263,7 +250,7 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         ipv6addr addr{};
         addr.asio_bytes = asio_addr.to_bytes();
         network_to_host_order(&ret.u, &addr);
-        ret.scope_id_ = (unsigned int)asio_addr.scope_id();
+        ret.scope_id_ = asio_addr.scope_id();
         return ret;
     }
 
@@ -315,7 +302,7 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
 
     openvpn_io::ip::address_v6 to_asio() const
     {
-        union ipv6addr addr;
+        ipv6addr addr;
         host_to_network_order(&addr, &u);
         return openvpn_io::ip::address_v6(addr.asio_bytes, scope_id_);
     }
@@ -341,7 +328,6 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         return ret;
     }
 
-    // build a netmask using given prefix_len
     static Addr netmask_from_prefix_len(const unsigned int prefix_len)
     {
         Addr ret;
@@ -349,15 +335,14 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         return ret;
     }
 
-    // build a netmask using given extent
-    Addr netmask_from_extent() const
+    Addr netmask_from_this_as_extent() const
     {
         const Addr lb = *this - 1;
         for (size_t i = 4; i-- > 0;)
         {
             const std::uint32_t v = lb.u.u32[Endian::e4(i)];
             if (v)
-                return netmask_from_prefix_len(SIZE - (((unsigned int)i << 5) + find_last_set(v)));
+                return netmask_from_prefix_len(SIZE - ((static_cast<unsigned int>(i) << 5) + find_last_set(v)));
         }
         return from_zero_complement();
     }
@@ -479,26 +464,23 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         return !operator==(other);
     }
 
-#define OPENVPN_IPV6_OPERATOR_REL(OP)                                      \
-    bool operator OP(const Addr &other) const                              \
-    {                                                                      \
-        if (u.u64[Endian::e2(1)] == other.u.u64[Endian::e2(1)])            \
-        {                                                                  \
-            if (u.u64[Endian::e2(0)] != other.u.u64[Endian::e2(0)])        \
-                return u.u64[Endian::e2(0)] OP other.u.u64[Endian::e2(0)]; \
-            else                                                           \
-                return scope_id_ OP other.scope_id_;                       \
-        }                                                                  \
-        else                                                               \
-            return u.u64[Endian::e2(1)] OP other.u.u64[Endian::e2(1)];     \
+
+    bool operator<(const Addr &other) const
+    {
+        return compare(other, std::less<>{});
     }
-
-    OPENVPN_IPV6_OPERATOR_REL(<)
-    OPENVPN_IPV6_OPERATOR_REL(>)
-    OPENVPN_IPV6_OPERATOR_REL(<=)
-    OPENVPN_IPV6_OPERATOR_REL(>=)
-
-#undef OPENVPN_IPV6_OPERATOR_REL
+    bool operator>(const Addr &other) const
+    {
+        return compare(other, std::greater<>{});
+    }
+    bool operator<=(const Addr &other) const
+    {
+        return compare(other, std::less_equal<>{});
+    }
+    bool operator>=(const Addr &other) const
+    {
+        return compare(other, std::greater_equal<>{});
+    }
 
     bool unspecified() const
     {
@@ -525,12 +507,21 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         return u.u64[Endian::e2(1)] == 0 && u.u64[Endian::e2(0)] == 1;
     }
 
+    bool is_mapped_address() const
+    {
+        return u.u32[Endian::e4(1)] == 0xffff && u.u32[Endian::e4(2)] == 0 && u.u32[Endian::e4(3)] == 0;
+    }
+
+    std::uint32_t get_mapped_ipv4_address() const
+    {
+        return u.u32[Endian::e2(0)];
+    }
+
     bool bit(unsigned int pos) const
     {
         if (pos < 64)
             return (u.u64[Endian::e2(0)] & (std::uint64_t(1) << pos)) != 0;
-        else
-            return (u.u64[Endian::e2(1)] & (std::uint64_t(1) << (pos - 64))) != 0;
+        return (u.u64[Endian::e2(1)] & (std::uint64_t(1) << (pos - 64))) != 0;
     }
 
     // number of network bits in netmask,
@@ -582,10 +573,9 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
             a.one();
             return a << hl;
         }
-        else if (hl == SIZE)
+        if (hl == SIZE)
             return from_zero();
-        else
-            throw ipv6_exception("extent overflow");
+        throw ipv6_exception("extent overflow");
     }
 
     // address size in bits
@@ -601,7 +591,7 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
     }
 
 #ifdef USE_OPENVPN_HASH
-    std::size_t hashval() const
+    std::uint64_t hashval() const
     {
         Hash64 h;
         hash(h);
@@ -712,23 +702,23 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         }
     }
 
-    static void div(const Addr &n, const Addr &d, Addr &q, Addr &r)
+    static void div(const Addr &numerator, const Addr &denominator, Addr &quotient, Addr &remainder)
     {
-        if (d.all_zeros())
+        if (denominator.all_zeros())
             throw ipv6_exception("division by 0");
-        q = from_zero();       // quotient
-        r = n;                 // remainder (init to numerator)
-        Addr ml = from_zero(); // mask low
-        Addr mh = d;           // mask high (init to denominator)
+        quotient = from_zero();
+        remainder = numerator;
+        Addr mask_low = from_zero();
+        Addr mask_high = denominator;
         for (unsigned int i = 0; i < SIZE; ++i)
         {
-            ml >>= 1;
-            ml.set_bit(SIZE - 1, mh.bit(0));
-            mh >>= 1;
-            if (mh.all_zeros() && r >= ml)
+            mask_low >>= 1;
+            mask_low.set_bit(SIZE - 1, mask_high.bit(0));
+            mask_high >>= 1;
+            if (mask_high.all_zeros() && remainder >= mask_low)
             {
-                r -= ml;
-                q.set_bit((SIZE - 1) - i, true);
+                remainder -= mask_low;
+                quotient.set_bit((SIZE - 1) - i, true);
             }
         }
     }
@@ -788,11 +778,10 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
     {
         if (prefix_len <= SIZE)
             return prefix_len_to_netmask_unchecked(prefix_len);
-        else
-            throw ipv6_exception("bad prefix len");
+        throw ipv6_exception("bad prefix len");
     }
 
-    static void host_to_network_order(union ipv6addr *dest, const union ipv6addr *src)
+    static void host_to_network_order(ipv6addr *dest, const ipv6addr *src)
     {
         dest->u32[0] = htonl(src->u32[Endian::e4rev(0)]);
         dest->u32[1] = htonl(src->u32[Endian::e4rev(1)]);
@@ -800,7 +789,7 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
         dest->u32[3] = htonl(src->u32[Endian::e4rev(3)]);
     }
 
-    static void network_to_host_order(union ipv6addr *dest, const union ipv6addr *src)
+    static void network_to_host_order(ipv6addr *dest, const ipv6addr *src)
     {
         dest->u32[0] = ntohl(src->u32[Endian::e4rev(0)]);
         dest->u32[1] = ntohl(src->u32[Endian::e4rev(1)]);
@@ -893,13 +882,26 @@ class Addr // NOTE: must be union-legal, so default constructor does not initial
                                    + (dorigl < dest.u64[Endian::e2(0)]);
     }
 
-    union ipv6addr u;
+
+    template <typename Comparator>
+    bool compare(const Addr &other, Comparator comp) const
+    {
+
+        if (u.u64[Endian::e2(1)] == other.u.u64[Endian::e2(1)])
+        {
+            if (u.u64[Endian::e2(0)] != other.u.u64[Endian::e2(0)])
+                return comp(u.u64[Endian::e2(0)], other.u.u64[Endian::e2(0)]);
+            return comp(scope_id_, other.scope_id_);
+        }
+        return comp(u.u64[Endian::e2(1)], other.u.u64[Endian::e2(1)]);
+    }
+
+    ipv6addr u;
     unsigned int scope_id_ = 0;
 };
 
 OPENVPN_OSTREAM(Addr, to_string)
-} // namespace IPv6
-} // namespace openvpn
+} // namespace openvpn::IPv6
 
 #ifdef USE_OPENVPN_HASH
 OPENVPN_HASH_METHOD(openvpn::IPv6::Addr, hashval);

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -454,6 +454,9 @@ openvpn_plugin_client_connect_v2(struct plugin_context *context,
     if (!rl->name || !rl->value)
     {
         plugin_log(PLOG_ERR, MODULE, "malloc(return_list->xx) failed");
+        free(rl->name);
+        free(rl->value);
+        free(rl);
         return OPENVPN_PLUGIN_FUNC_ERROR;
     }
 
@@ -509,6 +512,9 @@ openvpn_plugin_client_connect_defer_v2(struct plugin_context *context,
     if (!rl->name || !rl->value)
     {
         plugin_log(PLOG_ERR, MODULE, "malloc(return_list->xx) failed");
+        free(rl->name);
+        free(rl->value);
+        free(rl);
         return OPENVPN_PLUGIN_FUNC_ERROR;
     }
 

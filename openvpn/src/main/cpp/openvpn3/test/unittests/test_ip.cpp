@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 #include <iostream>
 
 #include <openvpn/common/size.hpp>
@@ -8,6 +8,10 @@
 #include <openvpn/addr/ip.hpp>
 #include <openvpn/addr/pool.hpp>
 #include <openvpn/addr/ipv6.hpp>
+
+#if defined(SIN6_LEN) || defined(__APPLE__) || defined(__FreeBSD__)
+#include <sys/socket.h>
+#endif
 
 using namespace openvpn;
 
@@ -102,6 +106,19 @@ TEST(IPAddr, pool)
               s.str());
 }
 
+TEST(Pool, AcquiringNotAvailableAddressReturnsFalse)
+{
+    auto pool = IP::Pool{};
+    pool.add_range(IP::Range(IP::Addr::from_string("1.2.3.4"), 16));
+    ASSERT_FALSE(pool.acquire_specific_addr(IP::Addr::from_string("1.2.3.42")));
+}
+
+TEST(Range, EmptyRangeBeginEndIteratorsAreEqual)
+{
+    auto empty_range = IP::Range{};
+    ASSERT_FALSE(empty_range.begin() != empty_range.end()); // Because using ASSERT_EQ or ASSERT_TRUE with == would require implementing operator==
+}
+
 struct test_case
 {
     int shift;
@@ -110,7 +127,7 @@ struct test_case
 
 
 
-void do_shift_tests(std::vector<test_case> test_vectors, bool leftshift)
+void do_shift_tests(const std::vector<test_case> &test_vectors, bool leftshift)
 {
     sockaddr_in6 sa{};
 
@@ -120,7 +137,7 @@ void do_shift_tests(std::vector<test_case> test_vectors, bool leftshift)
         sa.sin6_addr.s6_addr[i] = test_vectors[0].ip[i];
     }
 
-    for (auto &t : test_vectors)
+    for (const auto &t : test_vectors)
     {
         // Shift by zero should not change anything
         auto addr = IPv6::Addr::from_sockaddr(&sa);
@@ -134,6 +151,11 @@ void do_shift_tests(std::vector<test_case> test_vectors, bool leftshift)
         auto ret = shifted_addr.to_sockaddr();
 
         sockaddr_in6 cmp{};
+#if defined(SIN6_LEN) || defined(__APPLE__) || defined(__FreeBSD__)
+        /* Enable this test on the platforms that we know to have sin6_len
+         * to not only depend on SIN6_LEN */
+        cmp.sin6_len = sizeof(sockaddr_in6);
+#endif
         cmp.sin6_family = AF_INET6;
         for (int i = 0; i < 16; i++)
         {
@@ -221,4 +243,20 @@ TEST(IPAddr, right_shift_random)
                                  {127, {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}},
                                  {128, {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}}};
     do_shift_tests(tests, false);
+}
+
+TEST(IPAddr, mapped_v4)
+{
+    IP::Addr v6mapped{"::ffff:2332:123a"};
+
+
+    EXPECT_TRUE(v6mapped.is_mapped_address());
+    IP::Addr notMapped = v6mapped.to_v4_addr();
+
+    EXPECT_EQ(v6mapped.to_string(), "::ffff:35.50.18.58");
+    EXPECT_EQ(notMapped.to_string(), "35.50.18.58");
+
+    EXPECT_FALSE(IP::Addr{"::faff:2332:123a"}.is_mapped_address());
+    EXPECT_FALSE(IP::Addr{"::2332:123a"}.is_mapped_address());
+    EXPECT_FALSE(IP::Addr{"192.168.0.123"}.is_mapped_address());
 }

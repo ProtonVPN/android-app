@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_BUFFER_BUFSTREAM_H
 #define OPENVPN_BUFFER_BUFSTREAM_H
@@ -39,21 +29,21 @@ class BufferStream : public std::streambuf
   protected:
 #if 0 // not implemented yet
     // input
-    virtual std::streamsize showmanyc();
-    virtual std::streamsize xsgetn(char* s, std::streamsize n);
-    virtual int underflow();
-    virtual int uflow();
-    virtual int pbackfail(int c = EOF);
+    std::streamsize showmanyc() override;
+    std::streamsize xsgetn(char* s, std::streamsize n) override;
+    int underflow() override;
+    int uflow() override;
+    int pbackfail(int c = EOF) override;
 #endif
 
     // output
-    virtual std::streamsize xsputn(const char *s, std::streamsize n)
+    std::streamsize xsputn(const char *s, std::streamsize n) override
     {
         buf.write((unsigned char *)s, (size_t)n);
         return n;
     }
 
-    virtual int overflow(int c = EOF)
+    int overflow(int c = EOF) override
     {
         if (c != EOF)
         {

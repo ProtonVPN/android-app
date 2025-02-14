@@ -1,14 +1,34 @@
-// test weak smart pointers by having a vector of
-// reference objects (Ref/RefType) that weakly point back
-// to their parent object (Object).
+//    OpenVPN -- An application to securely tunnel IP networks
+//               over a single port, with support for SSL/TLS-based
+//               session authentication and key exchange,
+//               packet encryption, packet authentication, and
+//               packet compression.
+//
+//    Copyright (C) 2020- OpenVPN Inc.
+//
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
+//
 
-#include "test_common.h"
+/**
+   @file
+   @brief Test weak smart pointers
+
+   Test weak smart pointers by having a vector of
+   reference objects (Ref/RefType) that weakly point back
+   to their parent object (Object).
+*/
+
+#include "test_common.hpp"
 
 #include <vector>
 
 #include <openvpn/common/rc.hpp>
 
 using namespace openvpn;
+
+/// Hide these classes from Doxygen. Especially namespaces A and B lead to
+/// unwanted references.
+/// @cond UNIT_TEST_CLASSES
 
 class StaticCounter
 {
@@ -181,6 +201,8 @@ class Object : public RCWeak<thread_unsafe_refcount>
 
 typedef Object::Ref Ref;
 } // namespace B
+
+/// @endcond
 
 template <typename Object, typename Ref>
 void test()

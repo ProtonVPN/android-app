@@ -4,25 +4,14 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // tun interface utilities for Windows
 
-#ifndef OPENVPN_TUN_WIN_TUNUTIL_H
-#define OPENVPN_TUN_WIN_TUNUTIL_H
+#pragma once
 
 #include <openvpn/common/socktypes.hpp> // prevent winsock multiple def errors
 
@@ -51,6 +40,7 @@
 #include <sstream>
 #include <cstdint> // for std::uint32_t
 #include <memory>
+#include <new>
 
 #include <tap-windows.h>
 
@@ -65,6 +55,7 @@
 #include <openvpn/common/wstring.hpp>
 #include <openvpn/buffer/buffer.hpp>
 #include <openvpn/addr/ip.hpp>
+#include <openvpn/addr/ipv6.hpp>
 #include <openvpn/tun/builder/capture.hpp>
 #include <openvpn/win/reg.hpp>
 #include <openvpn/win/scoped_handle.hpp>
@@ -72,8 +63,7 @@
 #include <openvpn/win/cmd.hpp>
 #include <openvpn/win/winerr.hpp>
 
-namespace openvpn {
-namespace TunWin {
+namespace openvpn::TunWin {
 enum Type
 {
     TapWindows6,
@@ -135,7 +125,7 @@ inline std::vector<TapGuidLuid> tap_guids(const Type tun_type)
         break;
     }
 
-    Win::RegKey adapter_key;
+    Win::Reg::Key adapter_key;
     status = ::RegOpenKeyExA(HKEY_LOCAL_MACHINE,
                              ADAPTER,
                              0,
@@ -150,7 +140,7 @@ inline std::vector<TapGuidLuid> tap_guids(const Type tun_type)
     for (int i = 0;; ++i)
     {
         char strbuf[256];
-        Win::RegKey unit_key;
+        Win::Reg::Key unit_key;
 
         len = sizeof(strbuf);
         status = ::RegEnumKeyExA(adapter_key(),
@@ -300,7 +290,7 @@ struct TapNameGuidPairList : public std::vector<TapNameGuidPair>
             DWORD len;
             DWORD data_type;
 
-            Win::RegKey network_connections_key;
+            Win::Reg::Key network_connections_key;
             status = ::RegOpenKeyExA(HKEY_LOCAL_MACHINE,
                                      NETWORK_CONNECTIONS,
                                      0,
@@ -315,7 +305,7 @@ struct TapNameGuidPairList : public std::vector<TapNameGuidPair>
             for (int i = 0;; ++i)
             {
                 char strbuf[256];
-                Win::RegKey connection_key;
+                Win::Reg::Key connection_key;
 
                 len = sizeof(strbuf);
                 status = ::RegEnumKeyExA(network_connections_key(),
@@ -392,6 +382,7 @@ struct TapNameGuidPairList : public std::vector<TapNameGuidPair>
             if (pair.guid == guid)
                 return pair.name;
         }
+        throw std::range_error{"guid not found"};
     }
 
     std::string guid_from_name(const std::string &name) const
@@ -402,6 +393,7 @@ struct TapNameGuidPairList : public std::vector<TapNameGuidPair>
             if (pair.name == name)
                 return pair.guid;
         }
+        throw std::range_error{"name not found"};
     }
 };
 
@@ -463,7 +455,7 @@ struct DeviceInstanceIdInterfaceList : public std::vector<DeviceInstanceIdInterf
                     continue;
             }
 
-            Win::RegKey regkey;
+            Win::Reg::Key regkey;
             *regkey.ref() = SetupDiOpenDevRegKey(device_info_set, &dev_info_data, DICS_FLAG_GLOBAL, 0, DIREG_DRV, KEY_QUERY_VALUE);
             if (!regkey.defined())
                 continue;
@@ -474,7 +466,7 @@ struct DeviceInstanceIdInterfaceList : public std::vector<DeviceInstanceIdInterf
             LONG status = RegQueryValueExA(regkey(), "NetCfgInstanceId", NULL, NULL, NULL, &size);
             if (status != ERROR_SUCCESS)
                 continue;
-            BufferAllocatedType<char, thread_unsafe_refcount> buf_net_cfg_inst_id(size, BufferAllocated::CONSTRUCT_ZERO);
+            BufferAllocatedType<char> buf_net_cfg_inst_id(size, BufAllocFlags::CONSTRUCT_ZERO);
 
             status = RegQueryValueExA(regkey(), "NetCfgInstanceId", NULL, NULL, (LPBYTE)buf_net_cfg_inst_id.data(), &size);
             if (status == ERROR_SUCCESS)
@@ -489,7 +481,7 @@ struct DeviceInstanceIdInterfaceList : public std::vector<DeviceInstanceIdInterf
             if (res != FALSE && GetLastError() != ERROR_INSUFFICIENT_BUFFER)
                 continue;
 
-            BufferAllocatedType<char, thread_unsafe_refcount> buf_dev_inst_id(size, BufferAllocated::CONSTRUCT_ZERO);
+            BufferAllocatedType<char> buf_dev_inst_id(size, BufAllocFlags::CONSTRUCT_ZERO);
             if (!SetupDiGetDeviceInstanceId(device_info_set, &dev_info_data, buf_dev_inst_id.data(), size, &size))
                 continue;
             buf_dev_inst_id.set_size(size);
@@ -503,7 +495,7 @@ struct DeviceInstanceIdInterfaceList : public std::vector<DeviceInstanceIdInterf
             if (cr != CR_SUCCESS)
                 continue;
 
-            BufferAllocatedType<char, thread_unsafe_refcount> buf_dev_iface_list(dev_interface_list_size, BufferAllocated::CONSTRUCT_ZERO);
+            BufferAllocatedType<char> buf_dev_iface_list(dev_interface_list_size, BufAllocFlags::CONSTRUCT_ZERO);
             cr = CM_Get_Device_Interface_List((LPGUID)&GUID_DEVINTERFACE_NET,
                                               buf_dev_inst_id.data(),
                                               buf_dev_iface_list.data(),
@@ -689,7 +681,7 @@ struct InterfaceInfoList
         DWORD size = 0;
         if (::GetInterfaceInfo(nullptr, &size) != ERROR_INSUFFICIENT_BUFFER)
             OPENVPN_THROW(tun_win_util, "InterfaceInfoList: GetInterfaceInfo #1");
-        list.reset((IP_INTERFACE_INFO *)new unsigned char[size]);
+        list.reset((IP_INTERFACE_INFO *)::operator new(size));
         if (::GetInterfaceInfo(list.get(), &size) != NO_ERROR)
             OPENVPN_THROW(tun_win_util, "InterfaceInfoList: GetInterfaceInfo #2");
     }
@@ -708,7 +700,7 @@ struct InterfaceInfoList
         return nullptr;
     }
 
-    std::unique_ptr<IP_INTERFACE_INFO> list;
+    unique_ptr_slab<IP_INTERFACE_INFO> list;
 };
 
 inline void dhcp_release(const InterfaceInfoList &ii,
@@ -773,16 +765,14 @@ struct IPNetmask4
         {
             try
             {
-                if (ias->IpAddress.String)
-                    ip = IPv4::Addr::from_string(ias->IpAddress.String);
+                ip = IPv4::Addr::from_string(ias->IpAddress.String);
             }
             catch (const std::exception &)
             {
             }
             try
             {
-                if (ias->IpMask.String)
-                    netmask = IPv4::Addr::from_string(ias->IpMask.String);
+                netmask = IPv4::Addr::from_string(ias->IpMask.String);
             }
             catch (const std::exception &)
             {
@@ -811,7 +801,7 @@ struct IPAdaptersInfo
         ULONG size = 0;
         if (::GetAdaptersInfo(nullptr, &size) != ERROR_BUFFER_OVERFLOW)
             OPENVPN_THROW(tun_win_util, "IPAdaptersInfo: GetAdaptersInfo #1");
-        list.reset((IP_ADAPTER_INFO *)new unsigned char[size]);
+        list.reset((IP_ADAPTER_INFO *)::operator new(size));
         if (::GetAdaptersInfo(list.get(), &size) != NO_ERROR)
             OPENVPN_THROW(tun_win_util, "IPAdaptersInfo: GetAdaptersInfo #2");
     }
@@ -849,7 +839,7 @@ struct IPAdaptersInfo
         return ai && ai->DhcpEnabled;
     }
 
-    std::unique_ptr<IP_ADAPTER_INFO> list;
+    unique_ptr_slab<IP_ADAPTER_INFO> list;
 };
 
 struct IPPerAdapterInfo
@@ -859,200 +849,12 @@ struct IPPerAdapterInfo
         ULONG size = 0;
         if (::GetPerAdapterInfo(index, nullptr, &size) != ERROR_BUFFER_OVERFLOW)
             return;
-        adapt.reset((IP_PER_ADAPTER_INFO *)new unsigned char[size]);
+        adapt.reset((IP_PER_ADAPTER_INFO *)::operator new(size));
         if (::GetPerAdapterInfo(index, adapt.get(), &size) != ERROR_SUCCESS)
             adapt.reset();
     }
 
-    std::unique_ptr<IP_PER_ADAPTER_INFO> adapt;
-};
-
-// Use the TAP DHCP masquerade capability to set TAP adapter properties.
-// Generally only used on pre-Vista.
-class TAPDHCPMasquerade
-{
-  public:
-    OPENVPN_EXCEPTION(dhcp_masq);
-
-    // VPN IP/netmask
-    IPNetmask4 vpn;
-
-    // IP address of fake DHCP server in TAP adapter
-    IPv4::Addr dhcp_serv_addr = IPv4::Addr::from_zero();
-
-    // DHCP lease for one year
-    unsigned int lease_time = 31536000;
-
-    // DHCP options
-    std::string domain;           // DOMAIN (15)
-    std::string netbios_scope;    // NBS (47)
-    int netbios_node_type = 0;    // NBT 1,2,4,8 (46)
-    bool disable_nbt = false;     // DISABLE_NBT (43, Vendor option 001)
-    std::vector<IPv4::Addr> dns;  // DNS (6)
-    std::vector<IPv4::Addr> wins; // WINS (44)
-    std::vector<IPv4::Addr> ntp;  // NTP (42)
-    std::vector<IPv4::Addr> nbdd; // NBDD (45)
-
-    void init_from_capture(const TunBuilderCapture &pull)
-    {
-        // VPN IP/netmask
-        vpn = IPNetmask4(pull, "VPN IP");
-
-        // DHCP server address
-        {
-            const IPv4::Addr network_addr = vpn.ip & vpn.netmask;
-            const std::uint32_t extent = vpn.netmask.extent_from_netmask_uint32();
-            if (extent >= 16)
-                dhcp_serv_addr = network_addr + (extent - 2);
-            else
-                dhcp_serv_addr = network_addr;
-        }
-
-        // DNS
-        for (auto &ds : pull.dns_servers)
-        {
-            if (!ds.ipv6)
-                dns.push_back(IPv4::Addr::from_string(ds.address, "DNS Server"));
-        }
-
-        // WINS
-        for (auto &ws : pull.wins_servers)
-            wins.push_back(IPv4::Addr::from_string(ws.address, "WINS Server"));
-
-        // DOMAIN
-        if (!pull.search_domains.empty())
-            domain = pull.search_domains[0].domain;
-    }
-
-    void ioctl(HANDLE th) const
-    {
-        // TAP_WIN_IOCTL_CONFIG_DHCP_MASQ
-        {
-            std::uint32_t ep[4];
-            ep[0] = vpn.ip.to_uint32_net();
-            ep[1] = vpn.netmask.to_uint32_net();
-            ep[2] = dhcp_serv_addr.to_uint32_net();
-            ep[3] = lease_time;
-
-            DWORD len;
-            if (!::DeviceIoControl(th,
-                                   TAP_WIN_IOCTL_CONFIG_DHCP_MASQ,
-                                   ep,
-                                   sizeof(ep),
-                                   ep,
-                                   sizeof(ep),
-                                   &len,
-                                   nullptr))
-            {
-                throw dhcp_masq("DeviceIoControl TAP_WIN_IOCTL_CONFIG_DHCP_MASQ failed");
-            }
-        }
-
-        // TAP_WIN_IOCTL_CONFIG_DHCP_SET_OPT
-        {
-            BufferAllocated buf(256, BufferAllocated::GROW);
-            write_options(buf);
-
-            DWORD len;
-            if (!::DeviceIoControl(th,
-                                   TAP_WIN_IOCTL_CONFIG_DHCP_SET_OPT,
-                                   buf.data(),
-                                   buf.size(),
-                                   buf.data(),
-                                   buf.size(),
-                                   &len,
-                                   nullptr))
-            {
-                throw dhcp_masq("DeviceIoControl TAP_WIN_IOCTL_CONFIG_DHCP_SET_OPT failed");
-            }
-        }
-    }
-
-  private:
-    void write_options(Buffer &buf) const
-    {
-        // DOMAIN
-        write_dhcp_str(buf, 15, domain);
-
-        // NBS
-        write_dhcp_str(buf, 47, netbios_scope);
-
-        // NBT
-        if (netbios_node_type)
-            write_dhcp_u8(buf, 46, netbios_node_type);
-
-        // DNS
-        write_dhcp_addr_list(buf, 6, dns);
-
-        // WINS
-        write_dhcp_addr_list(buf, 44, wins);
-
-        // NTP
-        write_dhcp_addr_list(buf, 42, ntp);
-
-        // NBDD
-        write_dhcp_addr_list(buf, 45, nbdd);
-
-        // DISABLE_NBT
-        //
-        // The MS DHCP server option 'Disable Netbios-over-TCP/IP
-        // is implemented as vendor option 001, value 002.
-        // A value of 001 means 'leave NBT alone' which is the default.
-        if (disable_nbt)
-        {
-            buf.push_back(43);
-            buf.push_back(6); // total length field
-            buf.push_back(0x001);
-            buf.push_back(4); // length of the vendor-specified field
-            {
-                const std::uint32_t raw = 0x002;
-                buf.write((const unsigned char *)&raw, sizeof(raw));
-            }
-        }
-    }
-
-    static void write_dhcp_u8(Buffer &buf,
-                              const unsigned char type,
-                              const unsigned char data)
-    {
-        buf.push_back(type);
-        buf.push_back(1);
-        buf.push_back(data);
-    }
-
-    static void write_dhcp_str(Buffer &buf,
-                               const unsigned char type,
-                               const std::string &str)
-    {
-        const size_t len = str.length();
-        if (len)
-        {
-            if (len > 255)
-                OPENVPN_THROW(dhcp_masq, "string '" << str << "' must be > 0 bytes and <= 255 bytes");
-            buf.push_back(type);
-            buf.push_back((unsigned char)len);
-            buf.write((const unsigned char *)str.c_str(), len);
-        }
-    }
-
-    static void write_dhcp_addr_list(Buffer &buf,
-                                     const unsigned char type,
-                                     const std::vector<IPv4::Addr> &addr_list)
-    {
-        if (!addr_list.empty())
-        {
-            const size_t size = addr_list.size() * sizeof(std::uint32_t);
-            if (size < 1 || size > 255)
-                OPENVPN_THROW(dhcp_masq, "array size=" << size << " must be > 0 bytes and <= 255 bytes");
-            buf.push_back(type);
-            buf.push_back((unsigned char)size);
-            for (auto &a : addr_list)
-            {
-                const std::uint32_t rawaddr = a.to_uint32_net();
-                buf.write((const unsigned char *)&rawaddr, sizeof(std::uint32_t));
-            }
-        }
-    }
+    unique_ptr_slab<IP_PER_ADAPTER_INFO> adapt;
 };
 
 class TAPDriverVersion
@@ -1112,7 +914,7 @@ class ActionSetAdapterDomainSuffix : public Action
         os << to_string() << std::endl;
 
         LONG status;
-        Win::RegKey key;
+        Win::Reg::Key key;
         const std::string reg_key_name = "SYSTEM\\CurrentControlSet\\services\\Tcpip\\Parameters\\Interfaces\\" + tap_guid;
         status = ::RegOpenKeyExA(HKEY_LOCAL_MACHINE,
                                  reg_key_name.c_str(),
@@ -1130,8 +932,8 @@ class ActionSetAdapterDomainSuffix : public Action
                                   L"Domain",
                                   0,
                                   REG_SZ,
-                                  (const BYTE *)dom.get(),
-                                  (Win::utf16_strlen(dom.get()) + 1) * 2);
+                                  reinterpret_cast<const BYTE *>(dom.get()),
+                                  static_cast<DWORD>((Win::utf16_strlen(dom.get()) + 1) * sizeof(wchar_t)));
         if (status != ERROR_SUCCESS)
             OPENVPN_THROW(tun_win_util, "ActionSetAdapterDomainSuffix: error writing Domain registry key: " << reg_key_name);
     }
@@ -1151,12 +953,12 @@ inline const MIB_IPFORWARDTABLE *windows_routing_table()
 {
     ULONG size = 0;
     DWORD status;
-    std::unique_ptr<MIB_IPFORWARDTABLE> rt;
+    unique_ptr_slab<MIB_IPFORWARDTABLE> rt;
 
     status = ::GetIpForwardTable(nullptr, &size, TRUE);
     if (status == ERROR_INSUFFICIENT_BUFFER)
     {
-        rt.reset((MIB_IPFORWARDTABLE *)new unsigned char[size]);
+        rt.reset((MIB_IPFORWARDTABLE *)::operator new(size));
         status = ::GetIpForwardTable(rt.get(), &size, TRUE);
         if (status != NO_ERROR)
         {
@@ -1167,7 +969,6 @@ inline const MIB_IPFORWARDTABLE *windows_routing_table()
     return rt.release();
 }
 
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
 // Get the Windows IPv4/IPv6 routing table.
 // Note that returned pointer must be freed with FreeMibTable.
 inline const MIB_IPFORWARD_TABLE2 *windows_routing_table2(ADDRESS_FAMILY af)
@@ -1179,7 +980,6 @@ inline const MIB_IPFORWARD_TABLE2 *windows_routing_table2(ADDRESS_FAMILY af)
     else
         return nullptr;
 }
-#endif
 
 class BestGateway
 {
@@ -1187,23 +987,46 @@ class BestGateway
     /**
      * Construct object which represents default gateway
      */
-    BestGateway()
+    BestGateway(ADDRESS_FAMILY af)
     {
-        std::unique_ptr<const MIB_IPFORWARDTABLE> rt(windows_routing_table());
-        if (rt)
+        unique_ptr_del<const MIB_IPFORWARD_TABLE2> rt2(windows_routing_table2(af),
+                                                       [](const MIB_IPFORWARD_TABLE2 *p)
+                                                       { FreeMibTable((PVOID)p); });
+
+        if (!rt2)
         {
-            const MIB_IPFORWARDROW *gw = nullptr;
-            for (size_t i = 0; i < rt->dwNumEntries; ++i)
+            OPENVPN_THROW(tun_win_util, "Failed to get routing table");
+        }
+
+        std::map<NET_IFINDEX, ULONG> metric_per_iface;
+        ULONG gw_metric = 0;
+
+        const MIB_IPFORWARD_ROW2 *gw = nullptr;
+        for (size_t i = 0; i < rt2->NumEntries; ++i)
+        {
+            const MIB_IPFORWARD_ROW2 *row = &rt2->Table[i];
+
+            IP::Addr dst = IP::Addr::from_sockaddr((const sockaddr *)&row->DestinationPrefix.Prefix);
+            bool default_gw = dst.all_zeros() && row->DestinationPrefix.PrefixLength == 0;
+
+            ULONG metric = row->Metric + get_iface_metric(metric_per_iface, row->InterfaceIndex, af);
+
+            if (default_gw && (!gw || metric < gw_metric))
             {
-                const MIB_IPFORWARDROW *row = &rt->table[i];
-                if (!row->dwForwardDest && !row->dwForwardMask
-                    && (!gw || row->dwForwardMetric1 < gw->dwForwardMetric1))
-                    gw = row;
+                gw = row;
+                gw_metric = metric;
             }
-            if (gw)
+        }
+        if (gw)
+        {
+            index = gw->InterfaceIndex;
+            if (af == AF_INET6)
             {
-                index = gw->dwForwardIfIndex;
-                addr = IPv4::Addr::from_uint32(ntohl(gw->dwForwardNextHop)).to_string();
+                addr = IPv6::Addr::from_in6_addr(&gw->NextHop.Ipv6.sin6_addr).to_string();
+            }
+            else
+            {
+                addr = IPv4::Addr::from_in_addr(&gw->NextHop.Ipv4.sin_addr).to_string();
             }
         }
     }
@@ -1214,86 +1037,113 @@ class BestGateway
      * first by the longest prefix match and then by metric. If destination
      * is in local network, no gateway is selected and "local_route" flag is set.
      *
-     * @param dest destination IPv4 address
+     * @param af address family, AF_INET or AF_INET6
+     * @param dest_str destination IPv4/IPv6 address
      * @param vpn_interface_index index of VPN interface which is excluded from gateway selection
      */
-    BestGateway(const std::string &dest, DWORD vpn_interface_index)
+    BestGateway(ADDRESS_FAMILY af, const std::string &dest_str, DWORD vpn_interface_index)
     {
-        DWORD dest_addr;
-        auto res = inet_pton(AF_INET, dest.c_str(), &dest_addr);
-        switch (res)
-        {
-        case -1:
-            OPENVPN_THROW(tun_win_util,
-                          "GetBestGateway: error converting IPv4 address " << dest
-                                                                           << " to int: " << ::WSAGetLastError());
+        unique_ptr_del<const MIB_IPFORWARD_TABLE2> rt2(windows_routing_table2(af),
+                                                       [](const MIB_IPFORWARD_TABLE2 *p)
+                                                       { FreeMibTable((PVOID)p); });
 
-        case 0:
-            OPENVPN_THROW(tun_win_util,
-                          "GetBestGateway: " << dest
-                                             << " is not a valid IPv4 address");
+        if (!rt2)
+        {
+            OPENVPN_THROW(tun_win_util, "Failed to get routing table");
         }
 
-        {
-            MIB_IPFORWARDROW row;
-            DWORD res2 = GetBestRoute(dest_addr, 0, &row);
-            if (res2 != NO_ERROR)
-            {
-                OPENVPN_THROW(tun_win_util,
-                              "GetBestGateway: error retrieving the best route for " << dest
-                                                                                     << ": " << res2);
-            }
+        IP::Addr dest = IP::Addr::from_string(dest_str);
 
-            if (row.dwForwardType == MIB_IPROUTE_TYPE_DIRECT)
-            {
-                local_route_ = true;
-                return;
-            }
+        void *dst_addr = NULL;
+        struct sockaddr_in sa4;
+        struct sockaddr_in6 sa6;
+        if (af == AF_INET6)
+        {
+            sa6 = dest.to_ipv6().to_sockaddr();
+            dst_addr = &sa6;
+        }
+        else
+        {
+            sa4 = dest.to_ipv4().to_sockaddr();
+            dst_addr = &sa4;
         }
 
-        std::unique_ptr<const MIB_IPFORWARDTABLE> rt(windows_routing_table());
-        if (rt)
+        NET_IFINDEX best_interface = 0;
+        DWORD res = ::GetBestInterfaceEx((sockaddr *)dst_addr, &best_interface);
+        if (res != NO_ERROR)
         {
-            const MIB_IPFORWARDROW *gw = nullptr;
-            for (size_t i = 0; i < rt->dwNumEntries; ++i)
+            OPENVPN_THROW(tun_win_util,
+                          "GetBestInterfaceEx: error retrieving the best interface for " << dest
+                                                                                         << ": " << res);
+        }
+
+        // check if route is local
+        MIB_IPFORWARD_ROW2 row{};
+        SOCKADDR_INET best_source{};
+        res = ::GetBestRoute2(NULL, best_interface, NULL, (const SOCKADDR_INET *)dst_addr, 0, &row, &best_source);
+        if (res != NO_ERROR)
+        {
+            OPENVPN_THROW(tun_win_util,
+                          "GetBestGateway: error retrieving the best route for " << dest
+                                                                                 << ": " << res);
+        }
+
+        // no gw needed, route is local
+        if (row.Protocol == RouteProtocolLocal)
+        {
+            local_route_ = true;
+            return;
+        }
+
+        // if there is no VPN interface - we're done
+        if (vpn_interface_index == DWORD(-1))
+        {
+            fill_gw_details(&row, dest_str);
+            return;
+        }
+
+        // find the best route excluding VPN interface
+        const MIB_IPFORWARD_ROW2 *gw = nullptr;
+        std::map<NET_IFINDEX, ULONG> metric_per_iface;
+        ULONG gw_metric = 0;
+        for (size_t i = 0; i < rt2->NumEntries; ++i)
+        {
+            const MIB_IPFORWARD_ROW2 *row = &rt2->Table[i];
+            IP::Addr mask = IP::Addr::netmask_from_prefix_len(af == AF_INET6 ? IP::Addr::Version::V6 : IP::Addr::Version::V4, row->DestinationPrefix.PrefixLength);
+
+            IP::Addr dest_prefix = IP::Addr::from_sockaddr((const sockaddr *)&row->DestinationPrefix.Prefix);
+
+            if ((dest & mask) == dest_prefix)
             {
-                const MIB_IPFORWARDROW *row = &rt->table[i];
-                // does route match?
-                if ((dest_addr & row->dwForwardMask) == (row->dwForwardDest & row->dwForwardMask))
+                // skip gateway on VPN interface
+                if ((vpn_interface_index != DWORD(-1)) && (row->InterfaceIndex == vpn_interface_index))
                 {
-                    // skip gateway on VPN interface
-                    if ((vpn_interface_index != DWORD(-1)) && (row->dwForwardIfIndex == vpn_interface_index))
-                    {
-                        OPENVPN_LOG("GetBestGateway: skip gateway "
-                                    << IPv4::Addr::from_uint32(ntohl(row->dwForwardNextHop)).to_string()
-                                    << " on VPN interface " << vpn_interface_index);
-                        continue;
-                    }
+                    OPENVPN_LOG("GetBestGateway: skip gateway "
+                                << IP::Addr::from_sockaddr((const sockaddr *)&row->NextHop).to_string()
+                                << " on VPN interface " << vpn_interface_index);
+                    continue;
+                }
 
-                    if (!gw)
-                    {
-                        gw = row;
-                        continue;
-                    }
+                if (!gw)
+                {
+                    gw = row;
+                    continue;
+                }
 
-                    auto cur_prefix = IPv4::Addr::prefix_len_32(ntohl(gw->dwForwardMask));
-                    auto new_prefix = IPv4::Addr::prefix_len_32(ntohl(row->dwForwardMask));
-                    auto new_metric_is_lower = row->dwForwardMetric1 < gw->dwForwardMetric1;
+                ULONG metric = row->Metric + get_iface_metric(metric_per_iface, row->InterfaceIndex, af);
 
-                    /* use new gateway if it has longer prefix OR same prefix but lower metric */
-                    if ((new_prefix > cur_prefix) || ((new_prefix == cur_prefix) && new_metric_is_lower))
-                        gw = row;
+                // use new gateway if it has longer prefix OR the same prefix but lower metric
+                if ((row->DestinationPrefix.PrefixLength > gw->DestinationPrefix.PrefixLength) || ((row->DestinationPrefix.PrefixLength == gw->DestinationPrefix.PrefixLength) && (metric < gw_metric)))
+                {
+                    gw = row;
+                    gw_metric = metric;
                 }
             }
-            if (gw)
-            {
-                index = gw->dwForwardIfIndex;
-                addr = IPv4::Addr::from_uint32(ntohl(gw->dwForwardNextHop)).to_string();
-                OPENVPN_LOG("GetBestGateway: "
-                            << "selected gateway " << addr
-                            << " on adapter " << index
-                            << " for destination " << dest);
-            }
+        }
+
+        if (gw)
+        {
+            fill_gw_details(gw, dest_str);
         }
     }
 
@@ -1322,6 +1172,29 @@ class BestGateway
     }
 
   private:
+    void fill_gw_details(const MIB_IPFORWARD_ROW2 *row, const std::string &dest)
+    {
+        index = row->InterfaceIndex;
+        addr = IP::Addr::from_sockaddr((const sockaddr *)&row->NextHop).to_string();
+        OPENVPN_LOG("GetBestGateway: "
+                    << "selected gateway " << addr
+                    << " on adapter " << index
+                    << " for destination " << dest);
+    }
+
+    static ULONG get_iface_metric(std::map<NET_IFINDEX, ULONG> &metric_per_iface, NET_IFINDEX iface, ADDRESS_FAMILY af)
+    {
+        if (metric_per_iface.find(iface) == metric_per_iface.end())
+        {
+            MIB_IPINTERFACE_ROW ir{};
+            ir.InterfaceIndex = iface;
+            ir.Family = af;
+            ::GetIpInterfaceEntry(&ir);
+            metric_per_iface[iface] = ir.Metric;
+        }
+        return metric_per_iface[iface];
+    }
+
     DWORD index = -1;
     std::string addr;
     bool local_route_ = false;
@@ -1342,9 +1215,7 @@ class ActionDeleteAllRoutesOnInterface : public Action
 
         ActionList::Ptr actions = new ActionList();
         remove_all_ipv4_routes_on_iface(iface_index, *actions);
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
         remove_all_ipv6_routes_on_iface(iface_index, *actions);
-#endif
         actions->execute(os);
     }
 
@@ -1381,7 +1252,6 @@ class ActionDeleteAllRoutesOnInterface : public Action
         }
     }
 
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
     static void remove_all_ipv6_routes_on_iface(DWORD index, ActionList &actions)
     {
         unique_ptr_del<const MIB_IPFORWARD_TABLE2> rt2(windows_routing_table2(AF_INET6),
@@ -1413,7 +1283,6 @@ class ActionDeleteAllRoutesOnInterface : public Action
             }
         }
     }
-#endif
 
     const DWORD iface_index;
 };
@@ -1567,7 +1436,4 @@ class AddRoute4Cmd : public Action
 };
 } // namespace TunIPHELPER
 } // namespace Util
-} // namespace TunWin
-} // namespace openvpn
-
-#endif
+} // namespace openvpn::TunWin

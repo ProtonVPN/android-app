@@ -4,33 +4,25 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Common reliability layer classes
 
 #ifndef OPENVPN_RELIABLE_RELCOMMON_H
 #define OPENVPN_RELIABLE_RELCOMMON_H
 
-#include <openvpn/crypto/packet_id.hpp>
+#include <openvpn/crypto/packet_id_control.hpp>
 
 namespace openvpn {
 
 namespace reliable {
-typedef PacketID::id_t id_t;
-}
+typedef std::uint32_t id_t;
+constexpr static std::size_t id_size = sizeof(id_t);
+
+} // namespace reliable
 
 template <typename PACKET>
 class ReliableMessageBase

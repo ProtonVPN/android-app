@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Null tun interface object, intended for testing.
 
@@ -26,8 +16,7 @@
 
 #include <openvpn/tun/client/tunbase.hpp>
 
-namespace openvpn {
-namespace TunNull {
+namespace openvpn::TunNull {
 
 class ClientConfig : public TunClientFactory
 {
@@ -42,14 +31,17 @@ class ClientConfig : public TunClientFactory
         return new ClientConfig;
     }
 
-    virtual TunClient::Ptr new_tun_client_obj(openvpn_io::io_context &io_context,
-                                              TunClientParent &parent,
-                                              TransportClient *transcli);
+    TunClient::Ptr new_tun_client_obj(openvpn_io::io_context &io_context,
+                                      TunClientParent &parent,
+                                      TransportClient *transcli) override;
+
+    bool supports_proto_v3() override
+    {
+        return true;
+    }
 
   private:
-    ClientConfig()
-    {
-    }
+    ClientConfig() = default;
 };
 
 class Client : public TunClient
@@ -57,7 +49,7 @@ class Client : public TunClient
     friend class ClientConfig; // calls constructor
 
   public:
-    virtual void tun_start(const OptionList &opt, TransportClient &transcli, CryptoDCSettings &) override
+    void tun_start(const OptionList &opt, TransportClient &transcli, CryptoDCSettings &) override
     {
 #ifdef TUN_NULL_EXIT
         throw ErrorCode(Error::TUN_SETUP_FAILED, true, "TUN_NULL_EXIT");
@@ -67,24 +59,24 @@ class Client : public TunClient
 #endif
     }
 
-    virtual bool tun_send(BufferAllocated &buf) override
+    bool tun_send(BufferAllocated &buf) override
     {
         config->stats->inc_stat(SessionStats::TUN_BYTES_OUT, buf.size());
         config->stats->inc_stat(SessionStats::TUN_PACKETS_OUT, 1);
         return true;
     }
 
-    virtual std::string tun_name() const override
+    std::string tun_name() const override
     {
         return "TUN_NULL";
     }
 
-    virtual std::string vpn_ip4() const override
+    std::string vpn_ip4() const override
     {
         return "";
     }
 
-    virtual std::string vpn_ip6() const override
+    std::string vpn_ip6() const override
     {
         return "";
     }
@@ -94,11 +86,11 @@ class Client : public TunClient
         return 0;
     }
 
-    virtual void set_disconnect() override
+    void set_disconnect() override
     {
     }
 
-    virtual void stop() override
+    void stop() override
     {
     }
 
@@ -122,7 +114,6 @@ inline TunClient::Ptr ClientConfig::new_tun_client_obj(openvpn_io::io_context &i
     return TunClient::Ptr(new Client(io_context, this, parent));
 }
 
-} // namespace TunNull
-} // namespace openvpn
+} // namespace openvpn::TunNull
 
 #endif // OPENVPN_TUN_CLIENT_TUNNULL_H

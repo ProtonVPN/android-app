@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -24,8 +24,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -99,4 +97,51 @@ parse_auth_failed_temp(struct options *o, const char *reason)
     }
     gc_free(&gc);
     return message;
+}
+
+bool
+valid_integer(const char *str, bool positive)
+{
+    char *endptr;
+    long long i = strtoll(str, &endptr, 10);
+
+    if (i < INT_MIN || (positive && i < 0) || *endptr != '\0' || i > INT_MAX)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+int
+positive_atoi(const char *str, int msglevel)
+{
+    char *endptr;
+    long long i = strtoll(str, &endptr, 10);
+
+    if (i < 0 || *endptr != '\0' || i > INT_MAX)
+    {
+        msg(msglevel, "Cannot parse argument '%s' as non-negative integer",
+            str);
+        i = 0;
+    }
+
+    return (int) i;
+}
+
+int
+atoi_warn(const char *str, int msglevel)
+{
+    char *endptr;
+    long long i = strtoll(str, &endptr, 10);
+
+    if (i < INT_MIN || *endptr != '\0' || i > INT_MAX)
+    {
+        msg(msglevel, "Cannot parse argument '%s' as integer", str);
+        i = 0;
+    }
+
+    return (int) i;
 }

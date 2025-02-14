@@ -4,24 +4,15 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMPRESS_LZOASYM_H
 #define OPENVPN_COMPRESS_LZOASYM_H
 
+#include <openvpn/buffer/buffer.hpp>
 #include <openvpn/compress/lzoasym_impl.hpp>
 
 // Implement asymmetrical LZO compression (only uncompress, don't compress)
@@ -48,14 +39,14 @@ class CompressLZOAsym : public Compress
         : Compress(frame, stats),
           support_swap(support_swap_arg)
     {
-        OPENVPN_LOG_COMPRESS("LZO-ASYM init swap=" << support_swap_arg << " asym=" << asym_arg);
+        OVPN_LOG_INFO("LZO-ASYM init swap=" << support_swap_arg << " asym=" << asym_arg);
     }
 
     static void init_static()
     {
     }
 
-    virtual const char *name() const
+    const char *name() const override
     {
         return "lzo-asym";
     }
@@ -72,12 +63,12 @@ class CompressLZOAsym : public Compress
             error(buf);
             return;
         }
-        OPENVPN_LOG_COMPRESS_VERBOSE("LZO-ASYM uncompress " << buf.size() << " -> " << zlen);
+        OVPN_LOG_VERBOSE("LZO-ASYM uncompress " << buf.size() << " -> " << zlen);
         work.set_size(zlen);
         buf.swap(work);
     }
 
-    virtual void compress(BufferAllocated &buf, const bool hint)
+    void compress(BufferAllocated &buf, const bool hint) override
     {
         // skip null packets
         if (!buf.size())
@@ -90,7 +81,7 @@ class CompressLZOAsym : public Compress
             buf.push_front(NO_COMPRESS);
     }
 
-    virtual void decompress(BufferAllocated &buf)
+    void decompress(BufferAllocated &buf) override
     {
         // skip null packets
         if (!buf.size())
@@ -101,10 +92,12 @@ class CompressLZOAsym : public Compress
         {
         case NO_COMPRESS_SWAP:
             do_unswap(buf);
+            [[fallthrough]];
         case NO_COMPRESS:
             break;
         case LZO_COMPRESS_SWAP:
             do_unswap(buf);
+            [[fallthrough]];
         case LZO_COMPRESS:
             decompress_work(buf);
             break;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -229,5 +229,5 @@ const OSSL_DISPATCH ossl_sm2_asym_cipher_functions[] = {
       (void (*)(void))sm2_set_ctx_params },
     { OSSL_FUNC_ASYM_CIPHER_SETTABLE_CTX_PARAMS,
       (void (*)(void))sm2_settable_ctx_params },
-    { 0, NULL }
+    OSSL_DISPATCH_END
 };

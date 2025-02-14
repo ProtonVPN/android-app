@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // OpenSSL exception class that allows a full OpenSSL error stack
 // to be represented.
@@ -68,7 +58,7 @@ class OpenSSLException : public ExceptionCode
         init_ssl_error(ssl_error, error_text.c_str());
     }
 
-    virtual const char *what() const noexcept
+    const char *what() const noexcept override
     {
         return errtxt.c_str();
     }
@@ -140,12 +130,19 @@ class OpenSSLException : public ExceptionCode
             if (n_err < MAX_ERRORS)
                 errstack[n_err++] = err;
             ERR_error_string_n(err, buf, sizeof(buf));
+            auto reason = ERR_GET_REASON(err);
             tmp << prefix << buf;
+            if (reason >= SSL_AD_REASON_OFFSET)
+            {
+                tmp << "[" << SSL_alert_desc_string_long(reason - SSL_AD_REASON_OFFSET) << "]";
+            }
+
             prefix = " / ";
 
             // for certain OpenSSL errors, translate them to an OpenVPN error code,
             // so they can be propagated up to the higher levels (such as UI level)
-            switch (ERR_GET_REASON(err))
+
+            switch (reason)
             {
             case SSL_R_CERTIFICATE_VERIFY_FAILED:
                 set_code(Error::CERT_VERIFY_FAIL, true);
@@ -157,15 +154,12 @@ class OpenSSLException : public ExceptionCode
             case SSL_R_UNSUPPORTED_PROTOCOL:
                 set_code(Error::TLS_VERSION_MIN, true);
                 break;
-#if OPENSSL_VERSION_NUMBER >= 0x10100000L
-                // These error codes are not available in older OpenSSL versions
             case SSL_R_CA_MD_TOO_WEAK:
                 set_code(Error::SSL_CA_MD_TOO_WEAK, true);
                 break;
             case SSL_R_CA_KEY_TOO_SMALL:
                 set_code(Error::SSL_CA_KEY_TOO_SMALL, true);
                 break;
-#endif // OpenSSL >= 1.1.0
 #if defined(SSL_R_LEGACY_SIGALG_DISALLOWED_OR_UNSUPPORTED)
                 /* This error code has been added in OpenSSL 3.0.8 */
             case SSL_R_LEGACY_SIGALG_DISALLOWED_OR_UNSUPPORTED:
@@ -175,6 +169,36 @@ class OpenSSLException : public ExceptionCode
             case SSL_R_DH_KEY_TOO_SMALL:
                 set_code(Error::SSL_DH_KEY_TOO_SMALL, true);
                 break;
+            case SSL_R_TLSV1_ALERT_PROTOCOL_VERSION:
+                set_code(Error::TLS_ALERT_PROTOCOL_VERSION, true);
+                break;
+            case SSL_R_TLSV1_ALERT_UNKNOWN_CA:
+                set_code(Error::TLS_ALERT_UNKNOWN_CA, true);
+                break;
+            case SSL_R_SSLV3_ALERT_HANDSHAKE_FAILURE:
+                set_code(Error::TLS_ALERT_HANDSHAKE_FAILURE, true);
+                break;
+            case SSL_R_TLSV13_ALERT_CERTIFICATE_REQUIRED:
+                set_code(Error::TLS_ALERT_CERTIFICATE_REQUIRED, true);
+                break;
+            case SSL_R_SSLV3_ALERT_CERTIFICATE_EXPIRED:
+                set_code(Error::TLS_ALERT_CERTIFICATE_EXPIRED, true);
+                break;
+            case SSL_R_SSLV3_ALERT_CERTIFICATE_REVOKED:
+                set_code(Error::TLS_ALERT_CERTIFICATE_REVOKED, true);
+                break;
+            case SSL_R_SSLV3_ALERT_BAD_CERTIFICATE:
+                set_code(Error::TLS_ALERT_BAD_CERTIFICATE, true);
+                break;
+            case SSL_R_SSLV3_ALERT_UNSUPPORTED_CERTIFICATE:
+                set_code(Error::TLS_ALERT_UNSUPPORTED_CERTIFICATE, true);
+                break;
+            default:
+                if (reason > SSL_AD_REASON_OFFSET)
+                {
+                    /* all TLS alerts use TLS alert code + SSL_AD_REASON_OFFSET in OpenSSL */
+                    set_code(Error::TLS_ALERT_MISC, true);
+                }
             }
         }
         errtxt = tmp.str();

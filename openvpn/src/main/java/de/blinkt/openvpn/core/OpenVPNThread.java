@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -135,7 +136,7 @@ public class OpenVPNThread implements Runnable {
 
             InputStream in = mProcess.getInputStream();
             OutputStream out = mProcess.getOutputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 
             mOutputStream = out;
             mStreamFuture.run();

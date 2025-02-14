@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // A preliminary parser for OpenVPN client configuration files.
 
@@ -224,6 +214,12 @@ class ParseClientConfig
                 }
             }
 
+            {
+                const Option *o = options.get_ptr("ca");
+                if (o)
+                    vpnCa_ = o->get(1, Option::MULTILINE);
+            }
+
             // profile name
             {
                 const Option *o = options.get_ptr("PROFILE");
@@ -284,7 +280,7 @@ class ParseClientConfig
                 if (options.exists("push-peer-info"))
                     pushPeerInfo_ = true;
                 if (pushPeerInfo_)
-                    peerInfoUV_ = peer_info_uv;
+                    peerInfoUV_ = std::move(peer_info_uv);
             }
 
             // dev name
@@ -298,10 +294,10 @@ class ParseClientConfig
 
             // protocol configuration
             {
-                protoConfig.reset(new ProtoContext::Config());
+                protoConfig.reset(new ProtoContext::ProtoConfig());
                 protoConfig->tls_auth_factory.reset(new CryptoOvpnHMACFactory<SSLLib::CryptoAPI>());
                 protoConfig->tls_crypt_factory.reset(new CryptoTLSCryptFactory<SSLLib::CryptoAPI>());
-                protoConfig->load(options, ProtoContextOptions(), -1, false);
+                protoConfig->load(options, ProtoContextCompressionOptions(), -1, false);
             }
 
             unsigned int lflags = SSLConfigAPI::LF_PARSE_MODE;
@@ -310,6 +306,7 @@ class ParseClientConfig
             try
             {
                 sslConfig.reset(new SSLLib::SSLAPI::Config());
+                sslConfig->set_rng(new SSLLib::RandomAPI());
                 sslConfig->load(options, lflags);
             }
             catch (...)
@@ -320,7 +317,7 @@ class ParseClientConfig
         catch (const option_error &e)
         {
             error_ = true;
-            message_ = Unicode::utf8_printable<std::string>(std::string("ERR_PROFILE_OPTION: ") + e.what(), 256);
+            message_ = Unicode::utf8_printable<std::string>(e.what(), 256);
         }
         catch (const std::exception &e)
         {
@@ -358,7 +355,7 @@ class ParseClientConfig
             if (content_list)
             {
                 content_list->preprocess();
-                options.parse_from_key_value_list(*content_list, &limits);
+                options.parse_from_key_value_list(*content_list, "OVPN_ACCESS_SERVER", &limits);
             }
             process_setenv_opt(options);
             options.update_map();
@@ -366,8 +363,12 @@ class ParseClientConfig
             // add in missing options
             bool added = false;
 
-            // client
-            if (!options.exists("client"))
+            /* client
+               Ensure that we always look at both options, so they register as touched */
+            const bool tls_client_exists = options.exists("tls-client");
+            const bool pull_exists = options.exists("pull");
+
+            if (tls_client_exists && pull_exists)
             {
                 Option opt;
                 opt.push_back("client");
@@ -454,6 +455,11 @@ class ParseClientConfig
     bool externalPki() const
     {
         return externalPki_;
+    }
+
+    std::string vpnCa() const
+    {
+        return vpnCa_;
     }
 
     // static challenge, may be empty, ignored if autologin
@@ -770,7 +776,7 @@ class ParseClientConfig
         else if (parm == "1")
             return true;
         else
-            throw option_error(title + ": parameter must be 0 or 1");
+            throw option_error(ERR_INVALID_OPTION_VAL, title + ": parameter must be 0 or 1");
     }
 
     bool error_;
@@ -781,6 +787,7 @@ class ParseClientConfig
     bool autologin_;
     bool clientCertEnabled_;
     bool externalPki_;
+    std::string vpnCa_;
     bool pushPeerInfo_;
     std::string staticChallenge_;
     bool staticChallengeEcho_;
@@ -792,7 +799,7 @@ class ParseClientConfig
     RemoteList::Ptr remoteList;
     RemoteItem firstRemoteListItem_;
     PeerInfo::Set::Ptr peerInfoUV_;
-    ProtoContext::Config::Ptr protoConfig;
+    ProtoContext::ProtoConfig::Ptr protoConfig;
     SSLLib::SSLAPI::Config::Ptr sslConfig;
     std::string dev;
     std::string windowsDriver_;

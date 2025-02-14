@@ -7,6 +7,9 @@
 *.manifest
 *.pdb
 *.tds
+any_completion_executor
+any_completion_handler
+any_io_executor
 append
 as_tuple
 associated_allocator
@@ -42,12 +45,16 @@ buffered_read_stream
 buffered_stream
 buffered_write_stream
 buffers_iterator
+cancel_after
+cancel_at
 cancellation_signal
 cancellation_state
 cancellation_type
+co_composed
 co_spawn
 completion_condition
 compose
+composed
 connect
 connect_pipe
 consign
@@ -64,6 +71,7 @@ executor
 executor_work_guard
 file_base
 high_resolution_timer
+immediate
 io_context
 io_context_strand
 io_service

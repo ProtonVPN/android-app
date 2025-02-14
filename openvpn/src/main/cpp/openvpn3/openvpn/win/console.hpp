@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // console utilities for Windows
 
@@ -28,9 +18,7 @@
 #include <string>
 #include <openvpn/win/handle.hpp>
 
-namespace openvpn {
-namespace Win {
-namespace Console {
+namespace openvpn::Win::Console {
 
 class Input
 {
@@ -38,7 +26,7 @@ class Input
     Input &operator=(const Input &) = delete;
 
   public:
-    Input()
+    Input(bool password)
         : std_input(Handle::undefined()),
           console_mode_save(0)
     {
@@ -50,12 +38,15 @@ class Input
         if (Handle::defined(in) && ::GetConsoleMode(in, &mode))
         {
             // running on a console
-            const DWORD newmode = mode
-                                  & ~(ENABLE_WINDOW_INPUT
-                                      | ENABLE_PROCESSED_INPUT
-                                      | ENABLE_LINE_INPUT
-                                      | ENABLE_ECHO_INPUT
-                                      | ENABLE_MOUSE_INPUT);
+            DWORD newmode = mode
+                            & ~(ENABLE_WINDOW_INPUT
+                                | ENABLE_ECHO_INPUT
+                                | ENABLE_MOUSE_INPUT);
+
+            if (!password)
+            {
+                newmode &= ~(ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT);
+            }
 
             if (newmode == mode || ::SetConsoleMode(in, newmode))
             {
@@ -80,6 +71,16 @@ class Input
                 return n > 0;
         }
         return false;
+    }
+
+    std::string get_password(const std::string &prompt)
+    {
+        std::cout << prompt;
+        std::string s;
+        std::getline(std::cin, s);
+        std::cout << std::endl;
+
+        return s;
     }
 
     unsigned int get()
@@ -147,8 +148,6 @@ class Title
     bool old_title_defined;
     std::string old_title;
 };
-} // namespace Console
-} // namespace Win
-} // namespace openvpn
+} // namespace openvpn::Win::Console
 
 #endif

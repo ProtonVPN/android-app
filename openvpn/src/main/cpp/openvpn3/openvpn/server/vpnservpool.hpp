@@ -4,41 +4,27 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_SERVER_VPNSERVPOOL_H
 #define OPENVPN_SERVER_VPNSERVPOOL_H
 
-#include <sstream>
-#include <vector>
 #include <memory>
 #include <mutex>
-#include <thread>
-#include <cstdint> // for std::uint32_t
+#include <sstream>
+#include <vector>
 
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/rc.hpp>
-#include <openvpn/common/arraysize.hpp>
 #include <openvpn/server/vpnservnetblock.hpp>
 #include <openvpn/addr/ip.hpp>
 #include <openvpn/addr/route.hpp>
 #include <openvpn/addr/pool.hpp>
 
-namespace openvpn {
-namespace VPNServerPool {
+namespace openvpn::VPNServerPool {
 
 OPENVPN_EXCEPTION(vpn_serv_pool_error);
 
@@ -116,10 +102,9 @@ class Pool : public VPNServerNetblock
     {
         if (configured(opt, "server"))
             return VPNServerNetblock(opt, "server", false, 0);
-        else if (configured(opt, "ifconfig"))
+        if (configured(opt, "ifconfig"))
             return VPNServerNetblock(opt, "ifconfig", false, 0);
-        else
-            return VPNServerNetblock();
+        return VPNServerNetblock();
     }
 
     static bool configured(const OptionList &opt,
@@ -154,7 +139,6 @@ class IP46AutoRelease : public IP46, public RC<thread_safe_refcount>
     Pool *pool;
 };
 
-} // namespace VPNServerPool
-} // namespace openvpn
+} // namespace openvpn::VPNServerPool
 
 #endif

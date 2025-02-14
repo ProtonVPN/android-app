@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -79,6 +79,18 @@ static void msblob2key_freectx(void *vctx)
     OPENSSL_free(ctx);
 }
 
+static int msblob2key_does_selection(void *provctx, int selection)
+{
+    if (selection == 0)
+        return 1;
+
+    if ((selection & (OSSL_KEYMGMT_SELECT_PRIVATE_KEY
+                      | OSSL_KEYMGMT_SELECT_PUBLIC_KEY))  != 0)
+        return 1;
+
+    return 0;
+}
+
 static int msblob2key_decode(void *vctx, OSSL_CORE_BIO *cin, int selection,
                              OSSL_CALLBACK *data_cb, void *data_cbarg,
                              OSSL_PASSPHRASE_CALLBACK *pw_cb, void *pw_cbarg)
@@ -120,10 +132,8 @@ static int msblob2key_decode(void *vctx, OSSL_CORE_BIO *cin, int selection,
         goto next;
     }
     buf = OPENSSL_malloc(length);
-    if (buf == NULL) {
-        ERR_raise(ERR_LIB_PEM, ERR_R_MALLOC_FAILURE);
+    if (buf == NULL)
         goto end;
-    }
     p = buf;
     if (BIO_read(in, buf, length) != (int)length) {
         ERR_raise(ERR_LIB_PEM, PEM_R_KEYBLOB_TOO_SHORT);
@@ -211,10 +221,14 @@ msblob2key_export_object(void *vctx,
     void *keydata;
 
     if (reference_sz == sizeof(keydata) && export != NULL) {
+        int selection = ctx->selection;
+
+        if (selection == 0)
+            selection = OSSL_KEYMGMT_SELECT_ALL;
         /* The contents of the reference is the address to our object */
         keydata = *(void **)reference;
 
-        return export(keydata, ctx->selection, export_cb, export_cbarg);
+        return export(keydata, selection, export_cb, export_cbarg);
     }
     return 0;
 }
@@ -260,11 +274,13 @@ static void rsa_adjust(void *key, struct msblob2key_ctx_st *ctx)
           (void (*)(void))msblob2##keytype##_newctx },                  \
         { OSSL_FUNC_DECODER_FREECTX,                                    \
           (void (*)(void))msblob2key_freectx },                         \
+        { OSSL_FUNC_DECODER_DOES_SELECTION,                             \
+          (void (*)(void))msblob2key_does_selection },                  \
         { OSSL_FUNC_DECODER_DECODE,                                     \
           (void (*)(void))msblob2key_decode },                          \
         { OSSL_FUNC_DECODER_EXPORT_OBJECT,                              \
           (void (*)(void))msblob2key_export_object },                   \
-        { 0, NULL }                                                     \
+        OSSL_DISPATCH_END                                               \
     }
 
 #ifndef OPENSSL_NO_DSA

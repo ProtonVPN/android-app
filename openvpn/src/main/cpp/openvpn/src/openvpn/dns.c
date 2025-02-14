@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2022-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2022-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -36,7 +34,7 @@
  * Parses a string as port and stores it
  *
  * @param   port        Pointer to in_port_t where the port value is stored
- * @param   addr        Port number as string
+ * @param   port_str    Port number as string
  * @return              True if parsing was successful
  */
 static bool
@@ -123,7 +121,7 @@ dns_server_addr_parse(struct dns_server *server, const char *addr)
     if (ai->ai_family == AF_INET)
     {
         struct sockaddr_in *sin = (struct sockaddr_in *)ai->ai_addr;
-        server->addr[server->addr_count].in.a4.s_addr = ntohl(sin->sin_addr.s_addr);
+        server->addr[server->addr_count].in.a4.s_addr = sin->sin_addr.s_addr;
     }
     else
     {
@@ -250,13 +248,15 @@ clone_dns_servers(const struct dns_server *server, struct gc_arena *gc)
 }
 
 struct dns_options
-clone_dns_options(const struct dns_options o, struct gc_arena *gc)
+clone_dns_options(const struct dns_options *o, struct gc_arena *gc)
 {
     struct dns_options clone;
+
     memset(&clone, 0, sizeof(clone));
-    clone.search_domains = clone_dns_domains(o.search_domains, gc);
-    clone.servers = clone_dns_servers(o.servers, gc);
-    clone.servers_prepull = clone_dns_servers(o.servers_prepull, gc);
+    clone.search_domains = clone_dns_domains(o->search_domains, gc);
+    clone.servers = clone_dns_servers(o->servers, gc);
+    clone.servers_prepull = clone_dns_servers(o->servers_prepull, gc);
+
     return clone;
 }
 
@@ -351,11 +351,11 @@ setenv_dns_option(struct env_set *es,
 
     if (j < 0)
     {
-        name_ok = openvpn_snprintf(name, sizeof(name), format, i);
+        name_ok = snprintf(name, sizeof(name), format, i);
     }
     else
     {
-        name_ok = openvpn_snprintf(name, sizeof(name), format, i, j);
+        name_ok = snprintf(name, sizeof(name), format, i, j);
     }
 
     if (!name_ok)
@@ -386,7 +386,7 @@ setenv_dns_options(const struct dns_options *o, struct env_set *es)
             if (s->addr[j].family == AF_INET)
             {
                 setenv_dns_option(es, "dns_server_%d_address_%d", i, j + 1,
-                                  print_in_addr_t(s->addr[j].in.a4.s_addr, 0, &gc));
+                                  print_in_addr_t(s->addr[j].in.a4.s_addr, IA_NET_ORDER, &gc));
             }
             else
             {
@@ -402,11 +402,9 @@ setenv_dns_options(const struct dns_options *o, struct env_set *es)
 
         if (s->domains)
         {
-            const char *format = s->domain_type == DNS_RESOLVE_DOMAINS ?
-                                 "dns_server_%d_resolve_domain_%d" : "dns_server_%d_exclude_domain_%d";
             for (j = 1, d = s->domains; d != NULL; j++, d = d->next)
             {
-                setenv_dns_option(es, format, i, j, d->name);
+                setenv_dns_option(es, "dns_server_%d_resolve_domain_%d", i, j, d->name);
             }
         }
 
@@ -447,7 +445,7 @@ show_dns_options(const struct dns_options *o)
             const char *fmt_port;
             if (server->addr[j].family == AF_INET)
             {
-                addr = print_in_addr_t(server->addr[j].in.a4.s_addr, 0, &gc);
+                addr = print_in_addr_t(server->addr[j].in.a4.s_addr, IA_NET_ORDER, &gc);
                 fmt_port = "    address = %s:%s";
             }
             else
@@ -484,14 +482,7 @@ show_dns_options(const struct dns_options *o)
         struct dns_domain *domain = server->domains;
         if (domain)
         {
-            if (server->domain_type == DNS_RESOLVE_DOMAINS)
-            {
-                msg(D_SHOW_PARMS, "    resolve domains:");
-            }
-            else
-            {
-                msg(D_SHOW_PARMS, "    exclude domains:");
-            }
+            msg(D_SHOW_PARMS, "    resolve domains:");
             while (domain)
             {
                 msg(D_SHOW_PARMS, "      %s", domain->name);

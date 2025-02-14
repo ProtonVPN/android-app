@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // mbed TLS exception class that allows a  error code
 // to be represented.
@@ -34,6 +24,7 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/error/error.hpp>
 #include <openvpn/error/excode.hpp>
+#include <openvpn/mbedtls/mbedtls_compat.hpp>
 
 namespace openvpn {
 
@@ -79,13 +70,13 @@ class MbedTLSException : public ExceptionCode
         case MBEDTLS_ERR_PK_PASSWORD_MISMATCH:
             set_code(Error::PEM_PASSWORD_FAIL, true);
             break;
-        case MBEDTLS_ERR_SSL_BAD_HS_PROTOCOL_VERSION:
+        case MBEDTLS_ERR_SSL_BAD_PROTOCOL_VERSION:
             set_code(Error::TLS_VERSION_MIN, true);
             break;
         }
     }
 
-    virtual const char *what() const noexcept
+    const char *what() const noexcept override
     {
         return errtxt.c_str();
     }

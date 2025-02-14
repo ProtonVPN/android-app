@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // These classes handle parsing and representation of OpenVPN "remote" directives,
 // and the list of IP addresses that they resolve to.
@@ -112,6 +102,8 @@ class RemoteList : public RC<thread_unsafe_refcount>
     {
         typedef RCPtr<ConnBlockFactory> Ptr;
 
+        virtual ~ConnBlockFactory() = default;
+
         virtual ConnBlock::Ptr new_conn_block(const OptionList::Ptr &opt) = 0;
     };
 
@@ -168,10 +160,18 @@ class RemoteList : public RC<thread_unsafe_refcount>
                 res_addr_list.reset(new ResolvedAddrList());
                 for (const auto &i : endpoint_range)
                 {
+                    std::string ep_af = "(unspec)";
+                    if (i.endpoint().address().is_v6())
+                        ep_af = "IPv6";
+                    else if (i.endpoint().address().is_v4())
+                        ep_af = "IPv4";
                     // Skip addresses with incompatible family
                     if ((transport_protocol.is_ipv6() && i.endpoint().address().is_v4())
                         || (transport_protocol.is_ipv4() && i.endpoint().address().is_v6()))
+                    {
+                        OPENVPN_LOG("Endpoint address family (" << ep_af << ") is incompatible with transport protocol (" << transport_protocol.protocol_to_string() << ")");
                         continue;
+                    }
                     ResolvedAddr::Ptr addr(new ResolvedAddr());
                     addr->addr = IP::Addr::from_asio(i.endpoint().address());
                     res_addr_list->push_back(addr);
@@ -221,6 +221,8 @@ class RemoteList : public RC<thread_unsafe_refcount>
 
     struct RemoteOverride
     {
+        virtual ~RemoteOverride() = default;
+
         virtual Item::Ptr get() = 0;
     };
 
@@ -303,6 +305,8 @@ class RemoteList : public RC<thread_unsafe_refcount>
 
         struct NotifyCallback
         {
+            virtual ~NotifyCallback() = default;
+
             // client callback when resolve operation is complete
             virtual void bulk_resolve_done() = 0;
         };
@@ -527,7 +531,7 @@ class RemoteList : public RC<thread_unsafe_refcount>
         }
 
         if (!(flags & ALLOW_EMPTY) && list.empty())
-            throw option_error("remote option not specified");
+            throw option_error(ERR_INVALID_CONFIG, "remote option not specified");
     }
 
     void process_push(const OptionList &opt)
@@ -611,7 +615,7 @@ class RemoteList : public RC<thread_unsafe_refcount>
             if (contains_protocol(tcp))
                 set_proto_override(tcp);
             else
-                throw option_error("cannot connect via TCP-based proxy because no TCP server entries exist in profile");
+                throw option_error(ERR_INVALID_CONFIG, "cannot connect via TCP-based proxy because no TCP server entries exist in profile");
         }
         else if (proto_override.defined() && contains_protocol(proto_override))
             set_proto_override(proto_override);
@@ -653,17 +657,7 @@ class RemoteList : public RC<thread_unsafe_refcount>
         const bool cached = (item.res_addr_list && index.item_addr() < item.res_addr_list->size());
         if (transport_protocol)
         {
-            if (cached)
-            {
-                // Since we know whether resolved address is IPv4 or IPv6, add
-                // that info to the returned Protocol object.
-                Protocol proto(item.transport_protocol);
-                const IP::Addr &addr = (*item.res_addr_list)[index.item_addr()]->addr;
-                proto.mod_addr_version(addr.version());
-                *transport_protocol = proto;
-            }
-            else
-                *transport_protocol = item.transport_protocol;
+            *transport_protocol = item.transport_protocol;
         }
         return cached;
     }
@@ -972,7 +966,7 @@ class RemoteList : public RC<thread_unsafe_refcount>
             // Throws if server_host is not an IP address
             IP::Addr(item.server_host);
         }
-        catch (const IP::ip_exception &e)
+        catch (const IP::ip_exception &)
         {
             // Produce 6 bytes of random prefix data
             unsigned char prefix[6];

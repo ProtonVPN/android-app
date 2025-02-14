@@ -2,7 +2,7 @@
  *  openvpnmsica -- Custom Action DLL to provide OpenVPN-specific support to MSI packages
  *                  https://community.openvpn.net/openvpn/wiki/OpenVPNMSICA
  *
- *  Copyright (C) 2018-2023 Simon Rozman <simon@rozman.si>
+ *  Copyright (C) 2018-2024 Simon Rozman <simon@rozman.si>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -37,8 +37,8 @@
  */
 struct msica_arg
 {
-    struct msica_arg *next; /** Pointer to the next argument in the sequence */
-    TCHAR val[];            /** Zero terminated argument string */
+    struct msica_arg *next; /**< Pointer to the next argument in the sequence */
+    TCHAR val[];            /**< Zero terminated argument string */
 };
 
 
@@ -47,8 +47,8 @@ struct msica_arg
  */
 struct msica_arg_seq
 {
-    struct msica_arg *head; /** Pointer to the first argument in the sequence */
-    struct msica_arg *tail; /** Pointer to the last argument in the sequence */
+    struct msica_arg *head; /**< Pointer to the first argument in the sequence */
+    struct msica_arg *tail; /**< Pointer to the last argument in the sequence */
 };
 
 

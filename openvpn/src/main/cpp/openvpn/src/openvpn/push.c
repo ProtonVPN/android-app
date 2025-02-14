@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,14 +23,13 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
 
 #include "push.h"
 #include "options.h"
+#include "crypto.h"
 #include "ssl.h"
 #include "ssl_verify.h"
 #include "ssl_ncp.h"
@@ -192,7 +191,7 @@ server_pushed_signal(struct context *c, const struct buffer *buffer, const bool 
 void
 receive_exit_message(struct context *c)
 {
-    dmsg(D_STREAM_ERRORS, "Exit message received by peer");
+    dmsg(D_STREAM_ERRORS, "CC-EEN exit message received by peer");
     /* With control channel exit notification, we want to give the session
      * enough time to handle retransmits and acknowledgment, so that eventual
      * retries from the client to resend the exit or ACKs will not trigger
@@ -206,7 +205,11 @@ receive_exit_message(struct context *c)
      * */
     if (c->options.mode == MODE_SERVER)
     {
-        schedule_exit(c, c->options.scheduled_exit_interval, SIGTERM);
+        if (!schedule_exit(c))
+        {
+            /* Return early when we don't need to notify management */
+            return;
+        }
     }
     else
     {
@@ -244,8 +247,14 @@ server_pushed_info(struct context *c, const struct buffer *buffer,
          * for management greeting and we don't want to confuse the client
          */
         struct buffer out = alloc_buf_gc(256, &gc);
-        buf_printf(&out, ">%s:%s", "INFOMSG", m);
-        management_notify_generic(management, BSTR(&out));
+        if (buf_printf(&out, ">%s:%s", "INFOMSG", m))
+        {
+            management_notify_generic(management, BSTR(&out));
+        }
+        else
+        {
+            msg(D_PUSH_ERRORS, "WARNING: Received INFO command is too long, won't notify management client.");
+        }
 
         gc_free(&gc);
     }
@@ -267,9 +276,9 @@ receive_cr_response(struct context *c, const struct buffer *buffer)
     struct tls_session *session = &c->c2.tls_multi->session[TM_ACTIVE];
     struct man_def_auth_context *mda = session->opt->mda_context;
     struct env_set *es = session->opt->es;
-    int key_id = get_primary_key(c->c2.tls_multi)->key_id;
+    unsigned int mda_key_id = get_primary_key(c->c2.tls_multi)->mda_key_id;
 
-    management_notify_client_cr_response(key_id, mda, es, m);
+    management_notify_client_cr_response(mda_key_id, mda, es, m);
 #endif
 #if ENABLE_PLUGIN
     verify_crresponse_plugin(c->c2.tls_multi, m);
@@ -387,7 +396,7 @@ __attribute__ ((format(__printf__, 4, 5)))
 void
 send_auth_failed(struct context *c, const char *client_reason)
 {
-    if (event_timeout_defined(&c->c2.scheduled_exit))
+    if (!schedule_exit(c))
     {
         msg(D_TLS_DEBUG, "exit already scheduled for context");
         return;
@@ -396,8 +405,6 @@ send_auth_failed(struct context *c, const char *client_reason)
     struct gc_arena gc = gc_new();
     static const char auth_failed[] = "AUTH_FAILED";
     size_t len;
-
-    schedule_exit(c, c->options.scheduled_exit_interval, SIGTERM);
 
     len = (client_reason ? strlen(client_reason)+1 : 0) + sizeof(auth_failed);
     if (len > PUSH_BUNDLE_SIZE)
@@ -488,7 +495,7 @@ send_auth_pending_messages(struct tls_multi *tls_multi,
 void
 send_restart(struct context *c, const char *kill_msg)
 {
-    schedule_exit(c, c->options.scheduled_exit_interval, SIGTERM);
+    schedule_exit(c);
     send_control_channel_string(c, kill_msg ? kill_msg : "RESTART", D_PUSH);
 }
 
@@ -597,7 +604,7 @@ prepare_auth_token_push_reply(struct tls_multi *tls_multi, struct gc_arena *gc,
 /**
  * Prepare push options, based on local options
  *
- * @param context       context structure storing data for VPN tunnel
+ * @param c             context structure storing data for VPN tunnel
  * @param gc            gc arena for allocating push options
  * @param push_list     push list to where options are added
  *
@@ -682,6 +689,11 @@ prepare_push_reply(struct context *c, struct gc_arena *gc,
         buf_printf(&proto_flags, " dyn-tls-crypt");
     }
 
+    if (o->imported_protocol_flags & CO_EPOCH_DATA_KEY_FORMAT)
+    {
+        buf_printf(&proto_flags, " aead-epoch");
+    }
+
     if (buf_len(&proto_flags) > 0)
     {
         push_option_fmt(gc, push_list, M_USAGE, "protocol-flags%s", buf_str(&proto_flags));
@@ -713,7 +725,6 @@ send_push_options(struct context *c, struct buffer *buf,
 {
     struct push_entry *e = push_list->head;
 
-    e = push_list->head;
     while (e)
     {
         if (e->enable)
@@ -955,12 +966,7 @@ push_remove_option(struct options *o, const char *p)
 int
 process_incoming_push_request(struct context *c)
 {
-    /* if we receive a message as a client we do not want to reply to it. */
-    if (c->options.pull)
-    {
-        return PUSH_MSG_ERROR;
-    }
-
+    int ret = PUSH_MSG_ERROR;
 
 
     if (tls_authentication_status(c->c2.tls_multi) == TLS_AUTHENTICATION_FAILED
@@ -968,7 +974,7 @@ process_incoming_push_request(struct context *c)
     {
         const char *client_reason = tls_client_reason(c->c2.tls_multi);
         send_auth_failed(c, client_reason);
-        return PUSH_MSG_AUTH_FAILURE;
+        ret = PUSH_MSG_AUTH_FAILURE;
     }
     else if (tls_authentication_status(c->c2.tls_multi) == TLS_AUTHENTICATION_SUCCEEDED
              && c->c2.tls_multi->multi_state >= CAS_CONNECT_DONE)
@@ -978,27 +984,29 @@ process_incoming_push_request(struct context *c)
         openvpn_time(&now);
         if (c->c2.sent_push_reply_expiry > now)
         {
-            return PUSH_MSG_ALREADY_REPLIED;
+            ret = PUSH_MSG_ALREADY_REPLIED;
         }
-
-        int ret = PUSH_MSG_ERROR;
-        /* per-client push options - peer-id, cipher, ifconfig, ipv6-ifconfig */
-        struct push_list push_list = { 0 };
-        struct gc_arena gc = gc_new();
-
-        if (prepare_push_reply(c, &gc, &push_list)
-            && send_push_reply(c, &push_list))
+        else
         {
-            ret = PUSH_MSG_REQUEST;
-            c->c2.sent_push_reply_expiry = now + 30;
+            /* per-client push options - peer-id, cipher, ifconfig, ipv6-ifconfig */
+            struct push_list push_list = { 0 };
+            struct gc_arena gc = gc_new();
+
+            if (prepare_push_reply(c, &gc, &push_list)
+                && send_push_reply(c, &push_list))
+            {
+                ret = PUSH_MSG_REQUEST;
+                c->c2.sent_push_reply_expiry = now + 30;
+            }
+            gc_free(&gc);
         }
-        gc_free(&gc);
-        return ret;
     }
     else
     {
-        return PUSH_MSG_REQUEST_DEFERRED;
+        ret = PUSH_MSG_REQUEST_DEFERRED;
     }
+
+    return ret;
 }
 
 static void

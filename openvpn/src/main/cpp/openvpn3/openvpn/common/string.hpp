@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // General purpose string-manipulation functions.
 
@@ -33,8 +23,7 @@
 #include <openvpn/common/platform.hpp>
 #include <openvpn/common/size.hpp>
 
-namespace openvpn {
-namespace string {
+namespace openvpn::string {
 // case insensitive compare functions
 
 inline int strcasecmp(const char *s1, const char *s2)
@@ -413,7 +402,7 @@ inline std::string reduce_spaces(const std::string &str, const char rep)
 }
 
 // generate a string with n instances of char c
-inline std::string repeat(const char c, int n)
+inline std::string repeat(const char c, size_t n)
 {
     std::string ret;
     ret.reserve(n);
@@ -423,7 +412,7 @@ inline std::string repeat(const char c, int n)
 }
 
 // generate a string with spaces
-inline std::string spaces(int n)
+inline std::string spaces(size_t n)
 {
     return repeat(' ', n);
 }
@@ -499,13 +488,16 @@ inline std::string unix2dos(const std::string &str, const bool force_eol = false
 // Split a string on sep delimiter.  The size of the
 // returned string vector will be at least 1 and at
 // most maxsplit + 1 (unless maxsplit is passed as -1).
-inline std::vector<std::string> split(const std::string &str,
-                                      const char sep,
-                                      const int maxsplit = -1)
+template <typename T>
+inline std::vector<T> split(const T &str,
+                            const typename T::value_type sep,
+                            const int maxsplit = -1)
 {
-    std::vector<std::string> ret;
+    /* ensure we have a string as type */
+    static_assert(std::is_same_v<T, std::string> || std::is_same_v<T, std::wstring>);
+    std::vector<T> ret;
     int nterms = 0;
-    std::string term;
+    T term;
 
     if (maxsplit >= 0)
         ret.reserve(maxsplit + 1);
@@ -525,11 +517,14 @@ inline std::vector<std::string> split(const std::string &str,
     return ret;
 }
 
-inline std::string join(const std::vector<std::string> &strings,
-                        const std::string &delim,
-                        const bool tail = false)
+template <class T>
+inline auto join(const T &strings,
+                 const typename T::value_type &delim,
+                 const bool tail = false)
 {
-    std::string ret;
+    /* ensure we have a container with strings as values */
+    static_assert(std::is_same_v<typename T::value_type, std::string> || std::is_same_v<typename T::value_type, std::wstring>);
+    typename T::value_type ret;
     bool first = true;
     for (const auto &s : strings)
     {
@@ -671,8 +666,20 @@ inline std::string remove_blanks(const std::string &str)
     return ret;
 }
 
-} // namespace string
+// copy str to the return value, removing all instances of
+// chars that match remove
+inline std::string remove_char(const std::string &str, const char remove)
+{
+    std::string ret;
+    ret.reserve(str.length());
+    for (const auto c : str)
+    {
+        if (c != remove)
+            ret.push_back(c);
+    }
+    return ret;
+}
 
-} // namespace openvpn
+} // namespace openvpn::string
 
 #endif // OPENVPN_COMMON_STRING_H

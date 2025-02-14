@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Parse the tls-version-min option.
 
@@ -79,7 +69,7 @@ inline Type parse_tls_version_min(const std::string &ver,
     else if (or_highest)
         return max_version;
     else
-        throw option_error("tls-version-min: unrecognized TLS version");
+        throw option_error(ERR_INVALID_OPTION_CRYPTO, "tls-version-min: unrecognized TLS version");
 }
 
 inline Type parse_tls_version_min(const OptionList &opt,
@@ -114,7 +104,7 @@ inline void apply_override(Type &tvm, const std::string &override)
     else if (override == "tls_1_3")
         newtvm = Type::V1_3;
     else
-        throw option_error("tls-version-min: unrecognized override string");
+        throw option_error(ERR_INVALID_OPTION_CRYPTO, "tls-version-min: unrecognized override string");
 
     if (newtvm > orig || newtvm == Type::UNDEF)
         tvm = newtvm;

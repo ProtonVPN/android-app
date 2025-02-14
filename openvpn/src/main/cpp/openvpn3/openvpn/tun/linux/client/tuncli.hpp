@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Client tun interface for Linux.
 
@@ -32,8 +22,7 @@
 #include <openvpn/tun/persist/tunpersist.hpp>
 #include <openvpn/tun/linux/client/tunmethods.hpp>
 
-namespace openvpn {
-namespace TunLinux {
+namespace openvpn::TunLinux {
 
 struct PacketFrom
 {
@@ -110,9 +99,9 @@ class ClientConfig : public TunClientFactory
         return new ClientConfig;
     }
 
-    virtual TunClient::Ptr new_tun_client_obj(openvpn_io::io_context &io_context,
-                                              TunClientParent &parent,
-                                              TransportClient *transcli);
+    TunClient::Ptr new_tun_client_obj(openvpn_io::io_context &io_context,
+                                      TunClientParent &parent,
+                                      TransportClient *transcli) override;
 
     TunBuilderSetup::Base::Ptr new_setup_obj()
     {
@@ -120,6 +109,12 @@ class ClientConfig : public TunClientFactory
             return tun_setup_factory->new_setup_obj();
         else
             return new TunLinuxSetup::Setup<TUN_LINUX>();
+    }
+
+    bool supports_proto_v3() override
+    {
+        /* The normal tun implementation that uses the internal data channel */
+        return true;
     }
 
   private:
@@ -136,7 +131,7 @@ class Client : public TunClient
     typedef Tun<Client *> TunImpl;
 
   public:
-    virtual void tun_start(const OptionList &opt, TransportClient &transcli, CryptoDCSettings &) override
+    void tun_start(const OptionList &opt, TransportClient &transcli, CryptoDCSettings &) override
     {
         if (!impl)
         {
@@ -246,12 +241,12 @@ class Client : public TunClient
         }
     }
 
-    virtual bool tun_send(BufferAllocated &buf) override
+    bool tun_send(BufferAllocated &buf) override
     {
         return send(buf);
     }
 
-    virtual std::string tun_name() const override
+    std::string tun_name() const override
     {
         if (impl)
             return impl->name();
@@ -259,7 +254,7 @@ class Client : public TunClient
             return "UNDEF_TUN";
     }
 
-    virtual std::string vpn_ip4() const override
+    std::string vpn_ip4() const override
     {
         if (state->vpn_ip4_addr.specified())
             return state->vpn_ip4_addr.to_string();
@@ -267,7 +262,7 @@ class Client : public TunClient
             return "";
     }
 
-    virtual std::string vpn_ip6() const override
+    std::string vpn_ip6() const override
     {
         if (state->vpn_ip6_addr.specified())
             return state->vpn_ip6_addr.to_string();
@@ -275,7 +270,7 @@ class Client : public TunClient
             return "";
     }
 
-    virtual std::string vpn_gw4() const override
+    std::string vpn_gw4() const override
     {
         if (state->vpn_ip4_gw.specified())
             return state->vpn_ip4_gw.to_string();
@@ -283,7 +278,7 @@ class Client : public TunClient
             return "";
     }
 
-    virtual std::string vpn_gw6() const override
+    std::string vpn_gw6() const override
     {
         if (state->vpn_ip6_gw.specified())
             return state->vpn_ip6_gw.to_string();
@@ -296,17 +291,34 @@ class Client : public TunClient
         return state->mtu;
     }
 
-    virtual void set_disconnect() override
+    void set_disconnect() override
     {
     }
 
-    virtual void stop() override
+    void stop() override
     {
         stop_();
     }
     virtual ~Client()
     {
         stop_();
+    }
+
+    void apply_push_update(const OptionList &opt, TransportClient &transcli) override
+    {
+        stop_();
+        if (impl)
+        {
+            impl.reset();
+        }
+
+        // this has to be done in post, because we need to wait
+        // for all async tun read requests to complete
+        openvpn_io::post(io_context, [self = Ptr(this), opt, &transcli]
+                         {
+            OPENVPN_ASYNC_HANDLER;
+            CryptoDCSettings c{};
+            self->tun_start(opt, transcli, c); });
     }
 
   private:
@@ -370,7 +382,6 @@ inline TunClient::Ptr ClientConfig::new_tun_client_obj(openvpn_io::io_context &i
     return TunClient::Ptr(new Client(io_context, this, parent));
 }
 
-} // namespace TunLinux
-} // namespace openvpn
+} // namespace openvpn::TunLinux
 
 #endif // OPENVPN_TUN_LINUX_CLIENT_TUNCLI_H

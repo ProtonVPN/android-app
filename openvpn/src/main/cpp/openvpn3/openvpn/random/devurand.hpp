@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_RANDOM_DEVURAND_H
 #define OPENVPN_RANDOM_DEVURAND_H
@@ -33,7 +23,7 @@
 
 namespace openvpn {
 
-class DevURand : public RandomAPI
+class DevURand : public StrongRandomAPI
 {
   public:
     OPENVPN_EXCEPTION(dev_urand_error);
@@ -48,19 +38,13 @@ class DevURand : public RandomAPI
     }
 
     // Random algorithm name
-    virtual std::string name() const
+    std::string name() const override
     {
         return "DevURand";
     }
 
-    // Return true if algorithm is crypto-strength
-    virtual bool is_crypto() const
-    {
-        return true;
-    }
-
     // Fill buffer with random bytes
-    virtual void rand_bytes(unsigned char *buf, size_t size)
+    void rand_bytes(unsigned char *buf, size_t size) override
     {
         if (!rndbytes(buf, size))
             throw dev_urand_error("rand_bytes failed");
@@ -68,7 +52,7 @@ class DevURand : public RandomAPI
 
     // Like rand_bytes, but don't throw exception.
     // Return true on successs, false on fail.
-    virtual bool rand_bytes_noexcept(unsigned char *buf, size_t size)
+    bool rand_bytes_noexcept(unsigned char *buf, size_t size) override
     {
         return rndbytes(buf, size);
     }

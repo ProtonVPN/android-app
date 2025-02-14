@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_OPTIONS_SERVPUSH_H
 #define OPENVPN_OPTIONS_SERVPUSH_H
@@ -64,7 +54,7 @@ class ServerPushList : public std::vector<std::string>
     void parse(const std::string &title, const Json::Value &push_list) // push_list is JSON array
     {
         reserve(16); // arbitrary, just a guess
-        const auto &ja = json::cast_array(push_list, false, title).array();
+        const auto &ja = json::cast_array(push_list, false, title).asArray();
         for (size_t i = 0; i < ja.size(); ++i)
         {
             const Json::Value &jv = ja[i];
@@ -77,7 +67,7 @@ class ServerPushList : public std::vector<std::string>
                     push_back(ji.asStringRef());
                 else if (ji.isArray())
                 {
-                    const auto &ia = ji.array();
+                    const auto &ia = ji.asArray();
                     for (size_t j = 0; j < ia.size(); ++j)
                     {
                         const Json::Value &iv = ia[j];

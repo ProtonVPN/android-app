@@ -51,9 +51,9 @@ configuration.
   react according to ``--auth-retry``
 
 --auth-token-user base64username
-  Companion option to ``--auth-token``. This options allows to override
+  Companion option to ``--auth-token``. This options allows one to override
   the username used by the client when reauthenticating with the ``auth-token``.
-  It also allows to use ``--auth-token`` in setups that normally do not use
+  It also allows one to use ``--auth-token`` in setups that normally do not use
   username and password.
 
   The username has to be base64 encoded.
@@ -72,6 +72,17 @@ configuration.
 
   If ``up`` is omitted, username/password will be prompted from the
   console.
+
+  This option can also be inlined
+  ::
+
+    <auth-user-pass>
+    username
+    [password]
+    </auth-user-pass>
+
+  where password is optional, and will be prompted from the console if
+  missing.
 
   The server configuration must specify an ``--auth-user-pass-verify``
   script to verify the username/password provided by the client.
@@ -169,7 +180,7 @@ configuration.
 
      dns search-domains domain [domain ...]
      dns server n address addr[:port] [addr[:port] ...]
-     dns server n resolve-domains|exclude-domains domain [domain ...]
+     dns server n resolve-domains domain [domain ...]
      dns server n dnssec yes|optional|no
      dns server n transport DoH|DoT|plain
      dns server n sni server-name
@@ -191,14 +202,10 @@ configuration.
   Optionally a port can be appended after a colon. IPv6 addresses need to
   be enclosed in brackets if a port is appended.
 
-  The ``resolve-domains`` and ``exclude-domains`` options take one or
-  more DNS domains which are explicitly resolved or explicitly not resolved
-  by a server. Only one of the options can be configured for a server.
-  ``resolve-domains`` is used to define a split-dns setup, where only
-  given domains are resolved by a server. ``exclude-domains`` is used to
-  define domains which will never be resolved by a server (e.g. domains
-  which can only be resolved locally). Systems which do not support fine
-  grained DNS domain configuration, will ignore these settings.
+  The ``resolve-domains`` option takes one or more DNS domains used to define
+  a split-dns or dns-routing setup, where only the given domains are resolved
+  by the server. Systems which do not support fine grained DNS domain
+  configuration will ignore this setting.
 
   The ``dnssec`` option is used to configure validation of DNSSEC records.
   While the exact semantics may differ for resolvers on different systems,
@@ -343,31 +350,32 @@ configuration.
   :code:`IV_PLAT=[linux|solaris|openbsd|mac|netbsd|freebsd|win]`
         The client OS platform
 
-  :code:`IV_LZO_STUB=1`
-        If client was built with LZO stub capability
-
-  :code:`IV_LZ4=1`
-        If the client supports LZ4 compressions.
-
   :code:`IV_PROTO`
     Details about protocol extensions that the peer supports. The
-    variable is a bitfield and the bits are defined as follows
-    (starting a bit 0 for the first (unused) bit:
+    variable is a bitfield and the bits are defined as follows:
 
+    - bit 0: Reserved, should always be zero
     - bit 1: The peer supports peer-id floating mechanism
     - bit 2: The client expects a push-reply and the server may
       send this reply without waiting for a push-request first.
     - bit 3: The client is capable of doing key derivation using
       RFC5705 key material exporter.
     - bit 4: The client is capable of accepting additional arguments
-      to the `AUTH_PENDING` message.
+      to the ``AUTH_PENDING`` message.
+    - bit 5: The client supports doing feature negotiation in P2P mode
+    - bit 6: The client is capable of parsing and receiving the ``--dns`` pushed option
+    - bit 7: The client is capable of sending exit notification via control channel using ``EXIT`` message. Also, the client is accepting the protocol-flags pushed option for the EKM capability
+    - bit 8: The client is capable of accepting ``AUTH_FAILED,TEMP`` messages
+    - bit 9: The client is capable of dynamic tls-crypt
+    - bit 10: The client is capable of data epoch keys
 
   :code:`IV_NCP=2`
         Negotiable ciphers, client supports ``--cipher`` pushed by
         the server, a value of 2 or greater indicates client supports
-        *AES-GCM-128* and *AES-GCM-256*.
+        *AES-GCM-128* and *AES-GCM-256*. IV_NCP is *deprecated* in
+        favor of ``IV_CIPHERS``.
 
-  :code:`IV_CIPHERS=<ncp-ciphers>`
+  :code:`IV_CIPHERS=<data-ciphers>`
         The client announces the list of supported ciphers configured with the
         ``--data-ciphers`` option to the server.
 
@@ -378,10 +386,30 @@ configuration.
   :code:`IV_GUI_VER=<gui_id> <version>`
         The UI version of a UI if one is running, for example
         :code:`de.blinkt.openvpn 0.5.47` for the Android app.
+        This may be set by the client UI/GUI using ``--setenv``.
 
   :code:`IV_SSO=[crtext,][openurl,][proxy_url]`
         Additional authentication methods supported by the client.
-        This may be set by the client UI/GUI using ``--setenv``
+        This may be set by the client UI/GUI using ``--setenv``.
+
+  The following flags depend on which compression formats are compiled in
+  and whether compression is allowed by options. See `Protocol options`_
+  for more details.
+
+    :code:`IV_LZO=1`
+        If client supports LZO compression.
+
+    :code:`IV_LZO_STUB=1`
+        If client was built with LZO stub capability. This is only sent if
+        ``IV_LZO=1`` is not sent. This means the client can talk to a server
+        configured with ``--comp-lzo no``.
+
+    :code:`IV_LZ4=1` and :code:`IV_LZ4v2=1`
+        If the client supports LZ4 compression.
+
+    :code:`IV_COMP_STUB=1` and :code:`IV_COMP_STUBv2=1`
+        If the client supports stub compression. This means the client can talk
+        to a server configured with ``--compress``.
 
   When ``--push-peer-info`` is enabled the additional information consists
   of the following data:
@@ -392,15 +420,21 @@ configuration.
         OpenVPN 2.x and some other implementations use the MAC address of
         the client's interface used to reach the default gateway. If this
         string is generated by the client, it should be consistent and
-        preserved across independent session and preferably
+        preserved across independent sessions and preferably
         re-installations and upgrades.
 
   :code:`IV_SSL=<version string>`
-        The ssl version used by the client, e.g.
+        The ssl library version used by the client, e.g.
         :code:`OpenSSL 1.0.2f 28 Jan 2016`.
 
   :code:`IV_PLAT_VER=x.y`
         The version of the operating system, e.g. 6.1 for Windows 7.
+        This may be set by the client UI/GUI using ``--setenv``.
+        On Windows systems it is automatically determined by openvpn
+        itself.  On other platforms OpenVPN will default to sending
+        the information returned by the `uname()` system call in
+        the `release` field, which is usually the currently running
+        kernel version.  This is highly system specific, though.
 
   :code:`UV_<name>=<value>`
         Client environment variables whose names start with
@@ -511,12 +545,15 @@ configuration.
   Valid syntax:
   ::
 
-     static-challenge text echo
+     static-challenge text echo [format]
 
   The ``text`` challenge text is presented to the user which describes what
   information is requested.  The ``echo`` flag indicates if the user's
   input should be echoed on the screen.  Valid ``echo`` values are
-  :code:`0` or :code:`1`.
+  :code:`0` or :code:`1`. The optional ``format`` indicates whether
+  the password and response should be combined using the SCRV1 protocol
+  (``format`` = :code:`scrv1`) or simply concatenated (``format`` = :code:`concat`).
+  :code:`scrv1` is the default.
 
   See management-notes.txt in the OpenVPN distribution for a description of
   the OpenVPN challenge/response protocol.

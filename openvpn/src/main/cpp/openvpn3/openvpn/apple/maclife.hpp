@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_APPLE_MACLIFE_H
 #define OPENVPN_APPLE_MACLIFE_H
@@ -43,10 +33,7 @@ class MacLifeCycle : public ClientLifeCycle, MacSleep, ReachabilityTracker
     OPENVPN_EXCEPTION(mac_lifecycle_error);
 
     MacLifeCycle()
-        : ReachabilityTracker(true, false),
-          nc(nullptr),
-          thread(nullptr),
-          paused(false)
+        : ReachabilityTracker(true, false)
     {
     }
 
@@ -55,12 +42,12 @@ class MacLifeCycle : public ClientLifeCycle, MacSleep, ReachabilityTracker
         stop_thread();
     }
 
-    virtual bool network_available()
+    bool network_available() override
     {
         return net_up();
     }
 
-    virtual void start(NotifyCallback *nc_arg)
+    void start(NotifyCallback *nc_arg) override
     {
         if (!thread && nc_arg)
         {
@@ -69,7 +56,7 @@ class MacLifeCycle : public ClientLifeCycle, MacSleep, ReachabilityTracker
         }
     }
 
-    virtual void stop()
+    void stop() override
     {
         stop_thread();
     }
@@ -116,6 +103,7 @@ class MacLifeCycle : public ClientLifeCycle, MacSleep, ReachabilityTracker
     {
         if (thread)
         {
+            halt.store(true);
             if (runloop.defined())
                 CFRunLoopStop(runloop());
             thread->join();
@@ -149,6 +137,11 @@ class MacLifeCycle : public ClientLifeCycle, MacSleep, ReachabilityTracker
 
             // enable interface change notifications
             iface_watch();
+
+            // there could be a race between this lifecycle thread and a main thread
+            // where stop_thread() is called. After starting runloop, check
+            // if lifecycle thread has to be stopped
+            schedule_action_timer(0, true);
 
             // process event loop until CFRunLoopStop is called from parent thread
             CFRunLoopRun();
@@ -214,21 +207,21 @@ class MacLifeCycle : public ClientLifeCycle, MacSleep, ReachabilityTracker
         schedule_action_timer(1);
     }
 
-    virtual void notify_sleep()
+    void notify_sleep() override
     {
         OPENVPN_LOG("MacLifeCycle SLEEP");
         state.sleep = true;
         schedule_action_timer(0);
     }
 
-    virtual void notify_wakeup()
+    void notify_wakeup() override
     {
         OPENVPN_LOG("MacLifeCycle WAKEUP");
         state.sleep = false;
         schedule_action_timer(1);
     }
 
-    virtual void reachability_tracker_event(const ReachabilityBase &rb, SCNetworkReachabilityFlags flags)
+    void reachability_tracker_event(const ReachabilityBase &rb, SCNetworkReachabilityFlags flags) override
     {
         if (rb.vtype() == ReachabilityBase::Internet)
         {
@@ -239,10 +232,10 @@ class MacLifeCycle : public ClientLifeCycle, MacSleep, ReachabilityTracker
         }
     }
 
-    void schedule_action_timer(const int seconds)
+    void schedule_action_timer(const int seconds, bool force_runloop = false)
     {
         cancel_action_timer();
-        if (seconds)
+        if (seconds || force_runloop)
         {
             CFRunLoopTimerContext context = {0, this, nullptr, nullptr, nullptr};
             action_timer.reset(CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent() + seconds, 0, 0, 0, action_timer_callback_static, &context));
@@ -272,6 +265,12 @@ class MacLifeCycle : public ClientLifeCycle, MacSleep, ReachabilityTracker
 
     void action_timer_callback(CFRunLoopTimerRef timer)
     {
+        if (halt.load())
+        {
+            CFRunLoopStop(runloop());
+            return;
+        }
+
         try
         {
             if (state != prev_state)
@@ -312,13 +311,14 @@ class MacLifeCycle : public ClientLifeCycle, MacSleep, ReachabilityTracker
         }
     }
 
-    NotifyCallback *nc;
-    std::thread *thread;
+    NotifyCallback *nc = nullptr;
+    std::thread *thread = nullptr;
     CF::RunLoop runloop; // run loop in thread
     CF::DynamicStore dstore;
     State state;
     State prev_state;
-    bool paused;
+    bool paused = false;
+    std::atomic<bool> halt{false};
     CF::Timer action_timer;
     Log::Context::Wrapper logwrap; // used to carry forward the log context from parent thread
 };

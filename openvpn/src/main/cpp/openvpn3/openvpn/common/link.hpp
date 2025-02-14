@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMMON_LINK_H
 #define OPENVPN_COMMON_LINK_H
@@ -41,16 +31,18 @@ template <typename SEND, typename RECV>
 class Link : public RECV
 {
   protected:
-    Link()
-    {
-    }
+    Link() = default;
+
     Link(typename SEND::Ptr send_arg)
         : send(std::move(send_arg))
     {
     }
+
     Link(SEND *send_arg)
         : send(send_arg)
     {
+        static_assert(std::is_base_of_v<RC<thread_unsafe_refcount>, SEND> || std::is_base_of_v<RC<thread_safe_refcount>, SEND>,
+                      "Using a raw pointer to initialise Link requires an intrusive pointer");
     }
 
     typename SEND::Ptr send;

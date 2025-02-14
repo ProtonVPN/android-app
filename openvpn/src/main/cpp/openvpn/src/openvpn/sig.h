@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -81,7 +81,12 @@ void register_signal(struct signal_info *si, int sig, const char *text);
 
 void process_explicit_exit_notification_timer_wakeup(struct context *c);
 
-void signal_reset(struct signal_info *si);
+/**
+ * Clear the signal if its current value equals signum. If signum is
+ * zero the signal is cleared independent of its current value.
+ * @returns the current value of the signal.
+ */
+int signal_reset(struct signal_info *si, int signum);
 
 static inline void
 halt_non_edge_triggered_signals(void)

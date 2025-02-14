@@ -11,7 +11,7 @@
 #include <openssl/bio.h>
 #include <openssl/safestack.h>
 #include "names.h"
-#include "openssl/crypto.h"
+#include "internal/e_os.h"
 
 int name_cmp(const char * const *a, const char * const *b)
 {

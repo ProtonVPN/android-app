@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // OpenVPN agent for Mac
 
@@ -30,9 +20,6 @@
 #include <utility>
 
 #include <unistd.h>
-
-// debug settings (production setting in parentheses)
-#define OPENVPN_LOG_SSL(x) OPENVPN_LOG(x)
 
 // VERSION version can be passed on build command line
 #include <openvpn/common/stringize.hpp>
@@ -85,7 +72,7 @@ class MySessionStats : public SessionStats
   public:
     typedef RCPtr<MySessionStats> Ptr;
 
-    virtual void error(const size_t err_type, const std::string *text = nullptr) override
+    void error(const size_t err_type, const std::string *text = nullptr) override
     {
         OPENVPN_LOG(Error::name(err_type));
     }
@@ -293,6 +280,7 @@ class MyListener : public WS::Server::Listener
 
         remove_cmds_bypass_hosts.execute(os);
         remove_cmds_bypass_hosts.clear();
+        bypass_host.clear();
     }
 
     void set_watchdog(pid_t pid)
@@ -325,7 +313,7 @@ class MyListener : public WS::Server::Listener
     }
 
   private:
-    virtual bool allow_client(AsioPolySock::Base &sock) override
+    bool allow_client(AsioPolySock::Base &sock) override
     {
         return true;
     }
@@ -345,13 +333,9 @@ class MyClientInstance : public WS::Server::Listener::Client
     MyClientInstance(WS::Server::Listener::Client::Initializer &ci)
         : WS::Server::Listener::Client(ci)
     {
-        // OPENVPN_LOG("INSTANCE START");
     }
 
-    virtual ~MyClientInstance()
-    {
-        // OPENVPN_LOG("INSTANCE DESTRUCT");
-    }
+    virtual ~MyClientInstance() = default;
 
   private:
     void generate_reply(const Json::Value &jout)
@@ -366,7 +350,7 @@ class MyClientInstance : public WS::Server::Listener::Client
         generate_reply_headers(ci);
     }
 
-    virtual void http_request_received() override
+    void http_request_received() override
     {
         // alloc output buffer
         std::ostringstream os;
@@ -462,13 +446,13 @@ class MyClientInstance : public WS::Server::Listener::Client
         }
     }
 
-    virtual void http_content_in(BufferAllocated &buf) override
+    void http_content_in(BufferAllocated &buf) override
     {
         if (buf.defined())
-            in.emplace_back(new BufferAllocated(std::move(buf)));
+            in.emplace_back(BufferAllocatedRc::Create(std::move(buf)));
     }
 
-    virtual BufferPtr http_content_out() override
+    BufferPtr http_content_out() override
     {
         BufferPtr ret;
         ret.swap(out);
@@ -477,7 +461,7 @@ class MyClientInstance : public WS::Server::Listener::Client
 
     // Normally true is returned, however return false if we
     // are planning to send the tun file descriptor to the client.
-    virtual bool http_out_eof() override
+    bool http_out_eof() override
     {
         // OPENVPN_LOG("HTTP output EOF send_fd=" << send_fd());
         return !send_fd.defined();
@@ -486,7 +470,7 @@ class MyClientInstance : public WS::Server::Listener::Client
     // After HTTP reply has been transmitted, wait for client to
     // send a 't' message.  On receipt, reply with a 'T' message
     // that bundles the tun file descriptor.
-    virtual void http_pipeline_peek(BufferAllocated &buf) override
+    void http_pipeline_peek(BufferAllocated &buf) override
     {
         // OPENVPN_LOG("HTTP PIPELINE PEEK send_fd=" << send_fd() << " CONTENT=" << buf_to_string(buf));
         if (send_fd.defined())
@@ -504,7 +488,7 @@ class MyClientInstance : public WS::Server::Listener::Client
         }
     }
 
-    virtual bool http_stop(const int status, const std::string &description) override
+    bool http_stop(const int status, const std::string &description) override
     {
         OPENVPN_LOG("INSTANCE STOP : " << WS::Server::Status::error_str(status) << " : " << description);
 
@@ -540,7 +524,7 @@ class MyClientFactory : public WS::Server::Listener::Client::Factory
   public:
     typedef RCPtr<MyClientFactory> Ptr;
 
-    virtual WS::Server::Listener::Client::Ptr new_client(WS::Server::Listener::Client::Initializer &ci) override
+    WS::Server::Listener::Client::Ptr new_client(WS::Server::Listener::Client::Initializer &ci) override
     {
         return new MyClientInstance(ci);
     }
@@ -586,7 +570,7 @@ class ServerThread : public ServerThreadBase
         }
     }
 
-    virtual void thread_safe_stop() override
+    void thread_safe_stop() override
     {
         if (!halt)
         {

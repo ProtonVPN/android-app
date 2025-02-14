@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,8 @@
  */
 
 /**
- * @file Data Channel Cryptography SSL library-specific backend interface
+ * @file
+ * Data Channel Cryptography SSL library-specific backend interface
  */
 
 #ifndef CRYPTO_BACKEND_H_
@@ -156,17 +157,6 @@ bool crypto_pem_decode(const char *name, struct buffer *dst,
  * @return              \c 1 on success, \c 0 on failure
  */
 int rand_bytes(uint8_t *output, int len);
-
-/**
- * Encrypt the given block, using DES ECB mode
- *
- * @param key           DES key to use.
- * @param src           Buffer containing the 8-byte source.
- * @param dst           Buffer containing the 8-byte destination
- */
-void cipher_des_encrypt_ecb(const unsigned char key[DES_KEY_LENGTH],
-                            unsigned char src[DES_KEY_LENGTH],
-                            unsigned char dst[DES_KEY_LENGTH]);
 
 /*
  *
@@ -347,10 +337,10 @@ void cipher_ctx_free(cipher_ctx_t *ctx);
  * @param key           Buffer containing the key to use
  * @param ciphername    Ciphername of the cipher to use
  * @param enc           Whether to encrypt or decrypt (either
- *                      \c MBEDTLS_OP_ENCRYPT or \c MBEDTLS_OP_DECRYPT).
+ *                      \c OPENVPN_OP_ENCRYPT or \c OPENVPN_OP_DECRYPT).
  */
 void cipher_ctx_init(cipher_ctx_t *ctx, const uint8_t *key,
-                     const char *cipername, int enc);
+                     const char *ciphername, crypto_operation_t enc);
 
 /**
  * Returns the size of the IV used by the cipher, in bytes, or 0 if no IV is
@@ -368,7 +358,7 @@ int cipher_ctx_iv_length(const cipher_ctx_t *ctx);
  *
  * @param ctx           The cipher's context
  * @param tag           The buffer to write computed tag in.
- * @param tag_size      The tag buffer size, in bytes.
+ * @param tag_len       The tag buffer size, in bytes.
  */
 int cipher_ctx_get_tag(cipher_ctx_t *ctx, uint8_t *tag, int tag_len);
 

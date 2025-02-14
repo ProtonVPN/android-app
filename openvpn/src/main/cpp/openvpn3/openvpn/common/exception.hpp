@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Basic exception handling.  Allow exception classes for specific errors
 // to be easily defined, and allow exceptions to be thrown with a consise
@@ -55,7 +45,7 @@ class Exception : public std::exception
         : err_(std::move(err))
     {
     }
-    virtual const char *what() const noexcept
+    const char *what() const noexcept override
     {
         return err_.c_str();
     }
@@ -82,28 +72,28 @@ class Exception : public std::exception
 };
 
 // define a simple custom exception class with no extra info
-#define OPENVPN_SIMPLE_EXCEPTION(C)               \
-    class C : public std::exception               \
-    {                                             \
-      public:                                     \
-        virtual const char *what() const noexcept \
-        {                                         \
-            return #C OPENVPN_FILE_LINE;          \
-        }                                         \
+#define OPENVPN_SIMPLE_EXCEPTION(C)                \
+    class C : public std::exception                \
+    {                                              \
+      public:                                      \
+        const char *what() const noexcept override \
+        {                                          \
+            return #C OPENVPN_FILE_LINE;           \
+        }                                          \
     }
 
 // define a simple custom exception class with no extra info that inherits from a custom base
-#define OPENVPN_SIMPLE_EXCEPTION_INHERIT(B, C)    \
-    class C : public B                            \
-    {                                             \
-      public:                                     \
-        C() : B(#C OPENVPN_FILE_LINE)             \
-        {                                         \
-        }                                         \
-        virtual const char *what() const noexcept \
-        {                                         \
-            return #C OPENVPN_FILE_LINE;          \
-        }                                         \
+#define OPENVPN_SIMPLE_EXCEPTION_INHERIT(B, C)     \
+    class C : public B                             \
+    {                                              \
+      public:                                      \
+        C() : B(#C OPENVPN_FILE_LINE)              \
+        {                                          \
+        }                                          \
+        const char *what() const noexcept override \
+        {                                          \
+            return #C OPENVPN_FILE_LINE;           \
+        }                                          \
     }
 
 // define a custom exception class that allows extra info
@@ -119,6 +109,27 @@ class Exception : public std::exception
         }                                                                              \
     }
 
+// define a custom exception class that allows extra info with error code
+#define OPENVPN_EXCEPTION_WITH_CODE(C, DEFAULT_CODE, ...)                               \
+    enum C##_##code : unsigned int{__VA_ARGS__};                                        \
+    class C : public openvpn::Exception                                                 \
+    {                                                                                   \
+      public:                                                                           \
+        C() : openvpn::Exception(#C OPENVPN_FILE_LINE)                                  \
+        {                                                                               \
+            add_label(#DEFAULT_CODE);                                                   \
+        }                                                                               \
+        C(const std::string &err) : openvpn::Exception(#C OPENVPN_FILE_LINE ": " + err) \
+        {                                                                               \
+            add_label(#DEFAULT_CODE);                                                   \
+        }                                                                               \
+        option_error(C##_##code code, const std::string &err)                           \
+            : openvpn::Exception(#C OPENVPN_FILE_LINE ": " + err)                       \
+        {                                                                               \
+            add_label(code2string(code));                                               \
+        }                                                                               \
+        static std::string code2string(C##_##code code);                                \
+    }
 // define a custom exception class that allows extra info, but does not emit a tag
 #define OPENVPN_UNTAGGED_EXCEPTION(C)                      \
     class C : public openvpn::Exception                    \
@@ -148,9 +159,7 @@ class Exception : public std::exception
     class C : public B                           \
     {                                            \
       public:                                    \
-        C(const std::string err) : B(err)        \
-        {                                        \
-        }                                        \
+        using B::B;                              \
     }
 
 // throw an Exception with stringstream concatenation allowed
@@ -169,6 +178,14 @@ class Exception : public std::exception
         std::ostringstream _ovpn_exc; \
         _ovpn_exc << stuff;           \
         throw exc(_ovpn_exc.str());   \
+    } while (0)
+
+#define OPENVPN_THROW_ARG1(exc, arg, stuff) \
+    do                                      \
+    {                                       \
+        std::ostringstream _ovpn_exc;       \
+        _ovpn_exc << stuff;                 \
+        throw exc(arg, _ovpn_exc.str());    \
     } while (0)
 
 // properly rethrow an exception that might be derived from Exception

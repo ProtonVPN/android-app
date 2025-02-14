@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_BUFFER_ZLIB_H
 #define OPENVPN_BUFFER_ZLIB_H
@@ -90,7 +80,7 @@ inline BufferPtr compress_gzip(BufferPtr src,
         if (status != Z_OK)
             OPENVPN_THROW(zlib_error, "zlib deflateinit2 failed, error=" << status);
         const uLong outcap = ::deflateBound(&zs.s, src->size());
-        BufferPtr b = new BufferAllocated(outcap + headroom + tailroom, 0);
+        auto b = BufferAllocatedRc::Create(outcap + headroom + tailroom, 0);
         b->init_headroom(headroom);
         zs.s.next_out = b->data();
         zs.s.avail_out = numeric_cast<decltype(zs.s.avail_out)>(outcap);
@@ -138,7 +128,7 @@ inline BufferPtr decompress_gzip(BufferPtr src,
         {
             // use headroom/tailroom on first block to take advantage
             // of BufferList::join() optimization for one-block lists
-            BufferPtr b = new BufferAllocated(block_size + hr + tr, 0);
+            auto b = BufferAllocatedRc::Create(block_size + hr + tr, 0);
             b->init_headroom(hr);
             const size_t avail = b->remaining(tr);
             zs.s.next_out = b->data();

@@ -14,8 +14,7 @@
 #include <openvpn/common/options.hpp>
 #include <openvpn/common/jsonhelper.hpp>
 
-namespace openvpn {
-namespace WS {
+namespace openvpn::WS {
 
 // Helper class for HTTP client and server connections
 // to strongly bind to a VPN client tunnel interface.
@@ -179,5 +178,4 @@ class ViaVPN : public RC<thread_unsafe_refcount>
     GatewayType gw_type;
 };
 
-} // namespace WS
-} // namespace openvpn
+} // namespace openvpn::WS

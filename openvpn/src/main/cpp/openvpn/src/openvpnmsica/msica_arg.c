@@ -2,7 +2,7 @@
  *  openvpnmsica -- Custom Action DLL to provide OpenVPN-specific support to MSI packages
  *                  https://community.openvpn.net/openvpn/wiki/OpenVPNMSICA
  *
- *  Copyright (C) 2018-2023 Simon Rozman <simon@rozman.si>
+ *  Copyright (C) 2018-2024 Simon Rozman <simon@rozman.si>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -20,8 +20,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#elif defined(_MSC_VER)
-#include <config-msvc.h>
 #endif
 
 #include "msica_arg.h"

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // IPv4 header
 
@@ -43,6 +33,12 @@ struct IPv4Header
         return static_cast<uint8_t>(((len >> 2) & 0x0F) | (version & 0x0F) << 4);
     }
 
+    static bool is_df_set(const unsigned char *data)
+    {
+        auto *hdr = reinterpret_cast<const IPv4Header *>(data);
+        return ntohs(hdr->frag_off) & IPv4Header::DF;
+    }
+
     std::uint8_t version_len;
 
     std::uint8_t tos;
@@ -52,6 +48,7 @@ struct IPv4Header
     enum
     {
         OFFMASK = 0x1fff,
+        DF = 0x4000,
     };
     std::uint16_t frag_off;
 

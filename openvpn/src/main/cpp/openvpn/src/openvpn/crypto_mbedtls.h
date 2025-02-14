@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,12 +23,14 @@
  */
 
 /**
- * @file Data Channel Cryptography mbed TLS-specific backend interface
+ * @file
+ * Data Channel Cryptography mbed TLS-specific backend interface
  */
 
 #ifndef CRYPTO_MBEDTLS_H_
 #define CRYPTO_MBEDTLS_H_
 
+#include <stdbool.h>
 #include <mbedtls/cipher.h>
 #include <mbedtls/md.h>
 #include <mbedtls/ctr_drbg.h>
@@ -63,6 +65,8 @@ typedef void provider_t;
 /** Cipher is in GCM mode */
 #define OPENVPN_MODE_GCM        MBEDTLS_MODE_GCM
 
+typedef mbedtls_operation_t crypto_operation_t;
+
 /** Cipher should encrypt */
 #define OPENVPN_OP_ENCRYPT      MBEDTLS_ENCRYPT
 
@@ -73,7 +77,6 @@ typedef void provider_t;
 #define MD5_DIGEST_LENGTH       16
 #define SHA_DIGEST_LENGTH       20
 #define SHA256_DIGEST_LENGTH    32
-#define DES_KEY_LENGTH 8
 
 /**
  * Returns a singleton instance of the mbed TLS random number generator.

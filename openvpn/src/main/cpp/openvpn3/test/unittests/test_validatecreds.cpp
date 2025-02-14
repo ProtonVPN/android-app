@@ -1,6 +1,6 @@
 // Test Unicode::is_valid_utf8(), validate_auth_cred(),
 // and AuthCreds::is_valid().  Throws exception on failure.
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <iostream>
 #include <openvpn/common/size.hpp>

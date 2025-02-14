@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_TRANSPORT_GREMLIN_H
 #define OPENVPN_TRANSPORT_GREMLIN_H
@@ -35,8 +25,7 @@
 #include <openvpn/time/asiotimer.hpp>
 #include <openvpn/random/mtrandapi.hpp>
 
-namespace openvpn {
-namespace Gremlin {
+namespace openvpn::Gremlin {
 
 OPENVPN_EXCEPTION(gremlin_error);
 
@@ -76,9 +65,7 @@ struct DelayedQueue : public RC<thread_unsafe_refcount>
     {
         virtual void call() = 0;
         virtual const Time &fire_time() = 0;
-        virtual ~EventBase()
-        {
-        }
+        virtual ~EventBase() = default;
     };
 
     template <class F>
@@ -91,12 +78,12 @@ struct DelayedQueue : public RC<thread_unsafe_refcount>
         {
         }
 
-        virtual void call()
+        void call() override
         {
             func();
         }
 
-        virtual const Time &fire_time()
+        const Time &fire_time() override
         {
             return fire;
         }
@@ -219,7 +206,6 @@ class SendRecvQueue
     DelayedQueue::Ptr recv;
     bool tcp;
 };
-} // namespace Gremlin
-} // namespace openvpn
+} // namespace openvpn::Gremlin
 
 #endif

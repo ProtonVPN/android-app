@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -94,14 +94,20 @@ struct options_pre_connect
 #error "At least one of OpenSSL or mbed TLS needs to be defined."
 #endif
 
+struct local_entry
+{
+    const char *local;
+    const char *port;
+};
+
 struct connection_entry
 {
+    struct local_list *local_list;
     int proto;
     sa_family_t af;
     const char *local_port;
     bool local_port_defined;
     const char *remote_port;
-    const char *local;
     const char *remote;
     bool remote_float;
     bool bind_defined;
@@ -178,6 +184,12 @@ struct remote_entry
 };
 
 #define CONNECTION_LIST_SIZE 64
+
+struct local_list
+{
+    int len;
+    struct local_entry *array[CONNECTION_LIST_SIZE];
+};
 
 struct connection_list
 {
@@ -344,7 +356,6 @@ struct options
     bool persist_tun;           /* Don't close/reopen TUN/TAP dev on SIGUSR1 or PING_RESTART */
     bool persist_local_ip;      /* Don't re-resolve local address on SIGUSR1 or PING_RESTART */
     bool persist_remote_ip;     /* Don't re-resolve remote address on SIGUSR1 or PING_RESTART */
-    bool persist_key;           /* Don't re-read key files on SIGUSR1 or PING_RESTART */
 
 #if PASSTOS_CAPABILITY
     bool passtos;
@@ -355,6 +366,9 @@ struct options
     const char *ip_remote_hint;
 
     struct tuntap_options tuntap_options;
+    /* DCO is disabled and should not be used as backend driver for the
+     * tun/tap device */
+    bool disable_dco;
 
     /* Misc parms */
     const char *username;
@@ -552,15 +566,17 @@ struct options
     /* Cipher parms */
     const char *shared_secret_file;
     bool shared_secret_file_inline;
+    bool allow_deprecated_insecure_static_crypto;
     int key_direction;
     const char *ciphername;
     bool enable_ncp_fallback;      /**< If defined fall back to
                                    * ciphername if NCP fails */
+    /** The original ncp_ciphers specified by the user in the configuration*/
+    const char *ncp_ciphers_conf;
     const char *ncp_ciphers;
     const char *authname;
     const char *engine;
     struct provider_list providers;
-    bool replay;
     bool mute_replay_warnings;
     int replay_window;
     int replay_time;
@@ -592,9 +608,9 @@ struct options
     const char *tls_cert_profile;
     const char *ecdh_curve;
     const char *tls_verify;
+    const char *tls_export_peer_cert_dir;
     int verify_x509_type;
     const char *verify_x509_name;
-    const char *tls_export_cert;
     const char *crl_file;
     bool crl_file_inline;
 
@@ -624,8 +640,8 @@ struct options
     int tls_timeout;
 
     /* Data channel key renegotiation parameters */
-    int renegotiate_bytes;
-    int renegotiate_packets;
+    int64_t renegotiate_bytes;
+    int64_t renegotiate_packets;
     int renegotiate_seconds;
     int renegotiate_seconds_min;
 
@@ -677,7 +693,7 @@ struct options
     bool show_net_up;
     int route_method;
     bool block_outside_dns;
-    enum windows_driver_type windows_driver;
+    enum tun_driver_type windows_driver;
 #endif
 
     bool use_peer_id;
@@ -688,6 +704,8 @@ struct options
     const char *keying_material_exporter_label;
     int keying_material_exporter_length;
 #endif
+    /* force using TLS key material export for data channel key generation */
+    bool force_key_material_export;
 
     bool vlan_tagging;
     enum vlan_acceptable_frames vlan_accept;
@@ -906,7 +924,7 @@ static inline bool
 dco_enabled(const struct options *o)
 {
 #ifdef ENABLE_DCO
-    return !o->tuntap_options.disable_dco;
+    return !o->disable_dco;
 #else
     return false;
 #endif /* ENABLE_DCO */

@@ -4,77 +4,69 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_ADDR_POOL_H
 #define OPENVPN_ADDR_POOL_H
 
-#include <string>
-#include <sstream>
 #include <deque>
+#include <optional>
+#include <string>
 #include <unordered_map>
 
-#include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
-
 #include <openvpn/addr/ip.hpp>
 #include <openvpn/addr/range.hpp>
 
-namespace openvpn {
-namespace IP {
+namespace openvpn::IP {
 
 // Maintain a pool of IP addresses.
-// A should be IP::Addr, IPv4::Addr, or IPv6::Addr.
+// Should be IP::Addr, IPv4::Addr, or IPv6::Addr.
 template <typename ADDR>
 class PoolType
 {
   public:
     PoolType() = default;
 
-    // Add range of addresses to pool (pool will own the addresses).
+    /**
+     * @brief Adds range of addresses to pool (pool will own the addresses).
+     * @param range RangeType of IP Addresses
+     */
     void add_range(const RangeType<ADDR> &range)
     {
-        auto iter = range.iterator();
-        while (iter.more())
+        for (const auto &address : range)
         {
-            const ADDR &a = iter.addr();
-            add_addr(a);
-            iter.next();
+            add_addr(address);
         }
     }
 
     // Add single address to pool (pool will own the address).
     void add_addr(const ADDR &addr)
     {
-        auto e = map.find(addr);
-        if (e == map.end())
+        auto [iter, inserted] = map.try_emplace(addr, false);
+        if (inserted)
         {
             freelist.push_back(addr);
-            map[addr] = false;
         }
     }
 
-    // Return number of pool addresses currently in use.
-    size_t n_in_use() const
+    /**
+     * @brief Returns number of pool addresses currently in use
+     * @return number of pool addresses currently in use
+     */
+    [[nodiscard]] size_t n_in_use() const noexcept
     {
         return map.size() - freelist.size();
     }
 
-    // Return number of pool addresses currently in use.
-    size_t n_free() const
+    /**
+     * @brief Returns number of free pool addresses
+     * @return number of free pool addresses
+     */
+    [[nodiscard]] size_t n_free() const noexcept
     {
         return freelist.size();
     }
@@ -103,18 +95,25 @@ class PoolType
         }
     }
 
-    // Acquire a specific address from pool, returning true if
-    // successful, or false if the address is not available.
+    /**
+     * @brief Acquires a specific address from the pool.
+     *
+     * This function attempts to acquire a specific address from the pool. If the address is
+     * available, it marks the address as in use and returns true. If the address is not available,
+     * it returns false.
+     *
+     * @param addr The IP address to acquire.
+     * @return true if the address was successfully acquired, false otherwise.
+     */
     bool acquire_specific_addr(const ADDR &addr)
     {
-        auto e = map.find(addr);
-        if (e != map.end() && !e->second)
+        auto optional_iterator = is_address_available(addr);
+        if (optional_iterator)
         {
-            e->second = true;
+            (*optional_iterator)->second = true;
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     // Return a previously acquired address to the pool.  Does nothing if
@@ -122,18 +121,12 @@ class PoolType
     // (b) the address is not owned by the pool.
     void release_addr(const ADDR &addr)
     {
-        auto e = map.find(addr);
-        if (e != map.end() && e->second)
+        auto optional_iterator = is_address_in_use(addr);
+        if (optional_iterator)
         {
             freelist.push_back(addr);
-            e->second = false;
+            (*optional_iterator)->second = false;
         }
-    }
-
-    // DEBUGGING -- get the map load factor
-    float load_factor() const
-    {
-        return map.load_factor();
     }
 
     // Override to refill freelist on demand
@@ -155,15 +148,39 @@ class PoolType
         return ret;
     }
 
-    virtual ~PoolType<ADDR>() = default;
+    virtual ~PoolType() = default;
 
   private:
     std::deque<ADDR> freelist;
     std::unordered_map<ADDR, bool> map;
+
+    /**
+     * @brief Checks if address is available (free)
+     * @param addr IP Address to check
+     * @return Optional iterator to position; std::nullopt if address is not available
+     */
+    auto is_address_available(const ADDR &addr) -> std::optional<decltype(map.begin())> // Easy decltype for map iterator
+    {
+        auto it = map.find(addr);
+        if (it != map.end() && !it->second)
+            return it;
+        return std::nullopt;
+    }
+
+    /**
+     * @brief Checks if address is in use
+     * @param addr IP Address to check
+     * @return Optional containing iterator to position if found, std::nullopt otherwise
+     */
+    auto is_address_in_use(const ADDR &addr) -> std::optional<decltype(map.begin())> // Easy decltype for map iterator
+    {
+        if (auto it = map.find(addr); it != map.end())
+            return it;
+        return std::nullopt;
+    }
 };
 
 typedef PoolType<IP::Addr> Pool;
-} // namespace IP
-} // namespace openvpn
+} // namespace openvpn::IP
 
 #endif

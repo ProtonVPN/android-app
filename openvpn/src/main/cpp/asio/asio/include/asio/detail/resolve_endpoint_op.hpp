@@ -2,7 +2,7 @@
 // detail/resolve_endpoint_op.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -19,7 +19,6 @@
 #include "asio/detail/bind_handler.hpp"
 #include "asio/detail/fenced_block.hpp"
 #include "asio/detail/handler_alloc_helpers.hpp"
-#include "asio/detail/handler_invoke_helpers.hpp"
 #include "asio/detail/handler_work.hpp"
 #include "asio/detail/memory.hpp"
 #include "asio/detail/resolve_op.hpp"
@@ -60,7 +59,7 @@ public:
       cancel_token_(cancel_token),
       endpoint_(endpoint),
       scheduler_(sched),
-      handler_(ASIO_MOVE_CAST(Handler)(handler)),
+      handler_(static_cast<Handler&&>(handler)),
       work_(handler_, io_ex)
   {
   }
@@ -78,7 +77,7 @@ public:
     {
       // The operation is being run on the worker io_context. Time to perform
       // the resolver operation.
-    
+
       // Perform the blocking endpoint resolution operation.
       char host_name[NI_MAXHOST] = "";
       char service_name[NI_MAXSERV] = "";
@@ -100,7 +99,7 @@ public:
 
       // Take ownership of the operation's outstanding work.
       handler_work<Handler, IoExecutor> w(
-          ASIO_MOVE_CAST2(handler_work<Handler, IoExecutor>)(
+          static_cast<handler_work<Handler, IoExecutor>&&>(
             o->work_));
 
       // Make a copy of the handler so that the memory can be deallocated

@@ -2,7 +2,7 @@
 // ssl/impl/error.ipp
 // ~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,7 +28,7 @@ namespace detail {
 class ssl_category : public asio::error_category
 {
 public:
-  const char* name() const ASIO_ERROR_CATEGORY_NOEXCEPT
+  const char* name() const noexcept
   {
     return "asio.ssl";
   }
@@ -88,7 +88,7 @@ namespace detail {
 class stream_category : public asio::error_category
 {
 public:
-  const char* name() const ASIO_ERROR_CATEGORY_NOEXCEPT
+  const char* name() const noexcept
   {
     return "asio.ssl.stream";
   }

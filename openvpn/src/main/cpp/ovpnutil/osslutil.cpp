@@ -113,9 +113,12 @@ extern "C" jbyteArray Java_de_blinkt_openvpn_core_NativeUtils_rsapss(JNIEnv *env
   if (!EVP_DigestFinal_ex(ctx, H, nullptr))
     goto err;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   /* Generate dbMask in place then perform XOR on it */
   if (PKCS1_MGF1(EM, maskedDBLen, H, hLen, mgf1Hash))
     goto err;
+#pragma clang diagnostic pop
 
   p = EM;
 

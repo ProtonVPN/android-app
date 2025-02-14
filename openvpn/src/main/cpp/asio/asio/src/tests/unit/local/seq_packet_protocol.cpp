@@ -2,7 +2,7 @@
 // local/seq_packet_protocol.cpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -76,16 +76,12 @@ void test()
     spp::socket socket4(ioc, spp(), native_socket1);
 #endif // !defined(ASIO_WINDOWS_RUNTIME)
 
-#if defined(ASIO_HAS_MOVE)
     spp::socket socket5(std::move(socket4));
-#endif // defined(ASIO_HAS_MOVE)
 
     // basic_seq_packet_socket operators.
 
-#if defined(ASIO_HAS_MOVE)
     socket1 = spp::socket(ioc);
     socket1 = std::move(socket2);
-#endif // defined(ASIO_HAS_MOVE)
 
     // basic_io_object functions.
 

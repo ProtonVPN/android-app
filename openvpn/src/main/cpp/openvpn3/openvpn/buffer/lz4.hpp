@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -45,7 +35,7 @@ inline BufferPtr compress(const ConstBuffer &src,
         OPENVPN_THROW(lz4_error, "compress buffer size=" << src.size() << " exceeds LZ4_MAX_INPUT_SIZE=" << LZ4_MAX_INPUT_SIZE);
 
     // allocate dest buffer
-    BufferPtr dest = new BufferAllocated(sizeof(std::uint32_t) + headroom + tailroom + LZ4_COMPRESSBOUND(src.size()), 0);
+    auto dest = BufferAllocatedRc::Create(sizeof(std::uint32_t) + headroom + tailroom + LZ4_COMPRESSBOUND(src.size()), 0);
     dest->init_headroom(headroom);
 
     // as a hint to receiver, write the decompressed size
@@ -83,7 +73,7 @@ inline BufferPtr decompress(const ConstBuffer &source,
         OPENVPN_THROW(lz4_error, "decompress expansion size=" << size << " is too large (must be <= " << max_decompressed_size << ')');
 
     // allocate dest buffer
-    BufferPtr dest = new BufferAllocated(headroom + tailroom + size, 0);
+    auto dest = BufferAllocatedRc::Create(headroom + tailroom + size, 0);
     dest->init_headroom(headroom);
 
     // decompress

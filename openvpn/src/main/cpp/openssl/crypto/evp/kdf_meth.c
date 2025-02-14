@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -22,7 +22,7 @@ static int evp_kdf_up_ref(void *vkdf)
     EVP_KDF *kdf = (EVP_KDF *)vkdf;
     int ref = 0;
 
-    CRYPTO_UP_REF(&kdf->refcnt, &ref, kdf->lock);
+    CRYPTO_UP_REF(&kdf->refcnt, &ref);
     return 1;
 }
 
@@ -34,12 +34,12 @@ static void evp_kdf_free(void *vkdf)
     if (kdf == NULL)
         return;
 
-    CRYPTO_DOWN_REF(&kdf->refcnt, &ref, kdf->lock);
+    CRYPTO_DOWN_REF(&kdf->refcnt, &ref);
     if (ref > 0)
         return;
     OPENSSL_free(kdf->type_name);
     ossl_provider_free(kdf->prov);
-    CRYPTO_THREAD_lock_free(kdf->lock);
+    CRYPTO_FREE_REF(&kdf->refcnt);
     OPENSSL_free(kdf);
 }
 
@@ -48,11 +48,10 @@ static void *evp_kdf_new(void)
     EVP_KDF *kdf = NULL;
 
     if ((kdf = OPENSSL_zalloc(sizeof(*kdf))) == NULL
-        || (kdf->lock = CRYPTO_THREAD_lock_new()) == NULL) {
+        || !CRYPTO_NEW_REF(&kdf->refcnt, 1)) {
         OPENSSL_free(kdf);
         return NULL;
     }
-    kdf->refcnt = 1;
     return kdf;
 }
 
@@ -65,7 +64,7 @@ static void *evp_kdf_from_algorithm(int name_id,
     int fnkdfcnt = 0, fnctxcnt = 0;
 
     if ((kdf = evp_kdf_new()) == NULL) {
-        ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_EVP, ERR_R_EVP_LIB);
         return NULL;
     }
     kdf->name_id = name_id;

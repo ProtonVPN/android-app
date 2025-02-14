@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Technologies, Inc. <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Technologies, Inc. <sales@openvpn.net>
  *  Copyright (C) 2010      Fabian Knittel <fabian.knittel@lettink.de>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -24,8 +24,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"

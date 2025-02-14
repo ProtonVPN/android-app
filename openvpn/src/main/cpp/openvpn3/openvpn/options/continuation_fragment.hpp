@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Server-side code to fragment an oversized options buffer
 // into multiple buffers using the push-continuation option.
@@ -27,13 +17,15 @@
 #include <string>
 #include <vector>
 
+#include <openvpn/common/exception.hpp>
 #include <openvpn/common/lex.hpp>
 #include <openvpn/buffer/bufstr.hpp>
+#include <openvpn/options/pushlex.hpp>
 
 namespace openvpn {
 
-// Fragment a long PUSH_REPLY buffer into multiple
-// buffers using the push-continuation option.
+// Fragment a long PUSH_REPLY/PUSH_UPDATE buffer into
+// multiple buffers using the push-continuation option.
 class PushContinuationFragment : public std::vector<BufferPtr>
 {
   public:
@@ -43,19 +35,20 @@ class PushContinuationFragment : public std::vector<BufferPtr>
 
     OPENVPN_EXCEPTION(push_continuation_fragment_error);
 
-    static bool should_fragment(const Buffer &buf)
+    static bool should_fragment(const ConstBuffer &buf)
     {
         return buf.size() > FRAGMENT_SIZE;
     }
 
-    PushContinuationFragment(const Buffer &buf)
+    // prefix should be PUSH_REPLY or PUSH_UPDATE
+    PushContinuationFragment(const ConstBuffer &buf, const std::string &prefix)
     {
         // size of ",push-continuation n"
         const size_t push_continuation_len = 20;
 
         // loop over options
         bool did_continuation = false;
-        Lex lex(buf);
+        PushLex lex(buf, true);
         while (lex.defined())
         {
             // get escaped opt
@@ -63,7 +56,7 @@ class PushContinuationFragment : public std::vector<BufferPtr>
 
             // create first buffer on loop startup
             if (empty())
-                append_new_buffer();
+                append_new_buffer(prefix);
 
             // ready to finalize this outbut buffer and move on to next?
             // (the +1 is for escaped_opt comma)
@@ -71,7 +64,7 @@ class PushContinuationFragment : public std::vector<BufferPtr>
             {
                 did_continuation = true;
                 append_push_continuation(*back(), false);
-                append_new_buffer();
+                append_new_buffer(prefix);
             }
 
             back()->push_back(',');
@@ -83,7 +76,9 @@ class PushContinuationFragment : public std::vector<BufferPtr>
             append_push_continuation(*back(), true);
     }
 
-    static BufferPtr defragment(const std::vector<BufferPtr> &bv)
+    // prefix should be PUSH_REPLY or PUSH_UPDATE
+    static BufferPtr defragment(const std::vector<BufferPtr> &bv,
+                                const std::string &prefix)
     {
         // exit cases where no need to defrag
         if (bv.empty())
@@ -97,23 +92,24 @@ class PushContinuationFragment : public std::vector<BufferPtr>
             total_size += e->size();
 
         // allocate return buffer
-        BufferPtr ret(new BufferAllocated(total_size, 0));
-        buf_append_string(*ret, "PUSH_REPLY");
+        auto ret = BufferAllocatedRc::Create(total_size, 0);
+        buf_append_string(*ret, prefix);
 
         // terminators
         static const char pc1[] = ",push-continuation 1";
         static const char pc2[] = ",push-continuation 2";
 
         // build return buffer
+        const std::string prefix_comma = prefix + ',';
         const size_t size = bv.size();
         for (size_t i = 0; i < size; ++i)
         {
             const Buffer &buf = *bv[i];
             const char *pc = (i == size - 1) ? pc1 : pc2;
-            if (string::starts_with(buf, "PUSH_REPLY,") && string::ends_with(buf, pc))
+            if (string::starts_with(buf, prefix_comma) && string::ends_with(buf, pc))
             {
                 Buffer b = buf;
-                b.advance(10);             // advance past "PUSH_REPLY"
+                b.advance(prefix.size());  // advance past prefix
                 b.set_size(b.size() - 20); // truncate ",push-continuation n"
                 ret->append(b);
             }
@@ -124,47 +120,12 @@ class PushContinuationFragment : public std::vector<BufferPtr>
     }
 
   private:
-    class Lex
-    {
-      public:
-        Lex(const Buffer &buf)
-            : buf_(buf)
-        {
-            if (!string::starts_with(buf_, "PUSH_REPLY,"))
-                throw push_continuation_fragment_error("not a valid PUSH_REPLY message");
-            buf_.advance(11);
-        }
-
-        bool defined()
-        {
-            return !buf_.empty();
-        }
-
-        std::string next()
-        {
-            StandardLex lex;
-            std::string ret;
-            while (defined())
-            {
-                const char c = buf_.pop_front();
-                lex.put(c);
-                if (lex.get() == ',' && !(lex.in_quote() || lex.in_backslash()))
-                    return ret;
-                ret += c;
-            }
-            return ret;
-        }
-
-      private:
-        Buffer buf_;
-    };
-
-    // create a new PUSH_REPLY buffer
-    void append_new_buffer()
+    // create a new PUSH_REPLY/PUSH_UPDATE buffer
+    void append_new_buffer(const std::string &prefix)
     {
         // include extra byte for null termination
-        BufferPtr bp = new BufferAllocated(FRAGMENT_SIZE + 1, 0);
-        buf_append_string(*bp, "PUSH_REPLY");
+        auto bp = BufferAllocatedRc::Create(FRAGMENT_SIZE + 1, 0);
+        buf_append_string(*bp, prefix);
         push_back(std::move(bp));
     }
 

@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 
 // this file allows checking headers for "out of tree" dependencies; manage.hpp
 // is an example

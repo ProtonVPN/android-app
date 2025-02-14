@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -55,9 +55,7 @@ static OSSL_FUNC_store_close_fn file_close;
  * passes that on to the data callback; this decoder is created with
  * internal OpenSSL functions, thereby bypassing the need for a surrounding
  * provider.  This is ok, since this is a local decoder, not meant for
- * public consumption.  It also uses the libcrypto internal decoder
- * setup function ossl_decoder_ctx_setup_for_pkey(), to allow the
- * last resort decoder to be added first (and thereby be executed last).
+ * public consumption.
  * Finally, it sets up its own construct and cleanup functions.
  *
  * Essentially, that makes this implementation a kind of glorified decoder.
@@ -155,7 +153,7 @@ static struct file_ctx_st *file_open_stream(BIO *source, const char *uri,
     struct file_ctx_st *ctx;
 
     if ((ctx = new_file_ctx(IS_FILE, uri, provctx)) == NULL) {
-        ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_PROV, ERR_R_PROV_LIB);
         goto err;
     }
 
@@ -172,7 +170,7 @@ static void *file_open_dir(const char *path, const char *uri, void *provctx)
     struct file_ctx_st *ctx;
 
     if ((ctx = new_file_ctx(IS_DIR, uri, provctx)) == NULL) {
-        ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_PROV, ERR_R_PROV_LIB);
         return NULL;
     }
 
@@ -201,7 +199,7 @@ static void *file_open(void *provctx, const char *uri)
         unsigned int check_absolute:1;
     } path_data[2];
     size_t path_data_n = 0, i;
-    const char *path;
+    const char *path, *p = uri, *q;
     BIO *bio;
 
     ERR_set_mark();
@@ -213,20 +211,18 @@ static void *file_open(void *provctx, const char *uri)
     path_data[path_data_n++].path = uri;
 
     /*
-     * Second step, if the URI appears to start with the 'file' scheme,
+     * Second step, if the URI appears to start with the "file" scheme,
      * extract the path and make that the second path to check.
      * There's a special case if the URI also contains an authority, then
      * the full URI shouldn't be used as a path anywhere.
      */
-    if (OPENSSL_strncasecmp(uri, "file:", 5) == 0) {
-        const char *p = &uri[5];
-
-        if (strncmp(&uri[5], "//", 2) == 0) {
+    if (CHECK_AND_SKIP_CASE_PREFIX(p, "file:")) {
+        q = p;
+        if (CHECK_AND_SKIP_CASE_PREFIX(q, "//")) {
             path_data_n--;           /* Invalidate using the full URI */
-            if (OPENSSL_strncasecmp(&uri[7], "localhost/", 10) == 0) {
-                p = &uri[16];
-            } else if (uri[7] == '/') {
-                p = &uri[7];
+            if (CHECK_AND_SKIP_CASE_PREFIX(q, "localhost/")
+                    || CHECK_AND_SKIP_CASE_PREFIX(q, "/")) {
+                p = q - 1;
             } else {
                 ERR_clear_last_mark();
                 ERR_raise(ERR_LIB_PROV, PROV_R_URI_AUTHORITY_UNSUPPORTED);
@@ -236,9 +232,9 @@ static void *file_open(void *provctx, const char *uri)
 
         path_data[path_data_n].check_absolute = 1;
 #ifdef _WIN32
-        /* Windows file: URIs with a drive letter start with a / */
+        /* Windows "file:" URIs with a drive letter start with a '/' */
         if (p[0] == '/' && p[2] == ':' && p[3] == '/') {
-            char c = tolower(p[1]);
+            char c = tolower((unsigned char)p[1]);
 
             if (c >= 'a' && c <= 'z') {
                 p++;
@@ -424,7 +420,7 @@ static int file_setup_decoders(struct file_ctx_st *ctx)
     /* Setup for this session, so only if not already done */
     if (ctx->_.file.decoderctx == NULL) {
         if ((ctx->_.file.decoderctx = OSSL_DECODER_CTX_new()) == NULL) {
-            ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+            ERR_raise(ERR_LIB_PROV, ERR_R_OSSL_DECODER_LIB);
             goto err;
         }
 
@@ -560,10 +556,8 @@ static char *file_name_to_uri(struct file_ctx_st *ctx, const char *name)
             + strlen(name) + 1 /* \0 */;
 
         data = OPENSSL_zalloc(calculated_length);
-        if (data == NULL) {
-            ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+        if (data == NULL)
             return NULL;
-        }
 
         OPENSSL_strlcat(data, ctx->uri, calculated_length);
         OPENSSL_strlcat(data, pathsep, calculated_length);
@@ -612,9 +606,9 @@ static int file_name_check(struct file_ctx_st *ctx, const char *name)
      * Last, check that the rest of the extension is a decimal number, at
      * least one digit long.
      */
-    if (!isdigit(*p))
+    if (!isdigit((unsigned char)*p))
         return 0;
-    while (isdigit(*p))
+    while (isdigit((unsigned char)*p))
         p++;
 
 #ifdef __VMS
@@ -623,7 +617,7 @@ static int file_name_check(struct file_ctx_st *ctx, const char *name)
      */
     if (*p == ';')
         for (p++; *p != '\0'; p++)
-            if (!ossl_isdigit(*p))
+            if (!ossl_isdigit((unsigned char)*p))
                 break;
 #endif
 
@@ -786,5 +780,5 @@ const OSSL_DISPATCH ossl_file_store_functions[] = {
     { OSSL_FUNC_STORE_LOAD, (void (*)(void))file_load },
     { OSSL_FUNC_STORE_EOF, (void (*)(void))file_eof },
     { OSSL_FUNC_STORE_CLOSE, (void (*)(void))file_close },
-    { 0, NULL },
+    OSSL_DISPATCH_END,
 };

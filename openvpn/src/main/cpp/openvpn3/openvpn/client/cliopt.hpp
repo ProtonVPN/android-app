@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // These classes encapsulate the basic setup of the various objects needed to
 // create an OpenVPN client session.  The basic idea here is to look at both
@@ -29,7 +19,10 @@
 #define OPENVPN_CLIENT_CLIOPT_H
 
 #include <string>
+#include <tuple>
 #include <unordered_set>
+#include <map>
+#include <set>
 
 #include <openvpn/error/excode.hpp>
 
@@ -40,6 +33,7 @@
 #include <openvpn/frame/frame_init.hpp>
 #include <openvpn/pki/epkibase.hpp>
 #include <openvpn/crypto/cryptodcsel.hpp>
+#include <openvpn/random/mtrandapi.hpp>
 #include <openvpn/ssl/mssparms.hpp>
 #include <openvpn/tun/tunmtu.hpp>
 #include <openvpn/tun/tristate_setting.hpp>
@@ -111,6 +105,42 @@
 
 namespace openvpn {
 
+struct ClientConfigParsed : public ClientAPI::ConfigCommon
+{
+
+    /**
+     * Imports the settings from the UI set ClientAPI::Config
+     * into this class.
+     */
+    void import_client_settings(const ClientAPI::Config &config)
+    {
+        /* explicitly allow slicing to only copy the settings that
+         * are in the common base class \c ConfigCommon */
+        ClientAPI::ConfigCommon::operator=(config);
+
+        if (!config.protoOverride.empty())
+            proto_override = Protocol::parse(config.protoOverride, Protocol::NO_SUFFIX);
+
+        if (config.protoVersionOverride == 4)
+            proto_version_override = IP::Addr::Version::V4;
+        else if (config.protoVersionOverride == 6)
+            proto_version_override = IP::Addr::Version::V6;
+
+        if (!config.allowUnusedAddrFamilies.empty())
+            allowUnusedAddrFamilies = TriStateSetting::parse(config.allowUnusedAddrFamilies);
+    }
+
+    IP::Addr::Version proto_version_override = IP::Addr::Version::UNSPEC;
+
+    Protocol proto_override;
+
+    TriStateSetting allowUnusedAddrFamilies;
+
+    /* from eval config */
+    std::string external_pki_alias;
+};
+
+
 class ClientOptions : public RC<thread_unsafe_refcount>
 {
   public:
@@ -120,44 +150,21 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 
     struct Config
     {
-        std::string gui_version;
-        std::string sso_methods;
-        std::string server_override;
-        std::string port_override;
-        std::string hw_addr_override;
-        std::string platform_version;
-        Protocol proto_override;
-        IP::Addr::Version proto_version_override = IP::Addr::Version::UNSPEC;
-        TriStateSetting allowUnusedAddrFamilies;
+        /* Options set by the client application.
+         * This class only uses a subset. For simplicity
+         * we keep all client settings here instead of creating a new
+         * subset class of configuration options */
+        ClientConfigParsed clientconf;
+
         int conn_timeout = 0;
         SessionStats::Ptr cli_stats;
         ClientEvent::Queue::Ptr cli_events;
-        ProtoContextOptions::Ptr proto_context_options;
+        ProtoContextCompressionOptions::Ptr proto_context_options;
         HTTPProxyTransport::Options::Ptr http_proxy_options;
         bool alt_proxy = false;
-        bool dco = true;
-        bool echo = false;
-        bool info = false;
-        bool tun_persist = false;
-        bool wintun = false;
-        bool allow_local_dns_resolvers = false;
-        bool google_dns_fallback = false;
         bool synchronous_dns_lookup = false;
-        bool generate_tun_builder_capture_event = false;
-        std::string private_key_password;
-        bool disable_client_cert = false;
-        int ssl_debug_level = 0;
         int default_key_direction = -1;
-        bool autologin_sessions = false;
-        bool retry_on_auth_failed = false;
-        bool allow_local_lan_access = false;
-        bool preferred_security = true;
-        std::string tls_version_min_override;
-        std::string tls_cert_profile_override;
-        std::string tls_cipher_list;
-        std::string tls_ciphersuite_list;
-        bool enable_legacy_algorithms = false;
-        bool enable_nonpreferred_dcalgs = false;
+
         PeerInfo::Set::Ptr extra_peer_info;
 #ifdef OPENVPN_PLATFORM_ANDROID
         bool enable_route_emulation = true;
@@ -188,30 +195,21 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 
     ClientOptions(const OptionList &opt, // only needs to remain in scope for duration of constructor call
                   const Config &config)
-        : server_addr_float(false),
+        : clientconf(config.clientconf),
+          server_addr_float(false),
           socket_protect(config.socket_protect),
           reconnect_notify(config.reconnect_notify),
           cli_stats(config.cli_stats),
           cli_events(config.cli_events),
           server_poll_timeout_(10),
-          server_override(config.server_override),
-          port_override(config.port_override),
-          proto_override(config.proto_override),
-          conn_timeout_(config.conn_timeout),
           tcp_queue_limit(64),
           proto_context_options(config.proto_context_options),
           http_proxy_options(config.http_proxy_options),
-#ifdef OPENVPN_GREMLIN
-          gremlin_config(config.gremlin_config),
-#endif
-          echo(config.echo),
-          info(config.info),
           autologin(false),
           autologin_sessions(false),
           creds_locked(false),
           asio_work_always_on_(false),
-          synchronous_dns_lookup(false),
-          retry_on_auth_failed_(config.retry_on_auth_failed)
+          synchronous_dns_lookup(false)
 #ifdef OPENVPN_EXTERNAL_TRANSPORT_FACTORY
           ,
           extern_transport_factory(config.extern_transport_factory)
@@ -223,14 +221,14 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         // creds
         userlocked_username = pcc.userlockedUsername();
         autologin = pcc.autologin();
-        autologin_sessions = (autologin && config.autologin_sessions);
+        autologin_sessions = (autologin && clientconf.autologinSessions);
 
         // digest factory
         DigestFactory::Ptr digest_factory(new CryptoDigestFactory<SSLLib::CryptoAPI>());
 
         // initialize RNG/PRNG
-        rng.reset(new SSLLib::RandomAPI(false));
-        prng.reset(new SSLLib::RandomAPI(true));
+        rng.reset(new SSLLib::RandomAPI());
+        prng.reset(new MTRand(time(nullptr)));
 
         // frame
         // get tun-mtu and tun-mtu-max parameter from config
@@ -251,11 +249,11 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         cp_relay = proto_config(opt, config, pcc, true); // may be null
 
         CryptoAlgs::allow_default_dc_algs<SSLLib::CryptoAPI>(cp_main->ssl_factory->libctx(),
-                                                             !config.enable_nonpreferred_dcalgs,
-                                                             config.enable_legacy_algorithms);
+                                                             !config.clientconf.enableNonPreferredDCAlgorithms,
+                                                             config.clientconf.enableLegacyAlgorithms);
 
 #if (defined(ENABLE_KOVPN) || defined(ENABLE_OVPNDCO) || defined(ENABLE_OVPNDCOWIN)) && !defined(OPENVPN_FORCE_TUN_NULL) && !defined(OPENVPN_EXTERNAL_TUN_FACTORY)
-        if (config.dco)
+        if (config.clientconf.dco)
 #if defined(USE_TUN_BUILDER)
             dco = DCOTransport::new_controller(config.builder);
 #else
@@ -283,20 +281,20 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         else
             remote_list.reset(new RemoteList(opt, "", RemoteList::WARN_UNSUPPORTED, nullptr, prng));
         if (!remote_list->defined())
-            throw option_error("no remote option specified");
+            throw option_error(ERR_INVALID_CONFIG, "no remote option specified");
 
         // If running in tun_persist mode, we need to do basic DNS caching so that
         // we can avoid emitting DNS requests while the tunnel is blocked during
         // reconnections.
-        remote_list->set_enable_cache(config.tun_persist);
+        remote_list->set_enable_cache(config.clientconf.tunPersist);
 
         // process server/port/family overrides
-        remote_list->set_server_override(config.server_override);
-        remote_list->set_port_override(config.port_override);
-        remote_list->set_proto_version_override(config.proto_version_override);
+        remote_list->set_server_override(config.clientconf.serverOverride);
+        remote_list->set_port_override(config.clientconf.portOverride);
+        remote_list->set_proto_version_override(config.clientconf.proto_version_override);
 
         // process protocol override, should be called after set_enable_cache
-        remote_list->handle_proto_override(config.proto_override,
+        remote_list->handle_proto_override(config.clientconf.proto_override,
                                            http_proxy_options || (alt_proxy && alt_proxy->requires_tcp()));
 
         // process remote-random
@@ -310,15 +308,23 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         if (alt_proxy)
         {
             remote_list->set_enable_cache(false); // remote server addresses will be resolved by proxy
-            alt_proxy->set_enable_cache(config.tun_persist);
+            alt_proxy->set_enable_cache(config.clientconf.tunPersist);
         }
         else if (http_proxy_options)
         {
             remote_list->set_enable_cache(false); // remote server addresses will be resolved by proxy
-            http_proxy_options->proxy_server_set_enable_cache(config.tun_persist);
+            http_proxy_options->proxy_server_set_enable_cache(config.clientconf.tunPersist);
         }
 
         check_for_incompatible_options(opt);
+
+        // throw an exception if dco is requested but config/options are dco-incompatible
+        bool dco_compatible = false;
+        std::tie(dco_compatible, std::ignore) = check_dco_compatibility(clientconf, opt);
+        if (config.clientconf.dco && !dco_compatible)
+        {
+            throw option_error(ERR_INVALID_CONFIG, "dco_compatibility: config/options are not compatible with dco");
+        }
 
 #ifdef OPENVPN_PLATFORM_UWP
         // workaround for OVPN3-62 Busy loop in win_event.hpp
@@ -349,11 +355,13 @@ class ClientOptions : public RC<thread_unsafe_refcount>
             if (tun_mtu)
                 tunconf.tun_prop.mtu = tun_mtu;
             tunconf.tun_prop.mtu_max = tun_mtu_max;
-            tunconf.tun_prop.google_dns_fallback = config.google_dns_fallback;
+            tunconf.tun_prop.google_dns_fallback = config.clientconf.googleDnsFallback;
+            tunconf.tun_prop.dhcp_search_domains_as_split_domains = config.clientconf.dhcpSearchDomainsAsSplitDomains;
             tunconf.tun_prop.remote_list = remote_list;
             tunconf.stop = config.stop;
+            tunconf.allow_local_dns_resolvers = config.clientconf.allowLocalDnsResolvers;
 #if defined(OPENVPN_PLATFORM_WIN)
-            if (config.tun_persist)
+            if (config.clientconf.tunPersist)
                 tunconf.tun_persist.reset(new TunWin::DcoTunPersist(true, TunWrapObjRetain::NO_RETAIN_NO_REPLACE, nullptr));
 #endif
             tun_factory = dco->new_tun_factory(tunconf, opt);
@@ -365,26 +373,28 @@ class ClientOptions : public RC<thread_unsafe_refcount>
                 ExternalTun::Config tunconf;
                 tunconf.tun_prop.layer = layer;
                 tunconf.tun_prop.session_name = session_name;
-                tunconf.tun_prop.google_dns_fallback = config.google_dns_fallback;
+                tunconf.tun_prop.google_dns_fallback = config.clientconf.googleDnsFallback;
+                tunconf.tun_prop.dhcp_search_domains_as_split_domains = config.clientconf.dhcpSearchDomainsAsSplitDomains;
                 if (tun_mtu)
                     tunconf.tun_prop.mtu = tun_mtu;
                 tunconf.tun_prop.mtu_max = tun_mtu_max;
                 tunconf.frame = frame;
                 tunconf.stats = cli_stats;
                 tunconf.tun_prop.remote_list = remote_list;
-                tunconf.tun_persist = config.tun_persist;
+                tunconf.tun_persist = config.clientconf.tunPersist;
                 tunconf.stop = config.stop;
                 tun_factory.reset(config.extern_tun_factory->new_tun_factory(tunconf, opt));
                 if (!tun_factory)
-                    throw option_error("OPENVPN_EXTERNAL_TUN_FACTORY: no tun factory");
+                    throw option_error(ERR_INVALID_CONFIG, "OPENVPN_EXTERNAL_TUN_FACTORY: no tun factory");
             }
 #elif defined(USE_TUN_BUILDER)
             {
                 TunBuilderClient::ClientConfig::Ptr tunconf = TunBuilderClient::ClientConfig::new_obj();
                 tunconf->builder = config.builder;
                 tunconf->tun_prop.session_name = session_name;
-                tunconf->tun_prop.google_dns_fallback = config.google_dns_fallback;
-                tunconf->tun_prop.allow_local_lan_access = config.allow_local_lan_access;
+                tunconf->tun_prop.google_dns_fallback = config.clientconf.googleDnsFallback;
+                tunconf->tun_prop.dhcp_search_domains_as_split_domains = config.clientconf.dhcpSearchDomainsAsSplitDomains;
+                tunconf->tun_prop.allow_local_lan_access = config.clientconf.allowLocalLanAccess;
                 if (tun_mtu)
                     tunconf->tun_prop.mtu = tun_mtu;
                 tunconf->tun_prop.mtu_max = tun_mtu_max;
@@ -395,7 +405,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 #if defined(OPENVPN_PLATFORM_IPHONE)
                 tunconf->retain_sd = true;
                 tunconf->tun_prefix = true;
-                if (config.tun_persist)
+                if (config.clientconf.tunPersist)
                     tunconf->tun_prop.remote_bypass = true;
 #endif
 #if defined(OPENVPN_PLATFORM_ANDROID)
@@ -413,7 +423,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 #if defined(OPENVPN_PLATFORM_MAC)
                 tunconf->tun_prefix = true;
 #endif
-                if (config.tun_persist)
+                if (config.clientconf.tunPersist)
                     tunconf->tun_persist.reset(new TunBuilderClient::TunPersist(true, tunconf->retain_sd ? TunWrapObjRetain::RETAIN : TunWrapObjRetain::NO_RETAIN, config.builder));
                 tun_factory = tunconf;
             }
@@ -425,12 +435,13 @@ class ClientOptions : public RC<thread_unsafe_refcount>
                 if (tun_mtu)
                     tunconf->tun_prop.mtu = tun_mtu;
                 tunconf->tun_prop.mtu_max = tun_mtu_max;
-                tunconf->tun_prop.google_dns_fallback = config.google_dns_fallback;
-                tunconf->generate_tun_builder_capture_event = config.generate_tun_builder_capture_event;
+                tunconf->tun_prop.google_dns_fallback = config.clientconf.googleDnsFallback;
+                tunconf->tun_prop.dhcp_search_domains_as_split_domains = config.clientconf.dhcpSearchDomainsAsSplitDomains;
+                tunconf->generate_tun_builder_capture_event = config.clientconf.generateTunBuilderCaptureEvent;
                 tunconf->tun_prop.remote_list = remote_list;
                 tunconf->frame = frame;
                 tunconf->stats = cli_stats;
-                if (config.tun_persist)
+                if (config.clientconf.tunPersist)
                     tunconf->tun_persist.reset(new TunLinux::TunPersist(true, TunWrapObjRetain::NO_RETAIN, nullptr));
                 tunconf->load(opt);
                 tun_factory = tunconf;
@@ -440,14 +451,15 @@ class ClientOptions : public RC<thread_unsafe_refcount>
                 TunMac::ClientConfig::Ptr tunconf = TunMac::ClientConfig::new_obj();
                 tunconf->tun_prop.layer = layer;
                 tunconf->tun_prop.session_name = session_name;
-                tunconf->tun_prop.google_dns_fallback = config.google_dns_fallback;
+                tunconf->tun_prop.google_dns_fallback = config.clientconf.googleDnsFallback;
+                tunconf->tun_prop.dhcp_search_domains_as_split_domains = config.clientconf.dhcpSearchDomainsAsSplitDomains;
                 if (tun_mtu)
                     tunconf->tun_prop.mtu = tun_mtu;
                 tunconf->tun_prop.mtu_max = tun_mtu_max;
                 tunconf->frame = frame;
                 tunconf->stats = cli_stats;
                 tunconf->stop = config.stop;
-                if (config.tun_persist)
+                if (config.clientconf.tunPersist)
                 {
                     tunconf->tun_persist.reset(new TunMac::TunPersist(true, TunWrapObjRetain::NO_RETAIN, nullptr));
 #ifndef OPENVPN_COMMAND_AGENT
@@ -467,15 +479,17 @@ class ClientOptions : public RC<thread_unsafe_refcount>
                 TunWin::ClientConfig::Ptr tunconf = TunWin::ClientConfig::new_obj();
                 tunconf->tun_prop.layer = layer;
                 tunconf->tun_prop.session_name = session_name;
-                tunconf->tun_prop.google_dns_fallback = config.google_dns_fallback;
+                tunconf->tun_prop.google_dns_fallback = config.clientconf.googleDnsFallback;
+                tunconf->tun_prop.dhcp_search_domains_as_split_domains = config.clientconf.dhcpSearchDomainsAsSplitDomains;
                 if (tun_mtu)
                     tunconf->tun_prop.mtu = tun_mtu;
                 tunconf->tun_prop.mtu_max = tun_mtu_max;
                 tunconf->frame = frame;
                 tunconf->stats = cli_stats;
                 tunconf->stop = config.stop;
-                tunconf->tun_type = config.wintun ? TunWin::Wintun : TunWin::TapWindows6;
-                if (config.tun_persist)
+                tunconf->tun_type = config.clientconf.wintun ? TunWin::Wintun : TunWin::TapWindows6;
+                tunconf->allow_local_dns_resolvers = config.clientconf.allowLocalDnsResolvers;
+                if (config.clientconf.tunPersist)
                 {
                     tunconf->tun_persist.reset(new TunWin::TunPersist(true, TunWrapObjRetain::NO_RETAIN, nullptr));
 #ifndef OPENVPN_COMMAND_AGENT
@@ -519,15 +533,11 @@ class ClientOptions : public RC<thread_unsafe_refcount>
             {
                 cc->set_username(userlocked_username);
                 cc->set_password(pcc.embeddedPassword());
-                cc->enable_password_cache(true);
-                cc->set_replace_password_with_session_id(true);
                 submit_creds(cc);
                 creds_locked = true;
             }
             else if (autologin_sessions)
             {
-                // autologin sessions require replace_password_with_session_id
-                cc->set_replace_password_with_session_id(true);
                 submit_creds(cc);
                 creds_locked = true;
             }
@@ -562,11 +572,11 @@ class ClientOptions : public RC<thread_unsafe_refcount>
                 const unsigned int n6 = push_base->singleton.extend(opt, "block-ipv6");
                 const unsigned int n4 = push_base->singleton.extend(opt, "block-ipv4");
 
-                if (!n6 && config.allowUnusedAddrFamilies() == TriStateSetting::No)
+                if (!n6 && config.clientconf.allowUnusedAddrFamilies() == TriStateSetting::No)
                 {
                     push_base->singleton.emplace_back("block-ipv6");
                 }
-                if (!n4 && config.allowUnusedAddrFamilies() == TriStateSetting::No)
+                if (!n4 && config.clientconf.allowUnusedAddrFamilies() == TriStateSetting::No)
                 {
                     push_base->singleton.emplace_back("block-ipv4");
                 }
@@ -576,23 +586,89 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         handle_unused_options(opt);
     }
 
+    // If those options are present, dco cannot be used
+    inline static std::unordered_set<std::string> dco_incompatible_opts = {
+        "http-proxy",
+        "compress",
+        "comp-lzo"};
+
+
+    /** Checks if there are dco-incompatible options in options list or config has
+     * dco-incompatible settings. Return dcoCompatible flag and dcoIncompatibilityReason
+     * string property (if applicable)  */
+    static std::tuple<bool, std::string> check_dco_compatibility(const ClientAPI::ConfigCommon &config, const OptionList &opt)
+    {
+#if defined(ENABLE_KOVPN)
+        // only care about dco/dco-win
+        return std::make_tuple(true, "");
+#else
+
+        std::vector<std::string> reasons;
+
+        for (auto &optname : dco_incompatible_opts)
+        {
+            if (opt.exists(optname))
+            {
+                reasons.push_back("option " + optname + " is not compatible with dco");
+            }
+        }
+
+        if (config.enableLegacyAlgorithms)
+        {
+            reasons.emplace_back("legacy algorithms are not compatible with dco");
+        }
+
+        if (config.enableNonPreferredDCAlgorithms)
+        {
+            reasons.emplace_back("non-preferred data channel algorithms are not compatible with dco");
+        }
+
+        if (!config.proxyHost.empty())
+        {
+            reasons.emplace_back("proxyHost config setting is not compatible with dco");
+        }
+
+        if (reasons.empty())
+        {
+            return std::make_tuple(true, "");
+        }
+        else
+        {
+            return std::make_tuple(false, string::join(reasons, "\n"));
+        }
+#endif
+    }
+
     void check_for_incompatible_options(const OptionList &opt)
     {
         // secret option not supported
         if (opt.exists("secret"))
-            throw option_error("sorry, static key encryption mode (non-SSL/TLS) is not supported");
+            throw option_error(ERR_INVALID_OPTION_CRYPTO, "sorry, static key encryption mode (non-SSL/TLS) is not supported");
 
         // fragment option not supported
         if (opt.exists("fragment"))
-            throw option_error("sorry, 'fragment' directive is not supported, nor is connecting to a server that uses 'fragment' directive");
+            throw option_error(ERR_INVALID_OPTION_VAL, "sorry, 'fragment' directive is not supported, nor is connecting to a server that uses 'fragment' directive");
+
+        if (!opt.exists("client"))
+            throw option_error(ERR_INVALID_CONFIG, "Neither 'client' nor both 'tls-client' and 'pull' options declared. OpenVPN3 client only supports --client mode.");
 
         // Only p2p mode accept
         if (opt.exists("mode"))
         {
-            auto mode = opt.get("mode");
-            if (mode.size() != 1 || mode.get(1, 128) != "p2p")
+            const auto &mode = opt.get("mode");
+            if (mode.size() != 2 || mode.get(1, 128) != "p2p")
             {
-                throw option_error("Only 'mode p2p' supported");
+                throw option_error(ERR_INVALID_CONFIG, "Only 'mode p2p' supported");
+            }
+        }
+
+        // key-method 2 is the only thing that 2.5+ and 3.x support
+        if (opt.exists("key-method"))
+        {
+            auto keymethod = opt.get("key-method");
+            if (keymethod.size() != 2 || keymethod.get(1, 128) != "2")
+            {
+                throw option_error(ERR_INVALID_OPTION_VAL, "Only 'key-method 2' is supported: " + keymethod.get(1, 128));
             }
         }
     }
@@ -600,7 +676,6 @@ class ClientOptions : public RC<thread_unsafe_refcount>
     std::unordered_set<std::string> settings_ignoreWithWarning = {
         "allow-compression", /* TODO: maybe check against our client option compression setting? */
         "allow-recursive-routing",
-        "auth-nocache",
         "auth-retry",
         "compat-mode",
         "connect-retry",
@@ -634,11 +709,13 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         "replay-window",
         "resolv-retry",
         "route-method", /* Windows specific fine tuning option */
+        "route-delay",
         "show-net-up",
         "socket-flags",
         "suppress-timestamps", /* harmless to ignore  */
         "tcp-nodelay",
         "tls-version-max", /* We don't allow restricting max version */
+        "tun-mtu-extra",   /* (only really used in tap in OpenVPN 2.x)*/
         "udp-mtu",         /* Alias for link-mtu */
         "user",
     };
@@ -708,8 +785,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         "status",
         "status-version",
         "syslog",
-        "tls-server",    /* No p2p mode in v3 */
-        "tun-mtu-extra", /*(only really used in tap in OpenVPN 2.x)*/
+        "tls-server", /* No p2p mode in v3 */
         "verify-hash",
         "win-sys",
         "writepid",
@@ -744,7 +820,10 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         "key-derivation",
         "peer-id",
         "protocol-flags",
-    };
+        "ifconfig",
+        "ifconfig-ipv6",
+        "topology",
+        "route-gateway"};
 
     /* Features related to scripts/plugins */
     std::unordered_set<std::string> settings_script_plugin_feature = {
@@ -779,7 +858,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 
     /* Deprecated/throwing error in OpenVPN 2.x already: */
     std::unordered_set<std::string> settings_removedOptions = {
-        "mtu-dynamic", "no-replay", "no-name-remapping", "compat-names", "ncp-disable"};
+        "mtu-dynamic", "no-replay", "no-name-remapping", "compat-names", "ncp-disable", "no-iv"};
 
     std::unordered_set<std::string> settings_ignoreSilently = {
         "ecdh-curve", /* Deprecated in v2, not needed with modern OpenSSL */
@@ -792,11 +871,58 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         "replay-persist", /* Makes little sense in TLS mode */
         "script-security",
         "sndbuf",
-        "tls-client", /* Always enabled */
         "tmp-dir",
         "tun-ipv6",   /* ignored in v2 as well */
         "txqueuelen", /* so platforms evaluate that in tun, some do not, do not warn about that */
         "verb"};
+
+    class OptionErrors
+    {
+      public:
+        void add_failed_opt(const Option &o, const std::string &message, bool fatal_arg)
+        {
+            if (options_per_category.find(message) == options_per_category.end())
+            {
+                options_per_category[message] = {};
+            }
+
+            fatal |= fatal_arg;
+            options_per_category[message].push_back(o);
+        }
+
+        void print_option_errors()
+        {
+            std::ostringstream os;
+
+            for (const auto &[category, options] : options_per_category)
+            {
+                if (!options.empty())
+                {
+                    OPENVPN_LOG(category);
+
+                    os << category << ": ";
+                    std::vector<std::string> opts;
+                    for (size_t i = 0; i < options.size(); ++i)
+                    {
+                        auto &o = options[i];
+                        OPENVPN_LOG(std::to_string(i) << ' ' << o.render(Option::RENDER_BRACKET | Option::RENDER_TRUNC_64));
+                        opts.push_back(o.get(0, 64));
+                    }
+
+                    os << string::join(opts, ",") << std::endl;
+                }
+            }
+
+            if (fatal)
+            {
+                throw ErrorCode(Error::UNUSED_OPTIONS, true, os.str());
+            }
+        }
+
+      private:
+        std::map<std::string, std::vector<Option>> options_per_category;
+        bool fatal = false;
+    };
 
     /**
      * This groups all the options that OpenVPN 2.x supports that the
@@ -819,8 +945,8 @@ class ClientOptions : public RC<thread_unsafe_refcount>
             "WSHOST",
             "WEB_CA_BUNDLE",
             "IS_OPENVPN_WEB_CA",
-            "OVPN_ACCESS_SERVER_NO_WEB",
-        };
+            "NO_WEB",
+            "ORGANIZATION"};
 
         std::unordered_set<std::string> ignore_unknown_option_list;
 
@@ -832,7 +958,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
                 const Option &o = opt[igUnOptIdx];
                 for (size_t i = 1; i < o.size(); i++)
                 {
-                    auto optionToIgnore = o.get(i, 0);
+                    const auto &optionToIgnore = o.get(i, 0);
 
                     ignore_unknown_option_list.insert(optionToIgnore);
                 }
@@ -859,72 +985,64 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 
         OPENVPN_LOG_NTNL("NOTE: This configuration contains options that were not used:" << std::endl);
 
+        OptionErrors errors{};
+
         /* Go through all options and check all options that have not been
          * touched (parsed) yet */
-        showUnusedOptionsByList(opt, settings_removedOptions, "Removed deprecated option", true);
-        showUnusedOptionsByList(opt, settings_serverOnlyOptions, "Server only option", true);
-        showUnusedOptionsByList(opt, settings_standalone_options, "OpenVPN 2.x command line operation", true);
-        showUnusedOptionsByList(opt, settings_feature_not_implemented_warn, "Feature not implemented (option ignored)", false);
-        showUnusedOptionsByList(opt, settings_pushonlyoptions, "Option allowed only to be pushed by the server", true);
-
-        showUnusedOptionsByList(opt, settings_feature_not_implemented_warn, "feature not implemented/available", false);
-        showUnusedOptionsByList(opt, settings_script_plugin_feature, "Ignored (no script/plugin support)", false);
-        showUnusedOptionsByList(opt, ignore_unknown_option_list, "Ignored by option 'ignore-unknown-option'", false);
-        showUnusedOptionsByList(opt, settings_ignoreWithWarning, "Unsupported option (ignored)", false);
+        showUnusedOptionsByList(opt, settings_removedOptions, "Removed deprecated option", true, errors);
+        showUnusedOptionsByList(opt, settings_serverOnlyOptions, "Server only option", true, errors);
+        showUnusedOptionsByList(opt, settings_standalone_options, "OpenVPN 2.x command line operation", true, errors);
+        showUnusedOptionsByList(opt, settings_feature_not_implemented_warn, "Feature not implemented (option ignored)", false, errors);
+        showUnusedOptionsByList(opt, settings_pushonlyoptions, "Option allowed only to be pushed by the server", true, errors);
+        showUnusedOptionsByList(opt, settings_script_plugin_feature, "Ignored (no script/plugin support)", false, errors);
+        showUnusedOptionsByList(opt, ignore_unknown_option_list, "Ignored by option 'ignore-unknown-option'", false, errors);
+        showUnusedOptionsByList(opt, settings_ignoreWithWarning, "Unsupported option (ignored)", false, errors);
 
         auto ignoredBySetenvOpt = [](const Option &option)
         { return !option.touched() && option.warnonlyunknown(); };
-        showOptionsByFunction(opt, ignoredBySetenvOpt, "Ignored options prefixed with 'setenv opt'", false);
+        showOptionsByFunction(opt, ignoredBySetenvOpt, "Ignored options prefixed with 'setenv opt'", false, errors);
 
         auto unusedMetaOpt = [](const Option &option)
         { return !option.touched() && option.meta(); };
-        showOptionsByFunction(opt, unusedMetaOpt, "Unused ignored meta options", false);
+        showOptionsByFunction(opt, unusedMetaOpt, "Unused ignored meta options", false, errors);
 
         auto managmentOpt = [](const Option &option)
         { return !option.touched() && option.get(0, 0).rfind("management", 0) == 0; };
-        showOptionsByFunction(opt, managmentOpt, "OpenVPN management interface is not supported by this client", true);
+        showOptionsByFunction(opt, managmentOpt, "OpenVPN management interface is not supported by this client", true, errors);
 
         // If we still have options that are unaccounted for, we print them and throw an error or just warn about them
         auto onlyLightlyTouchedOptions = [](const Option &option)
         { return option.touched_lightly(); };
-        showOptionsByFunction(opt, onlyLightlyTouchedOptions, "Unused options, probably specified multiple times in the configuration file", false);
+        showOptionsByFunction(opt, onlyLightlyTouchedOptions, "Unused options, probably specified multiple times in the configuration file", false, errors);
 
         auto nonTouchedOptions = [](const Option &option)
         { return !option.touched() && !option.touched_lightly(); };
-        showOptionsByFunction(opt, nonTouchedOptions, OPENVPN_UNUSED_OPTIONS, true);
+        showOptionsByFunction(opt, nonTouchedOptions, OPENVPN_UNUSED_OPTIONS, true, errors);
+
+        errors.print_option_errors();
     }
 
-    void showUnusedOptionsByList(const OptionList &optlist, std::unordered_set<std::string> option_set, const std::string &message, bool fatal)
+    void showUnusedOptionsByList(const OptionList &optlist, std::unordered_set<std::string> option_set, const std::string &message, bool fatal, OptionErrors &errors)
     {
         auto func = [&option_set](const Option &opt)
         { return !opt.touched() && option_set.find(opt.get(0, 0)) != option_set.end(); };
-        showOptionsByFunction(optlist, func, message, fatal);
+        showOptionsByFunction(optlist, func, message, fatal, errors);
     }
 
     /* lambda expression that capture variables have complex signatures, avoid these by letting the compiler
      * itself figure it out with a template */
     template <typename T>
-    void showOptionsByFunction(const OptionList &opt, T func, const std::string &message, bool fatal)
+    void showOptionsByFunction(const OptionList &opt, T func, const std::string &message, bool fatal, OptionErrors &errors)
     {
-        bool messageShown = false;
         for (size_t i = 0; i < opt.size(); ++i)
         {
             auto &o = opt[i];
             if (func(o))
             {
-                if (!messageShown)
-                {
-                    OPENVPN_LOG(message);
-                    messageShown = true;
-                }
                 o.touch();
 
-                OPENVPN_LOG_NTNL(std::to_string(i) << ' ' << o.render(Option::RENDER_BRACKET | Option::RENDER_TRUNC_64) << std::endl);
+                errors.add_failed_opt(o, message, fatal);
             }
-        }
-        if (fatal && messageShown)
-        {
-            throw option_error("sorry, unsupported options present in configuration: " + message);
         }
     }
 
@@ -938,6 +1056,19 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 
         if (pcc.pushPeerInfo())
         {
+            /* If we override the HWADDR, we add it at this time statically. If we need to
+             * dynamically discover it from the transport it will be added in
+             * \c build_connect_time_peer_info_string instead */
+            if (!config.clientconf.hwAddrOverride.empty())
+            {
+                pi->emplace_back("IV_HWADDR", config.clientconf.hwAddrOverride);
+            }
+
+            pi->emplace_back("IV_SSL", get_ssl_library_version());
+
+            if (!config.clientconf.platformVersion.empty())
+                pi->emplace_back("IV_PLAT_VER", config.clientconf.platformVersion);
+
             /* ensure that we use only one variable with the same name */
             std::unordered_map<std::string, std::string> extra_values;
 
@@ -965,26 +1096,16 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         }
 
         // UI version
-        if (!config.gui_version.empty())
-            pi->emplace_back("IV_GUI_VER", config.gui_version);
+        if (!config.clientconf.guiVersion.empty())
+            pi->emplace_back("IV_GUI_VER", config.clientconf.guiVersion);
 
         // Supported SSO methods
-        if (!config.sso_methods.empty())
-            pi->emplace_back("IV_SSO", config.sso_methods);
+        if (!config.clientconf.ssoMethods.empty())
+            pi->emplace_back("IV_SSO", config.clientconf.ssoMethods);
 
-        // MAC address
-        if (pcc.pushPeerInfo())
-        {
-            std::string hwaddr = get_hwaddr();
-            if (!config.hw_addr_override.empty())
-                pi->emplace_back("IV_HWADDR", config.hw_addr_override);
-            else if (!hwaddr.empty())
-                pi->emplace_back("IV_HWADDR", hwaddr);
-            pi->emplace_back("IV_SSL", get_ssl_library_version());
+        if (!config.clientconf.appCustomProtocols.empty())
+            pi->emplace_back("IV_ACC", "2048,6:A," + config.clientconf.appCustomProtocols);
 
-            if (!config.platform_version.empty())
-                pi->emplace_back("IV_PLAT_VER", config.platform_version);
-        }
         return pi;
     }
 
@@ -1014,16 +1135,23 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 
     bool retry_on_auth_failed() const
     {
-        return retry_on_auth_failed_;
+        return clientconf.retryOnAuthFailed;
     }
 
+    /**
+     * Return a client configuration to be used as configuration for the
+     * control layer.
+     *
+     * Will basically copy a subset of this configuration object to a new
+     * smaller configuration object
+     */
     Client::Config::Ptr client_config(const bool relay_mode)
     {
         Client::Config::Ptr cli_config = new Client::Config;
 
         // Copy ProtoConfig so that modifications due to server push will
         // not persist across client instantiations.
-        cli_config->proto_context_config.reset(new Client::ProtoConfig(proto_config_cached(relay_mode)));
+        cli_config->proto_context_config.reset(new ProtoContext::ProtoConfig(proto_config_cached(relay_mode)));
 
         cli_config->proto_context_options = proto_context_options;
         cli_config->push_base = push_base;
@@ -1034,9 +1162,16 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         cli_config->creds = creds;
         cli_config->pushed_options_filter = pushed_options_filter;
         cli_config->tcp_queue_limit = tcp_queue_limit;
-        cli_config->echo = echo;
-        cli_config->info = info;
+        cli_config->echo = clientconf.echo;
+        cli_config->info = clientconf.info;
         cli_config->autologin_sessions = autologin_sessions;
+
+        // if the previous client instance had session-id, it must be used by the new instance too
+        if (creds && creds->session_id_defined())
+        {
+            cli_config->proto_context_config->set_xmit_creds(true);
+        }
+
         return cli_config;
     }
 
@@ -1061,7 +1196,10 @@ class ClientOptions : public RC<thread_unsafe_refcount>
             // if no username is defined in creds and userlocked_username is defined
             // in profile, set the creds username to be the userlocked_username
             if (!creds_arg->username_defined() && !userlocked_username.empty())
+            {
                 creds_arg->set_username(userlocked_username);
+                creds_arg->save_username_for_session_id();
+            }
             creds = creds_arg;
         }
     }
@@ -1095,7 +1233,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 
     int conn_timeout() const
     {
-        return conn_timeout_;
+        return clientconf.connTimeout;
     }
 
     bool asio_work_always_on() const
@@ -1133,7 +1271,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
     }
 
   private:
-    Client::ProtoConfig &proto_config_cached(const bool relay_mode)
+    ProtoContext::ProtoConfig &proto_config_cached(const bool relay_mode)
     {
         if (relay_mode && cp_relay)
             return *cp_relay;
@@ -1141,14 +1279,14 @@ class ClientOptions : public RC<thread_unsafe_refcount>
             return *cp_main;
     }
 
-    Client::ProtoConfig::Ptr proto_config(const OptionList &opt,
-                                          const Config &config,
-                                          const ParseClientConfig &pcc,
-                                          const bool relay_mode)
+    ProtoContext::ProtoConfig::Ptr proto_config(const OptionList &opt,
+                                                const Config &config,
+                                                const ParseClientConfig &pcc,
+                                                const bool relay_mode)
     {
         // relay mode is null unless one of the below directives is defined
         if (relay_mode && !opt.exists("relay-mode"))
-            return Client::ProtoConfig::Ptr();
+            return ProtoContext::ProtoConfig::Ptr();
 
         // load flags
         unsigned int lflags = SSLConfigAPI::LF_PARSE_MODE;
@@ -1157,28 +1295,26 @@ class ClientOptions : public RC<thread_unsafe_refcount>
 
         // client SSL config
         SSLLib::SSLAPI::Config::Ptr cc(new SSLLib::SSLAPI::Config());
-        cc->set_external_pki_callback(config.external_pki);
+        cc->set_external_pki_callback(config.external_pki, config.clientconf.external_pki_alias);
         cc->set_frame(frame);
         cc->set_flags(SSLConst::LOG_VERIFY_STATUS);
-        cc->set_debug_level(config.ssl_debug_level);
+        cc->set_debug_level(config.clientconf.sslDebugLevel);
         cc->set_rng(rng);
-        cc->set_local_cert_enabled(pcc.clientCertEnabled() && !config.disable_client_cert);
+        cc->set_local_cert_enabled(pcc.clientCertEnabled() && !config.clientconf.disableClientCert);
         /* load depends on private key password and legacy algorithms */
-        cc->enable_legacy_algorithms(config.enable_legacy_algorithms);
-        cc->set_private_key_password(config.private_key_password);
+        cc->enable_legacy_algorithms(config.clientconf.enableLegacyAlgorithms);
+        cc->set_private_key_password(config.clientconf.privateKeyPassword);
         cc->load(opt, lflags);
-        cc->set_tls_version_min_override(config.tls_version_min_override);
-        cc->set_tls_cert_profile_override(config.tls_cert_profile_override);
-        cc->set_tls_cipher_list(config.tls_cipher_list);
-        cc->set_tls_ciphersuite_list(config.tls_ciphersuite_list);
-        if (!cc->get_mode().is_client())
-            throw option_error("only client configuration supported");
+        cc->set_tls_version_min_override(config.clientconf.tlsVersionMinOverride);
+        cc->set_tls_cert_profile_override(config.clientconf.tlsCertProfileOverride);
+        cc->set_tls_cipher_list(config.clientconf.tlsCipherList);
+        cc->set_tls_ciphersuite_list(config.clientconf.tlsCiphersuitesList);
 
         // client ProtoContext config
-        Client::ProtoConfig::Ptr cp(new Client::ProtoConfig());
+        ProtoContext::ProtoConfig::Ptr cp(new ProtoContext::ProtoConfig());
         cp->ssl_factory = cc->new_factory();
         cp->relay_mode = relay_mode;
-        cp->dc.set_factory(new CryptoDCSelect<SSLLib::CryptoAPI>(cp->ssl_factory->libctx(), frame, cli_stats, prng));
+        cp->dc.set_factory(new CryptoDCSelect<SSLLib::CryptoAPI>(cp->ssl_factory->libctx(), frame, cli_stats, rng));
         cp->dc_deferred = true; // defer data channel setup until after options pull
         cp->tls_auth_factory.reset(new CryptoOvpnHMACFactory<SSLLib::CryptoAPI>());
         cp->tls_crypt_factory.reset(new CryptoTLSCryptFactory<SSLLib::CryptoAPI>());
@@ -1187,6 +1323,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         cp->load(opt, *proto_context_options, config.default_key_direction, false);
         cp->set_xmit_creds(!autologin || pcc.hasEmbeddedPassword() || autologin_sessions);
         cp->extra_peer_info = build_peer_info(config, pcc, autologin_sessions);
+        cp->extra_peer_info_push_peerinfo = pcc.pushPeerInfo();
         cp->frame = frame;
         cp->now = &now_;
         cp->rng = rng;
@@ -1234,7 +1371,7 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         else if (alt_proxy)
         {
             if (alt_proxy->requires_tcp() && !transport_protocol.is_tcp())
-                throw option_error("internal error: no TCP server entries for " + alt_proxy->name() + " transport");
+                throw option_error(ERR_INVALID_CONFIG, "internal error: no TCP server entries for " + alt_proxy->name() + " transport");
             AltProxy::Config conf;
             conf.remote_list = remote_list;
             conf.frame = frame;
@@ -1247,14 +1384,14 @@ class ClientOptions : public RC<thread_unsafe_refcount>
         else if (http_proxy_options)
         {
             if (!transport_protocol.is_tcp())
-                throw option_error("internal error: no TCP server entries for HTTP proxy transport");
+                throw option_error(ERR_INVALID_CONFIG, "internal error: no TCP server entries for HTTP proxy transport");
 
             // HTTP Proxy transport
             HTTPProxyTransport::ClientConfig::Ptr httpconf = HTTPProxyTransport::ClientConfig::new_obj();
             httpconf->remote_list = remote_list;
             httpconf->frame = frame;
             httpconf->stats = cli_stats;
-            httpconf->digest_factory.reset(new CryptoDigestFactory<SSLLib::CryptoAPI>());
+            httpconf->digest_factory.reset(new CryptoDigestFactory<SSLLib::CryptoAPI>(cp_main->ssl_factory->libctx()));
             httpconf->socket_protect = socket_protect;
             httpconf->http_proxy_options = http_proxy_options;
             httpconf->rng = rng;
@@ -1302,19 +1439,21 @@ class ClientOptions : public RC<thread_unsafe_refcount>
                 transport_factory = tcpconf;
             }
             else
-                throw option_error("internal error: unknown transport protocol");
+                throw option_error(ERR_INVALID_OPTION_VAL, "internal error: unknown transport protocol");
         }
 #endif // OPENVPN_EXTERNAL_TRANSPORT_FACTORY
         return remote_list->current_server_host();
     }
+    // General client options.
+    ClientConfigParsed clientconf;
 
     Time now_; // current time
-    RandomAPI::Ptr rng;
+    StrongRandomAPI::Ptr rng;
     RandomAPI::Ptr prng;
     Frame::Ptr frame;
     Layer layer;
-    Client::ProtoConfig::Ptr cp_main;
-    Client::ProtoConfig::Ptr cp_relay;
+    ProtoContext::ProtoConfig::Ptr cp_main;
+    ProtoContext::ProtoConfig::Ptr cp_relay;
     RemoteList::Ptr remote_list;
     bool server_addr_float;
     TransportClientFactory::Ptr transport_factory;
@@ -1325,25 +1464,18 @@ class ClientOptions : public RC<thread_unsafe_refcount>
     ClientEvent::Queue::Ptr cli_events;
     ClientCreds::Ptr creds;
     unsigned int server_poll_timeout_;
-    std::string server_override;
-    std::string port_override;
-    Protocol proto_override;
-    int conn_timeout_;
     unsigned int tcp_queue_limit;
-    ProtoContextOptions::Ptr proto_context_options;
+    ProtoContextCompressionOptions::Ptr proto_context_options;
     HTTPProxyTransport::Options::Ptr http_proxy_options;
 #ifdef OPENVPN_GREMLIN
     Gremlin::Config::Ptr gremlin_config;
 #endif
     std::string userlocked_username;
-    bool echo;
-    bool info;
     bool autologin;
     bool autologin_sessions;
     bool creds_locked;
     bool asio_work_always_on_;
     bool synchronous_dns_lookup;
-    bool retry_on_auth_failed_;
     PushOptionsBase::Ptr push_base;
     OptionList::FilterBase::Ptr pushed_options_filter;
     ClientLifeCycle::Ptr client_lifecycle;

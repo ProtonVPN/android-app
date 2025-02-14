@@ -2,7 +2,7 @@
  *  openvpnmsica -- Custom Action DLL to provide OpenVPN-specific support to MSI packages
  *                  https://community.openvpn.net/openvpn/wiki/OpenVPNMSICA
  *
- *  Copyright (C) 2018-2023 Simon Rozman <simon@rozman.si>
+ *  Copyright (C) 2018-2024 Simon Rozman <simon@rozman.si>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -20,8 +20,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#elif defined(_MSC_VER)
-#include <config-msvc.h>
 #endif
 #include <winsock2.h> /* Must be included _before_ <windows.h> */
 
@@ -61,9 +59,10 @@
  * Local constants
  */
 
-#define MSICA_ADAPTER_TICK_SIZE (16*1024) /** Amount of tick space to reserve for one TAP/TUN adapter creation/deletition. */
+/** Amount of tick space to reserve for one TAP/TUN adapter creation/deletition. */
+#define MSICA_ADAPTER_TICK_SIZE        (16 * 1024)
 
-#define FILE_NEED_REBOOT        L".ovpn_need_reboot"
+#define FILE_NEED_REBOOT               L".ovpn_need_reboot"
 
 #define OPENVPN_CONNECT_ADAPTER_SUBSTR L"OpenVPN Connect"
 
@@ -90,7 +89,9 @@ setup_sequence(
     free(szSequence);
     if (uiResult != ERROR_SUCCESS)
     {
-        SetLastError(uiResult); /* MSDN does not mention MsiSetProperty() to set GetLastError(). But we do have an error code. Set last error manually. */
+        /* MSDN does not mention MsiSetProperty() to set GetLastError(). But we do have an error
+         * code. Set last error manually. */
+        SetLastError(uiResult);
         msg(M_NONFATAL | M_ERRNO, "%s: MsiSetProperty(\"%" PRIsLPTSTR "\") failed", __FUNCTION__, szProperty);
         return uiResult;
     }
@@ -302,7 +303,7 @@ cleanup_pAdapterList:
 UINT __stdcall
 FindSystemInfo(_In_ MSIHANDLE hInstall)
 {
-#ifdef _MSC_VER
+#ifdef DLLEXP_EXPORT
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
 
@@ -339,7 +340,7 @@ FindSystemInfo(_In_ MSIHANDLE hInstall)
 UINT __stdcall
 CloseOpenVPNGUI(_In_ MSIHANDLE hInstall)
 {
-#ifdef _MSC_VER
+#ifdef DLLEXP_EXPORT
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
     UNREFERENCED_PARAMETER(hInstall); /* This CA is does not interact with MSI session (report errors, access properties, tables, etc.). */
@@ -362,7 +363,7 @@ CloseOpenVPNGUI(_In_ MSIHANDLE hInstall)
 UINT __stdcall
 StartOpenVPNGUI(_In_ MSIHANDLE hInstall)
 {
-#ifdef _MSC_VER
+#ifdef DLLEXP_EXPORT
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
 
@@ -635,7 +636,7 @@ schedule_adapter_delete(
 UINT __stdcall
 EvaluateTUNTAPAdapters(_In_ MSIHANDLE hInstall)
 {
-#ifdef _MSC_VER
+#ifdef DLLEXP_EXPORT
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
 
@@ -788,7 +789,7 @@ EvaluateTUNTAPAdapters(_In_ MSIHANDLE hInstall)
                 {
                     goto cleanup_szDisplayName;
                 }
-#ifdef __GNUC__
+#if defined(__GNUC__) || defined(__clang__)
 /*
  * warning: enumeration value ‘MSICONDITION_TRUE’ not handled in switch
  * warning: enumeration value ‘MSICONDITION_NONE’ not handled in switch
@@ -808,7 +809,7 @@ EvaluateTUNTAPAdapters(_In_ MSIHANDLE hInstall)
                         free(szValue);
                         goto cleanup_szDisplayName;
                 }
-#ifdef __GNUC__
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
 #endif
                 free(szValue);
@@ -964,7 +965,7 @@ CreateRebootFile(_In_z_ LPCWSTR szTmpDir)
 UINT __stdcall
 ProcessDeferredAction(_In_ MSIHANDLE hInstall)
 {
-#ifdef _MSC_VER
+#ifdef DLLEXP_EXPORT
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
 
@@ -1164,7 +1165,7 @@ cleanup_CoInitialize:
 UINT __stdcall
 CheckAndScheduleReboot(_In_ MSIHANDLE hInstall)
 {
-#ifdef _MSC_VER
+#ifdef DLLEXP_EXPORT
 #pragma comment(linker, DLLEXP_EXPORT)
 #endif
 

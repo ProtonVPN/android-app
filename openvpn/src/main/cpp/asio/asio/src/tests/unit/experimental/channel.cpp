@@ -2,7 +2,7 @@
 // experimental/channel.cpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +17,7 @@
 #include "asio/experimental/channel.hpp"
 
 #include <utility>
+#include "asio/any_completion_handler.hpp"
 #include "asio/bind_executor.hpp"
 #include "asio/bind_immediate_executor.hpp"
 #include "asio/error.hpp"
@@ -658,6 +659,210 @@ void buffered_executor_send()
   ASIO_CHECK(!ec1);
 }
 
+void try_send_via_dispatch()
+{
+  io_context ctx;
+
+  channel<void(asio::error_code, std::string)> ch1(ctx);
+
+  asio::error_code ec1 = asio::error::would_block;
+  std::string s1;
+  ch1.async_receive(
+      bind_executor(asio::system_executor(),
+        [&](asio::error_code ec, std::string s)
+        {
+          ec1 = ec;
+          s1 = std::move(s);
+        }));
+
+  ASIO_CHECK(ec1 == asio::error::would_block);
+
+  ctx.poll();
+
+  ASIO_CHECK(ec1 == asio::error::would_block);
+
+  std::string s2 = "0123456789";
+  ch1.try_send_via_dispatch(asio::error::eof, std::move(s2));
+
+  ASIO_CHECK(ec1 == asio::error::eof);
+  ASIO_CHECK(s1 == "0123456789");
+  ASIO_CHECK(s2.empty());
+}
+
+void try_send_n_via_dispatch()
+{
+  io_context ctx;
+
+  channel<void(asio::error_code, std::string)> ch1(ctx);
+
+  asio::error_code ec1 = asio::error::would_block;
+  std::string s1;
+  ch1.async_receive(
+      bind_executor(asio::system_executor(),
+        [&](asio::error_code ec, std::string s)
+        {
+          ec1 = ec;
+          s1 = std::move(s);
+        }));
+
+  ASIO_CHECK(ec1 == asio::error::would_block);
+
+  asio::error_code ec2 = asio::error::would_block;
+  std::string s2;
+  ch1.async_receive(
+      bind_executor(asio::system_executor(),
+        [&](asio::error_code ec, std::string s)
+        {
+          ec2 = ec;
+          s2 = std::move(s);
+        }));
+
+  ASIO_CHECK(ec1 == asio::error::would_block);
+
+  ctx.poll();
+
+  ASIO_CHECK(ec1 == asio::error::would_block);
+  ASIO_CHECK(ec2 == asio::error::would_block);
+
+  std::string s3 = "0123456789";
+  ch1.try_send_n_via_dispatch(2, asio::error::eof, std::move(s3));
+
+  ASIO_CHECK(ec1 == asio::error::eof);
+  ASIO_CHECK(s1 == "0123456789");
+  ASIO_CHECK(ec2 == asio::error::eof);
+  ASIO_CHECK(s2 == "0123456789");
+  ASIO_CHECK(s3.empty());
+}
+
+struct multi_signature_handler
+{
+  std::string* s_;
+  asio::error_code* ec_;
+
+  void operator()(std::string s)
+  {
+    *s_ = s;
+  }
+
+  void operator()(asio::error_code ec)
+  {
+    *ec_ = ec;
+  }
+};
+
+void implicit_error_signature_channel_test()
+{
+  io_context ctx;
+
+  channel<void(std::string)> ch1(ctx);
+
+  ASIO_CHECK(ch1.is_open());
+  ASIO_CHECK(!ch1.ready());
+
+  bool b1 = ch1.try_send("hello");
+
+  ASIO_CHECK(!b1);
+
+  std::string s1 = "abcdefghijklmnopqrstuvwxyz";
+  bool b2 = ch1.try_send(std::move(s1));
+
+  ASIO_CHECK(!b2);
+  ASIO_CHECK(!s1.empty());
+
+  std::string s2;
+  asio::error_code ec1 = asio::error::would_block;
+  multi_signature_handler h1 = {&s2, &ec1};
+  ch1.async_receive(h1);
+
+  bool b3 = ch1.try_send(std::move(s1));
+
+  ASIO_CHECK(b3);
+  ASIO_CHECK(s1.empty());
+
+  ctx.run();
+
+  ASIO_CHECK(s2 == "abcdefghijklmnopqrstuvwxyz");
+  ASIO_CHECK(ec1 == asio::error::would_block);
+
+  std::string s3;
+  asio::error_code ec2;
+  multi_signature_handler h2 = {&s3, &ec2};
+  bool b4 = ch1.try_receive(h2);
+
+  ASIO_CHECK(!b4);
+
+  std::string s4 = "zyxwvutsrqponmlkjihgfedcba";
+  asio::error_code ec3;
+  ch1.async_send(std::move(s4),
+      [&](asio::error_code ec)
+      {
+        ec3 = ec;
+      });
+
+  std::string s5;
+  asio::error_code ec4 = asio::error::would_block;
+  multi_signature_handler h3 = {&s5, &ec4};
+  bool b5 = ch1.try_receive(h3);
+
+  ASIO_CHECK(b5);
+  ASIO_CHECK(ec4 == asio::error::would_block);
+  ASIO_CHECK(s5 == "zyxwvutsrqponmlkjihgfedcba");
+
+  ctx.restart();
+  ctx.run();
+
+  ASIO_CHECK(!ec3);
+
+  std::string s6;
+  asio::error_code ec5 = asio::error::would_block;
+  multi_signature_handler h4 = {&s6, &ec5};
+  ch1.async_receive(h4);
+
+  ch1.close();
+
+  ctx.restart();
+  ctx.run();
+
+  ASIO_CHECK(s6.empty());
+  ASIO_CHECK(ec5 == asio::experimental::channel_errc::channel_closed);
+}
+
+void channel_with_any_completion_handler_test()
+{
+  io_context ctx;
+
+  channel<void(asio::error_code, std::string)> ch1(ctx);
+
+  asio::error_code ec1 = asio::error::would_block;
+  std::string s1;
+  ch1.async_receive(
+      asio::any_completion_handler<
+        void(asio::error_code, std::string)>(
+          [&](asio::error_code ec, std::string s)
+          {
+            ec1 = ec;
+            s1 = std::move(s);
+          }));
+
+  asio::error_code ec2 = asio::error::would_block;
+  std::string s2 = "zyxwvutsrqponmlkjihgfedcba";
+  ch1.async_send(asio::error::eof, std::move(s2),
+      asio::any_completion_handler<void(asio::error_code)>(
+        [&](asio::error_code ec)
+        {
+          ec2 = ec;
+        }));
+
+  ASIO_CHECK(ec1 == asio::error::would_block);
+  ASIO_CHECK(ec2 == asio::error::would_block);
+
+  ctx.run();
+
+  ASIO_CHECK(ec1 == asio::error::eof);
+  ASIO_CHECK(s1 == "zyxwvutsrqponmlkjihgfedcba");
+  ASIO_CHECK(!ec2);
+}
+
 ASIO_TEST_SUITE
 (
   "experimental/channel",
@@ -676,4 +881,8 @@ ASIO_TEST_SUITE
   ASIO_TEST_CASE(buffered_non_immediate_send)
   ASIO_TEST_CASE(buffered_immediate_send)
   ASIO_TEST_CASE(buffered_executor_send)
+  ASIO_TEST_CASE(try_send_via_dispatch)
+  ASIO_TEST_CASE(try_send_n_via_dispatch)
+  ASIO_TEST_CASE(implicit_error_signature_channel_test)
+  ASIO_TEST_CASE(channel_with_any_completion_handler_test)
 )

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // General-purpose base64 encode and decode.
 
@@ -31,7 +21,6 @@
 
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
-#include <openvpn/common/extern.hpp>
 
 namespace openvpn {
 
@@ -307,8 +296,8 @@ class Base64
 
 // provide a static Base64 object
 
-OPENVPN_EXTERN const Base64 *base64;         // GLOBAL
-OPENVPN_EXTERN const Base64 *base64_urlsafe; // GLOBAL
+inline const Base64 *base64;         // GLOBAL
+inline const Base64 *base64_urlsafe; // GLOBAL
 
 inline void base64_init_static()
 {

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -25,8 +25,10 @@
 #ifndef OPENVPN_WIN32_H
 #define OPENVPN_WIN32_H
 
-#include <winioctl.h>
+#include <iphlpapi.h>
+#include <ws2tcpip.h>
 
+#include "syshead.h"
 #include "mtu.h"
 #include "openvpn-msg.h"
 #include "argv.h"
@@ -286,10 +288,7 @@ char *get_win_sys_path(void);
 /* call self in a subprocess */
 void fork_to_self(const char *cmdline);
 
-/* Find temporary directory */
-const char *win_get_tempdir(void);
-
-bool win_wfp_block_dns(const NET_IFINDEX index, const HANDLE msg_channel);
+bool win_wfp_block(const NET_IFINDEX index, const HANDLE msg_channel, BOOL dns_only);
 
 bool win_wfp_uninit(const NET_IFINDEX index, const HANDLE msg_channel);
 
@@ -322,16 +321,57 @@ bool send_msg_iservice(HANDLE pipe, const void *data, size_t size,
 int
 openvpn_execve(const struct argv *a, const struct env_set *es, const unsigned int flags);
 
-/*
- * openvpn_swprintf() is currently only used by Windows code paths
- * and when enabled for all platforms it will currently break older
- * OpenBSD versions lacking vswprintf(3) support in their libc.
- */
-bool
-openvpn_swprintf(wchar_t *const str, const size_t size, const wchar_t *const format, ...);
-
 /* Sleep that can be interrupted by signals and exit event */
 void win32_sleep(const int n);
+
+/**
+ * @brief Fetches a registry value for OpenVPN registry key.
+ *
+ * @param key Registry value name to fetch.
+ * @param value Buffer to store the fetched string value.
+ * @param size Size of `value` buffer in bytes.
+ * @return `true` if successful, `false` otherwise.
+ */
+bool
+get_openvpn_reg_value(const WCHAR *key, WCHAR *value, DWORD size);
+
+/**
+ * @brief Checks if a plugin is located in a trusted directory.
+ *
+ * Verifies the plugin's path against a trusted directory, which is:
+ *
+ * - "plugin_dir" registry value or installation path, if the registry key is missing
+ * - system directory
+ *
+ * UNC paths are explicitly disallowed.
+ *
+ * @param plugin_path Normalized path to the plugin.
+ * @return \c true if the plugin is in a trusted directory and not a UNC path; \c false otherwise.
+ */
+bool
+plugin_in_trusted_dir(const WCHAR *plugin_path);
+
+/**
+ * Encrypt a region of memory using CryptProtectMemory()
+ * with access restricted to the current process.
+ *
+ * - buf   pointer to the memory
+ * - len   number of bytes to encrypt -- must be a multiple of
+ *         CRYPTPROTECTMEMORY_BLOCK_SIZE = 16
+ */
+bool
+protect_buffer_win32(char *buf, size_t len);
+
+/**
+ * Decrypt a previously encrypted region of memory using CryptUnProtectMemory()
+ * with access restricted to the current process.
+ *
+ * - buf   pointer to the memory
+ * - len   number of bytes to encrypt -- must be a multiple of
+ *         CRYPTPROTECTMEMORY_BLOCK_SIZE = 16
+ */
+bool
+unprotect_buffer_win32(char *buf, size_t len);
 
 #endif /* ifndef OPENVPN_WIN32_H */
 #endif /* ifdef _WIN32 */

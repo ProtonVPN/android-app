@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2001-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -885,8 +885,6 @@ typedef struct {
         /* KMO-AES parameter block - end */
     } kmo;
     unsigned int fc;
-
-    int res;
 } S390X_AES_OFB_CTX;
 
 typedef struct {
@@ -903,8 +901,6 @@ typedef struct {
         /* KMF-AES parameter block - end */
     } kmf;
     unsigned int fc;
-
-    int res;
 } S390X_AES_CFB_CTX;
 
 typedef struct {
@@ -1068,7 +1064,6 @@ static int s390x_aes_ofb_init_key(EVP_CIPHER_CTX *ctx,
     memcpy(cctx->kmo.param.cv, iv, ivlen);
     memcpy(cctx->kmo.param.k, key, keylen);
     cctx->fc = S390X_AES_FC(keylen);
-    cctx->res = 0;
     return 1;
 }
 
@@ -1078,7 +1073,7 @@ static int s390x_aes_ofb_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
     S390X_AES_OFB_CTX *cctx = EVP_C_DATA(S390X_AES_OFB_CTX, ctx);
     const int ivlen = EVP_CIPHER_CTX_get_iv_length(ctx);
     unsigned char *iv = EVP_CIPHER_CTX_iv_noconst(ctx);
-    int n = cctx->res;
+    int n = ctx->num;
     int rem;
 
     memcpy(cctx->kmo.param.cv, iv, ivlen);
@@ -1111,7 +1106,7 @@ static int s390x_aes_ofb_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
     }
 
     memcpy(iv, cctx->kmo.param.cv, ivlen);
-    cctx->res = n;
+    ctx->num = n;
     return 1;
 }
 
@@ -1137,7 +1132,6 @@ static int s390x_aes_cfb_init_key(EVP_CIPHER_CTX *ctx,
     if (!enc)
         cctx->fc |= S390X_DECRYPT;
 
-    cctx->res = 0;
     memcpy(cctx->kmf.param.cv, iv, ivlen);
     memcpy(cctx->kmf.param.k, key, keylen);
     return 1;
@@ -1151,7 +1145,7 @@ static int s390x_aes_cfb_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
     const int enc = EVP_CIPHER_CTX_is_encrypting(ctx);
     const int ivlen = EVP_CIPHER_CTX_get_iv_length(ctx);
     unsigned char *iv = EVP_CIPHER_CTX_iv_noconst(ctx);
-    int n = cctx->res;
+    int n = ctx->num;
     int rem;
     unsigned char tmp;
 
@@ -1197,7 +1191,7 @@ static int s390x_aes_cfb_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
     }
 
     memcpy(iv, cctx->kmf.param.cv, ivlen);
-    cctx->res = n;
+    ctx->num = n;
     return 1;
 }
 
@@ -1475,10 +1469,8 @@ static int s390x_aes_gcm_ctrl(EVP_CIPHER_CTX *c, int type, int arg, void *ptr)
                 if (gctx->iv != c->iv)
                     OPENSSL_free(gctx->iv);
 
-                if ((gctx->iv = OPENSSL_malloc(len)) == NULL) {
-                    ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+                if ((gctx->iv = OPENSSL_malloc(len)) == NULL)
                     return 0;
-                }
             }
             /* Add padding. */
             memset(gctx->iv + arg, 0, len - arg - 8);
@@ -1594,10 +1586,8 @@ static int s390x_aes_gcm_ctrl(EVP_CIPHER_CTX *c, int type, int arg, void *ptr)
         } else {
             len = S390X_gcm_ivpadlen(gctx->ivlen);
 
-            if ((gctx_out->iv = OPENSSL_malloc(len)) == NULL) {
-                ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+            if ((gctx_out->iv = OPENSSL_malloc(len)) == NULL)
                 return 0;
-            }
 
             memcpy(gctx_out->iv, gctx->iv, len);
         }
@@ -1675,7 +1665,7 @@ static int s390x_aes_gcm_tls_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
      * communication to fail after 2^64 - 1 keys.  We do this on the encrypting
      * side only.
      */
-    if (ctx->encrypt && ++gctx->tls_enc_records == 0) {
+    if (enc && ++gctx->tls_enc_records == 0) {
         ERR_raise(ERR_LIB_EVP, EVP_R_TOO_MANY_RECORDS);
         goto err;
     }
@@ -2249,7 +2239,7 @@ static int s390x_aes_ccm_ctrl(EVP_CIPHER_CTX *c, int type, int arg, void *ptr)
         if (!enc || !cctx->aes.ccm.tag_set)
             return 0;
 
-        if(arg < cctx->aes.ccm.m)
+        if (arg < cctx->aes.ccm.m)
             return 0;
 
         memcpy(ptr, cctx->aes.ccm.kmac_param.icv.b, cctx->aes.ccm.m);
@@ -2682,10 +2672,8 @@ static int aes_gcm_ctrl(EVP_CIPHER_CTX *c, int type, int arg, void *ptr)
         if ((arg > EVP_MAX_IV_LENGTH) && (arg > gctx->ivlen)) {
             if (gctx->iv != c->iv)
                 OPENSSL_free(gctx->iv);
-            if ((gctx->iv = OPENSSL_malloc(arg)) == NULL) {
-                ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+            if ((gctx->iv = OPENSSL_malloc(arg)) == NULL)
                 return 0;
-            }
         }
         gctx->ivlen = arg;
         return 1;
@@ -2784,10 +2772,8 @@ static int aes_gcm_ctrl(EVP_CIPHER_CTX *c, int type, int arg, void *ptr)
             if (gctx->iv == c->iv)
                 gctx_out->iv = out->iv;
             else {
-                if ((gctx_out->iv = OPENSSL_malloc(gctx->ivlen)) == NULL) {
-                    ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+                if ((gctx_out->iv = OPENSSL_malloc(gctx->ivlen)) == NULL)
                     return 0;
-                }
                 memcpy(gctx_out->iv, gctx->iv, gctx->ivlen);
             }
             return 1;
@@ -2903,7 +2889,7 @@ static int aes_gcm_tls_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
      * communication to fail after 2^64 - 1 keys.  We do this on the encrypting
      * side only.
      */
-    if (ctx->encrypt && ++gctx->tls_enc_records == 0) {
+    if (EVP_CIPHER_CTX_is_encrypting(ctx) && ++gctx->tls_enc_records == 0) {
         ERR_raise(ERR_LIB_EVP, EVP_R_TOO_MANY_RECORDS);
         goto err;
     }
@@ -2912,18 +2898,20 @@ static int aes_gcm_tls_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
      * Set IV from start of buffer or generate IV and write to start of
      * buffer.
      */
-    if (EVP_CIPHER_CTX_ctrl(ctx, ctx->encrypt ? EVP_CTRL_GCM_IV_GEN
-                                              : EVP_CTRL_GCM_SET_IV_INV,
+    if (EVP_CIPHER_CTX_ctrl(ctx,
+                            EVP_CIPHER_CTX_is_encrypting(ctx) ?
+                                EVP_CTRL_GCM_IV_GEN : EVP_CTRL_GCM_SET_IV_INV,
                             EVP_GCM_TLS_EXPLICIT_IV_LEN, out) <= 0)
         goto err;
     /* Use saved AAD */
-    if (CRYPTO_gcm128_aad(&gctx->gcm, ctx->buf, gctx->tls_aad_len))
+    if (CRYPTO_gcm128_aad(&gctx->gcm, EVP_CIPHER_CTX_buf_noconst(ctx),
+                          gctx->tls_aad_len))
         goto err;
     /* Fix buffer and length to point to payload */
     in += EVP_GCM_TLS_EXPLICIT_IV_LEN;
     out += EVP_GCM_TLS_EXPLICIT_IV_LEN;
     len -= EVP_GCM_TLS_EXPLICIT_IV_LEN + EVP_GCM_TLS_TAG_LEN;
-    if (ctx->encrypt) {
+    if (EVP_CIPHER_CTX_is_encrypting(ctx)) {
         /* Encrypt payload */
         if (gctx->ctr) {
             size_t bulk = 0;
@@ -3002,9 +2990,11 @@ static int aes_gcm_tls_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
                 goto err;
         }
         /* Retrieve tag */
-        CRYPTO_gcm128_tag(&gctx->gcm, ctx->buf, EVP_GCM_TLS_TAG_LEN);
+        CRYPTO_gcm128_tag(&gctx->gcm, EVP_CIPHER_CTX_buf_noconst(ctx),
+                          EVP_GCM_TLS_TAG_LEN);
         /* If tag mismatch wipe buffer */
-        if (CRYPTO_memcmp(ctx->buf, in + len, EVP_GCM_TLS_TAG_LEN)) {
+        if (CRYPTO_memcmp(EVP_CIPHER_CTX_buf_noconst(ctx), in + len,
+                          EVP_GCM_TLS_TAG_LEN)) {
             OPENSSL_cleanse(out, len);
             goto err;
         }
@@ -3061,7 +3051,7 @@ static int aes_gcm_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
      * where setting the IV externally is the only option available.
      */
     if (!gctx->iv_set) {
-        if (!ctx->encrypt || !aes_gcm_iv_generate(gctx, 0))
+        if (!EVP_CIPHER_CTX_is_encrypting(ctx) || !aes_gcm_iv_generate(gctx, 0))
             return -1;
         CRYPTO_gcm128_setiv(&gctx->gcm, gctx->iv, gctx->ivlen);
         gctx->iv_set = 1;
@@ -3076,7 +3066,7 @@ static int aes_gcm_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
         if (out == NULL) {
             if (CRYPTO_gcm128_aad(&gctx->gcm, in, len))
                 return -1;
-        } else if (ctx->encrypt) {
+        } else if (EVP_CIPHER_CTX_is_encrypting(ctx)) {
             if (gctx->ctr) {
                 size_t bulk = 0;
 #if defined(AES_GCM_ASM)
@@ -3167,15 +3157,17 @@ static int aes_gcm_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
         }
         return len;
     } else {
-        if (!ctx->encrypt) {
+        if (!EVP_CIPHER_CTX_is_encrypting(ctx)) {
             if (gctx->taglen < 0)
                 return -1;
-            if (CRYPTO_gcm128_finish(&gctx->gcm, ctx->buf, gctx->taglen) != 0)
+            if (CRYPTO_gcm128_finish(&gctx->gcm,
+                                     EVP_CIPHER_CTX_buf_noconst(ctx),
+                                     gctx->taglen) != 0)
                 return -1;
             gctx->iv_set = 0;
             return 0;
         }
-        CRYPTO_gcm128_tag(&gctx->gcm, ctx->buf, 16);
+        CRYPTO_gcm128_tag(&gctx->gcm, EVP_CIPHER_CTX_buf_noconst(ctx), 16);
         gctx->taglen = 16;
         /* Don't reuse the IV */
         gctx->iv_set = 0;

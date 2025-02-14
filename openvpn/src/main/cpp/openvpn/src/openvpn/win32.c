@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -28,13 +28,14 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
 
 #ifdef _WIN32
+
+#include <minwindef.h>
+#include <winsock2.h>
 
 #include "buffer.h"
 #include "error.h"
@@ -47,13 +48,9 @@
 
 #include "memdbg.h"
 
-#ifdef HAVE_VERSIONHELPERS_H
 #include <versionhelpers.h>
-#else
-#include "compat-versionhelpers.h"
-#endif
 
-#include "block_dns.h"
+#include "wfp_block.h"
 
 /*
  * WFP handle
@@ -509,19 +506,19 @@ win32_signal_open(struct win32_signal *ws,
         && !HANDLE_DEFINED(ws->in.read) && exit_event_name)
     {
         struct security_attributes sa;
+        struct gc_arena gc = gc_new();
+        const wchar_t *exit_event_nameW = wide_string(exit_event_name, &gc);
 
         if (!init_security_attributes_allow_all(&sa))
         {
             msg(M_ERR, "Error: win32_signal_open: init SA failed");
         }
 
-        ws->in.read = CreateEvent(&sa.sa,
-                                  TRUE,
-                                  exit_event_initial_state ? TRUE : FALSE,
-                                  exit_event_name);
+        ws->in.read = CreateEventW(&sa.sa, TRUE, exit_event_initial_state ? TRUE : FALSE,
+                                   exit_event_nameW);
         if (ws->in.read == NULL)
         {
-            msg(M_WARN|M_ERRNO, "NOTE: CreateEvent '%s' failed", exit_event_name);
+            msg(M_WARN|M_ERRNO, "NOTE: CreateEventW '%s' failed", exit_event_name);
         }
         else
         {
@@ -534,6 +531,7 @@ win32_signal_open(struct win32_signal *ws,
                 ws->mode = WSO_MODE_SERVICE;
             }
         }
+        gc_free(&gc);
     }
     /* set the ctrl handler in both console and service modes */
     if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE) win_ctrl_handler, true))
@@ -676,7 +674,7 @@ win32_signal_get(struct win32_signal *ws)
     }
     if (ret)
     {
-        throw_signal(ret); /* this will update signinfo_static.signal received */
+        throw_signal(ret); /* this will update siginfo_static.signal received */
     }
     return (siginfo_static.signal_received);
 }
@@ -890,8 +888,8 @@ env_block(const struct env_set *es)
     char force_path[256];
     char *sysroot = get_win_sys_path();
 
-    if (!openvpn_snprintf(force_path, sizeof(force_path), "PATH=%s\\System32;%s;%s\\System32\\Wbem",
-                          sysroot, sysroot, sysroot))
+    if (!snprintf(force_path, sizeof(force_path), "PATH=%s\\System32;%s;%s\\System32\\Wbem",
+                  sysroot, sysroot, sysroot))
     {
         msg(M_WARN, "env_block: default path truncated to %s", force_path);
     }
@@ -1142,72 +1140,20 @@ set_win_sys_path_via_env(struct env_set *es)
     set_win_sys_path(buf, es);
 }
 
-
-const char *
-win_get_tempdir(void)
-{
-    static char tmpdir[MAX_PATH];
-    WCHAR wtmpdir[MAX_PATH];
-
-    if (!GetTempPathW(_countof(wtmpdir), wtmpdir))
-    {
-        /* Warn if we can't find a valid temporary directory, which should
-         * be unlikely.
-         */
-        msg(M_WARN, "Could not find a suitable temporary directory."
-            " (GetTempPath() failed).  Consider using --tmp-dir");
-        return NULL;
-    }
-
-    if (WideCharToMultiByte(CP_UTF8, 0, wtmpdir, -1, NULL, 0, NULL, NULL) > sizeof(tmpdir))
-    {
-        msg(M_WARN, "Could not get temporary directory. Path is too long."
-            "  Consider using --tmp-dir");
-        return NULL;
-    }
-
-    WideCharToMultiByte(CP_UTF8, 0, wtmpdir, -1, tmpdir, sizeof(tmpdir), NULL, NULL);
-    return tmpdir;
-}
-
 static bool
-win_block_dns_service(bool add, int index, const HANDLE pipe)
+win_get_exe_path(PWCHAR path, DWORD size)
 {
-    bool ret = false;
-    ack_message_t ack;
-    struct gc_arena gc = gc_new();
-
-    block_dns_message_t data = {
-        .header = {
-            (add ? msg_add_block_dns : msg_del_block_dns),
-            sizeof(block_dns_message_t),
-            0
-        },
-        .iface = { .index = index, .name = "" }
-    };
-
-    if (!send_msg_iservice(pipe, &data, sizeof(data), &ack, "Block_DNS"))
+    DWORD status = GetModuleFileNameW(NULL, path, size);
+    if (status == 0 || status == size)
     {
-        goto out;
+        msg(M_WARN|M_ERRNO, "cannot get executable path");
+        return false;
     }
-
-    if (ack.error_number != NO_ERROR)
-    {
-        msg(M_WARN, "Block_DNS: %s block dns filters using service failed: %s [status=0x%x if_index=%d]",
-            (add ? "adding" : "deleting"), strerror_win32(ack.error_number, &gc),
-            ack.error_number, data.iface.index);
-        goto out;
-    }
-
-    ret = true;
-    msg(M_INFO, "%s outside dns using service succeeded.", (add ? "Blocking" : "Unblocking"));
-out:
-    gc_free(&gc);
-    return ret;
+    return true;
 }
 
 static void
-block_dns_msg_handler(DWORD err, const char *msg)
+win_wfp_msg_handler(DWORD err, const char *msg)
 {
     struct gc_arena gc = gc_new();
 
@@ -1217,15 +1163,52 @@ block_dns_msg_handler(DWORD err, const char *msg)
     }
     else
     {
-        msg(M_WARN, "Error in add_block_dns_filters(): %s : %s [status=0x%lx]",
+        msg(M_WARN, "Error in WFP: %s : %s [status=0x%lx]",
             msg, strerror_win32(err, &gc), err);
     }
 
     gc_free(&gc);
 }
 
+static bool
+win_wfp_block_service(bool add, bool dns_only, int index, const HANDLE pipe)
+{
+    bool ret = false;
+    ack_message_t ack;
+    struct gc_arena gc = gc_new();
+
+    wfp_block_message_t data = {
+        .header = {
+            (add ? msg_add_wfp_block : msg_del_wfp_block),
+            sizeof(wfp_block_message_t),
+            0
+        },
+        .flags = dns_only ? wfp_block_dns : wfp_block_local,
+        .iface = { .index = index, .name = "" }
+    };
+
+    if (!send_msg_iservice(pipe, &data, sizeof(data), &ack, "WFP block"))
+    {
+        goto out;
+    }
+
+    if (ack.error_number != NO_ERROR)
+    {
+        msg(M_WARN, "WFP block: %s block filters using service failed: %s [status=0x%x if_index=%d]",
+            (add ? "adding" : "deleting"), strerror_win32(ack.error_number, &gc),
+            ack.error_number, data.iface.index);
+        goto out;
+    }
+
+    ret = true;
+    msg(M_INFO, "%s WFP block filters using service succeeded.", (add ? "Adding" : "Deleting"));
+out:
+    gc_free(&gc);
+    return ret;
+}
+
 bool
-win_wfp_block_dns(const NET_IFINDEX index, const HANDLE msg_channel)
+win_wfp_block(const NET_IFINDEX index, const HANDLE msg_channel, BOOL dns_only)
 {
     WCHAR openvpnpath[MAX_PATH];
     bool ret = false;
@@ -1233,20 +1216,19 @@ win_wfp_block_dns(const NET_IFINDEX index, const HANDLE msg_channel)
 
     if (msg_channel)
     {
-        dmsg(D_LOW, "Using service to add block dns filters");
-        ret = win_block_dns_service(true, index, msg_channel);
+        dmsg(D_LOW, "Using service to add WFP block filters");
+        ret = win_wfp_block_service(true, dns_only, index, msg_channel);
         goto out;
     }
 
-    status = GetModuleFileNameW(NULL, openvpnpath, _countof(openvpnpath));
-    if (status == 0 || status == _countof(openvpnpath))
+    ret = win_get_exe_path(openvpnpath, _countof(openvpnpath));
+    if (ret == false)
     {
-        msg(M_WARN|M_ERRNO, "block_dns: cannot get executable path");
         goto out;
     }
 
-    status = add_block_dns_filters(&m_hEngineHandle, index, openvpnpath,
-                                   block_dns_msg_handler);
+    status = add_wfp_block_filters(&m_hEngineHandle, index, openvpnpath,
+                                   win_wfp_msg_handler, dns_only);
     if (status == 0)
     {
         int is_auto = 0;
@@ -1260,10 +1242,10 @@ win_wfp_block_dns(const NET_IFINDEX index, const HANDLE msg_channel)
         {
             tap_metric_v6 = 0;
         }
-        status = set_interface_metric(index, AF_INET, BLOCK_DNS_IFACE_METRIC);
+        status = set_interface_metric(index, AF_INET, WFP_BLOCK_IFACE_METRIC);
         if (!status)
         {
-            set_interface_metric(index, AF_INET6, BLOCK_DNS_IFACE_METRIC);
+            set_interface_metric(index, AF_INET6, WFP_BLOCK_IFACE_METRIC);
         }
     }
 
@@ -1281,12 +1263,12 @@ win_wfp_uninit(const NET_IFINDEX index, const HANDLE msg_channel)
 
     if (msg_channel)
     {
-        msg(D_LOW, "Using service to delete block dns filters");
-        win_block_dns_service(false, index, msg_channel);
+        msg(D_LOW, "Using service to delete WFP block filters");
+        win_wfp_block_service(false, false, index, msg_channel);
     }
     else
     {
-        delete_block_dns_filters(m_hEngineHandle);
+        delete_wfp_block_filters(m_hEngineHandle);
         m_hEngineHandle = NULL;
         if (tap_metric_v4 >= 0)
         {
@@ -1516,41 +1498,23 @@ send_msg_iservice(HANDLE pipe, const void *data, size_t size,
 }
 
 bool
-openvpn_swprintf(wchar_t *const str, const size_t size, const wchar_t *const format, ...)
-{
-    va_list arglist;
-    int len = -1;
-    if (size > 0)
-    {
-        va_start(arglist, format);
-        len = vswprintf(str, size, format, arglist);
-        va_end(arglist);
-        str[size - 1] = L'\0';
-    }
-    return (len >= 0 && len < size);
-}
-
-static BOOL
-get_install_path(WCHAR *path, DWORD size)
+get_openvpn_reg_value(const WCHAR *key, WCHAR *value, DWORD size)
 {
     WCHAR reg_path[256];
-    HKEY key;
-    BOOL res = FALSE;
-    openvpn_swprintf(reg_path, _countof(reg_path), L"SOFTWARE\\" PACKAGE_NAME);
+    HKEY hkey;
+    swprintf(reg_path, _countof(reg_path), L"SOFTWARE\\" PACKAGE_NAME);
 
-    LONG status = RegOpenKeyExW(HKEY_LOCAL_MACHINE, reg_path, 0, KEY_READ, &key);
+    LONG status = RegOpenKeyExW(HKEY_LOCAL_MACHINE, reg_path, 0, KEY_READ, &hkey);
     if (status != ERROR_SUCCESS)
     {
-        return res;
+        return false;
     }
 
-    /* The default value of REG_KEY is the install path */
-    status = RegGetValueW(key, NULL, NULL, RRF_RT_REG_SZ, NULL, (LPBYTE)path, &size);
-    res = status == ERROR_SUCCESS;
+    status = RegGetValueW(hkey, NULL, key, RRF_RT_REG_SZ, NULL, (LPBYTE)value, &size);
 
-    RegCloseKey(key);
+    RegCloseKey(hkey);
 
-    return res;
+    return status == ERROR_SUCCESS;
 }
 
 static void
@@ -1559,12 +1523,12 @@ set_openssl_env_vars()
     const WCHAR *ssl_fallback_dir = L"C:\\Windows\\System32";
 
     WCHAR install_path[MAX_PATH] = { 0 };
-    if (!get_install_path(install_path, _countof(install_path)))
+    if (!get_openvpn_reg_value(NULL, install_path, _countof(install_path)))
     {
         /* if we cannot find installation path from the registry,
          * use Windows directory as a fallback
          */
-        openvpn_swprintf(install_path, _countof(install_path), L"%ls", ssl_fallback_dir);
+        swprintf(install_path, _countof(install_path), L"%ls", ssl_fallback_dir);
     }
 
     if ((install_path[wcslen(install_path) - 1]) == L'\\')
@@ -1589,7 +1553,7 @@ set_openssl_env_vars()
         if (size == 0)
         {
             WCHAR val[MAX_PATH] = {0};
-            openvpn_swprintf(val, _countof(val), L"%ls\\ssl\\%ls", install_path, ossl_env[i].value);
+            swprintf(val, _countof(val), L"%ls\\ssl\\%ls", install_path, ossl_env[i].value);
             _wputenv_s(ossl_env[i].name, val);
         }
     }
@@ -1638,4 +1602,96 @@ win32_sleep(const int n)
         }
     }
 }
+
+bool
+plugin_in_trusted_dir(const WCHAR *plugin_path)
+{
+    /* UNC paths are not allowed */
+    if (wcsncmp(plugin_path, L"\\\\", 2) == 0)
+    {
+        msg(M_WARN, "UNC paths for plugins are not allowed.");
+        return false;
+    }
+
+    WCHAR plugin_dir[MAX_PATH] = { 0 };
+
+    /* Attempt to retrieve the trusted plugin directory path from the registry,
+     * using installation path as a fallback */
+    if (!get_openvpn_reg_value(L"plugin_dir", plugin_dir, _countof(plugin_dir))
+        && !get_openvpn_reg_value(NULL, plugin_dir, _countof(plugin_dir)))
+    {
+        msg(M_WARN, "Installation path could not be determined.");
+    }
+
+    /* Get the system directory */
+    WCHAR system_dir[MAX_PATH] = { 0 };
+    if (GetSystemDirectoryW(system_dir, _countof(system_dir)) == 0)
+    {
+        msg(M_NONFATAL | M_ERRNO, "Failed to get system directory.");
+    }
+
+    if ((wcslen(plugin_dir) == 0) && (wcslen(system_dir) == 0))
+    {
+        return false;
+    }
+
+    WCHAR normalized_plugin_dir[MAX_PATH] = { 0 };
+
+    /* Normalize the plugin dir */
+    if (wcslen(plugin_dir) > 0)
+    {
+        if (!GetFullPathNameW(plugin_dir, MAX_PATH, normalized_plugin_dir, NULL))
+        {
+            msg(M_NONFATAL | M_ERRNO, "Failed to normalize plugin dir.");
+            return false;
+        }
+    }
+
+    /* Check if the plugin path resides within the plugin/install directory */
+    if ((wcslen(normalized_plugin_dir) > 0) && (wcsnicmp(normalized_plugin_dir,
+                                                         plugin_path, wcslen(normalized_plugin_dir)) == 0))
+    {
+        return true;
+    }
+
+    /* Fallback to the system directory */
+    return wcsnicmp(system_dir, plugin_path, wcslen(system_dir)) == 0;
+}
+
+bool
+protect_buffer_win32(char *buf, size_t len)
+{
+    bool ret;
+    if (len % CRYPTPROTECTMEMORY_BLOCK_SIZE)
+    {
+        msg(M_NONFATAL, "Error: Unable to encrypt memory: buffer size not a multiple of %d",
+            CRYPTPROTECTMEMORY_BLOCK_SIZE);
+        return false;
+    }
+    ret = CryptProtectMemory(buf, len, CRYPTPROTECTMEMORY_SAME_PROCESS);
+    if (!ret)
+    {
+        msg(M_NONFATAL | M_ERRNO, "Failed to encrypt memory.");
+    }
+    return ret;
+}
+
+bool
+unprotect_buffer_win32(char *buf, size_t len)
+{
+    bool ret;
+    if (len % CRYPTPROTECTMEMORY_BLOCK_SIZE)
+    {
+        msg(M_NONFATAL, "Error: Unable to decrypt memory: buffer size not a multiple of %d",
+            CRYPTPROTECTMEMORY_BLOCK_SIZE);
+        return false;
+    }
+    ret = CryptUnprotectMemory(buf, len, CRYPTPROTECTMEMORY_SAME_PROCESS);
+    if (!ret)
+    {
+        msg(M_FATAL | M_ERRNO, "Failed to decrypt memory.");
+    }
+    return ret;
+}
+
 #endif /* ifdef _WIN32 */

@@ -5,9 +5,9 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
- *  Copyright (C) 2008-2023 David Sommerseth <dazo@eurephia.org>
+ *  Copyright (C) 2008-2024 David Sommerseth <dazo@eurephia.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -24,7 +24,8 @@
  */
 
 /**
- * @file Control Channel SSL/Data channel negotiation Module
+ * @file
+ * Control Channel SSL/Data channel negotiation Module
  */
 
 /*
@@ -36,8 +37,6 @@
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -66,6 +65,7 @@
 #include "dco.h"
 
 #include "memdbg.h"
+#include "openvpn.h"
 
 #ifdef MEASURE_TLS_HANDSHAKE_STATS
 
@@ -97,193 +97,14 @@ show_tls_performance_stats(void)
 #endif /* ifdef MEASURE_TLS_HANDSHAKE_STATS */
 
 /**
- * SSL/TLS Cipher suite name translation table
- */
-static const tls_cipher_name_pair tls_cipher_name_translation_table[] = {
-    {"ADH-SEED-SHA", "TLS-DH-anon-WITH-SEED-CBC-SHA"},
-    {"AES128-GCM-SHA256", "TLS-RSA-WITH-AES-128-GCM-SHA256"},
-    {"AES128-SHA256", "TLS-RSA-WITH-AES-128-CBC-SHA256"},
-    {"AES128-SHA", "TLS-RSA-WITH-AES-128-CBC-SHA"},
-    {"AES256-GCM-SHA384", "TLS-RSA-WITH-AES-256-GCM-SHA384"},
-    {"AES256-SHA256", "TLS-RSA-WITH-AES-256-CBC-SHA256"},
-    {"AES256-SHA", "TLS-RSA-WITH-AES-256-CBC-SHA"},
-    {"CAMELLIA128-SHA256", "TLS-RSA-WITH-CAMELLIA-128-CBC-SHA256"},
-    {"CAMELLIA128-SHA", "TLS-RSA-WITH-CAMELLIA-128-CBC-SHA"},
-    {"CAMELLIA256-SHA256", "TLS-RSA-WITH-CAMELLIA-256-CBC-SHA256"},
-    {"CAMELLIA256-SHA", "TLS-RSA-WITH-CAMELLIA-256-CBC-SHA"},
-    {"DES-CBC3-SHA", "TLS-RSA-WITH-3DES-EDE-CBC-SHA"},
-    {"DES-CBC-SHA", "TLS-RSA-WITH-DES-CBC-SHA"},
-    {"DH-DSS-SEED-SHA", "TLS-DH-DSS-WITH-SEED-CBC-SHA"},
-    {"DHE-DSS-AES128-GCM-SHA256", "TLS-DHE-DSS-WITH-AES-128-GCM-SHA256"},
-    {"DHE-DSS-AES128-SHA256", "TLS-DHE-DSS-WITH-AES-128-CBC-SHA256"},
-    {"DHE-DSS-AES128-SHA", "TLS-DHE-DSS-WITH-AES-128-CBC-SHA"},
-    {"DHE-DSS-AES256-GCM-SHA384", "TLS-DHE-DSS-WITH-AES-256-GCM-SHA384"},
-    {"DHE-DSS-AES256-SHA256", "TLS-DHE-DSS-WITH-AES-256-CBC-SHA256"},
-    {"DHE-DSS-AES256-SHA", "TLS-DHE-DSS-WITH-AES-256-CBC-SHA"},
-    {"DHE-DSS-CAMELLIA128-SHA256", "TLS-DHE-DSS-WITH-CAMELLIA-128-CBC-SHA256"},
-    {"DHE-DSS-CAMELLIA128-SHA", "TLS-DHE-DSS-WITH-CAMELLIA-128-CBC-SHA"},
-    {"DHE-DSS-CAMELLIA256-SHA256", "TLS-DHE-DSS-WITH-CAMELLIA-256-CBC-SHA256"},
-    {"DHE-DSS-CAMELLIA256-SHA", "TLS-DHE-DSS-WITH-CAMELLIA-256-CBC-SHA"},
-    {"DHE-DSS-SEED-SHA", "TLS-DHE-DSS-WITH-SEED-CBC-SHA"},
-    {"DHE-RSA-AES128-GCM-SHA256", "TLS-DHE-RSA-WITH-AES-128-GCM-SHA256"},
-    {"DHE-RSA-AES128-SHA256", "TLS-DHE-RSA-WITH-AES-128-CBC-SHA256"},
-    {"DHE-RSA-AES128-SHA", "TLS-DHE-RSA-WITH-AES-128-CBC-SHA"},
-    {"DHE-RSA-AES256-GCM-SHA384", "TLS-DHE-RSA-WITH-AES-256-GCM-SHA384"},
-    {"DHE-RSA-AES256-SHA256", "TLS-DHE-RSA-WITH-AES-256-CBC-SHA256"},
-    {"DHE-RSA-AES256-SHA", "TLS-DHE-RSA-WITH-AES-256-CBC-SHA"},
-    {"DHE-RSA-CAMELLIA128-SHA256", "TLS-DHE-RSA-WITH-CAMELLIA-128-CBC-SHA256"},
-    {"DHE-RSA-CAMELLIA128-SHA", "TLS-DHE-RSA-WITH-CAMELLIA-128-CBC-SHA"},
-    {"DHE-RSA-CAMELLIA256-SHA256", "TLS-DHE-RSA-WITH-CAMELLIA-256-CBC-SHA256"},
-    {"DHE-RSA-CAMELLIA256-SHA", "TLS-DHE-RSA-WITH-CAMELLIA-256-CBC-SHA"},
-    {"DHE-RSA-CHACHA20-POLY1305", "TLS-DHE-RSA-WITH-CHACHA20-POLY1305-SHA256"},
-    {"DHE-RSA-SEED-SHA", "TLS-DHE-RSA-WITH-SEED-CBC-SHA"},
-    {"DH-RSA-SEED-SHA", "TLS-DH-RSA-WITH-SEED-CBC-SHA"},
-    {"ECDH-ECDSA-AES128-GCM-SHA256", "TLS-ECDH-ECDSA-WITH-AES-128-GCM-SHA256"},
-    {"ECDH-ECDSA-AES128-SHA256", "TLS-ECDH-ECDSA-WITH-AES-128-CBC-SHA256"},
-    {"ECDH-ECDSA-AES128-SHA", "TLS-ECDH-ECDSA-WITH-AES-128-CBC-SHA"},
-    {"ECDH-ECDSA-AES256-GCM-SHA384", "TLS-ECDH-ECDSA-WITH-AES-256-GCM-SHA384"},
-    {"ECDH-ECDSA-AES256-SHA256", "TLS-ECDH-ECDSA-WITH-AES-256-CBC-SHA256"},
-    {"ECDH-ECDSA-AES256-SHA384", "TLS-ECDH-ECDSA-WITH-AES-256-CBC-SHA384"},
-    {"ECDH-ECDSA-AES256-SHA", "TLS-ECDH-ECDSA-WITH-AES-256-CBC-SHA"},
-    {"ECDH-ECDSA-CAMELLIA128-SHA256", "TLS-ECDH-ECDSA-WITH-CAMELLIA-128-CBC-SHA256"},
-    {"ECDH-ECDSA-CAMELLIA128-SHA", "TLS-ECDH-ECDSA-WITH-CAMELLIA-128-CBC-SHA"},
-    {"ECDH-ECDSA-CAMELLIA256-SHA256", "TLS-ECDH-ECDSA-WITH-CAMELLIA-256-CBC-SHA256"},
-    {"ECDH-ECDSA-CAMELLIA256-SHA", "TLS-ECDH-ECDSA-WITH-CAMELLIA-256-CBC-SHA"},
-    {"ECDH-ECDSA-DES-CBC3-SHA", "TLS-ECDH-ECDSA-WITH-3DES-EDE-CBC-SHA"},
-    {"ECDH-ECDSA-DES-CBC-SHA", "TLS-ECDH-ECDSA-WITH-DES-CBC-SHA"},
-    {"ECDH-ECDSA-RC4-SHA", "TLS-ECDH-ECDSA-WITH-RC4-128-SHA"},
-    {"ECDHE-ECDSA-AES128-GCM-SHA256", "TLS-ECDHE-ECDSA-WITH-AES-128-GCM-SHA256"},
-    {"ECDHE-ECDSA-AES128-SHA256", "TLS-ECDHE-ECDSA-WITH-AES-128-CBC-SHA256"},
-    {"ECDHE-ECDSA-AES128-SHA384", "TLS-ECDHE-ECDSA-WITH-AES-128-CBC-SHA384"},
-    {"ECDHE-ECDSA-AES128-SHA", "TLS-ECDHE-ECDSA-WITH-AES-128-CBC-SHA"},
-    {"ECDHE-ECDSA-AES256-GCM-SHA384", "TLS-ECDHE-ECDSA-WITH-AES-256-GCM-SHA384"},
-    {"ECDHE-ECDSA-AES256-SHA256", "TLS-ECDHE-ECDSA-WITH-AES-256-CBC-SHA256"},
-    {"ECDHE-ECDSA-AES256-SHA384", "TLS-ECDHE-ECDSA-WITH-AES-256-CBC-SHA384"},
-    {"ECDHE-ECDSA-AES256-SHA", "TLS-ECDHE-ECDSA-WITH-AES-256-CBC-SHA"},
-    {"ECDHE-ECDSA-CAMELLIA128-SHA256", "TLS-ECDHE-ECDSA-WITH-CAMELLIA-128-CBC-SHA256"},
-    {"ECDHE-ECDSA-CAMELLIA128-SHA", "TLS-ECDHE-ECDSA-WITH-CAMELLIA-128-CBC-SHA"},
-    {"ECDHE-ECDSA-CAMELLIA256-SHA256", "TLS-ECDHE-ECDSA-WITH-CAMELLIA-256-CBC-SHA256"},
-    {"ECDHE-ECDSA-CAMELLIA256-SHA", "TLS-ECDHE-ECDSA-WITH-CAMELLIA-256-CBC-SHA"},
-    {"ECDHE-ECDSA-CHACHA20-POLY1305", "TLS-ECDHE-ECDSA-WITH-CHACHA20-POLY1305-SHA256"},
-    {"ECDHE-ECDSA-DES-CBC3-SHA", "TLS-ECDHE-ECDSA-WITH-3DES-EDE-CBC-SHA"},
-    {"ECDHE-ECDSA-DES-CBC-SHA", "TLS-ECDHE-ECDSA-WITH-DES-CBC-SHA"},
-    {"ECDHE-ECDSA-RC4-SHA", "TLS-ECDHE-ECDSA-WITH-RC4-128-SHA"},
-    {"ECDHE-RSA-AES128-GCM-SHA256", "TLS-ECDHE-RSA-WITH-AES-128-GCM-SHA256"},
-    {"ECDHE-RSA-AES128-SHA256", "TLS-ECDHE-RSA-WITH-AES-128-CBC-SHA256"},
-    {"ECDHE-RSA-AES128-SHA384", "TLS-ECDHE-RSA-WITH-AES-128-CBC-SHA384"},
-    {"ECDHE-RSA-AES128-SHA", "TLS-ECDHE-RSA-WITH-AES-128-CBC-SHA"},
-    {"ECDHE-RSA-AES256-GCM-SHA384", "TLS-ECDHE-RSA-WITH-AES-256-GCM-SHA384"},
-    {"ECDHE-RSA-AES256-SHA256", "TLS-ECDHE-RSA-WITH-AES-256-CBC-SHA256"},
-    {"ECDHE-RSA-AES256-SHA384", "TLS-ECDHE-RSA-WITH-AES-256-CBC-SHA384"},
-    {"ECDHE-RSA-AES256-SHA", "TLS-ECDHE-RSA-WITH-AES-256-CBC-SHA"},
-    {"ECDHE-RSA-CAMELLIA128-SHA256", "TLS-ECDHE-RSA-WITH-CAMELLIA-128-CBC-SHA256"},
-    {"ECDHE-RSA-CAMELLIA128-SHA", "TLS-ECDHE-RSA-WITH-CAMELLIA-128-CBC-SHA"},
-    {"ECDHE-RSA-CAMELLIA256-SHA256", "TLS-ECDHE-RSA-WITH-CAMELLIA-256-CBC-SHA256"},
-    {"ECDHE-RSA-CAMELLIA256-SHA", "TLS-ECDHE-RSA-WITH-CAMELLIA-256-CBC-SHA"},
-    {"ECDHE-RSA-CHACHA20-POLY1305", "TLS-ECDHE-RSA-WITH-CHACHA20-POLY1305-SHA256"},
-    {"ECDHE-RSA-DES-CBC3-SHA", "TLS-ECDHE-RSA-WITH-3DES-EDE-CBC-SHA"},
-    {"ECDHE-RSA-DES-CBC-SHA", "TLS-ECDHE-RSA-WITH-DES-CBC-SHA"},
-    {"ECDHE-RSA-RC4-SHA", "TLS-ECDHE-RSA-WITH-RC4-128-SHA"},
-    {"ECDH-RSA-AES128-GCM-SHA256", "TLS-ECDH-RSA-WITH-AES-128-GCM-SHA256"},
-    {"ECDH-RSA-AES128-SHA256", "TLS-ECDH-RSA-WITH-AES-128-CBC-SHA256"},
-    {"ECDH-RSA-AES128-SHA384", "TLS-ECDH-RSA-WITH-AES-128-CBC-SHA384"},
-    {"ECDH-RSA-AES128-SHA", "TLS-ECDH-RSA-WITH-AES-128-CBC-SHA"},
-    {"ECDH-RSA-AES256-GCM-SHA384", "TLS-ECDH-RSA-WITH-AES-256-GCM-SHA384"},
-    {"ECDH-RSA-AES256-SHA256", "TLS-ECDH-RSA-WITH-AES-256-CBC-SHA256"},
-    {"ECDH-RSA-AES256-SHA384", "TLS-ECDH-RSA-WITH-AES-256-CBC-SHA384"},
-    {"ECDH-RSA-AES256-SHA", "TLS-ECDH-RSA-WITH-AES-256-CBC-SHA"},
-    {"ECDH-RSA-CAMELLIA128-SHA256", "TLS-ECDH-RSA-WITH-CAMELLIA-128-CBC-SHA256"},
-    {"ECDH-RSA-CAMELLIA128-SHA", "TLS-ECDH-RSA-WITH-CAMELLIA-128-CBC-SHA"},
-    {"ECDH-RSA-CAMELLIA256-SHA256", "TLS-ECDH-RSA-WITH-CAMELLIA-256-CBC-SHA256"},
-    {"ECDH-RSA-CAMELLIA256-SHA", "TLS-ECDH-RSA-WITH-CAMELLIA-256-CBC-SHA"},
-    {"ECDH-RSA-DES-CBC3-SHA", "TLS-ECDH-RSA-WITH-3DES-EDE-CBC-SHA"},
-    {"ECDH-RSA-DES-CBC-SHA", "TLS-ECDH-RSA-WITH-DES-CBC-SHA"},
-    {"ECDH-RSA-RC4-SHA", "TLS-ECDH-RSA-WITH-RC4-128-SHA"},
-    {"EDH-DSS-DES-CBC3-SHA", "TLS-DHE-DSS-WITH-3DES-EDE-CBC-SHA"},
-    {"EDH-DSS-DES-CBC-SHA", "TLS-DHE-DSS-WITH-DES-CBC-SHA"},
-    {"EDH-RSA-DES-CBC3-SHA", "TLS-DHE-RSA-WITH-3DES-EDE-CBC-SHA"},
-    {"EDH-RSA-DES-CBC-SHA", "TLS-DHE-RSA-WITH-DES-CBC-SHA"},
-    {"EXP-DES-CBC-SHA", "TLS-RSA-EXPORT-WITH-DES40-CBC-SHA"},
-    {"EXP-EDH-DSS-DES-CBC-SHA", "TLS-DH-DSS-EXPORT-WITH-DES40-CBC-SHA"},
-    {"EXP-EDH-RSA-DES-CBC-SHA", "TLS-DH-RSA-EXPORT-WITH-DES40-CBC-SHA"},
-    {"EXP-RC2-CBC-MD5", "TLS-RSA-EXPORT-WITH-RC2-CBC-40-MD5"},
-    {"EXP-RC4-MD5", "TLS-RSA-EXPORT-WITH-RC4-40-MD5"},
-    {"NULL-MD5", "TLS-RSA-WITH-NULL-MD5"},
-    {"NULL-SHA256", "TLS-RSA-WITH-NULL-SHA256"},
-    {"NULL-SHA", "TLS-RSA-WITH-NULL-SHA"},
-    {"PSK-3DES-EDE-CBC-SHA", "TLS-PSK-WITH-3DES-EDE-CBC-SHA"},
-    {"PSK-AES128-CBC-SHA", "TLS-PSK-WITH-AES-128-CBC-SHA"},
-    {"PSK-AES256-CBC-SHA", "TLS-PSK-WITH-AES-256-CBC-SHA"},
-    {"PSK-RC4-SHA", "TLS-PSK-WITH-RC4-128-SHA"},
-    {"RC4-MD5", "TLS-RSA-WITH-RC4-128-MD5"},
-    {"RC4-SHA", "TLS-RSA-WITH-RC4-128-SHA"},
-    {"SEED-SHA", "TLS-RSA-WITH-SEED-CBC-SHA"},
-    {"SRP-DSS-3DES-EDE-CBC-SHA", "TLS-SRP-SHA-DSS-WITH-3DES-EDE-CBC-SHA"},
-    {"SRP-DSS-AES-128-CBC-SHA", "TLS-SRP-SHA-DSS-WITH-AES-128-CBC-SHA"},
-    {"SRP-DSS-AES-256-CBC-SHA", "TLS-SRP-SHA-DSS-WITH-AES-256-CBC-SHA"},
-    {"SRP-RSA-3DES-EDE-CBC-SHA", "TLS-SRP-SHA-RSA-WITH-3DES-EDE-CBC-SHA"},
-    {"SRP-RSA-AES-128-CBC-SHA", "TLS-SRP-SHA-RSA-WITH-AES-128-CBC-SHA"},
-    {"SRP-RSA-AES-256-CBC-SHA", "TLS-SRP-SHA-RSA-WITH-AES-256-CBC-SHA"},
-#ifdef ENABLE_CRYPTO_OPENSSL
-    /* OpenSSL-specific group names */
-    {"DEFAULT", "DEFAULT"},
-    {"ALL", "ALL"},
-    {"HIGH", "HIGH"}, {"!HIGH", "!HIGH"},
-    {"MEDIUM", "MEDIUM"}, {"!MEDIUM", "!MEDIUM"},
-    {"LOW", "LOW"}, {"!LOW", "!LOW"},
-    {"ECDH", "ECDH"}, {"!ECDH", "!ECDH"},
-    {"ECDSA", "ECDSA"}, {"!ECDSA", "!ECDSA"},
-    {"EDH", "EDH"}, {"!EDH", "!EDH"},
-    {"EXP", "EXP"}, {"!EXP", "!EXP"},
-    {"RSA", "RSA"}, {"!RSA", "!RSA"},
-    {"kRSA", "kRSA"}, {"!kRSA", "!kRSA"},
-    {"SRP", "SRP"}, {"!SRP", "!SRP"},
-#endif
-    {NULL, NULL}
-};
-
-/**
- * Update the implicit IV for a key_ctx_bi based on TLS session ids and cipher
- * used.
- *
- * Note that the implicit IV is based on the HMAC key, but only in AEAD modes
- * where the HMAC key is not used for an actual HMAC.
- *
- * @param ctx                   Encrypt/decrypt key context
- * @param key                   HMAC key, used to calculate implicit IV
- * @param key_len               HMAC key length
- */
-static void
-key_ctx_update_implicit_iv(struct key_ctx *ctx, uint8_t *key, size_t key_len);
-
-const tls_cipher_name_pair *
-tls_get_cipher_name_pair(const char *cipher_name, size_t len)
-{
-    const tls_cipher_name_pair *pair = tls_cipher_name_translation_table;
-
-    while (pair->openssl_name != NULL)
-    {
-        if ((strlen(pair->openssl_name) == len && 0 == memcmp(cipher_name, pair->openssl_name, len))
-            || (strlen(pair->iana_name) == len && 0 == memcmp(cipher_name, pair->iana_name, len)))
-        {
-            return pair;
-        }
-        pair++;
-    }
-
-    /* No entry found, return NULL */
-    return NULL;
-}
-
-/**
  * Limit the reneg_bytes value when using a small-block (<128 bytes) cipher.
  *
- * @param cipher        The current cipher (may be NULL).
+ * @param ciphername    The current cipher (may be NULL).
  * @param reneg_bytes   Pointer to the current reneg_bytes, updated if needed.
  *                      May *not* be NULL.
  */
 static void
-tls_limit_reneg_bytes(const char *ciphername, int *reneg_bytes)
+tls_limit_reneg_bytes(const char *ciphername, int64_t *reneg_bytes)
 {
     if (cipher_kt_insecure(ciphername))
     {
@@ -294,6 +115,26 @@ tls_limit_reneg_bytes(const char *ciphername, int *reneg_bytes)
             *reneg_bytes = 64 * 1024 * 1024;
         }
     }
+}
+
+static uint64_t
+tls_get_limit_aead(const char *ciphername)
+{
+    uint64_t limit = cipher_get_aead_limits(ciphername);
+
+    if (limit == 0)
+    {
+        return 0;
+    }
+
+    /* set limit to 7/8 of the limit so the renegotiation can succeed before
+     * we go over the limit */
+    limit = limit/8 * 7;
+
+    msg(D_SHOW_KEYS, "Note: AEAD cipher %s will trigger a renegotiation"
+        " at a sum of %" PRIi64 " blocks and packets.",
+        ciphername, limit);
+    return limit;
 }
 
 void
@@ -408,6 +249,7 @@ static struct user_pass passbuf; /* GLOBAL */
 void
 pem_password_setup(const char *auth_file)
 {
+    unprotect_user_pass(&passbuf);
     if (!strlen(passbuf.password))
     {
         get_user_pass(&passbuf, auth_file, UP_TYPE_PRIVATE_KEY, GET_USER_PASS_MANAGEMENT|GET_USER_PASS_PASSWORD_ONLY);
@@ -421,6 +263,7 @@ pem_password_callback(char *buf, int size, int rwflag, void *u)
     {
         /* prompt for password even if --askpass wasn't specified */
         pem_password_setup(NULL);
+        ASSERT(!passbuf.protected);
         strncpynt(buf, passbuf.password, size);
         purge_user_pass(&passbuf, false);
 
@@ -442,7 +285,7 @@ static char *auth_challenge; /* GLOBAL */
 #endif
 
 void
-enable_auth_user_pass()
+enable_auth_user_pass(void)
 {
     auth_user_pass_enabled = true;
 }
@@ -460,6 +303,7 @@ auth_user_pass_setup(const char *auth_file, bool is_inline,
 
     if (!auth_user_pass.defined && !auth_token.defined)
     {
+        unprotect_user_pass(&auth_user_pass);
 #ifdef ENABLE_MANAGEMENT
         if (auth_challenge) /* dynamic challenge/response */
         {
@@ -477,6 +321,10 @@ auth_user_pass_setup(const char *auth_file, bool is_inline,
             {
                 flags |= GET_USER_PASS_STATIC_CHALLENGE_ECHO;
             }
+            if (sci->flags & SC_CONCAT)
+            {
+                flags |= GET_USER_PASS_STATIC_CHALLENGE_CONCAT;
+            }
             get_user_pass_cr(&auth_user_pass,
                              auth_file,
                              UP_TYPE_AUTH,
@@ -485,7 +333,9 @@ auth_user_pass_setup(const char *auth_file, bool is_inline,
         }
         else
 #endif /* ifdef ENABLE_MANAGEMENT */
-        get_user_pass(&auth_user_pass, auth_file, UP_TYPE_AUTH, flags);
+        {
+            get_user_pass(&auth_user_pass, auth_file, UP_TYPE_AUTH, flags);
+        }
     }
 }
 
@@ -500,12 +350,21 @@ ssl_set_auth_nocache(void)
 }
 
 /*
+ * Get the password caching
+ */
+bool
+ssl_get_auth_nocache(void)
+{
+    return passbuf.nocache;
+}
+
+/*
  * Set an authentication token
  */
 void
 ssl_set_auth_token(const char *token)
 {
-    set_auth_token(&auth_user_pass, &auth_token, token);
+    set_auth_token(&auth_token, token);
 }
 
 void
@@ -603,10 +462,10 @@ tls_version_parse(const char *vstr, const char *extra)
  * - the CRL file was passed inline
  * - the CRL file was not modified since the last (re)load
  *
- * @param ssl_ctx       The TLS context to use when reloading the CRL
- * @param crl_file      The file name to load the CRL from, or
- *                      "[[INLINE]]" in the case of inline files.
- * @param crl_inline    A string containing the CRL
+ * @param ssl_ctx         The TLS context to use when reloading the CRL
+ * @param crl_file        The file name to load the CRL from, or
+ *                        or an array containing the inline CRL.
+ * @param crl_file_inline True if crl_file is an inline CRL.
  */
 static void
 tls_ctx_reload_crl(struct tls_root_ctx *ssl_ctx, const char *crl_file,
@@ -855,6 +714,9 @@ state_name(int state)
         case S_ERROR:
             return "S_ERROR";
 
+        case S_ERROR_PRE:
+            return "S_ERROR_PRE";
+
         case S_GENERATED_KEYS:
             return "S_GENERATED_KEYS";
 
@@ -1009,12 +871,9 @@ key_state_init(struct tls_session *session, struct key_state *ks)
     reliable_set_timeout(ks->send_reliable, session->opt->packet_timeout);
 
     /* init packet ID tracker */
-    if (session->opt->replay)
-    {
-        packet_id_init(&ks->crypto_options.packet_id,
-                       session->opt->replay_window, session->opt->replay_time, "SSL",
-                       ks->key_id);
-    }
+    packet_id_init(&ks->crypto_options.packet_id,
+                   session->opt->replay_window, session->opt->replay_time, "SSL",
+                   ks->key_id);
 
     ks->crypto_options.pid_persist = NULL;
 
@@ -1317,6 +1176,7 @@ tls_multi_init(struct tls_options *tls_options)
     /* get command line derived options */
     ret->opt = *tls_options;
     ret->dco_peer_id = -1;
+    ret->peer_id = MAX_PEER_ID;
 
     return ret;
 }
@@ -1537,12 +1397,6 @@ init_key_contexts(struct key_state *ks,
     else
     {
         init_key_ctx_bi(key, key2, key_direction, key_type, "Data Channel");
-        /* Initialize implicit IVs */
-        key_ctx_update_implicit_iv(&key->encrypt, key2->keys[(int)server].hmac,
-                                   MAX_HMAC_KEY_LENGTH);
-        key_ctx_update_implicit_iv(&key->decrypt,
-                                   key2->keys[1 - (int)server].hmac,
-                                   MAX_HMAC_KEY_LENGTH);
     }
 }
 
@@ -1646,7 +1500,12 @@ generate_key_expansion(struct tls_multi *multi, struct key_state *ks,
     {
         if (!generate_key_expansion_openvpn_prf(session, &key2))
         {
-            msg(D_TLS_ERRORS, "TLS Error: PRF calcuation failed");
+            msg(D_TLS_ERRORS, "TLS Error: PRF calculation failed. Your system "
+                "might not support the old TLS 1.0 PRF calculation anymore or "
+                "the policy does not allow it (e.g. running in FIPS mode). "
+                "The peer did not announce support for the modern TLS Export "
+                "feature that replaces the TLS 1.0 PRF (requires OpenVPN "
+                "2.6.x or higher)");
             goto exit;
         }
     }
@@ -1672,22 +1531,6 @@ exit:
     secure_memzero(&key2, sizeof(key2));
 
     return ret;
-}
-
-static void
-key_ctx_update_implicit_iv(struct key_ctx *ctx, uint8_t *key, size_t key_len)
-{
-    /* Only use implicit IV in AEAD cipher mode, where HMAC key is not used */
-    if (cipher_ctx_mode_aead(ctx->cipher))
-    {
-        size_t impl_iv_len = 0;
-        ASSERT(cipher_ctx_iv_length(ctx->cipher) >= OPENVPN_AEAD_MIN_IV_LEN);
-        impl_iv_len = cipher_ctx_iv_length(ctx->cipher) - sizeof(packet_id_type);
-        ASSERT(impl_iv_len <= OPENVPN_MAX_IV_LENGTH);
-        ASSERT(impl_iv_len <= key_len);
-        memcpy(ctx->implicit_iv, key, impl_iv_len);
-        ctx->implicit_iv_len = impl_iv_len;
-    }
 }
 
 /**
@@ -1719,6 +1562,8 @@ tls_session_generate_data_channel_keys(struct tls_multi *multi,
     tls_limit_reneg_bytes(session->opt->key_type.cipher,
                           &session->opt->renegotiate_bytes);
 
+    session->opt->aead_usage_limit = tls_get_limit_aead(session->opt->key_type.cipher);
+
     /* set the state of the keys for the session to generated */
     ks->state = S_GENERATED_KEYS;
 
@@ -1734,7 +1579,8 @@ tls_session_update_crypto_params_do_work(struct tls_multi *multi,
                                          struct options *options,
                                          struct frame *frame,
                                          struct frame *frame_fragment,
-                                         struct link_socket_info *lsi)
+                                         struct link_socket_info *lsi,
+                                         dco_context_t *dco)
 {
     if (session->key[KS_PRIMARY].crypto_options.key_ctx_bi.initialized)
     {
@@ -1781,6 +1627,25 @@ tls_session_update_crypto_params_do_work(struct tls_multi *multi,
             return false;
         }
     }
+
+    if (dco_enabled(options))
+    {
+        /* dco_set_peer() must be called if either keepalive or
+         * mssfix are set to update in-kernel config */
+        if (options->ping_send_timeout || frame->mss_fix)
+        {
+            int ret = dco_set_peer(dco, multi->dco_peer_id,
+                                   options->ping_send_timeout,
+                                   options->ping_rec_timeout,
+                                   frame->mss_fix);
+            if (ret < 0)
+            {
+                msg(D_DCO, "Cannot set DCO peer parameters for peer (id=%u): %s",
+                    multi->dco_peer_id, strerror(-ret));
+                return false;
+            }
+        }
+    }
     return tls_session_generate_data_channel_keys(multi, session);
 }
 
@@ -1789,7 +1654,8 @@ tls_session_update_crypto_params(struct tls_multi *multi,
                                  struct tls_session *session,
                                  struct options *options, struct frame *frame,
                                  struct frame *frame_fragment,
-                                 struct link_socket_info *lsi)
+                                 struct link_socket_info *lsi,
+                                 dco_context_t *dco)
 {
     if (!check_session_cipher(session, options))
     {
@@ -1800,7 +1666,7 @@ tls_session_update_crypto_params(struct tls_multi *multi,
     session->opt->crypto_flags |= options->imported_protocol_flags;
 
     return tls_session_update_crypto_params_do_work(multi, session, options,
-                                                    frame, frame_fragment, lsi);
+                                                    frame, frame_fragment, lsi, dco);
 }
 
 
@@ -1918,6 +1784,12 @@ key_state_soft_reset(struct tls_session *session)
     ks->remote_addr = ks_lame->remote_addr;
 }
 
+void
+tls_session_soft_reset(struct tls_multi *tls_multi)
+{
+    key_state_soft_reset(&tls_multi->session[TM_ACTIVE]);
+}
+
 /*
  * Read/write strings from/to a struct buffer with a u16 length prefix.
  */
@@ -1951,20 +1823,33 @@ write_string(struct buffer *buf, const char *str, const int maxlen)
     return true;
 }
 
-static bool
+/**
+ * Read a string that is encoded as a 2 byte header with the length from the
+ * buffer \c buf. Will return the non-negative value if reading was successful.
+ * The returned value will include the trailing 0 byte.
+ *
+ * If the message is over the capacity or could not be read
+ * it will return the negative length that was in the
+ * header and try to skip the string. If the string cannot be skipped, the
+ * buf will stay at the current position or position + 2
+ */
+static int
 read_string(struct buffer *buf, char *str, const unsigned int capacity)
 {
     const int len = buf_read_u16(buf);
     if (len < 1 || len > (int)capacity)
     {
-        return false;
+        buf_advance(buf, len);
+
+        /* will also return 0 for a no string being present */
+        return -len;
     }
     if (!buf_read(buf, str, len))
     {
-        return false;
+        return -len;
     }
     str[len-1] = '\0';
-    return true;
+    return len;
 }
 
 static char *
@@ -2044,8 +1929,8 @@ push_peer_info(struct buffer *buf, struct tls_session *session)
         /* support for P_DATA_V2 */
         int iv_proto = IV_PROTO_DATA_V2;
 
-        /* support for the --dns option */
-        iv_proto |= IV_PROTO_DNS_OPTION;
+        /* support for the latest --dns option */
+        iv_proto |= IV_PROTO_DNS_OPTION_V2;
 
         /* support for exit notify via control channel */
         iv_proto |= IV_PROTO_CC_EXIT_NOTIFY;
@@ -2105,7 +1990,7 @@ push_peer_info(struct buffer *buf, struct tls_session *session)
         {
             /* push mac addr */
             struct route_gateway_info rgi;
-            get_default_gateway(&rgi, session->opt->net_ctx);
+            get_default_gateway(&rgi, 0, session->opt->net_ctx);
             if (rgi.flags & RGI_HWADDR_DEFINED)
             {
                 buf_printf(&out, "IV_HWADDR=%s\n", format_hex_ex(rgi.hwaddr, 6, 0, 1, ":", &gc));
@@ -2113,6 +1998,10 @@ push_peer_info(struct buffer *buf, struct tls_session *session)
             buf_printf(&out, "IV_SSL=%s\n", get_ssl_library_version() );
 #if defined(_WIN32)
             buf_printf(&out, "IV_PLAT_VER=%s\n", win32_version_string(&gc, false));
+#else
+            struct utsname u;
+            uname(&u);
+            buf_printf(&out, "IV_PLAT_VER=%s\n", u.release);
 #endif
         }
 
@@ -2238,6 +2127,7 @@ key_method_2_write(struct buffer *buf, struct tls_multi *multi, struct tls_sessi
         {
             up = &auth_token;
         }
+        unprotect_user_pass(up);
 
         if (!write_string(buf, up->username, -1))
         {
@@ -2250,8 +2140,11 @@ key_method_2_write(struct buffer *buf, struct tls_multi *multi, struct tls_sessi
         /* save username for auth-token which may get pushed later */
         if (session->opt->pull && up != &auth_token)
         {
+            unprotect_user_pass(&auth_token);
             strncpynt(auth_token.username, up->username, USER_PASS_LEN);
+            protect_user_pass(&auth_token);
         }
+        protect_user_pass(up);
         /* respect auth-nocache */
         purge_user_pass(&auth_user_pass, false);
     }
@@ -2330,8 +2223,6 @@ key_method_2_read(struct buffer *buf, struct tls_multi *multi, struct tls_sessio
 {
     struct key_state *ks = &session->key[KS_PRIMARY];      /* primary key */
 
-    bool username_status, password_status;
-
     struct gc_arena gc = gc_new();
     char *options;
     struct user_pass *up = NULL;
@@ -2365,7 +2256,7 @@ key_method_2_read(struct buffer *buf, struct tls_multi *multi, struct tls_sessio
     }
 
     /* get options */
-    if (!read_string(buf, options, TLS_OPTIONS_LEN))
+    if (read_string(buf, options, TLS_OPTIONS_LEN) < 0)
     {
         msg(D_TLS_ERRORS, "TLS Error: Failed to read required OCC options string");
         goto error;
@@ -2378,8 +2269,8 @@ key_method_2_read(struct buffer *buf, struct tls_multi *multi, struct tls_sessio
      * peer_info data which follows behind
      */
     ALLOC_OBJ_CLEAR_GC(up, struct user_pass, &gc);
-    username_status = read_string(buf, up->username, USER_PASS_LEN);
-    password_status = read_string(buf, up->password, USER_PASS_LEN);
+    int username_len = read_string(buf, up->username, USER_PASS_LEN);
+    int password_len = read_string(buf, up->password, USER_PASS_LEN);
 
     /* get peer info from control channel */
     free(multi->peer_info);
@@ -2402,10 +2293,21 @@ key_method_2_read(struct buffer *buf, struct tls_multi *multi, struct tls_sessio
         multi->remote_ciphername = string_alloc("none", NULL);
     }
 
-    if (tls_session_user_pass_enabled(session))
+    if (username_len < 0 || password_len < 0)
+    {
+        msg(D_TLS_ERRORS, "TLS Error: Username (%d) or password (%d) too long",
+            abs(username_len), abs(password_len));
+        auth_set_client_reason(multi, "Username or password is too long. "
+                               "Maximum length is 128 bytes");
+
+        /* treat the same as failed username/password and do not error
+         * out (goto error) to sent an AUTH_FAILED back to the client */
+        ks->authenticated = KS_AUTH_FALSE;
+    }
+    else if (tls_session_user_pass_enabled(session))
     {
         /* Perform username/password authentication */
-        if (!username_status || !password_status)
+        if (!username_len || !password_len)
         {
             CLEAR(*up);
             if (!(session->opt->ssl_flags & SSLF_AUTH_USER_PASS_OPTIONAL))
@@ -2693,7 +2595,7 @@ error:
  */
 static bool
 read_incoming_tls_ciphertext(struct buffer *buf, struct key_state *ks,
-                             bool *state_change)
+                             bool *continue_tls_process)
 {
     int status = 0;
     if (buf->len)
@@ -2713,7 +2615,7 @@ read_incoming_tls_ciphertext(struct buffer *buf, struct key_state *ks,
     if (status == 1)
     {
         reliable_mark_deleted(ks->rec_reliable, buf);
-        *state_change = true;
+        *continue_tls_process = true;
         dmsg(D_TLS_DEBUG, "Incoming Ciphertext -> TLS");
     }
     return true;
@@ -2729,7 +2631,7 @@ control_packet_needs_wkc(const struct key_state *ks)
 
 static bool
 read_incoming_tls_plaintext(struct key_state *ks, struct buffer *buf,
-                            interval_t *wakeup, bool *state_change)
+                            interval_t *wakeup, bool *continue_tls_process)
 {
     ASSERT(buf_init(buf, 0));
 
@@ -2743,7 +2645,7 @@ read_incoming_tls_plaintext(struct key_state *ks, struct buffer *buf,
     }
     if (status == 1)
     {
-        *state_change = true;
+        *continue_tls_process = true;
         dmsg(D_TLS_DEBUG, "TLS -> Incoming Plaintext");
 
         /* More data may be available, wake up again asap to check. */
@@ -2753,7 +2655,7 @@ read_incoming_tls_plaintext(struct key_state *ks, struct buffer *buf,
 }
 
 static bool
-write_outgoing_tls_ciphertext(struct tls_session *session, bool *state_change)
+write_outgoing_tls_ciphertext(struct tls_session *session, bool *continue_tls_process)
 {
     struct key_state *ks = &session->key[KS_PRIMARY];
 
@@ -2829,7 +2731,7 @@ write_outgoing_tls_ciphertext(struct tls_session *session, bool *state_change)
 
             reliable_mark_active_outgoing(ks->send_reliable, buf, opcode);
             INCR_GENERATED;
-            *state_change = true;
+            *continue_tls_process = true;
         }
         dmsg(D_TLS_DEBUG, "Outgoing Ciphertext -> Reliable");
     }
@@ -2838,6 +2740,24 @@ write_outgoing_tls_ciphertext(struct tls_session *session, bool *state_change)
     return true;
 }
 
+static bool
+check_outgoing_ciphertext(struct key_state *ks, struct tls_session *session,
+                          bool *continue_tls_process)
+{
+    /* Outgoing Ciphertext to reliable buffer */
+    if (ks->state >= S_START)
+    {
+        struct buffer *buf = reliable_get_buf_output_sequenced(ks->send_reliable);
+        if (buf)
+        {
+            if (!write_outgoing_tls_ciphertext(session, continue_tls_process))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
 static bool
 tls_process_state(struct tls_multi *multi,
@@ -2847,17 +2767,23 @@ tls_process_state(struct tls_multi *multi,
                   struct link_socket_info *to_link_socket_info,
                   interval_t *wakeup)
 {
-    bool state_change = false;
+    /* This variable indicates if we should call this method
+     * again to process more incoming/outgoing TLS state/data
+     * We want to repeat this until we either determined that there
+     * is nothing more to process or that further processing
+     * should only be done after the outer loop (sending packets etc.)
+     * has run once more */
+    bool continue_tls_process = false;
     struct key_state *ks = &session->key[KS_PRIMARY];      /* primary key */
 
     /* Initial handshake */
     if (ks->state == S_INITIAL)
     {
-        state_change = session_move_pre_start(session, ks, false);
+        continue_tls_process = session_move_pre_start(session, ks, false);
     }
 
     /* Are we timed out on receive? */
-    if (now >= ks->must_negotiate && ks->state < S_ACTIVE)
+    if (now >= ks->must_negotiate && ks->state >= S_UNDEF && ks->state < S_ACTIVE)
     {
         msg(D_TLS_ERRORS,
             "TLS Error: TLS key negotiation failed to occur within %d seconds (check your network connectivity)",
@@ -2871,7 +2797,7 @@ tls_process_state(struct tls_multi *multi,
     if (ks->state == S_PRE_START && reliable_empty(ks->send_reliable))
     {
         ks->state = S_START;
-        state_change = true;
+        continue_tls_process = true;
 
         /* New connection, remove any old X509 env variables */
         tls_x509_clear_env(session->opt->es);
@@ -2884,7 +2810,7 @@ tls_process_state(struct tls_multi *multi,
         && reliable_empty(ks->send_reliable))
     {
         session_move_active(multi, session, to_link_socket_info, ks);
-        state_change = true;
+        continue_tls_process = true;
     }
 
     /* Reliable buffer to outgoing TCP/UDP (send up to CONTROL_SEND_ACK_MAX ACKs
@@ -2902,7 +2828,23 @@ tls_process_state(struct tls_multi *multi,
                            CONTROL_SEND_ACK_MAX, true);
         *to_link = b;
         dmsg(D_TLS_DEBUG, "Reliable -> TCP/UDP");
-        return true;
+
+        /* This changed the state of the outgoing buffer. In order to avoid
+         * running this function again/further and invalidating the key_state
+         * buffer and accessing the buffer that is now in to_link after it being
+         * freed for a potential error, we shortcircuit exiting of the outer
+         * process here. */
+        return false;
+    }
+
+    if (ks->state == S_ERROR_PRE)
+    {
+        /* When we end up here, we had one last chance to send an outstanding
+         * packet that contained an alert. We do not ensure that this packet
+         * has been successfully delivered  (ie wait for the ACK etc)
+         * but rather stop processing now */
+        ks->state = S_ERROR;
+        return false;
     }
 
     /* Write incoming ciphertext to TLS object */
@@ -2920,7 +2862,7 @@ tls_process_state(struct tls_multi *multi,
         }
         else
         {
-            if (!read_incoming_tls_ciphertext(&entry->buf, ks, &state_change))
+            if (!read_incoming_tls_ciphertext(&entry->buf, ks, &continue_tls_process))
             {
                 goto error;
             }
@@ -2931,7 +2873,7 @@ tls_process_state(struct tls_multi *multi,
     struct buffer *buf = &ks->plaintext_read_buf;
     if (!buf->len)
     {
-        if (!read_incoming_tls_plaintext(ks, buf, wakeup, &state_change))
+        if (!read_incoming_tls_plaintext(ks, buf, wakeup, &continue_tls_process))
         {
             goto error;
         }
@@ -2947,7 +2889,7 @@ tls_process_state(struct tls_multi *multi,
             goto error;
         }
 
-        state_change = true;
+        continue_tls_process = true;
         dmsg(D_TLS_DEBUG_MED, "STATE S_SENT_KEY");
         ks->state = S_SENT_KEY;
     }
@@ -2963,7 +2905,7 @@ tls_process_state(struct tls_multi *multi,
             goto error;
         }
 
-        state_change = true;
+        continue_tls_process = true;
         dmsg(D_TLS_DEBUG_MED, "STATE S_GOT_KEY");
         ks->state = S_GOT_KEY;
     }
@@ -2981,32 +2923,94 @@ tls_process_state(struct tls_multi *multi,
         }
         if (status == 1)
         {
-            state_change = true;
+            continue_tls_process = true;
             dmsg(D_TLS_DEBUG, "Outgoing Plaintext -> TLS");
         }
     }
-
-    /* Outgoing Ciphertext to reliable buffer */
-    if (ks->state >= S_START)
+    if (!check_outgoing_ciphertext(ks, session, &continue_tls_process))
     {
-        buf = reliable_get_buf_output_sequenced(ks->send_reliable);
-        if (buf)
-        {
-            if (!write_outgoing_tls_ciphertext(session, &state_change))
-            {
-                goto error;
-            }
-        }
+        goto error;
     }
 
-    return state_change;
+    return continue_tls_process;
 error:
     tls_clear_error();
-    ks->state = S_ERROR;
+
+    /* Shut down the TLS session but do a last read from the TLS
+     * object to be able to read potential TLS alerts */
+    key_state_ssl_shutdown(&ks->ks_ssl);
+    check_outgoing_ciphertext(ks, session, &continue_tls_process);
+
+    /* Put ourselves in the pre error state that will only send out the
+     * control channel packets but nothing else */
+    ks->state = S_ERROR_PRE;
+
     msg(D_TLS_ERRORS, "TLS Error: TLS handshake failed");
     INCR_ERROR;
-    return false;
+    return true;
+}
 
+/**
+ * Determines if a renegotiation should be triggerred based on the various
+ * factors that can trigger one
+ */
+static bool
+should_trigger_renegotiation(const struct tls_session *session, const struct key_state *ks)
+{
+    /* Time limit */
+    if (session->opt->renegotiate_seconds
+        && now >= ks->established + session->opt->renegotiate_seconds)
+    {
+        return true;
+    }
+
+    /* Byte limit */
+    if (session->opt->renegotiate_bytes > 0
+        && ks->n_bytes >= session->opt->renegotiate_bytes)
+    {
+        return true;
+    }
+
+    /* Packet limit */
+    if (session->opt->renegotiate_packets
+        && ks->n_packets >= session->opt->renegotiate_packets)
+    {
+        return true;
+    }
+
+    /* Packet id approach the limit of the packet id */
+    if (packet_id_close_to_wrapping(&ks->crypto_options.packet_id.send))
+    {
+        return true;
+    }
+
+    /* Check the AEAD usage limit of cleartext blocks + packets.
+     *
+     *  Contrary to when epoch data mode is active, where only the sender side
+     *  checks the limit, here we check both receive and send limit since
+     *  we assume that only one side is aware of the limit.
+     *
+     *  Since if both sides were aware, then both sides will probably also
+     *  switch to use epoch data channel instead, so this code is not
+     *  in effect then.
+     */
+    const struct key_ctx_bi *key_ctx_bi = &ks->crypto_options.key_ctx_bi;
+    const uint64_t usage_limit = session->opt->aead_usage_limit;
+
+    if (aead_usage_limit_reached(usage_limit, &key_ctx_bi->encrypt,
+                                 ks->crypto_options.packet_id.send.id)
+        || aead_usage_limit_reached(usage_limit, &key_ctx_bi->decrypt,
+                                    ks->crypto_options.packet_id.rec.id))
+    {
+        return true;
+    }
+
+    if (cipher_decrypt_verify_fail_warn(&key_ctx_bi->decrypt))
+    {
+        return true;
+    }
+
+    return false;
 }
 /*
  * This is the primary routine for processing TLS stuff inside the
@@ -3035,19 +3039,20 @@ tls_process(struct tls_multi *multi,
 
     /* Should we trigger a soft reset? -- new key, keeps old key for a while */
     if (ks->state >= S_GENERATED_KEYS
-        && ((session->opt->renegotiate_seconds
-             && now >= ks->established + session->opt->renegotiate_seconds)
-            || (session->opt->renegotiate_bytes > 0
-                && ks->n_bytes >= session->opt->renegotiate_bytes)
-            || (session->opt->renegotiate_packets
-                && ks->n_packets >= session->opt->renegotiate_packets)
-            || (packet_id_close_to_wrapping(&ks->crypto_options.packet_id.send))))
+        && should_trigger_renegotiation(session, ks))
     {
         msg(D_TLS_DEBUG_LOW, "TLS: soft reset sec=%d/%d bytes=" counter_format
-            "/%d pkts=" counter_format "/%d",
+            "/%" PRIi64 " pkts=" counter_format "/%" PRIi64
+            " aead_limit_send=%" PRIu64 "/%" PRIu64
+            " aead_limit_recv=%" PRIu64 "/%" PRIu64,
             (int) (now - ks->established), session->opt->renegotiate_seconds,
             ks->n_bytes, session->opt->renegotiate_bytes,
-            ks->n_packets, session->opt->renegotiate_packets);
+            ks->n_packets, session->opt->renegotiate_packets,
+            ks->crypto_options.key_ctx_bi.encrypt.plaintext_blocks + ks->n_packets,
+            session->opt->aead_usage_limit,
+            ks->crypto_options.key_ctx_bi.decrypt.plaintext_blocks + ks->n_packets,
+            session->opt->aead_usage_limit
+            );
         key_state_soft_reset(session);
     }
 
@@ -3058,19 +3063,19 @@ tls_process(struct tls_multi *multi,
         msg(D_TLS_DEBUG_LOW, "TLS: tls_process: killed expiring key");
     }
 
-    bool state_change = true;
-    while (state_change)
+    bool continue_tls_process = true;
+    while (continue_tls_process)
     {
         update_time();
 
         dmsg(D_TLS_DEBUG, "TLS: tls_process: chg=%d ks=%s lame=%s to_link->len=%d wakeup=%d",
-             state_change,
+             continue_tls_process,
              state_name(ks->state),
              state_name(ks_lame->state),
              to_link->len,
              *wakeup);
-        state_change = tls_process_state(multi, session, to_link, to_link_addr,
-                                         to_link_socket_info, wakeup);
+        continue_tls_process = tls_process_state(multi, session, to_link, to_link_addr,
+                                                 to_link_socket_info, wakeup);
 
         if (ks->state == S_ERROR)
         {
@@ -3115,7 +3120,7 @@ tls_process(struct tls_multi *multi,
     }
 
     /* When should we wake up again? */
-    if (ks->state >= S_INITIAL)
+    if (ks->state >= S_INITIAL || ks->state == S_ERROR_PRE)
     {
         compute_earliest_wakeup(wakeup,
                                 reliable_send_timeout(ks->send_reliable));
@@ -3154,6 +3159,69 @@ tls_process(struct tls_multi *multi,
     return false;
 }
 
+
+/**
+ * This is a safe guard function to double check that a buffer from a session is
+ * not used in a session to avoid a use after free.
+ *
+ * @param to_link
+ * @param session
+ */
+static void
+check_session_buf_not_used(struct buffer *to_link, struct tls_session *session)
+{
+    uint8_t *dataptr = to_link->data;
+    if (!dataptr)
+    {
+        return;
+    }
+
+    /* Checks buffers in tls_wrap */
+    if (session->tls_wrap.work.data == dataptr)
+    {
+        msg(M_INFO, "Warning buffer of freed TLS session is "
+            "still in use (tls_wrap.work.data)");
+        goto used;
+    }
+
+    for (int i = 0; i < KS_SIZE; i++)
+    {
+        struct key_state *ks = &session->key[i];
+        if (ks->state == S_UNDEF)
+        {
+            continue;
+        }
+
+        /* we don't expect send_reliable to be NULL when state is
+         * not S_UNDEF, but people have reported crashes nonetheless,
+         * therefore we better catch this event, report and exit.
+         */
+        if (!ks->send_reliable)
+        {
+            msg(M_FATAL, "ERROR: session->key[%d]->send_reliable is NULL "
+                "while key state is %s. Exiting.",
+                i, state_name(ks->state));
+        }
+
+        for (int j = 0; j < ks->send_reliable->size; j++)
+        {
+            if (ks->send_reliable->array[j].buf.data == dataptr)
+            {
+                msg(M_INFO, "Warning buffer of freed TLS session is still in"
+                    " use (session->key[%d].send_reliable->array[%d])",
+                    i, j);
+
+                goto used;
+            }
+        }
+    }
+    return;
+
+used:
+    to_link->len = 0;
+    to_link->data = 0;
+    /* for debugging, you can add an ASSERT(0); here to trigger an abort */
+}
 /*
  * Called by the top-level event loop.
  *
@@ -3205,7 +3273,7 @@ tls_multi_process(struct tls_multi *multi,
              session_id_print(&ks->session_id_remote, &gc),
              print_link_socket_actual(&ks->remote_addr, &gc));
 
-        if (ks->state >= S_INITIAL && link_socket_actual_defined(&ks->remote_addr))
+        if ((ks->state >= S_INITIAL || ks->state == S_ERROR_PRE) &&  link_socket_actual_defined(&ks->remote_addr))
         {
             struct link_socket_actual *tla = NULL;
 
@@ -3252,6 +3320,7 @@ tls_multi_process(struct tls_multi *multi,
                 }
                 else
                 {
+                    check_session_buf_not_used(to_link, session);
                     reset_session(multi, session);
                 }
             }
@@ -3282,7 +3351,8 @@ tls_multi_process(struct tls_multi *multi,
             {
                 msg(D_TLS_ERRORS, "TLS Error: generate_key_expansion failed");
                 ks->authenticated = KS_AUTH_FALSE;
-                ks->state = S_ERROR;
+                key_state_ssl_shutdown(&ks->ks_ssl);
+                ks->state = S_ERROR_PRE;
             }
 
             /* Update auth token on the client if needed on renegotiation
@@ -4200,6 +4270,32 @@ protocol_dump(struct buffer *buffer, unsigned int flags, struct gc_arena *gc)
             goto done;
         }
         buf_printf(&out, " pid=%s", packet_id_net_print(&pin, (flags & PD_VERBOSE), gc));
+    }
+    /*
+     * packet_id + tls-crypt hmac
+     */
+    if (flags & PD_TLS_CRYPT)
+    {
+        struct packet_id_net pin;
+        uint8_t tls_crypt_hmac[TLS_CRYPT_TAG_SIZE];
+
+        if (!packet_id_read(&pin, &buf, true))
+        {
+            goto done;
+        }
+        buf_printf(&out, " pid=%s", packet_id_net_print(&pin, (flags & PD_VERBOSE), gc));
+        if (!buf_read(&buf, tls_crypt_hmac, TLS_CRYPT_TAG_SIZE))
+        {
+            goto done;
+        }
+        if (flags & PD_VERBOSE)
+        {
+            buf_printf(&out, " tls_crypt_hmac=%s", format_hex(tls_crypt_hmac, TLS_CRYPT_TAG_SIZE, 0, gc));
+        }
+        /*
+         * Remainder is encrypted and optional wKc
+         */
+        goto done;
     }
 
     /*

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -50,6 +50,7 @@
 #include "openvpn.h"
 #include "occ.h"
 #include "ping.h"
+#include "multi_io.h"
 
 #define IOW_TO_TUN          (1<<0)
 #define IOW_TO_LINK         (1<<1)
@@ -72,7 +73,8 @@ void io_wait_dowork(struct context *c, const unsigned int flags);
 
 void pre_select(struct context *c);
 
-void process_io(struct context *c);
+void process_io(struct context *c, struct link_socket *sock);
+
 
 /**********************************************************************/
 /**
@@ -85,11 +87,11 @@ void process_io(struct context *c);
  * - Check that the client authentication has succeeded; if not, drop the
  *   packet.
  * - If the \a comp_frag argument is true:
- *   - Call \c lzo_compress() of the \link Data Channel Compression
+ *   - Call \c lzo_compress() of the \link compression Data Channel Compression
  *     module\endlink to (possibly) compress the packet.
- *   - Call \c fragment_outgoing() of the \link Data Channel Fragmentation
+ *   - Call \c fragment_outgoing() of the \link fragmentation Data Channel Fragmentation
  *     module\endlink to (possibly) fragment the packet.
- * - Activate the \link Data Channel Crypto module\endlink to perform
+ * - Activate the \link data_crypto Data Channel Crypto module\endlink to perform
  *   security operations on the packet.
  *   - Call \c tls_pre_encrypt() to choose the appropriate security
  *     parameters for this packet.
@@ -128,10 +130,11 @@ int get_server_poll_remaining_time(struct event_timeout *server_poll_timeout);
  * context associated with the appropriate VPN tunnel for which data is
  * available to be read.
  *
- * @param c - The context structure which contains the external
- *     network socket from which to read incoming packets.
+ * @param c    The context structure which contains the external
+ *             network socket from which to read incoming packets.
+ * @param sock   The socket where the packet can be read from.
  */
-void read_incoming_link(struct context *c);
+void read_incoming_link(struct context *c, struct link_socket *sock);
 
 /**
  * Starts processing a packet read from the external network interface.
@@ -197,10 +200,11 @@ void process_incoming_link_part2(struct context *c, struct link_socket_info *lsi
  *
  * If an error occurs, it is logged and the packet is dropped.
  *
- * @param c - The context structure of the VPN tunnel associated with the
- *     packet.
+ * @param c   The context structure of the VPN tunnel associated with the
+ *            packet.
+ * @param sock  The socket to be used to send the packet.
  */
-void process_outgoing_link(struct context *c);
+void process_outgoing_link(struct context *c, struct link_socket *sock);
 
 
 /**************************************************************************/
@@ -228,10 +232,12 @@ void read_incoming_tun(struct context *c);
  *
  * If an error occurs, it is logged and the packet is dropped.
  *
- * @param c - The context structure of the VPN tunnel associated with the
- *     packet.
+ * @param c       The context structure of the VPN tunnel associated with
+ *                the packet.
+ * @param out_sock  Socket that will be used to send out the packet.
+ *
  */
-void process_incoming_tun(struct context *c);
+void process_incoming_tun(struct context *c, struct link_socket *out_sock);
 
 
 /**
@@ -243,10 +249,11 @@ void process_incoming_tun(struct context *c);
  *
  * If an error occurs, it is logged and the packet is dropped.
  *
- * @param c - The context structure of the VPN tunnel associated with
- *     the packet.
+ * @param c      The context structure of the VPN tunnel associated
+ *               with the packet.
+ * @param in_sock  Socket where the packet was received.
  */
-void process_outgoing_tun(struct context *c);
+void process_outgoing_tun(struct context *c, struct link_socket *in_sock);
 
 
 /**************************************************************************/
@@ -297,23 +304,25 @@ void reschedule_multi_process(struct context *c);
 #define PIP_OUTGOING                    (1<<2)
 #define PIPV4_EXTRACT_DHCP_ROUTER       (1<<3)
 #define PIPV4_CLIENT_NAT                (1<<4)
-#define PIPV6_IMCP_NOHOST_CLIENT        (1<<5)
-#define PIPV6_IMCP_NOHOST_SERVER        (1<<6)
+#define PIPV6_ICMP_NOHOST_CLIENT        (1<<5)
+#define PIPV6_ICMP_NOHOST_SERVER        (1<<6)
 
-void process_ip_header(struct context *c, unsigned int flags, struct buffer *buf);
 
-void schedule_exit(struct context *c, const int n_seconds, const int signal);
+void process_ip_header(struct context *c, unsigned int flags, struct buffer *buf,
+                       struct link_socket *sock);
+
+bool schedule_exit(struct context *c);
 
 static inline struct link_socket_info *
 get_link_socket_info(struct context *c)
 {
-    if (c->c2.link_socket_info)
+    if (c->c2.link_socket_infos)
     {
-        return c->c2.link_socket_info;
+        return c->c2.link_socket_infos[0];
     }
     else
     {
-        return &c->c2.link_socket->info;
+        return &c->c2.link_sockets[0]->info;
     }
 }
 

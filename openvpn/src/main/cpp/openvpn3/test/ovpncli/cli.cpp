@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // OpenVPN 3 test client
 
@@ -72,6 +62,8 @@
 #include <openvpn/time/timestr.hpp>
 #include <openvpn/ssl/peerinfo.hpp>
 #include <openvpn/ssl/sslchoose.hpp>
+#include <openvpn/common/argv.hpp>
+#include <openvpn/common/process.hpp>
 
 #ifdef OPENVPN_REMOTE_OVERRIDE
 #include <openvpn/common/process.hpp>
@@ -121,16 +113,12 @@ class ClientBase : public ClientAPI::OpenVPNClient
   public:
     bool tun_builder_new() override
     {
-        tbc.tun_builder_set_mtu(1500);
         return true;
     }
 
     int tun_builder_establish() override
     {
-        if (!tun)
-        {
-            tun.reset(new TUN_CLASS_SETUP());
-        }
+        tun.reset(new TUN_CLASS_SETUP());
 
         TUN_CLASS_SETUP::Config config;
         config.layer = Layer(Layer::Type::OSI_LAYER_3);
@@ -174,11 +162,6 @@ class ClientBase : public ClientAPI::OpenVPNClient
         return tbc.tun_builder_set_session_name(name);
     }
 
-    bool tun_builder_add_dns_server(const std::string &address, bool ipv6) override
-    {
-        return tbc.tun_builder_add_dns_server(address, ipv6);
-    }
-
     void tun_builder_teardown(bool disconnect) override
     {
         std::ostringstream os;
@@ -187,13 +170,22 @@ class ClientBase : public ClientAPI::OpenVPNClient
         tun->destroy(os);
     }
 
-    bool socket_protect(int socket, std::string remote, bool ipv6) override
+    bool socket_protect([[maybe_unused]] openvpn_io::detail::socket_type socket, std::string remote, bool ipv6) override
     {
-        (void)socket;
         std::ostringstream os;
         auto os_print = Cleanup([&os]()
                                 { OPENVPN_LOG_STRING(os.str()); });
         return tun->add_bypass_route(remote, ipv6, os);
+    }
+
+    bool tun_builder_set_dns_options(const DnsOptions &dns) override
+    {
+        return tbc.tun_builder_set_dns_options(dns);
+    }
+
+    bool tun_builder_set_mtu(int mtu) override
+    {
+        return tbc.tun_builder_set_mtu(mtu);
     }
 
   private:
@@ -204,7 +196,7 @@ class ClientBase : public ClientAPI::OpenVPNClient
 class ClientBase : public ClientAPI::OpenVPNClient
 {
   public:
-    bool socket_protect(int socket, std::string remote, bool ipv6) override
+    bool socket_protect(openvpn_io::detail::socket_type socket, std::string remote, bool ipv6) override
     {
         std::cout << "NOT IMPLEMENTED: *** socket_protect " << socket << " " << remote << std::endl;
         return true;
@@ -214,6 +206,9 @@ class ClientBase : public ClientAPI::OpenVPNClient
 
 class Client : public ClientBase
 {
+    // This is the protocol tag that appcontrol expects to trigger the certcheck start.
+    static constexpr char certcheck_init_verb[] = "dpc1"; // TODO: std::string in C++ '20
+
   public:
     enum ClockTickAction
     {
@@ -238,10 +233,15 @@ class Client : public ClientBase
     std::string epki_ca;
     std::string epki_cert;
 #if defined(USE_MBEDTLS)
-    MbedTLSPKI::PKContext epki_ctx; // external PKI context
+    MbedTLSPKI::PKContext epki_ctx;       // external PKI context
+    MbedTLSPKI::PKContext certcheck_pkey; // external PKI context
 #elif defined(USE_OPENSSL)
     openvpn::OpenSSLPKI::PKey epki_pkey;
+    openvpn::OpenSSLPKI::PKey certcheck_pkey;
 #endif
+
+    std::string certcheck_cert;        ///< file name of properly encoded server cert
+    std::string certcheck_clientca_fn; ///< file name of properly encoded client ca
 
     void set_clock_tick_action(const ClockTickAction action)
     {
@@ -274,8 +274,9 @@ class Client : public ClientBase
         write_url_fn = fn;
     }
 
+
   private:
-    virtual void event(const ClientAPI::Event &ev) override
+    void event(const ClientAPI::Event &ev) override
     {
         std::cout << date_time() << " EVENT: " << ev.name;
         if (!ev.info.empty())
@@ -307,7 +308,7 @@ class Client : public ClientBase
         {
             if (string::starts_with(ev.info, "OPEN_URL:"))
             {
-                open_url(ev.info.substr(9), "");
+                open_url(ev.info.substr(9));
             }
             else if (string::starts_with(ev.info, "WEB_AUTH:"))
             {
@@ -315,10 +316,7 @@ class Client : public ClientBase
                 size_t flagsend = extra.find(':');
                 if (flagsend != std::string::npos)
                 {
-
-                    auto flags = extra.substr(0, flagsend);
-                    auto url = extra.substr(flagsend + 1);
-                    open_url(url, flags);
+                    open_url(extra.substr(flagsend + 1));
                 }
             }
             else if (string::starts_with(ev.info, "CR_TEXT:"))
@@ -329,10 +327,103 @@ class Client : public ClientBase
                 std::getline(std::cin, cr_response);
                 post_cc_msg("CR_RESPONSE," + base64->encode(cr_response));
             }
+            else
+            {
+                std::cout << "Unrecognized INFO/INFO_PRE message: " << ev.info << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Received event " << ev.name << " " << ev.info << std::endl;
         }
     }
 
-    void open_url(std::string url_str, std::string flags)
+    void handle_dpc1_protocol(const ClientAPI::AppCustomControlMessageEvent &acev)
+    {
+        if (string::starts_with(acev.payload, "{\"dpc_request\"") && acev.payload.find("certificate") != std::string::npos)
+        {
+            std::cout << "ACC CERTCHECK challenge initiated" << std::endl;
+            handle_certcheck_request();
+        }
+        else if (string::starts_with(acev.payload, "{\"dpc_request\"") && acev.payload.find("client_info") != std::string::npos)
+        {
+
+            std::string fakeResponse{R"({"dpc_response": {
+                    "client_info" : {
+                            "os" :  {"type" : "Windows", "version" : "10.0.19045" }
+                        }
+                    }})"};
+
+            std::cout << "ACC DPC1: sending fake client info:" << fakeResponse << std::endl;
+            send_app_control_channel_msg("dpc1", fakeResponse);
+        }
+        else if (string::starts_with(acev.payload, "{\"dpc_request\""))
+        {
+            std::cout << "Cannot parse dpc request message:" << acev.payload << std::endl;
+        }
+        else
+        {
+            std::cout << "Cannot parse device posture message:" << acev.payload << std::endl;
+        }
+    }
+
+    /**
+      @brief Handles ACC messages
+      @param acev The current ACC event
+    */
+    void acc_event(const ClientAPI::AppCustomControlMessageEvent &acev) override
+    {
+        if (acev.protocol == "internal:supported_protocols")
+        {
+            std::cout << "Client/server common app custom control protocols: " << acev.payload << std::endl;
+        }
+        else if (acev.protocol == certcheck_init_verb)
+        {
+            handle_dpc1_protocol(acev);
+        }
+        else
+        {
+            std::cout << "received unhandled app custom control message for protocol " << acev.protocol
+                      << " msg payload: " << acev.payload << std::endl;
+        }
+    }
+
+    /**
+      @brief Begin a cck1 (certcheck) handshake in response to a dpc1 server request.
+    */
+    void handle_certcheck_request()
+    {
+        if (certcheck_cert.empty() || !certcheck_pkey.defined())
+        {
+            std::cout << "ACC CERTCHECK FAILED: MISSING PARAMETERS" << std::endl;
+            return;
+        }
+
+        std::string clientca_pem = "";
+
+        if (!certcheck_clientca_fn.empty())
+            clientca_pem = ::openvpn::read_text_utf8(certcheck_clientca_fn);
+
+        if constexpr (false)
+        {
+            /* cli.cpp typically goes the long complicated way of using the epki API to do its checks */
+
+            if (!clientca_pem.empty())
+            {
+                start_cert_check(certcheck_cert, certcheck_pkey.render_pem(), clientca_pem);
+            }
+            else
+            {
+                start_cert_check(certcheck_cert, certcheck_pkey.render_pem());
+            }
+        }
+        else
+        {
+            start_cert_check_epki("certcheck", clientca_pem);
+        }
+    }
+
+    void open_url(std::string url_str)
     {
         if (string::starts_with(url_str, "http://")
             || string::starts_with(url_str, "https://"))
@@ -343,6 +434,7 @@ class Client : public ClientBase
                 return;
             }
 #ifdef OPENVPN_PLATFORM_MAC
+            std::cout << "Trying to launch " << url_str << std::endl;
             std::thread thr([url_str]()
                             {
 			    CFURLRef url = CFURLCreateWithBytes(
@@ -372,13 +464,13 @@ class Client : public ClientBase
         }
     }
 
-    virtual void log(const ClientAPI::LogInfo &log) override
+    void log(const ClientAPI::LogInfo &log) override
     {
         std::lock_guard<std::mutex> lock(log_mutex);
         std::cout << date_time() << ' ' << log.text << std::flush;
     }
 
-    virtual void clock_tick() override
+    void clock_tick() override
     {
         const ClockTickAction action = clock_tick_action;
         clock_tick_action = CT_UNDEF;
@@ -410,12 +502,17 @@ class Client : public ClientBase
         }
     }
 
-    virtual void external_pki_cert_request(ClientAPI::ExternalPKICertRequest &certreq) override
+    void external_pki_cert_request(ClientAPI::ExternalPKICertRequest &certreq) override
     {
-        if (!epki_cert.empty())
+        if (certreq.alias == "epki" && !epki_cert.empty())
         {
             certreq.cert = epki_cert;
             certreq.supportingChain = epki_ca;
+        }
+        else if (certreq.alias == "certcheck" && !certcheck_cert.empty())
+        {
+            certreq.cert = certcheck_cert;
+            certreq.supportingChain = ::openvpn::read_text_utf8(certcheck_clientca_fn);
         }
         else
         {
@@ -429,11 +526,12 @@ class Client : public ClientBase
     {
         using PKEY_CTX_unique_ptr = std::unique_ptr<::EVP_PKEY_CTX, decltype(&::EVP_PKEY_CTX_free)>;
 
-        BufferAllocated signdata(256, BufferAllocated::GROW);
+        BufferAllocated signdata(256, BufAllocFlags::GROW);
         base64->decode(signdata, signreq.data);
 
         EVP_PKEY *pkey = epki_pkey.obj();
-
+        if (signreq.alias == "certcheck")
+            pkey = certcheck_pkey.obj();
 
         PKEY_CTX_unique_ptr pkey_ctx(EVP_PKEY_CTX_new(pkey, nullptr), EVP_PKEY_CTX_free);
 
@@ -467,7 +565,7 @@ class Client : public ClientBase
             throw Exception("epki_sign failed, error signing data: " + openssl_error());
         }
 
-        BufferAllocated sig(outlen, BufferAllocated::ARRAY);
+        BufferAllocated sig(outlen, BufAllocFlags::ARRAY);
 
         if ((EVP_PKEY_sign(pkey_ctx.get(), sig.data(), &outlen, signdata.c_data(), signdata.size())) < 0)
         {
@@ -493,7 +591,7 @@ class Client : public ClientBase
     void doOpenSSLDigestSignature(ClientAPI::ExternalPKISignRequest &signreq)
     {
         EVP_PKEY_CTX *pkey_ctx = nullptr;
-        BufferAllocated signdata(256, BufferAllocated::GROW);
+        BufferAllocated signdata(256, BufAllocFlags::GROW);
         base64->decode(signdata, signreq.data);
 
         using MD_unique_ptr = std::unique_ptr<::EVP_MD_CTX, decltype(&::EVP_MD_CTX_free)>;
@@ -524,6 +622,9 @@ class Client : public ClientBase
         }
 
         EVP_PKEY *pkey = epki_pkey.obj();
+        if (signreq.alias == "certcheck")
+            pkey = certcheck_pkey.obj();
+
         OSSL_PARAM params[6] = {OSSL_PARAM_END};
 
         char *hashalg = const_cast<char *>(signreq.hashalg.c_str());
@@ -552,7 +653,7 @@ class Client : public ClientBase
             throw Exception("epki_sign failed, error signing data: " + openssl_error());
         }
 
-        BufferAllocated sig(outlen, BufferAllocated::ARRAY);
+        BufferAllocated sig(outlen, BufAllocFlags::ARRAY);
 
         if (EVP_DigestSign(md.get(), sig.data(), &outlen, signdata.data(), signdata.size()) < 0)
         {
@@ -578,7 +679,7 @@ class Client : public ClientBase
     }
 #endif
 
-    virtual void external_pki_sign_request(ClientAPI::ExternalPKISignRequest &signreq) override
+    void external_pki_sign_request(ClientAPI::ExternalPKISignRequest &signreq) override
     {
 #if defined(USE_MBEDTLS)
         if (epki_ctx.defined())
@@ -586,7 +687,7 @@ class Client : public ClientBase
             try
             {
                 // decode base64 sign request
-                BufferAllocated signdata(256, BufferAllocated::GROW);
+                BufferAllocated signdata(256, BufAllocFlags::GROW);
                 base64->decode(signdata, signreq.data);
 
                 // get MD alg
@@ -596,7 +697,7 @@ class Client : public ClientBase
                 OPENVPN_LOG("SIGN[" << PKCS1::DigestPrefix::MbedTLSParse::to_string(md_alg) << ',' << signdata.size() << "]: " << render_hex_generic(signdata));
 
                 // allocate buffer for signature
-                BufferAllocated sig(mbedtls_pk_get_len(epki_ctx.get()), BufferAllocated::ARRAY);
+                BufferAllocated sig(mbedtls_pk_get_len(epki_ctx.get()), BufAllocFlags::ARRAY);
 
                 // sign it
                 size_t sig_size = 0;
@@ -605,6 +706,9 @@ class Client : public ClientBase
                                                    signdata.c_data(),
                                                    signdata.size(),
                                                    sig.data(),
+#if MBEDTLS_VERSION_NUMBER >= 0x03000000
+                                                   sig.length(),
+#endif
                                                    &sig_size,
                                                    rng_callback,
                                                    this);
@@ -625,7 +729,9 @@ class Client : public ClientBase
         }
         else
 #elif defined(USE_OPENSSL)
-        if (epki_pkey.defined())
+
+        if ((epki_pkey.defined() && signreq.alias == "epki")
+            || (certcheck_pkey.defined() && signreq.alias == "certcheck"))
         {
             try
             {
@@ -651,24 +757,23 @@ class Client : public ClientBase
         Client *self = (Client *)arg;
         if (!self->rng)
         {
-            self->rng.reset(new SSLLib::RandomAPI(false));
-            self->rng->assert_crypto();
+            self->rng.reset(new SSLLib::RandomAPI());
         }
         return self->rng->rand_bytes_noexcept(data, len) ? 0 : -1; // using -1 as a general-purpose mbed TLS error code
     }
 
-    virtual bool pause_on_connection_timeout() override
+    bool pause_on_connection_timeout() override
     {
         return false;
     }
 
 #ifdef OPENVPN_REMOTE_OVERRIDE
-    virtual bool remote_override_enabled() override
+    bool remote_override_enabled() override
     {
         return !remote_override_cmd.empty();
     }
 
-    virtual void remote_override(ClientAPI::RemoteOverride &ro) override
+    void remote_override(ClientAPI::RemoteOverride &ro) override
     {
         RedirectPipe::InOut pio;
         Argv argv;
@@ -702,7 +807,7 @@ class Client : public ClientBase
 
     std::mutex log_mutex;
     std::string dc_cookie;
-    RandomAPI::Ptr rng; // random data source for epki
+    StrongRandomAPI::Ptr rng; // random data source for epki
     volatile ClockTickAction clock_tick_action = CT_UNDEF;
 
 #ifdef OPENVPN_REMOTE_OVERRIDE
@@ -727,7 +832,7 @@ static void worker_thread()
         {
             std::cout << "connect error: ";
             if (!connect_status.status.empty())
-                std::cout << connect_status.status << ": ";
+                std::cout << connect_status.status << ": " << std::endl;
             std::cout << connect_status.message << std::endl;
         }
     }
@@ -763,7 +868,7 @@ static void start_thread(Client &client)
     // Set Windows title bar
     const std::string title_text = "F2:Stats F3:Reconnect F4:Stop F5:Pause";
     Win::Console::Title title(ClientAPI::OpenVPNClientHelper::platform() + "     " + title_text);
-    Win::Console::Input console;
+    Win::Console::Input console{false};
 
     // start connect thread
     std::unique_ptr<std::thread> thread;
@@ -935,6 +1040,7 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
         { "proxy-username", required_argument,  nullptr,      'U' },
         { "proxy-password", required_argument,  nullptr,      'W' },
         { "peer-info",      required_argument,  nullptr,      'I' },
+        { "acc-protos",     required_argument,  nullptr,      'K' },
         { "gremlin",        required_argument,  nullptr,      'G' },
         { "proxy-basic",    no_argument,        nullptr,      'B' },
         { "alt-proxy",      no_argument,        nullptr,      'A' },
@@ -968,6 +1074,10 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
         { "remote-override",required_argument,  nullptr,       5  },
 #endif
         { "tbc",            no_argument,        nullptr,       6  },
+        { "app-custom-protocols", required_argument, nullptr, 'K' },
+        { "certcheck-cert", required_argument, nullptr, 'o' },
+        { "certcheck-pkey", required_argument, nullptr, 'O' },
+        { "certcheck-clientca", required_argument, nullptr, 'b' },
         { nullptr,          0,                  nullptr,       0  }
         // clang-format on
     };
@@ -1000,9 +1110,12 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
             std::string peer_info;
             std::string gremlin;
             std::string ssoMethods;
+            std::string appCustomProtocols;
+            std::string certcheck_cert_fn;
+            std::string certcheck_pkey_fn;
+            std::string certcheck_clientca;
             bool eval = false;
             bool self_test = false;
-            bool cachePassword = false;
             bool disableClientCert = false;
             bool proxyAllowCleartextAuth = false;
             int defaultKeyDirection = -1;
@@ -1018,11 +1131,16 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
             bool merge = false;
             bool version = false;
             bool altProxy = false;
+#if defined(ENABLE_OVPNDCO) || defined(ENABLE_OVPNDCOWIN)
             bool dco = true;
-            bool generate_tun_builder_capture_event = false;
+#else
+            bool dco = false;
+#endif
+            bool generateTunBuilderCaptureEvent = false;
             std::string epki_cert_fn;
             std::string epki_ca_fn;
             std::string epki_key_fn;
+
 #ifdef OPENVPN_REMOTE_OVERRIDE
             std::string remote_override_cmd;
 #endif
@@ -1031,7 +1149,7 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
             int ch;
             optind = 1;
 
-            while ((ch = getopt_long(argc, argv, "6:ABCD:G:I:LM:P:QR:S:TU:W:X:YZ:ac:degh:jk:lmp:q:r:s:t:u:vwxz:", longopts, nullptr)) != -1)
+            while ((ch = getopt_long(argc, argv, "6:ABCD:G:I:K:LM:P:QR:S:TU:W:X:YZ:ac:degh:o:O:b:jk:lmp:q:r:s:t:u:vwxz:", longopts, nullptr)) != -1)
             {
                 switch (ch)
                 {
@@ -1053,16 +1171,13 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
                     break;
 #endif
                 case 6: // --tbc
-                    generate_tun_builder_capture_event = true;
+                    generateTunBuilderCaptureEvent = true;
                     break;
                 case 'e':
                     eval = true;
                     break;
                 case 'T':
                     self_test = true;
-                    break;
-                case 'C':
-                    cachePassword = true;
                     break;
                 case 'x':
                     disableClientCert = true;
@@ -1176,6 +1291,18 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
                 case 'G':
                     gremlin = optarg;
                     break;
+                case 'K':
+                    appCustomProtocols = optarg;
+                    break;
+                case 'o':
+                    certcheck_cert_fn = optarg;
+                    break;
+                case 'O':
+                    certcheck_pkey_fn = optarg;
+                    break;
+                case 'b':
+                    certcheck_clientca = optarg;
+                    break;
                 case 'L':
                     enableLegacyAlgorithms = true;
                     break;
@@ -1248,7 +1375,7 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
                     config.proxyAllowCleartextAuth = proxyAllowCleartextAuth;
                     config.altProxy = altProxy;
                     config.dco = dco;
-                    config.generate_tun_builder_capture_event = generate_tun_builder_capture_event;
+                    config.generateTunBuilderCaptureEvent = generateTunBuilderCaptureEvent;
                     config.defaultKeyDirection = defaultKeyDirection;
                     config.sslDebugLevel = sslDebugLevel;
                     config.googleDnsFallback = googleDnsFallback;
@@ -1262,6 +1389,7 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
                     config.enableLegacyAlgorithms = enableLegacyAlgorithms;
                     config.enableNonPreferredDCAlgorithms = enableNonPreferredDCO;
                     config.ssoMethods = ssoMethods;
+                    config.appCustomProtocols = appCustomProtocols;
 #if defined(OPENVPN_OVPNCLI_SINGLE_THREAD)
                     config.clockTickMS = 250;
 #endif
@@ -1317,9 +1445,8 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
                     else
                     {
 #if defined(USE_NETCFG)
-                        DBus conn(G_BUS_TYPE_SYSTEM);
-                        conn.Connect();
-                        NetCfgTunBuilder<Client> client(conn.GetConnection());
+                        auto dbus_system = DBus::Connection::Create(DBus::BusType::SYSTEM);
+                        NetCfgTunBuilder<Client> client(dbus_system);
 #else
                         Client client;
 #endif
@@ -1355,12 +1482,12 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
                             creds.http_proxy_pass = proxyPassword;
                             creds.response = response;
                             creds.dynamicChallengeCookie = dynamicChallengeCookie;
-                            creds.replacePasswordWithSessionID = true;
-                            creds.cachePassword = cachePassword;
                             ClientAPI::Status creds_status = client.provide_creds(creds);
                             if (creds_status.error)
                                 OPENVPN_THROW_EXCEPTION("creds error: " << creds_status.message);
                         }
+
+                        client.certcheck_clientca_fn = certcheck_clientca;
 
                         // external PKI
                         if (!epki_cert_fn.empty())
@@ -1373,13 +1500,28 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
                             {
                                 const std::string epki_key_txt = read_text_utf8(epki_key_fn);
 #if defined(USE_MBEDTLS)
-                                client.epki_ctx.parse(epki_key_txt, "EPKI", privateKeyPassword);
+
+                                auto mbedrng = std::make_unique<MbedTLSRandom>();
+                                client.epki_ctx.parse(epki_key_txt, "EPKI", privateKeyPassword, *mbedrng);
 #else
                                 client.epki_pkey.parse_pem(epki_key_txt, "epki private key", nullptr);
 #endif
                             }
                             else
                                 OPENVPN_THROW_EXCEPTION("--epki-key must be specified");
+#endif
+                        }
+
+                        // Certcheck
+                        if (!certcheck_cert_fn.empty())
+                        {
+                            client.certcheck_cert = read_text_utf8(certcheck_cert_fn);
+                            const std::string epki_key_txt = read_text_utf8(certcheck_pkey_fn);
+#ifdef USE_OPENSSL
+                            client.certcheck_pkey.parse_pem(epki_key_txt, "certcheck private key", nullptr);
+#else
+                            auto mbedrng = std::make_unique<MbedTLSRandom>();
+                            client.certcheck_pkey.parse(epki_key_txt, "Certcheck", privateKeyPassword, *mbedrng);
 #endif
                         }
 
@@ -1411,6 +1553,15 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
                             client.print_stats();
                         }
                     }
+#ifdef USE_OPENSSL
+                    /* Since this is a debug/test program we check if the
+                     * internal OpenSSL error stack is empty on exit and
+                     * print the warnings otherwise */
+                    if (ERR_peek_error())
+                    {
+                        throw OpenSSLException{};
+                    }
+#endif
                 } while (retry);
             }
         }
@@ -1448,32 +1599,36 @@ int openvpn_client(int argc, char *argv[], const std::string *profile_content)
                   <<
 #endif
             "legacy, preferred, etc.)" << std::endl;
-        std::cout << "--proxy-host, -h      : HTTP proxy hostname/IP" << std::endl;
-        std::cout << "--proxy-port, -q      : HTTP proxy port" << std::endl;
-        std::cout << "--proxy-username, -U  : HTTP proxy username" << std::endl;
-        std::cout << "--proxy-password, -W  : HTTP proxy password" << std::endl;
-        std::cout << "--proxy-basic, -B     : allow HTTP basic auth" << std::endl;
-        std::cout << "--alt-proxy, -A       : enable alternative proxy module" << std::endl;
+        std::cout << "--proxy-host, -h           : HTTP proxy hostname/IP" << std::endl;
+        std::cout << "--proxy-port, -q           : HTTP proxy port" << std::endl;
+        std::cout << "--proxy-username, -U       : HTTP proxy username" << std::endl;
+        std::cout << "--proxy-password, -W       : HTTP proxy password" << std::endl;
+        std::cout << "--proxy-basic, -B          : allow HTTP basic auth" << std::endl;
+        std::cout << "--alt-proxy, -A            : enable alternative proxy module" << std::endl;
 #if defined(ENABLE_KOVPN) || defined(ENABLE_OVPNDCO) || defined(ENABLE_OVPNDCOWIN)
-        std::cout << "--no-dco, -d          : disable data channel offload" << std::endl;
+        std::cout << "--no-dco, -d               : disable data channel offload" << std::endl;
 #endif
-        std::cout << "--cache-password, -C  : cache password" << std::endl;
-        std::cout << "--no-cert, -x         : disable client certificate" << std::endl;
-        std::cout << "--def-keydir, -k      : default key direction ('bi', '0', or '1')" << std::endl;
-        std::cout << "--ssl-debug           : SSL debug level" << std::endl;
-        std::cout << "--google-dns, -g      : enable Google DNS fallback" << std::endl;
-        std::cout << "--auto-sess, -a       : request autologin session" << std::endl;
-        std::cout << "--auth-retry, -Y      : retry connection on auth failure" << std::endl;
-        std::cout << "--persist-tun, -j     : keep TUN interface open across reconnects" << std::endl;
-        std::cout << "--wintun, -w          : use WinTun instead of TAP-Windows6 on Windows" << std::endl;
-        std::cout << "--peer-info, -I       : peer info key/value list in the form K1=V1,K2=V2,... or @kv.json" << std::endl;
-        std::cout << "--gremlin, -G         : gremlin info (send_delay_ms, recv_delay_ms, send_drop_prob, recv_drop_prob)" << std::endl;
-        std::cout << "--epki-ca             : simulate external PKI cert supporting intermediate/root certs" << std::endl;
-        std::cout << "--epki-cert           : simulate external PKI cert" << std::endl;
-        std::cout << "--epki-key            : simulate external PKI private key" << std::endl;
-        std::cout << "--sso-methods         : auth pending methods to announce via IV_SSO" << std::endl;
-        std::cout << "--write-url, -Z       : write INFO URL to file" << std::endl;
-        std::cout << "--tbc                 : generate INFO_JSON/TUN_BUILDER_CAPTURE event" << std::endl;
+        std::cout << "--cache-password, -C       : cache password" << std::endl;
+        std::cout << "--no-cert, -x              : disable client certificate" << std::endl;
+        std::cout << "--def-keydir, -k           : default key direction ('bi', '0', or '1')" << std::endl;
+        std::cout << "--ssl-debug                : SSL debug level" << std::endl;
+        std::cout << "--google-dns, -g           : enable Google DNS fallback" << std::endl;
+        std::cout << "--auto-sess, -a            : request autologin session" << std::endl;
+        std::cout << "--auth-retry, -Y           : retry connection on auth failure" << std::endl;
+        std::cout << "--persist-tun, -j          : keep TUN interface open across reconnects" << std::endl;
+        std::cout << "--wintun, -w               : use WinTun instead of TAP-Windows6 on Windows" << std::endl;
+        std::cout << "--peer-info, -I            : peer info key/value list in the form K1=V1,K2=V2,... or @kv.json" << std::endl;
+        std::cout << "--gremlin, -G              : gremlin info (send_delay_ms, recv_delay_ms, send_drop_prob, recv_drop_prob)" << std::endl;
+        std::cout << "--epki-ca                  : simulate external PKI cert supporting intermediate/root certs" << std::endl;
+        std::cout << "--epki-cert                : simulate external PKI cert" << std::endl;
+        std::cout << "--epki-key                 : simulate external PKI private key" << std::endl;
+        std::cout << "--sso-methods              : auth pending methods to announce via IV_SSO" << std::endl;
+        std::cout << "--write-url, -Z            : write INFO URL to file" << std::endl;
+        std::cout << "--tbc                      : generate INFO_JSON/TUN_BUILDER_CAPTURE event" << std::endl;
+        std::cout << "--app-custom-protocols, -K : ACC protocols to advertise" << std::endl;
+        std::cout << "--certcheck-cert, -o       : path to certificate PEM for certcheck" << std::endl;
+        std::cout << "--certcheck-pkey, -O       : path to decrypted pkey PEM for certcheck" << std::endl;
+        std::cout << "--certcheck-clientca, -b   : path to decrypted pkey PEM for certcheck CA" << std::endl;
         ret = 2;
     }
     return ret;

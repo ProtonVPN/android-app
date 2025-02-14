@@ -21,7 +21,6 @@ public enum ConnectionStatus implements Parcelable {
     LEVEL_START,
     LEVEL_AUTH_FAILED,
     LEVEL_WAITING_FOR_USER_INPUT,
-    LEVEL_MULTI_USER_PERMISSION,
     UNKNOWN_LEVEL;
 
     @Override

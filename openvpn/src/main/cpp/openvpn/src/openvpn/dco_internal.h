@@ -5,8 +5,8 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2022-2023 Antonio Quartulli <a@unstable.cc>
- *  Copyright (C) 2022-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2022-2024 Antonio Quartulli <a@unstable.cc>
+ *  Copyright (C) 2022-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -62,7 +62,7 @@ dco_get_cipher(const char *cipher)
 
 int dco_new_peer(dco_context_t *dco, unsigned int peerid, int sd,
                  struct sockaddr *localaddr, struct sockaddr *remoteaddr,
-                 struct in_addr *remote_in4, struct in6_addr *remote_in6);
+                 struct in_addr *vpn_ipv4, struct in6_addr *vpn_ipv6);
 
 int dco_del_peer(dco_context_t *dco, unsigned int peerid);
 

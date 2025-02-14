@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Invert a route list.  Used to support excluded routes on platforms that
 // don't support them natively.
@@ -27,16 +17,13 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/addr/route.hpp>
 
-namespace openvpn {
-namespace IP {
+namespace openvpn::IP {
 class AddressSpaceSplitter : public RouteList
 {
   public:
     OPENVPN_EXCEPTION(address_space_splitter);
 
-    AddressSpaceSplitter()
-    {
-    }
+    AddressSpaceSplitter() = default;
 
     // NOTE: when passing AddressSpaceSplitter to this constructor, make sure
     // to static_cast it to RouteList& so as to avoid matching the
@@ -56,18 +43,19 @@ class AddressSpaceSplitter : public RouteList
     }
 
   private:
-    enum Type
+    enum class Type
     {
         EQUAL,
         SUBROUTE,
         LEAF,
     };
     /**
-     * This method construct a non-overlapping list of routes spanning the address
-     * space in @param route.  The routes are constructed in a way that each
-     * route in the returned list is smaller or equalto each route in
-     * parameter @param in
+     * This method constructs a non-overlapping list of routes spanning the address
+     * space in \p route.  The routes are constructed in a way that each
+     * route in the returned list is smaller or equal to each route in
+     * parameter \p in.
      *
+     * @param in Existing routes
      * @param route The route we currently are looking at and split if it does
      *	      not meet the requirements
      */
@@ -75,7 +63,7 @@ class AddressSpaceSplitter : public RouteList
     {
         switch (find(in, route))
         {
-        case SUBROUTE:
+        case Type::SUBROUTE:
             {
                 Route r1, r2;
                 if (route.split(r1, r2))
@@ -87,8 +75,8 @@ class AddressSpaceSplitter : public RouteList
                     push_back(route);
                 break;
             }
-        case EQUAL:
-        case LEAF:
+        case Type::EQUAL:
+        case Type::LEAF:
             push_back(route);
             break;
         }
@@ -96,17 +84,15 @@ class AddressSpaceSplitter : public RouteList
 
     static Type find(const RouteList &in, const Route &route)
     {
-        Type type = LEAF;
-        for (RouteList::const_iterator i = in.begin(); i != in.end(); ++i)
+        Type type = Type::LEAF;
+        for (const auto &r : in)
         {
-            const Route &r = *i;
             if (route == r)
-                type = EQUAL;
+                type = Type::EQUAL;
             else if (route.contains(r))
-                return SUBROUTE;
+                return Type::SUBROUTE;
         }
         return type;
     }
 };
-} // namespace IP
-} // namespace openvpn
+} // namespace openvpn::IP

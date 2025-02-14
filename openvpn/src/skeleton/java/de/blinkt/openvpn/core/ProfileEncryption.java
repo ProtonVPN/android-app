@@ -15,7 +15,7 @@ import java.security.GeneralSecurityException;
 
 /* Dummy class that supports no encryption */
 class ProfileEncryption {
-    static void initMasterCryptAlias()
+    static void initMasterCryptAlias(Context context)
     {
 
     }

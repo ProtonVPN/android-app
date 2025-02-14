@@ -5,6 +5,8 @@
 
 package de.blinkt.openvpn;
 
+import static de.blinkt.openvpn.core.OpenVPNService.EXTRA_DO_NOT_REPLACE_RUNNING_VPN;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import androidx.annotation.Nullable;
 
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Pair;
 
 import de.blinkt.openvpn.core.*;
 
@@ -31,20 +34,16 @@ import org.spongycastle.util.io.pem.PemWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PSSParameterSpec;
 import java.util.Collection;
@@ -67,6 +66,8 @@ public class VpnProfile implements Serializable, Cloneable {
     transient public static final long MAX_EMBED_FILE_SIZE = 2048 * 1024; // 2048kB
     // Don't change this, not all parts of the program use this constant
     public static final String EXTRA_PROFILEUUID = "de.blinkt.openvpn.profileUUID";
+    public static final String EXTRA_PROFILE_VERSION = "de.blinkt.openvpn.profileVersion";
+
     public static final String INLINE_TAG = "[[INLINE]]";
     public static final String DISPLAYNAME_TAG = "[[NAME]]";
     public static final int MAXLOGLEVEL = 4;
@@ -86,7 +87,6 @@ public class VpnProfile implements Serializable, Cloneable {
     public static final int X509_VERIFY_TLSREMOTE_DN = 2;
     public static final int X509_VERIFY_TLSREMOTE_RDN = 3;
     public static final int X509_VERIFY_TLSREMOTE_RDN_PREFIX = 4;
-    public static final int X509_VERIFY_TLSREMOTE_SAN = 5;
     public static final int AUTH_RETRY_NONE_FORGET = 0;
     public static final int AUTH_RETRY_NOINTERACT = 2;
     public static final boolean mIsOpenVPN22 = false;
@@ -179,6 +179,18 @@ public class VpnProfile implements Serializable, Cloneable {
     public int mCompatMode = 0;
     public boolean mUseLegacyProvider = false;
     public String mTlSCertProfile = "";
+    public long mCreationDate = 0;
+
+
+    class ChangeLogEntry implements Serializable
+    {
+        private static final long serialVersionUID = 6032413096860917402L;
+
+        public long time;
+        public String message;
+    }
+    public Vector<ChangeLogEntry> changesLog = new Vector<>();
+
 
     private transient PrivateKey mPrivateKey;
     // Public attributes, since I got mad with getter/setter
@@ -194,6 +206,7 @@ public class VpnProfile implements Serializable, Cloneable {
         mConnections = new Connection[1];
         mConnections[0] = new Connection();
         mLastUsed = System.currentTimeMillis();
+        mCreationDate = System.currentTimeMillis();
     }
 
     public static String openVpnEscape(String unescaped) {
@@ -350,7 +363,10 @@ public class VpnProfile implements Serializable, Cloneable {
         }
 
         mProfileVersion = CURRENT_PROFILE_VERSION;
-
+        if (changesLog == null)
+        {
+            changesLog = new Vector<>();
+        }
     }
 
     private void moveOptionsToConnection() {
@@ -366,8 +382,21 @@ public class VpnProfile implements Serializable, Cloneable {
 
     }
 
-    public String getConfigFile(Context context, boolean configForOvpn3) {
+    /**
+     * Adds an changelog/audit entry to the profile. The date of the entry will be the current time
+     */
+    public void addChangeLogEntry(String message)
+    {
+        while (changesLog.size() > 50)
+            changesLog.removeElementAt(0);
 
+        ChangeLogEntry cle = new ChangeLogEntry();
+        cle.time = System.currentTimeMillis();
+        cle.message = message;
+        changesLog.add(cle);
+    }
+
+    public String getConfigFile(Context context, boolean configForOvpn3) {
         File cacheDir = context.getCacheDir();
         StringBuilder cfg = new StringBuilder();
 
@@ -668,11 +697,6 @@ public class VpnProfile implements Serializable, Cloneable {
                         case X509_VERIFY_TLSREMOTE_DN:
                             cfg.append("verify-x509-name ").append(openVpnEscape(mRemoteCN)).append("\n");
                             break;
-
-                        case X509_VERIFY_TLSREMOTE_SAN:
-                            cfg.append("verify-x509-name ").append(openVpnEscape(mRemoteCN)).append(" subject-alt-name\n");
-                            break;
-
                     }
                 if (!TextUtils.isEmpty(mx509UsernameField))
                     cfg.append("x509-username-field ").append(openVpnEscape(mx509UsernameField)).append("\n");
@@ -822,14 +846,14 @@ public class VpnProfile implements Serializable, Cloneable {
         cfg.close();
     }
 
-    public Intent getStartServiceIntent(Context context, String startReason) {
-        String prefix = context.getPackageName();
-
+    public Intent getStartServiceIntent(Context context, String startReason, boolean replace_running_vpn) {
         Intent intent = new Intent(context, OpenVPNService.class);
-        intent.putExtra(prefix + ".profileUUID", mUuid.toString());
-        intent.putExtra(prefix + ".profileVersion", mVersion);
+        intent.putExtra(EXTRA_PROFILEUUID, mUuid.toString());
+        intent.putExtra(EXTRA_PROFILE_VERSION, mVersion);
         if (startReason != null)
-            intent.putExtra(prefix + ".startReason", startReason);
+            intent.putExtra(OpenVPNService.EXTRA_START_REASON, startReason);
+        if (!replace_running_vpn)
+            intent.putExtra(EXTRA_DO_NOT_REPLACE_RUNNING_VPN, true);
         return intent;
     }
 

@@ -230,5 +230,5 @@ bn_GF2m_mul_2x2:
 .align	5
 
 #if __ARM_MAX_ARCH__>=7
-.comm	OPENSSL_armcap_P,4,4
+.extern	OPENSSL_armcap_P
 #endif

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -65,16 +55,15 @@ extern "C" void _ReadWriteBarrier();
 
 #define OPENVPN_INCR_VOID_PTR(var, incr) (var) = static_cast<const unsigned char *>(var) + (incr)
 
-namespace openvpn {
-namespace crypto {
+namespace openvpn::crypto {
 /**
  * memneq - Compare two areas of memory in constant time
  *
- * @a: first area of memory
- * @b: second area of memory
- * @size: The length of the memory area to compare
+ * @param a first area of memory
+ * @param b second area of memory
+ * @param size The length of the memory area to compare
  *
- * Returns false when data is equal, true otherwise
+ * @return Returns false when data is equal, true otherwise
  */
 inline bool memneq(const void *a, const void *b, size_t size);
 
@@ -103,5 +92,4 @@ inline bool memneq(const void *a, const void *b, size_t size)
     return bool(diff);
 }
 #endif
-} // namespace crypto
-} // namespace openvpn
+} // namespace openvpn::crypto

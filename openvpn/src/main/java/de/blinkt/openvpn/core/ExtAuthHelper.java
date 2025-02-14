@@ -42,7 +42,6 @@ public class ExtAuthHelper {
 
     public static void setExternalAuthProviderSpinnerList(Spinner spinner, String selectedApp) {
         Context c = spinner.getContext();
-        final PackageManager pm = c.getPackageManager();
         ArrayList<ExternalAuthProvider> extProviders = getExternalAuthProviderList(c);
 
         int selectedPos = -1;
@@ -216,8 +215,9 @@ public class ExtAuthHelper {
         Intent intent = new Intent(ACTION_CERT_PROVIDER);
         intent.setPackage(packagename);
 
-        if (!context.bindService(intent, extAuthServiceConnection, Context.BIND_AUTO_CREATE)) {
-            throw new KeyChainException("could not bind to external authticator app: " + packagename);
+        if (!context.bindService(intent, extAuthServiceConnection,
+                Context.BIND_AUTO_CREATE | Context.BIND_ALLOW_ACTIVITY_STARTS)) {
+            throw new KeyChainException("could not bind to external authenticator app: " + packagename);
         }
         return new ExternalAuthProviderConnection(context, extAuthServiceConnection, q.take());
     }

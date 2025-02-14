@@ -1,5 +1,5 @@
 #! /usr/bin/env perl
-# Copyright 2015-2022 The OpenSSL Project Authors. All Rights Reserved.
+# Copyright 2015-2023 The OpenSSL Project Authors. All Rights Reserved.
 #
 # Licensed under the Apache License 2.0 (the "License").  You may not use
 # this file except in compliance with the License.  You can obtain a copy
@@ -170,9 +170,8 @@ while(my $line=<>) {
     }
 
     {
-	$line =~ s|(^[\.\w]+)\:\s*||;
-	my $label = $1;
-	if ($label) {
+	if ($line =~ s|(^[\.\w]+)\:\s*||) {
+	    my $label = $1;
 	    printf "%s:",($GLOBALS{$label} or $label);
 	}
     }
@@ -196,6 +195,16 @@ while(my $line=<>) {
 		$line = $c.$mnemonic;
 		$line.= "\t$arg" if ($arg ne "");
 	}
+    }
+
+    # ldr REG, #VALUE psuedo-instruction - avoid clang issue with Neon registers
+    #
+    if ($line =~ /^\s*ldr\s+([qd]\d\d?)\s*,\s*=(\w+)/i) {
+        # Immediate load via literal pool into qN or DN - clang max is 2^32-1
+        my ($reg, $value) = ($1, $2);
+        # If $value is hex, 0x + 8 hex chars = 10 chars total will be okay
+        # If $value is decimal, 2^32 - 1 = 4294967295 will be okay (also 10 chars)
+        die("$line: immediate load via literal pool into $reg: value too large for clang - redo manually") if length($value) > 10;
     }
 
     print $line if ($line);

@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
@@ -18,9 +18,13 @@
 #include <openvpn/reliable/relrecv.hpp>
 #include <openvpn/reliable/relsend.hpp>
 #include <openvpn/reliable/relack.hpp>
-#include <openvpn/crypto/packet_id.hpp>
+#include <openvpn/crypto/packet_id_control.hpp>
 
 using namespace openvpn;
+
+namespace PacketID {
+using id_t = openvpn::reliable::id_t;
+}
 
 TEST(reliable, ack)
 {
@@ -122,8 +126,6 @@ TEST(reliable, simple_packet)
 }
 
 
-typedef PacketID::id_t id_t;
-
 OPENVPN_SIMPLE_EXCEPTION(receive_sequence);
 
 struct Packet
@@ -152,14 +154,14 @@ typedef ReliableRecvTemplate<Packet> ReliableRecv;
 
 struct Message
 {
-    id_t id;
+    openvpn::PacketIDControl::id_t id;
     BufferPtr buffer;
 };
 
 void print_msg(const Time::Duration t,
                const char *title,
                BufferPtr &buf,
-               const id_t id,
+               const openvpn::PacketIDControl::id_t id,
                std::stringstream &case_detail)
 {
     case_detail << t.raw() << ' ' << title
@@ -173,7 +175,7 @@ void test(MTRand &rand,
           const Time::Duration end,
           const Time::Duration step,
           const Time::Duration end_sends,
-          const id_t relsize,
+          const openvpn::PacketIDControl::id_t relsize,
           const size_t wiresize,
           const unsigned int reorder_prob,
           const unsigned int drop_prob,
@@ -191,8 +193,8 @@ void test(MTRand &rand,
     long iterations = 0;
     Time::Duration t;
 
-    id_t send_id = 0;
-    id_t rec_id = 0;
+    openvpn::PacketIDControl::id_t send_id = 0;
+    openvpn::PacketIDControl::id_t rec_id = 0;
 
     for (t = Time::Duration(); t < end; t += step)
     {
@@ -202,7 +204,7 @@ void test(MTRand &rand,
         // sender processes ACKs received from receiver
         while (!acklist.empty())
         {
-            const id_t id = acklist.front();
+            const openvpn::PacketIDControl::id_t id = acklist.front();
             acklist.pop_front();
             if (rand.randrange(40)) // with small probability, simulate a dropped ACK
                                     // JMD_TODO: why wouldn't this have drop_prob probability
@@ -219,7 +221,7 @@ void test(MTRand &rand,
         // scan the sender history for un-ACKed packets that need to be retransmitted
         if (now >= retrans)
         {
-            for (id_t i = send.head_id(); i < send.tail_id(); ++i)
+            for (openvpn::PacketIDControl::id_t i = send.head_id(); i < send.tail_id(); ++i)
             {
                 ReliableSend::Message &m = send.ref_by_id(i);
                 if (m.ready_retransmit(now))
@@ -246,7 +248,7 @@ void test(MTRand &rand,
             std::ostringstream os;
             os << "Test packet #" << count;
             const std::string s = os.str();
-            BufferPtr buffer(new BufferAllocated((unsigned char *)s.c_str(), s.length() + 1, 0));
+            auto buffer = BufferAllocatedRc::Create((unsigned char *)s.c_str(), s.length() + 1, 0);
             ReliableSend::Message &m = send.send(now, Time::Duration());
             m.packet.buf = buffer;
             Message msg;
@@ -325,7 +327,7 @@ void test(MTRand &rand,
 struct test_params
 {
     int test_case;
-    id_t relsize;
+    openvpn::PacketIDControl::id_t relsize;
     size_t wiresize;
     unsigned int reorder_prob;
     unsigned int drop_prob;

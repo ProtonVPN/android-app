@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // General-purpose OpenVPN protocol encrypt method (CBC/HMAC) that is independent of the underlying CRYPTO_API
 
@@ -35,7 +25,7 @@
 #include <openvpn/crypto/cipher.hpp>
 #include <openvpn/crypto/ovpnhmac.hpp>
 #include <openvpn/crypto/static_key.hpp>
-#include <openvpn/crypto/packet_id.hpp>
+#include <openvpn/crypto/packet_id_data.hpp>
 
 namespace openvpn {
 template <typename CRYPTO_API>
@@ -44,7 +34,7 @@ class EncryptCHM
   public:
     OPENVPN_SIMPLE_EXCEPTION(chm_unsupported_cipher_mode);
 
-    void encrypt(BufferAllocated &buf, const PacketID::time_t now)
+    void encrypt(BufferAllocated &buf)
     {
         // skip null packets
         if (!buf.size())
@@ -61,10 +51,10 @@ class EncryptCHM
             if (cipher_mode == CRYPTO_API::CipherContext::CIPH_CBC_MODE)
             {
                 // in CBC mode, use an explicit, random IV
-                prng->rand_bytes(iv_buf, iv_length);
+                rng->rand_bytes(iv_buf, iv_length);
 
                 // generate fresh outgoing packet ID and prepend to cleartext buffer
-                pid_send.write_next(buf, true, now);
+                pid_send.prepend_next(buf);
             }
             else
             {
@@ -95,23 +85,22 @@ class EncryptCHM
         else // no encryption
         {
             // generate fresh outgoing packet ID and prepend to cleartext buffer
-            pid_send.write_next(buf, true, now);
+            pid_send.prepend_next(buf);
 
             // HMAC the cleartext
             prepend_hmac(buf);
         }
     }
 
-    void set_prng(RandomAPI::Ptr prng_arg)
+    void set_rng(StrongRandomAPI::Ptr rng_arg)
     {
-        prng_arg->assert_crypto();
-        prng = std::move(prng_arg);
+        rng = std::move(rng_arg);
     }
 
     Frame::Ptr frame;
     CipherContext<CRYPTO_API> cipher;
     OvpnHMAC<CRYPTO_API> hmac;
-    PacketIDSend pid_send;
+    PacketIDDataSend pid_send{};
 
   private:
     // compute HMAC signature of data buffer,
@@ -129,7 +118,7 @@ class EncryptCHM
     }
 
     BufferAllocated work;
-    RandomAPI::Ptr prng;
+    StrongRandomAPI::Ptr rng;
 };
 
 } // namespace openvpn

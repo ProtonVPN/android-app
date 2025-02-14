@@ -1,4 +1,4 @@
-@ Copyright 2007-2020 The OpenSSL Project Authors. All Rights Reserved.
+@ Copyright 2007-2023 The OpenSSL Project Authors. All Rights Reserved.
 @
 @ Licensed under the Apache License 2.0 (the "License").  You may not use
 @ this file except in compliance with the License.  You can obtain a copy
@@ -1871,5 +1871,6 @@ sha512_block_data_order_neon:
 .asciz	"SHA512 block transform for ARMv4/NEON, CRYPTOGAMS by <appro@openssl.org>"
 .align	2
 #if __ARM_MAX_ARCH__>=7 && !defined(__KERNEL__)
-.comm	OPENSSL_armcap_P,4,4
+.extern	OPENSSL_armcap_P
+.hidden	OPENSSL_armcap_P
 #endif

@@ -13,9 +13,13 @@ import android.content.pm.Signature;
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
+
+import androidx.annotation.StringRes;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -27,7 +31,9 @@ import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.FormatFlagsConversionMismatchException;
 import java.util.Locale;
+import java.util.MissingFormatArgumentException;
 import java.util.UnknownFormatConversionException;
+import java.util.Vector;
 
 import de.blinkt.openvpn.R;
 
@@ -161,7 +167,7 @@ public class LogItem implements Parcelable {
                 throw new IndexOutOfBoundsException("String length " + len + " is bigger than remaining bytes " + bb.remaining());
             byte[] utf8bytes = new byte[len];
             bb.get(utf8bytes);
-            mMessage = new String(utf8bytes, "UTF-8");
+            mMessage = new String(utf8bytes, StandardCharsets.UTF_8);
         }
         int numArgs = bb.getInt();
         if (numArgs > 30) {
@@ -203,8 +209,22 @@ public class LogItem implements Parcelable {
 
     private void marschalString(String str, ByteBuffer bb) throws UnsupportedEncodingException {
         byte[] utf8bytes = str.getBytes(StandardCharsets.UTF_8);
-        bb.putInt(utf8bytes.length);
-        bb.put(utf8bytes);
+
+        byte[] elipse = {'.', '.', '.', '[','t','o','o', ' ', 'l','o','n','g',']'};
+
+        int maxStringLength = Math.min(8192, bb.remaining()-128);
+
+        if (utf8bytes.length > maxStringLength)
+        {
+            bb.putInt(maxStringLength + elipse.length);
+            bb.put(utf8bytes, 0, maxStringLength);
+            bb.put(elipse);
+        }
+        else
+        {
+            bb.putInt(utf8bytes.length);
+            bb.put(utf8bytes);
+        }
     }
 
     private String unmarschalString(ByteBuffer bb) throws UnsupportedEncodingException {
@@ -235,7 +255,7 @@ public class LogItem implements Parcelable {
         }
     };
 
-    public LogItem(VpnStatus.LogLevel loglevel, int ressourceId, Object... args) {
+    public LogItem(VpnStatus.LogLevel loglevel, @StringRes int ressourceId, Object... args) {
         mRessourceId = ressourceId;
         mArgs = args;
         mLevel = loglevel;
@@ -270,7 +290,11 @@ public class LogItem implements Parcelable {
                         if (mArgs == null)
                             return c.getString(mRessourceId);
                         else
-                            return c.getString(mRessourceId, mArgs);
+                            try {
+                                return c.getString(mRessourceId, mArgs);
+                            } catch (MissingFormatArgumentException ie) {
+                                return  "ERROR MISSING ARGUMENT(" + ie.getMessage() + "): " + getString(null);
+                            }
                     } catch (Resources.NotFoundException re) {
                         return getString(null);
                     }
@@ -336,9 +360,14 @@ public class LogItem implements Parcelable {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             X509Certificate cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(raw.toByteArray()));
             MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest mdsha256 = MessageDigest.getInstance("SHA-256");
+
             byte[] der = cert.getEncoded();
             md.update(der);
             byte[] digest = md.digest();
+
+            mdsha256.update(der);
+            byte[] digestSha256 = mdsha256.digest();
 
             if (Arrays.equals(digest, VpnStatus.officalkey))
                 apksign = c.getString(R.string.official_build);
@@ -348,8 +377,15 @@ public class LogItem implements Parcelable {
                 apksign = "amazon version";
             else if (Arrays.equals(digest, VpnStatus.fdroidkey))
                 apksign = "F-Droid built and signed version";
-            else
-                apksign = c.getString(R.string.built_by, cert.getSubjectX500Principal().getName());
+            else if (Arrays.equals(digestSha256, VpnStatus.officialO2Key))
+                apksign = c.getString(R.string.official_o2build);
+            else {
+                Vector<String> hexnums = new Vector<>();
+                for (byte b: digestSha256) {
+                    hexnums.add(String.format(Locale.US, "%02x", b));
+                }
+                apksign = c.getString(R.string.built_by, cert.getSubjectX500Principal().getName(), TextUtils.join(":", hexnums));
+            }
 
             PackageInfo packageinfo = c.getPackageManager().getPackageInfo(c.getPackageName(), 0);
             version = packageinfo.versionName;

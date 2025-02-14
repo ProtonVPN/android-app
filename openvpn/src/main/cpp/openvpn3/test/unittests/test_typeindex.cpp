@@ -1,7 +1,7 @@
 // This test demonstrates an alternative to dynamic_cast
 // using std::typeindex that is much faster.
 
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <typeindex>
 #include <vector>
@@ -121,7 +121,7 @@ TEST(typeindex, test)
     }
 }
 
-#ifndef HAVE_VALGRIND
+#ifndef INSTRUMENTATION_SLOWDOWN
 
 // test performance of self() as alternative to dynamic_cast
 TEST(typeindex, perf_test_fast)

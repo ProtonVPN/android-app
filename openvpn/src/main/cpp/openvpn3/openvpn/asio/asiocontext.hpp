@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_ASIO_ASIOCONTEXT_H
 #define OPENVPN_ASIO_ASIOCONTEXT_H
@@ -36,10 +26,23 @@ class AsioContextStore
     {
         openvpn_io::io_context *ioc = new openvpn_io::io_context(concurrency_hint);
         {
-            std::lock_guard<std::mutex> lock(mutex);
+            std::lock_guard lock(mutex);
             contexts.emplace_back(ioc);
         }
         return *ioc;
+    }
+
+    /**
+     *  This is to be used only as a last resort. The proper way to end an
+     *  io_context-driven thread is to simply stop scheduling work on the reactor
+     *  and exit gracefully. DO NOT USE THIS IF THERE'S AN ALTERNATIVE!
+     */
+    void stop()
+    {
+        std::lock_guard lock(mutex);
+
+        for (auto &context : contexts)
+            context->stop();
     }
 
   private:

@@ -1,6 +1,6 @@
 
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -111,8 +111,12 @@ static int aes_xts_dinit(void *vctx, const unsigned char *key, size_t keylen,
 static void *aes_xts_newctx(void *provctx, unsigned int mode, uint64_t flags,
                             size_t kbits, size_t blkbits, size_t ivbits)
 {
-    PROV_AES_XTS_CTX *ctx = OPENSSL_zalloc(sizeof(*ctx));
+    PROV_AES_XTS_CTX *ctx;
 
+    if (!ossl_prov_is_running())
+        return NULL;
+
+    ctx = OPENSSL_zalloc(sizeof(*ctx));
     if (ctx != NULL) {
         ossl_cipher_generic_initkey(&ctx->base, kbits, blkbits, ivbits, mode,
                                     flags, ossl_prov_cipher_hw_aes_xts(kbits),
@@ -146,10 +150,8 @@ static void *aes_xts_dupctx(void *vctx)
             return NULL;
     }
     ret = OPENSSL_malloc(sizeof(*ret));
-    if (ret == NULL) {
-        ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+    if (ret == NULL)
         return NULL;
-    }
     in->base.hw->copyctx(&ret->base, &in->base);
     return ret;
 }
@@ -287,7 +289,7 @@ const OSSL_DISPATCH ossl_aes##kbits##xts_functions[] = {                       \
       (void (*)(void))aes_xts_set_ctx_params },                                \
     { OSSL_FUNC_CIPHER_SETTABLE_CTX_PARAMS,                                    \
      (void (*)(void))aes_xts_settable_ctx_params },                            \
-    { 0, NULL }                                                                \
+    OSSL_DISPATCH_END                                                          \
 }
 
 IMPLEMENT_cipher(xts, XTS, 256, AES_XTS_FLAGS);

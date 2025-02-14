@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMMON_USERPASS_H
 #define OPENVPN_COMMON_USERPASS_H
@@ -32,20 +22,55 @@
 #include <openvpn/common/string.hpp>
 #include <openvpn/common/file.hpp>
 
-namespace openvpn {
-namespace UserPass {
+namespace openvpn::UserPass {
 
 OPENVPN_EXCEPTION(creds_error);
 
 enum Flags
 {
-    OPT_REQUIRED = (1 << 0),      // option must be present
-    OPT_OPTIONAL = (1 << 1),      // if option is not present, USERNAME_REQUIRED and PASSWORD_REQUIRED are ignored
-    USERNAME_REQUIRED = (1 << 2), // username must be present
-    PASSWORD_REQUIRED = (1 << 3), // password must be present
-    TRY_FILE = (1 << 4),          // option argument might be a filename, try to load creds from it
+    OPT_REQUIRED = (1 << 0),      //!< option must be present
+    OPT_OPTIONAL = (1 << 1),      //!< if option is not present, USERNAME_REQUIRED and PASSWORD_REQUIRED are ignored
+    USERNAME_REQUIRED = (1 << 2), //!< username must be present
+    PASSWORD_REQUIRED = (1 << 3), //!< password must be present
+    TRY_FILE = (1 << 4),          //!< option argument might be a filename, try to load creds from it
 };
 
+/**
+ * @brief interpret user-pass option
+ *
+ * If the option is present without argument, then returns true unless
+ * OPT_REQUIRED flag set. If OPT_REQUIRED flag is set, the option needs
+ * to have exactly one argument.
+ *
+ * The argument might be specified as a multiline argument. I.e.
+ * \code{.unparsed}
+ * <opt_name>
+ * username
+ * password
+ * </opt_name>
+ * \endcode
+ *
+ * The multiline argument is allowed to be 1024 UTF-8 characters in
+ * length. If it is longer, the function will throw an exception.
+ *
+ * If the TRY_FILE flag is set and the argument is not multiline,
+ * then it is interpreted as a filepath and the contents of the file
+ * will replace the argument.
+ *
+ * Lines in the file are only allowed to be 1024 bytes in length.
+ * Longer lines will cause an exception to be thrown.
+ *
+ * If the argument contains a newline, then the first line is used as the
+ * username and the second line is used as the password, otherwise the argument
+ * is the username. Note that no empty entry will be appended to the vector if
+ * the password is missing.
+ *
+ * @param options   parsed option list
+ * @param opt_name  name of the option to interpret
+ * @param flags     openvpn::UserPass::Flags, only OPT_REQUIRED and TRY_FILE are used
+ * @param user_pass vector of strings, user and password will be appended if present
+ * @return bool     True if the option was present, False otherwise
+ */
 inline bool parse(const OptionList &options,
                   const std::string &opt_name,
                   const unsigned int flags,
@@ -75,12 +100,55 @@ inline bool parse(const OptionList &options,
     return true;
 }
 
+/**
+ * @brief interpret user-pass option
+ *
+ * If the option is present without argument, then returns true unless
+ * OPT_REQUIRED flag set. If OPT_REQUIRED flag is set, the option needs
+ * to have exactly one argument.
+ *
+ * The argument might be specified as a multiline argument. I.e.
+ * \code{.unparsed}
+ * <opt_name>
+ * username
+ * password
+ * </opt_name>
+ * \endcode
+ *
+ * The multiline argument is allowed to be 1024 UTF-8 characters in
+ * length. If it is longer, the function will throw an exception.
+ *
+ * If the TRY_FILE flag is set and the argument is not multiline,
+ * then it is interpreted as a filepath and the contents of the file
+ * will replace the argument.
+ *
+ * Lines in the file are only allowed to be 1024 bytes in length.
+ * Longer lines will cause an exception to be thrown.
+ *
+ * If the argument contains a newline, then the first line is used as the
+ * username and the second line is used as the password, otherwise the argument
+ * is the username.
+ *
+ * If USERNAME_REQUIRED and/or PASSWORD_REQUIRED flag is set, and the option is
+ * present, then it will throw creds_error instead of returning empty values.
+ * If the option is not present, it will only throw if OPT_OPTIONAL flag is not
+ * set. If neither USERNAME_REQUIRED nor PASSWORD_REQUIRED flag are set, then
+ * OPT_OPTIONAL has no effect.
+ *
+ * @param options   parsed option list
+ * @param opt_name  name of the option to interpret
+ * @param flags     openvpn::UserPass::Flags, all flags are used
+ * @param user      Returns the username, if present. Otherwise empty
+ * @param pass      Returns the password, if present. Otherwise empty
+ */
 inline void parse(const OptionList &options,
                   const std::string &opt_name,
                   const unsigned int flags,
                   std::string &user,
                   std::string &pass)
 {
+    user.clear();
+    pass.clear();
     std::vector<std::string> up;
     up.reserve(2);
     if (!parse(options, opt_name, flags, &up) && (flags & OPT_OPTIONAL))
@@ -97,10 +165,28 @@ inline void parse(const OptionList &options,
         throw creds_error(opt_name + " : password empty");
 }
 
-inline void parse(const std::string &path,
-                  const unsigned int flags,
-                  std::string &user,
-                  std::string &pass)
+/**
+ * @brief read username/password from file
+ *
+ * If the file contents contain a newline, then the first line is used as the
+ * username and the second line is used as the password, otherwise the content
+ * is the username.
+ *
+ * Lines in the file are only allowed to be 1024 bytes in length.
+ * Longer lines will cause an exception to be thrown.
+ *
+ * If USERNAME_REQUIRED and/or PASSWORD_REQUIRED flag is set, then it will throw
+ * creds_error instead of returning empty values.
+ *
+ * @param path   file path
+ * @param flags  SplitLines::Flags, only *_REQUIRED flags are relevant
+ * @param user   Returns the username, if present. Otherwise empty
+ * @param pass   Returns the password, if present. Otherwise empty
+ */
+inline void parse_file(const std::string &path,
+                       const unsigned int flags,
+                       std::string &user,
+                       std::string &pass)
 {
     user.clear();
     pass.clear();
@@ -118,7 +204,6 @@ inline void parse(const std::string &path,
         throw creds_error(path + " : password empty");
 }
 
-} // namespace UserPass
-} // namespace openvpn
+} // namespace openvpn::UserPass
 
 #endif

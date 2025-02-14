@@ -4,28 +4,18 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //    Copyright (C) 2020-2022 Lev Stipakov <lev@openvpn.net>
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
+
 
 // ovpn-dco crypto wrappers
 
 #pragma once
 
-namespace openvpn {
-namespace KoRekey {
+namespace openvpn::KoRekey {
 
 /**
  * @brief Parses key information into format consumed by ovpn-dco.
@@ -40,9 +30,9 @@ class OvpnDcoKey : public Key
 
         kc.remote_peer_id = rkinfo.remote_peer_id;
 
-        const CryptoDCContext::Info ci = rkinfo.dc_context_delegate->crypto_info();
-        const CryptoAlgs::Alg &calg = CryptoAlgs::get(ci.cipher_alg);
-        switch (ci.cipher_alg)
+        const CryptoDCSettingsData ci = rkinfo.dc_context_delegate->crypto_info();
+        const CryptoAlgs::Alg &calg = CryptoAlgs::get(ci.cipher());
+        switch (ci.cipher())
         {
         case CryptoAlgs::NONE:
             kc.cipher_alg = OVPN_CIPHER_ALG_NONE;
@@ -103,5 +93,4 @@ class OvpnDcoKey : public Key
     struct KeyConfig kc;
 };
 
-} // namespace KoRekey
-} // namespace openvpn
+} // namespace openvpn::KoRekey

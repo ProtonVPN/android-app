@@ -23,7 +23,8 @@
  */
 
 /**
- * @file Alternative method to query for user input, using systemd
+ * @file
+ * Alternative method to query for user input, using systemd
  *
  */
 
@@ -71,6 +72,7 @@ get_console_input_systemd(const char *prompt, const bool echo, char *input, cons
     }
 #endif
     argv_printf_cat(&argv, "--icon network-vpn");
+    argv_printf_cat(&argv, "--timeout=0");
     argv_printf_cat(&argv, "%s", prompt);
 
     if ((std_out = openvpn_popen(&argv, NULL)) < 0)
@@ -96,7 +98,7 @@ get_console_input_systemd(const char *prompt, const bool echo, char *input, cons
  *
  */
 bool
-query_user_exec(void)
+query_user_exec_systemd(void)
 {
     bool ret = true;  /* Presume everything goes okay */
     int i;

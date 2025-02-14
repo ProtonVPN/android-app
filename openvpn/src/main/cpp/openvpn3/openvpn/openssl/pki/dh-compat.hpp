@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap an OpenSSL DH object
 
@@ -39,8 +29,7 @@
 #define CHECKED_PTR_OF(type, p) ((char *)(1 ? p : (type *)0))
 #endif
 
-namespace openvpn {
-namespace OpenSSLPKI {
+namespace openvpn::OpenSSLPKI {
 
 namespace DH_private {
 // defined outside of DH class to avoid symbol collision in way
@@ -73,8 +62,7 @@ class DH
         dup(other.dh_);
     }
 
-    DH(DH &&other)
-    noexcept
+    DH(DH &&other) noexcept
         : dh_(other.dh_)
     {
         other.dh_ = nullptr;
@@ -167,5 +155,4 @@ class DH
 
     ::DH *dh_;
 };
-} // namespace OpenSSLPKI
-} // namespace openvpn
+} // namespace openvpn::OpenSSLPKI

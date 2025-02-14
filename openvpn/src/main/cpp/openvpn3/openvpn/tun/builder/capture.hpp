@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // An artificial TunBuilder object, used to log the tun builder settings,
 // but doesn't actually configure anything.
@@ -37,6 +27,7 @@
 #include <openvpn/common/jsonlib.hpp>
 #include <openvpn/tun/builder/base.hpp>
 #include <openvpn/client/rgopt.hpp>
+#include <openvpn/client/dns.hpp>
 #include <openvpn/addr/ip.hpp>
 #include <openvpn/addr/route.hpp>
 #include <openvpn/http/urlparse.hpp>
@@ -50,7 +41,7 @@ namespace openvpn {
 class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcount>
 {
   public:
-    typedef RCPtr<TunBuilderCapture> Ptr;
+    using Ptr = RCPtr<TunBuilderCapture>;
 
     // builder data classes
 
@@ -112,10 +103,6 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
             return os.str();
         }
 
-        void validate(const std::string &title) const
-        {
-            // nothing to validate
-        }
 
 #ifdef HAVE_JSON
         Json::Value to_json() const
@@ -123,7 +110,7 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
             Json::Value root(Json::objectValue);
             root["ipv4"] = Json::Value(ipv4);
             root["ipv6"] = Json::Value(ipv6);
-            root["flags"] = Json::Value((Json::UInt)flags);
+            root["flags"] = Json::Value(flags);
             return root;
         }
 
@@ -141,7 +128,7 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
     {
       public:
         std::string address;
-        int prefix_length = 0;
+        unsigned char prefix_length = 0;
         int metric = -1;     // optional
         std::string gateway; // optional
         bool ipv6 = false;
@@ -150,7 +137,7 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
         std::string to_string() const
         {
             std::ostringstream os;
-            os << address << '/' << prefix_length;
+            os << address << '/' << static_cast<uint16_t>(prefix_length);
             if (!gateway.empty())
                 os << " -> " << gateway;
             if (metric >= 0)
@@ -179,7 +166,7 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
         {
             json::assert_dict(root, title);
             json::to_string(root, address, "address", title);
-            json::to_int(root, prefix_length, "prefix_length", title);
+            json::to_uchar(root, prefix_length, "prefix_length", title);
             json::to_int(root, metric, "metric", title);
             json::to_string(root, gateway, "gateway", title);
             json::to_bool(root, ipv6, "ipv6", title);
@@ -188,6 +175,8 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
 #endif
 
       protected:
+        static constexpr int net30_prefix_length = 30;
+
         void validate_(const std::string &title, const bool require_canonical) const
         {
             const IP::Addr::Version ver = ipv6 ? IP::Addr::V6 : IP::Addr::V4;
@@ -196,7 +185,7 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
                 OPENVPN_THROW_EXCEPTION(title << " : not a canonical route: " << route);
             if (!gateway.empty())
                 IP::Addr(gateway, title + ".gateway", ver);
-            if (net30 && route.prefix_len != 30)
+            if (net30 && route.prefix_len != net30_prefix_length)
                 OPENVPN_THROW_EXCEPTION(title << " : not a net30 route: " << route);
         }
     };
@@ -217,74 +206,6 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
         {
             validate_(title, true);
         }
-    };
-
-    class DNSServer
-    {
-      public:
-        std::string address;
-        bool ipv6 = false;
-
-        std::string to_string() const
-        {
-            std::string ret = address;
-            if (ipv6)
-                ret += " [IPv6]";
-            return ret;
-        }
-
-        void validate(const std::string &title) const
-        {
-            IP::Addr(address, title, ipv6 ? IP::Addr::V6 : IP::Addr::V4);
-        }
-
-#ifdef HAVE_JSON
-        Json::Value to_json() const
-        {
-            Json::Value root(Json::objectValue);
-            root["address"] = Json::Value(address);
-            root["ipv6"] = Json::Value(ipv6);
-            return root;
-        }
-
-        void from_json(const Json::Value &root, const std::string &title)
-        {
-            json::assert_dict(root, title);
-            json::to_string(root, address, "address", title);
-            json::to_bool(root, ipv6, "ipv6", title);
-        }
-#endif
-    };
-
-    class SearchDomain
-    {
-      public:
-        std::string domain;
-
-        std::string to_string() const
-        {
-            return domain;
-        }
-
-        void validate(const std::string &title) const
-        {
-            HostPort::validate_host(domain, title);
-        }
-
-#ifdef HAVE_JSON
-        Json::Value to_json() const
-        {
-            Json::Value root(Json::objectValue);
-            root["domain"] = Json::Value(domain);
-            return root;
-        }
-
-        void from_json(const Json::Value &root, const std::string &title)
-        {
-            json::assert_dict(root, title);
-            json::to_string(root, domain, "domain", title);
-        }
-#endif
     };
 
     class ProxyBypass
@@ -447,30 +368,30 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
 #endif
     };
 
-    virtual bool tun_builder_set_remote_address(const std::string &address, bool ipv6) override
+    bool tun_builder_set_remote_address(const std::string &address, bool ipv6) override
     {
         remote_address.address = address;
         remote_address.ipv6 = ipv6;
         return true;
     }
 
-    virtual bool tun_builder_add_address(const std::string &address, int prefix_length, const std::string &gateway, bool ipv6, bool net30) override
+    bool tun_builder_add_address(const std::string &address, int prefix_length, const std::string &gateway, bool ipv6, bool net30) override
     {
         RouteAddress r;
         r.address = address;
-        r.prefix_length = prefix_length;
+        r.prefix_length = static_cast<unsigned char>(prefix_length);
         r.gateway = gateway;
         r.ipv6 = ipv6;
         r.net30 = net30;
         if (ipv6)
-            tunnel_address_index_ipv6 = (int)tunnel_addresses.size();
+            tunnel_address_index_ipv6 = static_cast<int>(tunnel_addresses.size());
         else
-            tunnel_address_index_ipv4 = (int)tunnel_addresses.size();
-        tunnel_addresses.push_back(r);
+            tunnel_address_index_ipv4 = static_cast<int>(tunnel_addresses.size());
+        tunnel_addresses.push_back(std::move(r));
         return true;
     }
 
-    virtual bool tun_builder_reroute_gw(bool ipv4, bool ipv6, unsigned int flags) override
+    bool tun_builder_reroute_gw(bool ipv4, bool ipv6, unsigned int flags) override
     {
         reroute_gw.ipv4 = ipv4;
         reroute_gw.ipv6 = ipv6;
@@ -478,117 +399,114 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
         return true;
     }
 
-    virtual bool tun_builder_set_route_metric_default(int metric) override
+    bool tun_builder_set_route_metric_default(int metric) override
     {
         route_metric_default = metric;
         return true;
     }
 
-    virtual bool tun_builder_add_route(const std::string &address, int prefix_length, int metric, bool ipv6) override
+    bool tun_builder_add_route(const std::string &address, int prefix_length, int metric, bool ipv6) override
     {
         Route r;
         r.address = address;
-        r.prefix_length = prefix_length;
-        r.metric = metric;
+        r.prefix_length = static_cast<unsigned char>(prefix_length);
+        r.metric = (metric < 0 ? route_metric_default : metric);
         r.ipv6 = ipv6;
-        add_routes.push_back(r);
+        add_routes.push_back(std::move(r));
         return true;
     }
 
-    virtual bool tun_builder_exclude_route(const std::string &address, int prefix_length, int metric, bool ipv6) override
+    bool tun_builder_exclude_route(const std::string &address, int prefix_length, int metric, bool ipv6) override
     {
         Route r;
         r.address = address;
-        r.prefix_length = prefix_length;
+        r.prefix_length = static_cast<unsigned char>(prefix_length);
         r.metric = metric;
         r.ipv6 = ipv6;
-        exclude_routes.push_back(r);
+        exclude_routes.push_back(std::move(r));
         return true;
     }
 
-    virtual bool tun_builder_add_dns_server(const std::string &address, bool ipv6) override
+    /**
+     * @brief Set DNS options for use with tun builder
+     *
+     * Calling this invalidates any DNS related --dhcp-options previously added.
+     *
+     * @param dns       The --dns options to be set
+     * @return true     unconditionally
+     */
+    bool tun_builder_set_dns_options(const DnsOptions &dns) override
     {
-        DNSServer dns;
-        dns.address = address;
-        dns.ipv6 = ipv6;
-        dns_servers.push_back(dns);
+        dns_options = dns;
         return true;
     }
 
-    virtual bool tun_builder_add_search_domain(const std::string &domain) override
-    {
-        SearchDomain dom;
-        dom.domain = domain;
-        search_domains.push_back(dom);
-        return true;
-    }
-
-    virtual bool tun_builder_set_adapter_domain_suffix(const std::string &name) override
-    {
-        adapter_domain_suffix = name;
-        return true;
-    }
-
-    virtual bool tun_builder_set_layer(int layer) override
+    bool tun_builder_set_layer(int layer) override
     {
         this->layer = Layer::from_value(layer);
         return true;
     }
 
-    virtual bool tun_builder_set_mtu(int mtu) override
+    bool tun_builder_set_mtu(int mtu) override
     {
         this->mtu = mtu;
         return true;
     }
 
-    virtual bool tun_builder_set_session_name(const std::string &name) override
+    bool tun_builder_set_session_name(const std::string &name) override
     {
         session_name = name;
         return true;
     }
 
-    virtual bool tun_builder_add_proxy_bypass(const std::string &bypass_host) override
+    bool tun_builder_add_proxy_bypass(const std::string &bypass_host) override
     {
         ProxyBypass b;
         b.bypass_host = bypass_host;
-        proxy_bypass.push_back(b);
+        proxy_bypass.push_back(std::move(b));
         return true;
     }
 
-    virtual bool tun_builder_set_proxy_auto_config_url(const std::string &url) override
+    bool tun_builder_set_proxy_auto_config_url(const std::string &url) override
     {
         proxy_auto_config_url.url = url;
         return true;
     }
 
-    virtual bool tun_builder_set_proxy_http(const std::string &host, int port) override
+    bool tun_builder_set_proxy_http(const std::string &host, int port) override
     {
         http_proxy.host = host;
         http_proxy.port = port;
         return true;
     }
 
-    virtual bool tun_builder_set_proxy_https(const std::string &host, int port) override
+    bool tun_builder_set_proxy_https(const std::string &host, int port) override
     {
         https_proxy.host = host;
         https_proxy.port = port;
         return true;
     }
 
-    virtual bool tun_builder_add_wins_server(const std::string &address) override
+    bool tun_builder_add_wins_server(const std::string &address) override
     {
         WINSServer wins;
         wins.address = address;
-        wins_servers.push_back(wins);
+        wins_servers.push_back(std::move(wins));
         return true;
     }
 
-    virtual bool tun_builder_set_allow_family(int af, bool value) override
+    bool tun_builder_set_allow_family(int af, bool allow) override
     {
         if (af == AF_INET)
-            block_ipv4 = !value;
+            block_ipv4 = !allow;
         else if (af == AF_INET6)
-            block_ipv6 = !value;
+            block_ipv6 = !allow;
+        return true;
+    }
+
+    bool tun_builder_set_allow_local_dns(bool allow) override
+    {
+        block_outside_dns = !allow;
         return true;
     }
 
@@ -599,25 +517,23 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
         tunnel_address_index_ipv6 = -1;
     }
 
-    void reset_dns_servers()
+    void reset_dns_options()
     {
-        dns_servers.clear();
+        dns_options = {};
     }
 
     const RouteAddress *vpn_ipv4() const
     {
         if (tunnel_address_index_ipv4 >= 0)
             return &tunnel_addresses[tunnel_address_index_ipv4];
-        else
-            return nullptr;
+        return nullptr;
     }
 
     const RouteAddress *vpn_ipv6() const
     {
         if (tunnel_address_index_ipv6 >= 0)
             return &tunnel_addresses[tunnel_address_index_ipv6];
-        else
-            return nullptr;
+        return nullptr;
     }
 
     const RouteAddress *vpn_ip(const IP::Addr::Version v) const
@@ -640,11 +556,8 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
         remote_address.validate("remote_address");
         validate_list(tunnel_addresses, "tunnel_addresses");
         validate_tunnel_address_indices("root");
-        reroute_gw.validate("reroute_gw");
         validate_list(add_routes, "add_routes");
         validate_list(exclude_routes, "exclude_routes");
-        validate_list(dns_servers, "dns_servers");
-        validate_list(search_domains, "search_domains");
         validate_list(proxy_bypass, "proxy_bypass");
         proxy_auto_config_url.validate("proxy_auto_config_url");
         http_proxy.validate("http_proxy");
@@ -654,31 +567,32 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
     std::string to_string() const
     {
         std::ostringstream os;
-        os << "Session Name: " << session_name << std::endl;
-        os << "Layer: " << layer.str() << std::endl;
+        os << "Session Name: " << session_name << '\n';
+        os << "Layer: " << layer.str() << '\n';
         if (mtu)
-            os << "MTU: " << mtu << std::endl;
-        os << "Remote Address: " << remote_address.to_string() << std::endl;
+            os << "MTU: " << mtu << '\n';
+        os << "Remote Address: " << remote_address.to_string() << '\n';
         render_list(os, "Tunnel Addresses", tunnel_addresses);
-        os << "Reroute Gateway: " << reroute_gw.to_string() << std::endl;
-        os << "Block IPv4: " << (block_ipv4 ? "yes" : "no") << std::endl;
-        os << "Block IPv6: " << (block_ipv6 ? "yes" : "no") << std::endl;
+        os << "Reroute Gateway: " << reroute_gw.to_string() << '\n';
+        os << "Block IPv4: " << (block_ipv4 ? "yes" : "no") << '\n';
+        os << "Block IPv6: " << (block_ipv6 ? "yes" : "no") << '\n';
+        os << "Block local DNS: " << (block_outside_dns ? "yes" : "no") << '\n';
         if (route_metric_default >= 0)
-            os << "Route Metric Default: " << route_metric_default << std::endl;
+            os << "Route Metric Default: " << route_metric_default << '\n';
         render_list(os, "Add Routes", add_routes);
         render_list(os, "Exclude Routes", exclude_routes);
-        render_list(os, "DNS Servers", dns_servers);
-        render_list(os, "Search Domains", search_domains);
-        if (!adapter_domain_suffix.empty())
-            os << "Adapter Domain Suffix: " << adapter_domain_suffix << std::endl;
+        if (!dns_options.servers.empty())
+        {
+            os << dns_options.to_string() << '\n';
+        }
         if (!proxy_bypass.empty())
             render_list(os, "Proxy Bypass", proxy_bypass);
         if (proxy_auto_config_url.defined())
-            os << "Proxy Auto Config URL: " << proxy_auto_config_url.to_string() << std::endl;
+            os << "Proxy Auto Config URL: " << proxy_auto_config_url.to_string() << '\n';
         if (http_proxy.defined())
-            os << "HTTP Proxy: " << http_proxy.to_string() << std::endl;
+            os << "HTTP Proxy: " << http_proxy.to_string() << '\n';
         if (https_proxy.defined())
-            os << "HTTPS Proxy: " << https_proxy.to_string() << std::endl;
+            os << "HTTPS Proxy: " << https_proxy.to_string() << '\n';
         if (!wins_servers.empty())
             render_list(os, "WINS Servers", wins_servers);
         return os.str();
@@ -699,13 +613,12 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
         root["tunnel_address_index_ipv6"] = Json::Value(tunnel_address_index_ipv6);
         root["reroute_gw"] = reroute_gw.to_json();
         root["block_ipv6"] = Json::Value(block_ipv6);
+        root["block_outside_dns"] = Json::Value(block_outside_dns);
         root["route_metric_default"] = Json::Value(route_metric_default);
         json::from_vector(root, add_routes, "add_routes");
         json::from_vector(root, exclude_routes, "exclude_routes");
-        json::from_vector(root, dns_servers, "dns_servers");
+        root["dns_options"] = dns_options.to_json();
         json::from_vector(root, wins_servers, "wins_servers");
-        json::from_vector(root, search_domains, "search_domains");
-        root["adapter_domain_suffix"] = Json::Value(adapter_domain_suffix);
         json::from_vector(root, proxy_bypass, "proxy_bypass");
         if (proxy_auto_config_url.defined())
             root["proxy_auto_config_url"] = proxy_auto_config_url.to_json();
@@ -730,13 +643,12 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
         json::to_int(root, tbc->tunnel_address_index_ipv6, "tunnel_address_index_ipv6", title);
         tbc->reroute_gw.from_json(root["reroute_gw"], "reroute_gw");
         json::to_bool(root, tbc->block_ipv6, "block_ipv6", title);
+        json::to_bool(root, tbc->block_outside_dns, "block_outside_dns", title);
         json::to_int(root, tbc->route_metric_default, "route_metric_default", title);
         json::to_vector(root, tbc->add_routes, "add_routes", title);
         json::to_vector(root, tbc->exclude_routes, "exclude_routes", title);
-        json::to_vector(root, tbc->dns_servers, "dns_servers", title);
+        tbc->dns_options.from_json(root["dns_options"], "dns_options");
         json::to_vector(root, tbc->wins_servers, "wins_servers", title);
-        json::to_vector(root, tbc->search_domains, "search_domains", title);
-        json::to_string(root, tbc->adapter_domain_suffix, "adapter_domain_suffix", title);
         json::to_vector(root, tbc->proxy_bypass, "proxy_bypass", title);
         tbc->proxy_auto_config_url.from_json(root["proxy_auto_config_url"], "proxy_auto_config_url");
         tbc->http_proxy.from_json(root["http_proxy"], "http_proxy");
@@ -757,12 +669,11 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
     RerouteGW reroute_gw;                       // redirect-gateway info
     bool block_ipv4 = false;                    // block IPv4 traffic while VPN is active
     bool block_ipv6 = false;                    // block IPv6 traffic while VPN is active
+    bool block_outside_dns = false;             // block traffic to port 53 locally while VPN is active
     int route_metric_default = -1;              // route-metric directive
     std::vector<Route> add_routes;              // routes that should be added to tunnel
     std::vector<Route> exclude_routes;          // routes that should be excluded from tunnel
-    std::vector<DNSServer> dns_servers;         // VPN DNS servers
-    std::vector<SearchDomain> search_domains;   // domain suffixes whose DNS requests should be tunnel-routed
-    std::string adapter_domain_suffix;          // domain suffix on tun/tap adapter (currently Windows only)
+    DnsOptions dns_options;                     // VPN DNS related settings from --dns option
 
     std::vector<ProxyBypass> proxy_bypass; // hosts that should bypass proxy
     ProxyAutoConfigURL proxy_auto_config_url;
@@ -771,13 +682,17 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
 
     std::vector<WINSServer> wins_servers; // Windows WINS servers
 
+    static constexpr int mtu_ipv4_maximum = 65'535;
+
   private:
     template <typename LIST>
     static void render_list(std::ostream &os, const std::string &title, const LIST &list)
     {
-        os << title << ':' << std::endl;
+        os << title << ':' << '\n';
         for (auto &e : list)
-            os << "  " << e.to_string() << std::endl;
+        {
+            os << "  " << e.to_string() << '\n';
+        }
     }
 
     template <typename LIST>
@@ -814,7 +729,7 @@ class TunBuilderCapture : public TunBuilderBase, public RC<thread_unsafe_refcoun
 
     void validate_mtu(const std::string &title) const
     {
-        if (mtu < 0 || mtu > 65536)
+        if (mtu < 0 || mtu > mtu_ipv4_maximum)
             OPENVPN_THROW_EXCEPTION(title << ".mtu : MTU out of range: " << mtu);
     }
 

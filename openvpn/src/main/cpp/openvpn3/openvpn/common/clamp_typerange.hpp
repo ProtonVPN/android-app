@@ -4,26 +4,18 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2023 OpenVPN Inc.
+//    Copyright (C) 2023- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
+
 
 
 #pragma once
 
 #include <limits>
 #include <algorithm>
+#include <functional>
 
 #include "numeric_util.hpp"
 
@@ -65,6 +57,59 @@ OutT clamp_to_typerange(InT inVal)
         auto outMax = static_cast<InT>(std::numeric_limits<OutT>::max());
         return static_cast<OutT>(std::clamp(inVal, outMin, outMax));
     }
+}
+
+/* ============================================================================================================= */
+//  clamp_to_default
+/* ============================================================================================================= */
+
+/**
+ * @brief Adjusts the input value to the default if the input value exceeds the range of the output type
+ *
+ * @tparam OutT Output type
+ * @tparam InT  Input type
+ * @param inVal Input value
+ * @param defVal Input value
+ * @return OutT safely converted from InT, potentially adjusted
+ */
+
+template <typename OutT, typename InT>
+OutT clamp_to_default(InT inVal, OutT defVal)
+{
+    if constexpr (!numeric_util::is_int_rangesafe<OutT, InT>())
+    {
+        if (!is_safe_conversion<OutT>(inVal))
+            return defVal;
+    }
+
+    return static_cast<OutT>(inVal);
+}
+
+/* ============================================================================================================= */
+//  clamp_notify
+/* ============================================================================================================= */
+
+/**
+ * @brief Calls FuncT cb if the input value exceeds the range of the output type.
+ *
+ * @tparam OutT Output type
+ * @tparam InT  Input type
+ * @tparam FuncT Invokable type that accepts InT and returns OutT
+ * @param inVal Input value
+ * @param cb Notification callback
+ * @return Result of the FuncT callback
+ */
+
+template <typename OutT, typename InT, typename FuncT>
+OutT clamp_notify(InT inVal, FuncT cb)
+{
+    if constexpr (!numeric_util::is_int_rangesafe<OutT, InT>())
+    {
+        if (!is_safe_conversion<OutT>(inVal))
+            return std::invoke(cb, inVal);
+    }
+
+    return static_cast<OutT>(inVal);
 }
 
 } // namespace openvpn::numeric_util

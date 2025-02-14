@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // This is a special OpenVPN-specific implementation of LZO decompression.
 // It is generally only used when OpenVPN is built without linkage to the
@@ -66,8 +56,7 @@
         goto assert_fail;          \
     }
 
-namespace openvpn {
-namespace lzo_asym_impl {
+namespace openvpn::lzo_asym_impl {
 // Return status values
 enum
 {
@@ -351,8 +340,7 @@ assert_fail:
 input_too_large:
     return LZOASYM_E_INPUT_TOO_LARGE;
 }
-} // namespace lzo_asym_impl
-} // namespace openvpn
+} // namespace openvpn::lzo_asym_impl
 
 #undef LZOASYM_CHECK_INPUT_OVERFLOW
 #undef LZOASYM_CHECK_OUTPUT_OVERFLOW

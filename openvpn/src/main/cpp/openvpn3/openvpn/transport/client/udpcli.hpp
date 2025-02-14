@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // UDP transport object specialized for client.
 
@@ -36,8 +26,7 @@
 #include <openvpn/transport/socket_protect.hpp>
 #include <openvpn/client/remotelist.hpp>
 
-namespace openvpn {
-namespace UDPTransport {
+namespace openvpn::UDPTransport {
 
 class ClientConfig : public TransportClientFactory
 {
@@ -84,10 +73,10 @@ class Client : public TransportClient, AsyncResolvableUDP
 {
     typedef RCPtr<Client> Ptr;
 
-    friend class ClientConfig;   // calls constructor
-    friend class Link<Client *>; // calls udp_read_handler
+    friend class ClientConfig;      // calls constructor
+    friend class UDPLink<Client *>; // calls udp_read_handler
 
-    typedef Link<Client *> LinkImpl;
+    typedef UDPLink<Client *> LinkImpl;
 
   public:
     void transport_start() override
@@ -95,7 +84,7 @@ class Client : public TransportClient, AsyncResolvableUDP
         if (!impl)
         {
             halt = false;
-            if (config->remote_list->endpoint_available(&server_host, &server_port, nullptr))
+            if (config->remote_list->endpoint_available(&server_host, &server_port, &server_protocol))
             {
                 start_connect_();
             }
@@ -141,7 +130,7 @@ class Client : public TransportClient, AsyncResolvableUDP
     {
     }
 
-    unsigned int transport_send_queue_size() override
+    size_t transport_send_queue_size() override
     {
         return 0;
     }
@@ -156,9 +145,8 @@ class Client : public TransportClient, AsyncResolvableUDP
     {
         host = server_host;
         port = server_port;
+        proto = server_protocol.str();
         const IP::Addr addr = server_endpoint_addr();
-        proto = "UDP";
-        proto += addr.version_string();
         ip_addr = addr.to_string();
     }
 
@@ -172,19 +160,14 @@ class Client : public TransportClient, AsyncResolvableUDP
         return server_endpoint.port();
     }
 
-    int native_handle() override
+    openvpn_io::detail::socket_type native_handle() override
     {
         return socket.native_handle();
     }
 
     Protocol transport_protocol() const override
     {
-        if (server_endpoint.address().is_v4())
-            return Protocol(Protocol::UDPv4);
-        else if (server_endpoint.address().is_v6())
-            return Protocol(Protocol::UDPv6);
-        else
-            return Protocol();
+        return server_protocol;
     }
 
     void stop() override
@@ -339,6 +322,8 @@ class Client : public TransportClient, AsyncResolvableUDP
     std::string server_host;
     std::string server_port;
 
+    Protocol server_protocol;
+
     openvpn_io::ip::udp::socket socket;
     ClientConfig::Ptr config;
     TransportClientParent *parent;
@@ -353,7 +338,6 @@ inline TransportClient::Ptr ClientConfig::new_transport_client_obj(openvpn_io::i
 {
     return TransportClient::Ptr(new Client(io_context, this, parent));
 }
-} // namespace UDPTransport
-} // namespace openvpn
+} // namespace openvpn::UDPTransport
 
 #endif

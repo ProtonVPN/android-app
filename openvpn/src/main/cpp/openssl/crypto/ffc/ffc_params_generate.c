@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -322,9 +322,12 @@ static int generate_q_fips186_4(BN_CTX *ctx, BIGNUM *q, const EVP_MD *evpmd,
     unsigned char *pmd;
     OSSL_LIB_CTX *libctx = ossl_bn_get_libctx(ctx);
 
+    if (mdsize <= 0)
+        goto err;
+
     /* find q */
     for (;;) {
-        if(!BN_GENCB_call(cb, 0, m++))
+        if (!BN_GENCB_call(cb, 0, m++))
             goto err;
 
         /* A.1.1.2 Step (5) : generate seed with size seed_len */
@@ -673,7 +676,7 @@ int ossl_ffc_params_FIPS186_4_gen_verify(OSSL_LIB_CTX *libctx,
      * A.1.1.3 Step (10)
      * n = floor(L / hash_outlen) - 1
      */
-    n = (L - 1 ) / (mdsize << 3);
+    n = (L - 1) / (mdsize << 3);
 
     /* Calculate 2^(L-1): Used in step A.1.1.2 Step (11.3) */
     if (!BN_lshift(test, BN_value_one(), L - 1))
@@ -688,9 +691,9 @@ int ossl_ffc_params_FIPS186_4_gen_verify(OSSL_LIB_CTX *libctx,
             *res = FFC_CHECK_Q_MISMATCH;
             goto err;
         }
-        if(!BN_GENCB_call(cb, 2, 0))
+        if (!BN_GENCB_call(cb, 2, 0))
             goto err;
-        if(!BN_GENCB_call(cb, 3, 0))
+        if (!BN_GENCB_call(cb, 3, 0))
             goto err;
 
         memcpy(seed_tmp, seed, seedlen);
@@ -814,6 +817,7 @@ int ossl_ffc_params_FIPS186_2_gen_verify(OSSL_LIB_CTX *libctx,
     BIGNUM *r0, *test, *tmp, *g = NULL, *q = NULL, *p = NULL;
     BN_MONT_CTX *mont = NULL;
     EVP_MD *md = NULL;
+    int md_size;
     size_t qsize;
     int n = 0, m = 0;
     int counter = 0, pcounter = 0, use_random_seed;
@@ -842,8 +846,11 @@ int ossl_ffc_params_FIPS186_2_gen_verify(OSSL_LIB_CTX *libctx,
     }
     if (md == NULL)
         goto err;
+    md_size = EVP_MD_get_size(md);
+    if (md_size <= 0)
+        goto err;
     if (N == 0)
-        N = EVP_MD_get_size(md) * 8;
+        N = md_size * 8;
     qsize = N >> 3;
 
     /*

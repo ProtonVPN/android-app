@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #include <iostream>
 #include <algorithm> // for std::min
@@ -30,6 +20,12 @@
 #define N_COMPRESS 1
 #endif
 
+/**
+   To test and compare speed of the decompression algorithms define N_EXPAND to be
+   more than 1 by either editing this define or by adding a -DN_EXPAND=1000 or
+   -DN_COMPRESS=1000 for the compression speed in the CmakeLists
+   and looks at the time the unit test take for the different combinations.
+*/
 #ifndef N_EXPAND
 #define N_EXPAND 1
 #endif
@@ -42,7 +38,7 @@
 //   must define TEST_x to define compressor/decompressor pair
 //   OPENVPN_DEBUG_COMPRESS = 0|1|2
 
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
@@ -76,7 +72,7 @@ class MySessionStats : public SessionStats
         std::memset(errors, 0, sizeof(errors));
     }
 
-    virtual void error(const size_t err_type, const std::string *text = NULL)
+    void error(const size_t err_type, const std::string *text = NULL) override
     {
         if (err_type < Error::N_ERRORS)
             ++errors[err_type];
@@ -169,7 +165,7 @@ void test_with_corpus(Compress &compressor,
         "comp-testdata/urls.10K",
         "comp-testdata/xargs.1",
     };
-    for (auto fn : filenames)
+    for (const auto &fn : filenames)
     {
         test(std::string(UNITTEST_SOURCE_DIR) + '/' + fn,
              compressor,
@@ -240,7 +236,7 @@ void runTest(comppair alg, bool verbose = false)
                   << " blk=" << BLOCK_SIZE
                   << " bytes=" << bytes
                   << " comp-bytes=" << compress_bytes
-                  << " comp-ratio=" << (bytes ? (float)compress_bytes / bytes : 0.0)
+                  << " comp-ratio=" << (bytes ? static_cast<float>(compress_bytes) / static_cast<float>(bytes) : 0.0)
                   << std::endl;
 }
 

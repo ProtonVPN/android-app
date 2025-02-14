@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -39,10 +29,26 @@
 #error no JSON library available
 #endif
 
-namespace openvpn {
-namespace json {
+namespace openvpn::json {
 
 OPENVPN_EXCEPTION(json_parse);
+
+/* Workaround warnings in gcc 13+, see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=109642
+ * Could use [[gnu::no_dangling]] in gcc 14+ but that would then cause warnings in older
+ * compilers...
+ */
+#if !defined(__clang__) && defined(__GNUC__) && __GNUC__ >= 13
+#define DISABLE_DANGLING_WARNINGS() \
+    _Pragma("GCC diagnostic push")  \
+        _Pragma("GCC diagnostic ignored \"-Wdangling-reference\"")
+
+#define REENABLE_DANGLING_WARNINGS() \
+    _Pragma("GCC diagnostic pop")
+#else
+#define DISABLE_DANGLING_WARNINGS()
+#define REENABLE_DANGLING_WARNINGS()
+#endif
+
 
 template <typename TITLE>
 inline Json::Value parse(const std::string &str, const TITLE &title)
@@ -91,6 +97,7 @@ inline Json::Value parse_from_buffer(const BUFFER &buf, const TITLE &title)
 }
 
 #ifdef OPENVPN_JSON_INTERNAL
+DISABLE_DANGLING_WARNINGS()
 template <typename NAME, typename TITLE>
 inline const Json::Value &cast(const Json::ValueType target_type,
                                const Json::Value &value,
@@ -108,6 +115,7 @@ inline const Json::Value &cast(const Json::ValueType target_type,
         throw json_parse(Json::Value::type_string(target_type) + " cast " + fmt_name(name, title) + " is of incorrect type (" + value.type_string() + ')');
     return value;
 }
+REENABLE_DANGLING_WARNINGS()
 
 template <typename NAME>
 inline const Json::Value &cast(const Json::ValueType target_type,
@@ -117,6 +125,28 @@ inline const Json::Value &cast(const Json::ValueType target_type,
 {
     return cast(target_type, value, name, optional, nullptr);
 }
+
+template <typename NAME, typename TITLE>
+inline Json::Value cast(const Json::ValueType target_type,
+                        Json::Value &&value,
+                        const NAME &name,
+                        const bool optional,
+                        const TITLE &title)
+{
+    Json::Value ret = std::move(value);
+    cast(target_type, ret, name, optional, title);
+    return ret;
+}
+
+template <typename NAME>
+inline Json::Value cast(const Json::ValueType target_type,
+                        Json::Value &&value,
+                        const NAME &name,
+                        const bool optional)
+{
+    return cast(target_type, std::move(value), name, optional, nullptr);
+}
+
 #endif
 
 template <typename T, typename NAME>
@@ -126,7 +156,7 @@ inline void from_vector(Json::Value &root, const T &vec, const NAME &name)
     for (auto &e : vec)
         array.append(e.to_json());
     if (array.size())
-        root[name] = array;
+        root[name] = std::move(array);
 }
 
 template <typename TITLE>
@@ -213,6 +243,15 @@ template <typename NAME>
 inline const std::string &get_string_ref(const Json::Value &root, const NAME &name)
 {
     return get_string_ref(root, name, nullptr);
+}
+
+// for safety, define an rvalue ref overload that falls back to get_string()
+template <typename NAME, typename TITLE>
+inline std::string get_string_ref(Json::Value &&root,
+                                  const NAME &name,
+                                  const TITLE &title)
+{
+    return get_string(root, name, title);
 }
 
 template <typename NAME, typename TITLE>
@@ -595,6 +634,7 @@ inline int get_bool_tristate(const Json::Value &root,
         return -1;
 }
 
+DISABLE_DANGLING_WARNINGS()
 template <typename NAME, typename TITLE>
 inline const Json::Value &get_dict(const Json::Value &root,
                                    const NAME &name,
@@ -612,6 +652,7 @@ inline const Json::Value &get_dict(const Json::Value &root,
         throw json_parse("dictionary " + fmt_name(name, title) + " is of incorrect type");
     return value;
 }
+REENABLE_DANGLING_WARNINGS()
 
 template <typename NAME>
 inline const Json::Value &get_dict(const Json::Value &root,
@@ -621,6 +662,25 @@ inline const Json::Value &get_dict(const Json::Value &root,
     return get_dict(root, name, optional, nullptr);
 }
 
+template <typename NAME, typename TITLE>
+inline Json::Value get_dict(Json::Value &&root,
+                            const NAME &name,
+                            const bool optional,
+                            const TITLE &title)
+{
+    Json::Value r = std::move(root);
+    return get_dict(r, name, optional, title);
+}
+
+template <typename NAME>
+inline Json::Value get_dict(Json::Value &&root,
+                            const NAME &name,
+                            const bool optional)
+{
+    return get_dict(std::move(root), name, optional, nullptr);
+}
+
+DISABLE_DANGLING_WARNINGS()
 template <typename TITLE>
 inline const Json::Value &cast_dict(const Json::Value &value,
                                     const bool optional,
@@ -636,6 +696,7 @@ inline const Json::Value &cast_dict(const Json::Value &value,
         throw json_parse("dictionary cast " + fmt_name_cast(title) + " is of incorrect type");
     return value;
 }
+REENABLE_DANGLING_WARNINGS()
 
 inline const Json::Value &cast_dict(const Json::Value &value,
                                     const bool optional)
@@ -643,6 +704,23 @@ inline const Json::Value &cast_dict(const Json::Value &value,
     return cast_dict(value, optional, nullptr);
 }
 
+template <typename TITLE>
+inline Json::Value cast_dict(Json::Value &&value,
+                             const bool optional,
+                             const TITLE &title)
+{
+    Json::Value ret = std::move(value);
+    cast_dict(ret, optional, title);
+    return ret;
+}
+
+inline Json::Value cast_dict(Json::Value &&value,
+                             const bool optional)
+{
+    return cast_dict(std::move(value), optional, nullptr);
+}
+
+DISABLE_DANGLING_WARNINGS()
 template <typename NAME, typename TITLE>
 inline const Json::Value &get_array(const Json::Value &root,
                                     const NAME &name,
@@ -660,6 +738,7 @@ inline const Json::Value &get_array(const Json::Value &root,
         throw json_parse("array " + fmt_name(name, title) + " is of incorrect type");
     return value;
 }
+REENABLE_DANGLING_WARNINGS()
 
 template <typename NAME>
 inline const Json::Value &get_array(const Json::Value &root,
@@ -669,6 +748,25 @@ inline const Json::Value &get_array(const Json::Value &root,
     return get_array(root, name, optional, nullptr);
 }
 
+template <typename NAME, typename TITLE>
+inline Json::Value get_array(Json::Value &&root,
+                             const NAME &name,
+                             const bool optional,
+                             const TITLE &title)
+{
+    Json::Value r = std::move(root);
+    return get_array(r, name, optional, title);
+}
+
+template <typename NAME>
+inline Json::Value get_array(Json::Value &&root,
+                             const NAME &name,
+                             const bool optional)
+{
+    return get_array(std::move(root), name, optional, nullptr);
+}
+
+DISABLE_DANGLING_WARNINGS()
 template <typename TITLE>
 inline const Json::Value &cast_array(const Json::Value &value,
                                      const bool optional,
@@ -684,11 +782,28 @@ inline const Json::Value &cast_array(const Json::Value &value,
         throw json_parse("array cast " + fmt_name_cast(title) + " is of incorrect type");
     return value;
 }
+REENABLE_DANGLING_WARNINGS()
 
 inline const Json::Value &cast_array(const Json::Value &value,
                                      const bool optional)
 {
     return cast_array(value, optional, nullptr);
+}
+
+template <typename TITLE>
+inline Json::Value cast_array(Json::Value &&value,
+                              const bool optional,
+                              const TITLE &title)
+{
+    Json::Value ret = std::move(value);
+    cast_array(ret, optional, title);
+    return ret;
+}
+
+inline Json::Value cast_array(Json::Value &&value,
+                              const bool optional)
+{
+    return cast_array(std::move(value), optional, nullptr);
 }
 
 template <typename NAME, typename TITLE>
@@ -717,6 +832,20 @@ inline void to_int(const Json::Value &root,
                    const TITLE &title)
 {
     dest = get_int(root, name, title);
+}
+
+template <typename NAME, typename TITLE>
+inline void to_uchar(const Json::Value &root,
+                     unsigned char &dest,
+                     const NAME &name,
+                     const TITLE &title)
+{
+    auto temp = get_int(root, name, title);
+    dest = clamp_notify<unsigned char>(temp,
+                                       [](decltype(temp) temp) -> unsigned char
+                                       {
+        auto why = std::string("Conversion error [" + std::to_string(temp) + "] to unsigned char");
+        throw json_parse(std::move(why)); });
 }
 
 template <typename NAME, typename TITLE>
@@ -772,9 +901,9 @@ inline void format_compact(const Json::Value &root, Buffer &buf)
 inline std::string format_compact(const Json::Value &root,
                                   const size_t size_hint = 256)
 {
-    BufferPtr bp = new BufferAllocated(size_hint, BufferAllocated::GROW);
-    format_compact(root, *bp);
-    return buf_to_string(*bp);
+    auto bp = BufferAllocated(size_hint, BufAllocFlags::GROW);
+    format_compact(root, bp);
+    return buf_to_string(bp);
 }
 
 inline void format(const Json::Value &root, Buffer &buf)
@@ -818,5 +947,4 @@ inline Json::Value dict_result(Json::Value jr)
         return jret;
     }
 }
-} // namespace json
-} // namespace openvpn
+} // namespace openvpn::json

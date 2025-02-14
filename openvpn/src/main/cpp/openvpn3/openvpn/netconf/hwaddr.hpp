@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Get the local MAC addr of the interface that owns the default route
 
@@ -32,16 +22,16 @@
 #if defined(OPENVPN_PLATFORM_WIN) && !defined(OPENVPN_PLATFORM_UWP)
 #include <openvpn/tun/win/tunutil.hpp>
 #elif defined(OPENVPN_PLATFORM_MAC)
-#include <openvpn/tun/mac/gwv4.hpp>
+#include <openvpn/tun/mac/gw.hpp>
 #elif defined(TARGET_OS_IPHONE)
 #include <UIKit/UIKit.h>
 #endif
 
 namespace openvpn {
-inline std::string get_hwaddr()
+inline std::string get_hwaddr([[maybe_unused]] IP::Addr server_addr)
 {
 #if defined(OPENVPN_PLATFORM_WIN) && !defined(OPENVPN_PLATFORM_UWP)
-    const TunWin::Util::BestGateway dg;
+    const TunWin::Util::BestGateway dg{AF_INET};
     if (dg.defined())
     {
         const TunWin::Util::IPAdaptersInfo ai_list;
@@ -53,7 +43,7 @@ inline std::string get_hwaddr()
         }
     }
 #elif defined(OPENVPN_PLATFORM_MAC)
-    const MacGatewayInfoV4 gw;
+    const MacGatewayInfo gw{server_addr};
     if (gw.hwaddr_defined())
     {
         const MACAddr &mac = gw.hwaddr();

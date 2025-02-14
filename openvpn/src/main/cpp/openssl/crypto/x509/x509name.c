@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2020 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -225,7 +225,7 @@ int X509_NAME_add_entry(X509_NAME *name, const X509_NAME_ENTRY *ne, int loc,
         goto err;
     new_name->set = set;
     if (!sk_X509_NAME_ENTRY_insert(sk, new_name, loc)) {
-        ERR_raise(ERR_LIB_X509, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_X509, ERR_R_CRYPTO_LIB);
         goto err;
     }
     if (inc) {

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap the OpenSSL GCM API.
 
@@ -33,10 +23,10 @@
 #include <openvpn/common/likely.hpp>
 #include <openvpn/crypto/static_key.hpp>
 #include <openvpn/crypto/cryptoalgs.hpp>
+#include <openvpn/crypto/aead_usage_limit.hpp>
 #include <openvpn/openssl/util/error.hpp>
 
-namespace openvpn {
-namespace OpenSSLCrypto {
+namespace openvpn::OpenSSLCrypto {
 class CipherContextAEAD
 {
     /* In OpenSSL 3.0 the method that returns EVP_CIPHER, the cipher needs to be
@@ -53,6 +43,19 @@ class CipherContextAEAD
     CipherContextAEAD(const CipherContextAEAD &) = delete;
     CipherContextAEAD &operator=(const CipherContextAEAD &) = delete;
 
+    CipherContextAEAD(CipherContextAEAD &&other) noexcept
+        : ctx(std::exchange(other.ctx, nullptr)), aead_usage_limit_(other.aead_usage_limit_)
+    {
+    }
+
+    CipherContextAEAD &operator=(CipherContextAEAD &&other)
+    {
+        CipherContextAEAD temp(std::move(other));
+        std::swap(ctx, temp.ctx);
+        std::swap(aead_usage_limit_, other.aead_usage_limit_);
+        return *this;
+    }
+
     OPENVPN_EXCEPTION(openssl_gcm_error);
 
     // mode parameter for constructor
@@ -64,7 +67,7 @@ class CipherContextAEAD
     };
 
     // OpenSSL cipher constants
-    enum
+    enum : size_t
     {
         IV_LEN = 12,
         AUTH_TAG_LEN = 16
@@ -126,6 +129,7 @@ class CipherContextAEAD
             free_cipher_context();
             throw openssl_gcm_error("EVP_CIPHER_CTX_ctrl set IV len");
         }
+        aead_usage_limit_ = {alg};
     }
 
     void encrypt(const unsigned char *input,
@@ -171,18 +175,49 @@ class CipherContextAEAD
             openssl_clear_error_stack();
             throw openssl_gcm_error("EVP_CIPHER_CTX_ctrl get tag");
         }
+        aead_usage_limit_.update(length + ad_len);
     }
 
+
+    /** Returns the AEAD usage limit associated with this AEAD cipher instance to check the limits */
+    [[nodiscard]] const Crypto::AEADUsageLimit &get_usage_limit()
+    {
+        return aead_usage_limit_;
+    }
+
+
+    /**
+     * Decrypts AEAD encrypted data. Note that if tag is the nullptr the tag is assumed to be
+     * part of input and at the end of the input. The length parameter of input includes the tag in
+     * this case
+     *
+     * @param input     Input data to decrypt
+     * @param output    Where decrypted data will be written to
+     * @param iv        IV of the encrypted data.
+     * @param length    length the of the data, this includes the tag at the end if tag is not a nullptr.
+     * @param ad        start of the additional data
+     * @param ad_len    length of the additional data
+     * @param tag       location of the tag to use or nullptr if at the end of the input
+     */
     bool decrypt(const unsigned char *input,
                  unsigned char *output,
                  size_t length,
                  const unsigned char *iv,
-                 unsigned char *tag,
+                 const unsigned char *tag,
                  const unsigned char *ad,
                  size_t ad_len)
     {
-        int len;
-        int plaintext_len;
+        if (!tag)
+        {
+            /* Tag is at the end of input, check that input is large enough to hold the tag */
+            if (length < AUTH_TAG_LEN)
+            {
+                throw openssl_gcm_error("decrypt input length too short");
+            }
+
+            length = length - AUTH_TAG_LEN;
+            tag = input + length;
+        }
 
         check_initialized();
         if (!EVP_DecryptInit_ex(ctx, nullptr, nullptr, nullptr, iv))
@@ -190,6 +225,8 @@ class CipherContextAEAD
             openssl_clear_error_stack();
             throw openssl_gcm_error("EVP_DecryptInit_ex (reset)");
         }
+
+        int len;
         if (!EVP_DecryptUpdate(ctx, nullptr, &len, ad, int(ad_len)))
         {
             openssl_clear_error_stack();
@@ -200,8 +237,11 @@ class CipherContextAEAD
             openssl_clear_error_stack();
             throw openssl_gcm_error("EVP_DecryptUpdate data");
         }
-        plaintext_len = len;
-        if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, AUTH_TAG_LEN, tag))
+
+        int plaintext_len = len;
+        /** This API of OpenSSL does not modify the tag it is given but the function signature always expects
+         * a modifiable tag, so we have to const cast it to get around this restriction */
+        if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, AUTH_TAG_LEN, const_cast<unsigned char *>(tag)))
         {
             openssl_clear_error_stack();
             throw openssl_gcm_error("EVP_CIPHER_CTX_ctrl set tag");
@@ -239,17 +279,6 @@ class CipherContextAEAD
     {
         switch (alg)
         {
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
-        case CryptoAlgs::AES_128_GCM:
-            keysize = 16;
-            return EVP_CIPHER_fetch(libctx, "id-aes128-GCM", nullptr);
-        case CryptoAlgs::AES_192_GCM:
-            keysize = 24;
-            return EVP_CIPHER_fetch(libctx, "id-aes192-GCM", nullptr);
-        case CryptoAlgs::AES_256_GCM:
-            keysize = 32;
-            return EVP_CIPHER_fetch(libctx, "id-aes256-GCM", nullptr);
-#else
         case CryptoAlgs::AES_128_GCM:
             keysize = 16;
             return EVP_CIPHER_fetch(libctx, "AES-128-GCM", nullptr);
@@ -259,7 +288,6 @@ class CipherContextAEAD
         case CryptoAlgs::AES_256_GCM:
             keysize = 32;
             return EVP_CIPHER_fetch(libctx, "AES-256-GCM", nullptr);
-#endif
         case CryptoAlgs::CHACHA20_POLY1305:
             keysize = 32;
             return EVP_CIPHER_fetch(libctx, "CHACHA20-POLY1305", nullptr);
@@ -284,6 +312,6 @@ class CipherContextAEAD
     }
 
     EVP_CIPHER_CTX *ctx = nullptr;
+    Crypto::AEADUsageLimit aead_usage_limit_ = {};
 };
-} // namespace OpenSSLCrypto
-} // namespace openvpn
+} // namespace openvpn::OpenSSLCrypto

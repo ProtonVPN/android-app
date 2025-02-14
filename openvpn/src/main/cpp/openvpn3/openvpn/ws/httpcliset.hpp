@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -49,8 +39,7 @@
 #define OPENVPN_HTTP_CLISET_RC RC<thread_unsafe_refcount>
 #endif
 
-namespace openvpn {
-namespace WS {
+namespace openvpn::WS {
 
 class ClientSet : public RC<thread_unsafe_refcount>
 {
@@ -836,7 +825,7 @@ class ClientSet : public RC<thread_unsafe_refcount>
         {
             if (out_iter != trans().content_out.end())
             {
-                BufferPtr ret = new BufferAllocated(**out_iter);
+                auto ret = BufferAllocatedRc::Create(**out_iter);
                 ++out_iter;
                 return ret;
             }
@@ -997,7 +986,7 @@ class ClientSet : public RC<thread_unsafe_refcount>
         BufferList content_out;
         BufferList::const_iterator out_iter;
         unsigned int n_retries;
-        unsigned int buf_tailroom;
+        size_t buf_tailroom;
         Time::Duration retry_duration;
         AsioTimerSafe reconnect_timer;
         client_t client_id;
@@ -1030,5 +1019,4 @@ class ClientSet : public RC<thread_unsafe_refcount>
     std::map<client_t, Client::Ptr> clients;
 };
 
-} // namespace WS
-} // namespace openvpn
+} // namespace openvpn::WS

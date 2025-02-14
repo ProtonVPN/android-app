@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -46,7 +44,7 @@
  *              if yes, hand to mss_fixup_dowork()
  */
 void
-mss_fixup_ipv4(struct buffer *buf, int maxmss)
+mss_fixup_ipv4(struct buffer *buf, uint16_t maxmss)
 {
     const struct openvpn_iphdr *pip;
     int hlen;
@@ -74,7 +72,7 @@ mss_fixup_ipv4(struct buffer *buf, int maxmss)
             struct openvpn_tcphdr *tc = (struct openvpn_tcphdr *) BPTR(&newbuf);
             if (tc->flags & OPENVPN_TCPH_SYN_MASK)
             {
-                mss_fixup_dowork(&newbuf, (uint16_t) maxmss);
+                mss_fixup_dowork(&newbuf, maxmss);
             }
         }
     }
@@ -86,7 +84,7 @@ mss_fixup_ipv4(struct buffer *buf, int maxmss)
  *              (IPv6 header structure is sufficiently different from IPv4...)
  */
 void
-mss_fixup_ipv6(struct buffer *buf, int maxmss)
+mss_fixup_ipv6(struct buffer *buf, uint16_t maxmss)
 {
     const struct openvpn_ipv6hdr *pip6;
     struct buffer newbuf;
@@ -132,7 +130,7 @@ mss_fixup_ipv6(struct buffer *buf, int maxmss)
         struct openvpn_tcphdr *tc = (struct openvpn_tcphdr *) BPTR(&newbuf);
         if (tc->flags & OPENVPN_TCPH_SYN_MASK)
         {
-            mss_fixup_dowork(&newbuf, (uint16_t) maxmss-20);
+            mss_fixup_dowork(&newbuf, maxmss-20);
         }
     }
 }
@@ -167,7 +165,7 @@ mss_fixup_dowork(struct buffer *buf, uint16_t maxmss)
         return;
     }
 
-    for (olen = hlen - sizeof(struct openvpn_tcphdr),
+    for (olen = hlen - (int) sizeof(struct openvpn_tcphdr),
          opt = (uint8_t *)(tc + 1);
          olen > 1;
          olen -= optlen, opt += optlen)
@@ -193,13 +191,14 @@ mss_fixup_dowork(struct buffer *buf, uint16_t maxmss)
                 {
                     continue;
                 }
-                mssval = (opt[2]<<8)+opt[3];
+                mssval = opt[2] << 8;
+                mssval += opt[3];
                 if (mssval > maxmss)
                 {
-                    dmsg(D_MSS, "MSS: %d -> %d", (int) mssval, (int) maxmss);
+                    dmsg(D_MSS, "MSS: %" PRIu16 " -> %" PRIu16, mssval, maxmss);
                     accumulate = htons(mssval);
-                    opt[2] = (maxmss>>8)&0xff;
-                    opt[3] = maxmss&0xff;
+                    opt[2] = (uint8_t)((maxmss>>8)&0xff);
+                    opt[3] = (uint8_t)(maxmss&0xff);
                     accumulate -= htons(maxmss);
                     ADJUST_CHECKSUM(accumulate, tc->check);
                 }
@@ -208,8 +207,8 @@ mss_fixup_dowork(struct buffer *buf, uint16_t maxmss)
     }
 }
 
-static inline unsigned int
-adjust_payload_max_cbc(const struct key_type *kt, unsigned int target)
+static inline size_t
+adjust_payload_max_cbc(const struct key_type *kt, size_t target)
 {
     if (!cipher_kt_mode_cbc(kt->cipher))
     {
@@ -222,13 +221,13 @@ adjust_payload_max_cbc(const struct key_type *kt, unsigned int target)
         /* With CBC we need at least one extra byte for padding and then need
          * to ensure that the resulting CBC ciphertext length, which is always
          * a multiple of the block size, is not larger than the target value */
-        unsigned int block_size = cipher_kt_block_size(kt->cipher);
-        target = round_down_uint(target, block_size);
+        size_t block_size = cipher_kt_block_size(kt->cipher);
+        target = round_down_size(target, block_size);
         return target - 1;
     }
 }
 
-static unsigned int
+static size_t
 get_ip_encap_overhead(const struct options *options,
                       const struct link_socket_info *lsi)
 {
@@ -259,7 +258,7 @@ frame_calculate_fragment(struct frame *frame, struct key_type *kt,
                          struct link_socket_info *lsi)
 {
 #if defined(ENABLE_FRAGMENT)
-    unsigned int overhead;
+    size_t overhead;
 
     overhead = frame_calculate_protocol_header_size(kt, options, false);
 
@@ -268,12 +267,12 @@ frame_calculate_fragment(struct frame *frame, struct key_type *kt,
         overhead += get_ip_encap_overhead(options, lsi);
     }
 
-    unsigned int target = options->ce.fragment - overhead;
+    size_t target = options->ce.fragment - overhead;
     /* The 4 bytes of header that fragment adds itself. The other extra payload
      * bytes (Ethernet header/compression) are handled by the fragment code
      * just as part of the payload and therefore automatically taken into
      * account if the packet needs to fragmented */
-    frame->max_fragment_size = adjust_payload_max_cbc(kt, target) - 4;
+    frame->max_fragment_size = clamp_size_to_int(adjust_payload_max_cbc(kt, target)) - 4;
 
     if (cipher_kt_mode_cbc(kt->cipher))
     {
@@ -293,11 +292,11 @@ frame_calculate_mssfix(struct frame *frame, struct key_type *kt,
     {
         /* we subtract IPv4 and TCP overhead here, mssfix method will add the
          * extra 20 for IPv6 */
-        frame->mss_fix = options->ce.mssfix - (20 + 20);
+        frame->mss_fix = (uint16_t)(options->ce.mssfix - (20 + 20));
         return;
     }
 
-    unsigned int overhead, payload_overhead;
+    size_t overhead, payload_overhead;
 
     overhead = frame_calculate_protocol_header_size(kt, options, false);
 
@@ -326,8 +325,8 @@ frame_calculate_mssfix(struct frame *frame, struct key_type *kt,
      * by ce.mssfix */
 
     /* This is the target value our payload needs to be smaller */
-    unsigned int target = options->ce.mssfix - overhead;
-    frame->mss_fix = adjust_payload_max_cbc(kt, target) - payload_overhead;
+    size_t target = options->ce.mssfix - overhead;
+    frame->mss_fix = (uint16_t)(adjust_payload_max_cbc(kt, target) - payload_overhead);
 
 
 }
@@ -358,7 +357,7 @@ frame_adjust_path_mtu(struct context *c)
     struct link_socket_info *lsi = get_link_socket_info(c);
     struct options *o = &c->options;
 
-    int pmtu = c->c2.link_socket->mtu;
+    int pmtu = c->c2.link_sockets[0]->mtu;
     sa_family_t af = lsi->lsa->actual.dest.addr.sa.sa_family;
     int proto = lsi->proto;
 

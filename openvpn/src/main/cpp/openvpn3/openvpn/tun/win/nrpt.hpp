@@ -4,194 +4,493 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 //
 
-// Name Resolution Policy Table (NRPT) utilities for Windows
+/**
+ * @brief Name Resolution Policy Table (NRPT) utilities for Windows
+ *
+ * NRPT rules define how DNS loop-ups are done on Windows systems. They
+ * override the traditional settings, that are done with the network adapters,
+ * so having NRPT rules in place, only those will define how DNS works.
+ *
+ * There are two subkey in the Registry where NRPT rules can be defined. One
+ * for rules coming in via group policies and the other for locally defined rules.
+ * Group policy rules are preferred and if they exist, local rules will be ignored.
+ *
+ * OpenVPN will find the right subkey to add its rules to. In case there is no
+ * split DNS rule defined it will also add so called bypass rules, which make sure
+ * local name resolution will still work while the VPN is connected. This is done
+ * by collecting the name server addresses from the adapter configurations and
+ * adding them as NRPT rules for the adapter's domain suffix.
+ *
+ * NRPT rules described here: https://msdn.microsoft.com/en-us/library/ff957356.aspx
+ */
 
-#ifndef OPENVPN_TUN_WIN_NRPT_H
-#define OPENVPN_TUN_WIN_NRPT_H
+#pragma once
 
 #include <string>
 #include <sstream>
 #include <vector>
+#include <array>
 
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/string.hpp>
 #include <openvpn/common/wstring.hpp>
 #include <openvpn/common/action.hpp>
 #include <openvpn/win/reg.hpp>
+#include <openvpn/win/netutil.hpp>
 #include <openvpn/win/winerr.hpp>
 
-namespace openvpn {
-namespace TunWin {
+namespace openvpn::TunWin {
 
-// NRPT rules described here: https://msdn.microsoft.com/en-us/library/ff957356.aspx
-class NRPT
+/**
+ * @brief Manage NRPT rules for Windows
+ *
+ * @tparam REG      Registry abstraction class to use
+ * @tparam NETAPI   Network related Win32 API class to use
+ */
+template <typename REG, typename NETAPI>
+class Nrpt
 {
   public:
     OPENVPN_EXCEPTION(nrpt_error);
 
-    static void create_rule(const std::vector<std::string> names, const std::vector<std::string> dns_servers)
+    /**
+     * @brief Create a NRPT rule in the registry
+     *
+     * The exact location of the rule depends on whether there are alredy rules
+     * rules defined. If so the rule is stored with them, either in the place
+     * where group policy based ones are, or the local one.
+     *
+     * @param rule_id       the unique rule id
+     * @param domains       domains the rule applies to as wide MULTI_SZ
+     * @param servers       list of name server addresses, separated by semicolon
+     * @param dnssec        whether DNSSEC should be enabled for the rule
+     */
+    static void create_rule(const std::string &rule_id,
+                            const std::wstring &domains,
+                            const std::wstring &servers,
+                            bool dnssec)
     {
-        Win::RegKey key;
+        LSTATUS status;
 
-        for (size_t i = 0; i < names.size(); ++i)
+        // Open / create the key
+        typename REG::Key nrpt = open_nrpt_base_key();
+        if (!nrpt.defined())
         {
-            // open/create the key
-            {
-                std::ostringstream ss;
-                ss << dnsPolicyConfig() << "\\" << policyPrefix() << "-" << i;
-                auto key_name = ss.str();
+            throw nrpt_error("cannot open NRPT base key");
+        }
+        typename REG::Key rule_key(nrpt(), wstring::from_utf8(rule_id), true);
+        if (!rule_key.defined())
+        {
+            throw nrpt_error("cannot create NRPT rule subkey");
+        }
 
-                const LONG status = ::RegCreateKeyA(HKEY_LOCAL_MACHINE, key_name.c_str(), key.ref());
-                check_reg_error<nrpt_error>(status, key_name);
-            }
+        // Name
+        status = REG::set_multi_string(rule_key, L"Name", domains);
+        check_reg_error<nrpt_error>(status, "Name");
 
-            // Name
-            {
-                std::wstring name(wstring::from_utf8(names[i]));
-                name += L'\0';
-                const LONG status = ::RegSetValueExW(key(),
-                                                     L"Name",
-                                                     0,
-                                                     REG_MULTI_SZ,
-                                                     (const BYTE *)name.c_str(),
-                                                     (name.length() + 1) * 2);
-                check_reg_error<nrpt_error>(status, "Name");
-            }
+        // GenericDNSServers
+        status = REG::set_string(rule_key, L"GenericDNSServers", servers);
+        check_reg_error<nrpt_error>(status, "GenericDNSServers");
 
-            // GenericDNSServers
-            {
-                const std::wstring dns_servers_joined = wstring::from_utf8(string::join(dns_servers, ";"));
-                const LONG status = ::RegSetValueExW(key(),
-                                                     L"GenericDNSServers",
-                                                     0,
-                                                     REG_SZ,
-                                                     (const BYTE *)dns_servers_joined.c_str(),
-                                                     (dns_servers_joined.length() + 1) * 2);
-                check_reg_error<nrpt_error>(status, "GenericDNSServers");
-            }
+        // DNSSEC
+        if (dnssec)
+        {
+            status = REG::set_dword(rule_key, L"DNSSECValidationRequired", 1);
+            check_reg_error<nrpt_error>(status, "DNSSECValidationRequired");
 
-            // ConfigOptions
-            {
-                const DWORD value = 0x8; // Only the Generic DNS server option (that is, the option defined in section 2.2.2.13) is specified.
-                const LONG status = ::RegSetValueExW(key(),
-                                                     L"ConfigOptions",
-                                                     0,
-                                                     REG_DWORD,
-                                                     (const BYTE *)&value,
-                                                     sizeof(value));
-                check_reg_error<nrpt_error>(status, "ConfigOptions");
-            }
+            status = REG::set_dword(rule_key, L"DNSSECQueryIPSECRequired", 0);
+            check_reg_error<nrpt_error>(status, "DNSSECQueryIPSECRequired");
 
-            // Version
-            {
-                const DWORD value = 0x2;
-                const LONG status = ::RegSetValueExW(key(),
-                                                     L"Version",
-                                                     0,
-                                                     REG_DWORD,
-                                                     (const BYTE *)&value,
-                                                     sizeof(value));
-                check_reg_error<nrpt_error>(status, "Version");
-            }
+            status = REG::set_dword(rule_key, L"DNSSECQueryIPSECEncryption", 0);
+            check_reg_error<nrpt_error>(status, "DNSSECQueryIPSECEncryption");
+        }
+
+        // ConfigOptions
+        // 0x8: Only the Generic DNS server option is specified.
+        // 0xA: The Generic DNS server option and the DNSSEC options are specified
+        status = REG::set_dword(rule_key, L"ConfigOptions", dnssec ? 0xA : 0x8);
+        check_reg_error<nrpt_error>(status, "ConfigOptions");
+
+        // Version
+        status = REG::set_dword(rule_key, L"Version", 2);
+        check_reg_error<nrpt_error>(status, "Version");
+    }
+
+    /**
+     * Set NRPT exclude rules to accompany a catch all rule. This is done so that
+     * local resolution of names is not interfered with in case the VPN resolves
+     * all names. Exclude rules are only installed if the DNS settings came in via
+     * --dns options, to keep backwards compatibility.
+     *
+     * @param process_id    the process id used for the rules
+     */
+    static void create_exclude_rules(DWORD process_id)
+    {
+        std::uint32_t n = 0;
+        const auto data = collect_exclude_rule_data();
+        for (const auto &exclude : data)
+        {
+            const auto id = exclude_rule_id(process_id, n++);
+            create_rule(id, exclude.domains, string::join(exclude.addresses, L";"), false);
         }
     }
 
-    static bool delete_rule()
+    /**
+     * @brief Remove our NRPT rules from the registry
+     *
+     * Iterate over the rules in the two know subkeys where NRPT rules can be located
+     * in the Windows registry and remove those rules, which we identify as ours. This
+     * is done by comparing the process id we add to the end of each rule we add. If
+     * the process id is zero all NRPT rules are deleted, regardless of the actual pid.
+     *
+     * @param process_id    the process id used for the rule deletion
+     */
+    static void delete_rules(DWORD process_id)
     {
-        Win::RegKeyEnumerator keys(HKEY_LOCAL_MACHINE, dnsPolicyConfig());
-
-        for (const auto &key : keys)
+        std::vector<std::wstring> del_subkeys;
+        static constexpr std::array<PCWSTR, 2> nrpt_subkeys{
+            REG::gpol_nrpt_subkey, REG::local_nrpt_subkey};
+        // Only find rules to delete, so that the iterator stays valid
+        for (const auto &nrpt_subkey : nrpt_subkeys)
         {
-            // remove only own policies
-            if (key.find(policyPrefix()) == std::string::npos)
-                continue;
+            const auto pid = L"-" + std::to_wstring(process_id);
+            typename REG::Key nrpt_key(nrpt_subkey);
+            typename REG::KeyEnumerator nrpt_rules(nrpt_key);
 
-            std::ostringstream ss;
-            ss << dnsPolicyConfig() << "\\" << key;
-            auto path = ss.str();
-            ::RegDeleteTreeA(HKEY_LOCAL_MACHINE, path.c_str());
+            for (const auto &nrpt_rule_id : nrpt_rules)
+            {
+                // remove only own policies
+                if (nrpt_rule_id.find(wstring::from_utf8(id_prefix())) != 0)
+                    continue;
+                if (process_id && nrpt_rule_id.rfind(pid) != (nrpt_rule_id.size() - pid.size()))
+                    continue;
+
+                std::wostringstream rule_subkey;
+                rule_subkey << nrpt_subkey << L"\\" << nrpt_rule_id;
+                del_subkeys.push_back(rule_subkey.str());
+            }
         }
-
-        return true;
+        // Now delete the rules
+        for (const auto &subkey : del_subkeys)
+        {
+            REG::delete_subkey(subkey);
+        }
     }
 
   private:
-    static const char *dnsPolicyConfig()
+    /**
+     * Holds the information for one NRPT exclude rule, i.e. data from
+     * local DNS configuration. Note that 'domains' is a MULTI_SZ string.
+     */
+    struct ExcludeRuleData
     {
-        static const char subkey[] = "SYSTEM\\CurrentControlSet\\Services\\Dnscache\\Parameters\\DnsPolicyConfig";
-        return subkey;
+        std::wstring domains;
+        std::vector<std::wstring> addresses;
+    };
+
+    /**
+     * @brief Get IPv4 DNS server addresses of an interface
+     *
+     * @param  itf_guid                     The interface GUID string
+     * @return std::vector<std::wstring>    IPv4 server addresses found
+     */
+    static std::vector<std::wstring> interface_ipv4_dns_servers(const std::wstring &itf_guid)
+    {
+        typename REG::Key itf_key(std::wstring(REG::subkey_ipv4_itfs) + L"\\" + itf_guid);
+
+        auto [servers, error] = REG::get_string(itf_key, L"NameServer");
+        if (!error && !servers.empty())
+        {
+            return string::split(servers, ',');
+        }
+
+        if (dhcp_enabled_on_itf<REG>(itf_key))
+        {
+            auto [servers, error] = REG::get_string(itf_key, L"DhcpNameServer");
+            if (!error && !servers.empty())
+            {
+                return string::split(servers, ' ');
+            }
+        }
+
+        return {};
     }
 
-    static const char *policyPrefix()
+    /**
+     * @brief Get IPv6 DNS server addresses of an interface
+     *
+     * @param  itf_guid                     The interface GUID string
+     * @return std::vector<std::string>     IPv6 server addresses found
+     */
+    static std::vector<std::wstring> interface_ipv6_dns_servers(const std::wstring &itf_guid)
+    {
+        typename REG::Key itf_key(std::wstring(REG::subkey_ipv6_itfs) + L"\\" + itf_guid);
+
+        auto [servers, error] = REG::get_string(itf_key, L"NameServer");
+        if (!error && !servers.empty())
+        {
+            return string::split(servers, ',');
+        }
+
+        if (dhcp_enabled_on_itf<REG>(itf_key))
+        {
+            auto [in6_addrs, error] = REG::get_binary(itf_key, L"Dhcpv6DNSServers");
+            if (!error)
+            {
+                std::vector<std::wstring> addresses;
+                size_t in6_addr_count = in6_addrs.size() / sizeof(IN6_ADDR);
+                for (size_t i = 0; i < in6_addr_count; ++i)
+                {
+                    WCHAR ipv6[64];
+                    IN6_ADDR *in6_addr = reinterpret_cast<IN6_ADDR *>(in6_addrs.data()) + i;
+                    if (::InetNtopW(AF_INET6, in6_addr, ipv6, _countof(ipv6)))
+                    {
+                        addresses.emplace_back(ipv6);
+                    }
+                }
+                return addresses;
+            }
+        }
+
+        return {};
+    }
+
+    /**
+     * @brief Get all the data necessary for excluding local domains from the tunnel
+     *
+     * This data is only necessary if all the domains are to be resolved through
+     * the VPN. To not break resolving local DNS names, we add so called exclude rules
+     * to the NRPT for as long as the tunnel persists.
+     *
+     * @return std::vector<ExcludeRuleData> The data collected to create exclude rules from.
+     */
+    static std::vector<ExcludeRuleData> collect_exclude_rule_data()
+    {
+        std::vector<ExcludeRuleData> data;
+        typename REG::Key itfs(REG::subkey_ipv4_itfs);
+        typename REG::KeyEnumerator itf_guids(itfs);
+        for (const auto &itf_guid : itf_guids)
+        {
+            // Ignore interfaces that are not connected or disabled
+            if (!NETAPI::interface_connected(itf_guid))
+            {
+                continue;
+            }
+
+            std::wstring domain = interface_dns_domain<REG>(itf_guid);
+            if (domain.empty())
+            {
+                continue;
+            }
+
+            // Get the DNS server addresses for the interface domain
+            auto addresses = interface_ipv4_dns_servers(itf_guid);
+            const auto addr6 = interface_ipv6_dns_servers(itf_guid);
+            addresses.insert(addresses.end(), addr6.begin(), addr6.end());
+            if (addresses.empty())
+            {
+                continue;
+            }
+
+            // Add a leading '.' to the domain and convert it to MULTI_SZ
+            domain.resize(domain.size() + 3);
+            domain.insert(domain.begin(), L'.');
+            domain.push_back(L'\0');
+            domain.push_back(L'\0');
+
+            data.push_back({domain, addresses});
+        }
+        return data;
+    }
+
+    /**
+     * @brief Open the NRPT key to store our rules at
+     *
+     * There are two places in the registry where NRPT rules can be found, depending
+     * on whether group policy rules are used or not. This function tries for the
+     * group policy place first and returns the key for the local rules in case it
+     * does not exist.
+     *
+     * @return REG::Key  the opened Registry handle
+     */
+    static typename REG::Key open_nrpt_base_key()
+    {
+        typename REG::Key key(REG::gpol_nrpt_subkey);
+        if (key.defined())
+        {
+            return key;
+        }
+        return typename REG::Key(REG::local_nrpt_subkey);
+    }
+
+    /**
+     * @brief Return the rule id prefix any rule starts with
+     *
+     * @return const char*  the prefix string
+     */
+    static const char *id_prefix()
     {
         static const char prefix[] = "OpenVPNDNSRouting";
         return prefix;
     }
 
+    /**
+     * @brief Generate a rule id string
+     *
+     * @param process_id    the process id used for the rule
+     * @param exclude_rule  whether the rule is for an exclude rule
+     * @param n             the number of the exclude rule
+     * @return std::string  the rule id string
+     */
+    static std::string gen_rule_id(DWORD process_id, bool exclude_rule, std::uint32_t n)
+    {
+        std::ostringstream ss;
+        ss << id_prefix();
+        if (exclude_rule)
+        {
+            ss << "X-" << n;
+        }
+        ss << "-" << process_id;
+        return ss.str();
+    }
+
   public:
+    /**
+     * @brief Return a NRPT rule id
+     *
+     * @param process_id    the process id used for the rule
+     * @return std::string  the rule is string
+     */
+    static inline std::string rule_id(DWORD process_id)
+    {
+        return gen_rule_id(process_id, false, 0u);
+    }
+
+    /**
+     * @brief Return a NRPT exclude rule id
+     *
+     * @param process_id    the process id used for the rule
+     * @param n             the number of this rule
+     * @return std::string  the rule id string
+     */
+    static inline std::string exclude_rule_id(DWORD process_id, std::uint32_t n)
+    {
+        return gen_rule_id(process_id, true, n);
+    }
     class ActionCreate : public Action
     {
       public:
-        ActionCreate(const std::vector<std::string> &names_arg,
-                     const std::vector<std::string> &dns_servers_arg)
-            : names(names_arg),
-              dns_servers(dns_servers_arg)
+        ActionCreate(DWORD process_id,
+                     const std::vector<std::string> &domains,
+                     const std::vector<std::string> &dns_servers,
+                     bool dnssec)
+            : process_id_(process_id),
+              domains_(domains),
+              dns_servers_(dns_servers),
+              dnssec_(dnssec)
         {
         }
 
-        virtual void execute(std::ostream &log) override
+        /**
+         * @brief Apply NRPT data to the registry
+         *
+         * In case a --dns server has no domains, we fall back to resolving
+         * "all domains" with it and install rules excluding the domains
+         * found on the system, so local domain names keep working.
+         *
+         * @param log   where the rules will be logged to
+         */
+        void execute(std::ostream &log) override
         {
-            log << to_string() << std::endl;
-            create_rule(names, dns_servers);
+            // Convert domains into a wide MULTI_SZ string
+            std::wstring domains;
+            if (domains_.empty())
+            {
+                // --dns options did not specify any domains to resolve.
+                domains = L".";
+                domains.push_back(L'\0');
+                domains.push_back(L'\0');
+                create_exclude_rules(process_id_);
+            }
+            else
+            {
+                domains = wstring::pack_string_vector(domains_);
+            }
+
+            const std::string id = rule_id(process_id_);
+            const std::wstring servers = wstring::from_utf8(string::join(dns_servers_, ";"));
+            log << to_string() << " id=[" << id << "]" << std::endl;
+            create_rule(id, domains, servers, dnssec_);
         }
 
-        virtual std::string to_string() const override
+        /**
+         * @brief Produce a textual representating of the NRPT data
+         *
+         * @return std::string  the data as string
+         */
+        std::string to_string() const override
         {
             std::ostringstream os;
             os << "NRPT::ActionCreate"
-               << " names=[" << string::join(names, ",") << "]"
-               << " dns_servers=[" << string::join(dns_servers, ",") << "]";
+               << " pid=[" << process_id_ << "]"
+               << " domains=[" << string::join(domains_, ",") << "]"
+               << " dns_servers=[" << string::join(dns_servers_, ",") << "]"
+               << " dnssec=[" << dnssec_ << "]";
             return os.str();
         }
 
       private:
-        const std::vector<std::string> names;
-        const std::vector<std::string> dns_servers;
+        DWORD process_id_;
+        const std::vector<std::string> domains_;
+        const std::vector<std::string> dns_servers_;
+        const bool dnssec_;
     };
 
     class ActionDelete : public Action
     {
       public:
-        virtual void execute(std::ostream &log) override
+        ActionDelete(DWORD process_id)
+            : process_id_(process_id)
         {
-            log << to_string() << std::endl;
-            delete_rule();
         }
 
-        virtual std::string to_string() const override
+        /**
+         * @brief Delete all rules this process has set.
+         *
+         * Note that the ActionCreate and ActionDelete must be
+         * executed from the same process for this to work reliably
+         *
+         * @param log   where the log message goes
+         */
+        void execute(std::ostream &log) override
         {
-            return "NRPT::ActionDelete";
+            log << to_string() << std::endl;
+            delete_rules(process_id_);
         }
+
+        /**
+         * @brief Return the log message
+         *
+         * @return std::string
+         */
+        std::string to_string() const override
+        {
+            std::ostringstream ss;
+            ss << "NRPT::ActionDelete pid=[" << process_id_ << "]";
+            return ss.str();
+        }
+
+      protected:
+        DWORD process_id_;
     };
 };
 
-} // namespace TunWin
-} // namespace openvpn
+using NRPT = Nrpt<Win::Reg, Win::NetApi>;
 
-#endif
+} // namespace openvpn::TunWin

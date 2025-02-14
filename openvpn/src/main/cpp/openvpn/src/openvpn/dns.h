@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2022-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2022-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -26,12 +26,6 @@
 
 #include "buffer.h"
 #include "env_set.h"
-
-enum dns_domain_type {
-    DNS_DOMAINS_UNSET,
-    DNS_RESOLVE_DOMAINS,
-    DNS_EXCLUDE_DOMAINS
-};
 
 enum dns_security {
     DNS_SECURITY_UNSET,
@@ -68,7 +62,6 @@ struct dns_server {
     size_t addr_count;
     struct dns_server_addr addr[8];
     struct dns_domain *domains;
-    enum dns_domain_type domain_type;
     enum dns_security dnssec;
     enum dns_server_transport transport;
     const char *sni;
@@ -136,7 +129,8 @@ bool dns_options_verify(int msglevel, const struct dns_options *o);
  * @param   gc          Pointer to the gc_arena to use for the clone
  * @return              The dns_options clone
  */
-struct dns_options clone_dns_options(const struct dns_options o, struct gc_arena *gc);
+struct dns_options clone_dns_options(const struct dns_options *o,
+                                     struct gc_arena *gc);
 
 /**
  * Saves and resets the server options, so that pulled ones don't mix in.

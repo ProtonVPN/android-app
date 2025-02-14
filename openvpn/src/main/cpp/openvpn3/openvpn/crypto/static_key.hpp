@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Classes for handling OpenVPN static keys (and tls-auth keys)
 
@@ -47,8 +37,14 @@ class StaticKey
     {
     }
     StaticKey(const unsigned char *key_data, const size_t key_size)
-        : key_data_(key_data, key_size, key_t::DESTRUCT_ZERO)
+        : key_data_(key_data, key_size, BufAllocFlags::DESTRUCT_ZERO)
     {
+    }
+
+    StaticKey(const key_t &keydata)
+        : key_data_(keydata)
+    {
+        key_data_.or_flags(BufAllocFlags::DESTRUCT_ZERO);
     }
 
     size_t size() const
@@ -71,7 +67,7 @@ class StaticKey
 
     void parse_from_base64(const std::string &b64, const size_t capacity)
     {
-        key_data_.reset(capacity, key_t::DESTRUCT_ZERO);
+        key_data_.reset(capacity, BufAllocFlags::DESTRUCT_ZERO);
         base64->decode(key_data_, b64);
     }
 
@@ -80,10 +76,9 @@ class StaticKey
         return base64->encode(key_data_);
     }
 
-    void init_from_rng(RandomAPI &rng, const size_t key_size)
+    void init_from_rng(StrongRandomAPI &rng, const size_t key_size)
     {
-        rng.assert_crypto();
-        key_data_.init(key_size, key_t::DESTRUCT_ZERO);
+        key_data_.init(key_size, BufAllocFlags::DESTRUCT_ZERO);
         rng.rand_bytes(key_data_.data(), key_size);
         key_data_.set_size(key_size);
     }
@@ -152,7 +147,7 @@ class OpenVPNStaticKey
     void parse(const std::string &key_text)
     {
         SplitLines in(key_text, 0);
-        key_t data(KEY_SIZE, key_t::DESTRUCT_ZERO);
+        key_t data(KEY_SIZE, BufAllocFlags::DESTRUCT_ZERO);
         bool in_body = false;
         while (in(true))
         {
@@ -166,7 +161,7 @@ class OpenVPNStaticKey
         }
         if (in_body || data.size() != KEY_SIZE)
             throw static_key_parse_error();
-        key_data_ = data;
+        key_data_ = std::move(data);
     }
 
     std::string render() const
@@ -183,7 +178,7 @@ class OpenVPNStaticKey
 
     unsigned char *raw_alloc()
     {
-        key_data_.init(KEY_SIZE, key_t::DESTRUCT_ZERO | key_t::ARRAY);
+        key_data_.init(KEY_SIZE, BufAllocFlags::DESTRUCT_ZERO | BufAllocFlags::ARRAY);
         return key_data_.data();
     }
 

@@ -5,7 +5,7 @@
 #             packet encryption, packet authentication, and
 #             packet compression.
 #
-#  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+#  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
 #  Copyright (C) 2006-2012 Alon Bar-Lev <alon.barlev@gmail.com>
 #
 
@@ -54,11 +54,19 @@ openvpn_examples_sections = \
 	man-sections/examples.rst
 
 dist_noinst_DATA = \
-	README.plugins interactive-service-notes.rst \
+	android.txt \
+	interactive-service-notes.rst \
+	keying-material-exporter.txt \
 	openvpn.8.rst \
 	openvpn-examples.5.rst \
+	README.man \
+	README.plugins \
+	tls-crypt-v2.txt \
 	$(openvpn_sections) \
-	$(openvpn_examples_sections)
+	$(openvpn_examples_sections) \
+	CMakeLists.txt
+
+EXTRA_DIST = tests
 
 # dependencies
 openvpn.8 openvpn.8.html: $(openvpn_sections)

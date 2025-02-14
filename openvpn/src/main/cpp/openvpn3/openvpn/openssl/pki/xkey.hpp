@@ -5,21 +5,12 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2023- OpenVPN Inc.
 //    Copyright (C) 2021-2022 Selva Nair <selva.nair@gmail.com>
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception OR GPL-2.0-only WITH openvpn-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
+
 
 #pragma once
 
@@ -34,11 +25,14 @@
 #include <openvpn/openssl/xkey/xkey_common.h>
 
 namespace openvpn {
-class XKeyExternalPKIImpl : public ExternalPKIImpl
+class XKeyExternalPKIImpl : public std::enable_shared_from_this<XKeyExternalPKIImpl>, public ExternalPKIImpl
 {
   private:
-    OSSL_LIB_CTX *tls_libctx = nullptr;
+    using OSSL_LIB_CTX_unique_ptr = std::unique_ptr<::OSSL_LIB_CTX, decltype(&::OSSL_LIB_CTX_free)>;
+
+    OSSL_LIB_CTX_unique_ptr tls_libctx{nullptr, ::OSSL_LIB_CTX_free};
     ExternalPKIBase *external_pki;
+    std::string alias;
 
     static void
     xkey_logging_callback(const char *message, bool debug)
@@ -70,7 +64,7 @@ class XKeyExternalPKIImpl : public ExternalPKIImpl
         /* Make a new library context for use in TLS context */
         if (!tls_libctx)
         {
-            tls_libctx = OSSL_LIB_CTX_new();
+            tls_libctx = OSSL_LIB_CTX_unique_ptr{::OSSL_LIB_CTX_new(), OSSL_LIB_CTX_free};
             if (!tls_libctx)
                 OPENVPN_THROW(OpenSSLException, "OpenSSLContext::ExternalPKIImpl: OSSL_LIB_CTX_new");
 
@@ -79,17 +73,16 @@ class XKeyExternalPKIImpl : public ExternalPKIImpl
              * but currently that is usable only from within providers.
              * So we do something close to it manually here.
              */
-            OSSL_PROVIDER_do_all(nullptr, provider_load, tls_libctx);
+            OSSL_PROVIDER_do_all(nullptr, provider_load, tls_libctx.get());
         }
 
-        if (!OSSL_PROVIDER_available(tls_libctx, "ovpn.xkey"))
+        if (!OSSL_PROVIDER_available(tls_libctx.get(), "ovpn.xkey"))
         {
-            OSSL_PROVIDER_add_builtin(tls_libctx, "ovpn.xkey", xkey_provider_init);
-            if (!OSSL_PROVIDER_load(tls_libctx, "ovpn.xkey"))
+            OSSL_PROVIDER_add_builtin(tls_libctx.get(), "ovpn.xkey", xkey_provider_init);
+            if (!OSSL_PROVIDER_load(tls_libctx.get(), "ovpn.xkey"))
             {
-                OPENVPN_THROW(OpenSSLException, "OpenSSLContext::ExternalPKIImpl: "
-                                                    << "failed loading external key provider: "
-                                                       "Signing with external keys will not work.");
+                OPENVPN_THROW(OpenSSLException, "OpenSSLContext::ExternalPKIImpl: " << "failed loading external key provider: "
+                                                                                       "Signing with external keys will not work.");
             }
         }
 
@@ -99,17 +92,7 @@ class XKeyExternalPKIImpl : public ExternalPKIImpl
          * libctx that unprefers, but does not forbid, ovpn.xkey. See also man page
          * of "property" in OpenSSL 3.0.
          */
-        EVP_set_default_properties(tls_libctx, "?provider!=ovpn.xkey");
-    }
-
-    void unload_xkey_provider()
-    {
-        if (tls_libctx)
-        {
-            OSSL_PROVIDER_do_all(tls_libctx, provider_unload, nullptr);
-            OSSL_LIB_CTX_free(tls_libctx);
-        }
-        tls_libctx = nullptr;
+        EVP_set_default_properties(tls_libctx.get(), "?provider!=ovpn.xkey");
     }
 
     EVP_PKEY *
@@ -123,22 +106,43 @@ class XKeyExternalPKIImpl : public ExternalPKIImpl
         if (!pkey)
             OPENVPN_THROW(OpenSSLException, "OpenSSLContext::ExternalPKIImpl: X509_get0_pubkey");
 
-        EVP_PKEY *privkey = xkey_load_generic_key(tls_libctx, this, pkey, xkey_sign_cb, nullptr);
+        /* keep a refrence of XKeyExternalPKIImpl in the EVP_PKEY object, see also xkey_free_cb */
+        std::unique_ptr<decltype(shared_from_this())> thisptr{new std::shared_ptr(shared_from_this())};
+        EVP_PKEY *privkey = xkey_load_generic_key(tls_libctx.get(), thisptr.get(), pkey, xkey_sign_cb, xkey_free_cb);
         if (!privkey
             || !SSL_CTX_use_PrivateKey(ctx, privkey))
         {
             EVP_PKEY_free(privkey);
             return nullptr;
         }
+        thisptr.release();
 
         return privkey;
     }
 
   public:
-    XKeyExternalPKIImpl(SSL_CTX *ssl_ctx, ::X509 *cert, ExternalPKIBase *external_pki)
-        : external_pki(external_pki)
+    [[nodiscard]] static std::shared_ptr<XKeyExternalPKIImpl> create(SSL_CTX *ssl_ctx, ::X509 *cert, ExternalPKIBase *external_pki, std::string alias)
     {
+        auto ret = std::shared_ptr<XKeyExternalPKIImpl>{new XKeyExternalPKIImpl{external_pki, alias}};
+        ret->use_external_key(ssl_ctx, cert);
+        return ret;
+    }
 
+    ~XKeyExternalPKIImpl()
+    {
+        if (tls_libctx)
+        {
+            OSSL_PROVIDER_do_all(tls_libctx.get(), provider_unload, nullptr);
+        }
+    }
+
+    XKeyExternalPKIImpl(ExternalPKIBase *external_pki, std::string alias)
+        : external_pki(external_pki), alias(alias)
+    {
+    }
+
+    void use_external_key(SSL_CTX *ssl_ctx, ::X509 *cert)
+    {
         /* Ensure provider is loaded */
         load_xkey_provider();
 
@@ -147,18 +151,14 @@ class XKeyExternalPKIImpl : public ExternalPKIImpl
 
         if (!privkey)
         {
-            OPENVPN_THROW(OpenSSLException, "OpenSSLContext::ExternalPKIImpl: "
-                                                << "SSL_CTX_use_PrivateKey");
+            OPENVPN_THROW(OpenSSLException, "OpenSSLContext::ExternalPKIImpl: " << "SSL_CTX_use_PrivateKey");
         }
 
         EVP_PKEY_free(privkey);
     }
 
-    virtual ~XKeyExternalPKIImpl()
-    {
-        unload_xkey_provider();
-    }
 
+  private:
     static int xkey_sign_cb(void *this_ptr,
                             unsigned char *sig,
                             size_t *siglen,
@@ -166,7 +166,20 @@ class XKeyExternalPKIImpl : public ExternalPKIImpl
                             size_t tbslen,
                             XKEY_SIGALG alg)
     {
-        return static_cast<XKeyExternalPKIImpl *>(this_ptr)->xkey_sign(sig, siglen, tbs, tbslen, alg);
+        return static_cast<std::shared_ptr<XKeyExternalPKIImpl> *>(this_ptr)->get()->xkey_sign(sig, siglen, tbs, tbslen, alg);
+    }
+
+    static void xkey_free_cb(void *this_ptr)
+    {
+        /* This method implements a reference counting for the library context.
+         * Normally objects in OpenSSL are refcounted and will only be freed
+         * when no object still uses that object. However library contexts are
+         * not reference counted. So we use the shared_ptr here to keep this
+         * objects and the \c tls_libctx alive as long as there still OpenSSL
+         * objects using it.The xkey provider will be kept alive as
+         * long as is still an object referencing it (like an ::EVP_PKEY).
+         */
+        delete static_cast<std::shared_ptr<XKeyExternalPKIImpl> *>(this_ptr);
     }
 
     /**
@@ -177,7 +190,7 @@ class XKeyExternalPKIImpl : public ExternalPKIImpl
      *                      on successful return size of signature
      * @param tbs           hash or message to be signed
      * @param tbslen        len of data in dgst
-     * @param sigalg        extra signature parameters
+     * @param alg           extra signature parameters
      *
      * @return              signature length or -1 on error.
      */
@@ -246,7 +259,7 @@ class XKeyExternalPKIImpl : public ExternalPKIImpl
         const std::string from_b64 = base64->encode(from_buf);
 
         std::string sig_b64;
-        external_pki->sign(from_b64, sig_b64, algstr, hashalg, saltlen);
+        external_pki->sign(alias, from_b64, sig_b64, algstr, hashalg, saltlen);
 
         Buffer sigbuf(static_cast<void *>(sig), *siglen, false);
         base64->decode(sigbuf, sig_b64);

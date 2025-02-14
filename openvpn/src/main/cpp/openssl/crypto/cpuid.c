@@ -1,5 +1,5 @@
 /*
- * Copyright 1998-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1998-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -34,7 +34,7 @@ static variant_char *ossl_getenv(const char *name)
 {
     /*
      * Since we pull only one environment variable, it's simpler to
-     * to just ignore |name| and use equivalent wide-char L-literal.
+     * just ignore |name| and use equivalent wide-char L-literal.
      * As well as to ignore excessively long values...
      */
     static WCHAR value[48];
@@ -71,7 +71,7 @@ static uint64_t ossl_strtouint64(const variant_char *str)
             base = 16, str++;
     }
 
-    while((digit = todigit(*str++)) < base)
+    while ((digit = todigit(*str++)) < base)
         ret = ret * base + digit;
 
     return ret;
@@ -80,7 +80,7 @@ static uint64_t ossl_strtouint64(const variant_char *str)
 static variant_char *ossl_strchr(const variant_char *str, char srch)
 {   variant_char c;
 
-    while((c = *str)) {
+    while ((c = *str)) {
         if (c == srch)
             return (variant_char *)str;
         str++;
@@ -173,7 +173,7 @@ void OPENSSL_cpuid_setup(void)
  */
 
 /*
- * The volatile is used to to ensure that the compiler generates code that reads
+ * The volatile is used to ensure that the compiler generates code that reads
  * all values from the array and doesn't try to optimize this away. The standard
  * doesn't actually require this behavior if the original data pointed to is
  * not volatile, but compilers do this in practice anyway.
@@ -181,7 +181,7 @@ void OPENSSL_cpuid_setup(void)
  * There are also assembler versions of this function.
  */
 # undef CRYPTO_memcmp
-int CRYPTO_memcmp(const void * in_a, const void * in_b, size_t len)
+int CRYPTO_memcmp(const void *in_a, const void *in_b, size_t len)
 {
     size_t i;
     const volatile unsigned char *a = in_a;

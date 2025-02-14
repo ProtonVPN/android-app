@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -203,7 +201,7 @@ _pkcs11_openvpn_token_prompt(
     CLEAR(token_resp);
     token_resp.defined = false;
     token_resp.nocache = true;
-    openvpn_snprintf(
+    snprintf(
         token_resp.username,
         sizeof(token_resp.username),
         "Please insert %s token",
@@ -240,6 +238,7 @@ _pkcs11_openvpn_pin_prompt(
 {
     struct user_pass token_pass;
     char prompt[1024];
+    CLEAR(token_pass);
 
     (void)global_data;
     (void)user_data;
@@ -247,7 +246,7 @@ _pkcs11_openvpn_pin_prompt(
 
     ASSERT(token!=NULL);
 
-    openvpn_snprintf(prompt, sizeof(prompt), "%s token", token->label);
+    snprintf(prompt, sizeof(prompt), "%s token", token->label);
 
     token_pass.defined = false;
     token_pass.nocache = true;
@@ -721,7 +720,7 @@ tls_ctx_use_pkcs11(
 
         id_resp.defined = false;
         id_resp.nocache = true;
-        openvpn_snprintf(
+        snprintf(
             id_resp.username,
             sizeof(id_resp.username),
             "Please specify PKCS#11 id to use"

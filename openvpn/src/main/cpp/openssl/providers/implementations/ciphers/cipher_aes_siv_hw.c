@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -120,8 +120,7 @@ static int aes_siv_cipher(void *vctx, unsigned char *out,
     return ossl_siv128_decrypt(sctx, in, out, len) > 0;
 }
 
-static const PROV_CIPHER_HW_AES_SIV aes_siv_hw =
-{
+static const PROV_CIPHER_HW_AES_SIV aes_siv_hw = {
     aes_siv_initkey,
     aes_siv_cipher,
     aes_siv_setspeed,

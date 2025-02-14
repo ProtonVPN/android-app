@@ -1,10 +1,9 @@
 BasedOnStyle: Microsoft
 ColumnLimit: 0
 SortIncludes: Never
-BreakBeforeBinaryOperators: All
+BreakBeforeBinaryOperators: NonAssignment
 BinPackArguments: False
 BinPackParameters: False
-LambdaBodyIndentation: OuterScope
 IndentCaseBlocks: true
 MaxEmptyLinesToKeep: 3
 BraceWrapping:

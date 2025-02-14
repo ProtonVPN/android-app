@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 
 #ifndef OPENVPN_COMMON_ACTION_H
@@ -48,9 +38,7 @@ struct Action : public RC<thread_unsafe_refcount>
         throw Exception("Action::to_json() virtual method not implemented");
     }
 #endif
-    virtual ~Action()
-    {
-    }
+    virtual ~Action() = default;
 };
 
 class ActionList : public std::vector<Action::Ptr>, public DestructorBase
@@ -141,7 +129,7 @@ class ActionList : public std::vector<Action::Ptr>, public DestructorBase
         halt_ = true;
     }
 
-    virtual void destroy(std::ostream &os) override // defined by DestructorBase
+    void destroy(std::ostream &os) override // defined by DestructorBase
     {
         if (enable_destroy_)
         {

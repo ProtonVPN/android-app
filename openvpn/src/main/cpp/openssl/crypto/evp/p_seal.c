@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -58,7 +58,7 @@ int EVP_SealInit(EVP_CIPHER_CTX *ctx, const EVP_CIPHER *type,
 
         pctx = EVP_PKEY_CTX_new_from_pkey(libctx, pubk[i], NULL);
         if (pctx == NULL) {
-            ERR_raise(ERR_LIB_EVP, ERR_R_MALLOC_FAILURE);
+            ERR_raise(ERR_LIB_EVP, ERR_R_EVP_LIB);
             goto err;
         }
 

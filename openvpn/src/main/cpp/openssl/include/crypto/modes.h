@@ -138,6 +138,12 @@ struct gcm128_context {
 #endif
 };
 
+/* GHASH functions */
+void ossl_gcm_init_4bit(u128 Htable[16], const u64 H[2]);
+void ossl_gcm_ghash_4bit(u64 Xi[2], const u128 Htable[16],
+                         const u8 *inp, size_t len);
+void ossl_gcm_gmult_4bit(u64 Xi[2], const u128 Htable[16]);
+
 /*
  * The maximum permitted number of cipher blocks per data unit in XTS mode.
  * Reference IEEE Std 1619-2018.
@@ -148,6 +154,12 @@ struct xts128_context {
     void *key1, *key2;
     block128_f block1, block2;
 };
+
+/* XTS mode for SM4 algorithm specified by GB/T 17964-2021 */
+int ossl_crypto_xts128gb_encrypt(const XTS128_CONTEXT *ctx,
+                                 const unsigned char iv[16],
+                                 const unsigned char *inp, unsigned char *out,
+                                 size_t len, int enc);
 
 struct ccm128_context {
     union {

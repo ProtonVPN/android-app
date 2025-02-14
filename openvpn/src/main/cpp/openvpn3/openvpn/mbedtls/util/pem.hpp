@@ -77,7 +77,11 @@ class MbedTLSPEM
                                           0,
                                           &out_len);
         if (ret == 0)
-            dst.init(ctx.buf, ctx.buflen, BufferAllocated::DESTRUCT_ZERO);
+        {
+            size_t buflen = 0;
+            const uint8_t *bufptr = mbedtls_pem_get_buffer(&ctx, &buflen);
+            dst.init(bufptr, buflen, BufAllocFlags::DESTRUCT_ZERO);
+        }
 
         mbedtls_pem_free(&ctx);
 

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Low level tun device I/O class for all platforms (Unix and Windows)
 
@@ -219,9 +209,9 @@ class TunIO : public RC<thread_unsafe_refcount>
         stream->async_read_some(frame_context.mutable_buffer(tunfrom->buf),
                                 [self = Ptr(this), tunfrom = typename PacketFrom::SPtr(tunfrom)](const openvpn_io::error_code &error, const size_t bytes_recvd) mutable
                                 {
-            OPENVPN_ASYNC_HANDLER;
-            self->handle_read(std::move(tunfrom), error, bytes_recvd);
-        });
+                                    OPENVPN_ASYNC_HANDLER;
+                                    self->handle_read(std::move(tunfrom), error, bytes_recvd);
+                                });
     }
 
     void handle_read(typename PacketFrom::SPtr pfp, const openvpn_io::error_code &error, const size_t bytes_recvd)

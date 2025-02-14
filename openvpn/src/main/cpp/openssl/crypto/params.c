@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2024 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2019, Oracle and/or its affiliates.  All rights reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -14,6 +14,8 @@
 #include "internal/thread_once.h"
 #include "internal/numbers.h"
 #include "internal/endian.h"
+#include "internal/params.h"
+#include "internal/packet.h"
 
 /* Shortcuts for raising errors that are widely used */
 #define err_unsigned_negative \
@@ -36,6 +38,7 @@
 #define err_unsupported_real  \
     ERR_raise(ERR_LIB_CRYPTO, CRYPTO_R_PARAM_UNSUPPORTED_FLOATING_POINT_FORMAT)
 
+#ifndef OPENSSL_SYS_UEFI
 /*
  * Return the number of bits in the mantissa of a double.  This is used to
  * shift a larger integral value to determine if it will exactly fit into a
@@ -45,6 +48,7 @@ static unsigned int real_shift(void)
 {
     return sizeof(double) == 4 ? 24 : 53;
 }
+#endif
 
 OSSL_PARAM *OSSL_PARAM_locate(OSSL_PARAM *p, const char *key)
 {
@@ -193,6 +197,10 @@ static int unsigned_from_unsigned(void *dest, size_t dest_len,
 /* General purpose get integer parameter call that handles odd sizes */
 static int general_get_int(const OSSL_PARAM *p, void *val, size_t val_size)
 {
+    if (p->data == NULL) {
+        err_null_argument;
+        return 0;
+    }
     if (p->data_type == OSSL_PARAM_INTEGER)
         return signed_from_signed(val, val_size, p->data, p->data_size);
     if (p->data_type == OSSL_PARAM_UNSIGNED_INTEGER)
@@ -222,6 +230,11 @@ static int general_set_int(OSSL_PARAM *p, void *val, size_t val_size)
 /* General purpose get unsigned integer parameter call that handles odd sizes */
 static int general_get_uint(const OSSL_PARAM *p, void *val, size_t val_size)
 {
+
+    if (p->data == NULL) {
+        err_null_argument;
+        return 0;
+    }
     if (p->data_type == OSSL_PARAM_INTEGER)
         return unsigned_from_signed(val, val_size, p->data, p->data_size);
     if (p->data_type == OSSL_PARAM_UNSIGNED_INTEGER)
@@ -376,9 +389,12 @@ OSSL_PARAM OSSL_PARAM_construct_ulong(const char *key, unsigned long int *buf)
 
 int OSSL_PARAM_get_int32(const OSSL_PARAM *p, int32_t *val)
 {
-    double d;
-
     if (val == NULL || p == NULL) {
+        err_null_argument;
+        return 0;
+    }
+
+    if (p->data == NULL) {
         err_null_argument;
         return 0;
     }
@@ -430,6 +446,9 @@ int OSSL_PARAM_get_int32(const OSSL_PARAM *p, int32_t *val)
         return general_get_int(p, val, sizeof(*val));
 
     } else if (p->data_type == OSSL_PARAM_REAL) {
+#ifndef OPENSSL_SYS_UEFI
+        double d;
+
         switch (p->data_size) {
         case sizeof(double):
             d = *(const double *)p->data;
@@ -442,6 +461,7 @@ int OSSL_PARAM_get_int32(const OSSL_PARAM *p, int32_t *val)
         }
         err_unsupported_real;
         return 0;
+#endif
     }
     err_bad_type;
     return 0;
@@ -449,9 +469,6 @@ int OSSL_PARAM_get_int32(const OSSL_PARAM *p, int32_t *val)
 
 int OSSL_PARAM_set_int32(OSSL_PARAM *p, int32_t val)
 {
-    uint32_t u32;
-    unsigned int shift;
-
     if (p == NULL) {
         err_null_argument;
         return 0;
@@ -490,6 +507,10 @@ int OSSL_PARAM_set_int32(OSSL_PARAM *p, int32_t val)
 #endif
         return general_set_int(p, &val, sizeof(val));
     } else if (p->data_type == OSSL_PARAM_REAL) {
+#ifndef OPENSSL_SYS_UEFI
+        uint32_t u32;
+        unsigned int shift;
+
         p->return_size = sizeof(double);
         if (p->data == NULL)
             return 1;
@@ -508,6 +529,7 @@ int OSSL_PARAM_set_int32(OSSL_PARAM *p, int32_t val)
         }
         err_unsupported_real;
         return 0;
+#endif
     }
     err_bad_type;
     return 0;
@@ -521,9 +543,12 @@ OSSL_PARAM OSSL_PARAM_construct_int32(const char *key, int32_t *buf)
 
 int OSSL_PARAM_get_uint32(const OSSL_PARAM *p, uint32_t *val)
 {
-    double d;
-
     if (val == NULL || p == NULL) {
+        err_null_argument;
+        return 0;
+    }
+
+    if (p->data == NULL) {
         err_null_argument;
         return 0;
     }
@@ -576,6 +601,9 @@ int OSSL_PARAM_get_uint32(const OSSL_PARAM *p, uint32_t *val)
 #endif
         return general_get_uint(p, val, sizeof(*val));
     } else if (p->data_type == OSSL_PARAM_REAL) {
+#ifndef OPENSSL_SYS_UEFI
+        double d;
+
         switch (p->data_size) {
         case sizeof(double):
             d = *(const double *)p->data;
@@ -588,6 +616,7 @@ int OSSL_PARAM_get_uint32(const OSSL_PARAM *p, uint32_t *val)
         }
         err_unsupported_real;
         return 0;
+#endif
     }
     err_bad_type;
     return 0;
@@ -595,8 +624,6 @@ int OSSL_PARAM_get_uint32(const OSSL_PARAM *p, uint32_t *val)
 
 int OSSL_PARAM_set_uint32(OSSL_PARAM *p, uint32_t val)
 {
-    unsigned int shift;
-
     if (p == NULL) {
         err_null_argument;
         return 0;
@@ -640,6 +667,9 @@ int OSSL_PARAM_set_uint32(OSSL_PARAM *p, uint32_t val)
 #endif
         return general_set_uint(p, &val, sizeof(val));
     } else if (p->data_type == OSSL_PARAM_REAL) {
+#ifndef OPENSSL_SYS_UEFI
+        unsigned int shift;
+
         p->return_size = sizeof(double);
         if (p->data == NULL)
             return 1;
@@ -655,6 +685,7 @@ int OSSL_PARAM_set_uint32(OSSL_PARAM *p, uint32_t val)
         }
         err_unsupported_real;
         return 0;
+#endif
     }
     err_bad_type;
     return 0;
@@ -668,9 +699,12 @@ OSSL_PARAM OSSL_PARAM_construct_uint32(const char *key, uint32_t *buf)
 
 int OSSL_PARAM_get_int64(const OSSL_PARAM *p, int64_t *val)
 {
-    double d;
-
     if (val == NULL || p == NULL) {
+        err_null_argument;
+        return 0;
+    }
+
+    if (p->data == NULL) {
         err_null_argument;
         return 0;
     }
@@ -707,6 +741,9 @@ int OSSL_PARAM_get_int64(const OSSL_PARAM *p, int64_t *val)
 #endif
         return general_get_int(p, val, sizeof(*val));
     } else if (p->data_type == OSSL_PARAM_REAL) {
+#ifndef OPENSSL_SYS_UEFI
+        double d;
+
         switch (p->data_size) {
         case sizeof(double):
             d = *(const double *)p->data;
@@ -726,6 +763,7 @@ int OSSL_PARAM_get_int64(const OSSL_PARAM *p, int64_t *val)
         }
         err_unsupported_real;
         return 0;
+#endif
     }
     err_bad_type;
     return 0;
@@ -733,8 +771,6 @@ int OSSL_PARAM_get_int64(const OSSL_PARAM *p, int64_t *val)
 
 int OSSL_PARAM_set_int64(OSSL_PARAM *p, int64_t val)
 {
-    uint64_t u64;
-
     if (p == NULL) {
         err_null_argument;
         return 0;
@@ -781,6 +817,9 @@ int OSSL_PARAM_set_int64(OSSL_PARAM *p, int64_t val)
 #endif
         return general_set_int(p, &val, sizeof(val));
     } else if (p->data_type == OSSL_PARAM_REAL) {
+#ifndef OPENSSL_SYS_UEFI
+        uint64_t u64;
+
         p->return_size = sizeof(double);
         if (p->data == NULL)
             return 1;
@@ -796,6 +835,7 @@ int OSSL_PARAM_set_int64(OSSL_PARAM *p, int64_t val)
         }
         err_unsupported_real;
         return 0;
+#endif
     }
     err_bad_type;
     return 0;
@@ -808,9 +848,12 @@ OSSL_PARAM OSSL_PARAM_construct_int64(const char *key, int64_t *buf)
 
 int OSSL_PARAM_get_uint64(const OSSL_PARAM *p, uint64_t *val)
 {
-    double d;
-
     if (val == NULL || p == NULL) {
+        err_null_argument;
+        return 0;
+    }
+
+    if (p->data == NULL) {
         err_null_argument;
         return 0;
     }
@@ -853,6 +896,9 @@ int OSSL_PARAM_get_uint64(const OSSL_PARAM *p, uint64_t *val)
 #endif
         return general_get_uint(p, val, sizeof(*val));
     } else if (p->data_type == OSSL_PARAM_REAL) {
+#ifndef OPENSSL_SYS_UEFI
+        double d;
+
         switch (p->data_size) {
         case sizeof(double):
             d = *(const double *)p->data;
@@ -872,6 +918,7 @@ int OSSL_PARAM_get_uint64(const OSSL_PARAM *p, uint64_t *val)
         }
         err_unsupported_real;
         return 0;
+#endif
     }
     err_bad_type;
     return 0;
@@ -930,6 +977,7 @@ int OSSL_PARAM_set_uint64(OSSL_PARAM *p, uint64_t val)
 #endif
         return general_set_uint(p, &val, sizeof(val));
     } else if (p->data_type == OSSL_PARAM_REAL) {
+#ifndef OPENSSL_SYS_UEFI
         p->return_size = sizeof(double);
         switch (p->data_size) {
         case sizeof(double):
@@ -942,6 +990,7 @@ int OSSL_PARAM_set_uint64(OSSL_PARAM *p, uint64_t val)
         }
         err_unsupported_real;
         return 0;
+#endif
     }
     err_bad_type;
     return 0;
@@ -1018,24 +1067,32 @@ OSSL_PARAM OSSL_PARAM_construct_time_t(const char *key, time_t *buf)
 
 int OSSL_PARAM_get_BN(const OSSL_PARAM *p, BIGNUM **val)
 {
-    BIGNUM *b;
+    BIGNUM *b = NULL;
 
-    if (val == NULL || p == NULL) {
+    if (val == NULL || p == NULL || p->data == NULL) {
         err_null_argument;
         return 0;
     }
-    if (p->data_type != OSSL_PARAM_UNSIGNED_INTEGER) {
+
+    switch (p->data_type) {
+    case OSSL_PARAM_UNSIGNED_INTEGER:
+        b = BN_native2bn(p->data, (int)p->data_size, *val);
+        break;
+    case OSSL_PARAM_INTEGER:
+        b = BN_signed_native2bn(p->data, (int)p->data_size, *val);
+        break;
+    default:
         err_bad_type;
+        break;
+    }
+
+    if (b == NULL) {
+        ERR_raise(ERR_LIB_CRYPTO, ERR_R_BN_LIB);
         return 0;
     }
 
-    b = BN_native2bn(p->data, (int)p->data_size, *val);
-    if (b != NULL) {
-        *val = b;
-        return 1;
-    }
-    ERR_raise(ERR_LIB_CRYPTO, ERR_R_MALLOC_FAILURE);
-    return 0;
+    *val = b;
+    return 1;
 }
 
 int OSSL_PARAM_set_BN(OSSL_PARAM *p, const BIGNUM *val)
@@ -1051,18 +1108,15 @@ int OSSL_PARAM_set_BN(OSSL_PARAM *p, const BIGNUM *val)
         err_null_argument;
         return 0;
     }
-    if (p->data_type != OSSL_PARAM_UNSIGNED_INTEGER) {
+    if (p->data_type == OSSL_PARAM_UNSIGNED_INTEGER && BN_is_negative(val)) {
         err_bad_type;
         return 0;
     }
 
-    /* For the moment, only positive values are permitted */
-    if (BN_is_negative(val)) {
-        err_unsigned_negative;
-        return 0;
-    }
-
     bytes = (size_t)BN_num_bytes(val);
+    /* We add 1 byte for signed numbers, to make space for a sign extension */
+    if (p->data_type == OSSL_PARAM_INTEGER)
+        bytes++;
     /* We make sure that at least one byte is used, so zero is properly set */
     if (bytes == 0)
         bytes++;
@@ -1072,9 +1126,22 @@ int OSSL_PARAM_set_BN(OSSL_PARAM *p, const BIGNUM *val)
         return 1;
     if (p->data_size >= bytes) {
         p->return_size = p->data_size;
-        if (BN_bn2nativepad(val, p->data, p->data_size) >= 0)
-            return 1;
-        ERR_raise(ERR_LIB_CRYPTO, CRYPTO_R_INTEGER_OVERFLOW);
+
+        switch (p->data_type) {
+        case OSSL_PARAM_UNSIGNED_INTEGER:
+            if (BN_bn2nativepad(val, p->data, p->data_size) >= 0)
+                return 1;
+            ERR_raise(ERR_LIB_CRYPTO, CRYPTO_R_INTEGER_OVERFLOW);
+            break;
+        case OSSL_PARAM_INTEGER:
+            if (BN_signed_bn2native(val, p->data, p->data_size) >= 0)
+                return 1;
+            ERR_raise(ERR_LIB_CRYPTO, CRYPTO_R_INTEGER_OVERFLOW);
+            break;
+        default:
+            err_bad_type;
+            break;
+        }
         return 0;
     }
     err_too_small;
@@ -1088,12 +1155,13 @@ OSSL_PARAM OSSL_PARAM_construct_BN(const char *key, unsigned char *buf,
                                 buf, bsize);
 }
 
+#ifndef OPENSSL_SYS_UEFI
 int OSSL_PARAM_get_double(const OSSL_PARAM *p, double *val)
 {
     int64_t i64;
     uint64_t u64;
 
-    if (val == NULL || p == NULL) {
+    if (val == NULL || p == NULL || p->data == NULL) {
         err_null_argument;
         return 0;
     }
@@ -1232,6 +1300,7 @@ OSSL_PARAM OSSL_PARAM_construct_double(const char *key, double *buf)
 {
     return ossl_param_construct(key, OSSL_PARAM_REAL, buf, sizeof(double));
 }
+#endif
 
 static int get_string_internal(const OSSL_PARAM *p, void **val,
                                size_t *max_len, size_t *used_len,
@@ -1269,10 +1338,8 @@ static int get_string_internal(const OSSL_PARAM *p, void **val,
     if (*val == NULL) {
         char *const q = OPENSSL_malloc(alloc_sz);
 
-        if (q == NULL) {
-            ERR_raise(ERR_LIB_CRYPTO, ERR_R_MALLOC_FAILURE);
+        if (q == NULL)
             return 0;
-        }
         *val = q;
         *max_len = alloc_sz;
     }
@@ -1463,6 +1530,111 @@ OSSL_PARAM OSSL_PARAM_construct_octet_ptr(const char *key, void **buf,
                                           size_t bsize)
 {
     return ossl_param_construct(key, OSSL_PARAM_OCTET_PTR, buf, bsize);
+}
+
+/*
+ * Extract the parameter into an allocated buffer.
+ * Any existing allocation in *out is cleared and freed.
+ *
+ * Returns 1 on success, 0 on failure and -1 if there are no matching params.
+ *
+ * *out and *out_len are guaranteed to be untouched if this function
+ * doesn't return success.
+ */
+int ossl_param_get1_octet_string(const OSSL_PARAM *params, const char *name,
+                                 unsigned char **out, size_t *out_len)
+{
+    const OSSL_PARAM *p = OSSL_PARAM_locate_const(params, name);
+    void *buf = NULL;
+    size_t len = 0;
+
+    if (p == NULL)
+        return -1;
+
+    if (p->data != NULL
+            && p->data_size > 0
+            && !OSSL_PARAM_get_octet_string(p, &buf, 0, &len))
+        return 0;
+
+    OPENSSL_clear_free(*out, *out_len);
+    *out = buf;
+    *out_len = len;
+    return 1;
+}
+
+static int setbuf_fromparams(const OSSL_PARAM *p, const char *name,
+                             unsigned char *out, size_t *outlen)
+{
+    int ret = 0;
+    WPACKET pkt;
+
+    if (out == NULL) {
+        if (!WPACKET_init_null(&pkt, 0))
+            return 0;
+    } else {
+        if (!WPACKET_init_static_len(&pkt, out, *outlen, 0))
+            return 0;
+    }
+
+    for (; p != NULL; p = OSSL_PARAM_locate_const(p + 1, name)) {
+        if (p->data_type != OSSL_PARAM_OCTET_STRING)
+            goto err;
+        if (p->data != NULL
+                && p->data_size != 0
+                && !WPACKET_memcpy(&pkt, p->data, p->data_size))
+            goto err;
+    }
+    if (!WPACKET_get_total_written(&pkt, outlen)
+            || !WPACKET_finish(&pkt))
+        goto err;
+    ret = 1;
+err:
+    WPACKET_cleanup(&pkt);
+    return ret;
+}
+
+int ossl_param_get1_concat_octet_string(const OSSL_PARAM *params, const char *name,
+                                        unsigned char **out,
+                                        size_t *out_len, size_t maxsize)
+{
+    const OSSL_PARAM *p = OSSL_PARAM_locate_const(params, name);
+    unsigned char *res;
+    size_t sz = 0;
+
+    if (p == NULL)
+        return -1;
+
+    /* Calculate the total size */
+    if (!setbuf_fromparams(p, name, NULL, &sz))
+        return 0;
+
+    /* Check that it's not oversized */
+    if (maxsize > 0 && sz > maxsize)
+        return 0;
+
+    /* Special case zero length */
+    if (sz == 0) {
+        if ((res = OPENSSL_zalloc(1)) == NULL)
+            return 0;
+        goto fin;
+    }
+
+    /* Allocate the buffer */
+    res = OPENSSL_malloc(sz);
+    if (res == NULL)
+        return 0;
+
+    /* Concat one or more OSSL_KDF_PARAM_INFO fields */
+    if (!setbuf_fromparams(p, name, res, &sz)) {
+        OPENSSL_clear_free(res, sz);
+        return 0;
+    }
+
+ fin:
+    OPENSSL_clear_free(*out, *out_len);
+    *out = res;
+    *out_len = sz;
+    return 1;
 }
 
 OSSL_PARAM OSSL_PARAM_construct_end(void)

@@ -1,3 +1,84 @@
+Overview of changes in 2.7
+==========================
+New features
+------------
+TLS alerts
+    OpenVPN 2.7 will send out TLS alerts to peers informing them if the TLS
+    session shuts down or when the TLS implementation informs the peer about
+    an error in the TLS session (e.g. mismatching TLS versions). This improves
+    the user experience as the client shows an error instead of running into
+    a timeout when the server just stops responding completely.
+
+Support for tun/tap via unix domain socket and lwipovpn support
+    To allow better testing and emulating a full client with a full
+    network stack OpenVPN now allows a program executed to provide
+    a tun/tap device instead of opening a device.
+
+    The co-developed lwipovpn program based on lwIP stack allows to
+    simulate full IP stack and an OpenVPN client using
+    ``--dev-node unix:/path/to/lwipovpn`` can emulate a full client that
+    can be pinged, can serve a website and more without requiring any
+    elevated permission. This can make testing OpenVPN much easier.
+
+    For more details see [lwipovpn on Gihtub](https://github.com/OpenVPN/lwipovpn).
+
+Enforcement of AES-GCM usage limit
+    OpenVPN will now enforce the usage limits on AES-GCM with the same
+    confidentiality margin as TLS 1.3 does. This mean that renegotiation will
+    be triggered after roughly 2^28 to 2^31 packets depending of the packet
+    size. More details about usage limit of AES-GCM can be found here:
+
+    https://datatracker.ietf.org/doc/draft-irtf-cfrg-aead-limits/
+
+Default ciphers in ``--data-ciphers``
+    Ciphers in ``--data-ciphers`` can contain the string DEFAULT that is
+    replaced by the default ciphers used by OpenVPN, making it easier to
+    add an allowed cipher without having to spell out the default ciphers.
+
+
+Deprecated features
+-------------------
+``secret`` support has been removed by default.
+    static key mode (non-TLS) is no longer considered "good and secure enough"
+    for today's requirements.  Use TLS mode instead.  If deploying a PKI CA
+    is considered "too complicated", using ``--peer-fingerprint`` makes
+    TLS mode about as easy as using ``--secret``.
+
+    This mode can still be enabled by using
+    ``--allow-deprecated-insecure-static-crypto`` but will be removed in
+    OpenVPN 2.8.
+
+NTLMv1 authentication support for HTTP proxies has been removed.
+    This is considered an insecure method of authentication that uses
+    obsolete crypto algorithms.
+    NTLMv2 support is still available, but will be removed in a future
+    release.
+    When configured to authenticate with NTLMv1 (``ntlm`` keyword in
+    ``--http-proxy``) OpenVPN will try NTLMv2 instead.
+
+``persist-key`` option has been enabled by default.
+    All the keys will be kept in memory across restart.
+
+Default for ``--topology`` changed to ``subnet`` for ``--mode server``
+    Previous releases always used ``net30`` as default. This only affects
+    configs with ``--mode server`` or ``--server`` (the latter implies the
+    former), and ``--dev tun``, and only if IPv4 is enabled.
+    Note that this changes the semantics of ``--ifconfig``, so if you have
+    manual settings for that in your config but not set ``--topology``
+    your config might fail to parse with the new version. Just adding
+    ``--topology net30`` to the config should fix the problem.
+    By default ``--topology`` is pushed from server to client.
+
+OpenSSL 1.0.2 support
+    Support for building with OpenSSL 1.0.2 has been removed. The minimum
+    supported OpenSSL version is now 1.1.0.
+
+Compression on send
+    OpenVPN 2.7 will never compress data before sending. Decompression of
+    received data is still supported.
+    ``--allow-compression yes`` is now an alias for
+    ``--allow-compression asym``.
+
 Overview of changes in 2.6
 ==========================
 
@@ -235,6 +316,9 @@ User-visible Changes
 - (OpenVPN 2.6.2) A client will now refuse a connection if pushed compression
   settings will contradict the setting of allow-compression as this almost
   always results in a non-working connection.
+
+- The "kill" by addr management command now requires also the protocol
+  as string e.g. "udp", "tcp".
 
 Common errors with OpenSSL 3.0 and OpenVPN 2.6
 ----------------------------------------------
@@ -769,7 +853,7 @@ Control channel encryption (``--tls-crypt``)
 Asynchronous push reply
     Plug-ins providing support for deferred authentication can benefit from a more
     responsive authentication where the server sends PUSH_REPLY immediately once
-    the authentication result is ready, instead of waiting for the the client to
+    the authentication result is ready, instead of waiting for the client to
     to send PUSH_REQUEST once more.  This requires OpenVPN to be built with
     ``./configure --enable-async-push``.  This is a compile-time only switch.
 

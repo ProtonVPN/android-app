@@ -24,8 +24,7 @@
 #ifndef OPENVPN_COMMON_UNICODE_IMPL_H
 #define OPENVPN_COMMON_UNICODE_IMPL_H
 
-namespace openvpn {
-  namespace Unicode {
+namespace openvpn::Unicode {
     /* ---------------------------------------------------------------------
 
        Conversions between UTF32, UTF-16, and UTF-8.  Header file.
@@ -648,7 +647,6 @@ namespace openvpn {
        similarly unrolled loops.
 
        --------------------------------------------------------------------- */
-  }
 }
 
 #endif

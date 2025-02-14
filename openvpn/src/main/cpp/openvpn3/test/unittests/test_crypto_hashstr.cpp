@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/common/file.hpp>
 #include <openvpn/ssl/sslchoose.hpp>

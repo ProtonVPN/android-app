@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMPRESS_LZO_H
 #define OPENVPN_COMPRESS_LZO_H
@@ -50,8 +40,8 @@ class CompressLZO : public Compress
           support_swap(support_swap_arg),
           asym(asym_arg)
     {
-        OPENVPN_LOG_COMPRESS("LZO init swap=" << support_swap_arg << " asym=" << asym_arg);
-        lzo_workspace.init(LZO1X_1_15_MEM_COMPRESS, BufferAllocated::ARRAY);
+        OVPN_LOG_INFO("LZO init swap=" << support_swap_arg << " asym=" << asym_arg);
+        lzo_workspace.init(LZO1X_1_15_MEM_COMPRESS, BufAllocFlags::ARRAY);
     }
 
     static void init_static()
@@ -60,7 +50,7 @@ class CompressLZO : public Compress
             throw lzo_init_failed();
     }
 
-    virtual const char *name() const
+    const char *name() const override
     {
         return "lzo";
     }
@@ -77,12 +67,12 @@ class CompressLZO : public Compress
             error(buf);
             return;
         }
-        OPENVPN_LOG_COMPRESS_VERBOSE("LZO uncompress " << buf.size() << " -> " << zlen);
+        OVPN_LOG_VERBOSE("LZO uncompress " << buf.size() << " -> " << zlen);
         work.set_size(zlen);
         buf.swap(work);
     }
 
-    virtual void compress(BufferAllocated &buf, const bool hint)
+    void compress(BufferAllocated &buf, const bool hint) override
     {
         // skip null packets
         if (!buf.size())
@@ -114,7 +104,7 @@ class CompressLZO : public Compress
             // did compression actually reduce data length?
             if (zlen < buf.size())
             {
-                OPENVPN_LOG_COMPRESS_VERBOSE("LZO compress " << buf.size() << " -> " << zlen);
+                OVPN_LOG_VERBOSE("LZO compress " << buf.size() << " -> " << zlen);
                 work.set_size(zlen);
                 if (support_swap)
                     do_swap(work, LZO_COMPRESS_SWAP);
@@ -132,7 +122,7 @@ class CompressLZO : public Compress
             buf.push_front(NO_COMPRESS);
     }
 
-    virtual void decompress(BufferAllocated &buf)
+    void decompress(BufferAllocated &buf) override
     {
         // skip null packets
         if (!buf.size())
@@ -143,10 +133,12 @@ class CompressLZO : public Compress
         {
         case NO_COMPRESS_SWAP:
             do_unswap(buf);
+            [[fallthrough]];
         case NO_COMPRESS:
             break;
         case LZO_COMPRESS_SWAP:
             do_unswap(buf);
+            [[fallthrough]];
         case LZO_COMPRESS:
             decompress_work(buf);
             break;

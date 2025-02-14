@@ -8,11 +8,17 @@ package de.blinkt.openvpn.core;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.*;
+import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Vector;
+
+import de.blinkt.openvpn.R;
 
 public class NetworkUtils {
 
@@ -39,7 +45,7 @@ public class NetworkUtils {
             if (nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
                 continue;
 
-            Vector<String> candidateNets = new Vector<>();
+
             for (LinkAddress la : li.getLinkAddresses()) {
                 if ((la.getAddress() instanceof Inet4Address && !ipv6) ||
                         (la.getAddress() instanceof Inet6Address && ipv6)) {
@@ -50,15 +56,9 @@ public class NetworkUtils {
                     else
                         ipaddress = new NetworkSpace.IpAddress(new CIDRIP(la.getAddress().getHostAddress(), la.getPrefixLength()), true);
 
-                    candidateNets.add(ipaddress.toString());
+                    nets.add(ipaddress.toString());
                 }
             }
-
-            // Ignore networks that contain public IPs
-            if (IPUtilsKt.haveAddressesOusideOfIPv4Private(candidateNets))
-                continue;
-
-            nets.addAll(candidateNets);
         }
 
         return nets;

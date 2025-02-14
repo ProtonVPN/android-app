@@ -2,7 +2,7 @@
 // system_executor.cpp
 // ~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2024 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -21,23 +21,14 @@
 // Test that header file is self-contained.
 #include "asio/system_executor.hpp"
 
+#include <functional>
 #include "asio/dispatch.hpp"
 #include "asio/post.hpp"
 #include "unit_test.hpp"
 
-#if defined(ASIO_HAS_BOOST_BIND)
-# include <boost/bind/bind.hpp>
-#else // defined(ASIO_HAS_BOOST_BIND)
-# include <functional>
-#endif // defined(ASIO_HAS_BOOST_BIND)
-
 using namespace asio;
 
-#if defined(ASIO_HAS_BOOST_BIND)
-namespace bindns = boost;
-#else // defined(ASIO_HAS_BOOST_BIND)
 namespace bindns = std;
-#endif
 
 void increment(asio::detail::atomic_count* count)
 {
@@ -80,13 +71,6 @@ void system_executor_query_test()
       asio::query(system_executor(),
         asio::execution::relationship.fork)
       == asio::execution::relationship.fork);
-
-#if !defined(ASIO_NO_DEPRECATED)
-  ASIO_CHECK(
-      asio::query(system_executor(),
-        asio::execution::bulk_guarantee)
-      == asio::execution::bulk_guarantee.unsequenced);
-#endif // !defined(ASIO_NO_DEPRECATED)
 
   ASIO_CHECK(
       asio::query(system_executor(),

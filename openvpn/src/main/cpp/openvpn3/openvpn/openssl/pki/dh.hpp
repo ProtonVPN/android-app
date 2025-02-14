@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Wrap an OpenSSL DH object
 
@@ -27,6 +17,7 @@
 
 
 #include <openvpn/common/size.hpp>
+#include <openvpn/common/numeric_cast.hpp>
 #include <openvpn/common/exception.hpp>
 #include <openvpn/openssl/util/error.hpp>
 
@@ -35,8 +26,7 @@
 #else
 
 
-namespace openvpn {
-namespace OpenSSLPKI {
+namespace openvpn::OpenSSLPKI {
 
 
 
@@ -59,8 +49,7 @@ class DH
         dup(other.dh_);
     }
 
-    DH(DH &&other)
-    noexcept
+    DH(DH &&other) noexcept
         : dh_(other.dh_)
     {
         other.dh_ = nullptr;
@@ -109,7 +98,7 @@ class DH
 
     void parse_pem(const std::string &dh_txt)
     {
-        BIO *bio = ::BIO_new_mem_buf(const_cast<char *>(dh_txt.c_str()), dh_txt.length());
+        BIO *bio = ::BIO_new_mem_buf(const_cast<char *>(dh_txt.c_str()), numeric_cast<int>(dh_txt.length()));
         if (!bio)
             throw OpenSSLException();
 
@@ -168,6 +157,5 @@ class DH
 
     ::EVP_PKEY *dh_;
 };
-} // namespace OpenSSLPKI
-} // namespace openvpn
+} // namespace openvpn::OpenSSLPKI
 #endif

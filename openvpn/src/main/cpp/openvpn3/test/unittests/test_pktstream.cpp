@@ -4,21 +4,13 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
 
-#include "test_common.h"
+
+#include "test_common.hpp"
 
 #include <openvpn/random/mtrandapi.hpp>
 #include <openvpn/transport/pktstream.hpp>
@@ -35,19 +27,23 @@ static size_t rand_size(RandomAPI &prng)
         return prng.randrange32(1, 512);
 }
 
-TEST(pktstream, test_1)
+template <typename PKTSTREAM>
+static void do_test(const bool grow, const bool verbose)
 {
-#ifdef HAVE_VALGRIND
-    const int n_iter = 1000;
+#ifdef INSTRUMENTATION_SLOWDOWN
+    const int n_iter = 500;
 #else
-    const int n_iter = 1000000;
+    const int n_iter = 250000;
 #endif
 
-    const Frame::Context fc(256, 512, 256, 0, sizeof(size_t), 0);
-    const Frame::Context fc_big(256, 4096, 256, 0, sizeof(size_t), 0);
+    const Frame::Context fc(256, 512, 256, 0, sizeof(size_t), grow ? BufAllocFlags::GROW : 0);
+    const Frame::Context fc_big(256, 4096, 256, 0, sizeof(size_t), grow ? BufAllocFlags::GROW : 0);
 
-    OPENVPN_LOG("FC " << fc.info());
-    OPENVPN_LOG("FC BIG " << fc_big.info());
+    if (verbose)
+    {
+        OPENVPN_LOG("FC " << fc.info());
+        OPENVPN_LOG("FC BIG " << fc_big.info());
+    }
 
     MTRand::Ptr prng(new MTRand());
 
@@ -67,8 +63,8 @@ TEST(pktstream, test_1)
                 fc.prepare(src);
                 const size_t r = rand_size(*prng);
                 for (size_t i = 0; i < r; ++i)
-                    src.push_back('a' + (i % 26));
-                PacketStream::prepend_size(src);
+                    src.push_back('a' + static_cast<unsigned char>(i % 26));
+                PKTSTREAM::prepend_size(src);
                 if (src.size() > fc_big.remaining_payload(big))
                     break;
                 big.write(src.data(), src.size());
@@ -85,7 +81,7 @@ TEST(pktstream, test_1)
         size_t ncmp = 0;
 
         {
-            PacketStream pktstream;
+            PKTSTREAM pktstream;
             BufferAllocated in;
             while (big.size())
             {
@@ -97,10 +93,10 @@ TEST(pktstream, test_1)
                 while (in.size())
                 {
                     pktstream.put(in, fc);
-                    if (pktstream.ready())
+                    while (pktstream.ready())
                     {
-                        pktstream.get(out);
-                        PacketStream::prepend_size(out);
+                        pktstream.get(out, fc);
+                        PKTSTREAM::prepend_size(out);
                         bigcmp.write(out.data(), out.size());
                         ++ncmp;
                     }
@@ -116,17 +112,39 @@ TEST(pktstream, test_1)
         ASSERT_EQ(bigorig, bigcmp);
     }
 
-    OPENVPN_LOG("count=" << count);
+    if (verbose)
+        OPENVPN_LOG("count=" << count);
 }
 
+TEST(pktstream, test_16)
+{
+    do_test<PacketStream<std::uint16_t>>(false, false);
+}
+
+TEST(pktstream, test_32)
+{
+    do_test<PacketStream<std::uint32_t>>(false, false);
+}
+
+TEST(pktstream, test_16_residual)
+{
+    do_test<PacketStreamResidual<std::uint16_t>>(true, false);
+}
+
+TEST(pktstream, test_32_residual)
+{
+    do_test<PacketStreamResidual<std::uint32_t>>(true, false);
+}
+
+template <typename PKTSTREAM>
 static void validate_size(const Frame::Context &fc, const size_t size, const bool expect_throw)
 {
     bool actual_throw = false;
     try
     {
-        PacketStream::validate_size(size, fc);
+        PKTSTREAM::validate_size(size, fc);
     }
-    catch (PacketStream::embedded_packet_size_error &)
+    catch (typename PKTSTREAM::embedded_packet_size_error &)
     {
         actual_throw = true;
     }
@@ -138,16 +156,27 @@ static void validate_size(const Frame::Context &fc, const size_t size, const boo
                   size);
 }
 
-TEST(pktstream, test_2)
+template <typename PKTSTREAM>
+static void validate_size_test()
 {
     const size_t payload = 2048;
     const size_t headroom = 16;
     const size_t tailroom = 0;
     const size_t align_block = 16;
     const Frame::Context fixed(headroom, payload, tailroom, 0, align_block, 0);
-    const Frame::Context grow(headroom, payload, tailroom, 0, align_block, BufferAllocated::GROW);
-    validate_size(fixed, 2048, false); // succeeds
-    validate_size(fixed, 2049, true);  // exceeded payload, throw
-    validate_size(grow, 2048, false);  // succeeds
-    validate_size(grow, 2049, false);  // exceeded payload, but okay with growable buffer
+    const Frame::Context grow(headroom, payload, tailroom, 0, align_block, BufAllocFlags::GROW);
+    validate_size<PKTSTREAM>(fixed, 2048, false); // succeeds
+    validate_size<PKTSTREAM>(fixed, 2049, true);  // exceeded payload, throw
+    validate_size<PKTSTREAM>(grow, 2048, false);  // succeeds
+    validate_size<PKTSTREAM>(grow, 2049, false);  // exceeded payload, but okay with growable buffer
+}
+
+TEST(pktstream, validate_size_16)
+{
+    validate_size_test<PacketStream<std::uint16_t>>();
+}
+
+TEST(pktstream, validate_size_32)
+{
+    validate_size_test<PacketStream<std::uint32_t>>();
 }

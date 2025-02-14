@@ -4,21 +4,12 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //    Copyright (C) 2020-2022 Lev Stipakov <lev@openvpn.net>
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
+
 
 #pragma once
 
@@ -29,7 +20,7 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/dco/key.hpp>
 
-#include <linux/ovpn_dco.h>
+#include <openvpn/dco/ovpn_dco_linux.h>
 #include <netlink/genl/ctrl.h>
 #include <netlink/genl/family.h>
 #include <netlink/genl/genl.h>
@@ -57,8 +48,16 @@ struct OvpnDcoPeer
         __u32 interval;
         __u32 timeout;
     } keepalive;
-    __u64 rx_bytes, tx_bytes;
-    __u32 rx_pkts, tx_pkts;
+    struct
+    {
+        __u64 rx_bytes, tx_bytes;
+        __u32 rx_pkts, tx_pkts;
+    } vpn;
+    struct
+    {
+        __u64 rx_bytes, tx_bytes;
+        __u32 rx_pkts, tx_pkts;
+    } transport;
 };
 
 /**
@@ -71,8 +70,7 @@ struct OvpnDcoPeer
  * <tt>tun_read_handler(BufferAllocated &buf)</tt> method. \n
  *
  * buf has following layout:
- *  \li first byte - command type ( \p OVPN_CMD_PACKET, \p OVPN_CMD_DEL_PEER or
- * -1 for error)
+ *  \li first byte - command type ( \p OVPN_CMD_DEL_PEER or -1 for error)
  * \li following bytes - command-specific payload
  */
 template <typename ReadHandler>
@@ -167,8 +165,8 @@ class GeNL : public RC<thread_unsafe_refcount>
     /**
      * Add peer information to kernel module
      *
-     * @param id Peer ID of the peer being created
-     * @param transport_fd socket to be used to communicate with the peer
+     * @param peer_id Peer ID of the peer being created
+     * @param fd socket to be used to communicate with the peer
      * @param sa sockaddr object representing the remote endpoint
      * @param salen length of sa (either sizeof(sockaddr_in) or
      * sizeof(sockaddr_in6)
@@ -213,32 +211,6 @@ class GeNL : public RC<thread_unsafe_refcount>
     }
 
     /**
-     * Send data to kernel module, which is then sent to remote.
-     * Used for sending control channel packets.
-     *
-     * @param data binary blob
-     * @param len length of binary blob
-     * @throws netlink_error thrown if error occurs during sending netlink message
-     */
-    void send_data(int peer_id, const void *data, size_t len)
-    {
-        auto msg_ptr = create_msg(OVPN_CMD_PACKET);
-        auto *msg = msg_ptr.get();
-        struct nlattr *attr = nla_nest_start(msg, OVPN_ATTR_PACKET);
-
-        NLA_PUT_U32(msg, OVPN_PACKET_ATTR_PEER_ID, peer_id);
-        NLA_PUT(msg, OVPN_PACKET_ATTR_PACKET, len, data);
-
-        nla_nest_end(msg, attr);
-
-        send_netlink_message(msg);
-        return;
-
-    nla_put_failure:
-        OPENVPN_THROW(netlink_error, " send_data() nla_put_failure");
-    }
-
-    /**
      * Inject new key into kernel module
      *
      * @param key_slot OVPN_KEY_SLOT_PRIMARY or OVPN_KEY_SLOT_SECONDARY
@@ -259,9 +231,9 @@ class GeNL : public RC<thread_unsafe_refcount>
             OPENVPN_THROW(netlink_error, " new_key() cannot allocate submessage");
 
         NLA_PUT_U32(msg, OVPN_NEW_KEY_ATTR_PEER_ID, kc->remote_peer_id);
-        NLA_PUT_U8(msg, OVPN_NEW_KEY_ATTR_KEY_SLOT, key_slot);
-        NLA_PUT_U8(msg, OVPN_NEW_KEY_ATTR_KEY_ID, kc->key_id);
-        NLA_PUT_U16(msg, OVPN_NEW_KEY_ATTR_CIPHER_ALG, kc->cipher_alg);
+        NLA_PUT_U8(msg, OVPN_NEW_KEY_ATTR_KEY_SLOT, static_cast<uint8_t>(key_slot));
+        NLA_PUT_U8(msg, OVPN_NEW_KEY_ATTR_KEY_ID, static_cast<uint8_t>(kc->key_id));
+        NLA_PUT_U16(msg, OVPN_NEW_KEY_ATTR_CIPHER_ALG, static_cast<uint16_t>(kc->cipher_alg));
 
         key_dir = nla_nest_start(msg, OVPN_NEW_KEY_ATTR_ENCRYPT_KEY);
         if (!key_dir)
@@ -340,7 +312,7 @@ class GeNL : public RC<thread_unsafe_refcount>
             OPENVPN_THROW(netlink_error, " del_key() cannot allocate submessage");
 
         NLA_PUT_U32(msg, OVPN_DEL_KEY_ATTR_PEER_ID, peer_id);
-        NLA_PUT_U8(msg, OVPN_DEL_KEY_ATTR_KEY_SLOT, key_slot);
+        NLA_PUT_U8(msg, OVPN_DEL_KEY_ATTR_KEY_SLOT, static_cast<uint8_t>(key_slot));
 
         nla_nest_end(msg, attr);
 
@@ -411,6 +383,7 @@ class GeNL : public RC<thread_unsafe_refcount>
      * Retrieve he current status of a peer.
      *
      * @param peer_id the ID of the peer to query
+     * @param sync When true the method waits for the reply before returning
      * @throws netlink_error thrown if error occurs during sending netlink message
      */
     void get_peer(int peer_id, bool sync)
@@ -441,17 +414,6 @@ class GeNL : public RC<thread_unsafe_refcount>
 
     nla_put_failure:
         OPENVPN_THROW(netlink_error, " get_peer() nla_put_failure");
-    }
-
-    /**
-     * Subscribe for certain kind of packets (like control channel packets)
-     */
-    void register_packet()
-    {
-        auto msg_ptr = create_msg(OVPN_CMD_REGISTER_PACKET);
-        auto *msg = msg_ptr.get();
-
-        send_netlink_message(msg);
     }
 
     void stop()
@@ -624,8 +586,8 @@ class GeNL : public RC<thread_unsafe_refcount>
         stream->async_wait(openvpn_io::posix::stream_descriptor::wait_read,
                            [self = Ptr(this)](const openvpn_io::error_code &error)
                            {
-            self->handle_read(error);
-        });
+                               self->handle_read(error);
+                           });
     }
 
     NlMsgPtr create_msg(enum ovpn_nl_commands cmd)
@@ -676,9 +638,20 @@ class GeNL : public RC<thread_unsafe_refcount>
 
         struct genlmsghdr *gnlh = static_cast<genlmsghdr *>(
             nlmsg_data(reinterpret_cast<const nlmsghdr *>(nlmsg_hdr(msg))));
+        struct nlmsghdr *nlh = nlmsg_hdr(msg);
         struct nlattr *attrs[OVPN_ATTR_MAX + 1];
 
-        nla_parse(attrs, OVPN_ATTR_MAX, genlmsg_attrdata(gnlh, 0), genlmsg_attrlen(gnlh, 0), NULL);
+        if (!genlmsg_valid_hdr(nlh, 0))
+        {
+            OPENVPN_LOG("ovpn-dco: invalid header");
+            return NL_SKIP;
+        }
+
+        if (nla_parse(attrs, OVPN_ATTR_MAX, genlmsg_attrdata(gnlh, 0), genlmsg_attrlen(gnlh, 0), NULL))
+        {
+            OPENVPN_LOG("received bogus data from ovpn-dco");
+            return NL_SKIP;
+        }
 
         if (!attrs[OVPN_ATTR_IFINDEX])
         {
@@ -691,33 +664,6 @@ class GeNL : public RC<thread_unsafe_refcount>
 
         switch (gnlh->cmd)
         {
-        case OVPN_CMD_PACKET:
-            if (!attrs[OVPN_ATTR_PACKET])
-                OPENVPN_THROW(
-                    netlink_error,
-                    "missing OVPN_ATTR_PACKET attribute in OVPN_CMD_PACKET command");
-
-            struct nlattr *pkt_attrs[OVPN_PACKET_ATTR_MAX + 1];
-            ret = nla_parse_nested(pkt_attrs, OVPN_PACKET_ATTR_MAX, attrs[OVPN_ATTR_PACKET], NULL);
-            if (ret)
-                OPENVPN_THROW(netlink_error, "cannot parse OVPN_ATTR_PACKET attribute");
-
-            if (!pkt_attrs[OVPN_PACKET_ATTR_PEER_ID] || !pkt_attrs[OVPN_PACKET_ATTR_PACKET])
-                OPENVPN_THROW(netlink_error, "missing attributes in OVPN_CMD_PACKET");
-
-            if (!pkt_attrs[OVPN_PACKET_ATTR_PACKET])
-                OPENVPN_THROW(
-                    netlink_error,
-                    "missing OVPN_ATTR_PACKET attribute in OVPN_CMD_PACKET command");
-
-            self->reset_buffer();
-            self->buf.write(&gnlh->cmd, sizeof(gnlh->cmd));
-            self->buf.write(nla_data(pkt_attrs[OVPN_PACKET_ATTR_PACKET]),
-                            nla_len(pkt_attrs[OVPN_PACKET_ATTR_PACKET]));
-            // pass control channel message to upper layer
-            self->read_handler->tun_read_handler(self->buf);
-            break;
-
         case OVPN_CMD_DEL_PEER:
             if (!attrs[OVPN_ATTR_DEL_PEER])
                 OPENVPN_THROW(netlink_error, "missing OVPN_ATTR_DEL_PEER attribute in "
@@ -772,10 +718,15 @@ class GeNL : public RC<thread_unsafe_refcount>
                        nla_len(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_SOCKADDR_REMOTE]));
                 peer.keepalive.interval = nla_get_u32(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_KEEPALIVE_INTERVAL]);
                 peer.keepalive.timeout = nla_get_u32(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_KEEPALIVE_TIMEOUT]);
-                peer.rx_bytes = nla_get_u64(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_RX_BYTES]);
-                peer.tx_bytes = nla_get_u64(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_TX_BYTES]);
-                peer.rx_pkts = nla_get_u32(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_RX_PACKETS]);
-                peer.tx_pkts = nla_get_u32(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_TX_PACKETS]);
+                peer.vpn.rx_bytes = nla_get_u64(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_VPN_RX_BYTES]);
+                peer.vpn.tx_bytes = nla_get_u64(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_VPN_TX_BYTES]);
+                peer.vpn.rx_pkts = nla_get_u32(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_VPN_RX_PACKETS]);
+                peer.vpn.tx_pkts = nla_get_u32(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_VPN_TX_PACKETS]);
+
+                peer.transport.rx_bytes = nla_get_u64(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_LINK_RX_BYTES]);
+                peer.transport.tx_bytes = nla_get_u64(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_LINK_TX_BYTES]);
+                peer.transport.rx_pkts = nla_get_u32(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_LINK_RX_PACKETS]);
+                peer.transport.tx_pkts = nla_get_u32(get_peer_attrs[OVPN_GET_PEER_RESP_ATTR_LINK_TX_PACKETS]);
 
                 self->reset_buffer();
                 self->buf.write(&gnlh->cmd, sizeof(gnlh->cmd));
@@ -796,7 +747,7 @@ class GeNL : public RC<thread_unsafe_refcount>
     void reset_buffer()
     {
         // good enough values to handle control packets
-        buf.reset(512, 3072, BufferAllocated::GROW | BufferAllocated::CONSTRUCT_ZERO | BufferAllocated::DESTRUCT_ZERO);
+        buf.reset(512, 3072, BufAllocFlags::GROW | BufAllocFlags::CONSTRUCT_ZERO | BufAllocFlags::DESTRUCT_ZERO);
     }
 
     /**
@@ -808,7 +759,7 @@ class GeNL : public RC<thread_unsafe_refcount>
      * @param arg argument passed by \c nl_cb_err()
      * @return int callback action
      */
-    static int ovpn_nl_cb_error(struct sockaddr_nl * /*nla*/,
+    static int ovpn_nl_cb_error(struct sockaddr_nl *nla,
                                 struct nlmsgerr *err,
                                 void *arg)
     {
@@ -825,7 +776,7 @@ class GeNL : public RC<thread_unsafe_refcount>
             return NL_STOP;
 
         if (!(nlh->nlmsg_flags & NLM_F_CAPPED))
-            ack_len += err->msg.nlmsg_len - sizeof(*nlh);
+            ack_len += static_cast<int>(err->msg.nlmsg_len - sizeof(*nlh));
 
         if (len <= ack_len)
             return NL_STOP;
@@ -836,8 +787,6 @@ class GeNL : public RC<thread_unsafe_refcount>
         nla_parse(tb_msg, NLMSGERR_ATTR_MAX, attrs, len, NULL);
         if (tb_msg[NLMSGERR_ATTR_MSG])
         {
-            len = strnlen((char *)nla_data(tb_msg[NLMSGERR_ATTR_MSG]),
-                          nla_len(tb_msg[NLMSGERR_ATTR_MSG]));
             OPENVPN_LOG(__func__ << " kernel error "
                                  << (char *)nla_data(tb_msg[NLMSGERR_ATTR_MSG]));
         }

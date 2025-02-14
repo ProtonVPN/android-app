@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2002-2021 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -188,7 +188,7 @@ int ossl_ec_GF2m_simple_group_check_discriminant(const EC_GROUP *group,
     if (ctx == NULL) {
         ctx = new_ctx = BN_CTX_new();
         if (ctx == NULL) {
-            ERR_raise(ERR_LIB_EC, ERR_R_MALLOC_FAILURE);
+            ERR_raise(ERR_LIB_EC, ERR_R_BN_LIB);
             goto err;
         }
     }
@@ -545,7 +545,7 @@ int ossl_ec_GF2m_simple_is_on_curve(const EC_GROUP *group, const EC_POINT *point
      * We have a curve defined by a Weierstrass equation
      *      y^2 + x*y = x^3 + a*x^2 + b.
      *  <=> x^3 + a*x^2 + x*y + b + y^2 = 0
-     *  <=> ((x + a) * x + y ) * x + b + y^2 = 0
+     *  <=> ((x + a) * x + y) * x + b + y^2 = 0
      */
     if (!BN_GF2m_add(lh, point->X, group->a))
         goto err;
@@ -826,7 +826,7 @@ int ec_GF2m_simple_ladder_post(const EC_GROUP *group,
     t1 = BN_CTX_get(ctx);
     t2 = BN_CTX_get(ctx);
     if (t2 == NULL) {
-        ERR_raise(ERR_LIB_EC, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_EC, ERR_R_BN_LIB);
         goto err;
     }
 
@@ -905,7 +905,7 @@ int ec_GF2m_simple_points_mul(const EC_GROUP *group, EC_POINT *r,
      */
 
     if ((t = EC_POINT_new(group)) == NULL) {
-        ERR_raise(ERR_LIB_EC, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_EC, ERR_R_EC_LIB);
         return 0;
     }
 

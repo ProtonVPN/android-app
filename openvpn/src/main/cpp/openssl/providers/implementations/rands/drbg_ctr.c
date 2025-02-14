@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2011-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -32,6 +32,8 @@ static OSSL_FUNC_rand_set_ctx_params_fn drbg_ctr_set_ctx_params;
 static OSSL_FUNC_rand_gettable_ctx_params_fn drbg_ctr_gettable_ctx_params;
 static OSSL_FUNC_rand_get_ctx_params_fn drbg_ctr_get_ctx_params;
 static OSSL_FUNC_rand_verify_zeroization_fn drbg_ctr_verify_zeroization;
+
+static int drbg_ctr_set_ctx_params_locked(void *vctx, const OSSL_PARAM params[]);
 
 /*
  * The state of a DRBG AES-CTR.
@@ -330,11 +332,20 @@ static int drbg_ctr_instantiate_wrapper(void *vdrbg, unsigned int strength,
                                         const OSSL_PARAM params[])
 {
     PROV_DRBG *drbg = (PROV_DRBG *)vdrbg;
+    int ret = 0;
 
-    if (!ossl_prov_is_running() || !drbg_ctr_set_ctx_params(drbg, params))
+    if (drbg->lock != NULL && !CRYPTO_THREAD_write_lock(drbg->lock))
         return 0;
-    return ossl_prov_drbg_instantiate(drbg, strength, prediction_resistance,
-                                      pstr, pstr_len);
+
+    if (!ossl_prov_is_running()
+            || !drbg_ctr_set_ctx_params_locked(drbg, params))
+        goto err;
+    ret = ossl_prov_drbg_instantiate(drbg, strength, prediction_resistance,
+                                     pstr, pstr_len);
+ err:
+    if (drbg->lock != NULL)
+        CRYPTO_THREAD_unlock(drbg->lock);
+    return ret;
 }
 
 static int drbg_ctr_reseed(PROV_DRBG *drbg,
@@ -473,21 +484,41 @@ static int drbg_ctr_uninstantiate(PROV_DRBG *drbg)
 
 static int drbg_ctr_uninstantiate_wrapper(void *vdrbg)
 {
-    return drbg_ctr_uninstantiate((PROV_DRBG *)vdrbg);
+    PROV_DRBG *drbg = (PROV_DRBG *)vdrbg;
+    int ret;
+
+    if (drbg->lock != NULL && !CRYPTO_THREAD_write_lock(drbg->lock))
+        return 0;
+
+    ret = drbg_ctr_uninstantiate(drbg);
+
+    if (drbg->lock != NULL)
+        CRYPTO_THREAD_unlock(drbg->lock);
+
+    return ret;
 }
 
 static int drbg_ctr_verify_zeroization(void *vdrbg)
 {
     PROV_DRBG *drbg = (PROV_DRBG *)vdrbg;
     PROV_DRBG_CTR *ctr = (PROV_DRBG_CTR *)drbg->data;
+    int ret = 0;
 
-    PROV_DRBG_VERYIFY_ZEROIZATION(ctr->K);
-    PROV_DRBG_VERYIFY_ZEROIZATION(ctr->V);
-    PROV_DRBG_VERYIFY_ZEROIZATION(ctr->bltmp);
-    PROV_DRBG_VERYIFY_ZEROIZATION(ctr->KX);
-    if (ctr->bltmp_pos != 0)
+    if (drbg->lock != NULL && !CRYPTO_THREAD_read_lock(drbg->lock))
         return 0;
-    return 1;
+
+    PROV_DRBG_VERIFY_ZEROIZATION(ctr->K);
+    PROV_DRBG_VERIFY_ZEROIZATION(ctr->V);
+    PROV_DRBG_VERIFY_ZEROIZATION(ctr->bltmp);
+    PROV_DRBG_VERIFY_ZEROIZATION(ctr->KX);
+    if (ctr->bltmp_pos != 0)
+        goto err;
+
+    ret = 1;
+ err:
+    if (drbg->lock != NULL)
+        CRYPTO_THREAD_unlock(drbg->lock);
+    return ret;
 }
 
 static int drbg_ctr_init_lengths(PROV_DRBG *drbg)
@@ -538,7 +569,7 @@ static int drbg_ctr_init(PROV_DRBG *drbg)
     if (ctr->ctx_ctr == NULL)
         ctr->ctx_ctr = EVP_CIPHER_CTX_new();
     if (ctr->ctx_ecb == NULL || ctr->ctx_ctr == NULL) {
-        ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_PROV, ERR_R_EVP_LIB);
         goto err;
     }
 
@@ -565,7 +596,7 @@ static int drbg_ctr_init(PROV_DRBG *drbg)
         if (ctr->ctx_df == NULL)
             ctr->ctx_df = EVP_CIPHER_CTX_new();
         if (ctr->ctx_df == NULL) {
-            ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+            ERR_raise(ERR_LIB_PROV, ERR_R_EVP_LIB);
             goto err;
         }
         /* Set key schedule for df_key */
@@ -581,7 +612,7 @@ err:
     EVP_CIPHER_CTX_free(ctr->ctx_ecb);
     EVP_CIPHER_CTX_free(ctr->ctx_ctr);
     ctr->ctx_ecb = ctr->ctx_ctr = NULL;
-    return 0;    
+    return 0;
 }
 
 static int drbg_ctr_new(PROV_DRBG *drbg)
@@ -589,20 +620,20 @@ static int drbg_ctr_new(PROV_DRBG *drbg)
     PROV_DRBG_CTR *ctr;
 
     ctr = OPENSSL_secure_zalloc(sizeof(*ctr));
-    if (ctr == NULL) {
-        ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+    if (ctr == NULL)
         return 0;
-    }
 
     ctr->use_df = 1;
     drbg->data = ctr;
+    OSSL_FIPS_IND_INIT(drbg)
     return drbg_ctr_init_lengths(drbg);
 }
 
 static void *drbg_ctr_new_wrapper(void *provctx, void *parent,
                                    const OSSL_DISPATCH *parent_dispatch)
 {
-    return ossl_rand_drbg_new(provctx, parent, parent_dispatch, &drbg_ctr_new,
+    return ossl_rand_drbg_new(provctx, parent, parent_dispatch,
+                              &drbg_ctr_new, &drbg_ctr_free,
                               &drbg_ctr_instantiate, &drbg_ctr_uninstantiate,
                               &drbg_ctr_reseed, &drbg_ctr_generate);
 }
@@ -629,20 +660,35 @@ static int drbg_ctr_get_ctx_params(void *vdrbg, OSSL_PARAM params[])
     PROV_DRBG *drbg = (PROV_DRBG *)vdrbg;
     PROV_DRBG_CTR *ctr = (PROV_DRBG_CTR *)drbg->data;
     OSSL_PARAM *p;
+    int ret = 0, complete = 0;
+
+    if (!ossl_drbg_get_ctx_params_no_lock(drbg, params, &complete))
+        return 0;
+
+    if (complete)
+        return 1;
+
+    if (drbg->lock != NULL && !CRYPTO_THREAD_read_lock(drbg->lock))
+        return 0;
 
     p = OSSL_PARAM_locate(params, OSSL_DRBG_PARAM_USE_DF);
     if (p != NULL && !OSSL_PARAM_set_int(p, ctr->use_df))
-        return 0;
+        goto err;
 
     p = OSSL_PARAM_locate(params, OSSL_DRBG_PARAM_CIPHER);
     if (p != NULL) {
         if (ctr->cipher_ctr == NULL
             || !OSSL_PARAM_set_utf8_string(p,
                                            EVP_CIPHER_get0_name(ctr->cipher_ctr)))
-            return 0;
+            goto err;
     }
 
-    return ossl_drbg_get_ctx_params(drbg, params);
+    ret = ossl_drbg_get_ctx_params(drbg, params);
+ err:
+    if (drbg->lock != NULL)
+        CRYPTO_THREAD_unlock(drbg->lock);
+
+    return ret;
 }
 
 static const OSSL_PARAM *drbg_ctr_gettable_ctx_params(ossl_unused void *vctx,
@@ -652,12 +698,13 @@ static const OSSL_PARAM *drbg_ctr_gettable_ctx_params(ossl_unused void *vctx,
         OSSL_PARAM_utf8_string(OSSL_DRBG_PARAM_CIPHER, NULL, 0),
         OSSL_PARAM_int(OSSL_DRBG_PARAM_USE_DF, NULL),
         OSSL_PARAM_DRBG_GETTABLE_CTX_COMMON,
+        OSSL_FIPS_IND_GETTABLE_CTX_PARAM()
         OSSL_PARAM_END
     };
     return known_gettable_ctx_params;
 }
 
-static int drbg_ctr_set_ctx_params(void *vctx, const OSSL_PARAM params[])
+static int drbg_ctr_set_ctx_params_locked(void *vctx, const OSSL_PARAM params[])
 {
     PROV_DRBG *ctx = (PROV_DRBG *)vctx;
     PROV_DRBG_CTR *ctr = (PROV_DRBG_CTR *)ctx->data;
@@ -693,10 +740,8 @@ static int drbg_ctr_set_ctx_params(void *vctx, const OSSL_PARAM params[])
             ERR_raise(ERR_LIB_PROV, PROV_R_REQUIRE_CTR_MODE_CIPHER);
             return 0;
         }
-        if ((ecb = OPENSSL_strndup(base, p->data_size)) == NULL) {
-            ERR_raise(ERR_LIB_PROV, ERR_R_MALLOC_FAILURE);
+        if ((ecb = OPENSSL_strndup(base, p->data_size)) == NULL)
             return 0;
-        }
         strcpy(ecb + p->data_size - ecb_str_len, "ECB");
         EVP_CIPHER_free(ctr->cipher_ecb);
         EVP_CIPHER_free(ctr->cipher_ctr);
@@ -714,6 +759,22 @@ static int drbg_ctr_set_ctx_params(void *vctx, const OSSL_PARAM params[])
         return 0;
 
     return ossl_drbg_set_ctx_params(ctx, params);
+}
+
+static int drbg_ctr_set_ctx_params(void *vctx, const OSSL_PARAM params[])
+{
+    PROV_DRBG *drbg = (PROV_DRBG *)vctx;
+    int ret;
+
+    if (drbg->lock != NULL && !CRYPTO_THREAD_write_lock(drbg->lock))
+        return 0;
+
+    ret = drbg_ctr_set_ctx_params_locked(vctx, params);
+
+    if (drbg->lock != NULL)
+        CRYPTO_THREAD_unlock(drbg->lock);
+
+    return ret;
 }
 
 static const OSSL_PARAM *drbg_ctr_settable_ctx_params(ossl_unused void *vctx,
@@ -751,5 +812,5 @@ const OSSL_DISPATCH ossl_drbg_ctr_functions[] = {
       (void(*)(void))drbg_ctr_verify_zeroization },
     { OSSL_FUNC_RAND_GET_SEED, (void(*)(void))ossl_drbg_get_seed },
     { OSSL_FUNC_RAND_CLEAR_SEED, (void(*)(void))ossl_drbg_clear_seed },
-    { 0, NULL }
+    OSSL_DISPATCH_END
 };

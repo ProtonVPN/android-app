@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -54,6 +44,7 @@
 
 #include <openvpn/common/platform.hpp>
 #include <openvpn/common/base64.hpp>
+#include <openvpn/common/numeric_cast.hpp>
 #include <openvpn/common/olong.hpp>
 #include <openvpn/common/arraysize.hpp>
 #include <openvpn/common/hostport.hpp>
@@ -96,9 +87,7 @@
 #include <openvpn/win/winerr.hpp>
 #endif
 
-namespace openvpn {
-namespace WS {
-namespace Client {
+namespace openvpn::WS::Client {
 
 OPENVPN_EXCEPTION(http_client_exception);
 
@@ -203,11 +192,15 @@ struct AltRoutingShimFactory : public RC<thread_unsafe_refcount>
     {
         return IP::Addr();
     }
+    virtual std::vector<IP::Addr> local_addrs()
+    {
+        return std::vector<IP::Addr>();
+    }
     virtual int remote_port()
     {
         return -1;
     }
-    virtual int error_expire()
+    virtual int alt_routing_debug_level()
     {
         return 0;
     }
@@ -224,6 +217,7 @@ struct Config : public RCCopyable<thread_unsafe_refcount>
     unsigned int connect_timeout = 0;
     unsigned int general_timeout = 0;
     unsigned int keepalive_timeout = 0;
+    unsigned int websocket_timeout = 0; // becomes general_timeout when websocket begins streaming
     unsigned int max_headers = 0;
     unsigned int max_header_bytes = 0;
     bool enable_cache = false; // if true, supports TLS session resumption tickets
@@ -346,6 +340,7 @@ struct TimeoutOverride
     int connect = -1;
     int general = -1;
     int keepalive = -1;
+    int websocket = -1;
 };
 
 class HTTPCore;
@@ -501,7 +496,7 @@ class HTTPCore : public Base, public TransportClientParent
             if (socket)
                 return socket->remote_endpoint_str();
         }
-        catch (const std::exception &e)
+        catch (const std::exception &)
         {
         }
         return "[unknown endpoint]";
@@ -547,9 +542,18 @@ class HTTPCore : public Base, public TransportClientParent
         return socket.get();
     }
 
+    void alter_general_timeout_for_streaming()
+    {
+        const unsigned int sec = to.websocket >= 0 ? to.websocket : config->websocket_timeout;
+        if (sec)
+            reset_general_timeout(sec, true);
+        else
+            cancel_general_timeout();
+    }
+
     void streaming_start()
     {
-        cancel_general_timeout(); // cancel general timeout once websocket streaming begins
+        alter_general_timeout_for_streaming();
         content_out_hold = false;
         if (is_deferred())
             http_content_out_needed();
@@ -618,7 +622,7 @@ class HTTPCore : public Base, public TransportClientParent
     }
 
   private:
-    typedef TCPTransport::Link<AsioProtocol, HTTPCore *, false> LinkImpl;
+    typedef TCPTransport::TCPLink<AsioProtocol, HTTPCore *, false> LinkImpl;
     friend LinkImpl::Base; // calls tcp_* handlers
 
     void verify_frame()
@@ -676,11 +680,7 @@ class HTTPCore : public Base, public TransportClientParent
 
             verify_frame();
 
-            general_timeout_duration = Time::Duration::seconds(to.general >= 0
-                                                                   ? to.general
-                                                                   : config->general_timeout);
-            general_timeout_coarse.reset();
-            activity(true);
+            reset_general_timeout(to.general >= 0 ? to.general : config->general_timeout, false);
 
             // already in persistent session?
             if (alive)
@@ -709,8 +709,8 @@ class HTTPCore : public Base, public TransportClientParent
                 s->socket.async_connect(ep,
                                         [self = Ptr(this)](const openvpn_io::error_code &error)
                                         {
-                    self->handle_unix_connect(error);
-                });
+                                            self->handle_unix_connect(error);
+                                        });
                 set_connect_timeout(config->connect_timeout);
                 return;
             }
@@ -839,8 +839,8 @@ class HTTPCore : public Base, public TransportClientParent
 
             openvpn_io::async_connect(s->socket,
                                       std::move(results),
-                                      [self = Ptr(this)](const openvpn_io::error_code &error, const openvpn_io::ip::tcp::endpoint &endpoint)
-                                      { self->handle_tcp_connect(error, endpoint); });
+                                      [self = Ptr(this)](const openvpn_io::error_code &error_, const openvpn_io::ip::tcp::endpoint &endpoint)
+                                      { self->handle_tcp_connect(error_, endpoint); });
         }
         catch (const std::exception &e)
         {
@@ -911,7 +911,13 @@ class HTTPCore : public Base, public TransportClientParent
         // build socket and assign shim
         AsioPolySock::TCP *s = new AsioPolySock::TCP(io_context, 0);
         socket.reset(s);
-        bind_local_addr(s);
+
+        // bind local?
+        const std::vector<IP::Addr> local_addrs = sf.local_addrs();
+        for (const auto &la : local_addrs)
+            s->socket.bind_local(la, 0);
+
+        // add shim to socket
         s->socket.shim = std::move(shim);
 
         // build results
@@ -921,12 +927,13 @@ class HTTPCore : public Base, public TransportClientParent
         IP::Addr addr = sf.remote_ip();
         if (!addr.defined())
             addr = IP::Addr(host.host_transport(), "AltRouting");
+        // TODO: the static_cast of port is not proven safe
         results_type results = results_type::create(openvpn_io::ip::tcp::endpoint(addr.to_asio(),
-                                                                                  port),
+                                                                                  static_cast<asio::ip::port_type>(port)),
                                                     host.host,
                                                     "");
 
-        if (config->debug_level >= 2)
+        if (sf.alt_routing_debug_level() >= 2)
             OPENVPN_LOG("ALT_ROUTING HTTP CONNECT to " << s->remote_endpoint_str() << " res=" << asio_resolver_results_to_string(results));
 
         // do async connect
@@ -1036,10 +1043,20 @@ class HTTPCore : public Base, public TransportClientParent
             keepalive_timer->cancel();
     }
 
+    void reset_general_timeout(const unsigned int seconds,
+                               const bool register_activity_on_input_only_arg)
+    {
+        general_timeout_duration = Time::Duration::seconds(seconds);
+        general_timeout_coarse.reset();
+        activity(true);
+        register_activity_on_input_only = register_activity_on_input_only_arg;
+    }
+
     void cancel_general_timeout()
     {
         general_timeout_duration.set_zero();
         general_timer.cancel();
+        register_activity_on_input_only = false;
     }
 
     void general_timeout_handler(const openvpn_io::error_code &e) // called by Asio
@@ -1068,7 +1085,7 @@ class HTTPCore : public Base, public TransportClientParent
         const Request req = http_request();
         content_info = http_content_info();
 
-        outbuf.reset(new BufferAllocated(512, BufferAllocated::GROW));
+        outbuf = BufferAllocatedRc::Create(512, BufAllocFlags::GROW);
         BufferStreamOut os(*outbuf);
 
         if (content_info.websocket)
@@ -1272,7 +1289,8 @@ class HTTPCore : public Base, public TransportClientParent
             if (inject_fault("base_link_send"))
                 return false;
 #endif
-            activity(false);
+            if (!register_activity_on_input_only)
+                activity(false);
             if (transcli)
                 return transcli->transport_send(buf);
             else
@@ -1317,17 +1335,17 @@ class HTTPCore : public Base, public TransportClientParent
 
     // TransportClientParent methods
 
-    virtual bool transport_is_openvpn_protocol()
+    bool transport_is_openvpn_protocol() override
     {
         return false;
     }
 
-    virtual void transport_recv(BufferAllocated &buf)
+    void transport_recv(BufferAllocated &buf) override
     {
         tcp_read_handler(buf);
     }
 
-    virtual void transport_needs_send()
+    void transport_needs_send() override
     {
         tcp_write_queue_needs_send();
     }
@@ -1341,39 +1359,39 @@ class HTTPCore : public Base, public TransportClientParent
         return os.str();
     }
 
-    virtual void transport_error(const Error::Type fatal_err, const std::string &err_text)
+    void transport_error(const Error::Type fatal_err, const std::string &err_text) override
     {
         return error_handler(Status::E_TRANSPORT, err_fmt(fatal_err, err_text));
     }
 
-    virtual void proxy_error(const Error::Type fatal_err, const std::string &err_text)
+    void proxy_error(const Error::Type fatal_err, const std::string &err_text) override
     {
         return error_handler(Status::E_PROXY, err_fmt(fatal_err, err_text));
     }
 
-    virtual void transport_pre_resolve()
+    void transport_pre_resolve() override
     {
     }
 
-    virtual void transport_wait_proxy()
+    void transport_wait_proxy() override
     {
     }
 
-    virtual void transport_wait()
+    void transport_wait() override
     {
     }
 
-    virtual bool is_keepalive_enabled() const
+    bool is_keepalive_enabled() const override
     {
         return false;
     }
 
-    virtual void disable_keepalive(unsigned int &keepalive_ping,
-                                   unsigned int &keepalive_timeout)
+    void disable_keepalive(unsigned int &keepalive_ping,
+                           unsigned int &keepalive_timeout) override
     {
     }
 
-    virtual void transport_connecting()
+    void transport_connecting() override
     {
         do_connect(false);
     }
@@ -1403,6 +1421,7 @@ class HTTPCore : public Base, public TransportClientParent
 
     Time::Duration general_timeout_duration;
     CoarseTime general_timeout_coarse;
+    bool register_activity_on_input_only = false;
 
     bool content_out_hold = true;
     bool alive = false;
@@ -1448,7 +1467,7 @@ class HTTPDelegate : public HTTPCore
         return parent_;
     }
 
-    virtual Host http_host()
+    Host http_host() override
     {
         if (parent_)
             return parent_->http_host(*this);
@@ -1456,7 +1475,7 @@ class HTTPDelegate : public HTTPCore
             throw http_delegate_error("http_host");
     }
 
-    virtual Request http_request()
+    Request http_request() override
     {
         if (parent_)
             return parent_->http_request(*this);
@@ -1464,7 +1483,7 @@ class HTTPDelegate : public HTTPCore
             throw http_delegate_error("http_request");
     }
 
-    virtual ContentInfo http_content_info()
+    ContentInfo http_content_info() override
     {
         if (parent_)
             return parent_->http_content_info(*this);
@@ -1472,7 +1491,7 @@ class HTTPDelegate : public HTTPCore
             throw http_delegate_error("http_content_info");
     }
 
-    virtual BufferPtr http_content_out()
+    BufferPtr http_content_out() override
     {
         if (parent_)
             return parent_->http_content_out(*this);
@@ -1480,7 +1499,7 @@ class HTTPDelegate : public HTTPCore
             throw http_delegate_error("http_content_out");
     }
 
-    virtual void http_content_out_needed()
+    void http_content_out_needed() override
     {
         if (parent_)
             parent_->http_content_out_needed(*this);
@@ -1488,43 +1507,43 @@ class HTTPDelegate : public HTTPCore
             throw http_delegate_error("http_content_out_needed");
     }
 
-    virtual void http_headers_received()
+    void http_headers_received() override
     {
         if (parent_)
             parent_->http_headers_received(*this);
     }
 
-    virtual void http_headers_sent(const Buffer &buf)
+    void http_headers_sent(const Buffer &buf) override
     {
         if (parent_)
             parent_->http_headers_sent(*this, buf);
     }
 
-    virtual void http_mutate_resolver_results(results_type &results)
+    void http_mutate_resolver_results(results_type &results) override
     {
         if (parent_)
             parent_->http_mutate_resolver_results(*this, results);
     }
 
-    virtual void http_content_in(BufferAllocated &buf)
+    void http_content_in(BufferAllocated &buf) override
     {
         if (parent_)
             parent_->http_content_in(*this, buf);
     }
 
-    virtual void http_done(const int status, const std::string &description)
+    void http_done(const int status, const std::string &description) override
     {
         if (parent_)
             parent_->http_done(*this, status, description);
     }
 
-    virtual void http_keepalive_close(const int status, const std::string &description)
+    void http_keepalive_close(const int status, const std::string &description) override
     {
         if (parent_)
             parent_->http_keepalive_close(*this, status, description);
     }
 
-    virtual void http_post_connect(AsioPolySock::Base &sock)
+    void http_post_connect(AsioPolySock::Base &sock) override
     {
         if (parent_)
             parent_->http_post_connect(*this, sock);
@@ -1533,6 +1552,4 @@ class HTTPDelegate : public HTTPCore
   private:
     PARENT *parent_;
 };
-} // namespace Client
-} // namespace WS
-} // namespace openvpn
+} // namespace openvpn::WS::Client

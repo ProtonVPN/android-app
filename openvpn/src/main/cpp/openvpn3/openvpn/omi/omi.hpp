@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -855,7 +845,7 @@ class OMICore : public Acceptor::ListenerBase
     }
 
     // despite its name, this method handles both accept and connect events
-    virtual void handle_accept(AsioPolySock::Base::Ptr sock, const openvpn_io::error_code &error) override
+    void handle_accept(AsioPolySock::Base::Ptr sock, const openvpn_io::error_code &error) override
     {
         if (stop_called)
             return;
@@ -904,9 +894,9 @@ class OMICore : public Acceptor::ListenerBase
         s->socket.async_connect(ep,
                                 [self = Ptr(this), sock](const openvpn_io::error_code &error) mutable
                                 {
-            // this is a connect, but we reuse the accept method
-            self->handle_accept(std::move(sock), error);
-        });
+                                    // this is a connect, but we reuse the accept method
+                                    self->handle_accept(std::move(sock), error);
+                                });
     }
 
     void connect_unix(const std::string &socket_path)
@@ -918,9 +908,9 @@ class OMICore : public Acceptor::ListenerBase
         s->socket.async_connect(ep,
                                 [self = Ptr(this), sock](const openvpn_io::error_code &error) mutable
                                 {
-            // this is a connect, but we reuse the accept method
-            self->handle_accept(std::move(sock), error);
-        });
+                                    // this is a connect, but we reuse the accept method
+                                    self->handle_accept(std::move(sock), error);
+                                });
 #else
         throw Exception("unix sockets not supported on this platform");
 #endif
@@ -930,12 +920,12 @@ class OMICore : public Acceptor::ListenerBase
     {
         if (!is_sock_open() || recv_queued)
             return;
-        BufferPtr buf(new BufferAllocated(256, 0));
+        BufferPtr buf = BufferAllocatedRc::Create(256, 0);
         socket->async_receive(buf->mutable_buffer_clamp(),
                               [self = Ptr(this), sock = socket, buf](const openvpn_io::error_code &error, const size_t bytes_recvd)
                               {
-            self->handle_recv(error, bytes_recvd, std::move(buf), sock.get());
-        });
+                                  self->handle_recv(error, bytes_recvd, std::move(buf), sock.get());
+                              });
         recv_queued = true;
     }
 
@@ -990,12 +980,12 @@ class OMICore : public Acceptor::ListenerBase
     {
         if (!is_sock_open())
             return;
-        BufferAllocated &buf = *content_out.front();
+        auto &buf = *content_out.front();
         socket->async_send(buf.const_buffer_clamp(),
                            [self = Ptr(this), sock = socket](const openvpn_io::error_code &error, const size_t bytes_sent)
                            {
-            self->handle_send(error, bytes_sent, sock.get());
-        });
+                               self->handle_send(error, bytes_sent, sock.get());
+                           });
     }
 
     void handle_send(const openvpn_io::error_code &error,

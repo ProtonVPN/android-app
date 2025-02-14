@@ -10,6 +10,7 @@ LDADD = libasio.a
 endif
 
 noinst_PROGRAMS = \
+	invocation/completion_executor \
 	operations/c_callback_wrapper \
 	operations/callback_wrapper \
 	operations/composed_1 \
@@ -24,6 +25,8 @@ noinst_PROGRAMS = \
 
 if HAVE_COROUTINES
 noinst_PROGRAMS += \
+	channels/mutual_exclusion_1 \
+	channels/mutual_exclusion_2 \
 	channels/throttling_proxy \
 	coroutines/chat_server \
 	coroutines/echo_server \
@@ -39,6 +42,7 @@ endif
 
 AM_CXXFLAGS = -I$(srcdir)/../../../include
 
+invocation_completion_executor_SOURCES = invocation/completion_executor.cpp
 operations_c_callback_wrapper_SOURCES = operations/c_callback_wrapper.cpp
 operations_callback_wrapper_SOURCES = operations/callback_wrapper.cpp
 operations_composed_1_SOURCES = operations/composed_1.cpp
@@ -51,6 +55,8 @@ operations_composed_7_SOURCES = operations/composed_7.cpp
 operations_composed_8_SOURCES = operations/composed_8.cpp
 
 if HAVE_COROUTINES
+channels_mutual_exclusion_1_SOURCES = channels/mutual_exclusion_1.cpp
+channels_mutual_exclusion_2_SOURCES = channels/mutual_exclusion_2.cpp
 channels_throttling_proxy_SOURCES = channels/throttling_proxy.cpp
 coroutines_chat_server_SOURCES = coroutines/chat_server.cpp
 coroutines_echo_server_SOURCES = coroutines/echo_server.cpp

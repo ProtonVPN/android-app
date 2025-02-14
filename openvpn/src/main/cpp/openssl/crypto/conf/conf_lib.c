@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2000-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -188,7 +188,7 @@ CONF *NCONF_new_ex(OSSL_LIB_CTX *libctx, CONF_METHOD *meth)
 
     ret = meth->create(meth);
     if (ret == NULL) {
-        ERR_raise(ERR_LIB_CONF, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_CONF, ERR_R_CONF_LIB);
         return NULL;
     }
     ret->libctx = libctx;
@@ -421,6 +421,12 @@ OPENSSL_INIT_SETTINGS *OPENSSL_INIT_new(void)
 
 
 #ifndef OPENSSL_NO_STDIO
+/*
+ * If CRYPTO_set_mem_functions is called after this, then
+ * memory allocation and deallocation in this function can
+ * become disjointed. Avoid this by always using standard
+ * strdup & free instead of OPENSSL_strdup & OPENSSL_free.
+ */
 int OPENSSL_INIT_set_config_filename(OPENSSL_INIT_SETTINGS *settings,
                                      const char *filename)
 {
@@ -444,6 +450,12 @@ void OPENSSL_INIT_set_config_file_flags(OPENSSL_INIT_SETTINGS *settings,
     settings->flags = flags;
 }
 
+/*
+ * If CRYPTO_set_mem_functions is called after this, then
+ * memory allocation and deallocation in this function can
+ * become disjointed. Avoid this by always using standard
+ * strdup & free instead of OPENSSL_strdup & OPENSSL_free.
+ */
 int OPENSSL_INIT_set_config_appname(OPENSSL_INIT_SETTINGS *settings,
                                     const char *appname)
 {
@@ -464,6 +476,9 @@ int OPENSSL_INIT_set_config_appname(OPENSSL_INIT_SETTINGS *settings,
 
 void OPENSSL_INIT_free(OPENSSL_INIT_SETTINGS *settings)
 {
+    if (settings == NULL)
+        return;
+
     free(settings->filename);
     free(settings->appname);
     free(settings);

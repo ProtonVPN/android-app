@@ -1,8 +1,8 @@
 #
 #  openvpnmsica -- Custom Action DLL to provide OpenVPN-specific support to MSI packages
 #
-#  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
-#  Copyright (C) 2018-2023 Simon Rozman <simon@rozman.si>
+#  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
+#  Copyright (C) 2018-2024 Simon Rozman <simon@rozman.si>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License version 2
@@ -18,21 +18,18 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-include $(top_srcdir)/build/ltrc.inc
+include $(top_srcdir)/ltrc.inc
 
 MAINTAINERCLEANFILES = $(srcdir)/Makefile.in
-
-EXTRA_DIST = \
-	openvpnmsica.vcxproj \
-	openvpnmsica.props \
-	openvpnmsica-Debug.props \
-	openvpnmsica-Release.props
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include -I$(top_srcdir)/src/compat
 
 AM_CFLAGS = \
 	$(TAP_CFLAGS)
+
+EXTRA_DIST = \
+	CMakeLists.txt
 
 if WIN32
 lib_LTLIBRARIES = libopenvpnmsica.la

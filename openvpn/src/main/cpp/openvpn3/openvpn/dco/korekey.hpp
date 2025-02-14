@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // OpenVPN 3 wrapper for kovpn crypto
 
@@ -26,8 +16,7 @@
 
 #include <openvpn/dco/kocrypto.hpp>
 
-namespace openvpn {
-namespace KoRekey {
+namespace openvpn::KoRekey {
 
 class Receiver : public virtual RC<thread_unsafe_refcount>
 {
@@ -35,8 +24,7 @@ class Receiver : public virtual RC<thread_unsafe_refcount>
     typedef RCPtr<Receiver> Ptr;
 
     virtual void rekey(const CryptoDCInstance::RekeyType type,
-                       const Info &info)
-        = 0;
+                       const Info &info) = 0;
 
     virtual void explicit_exit_notify()
     {
@@ -57,41 +45,37 @@ class Instance : public CryptoDCInstance
 
     // Initialization
 
-    virtual unsigned int defined() const override
+    unsigned int defined() const override
     {
         return CIPHER_DEFINED | HMAC_DEFINED | EXPLICIT_EXIT_NOTIFY_DEFINED;
     }
 
-    virtual void init_cipher(StaticKey &&encrypt_key,
-                             StaticKey &&decrypt_key) override
+    void init_cipher(StaticKey &&encrypt_key,
+                     StaticKey &&decrypt_key) override
     {
         info.encrypt_cipher = std::move(encrypt_key);
         info.decrypt_cipher = std::move(decrypt_key);
     }
 
-    virtual void init_hmac(StaticKey &&encrypt_key,
-                           StaticKey &&decrypt_key) override
+    void init_hmac(StaticKey &&encrypt_key,
+                   StaticKey &&decrypt_key) override
     {
         info.encrypt_hmac = std::move(encrypt_key);
         info.decrypt_hmac = std::move(decrypt_key);
     }
 
-    virtual void init_pid(const int send_form,
-                          const int recv_mode,
-                          const int recv_form,
-                          const char *recv_name,
-                          const int recv_unit,
-                          const SessionStats::Ptr &recv_stats_arg) override
+    void init_pid(const char *recv_name,
+                  const int recv_unit,
+                  const SessionStats::Ptr &recv_stats_arg) override
     {
-        info.tcp_linear = (recv_mode == PacketIDReceive::TCP_MODE);
     }
 
-    virtual void init_remote_peer_id(const int remote_peer_id) override
+    void init_remote_peer_id(const int remote_peer_id) override
     {
         info.remote_peer_id = remote_peer_id;
     }
 
-    virtual bool consider_compression(const CompressContext &comp_ctx) override
+    bool consider_compression(const CompressContext &comp_ctx) override
     {
         info.comp_ctx = comp_ctx;
         return false;
@@ -99,12 +83,12 @@ class Instance : public CryptoDCInstance
 
     // Rekeying
 
-    virtual void rekey(const RekeyType type) override
+    void rekey(const RekeyType type) override
     {
         rcv->rekey(type, info);
     }
 
-    virtual void explicit_exit_notify() override
+    void explicit_exit_notify() override
     {
         rcv->explicit_exit_notify();
     }
@@ -113,15 +97,16 @@ class Instance : public CryptoDCInstance
     // should never be reached.
 
     // returns true if packet ID is close to wrapping
-    virtual bool encrypt(BufferAllocated &buf, const PacketID::time_t now, const unsigned char *op32) override
+    bool encrypt(BufferAllocated &buf, const unsigned char *op32) override
     {
         throw korekey_error("encrypt");
     }
 
-    virtual Error::Type decrypt(BufferAllocated &buf, const PacketID::time_t now, const unsigned char *op32) override
+    Error::Type decrypt(BufferAllocated &buf, const std::time_t now, const unsigned char *op32) override
     {
         throw korekey_error("decrypt");
     }
+
 
   private:
     Receiver::Ptr rcv;
@@ -131,35 +116,32 @@ class Instance : public CryptoDCInstance
 class Context : public CryptoDCContext
 {
   public:
-    Context(const CryptoAlgs::Type cipher,
-            const CryptoAlgs::Type digest,
-            const CryptoAlgs::KeyDerivation key_method,
+    Context(CryptoDCSettingsData dc_settings_data,
             CryptoDCFactory &dc_factory_delegate,
             const Receiver::Ptr &rcv_arg,
             const Frame::Ptr &frame_arg)
-        : CryptoDCContext(key_method),
+        : CryptoDCContext(dc_settings_data.key_derivation()),
           rcv(rcv_arg),
-          dc_context_delegate(dc_factory_delegate.new_obj(cipher, digest, key_method)),
+          dc_context_delegate(dc_factory_delegate.new_obj(dc_settings_data)),
           frame(frame_arg)
     {
-        Key::validate(cipher, digest);
+        Key::validate(dc_settings_data.cipher(), dc_settings_data.digest());
     }
 
-    virtual CryptoDCInstance::Ptr new_obj(const unsigned int key_id) override
+    CryptoDCInstance::Ptr new_obj(const unsigned int key_id) override
     {
         return new Instance(rcv, dc_context_delegate, key_id, frame);
     }
 
     // Info for ProtoContext::options_string
-
-    virtual Info crypto_info() override
+    CryptoDCSettingsData crypto_info() override
     {
         return dc_context_delegate->crypto_info();
     }
 
     // Info for ProtoContext::link_mtu_adjust
 
-    virtual size_t encap_overhead() const override
+    size_t encap_overhead() const override
     {
         return dc_context_delegate->encap_overhead();
     }
@@ -182,11 +164,9 @@ class Factory : public CryptoDCFactory
     {
     }
 
-    virtual CryptoDCContext::Ptr new_obj(const CryptoAlgs::Type cipher,
-                                         const CryptoAlgs::Type digest,
-                                         const CryptoAlgs::KeyDerivation key_method) override
+    CryptoDCContext::Ptr new_obj(const CryptoDCSettingsData dc_settings_data) override
     {
-        return new Context(cipher, digest, key_method, *dc_factory_delegate, rcv, frame);
+        return new Context(dc_settings_data, *dc_factory_delegate, rcv, frame);
     }
 
   private:
@@ -195,7 +175,6 @@ class Factory : public CryptoDCFactory
     Frame::Ptr frame;
 };
 
-} // namespace KoRekey
-} // namespace openvpn
+} // namespace openvpn::KoRekey
 
 #endif

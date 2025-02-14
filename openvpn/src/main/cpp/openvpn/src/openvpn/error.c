@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -48,10 +46,6 @@
 #ifndef LOG_OPENVPN
 #define LOG_OPENVPN LOG_DAEMON
 #endif
-#endif
-
-#ifdef GOOGLE_BREAKPAD
-#include "breakpad.h"
 #endif
 
 /* Globals */
@@ -280,14 +274,14 @@ x_msg_va(const unsigned int flags, const char *format, va_list arglist)
 
     if ((flags & M_ERRNO) && e)
     {
-        openvpn_snprintf(m2, ERR_BUF_SIZE, "%s: %s (errno=%d)",
-                         m1, openvpn_strerror(e, crt_error, &gc), e);
+        snprintf(m2, ERR_BUF_SIZE, "%s: %s (errno=%d)",
+                 m1, openvpn_strerror(e, crt_error, &gc), e);
         SWAP;
     }
 
     if (flags & M_OPTERR)
     {
-        openvpn_snprintf(m2, ERR_BUF_SIZE, "Options error: %s", m1);
+        snprintf(m2, ERR_BUF_SIZE, "Options error: %s", m1);
         SWAP;
     }
 
@@ -327,10 +321,10 @@ x_msg_va(const unsigned int flags, const char *format, va_list arglist)
         const struct virtual_output *vo = msg_get_virtual_output();
         if (vo)
         {
-            openvpn_snprintf(m2, ERR_BUF_SIZE, "%s%s%s",
-                             prefix,
-                             prefix_sep,
-                             m1);
+            snprintf(m2, ERR_BUF_SIZE, "%s%s%s",
+                     prefix,
+                     prefix_sep,
+                     m1);
             virtual_output_print(vo, flags, m2);
         }
     }
@@ -447,24 +441,14 @@ dont_mute(unsigned int flags)
 void
 assert_failed(const char *filename, int line, const char *condition)
 {
-#ifdef GOOGLE_BREAKPAD
-    int level = M_ERR;
-#else
-    int level = M_FATAL;
-#endif
     if (condition)
     {
-        msg(level, "Assertion failed at %s:%d (%s)", filename, line, condition);
+        msg(M_FATAL, "Assertion failed at %s:%d (%s)", filename, line, condition);
     }
     else
     {
-        msg(level, "Assertion failed at %s:%d", filename, line);
+        msg(M_FATAL, "Assertion failed at %s:%d", filename, line);
     }
-    _exit(1);
-
-#ifdef GOOGLE_BREAKPAD
-    breakpad_dodump();
-#endif
     _exit(1);
 }
 
@@ -521,7 +505,7 @@ close_syslog(void)
 static int orig_stderr;
 
 int
-get_orig_stderr()
+get_orig_stderr(void)
 {
     return orig_stderr ? orig_stderr : _fileno(stderr);
 }
@@ -984,19 +968,24 @@ strerror_win32(DWORD errnum, struct gc_arena *gc)
 
     /* format a windows error message */
     {
-        char message[256];
+        wchar_t wmessage[256];
+        char *message = NULL;
         struct buffer out = alloc_buf_gc(256, gc);
-        const int status =  FormatMessage(
+        const DWORD status =  FormatMessageW(
             FORMAT_MESSAGE_IGNORE_INSERTS
             | FORMAT_MESSAGE_FROM_SYSTEM
             | FORMAT_MESSAGE_ARGUMENT_ARRAY,
             NULL,
             errnum,
             0,
-            message,
-            sizeof(message),
+            wmessage,
+            SIZE(wmessage),
             NULL);
-        if (!status)
+        if (status)
+        {
+            message = utf16to8(wmessage, gc);
+        }
+        if (!status || !message)
         {
             buf_printf(&out, "[Unknown Win32 Error]");
         }

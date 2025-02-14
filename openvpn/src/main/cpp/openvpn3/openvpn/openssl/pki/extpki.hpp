@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -38,8 +28,8 @@ using ssl_external_pki = SSLFactoryAPI::ssl_external_pki;
 class ExternalPKIRsaImpl : public ExternalPKIImpl
 {
   public:
-    ExternalPKIRsaImpl(SSL_CTX *ssl_ctx, ::X509 *cert, ExternalPKIBase *external_pki_arg)
-        : external_pki(external_pki_arg), n_errors(0)
+    ExternalPKIRsaImpl(SSL_CTX *ssl_ctx, ::X509 *cert, ExternalPKIBase *external_pki_arg, const std::string &alias)
+        : external_pki(external_pki_arg), alias(alias), n_errors(0)
     {
         RSA *rsa = nullptr;
         const RSA *pub_rsa = nullptr;
@@ -157,7 +147,7 @@ class ExternalPKIRsaImpl : public ExternalPKIImpl
 
             /* get signature */
             std::string sig_b64;
-            const bool status = self->external_pki->sign(from_b64, sig_b64, padding_algo, "", "");
+            const bool status = self->external_pki->sign(self->alias, from_b64, sig_b64, padding_algo, "", "");
             if (!status)
                 throw ssl_external_pki("OpenSSL: could not obtain signature");
 
@@ -212,17 +202,18 @@ class ExternalPKIRsaImpl : public ExternalPKIImpl
     }
 
     ExternalPKIBase *external_pki;
+    std::string alias;
     unsigned int n_errors;
 };
 
 /* The OpenSSL EC_* methods we are using here are only available for OpenSSL 1.1.0 and later */
-#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(OPENSSL_NO_EC)
+#if !defined(OPENSSL_NO_EC)
 class ExternalPKIECImpl : public ExternalPKIImpl
 {
 
   public:
-    ExternalPKIECImpl(SSL_CTX *ssl_ctx, ::X509 *cert, ExternalPKIBase *external_pki_arg)
-        : external_pki(external_pki_arg)
+    ExternalPKIECImpl(SSL_CTX *ssl_ctx, ::X509 *cert, ExternalPKIBase *external_pki_arg, const std::string &alias)
+        : external_pki(external_pki_arg), alias(alias)
     {
 
         if (ec_self_data_index < 0)
@@ -384,7 +375,6 @@ class ExternalPKIECImpl : public ExternalPKIImpl
      * @param sig 	buffer backing the signature
      * @param siglen 	maximum size for the signature, and length of the signature
      * 	   		returned in sig
-     * @return
      */
     void do_sign(const unsigned char *dgst, int dlen, unsigned char *sig, unsigned int &siglen)
     {
@@ -394,7 +384,7 @@ class ExternalPKIECImpl : public ExternalPKIImpl
 
         /* get signature */
         std::string sig_b64;
-        const bool status = external_pki->sign(dgst_b64, sig_b64, "ECDSA", "", "");
+        const bool status = external_pki->sign(alias, dgst_b64, sig_b64, "ECDSA", "", "");
         if (!status)
             throw ssl_external_pki("OpenSSL: could not obtain signature");
 
@@ -406,11 +396,8 @@ class ExternalPKIECImpl : public ExternalPKIImpl
     }
 
     ExternalPKIBase *external_pki;
-    static int ec_self_data_index;
+    std::string alias;
+    inline static int ec_self_data_index = -1;
 };
-
-#ifdef OPENVPN_NO_EXTERN
-int ExternalPKIECImpl::ec_self_data_index = -1;
-#endif
-#endif /* OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(OPENSSL_NO_EC) */
+#endif /* !defined(OPENSSL_NO_EC) */
 } // namespace openvpn

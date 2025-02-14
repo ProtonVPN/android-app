@@ -13,11 +13,13 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Binder;
+import android.widget.Toast;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import de.blinkt.openvpn.core.Preferences;
+import de.blinkt.openvpn.core.VpnStatus;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -30,12 +32,34 @@ public class ExternalAppDatabase {
 	}
 
 	private final static String PREFERENCES_KEY = "allowed_apps";
+	private final static String PREFERENCES_KEY_MANAGED_CONFIG = "allowed_apps_managed";
+
+	public void setFlagManagedConfiguration(boolean managed)
+	{
+		SharedPreferences prefs = Preferences.getDefaultSharedPreferences(mContext);
+		Editor prefedit = prefs.edit();
+
+		prefedit.putBoolean(PREFERENCES_KEY_MANAGED_CONFIG, managed);
+		increaseWorkaroundCounter(prefs, prefedit);
+		prefedit.apply();
+	}
+
+	public boolean isManagedConfiguration()
+	{
+		SharedPreferences prefs = Preferences.getDefaultSharedPreferences(mContext);
+		return prefs.getBoolean(PREFERENCES_KEY_MANAGED_CONFIG, false);
+	}
+
+	private static void increaseWorkaroundCounter(SharedPreferences prefs, Editor prefedit) {
+		// Workaround for bug
+		int counter = prefs.getInt("counter", 0);
+		prefedit.putInt("counter", counter + 1);
+	}
 
 	boolean isAllowed(String packagename) {
 		Set<String> allowedapps = getExtAppList();
 
-		return allowedapps.contains(packagename); 
-
+		return allowedapps.contains(packagename);
 	}
 
 	public Set<String> getExtAppList() {
@@ -50,14 +74,22 @@ public class ExternalAppDatabase {
 		saveExtAppList(allowedapps);
 	}
 
+	public boolean checkAllowingModifyingRemoteControl(Context c) {
+		if (isManagedConfiguration()) {
+			Toast.makeText(c, "Remote control apps are manged by managed configuration, cannot change", Toast.LENGTH_LONG).show();
+			VpnStatus.logError("Remote control apps are manged by managed configuration, cannot change");
+			return false;
+		}
+		return true;
+	}
+
 	private void saveExtAppList( Set<String> allowedapps) {
 		SharedPreferences prefs = Preferences.getDefaultSharedPreferences(mContext);
 		Editor prefedit = prefs.edit();
 
 		// Workaround for bug
 		prefedit.putStringSet(PREFERENCES_KEY, allowedapps);
-		int counter = prefs.getInt("counter", 0);
-		prefedit.putInt("counter", counter + 1);
+		increaseWorkaroundCounter(prefs, prefedit);
 		prefedit.apply();
 	}
 	
@@ -83,9 +115,9 @@ public class ExternalAppDatabase {
 				}
 			} catch (PackageManager.NameNotFoundException e) {
 				// App not found. Remove it from the list
-				removeApp(appPackage);
+				if (!isManagedConfiguration())
+					removeApp(appPackage);
 			}
-
 		}
 		throw new SecurityException("Unauthorized OpenVPN API Caller");
 	}
@@ -104,5 +136,9 @@ public class ExternalAppDatabase {
 			c.startActivity(confirmDialog);
 			return false;
 		}
+	}
+
+	public void setAllowedApps(Set<String> restrictionApps) {
+		saveExtAppList(restrictionApps);
 	}
 }

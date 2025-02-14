@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2004-2024 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2004, EdelKey Project. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
@@ -191,10 +191,8 @@ SRP_user_pwd *SRP_user_pwd_new(void)
 {
     SRP_user_pwd *ret;
 
-    if ((ret = OPENSSL_malloc(sizeof(*ret))) == NULL) {
-        /* ERR_raise(ERR_LIB_SRP, ERR_R_MALLOC_FAILURE); */ /*ckerr_ignore*/
+    if ((ret = OPENSSL_malloc(sizeof(*ret))) == NULL)
         return NULL;
-    }
     ret->N = NULL;
     ret->g = NULL;
     ret->s = NULL;
@@ -216,6 +214,8 @@ int SRP_user_pwd_set1_ids(SRP_user_pwd *vinfo, const char *id,
 {
     OPENSSL_free(vinfo->id);
     OPENSSL_free(vinfo->info);
+    vinfo->id = NULL;
+    vinfo->info = NULL;
     if (id != NULL && NULL == (vinfo->id = OPENSSL_strdup(id)))
         return 0;
     return (info == NULL || NULL != (vinfo->info = OPENSSL_strdup(info)));
@@ -283,6 +283,7 @@ SRP_VBASE *SRP_VBASE_new(char *seed_key)
         return NULL;
     if ((vb->users_pwd = sk_SRP_user_pwd_new_null()) == NULL
         || (vb->gN_cache = sk_SRP_gN_cache_new_null()) == NULL) {
+        sk_SRP_user_pwd_free(vb->users_pwd);
         OPENSSL_free(vb);
         return NULL;
     }
@@ -393,7 +394,7 @@ static BIGNUM *SRP_gN_place_bn(STACK_OF(SRP_gN_cache) *gN_cache, char *ch)
 
 int SRP_VBASE_init(SRP_VBASE *vb, char *verifier_file)
 {
-    int error_code;
+    int error_code = SRP_ERR_MEMORY;
     STACK_OF(SRP_gN) *SRP_gN_tab = sk_SRP_gN_new_null();
     char *last_index = NULL;
     int i;
@@ -404,6 +405,9 @@ int SRP_VBASE_init(SRP_VBASE *vb, char *verifier_file)
 
     TXT_DB *tmpdb = NULL;
     BIO *in = BIO_new(BIO_s_file());
+
+    if (SRP_gN_tab == NULL)
+        goto err;
 
     error_code = SRP_ERR_OPEN_FILE;
 
@@ -628,7 +632,7 @@ char *SRP_create_verifier_ex(const char *user, const char *pass, char **salt,
         if (N_bn_alloc == NULL)
             goto err;
         N_bn = N_bn_alloc;
-        if ((len = t_fromb64(tmp, sizeof(tmp) ,g)) <= 0)
+        if ((len = t_fromb64(tmp, sizeof(tmp), g)) <= 0)
             goto err;
         g_bn_alloc = BN_bin2bn(tmp, len, NULL);
         if (g_bn_alloc == NULL)

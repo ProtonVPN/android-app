@@ -4,33 +4,26 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
 
-#include "test_common.h"
+
+#include "test_common.hpp"
 
 #include <openvpn/reliable/relack.hpp>
 
 using namespace openvpn;
 using namespace openvpn::reliable;
+namespace orel = openvpn::reliable;
 
 TEST(relack, test_size_1)
 {
     constexpr size_t ACK_CNT = 11;
 
     auto ra = ReliableAck{};
-    for (auto i = id_t(1); i <= ACK_CNT; ++i)
+    for (auto i = orel::id_t(1); i <= ACK_CNT; ++i)
         ra.push_back(i);
     EXPECT_EQ(ra.size(), ACK_CNT);
     EXPECT_EQ(ra.resend_size(), size_t{0});
@@ -41,7 +34,7 @@ TEST(relack, test_prepend_1)
     constexpr size_t ACK_CNT = 11;
 
     auto ra = ReliableAck{};
-    for (auto i = id_t{1}; i <= ACK_CNT; ++i)
+    for (auto i = orel::id_t{1}; i <= ACK_CNT; ++i)
         ra.push_back(i);
     EXPECT_EQ(ra.size(), ACK_CNT);
 
@@ -84,11 +77,11 @@ TEST(relack, test_prepend_1)
 
 struct RelSendMck
 {
-    void ack(id_t id)
+    void ack(orel::id_t id)
     {
         mAcks.push_back(id);
     };
-    std::vector<id_t> mAcks;
+    std::vector<orel::id_t> mAcks;
 };
 
 TEST(relack, test_ack_1)
@@ -96,7 +89,7 @@ TEST(relack, test_ack_1)
     constexpr size_t ACK_CNT = 9;
 
     auto ra = ReliableAck{};
-    for (auto i = id_t{1}; i <= ACK_CNT; ++i)
+    for (auto i = orel::id_t{1}; i <= ACK_CNT; ++i)
         ra.push_back(i);
     EXPECT_EQ(ra.size(), ACK_CNT);
 
@@ -123,7 +116,7 @@ TEST(relack, test_ack_2)
     constexpr size_t ACK_CNT = 9;
 
     auto ra = ReliableAck{};
-    for (auto i = id_t(1); i <= ACK_CNT; ++i)
+    for (auto i = orel::id_t(1); i <= ACK_CNT; ++i)
         ra.push_back(i);
     EXPECT_EQ(ra.size(), ACK_CNT);
 

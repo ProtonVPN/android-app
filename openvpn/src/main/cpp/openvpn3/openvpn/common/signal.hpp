@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMMON_SIGNAL_H
 #define OPENVPN_COMMON_SIGNAL_H
@@ -49,6 +39,13 @@ class Signal
         F_SIGPIPE = (1 << 5),
     };
 
+    /**
+     * configure a signal handler to be active on the signal specified in the
+     * \c flags parameter. The signal handler will receive the original system
+     * signal numbers and not the ones from the enum of this class.
+     * @param handler
+     * @param flags
+     */
     Signal(const handler_t handler, const unsigned int flags)
     {
         struct sigaction sa;
@@ -158,12 +155,12 @@ struct SignalBlockerDefault : public SignalBlocker
 {
     SignalBlockerDefault()
         : SignalBlocker( // these signals should be handled by parent thread
-            Signal::F_SIGINT
-            | Signal::F_SIGTERM
-            | Signal::F_SIGHUP
-            | Signal::F_SIGUSR1
-            | Signal::F_SIGUSR2
-            | Signal::F_SIGPIPE)
+              Signal::F_SIGINT
+              | Signal::F_SIGTERM
+              | Signal::F_SIGHUP
+              | Signal::F_SIGUSR1
+              | Signal::F_SIGUSR2
+              | Signal::F_SIGPIPE)
     {
     }
 };

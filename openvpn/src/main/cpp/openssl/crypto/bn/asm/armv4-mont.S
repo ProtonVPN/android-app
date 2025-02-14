@@ -955,5 +955,5 @@ bn_mul8x_mont_neon:
 .asciz	"Montgomery multiplication for ARMv4/NEON, CRYPTOGAMS by <appro@openssl.org>"
 .align	2
 #if __ARM_MAX_ARCH__>=7
-.comm	OPENSSL_armcap_P,4,4
+.extern	OPENSSL_armcap_P
 #endif

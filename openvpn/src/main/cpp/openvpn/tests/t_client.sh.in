@@ -18,6 +18,7 @@ TCLIENT_SKIP_RC="${TCLIENT_SKIP_RC:-77}"
 
 srcdir="${srcdir:-.}"
 top_builddir="${top_builddir:-..}"
+openvpn="${openvpn:-${top_builddir}/src/openvpn/openvpn}"
 if [ -r "${top_builddir}"/t_client.rc ] ; then
     . "${top_builddir}"/t_client.rc
 elif [ -r "${srcdir}"/t_client.rc ] ; then
@@ -49,7 +50,7 @@ if [ $? -ne 0 ]; then
     exit "${TCLIENT_SKIP_RC}"
 fi
 
-if [ ! -x "${top_builddir}/src/openvpn/openvpn" ]
+if [ ! -x "${openvpn}" ]
 then
     echo "no (executable) openvpn binary in current build tree. FAIL." >&2
     exit 1
@@ -224,6 +225,7 @@ check_ifconfig()
     expect_list="$@"
 
     if [ -z "$expect_list" ] ; then return ; fi
+    if [ "$expect_list" = "-" ] ; then return ; fi
 
     for expect in $expect_list
     do
@@ -290,12 +292,14 @@ run_ping_tests()
 # main test loop
 # ----------------------------------------------------------
 SUMMARY_OK=
+SUMMARY_SKIP=
 SUMMARY_FAIL=
 
 for SUF in $TEST_RUN_LIST
 do
     # get config variables
     eval test_prep=\"\$PREPARE_$SUF\"
+    eval test_check_skip=\"\$CHECK_SKIP_$SUF\"
     eval test_postinit=\"\$POSTINIT_CMD_$SUF\"
     eval test_cleanup=\"\$CLEANUP_$SUF\"
     eval test_run_title=\"\$RUN_TITLE_$SUF\"
@@ -316,6 +320,16 @@ do
 
     output_start "### test run $SUF: '$test_run_title' ###"
     fail_count=0
+
+    if [ -n "$test_check_skip" ]; then
+        output "check whether we need to skip: '$test_check_skip'"
+        if eval $test_check_skip; then :
+        else
+            output "skip check failed, SKIP test $SUF."
+	    SUMMARY_SKIP="$SUMMARY_SKIP $SUF"
+	    echo -e "$outbuf" ; continue
+        fi
+    fi
 
     if [ -n "$test_prep" ]; then
         output "running preparation: '$test_prep'"
@@ -340,9 +354,9 @@ do
     pidfile="${top_builddir}/tests/$LOGDIR/openvpn-$SUF.pid"
     openvpn_conf="$openvpn_conf --writepid $pidfile $up"
     output " run openvpn $openvpn_conf"
-    echo "# src/openvpn/openvpn $openvpn_conf" >$LOGDIR/$SUF:openvpn.log
+    echo "# ${openvpn} $openvpn_conf" >$LOGDIR/$SUF:openvpn.log
     umask 022
-    $RUN_SUDO "${top_builddir}/src/openvpn/openvpn" $openvpn_conf >>$LOGDIR/$SUF:openvpn.log &
+    $RUN_SUDO "${openvpn}" $openvpn_conf >>$LOGDIR/$SUF:openvpn.log &
     sudopid=$!
 
     # Check if OpenVPN has initialized before continuing.  It will check every 3rd second up
@@ -391,13 +405,17 @@ do
     output "save ifconfig+route"
     get_ifconfig_route >$LOGDIR/$SUF:ifconfig_route.txt
 
-    output -n "compare pre-openvpn ifconfig+route with current values..."
-    if diff $LOGDIR/$SUF:ifconfig_route_pre.txt \
-	    $LOGDIR/$SUF:ifconfig_route.txt >/dev/null
-    then
-	fail "no differences between ifconfig/route before OpenVPN start and now."
+    if [ "$expect_ifconfig4" = "-" ] ; then
+        output "skip ifconfig+route check"
     else
-	output " OK!\n"
+	output -n "compare pre-openvpn ifconfig+route with current values..."
+	if diff $LOGDIR/$SUF:ifconfig_route_pre.txt \
+		$LOGDIR/$SUF:ifconfig_route.txt >/dev/null
+	then
+	    fail "no differences between ifconfig/route before OpenVPN start and now."
+	else
+	    output " OK!\n"
+	fi
     fi
 
     # post init script needed?
@@ -454,8 +472,10 @@ do
 done
 
 if [ -z "$SUMMARY_OK" ] ; then SUMMARY_OK=" none"; fi
+if [ -z "$SUMMARY_SKIP" ] ; then SUMMARY_SKIP=" none"; fi
 if [ -z "$SUMMARY_FAIL" ] ; then SUMMARY_FAIL=" none"; fi
 echo "Test sets succeeded:$SUMMARY_OK."
+echo "Test sets skipped:$SUMMARY_SKIP."
 echo "Test sets failed:$SUMMARY_FAIL."
 
 # remove trap handler

@@ -4,51 +4,21 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef OPENVPN_LOG_LOGBASE_H
+#pragma once
+
+// the following define was part of the header guard that was replaced by the
+// "#pragma once".  Apparently, some logging consumers check that this macro is
+// defined and their logging breaks if it is not.  Adding it back here as the
+// path of least resistance to fix; but IMO, the macro name should be better.
 #define OPENVPN_LOG_LOGBASE_H
 
-#include <string>
+#include "openvpn/log/logbase_class.hpp"
 
-#include <openvpn/common/rc.hpp>
-
-#define OPENVPN_LOG_CLASS openvpn::LogBase
 #define OPENVPN_LOG_INFO(x) x
 
-namespace openvpn {
-
-#ifdef OPENVPN_LOGBASE_NO_RC
-
-struct LogBase
-{
-    virtual void log(const std::string &str) = 0;
-};
-
-#else
-
-struct LogBase : public RC<thread_safe_refcount>
-{
-    typedef RCPtr<LogBase> Ptr;
-    virtual void log(const std::string &str) = 0;
-};
-
-#endif
-} // namespace openvpn
-
 #include <openvpn/log/logthread.hpp>
-
-#endif

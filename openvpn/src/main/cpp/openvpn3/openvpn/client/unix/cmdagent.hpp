@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Transmit TunBuilderCapture object (as JSON) to a unix
 // domain socket server that will establish tunnel.
@@ -148,10 +138,10 @@ class UnixCommandAgent : public TunBuilderSetup::Factory
         }
 
       private:
-        virtual int establish(const TunBuilderCapture &pull, // defined by TunBuilderSetup::Base
-                              TunBuilderSetup::Config *tbs_config,
-                              Stop *stop,
-                              std::ostream &os) override
+        int establish(const TunBuilderCapture &pull, // defined by TunBuilderSetup::Base
+                      TunBuilderSetup::Config *tbs_config,
+                      Stop *stop,
+                      std::ostream &os) override
         {
             os << "SetupClient: transmitting tun setup list to " << config->uds_name << std::endl;
 
@@ -223,7 +213,7 @@ class UnixCommandAgent : public TunBuilderSetup::Factory
             return tun_fd.release();
         }
 
-        virtual void destroy(std::ostream &os) override // defined by DestructorBase
+        void destroy(std::ostream &os) override // defined by DestructorBase
         {
             os << "SetupClient: transmitting tun destroy request to " << config->uds_name << std::endl;
 
@@ -293,7 +283,7 @@ class UnixCommandAgent : public TunBuilderSetup::Factory
         Config::Ptr config;
     };
 
-    virtual TunBuilderSetup::Base::Ptr new_setup_obj() override
+    TunBuilderSetup::Base::Ptr new_setup_obj() override
     {
         if (config)
             return new SetupClient(config);

@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2013-2023 Heiko Hund <heiko.hund@sophos.com>
+ *  Copyright (C) 2013-2024 Heiko Hund <heiko.hund@sophos.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -31,17 +31,16 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include <winsock2.h>
 #include <windows.h>
 #include <stdlib.h>
 #include <tchar.h>
+#include "../tapctl/basic.h"
 
-#define APPNAME  TEXT(PACKAGE "serv")
-#define SERVICE_DEPENDENCIES  TAP_WIN_COMPONENT_ID "\0Dhcp\0\0"
+#define APPNAME  TEXT(PACKAGE) TEXT("serv")
+#define SERVICE_DEPENDENCIES  TEXT(TAP_WIN_COMPONENT_ID) TEXT("\0Dhcp\0\0")
 
 /*
  * Message handling
@@ -83,12 +82,6 @@ VOID WINAPI ServiceStartInteractiveOwn(DWORD argc, LPTSTR *argv);
 
 VOID WINAPI ServiceStartInteractive(DWORD argc, LPTSTR *argv);
 
-BOOL openvpn_vsntprintf(LPTSTR str, size_t size, LPCTSTR format, va_list arglist);
-
-BOOL openvpn_sntprintf(LPTSTR str, size_t size, LPCTSTR format, ...);
-
-BOOL openvpn_swprintf(wchar_t *const str, const size_t size, const wchar_t *const format, ...);
-
 DWORD GetOpenvpnSettings(settings_t *s);
 
 BOOL ReportStatusToSCMgr(SERVICE_STATUS_HANDLE service, SERVICE_STATUS *status);
@@ -97,8 +90,40 @@ LPCTSTR GetLastErrorText();
 
 DWORD MsgToEventLog(DWORD flags, LPCTSTR lpszMsg, ...);
 
-/* Convert a utf8 string to utf16. Caller should free the result */
-wchar_t *utf8to16(const char *utf8);
+/**
+ * Convert a UTF-8 string to UTF-16
+ *
+ * The size parameter can be used to convert strings which contain inline NUL
+ * characters, like MULTI_SZ strings used as values in the registry do,
+ * or (sub)strings that are not zero terminated. If size is -1 the length
+ * of the string is determined automatically by the WIN32 API. Make sure
+ * you pass a terminated string or else bad things will happen. Note that
+ * the size you pass should always include the terminating zero as well.
+ *
+ * If the returned string is not NULL it must be freed by the caller.
+ *
+ * @param utf8  const string to be converted
+ * @param size  the size of the string
+ *
+ * @return wchar_t* heap allocated result string
+ */
+wchar_t *utf8to16_size(const char *utf8, int size);
+
+/**
+ * Convert a zero terminated UTF-8 string to UTF-16
+ *
+ * This is just a wrapper function that always passes -1 as string size
+ * to \ref utf8to16_size.
+ *
+ * @param utf8  const string to be converted
+ *
+ * @return wchar_t* heap allocated result string
+ */
+static inline wchar_t *
+utf8to16(const char *utf8)
+{
+    return utf8to16_size(utf8, -1);
+}
 
 /* return windows system directory as a pointer to a static string */
 const wchar_t *get_win_sys_path(void);

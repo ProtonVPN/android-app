@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // General-purpose options parser, used to parse the OpenVPN configuration
 // file as well as the server-pushed options list.  Note that these classes
@@ -103,7 +93,7 @@ class Option
     }
 
     template <typename T, typename... Args>
-    Option(T first, Args... args)
+    explicit Option(T first, Args... args)
     {
         reserve(1 + sizeof...(args));
         from_list(std::move(first), std::forward<Args>(args)...);
@@ -140,14 +130,14 @@ class Option
     {
         const size_t s = data.size();
         if (s < n)
-            OPENVPN_THROW(option_error, err_ref() << " must have at least " << (n - 1) << " arguments");
+            OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, err_ref() << " must have at least " << (n - 1) << " arguments");
     }
 
     void exact_args(const size_t n) const
     {
         const size_t s = data.size();
         if (s != n)
-            OPENVPN_THROW(option_error, err_ref() << " must have exactly " << n << " arguments");
+            OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, err_ref() << " must have exactly " << n << " arguments");
     }
 
     void validate_arg(const size_t index, const size_t max_len) const
@@ -156,7 +146,7 @@ class Option
         {
             const validate_status status = validate(data[index], max_len);
             if (status != STATUS_GOOD)
-                OPENVPN_THROW(option_error, err_ref() << " is " << validate_status_description(status));
+                OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, err_ref() << " is " << validate_status_description(status));
         }
     }
 
@@ -176,7 +166,7 @@ class Option
     {
         const validate_status status = validate(str, max_len);
         if (status != STATUS_GOOD)
-            OPENVPN_THROW(option_error, name << " is " << validate_status_description(status));
+            OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, name << " is " << validate_status_description(status));
     }
 
     std::string printable_directive() const
@@ -237,10 +227,10 @@ class Option
         if (numstr.length() >= 2 && numstr[0] == '0' && numstr[1] == 'x')
         {
             if (!parse_hex_number(numstr.substr(2), n))
-                OPENVPN_THROW(option_error, err_ref() << '[' << idx << "] expecting a hex number");
+                OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, err_ref() << '[' << idx << "] expecting a hex number");
         }
         else if (!parse_number<T_nonconst>(numstr, n))
-            OPENVPN_THROW(option_error, err_ref() << '[' << idx << "] must be a number");
+            OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, err_ref() << '[' << idx << "] must be a number");
         return n;
     }
 
@@ -489,7 +479,7 @@ class Option
     template <typename T>
     void range_error(const size_t idx, const T min_value, const T max_value) const
     {
-        OPENVPN_THROW(option_error, err_ref() << '[' << idx << "] must be in the range [" << min_value << ',' << max_value << ']');
+        OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, err_ref() << '[' << idx << "] must be in the range [" << min_value << ',' << max_value << ']');
     }
 
     bool must_quote_string(const std::string &str, const bool csv) const
@@ -540,13 +530,10 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
     typedef StandardLex Lex;
 
     // special lex filter that recognizes end-of-line comments
-    class LexComment
+    class LexComment : public LexQuoteMixin
     {
       public:
-        LexComment()
-            : in_quote_(false), in_comment(false), backslash(false), ch(-1)
-        {
-        }
+        LexComment() = default;
 
         void put(char c)
         {
@@ -564,12 +551,11 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
                 backslash = true;
                 ch = -1;
             }
-            else if (c == '\"')
+            else if (handle_quote(c))
             {
-                in_quote_ = !in_quote_;
                 ch = -1;
             }
-            else if (is_comment(c) && !in_quote_)
+            else if (is_comment(c) && !in_quote())
             {
                 in_comment = true;
                 ch = -1;
@@ -593,16 +579,10 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
             ch = -1;
         }
 
-        bool in_quote() const
-        {
-            return in_quote_;
-        }
-
       private:
-        bool in_quote_;
-        bool in_comment;
-        bool backslash;
-        int ch;
+        bool in_comment = false;
+        bool backslash = false;
+        int ch = -1;
     };
 
     class Limits
@@ -672,7 +652,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
 
         void error()
         {
-            throw option_error(err);
+            throw option_error(ERR_INVALID_CONFIG, err);
         }
 
         std::uint64_t bytes;
@@ -710,12 +690,22 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
             return key.length() + value.length();
         }
 
-        Option convert_to_option(Limits *lim) const
+        Option convert_to_option(Limits *lim, const std::string &meta_prefix) const
         {
             bool newline_present = false;
             Option opt;
             const std::string unesc_value = unescape(value, newline_present);
-            opt.push_back(key);
+
+            if (string::starts_with(key, meta_prefix))
+            {
+                opt.push_back(std::string(key, meta_prefix.length()));
+                opt.set_meta();
+            }
+            else
+            {
+                opt.push_back(key);
+            }
+
             if (newline_present || singular_arg(key))
                 opt.push_back(unesc_value);
             else if (unesc_value != "NOARGS")
@@ -966,14 +956,17 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
 
     // caller may want to call list.preprocess() before this function
     // caller should call update_map() after this function
-    void parse_from_key_value_list(const KeyValueList &list, Limits *lim)
+    void parse_from_key_value_list(const KeyValueList &list, const std::string &meta_tag, Limits *lim)
     {
+        const std::string meta_prefix = meta_tag + "_";
+
         for (KeyValueList::const_iterator i = list.begin(); i != list.end(); ++i)
         {
             const KeyValue &kv = **i;
             if (lim)
                 lim->add_bytes(kv.combined_length());
-            const Option opt = kv.convert_to_option(lim);
+
+            Option opt = kv.convert_to_option(lim, meta_prefix);
             if (lim)
             {
                 lim->add_opt();
@@ -1036,7 +1029,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
                             extraneous_err(line_num, "option", opt);
                         untag_open_tag(opt.ref(0));
                         opt.push_back("");
-                        multiline = opt;
+                        multiline = std::move(opt);
                         in_multiline = true;
                     }
                     else
@@ -1104,7 +1097,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
                                 extraneous_err(line_num, "meta option", opt);
                             untag_open_meta_tag(opt.ref(0));
                             opt.push_back("");
-                            multiline = opt;
+                            multiline = std::move(opt);
                             in_multiline = true;
                         }
                         else
@@ -1224,7 +1217,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
                 return ret;
             }
             else
-                OPENVPN_THROW(option_error, "more than one instance of option '" << name << '\'');
+                OPENVPN_THROW_ARG1(option_error, ERR_INVALID_CONFIG, "more than one instance of option '" << name << '\'');
         }
         else
             return nullptr;
@@ -1246,7 +1239,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
                     const Option *other = &(*this)[e->second[i]];
                     other->touch();
                     if (*other != *first)
-                        OPENVPN_THROW(option_error, "more than one instance of option '" << name << "' with inconsistent argument(s)");
+                        OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, "more than one instance of option '" << name << "' with inconsistent argument(s)");
                 }
             }
             return first;
@@ -1264,7 +1257,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
         if (o)
             return *o;
         else
-            OPENVPN_THROW(option_error, "option '" << name << "' not found");
+            OPENVPN_THROW_ARG1(option_error, ERR_INVALID_CONFIG, "option '" << name << "' not found");
     }
 
     // Get the list of options having the same name (by index),
@@ -1275,7 +1268,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
         if (e != map_.end() && !e->second.empty())
             return e->second;
         else
-            OPENVPN_THROW(option_error, "option '" << name << "' not found");
+            OPENVPN_THROW_ARG1(option_error, ERR_INVALID_CONFIG, "option '" << name << "' not found");
     }
 
     // Get the list of options having the same name (by index),
@@ -1304,7 +1297,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
                 if (o.size() == 2)
                     size += o.ref(1).length() + 1;
                 else
-                    OPENVPN_THROW(option_error, "option '" << name << "' (" << o.size() << ") must have exactly one parameter");
+                    OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, "option '" << name << "' (" << o.size() << ") must have exactly one parameter");
             }
             ret.reserve(size);
             for (i = il->begin(); i != il->end(); ++i)
@@ -1649,7 +1642,7 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
     static void detect_multiline_breakout(const std::string &opt, const std::string &tag)
     {
         if (detect_multiline_breakout_nothrow(opt, tag))
-            throw option_error("multiline breakout detected");
+            throw option_error(ERR_INVALID_CONFIG, "multiline breakout detected");
     }
 
   private:
@@ -1677,17 +1670,17 @@ class OptionList : public std::vector<Option>, public RCCopyable<thread_unsafe_r
 
     static void extraneous_err(const int line_num, const char *type, const Option &opt)
     {
-        OPENVPN_THROW(option_error, "line " << line_num << ": " << type << " <" << opt.printable_directive() << "> is followed by extraneous text");
+        OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, "line " << line_num << ": " << type << " <" << opt.printable_directive() << "> is followed by extraneous text");
     }
 
     static void not_closed_out_err(const char *type, const Option &opt)
     {
-        OPENVPN_THROW(option_error, type << " <" << opt.printable_directive() << "> was not properly closed out");
+        OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, type << " <" << opt.printable_directive() << "> was not properly closed out");
     }
 
     static void line_too_long(const int line_num)
     {
-        OPENVPN_THROW(option_error, "line " << line_num << " is too long");
+        OPENVPN_THROW_ARG1(option_error, ERR_INVALID_OPTION_VAL, "line " << line_num << " is too long");
     }
 
     void from_list(Option opt)

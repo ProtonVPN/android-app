@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Generates ICMP "packet too big" response
 
@@ -64,7 +54,7 @@ class Ptb
     static void generate_icmp6_ptb(BufferAllocated &buf, std::uint16_t nexthop_mtu)
     {
         // ICMPv6 data includes original IPv6 header and as many bytes of payload as possible
-        int data_size = std::min(buf.length(), (size_t)(nexthop_mtu - sizeof(ICMPv6)));
+        auto data_size = std::min(buf.length(), std::max(sizeof(ICMPv6), static_cast<size_t>(nexthop_mtu) - sizeof(ICMPv6)));
 
         // sanity check
         // we use headroom for adding IPv6 + ICMPv6 headers
@@ -81,7 +71,7 @@ class Ptb
         icmp->head.flow_lbl[0] = 0;
         icmp->head.flow_lbl[1] = 0;
         icmp->head.flow_lbl[2] = 0;
-        icmp->head.payload_len = htons(sizeof(ICMPv6) - sizeof(IPv6Header) + data_size);
+        icmp->head.payload_len = htons(static_cast<uint16_t>(sizeof(ICMPv6) - sizeof(IPv6Header) + data_size));
         icmp->head.nexthdr = IPCommon::ICMPv6;
         icmp->head.hop_limit = 64;
         icmp->head.saddr = ipv6->daddr;
@@ -100,7 +90,7 @@ class Ptb
     static void generate_icmp4_ptb(BufferAllocated &buf, std::uint16_t nexthop_mtu)
     {
         // ICMP data includes original IP header and first 8 bytes of payload
-        int data_size = sizeof(IPv4Header) + ICMPv4::MIN_DATA_SIZE;
+        auto data_size = sizeof(IPv4Header) + ICMPv4::MIN_DATA_SIZE;
 
         // sanity check
         // we use headroom for adding IPv4 + ICMPv4 headers
@@ -116,7 +106,7 @@ class Ptb
         icmp->head.daddr = ipv4->saddr;
         icmp->head.version_len = IPv4Header::ver_len(IPCommon::IPv4, sizeof(IPv4Header));
         icmp->head.tos = 0;
-        icmp->head.tot_len = htons(sizeof(ICMPv4) + data_size);
+        icmp->head.tot_len = htons(static_cast<uint16_t>(sizeof(ICMPv4) + data_size));
         icmp->head.id = 0;
         icmp->head.frag_off = 0;
         icmp->head.ttl = 64;

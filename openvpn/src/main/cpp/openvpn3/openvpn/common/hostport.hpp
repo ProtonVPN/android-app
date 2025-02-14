@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMMON_HOSTPORT_H
 #define OPENVPN_COMMON_HOSTPORT_H
@@ -26,11 +16,9 @@
 
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/number.hpp>
-#include <openvpn/common/options.hpp>
 #include <openvpn/common/unicode.hpp>
 
-namespace openvpn {
-namespace HostPort {
+namespace openvpn::HostPort {
 OPENVPN_EXCEPTION(host_port_error);
 
 inline bool is_valid_port(const unsigned int port)
@@ -147,7 +135,6 @@ inline bool split_host_port(const std::string &str,
         return is_valid_host(host) && is_valid_port(port, port_save);
 }
 
-} // namespace HostPort
-} // namespace openvpn
+} // namespace openvpn::HostPort
 
 #endif

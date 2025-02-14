@@ -10,11 +10,10 @@ import android.content.Intent;
 import android.net.LocalServerSocket;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
-import android.os.Build;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
+
 import android.system.Os;
 import android.util.Log;
 import de.blinkt.openvpn.R;
@@ -47,12 +46,12 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
     private pauseReason lastPauseReason = pauseReason.noNetwork;
     private PausedStateCallback mPauseCallback;
     private boolean mShuttingDown;
-    private Runnable mResumeHoldRunnable = () -> {
+    private final Runnable mResumeHoldRunnable = () -> {
         if (shouldBeRunning()) {
             releaseHoldCmd();
         }
     };
-    private Runnable orbotStatusTimeOutRunnable = new Runnable() {
+    private final Runnable orbotStatusTimeOutRunnable = new Runnable() {
         @Override
         public void run() {
             sendProxyCMD(Connection.ProxyType.SOCKS5, "127.0.0.1", Integer.toString(OrbotHelper.SOCKS_PROXY_PORT_DEFAULT), false);
@@ -148,8 +147,6 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
             VpnStatus.logException(e);
         }
         return false;
-
-
     }
 
     /**
@@ -402,7 +399,7 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
             if (waittime > 1)
                 VpnStatus.updateStateString("CONNECTRETRY", String.valueOf(waittime),
                         R.string.state_waitconnectretry, ConnectionStatus.LEVEL_CONNECTING_NO_SERVER_REPLY_YET);
-            mResumeHandler.postDelayed(mResumeHoldRunnable, waittime * 1000);
+            mResumeHandler.postDelayed(mResumeHoldRunnable, waittime * 1000L);
             if (waittime > 5)
                 VpnStatus.logInfo(R.string.state_waitconnectretry, String.valueOf(waittime));
             else
@@ -550,7 +547,7 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
                 mOpenVPNService.addDNS(extra);
                 break;
             case "DNSDOMAIN":
-                mOpenVPNService.setDomain(extra);
+                mOpenVPNService.addSearchDomain(extra);
                 break;
             case "ROUTE": {
                 String[] routeparts = extra.split(" ");
@@ -618,14 +615,8 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
         managmentCommand(cmd);
     }
 
-    private boolean sendTunFD(String needed, String extra) {
-        if (!extra.equals("tun")) {
-            // We only support tun
-            VpnStatus.logError(String.format("Device type %s requested, but only tun is possible with the Android API, sorry!", extra));
 
-            return false;
-        }
-        ParcelFileDescriptor pfd = mOpenVPNService.openTun();
+    private boolean sendCommandWithFd(String cmd, ParcelFileDescriptor pfd) {
         if (pfd == null)
             return false;
 
@@ -638,26 +629,38 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
             setInt.invoke(fdtosend, fdint);
 
             FileDescriptor[] fds = {fdtosend};
-            mSocket.setFileDescriptorsForSend(fds);
 
             // Trigger a send so we can close the fd on our side of the channel
             // The API documentation fails to mention that it will not reset the file descriptor to
             // be send and will happily send the file descriptor on every write ...
-            String cmd = String.format("needok '%s' %s\n", needed, "ok");
+            mSocket.setFileDescriptorsForSend(fds);
+
             managmentCommand(cmd);
 
             // Set the FileDescriptor to null to stop this mad behavior
             mSocket.setFileDescriptorsForSend(null);
-
             pfd.close();
 
-            return true;
-        } catch (NoSuchMethodException | IllegalArgumentException | InvocationTargetException |
-                IOException | IllegalAccessException exp) {
-            VpnStatus.logException("Could not send fd over socket", exp);
-        }
 
-        return false;
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException |
+                 IOException exp) {
+            VpnStatus.logException("Could not send fd over socket", exp);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean sendTunFD(String needed, String extra) {
+        if (!extra.equals("tun")) {
+            // We only support tun
+            VpnStatus.logError(String.format("Device type %s requested, but only tun is possible with the Android API, sorry!", extra));
+
+            return false;
+        }
+        ParcelFileDescriptor pfd = mOpenVPNService.openTun();
+
+        String cmd = String.format("needok '%s' %s\n", needed, "ok");
+        return sendCommandWithFd(cmd, pfd);
     }
 
     private void processPWCommand(String argument) {

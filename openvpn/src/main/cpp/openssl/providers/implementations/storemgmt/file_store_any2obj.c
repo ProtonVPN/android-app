@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -125,7 +125,7 @@ static int msblob2obj_decode(void *provctx, OSSL_CORE_BIO *cin, int selection,
     mem_want = 16;               /* The size of the MSBLOB header */
     if ((mem = BUF_MEM_new()) == NULL
         || !BUF_MEM_grow(mem, mem_want)) {
-        ERR_raise(ERR_LIB_PEM, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_PEM, ERR_R_BUF_LIB);
         goto err;
     }
 
@@ -147,7 +147,7 @@ static int msblob2obj_decode(void *provctx, OSSL_CORE_BIO *cin, int selection,
     ok = 0;
     mem_want = ossl_blob_length(bitlen, isdss, ispub);
     if (!BUF_MEM_grow(mem, mem_len + mem_want)) {
-        ERR_raise(ERR_LIB_PEM, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_PEM, ERR_R_BUF_LIB);
         goto err;
     }
 
@@ -192,7 +192,7 @@ static int pvk2obj_decode(void *provctx, OSSL_CORE_BIO *cin, int selection,
     mem_want = 24;               /* The size of the PVK header */
     if ((mem = BUF_MEM_new()) == NULL
         || !BUF_MEM_grow(mem, mem_want)) {
-        ERR_raise(ERR_LIB_PEM, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_PEM, ERR_R_BUF_LIB);
         goto err;
     }
 
@@ -214,7 +214,7 @@ static int pvk2obj_decode(void *provctx, OSSL_CORE_BIO *cin, int selection,
     ok = 0;
     mem_want = saltlen + keylen;
     if (!BUF_MEM_grow(mem, mem_len + mem_want)) {
-        ERR_raise(ERR_LIB_PEM, ERR_R_MALLOC_FAILURE);
+        ERR_raise(ERR_LIB_PEM, ERR_R_BUF_LIB);
         goto err;
     }
 
@@ -246,7 +246,7 @@ static int pvk2obj_decode(void *provctx, OSSL_CORE_BIO *cin, int selection,
         { OSSL_FUNC_DECODER_NEWCTX, (void (*)(void))any2obj_newctx },        \
         { OSSL_FUNC_DECODER_FREECTX, (void (*)(void))any2obj_freectx },      \
         { OSSL_FUNC_DECODER_DECODE, (void (*)(void))fromtype##2obj_decode }, \
-        { 0, NULL }                                                          \
+        OSSL_DISPATCH_END                                                    \
     }
 
 MAKE_DECODER(der, OSSL_OBJECT_UNKNOWN);

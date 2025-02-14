@@ -4,25 +4,16 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //    Copyright (C) 2019-2022 David Sommerseth <davids@openvpn.net>
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
+
 //
 
 #include <iostream>
-#include "test_common.h"
+#include "test_common.hpp"
 #include "openvpn/client/cliconstants.hpp"
 #include "openvpn/common/options.hpp"
 #include "openvpn/ssl/verify_x509_name.hpp"
@@ -82,6 +73,14 @@ TEST(VerifyX509Name, config_correct_name)
     // Correct - type: name
     std::string config = "verify-x509-name localhost name";
     VerifyX509Name ok_name(parse_testcfg(config));
+}
+
+TEST(VerifyX509Name, config_squote)
+{
+    // ensure that single quote is not treated as name part
+    std::string config = "verify-x509-name 'server.example.org'";
+    VerifyX509Name verify(parse_testcfg(config));
+    ASSERT_TRUE(verify.verify("server.example.org"));
 }
 
 TEST(VerifyX509Name, config_correct_name_prefix)

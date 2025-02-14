@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_PKI_PKCS1_H
 #define OPENVPN_PKI_PKCS1_H
@@ -27,10 +17,8 @@
 #include <openvpn/common/size.hpp>
 #include <openvpn/buffer/buffer.hpp>
 
-namespace openvpn {
-namespace PKCS1 {
 // from http://www.ietf.org/rfc/rfc3447.txt
-namespace DigestPrefix { // CONST GLOBAL
+namespace openvpn::PKCS1::DigestPrefix { // CONST GLOBAL
 namespace {
 // clang-format off
 const unsigned char MD2[] = {
@@ -68,6 +56,10 @@ const unsigned char SHA512[] = {
 // clang-format on
 } // namespace
 
+/**
+ * Class that parses an PKCS #1 header (RFC 3447) to identify the used digest type
+ * @tparam T    the type of the crypto library that used should be used for the digest algorithm identification
+ */
 template <typename T>
 class Parse
 {
@@ -81,6 +73,23 @@ class Parse
           const T sha512)
         : none_(none),
           md2_(md2),
+          md5_(md5),
+          sha1_(sha1),
+          sha256_(sha256),
+          sha384_(sha384),
+          sha512_(sha512)
+    {
+    }
+
+    /** Constructor for TLS libraries that no longer support MD2  */
+    Parse(const T none,
+          const T md5,
+          const T sha1,
+          const T sha256,
+          const T sha384,
+          const T sha512)
+        : none_(none),
+          md2_(none),
           md5_(md5),
           sha1_(sha1),
           sha256_(sha256),
@@ -123,8 +132,6 @@ class Parse
 
     const T none_, md2_, md5_, sha1_, sha256_, sha384_, sha512_;
 };
-} // namespace DigestPrefix
-} // namespace PKCS1
-} // namespace openvpn
+} // namespace openvpn::PKCS1::DigestPrefix
 
 #endif

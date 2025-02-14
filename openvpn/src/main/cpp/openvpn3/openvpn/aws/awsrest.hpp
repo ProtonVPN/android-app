@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // AWS REST API query utilities such as query signing
 
@@ -36,8 +26,7 @@
 #include <openvpn/crypto/digestapi.hpp>
 #include <openvpn/aws/awscreds.hpp>
 
-namespace openvpn {
-namespace AWS {
+namespace openvpn::AWS {
 class REST
 {
   public:
@@ -243,10 +232,7 @@ class REST
             return date.substr(0, 8) + '/' + region + '/' + service + "/aws4_request";
         }
 
-        virtual ~QueryBuilder()
-        {
-        }
+        virtual ~QueryBuilder() = default;
     };
 };
-} // namespace AWS
-} // namespace openvpn
+} // namespace openvpn::AWS

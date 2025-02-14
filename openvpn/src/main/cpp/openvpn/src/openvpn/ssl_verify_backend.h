@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *  Copyright (C) 2010-2021 Fox Crypto B.V. <openvpn@foxcrypto.com>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,8 @@
  */
 
 /**
- * @file Control Channel Verification Module library-specific backend interface
+ * @file
+ * Control Channel Verification Module library-specific backend interface
  */
 
 #ifndef SSL_VERIFY_BACKEND_H_
@@ -161,6 +162,17 @@ char *backend_x509_get_serial_hex(openvpn_x509_cert_t *cert,
                                   struct gc_arena *gc);
 
 /*
+ * Write the certificate to the file in PEM format.
+ *
+ *
+ * @param cert          Certificate to serialise.
+ *
+ * @return              \c FAILURE, \c or SUCCESS
+ */
+result_t backend_x509_write_pem(openvpn_x509_cert_t *cert,
+                                const char *filename);
+
+/*
  * Save X509 fields to environment, using the naming convention:
  *
  * X509_{cert_depth}_{name}={value}
@@ -249,17 +261,6 @@ result_t x509_verify_cert_ku(openvpn_x509_cert_t *x509, const unsigned *const ex
  */
 result_t x509_verify_cert_eku(openvpn_x509_cert_t *x509, const char *const expected_oid);
 
-/*
- * Store the given certificate in pem format in a temporary file in tmp_dir
- *
- * @param cert          Certificate to store
- * @param tmp_dir       Temporary directory to store the directory
- * @param gc            gc_arena to store temporary objects in
- *
- *
- */
-result_t x509_write_pem(FILE *peercert_file, openvpn_x509_cert_t *peercert);
-
 /**
  * Return true iff a CRL is configured, but is not loaded.  This can be caused
  * by e.g. a CRL parsing error, a missing CRL file or CRL file permission
@@ -267,12 +268,5 @@ result_t x509_write_pem(FILE *peercert_file, openvpn_x509_cert_t *peercert);
  * updated and reloaded during runtime.)
  */
 bool tls_verify_crl_missing(const struct tls_options *opt);
-
-/**
- * Return true iff {host} was found in {cert} Subject Alternative Names DNS or IP entries.
- * If {has_alt_names} != NULL it'll return true iff Subject Alternative Names were defined
- * for {cert}.
- */
-bool x509v3_is_host_in_alternative_names(openvpn_x509_cert_t *cert, const char *host, bool *has_alt_names);
 
 #endif /* SSL_VERIFY_BACKEND_H_ */

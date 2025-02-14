@@ -4,39 +4,28 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
 // Get info about named pipe peer
 
+#include <cstdlib> // defines std::abort()
 #include <windows.h>
 #include <sddl.h>
 #include <aclapi.h>
 
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/hexstr.hpp>
-#include <openvpn/common/abort.hpp>
 #include <openvpn/buffer/buffer.hpp>
 #include <openvpn/win/winerr.hpp>
 #include <openvpn/win/scoped_handle.hpp>
 #include <openvpn/win/secattr.hpp>
 
-namespace openvpn {
-namespace Win {
+namespace openvpn::Win {
 struct NamedPipeImpersonate
 {
     OPENVPN_EXCEPTION(named_pipe_impersonate);
@@ -69,11 +58,7 @@ struct NamedPipePeerInfo
     {
         // open process
         Win::ScopedHANDLE proc(::OpenProcess(
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
             limited ? (PROCESS_QUERY_LIMITED_INFORMATION | SYNCHRONIZE) : PROCESS_ALL_ACCESS,
-#else
-            PROCESS_ALL_ACCESS,
-#endif
             FALSE,
             pid));
         if (!proc.defined())
@@ -83,8 +68,6 @@ struct NamedPipePeerInfo
         }
         return proc;
     }
-
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
 
     // Servers must call this method to modify their process
     // access rights to grant clients the
@@ -163,11 +146,7 @@ struct NamedPipePeerInfo
         }
         return std::wstring(exe, exe_size);
     }
-
-#endif
 };
-
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
 
 struct NamedPipePeerInfoCS : public NamedPipePeerInfo
 {
@@ -200,7 +179,4 @@ struct NamedPipePeerInfoServer : public NamedPipePeerInfoCS
     }
 };
 
-#endif
-
-} // namespace Win
-} // namespace openvpn
+} // namespace openvpn::Win

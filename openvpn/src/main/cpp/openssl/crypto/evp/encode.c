@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2020 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -443,7 +443,7 @@ static int evp_decodeblock_int(EVP_ENCODE_CTX *ctx, unsigned char *t,
         b = conv_ascii2bin(*(f++), table);
         c = conv_ascii2bin(*(f++), table);
         d = conv_ascii2bin(*(f++), table);
-        if ((a & 0x80) || (b & 0x80) || (c & 0x80) || (d & 0x80))
+        if ((a | b | c | d) & 0x80)
             return -1;
         l = ((((unsigned long)a) << 18L) |
              (((unsigned long)b) << 12L) |

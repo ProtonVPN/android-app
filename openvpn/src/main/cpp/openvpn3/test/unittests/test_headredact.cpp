@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 
 // #define OPENVPN_HTTP_HEADERS_NO_REDACT
 

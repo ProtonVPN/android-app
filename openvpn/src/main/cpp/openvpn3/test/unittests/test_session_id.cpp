@@ -1,4 +1,4 @@
-#include "test_common.h"
+#include "test_common.hpp"
 
 #include <openvpn/common/sess_id.hpp>
 #include <openvpn/openssl/util/tokenencrypt.hpp>
@@ -9,7 +9,7 @@ using namespace openvpn;
 
 TEST(sessid, test1)
 {
-    SSLLib::RandomAPI rng(false);
+    SSLLib::RandomAPI rng;
 
     // test 1
     {
@@ -38,7 +38,7 @@ TEST(sessid, test1)
 }
 TEST(sessid, test2)
 {
-    SSLLib::RandomAPI rng(false);
+    SSLLib::RandomAPI rng;
     {
         const SessionID64 sid1(rng);
         // std::cout << "SID1: " << sid1 << std::endl;
@@ -60,7 +60,7 @@ TEST(sessid, test3)
 
 TEST(sessid, test4)
 {
-    SSLLib::RandomAPI rng(false);
+    SSLLib::RandomAPI rng;
     const SessionID128 x;
     const SessionID128 a("YmtN7B2edrDRlefk3vQ_YQ..");
     const SessionID128 b("YmtN7B2edrDRlefk3vQ_YA..");
@@ -97,7 +97,7 @@ TEST(sessid, test4)
 
 TEST(sessid, speed)
 {
-    SSLLib::RandomAPI rng(false);
+    SSLLib::RandomAPI rng;
 
     const SessionID128 sid(rng);
     const TokenEncrypt::Key key(rng);
@@ -117,8 +117,8 @@ struct SessionID : public SessionID128
         // dump("default");
     }
 
-    SessionID(RandomAPI &rng)
-        : SessionID128(rng, true)
+    SessionID(StrongRandomAPI &rng)
+        : SessionID128(rng)
     {
         // dump("rng");
     }
@@ -137,7 +137,7 @@ struct SessionID : public SessionID128
 class Session
 {
   public:
-    Session(RandomAPI &rng)
+    Session(StrongRandomAPI &rng)
         : sid(rng)
     {
     }
@@ -160,9 +160,9 @@ std::string test(Session *session)
 
 TEST(sessid, refscope1)
 {
-    MTRand rng(123456789);
-    Session sess(rng);
-    EXPECT_EQ("Name: myname SessID: DsiRkfGnT1l1WtMoM59SRA..", test(&sess));
+    FakeSecureRand fake_rng(0x42);
+    Session sess(fake_rng);
+    EXPECT_EQ("Name: myname SessID: QkNERUZHSElKS0xNTk9QUQ..", test(&sess));
     EXPECT_EQ("Name: myname SessID: AAAAAAAAAAAAAAAAAAAAAA..", test(nullptr));
 }
 
@@ -184,7 +184,7 @@ static void tryit(RandomAPI &rng, TokenEncryptDecrypt &encdec)
 
 TEST(sessid, tokenEncrypt)
 {
-    RandomAPI::Ptr rng(new SSLLib::RandomAPI(false));
+    StrongRandomAPI::Ptr rng(new SSLLib::RandomAPI());
     const TokenEncrypt::Key key(*rng);
     TokenEncryptDecrypt encdec(key);
 

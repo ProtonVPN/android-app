@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // OpenVPN agent for Windows
 
@@ -28,9 +18,6 @@
 #include <utility>
 
 #include <openvpn/io/io.hpp>
-
-// debug settings (production setting in parentheses)
-#define OPENVPN_LOG_SSL(x) OPENVPN_LOG(x)
 
 #include <openvpn/common/stringize.hpp>
 // VERSION version can be passed on build command line
@@ -103,7 +90,7 @@ class MySessionStats : public SessionStats
   public:
     typedef RCPtr<MySessionStats> Ptr;
 
-    virtual void error(const size_t err_type, const std::string *text = nullptr) override
+    void error(const size_t err_type, const std::string *text = nullptr) override
     {
         OPENVPN_LOG(openvpn::Error::name(err_type));
     }
@@ -151,6 +138,7 @@ class MyListener : public WS::Server::Listener
 
     Win::ScopedHANDLE establish_tun(const TunBuilderCapture &tbc,
                                     const std::wstring &openvpn_app_path,
+                                    DWORD client_process_id,
                                     Stop *stop,
                                     std::ostream &os,
                                     TunWin::Type tun_type,
@@ -163,6 +151,7 @@ class MyListener : public WS::Server::Listener
         if ((tun_type == TunWin::OvpnDco) && (tap.index != DWORD(-1)))
             tun->set_adapter_state(tap);
 
+        tun->set_process_id(client_process_id);
         auto th = tun->establish(tbc, openvpn_app_path, stop, os, ring_buffer);
         // store VPN interface index to be able to exclude it
         // when next time adding bypass route
@@ -409,7 +398,8 @@ class MyListener : public WS::Server::Listener
         ActionList add_cmds;
         // we might have broken VPN connection up, so we must
         // exclude VPN interface whe searching for the best gateway
-        const TunWin::Util::BestGateway gw{host, vpn_interface_index};
+        ADDRESS_FAMILY af = ipv6 ? AF_INET6 : AF_INET;
+        const TunWin::Util::BestGateway gw{af, host, vpn_interface_index};
         TunWin::Setup::add_bypass_route(gw, host, ipv6, add_cmds, remove_cmds_bypass_hosts);
         add_cmds.execute(os);
 
@@ -498,7 +488,9 @@ class MyListener : public WS::Server::Listener
 
             // write management password to process's stdin
             DWORD written;
-            WriteFile(stdin_write, management_password.c_str(), management_password.length(), &written, NULL);
+            if (!is_safe_conversion<DWORD>(management_password.length()))
+                return;
+            WriteFile(stdin_write, management_password.c_str(), static_cast<DWORD>(management_password.length()), &written, NULL);
         }
     }
 #endif
@@ -509,21 +501,17 @@ class MyListener : public WS::Server::Listener
     TunWin::RingBuffer::Ptr ring_buffer;
 
   private:
-    virtual bool allow_client(AsioPolySock::Base &sock) override
+    bool allow_client(AsioPolySock::Base &sock) override
     {
         AsioPolySock::NamedPipe *np = dynamic_cast<AsioPolySock::NamedPipe *>(&sock);
         if (np)
         {
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
             Win::NamedPipePeerInfoClient npinfo(np->handle.native_handle());
             const std::string client_exe = wstring::to_utf8(npinfo.exe_path);
             OPENVPN_LOG("connection from " << client_exe);
             if (Agent::valid_pipe(client_exe, config.server_exe))
                 return true;
             OPENVPN_LOG(client_exe << " not recognized as a valid client");
-#else
-            return true;
-#endif
         }
         else
             OPENVPN_LOG("only named pipe clients are allowed");
@@ -551,13 +539,9 @@ class MyClientInstance : public WS::Server::Listener::Client
     MyClientInstance(WS::Server::Listener::Client::Initializer &ci)
         : WS::Server::Listener::Client(ci)
     {
-        // OPENVPN_LOG("INSTANCE START");
     }
 
-    virtual ~MyClientInstance()
-    {
-        // OPENVPN_LOG("INSTANCE DESTRUCT");
-    }
+    virtual ~MyClientInstance() = default;
 
   private:
     void generate_reply(const Json::Value &jout)
@@ -572,7 +556,7 @@ class MyClientInstance : public WS::Server::Listener::Client
         generate_reply_headers(ci);
     }
 
-    virtual void http_request_received() override
+    void http_request_received() override
     {
         // alloc output buffer
         std::ostringstream os;
@@ -580,6 +564,7 @@ class MyClientInstance : public WS::Server::Listener::Client
         try
         {
             const HANDLE client_pipe = get_client_pipe();
+            const DWORD client_pid = get_client_pid(client_pipe);
             const std::wstring client_exe = get_client_exe(client_pipe);
 
             const HTTP::Request &req = request();
@@ -637,6 +622,7 @@ class MyClientInstance : public WS::Server::Listener::Client
                     jout["tap_handle_hex"] = parent()->get_remote_tap_handle_hex();
 
                     auto tap = parent()->get_adapter_state();
+                    jout["adapter_guid"] = tap.guid;
                     jout["adapter_index"] = Json::Int(tap.index);
                     jout["adapter_name"] = tap.name;
 
@@ -711,12 +697,13 @@ class MyClientInstance : public WS::Server::Listener::Client
                     TunWin::Util::TapNameGuidPair tap;
                     if (tun_type == TunWin::OvpnDco)
                     {
+                        tap.guid = json::get_string(root, "adapter_guid");
                         tap.index = (DWORD)json::get_int(root, "adapter_index");
                         tap.name = json::get_string(root, "adapter_name");
                     }
 
                     // establish the tun setup object
-                    Win::ScopedHANDLE tap_handle(parent()->establish_tun(*tbc, client_exe, nullptr, os, tun_type, allow_local_dns_resolvers, tap));
+                    Win::ScopedHANDLE tap_handle(parent()->establish_tun(*tbc, client_exe, client_pid, nullptr, os, tun_type, allow_local_dns_resolvers, tap));
 
                     // post-establish impersonation
                     {
@@ -812,26 +799,26 @@ class MyClientInstance : public WS::Server::Listener::Client
         }
     }
 
-    virtual void http_content_in(BufferAllocated &buf) override
+    void http_content_in(BufferAllocated &buf) override
     {
         if (buf.defined())
-            in.emplace_back(new BufferAllocated(std::move(buf)));
+            in.emplace_back(BufferAllocatedRc::Create(std::move(buf)));
     }
 
-    virtual BufferPtr http_content_out() override
+    BufferPtr http_content_out() override
     {
         BufferPtr ret;
         ret.swap(out);
         return ret;
     }
 
-    virtual bool http_out_eof() override
+    bool http_out_eof() override
     {
         // OPENVPN_LOG("HTTP output EOF");
         return true;
     }
 
-    virtual bool http_stop(const int status, const std::string &description) override
+    bool http_stop(const int status, const std::string &description) override
     {
         if (status != WS::Server::Status::E_SUCCESS)
         {
@@ -850,21 +837,26 @@ class MyClientInstance : public WS::Server::Listener::Client
         return np->handle.native_handle();
     }
 
+    /**
+     * @brief Get the named pipe client process id
+     *
+     * @param client_pipe   The handle to the named pipe
+     * @return DWORD        The client process id
+     */
+    DWORD get_client_pid(const HANDLE client_pipe)
+    {
+        return NamedPipePeerInfo::get_pid(client_pipe, true);
+    }
+
     std::wstring get_client_exe(const HANDLE client_pipe)
     {
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
         Win::NamedPipePeerInfoClient npinfo(client_pipe);
         return npinfo.exe_path;
-#else
-        return std::wstring();
-#endif
     }
 
     Win::ScopedHANDLE get_client_process(const HANDLE pipe, ULONG pid_hint) const
     {
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
         pid_hint = Win::NamedPipePeerInfo::get_pid(pipe, true);
-#endif
         if (!pid_hint)
             throw Exception("cannot determine client PID");
         return Win::NamedPipePeerInfo::get_process(pid_hint, false);
@@ -884,7 +876,7 @@ class MyClientFactory : public WS::Server::Listener::Client::Factory
   public:
     typedef RCPtr<MyClientFactory> Ptr;
 
-    virtual WS::Server::Listener::Client::Ptr new_client(WS::Server::Listener::Client::Initializer &ci) override
+    WS::Server::Listener::Client::Ptr new_client(WS::Server::Listener::Client::Initializer &ci) override
     {
         return new MyClientInstance(ci);
     }
@@ -898,7 +890,7 @@ class MyService : public Win::Service
     {
     }
 
-    virtual void service_work(DWORD argc, LPWSTR *argv) override
+    void service_work(DWORD argc, LPWSTR *argv) override
     {
         if (is_service())
         {
@@ -920,10 +912,8 @@ class MyService : public Win::Service
 
         MyConfig conf;
 
-#if _WIN32_WINNT >= 0x0600 // Vista and higher
         Win::NamedPipePeerInfo::allow_client_query();
-        TunWin::NRPT::delete_rule(); // remove stale NRPT rules
-#endif
+        TunWin::NRPT::delete_rules(0); // remove stale NRPT rules
 
         WS::Server::Config::Ptr hconf = new WS::Server::Config();
         hconf->http_server_id = OVPNAGENT_NAME_STRING "/" HTTP_SERVER_VERSION;
@@ -964,7 +954,7 @@ class MyService : public Win::Service
 
     // Called by service control manager in another thread
     // to signal the service_work() method to exit.
-    virtual void service_stop() override
+    void service_stop() override
     {
         openvpn_io::post(*io_context, [this]()
                          {
@@ -981,9 +971,6 @@ class MyService : public Win::Service
         Config c;
         c.name = OVPNAGENT_NAME_STRING;
         c.display_name = "OpenVPN Agent " OVPNAGENT_NAME_STRING;
-#if _WIN32_WINNT < 0x0600                 // pre-Vista
-        c.dependencies.push_back("Dhcp"); // DHCP client
-#endif
         c.autostart = true;
         c.restart_on_fail = true;
         return c;

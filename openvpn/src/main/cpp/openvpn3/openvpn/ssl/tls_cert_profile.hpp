@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Parse the tls-cert-profile option.
 
@@ -30,8 +20,7 @@
 #include <openvpn/common/exception.hpp>
 #include <openvpn/common/options.hpp>
 
-namespace openvpn {
-namespace TLSCertProfile {
+namespace openvpn::TLSCertProfile {
 enum Type
 {
     UNDEF = 0,
@@ -86,7 +75,7 @@ inline Type parse_tls_cert_profile(const std::string &profile_name)
     else if (profile_name == "suiteb")
         return SUITEB;
     else
-        throw option_error("tls-cert-profile: unrecognized profile name");
+        throw option_error(ERR_INVALID_OPTION_CRYPTO, "tls-cert-profile: unrecognized profile name");
 }
 
 inline Type parse_tls_cert_profile(const OptionList &opt,
@@ -137,10 +126,9 @@ inline void apply_override(Type &type, const std::string &override)
     else if (override == "suiteb")
         type = SUITEB;
     else
-        throw option_error("tls-cert-profile: unrecognized override string");
+        throw option_error(ERR_INVALID_OPTION_CRYPTO, "tls-cert-profile: unrecognized override string");
     // OPENVPN_LOG("*** tls-cert-profile before=" << to_string(orig) << " override=" << override << " after=" << to_string(type));
 }
-} // namespace TLSCertProfile
-} // namespace openvpn
+} // namespace openvpn::TLSCertProfile
 
 #endif

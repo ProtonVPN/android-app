@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#elif defined(_MSC_VER)
-#include "config-msvc.h"
 #endif
 
 #include "syshead.h"
@@ -394,7 +392,6 @@ platform_mlockall(bool print_msg)
 int
 platform_chdir(const char *dir)
 {
-#ifdef HAVE_CHDIR
 #ifdef _WIN32
     int res;
     struct gc_arena gc = gc_new();
@@ -402,10 +399,11 @@ platform_chdir(const char *dir)
     gc_free(&gc);
     return res;
 #else  /* ifdef _WIN32 */
+#ifdef HAVE_CHDIR
     return chdir(dir);
-#endif
 #else  /* ifdef HAVE_CHDIR */
     return -1;
+#endif
 #endif
 }
 
@@ -485,19 +483,6 @@ platform_sleep_milliseconds(unsigned int n)
 #endif
 }
 
-/*
- * Go to sleep indefinitely.
- */
-void
-platform_sleep_until_signal(void)
-{
-#ifdef _WIN32
-    ASSERT(0);
-#else
-    select(0, NULL, NULL, NULL, NULL);
-#endif
-}
-
 /* delete a file, return true if succeeded */
 bool
 platform_unlink(const char *filename)
@@ -566,9 +551,9 @@ platform_create_temp_file(const char *directory, const char *prefix, struct gc_a
     {
         ++attempts;
 
-        if (!openvpn_snprintf(fname, sizeof(fname), fname_fmt, max_prefix_len,
-                              prefix, (unsigned long) get_random(),
-                              (unsigned long) get_random()))
+        if (!snprintf(fname, sizeof(fname), fname_fmt, max_prefix_len,
+                      prefix, (unsigned long) get_random(),
+                      (unsigned long) get_random()))
         {
             msg(M_WARN, "ERROR: temporary filename too long");
             return NULL;

@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_COMMON_SOCKOPT_H
 #define OPENVPN_COMMON_SOCKOPT_H
@@ -35,8 +25,7 @@
 
 #include <openvpn/common/exception.hpp>
 
-namespace openvpn {
-namespace SockOpt {
+namespace openvpn::SockOpt {
 
 #ifdef SO_REUSEPORT
 // set SO_REUSEPORT for inter-thread load balancing
@@ -77,8 +66,7 @@ static inline void set_nonblock(const int fd)
     if (::fcntl(fd, F_SETFL, O_NONBLOCK) < 0)
         throw Exception("error setting socket to non-blocking mode");
 }
-} // namespace SockOpt
-} // namespace openvpn
+} // namespace openvpn::SockOpt
 
 #endif
 #endif

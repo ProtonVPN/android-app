@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // This class will read a standard OpenVPN config file that might contain
 // references to other files, and it will merge the included files into the
@@ -268,7 +258,7 @@ class ProfileMerge
                     if (OptionList::is_open_tag(opt.ref(0)) && opt.size() == 1)
                     {
                         OptionList::untag_open_tag(opt.ref(0));
-                        multiline = opt;
+                        multiline = std::move(opt);
                         in_multiline = true;
                         unsigned int flags = 0; // not used
                         opaque_multiline = is_fileref_directive(multiline.ref(0), flags);
@@ -387,7 +377,7 @@ class ProfileMerge
 
                                     // save file we referenced
                                     if (ref_succeed_list_.size() < MAX_FN_LIST_SIZE)
-                                        ref_succeed_list_.push_back(path);
+                                        ref_succeed_list_.push_back(std::move(path));
                                 }
                             }
                         }

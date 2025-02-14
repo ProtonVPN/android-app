@@ -5,7 +5,7 @@
  *             packet encryption, packet authentication, and
  *             packet compression.
  *
- *  Copyright (C) 2002-2023 OpenVPN Inc <sales@openvpn.net>
+ *  Copyright (C) 2002-2024 OpenVPN Inc <sales@openvpn.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2
@@ -180,7 +180,7 @@ struct management_callback
     void (*status) (void *arg, const int version, struct status_output *so);
     void (*show_net) (void *arg, const int msglevel);
     int (*kill_by_cn) (void *arg, const char *common_name);
-    int (*kill_by_addr) (void *arg, const in_addr_t addr, const int port);
+    int (*kill_by_addr) (void *arg, const in_addr_t addr, const int port, const int proto);
     void (*delete_event) (void *arg, event_t event);
     int (*n_clients) (void *arg);
     bool (*send_cc_message) (void *arg, const char *message, const char *parameter);
@@ -389,8 +389,6 @@ bool management_android_control(struct management *man, const char *command, con
 int managment_android_persisttun_action(struct management *man);
 
 #endif
-
-bool management_should_daemonize(struct management *man);
 
 bool management_would_hold(struct management *man);
 

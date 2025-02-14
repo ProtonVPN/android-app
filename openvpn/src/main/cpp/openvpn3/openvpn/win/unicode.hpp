@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_WIN_UNICODE_H
 #define OPENVPN_WIN_UNICODE_H
@@ -30,8 +20,7 @@
 #include <openvpn/common/size.hpp>
 #include <openvpn/common/exception.hpp>
 
-namespace openvpn {
-namespace Win {
+namespace openvpn::Win {
 typedef std::unique_ptr<wchar_t[]> UTF16;
 typedef std::unique_ptr<char[]> UTF8;
 
@@ -91,6 +80,5 @@ inline char *utf8(wchar_t *str)
         throw win_utf16();
     return ret.release();
 }
-} // namespace Win
-} // namespace openvpn
+} // namespace openvpn::Win
 #endif

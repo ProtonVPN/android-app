@@ -613,6 +613,7 @@ arm64_clang_asflags := \
 arm64_cflags := \
   -DBSAES_ASM \
   -DECP_NISTZ256_ASM \
+  -DECP_SM2P256_ASM \
   -DKECCAK1600_ASM \
   -DMD5_ASM \
   -DOPENSSL_BN_ASM_MONT \
@@ -658,6 +659,7 @@ x86_cflags := \
   -DOPENSSL_IA32_SSE2 \
   -DOPENSSL_PIC \
   -DPOLY1305_ASM \
+  -DRC4_ASM \
   -DSHA1_ASM \
   -DSHA256_ASM \
   -DSHA512_ASM \
@@ -708,6 +710,7 @@ x86_64_cflags := \
   -DOPENSSL_IA32_SSE2 \
   -DOPENSSL_PIC \
   -DPOLY1305_ASM \
+  -DRC4_ASM \
   -DSHA1_ASM \
   -DSHA256_ASM \
   -DSHA512_ASM \

@@ -8,6 +8,10 @@
         "lz4",
         "openssl",
         "tap-windows6",
-        "xxhash"
+        "xxhash",
+        {
+          "name": "gtest",
+          "host": true
+        }
     ]
   }

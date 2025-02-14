@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2024 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -13,6 +13,7 @@
 #include <openssl/core_names.h>
 #include <openssl/param_build.h>
 #include <openssl/rand.h>
+#include "crypto/rand.h"
 #include "internal/cryptlib.h"
 #include "internal/nelem.h"
 #include "self_test.h"
@@ -22,7 +23,7 @@ static int set_kat_drbg(OSSL_LIB_CTX *ctx,
                         const unsigned char *entropy, size_t entropy_len,
                         const unsigned char *nonce, size_t nonce_len,
                         const unsigned char *persstr, size_t persstr_len);
-static int reset_original_drbg(OSSL_LIB_CTX *ctx);
+static int reset_main_drbg(OSSL_LIB_CTX *ctx);
 
 static int self_test_digest(const ST_KAT_DIGEST *t, OSSL_SELF_TEST *st,
                             OSSL_LIB_CTX *libctx)
@@ -161,8 +162,7 @@ static int add_params(OSSL_PARAM_BLD *bld, const ST_KAT_PARAM *params,
 
     if (params == NULL)
         return 1;
-    for (p = params; p->data != NULL; ++p)
-    {
+    for (p = params; p->data != NULL; ++p) {
         switch (p->type) {
         case OSSL_PARAM_UNSIGNED_INTEGER: {
             BIGNUM *bn = BN_CTX_get(ctx);
@@ -375,11 +375,14 @@ static int self_test_ka(const ST_KAT_KAS *t,
     OSSL_PARAM *params = NULL;
     OSSL_PARAM *params_peer = NULL;
     unsigned char secret[256];
-    size_t secret_len = sizeof(secret);
+    size_t secret_len = t->expected_len;
     OSSL_PARAM_BLD *bld = NULL;
     BN_CTX *bnctx = NULL;
 
     OSSL_SELF_TEST_onbegin(st, OSSL_SELF_TEST_TYPE_KAT_KA, t->desc);
+
+    if (secret_len > sizeof(secret))
+        goto err;
 
     bnctx = BN_CTX_new_ex(libctx);
     if (bnctx == NULL)
@@ -443,22 +446,19 @@ err:
 }
 #endif /* !defined(OPENSSL_NO_DH) || !defined(OPENSSL_NO_EC) */
 
-static int self_test_sign(const ST_KAT_SIGN *t,
-                          OSSL_SELF_TEST *st, OSSL_LIB_CTX *libctx)
+static int self_test_digest_sign(const ST_KAT_SIGN *t,
+                                 OSSL_SELF_TEST *st, OSSL_LIB_CTX *libctx)
 {
     int ret = 0;
-    OSSL_PARAM *params = NULL, *params_sig = NULL;
-    OSSL_PARAM_BLD *bld = NULL;
-    EVP_PKEY_CTX *sctx = NULL, *kctx = NULL;
+    OSSL_PARAM *paramskey = NULL, *paramsinit = NULL;
+    OSSL_PARAM_BLD *bldkey = NULL, *bldinit = NULL;
+    EVP_MD_CTX *mctx = NULL;
+    EVP_PKEY_CTX *fromctx = NULL;
     EVP_PKEY *pkey = NULL;
     unsigned char sig[256];
     BN_CTX *bnctx = NULL;
     size_t siglen = sizeof(sig);
-    static const unsigned char dgst[] = {
-        0x7f, 0x83, 0xb1, 0x65, 0x7f, 0xf1, 0xfc, 0x53, 0xb9, 0x2d, 0xc1, 0x81,
-        0x48, 0xa1, 0xd6, 0x5d, 0xfc, 0x2d, 0x4b, 0x1f, 0xa3, 0xd6, 0x77, 0x28,
-        0x4a, 0xdd, 0xd2, 0x00, 0x12, 0x6d, 0x90, 0x69
-    };
+    int oneshot = 0;
     const char *typ = OSSL_SELF_TEST_TYPE_KAT_SIGNATURE;
 
     if (t->sig_expected == NULL)
@@ -466,63 +466,94 @@ static int self_test_sign(const ST_KAT_SIGN *t,
 
     OSSL_SELF_TEST_onbegin(st, typ, t->desc);
 
+    if (t->entropy != NULL) {
+        if (!set_kat_drbg(libctx, t->entropy, t->entropy_len,
+                          t->nonce, t->nonce_len, t->persstr, t->persstr_len))
+            goto err;
+    }
+
     bnctx = BN_CTX_new_ex(libctx);
     if (bnctx == NULL)
         goto err;
 
-    bld = OSSL_PARAM_BLD_new();
-    if (bld == NULL)
+    bldkey = OSSL_PARAM_BLD_new();
+    bldinit = OSSL_PARAM_BLD_new();
+    if (bldkey == NULL || bldinit == NULL)
         goto err;
 
-    if (!add_params(bld, t->key, bnctx))
+    if (!add_params(bldkey, t->key, bnctx))
         goto err;
-    params = OSSL_PARAM_BLD_to_param(bld);
+    if (!add_params(bldinit, t->init, bnctx))
+        goto err;
+    paramskey = OSSL_PARAM_BLD_to_param(bldkey);
+    paramsinit = OSSL_PARAM_BLD_to_param(bldinit);
 
-    /* Create a EVP_PKEY_CTX to load the DSA key into */
-    kctx = EVP_PKEY_CTX_new_from_name(libctx, t->algorithm, "");
-    if (kctx == NULL || params == NULL)
+    fromctx = EVP_PKEY_CTX_new_from_name(libctx, t->algorithm, "");
+    if (fromctx == NULL
+        || paramskey == NULL
+        || paramsinit == NULL)
         goto err;
-    if (EVP_PKEY_fromdata_init(kctx) <= 0
-        || EVP_PKEY_fromdata(kctx, &pkey, EVP_PKEY_KEYPAIR, params) <= 0)
-        goto err;
-
-    /* Create a EVP_PKEY_CTX to use for the signing operation */
-    sctx = EVP_PKEY_CTX_new_from_pkey(libctx, pkey, NULL);
-    if (sctx == NULL
-        || EVP_PKEY_sign_init(sctx) <= 0)
+    if (EVP_PKEY_fromdata_init(fromctx) <= 0
+        || EVP_PKEY_fromdata(fromctx, &pkey, EVP_PKEY_KEYPAIR, paramskey) <= 0)
         goto err;
 
-    /* set signature parameters */
-    if (!OSSL_PARAM_BLD_push_utf8_string(bld, OSSL_SIGNATURE_PARAM_DIGEST,
-                                         t->mdalgorithm,
-                                         strlen(t->mdalgorithm) + 1))
-        goto err;
-    params_sig = OSSL_PARAM_BLD_to_param(bld);
-    if (EVP_PKEY_CTX_set_params(sctx, params_sig) <= 0)
+    mctx = EVP_MD_CTX_new();
+    if (mctx == NULL)
         goto err;
 
-    if (EVP_PKEY_sign(sctx, sig, &siglen, dgst, sizeof(dgst)) <= 0
-        || EVP_PKEY_verify_init(sctx) <= 0
-        || EVP_PKEY_CTX_set_params(sctx, params_sig) <= 0)
-        goto err;
+    oneshot = ((t->mode & SIGNATURE_MODE_ONESHOT) != 0);
 
-    if (t->sig_expected != NULL
-        && (siglen != t->sig_expected_len
-            || memcmp(sig, t->sig_expected, t->sig_expected_len) != 0))
-        goto err;
+    if ((t->mode & SIGNATURE_MODE_VERIFY_ONLY) != 0) {
+        memcpy(sig, t->sig_expected, t->sig_expected_len);
+        siglen = t->sig_expected_len;
+    } else {
+        if (EVP_DigestSignInit_ex(mctx, NULL, t->mdalgorithm, libctx, NULL,
+                                  pkey, paramsinit) <= 0)
+            goto err;
 
-    OSSL_SELF_TEST_oncorrupt_byte(st, sig);
-    if (EVP_PKEY_verify(sctx, sig, siglen, dgst, sizeof(dgst)) <= 0)
-        goto err;
+        if (oneshot) {
+            if (EVP_DigestSign(mctx, sig, &siglen, t->msg, t->msg_len) <= 0)
+                goto err;
+        } else {
+            if (EVP_DigestSignUpdate(mctx, t->msg, t->msg_len) <= 0
+                    || EVP_DigestSignFinal(mctx, sig, &siglen) <= 0)
+                goto err;
+        }
+
+        if (t->sig_expected != NULL
+            && (siglen != t->sig_expected_len
+                || memcmp(sig, t->sig_expected, t->sig_expected_len) != 0))
+            goto err;
+    }
+
+    if ((t->mode & SIGNATURE_MODE_SIGN_ONLY) == 0) {
+        if (EVP_DigestVerifyInit_ex(mctx, NULL, t->mdalgorithm, libctx, NULL,
+                                    pkey, paramsinit) <= 0)
+            goto err;
+        OSSL_SELF_TEST_oncorrupt_byte(st, sig);
+        if (oneshot) {
+            if (EVP_DigestVerify(mctx, sig, siglen, t->msg, t->msg_len) <= 0)
+                goto err;
+        } else {
+            if (EVP_DigestVerifyUpdate(mctx, t->msg, t->msg_len) <= 0
+                    || EVP_DigestVerifyFinal(mctx, sig, siglen) <= 0)
+                goto err;
+        }
+    }
     ret = 1;
 err:
     BN_CTX_free(bnctx);
     EVP_PKEY_free(pkey);
-    EVP_PKEY_CTX_free(kctx);
-    EVP_PKEY_CTX_free(sctx);
-    OSSL_PARAM_free(params);
-    OSSL_PARAM_free(params_sig);
-    OSSL_PARAM_BLD_free(bld);
+    EVP_PKEY_CTX_free(fromctx);
+    EVP_MD_CTX_free(mctx);
+    OSSL_PARAM_free(paramskey);
+    OSSL_PARAM_free(paramsinit);
+    OSSL_PARAM_BLD_free(bldkey);
+    OSSL_PARAM_BLD_free(bldinit);
+    if (t->entropy != NULL) {
+        if (!reset_main_drbg(libctx))
+            ret = 0;
+    }
     OSSL_SELF_TEST_onend(st, ret);
     return ret;
 }
@@ -692,45 +723,11 @@ static int self_test_kas(OSSL_SELF_TEST *st, OSSL_LIB_CTX *libctx)
 static int self_test_signatures(OSSL_SELF_TEST *st, OSSL_LIB_CTX *libctx)
 {
     int i, ret = 1;
-    const ST_KAT_SIGN *t;
 
-    for (i = 0; ret && i < (int)OSSL_NELEM(st_kat_sign_tests); ++i) {
-        t = st_kat_sign_tests + i;
-        if (!set_kat_drbg(libctx, t->entropy, t->entropy_len,
-                          t->nonce, t->nonce_len, t->persstr, t->persstr_len))
-            return 0;
-        if (!self_test_sign(t, st, libctx))
-            ret = 0;
-        if (!reset_original_drbg(libctx))
+    for (i = 0; i < (int)OSSL_NELEM(st_kat_sign_tests); ++i) {
+        if (!self_test_digest_sign(&st_kat_sign_tests[i], st, libctx))
             ret = 0;
     }
-    return ret;
-}
-
-/*
- * Run the algorithm KAT's.
- * Return 1 is successful, otherwise return 0.
- * This runs all the tests regardless of if any fail.
- */
-int SELF_TEST_kats(OSSL_SELF_TEST *st, OSSL_LIB_CTX *libctx)
-{
-    int ret = 1;
-
-    if (!self_test_digests(st, libctx))
-        ret = 0;
-    if (!self_test_ciphers(st, libctx))
-        ret = 0;
-    if (!self_test_signatures(st, libctx))
-        ret = 0;
-    if (!self_test_kdfs(st, libctx))
-        ret = 0;
-    if (!self_test_drbgs(st, libctx))
-        ret = 0;
-    if (!self_test_kas(st, libctx))
-        ret = 0;
-    if (!self_test_asym_ciphers(st, libctx))
-        ret = 0;
-
     return ret;
 }
 
@@ -745,13 +742,12 @@ int SELF_TEST_kats(OSSL_SELF_TEST *st, OSSL_LIB_CTX *libctx)
  */
 
 /*
- * The default private DRBG of the library context, saved for the duration
- * of KAT testing.
+ * Replacement "random" sources
+ * main_rand is used for most tests and it's set to generate mode.
+ * kat_rand is used for KATs where specific input is mandated.
  */
-static EVP_RAND_CTX *saved_rand = NULL;
-
-/* Replacement "random" source */
 static EVP_RAND_CTX *kat_rand = NULL;
+static EVP_RAND_CTX *main_rand = NULL;
 
 static int set_kat_drbg(OSSL_LIB_CTX *ctx,
                         const unsigned char *entropy, size_t entropy_len,
@@ -765,7 +761,7 @@ static int set_kat_drbg(OSSL_LIB_CTX *ctx,
     };
 
     /* If not NULL, we didn't cleanup from last call: BAD */
-    if (kat_rand != NULL || saved_rand != NULL)
+    if (kat_rand != NULL)
         return 0;
 
     rand = EVP_RAND_fetch(ctx, "TEST-RAND", NULL);
@@ -777,7 +773,8 @@ static int set_kat_drbg(OSSL_LIB_CTX *ctx,
     if (parent_rand == NULL)
         goto err;
 
-    drbg_params[0] = OSSL_PARAM_construct_uint(OSSL_RAND_PARAM_STRENGTH, &strength);
+    drbg_params[0] = OSSL_PARAM_construct_uint(OSSL_RAND_PARAM_STRENGTH,
+                                               &strength);
     if (!EVP_RAND_CTX_set_params(parent_rand, drbg_params))
         goto err;
 
@@ -810,37 +807,30 @@ static int set_kat_drbg(OSSL_LIB_CTX *ctx,
     if (!EVP_RAND_instantiate(kat_rand, strength, 0, persstr, persstr_len, NULL))
         goto err;
 
+    /* When we set the new private generator this one is freed, so upref it */
+    if (!EVP_RAND_CTX_up_ref(main_rand))
+        goto err;
+
     /* Update the library context DRBG */
-    if ((saved_rand = RAND_get0_private(ctx)) != NULL)
-        /* Avoid freeing this since we replace it */
-        if (!EVP_RAND_CTX_up_ref(saved_rand)) {
-            saved_rand = NULL;
-            goto err;
-        }
     if (RAND_set0_private(ctx, kat_rand) > 0) {
         /* Keeping a copy to verify zeroization */
         if (EVP_RAND_CTX_up_ref(kat_rand))
             return 1;
-        if (saved_rand != NULL)
-            RAND_set0_private(ctx, saved_rand);
+        RAND_set0_private(ctx, main_rand);
     }
 
  err:
     EVP_RAND_CTX_free(parent_rand);
-    EVP_RAND_CTX_free(saved_rand);
     EVP_RAND_CTX_free(kat_rand);
-    kat_rand = saved_rand = NULL;
+    kat_rand = NULL;
     return 0;
 }
 
-static int reset_original_drbg(OSSL_LIB_CTX *ctx) {
+static int reset_main_drbg(OSSL_LIB_CTX *ctx) {
     int ret = 1;
 
-    if (saved_rand != NULL) {
-        if (!RAND_set0_private(ctx, saved_rand))
-            ret = 0;
-        saved_rand = NULL;
-    }
+    if (!RAND_set0_private(ctx, main_rand))
+        ret = 0;
     if (kat_rand != NULL) {
         if (!EVP_RAND_uninstantiate(kat_rand)
                 || !EVP_RAND_verify_zeroization(kat_rand))
@@ -848,6 +838,75 @@ static int reset_original_drbg(OSSL_LIB_CTX *ctx) {
         EVP_RAND_CTX_free(kat_rand);
         kat_rand = NULL;
     }
+    return ret;
+}
+
+static int setup_main_random(OSSL_LIB_CTX *libctx)
+{
+    OSSL_PARAM drbg_params[3] = {
+        OSSL_PARAM_END, OSSL_PARAM_END, OSSL_PARAM_END
+    };
+    unsigned int strength = 256, generate = 1;
+    EVP_RAND *rand;
+
+    rand = EVP_RAND_fetch(libctx, "TEST-RAND", NULL);
+    if (rand == NULL)
+        return 0;
+
+    main_rand = EVP_RAND_CTX_new(rand, NULL);
+    EVP_RAND_free(rand);
+    if (main_rand == NULL)
+        goto err;
+
+    drbg_params[0] = OSSL_PARAM_construct_uint(OSSL_RAND_PARAM_GENERATE,
+                                               &generate);
+    drbg_params[1] = OSSL_PARAM_construct_uint(OSSL_RAND_PARAM_STRENGTH,
+                                               &strength);
+
+    if (!EVP_RAND_instantiate(main_rand, strength, 0, NULL, 0, drbg_params))
+        goto err;
+    return 1;
+ err:
+    EVP_RAND_CTX_free(main_rand);
+    return 0;
+}
+
+/*
+ * Run the algorithm KAT's.
+ * Return 1 is successful, otherwise return 0.
+ * This runs all the tests regardless of if any fail.
+ */
+int SELF_TEST_kats(OSSL_SELF_TEST *st, OSSL_LIB_CTX *libctx)
+{
+    EVP_RAND_CTX *saved_rand = ossl_rand_get0_private_noncreating(libctx);
+    int ret = 1;
+
+    if (saved_rand != NULL && !EVP_RAND_CTX_up_ref(saved_rand))
+        return 0;
+    if (!setup_main_random(libctx)
+            || !RAND_set0_private(libctx, main_rand)) {
+        /* Decrement saved_rand reference counter */
+        EVP_RAND_CTX_free(saved_rand);
+        EVP_RAND_CTX_free(main_rand);
+        return 0;
+    }
+
+    if (!self_test_digests(st, libctx))
+        ret = 0;
+    if (!self_test_ciphers(st, libctx))
+        ret = 0;
+    if (!self_test_signatures(st, libctx))
+        ret = 0;
+    if (!self_test_kdfs(st, libctx))
+        ret = 0;
+    if (!self_test_drbgs(st, libctx))
+        ret = 0;
+    if (!self_test_kas(st, libctx))
+        ret = 0;
+    if (!self_test_asym_ciphers(st, libctx))
+        ret = 0;
+
+    RAND_set0_private(libctx, saved_rand);
     return ret;
 }
 

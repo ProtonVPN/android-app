@@ -6,8 +6,7 @@
 #include <openvpn/tun/win/client/clientconfig.hpp>
 #include <openvpn/win/modname.hpp>
 
-namespace openvpn {
-namespace TunWin {
+namespace openvpn::TunWin {
 
 class WintunClient : public TunClient
 {
@@ -142,7 +141,7 @@ class WintunClient : public TunClient
         if (tail >= WINTUN_RING_CAPACITY)
             return false;
 
-        ULONG aligned_packet_size = packet_align(sizeof(TUN_PACKET_HEADER) + buf.size());
+        size_t aligned_packet_size = packet_align(sizeof(TUN_PACKET_HEADER) + buf.size());
         ULONG buf_space = wrap(head - tail - WINTUN_PACKET_ALIGN);
         if (aligned_packet_size > buf_space)
         {
@@ -152,11 +151,13 @@ class WintunClient : public TunClient
 
         // copy packet size and data into ring
         TUN_PACKET *packet = (TUN_PACKET *)&receive_ring->data[tail];
-        packet->size = buf.size();
+        if (!is_safe_conversion<decltype(packet->size)>(buf.size()))
+            return false;
+        packet->size = static_cast<decltype(packet->size)>(buf.size());
         std::memcpy(packet->data, buf.data(), buf.size());
 
         // move ring tail
-        receive_ring->tail.store(wrap(tail + aligned_packet_size), std::memory_order_release);
+        receive_ring->tail.store(wrap(tail + static_cast<ULONG>(aligned_packet_size)), std::memory_order_release);
         if (receive_ring->alertable.load(std::memory_order_acquire) != 0)
             SetEvent(ring_buffer->receive_ring_tail_moved());
 
@@ -259,7 +260,7 @@ class WintunClient : public TunClient
                 return;
             }
 
-            ULONG aligned_packet_size = packet_align(sizeof(TUN_PACKET_HEADER) + packet->size);
+            size_t aligned_packet_size = packet_align(sizeof(TUN_PACKET_HEADER) + packet->size);
             if (aligned_packet_size > content_len)
             {
                 parent.tun_error(Error::TUN_ERROR, "incomplete packet in send ring");
@@ -270,7 +271,7 @@ class WintunClient : public TunClient
 
             buf.write(packet->data, packet->size);
 
-            head = wrap(head + aligned_packet_size);
+            head = wrap(head + static_cast<ULONG>(aligned_packet_size));
             send_ring->head.store(head, std::memory_order_release);
 
             parent.tun_recv(buf);
@@ -291,7 +292,7 @@ class WintunClient : public TunClient
         UCHAR data[WINTUN_MAX_PACKET_SIZE];
     };
 
-    ULONG packet_align(ULONG size)
+    size_t packet_align(size_t size)
     {
         return (size + (WINTUN_PACKET_ALIGN - 1)) & ~(WINTUN_PACKET_ALIGN - 1);
     }
@@ -318,5 +319,4 @@ class WintunClient : public TunClient
 
     RingBuffer::Ptr ring_buffer;
 };
-} // namespace TunWin
-} // namespace openvpn
+} // namespace openvpn::TunWin

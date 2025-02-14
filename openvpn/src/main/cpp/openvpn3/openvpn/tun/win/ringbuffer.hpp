@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 //
 
 #pragma once
@@ -41,8 +31,7 @@
 #define WINTUN_MAX_PACKET_SIZE 0xffff
 #define WINTUN_PACKET_ALIGN 4
 
-namespace openvpn {
-namespace TunWin {
+namespace openvpn::TunWin {
 struct TUN_RING
 {
     std::atomic_ulong head;
@@ -176,5 +165,4 @@ class RingBuffer : public RC<thread_unsafe_refcount>
     TUN_RING *send_ring_ = nullptr;
     TUN_RING *receive_ring_ = nullptr;
 };
-} // namespace TunWin
-} // namespace openvpn
+} // namespace openvpn::TunWin

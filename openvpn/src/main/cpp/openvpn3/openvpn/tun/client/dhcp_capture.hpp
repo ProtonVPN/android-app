@@ -4,24 +4,15 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef OPENVPN_TUN_CLIENT_DHCP_CAPTURE_H
 #define OPENVPN_TUN_CLIENT_DHCP_CAPTURE_H
 
+#include "openvpn/client/dns.hpp"
 #include <cstring>
 
 #include <openvpn/common/socktypes.hpp>
@@ -42,7 +33,7 @@ class DHCPCapture
     {
         if (props->vpn_ipv4() || props->vpn_ipv4())
             OPENVPN_LOG("NOTE: pushed ifconfig directive is ignored in layer 2 mode");
-        if (!props->dns_servers.empty())
+        if (!props->dns_options.servers.empty())
             OPENVPN_LOG("NOTE: pushed DNS servers are ignored in layer 2 mode");
         reset();
     }
@@ -52,6 +43,8 @@ class DHCPCapture
     {
         if (buf.size() < sizeof(DHCPPacket))
             return false;
+        if (!is_safe_conversion<unsigned int>(buf.size()))
+            return false;
 
         DHCPPacket *dhcp = (DHCPPacket *)buf.data();
         if (dhcp->ip.protocol == IPCommon::UDP
@@ -59,7 +52,7 @@ class DHCPCapture
             && dhcp->udp.dest == htons(DHCP::BOOTPC_PORT)
             && dhcp->dhcp.op == DHCP::BOOTREPLY)
         {
-            const unsigned int optlen = buf.size() - sizeof(DHCPPacket);
+            const unsigned int optlen = static_cast<unsigned int>(buf.size() - sizeof(DHCPPacket));
             const int message_type = dhcp_message_type(dhcp, optlen);
             if (message_type == DHCP::DHCPACK || message_type == DHCP::DHCPOFFER)
             {
@@ -72,7 +65,7 @@ class DHCPCapture
                 const IPv4::Addr router = extract_router(dhcp, optlen);
 
                 /* get DNS server addresses */
-                const std::vector<IPv4::Addr> dns_servers = get_dns(dhcp, optlen);
+                const std::vector<DnsAddress> dns_addresses = get_dns(dhcp, optlen);
 
                 /* recompute the UDP checksum */
                 dhcp->udp.check = 0;
@@ -109,12 +102,15 @@ class DHCPCapture
                     {
                         reset();
                         props->tun_builder_add_address(host.to_string(), prefix_len, router.to_string(), false, false);
-                        if (dns_servers.empty())
+                        if (dns_addresses.empty())
                             OPENVPN_LOG("NOTE: failed to obtain DNS servers via DHCP");
                         else
                         {
-                            for (const auto &a : dns_servers)
-                                props->tun_builder_add_dns_server(a.to_string(), false);
+                            DnsServer server;
+                            server.addresses = dns_addresses;
+                            DnsOptions dns_options;
+                            dns_options.servers[0] = server;
+                            props->tun_builder_set_dns_options(dns_options);
                         }
                     }
                     return configured = complete;
@@ -133,7 +129,7 @@ class DHCPCapture
     void reset()
     {
         props->reset_tunnel_addresses();
-        props->reset_dns_servers();
+        props->reset_dns_options();
     }
 
     static int dhcp_message_type(const DHCPPacket *dhcp, const unsigned int optlen)
@@ -199,10 +195,10 @@ class DHCPCapture
                         const unsigned int owlen = len + 2; /* len of data to overwrite */
                         std::uint8_t *src = dest + owlen;
                         std::uint8_t *end = p + optlen;
-                        const int movlen = end - src;
+                        const ssize_t movlen = end - src;
                         if (movlen > 0)
-                            std::memmove(dest, src, movlen);             /* overwrite router option */
-                        std::memset(end - owlen, DHCP::DHCP_PAD, owlen); /* pad tail */
+                            std::memmove(dest, src, static_cast<size_t>(movlen)); /* overwrite router option */
+                        std::memset(end - owlen, DHCP::DHCP_PAD, owlen);          /* pad tail */
                     }
                     else
                         break;
@@ -265,10 +261,10 @@ class DHCPCapture
         return ret;
     }
 
-    static std::vector<IPv4::Addr> get_dns(const DHCPPacket *dhcp, const unsigned int optlen)
+    static std::vector<DnsAddress> get_dns(const DHCPPacket *dhcp, const unsigned int optlen)
     {
         const std::uint8_t *p = dhcp->options;
-        std::vector<IPv4::Addr> ret;
+        std::vector<DnsAddress> ret;
 
         for (unsigned int i = 0; i < optlen;)
         {
@@ -288,7 +284,7 @@ class DHCPCapture
                     {
                         /* get DNS addresses */
                         for (unsigned int j = 0; j < len; j += 4)
-                            ret.push_back(IPv4::Addr::from_bytes_net(p + i + j + 2));
+                            ret.push_back({IPv4::Addr::from_bytes_net(p + i + j + 2).to_string(), 0});
 
                         i += (len + 2); /* advance to next option */
                     }

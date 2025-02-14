@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -26,13 +16,21 @@
 #include <limits>
 
 #include <openvpn/common/exception.hpp>
+#include <openvpn/common/socktypes.hpp>
+#include <openvpn/common/size.hpp>
+#include <openvpn/common/numeric_cast.hpp>
 #include <openvpn/buffer/buffer.hpp>
 #include <openvpn/frame/frame.hpp>
 
 namespace openvpn {
 
-// Used to encapsulate OpenVPN or DNS packets onto a stream transport such as TCP,
-// or extract them from the stream.
+// Used to encapsulate OpenVPN, DNS, or other protocols onto a
+// stream transport such as TCP, or extract them from the stream.
+// SIZE_TYPE indicates the size of the length word, and should be
+// a uint16_t for OpenVPN and DNS protocols, but may be uint32_t
+// for other procotols.  In all cases, the length word is represented
+// by network-endian ordering.
+template <typename SIZE_TYPE>
 class PacketStream
 {
   private:
@@ -121,16 +119,54 @@ class PacketStream
             throw packet_not_fully_formed();
     }
 
-    // prepend uint16_t size to buffer
+    // this method is provided for prototype compatibility
+    // with PacketStreamResidual
+    void get(BufferAllocated &ret, const Frame::Context &frame_context)
+    {
+        get(ret);
+    }
+
+    // prepend SIZE_TYPE size to buffer
     static void prepend_size(Buffer &buf)
     {
-        const std::uint16_t net_len = htons(buf.size());
+        SIZE_TYPE net_len;
+        host_to_network(net_len, buf.size());
         buf.prepend((const unsigned char *)&net_len, sizeof(net_len));
+    }
+
+    // reset the object to default-initialized state
+    void reset()
+    {
+        declared_size = SIZE_UNDEF;
+        buffer.clear();
     }
 
 #ifndef UNIT_TEST
   private:
 #endif
+
+    // specialized methods for ntohl, ntohs, htonl, htons
+
+    static size_t network_to_host(const std::uint16_t value)
+    {
+        return ntohs(value);
+    }
+
+    static size_t network_to_host(const std::uint32_t value)
+    {
+        return ntohl(value);
+    }
+
+    static void host_to_network(std::uint16_t &result, const size_t value)
+    {
+        result = htons(numeric_cast<std::uint16_t>(value));
+    }
+
+    static void host_to_network(std::uint32_t &result, const size_t value)
+    {
+        result = htonl(numeric_cast<std::uint32_t>(value));
+    }
+
     bool declared_size_defined() const
     {
         return declared_size != SIZE_UNDEF;
@@ -145,25 +181,77 @@ class PacketStream
 
     static bool size_defined(const Buffer &buf)
     {
-        return buf.size() >= sizeof(std::uint16_t);
+        return buf.size() >= sizeof(SIZE_TYPE);
     }
 
     static size_t read_size(Buffer &buf)
     {
-        std::uint16_t net_len;
+        SIZE_TYPE net_len;
         buf.read((unsigned char *)&net_len, sizeof(net_len));
-        return ntohs(net_len);
+        return network_to_host(net_len);
     }
 
     static void validate_size(const size_t size, const Frame::Context &frame_context)
     {
-        // Don't validate upper bound on size if BufferAllocated::GROW is set,
-        // allowing it to range up to 64kb.
-        if (!size || (!(frame_context.buffer_flags() & BufferAllocated::GROW) && size > frame_context.payload()))
+        // Don't validate upper bound on size if BufAllocFlags::GROW is set,
+        // allowing it to range up to larger sizes.
+        if (!size || (!(frame_context.buffer_flags() & BufAllocFlags::GROW) && size > frame_context.payload()))
             throw embedded_packet_size_error();
     }
 
-    size_t declared_size = SIZE_UNDEF; // declared size of packet in leading uint16_t prefix
+    size_t declared_size = SIZE_UNDEF; // declared size of packet in leading SIZE_TYPE prefix
     BufferAllocated buffer;            // accumulated packet data
 };
+
+// In this variant of PacketStreamResidual, put()
+// will absorb all residual data in buf, so that
+// buf is always returned empty.
+template <typename SIZE_TYPE>
+class PacketStreamResidual
+{
+  public:
+    void put(BufferAllocated &buf, const Frame::Context &frame_context)
+    {
+        if (residual.empty())
+        {
+            pktstream.put(buf, frame_context);
+            residual = std::move(buf);
+        }
+        else
+        {
+            residual.append(buf);
+            pktstream.put(residual, frame_context);
+        }
+        buf.reset_content();
+    }
+
+    void get(BufferAllocated &ret, const Frame::Context &frame_context)
+    {
+        pktstream.get(ret);
+        if (!residual.empty())
+            pktstream.put(residual, frame_context);
+    }
+
+    bool ready() const
+    {
+        return pktstream.ready();
+    }
+
+    static void prepend_size(Buffer &buf)
+    {
+        PacketStream<SIZE_TYPE>::prepend_size(buf);
+    }
+
+    // reset the object to default-initialized state
+    void reset()
+    {
+        pktstream.reset();
+        residual.clear();
+    }
+
+  private:
+    PacketStream<SIZE_TYPE> pktstream;
+    BufferAllocated residual;
+};
+
 } // namespace openvpn

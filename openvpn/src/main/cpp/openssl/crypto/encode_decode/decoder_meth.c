@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2020-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -29,14 +29,12 @@ static OSSL_DECODER *ossl_decoder_new(void)
 {
     OSSL_DECODER *decoder = NULL;
 
-    if ((decoder = OPENSSL_zalloc(sizeof(*decoder))) == NULL
-        || (decoder->base.lock = CRYPTO_THREAD_lock_new()) == NULL) {
+    if ((decoder = OPENSSL_zalloc(sizeof(*decoder))) == NULL)
+        return NULL;
+    if (!CRYPTO_NEW_REF(&decoder->base.refcnt, 1)) {
         OSSL_DECODER_free(decoder);
-        ERR_raise(ERR_LIB_OSSL_DECODER, ERR_R_MALLOC_FAILURE);
         return NULL;
     }
-
-    decoder->base.refcnt = 1;
 
     return decoder;
 }
@@ -45,7 +43,7 @@ int OSSL_DECODER_up_ref(OSSL_DECODER *decoder)
 {
     int ref = 0;
 
-    CRYPTO_UP_REF(&decoder->base.refcnt, &ref, decoder->base.lock);
+    CRYPTO_UP_REF(&decoder->base.refcnt, &ref);
     return 1;
 }
 
@@ -56,13 +54,13 @@ void OSSL_DECODER_free(OSSL_DECODER *decoder)
     if (decoder == NULL)
         return;
 
-    CRYPTO_DOWN_REF(&decoder->base.refcnt, &ref, decoder->base.lock);
+    CRYPTO_DOWN_REF(&decoder->base.refcnt, &ref);
     if (ref > 0)
         return;
     OPENSSL_free(decoder->base.name);
     ossl_property_free(decoder->base.parsed_propdef);
     ossl_provider_free(decoder->base.prov);
-    CRYPTO_THREAD_lock_free(decoder->base.lock);
+    CRYPTO_FREE_REF(&decoder->base.refcnt);
     OPENSSL_free(decoder);
 }
 
@@ -625,9 +623,7 @@ OSSL_DECODER_CTX *OSSL_DECODER_CTX_new(void)
 {
     OSSL_DECODER_CTX *ctx;
 
-    if ((ctx = OPENSSL_zalloc(sizeof(*ctx))) == NULL)
-        ERR_raise(ERR_LIB_OSSL_DECODER, ERR_R_MALLOC_FAILURE);
-
+    ctx = OPENSSL_zalloc(sizeof(*ctx));
     return ctx;
 }
 

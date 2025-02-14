@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
@@ -45,8 +35,7 @@
 #include <openvpn/tun/linux/client/tunsetup.hpp>
 #include <openvpn/netconf/linux/gw.hpp>
 
-namespace openvpn {
-namespace TunIPRoute {
+namespace openvpn::TunIPRoute {
 
 using namespace openvpn::TunLinuxSetup;
 
@@ -60,7 +49,7 @@ enum
 
 inline IP::Addr cvt_pnr_ip_v4(const std::string &hexaddr)
 {
-    BufferAllocated v(4, BufferAllocated::CONSTRUCT_ZERO);
+    BufferAllocated v(4, BufAllocFlags::CONSTRUCT_ZERO);
     parse_hex(v, hexaddr);
     if (v.size() != 4)
         throw tun_linux_error("bad hex address");
@@ -352,5 +341,4 @@ struct TunMethods
             add_del_route(address, 128, gw.v6.addr().to_string(), gw.dev(), R_ADD_SYS, rtvec, create, destroy);
     }
 };
-} // namespace TunIPRoute
-} // namespace openvpn
+} // namespace openvpn::TunIPRoute

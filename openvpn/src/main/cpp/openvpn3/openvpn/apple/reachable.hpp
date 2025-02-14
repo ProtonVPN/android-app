@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 //
 //  This code is derived from the Apple sample Reachability.m under
 //  the following license.
@@ -81,9 +71,17 @@
 #include <openvpn/apple/reach.hpp>
 
 namespace openvpn {
+#if defined(__APPLE__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
 namespace CF {
 OPENVPN_CF_WRAP(NetworkReachability, network_reachability_cast, SCNetworkReachabilityRef, SCNetworkReachabilityGetTypeID);
 }
+
+#if defined(__APPLE__)
+#pragma clang diagnostic pop
+#endif
 
 class ReachabilityBase
 {
@@ -120,6 +118,10 @@ class ReachabilityBase
         return vstatus(flags());
     }
 
+#if defined(__APPLE__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
     SCNetworkReachabilityFlags flags() const
     {
         SCNetworkReachabilityFlags f = 0;
@@ -128,6 +130,9 @@ class ReachabilityBase
         else
             return 0;
     }
+#if defined(__APPLE__)
+#pragma clang diagnostic pop
+#endif
 
     static std::string render_type(Type type)
     {
@@ -205,9 +210,7 @@ class ReachabilityBase
     virtual Type vtype() const = 0;
     virtual Status vstatus(const SCNetworkReachabilityFlags flags) const = 0;
 
-    virtual ~ReachabilityBase()
-    {
-    }
+    virtual ~ReachabilityBase() = default;
 
     CF::NetworkReachability reach;
 };
@@ -215,6 +218,10 @@ class ReachabilityBase
 class ReachabilityViaInternet : public ReachabilityBase
 {
   public:
+#if defined(__APPLE__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
     ReachabilityViaInternet()
     {
         struct sockaddr_in addr;
@@ -223,13 +230,16 @@ class ReachabilityViaInternet : public ReachabilityBase
         addr.sin_family = AF_INET;
         reach.reset(SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (struct sockaddr *)&addr));
     }
+#if defined(__APPLE__)
+#pragma clang diagnostic pop
+#endif
 
-    virtual Type vtype() const
+    Type vtype() const override
     {
         return Internet;
     }
 
-    virtual Status vstatus(const SCNetworkReachabilityFlags flags) const
+    Status vstatus(const SCNetworkReachabilityFlags flags) const override
     {
         return status_from_flags(flags);
     }
@@ -289,15 +299,22 @@ class ReachabilityViaWiFi : public ReachabilityBase
         addr.sin_len = sizeof(addr);
         addr.sin_family = AF_INET;
         addr.sin_addr.s_addr = htonl(IN_LINKLOCALNETNUM); // 169.254.0.0.
+#if defined(__APPLE__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
         reach.reset(SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (struct sockaddr *)&addr));
+#if defined(__APPLE__)
+#pragma clang diagnostic pop
+#endif
     }
 
-    virtual Type vtype() const
+    Type vtype() const override
     {
         return WiFi;
     }
 
-    virtual Status vstatus(const SCNetworkReachabilityFlags flags) const
+    Status vstatus(const SCNetworkReachabilityFlags flags) const override
     {
         return status_from_flags(flags);
     }
@@ -348,7 +365,7 @@ class Reachability : public ReachabilityInterface
             return false;
     }
 
-    virtual Status reachable() const
+    Status reachable() const override
     {
         if (reachableViaWiFi())
             return ReachableViaWiFi;
@@ -358,7 +375,7 @@ class Reachability : public ReachabilityInterface
             return NotReachable;
     }
 
-    virtual bool reachableVia(const std::string &net_type) const
+    bool reachableVia(const std::string &net_type) const override
     {
         if (net_type == "cellular")
             return reachableViaCellular();
@@ -368,7 +385,7 @@ class Reachability : public ReachabilityInterface
             return reachableViaWiFi() || reachableViaCellular();
     }
 
-    virtual std::string to_string() const
+    std::string to_string() const override
     {
         std::string ret;
         if (internet)
@@ -430,6 +447,10 @@ class ReachabilityTracker
         SCNetworkReachabilityContext context = {0, this, nullptr, nullptr, nullptr};
         if (rb.reach.defined())
         {
+#if defined(__APPLE__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
             if (SCNetworkReachabilitySetCallback(rb.reach(),
                                                  cb,
                                                  &context)
@@ -441,16 +462,26 @@ class ReachabilityTracker
                 == FALSE)
                 return false;
             return true;
+#if defined(__APPLE__)
+#pragma clang diagnostic pop
+#endif
         }
         else
             return false;
     }
 
+#if defined(__APPLE__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
     void cancel(ReachabilityBase &rb)
     {
         if (rb.reach.defined())
             SCNetworkReachabilityUnscheduleFromRunLoop(rb.reach(), CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
     }
+#if defined(__APPLE__)
+#pragma clang diagnostic pop
+#endif
 
     static void internet_callback_static(SCNetworkReachabilityRef target,
                                          SCNetworkReachabilityFlags flags,

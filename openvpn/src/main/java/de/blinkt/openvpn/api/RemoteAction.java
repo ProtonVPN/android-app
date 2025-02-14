@@ -93,7 +93,7 @@ public class RemoteAction extends Activity {
                 } else {
                     Intent startVPN = new Intent(this, LaunchVPN.class);
                     startVPN.putExtra(LaunchVPN.EXTRA_KEY, profile.getUUID().toString());
-                    startVPN.putExtra(LaunchVPN.EXTRA_START_REASON, ".api.ConnectVPN call");
+                    startVPN.putExtra(OpenVPNService.EXTRA_START_REASON, ".api.ConnectVPN call");
                     startVPN.setAction(Intent.ACTION_MAIN);
                     startActivity(startVPN);
                 }

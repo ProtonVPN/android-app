@@ -4,20 +4,10 @@
 //               packet encryption, packet authentication, and
 //               packet compression.
 //
-//    Copyright (C) 2012-2022 OpenVPN Inc.
+//    Copyright (C) 2012- OpenVPN Inc.
 //
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU Affero General Public License Version 3
-//    as published by the Free Software Foundation.
+//    SPDX-License-Identifier: MPL-2.0 OR AGPL-3.0-only WITH openvpn3-openssl-exception
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU Affero General Public License for more details.
-//
-//    You should have received a copy of the GNU Affero General Public License
-//    along with this program in the COPYING file.
-//    If not, see <http://www.gnu.org/licenses/>.
 
 // Regular expressions for IPv4/v6
 // Source: http://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
@@ -27,8 +17,7 @@
 
 #include <string>
 
-namespace openvpn {
-namespace IP {
+namespace openvpn::IP {
 inline std::string v4_regex()
 {
     const std::string ipv4seg = "(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])";
@@ -55,7 +44,6 @@ inline std::string v6_regex()
         ")";
     // clang-format on
 }
-} // namespace IP
-} // namespace openvpn
+} // namespace openvpn::IP
 
 #endif

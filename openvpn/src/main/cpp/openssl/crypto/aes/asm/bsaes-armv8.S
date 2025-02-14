@@ -1,4 +1,4 @@
-// Copyright 2021-2023 The OpenSSL Project Authors. All Rights Reserved.
+// Copyright 2021-2024 The OpenSSL Project Authors. All Rights Reserved.
 //
 // Licensed under the OpenSSL license (the "License").  You may not use
 // this file except in compliance with the License.  You can obtain a copy
@@ -984,6 +984,7 @@ _bsaes_key_convert:
 //   Initialisation vector overwritten with last quadword of ciphertext
 //   No output registers, usual AAPCS64 register preservation
 ossl_bsaes_cbc_encrypt:
+	AARCH64_VALID_CALL_TARGET
 	cmp	x2, #128
 	bhs	.Lcbc_do_bsaes
 	b	AES_cbc_encrypt
@@ -1236,7 +1237,7 @@ ossl_bsaes_cbc_encrypt:
 //   Output text filled in
 //   No output registers, usual AAPCS64 register preservation
 ossl_bsaes_ctr32_encrypt_blocks:
-
+	AARCH64_VALID_CALL_TARGET
 	cmp	x2, #8                      // use plain AES for
 	blo	.Lctr_enc_short             // small sizes
 
@@ -1442,6 +1443,7 @@ ossl_bsaes_ctr32_encrypt_blocks:
 //   Output ciphertext filled in
 //   No output registers, usual AAPCS64 register preservation
 ossl_bsaes_xts_encrypt:
+	AARCH64_VALID_CALL_TARGET
         // Stack layout:
         // sp ->
         //        nrounds*128-96 bytes: key schedule
@@ -1818,7 +1820,7 @@ ossl_bsaes_xts_encrypt:
 	sub	x6, x21, #0x10
         // Penultimate plaintext block produces final ciphertext part-block
         // plus remaining part of final plaintext block. Move ciphertext part
-        // to final position and re-use penultimate ciphertext block buffer to
+        // to final position and reuse penultimate ciphertext block buffer to
         // construct final plaintext block
 .Lxts_enc_steal:
 	ldrb	w0, [x20], #1
@@ -1887,6 +1889,7 @@ ossl_bsaes_xts_encrypt:
 //   Output plaintext filled in
 //   No output registers, usual AAPCS64 register preservation
 ossl_bsaes_xts_decrypt:
+	AARCH64_VALID_CALL_TARGET
         // Stack layout:
         // sp ->
         //        nrounds*128-96 bytes: key schedule
@@ -2295,7 +2298,7 @@ ossl_bsaes_xts_decrypt:
 	mov	x6, x21
         // Penultimate ciphertext block produces final plaintext part-block
         // plus remaining part of final ciphertext block. Move plaintext part
-        // to final position and re-use penultimate plaintext block buffer to
+        // to final position and reuse penultimate plaintext block buffer to
         // construct final ciphertext block
 .Lxts_dec_steal:
 	ldrb	w1, [x21]

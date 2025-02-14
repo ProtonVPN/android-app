@@ -1,7 +1,7 @@
 #include "arm_arch.h"
 
 #if __ARM_MAX_ARCH__>=8
-.arch	armv8.2-a+crypto
+.arch	armv8-a+crypto
 .text
 .globl	unroll8_eor3_aes_gcm_enc_128_kernel
 .type	unroll8_eor3_aes_gcm_enc_128_kernel,%function
@@ -1062,7 +1062,7 @@ unroll8_eor3_aes_gcm_enc_128_kernel:
 	ins	v18.d[0], v24.d[1]					//GHASH final-7 block - mid
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-7 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 .inst	0xce017529	//eor3 v9.16b, v9.16b, v1.16b, v29.16b			//AES final-6 block - result
 
@@ -1083,7 +1083,7 @@ unroll8_eor3_aes_gcm_enc_128_kernel:
 	pmull	v26.1q, v8.1d, v23.1d				//GHASH final-6 block - low
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-6 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	pmull	v27.1q, v27.1d, v24.1d				//GHASH final-6 block - mid
 	pmull2	v28.1q, v8.2d, v23.2d				//GHASH final-6 block - high
@@ -1112,7 +1112,7 @@ unroll8_eor3_aes_gcm_enc_128_kernel:
 
 .inst	0xce037529	//eor3 v9.16b, v9.16b, v3.16b, v29.16b			//AES final-4 block - result
 	pmull	v26.1q, v8.1d, v22.1d				//GHASH final-5 block - low
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	pmull2	v27.1q, v27.2d, v21.2d				//GHASH final-5 block - mid
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-5 block - low
@@ -1129,7 +1129,7 @@ unroll8_eor3_aes_gcm_enc_128_kernel:
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
 
 	ins	v27.d[0], v8.d[1]					//GHASH final-4 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	pmull2	v28.1q, v8.2d, v20.2d				//GHASH final-4 block - high
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-4 block - mid
@@ -1153,7 +1153,7 @@ unroll8_eor3_aes_gcm_enc_128_kernel:
 	rev64	v8.16b, v9.16b						//GHASH final-3 block
 
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	ins	v27.d[0], v8.d[1]					//GHASH final-3 block - mid
 	ldr	q24, [x3, #96]				//load h4k | h3k
@@ -1186,7 +1186,7 @@ unroll8_eor3_aes_gcm_enc_128_kernel:
 	ins	v27.d[0], v8.d[1]					//GHASH final-2 block - mid
 	ldr	q23, [x3, #80]				//load h3l | h3h
 	ext	v23.16b, v23.16b, v23.16b, #8
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-2 block - mid
 .inst	0xce067529	//eor3 v9.16b, v9.16b, v6.16b, v29.16b			//AES final-1 block - result
@@ -1211,7 +1211,7 @@ unroll8_eor3_aes_gcm_enc_128_kernel:
 
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	ins	v27.d[0], v8.d[1]					//GHASH final-1 block - mid
 .inst	0xce077529	//eor3 v9.16b, v9.16b, v7.16b, v29.16b			//AES final block - result
 
@@ -2354,7 +2354,7 @@ unroll8_eor3_aes_gcm_dec_128_kernel:
 	pmull	v19.1q, v8.1d, v25.1d				//GHASH final-7 block - low
 	ins	v27.d[0], v8.d[1]					//GHASH final-7 block - mid
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	ldr	q9, [x0], #16				//AES final-6 block - load ciphertext
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-7 block - mid
@@ -2376,7 +2376,7 @@ unroll8_eor3_aes_gcm_dec_128_kernel:
 
 	pmull	v26.1q, v8.1d, v23.1d				//GHASH final-6 block - low
 	ldr	q9, [x0], #16				//AES final-5 block - load ciphertext
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	pmull	v27.1q, v27.1d, v24.1d				//GHASH final-6 block - mid
 	st1	{ v12.16b}, [x2], #16			 	//AES final-6 block - store result
@@ -2404,7 +2404,7 @@ unroll8_eor3_aes_gcm_dec_128_kernel:
 
 	ins	v27.d[1], v27.d[0]					//GHASH final-5 block - mid
 	pmull	v26.1q, v8.1d, v22.1d				//GHASH final-5 block - low
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	pmull2	v27.1q, v27.2d, v21.2d				//GHASH final-5 block - mid
 	pmull2	v28.1q, v8.2d, v22.2d				//GHASH final-5 block - high
@@ -2420,7 +2420,7 @@ unroll8_eor3_aes_gcm_dec_128_kernel:
 	ldr	q9, [x0], #16				//AES final-3 block - load ciphertext
 
 	ins	v27.d[0], v8.d[1]					//GHASH final-4 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	pmull2	v28.1q, v8.2d, v20.2d				//GHASH final-4 block - high
 
 	pmull	v26.1q, v8.1d, v20.1d				//GHASH final-4 block - low
@@ -2457,7 +2457,7 @@ unroll8_eor3_aes_gcm_dec_128_kernel:
 	pmull	v26.1q, v8.1d, v25.1d				//GHASH final-3 block - low
 	pmull2	v28.1q, v8.2d, v25.2d				//GHASH final-3 block - high
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 .inst	0xce05752c	//eor3 v12.16b, v9.16b, v5.16b, v29.16b				//AES final-2 block - result
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-3 block - low
 
@@ -2474,7 +2474,7 @@ unroll8_eor3_aes_gcm_dec_128_kernel:
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
 	ldr	q23, [x3, #80]				//load h3l | h3h
 	ext	v23.16b, v23.16b, v23.16b, #8
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	ins	v27.d[0], v8.d[1]					//GHASH final-2 block - mid
 
@@ -2502,7 +2502,7 @@ unroll8_eor3_aes_gcm_dec_128_kernel:
 
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	ins	v27.d[0], v8.d[1]					//GHASH final-1 block - mid
 
@@ -3773,7 +3773,7 @@ unroll8_eor3_aes_gcm_enc_192_kernel:
 	ldr	q9, [x0], #16				//AES final-6 block - load plaintext
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-7 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	pmull	v19.1q, v8.1d, v25.1d				//GHASH final-7 block - low
 
 	pmull2	v17.1q, v8.2d, v25.2d				//GHASH final-7 block - high
@@ -3795,7 +3795,7 @@ unroll8_eor3_aes_gcm_enc_192_kernel:
 	pmull	v26.1q, v8.1d, v23.1d				//GHASH final-6 block - low
 .inst	0xce027529	//eor3 v9.16b, v9.16b, v2.16b, v29.16b			//AES final-5 block - result
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	pmull2	v28.1q, v8.2d, v23.2d				//GHASH final-6 block - high
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-6 block - mid
 
@@ -3828,7 +3828,7 @@ unroll8_eor3_aes_gcm_enc_192_kernel:
 	pmull2	v27.1q, v27.2d, v21.2d				//GHASH final-5 block - mid
 
 .inst	0xce037529	//eor3 v9.16b, v9.16b, v3.16b, v29.16b			//AES final-4 block - result
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	eor	v18.16b, v18.16b, v27.16b				//GHASH final-5 block - mid
 .L192_enc_blocks_more_than_4:	//blocks	left >  4
@@ -3848,7 +3848,7 @@ unroll8_eor3_aes_gcm_enc_192_kernel:
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-4 block - mid
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-4 block - low
 
 	pmull	v27.1q, v27.1d, v21.1d				//GHASH final-4 block - mid
@@ -3863,7 +3863,7 @@ unroll8_eor3_aes_gcm_enc_192_kernel:
 	rev64	v8.16b, v9.16b						//GHASH final-3 block
 
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	ldr	q9, [x0], #16				//AES final-2 block - load plaintext
 	ldr	q25, [x3, #112]				//load h4l | h4h
@@ -3901,7 +3901,7 @@ unroll8_eor3_aes_gcm_enc_192_kernel:
 
 	pmull	v26.1q, v8.1d, v23.1d				//GHASH final-2 block - low
 	pmull2	v28.1q, v8.2d, v23.2d				//GHASH final-2 block - high
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	pmull	v27.1q, v27.1d, v24.1d				//GHASH final-2 block - mid
 
@@ -3935,7 +3935,7 @@ unroll8_eor3_aes_gcm_enc_192_kernel:
 .inst	0xce077529	//eor3 v9.16b, v9.16b, v7.16b, v29.16b			//AES final block - result
 	pmull2	v27.1q, v27.2d, v21.2d				//GHASH final-1 block - mid
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	eor	v18.16b, v18.16b, v27.16b				//GHASH final-1 block - mid
 	eor	v17.16b, v17.16b, v28.16b					//GHASH final-1 block - high
@@ -5191,7 +5191,7 @@ unroll8_eor3_aes_gcm_dec_192_kernel:
 .inst	0xce01752c	//eor3 v12.16b, v9.16b, v1.16b, v29.16b				//AES final-6 block - result
 
 	pmull	v18.1q, v27.1d, v18.1d			 	//GHASH final-7 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 .L192_dec_blocks_more_than_6:	//blocks	left >  6
 
 	rev64	v8.16b, v9.16b						//GHASH final-6 block
@@ -5202,7 +5202,7 @@ unroll8_eor3_aes_gcm_dec_192_kernel:
 	ins	v27.d[0], v8.d[1]					//GHASH final-6 block - mid
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-6 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	pmull2	v28.1q, v8.2d, v23.2d				//GHASH final-6 block - high
 
 	st1	{ v12.16b}, [x2], #16			 	//AES final-6 block - store result
@@ -5235,7 +5235,7 @@ unroll8_eor3_aes_gcm_dec_192_kernel:
 	pmull2	v27.1q, v27.2d, v21.2d				//GHASH final-5 block - mid
 
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-5 block - low
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	st1	{ v12.16b}, [x2], #16			 	//AES final-5 block - store result
 
 	eor	v18.16b, v18.16b, v27.16b				//GHASH final-5 block - mid
@@ -5245,7 +5245,7 @@ unroll8_eor3_aes_gcm_dec_192_kernel:
 	rev64	v8.16b, v9.16b						//GHASH final-4 block
 
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	ldr	q9, [x0], #16				//AES final-3 block - load ciphertext
 	ins	v27.d[0], v8.d[1]					//GHASH final-4 block - mid
@@ -5276,7 +5276,7 @@ unroll8_eor3_aes_gcm_dec_192_kernel:
 	pmull2	v28.1q, v8.2d, v25.2d				//GHASH final-3 block - high
 
 	eor	v17.16b, v17.16b, v28.16b					//GHASH final-3 block - high
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	pmull	v26.1q, v8.1d, v25.1d				//GHASH final-3 block - low
 
 	st1	{ v12.16b}, [x2], #16			 	//AES final-3 block - store result
@@ -5310,7 +5310,7 @@ unroll8_eor3_aes_gcm_dec_192_kernel:
 	pmull	v26.1q, v8.1d, v23.1d				//GHASH final-2 block - low
 
 	pmull	v27.1q, v27.1d, v24.1d				//GHASH final-2 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-2 block - low
 	st1	{ v12.16b}, [x2], #16			 	//AES final-2 block - store result
@@ -5325,7 +5325,7 @@ unroll8_eor3_aes_gcm_dec_192_kernel:
 	ext	v22.16b, v22.16b, v22.16b, #8
 
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	ldr	q21, [x3, #48]				//load h2k | h1k
 
 	pmull	v26.1q, v8.1d, v22.1d				//GHASH final-1 block - low
@@ -6710,7 +6710,7 @@ unroll8_eor3_aes_gcm_enc_256_kernel:
 	ins	v27.d[0], v8.d[1]					//GHASH final-7 block - mid
 	ins	v18.d[0], v24.d[1]					//GHASH final-7 block - mid
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-7 block - mid
 .inst	0xce017529	//eor3 v9.16b, v9.16b, v1.16b, v29.16b			//AES final-6 block - result
@@ -6738,7 +6738,7 @@ unroll8_eor3_aes_gcm_enc_256_kernel:
 	pmull	v27.1q, v27.1d, v24.1d				//GHASH final-6 block - mid
 .inst	0xce027529	//eor3 v9.16b, v9.16b, v2.16b, v29.16b			//AES final-5 block - result
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	eor	v18.16b, v18.16b, v27.16b				//GHASH final-6 block - mid
 	eor	v17.16b, v17.16b, v28.16b					//GHASH final-6 block - high
@@ -6763,7 +6763,7 @@ unroll8_eor3_aes_gcm_enc_256_kernel:
 	pmull	v26.1q, v8.1d, v22.1d				//GHASH final-5 block - low
 
 	pmull2	v27.1q, v27.2d, v21.2d				//GHASH final-5 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-5 block - low
 
 	eor	v18.16b, v18.16b, v27.16b				//GHASH final-5 block - mid
@@ -6789,7 +6789,7 @@ unroll8_eor3_aes_gcm_enc_256_kernel:
 
 	pmull	v27.1q, v27.1d, v21.1d				//GHASH final-4 block - mid
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	eor	v18.16b, v18.16b, v27.16b				//GHASH final-4 block - mid
 	eor	v17.16b, v17.16b, v28.16b					//GHASH final-4 block - high
@@ -6817,7 +6817,7 @@ unroll8_eor3_aes_gcm_enc_256_kernel:
 	pmull	v26.1q, v8.1d, v25.1d				//GHASH final-3 block - low
 
 .inst	0xce057529	//eor3 v9.16b, v9.16b, v5.16b, v29.16b			//AES final-2 block - result
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	eor	v18.16b, v18.16b, v27.16b				//GHASH final-3 block - mid
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-3 block - low
@@ -6835,7 +6835,7 @@ unroll8_eor3_aes_gcm_enc_256_kernel:
 
 	ins	v27.d[0], v8.d[1]					//GHASH final-2 block - mid
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	pmull2	v28.1q, v8.2d, v23.2d				//GHASH final-2 block - high
 .inst	0xce067529	//eor3 v9.16b, v9.16b, v6.16b, v29.16b			//AES final-1 block - result
@@ -6859,7 +6859,7 @@ unroll8_eor3_aes_gcm_enc_256_kernel:
 	ldr	q9, [x0], #16				//AES final block - load plaintext
 
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	ins	v27.d[0], v8.d[1]					//GHASH final-1 block - mid
 	pmull2	v28.1q, v8.2d, v22.2d				//GHASH final-1 block - high
@@ -8243,7 +8243,7 @@ unroll8_eor3_aes_gcm_dec_256_kernel:
 	pmull2	v17.1q, v8.2d, v25.2d				//GHASH final-7 block - high
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-7 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	pmull	v19.1q, v8.1d, v25.1d				//GHASH final-7 block - low
 	pmull	v18.1q, v27.1d, v18.1d			 	//GHASH final-7 block - mid
@@ -8253,7 +8253,7 @@ unroll8_eor3_aes_gcm_dec_256_kernel:
 
 	eor	v8.16b, v8.16b, v16.16b					//feed in partial tag
 	ldr	q9, [x0], #16				//AES final-5 block - load ciphertext
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	ins	v27.d[0], v8.d[1]					//GHASH final-6 block - mid
 	st1	{ v12.16b}, [x2], #16				//AES final-6 block - store result
@@ -8293,7 +8293,7 @@ unroll8_eor3_aes_gcm_dec_256_kernel:
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-5 block - low
 
 	eor	v18.16b, v18.16b, v27.16b				//GHASH final-5 block - mid
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 .L256_dec_blocks_more_than_4:	//blocks	left >  4
 
 	rev64	v8.16b, v9.16b						//GHASH final-4 block
@@ -8303,7 +8303,7 @@ unroll8_eor3_aes_gcm_dec_256_kernel:
 	ins	v27.d[0], v8.d[1]					//GHASH final-4 block - mid
 	ldr	q9, [x0], #16				//AES final-3 block - load ciphertext
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	pmull	v26.1q, v8.1d, v20.1d				//GHASH final-4 block - low
 	pmull2	v28.1q, v8.2d, v20.2d				//GHASH final-4 block - high
@@ -8340,7 +8340,7 @@ unroll8_eor3_aes_gcm_dec_256_kernel:
 	pmull	v26.1q, v8.1d, v25.1d				//GHASH final-3 block - low
 	pmull2	v28.1q, v8.2d, v25.2d				//GHASH final-3 block - high
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	pmull2	v27.1q, v27.2d, v24.2d				//GHASH final-3 block - mid
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-3 block - low
 
@@ -8365,7 +8365,7 @@ unroll8_eor3_aes_gcm_dec_256_kernel:
 
 	eor	v27.8b, v27.8b, v8.8b				//GHASH final-2 block - mid
 	eor	v19.16b, v19.16b, v26.16b					//GHASH final-2 block - low
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 
 	pmull	v27.1q, v27.1d, v24.1d				//GHASH final-2 block - mid
 	pmull2	v28.1q, v8.2d, v23.2d				//GHASH final-2 block - high
@@ -8398,7 +8398,7 @@ unroll8_eor3_aes_gcm_dec_256_kernel:
 
 	pmull2	v27.1q, v27.2d, v21.2d				//GHASH final-1 block - mid
 
-	movi	v16.8b, #0						//supress further partial tag feed in
+	movi	v16.8b, #0						//suppress further partial tag feed in
 	eor	v17.16b, v17.16b, v28.16b					//GHASH final-1 block - high
 
 	eor	v18.16b, v18.16b, v27.16b				//GHASH final-1 block - mid
