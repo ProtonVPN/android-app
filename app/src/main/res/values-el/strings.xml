@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">ρυθμίσεις</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Ενεργοποιήστε το "<b>Πάντα ενεργό VPN</b>" και το "<b>Αποκλεισμός συνδέσεων χωρίς VPN</b>"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Ενεργοποιήστε το \"<b>Πάντα ενεργό VPN</b>\" και το \"<b>Αποκλεισμός συνδέσεων χωρίς VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Ρυθμίσεις</string>
     <string name="settingsKillSwitchLearnMoreButton">Τι είναι το kill switch;</string>
     <string name="settingsKillSwitchWarningMain">Όταν είναι ενεργοποιημένη η λειτουργία kill switch, δε θα μπορείτε να συνδεθείτε σε:</string>

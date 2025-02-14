@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">Einstellungen</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable "<b>Always-on VPN</b>" and "<b>Block connections without VPN</b>"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Einstellungen</string>
     <string name="settingsKillSwitchLearnMoreButton">Was ist ein Kill Switch?</string>
     <string name="settingsKillSwitchWarningMain">Wenn Kill Switch eingeschaltet ist, kannst du dich nicht verbinden mit:</string>
@@ -601,9 +601,9 @@
     <string name="settings_change_icon_header_discreet">Diskretes App-Symbol</string>
     <string name="settings_widget_title">Widget</string>
     <string name="settings_widget_selection_title">Probiere das Proton VPN Widget aus</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Siehe deinen Verbindungsstatus und greife über den Startbildschirm auf deine bevorzugten VPN-Verbindungen zu.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="setting_widget_selection_additional_description">Um das Widget hinzuzufügen, halte einfach eine beliebige Stelle auf deinem Startbildschirm gedrückt und wähle dann %1$s aus dem Widget-Menü.</string>
     <string name="settings_widget_selection_button_title">Widget hinzufügen</string>
     <string name="setting_widget_try_title">Probiere das Proton VPN Widget aus</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -664,9 +664,9 @@
     <string name="not_wanted_country_description">Upgrade, um einen beliebigen Server auszuwählen.</string>
     <string name="whats_new_title">Was gibt es Neues?</string>
     <string name="whats_new_profiles_title">Profile sind zurück</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_profiles_description">Erstelle und speichere benutzerdefinierte Verbindungen mit dem von dir gewählten Standort, Server und Protokoll.</string>
     <string name="whats_new_widget_title">Jetzt neu: Widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_widget_description">Du kannst jetzt dein VPN ansehen und verwalten, ohne den Startbildschirm zu verlassen. </string>
     <string name="whats_new_add_widget_button">Widget hinzufügen</string>
     <string name="welcome_plus_title">Willkommen bei VPN Plus</string>
     <string name="welcome_plus_description">Genieße zusätzliche Datenschutzfunktionen, eine verbesserte Leistung und die Möglichkeit, VPN auf höchstem Niveau anzupassen.</string>
@@ -892,7 +892,7 @@
         <item quantity="one">Automatisch ausgewählt aus %1$d Land</item>
         <item quantity="other">Automatisch ausgewählt aus %1$d Ländern</item>
     </plurals>
-    <string name="connection_info_auto_selected_free_countries_plain">Auto-selected from free countries.</string>
+    <string name="connection_info_auto_selected_free_countries_plain">Automatisch aus freien Ländern ausgewählt</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
@@ -1164,7 +1164,7 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Verbinde dich mit einem beliebigen Plus-Server und fang an zu streamen</string>
     <string name="info_dialog_profiles_title">Profile</string>
-    <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_profiles_description">Profile sind benutzerdefinierte VPN-Verbindungen, die du auf deine Bedürfnisse zuschneiden und für den schnellen Zugriff speichern kannst.\n\n Stelle deinen bevorzugten Standort ein und optimiere deine Einstellungen für Sicherheit, Leistung, Spiele oder jedes andere Szenario.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Peer-to-Peer-Filesharing ist auf diesem Server aktiviert.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1384,7 +1384,7 @@
     <!-- Label when showing profile\'s LAN (Local Area Network) setting. Preferably short. -->
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">Dadurch wird deine Verbindung neu gestartet.</string>
-    <string name="profile_overrides_setting">These settings are connected to <b>%1$s</b> and can only be managed in Profiles.</string>
+    <string name="profile_overrides_setting">Diese Einstellungen sind mit <b>%1$s</b> verbunden und können nur in den Profilen verwaltet werden.</string>
     <string name="initial_profile_name_streaming_us">US Streaming</string>
     <string name="initial_profile_name_work_school">Arbeit/Schule</string>
     <string name="initial_profile_name_anti_censorship">Zensurbekämpfung</string>
@@ -1417,7 +1417,7 @@
     <string name="profiles_zero_state_description">Profile sind gespeicherte Verbindungen mit dem von dir gewählten Standort, Server und Protokoll.</string>
     <string name="profiles_button_create_profile">Profil erstellen</string>
     <string name="profile_deleted_snackbar_message">Profil gelöscht</string>
-    <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
+    <string name="profile_connected_edit_setting">Diese Einstellung ist mit deinem aktiven Profil verbunden. \n\nBearbeite dein Profil, um Änderungen vorzunehmen, oder trenne die Verbindung, um deine allgemeinen VPN-Einstellungen zu bearbeiten.</string>
     <string name="profile_connected_dialog_title">%1$s in den Profilen verwalten</string>
     <string name="undo">Rückgängig machen</string>
     <string name="profile_unavailable_dialog_title">Profil nicht verfügbar</string>
@@ -1443,13 +1443,13 @@
     <string name="profile_auto_open_on">Ein</string>
     <string name="create_profile_auto_open_description">Öffne automatisch eine Website deiner Wahl, wenn du dich mit diesem Profil verbindest.</string>
     <string name="profile_auto_open_error_invalid_url">Gültige URL eingeben</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_how_likely_question">Wie wahrscheinlich ist es, dass du Proton VPN einem Freund oder Kollegen weiterempfiehlst?</string>
+    <string name="nps_additional_comment_title">Lass uns bitte wissen, warum du diese Bewertung abgegeben hast.</string>
     <string name="nps_additional_comment_optional">Optional</string>
     <string name="nps_rating_low_values_explain">0 ist sehr unwahrscheinlich</string>
     <string name="nps_rating_high_values_explain">10 ist sehr wahrscheinlich</string>
     <string name="nps_toast_submit_message">Vielen Dank! Dein Feedback hilft uns, Proton zu verbessern.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Deine Antwort sollte 250 Zeichen oder weniger sein.</string>
     <string name="nps_button_submit_title">Anonym teilen</string>
     <string name="widget_preview_switzerland">Schweiz</string>
     <string name="widget_preview_spain">Spanien</string>

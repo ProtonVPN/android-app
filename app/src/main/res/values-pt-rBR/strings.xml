@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">configurações</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Ative "<b>Sempre usar VPN</b>" e "<b>Bloquear conexões sem VPN</b>"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Ative \"<b>Sempre usar VPN</b>\" e \"<b>Bloquear conexões sem VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Configurações</string>
     <string name="settingsKillSwitchLearnMoreButton">Oque é kill switch?</string>
     <string name="settingsKillSwitchWarningMain">Quando o kill switch estiver ativado, você não conseguirá conectar-se a:</string>

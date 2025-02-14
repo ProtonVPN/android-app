@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">설정</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. \'<b>VPN 항상 켜짐</b>\'과 \'<b>VPN을 제외한 연결 차단</b>\'을 활성화합니다.]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">설정</string>
     <string name="settingsKillSwitchLearnMoreButton">킬 스위치란?</string>
     <string name="settingsKillSwitchWarningMain">킬 스위치가 활성화된 상태라면, 다음으로 연결할 수 없게 됩니다:</string>
@@ -534,7 +534,7 @@
     <string name="onboarding_welcome_description">브라우징은 은밀하게, 막힌 컨텐츠는 열리게, 디지털 자유를 그렇게 누리세요.</string>
     <string name="onboarding_welcome_action">시작하기</string>
     <string name="upgrade_success_get_started_button">시작하기</string>
-    <string name="dynamic_report_suggestion_didnt_work">작동하지 않습니까?</string>
+    <string name="dynamic_report_suggestion_didnt_work">소용이 없었나요?</string>
     <string name="dynamic_report_contact_us">연락하기</string>
     <string name="dynamic_report_tips_description">이 팁들이 문제를 더 빨리 해결하는데 도움이 될 수 있습니다.</string>
     <string name="dynamic_report_tips_title">빠른 수정</string>

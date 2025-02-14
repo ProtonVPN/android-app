@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">paramètres</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activez « <b>VPN permanent</b> » et « <b>Bloquer les connexions sans VPN</b> ».]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activez \« <b>VPN permanent</b>\ » et \« <b>Bloquer les connexions sans VPN</b>\ ».]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Paramètres</string>
     <string name="settingsKillSwitchLearnMoreButton">Qu\'est-ce que la fonctionnalité Arrêt d\'urgence (kill switch) ?</string>
     <string name="settingsKillSwitchWarningMain">Quand la fonction Arrêt d\'urgence (kill switch) est activé, vous ne pourrez pas vous connecter à :</string>
