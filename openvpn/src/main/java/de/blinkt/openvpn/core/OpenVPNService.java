@@ -522,9 +522,6 @@ public abstract class OpenVPNService extends VpnService implements StateListener
         if (intent != null && intent.getBooleanExtra(ALWAYS_SHOW_NOTIFICATION, false))
             mNotificationAlwaysVisible = true;
 
-        VpnStatus.addStateListener(this);
-        VpnStatus.addByteCountListener(this);
-
         if (intent == null) {
             // Process restart
             boolean shouldStart = onProcessRestore();
@@ -564,6 +561,9 @@ public abstract class OpenVPNService extends VpnService implements StateListener
 
         // Always show notification here to avoid problem with startForeground timeout
         VpnStatus.logInfo(R.string.building_configration);
+
+        VpnStatus.addStateListener(this);
+        VpnStatus.addByteCountListener(this);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M  || (!foregroundNotificationVisible())) {
 
