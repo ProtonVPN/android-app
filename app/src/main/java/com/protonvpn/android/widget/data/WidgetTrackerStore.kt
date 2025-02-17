@@ -58,7 +58,7 @@ class WidgetTracker @Inject constructor(
 
     private val store = mainScope.async { widgetTrackerStoreProvider.dataStoreWithSuffix("shared") }
 
-    init {
+    fun start() {
         mainScope.launch {
             val firstStart = store.await().data.first().firstStart
             if (firstStart) {
