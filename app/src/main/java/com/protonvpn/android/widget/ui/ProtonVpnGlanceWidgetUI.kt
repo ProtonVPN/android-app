@@ -54,6 +54,7 @@ import com.protonvpn.android.widget.WidgetViewState
 import com.protonvpn.android.widget.WidgetVpnStatus
 import com.protonvpn.android.widget.ui.GlanceIntentLabelSize.Big
 import com.protonvpn.android.widget.ui.GlanceIntentLabelSize.Medium
+import com.protonvpn.android.widget.ui.GlanceIntentLabelSize.Recent
 import com.protonvpn.android.widget.ui.GlanceIntentLabelSize.Small
 import kotlin.math.min
 import me.proton.core.presentation.R as CoreR
@@ -85,17 +86,18 @@ fun GlanceVpnStatus(status: WidgetVpnStatus, wide: Boolean, small: Boolean, modi
             else ->
                 ProtonGlanceTheme.colors.textNorm to null
         }
+        val iconSize = if (small) 20.dp else 22.dp
         if (iconRes != null) {
             Image(
                 ImageProvider(iconRes),
                 colorFilter = ColorFilter.tint(color),
                 contentDescription = null,
-                modifier = GlanceModifier.size(20.dp)
+                modifier = GlanceModifier.size(iconSize)
             )
         } else {
             CircularProgressIndicator(
                 color = color,
-                modifier = GlanceModifier.size(20.dp)
+                modifier = GlanceModifier.size(iconSize)
             )
         }
         if (wide) {
@@ -161,6 +163,7 @@ fun GlanceConnectIntent(
                 Small -> 1.dp
                 Medium -> 2.dp
                 Big -> 3.dp
+                Recent -> 1.dp
             }
             Label(GlanceModifier.padding(top = topPadding))
         }
@@ -191,13 +194,14 @@ fun GlanceConnectButton(action: Action, vpnStatus: WidgetVpnStatus, modifier: Gl
 }
 
 enum class GlanceIntentLabelSize {
-    Small, Medium, Big;
+    Small, Medium, Big, Recent;
 
     val mainTextSize: TextStyle
         @Composable get() = when (this) {
             Small -> ProtonGlanceTheme.typography.small
             Medium -> ProtonGlanceTheme.typography.medium
             Big -> ProtonGlanceTheme.typography.big
+            Recent -> ProtonGlanceTheme.typography.small
         }
 
     val secondaryTextSize: TextStyle
@@ -205,6 +209,7 @@ enum class GlanceIntentLabelSize {
             Small -> ProtonGlanceTheme.typography.smallSecondary
             Medium -> ProtonGlanceTheme.typography.mediumSecondary
             Big -> ProtonGlanceTheme.typography.bigSecondary
+            Recent -> ProtonGlanceTheme.typography.mediumSecondary
         }
 }
 
@@ -215,7 +220,7 @@ data class GlanceIntentDimensions(
     val forceMaxHeight: Boolean
 ) {
     val iconSize: Dp get() = when (labelSize) {
-        Small, Medium -> 24.dp
+        Small, Medium, Recent -> 24.dp
         Big -> 30.dp
     }
 }

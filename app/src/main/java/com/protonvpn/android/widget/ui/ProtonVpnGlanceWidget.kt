@@ -206,7 +206,7 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                 if (recents.isNotEmpty()) {
                     Text(
                         text = glanceStringResource(R.string.recents_headline),
-                        style = ProtonGlanceTheme.typography.smallSecondary,
+                        style = ProtonGlanceTheme.typography.mediumSecondary,
                         modifier = GlanceModifier.padding(top = 16.dp, bottom = 12.dp)
                     )
                     val maxRows = if (size.height >= XTALL) 2 else 1
