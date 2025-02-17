@@ -307,7 +307,9 @@ abstract class VpnBackend(
             hostname,
             nativeClient,
             features,
-            networkManager.isConnectedToNetwork()
+            networkManager.isConnectedToNetwork(),
+            60,
+            2
         )
 
         override val state: String get() = agent.state
