@@ -14,4 +14,6 @@ paths = [
     # OpenSSL and mbedtls - never modified by us.
     '''^openvpn/src/main/cpp/openssl/(.*)$''',
     '''^openvpn/src/main/cpp/mbedtls/(.*)''',
+    # R8 mapping file, contains function names, line numbers and other symbols that can be picked as false positives.
+    '''^app/build/outputs/mapping/(.*)/mapping.txt$''',
 ]
