@@ -22,7 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:theme="@style/Theme.ProtonVpnWidgetPreview"
-    android:background="@drawable/widget_background_disconnected">
+    android:background="@drawable/widget_background_disconnected_preview">
 
     <include layout="@layout/widget_preview_content_4x3" />
 

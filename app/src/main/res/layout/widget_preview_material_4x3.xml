@@ -22,7 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:theme="@style/Theme.ProtonVpnMaterialWidgetPreview"
-    android:background="@drawable/widget_background_material">
+    android:background="@drawable/widget_background_material_preview">
 
     <include layout="@layout/widget_preview_content_4x3" />
 
