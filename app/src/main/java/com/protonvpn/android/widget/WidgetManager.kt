@@ -58,17 +58,17 @@ class WidgetManager @Inject constructor(
     private val workManager: WorkManager,
 ) {
     private val widgetManager: AppWidgetManager? =
-        if (Build.MANUFACTURER.lowercase() in PICKER_NOT_SUPPORTED_MANUFACTURER_LIST) {
-            AppWidgetManager.getInstance(context) // This may return null on some devices, e.g. TVs.
-        } else {
+        if (Build.MANUFACTURER.lowercase() in PICKER_UNSUPPORTED_MANUFACTURER_LIST) {
             null
+        } else {
+            AppWidgetManager.getInstance(context) // This may return null on some devices, e.g. TVs.
         }
 
     companion object {
         // Some manufacturers override native picker with their own implementation
         // use fallback UI in that case instead of native picker
         // Add manufacturers in lowercase to the list.
-        val PICKER_NOT_SUPPORTED_MANUFACTURER_LIST = listOf("xiaomi")
+        val PICKER_UNSUPPORTED_MANUFACTURER_LIST = listOf("xiaomi")
         val WIDGET_ADDED_ACTION = "intent.action.WIDGET_ADDED";
     }
 
