@@ -180,12 +180,14 @@ fun GlanceConnectIntent(
 
 @Composable
 fun GlanceConnectButton(action: Action, vpnStatus: WidgetVpnStatus, modifier: GlanceModifier = GlanceModifier.fillMaxWidth()) {
-    GlanceButton(
-        if (vpnStatus != WidgetVpnStatus.Disconnected) R.string.disconnect else R.string.connect,
-        action,
-        secondary = vpnStatus != WidgetVpnStatus.Disconnected,
-        modifier = modifier
-    )
+    val text = when(vpnStatus) {
+        WidgetVpnStatus.Connected -> R.string.disconnect
+        WidgetVpnStatus.WaitingForNetwork,
+        WidgetVpnStatus.Connecting -> R.string.cancel
+        WidgetVpnStatus.Disconnected ->  R.string.connect
+
+    }
+    GlanceButton(text, action, secondary = vpnStatus != WidgetVpnStatus.Disconnected, modifier = modifier)
 }
 
 enum class GlanceIntentLabelSize {
