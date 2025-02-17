@@ -57,7 +57,12 @@ class WidgetManager @Inject constructor(
     private val uiStateStorage: UiStateStorage,
     private val workManager: WorkManager,
 ) {
-    private val widgetManager = AppWidgetManager.getInstance(context)
+    private val widgetManager: AppWidgetManager? =
+        if (Build.MANUFACTURER.lowercase() in PICKER_NOT_SUPPORTED_MANUFACTURER_LIST) {
+            AppWidgetManager.getInstance(context) // This may return null on some devices, e.g. TVs.
+        } else {
+            null
+        }
 
     companion object {
         // Some manufacturers override native picker with their own implementation
@@ -68,8 +73,8 @@ class WidgetManager @Inject constructor(
     }
 
     val supportsNativeWidgetSelector: Boolean
-        get() = widgetManager.isRequestPinAppWidgetSupported &&
-                Build.MANUFACTURER.lowercase() !in PICKER_NOT_SUPPORTED_MANUFACTURER_LIST
+        get() = widgetManager?.isRequestPinAppWidgetSupported ?: false
+
 
     val hasAddedWidget = widgetTracker.haveWidgets
 
@@ -127,7 +132,7 @@ class WidgetManager @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        widgetManager.requestPinAppWidget(
+        widgetManager?.requestPinAppWidget(
             myWidgetProvider,
             null,
             successPendingIntent
