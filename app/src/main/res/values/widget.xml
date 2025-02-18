@@ -27,7 +27,9 @@
     <dimen name="widget_background_radius_preview" type="dimen">@dimen/widget_background_radius</dimen>
 
     <dimen name="widget_min_width">100dp</dimen>
-    <dimen name="widget_min_height">130dp</dimen>
+    <!-- The min height is smaller than actual min height of the layout but Android does some weird
+         things and reserves much more space than needed. -->
+    <dimen name="widget_min_height">110dp</dimen>
     <!-- rough estimate of 4 columns based on https://developer.android.com/develop/ui/views/appwidgets/layouts -->
     <dimen name="widget_big_min_width">554dp</dimen>
     <dimen name="widget_big_min_height">278dp</dimen>
