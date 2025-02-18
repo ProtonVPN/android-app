@@ -66,9 +66,10 @@ data class ProtonGlanceResources(
     @DrawableRes val buttonBackgroundSecondary: Int,
     @DrawableRes val logoIcon: Int,
     @DrawableRes val widgetBackgroundNeedsLogin: Int,
-    @DrawableRes val widgetBackgroundDisconnected: Int,
-    @DrawableRes val widgetBackgroundConnecting: Int,
-    @DrawableRes val widgetBackgroundConnected: Int,
+    @DrawableRes val widgetBackgroundLoggedIn: Int,
+    @DrawableRes val widgetGradientConnecting: Int?,
+    @DrawableRes val widgetGradientConnected: Int?,
+    @DrawableRes val widgetGradientDisconnected: Int?,
 )
 
 private val ProtonGlanceBrandedColorProviders = ProtonGlanceColorProviders(
@@ -110,9 +111,10 @@ private val ProtonGlanceBrandedResources = ProtonGlanceResources(
     buttonBackgroundSecondary = R.drawable.widget_button_bg_secondary,
     logoIcon = R.drawable.ic_vpn_icon_colorful,
     widgetBackgroundNeedsLogin = R.drawable.widget_background_needslogin,
-    widgetBackgroundDisconnected = R.drawable.widget_background_disconnected,
-    widgetBackgroundConnecting = R.drawable.widget_background_connecting,
-    widgetBackgroundConnected = R.drawable.widget_background_connected,
+    widgetBackgroundLoggedIn = R.drawable.widget_background_norm,
+    widgetGradientConnecting = R.drawable.widget_bg_gradient_connecting,
+    widgetGradientConnected = R.drawable.widget_bg_gradient_connected,
+    widgetGradientDisconnected = R.drawable.widget_bg_gradient_disconnected,
 )
 
 private val ProtonGlanceDynamicResources = ProtonGlanceResources(
@@ -121,9 +123,10 @@ private val ProtonGlanceDynamicResources = ProtonGlanceResources(
     buttonBackgroundSecondary = R.drawable.widget_button_bg_secondary_material,
     logoIcon = R.drawable.ic_vpn_icon_monochrome,
     widgetBackgroundNeedsLogin = R.drawable.widget_background_material,
-    widgetBackgroundDisconnected = R.drawable.widget_background_material,
-    widgetBackgroundConnecting = R.drawable.widget_background_material,
-    widgetBackgroundConnected = R.drawable.widget_background_material,
+    widgetBackgroundLoggedIn = R.drawable.widget_background_material,
+    widgetGradientConnecting = null,
+    widgetGradientConnected = null,
+    widgetGradientDisconnected = null,
 )
 
 object ProtonGlanceTypography {

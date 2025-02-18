@@ -133,11 +133,27 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
                             .appWidgetBackground()
                             .background(ImageProvider(viewState.widgetBackground()))
                             .clickable(viewState.launchMainActivityAction)
-                            .padding(if (size.width >= WIDE && size.height >= TALL) 12.dp else 8.dp)
                     ) {
+                        val contentModifier = GlanceModifier
+                            .padding(if (size.width >= WIDE && size.height >= TALL) 12.dp else 8.dp)
+                            .fillMaxWidth()
                         when (viewState) {
-                            is WidgetViewState.NeedLogin -> NeedLogin(viewState.launchMainActivityAction)
-                            is WidgetViewState.LoggedIn -> LoggedIn(viewState)
+                            is WidgetViewState.NeedLogin -> NeedLogin(
+                                viewState.launchMainActivityAction,
+                                contentModifier
+                            )
+                            is WidgetViewState.LoggedIn -> {
+                                val gradient = viewState.statusGradient()
+                                if (gradient != null) {
+                                    Spacer(
+                                        GlanceModifier
+                                            .background(ImageProvider(gradient))
+                                            .fillMaxWidth()
+                                            .height(if (size.height >= TALL) 100.dp else 72.dp)
+                                    )
+                                }
+                                LoggedIn(viewState, contentModifier)
+                            }
                         }
                     }
                     Spacer(GlanceModifier.defaultWeight())
@@ -147,10 +163,13 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     }
 
     @Composable
-    private fun NeedLogin(mainActivityAction: Action) {
+    private fun NeedLogin(
+        mainActivityAction: Action,
+        modifier: GlanceModifier = GlanceModifier
+    ) {
         val size = LocalSize.current
         Column(
-            modifier = GlanceModifier.fillMaxWidth(),
+            modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
@@ -177,12 +196,15 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     }
 
     @Composable
-    private fun LoggedIn(viewState: WidgetViewState.LoggedIn) {
+    private fun LoggedIn(
+        viewState: WidgetViewState.LoggedIn,
+        modifier: GlanceModifier = GlanceModifier
+    ) {
         val size = LocalSize.current
         val width = size.width
         val height = size.height
         val isWide = width >= WIDE
-        Column(GlanceModifier.fillMaxWidth()) {
+        Column(modifier) {
             GlanceVpnStatus(viewState.vpnStatus, small = height < TALL, wide = isWide)
 
             val intentDimensions = size.connectCardDimensions()
