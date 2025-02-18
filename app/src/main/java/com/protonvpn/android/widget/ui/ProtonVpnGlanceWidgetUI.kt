@@ -61,14 +61,16 @@ import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun WidgetViewState.widgetBackground(): Int = when(this) {
-    is WidgetViewState.NeedLogin ->
-        ProtonGlanceTheme.resources.widgetBackgroundNeedsLogin
-    is WidgetViewState.LoggedIn -> when (vpnStatus) {
-        WidgetVpnStatus.Connected -> ProtonGlanceTheme.resources.widgetBackgroundConnected
-        WidgetVpnStatus.Connecting,
-        WidgetVpnStatus.WaitingForNetwork -> ProtonGlanceTheme.resources.widgetBackgroundConnecting
-        WidgetVpnStatus.Disconnected ->ProtonGlanceTheme.resources.widgetBackgroundDisconnected
-    }
+    is WidgetViewState.NeedLogin -> ProtonGlanceTheme.resources.widgetBackgroundNeedsLogin
+    is WidgetViewState.LoggedIn -> ProtonGlanceTheme.resources.widgetBackgroundLoggedIn
+}
+
+@Composable
+fun WidgetViewState.LoggedIn.statusGradient(): Int? = when (vpnStatus) {
+    WidgetVpnStatus.Connected -> ProtonGlanceTheme.resources.widgetGradientConnected
+    WidgetVpnStatus.Connecting,
+    WidgetVpnStatus.WaitingForNetwork -> ProtonGlanceTheme.resources.widgetGradientConnecting
+    WidgetVpnStatus.Disconnected ->ProtonGlanceTheme.resources.widgetGradientDisconnected
 }
 
 @Composable
