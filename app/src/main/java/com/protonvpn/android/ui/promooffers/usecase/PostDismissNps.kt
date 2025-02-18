@@ -16,23 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.ui.promooffers
+package com.protonvpn.android.ui.promooffers.usecase
 
-import androidx.lifecycle.ViewModel
-import com.protonvpn.android.ui.promooffers.usecase.PostDismissNps
-import com.protonvpn.android.ui.promooffers.usecase.PostNps
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.protonvpn.android.api.ProtonApiRetroFit
+import dagger.Reusable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class NpsViewModel @Inject constructor(
-    private val postNpsScore: PostNps,
-    private val postDismissNps: PostDismissNps
-): ViewModel() {
-
-    fun dismissNps() = postDismissNps()
-
-    fun postNps(score: Int, comment: String) {
-        postNpsScore(score, comment)
+@Reusable
+class PostDismissNps @Inject constructor(
+    private val mainScope: CoroutineScope,
+    private val api: ProtonApiRetroFit,
+) {
+    operator fun invoke() {
+        mainScope.launch {
+            api.dismissNps()
+        }
     }
 }

@@ -36,8 +36,8 @@ import com.protonvpn.android.models.vpn.CertificateResponse
 import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
-import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
 import com.protonvpn.android.telemetry.StatsBody
@@ -113,6 +113,9 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
 
     @POST("vpn/v1/nps/submit")
     suspend fun postNps(@Body data: PostNps.NpsData): GenericResponse
+
+    @POST("vpn/v1/nps/dismiss")
+    suspend fun postDismissNps(): GenericResponse
 
     @GET("core/v4/notifications")
     suspend fun getApiNotifications(

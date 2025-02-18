@@ -140,6 +140,9 @@ open class ProtonApiRetroFit @Inject constructor(
     open suspend fun postPromoCode(code: String): ApiResult<GenericResponse> =
         manager { postPromoCode(PromoCodesBody("VPN", listOf(code))) }
 
+    suspend fun dismissNps(): ApiResult<GenericResponse> =
+        manager { postDismissNps() }
+
     suspend fun postNps(data: PostNps.NpsData): ApiResult<GenericResponse> =
         manager { postNps(data) }
 
