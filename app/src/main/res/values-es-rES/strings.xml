@@ -171,7 +171,7 @@
     <string name="accessibility_action_remove_included_app">Eliminar de las aplicaciones incluidas</string>
     <string name="tileConnected">Conectado: %1$s</string>
     <string name="openUrlError">No se pudo abrir %1$s. El navegador web no se detectó en su dispositivo.</string>
-    <string name="loaderErrorTimeout">Se ha agotado el tiempo de conexión. Por favor, inténtalo de nuevo.</string>
+    <string name="loaderErrorTimeout">Se ha agotado el tiempo de conexión. Inténtalo de nuevo.</string>
     <string name="troubleshootButton">Resolución de problemas</string>
     <string name="activityTroubleshootTitle">Resolución de problemas</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Soluciones potenciales</string>
@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">ajustes</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activa \«<b>VPN siempre activa</b>\» y \«<b>Bloquear conexiones sin VPN</b>\»]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Ajustes</string>
     <string name="settingsKillSwitchLearnMoreButton">¿Qué es el interruptor de bloqueo?</string>
     <string name="settingsKillSwitchWarningMain">Cuando el interruptor de bloqueo está activo, no podrás conectarte a:</string>
@@ -290,7 +290,7 @@
     <string name="tv_quick_connect_recommened">Recomendado</string>
     <string name="tv_quick_connect_favourite">Favorito</string>
     <string name="tv_country_maintenance_dialog_title">País no disponible</string>
-    <string name="tv_country_maintenance_dialog_description">Por favor, inténtalo más tarde o selecciona un país diferente.</string>
+    <string name="tv_country_maintenance_dialog_description">Inténtalo más tarde o selecciona un país diferente.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 

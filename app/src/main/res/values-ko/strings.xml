@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">설정</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. \"\'<b>VPN 항상 켜짐</b>\"과\"\'<b>VPN을 제외한 연결 차단</b>\"을 활성화합니다.]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">설정</string>
     <string name="settingsKillSwitchLearnMoreButton">킬 스위치란?</string>
     <string name="settingsKillSwitchWarningMain">킬 스위치가 활성화된 상태라면, 다음으로 연결할 수 없게 됩니다:</string>
@@ -1140,7 +1140,7 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Plus 서버에 접속한 뒤 스트리밍을 시작하세요.</string>
     <string name="info_dialog_profiles_title">프로필</string>
-    <string name="info_dialog_profiles_description">프로필은 필요에 맞게 조정하고 빠른 액세스를 위해 저장할 수 있는 사용자 지정 VPN 연결입니다.\n\n선호 위치를 설정하고 보안, 성능, 게임 또는 기타 시나리오에 대한 설정을 최적화하십시오.</string>
+    <string name="info_dialog_profiles_description">프로필은 필요에 맞게 커스터마이징하고 빠르게 접근할 수 있도록 저장할 수 있는 맞춤형 VPN 연결 방식입니다.\n\n선호하는 위치를 설정하고 보안, 성능, 게임 또는 기타 시나리오에 맞게 설정을 최적화하세요.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">P2P 파일 공유가 이 서버에서 활성화 되었습니다.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1321,7 +1321,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="info_p2p_torrenting_description">P2P 네트워크를 통하여 대용량 파일을 빠르게 공유하고 다운로드함을 말합니다.</string>
     <string name="info_p2p_why_title">토렌트에 P2P 서버를 쓰는 이유라면?</string>
     <string name="info_p2p_why_description_speed">업로드와 다운로드 속도가 더욱 빠릅니다</string>
-    <string name="info_p2p_why_description_logs">활동 로그 없음</string>
+    <string name="info_p2p_why_description_logs">활동 로그가 없습니다</string>
     <string name="info_p2p_why_description_hide">사용자의 IP 주소를 서비스 제공자와 피어로부터 숨깁니다</string>
     <string name="info_dialog_smart_routing_description">Smart Routing은 가상 서버를 이용하여 접근이 어려운 국가에 VPN 커버리지를 제공합니다.\n\nSmart Routing 서버에 접속했다면 물리적 서버의 위치와 상관없이 목적지 국가에서 탐색하는 것으로 보이게 됩니다.\n\nSmart Routing은 보통 안티-프라이버시 법령과 기타 유형의 검열을 우회하는 데 쓸모가 있습니다.</string>
     <string name="countries_upsell_banner_description">VPN Plus 전세계적 커버리지 받기</string>

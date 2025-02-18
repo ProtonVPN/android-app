@@ -171,7 +171,7 @@
     <string name="accessibility_action_remove_included_app">Eliminare din aplicațiile incluse</string>
     <string name="tileConnected">Conectat: %1$s</string>
     <string name="openUrlError">%1$s nu a putut fi deschisă. Navigatorul web nu a fost detectat pe dispozitiv.</string>
-    <string name="loaderErrorTimeout">Conexiunea a expirat. Mai reîncercați.</string>
+    <string name="loaderErrorTimeout">Conexiunea a expirat. Reîncercați.</string>
     <string name="troubleshootButton">Depanare</string>
     <string name="activityTroubleshootTitle">Depanare</string>
     <string name="troubleshootPotentialSolutionsSectionTitle">Soluții potențiale</string>
@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">setări</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activați „<b>VPN permanent</b>” și „<b>Blocare conexiuni fără VPN</b>”]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Setări</string>
     <string name="settingsKillSwitchLearnMoreButton">Ce este întrerupătorul de conexiune?</string>
     <string name="settingsKillSwitchWarningMain">Când întrerupătorul de conexiune este activat, nu vă veți putea conecta la:</string>
@@ -1459,7 +1459,7 @@
     <string name="profile_unavailable_dialog_title">Profil indisponibil</string>
     <!-- %1$s - profile name
          Example: Your server selection for MyProfile is unavailable. Select a different server or try again later -->
-    <string name="profile_unavailable_dialog_message">Serverul selectat pentru „%1$s” nu este disponibil. Selectați un server diferit sau reîncercați mai târziu.</string>
+    <string name="profile_unavailable_dialog_message">Serverul selectat pentru „%1$s” nu este disponibil. Selectați un server diferit sau încercați mai târziu.</string>
     <!-- %1$d - profile icon number
          Example: Icon 1, Icon 2, ... -->
     <string name="profile_icon_accessibility">Pictograma %1$d</string>

@@ -196,15 +196,15 @@
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Znajdź aplikację Proton VPN i kliknij ikonę %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
-    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">settings</string>
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">ustawienia</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
-    <string name="settingsKillSwitchAndroidSettingsButton">Settings</string>
-    <string name="settingsKillSwitchLearnMoreButton">What is kill switch?</string>
-    <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
-    <string name="settingsKillSwitchWarningPoint1">Websites and apps excluded from your VPN connection through split tunneling</string>
-    <string name="settingsKillSwitchWarningPoint2">Devices on your local area network (LAN)</string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Włącz opcje \"<b>Zawsze włączony VPN</b>\” i \"<b>Blokuj połączenia bez VPN</b>\”]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Ustawienia</string>
+    <string name="settingsKillSwitchLearnMoreButton">Co to jest wyłącznik awaryjny?</string>
+    <string name="settingsKillSwitchWarningMain">Gdy wyłącznik awaryjny jest włączony, połączenie nie będzie możliwe:</string>
+    <string name="settingsKillSwitchWarningPoint1">Witryny i aplikacje wykluczone z połączenia VPN dzięki dzielonemu tunelowaniu</string>
+    <string name="settingsKillSwitchWarningPoint2">Urządzenia w twojej lokalnej sieci (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Udostępnij anonimowe statystyki użytkowania</string>
     <string name="settingsEnableTelemetryDescription">Dane użytkowania pomagają nam ominąć blokady VPN i poprawić wydajność aplikacji.</string>
     <string name="settingsSendCrashReportsTitle">Udostępnij anonimowe raporty o awariach</string>
@@ -1531,5 +1531,5 @@
     <string name="widget_status_error">Błąd</string>
     <string name="widget_status_connecting">Łączenie…</string>
     <string name="widget_sign_in">Zaloguj się</string>
-    <string name="widget_toast_added_message">Widget added to home screen</string>
+    <string name="widget_toast_added_message">Widżet został dodany do ekranu głównego</string>
 </resources>
