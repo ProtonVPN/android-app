@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">налады</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Уключыце \"<b>Пастаянны VPN</b>\" і \"<b>Блакіраваць падключэнні без VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Налады</string>
     <string name="settingsKillSwitchLearnMoreButton">Што такое Kill Switch?</string>
     <string name="settingsKillSwitchWarningMain">Пры ўключаным Kill Switch, вы не зможаце падключыцца да:</string>
@@ -706,7 +706,7 @@
     <string name="not_wanted_country_description">Палепшыць свой тарыфны план, каб выбіраць любы сервер</string>
     <string name="whats_new_title">Што новага</string>
     <string name="whats_new_profiles_title">Профілі вярнуліся</string>
-    <string name="whats_new_profiles_description">Стварыце і захоўвайце карыстальніцкія падключэнні з вабраным месцазнаходжаннем, серверам і пратаколам.</string>
+    <string name="whats_new_profiles_description">Стварайце і захоўвайце карыстальніцкія падключэнні з вабраным месцазнаходжаннем, серверам і пратаколам.</string>
     <string name="whats_new_widget_title">Уводзіны ў віджэты</string>
     <string name="whats_new_widget_description">Цяпер вы можаце прагледзець і кіраваць сваім VPN не пакідаючы галоўны экран. </string>
     <string name="whats_new_add_widget_button">Дадаць віджэт</string>
@@ -942,7 +942,7 @@
         <item quantity="many">Аўтаматычна выбрана з %1$d краін</item>
         <item quantity="other">Аўтаматычна выбрана з %1$d краін</item>
     </plurals>
-    <string name="connection_info_auto_selected_free_countries_plain">Атавыбар з бясплатных краін.</string>
+    <string name="connection_info_auto_selected_free_countries_plain">Аўтавыбар з бясплатных краін.</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that the connection details in the card are
          are that of the previous connection.
