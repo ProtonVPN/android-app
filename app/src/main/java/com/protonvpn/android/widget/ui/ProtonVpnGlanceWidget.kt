@@ -73,8 +73,8 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     companion object {
         private val SHORT = 149.dp
         private val MEDIUM = 200.dp
-        private val TALL = 315.dp
-        private val XTALL = 410.dp
+        private val TALL = 331.dp
+        private val XTALL = 426.dp
 
         private val NARROW = 100.dp
         private val SLIM = 140.dp
@@ -243,10 +243,11 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     }
 
     private fun GlanceIntentDimensions.cardIntentFixedHeight(): Dp {
-        // 16dp + 16dp vertical padding that will be consumed if labels font will be scaled with
+        // 2 x vertical padding (16dp or 24dp) that will be consumed if labels font will be scaled with
         // system setting
-        val extraSpace = 32.dp
-        return extraSpace + if (labelSize == GlanceIntentLabelSize.Big) {
+        val isBig = labelSize == GlanceIntentLabelSize.Big
+        val extraSpace = if (isBig) 48.dp else 32.dp
+        return extraSpace + if (isBig) {
             if (horizontal) 36.dp else 64.dp
         } else {
             if (horizontal) 35.dp else 59.dp
