@@ -47,6 +47,9 @@ import me.proton.core.network.domain.session.SessionId
 private const val WG_CLIENT_IP = "10.2.0.2"
 private const val WG_SERVER_IP = "10.2.0.1"
 
+private const val WG_CLIENT_IP_V6 = "2a07:b944::2:2"
+private const val WG_SERVER_IP_V6 = "2a07:b944::2:1"
+
 private typealias LocalNetworksProvider = (ipv6: Boolean) -> List<String>
 
 class ConnectionParamsWireguard(
@@ -73,14 +76,14 @@ class ConnectionParamsWireguard(
         context: Context,
         userSettings: LocalUserSettings,
         sessionId: SessionId?,
-        certificateRepository: CertificateRepository
+        certificateRepository: CertificateRepository,
     ): Config =
         getTunnelConfig(
             context.packageName,
             { ipv6: Boolean -> NetworkUtils.getLocalNetworks(context, ipv6).toList() },
             userSettings,
             sessionId,
-            certificateRepository
+            certificateRepository,
         )
 
     @Throws(IllegalStateException::class)
@@ -90,7 +93,7 @@ class ConnectionParamsWireguard(
         localNetworksProvider: LocalNetworksProvider,
         userSettings: LocalUserSettings,
         sessionId: SessionId?,
-        certificateRepository: CertificateRepository
+        certificateRepository: CertificateRepository,
     ): Config {
         val entryIp = entryIp ?: requireNotNull(connectingDomain?.getEntryIp(protocolSelection))
 
@@ -119,10 +122,17 @@ class ConnectionParamsWireguard(
             .setPersistentKeepalive(60)
             .build()
 
+        val (addresses, dns) = if (userSettings.ipV6Enabled && server.isIPv6Supported) {
+            ProtonLogger.logCustom(LogCategory.CONN, "WireGuard IPv4+6 tunnel")
+            "$WG_CLIENT_IP/32, $WG_CLIENT_IP_V6/128" to "$WG_SERVER_IP, $WG_SERVER_IP_V6"
+        } else {
+            ProtonLogger.logCustom(LogCategory.CONN, "WireGuard IPv4 tunnel")
+            "$WG_CLIENT_IP/32" to WG_SERVER_IP
+        }
         val splitTunneling = userSettings.splitTunneling
         val iface = Interface.Builder()
-            .parseAddresses("${WG_CLIENT_IP}/32")
-            .parseDnsServers(WG_SERVER_IP)
+            .parseAddresses(addresses)
+            .parseDnsServers(dns)
             .parsePrivateKey(certificateRepository.getX25519Key(sessionId))
             .splitTunnelingApps(connectIntent, myPackageName, splitTunneling)
             .build()
