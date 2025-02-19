@@ -86,6 +86,7 @@ data class LocalUserSettings(
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
     val telemetry: Boolean = true,
     val vpnAccelerator: Boolean = true,
+    val ipV6Enabled: Boolean = true,
     // Whenever adding a new setting add it also in toLogList below.
 ) {
     companion object {
@@ -109,6 +110,7 @@ fun LocalUserSettings.toLogList(): List<String> {
         "Telemetry: ${telemetry.toLog()}",
         "Use DoH for API: ${apiUseDoh.toLog()}",
         "VPN Accelerator: ${vpnAccelerator.toLog()}",
+        "IPv6 enabled: ${ipV6Enabled.toLog()}",
     )
     return regularSettings
 }

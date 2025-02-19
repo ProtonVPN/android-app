@@ -90,6 +90,9 @@ data class Server(
     val isP2pServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_P2P)
 
+    val isIPv6Supported: Boolean
+        get() = features.hasFlag(SERVER_FEATURE_IPV6)
+
     val isStreamingServer: Boolean
         get() = features.hasFlag(SERVER_FEATURE_STREAMING)
 

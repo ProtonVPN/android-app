@@ -29,6 +29,7 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.SyncStateFlow
+import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -63,6 +64,7 @@ class EffectiveCurrentUserSettings(
     val telemetry = distinct { it.telemetry }
     val vpnAccelerator = distinct { it.vpnAccelerator }
     val splitTunneling = distinct { it.splitTunneling }
+    val ipV6Enabled = distinct { it.ipV6Enabled }
 
     @Inject
     constructor(mainScope: CoroutineScope, effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow)
@@ -78,15 +80,17 @@ class EffectiveCurrentUserSettingsFlow constructor(
     getFeatureFlags: GetFeatureFlags,
     currentUser: CurrentUser,
     isTv: IsTvCheck,
-    restrictionFlow: Flow<Restrictions>
+    restrictionFlow: Flow<Restrictions>,
+    isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled
 ) : Flow<LocalUserSettings> {
 
     private val effectiveSettings: Flow<LocalUserSettings> = combine(
         rawCurrentUserSettingsFlow,
         getFeatureFlags,
         currentUser.vpnUserFlow,
-        restrictionFlow
-    ) { settings, features, vpnUser, restrictions ->
+        restrictionFlow,
+        isIPv6FeatureFlagEnabled.observe(),
+    ) { settings, features, vpnUser, restrictions, ipV6FeatureFlagEnabled ->
         val effectiveVpnAccelerator = restrictions.vpnAccelerator || settings.vpnAccelerator
         val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
         val effectiveSplitTunneling = if (restrictions.splitTunneling)
@@ -101,7 +105,8 @@ class EffectiveCurrentUserSettingsFlow constructor(
             },
             telemetry = settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
-            splitTunneling = effectiveSplitTunneling
+            splitTunneling = effectiveSplitTunneling,
+            ipV6Enabled = settings.ipV6Enabled && ipV6FeatureFlagEnabled
         )
     }
 
@@ -111,8 +116,9 @@ class EffectiveCurrentUserSettingsFlow constructor(
         getFeatureFlags: GetFeatureFlags,
         currentUser: CurrentUser,
         isTv: IsTvCheck,
-        restrictions: RestrictionsConfig
-    ) : this(localUserSettings.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, isTv, restrictions.restrictionFlow)
+        restrictions: RestrictionsConfig,
+        isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
+    ) : this(localUserSettings.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, isTv, restrictions.restrictionFlow, isIPv6FeatureFlagEnabled)
 
     override suspend fun collect(collector: FlowCollector<LocalUserSettings>) = effectiveSettings.collect(collector)
 }
