@@ -21,6 +21,7 @@ package com.protonvpn.android.widget.data
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.os.Build
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.WidgetRemoved
 import com.protonvpn.android.logging.WidgetUpdate
@@ -74,7 +75,7 @@ class WidgetTracker @Inject constructor(
         if (manager == null)
             return
 
-        val providers = manager.getInstalledProvidersForPackage(appContext.packageName, null)
+        val providers = getInstalledProvidersForPackageCompat(manager, appContext.packageName)
         providers.forEach { provider ->
             val receiverId = provider.provider.className.toWidgetReceiverId()
             val widgetIds = manager.getAppWidgetIds(provider.provider)
@@ -134,6 +135,15 @@ class WidgetTracker @Inject constructor(
             ?.key
         return WidgetType.getById(firstNonEmptyReceiverId)
     }
+}
+
+private fun getInstalledProvidersForPackageCompat(
+    appWidgetManager: AppWidgetManager,
+    packageName: String
+) = if (Build.VERSION.SDK_INT < 26) {
+    appWidgetManager.installedProviders.filter { it.provider.packageName == packageName }
+} else {
+    appWidgetManager.getInstalledProvidersForPackage(packageName, null)
 }
 
 @Serializable
