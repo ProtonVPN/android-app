@@ -144,12 +144,13 @@ class SettingsViewModelTests {
             )
         }
         val getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags()))
+        val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
 
         settingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
         )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
-            settingsManager.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, mockIsTvCheck, restrictionsFlow
+            settingsManager.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, mockIsTvCheck, restrictionsFlow, isIPv6FeatureFlagEnabled
         )
         effectiveSettings = EffectiveCurrentUserSettings(
             testScope.backgroundScope, effectiveCurrentUserSettingsFlow

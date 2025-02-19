@@ -85,6 +85,8 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
+import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
+import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import dagger.Binds
 import dagger.Module
@@ -373,6 +375,9 @@ object AppModule {
         @Singleton
         @Binds
         fun provideVpnConnect(impl: VpnConnectionManager): VpnConnect
+
+        @Binds
+        fun bindIsIPv6FeatureFlagEnabled(impl: IsIPv6FeatureFlagEnabledImpl): IsIPv6FeatureFlagEnabled
 
         // Alphabetically.
     }
