@@ -36,6 +36,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -89,9 +90,9 @@ class WidgetTracker @Inject constructor(
         emitAll(store.await().data)
     }.stateIn(mainScope, SharingStarted.WhileSubscribed(), null)
 
-    val widgetCount = data.mapState { data -> data?.receiverToWidgets?.values?.sumOf { it.size } }
+    val widgetCount: StateFlow<Int?> = data.mapState { data -> data?.receiverToWidgets?.values?.sumOf { it.size } }
 
-    val haveWidgets = widgetCount.mapState { count -> count?.let { it > 0 } }
+    val haveWidgets: StateFlow<Boolean?> = widgetCount.mapState { count -> count?.let { it > 0 } }
 
     fun onUpdated(receiverId: WidgetReceiverId, widgetIds: Set<WidgetId>) {
         update { data ->

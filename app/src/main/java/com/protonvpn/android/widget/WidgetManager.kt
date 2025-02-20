@@ -43,6 +43,7 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -71,7 +72,7 @@ class WidgetManager @Inject constructor(
     }
 
 
-    val hasAddedWidget = widgetTracker.haveWidgets
+    private val hasAddedWidget: StateFlow<Boolean?> = widgetTracker.haveWidgets
 
     val showWidgetAdoptionFlow: Flow<Boolean> = combine(
         uiStateStorage.state.map { it.shouldShowWidgetAdoption ?: false },
