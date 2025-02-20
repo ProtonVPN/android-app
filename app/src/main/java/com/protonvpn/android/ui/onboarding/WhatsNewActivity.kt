@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.ui.onboarding
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -38,6 +39,7 @@ class WhatsNewActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityWhatsNewBinding::inflate)
 
+    @TargetApi(26)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -46,7 +48,7 @@ class WhatsNewActivity : AppCompatActivity() {
             gotItButton.onClick {
                 finish()
             }
-            addWidgetButton.isVisible = widgetManager.supportsNativeWidgetSelector
+            addWidgetButton.isVisible = widgetManager.supportsNativeWidgetSelector()
             addWidgetButton.onClick {
                 widgetManager.openNativeWidgetSelector()
                 finish()

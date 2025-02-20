@@ -131,7 +131,7 @@ class HomeViewModel @Inject constructor(
 
     fun onWidgetAdoptionShown() = widgetManager.onWidgetAdoptionShown()
 
-    val widgetAdoptionAddNewAction = widgetManager.widgetAdoptionAddNewAction
+    val widgetAdoptionAddNewAction = widgetManager.getAdoptWidgetAction()
     val showWidgetAdoptionFlow = widgetManager.showWidgetAdoptionFlow
 
     val mapHighlightState = combine(
