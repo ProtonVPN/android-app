@@ -48,7 +48,11 @@ private fun NavController.isAtTheStartOfGraph(): Boolean {
     return previous.destination.parent != currentDestination?.parent
 }
 
-fun NavController.backStackRoutes(withArgs: Boolean = false): List<String> =
+// This function uses a restricted currentBackStack.
+// There is no good alternative, despite what is being said in https://issuetracker.google.com/issues/308334893
+// Avoid using this code outside tests and debug.
+@Suppress("RestrictedApi")
+fun NavController.debugBackStackRoutes(withArgs: Boolean = false): List<String> =
     currentBackStack.value
         .mapNotNull { it.destination.route }
         .run { if (withArgs) this else map { it.baseRoute() } }

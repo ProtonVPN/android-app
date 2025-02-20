@@ -148,7 +148,7 @@ open class BaseNav<N : BaseNav<N>>(
     // Debug util to print navigator back stack
     fun printBackStackRoutes(prefix: String, withArgs: Boolean = false) {
         if (BuildConfig.DEBUG)
-            navLog("$prefix: ${controller.backStackRoutes(withArgs)}")
+            navLog("$prefix: ${controller.debugBackStackRoutes(withArgs)}")
     }
 
     fun navLog(message: String) {

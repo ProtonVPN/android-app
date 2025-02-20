@@ -38,7 +38,8 @@
             android:layout_height="20dp"
             android:layout_marginEnd="8dp"
             android:src="@drawable/ic_proton_lock_open_filled_2"
-            android:tint="?widget_preview_unprotected" />
+            android:tint="?widget_preview_unprotected"
+            tools:ignore="UseAppTint" />
 
         <TextView
             android:layout_width="wrap_content"

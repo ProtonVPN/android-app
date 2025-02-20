@@ -59,6 +59,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textAlignment="viewStart"
+        tools:ignore="RtlCompat"
         tools:text="Server test name" />
 
 </merge>

@@ -46,6 +46,7 @@ abstract class SaveableSettingsActivity<VM : SaveableSettingsViewModel> : BaseAc
     protected abstract val viewModel: VM
 
     override fun onBackPressed() {
+        super.onBackPressed()
         viewModel.onGoBack()
     }
 

@@ -39,7 +39,7 @@ import com.protonvpn.android.redesign.base.ui.nav.Screen
 import com.protonvpn.android.redesign.base.ui.nav.ScreenNoArg
 import com.protonvpn.android.redesign.base.ui.nav.addNested
 import com.protonvpn.android.redesign.base.ui.nav.addToGraph
-import com.protonvpn.android.redesign.base.ui.nav.backStackRoutes
+import com.protonvpn.android.redesign.base.ui.nav.debugBackStackRoutes
 import com.protonvpn.android.redesign.base.ui.nav.popToStartNavOptions
 import com.protonvpn.tests.redesign.base.ui.nav.ScreenA1.a1
 import com.protonvpn.tests.redesign.base.ui.nav.ScreenA2.a2
@@ -182,7 +182,7 @@ fun verifyOn(nav: BaseNav<*>, labelText: String, allRoutes: List<String>) {
         .withText(labelText)
         .assertExists()
     assertEquals(allRoutes.last(), nav.currentRoute())
-    assertEquals(allRoutes, nav.controller.backStackRoutes())
+    assertEquals(allRoutes, nav.controller.debugBackStackRoutes())
 }
 
 fun <N : BaseNav<N>> N.navigate(
