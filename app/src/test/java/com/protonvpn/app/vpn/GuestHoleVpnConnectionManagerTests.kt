@@ -165,6 +165,7 @@ class GuestHoleVpnConnectionManagerTests {
             powerManager = mockPowerManager,
             vpnConnectionTelemetry = mockk(relaxed = true),
             autoLoginManager = mockk(relaxed = true),
+            vpnErrorAndFallbackObservability = mockk(relaxed = true),
         )
         guestHole = GuestHole(
             scope = bgScope,
