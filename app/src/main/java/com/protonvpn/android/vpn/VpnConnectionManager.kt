@@ -147,6 +147,7 @@ class VpnConnectionManager @Inject constructor(
     powerManager: PowerManager,
     private val vpnConnectionTelemetry: VpnConnectionTelemetry,
     private val autoLoginManager: AutoLoginManager,
+    private val vpnErrorAndFallbackObservability: VpnErrorAndFallbackObservability,
 ) : VpnConnect {
 
     // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
@@ -196,6 +197,9 @@ class VpnConnectionManager @Inject constructor(
             Storage.saveString(STORAGE_KEY_STATE, newState.name)
 
             val errorType = (newState as? VpnState.Error)?.type
+            if (errorType != null) {
+                vpnErrorAndFallbackObservability.reportError(errorType)
+            }
 
             if (errorType != null && errorType in RECOVERABLE_ERRORS) {
                 if (ongoingFallback?.isActive != true) {
@@ -229,6 +233,7 @@ class VpnConnectionManager @Inject constructor(
         vpnErrorHandler.switchConnectionFlow
             .onEach { fallback ->
                 if (vpnStateMonitor.isEstablishingOrConnected) {
+                    vpnErrorAndFallbackObservability.reportFallback(fallback)
                     when (fallback) {
                         is VpnFallbackResult.Error -> {
                             if (fallback.type == ErrorType.NO_PROFILE_FALLBACK_AVAILABLE) {
@@ -292,8 +297,10 @@ class VpnConnectionManager @Inject constructor(
                 VpnFallbackResult.Error(params, errorType, reason = null)
         }
         when (result) {
-            is VpnFallbackResult.Switch ->
+            is VpnFallbackResult.Switch -> {
+                vpnErrorAndFallbackObservability.reportFallback(result)
                 fallbackConnect(result)
+            }
             is VpnFallbackResult.Error -> {
                 vpnStateMonitor.vpnConnectionNotificationFlow.emit(result)
                 ProtonLogger.logCustom(LogCategory.CONN, "Failed to recover, entering $result")
@@ -365,10 +372,12 @@ class VpnConnectionManager @Inject constructor(
         }
 
         if (fallback != null) {
+            vpnErrorAndFallbackObservability.reportFallback(fallback)
             fallbackConnect(fallback)
         } else {
             vpnConnectionTelemetry.onConnectionAbort(sentryInfo = "no server available")
             if (connectIntent is ConnectIntent) {
+                vpnErrorAndFallbackObservability.reportFallbackFailure(connectIntent, reason)
                 vpnBackgroundUiDelegate.showInfoNotification(
                     if (server == null) R.string.error_server_not_set
                     else R.string.restrictedMaintenanceDescription

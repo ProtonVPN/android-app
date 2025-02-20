@@ -318,7 +318,8 @@ class VpnConnectionTests {
         manager = VpnConnectionManager(permissionDelegate, getFeatureFlags, SettingsForConnection(userSettings, profilesDao, vpnStatusProviderUI),
             backendProvider, networkManager, vpnErrorHandler, monitor, mockVpnBackgroundUiDelegate,
             serverManager2, certificateRepository, scope.backgroundScope, clock, mockk(relaxed = true),
-            currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry, mockk(relaxed = true))
+            currentUser, supportsProtocol, mockk(relaxed = true), vpnConnectionTelemetry, mockk(relaxed = true),
+            mockk(relaxed = true))
 
         MockNetworkManager.currentStatus = NetworkStatus.Unmetered
 

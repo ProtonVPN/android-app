@@ -220,6 +220,7 @@ class VpnConnectionManagerTests {
             supportsProtocol = supportsProtocol,
             vpnConnectionTelemetry = mockVpnConnectionTelemetry,
             autoLoginManager = mockk(relaxed = true),
+            vpnErrorAndFallbackObservability = mockk(relaxed = true)
         )
     }
 
