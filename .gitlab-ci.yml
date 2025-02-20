@@ -139,13 +139,16 @@ build google debug:
   tags:
     - xlarge-k8s
   script:
-    # Build additionally the vanilla and Amazon flavors to check that they compile.
+    # Build additionally the vanilla and Amazon flavors to check that they compile, run lint to
+    # check for use of unsupported APIs (Amazon builds have lower minSdk) and other errors.
     # Don't include them in artifacts.
     - >
       ./gradlew :app:assembleProductionGooglePlayStoreDebug \
+                :app:lintProductionGooglePlayStoreDebug \
                 :app:assembleProductionVanillaOpenSourceDebug \
                 :app:assembleProductionVanillaAmazonDebug \
-                :app:assembleProductionGooglePlayStoreDebugAndroidTest
+                :app:lintProductionVanillaAmazonDebug \
+                :app:assembleProductionGooglePlayStoreDebugAndroidTest \
   artifacts:
     expire_in: 1 week
     paths:
