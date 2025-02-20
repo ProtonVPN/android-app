@@ -22,7 +22,6 @@ package com.protonvpn.android
 import android.content.Context
 import com.airbnb.lottie.LottieCompositionFactory
 import com.airbnb.lottie.LottieDrawable
-import com.airbnb.lottie.utils.Utils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
@@ -43,7 +42,7 @@ import me.proton.core.configuration.EnvironmentConfigurationDefaults
 import java.io.IOException
 import java.io.InputStream
 
-class StreamLottieDecoder(private val appContext: Context) : ResourceDecoder<InputStream, LottieDrawable> {
+class StreamLottieDecoder : ResourceDecoder<InputStream, LottieDrawable> {
     override fun handles(source: InputStream, options: Options): Boolean = true
 
     override fun decode(source: InputStream, width: Int, height: Int, options: Options): Resource<LottieDrawable> {
@@ -60,7 +59,6 @@ class StreamLottieDecoder(private val appContext: Context) : ResourceDecoder<Inp
             return LottieDrawable().apply {
                 composition = result.value
                 repeatCount = LottieDrawable.INFINITE
-                setSystemAnimationsAreEnabled(Utils.getAnimationScale(appContext) != 0f)
             }
         } else {
             throw result.exception!!
@@ -90,7 +88,7 @@ class BlackGlideUrlLoader : BaseGlideUrlLoader<String> {
     override fun getUrl(model: String, width: Int, height: Int, options: Options?): String = model
 
     override fun getHeaders(model: String?, width: Int, height: Int, options: Options?): Headers? =
-        if (EnvironmentConfigurationDefaults.proxyToken?.isNotBlank() == true) {
+        if (EnvironmentConfigurationDefaults.proxyToken.isNotBlank()) {
             LazyHeaders.Builder().addHeader("X-atlas-secret", EnvironmentConfigurationDefaults.proxyToken).build()
         } else {
             super.getHeaders(model, width, height, options)
@@ -109,9 +107,9 @@ class ProtonVpnGlideModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         registry
-            .append(InputStream::class.java, LottieDrawable::class.java, StreamLottieDecoder(context))
+            .append(InputStream::class.java, LottieDrawable::class.java, StreamLottieDecoder())
 
-        if (EnvironmentConfigurationDefaults.proxyToken?.isNotBlank() == true) {
+        if (EnvironmentConfigurationDefaults.proxyToken.isNotBlank()) {
             registry.prepend(String::class.java, InputStream::class.java, BlackGlideUrlLoader.Factory())
         }
     }
