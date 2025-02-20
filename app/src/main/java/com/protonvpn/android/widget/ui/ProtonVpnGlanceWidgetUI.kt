@@ -321,7 +321,7 @@ private fun GlanceRecentsRow(
                             GlanceConnectIntent(
                                 recent.connectIntentViewState,
                                 dimensions = GlanceIntentDimensions(
-                                    labelSize = Small,
+                                    labelSize = Recent,
                                     horizontal = false,
                                     forceMaxHeight = forceMaxHeight,
                                     showIcon = true,
