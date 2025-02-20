@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.redesign.settings.ui
 
+import android.annotation.TargetApi
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
@@ -382,8 +383,9 @@ class SettingsViewModel @Inject constructor(
 
     fun setNewAppIcon(newIcon: CustomAppIconData) = appIconManager.setNewAppIcon(newIcon)
 
+    @TargetApi(26)
     fun onWidgetSettingClick(onNativeSelectionUnavailable: () -> Unit) {
-        if (appWidgetManager.supportsNativeWidgetSelector) {
+        if (appWidgetManager.supportsNativeWidgetSelector()) {
             appWidgetManager.openNativeWidgetSelector()
         } else {
             onNativeSelectionUnavailable()

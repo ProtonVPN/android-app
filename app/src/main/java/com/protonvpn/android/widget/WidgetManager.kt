@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.widget
 
+import android.annotation.TargetApi
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
@@ -26,6 +27,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
@@ -57,12 +59,8 @@ class WidgetManager @Inject constructor(
     private val uiStateStorage: UiStateStorage,
     private val workManager: WorkManager,
 ) {
-    private val widgetManager: AppWidgetManager? =
-        if (Build.MANUFACTURER.lowercase() in PICKER_UNSUPPORTED_MANUFACTURER_LIST) {
-            null
-        } else {
-            AppWidgetManager.getInstance(context) // This may return null on some devices, e.g. TVs.
-        }
+    // This may be null on some devices, e.g. TVs.
+    private val widgetManager: AppWidgetManager? = AppWidgetManager.getInstance(context)
 
     companion object {
         // Some manufacturers override native picker with their own implementation
@@ -71,9 +69,6 @@ class WidgetManager @Inject constructor(
         val PICKER_UNSUPPORTED_MANUFACTURER_LIST = listOf("xiaomi")
         val WIDGET_ADDED_ACTION = "intent.action.WIDGET_ADDED";
     }
-
-    val supportsNativeWidgetSelector: Boolean
-        get() = widgetManager?.isRequestPinAppWidgetSupported ?: false
 
 
     val hasAddedWidget = widgetTracker.haveWidgets
@@ -108,13 +103,23 @@ class WidgetManager @Inject constructor(
         }
     }
 
-    private val adoptWidgetLambda: () -> Unit = {
+    @TargetApi(26)
+    fun supportsNativeWidgetSelector(): Boolean =
+        if (Build.VERSION.SDK_INT < 26 || Build.MANUFACTURER.lowercase() in PICKER_UNSUPPORTED_MANUFACTURER_LIST) {
+            false
+        } else {
+            widgetManager?.isRequestPinAppWidgetSupported ?: false
+        }
+
+    @RequiresApi(26)
+    private fun adoptWidget() {
         openNativeWidgetSelector()
         onWidgetAdoptionShown()
     }
 
-    val widgetAdoptionAddNewAction =
-        if (supportsNativeWidgetSelector) adoptWidgetLambda else null
+    @TargetApi(26)
+    fun getAdoptWidgetAction(): (() -> Unit)? =
+        if (supportsNativeWidgetSelector()) ::adoptWidget else null
 
     fun onWidgetAdoptionShown() {
         scope.launch {
@@ -122,6 +127,7 @@ class WidgetManager @Inject constructor(
         }
     }
 
+    @RequiresApi(26)
     fun openNativeWidgetSelector() {
         val myWidgetProvider = ComponentName(context, ProtonVpnWidgetReceiver::class.java)
         val intent = Intent(WIDGET_ADDED_ACTION).apply { setPackage(context.packageName) }
@@ -139,6 +145,7 @@ class WidgetManager @Inject constructor(
         )
     }
 }
+
 
 private const val UNIQUE_WORK_NAME = "WidgetAdoptionUpdate"
 
