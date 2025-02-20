@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.components
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.PendingIntent
 import android.content.Intent
@@ -166,6 +167,7 @@ class QuickTileService : TileService() {
         }
     }
 
+    @SuppressLint("StartActivityAndCollapseDeprecated")
     private fun launchApp() {
         val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
         if (Build.VERSION.SDK_INT >= 34) {

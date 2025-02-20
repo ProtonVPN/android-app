@@ -142,6 +142,7 @@ object AndroidUtils {
 
 fun Context.openUrl(url: String) = openUrl(Uri.parse(url))
 
+@SuppressWarnings("UnsafeImplicitIntentLaunch")
 fun Context.openUrl(url: Uri) {
     try {
         val browserIntent = Intent(Intent.ACTION_VIEW, url)

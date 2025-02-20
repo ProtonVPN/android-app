@@ -96,6 +96,7 @@ class UpdateView(
         }
     }
 
+    @SuppressWarnings("UnsafeImplicitIntentLaunch")
     private fun openPlayStore() {
         val packageName = APPLICATION_ID
         try {

@@ -18,6 +18,7 @@
   -->
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -34,7 +35,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_proton_lock_open_filled_2"
-            android:tint="?widget_preview_unprotected" />
+            android:tint="?widget_preview_unprotected"
+            tools:ignore="UseAppTint" />
     </LinearLayout>
 
     <LinearLayout

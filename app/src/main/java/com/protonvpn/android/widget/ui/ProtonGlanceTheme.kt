@@ -28,6 +28,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceComposable
+import androidx.glance.color.ColorProvider
 import androidx.glance.color.DayNightColorProvider
 import androidx.glance.color.DynamicThemeColorProviders
 import androidx.glance.text.FontWeight
@@ -73,21 +74,21 @@ data class ProtonGlanceResources(
 )
 
 private val ProtonGlanceBrandedColorProviders = ProtonGlanceColorProviders(
-    interactionNorm = FixedColorProvider(ProtonColors.Light.brandNorm),
-    onInteractionNorm = FixedColorProvider(Color.White),
-    onInteractionSecondary = DayNightColorProvider(
+    interactionNorm = ColorProvider(ProtonColors.Light.brandNorm),
+    onInteractionNorm = ColorProvider(Color.White),
+    onInteractionSecondary = ColorProvider(
         day = ProtonColors.Light.textNorm,
         night = ProtonColors.Dark.textNorm,
     ),
-    textNorm = DayNightColorProvider(day = ProtonColors.Light.textNorm, night = ProtonColors.Dark.textNorm),
-    textSecondary = DayNightColorProvider(day = ProtonColors.Light.textWeak, night = ProtonColors.Dark.textWeak),
-    protected = DayNightColorProvider(day = ProtonColors.Light.vpnGreen, night = ProtonColors.Dark.vpnGreen),
-    unprotected = DayNightColorProvider(
+    textNorm = ColorProvider(day = ProtonColors.Light.textNorm, night = ProtonColors.Dark.textNorm),
+    textSecondary = ColorProvider(day = ProtonColors.Light.textWeak, night = ProtonColors.Dark.textWeak),
+    protected = ColorProvider(day = ProtonColors.Light.vpnGreen, night = ProtonColors.Dark.vpnGreen),
+    unprotected = ColorProvider(
         day = ProtonColors.Light.notificationError,
         night = ProtonColors.Dark.notificationError,
     ),
     logoIcon = null,
-    logoText = DayNightColorProvider(
+    logoText = ColorProvider(
         day = ProtonColors.Light.textNorm,
         night = ProtonColors.Dark.textNorm,
     )
