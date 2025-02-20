@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.4.1)
 project("ics-openvpn")
 # Git version string
 
+add_link_options("LINKER:--build-id=none")
+
 include(GetGitRevisionDescription.cmake)
 git_describe(OPENVPN2_GIT "${CMAKE_CURRENT_SOURCE_DIR}/openvpn" "--tags" "--always" "--long")
 git_describe(OPENVPN3_GIT "${CMAKE_CURRENT_SOURCE_DIR}/openvpn3" "--tags" "--always" "--long")
@@ -77,17 +79,20 @@ if (NOT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} MATCHES "build/intermediates/cmake/.*s
 
     if (${OPENVPN3OSSL})
         target_compile_definitions(ovpn3 PRIVATE
+                -D__DATE__=""
                 -DUSE_OPENSSL
                 )
         target_link_libraries(ovpn3 crypto ssl lzo lz4)
     else ()
         target_compile_definitions(ovpn3 PRIVATE
+                -D__DATE__=""
                 -DUSE_MBEDTLS
                 )
         target_link_libraries(ovpn3 mbedtls mbedx509 mbedcrypto lzo lz4)
     endif ()
 
     target_compile_definitions(ovpn3 PRIVATE
+            -D__DATE__=""
             -DHAVE_CONFIG_H
             -DHAVE_LZO
             -DHAVE_LZ4
@@ -105,6 +110,7 @@ endif ()
 
 add_library(ovpnutil SHARED ovpnutil/jniglue.c)
 target_compile_definitions(ovpnutil PRIVATE -DTARGET_ARCH_ABI=\"${ANDROID_ABI}\"
+        -D__DATE__=""
         -DOPENVPN2_GIT_REVISION=\"${OPENVPN2_GIT}\"
         -DOPENVPN3_GIT_REVISION=\"${OPENVPN3_GIT}\"
         )
