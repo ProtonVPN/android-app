@@ -1457,7 +1457,7 @@
     <string name="widget_preview_france">Francia</string>
     <string name="widget_status_unprotected">Non protetto</string>
     <string name="widget_status_error">Errore</string>
-    <string name="widget_status_connecting">Connessione…</string>
+    <string name="widget_status_connecting">Connessione in corso</string>
     <string name="widget_sign_in">Accedi</string>
     <string name="widget_toast_added_message">Widget aggiunto alla schermata principale</string>
 </resources>

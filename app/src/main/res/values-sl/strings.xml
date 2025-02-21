@@ -1531,7 +1531,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="widget_preview_france">France</string>
     <string name="widget_status_unprotected">Unprotected</string>
     <string name="widget_status_error">Napaka</string>
-    <string name="widget_status_connecting">Connecting…</string>
+    <string name="widget_status_connecting">Connecting</string>
     <string name="widget_sign_in">Prijava</string>
     <string name="widget_toast_added_message">Widget added to home screen</string>
 </resources>

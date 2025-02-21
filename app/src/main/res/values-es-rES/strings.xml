@@ -667,7 +667,7 @@
     <string name="whats_new_profiles_description">Crea y guarda conexiones personalizadas con tu elección de ubicación, servidor y protocolo.</string>
     <string name="whats_new_widget_title">Presentamos los widgets</string>
     <string name="whats_new_widget_description">Ahora puedes ver y administrar tu VPN sin salir de la pantalla de inicio. </string>
-    <string name="whats_new_add_widget_button">Agregar un widget</string>
+    <string name="whats_new_add_widget_button">Agregar el widget</string>
     <string name="welcome_plus_title">Te damos la bienvenida a VPN Plus</string>
     <string name="welcome_plus_description">Disfruta de funciones de privacidad adicionales, rendimiento excepcional y una personalización de VPN de otro nivel.</string>
     <string name="welcome_plus_feature_security">Funciones de seguridad avanzadas</string>
@@ -1388,7 +1388,7 @@
     <string name="initial_profile_name_streaming_us">Streaming EE. UU.</string>
     <string name="initial_profile_name_work_school">Trabajo/Escuela</string>
     <string name="initial_profile_name_anti_censorship">Anticensura</string>
-    <string name="initial_profile_name_gaming">Juegos</string>
+    <string name="initial_profile_name_gaming">Videojuegos</string>
     <string name="initial_profile_name_max_security">Seguridad máxima</string>
     <string name="create_profile_pick_country_title">País</string>
     <string name="create_profile_pick_type_title">Tipo</string>
@@ -1457,7 +1457,7 @@
     <string name="widget_preview_france">Francia</string>
     <string name="widget_status_unprotected">Sin protección</string>
     <string name="widget_status_error">Error</string>
-    <string name="widget_status_connecting">Conectando…</string>
+    <string name="widget_status_connecting">Conectando</string>
     <string name="widget_sign_in">Iniciar sesión</string>
     <string name="widget_toast_added_message">Se ha agregado el widget a la pantalla de inicio.</string>
 </resources>

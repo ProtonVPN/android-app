@@ -126,7 +126,7 @@
     <string name="inputIpAddressHint">Напішыце IP-адрас</string>
     <string name="inputIpAddressErrorInvalid">Памылковы IP-адрас</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
-    <string name="settings_new_label_badge">НОВЫ</string>
+    <string name="settings_new_label_badge">НОВАЕ</string>
     <string name="settingsExcludedIPAddressesListHeader">Выключаныя IP-адрасы (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Уключаючы IP-адрасы (%1$d)</string>
     <string name="settingsExcludedApps">Выключаныя праграмы</string>
@@ -190,7 +190,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Альтэрнатыўная маршрутызацыя</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У выпадку, калі Proton заблакіраваны, дазвольце праграме паспрабаваць альтэрнатыўныя шляхі для атрымання сувязі з серверамі Proton. <a href="%1$s">Даведацца больш</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Дзяржаўная блакіроўка</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Магчыма, што ваша краіна блакіруе доступ да Proton. Для атрымання доступу, калі ласка, паспрабуйце скарыстацца <a href=\'%1$s\'>Tor</a>.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Магчыма, што ваша краіна блакіруе доступ да Proton. Для атрымання доступу, паспрабуйце скарыстацца <a href=\'%1$s\'>Tor</a>.]]></string>
     <string name="settingsKillSwitchEnableTitle">Як уключыць Kill Switch?</string>
     <string name="settingsKillSwitchEnableStep1">1. Адкрыйце налады вашай прылады</string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -637,9 +637,9 @@
     <string name="settings_widget_selection_title">Паспрабуйце віджэт Proton VPN</string>
     <string name="settings_widget_selection_description">Сачыце за сваім статусам падключэння і атрымлівайце доступ да абраных падключэнняў VPN з галоўнага экрана.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">Націсніце і ўтрымлівайце ў любым месцы на галоўным экране і выберыце %1$s з меню віджэтаў, каб дадаць яго.</string>
+    <string name="setting_widget_selection_additional_description">Націсніце і ўтрымлівайце ў любым месцы на галоўным экране, а потым проста выберыце %1$s з меню віджэтаў і дадайце яго.</string>
     <string name="settings_widget_selection_button_title">Дадаць віджэт</string>
-    <string name="setting_widget_try_title">Паспрабаваць віджэт Proton VPN</string>
+    <string name="setting_widget_try_title">Паспрабуйце віджэт Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Ігнараваць банер</string>
@@ -708,7 +708,7 @@
     <string name="whats_new_profiles_title">Профілі вярнуліся</string>
     <string name="whats_new_profiles_description">Стварайце і захоўвайце карыстальніцкія падключэнні з вабраным месцазнаходжаннем, серверам і пратаколам.</string>
     <string name="whats_new_widget_title">Уводзіны ў віджэты</string>
-    <string name="whats_new_widget_description">Цяпер вы можаце прагледзець і кіраваць сваім VPN не пакідаючы галоўны экран. </string>
+    <string name="whats_new_widget_description">Цяпер вы можаце праглядаць і кіраваць сваім VPN не пакідаючы галоўны экран. </string>
     <string name="whats_new_add_widget_button">Дадаць віджэт</string>
     <string name="welcome_plus_title">Вітаем у VPN Plus</string>
     <string name="welcome_plus_description">Атрымлівайце асалоду ад дадатковых функцый прыватнасці, палепшанай прадукцыйнасці і больш гнуткага наладжвання вашага падключэння да VPN.</string>
@@ -1507,10 +1507,10 @@
          Please don't use & in translation and capitalize key words. -->
     <string name="create_profile_connect_and_go_label">Падключыцца і адкрыць</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
-    <string name="create_profile_auto_open_label_badge">Новы</string>
+    <string name="create_profile_auto_open_label_badge">Новае</string>
     <string name="create_profile_auto_open_url_input_label">Вэб-сайт URL-адраса</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_off">Выкл</string>
+    <string name="profile_auto_open_off">Выключана</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">Укл</string>
     <string name="create_profile_auto_open_description">Аўтаматычна адкрываць выбраны вэб-сайт пры падключэнні да гэтага профілю.</string>
@@ -1529,7 +1529,7 @@
     <string name="widget_preview_france">Францыя</string>
     <string name="widget_status_unprotected">Не абаронена</string>
     <string name="widget_status_error">Памылка</string>
-    <string name="widget_status_connecting">Падключэнне…</string>
+    <string name="widget_status_connecting">Падключэнне</string>
     <string name="widget_sign_in">Увайсці</string>
-    <string name="widget_toast_added_message">Віджэт дадзены на галоўны экран</string>
+    <string name="widget_toast_added_message">Віджэт дададзены на галоўны экран</string>
 </resources>

@@ -1457,7 +1457,7 @@
     <string name="widget_preview_france">Frankrike</string>
     <string name="widget_status_unprotected">Ubeskyttet</string>
     <string name="widget_status_error">Feil</string>
-    <string name="widget_status_connecting">Kobler til...</string>
+    <string name="widget_status_connecting">Kobler til</string>
     <string name="widget_sign_in">Logg på</string>
     <string name="widget_toast_added_message">Widget lagt til på startskjermen</string>
 </resources>
