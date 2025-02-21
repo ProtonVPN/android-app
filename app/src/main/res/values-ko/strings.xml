@@ -1423,7 +1423,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="widget_preview_france">프랑스</string>
     <string name="widget_status_unprotected">보호되지 않음</string>
     <string name="widget_status_error">오류</string>
-    <string name="widget_status_connecting">연결 중…</string>
+    <string name="widget_status_connecting">Connecting</string>
     <string name="widget_sign_in">로그인</string>
     <string name="widget_toast_added_message">위젯이 홈 화면에 추가되었습니다.</string>
 </resources>
