@@ -354,7 +354,8 @@ abstract class VpnBackend(
                     internalVpnProtocolState.first { it is VpnState.Disabled }
                 }
             } catch (e: TimeoutCancellationException) {
-                Sentry.captureException(e)
+                val status = "protocol state: $vpnProtocolState, protocol: ${lastConnectionParams?.protocolSelection}"
+                Sentry.captureMessage("Timed out waiting for backend to close: $status")
             }
             selfStateFlow.value = VpnState.Error(error, description, isFinal = disconnectVPN)
         }
