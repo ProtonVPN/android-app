@@ -927,8 +927,10 @@ public abstract class OpenVPNService extends VpnService implements StateListener
 
         if (tc.mLocalIP != null) {
             // OpenVPN3 manages excluded local networks by callback
-            if (!VpnProfile.doUseOpenVPN3(this))
-                addLocalNetworksToRoutes(tc);
+
+            // ProtonVPN adds local networks via custom routes
+            //if (!VpnProfile.doUseOpenVPN3(this))
+            //    addLocalNetworksToRoutes(tc);
             try {
                 builder.addAddress(tc.mLocalIP.mIp, tc.mLocalIP.len);
             } catch (IllegalArgumentException iae) {

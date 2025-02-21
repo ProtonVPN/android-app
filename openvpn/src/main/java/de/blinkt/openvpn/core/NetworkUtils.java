@@ -12,6 +12,7 @@ import android.provider.Settings;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
+import java.net.InetAddress;
 import java.util.Vector;
 
 public class NetworkUtils {
@@ -24,7 +25,6 @@ public class NetworkUtils {
         for (Network network : networks) {
             NetworkInfo ni = conn.getNetworkInfo(network);
             LinkProperties li = conn.getLinkProperties(network);
-
             NetworkCapabilities nc = conn.getNetworkCapabilities(network);
 
             // Ignore network if it has no capabilities
@@ -41,22 +41,12 @@ public class NetworkUtils {
 
             Vector<String> candidateNets = new Vector<>();
             for (LinkAddress la : li.getLinkAddresses()) {
-                if ((la.getAddress() instanceof Inet4Address && !ipv6) ||
-                        (la.getAddress() instanceof Inet6Address && ipv6)) {
-                        //nets.add(la.toString());
-                    NetworkSpace.IpAddress ipaddress;
-                    if (la.getAddress() instanceof Inet6Address)
-                        ipaddress = new NetworkSpace.IpAddress((Inet6Address) la.getAddress(), la.getPrefixLength(), true);
-                    else
-                        ipaddress = new NetworkSpace.IpAddress(new CIDRIP(la.getAddress().getHostAddress(), la.getPrefixLength()), true);
-
-                    candidateNets.add(ipaddress.toString());
+                InetAddress ipaddress = la.getAddress();
+                if ((ipaddress instanceof Inet4Address && !ipv6) || (ipaddress instanceof Inet6Address && ipv6)) {
+                    if (IPUtilsKt.isPrivateOnlyAddress(la.toString()))
+                        candidateNets.add(la.toString());
                 }
             }
-
-            // Ignore networks that contain public IPs
-            if (IPUtilsKt.haveAddressesOusideOfIPv4Private(candidateNets))
-                continue;
 
             nets.addAll(candidateNets);
         }
