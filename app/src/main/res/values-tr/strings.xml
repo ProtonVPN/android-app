@@ -230,7 +230,7 @@
     <string name="netshield_ads_title">Reklamlar</string>
     <string name="netshield_ads_details">Reklamlar ve görünmez reklam izleyiciler</string>
     <string name="netshield_trackers_title">İzleyiciler</string>
-    <string name="netshield_trackers_details">İnternet etkinliğiniz ile ilgili bilgileri tutan ve paylaşan çerezler ve diğer izleyiciler</string>
+    <string name="netshield_trackers_details">İnternet etkinliğiniz ile ilgili bilgileri tutan ve paylaşan tanımlama bilgileri ve diğer izleyiciler</string>
     <string name="netshield_data_title">Veriler</string>
     <string name="netshield_data_details">NetShield tarafından engellenen reklam, izleyici ve zararlı yazılım verilerinin miktarı</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
