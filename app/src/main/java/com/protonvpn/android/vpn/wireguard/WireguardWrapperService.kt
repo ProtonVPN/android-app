@@ -28,7 +28,6 @@ import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.redesign.recents.usecases.GetQuickConnectIntent
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -102,7 +101,7 @@ class WireguardWrapperService : GoBackend.VpnService() {
 
     override fun onDestroy() {
         wireguardBackend.serviceDestroyed()
-        connectionManager.onVpnServiceDestroyed()
+        connectionManager.onVpnServiceDestroyed(connectionParamsUuid = null)
         currentVpnServiceProvider.onVpnServiceDestroyed(WireguardBackend::class)
         super.onDestroy()
     }

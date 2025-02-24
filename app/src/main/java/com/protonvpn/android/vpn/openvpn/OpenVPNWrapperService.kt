@@ -30,6 +30,7 @@ import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnectionCached
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.ConnectionParamsUuidServiceHelper
 import com.protonvpn.android.vpn.CurrentVpnServiceProvider
 import com.protonvpn.android.vpn.VpnConnectionManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +50,8 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
 
+    private val connectionParamsUuid = ConnectionParamsUuidServiceHelper()
+
     override fun onCreate() {
         super.onCreate()
         NotificationHelper.initNotificationChannel(applicationContext)
@@ -57,6 +60,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(Constants.NOTIFICATION_ID, notificationHelper.buildNotification())
+        connectionParamsUuid.onStartCommand(intent)
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -86,7 +90,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     }
 
     override fun onDestroy() {
-        vpnConnectionManager.onVpnServiceDestroyed()
+        vpnConnectionManager.onVpnServiceDestroyed(connectionParamsUuid.last)
         currentVpnServiceProvider.onVpnServiceDestroyed(OpenVpnBackend::class)
         super.onDestroy()
     }

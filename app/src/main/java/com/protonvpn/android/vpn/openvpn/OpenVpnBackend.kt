@@ -37,6 +37,7 @@ import com.protonvpn.android.ui.ForegroundActivityTracker
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.utils.Log
 import com.protonvpn.android.vpn.CertificateRepository
+import com.protonvpn.android.vpn.ConnectionParamsUuidServiceHelper
 import com.protonvpn.android.vpn.ErrorType
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.NetworkCapabilitiesFlow
@@ -53,6 +54,7 @@ import kotlinx.coroutines.CoroutineScope
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
 import okhttp3.OkHttpClient
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -117,19 +119,21 @@ class OpenVpnBackend @Inject constructor(
 
     override suspend fun connect(connectionParams: ConnectionParams) {
         super.connect(connectionParams)
-        startOpenVPN(null)
+        startOpenVPN(null, connectionParamsUuid = connectionParams.uuid)
     }
 
     override suspend fun closeVpnTunnel(withStateChange: Boolean) {
         // In some scenarios OpenVPN might start a connection in a moment even if it's in the
         // disconnected state - request pause regardless of the state
-        startOpenVPN(PAUSE_VPN)
+        startOpenVPN(PAUSE_VPN, connectionParamsUuid = null)
         waitForDisconnect()
     }
 
-    private fun startOpenVPN(action: String?) {
+    private fun startOpenVPN(action: String?, connectionParamsUuid: UUID?) {
         val ovpnService =
                 Intent(appContext, OpenVPNWrapperService::class.java)
+        if (connectionParamsUuid != null)
+            ConnectionParamsUuidServiceHelper.addConnectionParamsUuid(ovpnService, connectionParamsUuid)
         if (action != null)
             ovpnService.action = action
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

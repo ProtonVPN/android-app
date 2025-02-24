@@ -69,6 +69,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.proton.core.network.domain.NetworkManager
 import me.proton.core.network.domain.session.SessionId
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -660,8 +661,8 @@ class VpnConnectionManager @Inject constructor(
         }
     }
 
-    fun onVpnServiceDestroyed() {
-        ConnectionParams.readIntentFromStore(expectedUuid = activeConnectionParams?.uuid)?.let {
+    fun onVpnServiceDestroyed(connectionParamsUuid: UUID?) {
+        ConnectionParams.readIntentFromStore(expectedUuid = connectionParamsUuid ?: activeConnectionParams?.uuid)?.let {
             vpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.ServiceDestroyed, activeConnectionParams)
             ProtonLogger.logCustom(
                 LogCategory.CONN_DISCONNECT, "onDestroy called for current VpnService, deleting ConnectionParams"

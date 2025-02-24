@@ -335,7 +335,7 @@ class VpnConnectionManagerTests {
             PrepareResult(mockBackend, connectionParams)
         }
         vpnConnectionManager.connect(fakeVpnUiDelegate, ConnectIntent.Default, trigger)
-        vpnConnectionManager.onVpnServiceDestroyed()
+        vpnConnectionManager.onVpnServiceDestroyed(connectionParamsUuid = connectionParams.uuid)
         verify(exactly = 1) {
             mockVpnConnectionTelemetry.onDisconnectionTrigger(DisconnectTrigger.ServiceDestroyed, connectionParams)
         }
