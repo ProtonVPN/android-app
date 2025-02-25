@@ -126,7 +126,7 @@
     <string name="inputIpAddressHint">Напишите IP-адрес</string>
     <string name="inputIpAddressErrorInvalid">Недействительный IP-адрес</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
-    <string name="settings_new_label_badge">NEW</string>
+    <string name="settings_new_label_badge">НОВОЕ</string>
     <string name="settingsExcludedIPAddressesListHeader">Исключённые IP-адреса (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Выбранные IP-адреса (%1$d)</string>
     <string name="settingsExcludedApps">Исключенные приложения</string>
@@ -191,20 +191,20 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
-    <string name="settingsKillSwitchEnableTitle">How to enable kill switch</string>
-    <string name="settingsKillSwitchEnableStep1">1. Open your device settings</string>
+    <string name="settingsKillSwitchEnableTitle">Как включить kill switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Откройте настройки устройства</string>
     <!-- %1$s here will be replaced by "gear" icon -->
-    <string name="settingsKillSwitchEnableStep2">2. Find Proton VPN and tap %1$s</string>
+    <string name="settingsKillSwitchEnableStep2">2. Найдите Proton VPN и нажмите %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
-    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">settings</string>
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">настройки</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
-    <string name="settingsKillSwitchAndroidSettingsButton">Settings</string>
-    <string name="settingsKillSwitchLearnMoreButton">What is kill switch?</string>
-    <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
-    <string name="settingsKillSwitchWarningPoint1">Websites and apps excluded from your VPN connection through split tunneling</string>
-    <string name="settingsKillSwitchWarningPoint2">Devices on your local area network (LAN)</string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Включите \"<b>Постоянную VPN</b>\" и \"<b>Блокировать соединения без VPN</b>\"]]></string>
+    <string name="settingsKillSwitchAndroidSettingsButton">Настройки</string>
+    <string name="settingsKillSwitchLearnMoreButton">Что такое kill switch?</string>
+    <string name="settingsKillSwitchWarningMain">Когда кнопка kill switch включен, вы не сможете подключиться к:</string>
+    <string name="settingsKillSwitchWarningPoint1">Веб-сайты и приложения, исключенные из вашего подключения к VPN с помощью раздельного туннелирования</string>
+    <string name="settingsKillSwitchWarningPoint2">Устройства в вашей локальной сети (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Делиться анонимной статистикой использования</string>
     <string name="settingsEnableTelemetryDescription">Данные об использовании помогают нам преодолевать блокировки VPN и повышать производительность приложения.</string>
     <string name="settingsSendCrashReportsTitle">Делиться анонимными отчётами об ошибках</string>
@@ -633,13 +633,13 @@
     <string name="settings_change_icon_confirmation_details">Это приведет к закрытию приложения Proton VPN. Чтобы перезапустить Proton VPN, просто коснитесь нового значка приложения.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Незаметный значок приложения</string>
-    <string name="settings_widget_title">Widget</string>
-    <string name="settings_widget_selection_title">Try the Proton VPN widget</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_title">Виджет</string>
+    <string name="settings_widget_selection_title">Попробуйте виджет Proton VPN</string>
+    <string name="settings_widget_selection_description">Просматривайте состояние подключения и получайте доступ к избранным подключениям к VPN с главного экрана.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
-    <string name="settings_widget_selection_button_title">Add widget</string>
-    <string name="setting_widget_try_title">Try the Proton VPN widget</string>
+    <string name="setting_widget_selection_additional_description">Чтобы добавить виджет, просто нажмите и удерживайте в любом месте на домашнем экране, затем выберите %1$s в меню виджетов.</string>
+    <string name="settings_widget_selection_button_title">Добавить виджет</string>
+    <string name="setting_widget_try_title">Попробуйте виджет Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Убрать баннер</string>
@@ -705,11 +705,11 @@
     <string name="not_wanted_country_title">Не та страна, которую вы хотели?</string>
     <string name="not_wanted_country_description">Улучшите для выбора любого сервера</string>
     <string name="whats_new_title">Что нового</string>
-    <string name="whats_new_profiles_title">Profiles are back</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
-    <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_profiles_title">Профили вернулись</string>
+    <string name="whats_new_profiles_description">Создавайте и сохраняйте пользовательские подключения с помощью выбранного вами местоположения, сервера и протокола.</string>
+    <string name="whats_new_widget_title">Представляем виджеты</string>
+    <string name="whats_new_widget_description">Теперь вы можете просматривать и управлять VPN, не покидая домашний экран. </string>
+    <string name="whats_new_add_widget_button">Добавить виджет</string>
     <string name="welcome_plus_title">Добро пожаловать в VPN Plus</string>
     <string name="welcome_plus_description">Используйте расширенные функции конфиденциальности, максимальную производительность и настройку VPN нового уровня.</string>
     <string name="welcome_plus_feature_security">Расширенные функции безопасности</string>
@@ -1515,21 +1515,21 @@
     <string name="profile_auto_open_on">Вкл.</string>
     <string name="create_profile_auto_open_description">Автоматическое открытие выбранного вами веб-сайта при подключении к этому профилю.</string>
     <string name="profile_auto_open_error_invalid_url">Введите действительный URL</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
-    <string name="nps_additional_comment_optional">Optional</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
-    <string name="nps_toast_submit_message">Thanks for sharing. Your feedback helps us improve Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
-    <string name="nps_button_submit_title">Share anonymously</string>
-    <string name="widget_preview_switzerland">Switzerland</string>
-    <string name="widget_preview_spain">Spain</string>
-    <string name="widget_preview_germany">Germany</string>
-    <string name="widget_preview_france">France</string>
+    <string name="nps_how_likely_question">Насколько вероятно, что вы порекомендуете Proton VPN другу или коллеге?</string>
+    <string name="nps_additional_comment_title">Дайте нам знать, почему вы поставили такую оценку</string>
+    <string name="nps_additional_comment_optional">Необязательно</string>
+    <string name="nps_rating_low_values_explain">0 очень маловероятно</string>
+    <string name="nps_rating_high_values_explain">10 довольно вероятно</string>
+    <string name="nps_toast_submit_message">Спасибо за то, что поделились. Ваш отзыв поможет нам улучшить Proton VPN.</string>
+    <string name="nps_submit_error_char_limit">Ваш ответ должен состоять из 250 символов или меньше</string>
+    <string name="nps_button_submit_title">Поделиться анонимно</string>
+    <string name="widget_preview_switzerland">Швейцария</string>
+    <string name="widget_preview_spain">Испания</string>
+    <string name="widget_preview_germany">Германия</string>
+    <string name="widget_preview_france">Франция</string>
     <string name="widget_status_unprotected">Unprotected</string>
     <string name="widget_status_error">Error</string>
     <string name="widget_status_connecting">Подключение</string>
     <string name="widget_sign_in">Sign in</string>
-    <string name="widget_toast_added_message">Widget added to home screen</string>
+    <string name="widget_toast_added_message">Виджет добавлен на домашний экран</string>
 </resources>
