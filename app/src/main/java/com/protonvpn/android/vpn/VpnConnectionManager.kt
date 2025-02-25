@@ -48,6 +48,7 @@ import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.usecase.SupportsProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
+import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.telemetry.VpnConnectionTelemetry
@@ -145,7 +146,7 @@ class VpnConnectionManager @Inject constructor(
     private val supportsProtocol: SupportsProtocol,
     powerManager: PowerManager,
     private val vpnConnectionTelemetry: VpnConnectionTelemetry,
-    private val autoLoginManager: AutoLoginManager
+    private val autoLoginManager: AutoLoginManager,
 ) : VpnConnect {
 
     // Note: the jobs are not set to "null" upon completion, check "isActive" to see if still running.
@@ -288,7 +289,7 @@ class VpnConnectionManager @Inject constructor(
             ErrorType.AUTH_FAILED_INTERNAL, ErrorType.POLICY_VIOLATION_LOW_PLAN ->
                 vpnErrorHandler.onAuthError(params)
             else ->
-                VpnFallbackResult.Error(params, errorType)
+                VpnFallbackResult.Error(params, errorType, reason = null)
         }
         when (result) {
             is VpnFallbackResult.Switch ->
@@ -309,7 +310,9 @@ class VpnConnectionManager @Inject constructor(
 
     private suspend fun handleUnrecoverableError(originalParams: ConnectionParams, errorType: ErrorType) {
         if (errorType == ErrorType.MAX_SESSIONS) {
-            vpnStateMonitor.vpnConnectionNotificationFlow.emit(VpnFallbackResult.Error(originalParams, ErrorType.MAX_SESSIONS))
+            vpnStateMonitor.vpnConnectionNotificationFlow.emit(
+                VpnFallbackResult.Error(originalParams, ErrorType.MAX_SESSIONS, reason = null)
+            )
             ProtonLogger.log(UserPlanMaxSessionsReached, "disconnecting")
             clearOngoingConnection(clearFallback = false)
             disconnectBlocking(DisconnectTrigger.Error("max sessions reached"))
@@ -353,6 +356,8 @@ class VpnConnectionManager @Inject constructor(
 
     private suspend fun onServerNotAvailable(connectIntent: AnyConnectIntent, server: Server?) {
         ProtonLogger.logCustom(LogCategory.CONN, "Current server unavailable")
+        val reason =
+            if (server == null) SwitchServerReason.ServerUnavailable else SwitchServerReason.ServerInMaintenance
         val fallback = if (server == null) {
             vpnErrorHandler.onServerNotAvailable(connectIntent)
         } else {
@@ -363,10 +368,12 @@ class VpnConnectionManager @Inject constructor(
             fallbackConnect(fallback)
         } else {
             vpnConnectionTelemetry.onConnectionAbort(sentryInfo = "no server available")
-            vpnBackgroundUiDelegate.showInfoNotification(
-                if (server == null) R.string.error_server_not_set
-                else R.string.restrictedMaintenanceDescription
-            )
+            if (connectIntent is ConnectIntent) {
+                vpnBackgroundUiDelegate.showInfoNotification(
+                    if (server == null) R.string.error_server_not_set
+                    else R.string.restrictedMaintenanceDescription
+                )
+            }
         }
     }
 

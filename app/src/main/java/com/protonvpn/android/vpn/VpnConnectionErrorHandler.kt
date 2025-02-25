@@ -85,6 +85,7 @@ sealed class VpnFallbackResult {
         data class SwitchConnectIntent(
             override val fromServer: Server?,
             override val toServer: Server,
+            val fromConnectIntent: ConnectIntent,
             val toConnectIntent: ConnectIntent,
             override val reason: SwitchServerReason? = null,
         ) : Switch() {
@@ -94,12 +95,12 @@ sealed class VpnFallbackResult {
 
         data class SwitchServer(
             override val fromServer: Server?,
-            val connectIntent: AnyConnectIntent,
+            val connectIntent: ConnectIntent,
             val preparedConnection: PrepareResult,
             override val reason: SwitchServerReason,
             val compatibleProtocol: Boolean,
             val switchedSecureCore: Boolean,
-            override val notifyUser: Boolean
+            override val notifyUser: Boolean,
         ) : Switch() {
             override val toServer get() = preparedConnection.connectionParams.server
             override val log get() = "SwitchServer ${preparedConnection.connectionParams.info} " +
@@ -107,7 +108,11 @@ sealed class VpnFallbackResult {
         }
     }
 
-    data class Error(val originalParams: ConnectionParams, val type: ErrorType) : VpnFallbackResult()
+    data class Error(
+        val originalParams: ConnectionParams,
+        val type: ErrorType,
+        val reason: SwitchServerReason?
+    ) : VpnFallbackResult()
 }
 
 data class PhysicalServer(val server: Server, val connectingDomain: ConnectingDomain)
@@ -165,12 +170,17 @@ class VpnConnectionErrorHandler @Inject constructor(
     init {
         userPlanManager.infoChangeFlow.onEach { changes ->
             if (!handlingAuthError && stateMonitor.isEstablishingOrConnected) {
-                getCommonFallbackForInfoChanges(
-                    stateMonitor.connectionParams!!.server,
-                    changes,
-                    currentUser.vpnUser()
-                )?.let {
-                    switchConnectionFlow.emit(it)
+                val params = stateMonitor.connectionParams!!
+                val connectIntent = params.connectIntent
+                if (connectIntent is ConnectIntent) { // Don't fall back for Guest Hole connections.
+                    getCommonFallbackForInfoChanges(
+                        connectIntent,
+                        params.server,
+                        changes,
+                        currentUser.vpnUser()
+                    )?.let {
+                        switchConnectionFlow.emit(it)
+                    }
                 }
             }
         }.launchIn(scope)
@@ -184,6 +194,7 @@ class VpnConnectionErrorHandler @Inject constructor(
 
     @SuppressWarnings("ReturnCount")
     private suspend fun getCommonFallbackForInfoChanges(
+        currentIntent: ConnectIntent,
         currentServer: Server,
         changes: List<UserPlanManager.InfoChange>,
         vpnUser: VpnUser?
@@ -194,17 +205,19 @@ class VpnConnectionErrorHandler @Inject constructor(
         for (change in changes) when {
             change is PlanChange && change.isDowngrade -> {
                 return VpnFallbackResult.Switch.SwitchConnectIntent(
-                    currentServer,
-                    fallbackServer,
-                    fallbackIntent,
+                    fromServer = currentServer,
+                    toServer = fallbackServer,
+                    fromConnectIntent = currentIntent,
+                    toConnectIntent = fallbackIntent,
                     SwitchServerReason.Downgrade(change.oldUser.userTierName, change.newUser.userTierName)
                 )
             }
             change is UserBecameDelinquent ->
                 return VpnFallbackResult.Switch.SwitchConnectIntent(
-                    currentServer,
-                    fallbackServer,
-                    fallbackIntent,
+                    fromServer = currentServer,
+                    toServer = fallbackServer,
+                    fromConnectIntent = currentIntent,
+                    toConnectIntent = fallbackIntent,
                     SwitchServerReason.UserBecameDelinquent
                 )
             else -> {}
@@ -230,13 +243,13 @@ class VpnConnectionErrorHandler @Inject constructor(
             connectionParams,
             true,
             SwitchServerReason.ServerUnreachable
-        ) ?: VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE)
+        ) ?: VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable)
 
     suspend fun onServerError(connectionParams: ConnectionParams): VpnFallbackResult {
         val sinceLastHandled = lastServerErrorHandledMs?.let { elapsedMs() - it }
         if (sinceLastHandled != null && sinceLastHandled < SERVER_ERROR_COOLDOWN_MS) {
             ProtonLogger.log(ConnServerSwitchFailed, "Server error cooldown")
-            return VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE)
+            return VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable)
         }
         val fallback = fallbackToCompatibleServer(
             connectionParams.connectIntent,
@@ -246,7 +259,7 @@ class VpnConnectionErrorHandler @Inject constructor(
         )
         if (fallback != null)
             lastServerErrorHandledMs = elapsedMs()
-        return fallback ?: VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE)
+        return fallback ?: VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable)
     }
 
     private suspend fun fallbackToCompatibleServer(
@@ -529,7 +542,8 @@ class VpnConnectionErrorHandler @Inject constructor(
     @SuppressWarnings("ReturnCount")
     suspend fun onAuthError(connectionParams: ConnectionParams): VpnFallbackResult {
         val orgIntent = connectionParams.connectIntent
-        if (orgIntent !is ConnectIntent) return VpnFallbackResult.Error(connectionParams, ErrorType.AUTH_FAILED)
+        if (orgIntent !is ConnectIntent)
+            return VpnFallbackResult.Error(connectionParams, ErrorType.AUTH_FAILED, SwitchServerReason.UnknownAuthFailure)
         try {
             handlingAuthError = true
             val vpnInfo = currentUser.vpnUser()
@@ -538,21 +552,21 @@ class VpnConnectionErrorHandler @Inject constructor(
             if (vpnInfo != null && newVpnInfo != null) {
                 userPlanManager.computeUserInfoChanges(vpnInfo, newVpnInfo).let { infoChanges ->
                     val vpnUser = currentUser.vpnUser()
-                    getCommonFallbackForInfoChanges(connectionParams.server, infoChanges, vpnUser)?.let {
-                        return it
-                    }
+                    val fallback = getCommonFallbackForInfoChanges(orgIntent, connectionParams.server, infoChanges, vpnUser)
+                    if (fallback != null)
+                        return fallback
 
                     if (VpnCredentials in infoChanges) {
                         // Now that credentials are refreshed we can try reconnecting.
                         return with(connectionParams) {
-                            VpnFallbackResult.Switch.SwitchConnectIntent(server, server, orgIntent)
+                            VpnFallbackResult.Switch.SwitchConnectIntent(server, server, orgIntent, orgIntent)
                         }
                     }
 
                     val maxSessions = requireNotNull(vpnUser).maxConnect
                     val sessionCount = api.getSession().valueOrNull?.sessionList?.size ?: 0
                     if (maxSessions <= sessionCount)
-                        return VpnFallbackResult.Error(connectionParams, ErrorType.MAX_SESSIONS)
+                        return VpnFallbackResult.Error(connectionParams, ErrorType.MAX_SESSIONS, reason = null)
                 }
             }
 
@@ -561,7 +575,7 @@ class VpnConnectionErrorHandler @Inject constructor(
                 // current connection in the search.
                 ?: fallbackToCompatibleServer(
                     connectionParams.connectIntent, connectionParams, true, SwitchServerReason.UnknownAuthFailure)
-                ?: VpnFallbackResult.Error(connectionParams, ErrorType.AUTH_FAILED)
+                ?: VpnFallbackResult.Error(connectionParams, ErrorType.AUTH_FAILED, SwitchServerReason.UnknownAuthFailure)
         } finally {
             handlingAuthError = false
         }
@@ -597,7 +611,11 @@ class VpnConnectionErrorHandler @Inject constructor(
         return if (findNewServer)
             onServerInMaintenance(connectionParams.connectIntent, connectionParams)
                 ?: connectionParams.connectIntent.profileId?.let {
-                    VpnFallbackResult.Error(connectionParams, type = ErrorType.NO_PROFILE_FALLBACK_AVAILABLE)
+                    VpnFallbackResult.Error(
+                        connectionParams,
+                        type = ErrorType.NO_PROFILE_FALLBACK_AVAILABLE,
+                        reason = SwitchServerReason.ServerInMaintenance
+                    )
                 }
         else null
     }

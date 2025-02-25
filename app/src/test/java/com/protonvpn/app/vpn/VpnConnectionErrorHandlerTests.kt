@@ -211,6 +211,7 @@ class VpnConnectionErrorHandlerTests {
             VpnFallbackResult.Switch.SwitchConnectIntent(
                 directConnectionParams.server,
                 defaultFallbackServer,
+                directConnectIntent,
                 defaultFallbackConnection,
                 SwitchServerReason.UserBecameDelinquent
             ),
@@ -229,6 +230,7 @@ class VpnConnectionErrorHandlerTests {
             VpnFallbackResult.Switch.SwitchConnectIntent(
                 directConnectionParams.server,
                 defaultFallbackServer,
+                directConnectIntent,
                 defaultFallbackConnection,
                 SwitchServerReason.Downgrade("vpnplus", "free")
             ),
@@ -240,6 +242,7 @@ class VpnConnectionErrorHandlerTests {
             VpnFallbackResult.Switch.SwitchConnectIntent(
                 directConnectionParams.server,
                 defaultFallbackServer,
+                directConnectionParams.connectIntent as ConnectIntent,
                 defaultFallbackConnection,
                 SwitchServerReason.Downgrade("vpnplus", "free")
             ),
@@ -257,6 +260,7 @@ class VpnConnectionErrorHandlerTests {
                 directConnectionParams.server,
                 directConnectionParams.server,
                 directConnectIntent,
+                directConnectIntent,
                 null
             ),
             handler.onAuthError(directConnectionParams)
@@ -270,7 +274,7 @@ class VpnConnectionErrorHandlerTests {
             SessionListResponse(1000, listOf(Session("1", "1"), Session("2", "2")))
         )
         assertEquals(
-            VpnFallbackResult.Error(directConnectionParams, ErrorType.MAX_SESSIONS),
+            VpnFallbackResult.Error(directConnectionParams, ErrorType.MAX_SESSIONS, reason = null),
             handler.onAuthError(directConnectionParams)
         )
     }
@@ -351,7 +355,7 @@ class VpnConnectionErrorHandlerTests {
         assertEquals(
             VpnFallbackResult.Switch.SwitchServer(
                 directConnectionParams.server,
-                pingResult.captured.connectionParams.connectIntent,
+                pingResult.captured.connectionParams.connectIntent as ConnectIntent,
                 pingResult.captured,
                 SwitchServerReason.ServerInMaintenance,
                 notifyUser = true, // Country is not compatible
@@ -378,7 +382,7 @@ class VpnConnectionErrorHandlerTests {
         assertEquals(
             VpnFallbackResult.Switch.SwitchServer(
                 directConnectionParams.server,
-                pingResult.captured.connectionParams.connectIntent,
+                pingResult.captured.connectionParams.connectIntent as ConnectIntent,
                 pingResult.captured,
                 SwitchServerReason.ServerInMaintenance,
                 notifyUser = true, // Country is not compatible
@@ -400,7 +404,7 @@ class VpnConnectionErrorHandlerTests {
         assertEquals(
             VpnFallbackResult.Switch.SwitchServer(
                 directConnectionParams.server,
-                pingResult.captured.connectionParams.connectIntent,
+                pingResult.captured.connectionParams.connectIntent as ConnectIntent,
                 pingResult.captured,
                 SwitchServerReason.ServerUnreachable,
                 notifyUser = false, // CA#2 is compatible with CA#1, switch silently
@@ -413,13 +417,19 @@ class VpnConnectionErrorHandlerTests {
     @Test
     fun testUnreachableNoneResponded() = testScope.runTest {
         preparePings(failAll = true, failSecureCore = true)
-        assertEquals(VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE), handler.onUnreachableError(directConnectionParams))
+        assertEquals(
+            VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable),
+            handler.onUnreachableError(directConnectionParams)
+        )
     }
 
     @Test
     fun testUnreachableOrgServerResponded() = testScope.runTest {
         preparePings(failSecureCore = true) // All servers respond
-        assertEquals(VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE), handler.onUnreachableError(directConnectionParams))
+        assertEquals(
+            VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable),
+            handler.onUnreachableError(directConnectionParams)
+        )
     }
 
     @Test
@@ -474,8 +484,10 @@ class VpnConnectionErrorHandlerTests {
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(VpnState.Connected, directConnectionParams))
         advanceTimeBy(StuckConnectionHandler.STUCK_DURATION_MS * 3 / 4)
         val fallback = handler.onUnreachableError(directConnectionParams)
-
-        assertEquals(VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE), fallback)
+        assertEquals(
+            VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable),
+            fallback
+        )
     }
 
     @Test
@@ -488,7 +500,10 @@ class VpnConnectionErrorHandlerTests {
         advanceTimeBy(StuckConnectionHandler.STUCK_DURATION_MS * 3 / 4)
         val fallback = handler.onUnreachableError(directConnectionParams)
 
-        assertEquals(VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE), fallback)
+        assertEquals(
+            VpnFallbackResult.Error(directConnectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable),
+            fallback
+        )
     }
 
     @Test
@@ -606,7 +621,10 @@ class VpnConnectionErrorHandlerTests {
         preparePings(failServerName = server1.serverName)
         val connectionParams = ConnectionParams(connectIntent, server1, server1.connectingDomains.first(), VpnProtocol.WireGuard)
         val result = handler.onUnreachableError(connectionParams)
-        assertEquals(VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE), result)
+        assertEquals(
+            VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable),
+            result
+        )
     }
 
     @Test
@@ -662,7 +680,10 @@ class VpnConnectionErrorHandlerTests {
             VpnProtocol.OpenVPN
         )
         val result = handler.onUnreachableError(connectionParams)
-        assertEquals(VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE), result)
+        assertEquals(
+            VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable),
+            result
+        )
     }
 
     @Test
@@ -684,19 +705,24 @@ class VpnConnectionErrorHandlerTests {
             VpnProtocol.WireGuard
         )
         val result = handler.onUnreachableError(connectionParams)
-        assertEquals(VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE), result)
+        assertEquals(
+            VpnFallbackResult.Error(connectionParams, ErrorType.UNREACHABLE, SwitchServerReason.ServerUnreachable),
+            result
+        )
     }
 
     @Test
     fun testTrackingVpnInfoChanges() = testScope.runTest {
-        val mockedServer: Server = mockk()
+        val currentServer: Server = createServer("id")
+        val currentConnectIntent = ConnectIntent.fromServer(currentServer, emptySet())
 
         currentUser.mockVpnUser { TestVpnUser.create(maxTier = 0) }
         testTrackingVpnInfoChanges(
             listOf(UserPlanManager.InfoChange.PlanChange(TestUser.plusUser.vpnUser, TestUser.freeUser.vpnUser)),
             VpnFallbackResult.Switch.SwitchConnectIntent(
-                mockedServer,
+                currentServer,
                 defaultFallbackServer,
+                currentConnectIntent,
                 defaultFallbackConnection,
                 SwitchServerReason.Downgrade("vpnplus", "free")
             )
@@ -705,8 +731,9 @@ class VpnConnectionErrorHandlerTests {
         testTrackingVpnInfoChanges(
             listOf(UserPlanManager.InfoChange.UserBecameDelinquent),
             VpnFallbackResult.Switch.SwitchConnectIntent(
-                mockedServer,
+                currentServer,
                 defaultFallbackServer,
+                currentConnectIntent,
                 defaultFallbackConnection,
                 SwitchServerReason.UserBecameDelinquent
             )
