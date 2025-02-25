@@ -163,7 +163,7 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     }
 
     @Composable
-    private fun NeedLogin(
+    fun NeedLogin(
         mainActivityAction: Action,
         modifier: GlanceModifier = GlanceModifier
     ) {
@@ -196,7 +196,7 @@ class ProtonVpnGlanceWidget : GlanceAppWidget() {
     }
 
     @Composable
-    private fun LoggedIn(
+    fun LoggedIn(
         viewState: WidgetViewState.LoggedIn,
         modifier: GlanceModifier = GlanceModifier
     ) {
