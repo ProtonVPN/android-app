@@ -849,6 +849,8 @@ dependencies {
     implementation "androidx.glance:glance-material3:$glanceVersion"
     implementation "androidx.glance:glance-preview:$glanceVersion"
     implementation "androidx.glance:glance-appwidget-preview:$glanceVersion"
+    testImplementation "androidx.glance:glance-testing:$glanceVersion"
+    testImplementation "androidx.glance:glance-appwidget-testing:$glanceVersion"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
