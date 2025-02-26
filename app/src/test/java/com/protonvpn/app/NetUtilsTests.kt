@@ -22,7 +22,7 @@ import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.utils.NetUtils.maskAnyIP
 import com.protonvpn.android.utils.NetUtils.stripIP
 import com.protonvpn.android.utils.jitterMs
-import de.blinkt.openvpn.core.haveAddressesOusideOfIPv4Private
+import de.blinkt.openvpn.core.isPrivateOnlyAddress
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
@@ -69,15 +69,12 @@ class NetUtilsTests {
 
     @Test
     fun containsPublicIpTest() {
-        assertFalse(emptyList<String>().haveAddressesOusideOfIPv4Private())
-        assertFalse(listOf("192.168.0.0/24").haveAddressesOusideOfIPv4Private())
-        assertFalse(listOf("10.2.0.2").haveAddressesOusideOfIPv4Private())
+        assertTrue(isPrivateOnlyAddress("192.168.0.0/24"))
+        assertTrue(isPrivateOnlyAddress("10.2.0.2"))
+        assertTrue(isPrivateOnlyAddress("FC00::/7"))
 
-        assertTrue(listOf("0.0.0.0/0").haveAddressesOusideOfIPv4Private())
-        assertTrue(listOf("192.168.0.0", "1.1.1.1/32").haveAddressesOusideOfIPv4Private())
-        assertTrue(listOf("10.0.0.0/16", "192.168.0.0/13").haveAddressesOusideOfIPv4Private())
-
-        // Any IPv6 range is considered public by this function
-        assertTrue(listOf("FC00::/7").haveAddressesOusideOfIPv4Private())
+        assertFalse(isPrivateOnlyAddress("0.0.0.0/0"))
+        assertFalse(isPrivateOnlyAddress("1.1.1.1/32"))
+        assertFalse(isPrivateOnlyAddress("192.168.0.0/13"))
     }
 }
