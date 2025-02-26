@@ -18,12 +18,14 @@
  */
 package com.protonvpn.android.models.vpn
 
+import com.protonvpn.android.logging.LogCategory
+import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.config.VpnProtocol
-import com.protonvpn.android.settings.data.LocalUserSettings
+import com.protonvpn.android.models.vpn.usecase.ComputeAllowedIPs
+import com.protonvpn.android.models.vpn.usecase.toIPAddress
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
-import com.protonvpn.android.settings.data.SplitTunnelingMode
-import com.protonvpn.android.settings.data.SplitTunnelingSettings
+import com.protonvpn.android.settings.data.LocalUserSettings
 import com.protonvpn.android.utils.Constants
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.Connection
@@ -50,7 +52,8 @@ class ConnectionParamsOpenVpn(
     fun openVpnProfile(
         myPackageName: String,
         userSettings: LocalUserSettings,
-        clientCertificate: CertificateData?
+        clientCertificate: CertificateData?,
+        computeAllowedIPs: ComputeAllowedIPs,
     ) = VpnProfile(server.getLabel()).apply {
         if (clientCertificate != null) {
             mAuthenticationType = VpnProfile.TYPE_CERTIFICATES
@@ -73,13 +76,25 @@ class ConnectionParamsOpenVpn(
         mCheckRemoteCN = true
         mRemoteCN = connectingDomain!!.entryDomain
         mPersistTun = true
-        mAllowLocalLAN = userSettings.lanConnections
-        if (connectIntent !is AnyConnectIntent.GuestHole) {
-            setSplitTunnelingIps(userSettings.splitTunneling)
+        val splitsTunnel = userSettings.splitTunneling.isEnabled || userSettings.lanConnections
+        if (connectIntent !is AnyConnectIntent.GuestHole && splitsTunnel) {
+            val (allowedIPs4, allowedIPs6) = computeAllowedIPs(userSettings).partition { it.isIPv4 }
+            val splitV4 = allowedIPs4 != listOf("0.0.0.0/0".toIPAddress())
+            val splitV6 = allowedIPs6 != listOf("::/0".toIPAddress())
+            if (splitV4 || splitV6) {
+                mCustomConfigOptions += "pull-filter ignore \"redirect-gateway\"\n"
+                mUseDefaultRoute = false
+                mUseDefaultRoutev6 = false
+                mCustomRoutes = allowedIPs4.joinToString(" ") { it.toCanonicalString() }
+                mCustomRoutesv6 = allowedIPs6.joinToString(" ") { it.toCanonicalString() }
+            }
         }
         val appsSplitTunnelingConfigurator = SplitTunnelAppsOpenVpnConfigurator(this)
         applyAppsSplitTunneling(
-            appsSplitTunnelingConfigurator, connectIntent, myPackageName, userSettings.splitTunneling
+            appsSplitTunnelingConfigurator,
+            connectIntent,
+            myPackageName,
+            userSettings.splitTunneling
         )
         mConnections[0] = Connection().apply {
             mServerName = entryIp ?: requireNotNull(connectingDomain.getEntryIp(protocolSelection))
@@ -87,29 +102,14 @@ class ConnectionParamsOpenVpn(
             mServerPort = port.toString()
             mCustomConfiguration = ""
         }
-    }
-
-    private fun VpnProfile.setSplitTunnelingIps(split: SplitTunnelingSettings) {
-        if (split.isEnabled) {
-            when {
-                split.mode == SplitTunnelingMode.INCLUDE_ONLY && split.includedIps.isNotEmpty() -> {
-                    val alwaysIncluded = listOf(Constants.LOCAL_AGENT_IP)
-                    // Don't add the default route and also ignore "redirect-gateway" setting from the server.
-                    mUseDefaultRoute = false
-                    mUseCustomConfig = true
-                    mCustomConfigOptions += "pull-filter ignore \"redirect-gateway\"\n"
-
-                    mCustomRoutes = (split.includedIps + alwaysIncluded)
-                        .filterNot { it.startsWith("127.") }
-                        .joinToString(" ")
-                }
-                split.mode == SplitTunnelingMode.EXCLUDE_ONLY && split.excludedIps.isNotEmpty() -> {
-                    // Don't add the default route but accept the default route set by the server (as opposed
-                    // to INCLUDE_ONLY mode) - OpenVPNService will subtract the excludedIps from it.
-                    mUseDefaultRoute = false
-                    mExcludedRoutes = split.excludedIps.joinToString(" ")
-                }
-            }
+        if (userSettings.ipV6Enabled && server.isIPv6Supported) {
+            ProtonLogger.logCustom(LogCategory.CONN, "OpenVPN IPv4+6 tunnel")
+            // Will push custom config enabling v6 (UV_IPV6 1) to server
+            mPushPeerInfo = true
+            mUseCustomConfig = true
+            mCustomConfigOptions += "setenv UV_IPV6 1\n"
+        } else {
+            ProtonLogger.logCustom(LogCategory.CONN, "OpenVPN IPv4 tunnel")
         }
     }
 

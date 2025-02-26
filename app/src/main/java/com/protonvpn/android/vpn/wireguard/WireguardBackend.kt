@@ -31,6 +31,7 @@ import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.Server
+import com.protonvpn.android.models.vpn.usecase.ComputeAllowedIPs
 import com.protonvpn.android.models.vpn.wireguard.WireGuardTunnel
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
@@ -80,6 +81,7 @@ class WireguardBackend @Inject constructor(
     currentUser: CurrentUser,
     getNetZone: GetNetZone,
     private val prepareForConnection: PrepareForConnection,
+    private val computeAllowedIPs: ComputeAllowedIPs,
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
 ) : VpnBackend(
@@ -132,7 +134,7 @@ class WireguardBackend @Inject constructor(
         try {
             val settings = settingsForConnection.getFor(wireguardParams.connectIntent)
             val config = wireguardParams.getTunnelConfig(
-                context, settings, currentUser.sessionId(), certificateRepository
+                context, settings, currentUser.sessionId(), certificateRepository, computeAllowedIPs
             )
             val transmission = wireguardParams.protocolSelection?.transmission ?: TransmissionProtocol.UDP
             val transmissionStr = transmission.toString().lowercase()

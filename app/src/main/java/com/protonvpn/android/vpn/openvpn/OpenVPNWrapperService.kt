@@ -25,6 +25,7 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.models.vpn.CertificateData
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.ConnectionParamsOpenVpn
+import com.protonvpn.android.models.vpn.usecase.ComputeAllowedIPs
 import com.protonvpn.android.notifications.NotificationHelper
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnectionCached
 import com.protonvpn.android.utils.Constants
@@ -49,6 +50,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
     @Inject lateinit var certificateRepository: CertificateRepository
     @Inject lateinit var currentUser: CurrentUser
     @Inject lateinit var currentVpnServiceProvider: CurrentVpnServiceProvider
+    @Inject lateinit var computeAllowedIPs: ComputeAllowedIPs
 
     private val connectionParamsUuid = ConnectionParamsUuidServiceHelper()
 
@@ -75,7 +77,7 @@ class OpenVPNWrapperService : OpenVPNService(), StateListener {
             val certificate = (certificateResult as? CertificateRepository.CertificateResult.Success)?.let {
                 CertificateData(it.privateKeyPem, it.certificate)
             }
-            connectionParams.openVpnProfile(packageName, settingsForConnection.getFor(it.connectIntent), certificate)
+            connectionParams.openVpnProfile(packageName, settingsForConnection.getFor(it.connectIntent), certificate, computeAllowedIPs)
         }
     }
 

@@ -21,6 +21,7 @@ package com.protonvpn.test.shared
 
 import com.protonvpn.android.models.vpn.ConnectingDomain
 import com.protonvpn.android.models.vpn.Location
+import com.protonvpn.android.models.vpn.SERVER_FEATURE_IPV6
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_RESTRICTED
 import com.protonvpn.android.models.vpn.SERVER_FEATURE_SECURE_CORE
 import com.protonvpn.android.models.vpn.Server
@@ -52,6 +53,7 @@ fun createServer(
     gatewayName: String? = null,
     translations: Map<String, String?>? = null,
     isSecureCore: Boolean = false, // For convenience, adds SERVER_FEATURE_SECURE_CORE
+    isIpV6Supported: Boolean = false, // For convenience, adds SERVER_FEATURE_SECURE_CORE
     connectingDomains: List<ConnectingDomain> = listOf(dummyConnectingDomain),
     isOnline: Boolean = true,
     loadPercent: Float = 50f,
@@ -71,7 +73,8 @@ fun createServer(
         city = city,
         features = features
             or (if (isSecureCore || entryCountry != exitCountry) SERVER_FEATURE_SECURE_CORE else 0)
-            or (if (gatewayName != null) SERVER_FEATURE_RESTRICTED else 0),
+            or (if (gatewayName != null) SERVER_FEATURE_RESTRICTED else 0)
+            or (if (isIpV6Supported) SERVER_FEATURE_IPV6 else 0),
         location = Location("", ""),
         translations = translations,
         score = score,
