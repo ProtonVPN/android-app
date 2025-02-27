@@ -1,0 +1,2 @@
+What's new
+Introducing widgets, see your connection status and access your favorite VPN connections from the home screen.
