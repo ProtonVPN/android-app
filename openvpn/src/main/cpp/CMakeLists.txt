@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.4.1)
 project("ics-openvpn")
 # Git version string
 
+add_link_options("LINKER:--build-id=none")
+
 include(GetGitRevisionDescription.cmake)
 git_describe(OPENVPN2_GIT "${CMAKE_CURRENT_SOURCE_DIR}/openvpn" "--tags" "--always" "--long")
 git_describe(OPENVPN3_GIT "${CMAKE_CURRENT_SOURCE_DIR}/openvpn3" "--tags" "--always" "--long")
