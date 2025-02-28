@@ -1,8 +1,7 @@
 # Code searching for "BEGIN RSA..."
-openvpn/src/main/cpp/openvpn3/openvpn/client/cliopthelper.hpp:private-key:221
-openvpn/src/main/cpp/openvpn3/openvpn/client/cliopthelper.hpp:private-key:217
+openvpn/src/main/cpp/openvpn3/openvpn/client/cliopthelper.hpp:private-key:211
 # Sample HTTP auth header in comment
-openvpn/src/main/cpp/openvpn3/openvpn/ws/httpcreds.hpp:authorization-header:53
+openvpn/src/main/cpp/openvpn3/openvpn/ws/httpcreds.hpp:authorization-header:42
 # HTTP authorization code
-openvpn/src/main/cpp/openvpn3/openvpn/transport/client/httpcli.hpp:authorization-header:717
-openvpn/src/main/cpp/openvpn3/openvpn/ws/httpcli.hpp:authorization-header:1137
+openvpn/src/main/cpp/openvpn3/openvpn/transport/client/httpcli.hpp:authorization-header:697
+openvpn/src/main/cpp/openvpn3/openvpn/ws/httpcli.hpp:authorization-header:1154
