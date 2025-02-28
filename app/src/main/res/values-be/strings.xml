@@ -524,7 +524,7 @@
     <string name="upsell_card_p2p_title">Падтрымка P2P</string>
     <string name="upsell_card_p2p_description">Спампоўвайце файлы праз BitTorrent і іншыя пратаколы абагульвання файлаў</string>
     <string name="upsell_card_profiles_title">Профілі</string>
-    <string name="upsell_card_profiles_description">Стварыць карыстальніцкае падключэння па VPN</string>
+    <string name="upsell_card_profiles_description">Стварайце карыстальніцкае падключэнне па VPN</string>
     <string name="upsell_card_speed_title">Хуткі прагляд</string>
     <!-- Parameters:
         %1$d - max server speed in Gbps (preserve the non-breaking space between the number and Gbps).

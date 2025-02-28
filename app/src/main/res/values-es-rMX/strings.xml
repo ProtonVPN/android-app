@@ -130,8 +130,8 @@
     <string name="settingsExcludedIPAddressesListHeader">Direcciones IP excluidas (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Direcciones IP incluidas (%1$d)</string>
     <string name="settingsExcludedApps">Apps excluidas</string>
-    <string name="settingsExcludedAppsEmpty">Añada aplicaciones para ser excluidas del tráfico VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Añada aplicaciones para ser incluidas en el tráfico VPN.</string>
+    <string name="settingsExcludedAppsEmpty">Agregue aplicaciones para ser excluidas del tráfico VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Agregue aplicaciones para ser incluidas en el tráfico VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Apps excluidas (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Aplicaciones incluidas (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Todas las demás aplicaciones regulares (%1$d)</string>
@@ -147,7 +147,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Añadir a aplicaciones excluidas</string>
+    <string name="accessibility_action_add_excluded_app">Agregar a aplicaciones excluidas</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -161,7 +161,7 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Añadir a aplicaciones incluidas</string>
+    <string name="accessibility_action_add_included_app">Agregar a aplicaciones incluidas</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
@@ -603,7 +603,7 @@
     <string name="settings_widget_selection_title">Pruebe el widget de Proton VPN</string>
     <string name="settings_widget_selection_description">Consulte el estado de su conexión y acceda a sus conexiones VPN favoritas desde la pantalla de inicio.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">Para añadir el widget, solo presione y mantenga presionado en cualquier parte de la pantalla de inicio y selecciona %1$s desde el menú de widgets.</string>
+    <string name="setting_widget_selection_additional_description">Para agregar el widget, solo presione y mantenga presionado en cualquier parte de la pantalla de inicio y selecciona %1$s desde el menú de widgets.</string>
     <string name="settings_widget_selection_button_title">Agregar el widget</string>
     <string name="setting_widget_try_title">Pruebe el widget de Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -1359,7 +1359,7 @@
     <string name="info_p2p_why_description_hide">Oculte la dirección IP del proveedor de servicios y de sus pares</string>
     <string name="info_dialog_smart_routing_description">Smart Routing usa servidores virtuales para proporcionar cobertura VPN en países de difícil acceso.\n\nCuando se conecta a un servidor de Smart Routing, parecerá que está navegando en su país de destino, aunque el servidor físico esté en otro lugar.  \n\nSmart Routing se usa normalmente para eludir las leyes contra la privacidad y otras formas de censura.</string>
     <string name="countries_upsell_banner_description">Disfrute de una cobertura global con VPN Plus</string>
-    <string name="secure_core_upsell_banner_description">Añada otra capa de cifrado a la conexión VPN</string>
+    <string name="secure_core_upsell_banner_description">Agregue otra capa de cifrado a la conexión VPN</string>
     <string name="p2p_upsell_banner_description">Descargue archivos con BitTorrent y otros protocolos de intercambio de archivos</string>
     <string name="tor_upsell_banner_description">Use la red Tor sobre la conexión VPN para privacidad adicional</string>
     <string name="vpnplus_upsell_banner_description">Mejorar a VPN Plus</string>
@@ -1459,5 +1459,5 @@
     <string name="widget_status_error">Error</string>
     <string name="widget_status_connecting">Conectando</string>
     <string name="widget_sign_in">Iniciar sesión</string>
-    <string name="widget_toast_added_message">Widget añadido a la pantalla de inicio</string>
+    <string name="widget_toast_added_message">Widget agregado a la pantalla de inicio</string>
 </resources>

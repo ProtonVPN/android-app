@@ -604,7 +604,7 @@
     <string name="settings_widget_selection_description">Consulta el estado de tu conexión y accede a tus conexiones VPN favoritas desde la pantalla de inicio.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Para añadir el widget, solo presiona y mantén presionado en cualquier parte de la pantalla de inicio y selecciona %1$s desde el menú de widgets.</string>
-    <string name="settings_widget_selection_button_title">Agregar el widget</string>
+    <string name="settings_widget_selection_button_title">Añadir el widget</string>
     <string name="setting_widget_try_title">Prueba el widget de Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
@@ -667,7 +667,7 @@
     <string name="whats_new_profiles_description">Crea y guarda conexiones personalizadas con tu elección de ubicación, servidor y protocolo.</string>
     <string name="whats_new_widget_title">Presentamos los widgets</string>
     <string name="whats_new_widget_description">Ahora puedes ver y administrar tu VPN sin salir de la pantalla de inicio. </string>
-    <string name="whats_new_add_widget_button">Agregar el widget</string>
+    <string name="whats_new_add_widget_button">Añadir el widget</string>
     <string name="welcome_plus_title">Te damos la bienvenida a VPN Plus</string>
     <string name="welcome_plus_description">Disfruta de funciones de privacidad adicionales, rendimiento excepcional y una personalización de VPN de otro nivel.</string>
     <string name="welcome_plus_feature_security">Funciones de seguridad avanzadas</string>
@@ -1459,5 +1459,5 @@
     <string name="widget_status_error">Error</string>
     <string name="widget_status_connecting">Conectando</string>
     <string name="widget_sign_in">Iniciar sesión</string>
-    <string name="widget_toast_added_message">Se ha agregado el widget a la pantalla de inicio.</string>
+    <string name="widget_toast_added_message">Se ha añadido el widget a la pantalla de inicio.</string>
 </resources>
