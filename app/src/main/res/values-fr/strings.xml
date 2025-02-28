@@ -1128,7 +1128,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Haute (91–100 %)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">Le VPN peut fonctionner plus lentement que d\'habitude </string>
+    <string name="connection_details_server_load_high_description">Le VPN peut fonctionner plus lentement que d\'habitude.</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocole</string>
     <!-- tag(Redesign_2023) -->
