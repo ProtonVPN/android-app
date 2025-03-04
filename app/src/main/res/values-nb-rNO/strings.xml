@@ -957,7 +957,7 @@
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
-    <string name="recents_headline">Seneste</string>
+    <string name="recents_headline">Nylige</string>
     <!-- Displayed above the list of VPN Plus features in the home screen -->
     <string name="home_upsell_carousel_headline">Oppdag VPN Plus</string>
     <!-- tag(Redesign_2023) -->
