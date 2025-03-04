@@ -203,7 +203,7 @@
     <string name="settingsKillSwitchAndroidSettingsButton">Налады</string>
     <string name="settingsKillSwitchLearnMoreButton">Што такое Kill Switch?</string>
     <string name="settingsKillSwitchWarningMain">Пры ўключаным Kill Switch, вы не зможаце падключыцца да:</string>
-    <string name="settingsKillSwitchWarningPoint1">Вэб-сайты і праграмы, якія выключаны з вашага падключэння VPN праз Split Tunneling</string>
+    <string name="settingsKillSwitchWarningPoint1">Вэб-сайты і праграмы, якія выключаны з вашага падключэння па VPN праз Split Tunneling</string>
     <string name="settingsKillSwitchWarningPoint2">Прылады ў вашай лакальнай сетцы (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Абагульваць ананімную статыстыку выкарыстання</string>
     <string name="settingsEnableTelemetryDescription">Даныя аб выкарыстанні дапамагаюць нам пераадольваць блакіроўкі VPN і паляпшаць прадукцыйнасць праграмы.</string>
@@ -635,7 +635,7 @@
     <string name="settings_change_icon_header_discreet">Непрыкметны значок праграмы</string>
     <string name="settings_widget_title">Віджэт</string>
     <string name="settings_widget_selection_title">Паспрабуйце віджэт Proton VPN</string>
-    <string name="settings_widget_selection_description">Сачыце за сваім статусам падключэння і атрымлівайце доступ да абраных падключэнняў VPN з галоўнага экрана.</string>
+    <string name="settings_widget_selection_description">Сачыце за сваім статусам падключэння і атрымлівайце доступ да абраных падключэнняў па VPN з галоўнага экрана.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">Націсніце і ўтрымлівайце ў любым месцы на галоўным экране, а потым проста выберыце %1$s з меню віджэтаў і дадайце яго.</string>
     <string name="settings_widget_selection_button_title">Дадаць віджэт</string>

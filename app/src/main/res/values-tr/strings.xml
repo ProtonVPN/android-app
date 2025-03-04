@@ -74,7 +74,7 @@
     <string name="error_generic_with_reason">Proton VPN bir VPN bağlantısı kuramadı. Lütfen birkaç saniye sonra yeniden deneyin.<br/><br/> Ayrıntılar: %1$s</string>
     <string name="reconnect">Yeniden bağlan</string>
     <string name="reconnect_now">Şimdi yeniden bağlan</string>
-    <string name="try_reconnecting">Yeniden bağlanmayı deneyin</string>
+    <string name="try_reconnecting">Yeniden bağlanmayı dene</string>
     <string name="connect">Bağlan</string>
     <string name="upgrade">Yükselt</string>
     <string name="retry">Yeniden dene</string>
@@ -117,7 +117,7 @@
     <string name="bugReportErrorEmptyEmail">E-posta adresi boş olamaz</string>
     <string name="bugReportErrorInvalidEmail">E-posta adresi geçersiz</string>
     <string name="bugReportLabelVpnLogsTitle">Hata günlüğü eklensin</string>
-    <string name="bugReportErrorLabelVpnLogsDescription">Açıldığında, sorunu çözmemize yardımcı olması için yerel hata günlüğünü gönderir (etkinlik kaydı tutmuyoruz)</string>
+    <string name="bugReportErrorLabelVpnLogsDescription">Sorunu çözmemize yardımcı olması için yerel hata günlüğünü gönderir (etkinlik kaydı tutmayız)</string>
     <string name="profileFastest">En hızlı</string>
     <string name="profileRandom">Rastgele</string>
     <string name="loaderErrorNoInternet">İnternet bağlantısı yok</string>
@@ -187,8 +187,8 @@
     <string name="troubleshootProtonDownDescription"><![CDATA[Sistemimizin durumunu görmek için <a href=\"%1$s\">Proton durumunu</a> sayfasına bakın.]]></string>
     <string name="troubleshootContactUsSectionTitle">Hala yardım gerekiyor mu? Doğrudan bizimle görüşün</string>
     <string name="troubleshootCustomerSupport">Müşteri desteği</string>
-    <string name="settingsAllowAlternativeRoutingTitle">Alternatif yönlendirme</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton erişimi engelleniyorsa, uygulamanın Proton sunucularına erişmesi için alternatif yollar kullanmasını sağlar. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingTitle">Alternatif yöneltme</string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Proton hizmetlerine erişimin engellenmiş olması durumunda, uygulama Proton sunucularına erişmek için alternatif yolları dener. <a href="%1$s">Ayrıntılı bilgi alın</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Hükümet engellemesi</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ülkeniz Proton ağına erişimi engelliyor olabilir. Proton ağına erişmek için <a href=\'%1$s\'>Tor</a> kullanmayı deneyin.]]></string>
     <string name="settingsKillSwitchEnableTitle">Bağlantı kesici nasıl açılır</string>
@@ -1298,8 +1298,8 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Hesabım</string>
     <string name="settings_account_button_delete_account">Hesabı sil</string>
-    <string name="settings_advanced_alternative_routing_title">Alternatif yönlendirme</string>
-    <string name="settings_advanced_alternative_routing_description">Proton hizmetleri ağ kısıtlamaları nedeniyle engellenirse sizi sitelerimize bağlamak için alternatif ağ yönlendirmesi kullanmayı deneyeceğiz.</string>
+    <string name="settings_advanced_alternative_routing_title">Alternatif yöneltme</string>
+    <string name="settings_advanced_alternative_routing_description">Proton hizmetlerine erişim ağ üzerinden engelleniyorsa, sitelerimizle bağlantınızı kurmak için alternatif ağ yöneltmesi kullanmayı deneyeceğiz.</string>
     <string name="settings_advanced_allow_lan_title">Yerel ağ bağlantıları</string>
     <string name="settings_advanced_allow_lan_description">Aygıtınızın aynı yerel ağda bulunan yazıcı, hoparlör gibi diğer aygıtlara bağlanmasını sağlar.</string>
     <string name="settings_advanced_nat_type_title">NAT Type</string>

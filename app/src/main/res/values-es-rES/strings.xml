@@ -178,7 +178,7 @@
     <string name="troubleshootNoInternetDescription">Por favor, asegúrese de que su conexión a Internet está funcionando.</string>
     <string name="troubleshootNoInternetTitle">No hay conexión a Internet.</string>
     <string name="troubleshootIspProblemTitle">Problema del proveedor de servicios de Internet (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Intenta conectarte a Proton desde una red diferente (o usa <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Intenta conectarte a Proton desde una red diferente (o usa <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Interferencia del antivirus</string>
     <string name="troubleshootAntivirusProblemDescription">Desactiva o elimina temporalmente tu software antivirus.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Interferencia de proxy/firewall</string>
@@ -190,7 +190,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Enrutado alternativo</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permite que la aplicación intente rutas alternativas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueo gubernamental</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Tu país puede estar bloqueando el acceso a Proton. Prueba usando <a href=\'%1$s\'>TOR</a> para acceder a Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Tu país puede estar bloqueando el acceso a Proton. Prueba usando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">¿Cómo activar el interruptor de bloqueo?</string>
     <string name="settingsKillSwitchEnableStep1">1. Abre la configuración de tu dispositivo</string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -199,7 +199,7 @@
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">ajustes</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activa \«<b>VPN siempre activa</b>\» y \«<b>Bloquear conexiones sin VPN</b>\»]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Activa \"<b>VPN siempre activa</b>\" y \"<b>Bloquear conexiones sin VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Ajustes</string>
     <string name="settingsKillSwitchLearnMoreButton">¿Qué es el interruptor de bloqueo?</string>
     <string name="settingsKillSwitchWarningMain">Cuando el interruptor de bloqueo está activo, no podrás conectarte a:</string>
@@ -1128,7 +1128,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Alta (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">La VPN puede funcionar más lenta de lo normal.</string>
+    <string name="connection_details_server_load_high_description">La VPN puede funcionar más lenta de lo normal </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protocolo</string>
     <!-- tag(Redesign_2023) -->
