@@ -54,7 +54,7 @@ import androidx.fragment.app.Fragment
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.telemetry.UpgradeSource
-import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeAdvancedCustomizationHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeDevicesHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeNetShieldHighlightsFragment
 import com.protonvpn.android.ui.planupgrade.UpgradeP2PHighlightsFragment
@@ -145,7 +145,7 @@ private fun createPages(includeProfilesCard: Boolean) = buildList {
     )
     add(
         Page(
-            UpgradeAllowLanHighlightsFragment::class,
+            UpgradeAdvancedCustomizationHighlightsFragment::class,
             UpgradeSource.HOME_CAROUSEL_CUSTOMIZATION,
         ) { modifier -> UpsellCardCustomization(modifier) }
     )

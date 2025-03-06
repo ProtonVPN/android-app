@@ -51,7 +51,7 @@ import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.ui.planupgrade.CarouselUpgradeDialogActivity
-import com.protonvpn.android.ui.planupgrade.UpgradeAllowLanHighlightsFragment
+import com.protonvpn.android.ui.planupgrade.UpgradeAdvancedCustomizationHighlightsFragment
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelAppsActivity
 import com.protonvpn.android.ui.settings.SettingsSplitTunnelIpsActivity
 import com.protonvpn.android.utils.Constants
@@ -173,13 +173,13 @@ fun SubSettingsRoute(
                             },
                             onAllowLanRestricted = {
                                 onOverrideSettingClick(OverrideType.LAN) {
-                                    CarouselUpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(
+                                    CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
                                         context
                                     )
                                 }
                             },
                             onNatTypeRestricted = {
-                                CarouselUpgradeDialogActivity.launch<UpgradeAllowLanHighlightsFragment>(
+                                CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
                                     context
                                 )
                             },

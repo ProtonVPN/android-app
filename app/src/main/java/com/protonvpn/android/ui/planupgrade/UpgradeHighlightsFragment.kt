@@ -104,7 +104,7 @@ private fun vpnPlusCarouselFragments(hasProfiles: Boolean) = buildList {
     if (hasProfiles) {
         add(carouselItem(::UpgradeProfilesHighlightsFragment))
     }
-    add(carouselItem(::UpgradeAllowLanHighlightsFragment))
+    add(carouselItem(::UpgradeAdvancedCustomizationHighlightsFragment))
 }
 
 private fun unlimitedCarouselFragments(hasProfiles: Boolean) = listOf(
@@ -440,7 +440,9 @@ class UpgradeP2PHighlightsFragment : UpgradeHighlightsFragmentWithSource(Upgrade
 }
 
 @AndroidEntryPoint
-class UpgradeAllowLanHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.ALLOW_LAN) {
+class UpgradeAdvancedCustomizationHighlightsFragment : UpgradeHighlightsFragmentWithSource(
+    UpgradeSource.ADVANCED_CUSTOMIZATION
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

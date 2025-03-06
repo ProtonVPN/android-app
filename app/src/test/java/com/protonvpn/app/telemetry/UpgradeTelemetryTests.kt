@@ -157,7 +157,7 @@ class UpgradeTelemetryTests {
     @Test
     fun `when new flow starts it overrides the previous modal_source`() = testScope.runTest {
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.NETSHIELD)
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ALLOW_LAN)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.PROFILES)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
@@ -177,7 +177,7 @@ class UpgradeTelemetryTests {
 
     @Test
     fun `on success both old and new plan is reported`() = testScope.runTest {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ALLOW_LAN)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR)
 
@@ -201,7 +201,7 @@ class UpgradeTelemetryTests {
             fakeTime = createdAtUtc + timeSinceCreation.inWholeMilliseconds
             val dimensionsSlot = slot<Map<String, String>>() // Using slots allows for cleaner failure messages.
             every { mockTelemetry.event(any(), any(), any(), capture(dimensionsSlot)) } just runs
-            upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ALLOW_LAN)
+            upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION)
             assertEquals(expectedBucket, dimensionsSlot.captured["days_since_account_creation"])
         }
 
@@ -220,7 +220,7 @@ class UpgradeTelemetryTests {
 
     @Test
     fun `upgrade more than 10 minutes after first event is ignored`() = testScope.runTest {
-        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ALLOW_LAN)
+        upgradeTelemetry.onUpgradeFlowStarted(UpgradeSource.ADVANCED_CUSTOMIZATION)
         upgradeTelemetry.onUpgradeAttempt(UpgradeFlowType.REGULAR)
         fakeTime = 10.minutes.inWholeMilliseconds + 1
         upgradeTelemetry.onUpgradeSuccess("new_plan", UpgradeFlowType.REGULAR)
