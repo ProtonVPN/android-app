@@ -91,7 +91,7 @@ import me.proton.core.presentation.R as CoreR
 private fun carouselItem(fragmentFactory: () -> Fragment, backgroundGradientOverride: Triple<Int, Int, Int>? = null) =
     UpgradeHighlightsCarouselFragment.CarouselItem(fragmentFactory, backgroundGradientOverride)
 
-private fun vpnPlusCarouselFragments(hasProfiles: Boolean) = buildList {
+private fun vpnPlusCarouselFragments(hasProfiles: Boolean, hasCustomDns: Boolean) = buildList {
     add(carouselItem(::UpgradePlusCountriesHighlightsFragment))
     add(carouselItem(::UpgradeVpnAcceleratorHighlightsFragment))
     add(carouselItem(::UpgradeStreamingHighlightsFragment))
@@ -104,10 +104,16 @@ private fun vpnPlusCarouselFragments(hasProfiles: Boolean) = buildList {
     if (hasProfiles) {
         add(carouselItem(::UpgradeProfilesHighlightsFragment))
     }
-    add(carouselItem(::UpgradeAdvancedCustomizationHighlightsFragment))
+    if (hasCustomDns) {
+        // Note: when removing the Custom DNS feature flag simplify the UpgradeAdvancedCustomizationHighlightsFragment
+        // class hierarchy.
+        add(carouselItem(::UpgradeAdvancedCustomizationHighlightsFragment))
+    } else {
+        add(carouselItem(::UpgradeAdvancedCustomizationLegacyHighlightsFragment))
+    }
 }
 
-private fun unlimitedCarouselFragments(hasProfiles: Boolean) = listOf(
+private fun unlimitedCarouselFragments(hasProfiles: Boolean, hasCustomDns: Boolean) = listOf(
     carouselItem(::UpgradeUnlimitedAllAppsFragment, UnlimitedPlanBenefits.defaultGradient),
 ) + UnlimitedPlanBenefits.apps.map { app -> carouselItem({ UpgradeUnlimitedAppFragment(app) }, app.backgroundGradient) }
 
@@ -189,7 +195,7 @@ abstract class UpgradeHighlightsFragment : Fragment(R.layout.fragment_upgrade_hi
 
 @AndroidEntryPoint
 abstract class UpgradeHighlightsCarouselFragment(
-    private val carouselFragments: (hasProfiles: Boolean) -> List<CarouselItem>,
+    private val carouselFragments: (hasProfiles: Boolean, hasCustomDns: Boolean) -> List<CarouselItem>,
 ) : Fragment(R.layout.fragment_upgrade_highlights_carousel) {
 
     class CarouselItem(
@@ -212,7 +218,8 @@ abstract class UpgradeHighlightsCarouselFragment(
 
         viewLifecycleOwner.lifecycleScope.launch {
             val hasProfiles = viewModel.hasProfiles()
-            val carousel = carouselFragments(hasProfiles)
+            val hasCustomDns = viewModel.hasCustomDns()
+            val carousel = carouselFragments(hasProfiles, hasCustomDns)
             val slideAdapter = SlideAdapter(this@UpgradeHighlightsCarouselFragment, carousel.map { it.fragmentFactory })
             with(binding.viewPager) {
                 visibility = View.INVISIBLE
@@ -319,8 +326,8 @@ abstract class UpgradeHighlightsCarouselFragment(
 
 @AndroidEntryPoint
 class UpgradeHighlightsOnboardingFragment : UpgradeHighlightsCarouselFragment(
-    { hasProfiles ->
-        listOf(CarouselItem(::UpgradeVpnPlusHighlightsFragment)) + vpnPlusCarouselFragments(hasProfiles)
+    { hasProfiles, hasCustomDns ->
+        listOf(CarouselItem(::UpgradeVpnPlusHighlightsFragment)) + vpnPlusCarouselFragments(hasProfiles, hasCustomDns)
     }
 )
 
@@ -439,19 +446,26 @@ class UpgradeP2PHighlightsFragment : UpgradeHighlightsFragmentWithSource(Upgrade
     }
 }
 
+// Note: when removing the Custom DNS feature flag this class will become a concrete implementation without subclasses.
 @AndroidEntryPoint
-class UpgradeAdvancedCustomizationHighlightsFragment : UpgradeHighlightsFragmentWithSource(
+open class UpgradeAdvancedCustomizationHighlightsFragment : UpgradeHighlightsFragmentWithSource(
     UpgradeSource.ADVANCED_CUSTOMIZATION
 ) {
+    protected open val messageRes: Int = R.string.upgrade_customization_message
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.set(
             imageResource = R.drawable.upgrade_customization,
             title = getString(R.string.upgrade_customization_title),
-            message = HtmlTools.fromHtml(getString(R.string.upgrade_lan_access_message))
+            message = HtmlTools.fromHtml(getString(messageRes))
         )
     }
+}
+
+@AndroidEntryPoint
+class UpgradeAdvancedCustomizationLegacyHighlightsFragment : UpgradeAdvancedCustomizationHighlightsFragment() {
+    override val messageRes: Int = R.string.upgrade_lan_access_message
 }
 
 @AndroidEntryPoint
