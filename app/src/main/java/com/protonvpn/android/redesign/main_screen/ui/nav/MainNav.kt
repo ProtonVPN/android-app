@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.main_screen.ui.nav
 
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
@@ -29,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -190,7 +190,7 @@ object MainScreen : ScreenNoArg<RootNav>("main") {
         settingsChangeViewModel: SettingsChangeViewModel,
     ) {
         val bottomTarget = mainNav.currentBottomBarTargetAsState()
-        val activity = LocalContext.current as ComponentActivity
+        val activity = LocalActivity.current as ComponentActivity
         val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
         val showGateways = activityViewModel.showGatewaysFlow.collectAsStateWithLifecycle().value ?: false
         val showProfiles = activityViewModel.showProfilesFlow.collectAsStateWithLifecycle().value ?: false

@@ -167,18 +167,18 @@ class UpgradeDialogViewModel(
             // Plans order should match order of planNames.
             loadedPlans = planNames.mapNotNull { planName -> unorderedPlans.find { it.planName == planName } }
             val preselectedPlan = loadedPlans.find { it.planName == planNames.first() }
-            if (loadedPlans.isNotEmpty() && preselectedPlan != null) {
-                if (loadedPlans.any { it.prices.isEmpty() }) {
-                    val errorInfo = plansDebugInfo(loadedPlans)
-                    state.value = State.LoadError(
-                        messageRes = R.string.error_fetching_prices,
-                        error = IllegalArgumentException("Missing prices: $errorInfo")
-                    )
-                } else {
-                    selectPlan(preselectedPlan)
-                }
+            if (loadedPlans.isEmpty()
+                // Note: plans with no Google prices should already be filtered out by GetDynamicPlansAdjustedPrices.
+                || loadedPlans.any { it.prices.isEmpty() }
+                || preselectedPlan == null
+            ) {
+                val errorInfo = plansDebugInfo(loadedPlans)
+                state.value = State.LoadError(
+                    messageRes = R.string.error_fetching_prices,
+                    error = IllegalArgumentException("Missing prices: $errorInfo")
+                )
             } else {
-                state.value = State.PlansFallback
+                selectPlan(preselectedPlan)
             }
         }.runCatchingCheckedExceptions { e ->
             // loadGoogleSubscriptionPlans throws errors.
