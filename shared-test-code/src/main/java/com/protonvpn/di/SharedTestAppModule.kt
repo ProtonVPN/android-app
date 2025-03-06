@@ -91,6 +91,7 @@ import me.proton.core.network.data.di.CertificatePins
 import me.proton.core.network.data.di.DohProviderUrls
 import me.proton.core.network.data.di.SharedOkHttpClient
 import me.proton.core.network.domain.NetworkManager
+import me.proton.core.payment.domain.usecase.GoogleServicesUtils
 import me.proton.core.presentation.app.AppLifecycleObserver
 import me.proton.core.presentation.app.AppLifecycleProvider
 import me.proton.core.user.dagger.CoreUserRepositoriesModule
@@ -107,7 +108,6 @@ import me.proton.core.util.android.datetime.DateTimeFormat
 import me.proton.core.util.android.datetime.DurationFormat
 import me.proton.core.util.android.datetime.Monotonic
 import me.proton.core.util.android.datetime.UtcClock
-import me.proton.core.util.android.device.GoogleServicesUtils
 import me.proton.core.util.kotlin.CoroutineScopeProvider
 import me.proton.core.util.kotlin.DefaultCoroutineScopeProvider
 import me.proton.core.util.kotlin.DispatcherProvider

@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.home_screen.ui
 import android.app.Activity
 import android.content.Context
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ColumnScope
@@ -124,7 +125,7 @@ fun HomeRoute(
     mainScreenViewModel: MainScreenViewModel,
     onConnectionCardClick: () -> Unit
 ) {
-    val activity = LocalContext.current as ComponentActivity
+    val activity = LocalActivity.current as ComponentActivity
     val vpnUiDelegate = LocalVpnUiDelegate.current
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()

@@ -128,7 +128,7 @@ class AccountViewModel @Inject constructor(
             null
         }
     }.filterNotNull().map { userId ->
-        val paidPlanName = getDynamicSubscription(userId).name
+        val paidPlanName = getDynamicSubscription(userId)?.name
         if (paidPlanName != null) {
             OnboardingEvent.ShowUpgradeSuccess(paidPlanName)
         } else if (!isCredentialLessEnabled()) {

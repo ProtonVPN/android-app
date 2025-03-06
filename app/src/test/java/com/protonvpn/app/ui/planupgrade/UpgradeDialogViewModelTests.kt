@@ -22,6 +22,7 @@ package com.protonvpn.app.ui.planupgrade
 import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
+import com.protonvpn.android.R
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel
 import com.protonvpn.android.ui.planupgrade.CommonUpgradeDialogViewModel.State
 import com.protonvpn.android.ui.planupgrade.UpgradeDialogViewModel
@@ -180,16 +181,20 @@ class UpgradeDialogViewModelTests {
     }
 
     @Test
-    fun `enter fallback on plan load fail`() = testScope.runTest {
+    fun `show error on plan load fail`() = testScope.runTest {
         giapPlans = emptyList()
         viewModel.loadPlans(listOf(testPlanName))
-        Assert.assertTrue(viewModel.state.value is State.PlansFallback)
+        val state = viewModel.state.first()
+        assertIs<State.LoadError>(state)
+        assertEquals(state.messageRes, R.string.error_fetching_prices)
     }
 
     @Test
-    fun `enter fallback when first plan is missing`() = testScope.runTest {
+    fun `show error when first plan is missing`() = testScope.runTest {
         viewModel.loadPlans(listOf("missing plan", testPlanName))
-        assertIs<State.PlansFallback>(viewModel.state.first())
+        val state = viewModel.state.first()
+        assertIs<State.LoadError>(state)
+        assertEquals(state.messageRes, R.string.error_fetching_prices)
     }
 
     @Test

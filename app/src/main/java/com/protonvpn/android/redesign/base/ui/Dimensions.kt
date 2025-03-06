@@ -20,6 +20,7 @@
 package com.protonvpn.android.redesign.base.ui
 
 import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -29,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.Dp
@@ -79,7 +79,7 @@ fun largeScreenContentPadding(): Dp =
     if (LocalInspectionMode.current) {
         0.dp
     } else {
-        val activity = LocalContext.current as Activity
+        val activity = LocalActivity.current!!
         ProtonTheme.extraPaddingForWindowSize(calculateWindowSize(activity))
     }
 
