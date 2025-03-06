@@ -48,7 +48,6 @@ enum class UpgradeSource {
     HOME_CAROUSEL_STREAMING,
     HOME_CAROUSEL_TOR,
     MAX_CONNECTIONS,
-    MODERATE_NAT,
     NETSHIELD,
     ONBOARDING,
     P2P,

@@ -557,19 +557,6 @@ class UpgradePlusCountriesHighlightsFragment : UpgradeHighlightsFragmentWithSour
     }
 }
 
-@AndroidEntryPoint
-class UpgradeModerateNatHighlightsFragment : UpgradeHighlightsFragmentWithSource(UpgradeSource.MODERATE_NAT) {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.set(
-            imageResource = R.drawable.upgrade_moderate_nat,
-            title = getString(R.string.upgrade_moderate_nat_title2),
-            message = HtmlTools.fromHtml(getString(R.string.upgrade_moderate_nat_message2)),
-        )
-    }
-}
-
 abstract class UpgradeComposeFragment : Fragment(R.layout.fragment_upgrade_highlights_compose) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
