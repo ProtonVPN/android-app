@@ -22,6 +22,7 @@ package com.protonvpn.android.ui.planupgrade
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.profiles.usecases.NewProfilesMvpEnabled
+import com.protonvpn.android.vpn.IsCustomDnsEnabled
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -32,10 +33,14 @@ import javax.inject.Inject
 @HiltViewModel
 class UpgradeHighlightsCarouselViewModel @Inject constructor(
     newProfilesMvpEnabled: NewProfilesMvpEnabled,
+    customDnsEnabled: IsCustomDnsEnabled,
 ) : ViewModel() {
 
     private val hasProfiles: Deferred<Boolean> = viewModelScope.async {
         newProfilesMvpEnabled()
+    }
+    private val hasCustomDns: Deferred<Boolean> = viewModelScope.async {
+        customDnsEnabled()
     }
     private val gradient = MutableStateFlow<Triple<Int, Int, Int>?>(null)
     val gradientOverride: StateFlow<Triple<Int, Int, Int>?> = gradient
@@ -45,4 +50,6 @@ class UpgradeHighlightsCarouselViewModel @Inject constructor(
     }
 
     suspend fun hasProfiles(): Boolean = hasProfiles.await()
+
+    suspend fun hasCustomDns(): Boolean = hasCustomDns.await()
 }

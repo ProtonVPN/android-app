@@ -17,20 +17,9 @@
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.protonvpn.android.vpn
+package com.protonvpn.mocks
 
-import com.protonvpn.android.auth.usecase.CurrentUser
-import com.protonvpn.android.base.data.VpnFeatureFlag
-import com.protonvpn.android.base.data.VpnFeatureFlagImpl
-import dagger.Reusable
-import me.proton.core.featureflag.domain.FeatureFlagManager
-import me.proton.core.featureflag.domain.entity.FeatureId
-import javax.inject.Inject
+import com.protonvpn.android.base.data.FakeVpnFeatureFlag
+import com.protonvpn.android.vpn.IsCustomDnsEnabled
 
-interface IsCustomDnsEnabled : VpnFeatureFlag
-
-@Reusable
-class IsCustomDnsEnabledImpl @Inject constructor(
-    currentUser: CurrentUser,
-    featureFlagManager: FeatureFlagManager
-) : IsCustomDnsEnabled, VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("CustomDNS"))
+class FakeIsCustomDnsEnabled(enabled: Boolean) : IsCustomDnsEnabled, FakeVpnFeatureFlag(enabled)
