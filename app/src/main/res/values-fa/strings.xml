@@ -374,6 +374,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[ترافیکتان را بین تونل‌های VPN و بدون VPN با <b>split tunneling</b> تقسیم کنید.]]></string>
     <string name="upgrade_customization_title">سفارشی‌سازی پیشرفته VPN را قفل‌گشایی کنید</string>
     <string name="upgrade_lan_access_message"><![CDATA[به دستگاه‌های موجود در <b>شبکه محلی‌تان (LAN)</b> با VPN Plus دسترسی پیدا کنید.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">به تمامی کشورها دسترسی پیدا کنید</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -576,8 +577,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">می‌خواهید به یک کشور خاص متصل شوید؟</string>
     <string name="upgrade_country_message"><![CDATA[Unlock <b>country selection</b> with VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">به تجربه بازی کردن خود بهبود ببخشید</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Improve online gaming and video call performance with <b>NAT type 2</b>.]]></string>
     <string name="free_connections_info_message">Proton رایگان، به‌طور خودکار شما را به سریع‌ترین سرور در دسترس وصل می‌کند. این معمولاً نزدیک‌ترین سرور به مکان شما خواهد بود.</string>
     <string name="free_connections_info_server_locations">مکان‌های سرور رایگان (%1$d)</string>
     <string name="free_connections_info_banner_text">با VPN Plus پوشش جهانی بگیرید</string>

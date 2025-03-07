@@ -386,6 +386,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Podziel ruch sieciowy na częściowy tunel VPN dzięki funkcji <b>Split Tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Odblokuj zaawansowane ustawienia VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Uzyskaj dostęp do urządzeń w <b>sieci lokalnej (LAN)</b> w planie VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Dostęp do wszystkich krajów</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -608,8 +609,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Chcesz połączyć się z konkretnym krajem?</string>
     <string name="upgrade_country_message"><![CDATA[Odblokuj <b>wybór krajów</b> w planie VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">Podnieś poziom swoich wrażeń z gry</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Lepsza wydajność gier online i połączeń wideo dzięki <b>NAT typ 2</b>.]]></string>
     <string name="free_connections_info_message">Plan Proton Free automatycznie łączy użytkownika z najszybszym dostępnym serwerem. Zazwyczaj będzie to serwer znajdujący się najbliżej lokalizacji użytkownika.</string>
     <string name="free_connections_info_server_locations">Lokalizacje planu Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Plan VPN Plus zapewnia zasięg na całym świecie</string>

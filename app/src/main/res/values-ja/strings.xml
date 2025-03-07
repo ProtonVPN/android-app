@@ -368,6 +368,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[<b>スプリットトンネル</b>を使用して、トラフィックを VPN トンネルと非 VPN トンネルに分割します。]]></string>
     <string name="upgrade_customization_title">高度な VPN カスタマイズを解除する</string>
     <string name="upgrade_lan_access_message"><![CDATA[VPN Plus を使用して<b>ローカル エリア ネットワーク (LAN)</b> 上のデバイスにアクセスします。]]></string>
+    <string name="upgrade_customization_message"><![CDATA[VPN Plus で <b>LAN 接続</b>, <b>カスタム DNS</b>, <b>NATタイプ 2</b> をアンロック。]]></string>
     <string name="upgrade_all_countries_title">すべての国にアクセス</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -560,8 +561,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">特定の国に接続したいですか?</string>
     <string name="upgrade_country_message"><![CDATA[VPN Plus で<b>国の選択</b>を解除します。]]></string>
-    <string name="upgrade_moderate_nat_title2">ゲーム体験のレベルアップ</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[<b>NAT タイプ 2</b> により、オンライン ゲームとビデオ通話のパフォーマンスが向上します。]]></string>
     <string name="free_connections_info_message">Proton Freeでは、利用可能な最速のサーバーに自動的に接続されます。これは通常、あなたの所在地に最も近いサーバーとなります。</string>
     <string name="free_connections_info_server_locations">無料サーバーの場所 (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plusで世界中をカバー</string>

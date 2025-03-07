@@ -368,6 +368,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[使用<b>分梭通道</b>將您的網路流量分流到 VPN 和非 VPN 通道。]]></string>
     <string name="upgrade_customization_title">解鎖進階 VPN 客製化</string>
     <string name="upgrade_lan_access_message"><![CDATA[選用 VPN Plus 存取在您的<b>區域網路 (LAN)</b> 上的裝置。]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">存取所有國家</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -560,8 +561,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">想要連接特定的國家嗎?</string>
     <string name="upgrade_country_message"><![CDATA[取得 VPN Plus 來解鎖 <b>國家選擇</b>]]></string>
-    <string name="upgrade_moderate_nat_title2">提升您的遊戲體驗。</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[使用 <b>NAT 類型 2</b> 提升線上遊戲與視像通話效能。]]></string>
     <string name="free_connections_info_message">Proton Free 會自動替你連接到最快且可用的伺服器。通常這些伺服器都是最接近您的地區。</string>
     <string name="free_connections_info_server_locations">免費伺服器位置 （%1$d）</string>
     <string name="free_connections_info_banner_text">使用 VPN Plus 來獲得全球的覆蓋率。</string>

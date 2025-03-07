@@ -374,6 +374,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Jaa tietoliikenteesi VPN-tunneliin ja sen ulkopuolelle <b>jaetun tunneloinnin</b> avulla.]]></string>
     <string name="upgrade_customization_title">Avaa edistyneet VPN-mukautukset</string>
     <string name="upgrade_lan_access_message"><![CDATA[Käytä <b>lähiverkkosi (LAN)</b> laitteita VPN Plus -tilauksella.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Käytä kaikkia maita</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -576,8 +577,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Haluatko yhdistää tiettyyn maahan?</string>
     <string name="upgrade_country_message"><![CDATA[Avaa <b>maavalinta</b> VPN Plus -tilauksella.]]></string>
-    <string name="upgrade_moderate_nat_title2">Paranna pelikokemustasi</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Paranna online-pelaamisen ja videopuheluiden suorituskykyä <b>NAT-tyyppi 2:n</b> avulla.]]></string>
     <string name="free_connections_info_message">Proton Free yhdistää automaattisesti nopeimpaan käytettävissä olevaan palvelimeen. Yleensä tämä on lähinnä sijaintiasi oleva palvelin.</string>
     <string name="free_connections_info_server_locations">Ilmaiset palvelinsijainnnit (%1$d)</string>
     <string name="free_connections_info_banner_text">Hanki maailmanlaajuiden kattavuus VPN Plus -tilauksella</string>

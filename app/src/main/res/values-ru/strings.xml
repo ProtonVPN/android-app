@@ -190,7 +190,7 @@
     <string name="settingsAllowAlternativeRoutingTitle">Альтернативная маршрутизация</string>
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>]]></string>
     <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Your country may be blocking access to Proton. Try using <a href=\'%1$s\'>Tor</a> to access Proton.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ваша страна возможно блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для входа в Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">Как включить kill switch</string>
     <string name="settingsKillSwitchEnableStep1">1. Откройте настройки устройства</string>
     <!-- %1$s here will be replaced by "gear" icon -->
@@ -386,6 +386,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Разделите трафик на VPN- и не-VPN-туннели с помощью <b>раздельного туннелирования</b>.]]></string>
     <string name="upgrade_customization_title">Разблокируйте расширенные настройки VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Access devices on your <b>local area network (LAN)</b> with VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Получите доступ ко всем странам</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -608,8 +609,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Хотите подключиться к определённой стране?</string>
     <string name="upgrade_country_message"><![CDATA[Разблокируйте <b>выбор страны</b> с помощью VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">Level up your gaming experience</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Повысьте производительность онлайн-игр и видеозвонков благодаря <b>NAT типа 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free автоматически подключает вас к самому быстрому из доступных серверов. Обычно это ближайший к вашему местоположению сервер.</string>
     <string name="free_connections_info_server_locations">Месторасположение серверов Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Получите всемирное покрытие с помощью VPN Plus</string>
@@ -849,7 +848,7 @@
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Самая быстрая страна</string>
-    <string name="fastest_country_excluding_my_country">Fastest country (excluding my country)</string>
+    <string name="fastest_country_excluding_my_country">Быстрая локация (исключая мою)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
     <string name="fastest_free_server">Самый быстрый бесплатный сервер</string>
     <!-- tag(Redesign_2023)
@@ -1345,7 +1344,7 @@
     <string name="create_profile_title">Создать профиль</string>
     <!-- Title for the screen where user can edit a profile.
          %1$s - name of the profile being edited. -->
-    <string name="edit_profile_title">Edit %1$s</string>
+    <string name="edit_profile_title">Редактировать %1$s</string>
     <string name="edit_profile_dialog_action">Изменить профиль</string>
     <string name="create_profile_name_hint">Имя профиля</string>
     <string name="create_profile_name_error_empty">Введите имя профиля</string>

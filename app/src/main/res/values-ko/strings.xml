@@ -369,6 +369,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[<b>분할 터널링</b>으로 VPN에 들어갈 트래픽을 분류하세요.]]></string>
     <string name="upgrade_customization_title">향상된 VPN 사용자화를 잠금 해제하세요</string>
     <string name="upgrade_lan_access_message"><![CDATA[VPN Plus로 <b>로컬 영역 네트워크 (LAN)</b>의 디바이스에 접근하세요.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">모든 국가로의 접근</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -561,8 +562,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">특정 국가로 연결하고 싶으세요?</string>
     <string name="upgrade_country_message"><![CDATA[VPN Plus로 <b>국가 선택</b>을 잠금 해제하세요.]]></string>
-    <string name="upgrade_moderate_nat_title2">게이밍 경험을 극대화하세요</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[<b>NAT Type 2</b> 기술로 온라인 게이밍과 영상 통화 성능을 극대화 하세요.]]></string>
     <string name="free_connections_info_message">Proton Free가 사용 가능한 가장 빠른 서버에 자동으로 연결합니다. 보통 소재한 곳에서 가장 가까운 서버가 선택됩니다.</string>
     <string name="free_connections_info_server_locations">무료 서버 지역 (%1$d)</string>
     <string name="free_connections_info_banner_text">전세계 커버리지를 VPN Plus로 누려보세요</string>
