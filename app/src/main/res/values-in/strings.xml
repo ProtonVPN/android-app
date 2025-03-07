@@ -368,6 +368,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Pisahkan lalu lintas jaringan Anda ke dalam tunnel VPN dan non-VPN dengan <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Akses opsi kustomisasi VPN lanjutan</string>
     <string name="upgrade_lan_access_message"><![CDATA[Akses perangkat yang terdapat pada <b>jaringan lokal (LAN) Anda</b> dengan VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Dapatkan akses ke <b>koneksi LAN</b>, <b>DNS khusus</b>, dan <b>NAT tipe 2</b> dengan VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Akses seluruh negara</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -560,8 +561,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Ingin terhubung ke negara tertentu?</string>
     <string name="upgrade_country_message"><![CDATA[Akses fitur <b>pemilihan negara</b> dengan VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">Bawa pengalaman gaming Anda ke level selanjutnya</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Tingkatkan performa game online dan panggilan video dengan <b>NAT tipe 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free akan menghubungkan Anda secara otomatis ke server tercepat yang tersedia. Pada umumnya, Anda akan terhubung ke server yang paling dekat dengan lokasi Anda.</string>
     <string name="free_connections_info_server_locations">Lokasi server Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Dapatkan cakupan server di seluruh dunia dengan VPN Plus</string>

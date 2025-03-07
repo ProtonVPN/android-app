@@ -387,6 +387,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Razdelite promet na tunele VPN in tunele brez VPN z <b>deljenim tuneliranjem</b>.]]></string>
     <string name="upgrade_customization_title">Odklenite napredno prilagoditev VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Dostopajte do naprav v vašem <b>lokalnem omrežju (LAN)</b> z VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Dostop do vseh držav</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -609,8 +610,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Se želite povezati z določeno državo?</string>
     <string name="upgrade_country_message"><![CDATA[Odklenite <b>izbiro držav</b> z VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">Izboljšajte svojo igralno izkušnjo</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Izboljšajte delovanje spletnih iger in video klicev z <b>NAT tip 2</b>.]]></string>
     <string name="free_connections_info_message">Brezplačni Proton vas samodejno poveže z najhitrejšim razpoložljivim strežnikom. To bo običajno vaši lokaciji najbližji strežnik.</string>
     <string name="free_connections_info_server_locations">Lokacije brezplačnih strežnikov (%1$d)</string>
     <string name="free_connections_info_banner_text">Zagotovite si svetovno pokritost z VPN Plus</string>

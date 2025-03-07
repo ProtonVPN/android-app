@@ -374,6 +374,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Verdeel uw verkeer in VPN- en niet-VPN-tunnels met <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Ontgrendel geavanceerde VPN-aanpassingen</string>
     <string name="upgrade_lan_access_message"><![CDATA[Toegang tot apparaten op uw <b>lokaal netwerk (LAN)</b> met VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Toegang tot alle landen</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -576,8 +577,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Wilt u verbinding maken met een specifiek land?</string>
     <string name="upgrade_country_message"><![CDATA[Ontgrendel <b>landkeuze</b> met VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">Verbeter uw game-ervaring</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Verbeter online gaming- en video-oproep-prestaties met <b>NAT type 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free connecteert u automatisch met de snelste beschikbare server. Dit zal normaal gezien de dichtstbijzijnde server zijn.</string>
     <string name="free_connections_info_server_locations">Gratis serverlocaties (%1$d)</string>
     <string name="free_connections_info_banner_text">Krijg wereldwijde dekking met VPN Plus</string>

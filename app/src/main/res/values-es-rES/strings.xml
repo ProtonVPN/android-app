@@ -374,6 +374,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Divide tu tráfico en túneles VPN y no VPN con <b>túneles divididos</b>.]]></string>
     <string name="upgrade_customization_title">Desbloquea personalizaciones de VPN avanzadas</string>
     <string name="upgrade_lan_access_message"><![CDATA[Accede a dispositivos en tu <b>red de área local (LAN)</b> con VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Accede a todos los países</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -576,8 +577,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">¿Quieres conectarte a un país específico?</string>
     <string name="upgrade_country_message"><![CDATA[Accede a la <b>selección de países</b> con VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">Mejora tu experiencia de juego</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Mejora el rendimiento de las videollamadas y juegos en línea con <b>NAT tipo 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free te conecta automáticamente al servidor más rápido disponible. Normalmente es el servidor más cercano a tu ubicación.</string>
     <string name="free_connections_info_server_locations">Ubicaciones de servidores gratuitos (%1$d)</string>
     <string name="free_connections_info_banner_text">Disfruta de una cobertura global con VPN Plus</string>
@@ -1442,7 +1441,7 @@
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_on">Activado</string>
     <string name="create_profile_auto_open_description">Abre automáticamente un sitio web de tu elección cuando te conectes a este perfil.</string>
-    <string name="profile_auto_open_error_invalid_url">Introduce una URL válida</string>
+    <string name="profile_auto_open_error_invalid_url">Ingresa una URL válida</string>
     <string name="nps_how_likely_question">¿Qué tan probable es que recomiendes Proton VPN a un amigo o a un compañero de trabajo?</string>
     <string name="nps_additional_comment_title">Cuéntanos por qué has dado esa calificación.</string>
     <string name="nps_additional_comment_optional">Opcional</string>

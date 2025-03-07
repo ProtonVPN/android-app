@@ -374,6 +374,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[გაჰყავით თქვენი ტრაფიკი VPN და არა-VPN ტრაფიკად <b>გაყოფილი გვირაბით</b>.]]></string>
     <string name="upgrade_customization_title">განბლოკეთ VPN-ის დამატებითი პარამეტრები</string>
     <string name="upgrade_lan_access_message"><![CDATA[იქონიეთ წვდომა თქვენს <b>ლოკალურ ქსელში (LAN)</b> არსებულ მოწყობილობებზე VPN Plus-ით.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">წვდომა ყველა ქვეყანასთან</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -576,8 +577,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">გნებავთ მიუერთდეთ სპეციფიკურ ქვეყანას?</string>
     <string name="upgrade_country_message"><![CDATA[განბლოკეთ <b>ქვეყნის არჩევანი</b> VPN Plus-თან ერთად.]]></string>
-    <string name="upgrade_moderate_nat_title2">ასწიეთ თქვენი თამაშის გამოცდილება</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[გააუმჯობესეთ ონლაინთამაშების და ვიდეოზარების წარმადობა <b>NAT type 2</b>-ით.]]></string>
     <string name="free_connections_info_message">Proton Free ავტომატურად მიუერთდება უსწრაფეს ხელმისაწვდომ სერვერს. ეს ჩვეულებრივ თქვენს მდებარეობასთან არსებული უახლოესი სერვერია.</string>
     <string name="free_connections_info_server_locations">უფასო სერვერის მდებარეობები (%1$d)</string>
     <string name="free_connections_info_banner_text">იქონიეთ წვდომა ყველაფერზე VPN Plus-თან ერთად</string>

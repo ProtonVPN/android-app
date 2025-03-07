@@ -386,6 +386,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Rozdeľte svoju prevádzku na VPN tunely a iné ako VPN pomocou <b>rozdeleného tunelovania</b>.]]></string>
     <string name="upgrade_customization_title">Odomknite pokročilé prispôsobenie VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Pristupujte k zariadeniam v <b>lokálnej sieti (LAN)</b> s VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Prístup ku všetkým krajinám</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -608,8 +609,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Chcete sa pripojiť ku konkrétnej krajine?</string>
     <string name="upgrade_country_message"><![CDATA[Odomknite <b>výber krajiny</b> s VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">Zvýšte úroveň svojich herných zážitkov</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Vylepšite online hranie a videohovory pomocou <b>NAT typu 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free vás automaticky pripojí k najrýchlejšiemu dostupnému serveru. Zvyčajne je to server, ktorý je najbližšie k vašej polohe.</string>
     <string name="free_connections_info_server_locations">Umiestnenia bezplatných serverov (%1$d)</string>
     <string name="free_connections_info_banner_text">Získajte celosvetové pokrytie s VPN Plus</string>

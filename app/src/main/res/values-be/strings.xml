@@ -386,6 +386,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[З функцыяй <b>Split Tunneling</b> вы зможаце дзяліць свой трафік на той, які будзе праходзіць праз тунэлі VPN і на той, які будзе абыходзіцца без іх.]]></string>
     <string name="upgrade_customization_title">Атрымайце доступ да пашыраных наладаў VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Атрымайце доступ да прылад у сваёй <b>лакальнай сетцы (LAN)</b> з дапамогай VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Доступ да ўсіх краін</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -608,8 +609,6 @@
     <!-- Example: Want to connect to Italy? -->
     <string name="upgrade_country_title">Хочаце падключыцца да пэўнай краіны?</string>
     <string name="upgrade_country_message"><![CDATA[Атрымайце доступ <b>да выбару краін</b> з VPN Plus.]]></string>
-    <string name="upgrade_moderate_nat_title2">Перайдзіце на новы гульнявы ўзровень</string>
-    <string name="upgrade_moderate_nat_message2"><![CDATA[Палепшыце прадукцыйнасць сеткавых гульняў і відэазванкоў з дапамогай <b>NAT Type 2</b>.]]></string>
     <string name="free_connections_info_message">Proton Free аўтаматычна падключае вас да самага хуткага з даступных сервераў. Звычайна гэта самы блізкі сервер адносна вашага месцазнаходжання.</string>
     <string name="free_connections_info_server_locations">Размяшчэнні сервераў Free (%1$d)</string>
     <string name="free_connections_info_banner_text">Тарыфны план VPN Plus забяспечвае пакрыццё ўсяго свету</string>
@@ -1516,7 +1515,7 @@
     <string name="create_profile_auto_open_description">Аўтаматычна адкрываць выбраны вэб-сайт пры падключэнні да гэтага профілю.</string>
     <string name="profile_auto_open_error_invalid_url">Увядзіце сапраўдны URL-адрас</string>
     <string name="nps_how_likely_question">З якой верагоднасцю вы парэкамендуеце Proton VPN сябрам або калегам?</string>
-    <string name="nps_additional_comment_title">Паведаміце нам, чаму вы так нас ацанілі</string>
+    <string name="nps_additional_comment_title">Растлумачце, чаму вы так нас ацанілі</string>
     <string name="nps_additional_comment_optional">Неабавязкова</string>
     <string name="nps_rating_low_values_explain">0 - гэта вельмі малаверагодна</string>
     <string name="nps_rating_high_values_explain">10 - гэта вельмі верагодна</string>
