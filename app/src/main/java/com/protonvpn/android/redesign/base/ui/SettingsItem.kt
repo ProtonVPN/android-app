@@ -61,8 +61,14 @@ fun SettingsItem(
     descriptionAnnotation: ClickableTextAnnotation? = null,
     actionComposable: @Composable () -> Unit
 ) {
-    SettingsItem(modifier, name, description,
-        SettingValue.SettingText(subTitle), descriptionAnnotation, actionComposable)
+    SettingsItem(
+        modifier,
+        name,
+        description,
+        subTitle?.let { SettingValue.SettingText(it) },
+        descriptionAnnotation,
+        actionComposable
+    )
 }
 
 @Composable
@@ -84,7 +90,7 @@ fun SettingsItem(
             actionComposable()
         }
         if (settingsValue != null) {
-            SettingValueView(settingValue = settingsValue)
+            SettingValueView(settingsValue, modifier = Modifier.padding(top = 6.dp))
         }
         val paddingModifier = Modifier.padding(end = 8.dp, top = 16.dp)
         if (description != null) {
