@@ -280,11 +280,14 @@ fun SettingsView(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 stringResource(id = R.string.settings_connection_category)
             ) {
-                viewState.defaultConnection?.let {
+                viewState.defaultConnection?.let { connnection ->
+                    val connectionLabel = with(connnection) {
+                        predefinedTitle?.let { stringResource(id = it) } ?: recentLabel?.label()
+                    }
                     SettingRowWithIcon(
-                        icon = it.iconRes,
-                        title = stringResource(id = it.titleRes),
-                        settingValue = SettingValue.SettingText(it.predefinedTitle?.let { stringResource(id = it) } ?: it.recentLabel?.label()),
+                        icon = connnection.iconRes,
+                        title = stringResource(id = connnection.titleRes),
+                        settingValue = connectionLabel?.let { SettingValue.SettingText(it) },
                         onClick = onDefaultConnectionClick,
                     )
                 }
@@ -596,7 +599,9 @@ fun SettingRowWithIcon(
         },
         title = title,
         hasNewLabel = hasNewLabel,
-        subtitleComposable = settingValue?.let { { SettingValueView(settingValue = it) } },
+        subtitleComposable = settingValue?.let {
+            { SettingValueView(settingValue = it, modifier = Modifier.padding(top = 6.dp)) }
+        },
         onClick = onClick,
         modifier = modifier
     )
@@ -604,38 +609,26 @@ fun SettingRowWithIcon(
 
 @Composable
 fun SettingValueView(
+    settingValue: SettingValue,
     modifier: Modifier = Modifier,
-    settingValue: SettingValue?
 ) {
-    Column(modifier) {
-        when (settingValue) {
-            is SettingValue.SettingOverrideValue -> {
-                Spacer(Modifier.size(6.dp))
-                OverrideSettingLabel(settingValue = settingValue)
-            }
+    when (settingValue) {
+        is SettingValue.SettingOverrideValue ->
+            OverrideSettingLabel(settingValue = settingValue, modifier = modifier)
 
-            is SettingValue.SettingStringRes -> {
-                Spacer(Modifier.size(6.dp))
-                Text(
-                    text = stringResource(settingValue.subtitleRes),
-                    style = ProtonTheme.typography.defaultWeak
-                )
-            }
+        is SettingValue.SettingStringRes ->
+            Text(
+                text = stringResource(settingValue.subtitleRes),
+                style = ProtonTheme.typography.defaultWeak,
+                modifier = modifier,
+            )
 
-            is SettingValue.SettingText -> {
-                settingValue.text?.let {
-                    Spacer(Modifier.size(6.dp))
-                    Text(
-                        text = it,
-                        style = ProtonTheme.typography.defaultWeak
-                    )
-                }
-            }
-
-            null -> {
-                // Non-override switch settings items contain no additional value views except for switch
-            }
-        }
+        is SettingValue.SettingText ->
+            Text(
+                text = settingValue.text,
+                style = ProtonTheme.typography.defaultWeak,
+                modifier = modifier,
+            )
     }
 }
 

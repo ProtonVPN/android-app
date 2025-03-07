@@ -23,7 +23,7 @@ import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 
 sealed class SettingValue {
 
-    data class SettingText(val text: String?) : SettingValue()
+    data class SettingText(val text: String) : SettingValue()
 
     data class SettingStringRes(@StringRes val subtitleRes: Int) : SettingValue()
 
