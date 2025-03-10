@@ -25,13 +25,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.protonvpn.android.base.ui.ProtonSecondaryButton
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.redesign.base.ui.SettingsItem
@@ -53,13 +51,10 @@ fun DebugTools(
         onClose = onClose
     ) {
         SettingsItem(
-            name = "Enable Guest Hole",
+            modifier = Modifier.clickable(onClick = onConnectGuestHole),
+            name = "Connect Guest Hole",
             description = "Simulates a 10s API call that triggers Guest Hole.",
-        ) {
-            ProtonSecondaryButton(onClick = onConnectGuestHole) {
-                Text("Connect")
-            }
-        }
+        )
 
         val paddingModifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp).fillMaxWidth()
         DebugTextInputRow(

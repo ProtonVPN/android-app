@@ -123,12 +123,10 @@ fun SettingsItem(
     description: String? = null,
     subTitle: String? = null,
     descriptionAnnotation: ClickableTextAnnotation? = null,
-    actionComposable: @Composable () -> Unit
 ) {
     SettingsItemScaffold(
         name,
         modifier = modifier,
-        titleTrailing = { actionComposable() },
         subtitle = subTitle?.let { { Text(subTitle) } },
         description = description?.let {
             { SettingDescription(it, descriptionAnnotation, modifier = Modifier.padding(end = 8.dp)) }

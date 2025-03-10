@@ -66,25 +66,21 @@ fun AccountSettings(
         SettingsItem(
             name = viewState.displayName,
             subTitle = viewState.planDisplayName ?: stringResource(R.string.accountFree),
-            actionComposable = {},
         )
         SettingsItem(
             name = stringResource(R.string.settings_account_change_password),
             subTitle = viewState.passwordHint?.let { stringResource(id = it) },
-            actionComposable = {},
             modifier = Modifier.clickable(onClick = onChangePassword),
         )
         SettingsItem(
             name = stringResource(R.string.settings_account_recovery_email),
             subTitle = viewState.recoveryEmail ?: stringResource(R.string.settings_account_recovery_email_not_set),
-            actionComposable = {},
             modifier = Modifier.clickable(onClick = onChangeRecoveryEmail),
         )
         if (viewState.isFido2Enabled) {
             SettingsItem(
                 name = stringResource(R.string.settings_account_security_keys),
                 subTitle = SecurityKeysSettingsItemHint(viewState.registeredSecurityKeys),
-                actionComposable = {},
                 modifier = Modifier.clickable(onClick = onSecurityKeysClicked),
             )
         }
