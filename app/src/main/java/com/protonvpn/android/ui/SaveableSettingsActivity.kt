@@ -25,6 +25,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.CallSuper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -45,16 +47,13 @@ abstract class SaveableSettingsActivity<VM : SaveableSettingsViewModel> : BaseAc
 
     protected abstract val viewModel: VM
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        viewModel.onGoBack()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        onBackPressedDispatcher.addCallback { viewModel.onGoBack() }
+
         viewModel.eventConfirmDiscardChanges.launchAndCollectIn(this) { showDiscardChangesDialog() }
-        viewModel.eventGoBack.launchAndCollectIn(this) { super.onBackPressed() }
+        viewModel.eventGoBack.launchAndCollectIn(this) { finish() }
         viewModel.eventFinishActivity.launchAndCollectIn(this) { anythingSaved ->
             setResultAndFinish(anythingSaved)
         }
