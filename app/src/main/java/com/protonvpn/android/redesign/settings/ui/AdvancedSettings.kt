@@ -53,14 +53,18 @@ fun AdvancedSettings(
                 profileOverrideInfo = it
             )
         }
-        altRouting.ToToggle(
+
+        SettingsToggleItem(
+            altRouting,
             onToggle = onAltRoutingChange
         )
-        allowLan.ToToggle(
+        SettingsToggleItem(
+            allowLan,
             onToggle = onAllowLanChange,
             onRestricted = onAllowLanRestricted
         )
-        natType.ToItem(
+        SettingsNatItem(
+            natType,
             onNatTypeLearnMore = onNatTypeLearnMore,
             onNavigateToNatType = onNavigateToNatType,
             onNatTypeRestricted = onNatTypeRestricted
@@ -69,11 +73,12 @@ fun AdvancedSettings(
 }
 
 @Composable
-fun SettingsViewModel.SettingViewState.Nat.ToItem(
+private fun SettingsNatItem(
+    setting: SettingsViewModel.SettingViewState.Nat,
     onNatTypeLearnMore: () -> Unit,
     onNavigateToNatType: () -> Unit,
     onNatTypeRestricted: () -> Unit,
-) {
+) = with(setting) {
     val natOnClick = if (isRestricted) onNatTypeRestricted else onNavigateToNatType
     SettingsValueItem(
         onClick = natOnClick,

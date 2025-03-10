@@ -33,7 +33,8 @@ fun VpnAccelerator(
         title = stringResource(id = vpnAccelerator.titleRes),
         onClose = onClose
     ) {
-        vpnAccelerator.ToToggle(
+        SettingsToggleItem(
+            vpnAccelerator,
             onToggle = onToggle,
             onAnnotatedClick = onLearnMore,
         )
