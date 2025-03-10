@@ -90,7 +90,6 @@ class SettingsViewModel @Inject constructor(
         @StringRes val descriptionRes: Int,
         @StringRes val annotationRes: Int? = null,
         @DrawableRes open val iconRes: Int? = null,
-        @DrawableRes val upgradeIconRes: Int? = if (isRestricted) R.drawable.vpn_plus_badge else null
     ) {
         class NetShield(
             netShieldEnabled: Boolean,
@@ -100,7 +99,6 @@ class SettingsViewModel @Inject constructor(
         ) : SettingViewState<Boolean>(
             value = netShieldEnabled,
             isRestricted = isRestricted,
-            upgradeIconRes = if (isRestricted) R.drawable.vpn_plus_badge else null,
             titleRes = R.string.netshield_feature_name,
             settingValueView = run {
                 val subtitleRes =
