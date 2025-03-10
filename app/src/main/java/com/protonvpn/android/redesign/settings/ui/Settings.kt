@@ -302,7 +302,7 @@ fun SettingsView(
                     title = stringResource(id = viewState.vpnAccelerator.titleRes),
                     onClick = if (viewState.vpnAccelerator.isRestricted)
                         onVpnAcceleratorUpgrade else onVpnAcceleratorClick,
-                    trailingIcon = viewState.vpnAccelerator.upgradeIconRes,
+                    trailingIcon = R.drawable.vpn_plus_badge.takeIf { viewState.vpnAccelerator.isRestricted },
                     trailingIconTint = false,
                     settingValue = viewState.vpnAccelerator.settingValueView
                 )
@@ -443,7 +443,7 @@ private fun ColumnScope.FeatureCategory(
                 iconTint = false,
                 title = stringResource(id = viewState.netShield.titleRes),
                 settingValue = viewState.netShield.settingValueView,
-                trailingIcon = viewState.netShield.upgradeIconRes,
+                trailingIcon = R.drawable.vpn_plus_badge.takeIf { viewState.netShield.isRestricted },
                 trailingIconTint = false,
                 onClick = if (viewState.netShield.isRestricted) onNetShieldUpgrade else onNetShieldClick
             )
@@ -453,7 +453,7 @@ private fun ColumnScope.FeatureCategory(
             iconTint = false,
             title = stringResource(id = viewState.splitTunneling.titleRes),
             settingValue = viewState.splitTunneling.settingValueView,
-            trailingIcon = viewState.splitTunneling.upgradeIconRes,
+            trailingIcon = R.drawable.vpn_plus_badge.takeIf { viewState.splitTunneling.isRestricted },
             trailingIconTint = false,
             onClick = if (viewState.splitTunneling.isRestricted)
                 onSplitTunnelUpgrade else onSplitTunnelClick

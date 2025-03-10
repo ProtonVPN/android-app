@@ -19,7 +19,6 @@
 
 package com.protonvpn.app.redesign.settings.ui
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
@@ -188,8 +187,7 @@ class SettingsViewModelTests {
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
         assertCommonProperties(
-            true, R.string.netshield_feature_name, SettingValue.SettingStringRes(R.string.netshield_state_on), false, null,
-            netShieldState
+            true, R.string.netshield_feature_name, SettingValue.SettingStringRes(R.string.netshield_state_on), false, netShieldState
         )
     }
 
@@ -199,8 +197,7 @@ class SettingsViewModelTests {
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
         assertCommonProperties(
-            false, R.string.netshield_feature_name, SettingValue.SettingStringRes(R.string.netshield_state_off), false, null,
-            netShieldState
+            false, R.string.netshield_feature_name, SettingValue.SettingStringRes(R.string.netshield_state_off), false, netShieldState
         )
     }
 
@@ -211,8 +208,7 @@ class SettingsViewModelTests {
         val netShieldState = settingsViewModel.viewState.first().netShield
         assertNotNull(netShieldState)
         assertCommonProperties(
-            false, R.string.netshield_feature_name, SettingValue.SettingStringRes(R.string.netshield_state_off), true, R.drawable.vpn_plus_badge,
-            netShieldState
+            false, R.string.netshield_feature_name, SettingValue.SettingStringRes(R.string.netshield_state_off), true, netShieldState
         )
     }
 
@@ -230,8 +226,7 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = freeUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            false, R.string.settings_vpn_accelerator_title, SettingValue.SettingStringRes(R.string.vpn_accelerator_state_off), true, R.drawable.vpn_plus_badge,
-            state.vpnAccelerator
+            false, R.string.settings_vpn_accelerator_title, SettingValue.SettingStringRes(R.string.vpn_accelerator_state_off), true, state.vpnAccelerator
         )
     }
 
@@ -241,8 +236,7 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = freeUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            false, R.string.settings_vpn_accelerator_title, SettingValue.SettingStringRes(R.string.vpn_accelerator_state_off), true, R.drawable.vpn_plus_badge,
-            state.vpnAccelerator
+            false, R.string.settings_vpn_accelerator_title, SettingValue.SettingStringRes(R.string.vpn_accelerator_state_off), true, state.vpnAccelerator
         )
     }
 
@@ -252,8 +246,7 @@ class SettingsViewModelTests {
         testUserProvider.vpnUser = plusUser
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
-            true, R.string.settings_vpn_accelerator_title, SettingValue.SettingStringRes(R.string.vpn_accelerator_state_on), false, null,
-            state.vpnAccelerator
+            true, R.string.settings_vpn_accelerator_title, SettingValue.SettingStringRes(R.string.vpn_accelerator_state_on), false, state.vpnAccelerator
         )
     }
 
@@ -264,7 +257,8 @@ class SettingsViewModelTests {
         val state = settingsViewModel.viewState.first()
         assertCommonProperties(
             false, R.string.settings_vpn_accelerator_title,
-            SettingValue.SettingStringRes(R.string.vpn_accelerator_state_off), false, null,
+            SettingValue.SettingStringRes(R.string.vpn_accelerator_state_off),
+            false,
             state.vpnAccelerator
         )
     }
@@ -275,13 +269,11 @@ class SettingsViewModelTests {
         @StringRes expectedTitle: Int,
         expectedSettingValue: SettingValue,
         expectedIsRestricted: Boolean,
-        @DrawableRes expectedUpgradeIcon: Int?,
         settingState: SettingsViewModel.SettingViewState<T>
     ) {
         assertEquals(expectedValue, settingState.value)
         assertEquals(expectedTitle, settingState.titleRes)
         assertEquals(expectedSettingValue, settingState.settingValueView)
         assertEquals(expectedIsRestricted, settingState.isRestricted)
-        assertEquals(expectedUpgradeIcon, settingState.upgradeIconRes)
     }
 }
