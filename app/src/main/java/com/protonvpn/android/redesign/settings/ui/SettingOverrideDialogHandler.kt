@@ -115,8 +115,8 @@ private fun SettingOverrideDialog(
 
 @Composable
 fun ProfileOverrideView(
+    profileOverrideInfo: SettingsViewModel.ProfileOverrideInfo,
     modifier: Modifier = Modifier,
-    profileOverrideInfo: SettingsViewModel.ProfileOverrideInfo
 ) {
     Row(
         modifier = modifier
@@ -146,8 +146,8 @@ fun ProfileOverrideView(
 
 @Composable
 fun OverrideSettingLabel(
+    settingValue: SettingValue.SettingOverrideValue,
     modifier: Modifier = Modifier,
-    settingValue: SettingValue.SettingOverrideValue
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

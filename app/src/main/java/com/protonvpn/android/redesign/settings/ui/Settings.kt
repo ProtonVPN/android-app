@@ -608,7 +608,7 @@ fun SettingRowWithIcon(
 }
 
 @Composable
-fun SettingValueView(
+private fun SettingValueView(
     settingValue: SettingValue,
     modifier: Modifier = Modifier,
 ) {

@@ -19,38 +19,102 @@
 
 package com.protonvpn.android.redesign.base.ui
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.base.ui.theme.VpnTheme
+import com.protonvpn.android.redesign.settings.ui.OverrideSettingLabel
 import com.protonvpn.android.redesign.settings.ui.SettingValue
-import com.protonvpn.android.redesign.settings.ui.SettingValueView
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.defaultNorm
+import me.proton.core.compose.theme.defaultWeak
+import me.proton.core.presentation.R as CoreR
 
 data class ClickableTextAnnotation(
     val annotatedPart: String,
     val onAnnotatedClick: () -> Unit,
     val onAnnotatedOutsideClick: () -> Unit,
 )
+
+@Composable
+fun SettingsItemScaffold(
+    title: String,
+    modifier: Modifier = Modifier,
+    titleTrailing: (@Composable RowScope.() -> Unit)? = null,
+    subtitle: (@Composable () -> Unit)? = null,
+    description: (@Composable () -> Unit)? = null,
+) {
+    SettingsItemScaffold(
+        titleRow = {
+            Text(title, modifier = Modifier.weight(1f))
+            if (titleTrailing != null)
+                titleTrailing()
+        },
+        modifier = modifier,
+        subtitle = subtitle,
+        description = description,
+    )
+}
+
+@Composable
+fun SettingsItemScaffold(
+    titleRow: @Composable RowScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    subtitle: (@Composable () -> Unit)? = null,
+    description: (@Composable () -> Unit)? = null,
+) {
+    Column(modifier.padding(16.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            ProvideTextStyle(ProtonTheme.typography.body1Regular) {
+                titleRow()
+            }
+        }
+        if (subtitle != null) {
+            ProvideTextStyle(ProtonTheme.typography.defaultWeak) {
+                VerticalSpacer(height = 4.dp)
+                subtitle()
+            }
+        }
+        CompositionLocalProvider(
+            LocalTextStyle provides ProtonTheme.typography.body2Regular,
+            LocalContentColor provides ProtonTheme.colors.textWeak
+        ) {
+            if (description != null) {
+                VerticalSpacer(height = 16.dp)
+                description()
+            }
+        }
+    }
+}
 
 @Composable
 fun SettingsItem(
@@ -61,59 +125,37 @@ fun SettingsItem(
     descriptionAnnotation: ClickableTextAnnotation? = null,
     actionComposable: @Composable () -> Unit
 ) {
-    SettingsItem(
-        modifier,
+    SettingsItemScaffold(
         name,
-        description,
-        subTitle?.let { SettingValue.SettingText(it) },
-        descriptionAnnotation,
-        actionComposable
+        modifier = modifier,
+        titleTrailing = { actionComposable() },
+        subtitle = subTitle?.let { { Text(subTitle) } },
+        description = description?.let {
+            { SettingDescription(it, descriptionAnnotation, modifier = Modifier.padding(end = 8.dp)) }
+        }
     )
 }
 
 @Composable
-fun SettingsItem(
-    modifier: Modifier = Modifier,
+fun SettingsValueItem(
     name: String,
+    settingValue: SettingValue?,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     description: String? = null,
-    settingsValue: SettingValue?,
     descriptionAnnotation: ClickableTextAnnotation? = null,
-    actionComposable: @Composable () -> Unit
+    needsUpgrade: Boolean = false,
+    onUpgrade: (() -> Unit)? = null,
 ) {
-    Column(modifier.padding(16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = name,
-                style = ProtonTheme.typography.defaultNorm,
-                modifier = Modifier.weight(1f)
-            )
-            actionComposable()
+    val itemModifier = modifier.clickable(onClick = if (needsUpgrade && onUpgrade != null) onUpgrade else onClick)
+    SettingsItemScaffold(
+        name,
+        modifier = itemModifier,
+        titleTrailing = settingValue?.let { { InlineSettingValue(settingValue) } },
+        description = description?.let {
+            { SettingDescription(it, descriptionAnnotation, modifier = Modifier.padding(end = 8.dp)) }
         }
-        if (settingsValue != null) {
-            SettingValueView(settingsValue, modifier = Modifier.padding(top = 6.dp))
-        }
-        val paddingModifier = Modifier.padding(end = 8.dp, top = 16.dp)
-        if (description != null) {
-            if (descriptionAnnotation != null) {
-                AnnotatedClickableText(
-                    fullText = description,
-                    annotatedPart = descriptionAnnotation.annotatedPart,
-                    onAnnotatedClick = descriptionAnnotation.onAnnotatedClick,
-                    onAnnotatedOutsideClick = descriptionAnnotation.onAnnotatedOutsideClick,
-                    style = ProtonTheme.typography.body2Regular,
-                    color = ProtonTheme.colors.textWeak,
-                    modifier = paddingModifier
-                )
-            } else {
-                Text(
-                    text = description,
-                    style = ProtonTheme.typography.body2Regular,
-                    color = ProtonTheme.colors.textWeak,
-                    modifier = paddingModifier
-                )
-            }
-        }
-    }
+    )
 }
 
 @Composable
@@ -122,24 +164,52 @@ fun SettingsToggleItem(
     name: String,
     description: String?,
     value: Boolean,
-    settingsValue: SettingValue? = null,
+    onToggle: () -> Unit,
+    needsUpgrade: Boolean = false,
+    settingsValue: SettingValue? = null, // Needed only for override, value is passed as "value". Simplify this.
     descriptionAnnotation: ClickableTextAnnotation? = null,
-    onToggle: () -> Unit
+    onUpgrade: (() -> Unit)? = null,
 ) {
-    SettingsItem(
-        modifier.toggleable(value, onValueChange = { onToggle() }),
-        name = name,
-        description = description,
-        settingsValue = settingsValue,
-        descriptionAnnotation = descriptionAnnotation
-    ) {
-        // Do not show switch for overriden values
-        if (settingsValue !is SettingValue.SettingOverrideValue) {
-            ProtonSwitch(
-                checked = value,
-                onCheckedChange = null,
-            )
+    val itemModifier = if (needsUpgrade && onUpgrade != null) {
+        modifier.clickable(onClick = onUpgrade)
+    } else {
+        modifier.toggleable(value, onValueChange = { onToggle() })
+    }
+    SettingsItemScaffold(
+        title = name,
+        modifier = itemModifier,
+        titleTrailing = {
+            when {
+                needsUpgrade -> IconNeedsUpgrade()
+                settingsValue is SettingValue.SettingOverrideValue -> OverrideSettingLabel(settingsValue)
+                else -> ProtonSwitch(checked = value, onCheckedChange = null)
+            }
+        },
+        description = description?.let {
+            { SettingDescription(it, descriptionAnnotation, modifier = Modifier.padding(end = 8.dp)) }
         }
+    )
+}
+
+@Composable
+fun SettingDescription(
+    description: String,
+    descriptionAnnotation: ClickableTextAnnotation?,
+    modifier: Modifier = Modifier,
+) {
+    if (descriptionAnnotation != null) {
+        AnnotatedClickableText(
+            fullText = description,
+            annotatedPart = descriptionAnnotation.annotatedPart,
+            onAnnotatedClick = descriptionAnnotation.onAnnotatedClick,
+            onAnnotatedOutsideClick = descriptionAnnotation.onAnnotatedOutsideClick,
+            modifier = modifier
+        )
+    } else {
+        Text(
+            text = description,
+            modifier = modifier
+        )
     }
 }
 
@@ -196,6 +266,54 @@ fun SettingsRadioItemSmall(
                 .padding(start = 8.dp)
         )
     }
+}
+
+@Composable
+private fun RowScope.InlineSettingValue(
+    settingValue: SettingValue,
+    modifier: Modifier = Modifier
+) {
+    val Chevron = @Composable {
+        Icon(
+            painterResource(CoreR.drawable.ic_proton_chevron_right),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .size(16.dp)
+        )
+    }
+
+    CompositionLocalProvider(
+        LocalContentColor provides ProtonTheme.colors.textWeak,
+        LocalTextStyle provides ProtonTheme.typography.body2Regular
+    ) {
+        when (settingValue) {
+            is SettingValue.SettingOverrideValue ->
+                OverrideSettingLabel(settingValue = settingValue, modifier = modifier)
+
+            is SettingValue.SettingStringRes -> {
+                Text(text = stringResource(settingValue.subtitleRes), modifier = modifier)
+                Chevron()
+            }
+
+            is SettingValue.SettingText -> {
+                Text(text = settingValue.text, modifier = modifier)
+                Chevron()
+            }
+        }
+    }
+}
+
+
+@Composable
+private fun IconNeedsUpgrade(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        painter = painterResource(id = R.drawable.vpn_plus_badge),
+        contentDescription = null,
+        modifier = modifier,
+    )
 }
 
 @Preview
