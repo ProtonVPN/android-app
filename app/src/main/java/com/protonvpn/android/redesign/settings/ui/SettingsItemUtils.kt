@@ -19,82 +19,35 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
-import androidx.compose.foundation.clickable
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.ClickableTextAnnotation
-import com.protonvpn.android.redesign.base.ui.SettingsItem
 import com.protonvpn.android.redesign.base.ui.SettingsToggleItem
 
-@Composable
-private fun SettingsToggleWithRestrictions(
-    modifier: Modifier = Modifier,
-    name: String,
-    description: String,
-    value: SettingsViewModel.SettingViewState<Boolean>,
-    settingsValue: SettingValue? = null,
-    descriptionAnnotation: Pair<String, () -> Unit>? = null,
-    onToggle: () -> Unit,
-    onRestricted: () -> Unit,
-) {
-    if (value.isRestricted) {
-        SettingsItem(
-            modifier.clickable(onClick = onRestricted),
-            name,
-            description,
-            settingsValue,
-            descriptionAnnotation?.let {
-                ClickableTextAnnotation(
-                    annotatedPart = it.first,
-                    onAnnotatedClick = it.second,
-                    onAnnotatedOutsideClick = onRestricted
-                )
-            }
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.vpn_plus_badge),
-                tint = Color.Unspecified,
-                contentDescription = null,
-            )
-        }
-    } else {
-        SettingsToggleItem(
-            modifier = modifier,
-            name = name,
-            description = description,
-            value = value.value,
-            settingsValue = value.settingValueView,
-            descriptionAnnotation = descriptionAnnotation?.let {
-                    ClickableTextAnnotation(
-                        annotatedPart = it.first,
-                        onAnnotatedClick = it.second,
-                        onAnnotatedOutsideClick = onToggle
-                    )
-                },
-            onToggle = onToggle
-        )
-    }
-}
-
+// TODO: Don't use extension functions to emit Compose UI.
 @Composable
 fun SettingsViewModel.SettingViewState<Boolean>.ToToggle(
     modifier: Modifier = Modifier,
     onToggle: () -> Unit,
     onAnnotatedClick: () -> Unit = {},
     onRestricted: () -> Unit = {},
-) = SettingsToggleWithRestrictions(
+) = SettingsToggleItem(
     modifier = modifier,
     name = stringResource(id = titleRes),
     description = descriptionText(),
-    descriptionAnnotation = annotationRes?.let { stringResource(id = it) to onAnnotatedClick },
-    value = this,
+    value = value,
+    settingsValue = settingValueView,
+    needsUpgrade = isRestricted,
+    descriptionAnnotation = annotationRes?.let {
+        ClickableTextAnnotation(
+            annotatedPart = stringResource(it),
+            onAnnotatedClick = onAnnotatedClick,
+            onAnnotatedOutsideClick = onToggle
+        )
+    },
     onToggle = onToggle,
-    onRestricted = onRestricted,
+    onUpgrade = onRestricted
 )
 
 @Composable

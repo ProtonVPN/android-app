@@ -21,16 +21,13 @@ package com.protonvpn.android.redesign.settings.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.ClickableTextAnnotation
-import com.protonvpn.android.redesign.base.ui.SettingsItem
+import com.protonvpn.android.redesign.base.ui.SettingsValueItem
 
 @Composable
 fun AdvancedSettings(
@@ -78,11 +75,13 @@ fun SettingsViewModel.SettingViewState.Nat.ToItem(
     onNatTypeRestricted: () -> Unit,
 ) {
     val natOnClick = if (isRestricted) onNatTypeRestricted else onNavigateToNatType
-    SettingsItem(
-        modifier = Modifier.clickable(onClick = natOnClick),
+    SettingsValueItem(
+        onClick = natOnClick,
+        onUpgrade = onNatTypeRestricted,
         name = stringResource(id = titleRes),
         description = descriptionText(),
-        settingsValue = settingValueView,
+        needsUpgrade = isRestricted,
+        settingValue = settingValueView,
         descriptionAnnotation = annotationRes?.let {
             ClickableTextAnnotation(
                 annotatedPart = stringResource(id = it),
@@ -90,13 +89,5 @@ fun SettingsViewModel.SettingViewState.Nat.ToItem(
                 onAnnotatedOutsideClick = natOnClick,
             )
         },
-    ) {
-        if (isRestricted) {
-            Icon(
-                painter = painterResource(id = R.drawable.vpn_plus_badge),
-                tint = Color.Unspecified,
-                contentDescription = null,
-            )
-        }
-    }
+    )
 }
