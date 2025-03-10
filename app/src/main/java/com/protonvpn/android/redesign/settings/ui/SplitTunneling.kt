@@ -70,7 +70,8 @@ fun SplitTunnelingSubSetting(
                 .fillMaxWidth()
                 .padding(16.dp),
         )
-        splitTunneling.ToToggle(
+        SettingsToggleItem(
+            splitTunneling,
             onToggle = onSplitTunnelToggle,
             onAnnotatedClick = onLearnMore,
         )

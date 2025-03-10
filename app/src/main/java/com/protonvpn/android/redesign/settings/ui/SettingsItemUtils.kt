@@ -25,30 +25,32 @@ import androidx.compose.ui.res.stringResource
 import com.protonvpn.android.redesign.base.ui.ClickableTextAnnotation
 import com.protonvpn.android.redesign.base.ui.SettingsToggleItem
 
-// TODO: Don't use extension functions to emit Compose UI.
 @Composable
-fun SettingsViewModel.SettingViewState<Boolean>.ToToggle(
-    modifier: Modifier = Modifier,
+fun SettingsToggleItem(
+    setting: SettingsViewModel.SettingViewState<Boolean>,
     onToggle: () -> Unit,
+    modifier: Modifier = Modifier,
     onAnnotatedClick: () -> Unit = {},
     onRestricted: () -> Unit = {},
-) = SettingsToggleItem(
-    modifier = modifier,
-    name = stringResource(id = titleRes),
-    description = descriptionText(),
-    value = value,
-    settingsValue = settingValueView,
-    needsUpgrade = isRestricted,
-    descriptionAnnotation = annotationRes?.let {
-        ClickableTextAnnotation(
-            annotatedPart = stringResource(it),
-            onAnnotatedClick = onAnnotatedClick,
-            onAnnotatedOutsideClick = onToggle
-        )
-    },
-    onToggle = onToggle,
-    onUpgrade = onRestricted
-)
+) = with(setting) {
+    SettingsToggleItem(
+        modifier = modifier,
+        name = stringResource(id = titleRes),
+        description = descriptionText(),
+        value = value,
+        settingsValue = settingValueView,
+        needsUpgrade = isRestricted,
+        descriptionAnnotation = annotationRes?.let {
+            ClickableTextAnnotation(
+                annotatedPart = stringResource(it),
+                onAnnotatedClick = onAnnotatedClick,
+                onAnnotatedOutsideClick = onToggle
+            )
+        },
+        onToggle = onToggle,
+        onUpgrade = onRestricted
+    )
+}
 
 @Composable
 fun <T> SettingsViewModel.SettingViewState<T>.descriptionText() =

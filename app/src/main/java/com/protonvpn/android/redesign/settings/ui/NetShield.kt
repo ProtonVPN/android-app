@@ -49,7 +49,8 @@ fun NetShieldSetting(
                 .fillMaxWidth()
                 .padding(16.dp),
         )
-        netShield.ToToggle(
+        SettingsToggleItem(
+            netShield,
             onToggle = onNetShieldToggle,
             onAnnotatedClick = onLearnMore
         )
