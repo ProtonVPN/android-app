@@ -20,7 +20,6 @@ package com.protonvpn.android.redesign.home_screen.ui
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,14 +41,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -96,8 +91,10 @@ import com.patrykandpatrick.vico.core.model.ExtraStore
 import com.patrykandpatrick.vico.core.model.lineSeries
 import com.patrykandpatrick.vico.core.scroll.Scroll
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.speedBytesToString
+import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.SimpleTopAppBar
+import com.protonvpn.android.base.ui.speedBytesToString
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.bus.TrafficUpdate
 import com.protonvpn.android.redesign.CountryId
@@ -166,26 +163,15 @@ private fun ConnectionDetailsConnected(
     onClosePanel: () -> Unit
 ) {
     val scrollState = rememberScrollState()
-    val isScrolled = remember { derivedStateOf { scrollState.value > 0 } }
-    val topAppBarColor = animateColorAsState(
-        targetValue = if (isScrolled.value) ProtonTheme.colors.backgroundSecondary else ProtonTheme.colors.backgroundDeep,
-        label = "topAppBarColor"
-    )
     val context = LocalContext.current
     val onOpenUrl: (String) -> Unit = { url -> context.openUrl(url) }
     val infoSheetState = rememberInfoSheetState()
-    TopAppBar(
+    SimpleTopAppBar(
         title = { },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = topAppBarColor.value
-        ),
+        isScrolledPredicate = { scrollState.value > 0 },
+        backgroundColor = ProtonTheme.colors.backgroundDeep,
         navigationIcon = {
-            IconButton(onClick = { onClosePanel() }) {
-                Icon(
-                    painterResource(id = CoreR.drawable.ic_arrow_back),
-                    contentDescription = stringResource(id = R.string.accessibility_back)
-                )
-            }
+            TopAppBarBackIcon(onClosePanel)
         },
     )
 

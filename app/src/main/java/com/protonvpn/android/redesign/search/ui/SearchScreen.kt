@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.countries.ui.FiltersRow
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemsList
@@ -216,14 +217,7 @@ fun SearchableTopAppBar(
     focusRequester: FocusRequester
 ) {
     TopAppBar(
-        navigationIcon = {
-            IconButton(onClick = onCloseClicked) {
-                Icon(
-                    painter = painterResource(id = CoreR.drawable.ic_arrow_back),
-                    contentDescription = stringResource(id = R.string.back)
-                )
-            }
-        },
+        navigationIcon = { TopAppBarBackIcon(onCloseClicked) },
         modifier =  Modifier.semantics { testTagsAsResourceId = true },
         title = {
             TextField(

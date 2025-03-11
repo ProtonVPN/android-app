@@ -1108,6 +1108,7 @@
     <string name="accessibility_show_ip">Show IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Back</string>
+    <string name="accessibility_close">Close</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">My IP</string>
     <!-- tag(Redesign_2023) -->
