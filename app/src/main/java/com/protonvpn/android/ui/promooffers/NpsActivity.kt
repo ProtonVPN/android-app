@@ -75,6 +75,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.TopAppBarCloseIcon
+import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
@@ -153,30 +155,16 @@ private fun RateMeScreen(
     var showAdditionalDetails by rememberSaveable { mutableStateOf(false) }
     var inputLimitReached by rememberSaveable { mutableStateOf(false) }
     val scrollState = rememberScrollState()
-    val isScrolled = remember { derivedStateOf { scrollState.value > 0 } }
-    val topAppBarColor = animateColorAsState(
-        targetValue = if (isScrolled.value) ProtonTheme.colors.backgroundSecondary else ProtonTheme.colors.backgroundNorm,
-        label = "topAppBarColor"
-    )
 
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TopAppBar(
+        SimpleTopAppBar(
             title = { },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = topAppBarColor.value
-            ),
-            navigationIcon = {
-                IconButton(onClick = onClose) {
-                    Icon(
-                        painter = painterResource(id = me.proton.core.presentation.R.drawable.ic_close),
-                        contentDescription = stringResource(id = R.string.accessibility_back)
-                    )
-                }
-            },
+            isScrolledPredicate = { scrollState.value > 0 },
+            navigationIcon = { TopAppBarCloseIcon(onClose) }
         )
         Column(
             modifier = Modifier

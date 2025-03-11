@@ -43,6 +43,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.SimpleTopAppBar
+import com.protonvpn.android.base.ui.TopAppBarBackIcon
+import com.protonvpn.android.base.ui.TopAppBarCloseIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
@@ -290,21 +293,9 @@ fun BasicSubSetting(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TopAppBar(
-            title = {
-                Text(text = title, style = ProtonTheme.typography.defaultStrongNorm)
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = ProtonTheme.colors.backgroundNorm
-            ),
-            navigationIcon = {
-                IconButton(onClick = onClose) {
-                    Icon(
-                        painter = painterResource(id = CoreR.drawable.ic_arrow_back),
-                        contentDescription = stringResource(id = R.string.accessibility_back)
-                    )
-                }
-            },
+        SimpleTopAppBar(
+            title = { Text(text = title) },
+            navigationIcon = { TopAppBarBackIcon(onClose) },
         )
         content()
     }

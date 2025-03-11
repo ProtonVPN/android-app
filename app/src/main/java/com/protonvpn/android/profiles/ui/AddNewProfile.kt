@@ -33,18 +33,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.invisibleToUser
 import androidx.compose.ui.semantics.semantics
@@ -57,6 +53,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.Text
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.SimpleTopAppBar
+import com.protonvpn.android.base.ui.TopAppBarCloseIcon
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
@@ -65,9 +63,7 @@ import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.preventMultiClick
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.presentation.utils.currentLocale
-import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun AddEditProfileRoute(
@@ -135,7 +131,7 @@ fun AddEditProfileScreen(
     }
     Scaffold(
         topBar = {
-            TopAppBar(
+            SimpleTopAppBar(
                 title = {
                     Text(
                         text =
@@ -143,19 +139,11 @@ fun AddEditProfileScreen(
                                 stringResource(id = R.string.edit_profile_title, name.value?.name ?: "")
                             else
                                 stringResource(id = R.string.create_profile_title),
-                        style = ProtonTheme.typography.defaultStrongNorm,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = onDismiss) {
-                        Icon(
-                            painter = painterResource(id = CoreR.drawable.ic_proton_cross),
-                            contentDescription = stringResource(id = R.string.accessibility_back)
-                        )
-                    }
-                }
+                navigationIcon = { TopAppBarCloseIcon(onDismiss) }
             )
         }
     ) { paddingValues ->
