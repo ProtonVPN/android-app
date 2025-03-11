@@ -83,7 +83,6 @@ class GetOnlineServersForIntentTests {
                     entryIp = null,
                     entryIpPerProtocol = mapOf(ProtocolSelection.STEALTH.apiName to ServerEntryInfo("1.2.3.4")),
                     entryDomain = "dummy.protonvpn.net",
-                    exitIp = "2.3.4.5",
                     id = "id",
                     label = null,
                     isOnline = true,

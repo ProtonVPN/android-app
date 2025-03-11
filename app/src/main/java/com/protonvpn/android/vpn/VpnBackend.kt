@@ -424,7 +424,6 @@ abstract class VpnBackend(
                 }
                 if (shouldWaitForTunnelVerified && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
                     waitForTunnelVerified()
-                lastKnownExitIp.value = lastConnectionParams?.connectingDomain?.getExitIP()
             } else {
                 lastKnownExitIp.value = null
             }
