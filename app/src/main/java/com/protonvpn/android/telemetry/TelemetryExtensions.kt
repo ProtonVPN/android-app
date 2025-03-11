@@ -24,6 +24,8 @@ import com.protonvpn.android.profiles.ui.ProfileType
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.vpn.ProtocolSelection
 
+fun Boolean.toTelemetry() = if (this) "true" else "false"
+
 fun ProtocolSelection.toTelemetry(): String {
     val vpnPrefix = vpn.name.lowercase()
     val transmissionSuffix = transmission?.name?.lowercase()?.let { "_$it" } ?: ""

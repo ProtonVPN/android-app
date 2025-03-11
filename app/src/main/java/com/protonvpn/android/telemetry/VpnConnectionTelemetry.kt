@@ -27,7 +27,6 @@ import com.protonvpn.android.telemetry.CommonDimensions.Companion.NO_VALUE
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.DisconnectTrigger
-import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import dagger.Reusable
@@ -145,6 +144,7 @@ class VpnConnectionTelemetry @Inject constructor(
                 val dimensions = buildMap {
                     this["vpn_status"] = if (vpnOn) "on" else "off"
                     this["vpn_trigger"] = trigger.statsName
+                    this["is_ipv6_enabled"] = connectionParams?.enableIPv6?.toTelemetry() ?: NO_VALUE
                     addCommonDimensions(outcome, connectionParams)
                     addServerFeatures(connectionParams?.server)
                 }
@@ -160,6 +160,7 @@ class VpnConnectionTelemetry @Inject constructor(
         helper.event {
             val dimensions = buildMap {
                 this["vpn_trigger"] = trigger.statsName
+                this["is_ipv6_enabled"] = connectionParams?.enableIPv6?.toTelemetry() ?: NO_VALUE
                 addCommonDimensions(trigger.isSuccess.toOutcome(), connectionParams)
             }
             TelemetryEventData(MEASUREMENT_GROUP, EVENT_DISCONNECT, values, dimensions)
