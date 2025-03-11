@@ -18,18 +18,17 @@
  */
 package com.protonvpn.android.redesign.settings.ui
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.captionWeak
 
 @Composable
 fun NetShieldSetting(
@@ -38,27 +37,35 @@ fun NetShieldSetting(
     onLearnMore: () -> Unit,
     onNetShieldToggle: () -> Unit,
 ) {
-    SubSetting(
+    val listState = rememberLazyListState()
+    FeatureSubSettingScaffold(
         title = stringResource(id = netShield.titleRes),
-        onClose = onClose
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.netshield_settings_promo),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
-        SettingsToggleItem(
-            netShield,
-            onToggle = onNetShieldToggle,
-            onAnnotatedClick = onLearnMore
-        )
-
-        Text(
-            text = stringResource(id = R.string.netshield_setting_warning),
-            style = ProtonTheme.typography.captionWeak,
-            modifier = Modifier.padding(16.dp)
-        )
+        onClose = onClose,
+        listState = listState,
+        titleInListIndex = 1,
+    ) { contentPadding ->
+        val horizontalItemPaddingModifier = Modifier
+            .padding(horizontal = 16.dp)
+            .largeScreenContentPadding()
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.padding(contentPadding)
+        ) {
+            addFeatureSettingItems(
+                setting = netShield,
+                imageRes = R.drawable.setting_netshield,
+                onLearnMore = onLearnMore,
+                onToggle = onNetShieldToggle,
+                itemModifier = horizontalItemPaddingModifier,
+            )
+            item {
+                Text(
+                    text = stringResource(id = R.string.netshield_setting_warning),
+                    style = ProtonTheme.typography.body2Regular,
+                    color =  ProtonTheme.colors.textWeak,
+                    modifier = horizontalItemPaddingModifier,
+                )
+            }
+        }
     }
 }
