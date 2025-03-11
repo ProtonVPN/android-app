@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.base.ui
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,17 +31,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -57,6 +64,7 @@ import com.protonvpn.android.base.ui.TextBulletRow
 import com.protonvpn.android.base.ui.VpnOutlinedButton
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.vpn.IpPair
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
@@ -88,16 +96,18 @@ class InfoSheetState(
 @Composable
 fun rememberInfoSheetState() = rememberSaveable(saver = InfoSheetState.Saver) { InfoSheetState() }
 
-enum class InfoType {
-    SecureCore,
-    VpnSpeed,
-    ServerLoad,
-    Protocol,
-    Tor,
-    P2P,
-    SmartRouting,
-    Streaming,
-    Profiles,
+sealed class InfoType {
+    data object SecureCore: InfoType()
+    data object VpnSpeed: InfoType()
+    data object ServerLoad: InfoType()
+    data object Protocol: InfoType()
+    data object Tor: InfoType()
+    data object P2P: InfoType()
+    data object SmartRouting: InfoType()
+    data object Streaming: InfoType()
+    data object Profiles: InfoType()
+    data class IpAddress(val myIP: IpPair, val vpnIP: IpPair): InfoType()
+    // Add new types to InfoTypePreviewProvider
 }
 
 @Composable
@@ -144,6 +154,7 @@ private val InfoType.title get() = when (this) {
     InfoType.SmartRouting -> R.string.smart_routing_title
     InfoType.Streaming -> R.string.info_dialog_streaming_title
     InfoType.Profiles -> R.string.info_dialog_profiles_title
+    is InfoType.IpAddress -> R.string.info_dialog_ipaddress_title
 }
 
 private val InfoType.imageRes get() = when (this) {
@@ -152,7 +163,7 @@ private val InfoType.imageRes get() = when (this) {
     InfoType.ServerLoad,
     InfoType.Protocol,
     InfoType.Tor,
-    InfoType.P2P -> null
+    InfoType.P2P, is InfoType.IpAddress -> null
     InfoType.SmartRouting -> R.drawable.info_smart_routing
     InfoType.Streaming -> R.drawable.upgrade_streaming
     InfoType.Profiles -> R.drawable.upgrade_profiles
@@ -168,6 +179,7 @@ private val InfoType.details get() = when (this) {
     InfoType.SmartRouting -> R.string.info_dialog_smart_routing_description
     InfoType.Streaming -> R.string.info_dialog_streaming_description
     InfoType.Profiles -> R.string.info_dialog_profiles_description
+    is InfoType.IpAddress -> null
 }
 
 private val InfoType.learnMoreLabel get() = when (this) {
@@ -180,6 +192,7 @@ private val InfoType.learnMoreLabel get() = when (this) {
     InfoType.Tor -> R.string.info_dialog_button_learn_more_tor
     InfoType.Streaming -> R.string.info_dialog_button_learn_more_streaming
     InfoType.P2P -> R.string.info_dialog_button_learn_more_p2p
+    is InfoType.IpAddress -> R.string.info_dialog_button_learn_more_ipaddress
 }
 
 private val InfoType.learnMoreUrl get() = when (this) {
@@ -192,6 +205,7 @@ private val InfoType.learnMoreUrl get() = when (this) {
     InfoType.SmartRouting -> Constants.URL_SMART_ROUTING_LEARN_MORE
     InfoType.Streaming -> Constants.URL_STREAMING_LEARN_MORE
     InfoType.Profiles -> Constants.URL_PROFILES_LEARN_MORE
+    is InfoType.IpAddress -> Constants.URL_IP_ADDRESS_LEARN_MORE
 }
 
 @Composable
@@ -205,6 +219,100 @@ private fun SubDetailsComposable(info: InfoType) {
         InfoType.SecureCore -> SubDetailsComposableSecureCore(modifier)
         InfoType.P2P -> SubDetailsComposableP2P(modifier)
         InfoType.Streaming -> SubDetailsStreaming(modifier)
+        is InfoType.IpAddress -> SubDetailsIpAddress(myIP = info.myIP, vpnIP = info.vpnIP, modifier)
+    }
+}
+
+@Composable
+private fun SubDetailsIpAddress(myIP: IpPair, vpnIP: IpPair, modifier: Modifier = Modifier) {
+    Column(modifier) {
+        Column(
+            modifier = Modifier.padding(vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            CompositionLocalProvider(
+                LocalTextStyle provides ProtonTheme.typography.body2Regular
+            ) {
+                if (myIP.ipV6 == null) {
+                    IPRowHideIfNotEmpty(R.string.connection_details_my_ip, myIP.ipV4)
+                } else {
+                    IPRowHideIfNotEmpty(R.string.connection_details_my_ipv4, myIP.ipV4)
+                    IPRowHideIfNotEmpty(R.string.connection_details_my_ipv6, myIP.ipV6)
+                }
+                if (vpnIP.ipV6 == null) {
+                    IPRow(R.string.connection_details_vpn_ip, vpnIP.ipV4)
+                } else {
+                    IPRow(R.string.connection_details_vpn_ipv4, vpnIP.ipV4)
+                    IPRow(R.string.connection_details_vpn_ipv6, vpnIP.ipV6)
+                }
+            }
+        }
+        Text(
+            text = stringResource(R.string.info_dialog_ipaddress_description),
+            style = ProtonTheme.typography.body2Regular,
+            modifier = Modifier.padding(vertical = 16.dp)
+        )
+    }
+}
+
+@Composable
+private fun IPRowHideIfNotEmpty(@StringRes titleRes: Int, value: String) {
+    if (value.isNotBlank()) {
+        IPRowHidden(titleRes, value)
+    } else {
+        IPRow(titleRes, stringResource(R.string.connection_details_unknown_ip))
+    }
+}
+
+@Composable
+private fun IPRow(@StringRes titleRes: Int, value: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(id = titleRes),
+            color = ProtonTheme.colors.textWeak,
+            modifier = Modifier.padding(end = 2.dp)
+        )
+        Text(
+            text = value,
+            modifier = Modifier.padding(2.dp) // Padding to keep size consistent with IPRowHidden
+        )
+    }
+}
+
+@Composable
+private fun IPRowHidden(@StringRes titleRes: Int, value: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(id = titleRes),
+            color = ProtonTheme.colors.textWeak,
+            modifier = Modifier.padding(end = 2.dp)
+        )
+
+        var isIpVisible by remember { mutableStateOf(false) }
+        val accessibilityDescription = stringResource(id = R.string.accessibility_show_ip)
+        Row(
+            modifier = Modifier
+                .clip(RoundedCornerShape(4.dp))
+                .clickable(onClickLabel = accessibilityDescription) { isIpVisible = !isIpVisible }
+                .semantics(mergeDescendants = true) {}
+                .padding(2.dp)
+        ) {
+            Text(if (isIpVisible) value else "************")
+            Icon(
+                painter = painterResource(
+                    id = if (isIpVisible) CoreR.drawable.ic_proton_eye_slash else CoreR.drawable.ic_proton_eye,
+                ),
+                tint = ProtonTheme.colors.iconHint,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 4.dp)
+                    .size(16.dp)
+            )
+        }
     }
 }
 
@@ -518,7 +626,21 @@ private fun GenericLearnMore(
 }
 
 private class InfoTypePreviewProvider : PreviewParameterProvider<InfoType> {
-    override val values get() = InfoType.entries.asSequence()
+    override val values get() = sequenceOf(
+        InfoType.SecureCore,
+        InfoType.VpnSpeed,
+        InfoType.ServerLoad,
+        InfoType.Protocol,
+        InfoType.Tor,
+        InfoType.P2P,
+        InfoType.SmartRouting,
+        InfoType.Streaming,
+        InfoType.Profiles,
+        InfoType.IpAddress(
+            myIP = IpPair("1.2.3.4", null),
+            vpnIP = IpPair("5.6.7.8", ipV6 = "1234:5678:90ab:cdef:1234:5678:90ab:cdef")
+        )
+    )
 }
 
 @Preview

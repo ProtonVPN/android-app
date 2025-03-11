@@ -37,6 +37,7 @@ import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.servers.StreamingService
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.utils.TrafficMonitor
+import com.protonvpn.android.vpn.IpPair
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -52,6 +53,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+private val EMPTY_IP_PAIR = IpPair("", null)
+
 @HiltViewModel
 class ConnectionDetailsViewModel @Inject constructor(
     vpnStatusProviderUI: VpnStatusProviderUI,
@@ -66,8 +69,8 @@ class ConnectionDetailsViewModel @Inject constructor(
 
     sealed interface ConnectionDetailsViewState {
         data class Connected(
-            val entryIp: String,
-            val vpnIp: String,
+            val userIp: String,
+            val vpnIp: IpPair,
             val entryCountryId: CountryId?,
             val exitCountryId: CountryId,
             val trafficHistory: List<TrafficUpdate>,
@@ -108,7 +111,7 @@ class ConnectionDetailsViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(),
         initialValue = ConnectionDetailsViewState.Connected(
             "",
-            "",
+            EMPTY_IP_PAIR,
             CountryId.fastest,
             CountryId.fastest,
             emptyList(),
@@ -137,11 +140,10 @@ class ConnectionDetailsViewModel @Inject constructor(
             serverFlow,
         ) { vpnUser, exitIp, userIp, trafficHistory, server ->
             val connectIntent = connectionParams.connectIntent as ConnectIntent
-            val vpnIp = exitIp ?: ""
             val protocol = connectionParams.protocolSelection?.displayName ?: 0
             ConnectionDetailsViewState.Connected(
-                entryIp = userIp,
-                vpnIp = vpnIp,
+                userIp = userIp,
+                vpnIp = exitIp ?: EMPTY_IP_PAIR,
                 entryCountryId = if (server.isSecureCoreServer) CountryId(server.entryCountry) else null,
                 exitCountryId = CountryId(server.exitCountry),
                 trafficHistory = trafficHistory,

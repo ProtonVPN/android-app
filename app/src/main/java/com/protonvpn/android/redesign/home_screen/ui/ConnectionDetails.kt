@@ -62,6 +62,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -114,6 +115,7 @@ import com.protonvpn.android.redesign.vpn.ui.viaCountry
 import com.protonvpn.android.servers.StreamingService
 import com.protonvpn.android.utils.TrafficMonitor
 import com.protonvpn.android.utils.openUrl
+import com.protonvpn.android.vpn.IpPair
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
@@ -207,8 +209,21 @@ private fun ConnectionDetailsConnected(
             )
         }
 
+        HeaderText(
+            R.string.connection_details_section_ip,
+            withInfoIcon = true,
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .clickable(
+                    onClick = {
+                        infoSheetState.show(InfoType.IpAddress(IpPair(viewState.userIp, null), viewState.vpnIp))
+                    },
+                    role = Role.Button,
+                    onClickLabel = stringResource(R.string.accessibility_action_open)
+                )
+        )
         IpView(
-            viewState.entryIp, viewState.vpnIp, Modifier.padding(vertical = 16.dp)
+            viewState.userIp, viewState.vpnIp, Modifier.padding(vertical = 16.dp)
         )
 
         val trafficHistory = viewState.trafficHistory
@@ -841,7 +856,7 @@ fun ConnectionDetailRowWithTextAndInfo(
 @Composable
 fun IpView(
     currentIp: String,
-    exitIp: String,
+    exitIp: IpPair,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -932,23 +947,41 @@ fun IpView(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    val vpnIpTitle =
+                        if (exitIp.ipV6 != null) R.string.connection_details_vpn_ip4_6
+                        else R.string.connection_details_vpn_ip
                     Text(
-                        text = stringResource(id = R.string.connection_details_vpn_ip),
+                        text = stringResource(id = vpnIpTitle),
                         style = ProtonTheme.typography.captionWeak
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = exitIp,
-                        textAlign = TextAlign.Center,
-                        style = ProtonTheme.typography.defaultNorm,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 20.dp),
-                        )
+                    ExitIpAddressText(exitIp.ipV4)
+                    if (exitIp.ipV6 != null) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        ExitIpAddressText(exitIp.ipV6)
+                    }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun ExitIpAddressText(
+    ip: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = ip,
+        textAlign = TextAlign.Center,
+        overflow = TextOverflow.Ellipsis,
+        maxLines = 1,
+        style = ProtonTheme.typography.defaultNorm,
+        modifier = modifier
+            .clip(RoundedCornerShape(4.dp))
+            .background(ProtonTheme.colors.backgroundSecondary)
+            .padding(horizontal = 6.dp, vertical = 2.dp)
+    )
 }
 
 @Preview
@@ -962,8 +995,8 @@ fun ConnectionDetailsPreview() {
         )
         val viewState = ConnectionDetailsViewModel.ConnectionDetailsViewState.Connected(
             connectIntentViewState = connectIntentViewState,
-            entryIp = "192.120.0.1",
-            vpnIp = "1.4.3.2",
+            userIp = "192.120.0.1",
+            vpnIp = IpPair("1.4.3.2", "2001:abcd:1234:5678:0000:0000:0000:0001"),
             exitCountryId = CountryId.sweden,
             entryCountryId = CountryId.iceland,
             trafficHistory = listOf(TrafficUpdate(0L, 0L, 1156L, 2048L, 1_000_000L, 2_000_000, 2413)),
@@ -1053,6 +1086,6 @@ fun FeaturePreview() {
 @Composable
 fun IpViewPreview() {
     VpnTheme {
-        IpView("192.120.0.1", "123.1233")
+        IpView("192.120.0.1", IpPair(ipV4 = "1.4.3.2", ipV6 = "2001:abcd:1234:5678:0000:0000:0000:0001"))
     }
 }

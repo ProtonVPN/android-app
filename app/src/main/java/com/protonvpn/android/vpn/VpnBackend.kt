@@ -213,7 +213,12 @@ abstract class VpnBackend(
                 }
                 val newConnectionDetails = status.connectionDetails
                 if (newConnectionDetails != null) {
-                    lastKnownExitIp.value = newConnectionDetails.serverIpv4
+                    lastKnownExitIp.value = IpPair(
+                        ipV4 = newConnectionDetails.serverIpv4,
+                        ipV6 = newConnectionDetails.serverIpv6?.takeIf {
+                            lastConnectionParams?.enableIPv6 == true && it.isNotBlank()
+                        }
+                    )
                     // Local Agent's ClientIP is not accurate for secure core
                     if (lastConnectionParams?.server?.isSecureCoreServer != true) {
                         if (!newConnectionDetails.deviceIp.isNullOrBlank())
@@ -253,7 +258,7 @@ abstract class VpnBackend(
     }
 
     protected var lastConnectionParams: ConnectionParams? = null
-    val lastKnownExitIp = MutableStateFlow<String?>(null)
+    val lastKnownExitIp = MutableStateFlow<IpPair?>(null)
     val netShieldStatsFlow = MutableStateFlow(NetShieldStats())
     private val cachedSessionId = SyncStateFlow(mainScope, currentUser.sessionIdFlow)
 

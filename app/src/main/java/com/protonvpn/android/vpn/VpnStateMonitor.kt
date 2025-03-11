@@ -61,14 +61,16 @@ abstract class VpnStatusProvider {
     val internalVpnProtocolState = MutableStateFlow<VpnState>(Disabled)
 }
 
+data class IpPair(val ipV4: String, val ipV6: String?)
+
 @Singleton
 class VpnStateMonitor @Inject constructor() : VpnStatusProvider() {
 
     private val statusInternal = MutableStateFlow(Status(Disabled, null))
-    private val lastKnownExitIp = MutableStateFlow<String?>(null)
+    private val lastKnownExitIp = MutableStateFlow<IpPair?>(null)
 
     override val status: StateFlow<Status> = statusInternal
-    val exitIp: StateFlow<String?> = lastKnownExitIp
+    val exitIp: StateFlow<IpPair?> = lastKnownExitIp
     val onDisconnectedByUser = MutableSharedFlow<Unit>()
     val onDisconnectedByReconnection = MutableSharedFlow<Unit>()
     val vpnConnectionNotificationFlow = MutableSharedFlow<VpnFallbackResult>()
@@ -78,7 +80,7 @@ class VpnStateMonitor @Inject constructor() : VpnStatusProvider() {
         statusInternal.value = newStatus
     }
 
-    fun updateLastKnownExitIp(exitIp: String?) {
+    fun updateLastKnownExitIp(exitIp: IpPair?) {
         lastKnownExitIp.value = exitIp
     }
 

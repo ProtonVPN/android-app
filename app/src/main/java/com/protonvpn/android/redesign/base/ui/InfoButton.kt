@@ -69,6 +69,7 @@ private val InfoType.label: Int get() = when(this) {
     InfoType.Tor,
     InfoType.P2P,
     InfoType.Streaming,
+    is InfoType.IpAddress,
     InfoType.SmartRouting -> R.string.country_filter_info_label
     InfoType.ServerLoad -> R.string.server_load_title
     InfoType.Profiles -> R.string.generic_info_label
