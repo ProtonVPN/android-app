@@ -100,7 +100,7 @@ class TvMainViewModel @Inject constructor(
         vpnStateMonitor.exitIp
     ) { vpnStatus, myIp, exitIp ->
         val ipToDisplay = when(vpnStatus.state) {
-            VpnState.Connected -> exitIp
+            VpnState.Connected -> exitIp?.ipV4 //NOTE: IPv6 is not supported for TV for now
             else -> myIp
         }
         VpnViewState(vpnStatus, ipToDisplay)

@@ -31,6 +31,7 @@ import com.protonvpn.android.redesign.home_screen.ui.ConnectionDetailsViewModel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.servers.StreamingService
+import com.protonvpn.android.vpn.IpPair
 import com.protonvpn.testRules.setVpnContent
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.proton.test.fusion.Fusion.node
@@ -41,8 +42,8 @@ import org.junit.Test
 class ConnectionDetailsTests : FusionComposeTest() {
 
     private val sampleViewState = ConnectionDetailsViewModel.ConnectionDetailsViewState.Connected(
-        entryIp = "192.168.1.1",
-        vpnIp = "10.0.0.1",
+        userIp = "192.168.1.1",
+        vpnIp = IpPair("10.0.0.1", "2000::/64"),
         entryCountryId = CountryId.sweden,
         exitCountryId = CountryId.iceland,
         trafficHistory = listOf(
@@ -97,6 +98,7 @@ class ConnectionDetailsTests : FusionComposeTest() {
         node.withText("***.***.*.*").assertExists()
         node.withContentDescription(R.string.accessibility_show_ip).click()
         node.withText("192.168.1.1").assertExists()
+        node.withText("2000::/64").assertExists()
     }
 
     @Test

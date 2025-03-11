@@ -136,7 +136,7 @@ class RealConnectionTests {
             .verify { isConnected() }
         HomeRobot.openConnectionPanel()
         ConnectionPanelRobot.verify {
-            runBlocking { correctIpIsDisplayed(vpnStateMonitor.exitIp.value!!) }
+            runBlocking { correctIpIsDisplayed(vpnStateMonitor.exitIp.value?.ipV4!!) }
             correctProtocolIsDisplayed(expectedProtocolName)
         }
         ConnectionPanelRobot.goBack()
