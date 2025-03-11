@@ -126,7 +126,8 @@
     <string name="loaderErrorNoInternet">No internet connection</string>
     <string name="loaderErrorGeneric">Something went wrong</string>
     <string name="inputIpAddressLabel">IP address</string>
-    <string name="inputIpAddressHint">Write IP address</string>
+    <string name="inputIpAddressHintIP" translatable="false">192.0.2.0</string>
+    <string name="inputIpAddressHelp">Enter the server’s IPv4 or IPv6 address</string>
     <string name="inputIpAddressErrorInvalid">Invalid IP address</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NEW</string>
@@ -1494,4 +1495,10 @@
     <string name="widget_status_connecting">Connecting</string>
     <string name="widget_sign_in">Sign in</string>
     <string name="widget_toast_added_message">Widget added to home screen</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
 </resources>
