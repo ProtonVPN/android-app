@@ -34,7 +34,6 @@ data class ConnectingDomain(
     @SerialName(value = "EntryIP") private val entryIp: String? = null,
     @SerialName(value = "EntryPerProtocol") private val entryIpPerProtocol: Map<String, ServerEntryInfo>? = null,
     @SerialName(value = "Domain") val entryDomain: String,
-    @SerialName(value = "ExitIP") private val exitIp: String? = null,
     // FIXME nullable id should be removed after some time, as it is needed only for migration
     @SerialName(value = "ID") val id: String?,
     @SerialName(value = "Label") val label: String? = null,
@@ -42,8 +41,6 @@ data class ConnectingDomain(
     @SerialName(value = "Status") val isOnline: Boolean = true,
     @SerialName(value = "X25519PublicKey") val publicKeyX25519: String? = null
 ) : java.io.Serializable {
-
-    fun getExitIP() = exitIp ?: entryIp
 
     fun getEntryIp(protocol: ProtocolSelection?): String? =
         entryIpPerProtocol?.get(protocol?.apiName)?.ipv4 ?: entryIp

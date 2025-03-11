@@ -31,7 +31,7 @@ import io.mockk.every
 import io.mockk.mockk
 
 val dummyConnectingDomain =
-    ConnectingDomain("1.2.3.4", null, "dummy.protonvpn.net", "1.2.3.5", null, null, true, "o0AixWIjxr61AwsKjrTIM+f9iHWZlWUOYZQyroX+zz4=")
+    ConnectingDomain("1.2.3.4", null, "dummy.protonvpn.net", "1.2.3.5", null, true, "o0AixWIjxr61AwsKjrTIM+f9iHWZlWUOYZQyroX+zz4=")
 
 fun createGetSmartProtocols(
     protocols: List<ProtocolSelection> = ProtocolSelection.REAL_PROTOCOLS
