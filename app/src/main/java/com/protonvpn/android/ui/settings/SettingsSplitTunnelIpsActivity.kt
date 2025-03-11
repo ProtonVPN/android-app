@@ -21,12 +21,13 @@ package com.protonvpn.android.ui.settings
 
 import android.os.Bundle
 import android.text.Editable
-import android.util.Patterns
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -43,6 +44,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import me.proton.core.presentation.R as CoreR
 
 @AndroidEntryPoint
@@ -67,7 +69,7 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
         with(binding) {
             buttonAdd.setMinSizeTouchDelegate()
             buttonAdd.setOnClickListener {
-                addIp(inputIp.text.toString())
+                onAddIpClicked(inputIp.text.toString())
             }
             updateAddButtonState(inputIp.text.toString())
 
@@ -88,7 +90,23 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
         }
 
         val removeAction = { item: LabeledItem -> confirmRemove(item) }
-        viewModel.ipAddressItems.asLiveData().observe(this, Observer { selectedIps ->
+        viewModel.events.asLiveData().observe(this) { event ->
+            when (event) {
+                SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnableSettingDialog ->
+                    showIPv6EnableSettingDialog()
+                SettingsSplitTunnelIpsViewModel.Event.ShowIPv6EnabledToast -> {
+                    Toast.makeText(
+                        this@SettingsSplitTunnelIpsActivity,
+                        R.string.settings_ipv6_enabled_toast,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+        viewModel.state.asLiveData().observe(this, Observer { state ->
+            if (state.showHelp)
+                binding.inputIp.helpText = getString(R.string.inputIpAddressHelp)
+            val selectedIps = state.ips
             val groups = if (selectedIps.isNotEmpty()) {
                 val headerTextRes = when (mode) {
                     SplitTunnelingMode.INCLUDE_ONLY -> R.string.settingsIncludedIPAddressesListHeader
@@ -109,6 +127,25 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
         })
     }
 
+    private fun onAddIpClicked(text: String) {
+        lifecycleScope.launch {
+            if (viewModel.isValidIp(text)) {
+                addIp(text)
+            } else {
+                binding.inputIp.setInputError(getString(R.string.inputIpAddressErrorInvalid))
+            }
+        }
+    }
+
+    private fun showIPv6EnableSettingDialog() {
+        MaterialAlertDialogBuilder(this@SettingsSplitTunnelIpsActivity)
+            .setTitle(R.string.settings_split_tunneling_ipv6_disabled_dialog_title)
+            .setMessage(R.string.settings_split_tunneling_ipv6_disabled_dialog_message)
+            .setNegativeButton(R.string.ok, null)
+            .setPositiveButton(R.string.setting_ipv6_disabled_dialog_action_enable) { _, _ -> viewModel.onEnableIPv6() }
+            .show()
+    }
+
     private fun addIp(text: String) {
         val isAdded = viewModel.addAddress(text.trim())
         if (isAdded) {
@@ -125,18 +162,15 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
     }
 
     private fun updateAddButtonState(text: String) {
-        binding.buttonAdd.isEnabled = isValidIp(text)
+        lifecycleScope.launch {
+            binding.buttonAdd.isEnabled = viewModel.isValidIp(text)
+        }
     }
 
     private fun onEditorAction(actionId: Int): Boolean {
         val isActionDone = actionId == EditorInfo.IME_ACTION_DONE
         if (isActionDone) {
-            val text = binding.inputIp.text.toString()
-            if (isValidIp(text)) {
-                addIp(text)
-            } else {
-                binding.inputIp.setInputError(getString(R.string.inputIpAddressErrorInvalid))
-            }
+            onAddIpClicked(binding.inputIp.text.toString())
         }
         return isActionDone
     }
@@ -148,8 +182,6 @@ class SettingsSplitTunnelIpsActivity : SaveableSettingsActivity<SettingsSplitTun
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
-
-    private fun isValidIp(ip: String) = Patterns.IP_ADDRESS.matcher(ip).matches()
 
     companion object {
         const val SPLIT_TUNNELING_MODE_KEY = "split tunneling mode"

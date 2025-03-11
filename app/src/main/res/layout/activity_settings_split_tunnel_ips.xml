@@ -21,6 +21,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include
@@ -39,12 +40,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:digits="0123456789."
-            android:hint="@string/inputIpAddressHint"
+            android:hint="@string/inputIpAddressHintIP"
             android:imeOptions="actionDone"
-            android:inputType="numberDecimal"
             app:editTextDirection="ltr"
-            app:label="@string/inputIpAddressLabel" />
+            app:label="@string/inputIpAddressLabel"
+            tools:help="@string/inputIpAddressHelp" />
 
         <ImageButton
             android:id="@+id/buttonAdd"
@@ -56,7 +56,7 @@
             android:background="@drawable/round_selectable_item_bg"
             android:contentDescription="@string/add"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_proton_plus"
+            app:srcCompat="@drawable/ic_proton_plus_circle_filled"
             app:tint="@color/icon_norm_selector" />
 
     </LinearLayout>

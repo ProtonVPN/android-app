@@ -25,35 +25,48 @@ import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.logging.Setting
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.SaveableSettingsViewModel
+import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import dagger.hilt.android.lifecycle.HiltViewModel
+import inet.ipaddr.IPAddressString
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val BITS_IN_BYTE = 8
-
 @HiltViewModel
 class SettingsSplitTunnelIpsViewModel @Inject constructor(
+    private val mainScope: CoroutineScope,
     private val userSettingsManager: CurrentUserLocalSettingsManager,
+    private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
+    private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     savedStateHandle: SavedStateHandle,
 ) : SaveableSettingsViewModel() {
+
+    enum class Event {
+        ShowIPv6EnableSettingDialog,
+        ShowIPv6EnabledToast,
+    }
+
+    data class State(
+        val ips: List<LabeledItem>,
+        val showHelp: Boolean,
+    )
 
     private val mode: SplitTunnelingMode = requireNotNull(
         savedStateHandle[SettingsSplitTunnelIpsActivity.SPLIT_TUNNELING_MODE_KEY]
     )
     private val ipAddresses = MutableStateFlow<List<String>>(emptyList())
 
-    val ipAddressItems = ipAddresses.map { ips ->
-        ips.map { ipv4ToNumber(it) }
-            .sorted()
-            .map {
-                val ip = it.toIpv4()
-                LabeledItem(ip, ip)
-            }
+    val events = MutableSharedFlow<Event>(extraBufferCapacity = 1)
+
+    val state = ipAddresses.map { ips ->
+        State(ips.map { LabeledItem(it, it) }, isIPv6FeatureFlagEnabled())
     }
 
     init {
@@ -62,27 +75,27 @@ class SettingsSplitTunnelIpsViewModel @Inject constructor(
         }
     }
 
+    suspend fun isValidIp(ip: String) =
+        ip.isNotBlank()
+            && with(IPAddressString(ip)) { isValid && !isPrefixed && (isIPv6FeatureFlagEnabled() || isIPv4) }
+            && ('.' in ip || ':' in ip)
+
+    private fun isIPv6(ip: String) = ip.isNotBlank() && IPAddressString(ip).isIPv6
+
     fun addAddress(newAddress: String): Boolean {
         val alreadyAdded = ipAddresses.value.contains(newAddress)
         if (!alreadyAdded)
             ipAddresses.value = ipAddresses.value + newAddress
+        viewModelScope.launch {
+            if (shouldDisplayIPv6SettingDialog(mode, newAddress))
+                events.tryEmit(Event.ShowIPv6EnableSettingDialog)
+        }
         return !alreadyAdded
     }
+
     fun removeAddress(item: LabeledItem) {
         ipAddresses.value = ipAddresses.value - item.id
     }
-
-    private fun ipv4ToNumber(s: String): UInt =
-        s.split('.').fold(0u) { acc, str ->
-            (acc shl BITS_IN_BYTE) + str.toUInt()
-        }
-
-    @Suppress("MagicNumber")
-    private fun UInt.toIpv4(): String =
-        arrayOf(3, 2, 1, 0).map { index ->
-            val shift = index * BITS_IN_BYTE
-            this shr shift and 0xffu
-        }.joinToString(".")
 
     override fun saveChanges() {
         ProtonLogger.logUiSettingChange(Setting.SPLIT_TUNNEL_IPS, "settings")
@@ -100,4 +113,15 @@ class SettingsSplitTunnelIpsViewModel @Inject constructor(
                 SplitTunnelingMode.EXCLUDE_ONLY -> excludedIps
             }
         }
+
+    private suspend fun shouldDisplayIPv6SettingDialog(mode: SplitTunnelingMode, ipText: String): Boolean =
+        mode == SplitTunnelingMode.INCLUDE_ONLY && isIPv6(ipText)
+            && isIPv6FeatureFlagEnabled() && !effectiveCurrentUserSettings.ipV6Enabled.first()
+
+    fun onEnableIPv6() {
+        mainScope.launch {
+            userSettingsManager.update { current -> current.copy(ipV6Enabled = true) }
+            events.tryEmit(Event.ShowIPv6EnabledToast)
+        }
+    }
 }
