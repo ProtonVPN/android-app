@@ -36,4 +36,4 @@ class FakeIsIPv6FeatureFlagEnabled(enabled: Boolean): IsIPv6FeatureFlagEnabled, 
 class IsIPv6FeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
     featureFlagManager: FeatureFlagManager
-): IsIPv6FeatureFlagEnabled, VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("IPv6SupportEnabled"))
+): IsIPv6FeatureFlagEnabled, VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("IPv6Support"))
