@@ -39,7 +39,8 @@ open class ConnectionParams(
     val entryIp: String? = null,
     val port: Int? = null,
     protected val transmissionProtocol: TransmissionProtocol? = null,
-    val uuid: UUID = UUID.randomUUID()
+    val uuid: UUID = UUID.randomUUID(),
+    val enableIPv6: Boolean = false
 ) : java.io.Serializable {
 
     private val profile: Profile? = null // Used for handling old serialized objects.
@@ -59,8 +60,19 @@ open class ConnectionParams(
         entryIp: String? = null,
         port: Int? = null,
         transmissionProtocol: TransmissionProtocol? = null,
-        uuid: UUID = UUID.randomUUID()
-    ) : this(connectIntent.toData(), server, connectingDomain, protocol, entryIp, port, transmissionProtocol, uuid)
+        uuid: UUID = UUID.randomUUID(),
+        ipv6SettingEnabled: Boolean = false,
+    ) : this(
+        connectIntent.toData(),
+        server,
+        connectingDomain,
+        protocol,
+        entryIp,
+        port,
+        transmissionProtocol,
+        uuid,
+        ipv6SettingEnabled && server.isIPv6Supported
+    )
 
     override fun toString() = info
 

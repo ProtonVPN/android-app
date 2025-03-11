@@ -225,6 +225,7 @@ class WireguardParamsTests {
             51820,
             dummyConnectingDomain,
             "1.1.1.1",
-            TransmissionProtocol.UDP
+            TransmissionProtocol.UDP,
+            ipv6SettingEnabled = true,
         )
 }

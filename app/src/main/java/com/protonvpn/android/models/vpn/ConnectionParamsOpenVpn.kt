@@ -36,7 +36,8 @@ class ConnectionParamsOpenVpn(
     connectingDomain: ConnectingDomain,
     entryIp: String?,
     transmission: TransmissionProtocol,
-    port: Int
+    port: Int,
+    ipv6SettingEnabled: Boolean,
 ) : ConnectionParams(
     connectIntent,
     server,
@@ -44,7 +45,8 @@ class ConnectionParamsOpenVpn(
     VpnProtocol.OpenVPN,
     entryIp,
     port,
-    transmission
+    transmission,
+    ipv6SettingEnabled = ipv6SettingEnabled,
 ), java.io.Serializable {
 
     override val info get() = "${super.info} $transmissionProtocol port: $port"
@@ -102,7 +104,7 @@ class ConnectionParamsOpenVpn(
             mServerPort = port.toString()
             mCustomConfiguration = ""
         }
-        if (userSettings.ipV6Enabled && server.isIPv6Supported) {
+        if (enableIPv6 == true && server.isIPv6Supported) {
             ProtonLogger.logCustom(LogCategory.CONN, "OpenVPN IPv4+6 tunnel")
             // Will push custom config enabling v6 (UV_IPV6 1) to server
             mPushPeerInfo = true

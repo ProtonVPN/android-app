@@ -44,7 +44,8 @@ class ConnectionParamsWireguard(
     port: Int,
     connectingDomain: ConnectingDomain,
     entryIp: String?,
-    transmission: TransmissionProtocol
+    transmission: TransmissionProtocol,
+    ipv6SettingEnabled: Boolean,
 ) : ConnectionParams(
     connectIntent,
     server,
@@ -53,6 +54,7 @@ class ConnectionParamsWireguard(
     entryIp,
     port,
     transmission,
+    ipv6SettingEnabled = ipv6SettingEnabled,
 ), java.io.Serializable {
 
     override val info get() = "${super.info} $transmissionProtocol port: $port"
@@ -101,7 +103,7 @@ class ConnectionParamsWireguard(
             .setPersistentKeepalive(60)
             .build()
 
-        val (addresses, dns) = if (userSettings.ipV6Enabled && server.isIPv6Supported) {
+        val (addresses, dns) = if (enableIPv6 == true && server.isIPv6Supported) {
             ProtonLogger.logCustom(LogCategory.CONN, "WireGuard IPv4+6 tunnel")
             "$VPN_CLIENT_IP/32, $VPN_CLIENT_IP_V6/128" to "$VPN_SERVER_IP, $VPN_SERVER_IP_V6"
         } else {

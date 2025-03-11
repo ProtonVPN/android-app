@@ -401,7 +401,8 @@ class VpnConnectionManager @Inject constructor(
         server: Server,
         disconnectTrigger: DisconnectTrigger,
     ) {
-        val newConnectionParams = ConnectionParams(connectIntent, server, null, null)
+        val newConnectionParams = ConnectionParams(
+            connectIntent, server, null, null, ipv6SettingEnabled = settingsForConnection.getFor(connectIntent).ipV6Enabled)
         setInternalState(InternalState.ScanningPorts(activeConnectionParams, newConnectionParams, activeBackend))
 
         var protocol = preferredProtocol
