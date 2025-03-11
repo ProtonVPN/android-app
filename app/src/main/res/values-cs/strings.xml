@@ -299,7 +299,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">Zatížení serveru %1$s%%</string>
+    <string name="tv_server_list_load">Zatížení serveru %1$s %%</string>
     <string name="tv_recently_used_servers">Nedávno použité servery (%1$d)</string>
     <string name="tv_available_servers">Dostupné servery (%1$d)</string>
     <string name="tv_locked_servers">Uzamčené servery (%1$d)</string>
@@ -386,7 +386,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Rozdělte váš síťový provoz na tunely VPN a ostatní díky funkci <b>split tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Odemkněte pokročilé přizpůsobení VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Přistupujte k zařízením ve vaší <b>místní síti (LAN)</b> pomocí VPN Plus.]]></string>
-    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Odemkněte <b>LAN připojení</b>, <b>vlastní DNS</b> a <b>NAT type 2</b> s VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Přistupujte ke všem zemím</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -1360,7 +1360,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Zvyšte rychlost připojení až o 400%% pomocí technologií zvyšujících výkon. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Zvyšte rychlost připojení až o 400 %% pomocí technologií zvyšujících výkon. %1$s</string>
     <string name="settings_account_settings_title">Nastavení účtu</string>
     <string name="settings_account_change_password">Změnit heslo</string>
     <string name="settings_account_recovery_email">E-mail pro obnovení</string>

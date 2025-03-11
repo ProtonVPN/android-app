@@ -369,7 +369,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[<b>분할 터널링</b>으로 VPN에 들어갈 트래픽을 분류하세요.]]></string>
     <string name="upgrade_customization_title">향상된 VPN 사용자화를 잠금 해제하세요</string>
     <string name="upgrade_lan_access_message"><![CDATA[VPN Plus로 <b>로컬 영역 네트워크 (LAN)</b>의 디바이스에 접근하세요.]]></string>
-    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[VPN Plus로 <b>LAN 연결</b>, <b>커스텀 DNS</b> 및 <b>NAT type 2</b>를 잠금 해제하세요.]]></string>
     <string name="upgrade_all_countries_title">모든 국가로의 접근</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
