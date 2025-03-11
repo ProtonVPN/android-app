@@ -89,6 +89,9 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun toggleAltRouting() =
         update { current -> current.copy(apiUseDoh = !current.apiUseDoh) }
 
+    suspend fun toggleIPv6() =
+        update { current -> current.copy(ipV6Enabled = !current.ipV6Enabled) }
+
     suspend fun toggleLanConnections() =
         update { current -> current.copy(lanConnections = !current.lanConnections) }
 

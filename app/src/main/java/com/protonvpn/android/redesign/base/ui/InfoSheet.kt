@@ -19,8 +19,10 @@
 
 package com.protonvpn.android.redesign.base.ui
 
+import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -65,6 +67,7 @@ import com.protonvpn.android.base.ui.VpnOutlinedButton
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.vpn.IpPair
+import kotlinx.parcelize.Parcelize
 import me.proton.core.compose.component.VerticalSpacer
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionNorm
@@ -96,17 +99,17 @@ class InfoSheetState(
 @Composable
 fun rememberInfoSheetState() = rememberSaveable(saver = InfoSheetState.Saver) { InfoSheetState() }
 
-sealed class InfoType {
-    data object SecureCore: InfoType()
-    data object VpnSpeed: InfoType()
-    data object ServerLoad: InfoType()
-    data object Protocol: InfoType()
-    data object Tor: InfoType()
-    data object P2P: InfoType()
-    data object SmartRouting: InfoType()
-    data object Streaming: InfoType()
-    data object Profiles: InfoType()
-    data class IpAddress(val myIP: IpPair, val vpnIP: IpPair): InfoType()
+sealed class InfoType : Parcelable {
+    @Parcelize data object SecureCore: InfoType()
+    @Parcelize data object VpnSpeed: InfoType()
+    @Parcelize data object ServerLoad: InfoType()
+    @Parcelize data object Protocol: InfoType()
+    @Parcelize data object Tor: InfoType()
+    @Parcelize data object P2P: InfoType()
+    @Parcelize data object SmartRouting: InfoType()
+    @Parcelize data object Streaming: InfoType()
+    @Parcelize data object Profiles: InfoType()
+    @Parcelize data class IpAddress(val myIP: IpPair, val vpnIP: IpPair): InfoType()
     // Add new types to InfoTypePreviewProvider
 }
 
@@ -625,7 +628,8 @@ private fun GenericLearnMore(
     }
 }
 
-private class InfoTypePreviewProvider : PreviewParameterProvider<InfoType> {
+@VisibleForTesting
+class InfoTypePreviewProvider : PreviewParameterProvider<InfoType> {
     override val values get() = sequenceOf(
         InfoType.SecureCore,
         InfoType.VpnSpeed,

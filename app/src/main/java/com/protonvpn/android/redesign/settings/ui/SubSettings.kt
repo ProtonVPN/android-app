@@ -178,6 +178,8 @@ fun SubSettingsRoute(
                                     context
                                 )
                             },
+                            ipV6 = advancedViewState.ipV6,
+                            onIPv6Toggle = { settingsChangeViewModel.toggleIPv6(vpnUiDelegate) }
                         )
                     }
                 }

@@ -201,6 +201,14 @@ class SettingsViewModel @Inject constructor(
             descriptionRes = R.string.settings_advanced_allow_lan_description,
         )
 
+        class IPv6(enabled: Boolean) : SettingViewState<Boolean>(
+            value = enabled,
+            isRestricted = false,
+            titleRes = R.string.settings_advanced_ipv6_title,
+            settingValueView = null,
+            descriptionRes = R.string.settings_advanced_ipv6_description,
+        )
+
         class Nat(
             natType: NatType,
             isFreeUser: Boolean,
@@ -237,6 +245,7 @@ class SettingsViewModel @Inject constructor(
         val altRouting: SettingViewState.AltRouting,
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
+        val ipV6: SettingViewState.IPv6,
         val buildInfo: String?,
         val showSignOut: Boolean,
         val showDebugTools: Boolean,
@@ -314,6 +323,7 @@ class SettingsViewModel @Inject constructor(
                 accountScreenEnabled = !managedConfig.isManaged,
                 isWidgetDiscovered = isWidgetDiscovered,
                 versionName = BuildConfig.VERSION_NAME,
+                ipV6 = SettingViewState.IPv6(settings.ipV6Enabled)
             )
         }
 
@@ -323,6 +333,7 @@ class SettingsViewModel @Inject constructor(
     private val altRouting = viewState.map { it.altRouting }.distinctUntilChanged()
     private val lanConnections = viewState.map { it.lanConnections }.distinctUntilChanged()
     val natType = viewState.map { it.natType }.distinctUntilChanged()
+    val ipv6 = viewState.map { it.ipV6 }.distinctUntilChanged()
     val protocol = viewState.map { it.protocol }.distinctUntilChanged()
     val splitTunneling = viewState.map { it.splitTunneling }.distinctUntilChanged()
 
@@ -330,19 +341,22 @@ class SettingsViewModel @Inject constructor(
         val altRouting: SettingViewState.AltRouting,
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
+        val ipV6: SettingViewState.IPv6,
         val profileOverrideInfo: ProfileOverrideInfo? = null,
     )
     val advancedSettings = combine(
         altRouting,
         lanConnections,
         natType,
-        profileOverrideInfo
-    ) { altRouting, lanConnections, natType, profileOverrideInfo ->
+        profileOverrideInfo,
+        ipv6
+    ) { altRouting, lanConnections, natType, profileOverrideInfo, ipV6 ->
         AdvancedSettingsViewState(
             altRouting = altRouting,
             lanConnections = lanConnections,
             natType = natType,
-            profileOverrideInfo = profileOverrideInfo
+            profileOverrideInfo = profileOverrideInfo,
+            ipV6 = ipV6
         )
     }.distinctUntilChanged()
 
