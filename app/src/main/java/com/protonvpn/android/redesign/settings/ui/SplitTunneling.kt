@@ -28,6 +28,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,6 +44,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.DIALOG_CONTENT_PADDING
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
+import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.settings.formatSplitTunnelingItems
 import me.proton.core.compose.theme.ProtonTheme
@@ -59,63 +62,70 @@ fun SplitTunnelingSubSetting(
     onIpsClick: (SplitTunnelingMode) -> Unit,
 ) {
     var changeModeDialogShown by rememberSaveable { mutableStateOf(false) }
-    SubSetting(
+    val listState = rememberLazyListState()
+    FeatureSubSettingScaffold(
         title = stringResource(id = splitTunneling.titleRes),
-        onClose = onClose
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.split_tunneling_large),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
-        SettingsToggleItem(
-            splitTunneling,
-            onToggle = onSplitTunnelToggle,
-            onAnnotatedClick = onLearnMore,
-        )
-        AnimatedVisibility(
-            visible = splitTunneling.value,
-            enter = fadeIn(),
-            exit = fadeOut()
+        onClose = onClose,
+        listState = listState,
+        titleInListIndex = 1,
+    ) { contentPadding ->
+        val horizontalItemPaddingModifier = Modifier
+            .largeScreenContentPadding()
+            .padding(horizontal = 16.dp)
+        val splitTunnelingMode = splitTunneling.mode
+        val modeStandard = splitTunnelingMode == SplitTunnelingMode.EXCLUDE_ONLY
+        val modeLabel =
+            if (modeStandard) R.string.settings_split_tunneling_mode_standard
+            else R.string.settings_split_tunneling_mode_inverse
+        val appsLabel =
+            if (modeStandard) R.string.settings_split_tunneling_excluded_apps
+            else R.string.settings_split_tunneling_included_apps
+        val ipsLabel =
+            if (modeStandard) R.string.settings_split_tunneling_excluded_ips
+            else R.string.settings_split_tunneling_included_ips
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.padding(contentPadding)
         ) {
-            Column {
-                val splitTunnelingMode = splitTunneling.mode
-                val modeStandard = splitTunnelingMode == SplitTunnelingMode.EXCLUDE_ONLY
-                val modeLabel =
-                    if (modeStandard) R.string.settings_split_tunneling_mode_standard
-                    else R.string.settings_split_tunneling_mode_inverse
-                val appsLabel =
-                    if (modeStandard) R.string.settings_split_tunneling_excluded_apps
-                    else R.string.settings_split_tunneling_included_apps
-                val ipsLabel =
-                    if (modeStandard) R.string.settings_split_tunneling_excluded_ips
-                    else R.string.settings_split_tunneling_included_ips
-                SettingRow(
-                    title = stringResource(id = R.string.settings_split_tunneling_mode_title),
-                    subtitleComposable = {
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Text(
-                            text = stringResource(modeLabel),
-                            style = ProtonTheme.typography.defaultWeak
-                        )
-                    },
-                    onClick = { changeModeDialogShown = true }
-                )
-                SettingRowWithIcon(
-                    icon = CoreR.drawable.ic_proton_mobile,
-                    title = stringResource(id = appsLabel),
-                    settingValue = SettingValue.SettingText(formatSplitTunnelingItems(splitTunneling.currentModeAppNames)),
-                    onClick = { onAppsClick(splitTunnelingMode) }
-                )
-
-                SettingRowWithIcon(
-                    icon = CoreR.drawable.ic_proton_window_terminal,
-                    title = stringResource(id = ipsLabel),
-                    settingValue = SettingValue.SettingText(formatSplitTunnelingItems(splitTunneling.currentModeIps)),
-                    onClick = { onIpsClick(splitTunnelingMode) }
-                )
+            addFeatureSettingItems(
+                itemModifier = horizontalItemPaddingModifier,
+                setting = splitTunneling,
+                imageRes = R.drawable.setting_split_tunneling,
+                onToggle = onSplitTunnelToggle,
+                onLearnMore = onLearnMore,
+            )
+            if (splitTunneling.value) {
+                item {
+                    SettingRow(
+                        title = stringResource(id = R.string.settings_split_tunneling_mode_title),
+                        subtitleComposable = {
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Text(text = stringResource(modeLabel), style = ProtonTheme.typography.defaultWeak)
+                        },
+                        onClick = { changeModeDialogShown = true },
+                        modifier = Modifier.largeScreenContentPadding().animateItem()
+                    )
+                }
+                item {
+                    SettingRowWithIcon(
+                        icon = CoreR.drawable.ic_proton_mobile,
+                        title = stringResource(id = appsLabel),
+                        settingValue =
+                            SettingValue.SettingText(formatSplitTunnelingItems(splitTunneling.currentModeAppNames)),
+                        onClick = { onAppsClick(splitTunnelingMode) },
+                        modifier = Modifier.largeScreenContentPadding().animateItem()
+                    )
+                }
+                item {
+                    SettingRowWithIcon(
+                        icon = CoreR.drawable.ic_proton_window_terminal,
+                        title = stringResource(id = ipsLabel),
+                        settingValue =
+                            SettingValue.SettingText(formatSplitTunnelingItems(splitTunneling.currentModeIps)),
+                        onClick = { onIpsClick(splitTunnelingMode) },
+                        modifier = Modifier.largeScreenContentPadding().animateItem()
+                    )
+                }
             }
         }
     }

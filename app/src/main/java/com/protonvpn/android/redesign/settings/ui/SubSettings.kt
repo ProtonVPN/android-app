@@ -29,23 +29,16 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
-import com.protonvpn.android.base.ui.TopAppBarCloseIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
@@ -63,13 +56,11 @@ import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.openVpnSettings
 import com.protonvpn.android.widget.ui.WidgetAddScreen
 import me.proton.core.compose.theme.ProtonTheme
-import me.proton.core.compose.theme.defaultStrongNorm
 import me.proton.core.domain.entity.UserId
 import me.proton.core.usersettings.presentation.entity.SettingsInput
 import me.proton.core.usersettings.presentation.ui.StartPasswordManagement
 import me.proton.core.usersettings.presentation.ui.StartSecurityKeys
 import me.proton.core.usersettings.presentation.ui.StartUpdateRecoveryEmail
-import me.proton.core.presentation.R as CoreR
 
 @Composable
 fun SubSettingsRoute(
@@ -104,11 +95,12 @@ fun SubSettingsRoute(
                     viewModel.vpnAccelerator.collectAsStateWithLifecycle(initialValue = null).value
                 DebugUtils.debugAssert { vpnAccelerator?.isRestricted != true }
                 if (vpnAccelerator != null) {
-                    VpnAccelerator(
-                        onClose,
-                        vpnAccelerator,
-                        { context.openUrl(Constants.VPN_ACCELERATOR_INFO_URL) },
-                        settingsChangeViewModel::toggleVpnAccelerator,
+                    FeatureSubSetting(
+                        imageRes = R.drawable.setting_vpn_accelerator,
+                        setting = vpnAccelerator,
+                        onClose = onClose,
+                        onLearnMore = { context.openUrl(Constants.VPN_ACCELERATOR_INFO_URL) },
+                        onToggle = settingsChangeViewModel::toggleVpnAccelerator,
                     )
                 }
             }
