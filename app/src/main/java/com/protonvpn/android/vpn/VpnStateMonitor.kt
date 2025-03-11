@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.vpn
 
+import android.os.Parcelable
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -30,6 +31,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -61,7 +63,8 @@ abstract class VpnStatusProvider {
     val internalVpnProtocolState = MutableStateFlow<VpnState>(Disabled)
 }
 
-data class IpPair(val ipV4: String, val ipV6: String?)
+@Parcelize
+data class IpPair(val ipV4: String, val ipV6: String?): Parcelable
 
 @Singleton
 class VpnStateMonitor @Inject constructor() : VpnStatusProvider() {

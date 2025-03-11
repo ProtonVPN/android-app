@@ -106,7 +106,7 @@ class EffectiveCurrentUserSettingsFlow constructor(
             telemetry = settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
-            ipV6Enabled = settings.ipV6Enabled && ipV6FeatureFlagEnabled
+            ipV6Enabled = settings.ipV6Enabled && ipV6FeatureFlagEnabled && !isTv()
         )
     }
 

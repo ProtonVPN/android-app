@@ -24,12 +24,10 @@ package com.protonvpn.android.tests.bottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.protonvpn.android.base.ui.ProtonVpnPreview
-import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoSheetContent
-import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.base.ui.InfoType
+import com.protonvpn.android.redesign.base.ui.InfoTypePreviewProvider
 
 @Preview
 @Composable
@@ -40,9 +38,4 @@ private fun Previews(
     ProtonVpnPreview {
         InfoSheetContent(info = info, onOpenUrl = {})
     }
-}
-
-@OptIn(ExperimentalStdlibApi::class)
-private class InfoTypePreviewProvider : PreviewParameterProvider<InfoType> {
-    override val values get() = InfoType.entries.asSequence()
 }

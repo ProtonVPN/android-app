@@ -68,7 +68,8 @@ fun SettingsCredentialless() {
             onDefaultConnectionClick = {},
             onAdvancedSettingsClick = {},
             onWidgetClick = {},
-            onDebugToolsClick = {})
+            onDebugToolsClick = {},
+        )
     }
 }
 
@@ -88,7 +89,10 @@ fun AdvancedSettingsNotConnectedPaid() {
             onNatTypeRestricted = {},
             onNatTypeLearnMore = {},
             onAllowLanRestricted = {},
-            onNavigateToNatType = {}
+            onNavigateToNatType = {},
+            ipV6 = settingsPaid.settingsViewState.ipV6,
+            onIPv6Toggle = {},
+            onIPv6InfoClick = {},
         )
     }
 }
@@ -109,7 +113,10 @@ fun AdvancedSettingsProfileConnected() {
             onNatTypeRestricted = {},
             onNatTypeLearnMore = {},
             onAllowLanRestricted = {},
-            onNavigateToNatType = {}
+            onNavigateToNatType = {},
+            ipV6 = settingsPaid.settingsViewState.ipV6,
+            onIPv6Toggle = {},
+            onIPv6InfoClick = {},
         )
     }
 }
@@ -119,7 +126,8 @@ fun AdvancedSettingsProfileConnected() {
 fun SettingsPaidProfileConnected() {
     val settingsPaid = SettingsData(false, true)
     ProtonVpnPreview(addSurface = false) {
-        SettingsView(accountSettingsViewState = settingsPaid.credentiallessAccountViewState,
+        SettingsView(
+            accountSettingsViewState = settingsPaid.credentiallessAccountViewState,
             viewState = settingsPaid.settingsViewState,
             onVpnAcceleratorClick = {},
             onAccountClick = {},
@@ -144,7 +152,8 @@ fun SettingsPaidProfileConnected() {
             onDefaultConnectionClick = {},
             onAdvancedSettingsClick = {},
             onWidgetClick = {},
-            onDebugToolsClick = {})
+            onDebugToolsClick = {}
+        )
     }
 }
 
@@ -166,6 +175,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false)
     private val altRouting = SettingsViewModel.SettingViewState.AltRouting(true)
     private val lanConnections = SettingsViewModel.SettingViewState.LanConnections(true, isFree, overrideInfo?.primaryLabel)
     private val natType = SettingsViewModel.SettingViewState.Nat(NatType.Strict, isFree, overrideInfo?.primaryLabel)
+    private val ipV6 = SettingsViewModel.SettingViewState.IPv6(enabled = true)
 
     val settingsViewState = SettingsViewModel.SettingsViewState(
         profileOverrideInfo = overrideInfo,
@@ -181,7 +191,8 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false)
         natType = natType,
         versionName = "1.2.3.4",
         isWidgetDiscovered = false,
-        showDebugTools = false
+        showDebugTools = false,
+        ipV6 = ipV6,
     )
 
     val credentiallessAccountViewState =

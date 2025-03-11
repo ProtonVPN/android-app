@@ -35,9 +35,11 @@ fun AdvancedSettings(
     profileOverrideInfo: SettingsViewModel.ProfileOverrideInfo?,
     altRouting: SettingsViewModel.SettingViewState.AltRouting,
     allowLan: SettingsViewModel.SettingViewState.LanConnections,
+    ipV6: SettingsViewModel.SettingViewState.IPv6,
     natType: SettingsViewModel.SettingViewState.Nat,
     onAltRoutingChange: () -> Unit,
     onAllowLanChange: () -> Unit,
+    onIPv6Toggle: () -> Unit,
     onNatTypeLearnMore: () -> Unit,
     onNavigateToNatType: () -> Unit,
     onAllowLanRestricted: () -> Unit,
@@ -68,6 +70,10 @@ fun AdvancedSettings(
             onNatTypeLearnMore = onNatTypeLearnMore,
             onNavigateToNatType = onNavigateToNatType,
             onNatTypeRestricted = onNatTypeRestricted
+        )
+        SettingsToggleItem(
+            ipV6,
+            onToggle = onIPv6Toggle,
         )
     }
 }

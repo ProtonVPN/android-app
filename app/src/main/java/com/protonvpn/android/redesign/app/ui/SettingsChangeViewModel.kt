@@ -75,6 +75,13 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
+    fun toggleIPv6(uiDelegate: VpnUiDelegate) {
+        viewModelScope.launch {
+            userSettingsManager.toggleIPv6()
+            reconnectionCheck(uiDelegate, DontShowAgainStore.Type.IPv6ChangeWhenConnected)
+        }
+    }
+
     fun toggleLanConnections(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
             userSettingsManager.toggleLanConnections()
