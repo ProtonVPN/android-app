@@ -374,7 +374,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Divida el tráfico en túneles VPN y no VPN con <b>túnel dividido</b>.]]></string>
     <string name="upgrade_customization_title">Desbloquee personalizaciones VPN avanzadas</string>
     <string name="upgrade_lan_access_message"><![CDATA[Acceda a dispositivos en su <b>red local (LAN)</b> con VPN Plus.]]></string>
-    <string name="upgrade_customization_message"><![CDATA[Desbloquee <b>conexiones LAN</b>, <b>DNS personalizado</b>, y <b>NAT tipo 2</b> con VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Acceda a las funciones <b>conexiones LAN</b>, <b>DNS personalizado</b>, y <b>NAT tipo 2</b> con VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Acceda a todos los países</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.

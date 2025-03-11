@@ -181,8 +181,8 @@
     <string name="troubleshootIspProblemDescription"><![CDATA[Паспрабуйце падключыцца да Proton з іншай сеткі (або скарыстайцеся <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Канфлікт з антывірусам</string>
     <string name="troubleshootAntivirusProblemDescription">Часова адключыце або выдаліце антывірус.</string>
-    <string name="troubleshootProxyFirewallProblemTitle">Канфлікт з проксі-серверам/міжсеткавым экранам</string>
-    <string name="troubleshootProxyFirewallProblemDescription">Адключыце ўсе проксі-серверы, міжсеткавыя экраны або звярніцеся да свайго сеткавага адміністратара.</string>
+    <string name="troubleshootProxyFirewallProblemTitle">Канфлікт з проксі або міжсеткавым экранам</string>
+    <string name="troubleshootProxyFirewallProblemDescription">Адключыце ўсе проксі, міжсеткавыя экраны або звярніцеся да свайго сеткавага адміністратара.</string>
     <string name="troubleshootProtonDownTitle">Proton не працуе</string>
     <string name="troubleshootProtonDownDescription"><![CDATA[Праверце <a href=\"%1$s\">статус Proton,</a> каб даведацца пра статус нашай сістэмы.]]></string>
     <string name="troubleshootContactUsSectionTitle">Усё яшчэ неабходна дапамога? Вы можаце звязацца непасрэдна з намі</string>
@@ -386,7 +386,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[З функцыяй <b>Split Tunneling</b> вы зможаце дзяліць свой трафік на той, які будзе праходзіць праз тунэлі VPN і на той, які будзе абыходзіцца без іх.]]></string>
     <string name="upgrade_customization_title">Атрымайце доступ да пашыраных наладаў VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Атрымайце доступ да прылад у сваёй <b>лакальнай сетцы (LAN)</b> з дапамогай VPN Plus.]]></string>
-    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Разблакіруйце <b>падключэнні па LAN</b>, <b>карыстальніцкія DNS</b> і <b>NAT тыпу 2</b> з дапамогай VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Доступ да ўсіх краін</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -641,7 +641,7 @@
     <string name="setting_widget_try_title">Паспрабуйце віджэт Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
-    <string name="notification_banner_dismiss_accessibility_label">Ігнараваць банер</string>
+    <string name="notification_banner_dismiss_accessibility_label">Адхіліць банер</string>
     <!-- Time left in a countdown, it shows two units of time, e.g. days and hours, hours and minutes.
          %1$s - larger unit of time, one of: time_left_days, time_left_hours, time_left_minutes
          %2$s - smaller unit of time, one of: time_left_hours, time_left_minutes, time_left_seconds
