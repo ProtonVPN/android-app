@@ -118,7 +118,9 @@ class WireguardBackend @Inject constructor(
                     it.port,
                     it.connectingDomain,
                     it.entryIp,
-                    it.transmissionProtocol)
+                    it.transmissionProtocol,
+                    settingsForConnection.getFor(connectIntent).ipV6Enabled
+                )
             )
         }
     }

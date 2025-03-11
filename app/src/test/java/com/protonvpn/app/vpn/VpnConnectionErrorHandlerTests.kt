@@ -184,7 +184,7 @@ class VpnConnectionErrorHandlerTests {
         val protocol = ProtocolSelection(VpnProtocol.WireGuard)
         val connectingDomain = getConnectingDomain.random(directConnectServer, protocol)!!
         directConnectionParams = ConnectionParamsWireguard(directConnectIntent, directConnectServer, 443,
-            connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
+            connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!, ipv6SettingEnabled = true)
 
         vpnStateMonitor = VpnStateMonitor()
         vpnStateMonitor.updateStatus(VpnStateMonitor.Status(
@@ -312,7 +312,9 @@ class VpnConnectionErrorHandlerTests {
                             server.connectingDomain.getEntryIp(
                                 ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.UDP)),
                             TransmissionProtocol.UDP,
-                            443)
+                            443,
+                            ipv6SettingEnabled = true,
+                        )
                     } else {
                         ConnectionParamsWireguard(
                             originalConnectIntent,
@@ -321,7 +323,9 @@ class VpnConnectionErrorHandlerTests {
                             server.connectingDomain,
                             server.connectingDomain.getEntryIp(
                                 ProtocolSelection(VpnProtocol.WireGuard, TransmissionProtocol.UDP)),
-                            TransmissionProtocol.UDP)
+                            TransmissionProtocol.UDP,
+                            ipv6SettingEnabled = true,
+                        )
                     }
                     result.captured = PrepareResult(mockk(), connectionParams)
                     VpnBackendProvider.PingResult(server, listOf(result.captured))
@@ -528,7 +532,8 @@ class VpnConnectionErrorHandlerTests {
             443,
             directConnectServer.connectingDomains.first(),
             null,
-            TransmissionProtocol.UDP
+            TransmissionProtocol.UDP,
+            ipv6SettingEnabled = true
         )
         preparePings(failServerName = directConnectServer.serverName, failSecureCore = true)
         val fallback = handler.onUnreachableError(connectionParams)
@@ -543,7 +548,7 @@ class VpnConnectionErrorHandlerTests {
         val protocol = ProtocolSelection(VpnProtocol.WireGuard)
         val connectingDomain = secureCoreServer.connectingDomains.first()
         val scConnectionParams = ConnectionParamsWireguard(secureCoreIntent, secureCoreServer, 443,
-            connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
+            connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!, ipv6SettingEnabled = true)
 
         preparePings(failServerName = secureCoreServer.serverName)
         val fallback = handler.onUnreachableError(scConnectionParams) as VpnFallbackResult.Switch.SwitchServer
@@ -559,7 +564,7 @@ class VpnConnectionErrorHandlerTests {
         val protocol = ProtocolSelection(VpnProtocol.WireGuard)
         val connectingDomain = scServer.connectingDomains.first()
         val scConnectionParams = ConnectionParamsWireguard(scIntent, scServer, 443,
-            connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!)
+            connectingDomain, connectingDomain.getEntryIp(protocol), protocol.transmission!!, ipv6SettingEnabled = true)
 
         // All secure core servers failed to respond, switch to non-sc in the same country.
         preparePings(failSecureCore = true)

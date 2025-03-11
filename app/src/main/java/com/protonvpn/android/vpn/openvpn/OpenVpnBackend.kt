@@ -112,7 +112,9 @@ class OpenVpnBackend @Inject constructor(
                     it.connectingDomain,
                     it.entryIp,
                     it.transmissionProtocol,
-                    it.port)
+                    it.port,
+                    settingsForConnection.getFor(connectIntent).ipV6Enabled
+                )
             )
         }
     }
