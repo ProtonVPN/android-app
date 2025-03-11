@@ -166,6 +166,7 @@ class VpnConnectionTelemetryTests {
             "port" to "443",
             "network_type" to "wifi",
             "entry_ip" to "1.2.3.4",
+            "is_ipv6_enabled" to "false",
         )
         verify {
             mockTelemetry.event(
@@ -216,6 +217,7 @@ class VpnConnectionTelemetryTests {
             "port" to "n/a",
             "network_type" to "wifi",
             "entry_ip" to "n/a",
+            "is_ipv6_enabled" to "n/a"
         )
         verify {
             mockTelemetry.event(

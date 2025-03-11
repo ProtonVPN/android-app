@@ -25,6 +25,7 @@ import androidx.work.WorkerParameters
 import com.protonvpn.android.components.AppInUseMonitor
 import com.protonvpn.android.redesign.recents.data.DefaultConnection
 import com.protonvpn.android.redesign.recents.usecases.RecentsManager
+import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.widget.WidgetType
@@ -45,6 +46,7 @@ class SettingsSnapshotWorker @AssistedInject constructor(
     private val helper: TelemetryFlowHelper,
     private val appInUseMonitor: AppInUseMonitor,
     private val widgetTracker: WidgetTracker,
+    private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -61,6 +63,7 @@ class SettingsSnapshotWorker @AssistedInject constructor(
                         this["first_widget_size"] = it.getTelemetrySizeName()
                         this["first_widget_theme"] = it.getTelemetryThemeName()
                     }
+                    this["is_ipv6_enabled"] = effectiveCurrentUserSettings.ipV6Enabled.first().toTelemetry()
                     commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 }
                 TelemetryEventData(
