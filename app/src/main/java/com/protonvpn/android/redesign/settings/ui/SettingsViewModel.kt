@@ -44,6 +44,7 @@ import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -79,7 +80,8 @@ class SettingsViewModel @Inject constructor(
     private val isFido2Enabled: IsFido2Enabled,
     private val observeRegisteredSecurityKeys: ObserveRegisteredSecurityKeys,
     private val appWidgetManager: WidgetManager,
-    private val appFeaturePrefs: AppFeaturesPrefs
+    private val appFeaturePrefs: AppFeaturesPrefs,
+    private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -245,7 +247,7 @@ class SettingsViewModel @Inject constructor(
         val altRouting: SettingViewState.AltRouting,
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
-        val ipV6: SettingViewState.IPv6,
+        val ipV6: SettingViewState.IPv6?,
         val buildInfo: String?,
         val showSignOut: Boolean,
         val showDebugTools: Boolean,
@@ -264,8 +266,9 @@ class SettingsViewModel @Inject constructor(
             recentsManager.getDefaultConnectionFlow(),
             // Will return override settings if connected else global
             settingsForConnection.getFlowForCurrentConnection(),
-            appFeaturePrefs.isWidgetDiscoveredFlow
-        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered ->
+            appFeaturePrefs.isWidgetDiscoveredFlow,
+            isIPv6FeatureFlagEnabled.observe()
+        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -323,7 +326,7 @@ class SettingsViewModel @Inject constructor(
                 accountScreenEnabled = !managedConfig.isManaged,
                 isWidgetDiscovered = isWidgetDiscovered,
                 versionName = BuildConfig.VERSION_NAME,
-                ipV6 = SettingViewState.IPv6(settings.ipV6Enabled)
+                ipV6 = if (isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
             )
         }
 
@@ -341,7 +344,7 @@ class SettingsViewModel @Inject constructor(
         val altRouting: SettingViewState.AltRouting,
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
-        val ipV6: SettingViewState.IPv6,
+        val ipV6: SettingViewState.IPv6?,
         val profileOverrideInfo: ProfileOverrideInfo? = null,
     )
     val advancedSettings = combine(

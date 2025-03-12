@@ -172,7 +172,8 @@ class SettingsViewModelTests {
             isFido2Enabled,
             observeRegisteredSecurityKeys,
             mockWidgetManager,
-            prefs
+            prefs,
+            isIPv6FeatureFlagEnabled,
         )
     }
 

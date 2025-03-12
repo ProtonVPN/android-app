@@ -41,8 +41,11 @@ import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
+import com.protonvpn.android.redesign.base.ui.InfoSheet
+import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
+import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -83,6 +86,7 @@ fun SubSettingsRoute(
     val splitTunnelAppsLauncher = rememberLauncherForActivityResult(
         SettingsSplitTunnelAppsActivity.createContract(), onSplitTunnelUpdated)
 
+    val infoSheetState = rememberInfoSheetState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -179,7 +183,8 @@ fun SubSettingsRoute(
                                 )
                             },
                             ipV6 = advancedViewState.ipV6,
-                            onIPv6Toggle = { settingsChangeViewModel.toggleIPv6(vpnUiDelegate) }
+                            onIPv6Toggle = { settingsChangeViewModel.toggleIPv6(vpnUiDelegate) },
+                            onIPv6InfoClick = { infoSheetState.show(InfoType.IPv6Traffic) }
                         )
                     }
                 }
@@ -271,6 +276,7 @@ fun SubSettingsRoute(
             }
         }
     }
+    InfoSheet(infoSheetState, onOpenUrl = { context.openUrl(it) })
 }
 
 private fun UserId.toInput() = SettingsInput(this.id)

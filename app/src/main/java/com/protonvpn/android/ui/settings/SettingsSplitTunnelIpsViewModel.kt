@@ -22,20 +22,20 @@ package com.protonvpn.android.ui.settings
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.logging.ProtonLogger
-import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.logging.Setting
+import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.SaveableSettingsViewModel
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import inet.ipaddr.IPAddressString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
