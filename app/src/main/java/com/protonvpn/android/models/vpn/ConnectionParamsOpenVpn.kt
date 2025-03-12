@@ -92,6 +92,10 @@ class ConnectionParamsOpenVpn(
                 mCustomRoutesv6 = allowedIPs6.joinToString(" ") { it.toCanonicalString() }
             }
         }
+        if (userSettings.customDnsEnabled) {
+            mOverrideDNS = true
+            mCustomDNS = userSettings.customDnsList
+        }
         val appsSplitTunnelingConfigurator = SplitTunnelAppsOpenVpnConfigurator(this)
         applyAppsSplitTunneling(
             appsSplitTunnelingConfigurator,

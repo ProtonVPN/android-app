@@ -26,7 +26,6 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.userstorage.SharedStoreProvider
 import com.protonvpn.android.userstorage.StoreProvider
-import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.vpn.ProtocolSelection
 import java.util.UUID
 import javax.inject.Inject
@@ -59,6 +58,9 @@ class CurrentUserLocalSettingsManager @Inject constructor(
 
     suspend fun updateMtuSize(newSize: Int) =
         update { current -> current.copy(mtuSize = newSize) }
+
+    suspend fun updateCustomDnsList(customDns: List<String>) =
+        update { current -> current.copy(customDnsList = customDns) }
 
     suspend fun updateNetShield(newNetShieldProtocol: NetShieldProtocol) =
         update { current -> current.copy(netShield = newNetShieldProtocol) }
@@ -94,6 +96,9 @@ class CurrentUserLocalSettingsManager @Inject constructor(
 
     suspend fun toggleLanConnections() =
         update { current -> current.copy(lanConnections = !current.lanConnections) }
+
+    suspend fun toggleCustomDNS() =
+        update { current -> current.copy(customDnsEnabled = !current.customDnsEnabled) }
 
     suspend fun setRandomizedNat(value: Boolean) =
         update { current -> current.copy(randomizedNat = value) }

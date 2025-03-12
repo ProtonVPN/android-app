@@ -29,6 +29,7 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.SyncStateFlow
+import com.protonvpn.android.vpn.IsCustomDnsEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -65,6 +66,7 @@ class EffectiveCurrentUserSettings(
     val vpnAccelerator = distinct { it.vpnAccelerator }
     val splitTunneling = distinct { it.splitTunneling }
     val ipV6Enabled = distinct { it.ipV6Enabled }
+    val customDnsEnabled = distinct { it.customDnsEnabled }
 
     @Inject
     constructor(mainScope: CoroutineScope, effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow)
@@ -81,16 +83,24 @@ class EffectiveCurrentUserSettingsFlow constructor(
     currentUser: CurrentUser,
     isTv: IsTvCheck,
     restrictionFlow: Flow<Restrictions>,
-    isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled
+    isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
+    customDnsEnabled: IsCustomDnsEnabled,
 ) : Flow<LocalUserSettings> {
+
+    private val ipv6AndCustomDnsCombined = combine(
+        isIPv6FeatureFlagEnabled.observe(),
+        customDnsEnabled.observe()
+    ) { ipv6Enabled, customDns ->
+        Pair(ipv6Enabled, customDns)
+    }
 
     private val effectiveSettings: Flow<LocalUserSettings> = combine(
         rawCurrentUserSettingsFlow,
         getFeatureFlags,
         currentUser.vpnUserFlow,
         restrictionFlow,
-        isIPv6FeatureFlagEnabled.observe(),
-    ) { settings, features, vpnUser, restrictions, ipV6FeatureFlagEnabled ->
+        ipv6AndCustomDnsCombined,
+    ) { settings, _, vpnUser, restrictions, (ipV6FeatureFlagEnabled, customDnsFeatureFlagEnabled) ->
         val effectiveVpnAccelerator = restrictions.vpnAccelerator || settings.vpnAccelerator
         val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
         val effectiveSplitTunneling = if (restrictions.splitTunneling)
@@ -103,6 +113,8 @@ class EffectiveCurrentUserSettingsFlow constructor(
             } else {
                 NetShieldProtocol.DISABLED
             },
+            customDnsEnabled = if (customDnsFeatureFlagEnabled) settings.customDnsEnabled else false,
+            customDnsList = if (customDnsFeatureFlagEnabled) settings.customDnsList else emptyList(),
             telemetry = settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
@@ -118,7 +130,8 @@ class EffectiveCurrentUserSettingsFlow constructor(
         isTv: IsTvCheck,
         restrictions: RestrictionsConfig,
         isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-    ) : this(localUserSettings.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, isTv, restrictions.restrictionFlow, isIPv6FeatureFlagEnabled)
+        customDnsEnabled: IsCustomDnsEnabled,
+    ) : this(localUserSettings.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, isTv, restrictions.restrictionFlow, isIPv6FeatureFlagEnabled, customDnsEnabled)
 
     override suspend fun collect(collector: FlowCollector<LocalUserSettings>) = effectiveSettings.collect(collector)
 }
