@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -41,6 +42,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -69,13 +71,21 @@ data class ClickableTextAnnotation(
 fun SettingsItemScaffold(
     title: String,
     modifier: Modifier = Modifier,
+    titleAdjecent: (@Composable RowScope.() -> Unit)? = null,
     titleTrailing: (@Composable RowScope.() -> Unit)? = null,
     subtitle: (@Composable () -> Unit)? = null,
     description: (@Composable () -> Unit)? = null,
 ) {
     SettingsItemScaffold(
         titleRow = {
-            Text(title, modifier = Modifier.weight(1f))
+            Row(
+                modifier = Modifier.weight(1f),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(title, modifier = Modifier.weight(1f, fill = false))
+                if (titleAdjecent != null)
+                    titleAdjecent()
+            }
             if (titleTrailing != null)
                 titleTrailing()
         },
@@ -172,6 +182,7 @@ fun SettingsToggleItem(
     settingsValue: SettingValue? = null, // Needed only for override, value is passed as "value". Simplify this.
     descriptionAnnotation: ClickableTextAnnotation? = null,
     onUpgrade: (() -> Unit)? = null,
+    onInfoClick: (() -> Unit)? = null,
 ) {
     val itemModifier = if (needsUpgrade && onUpgrade != null) {
         modifier.clickable(onClick = onUpgrade)
@@ -186,6 +197,20 @@ fun SettingsToggleItem(
                 needsUpgrade -> IconNeedsUpgrade()
                 settingsValue is SettingValue.SettingOverrideValue -> OverrideSettingLabel(settingsValue)
                 else -> ProtonSwitch(checked = value, onCheckedChange = null)
+            }
+        },
+        titleAdjecent = onInfoClick?.let {
+            {
+                Icon(
+                    painterResource(CoreR.drawable.ic_proton_info_circle_filled),
+                    contentDescription = null,
+                    tint = ProtonTheme.colors.iconWeak,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable { onInfoClick() }
+                        .padding(8.dp)
+                        .size(16.dp)
+                )
             }
         },
         description = description?.let {
@@ -343,9 +368,10 @@ fun SettingTogglePreview() {
             SettingsToggleItem(
                 name = "Toggle option",
                 description = "Long toggle description. Long toggle description. Long toggle description. Learn more",
-                descriptionAnnotation = ClickableTextAnnotation("Learn more", {}, {}),
                 value = true,
                 onToggle = {},
+                descriptionAnnotation = ClickableTextAnnotation("Learn more", {}, {}),
+                onInfoClick = {},
             )
         }
     }

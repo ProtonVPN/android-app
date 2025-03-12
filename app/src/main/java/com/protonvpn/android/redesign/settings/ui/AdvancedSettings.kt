@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,7 +34,7 @@ fun AdvancedSettings(
     profileOverrideInfo: SettingsViewModel.ProfileOverrideInfo?,
     altRouting: SettingsViewModel.SettingViewState.AltRouting,
     allowLan: SettingsViewModel.SettingViewState.LanConnections,
-    ipV6: SettingsViewModel.SettingViewState.IPv6,
+    ipV6: SettingsViewModel.SettingViewState.IPv6?,
     natType: SettingsViewModel.SettingViewState.Nat,
     onAltRoutingChange: () -> Unit,
     onAllowLanChange: () -> Unit,
@@ -44,6 +43,7 @@ fun AdvancedSettings(
     onNavigateToNatType: () -> Unit,
     onAllowLanRestricted: () -> Unit,
     onNatTypeRestricted: () -> Unit,
+    onIPv6InfoClick: () -> Unit,
 ) {
     SubSetting(
         title = stringResource(id = R.string.settings_advanced_settings_title),
@@ -71,10 +71,13 @@ fun AdvancedSettings(
             onNavigateToNatType = onNavigateToNatType,
             onNatTypeRestricted = onNatTypeRestricted
         )
-        SettingsToggleItem(
-            ipV6,
-            onToggle = onIPv6Toggle,
-        )
+        if (ipV6 != null) {
+            SettingsToggleItem(
+                ipV6,
+                onToggle = onIPv6Toggle,
+                onInfoClick = onIPv6InfoClick,
+            )
+        }
     }
 }
 

@@ -50,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -109,6 +110,7 @@ sealed class InfoType : Parcelable {
     @Parcelize data object SmartRouting: InfoType()
     @Parcelize data object Streaming: InfoType()
     @Parcelize data object Profiles: InfoType()
+    @Parcelize data object IPv6Traffic: InfoType()
     @Parcelize data class IpAddress(val myIP: IpPair, val vpnIP: IpPair): InfoType()
     // Add new types to InfoTypePreviewProvider
 }
@@ -157,6 +159,7 @@ private val InfoType.title get() = when (this) {
     InfoType.SmartRouting -> R.string.smart_routing_title
     InfoType.Streaming -> R.string.info_dialog_streaming_title
     InfoType.Profiles -> R.string.info_dialog_profiles_title
+    InfoType.IPv6Traffic -> R.string.info_dialog_ipv6_traffic_title
     is InfoType.IpAddress -> R.string.info_dialog_ipaddress_title
 }
 
@@ -166,7 +169,9 @@ private val InfoType.imageRes get() = when (this) {
     InfoType.ServerLoad,
     InfoType.Protocol,
     InfoType.Tor,
-    InfoType.P2P, is InfoType.IpAddress -> null
+    InfoType.P2P,
+    InfoType.IPv6Traffic,
+    is InfoType.IpAddress -> null
     InfoType.SmartRouting -> R.drawable.info_smart_routing
     InfoType.Streaming -> R.drawable.upgrade_streaming
     InfoType.Profiles -> R.drawable.upgrade_profiles
@@ -182,6 +187,7 @@ private val InfoType.details get() = when (this) {
     InfoType.SmartRouting -> R.string.info_dialog_smart_routing_description
     InfoType.Streaming -> R.string.info_dialog_streaming_description
     InfoType.Profiles -> R.string.info_dialog_profiles_description
+    InfoType.IPv6Traffic -> R.string.info_dialog_ipv6_traffic_description
     is InfoType.IpAddress -> null
 }
 
@@ -195,7 +201,7 @@ private val InfoType.learnMoreLabel get() = when (this) {
     InfoType.Tor -> R.string.info_dialog_button_learn_more_tor
     InfoType.Streaming -> R.string.info_dialog_button_learn_more_streaming
     InfoType.P2P -> R.string.info_dialog_button_learn_more_p2p
-    is InfoType.IpAddress -> R.string.info_dialog_button_learn_more_ipaddress
+    InfoType.IPv6Traffic, is InfoType.IpAddress -> R.string.info_dialog_button_learn_more_ipaddress
 }
 
 private val InfoType.learnMoreUrl get() = when (this) {
@@ -208,6 +214,7 @@ private val InfoType.learnMoreUrl get() = when (this) {
     InfoType.SmartRouting -> Constants.URL_SMART_ROUTING_LEARN_MORE
     InfoType.Streaming -> Constants.URL_STREAMING_LEARN_MORE
     InfoType.Profiles -> Constants.URL_PROFILES_LEARN_MORE
+    InfoType.IPv6Traffic -> Constants.URL_IPV6_ADDRESS_LEARN_MORE
     is InfoType.IpAddress -> Constants.URL_IP_ADDRESS_LEARN_MORE
 }
 
@@ -222,7 +229,64 @@ private fun SubDetailsComposable(info: InfoType) {
         InfoType.SecureCore -> SubDetailsComposableSecureCore(modifier)
         InfoType.P2P -> SubDetailsComposableP2P(modifier)
         InfoType.Streaming -> SubDetailsStreaming(modifier)
+        InfoType.IPv6Traffic -> SubDetailsIPv6Traffic(modifier)
         is InfoType.IpAddress -> SubDetailsIpAddress(myIP = info.myIP, vpnIP = info.vpnIP, modifier)
+    }
+}
+
+@Composable
+private fun SubDetailsIPv6Traffic(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.padding(top = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        IPV6SubDetailsList(
+            CoreR.drawable.ic_proton_checkmark,
+            ProtonTheme.colors.notificationSuccess,
+            R.string.info_dialog_ipv6_traffic_benefits_title,
+            R.string.info_dialog_ipv6_traffic_benefits1,
+            R.string.info_dialog_ipv6_traffic_benefits2,
+        )
+        IPV6SubDetailsList(
+            CoreR.drawable.ic_proton_cross,
+            ProtonTheme.colors.notificationError,
+            R.string.info_dialog_ipv6_traffic_drawbacks_title,
+            R.string.info_dialog_ipv6_traffic_drawbacks1,
+            R.string.info_dialog_ipv6_traffic_drawbacks2,
+        )
+    }
+}
+
+@Composable
+private fun IPV6SubDetailsList(
+    @DrawableRes iconRes: Int,
+    iconTint: Color,
+    @StringRes titleRes: Int,
+    vararg items: Int,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier
+    ) {
+        Text(
+            stringResource(titleRes),
+            style = ProtonTheme.typography.body1Bold,
+        )
+        items.forEach { item ->
+            Row {
+                Icon(
+                    painter = painterResource(iconRes),
+                    tint = iconTint,
+                    contentDescription = null,
+                    modifier = Modifier.padding(end = 8.dp).size(16.dp)
+                )
+                Text(
+                    stringResource(item),
+                    style = ProtonTheme.typography.body2Regular,
+                )
+            }
+        }
     }
 }
 
@@ -643,7 +707,8 @@ class InfoTypePreviewProvider : PreviewParameterProvider<InfoType> {
         InfoType.IpAddress(
             myIP = IpPair("1.2.3.4", null),
             vpnIP = IpPair("5.6.7.8", ipV6 = "1234:5678:90ab:cdef:1234:5678:90ab:cdef")
-        )
+        ),
+        InfoType.IPv6Traffic,
     )
 }
 

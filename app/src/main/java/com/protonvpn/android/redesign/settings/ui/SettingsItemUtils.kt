@@ -32,6 +32,7 @@ fun SettingsToggleItem(
     modifier: Modifier = Modifier,
     onAnnotatedClick: () -> Unit = {},
     onRestricted: () -> Unit = {},
+    onInfoClick: (() -> Unit)? = null,
 ) = with(setting) {
     SettingsToggleItem(
         modifier = modifier,
@@ -48,7 +49,8 @@ fun SettingsToggleItem(
             )
         },
         onToggle = onToggle,
-        onUpgrade = onRestricted
+        onUpgrade = onRestricted,
+        onInfoClick = onInfoClick,
     )
 }
 

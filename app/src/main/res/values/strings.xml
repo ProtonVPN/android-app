@@ -1190,8 +1190,10 @@
     <string name="info_dialog_how_to_stream_step_3">Connect to any Plus server and start streaming</string>
     <string name="info_dialog_profiles_title">Profiles</string>
     <string name="info_dialog_ipaddress_title">IP address</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
     <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
+    <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Peer-to-peer file sharing is enabled on this server.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1501,4 +1503,10 @@
     <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
     <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
 </resources>
