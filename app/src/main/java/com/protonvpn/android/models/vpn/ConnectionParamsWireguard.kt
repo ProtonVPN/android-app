@@ -111,9 +111,16 @@ class ConnectionParamsWireguard(
             "$VPN_CLIENT_IP/32" to VPN_SERVER_IP
         }
         val splitTunneling = userSettings.splitTunneling
+        val dnsServers: String = buildList {
+            if (userSettings.customDnsEnabled) {
+                addAll(userSettings.customDnsList)
+            }
+
+            add(dns)
+        }.joinToString(",")
         val iface = Interface.Builder()
             .parseAddresses(addresses)
-            .parseDnsServers(dns)
+            .parseDnsServers(dnsServers)
             .parsePrivateKey(certificateRepository.getX25519Key(sessionId))
             .splitTunnelingApps(connectIntent, myPackageName, splitTunneling)
             .build()

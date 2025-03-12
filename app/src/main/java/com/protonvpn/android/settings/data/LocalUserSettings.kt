@@ -87,6 +87,8 @@ data class LocalUserSettings(
     val telemetry: Boolean = true,
     val vpnAccelerator: Boolean = true,
     val ipV6Enabled: Boolean = true,
+    val customDnsEnabled: Boolean = false,
+    val customDnsList: List<String> = emptyList(),
     // Whenever adding a new setting add it also in toLogList below.
 ) {
     companion object {
@@ -111,6 +113,8 @@ fun LocalUserSettings.toLogList(): List<String> {
         "Use DoH for API: ${apiUseDoh.toLog()}",
         "VPN Accelerator: ${vpnAccelerator.toLog()}",
         "IPv6 enabled: ${ipV6Enabled.toLog()}",
+        "Custom DNS enabled: ${customDnsEnabled.toLog()}",
+        "Custom DNS list: ${customDnsList.itemCountToLog()}",
     )
     return regularSettings
 }
