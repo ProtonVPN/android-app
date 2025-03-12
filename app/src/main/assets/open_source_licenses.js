@@ -36,7 +36,7 @@ dependencies = [
   {
     "project": "account",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -48,12 +48,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account:30.1.0"
+    "dependency": "me.proton.core:account:30.3.3"
   },
   {
     "project": "account-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -65,12 +65,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-dagger:30.1.0"
+    "dependency": "me.proton.core:account-dagger:30.3.3"
   },
   {
     "project": "account-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -82,12 +82,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-data:30.1.0"
+    "dependency": "me.proton.core:account-data:30.3.3"
   },
   {
     "project": "account-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -99,12 +99,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-domain:30.1.0"
+    "dependency": "me.proton.core:account-domain:30.3.3"
   },
   {
     "project": "account-manager-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -116,12 +116,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-manager-data:30.1.0"
+    "dependency": "me.proton.core:account-manager-data:30.3.3"
   },
   {
     "project": "account-manager-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -133,12 +133,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-manager-domain:30.1.0"
+    "dependency": "me.proton.core:account-manager-domain:30.3.3"
   },
   {
     "project": "account-manager-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -150,12 +150,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-manager-presentation:30.1.0"
+    "dependency": "me.proton.core:account-manager-presentation:30.3.3"
   },
   {
     "project": "account-manager-presentation-compose",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -167,12 +167,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-manager-presentation-compose:30.1.0"
+    "dependency": "me.proton.core:account-manager-presentation-compose:30.3.3"
   },
   {
     "project": "account-recovery",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -184,12 +184,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-recovery:30.1.0"
+    "dependency": "me.proton.core:account-recovery:30.3.3"
   },
   {
     "project": "account-recovery-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -201,12 +201,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-recovery-dagger:30.1.0"
+    "dependency": "me.proton.core:account-recovery-dagger:30.3.3"
   },
   {
     "project": "account-recovery-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -218,12 +218,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-recovery-data:30.1.0"
+    "dependency": "me.proton.core:account-recovery-data:30.3.3"
   },
   {
     "project": "account-recovery-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -235,12 +235,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-recovery-domain:30.1.0"
+    "dependency": "me.proton.core:account-recovery-domain:30.3.3"
   },
   {
     "project": "account-recovery-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -252,12 +252,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-recovery-presentation:30.1.0"
+    "dependency": "me.proton.core:account-recovery-presentation:30.3.3"
   },
   {
     "project": "account-recovery-presentation-compose",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -269,7 +269,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:account-recovery-presentation-compose:30.1.0"
+    "dependency": "me.proton.core:account-recovery-presentation-compose:30.3.3"
   },
   {
     "project": "Activity",
@@ -699,23 +699,6 @@ dependencies = [
   {
     "project": "Android Support Library Custom View",
     "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
-    "version": "1.0.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "http://developer.android.com/tools/extras/support-library.html",
-    "year": "2018",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-  },
-  {
-    "project": "Android Support Library Custom View",
-    "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
     "version": "1.1.0",
     "developers": [
       "The Android Open Source Project"
@@ -729,6 +712,23 @@ dependencies = [
       }
     ],
     "dependency": "androidx.customview:customview:1.1.0"
+  },
+  {
+    "project": "Android Support Library Custom View",
+    "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren\u0027t a part of the framework APIs. Compatible on devices running API 14 or later.",
+    "version": "1.0.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "http://developer.android.com/tools/extras/support-library.html",
+    "year": "2018",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
   },
   {
     "project": "Android Support Library Document File",
@@ -935,23 +935,6 @@ dependencies = [
     "dependency": "androidx.tracing:tracing:1.2.0"
   },
   {
-    "project": "Android Tracing Runtime Kotlin Extensions",
-    "description": "Android Tracing",
-    "version": "1.2.0",
-    "developers": [
-      "The Android Open Source Project"
-    ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/tracing#1.2.0",
-    "year": "2020",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "androidx.tracing:tracing-ktx:1.2.0"
-  },
-  {
     "project": "AndroidSVG",
     "description": "SVG rendering library for Android.",
     "version": "1.4",
@@ -1107,11 +1090,11 @@ dependencies = [
   {
     "project": "Annotation",
     "description": "Provides source annotations for tooling and readability.",
-    "version": "1.8.1",
+    "version": "1.8.2",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/annotation#1.8.1",
+    "url": "https://developer.android.com/jetpack/androidx/releases/annotation#1.8.2",
     "year": "2013",
     "licenses": [
       {
@@ -1119,7 +1102,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.annotation:annotation-jvm:1.8.1"
+    "dependency": "androidx.annotation:annotation-jvm:1.8.2"
   },
   {
     "project": "Apache Commons Codec",
@@ -1181,7 +1164,7 @@ dependencies = [
   {
     "project": "atomicfu",
     "description": "AtomicFU utilities",
-    "version": "0.18.5",
+    "version": "0.23.2",
     "developers": [
       "JetBrains Team"
     ],
@@ -1193,12 +1176,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.jetbrains.kotlinx:atomicfu-jvm:0.18.5"
+    "dependency": "org.jetbrains.kotlinx:atomicfu-jvm:0.23.2"
   },
   {
     "project": "auth",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1210,12 +1193,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth:30.1.0"
+    "dependency": "me.proton.core:auth:30.3.3"
   },
   {
     "project": "auth-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1227,12 +1210,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-dagger:30.1.0"
+    "dependency": "me.proton.core:auth-dagger:30.3.3"
   },
   {
     "project": "auth-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1244,12 +1227,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-data:30.1.0"
+    "dependency": "me.proton.core:auth-data:30.3.3"
   },
   {
     "project": "auth-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1261,12 +1244,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-domain:30.1.0"
+    "dependency": "me.proton.core:auth-domain:30.3.3"
   },
   {
     "project": "auth-fido-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1278,12 +1261,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-fido-dagger:30.1.0"
+    "dependency": "me.proton.core:auth-fido-dagger:30.3.3"
   },
   {
     "project": "auth-fido-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1295,12 +1278,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-fido-domain:30.1.0"
+    "dependency": "me.proton.core:auth-fido-domain:30.3.3"
   },
   {
     "project": "auth-fido-play",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1312,12 +1295,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-fido-play:30.1.0"
+    "dependency": "me.proton.core:auth-fido-play:30.3.3"
   },
   {
     "project": "auth-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1329,12 +1312,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-presentation:30.1.0"
+    "dependency": "me.proton.core:auth-presentation:30.3.3"
   },
   {
     "project": "auth-presentation-compose",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1346,7 +1329,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:auth-presentation-compose:30.1.0"
+    "dependency": "me.proton.core:auth-presentation-compose:30.3.3"
   },
   {
     "project": "billing",
@@ -1415,7 +1398,7 @@ dependencies = [
   {
     "project": "challenge",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1427,12 +1410,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge:30.1.0"
+    "dependency": "me.proton.core:challenge:30.3.3"
   },
   {
     "project": "challenge-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1444,12 +1427,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge-dagger:30.1.0"
+    "dependency": "me.proton.core:challenge-dagger:30.3.3"
   },
   {
     "project": "challenge-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1461,12 +1444,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge-data:30.1.0"
+    "dependency": "me.proton.core:challenge-data:30.3.3"
   },
   {
     "project": "challenge-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1478,12 +1461,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge-domain:30.1.0"
+    "dependency": "me.proton.core:challenge-domain:30.3.3"
   },
   {
     "project": "challenge-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1495,12 +1478,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge-presentation:30.1.0"
+    "dependency": "me.proton.core:challenge-presentation:30.3.3"
   },
   {
     "project": "challenge-presentation-compose",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -1512,7 +1495,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:challenge-presentation-compose:30.1.0"
+    "dependency": "me.proton.core:challenge-presentation-compose:30.3.3"
   },
   {
     "project": "CircleIndicator",
@@ -1653,7 +1636,7 @@ dependencies = [
   {
     "project": "com.appmattus.certificatetransparency:certificatetransparency",
     "description": "Certificate transparency for Android and Java",
-    "version": "2.5.57",
+    "version": "2.5.71",
     "developers": [
       "Appmattus Limited"
     ],
@@ -1665,12 +1648,12 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.appmattus.certificatetransparency:certificatetransparency:2.5.57"
+    "dependency": "com.appmattus.certificatetransparency:certificatetransparency:2.5.71"
   },
   {
     "project": "com.appmattus.certificatetransparency:certificatetransparency-android",
     "description": "Certificate transparency for Android and Java",
-    "version": "2.5.57",
+    "version": "2.5.71",
     "developers": [
       "Appmattus Limited"
     ],
@@ -1682,7 +1665,7 @@ dependencies = [
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.appmattus.certificatetransparency:certificatetransparency-android:2.5.57"
+    "dependency": "com.appmattus.certificatetransparency:certificatetransparency-android:2.5.71"
   },
   {
     "project": "com.dropbox.mobile.store",
@@ -1738,28 +1721,28 @@ dependencies = [
   {
     "project": "Compose Animation",
     "description": "Compose animation library",
-    "version": "1.7.6",
+    "version": "1.7.0",
     "developers": [
-      "The Android Open Source Project"
+      "Compose Multiplatform Team"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.6",
-    "year": "2019",
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
     "licenses": [
       {
         "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.animation:animation-android:1.7.6"
+    "dependency": "org.jetbrains.compose.animation:animation-desktop:1.7.0"
   },
   {
     "project": "Compose Animation",
     "description": "Compose animation library",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -1767,16 +1750,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.animation:animation-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.animation:animation-android:1.7.5"
+  },
+  {
+    "project": "Compose Animation",
+    "description": "Compose animation library",
+    "version": "1.7.5",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.5",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.animation:animation-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Animation Core",
     "description": "Animation engine and animation primitives that are the building blocks of the Compose animation library",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -1784,16 +1784,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.animation:animation-core-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.animation:animation-core-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Animation Core",
     "description": "Animation engine and animation primitives that are the building blocks of the Compose animation library",
-    "version": "1.7.6",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.animation:animation-core-desktop:1.7.0"
+  },
+  {
+    "project": "Compose Animation Core",
+    "description": "Animation engine and animation primitives that are the building blocks of the Compose animation library",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -1801,16 +1818,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.animation:animation-core-android:1.7.6"
+    "dependency": "androidx.compose.animation:animation-core-android:1.7.5"
   },
   {
     "project": "Compose Foundation",
     "description": "Higher level abstractions of the Compose UI primitives. This library is design system agnostic, providing the high-level building blocks for both application and design-system developers",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.5",
     "year": "2018",
     "licenses": [
       {
@@ -1818,16 +1835,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.foundation:foundation-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.foundation:foundation-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Foundation",
     "description": "Higher level abstractions of the Compose UI primitives. This library is design system agnostic, providing the high-level building blocks for both application and design-system developers",
-    "version": "1.7.6",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.foundation:foundation-desktop:1.7.0"
+  },
+  {
+    "project": "Compose Foundation",
+    "description": "Higher level abstractions of the Compose UI primitives. This library is design system agnostic, providing the high-level building blocks for both application and design-system developers",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.5",
     "year": "2018",
     "licenses": [
       {
@@ -1835,16 +1869,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.foundation:foundation-android:1.7.6"
+    "dependency": "androidx.compose.foundation:foundation-android:1.7.5"
   },
   {
     "project": "Compose Geometry",
     "description": "Compose classes related to dimensions without units",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -1852,16 +1886,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-geometry-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.ui:ui-geometry-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Geometry",
     "description": "Compose classes related to dimensions without units",
-    "version": "1.7.6",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.ui:ui-geometry-desktop:1.7.0"
+  },
+  {
+    "project": "Compose Geometry",
+    "description": "Compose classes related to dimensions without units",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -1869,16 +1920,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-geometry-android:1.7.6"
+    "dependency": "androidx.compose.ui:ui-geometry-android:1.7.5"
   },
   {
     "project": "Compose Graphics",
     "description": "Compose graphics",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -1886,16 +1937,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-graphics-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.ui:ui-graphics-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Graphics",
     "description": "Compose graphics",
-    "version": "1.7.6",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.ui:ui-graphics-desktop:1.7.0"
+  },
+  {
+    "project": "Compose Graphics",
+    "description": "Compose graphics",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -1903,16 +1971,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-graphics-android:1.7.6"
+    "dependency": "androidx.compose.ui:ui-graphics-android:1.7.5"
   },
   {
     "project": "Compose Layouts",
     "description": "Compose layout implementations",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -1920,16 +1988,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.foundation:foundation-layout-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.foundation:foundation-layout-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Layouts",
     "description": "Compose layout implementations",
-    "version": "1.7.6",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.foundation:foundation-layout-desktop:1.7.0"
+  },
+  {
+    "project": "Compose Layouts",
+    "description": "Compose layout implementations",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -1937,16 +2022,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.foundation:foundation-layout-android:1.7.6"
+    "dependency": "androidx.compose.foundation:foundation-layout-android:1.7.5"
   },
   {
     "project": "Compose LiveData integration",
     "description": "Compose integration with LiveData",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -1954,7 +2039,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.runtime:runtime-livedata:1.7.6"
+    "dependency": "androidx.compose.runtime:runtime-livedata:1.7.5"
   },
   {
     "project": "Compose Material 3 Window Size Class",
@@ -1993,11 +2078,11 @@ dependencies = [
   {
     "project": "Compose Material Components",
     "description": "Compose Material Design Components library",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.5",
     "year": "2018",
     "licenses": [
       {
@@ -2005,16 +2090,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.material:material-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.material:material-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Material Components",
     "description": "Compose Material Design Components library",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.5",
     "year": "2018",
     "licenses": [
       {
@@ -2022,16 +2107,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.material:material-android:1.7.6"
+    "dependency": "androidx.compose.material:material-android:1.7.5"
   },
   {
     "project": "Compose Material Icons Core",
     "description": "Compose Material Design core icons. This module contains the most commonly used set of Material icons.",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2039,16 +2124,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.material:material-icons-core-desktop:1.7.6"
+    "dependency": "androidx.compose.material:material-icons-core-desktop:1.7.5"
   },
   {
     "project": "Compose Material Icons Core",
     "description": "Compose Material Design core icons. This module contains the most commonly used set of Material icons.",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2056,16 +2141,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.material:material-icons-core-android:1.7.6"
+    "dependency": "androidx.compose.material:material-icons-core-android:1.7.5"
   },
   {
     "project": "Compose Material Ripple",
     "description": "Material ripple used to build interactive components",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2073,16 +2158,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.material:material-ripple-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.material:material-ripple-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Material Ripple",
     "description": "Material ripple used to build interactive components",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2090,7 +2175,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.material:material-ripple-android:1.7.6"
+    "dependency": "androidx.compose.material:material-ripple-android:1.7.5"
   },
   {
     "project": "Compose Material3 Components",
@@ -2146,28 +2231,28 @@ dependencies = [
   {
     "project": "Compose Runtime",
     "description": "Tree composition support for code generated by the Compose compiler plugin and corresponding public API",
-    "version": "1.7.6",
+    "version": "1.7.0",
     "developers": [
-      "The Android Open Source Project"
+      "Compose Multiplatform Team"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.6",
-    "year": "2019",
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
     "licenses": [
       {
         "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.runtime:runtime-jvmstubs:1.7.6"
+    "dependency": "org.jetbrains.compose.runtime:runtime-desktop:1.7.0"
   },
   {
     "project": "Compose Runtime",
     "description": "Tree composition support for code generated by the Compose compiler plugin and corresponding public API",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -2175,16 +2260,50 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.runtime:runtime-android:1.7.6"
+    "dependency": "androidx.compose.runtime:runtime-jvmstubs:1.7.5"
+  },
+  {
+    "project": "Compose Runtime",
+    "description": "Tree composition support for code generated by the Compose compiler plugin and corresponding public API",
+    "version": "1.7.5",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.5",
+    "year": "2019",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.runtime:runtime-android:1.7.5"
   },
   {
     "project": "Compose Saveable",
     "description": "Compose components that allow saving and restoring the local ui state",
-    "version": "1.7.6",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.runtime:runtime-saveable-desktop:1.7.0"
+  },
+  {
+    "project": "Compose Saveable",
+    "description": "Compose components that allow saving and restoring the local ui state",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2192,16 +2311,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.runtime:runtime-saveable-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.runtime:runtime-saveable-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Saveable",
     "description": "Compose components that allow saving and restoring the local ui state",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-runtime#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2209,16 +2328,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.runtime:runtime-saveable-android:1.7.6"
+    "dependency": "androidx.compose.runtime:runtime-saveable-android:1.7.5"
   },
   {
     "project": "Compose UI",
     "description": "Compose UI primitives. This library contains the primitives that form the Compose UI Toolkit, such as drawing, measurement and layout.",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -2226,16 +2345,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.ui:ui-jvmstubs:1.7.5"
   },
   {
     "project": "Compose UI",
     "description": "Compose UI primitives. This library contains the primitives that form the Compose UI Toolkit, such as drawing, measurement and layout.",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -2243,16 +2362,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-android:1.7.6"
+    "dependency": "androidx.compose.ui:ui-android:1.7.5"
   },
   {
     "project": "Compose UI Preview Tooling",
     "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2021",
     "licenses": [
       {
@@ -2260,16 +2379,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-tooling-preview-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.ui:ui-tooling-preview-jvmstubs:1.7.5"
   },
   {
     "project": "Compose UI Preview Tooling",
     "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2021",
     "licenses": [
       {
@@ -2277,16 +2396,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-tooling-preview-android:1.7.6"
+    "dependency": "androidx.compose.ui:ui-tooling-preview-android:1.7.5"
+  },
+  {
+    "project": "Compose UI primitives",
+    "description": "Compose UI primitives. This library contains the primitives that form the Compose UI Toolkit, such as drawing, measurement and layout.",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.ui:ui-desktop:1.7.0"
   },
   {
     "project": "Compose UI Text",
     "description": "Compose Text primitives and utilities",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -2294,16 +2430,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-text-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.ui:ui-text-jvmstubs:1.7.5"
   },
   {
     "project": "Compose UI Text",
     "description": "Compose Text primitives and utilities",
-    "version": "1.7.6",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.ui:ui-text-desktop:1.7.0"
+  },
+  {
+    "project": "Compose UI Text",
+    "description": "Compose Text primitives and utilities",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2019",
     "licenses": [
       {
@@ -2311,33 +2464,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-text-android:1.7.6"
+    "dependency": "androidx.compose.ui:ui-text-android:1.7.5"
   },
   {
     "project": "Compose Unit",
     "description": "Compose classes for simple units",
-    "version": "1.7.6",
+    "version": "1.7.0",
     "developers": [
-      "The Android Open Source Project"
+      "Compose Multiplatform Team"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://github.com/JetBrains/compose-jb",
     "year": "2020",
     "licenses": [
       {
         "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-unit-jvmstubs:1.7.6"
+    "dependency": "org.jetbrains.compose.ui:ui-unit-desktop:1.7.0"
   },
   {
     "project": "Compose Unit",
     "description": "Compose classes for simple units",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2345,16 +2498,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-unit-android:1.7.6"
+    "dependency": "androidx.compose.ui:ui-unit-jvmstubs:1.7.5"
+  },
+  {
+    "project": "Compose Unit",
+    "description": "Compose classes for simple units",
+    "version": "1.7.5",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.compose.ui:ui-unit-android:1.7.5"
   },
   {
     "project": "Compose Util",
     "description": "Internal Compose utilities used by other modules",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2362,16 +2532,33 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-util-jvmstubs:1.7.6"
+    "dependency": "androidx.compose.ui:ui-util-jvmstubs:1.7.5"
   },
   {
     "project": "Compose Util",
     "description": "Internal Compose utilities used by other modules",
-    "version": "1.7.6",
+    "version": "1.7.0",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.compose.ui:ui-util-desktop:1.7.0"
+  },
+  {
+    "project": "Compose Util",
+    "description": "Internal Compose utilities used by other modules",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2379,16 +2566,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-util-android:1.7.6"
+    "dependency": "androidx.compose.ui:ui-util-android:1.7.5"
   },
   {
     "project": "Compose ViewBinding",
     "description": "Compose integration with ViewBinding",
-    "version": "1.7.6",
+    "version": "1.7.5",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.6",
+    "url": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.5",
     "year": "2020",
     "licenses": [
       {
@@ -2396,12 +2583,12 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.compose.ui:ui-viewbinding:1.7.6"
+    "dependency": "androidx.compose.ui:ui-viewbinding:1.7.5"
   },
   {
     "project": "configuration-dagger-staticdefaults",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2413,12 +2600,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:configuration-dagger-staticdefaults:30.1.0"
+    "dependency": "me.proton.core:configuration-dagger-staticdefaults:30.3.3"
   },
   {
     "project": "configuration-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2430,7 +2617,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:configuration-data:30.1.0"
+    "dependency": "me.proton.core:configuration-data:30.3.3"
   },
   {
     "project": "ConstraintLayout",
@@ -2535,7 +2722,7 @@ dependencies = [
   {
     "project": "country",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2547,12 +2734,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country:30.1.0"
+    "dependency": "me.proton.core:country:30.3.3"
   },
   {
     "project": "country-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2564,12 +2751,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country-dagger:30.1.0"
+    "dependency": "me.proton.core:country-dagger:30.3.3"
   },
   {
     "project": "country-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2581,12 +2768,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country-data:30.1.0"
+    "dependency": "me.proton.core:country-data:30.3.3"
   },
   {
     "project": "country-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2598,12 +2785,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country-domain:30.1.0"
+    "dependency": "me.proton.core:country-domain:30.3.3"
   },
   {
     "project": "country-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2615,12 +2802,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:country-presentation:30.1.0"
+    "dependency": "me.proton.core:country-presentation:30.3.3"
   },
   {
     "project": "crypto",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2632,12 +2819,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto:30.1.0"
+    "dependency": "me.proton.core:crypto:30.3.3"
   },
   {
     "project": "crypto-android",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2649,12 +2836,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-android:30.1.0"
+    "dependency": "me.proton.core:crypto-android:30.3.3"
   },
   {
     "project": "crypto-common",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2666,12 +2853,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-common:30.1.0"
+    "dependency": "me.proton.core:crypto-common:30.3.3"
   },
   {
     "project": "crypto-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2683,12 +2870,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-dagger:30.1.0"
+    "dependency": "me.proton.core:crypto-dagger:30.3.3"
   },
   {
     "project": "crypto-validator",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2700,12 +2887,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator:30.1.0"
+    "dependency": "me.proton.core:crypto-validator:30.3.3"
   },
   {
     "project": "crypto-validator-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2717,12 +2904,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator-dagger:30.1.0"
+    "dependency": "me.proton.core:crypto-validator-dagger:30.3.3"
   },
   {
     "project": "crypto-validator-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2734,12 +2921,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator-data:30.1.0"
+    "dependency": "me.proton.core:crypto-validator-data:30.3.3"
   },
   {
     "project": "crypto-validator-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2751,12 +2938,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator-domain:30.1.0"
+    "dependency": "me.proton.core:crypto-validator-domain:30.3.3"
   },
   {
     "project": "crypto-validator-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2768,7 +2955,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:crypto-validator-presentation:30.1.0"
+    "dependency": "me.proton.core:crypto-validator-presentation:30.3.3"
   },
   {
     "project": "Dagger",
@@ -2803,7 +2990,7 @@ dependencies = [
   {
     "project": "data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2815,12 +3002,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:data:30.1.0"
+    "dependency": "me.proton.core:data:30.3.3"
   },
   {
     "project": "data-room",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2832,7 +3019,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:data-room:30.1.0"
+    "dependency": "me.proton.core:data-room:30.3.3"
   },
   {
     "project": "DataStore",
@@ -2920,9 +3107,27 @@ dependencies = [
     "dependency": "androidx.datastore:datastore-core-okio-jvm:1.1.1"
   },
   {
+    "project": "dnsjava",
+    "description": "dnsjava is an implementation of DNS in Java. It supports all defined record types (including the DNSSEC\n        types), and unknown types. It can be used for queries, zone transfers, and dynamic updates. It includes a cache\n        which can be used by clients, and a minimal implementation of a server. It supports TSIG authenticated messages,\n        partial DNSSEC verification, and EDNS0.",
+    "version": "3.6.2",
+    "developers": [
+      "Brian Wellington",
+      "Ingo Bauersachs"
+    ],
+    "url": "https://github.com/dnsjava/dnsjava",
+    "year": null,
+    "licenses": [
+      {
+        "license": "BSD-3-Clause",
+        "license_url": "https://opensource.org/licenses/BSD-3-Clause"
+      }
+    ],
+    "dependency": "dnsjava:dnsjava:3.6.2"
+  },
+  {
     "project": "domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2934,7 +3139,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:domain:30.1.0"
+    "dependency": "me.proton.core:domain:30.3.3"
   },
   {
     "project": "error-prone annotations",
@@ -2954,7 +3159,7 @@ dependencies = [
   {
     "project": "event-manager",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2966,12 +3171,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:event-manager:30.1.0"
+    "dependency": "me.proton.core:event-manager:30.3.3"
   },
   {
     "project": "event-manager-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -2983,12 +3188,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:event-manager-dagger:30.1.0"
+    "dependency": "me.proton.core:event-manager-dagger:30.3.3"
   },
   {
     "project": "event-manager-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3000,12 +3205,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:event-manager-data:30.1.0"
+    "dependency": "me.proton.core:event-manager-data:30.3.3"
   },
   {
     "project": "event-manager-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3017,7 +3222,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:event-manager-domain:30.1.0"
+    "dependency": "me.proton.core:event-manager-domain:30.3.3"
   },
   {
     "project": "Experimental annotation",
@@ -3039,7 +3244,7 @@ dependencies = [
   {
     "project": "feature-flag",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3051,12 +3256,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:feature-flag:30.1.0"
+    "dependency": "me.proton.core:feature-flag:30.3.3"
   },
   {
     "project": "feature-flag-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3068,12 +3273,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:feature-flag-dagger:30.1.0"
+    "dependency": "me.proton.core:feature-flag-dagger:30.3.3"
   },
   {
     "project": "feature-flag-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3085,12 +3290,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:feature-flag-data:30.1.0"
+    "dependency": "me.proton.core:feature-flag-data:30.3.3"
   },
   {
     "project": "feature-flag-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3102,7 +3307,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:feature-flag-domain:30.1.0"
+    "dependency": "me.proton.core:feature-flag-domain:30.3.3"
   },
   {
     "project": "FindBugs-jsr305",
@@ -3214,6 +3419,125 @@ dependencies = [
       }
     ],
     "dependency": "androidx.fragment:fragment-ktx:1.8.5"
+  },
+  {
+    "project": "Glance",
+    "description": "Glance allows developers to build layouts for remote surfaces using a Jetpack Compose-style API.",
+    "version": "1.1.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/glance#1.1.1",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.glance:glance:1.1.1"
+  },
+  {
+    "project": "Glance AppWidget External Protobuf",
+    "description": "Repackaged proto-lite dependency for use by galnce",
+    "version": "1.1.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/glance#1.1.1",
+    "year": "2024",
+    "licenses": [
+      {
+        "license": "BSD-3-Clause",
+        "license_url": "https://opensource.org/licenses/BSD-3-Clause"
+      }
+    ],
+    "dependency": "androidx.glance:glance-appwidget-external-protobuf:1.1.1"
+  },
+  {
+    "project": "Glance AppWidget Preview",
+    "description": "Glance tooling library. This library provides the API required for the GlanceAppWidget components and its Glance @Composable to be previewable in the IDE.",
+    "version": "1.1.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/glance#1.1.1",
+    "year": "2022",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.glance:glance-appwidget-preview:1.1.1"
+  },
+  {
+    "project": "Glance AppWidget Protos",
+    "description": "Protos for use with glance app widgets.",
+    "version": "1.1.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/glance#1.1.1",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.glance:glance-appwidget-proto:1.1.1"
+  },
+  {
+    "project": "Glance For App Widgets",
+    "description": "Glance-appwidgets allows developers to build layouts for Android AppWidgets using a Jetpack Compose-style API.",
+    "version": "1.1.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/glance#1.1.1",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.glance:glance-appwidget:1.1.1"
+  },
+  {
+    "project": "Glance Material",
+    "description": "Glance Material integration library. This library provides interop APIs with Material 3.",
+    "version": "1.1.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/glance#1.1.1",
+    "year": "2022",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.glance:glance-material3:1.1.1"
+  },
+  {
+    "project": "Glance Preview",
+    "description": "Glance preview library. This library provides the API required for marking theglance @Composable components that should have preview in the Android Studio.",
+    "version": "1.1.1",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/glance#1.1.1",
+    "year": "2022",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.glance:glance-preview:1.1.1"
   },
   {
     "project": "Glide",
@@ -3442,7 +3766,7 @@ dependencies = [
   {
     "project": "human-verification-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3454,12 +3778,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:human-verification-data:30.1.0"
+    "dependency": "me.proton.core:human-verification-data:30.3.3"
   },
   {
     "project": "human-verification-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3471,12 +3795,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:human-verification-domain:30.1.0"
+    "dependency": "me.proton.core:human-verification-domain:30.3.3"
   },
   {
     "project": "human-verification-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3488,7 +3812,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:human-verification-presentation:30.1.0"
+    "dependency": "me.proton.core:human-verification-presentation:30.3.3"
   },
   {
     "project": "IPAddress",
@@ -3506,6 +3830,28 @@ dependencies = [
       }
     ],
     "dependency": "com.github.seancfoley:ipaddress:5.5.1"
+  },
+  {
+    "project": "Java Native Access",
+    "description": "Java Native Access",
+    "version": "5.13.0",
+    "developers": [
+      "Timothy Wall",
+      "Matthias Bläsing"
+    ],
+    "url": "https://github.com/java-native-access/jna",
+    "year": null,
+    "licenses": [
+      {
+        "license": "LGPL-2.1-or-later",
+        "license_url": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1"
+      },
+      {
+        "license": "Apache-2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "net.java.dev.jna:jna:5.13.0"
   },
   {
     "project": "javax.inject",
@@ -3559,7 +3905,7 @@ dependencies = [
   {
     "project": "key",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3571,12 +3917,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key:30.1.0"
+    "dependency": "me.proton.core:key:30.3.3"
   },
   {
     "project": "key-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3588,12 +3934,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key-dagger:30.1.0"
+    "dependency": "me.proton.core:key-dagger:30.3.3"
   },
   {
     "project": "key-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3605,12 +3951,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key-data:30.1.0"
+    "dependency": "me.proton.core:key-data:30.3.3"
   },
   {
     "project": "key-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -3622,7 +3968,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:key-domain:30.1.0"
+    "dependency": "me.proton.core:key-domain:30.3.3"
   },
   {
     "project": "Kotlin Android Extensions Runtime",
@@ -3640,6 +3986,23 @@ dependencies = [
       }
     ],
     "dependency": "org.jetbrains.kotlin:kotlin-android-extensions-runtime:2.0.21"
+  },
+  {
+    "project": "Kotlin Reflect",
+    "description": "Kotlin Full Reflection Library",
+    "version": "2.0.21",
+    "developers": [
+      "Kotlin Team"
+    ],
+    "url": "https://kotlinlang.org/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.kotlin:kotlin-reflect:2.0.21"
   },
   {
     "project": "Kotlin Stdlib",
@@ -3882,6 +4245,23 @@ dependencies = [
   {
     "project": "Lifecycle Runtime Compose",
     "description": "Compose integration with Lifecycle",
+    "version": "2.8.3",
+    "developers": [
+      "Compose Multiplatform Team"
+    ],
+    "url": "https://github.com/JetBrains/compose-jb",
+    "year": "2020",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose-desktop:2.8.3"
+  },
+  {
+    "project": "Lifecycle Runtime Compose",
+    "description": "Compose integration with Lifecycle",
     "version": "2.8.7",
     "developers": [
       "The Android Open Source Project"
@@ -3945,7 +4325,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel-desktop:2.8.7"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel:2.8.7"
   },
   {
     "project": "Lifecycle ViewModel",
@@ -3962,7 +4342,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.lifecycle:lifecycle-viewmodel:2.8.7"
+    "dependency": "androidx.lifecycle:lifecycle-viewmodel-desktop:2.8.7"
   },
   {
     "project": "Lifecycle ViewModel",
@@ -4098,7 +4478,7 @@ dependencies = [
         "license_url": "https://api.github.com/licenses/mit"
       }
     ],
-    "dependency": "com.github.lisawray.groupie:groupie-viewbinding:2.10.0"
+    "dependency": "com.github.lisawray.groupie:groupie:2.10.0"
   },
   {
     "project": "lisawray/groupie",
@@ -4115,7 +4495,7 @@ dependencies = [
         "license_url": "https://api.github.com/licenses/mit"
       }
     ],
-    "dependency": "com.github.lisawray.groupie:groupie:2.10.0"
+    "dependency": "com.github.lisawray.groupie:groupie-viewbinding:2.10.0"
   },
   {
     "project": "LiveData Core Kotlin Extensions",
@@ -4222,7 +4602,7 @@ dependencies = [
   {
     "project": "me.proton.vpn:go-vpn-lib",
     "description": "Go library with shared code for ProtonVPN clients",
-    "version": "0.1.47",
+    "version": "0.1.61",
     "developers": [
       "Open Source Proton"
     ],
@@ -4234,7 +4614,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.vpn:go-vpn-lib:0.1.47"
+    "dependency": "me.proton.vpn:go-vpn-lib:0.1.61"
   },
   {
     "project": "minidns",
@@ -4357,43 +4737,9 @@ dependencies = [
     "dependency": "androidx.navigation:navigation-runtime-ktx:2.8.5"
   },
   {
-    "project": "network",
-    "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:network:30.1.0"
-  },
-  {
-    "project": "network-dagger",
-    "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
-    "developers": [
-      "Open Source Proton"
-    ],
-    "url": "https://github.com/ProtonMail/protoncore_android",
-    "year": null,
-    "licenses": [
-      {
-        "license": "GNU GENERAL PUBLIC LICENSE, Version 3.0",
-        "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
-      }
-    ],
-    "dependency": "me.proton.core:network-dagger:30.1.0"
-  },
-  {
     "project": "network-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4405,12 +4751,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-data:30.1.0"
+    "dependency": "me.proton.core:network-data:30.3.3"
   },
   {
     "project": "network-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4422,12 +4768,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-domain:30.1.0"
+    "dependency": "me.proton.core:network-domain:30.3.3"
   },
   {
     "project": "network-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4439,12 +4785,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:network-presentation:30.1.0"
+    "dependency": "me.proton.core:network-presentation:30.3.3"
   },
   {
     "project": "notification-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4456,12 +4802,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:notification-data:30.1.0"
+    "dependency": "me.proton.core:notification-data:30.3.3"
   },
   {
     "project": "notification-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4473,12 +4819,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:notification-domain:30.1.0"
+    "dependency": "me.proton.core:notification-domain:30.3.3"
   },
   {
     "project": "notification-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4490,12 +4836,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:notification-presentation:30.1.0"
+    "dependency": "me.proton.core:notification-presentation:30.3.3"
   },
   {
     "project": "observability",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4507,12 +4853,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:observability:30.1.0"
+    "dependency": "me.proton.core:observability:30.3.3"
   },
   {
     "project": "observability-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4524,12 +4870,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:observability-dagger:30.1.0"
+    "dependency": "me.proton.core:observability-dagger:30.3.3"
   },
   {
     "project": "observability-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4541,12 +4887,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:observability-data:30.1.0"
+    "dependency": "me.proton.core:observability-data:30.3.3"
   },
   {
     "project": "observability-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4558,7 +4904,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:observability-domain:30.1.0"
+    "dependency": "me.proton.core:observability-domain:30.3.3"
   },
   {
     "project": "okhttp",
@@ -4631,7 +4977,7 @@ dependencies = [
   {
     "project": "payment",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4643,12 +4989,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment:30.1.0"
+    "dependency": "me.proton.core:payment:30.3.3"
   },
   {
     "project": "payment-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4660,12 +5006,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-dagger:30.1.0"
+    "dependency": "me.proton.core:payment-dagger:30.3.3"
   },
   {
     "project": "payment-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4677,12 +5023,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-data:30.1.0"
+    "dependency": "me.proton.core:payment-data:30.3.3"
   },
   {
     "project": "payment-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4694,12 +5040,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-domain:30.1.0"
+    "dependency": "me.proton.core:payment-domain:30.3.3"
   },
   {
     "project": "payment-iap",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4711,12 +5057,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-iap:30.1.0"
+    "dependency": "me.proton.core:payment-iap:30.3.3"
   },
   {
     "project": "payment-iap-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4728,12 +5074,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-iap-dagger:30.1.0"
+    "dependency": "me.proton.core:payment-iap-dagger:30.3.3"
   },
   {
     "project": "payment-iap-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4745,12 +5091,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-iap-data:30.1.0"
+    "dependency": "me.proton.core:payment-iap-data:30.3.3"
   },
   {
     "project": "payment-iap-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4762,12 +5108,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-iap-domain:30.1.0"
+    "dependency": "me.proton.core:payment-iap-domain:30.3.3"
   },
   {
     "project": "payment-iap-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4779,12 +5125,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-iap-presentation:30.1.0"
+    "dependency": "me.proton.core:payment-iap-presentation:30.3.3"
   },
   {
     "project": "payment-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4796,12 +5142,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:payment-presentation:30.1.0"
+    "dependency": "me.proton.core:payment-presentation:30.3.3"
   },
   {
     "project": "plan",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4813,12 +5159,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan:30.1.0"
+    "dependency": "me.proton.core:plan:30.3.3"
   },
   {
     "project": "plan-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4830,12 +5176,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan-dagger:30.1.0"
+    "dependency": "me.proton.core:plan-dagger:30.3.3"
   },
   {
     "project": "plan-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4847,12 +5193,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan-data:30.1.0"
+    "dependency": "me.proton.core:plan-data:30.3.3"
   },
   {
     "project": "plan-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4864,12 +5210,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan-domain:30.1.0"
+    "dependency": "me.proton.core:plan-domain:30.3.3"
   },
   {
     "project": "plan-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -4881,7 +5227,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:plan-presentation:30.1.0"
+    "dependency": "me.proton.core:plan-presentation:30.3.3"
   },
   {
     "project": "play-services-base",
@@ -4916,7 +5262,7 @@ dependencies = [
   {
     "project": "play-services-fido",
     "description": null,
-    "version": "21.0.0",
+    "version": "21.1.0",
     "developers": [],
     "url": null,
     "year": null,
@@ -4926,7 +5272,7 @@ dependencies = [
         "license_url": "https://developer.android.com/studio/terms.html"
       }
     ],
-    "dependency": "com.google.android.gms:play-services-fido:21.0.0"
+    "dependency": "com.google.android.gms:play-services-fido:21.1.0"
   },
   {
     "project": "play-services-location",
@@ -5027,7 +5373,7 @@ dependencies = [
   {
     "project": "presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5039,12 +5385,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:presentation:30.1.0"
+    "dependency": "me.proton.core:presentation:30.3.3"
   },
   {
     "project": "presentation-compose",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5056,12 +5402,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:presentation-compose:30.1.0"
+    "dependency": "me.proton.core:presentation-compose:30.3.3"
   },
   {
     "project": "presentation-compose-tv",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5073,7 +5419,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:presentation-compose-tv:30.1.0"
+    "dependency": "me.proton.core:presentation-compose-tv:30.3.3"
   },
   {
     "project": "Profile Installer",
@@ -5095,7 +5441,7 @@ dependencies = [
   {
     "project": "push",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5107,12 +5453,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:push:30.1.0"
+    "dependency": "me.proton.core:push:30.3.3"
   },
   {
     "project": "push-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5124,12 +5470,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:push-dagger:30.1.0"
+    "dependency": "me.proton.core:push-dagger:30.3.3"
   },
   {
     "project": "push-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5141,12 +5487,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:push-data:30.1.0"
+    "dependency": "me.proton.core:push-data:30.3.3"
   },
   {
     "project": "push-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5158,7 +5504,58 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:push-domain:30.1.0"
+    "dependency": "me.proton.core:push-domain:30.3.3"
+  },
+  {
+    "project": "RemoteViews",
+    "description": "AndroidX RemoteViews Support",
+    "version": "1.1.0",
+    "developers": [
+      "The Android Open Source Project"
+    ],
+    "url": "https://developer.android.com/jetpack/androidx/releases/core#1.1.0",
+    "year": "2021",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "androidx.core:core-remoteviews:1.1.0"
+  },
+  {
+    "project": "Reorderable",
+    "description": "A library for reordering items in a LazyColumn",
+    "version": "2.4.3",
+    "developers": [
+      "Calvin Liang"
+    ],
+    "url": "https://github.com/Calvin-LL/Reorderable",
+    "year": "2023",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "sh.calvin.reorderable:reorderable-jvm:2.4.3"
+  },
+  {
+    "project": "Reorderable",
+    "description": "A library for reordering items in a LazyColumn",
+    "version": "2.4.3",
+    "developers": [
+      "Calvin Liang"
+    ],
+    "url": "https://github.com/Calvin-LL/Reorderable",
+    "year": "2023",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "sh.calvin.reorderable:reorderable-android:2.4.3"
   },
   {
     "project": "Retrofit",
@@ -5324,7 +5721,7 @@ dependencies = [
         "license_url": "http://www.opensource.org/licenses/mit-license.php"
       }
     ],
-    "dependency": "io.sentry:sentry-android-ndk:6.34.0"
+    "dependency": "io.sentry:sentry-android:6.34.0"
   },
   {
     "project": "Sentry SDK",
@@ -5341,7 +5738,7 @@ dependencies = [
         "license_url": "http://www.opensource.org/licenses/mit-license.php"
       }
     ],
-    "dependency": "io.sentry:sentry-android-core:6.34.0"
+    "dependency": "io.sentry:sentry-android-ndk:6.34.0"
   },
   {
     "project": "Sentry SDK",
@@ -5375,7 +5772,7 @@ dependencies = [
         "license_url": "http://www.opensource.org/licenses/mit-license.php"
       }
     ],
-    "dependency": "io.sentry:sentry-android:6.34.0"
+    "dependency": "io.sentry:sentry-android-core:6.34.0"
   },
   {
     "project": "SLF4J API Module",
@@ -5458,41 +5855,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "co.touchlab:stately-iso-collections-jvm:1.2.2"
-  },
-  {
-    "project": "Stately",
-    "description": "Multithreaded Kotlin Multiplatform Utilities",
-    "version": "1.2.2",
-    "developers": [
-      "Kevin Galligan"
-    ],
-    "url": "https://github.com/touchlab/Stately",
-    "year": null,
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
     "dependency": "co.touchlab:stately-concurrency-jvm:1.2.2"
-  },
-  {
-    "project": "Stately",
-    "description": "Multithreaded Kotlin Multiplatform Utilities",
-    "version": "1.2.2",
-    "developers": [
-      "Kevin Galligan"
-    ],
-    "url": "https://github.com/touchlab/Stately",
-    "year": null,
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "co.touchlab:stately-common-jvm:1.2.2"
   },
   {
     "project": "Stately",
@@ -5512,6 +5875,40 @@ dependencies = [
     "dependency": "co.touchlab:stately-isolate-jvm:1.2.2"
   },
   {
+    "project": "Stately",
+    "description": "Multithreaded Kotlin Multiplatform Utilities",
+    "version": "1.2.2",
+    "developers": [
+      "Kevin Galligan"
+    ],
+    "url": "https://github.com/touchlab/Stately",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "co.touchlab:stately-iso-collections-jvm:1.2.2"
+  },
+  {
+    "project": "Stately",
+    "description": "Multithreaded Kotlin Multiplatform Utilities",
+    "version": "1.2.2",
+    "developers": [
+      "Kevin Galligan"
+    ],
+    "url": "https://github.com/touchlab/Stately",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "co.touchlab:stately-common-jvm:1.2.2"
+  },
+  {
     "project": "swagger-annotations",
     "description": "swagger-annotations",
     "version": "2.2.7",
@@ -5529,7 +5926,7 @@ dependencies = [
   {
     "project": "telemetry-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5541,12 +5938,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:telemetry-data:30.1.0"
+    "dependency": "me.proton.core:telemetry-data:30.3.3"
   },
   {
     "project": "telemetry-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5558,12 +5955,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:telemetry-domain:30.1.0"
+    "dependency": "me.proton.core:telemetry-domain:30.3.3"
   },
   {
     "project": "telemetry-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5575,7 +5972,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:telemetry-presentation:30.1.0"
+    "dependency": "me.proton.core:telemetry-presentation:30.3.3"
   },
   {
     "project": "Timber",
@@ -5710,7 +6107,7 @@ dependencies = [
   {
     "project": "user",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5722,12 +6119,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user:30.1.0"
+    "dependency": "me.proton.core:user:30.3.3"
   },
   {
     "project": "user-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5739,12 +6136,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-dagger:30.1.0"
+    "dependency": "me.proton.core:user-dagger:30.3.3"
   },
   {
     "project": "user-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5756,12 +6153,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-data:30.1.0"
+    "dependency": "me.proton.core:user-data:30.3.3"
   },
   {
     "project": "user-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5773,12 +6170,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-domain:30.1.0"
+    "dependency": "me.proton.core:user-domain:30.3.3"
   },
   {
     "project": "user-recovery",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5790,12 +6187,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-recovery:30.1.0"
+    "dependency": "me.proton.core:user-recovery:30.3.3"
   },
   {
     "project": "user-recovery-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5807,12 +6204,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-recovery-dagger:30.1.0"
+    "dependency": "me.proton.core:user-recovery-dagger:30.3.3"
   },
   {
     "project": "user-recovery-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5824,12 +6221,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-recovery-data:30.1.0"
+    "dependency": "me.proton.core:user-recovery-data:30.3.3"
   },
   {
     "project": "user-recovery-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5841,12 +6238,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-recovery-domain:30.1.0"
+    "dependency": "me.proton.core:user-recovery-domain:30.3.3"
   },
   {
     "project": "user-recovery-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5858,12 +6255,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-recovery-presentation:30.1.0"
+    "dependency": "me.proton.core:user-recovery-presentation:30.3.3"
   },
   {
     "project": "user-recovery-presentation-compose",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5875,12 +6272,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-recovery-presentation-compose:30.1.0"
+    "dependency": "me.proton.core:user-recovery-presentation-compose:30.3.3"
   },
   {
     "project": "user-settings",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5892,12 +6289,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-settings:30.1.0"
+    "dependency": "me.proton.core:user-settings:30.3.3"
   },
   {
     "project": "user-settings-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5909,12 +6306,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-settings-dagger:30.1.0"
+    "dependency": "me.proton.core:user-settings-dagger:30.3.3"
   },
   {
     "project": "user-settings-data",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5926,12 +6323,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-settings-data:30.1.0"
+    "dependency": "me.proton.core:user-settings-data:30.3.3"
   },
   {
     "project": "user-settings-domain",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5943,12 +6340,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-settings-domain:30.1.0"
+    "dependency": "me.proton.core:user-settings-domain:30.3.3"
   },
   {
     "project": "user-settings-presentation",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5960,12 +6357,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-settings-presentation:30.1.0"
+    "dependency": "me.proton.core:user-settings-presentation:30.3.3"
   },
   {
     "project": "user-settings-presentation-compose",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5977,12 +6374,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:user-settings-presentation-compose:30.1.0"
+    "dependency": "me.proton.core:user-settings-presentation-compose:30.3.3"
   },
   {
     "project": "util-android-dagger",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -5994,12 +6391,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-android-dagger:30.1.0"
+    "dependency": "me.proton.core:util-android-dagger:30.3.3"
   },
   {
     "project": "util-android-datetime",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -6011,12 +6408,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-android-datetime:30.1.0"
+    "dependency": "me.proton.core:util-android-datetime:30.3.3"
   },
   {
     "project": "util-android-device",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -6028,12 +6425,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-android-device:30.1.0"
+    "dependency": "me.proton.core:util-android-device:30.3.3"
   },
   {
     "project": "util-android-sentry",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -6045,12 +6442,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-android-sentry:30.1.0"
+    "dependency": "me.proton.core:util-android-sentry:30.3.3"
   },
   {
     "project": "util-android-shared-preferences",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -6062,12 +6459,12 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-android-shared-preferences:30.1.0"
+    "dependency": "me.proton.core:util-android-shared-preferences:30.3.3"
   },
   {
     "project": "util-kotlin",
     "description": "Proton Core libraries for Android",
-    "version": "30.1.0",
+    "version": "30.3.3",
     "developers": [
       "Open Source Proton"
     ],
@@ -6079,7 +6476,7 @@ dependencies = [
         "license_url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
       }
     ],
-    "dependency": "me.proton.core:util-kotlin:30.1.0"
+    "dependency": "me.proton.core:util-kotlin:30.3.3"
   },
   {
     "project": "VectorDrawable",
@@ -6131,7 +6528,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.patrykandpatrick.vico:core:2.0.0-alpha.14"
+    "dependency": "com.patrykandpatrick.vico:compose:2.0.0-alpha.14"
   },
   {
     "project": "Vico",
@@ -6149,7 +6546,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.patrykandpatrick.vico:compose:2.0.0-alpha.14"
+    "dependency": "com.patrykandpatrick.vico:core:2.0.0-alpha.14"
   },
   {
     "project": "viewbinding",
@@ -6203,7 +6600,7 @@ dependencies = [
   {
     "project": "WireGuard Tunnel Library",
     "description": "Embeddable tunnel library for WireGuard for Android",
-    "version": "1.0.20230512.24",
+    "version": "1.0.20230512.28",
     "developers": [
       "WireGuard",
       "Open Source Proton"
@@ -6216,7 +6613,7 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "me.proton.vpn:wireguard-android:1.0.20230512.24"
+    "dependency": "me.proton.vpn:wireguard-android:1.0.20230512.28"
   },
   {
     "project": "WorkManager Hilt Extension",
@@ -6238,11 +6635,11 @@ dependencies = [
   {
     "project": "WorkManager Kotlin Extensions",
     "description": "Android WorkManager Kotlin Extensions",
-    "version": "2.10.0",
+    "version": "2.9.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/work#2.10.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/work#2.9.1",
     "year": "2018",
     "licenses": [
       {
@@ -6250,16 +6647,16 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.work:work-runtime-ktx:2.10.0"
+    "dependency": "androidx.work:work-runtime-ktx:2.9.1"
   },
   {
     "project": "WorkManager Runtime",
     "description": "Android WorkManager runtime library",
-    "version": "2.10.0",
+    "version": "2.9.1",
     "developers": [
       "The Android Open Source Project"
     ],
-    "url": "https://developer.android.com/jetpack/androidx/releases/work#2.10.0",
+    "url": "https://developer.android.com/jetpack/androidx/releases/work#2.9.1",
     "year": "2018",
     "licenses": [
       {
@@ -6267,6 +6664,6 @@ dependencies = [
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "androidx.work:work-runtime:2.10.0"
+    "dependency": "androidx.work:work-runtime:2.9.1"
   }
 ]
