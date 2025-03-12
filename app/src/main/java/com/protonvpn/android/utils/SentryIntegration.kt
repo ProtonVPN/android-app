@@ -79,7 +79,7 @@ object SentryIntegration {
             options.isEnableActivityLifecycleBreadcrumbs = false // We log our own breadcrumbs.
             options.isEnableUserInteractionBreadcrumbs = false
             options.isEnableFramesTracking = false
-            options.isAnrEnabled = false
+            options.isAnrEnabled = Build.VERSION.SDK_INT >= 11 // Only report with the ApplicationExitInfo mechanism.
             options.maxBreadcrumbs = 300
             options.setBeforeSend { event, _ ->
                 val deps = EntryPointAccessors.fromApplication(application, HiltEntryPoint::class.java)
