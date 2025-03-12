@@ -179,6 +179,8 @@ fun SettingDescription(
             annotatedPart = descriptionAnnotation.annotatedPart,
             onAnnotatedClick = descriptionAnnotation.onAnnotatedClick,
             onAnnotatedOutsideClick = descriptionAnnotation.onAnnotatedOutsideClick,
+            style = ProtonTheme.typography.body2Regular,
+            annotatedStyle = ProtonTheme.typography.body2Medium,
             modifier = modifier
         )
     } else {
