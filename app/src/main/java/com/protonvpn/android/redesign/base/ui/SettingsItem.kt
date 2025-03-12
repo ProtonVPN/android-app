@@ -149,7 +149,12 @@ fun SettingsValueItem(
     SettingsItemScaffold(
         name,
         modifier = itemModifier,
-        titleTrailing = settingValue?.let { { InlineSettingValue(settingValue) } },
+        titleTrailing = {
+            when {
+                needsUpgrade -> IconNeedsUpgrade()
+                settingValue != null -> { InlineSettingValue(settingValue) }
+            }
+        },
         description = description?.let {
             { SettingDescription(it, descriptionAnnotation, modifier = Modifier.padding(end = 8.dp)) }
         }
