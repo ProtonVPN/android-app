@@ -84,6 +84,7 @@ class ConnectionParamsOpenVpn(
             val splitV4 = allowedIPs4 != listOf("0.0.0.0/0".toIPAddress())
             val splitV6 = allowedIPs6 != listOf("::/0".toIPAddress())
             if (splitV4 || splitV6) {
+                mUseCustomConfig = true
                 mCustomConfigOptions += "pull-filter ignore \"redirect-gateway\"\n"
                 mUseDefaultRoute = false
                 mUseDefaultRoutev6 = false
