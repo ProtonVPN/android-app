@@ -816,6 +816,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$androidx_lifecycle_version"
     implementation "androidx.navigation:navigation-compose:$composeNavigationVersion"
     implementation 'com.google.accompanist:accompanist-systemuicontroller:0.36.0'
+    implementation 'sh.calvin.reorderable:reorderable:2.4.3'
 
     implementation 'androidx.constraintlayout:constraintlayout-compose-android:1.1.0'
 
