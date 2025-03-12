@@ -53,7 +53,7 @@ import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.userstorage.LocalDataStoreFactory
 import com.protonvpn.android.utils.SharedPreferencesProvider
 import com.protonvpn.android.vpn.CertificateRepository
-import com.protonvpn.android.vpn.IsCustomDnsEnabled
+import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.LocalAgentUnreachableTracker
 import com.protonvpn.android.vpn.NetworkCapabilitiesFlow
 import com.protonvpn.android.vpn.ProtonVpnBackendProvider
@@ -281,7 +281,7 @@ class SharedTestAppModule {
     fun provideNewProfilesMvpEnabled(): NewProfilesMvpEnabled = FakeNewProfilesMvpEnabled(true)
 
     @Provides
-    fun provideCustomDnsEnabled(): IsCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
+    fun provideCustomDnsEnabled(): IsCustomDnsFeatureFlagEnabled = FakeIsCustomDnsEnabled(true)
 
     @Module
     @TestInstallIn(

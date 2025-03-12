@@ -45,7 +45,7 @@ fun SettingsToggleItem(
             ClickableTextAnnotation(
                 annotatedPart = stringResource(it),
                 onAnnotatedClick = onAnnotatedClick,
-                onAnnotatedOutsideClick = onToggle
+                onAnnotatedOutsideClick = if (isRestricted) onRestricted else onToggle
             )
         },
         onToggle = onToggle,

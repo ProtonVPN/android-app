@@ -28,6 +28,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -40,6 +41,7 @@ fun AnnotatedClickableText(
     onAnnotatedOutsideClick: (() -> Unit)? = null,
     style: TextStyle = TextStyle.Default,
     annotatedStyle: TextStyle = TextStyle.Default,
+    textAlign: TextAlign = TextAlign.Start,
     color: Color = Color.Unspecified,
 ) {
     val annotatedString = buildAnnotatedString {
@@ -72,7 +74,10 @@ fun AnnotatedClickableText(
             LocalContentColor.current
         }
     }
-    val textStyle = style.merge(color = textColor)
+    val textStyle = style.merge(
+        color = textColor,
+        textAlign = textAlign
+    )
     ClickableText(
         text = annotatedString,
         style = textStyle,

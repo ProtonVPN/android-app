@@ -172,6 +172,7 @@ enum class OverrideType(@StringRes val stringRes: Int) {
     LAN(R.string.settings_advanced_allow_lan_title),
     NatType(R.string.settings_advanced_nat_type_title),
     NetShield(R.string.settings_netshield_title),
+    CustomDns(R.string.settings_custom_dns_title),
     Protocol(R.string.settings_protocol_title),
 }
 

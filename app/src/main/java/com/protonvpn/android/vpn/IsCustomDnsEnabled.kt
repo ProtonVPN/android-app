@@ -27,10 +27,10 @@ import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
 import javax.inject.Inject
 
-interface IsCustomDnsEnabled : VpnFeatureFlag
+interface IsCustomDnsFeatureFlagEnabled : VpnFeatureFlag
 
 @Reusable
-class IsCustomDnsEnabledImpl @Inject constructor(
+class IsCustomDnsFeatureFlagEnabledImpl @Inject constructor(
     currentUser: CurrentUser,
     featureFlagManager: FeatureFlagManager
-) : IsCustomDnsEnabled, VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("CustomDNS"))
+) : IsCustomDnsFeatureFlagEnabled, VpnFeatureFlagImpl(currentUser, featureFlagManager, FeatureId("CustomDNS"))

@@ -45,6 +45,7 @@ class DontShowAgainStore @Inject constructor(
     enum class Type {
         SignOutWhileConnected,
         ProtocolChangeWhenConnected,
+        DnsChangeWhenConnected,
         SplitTunnelingChangeWhenConnected,
         LanConnectionsChangeWhenConnected,
         IPv6ChangeWhenConnected,

@@ -48,6 +48,7 @@ import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
+import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -145,12 +146,12 @@ class SettingsViewModelTests {
         }
         val getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags()))
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
-
+        val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
         settingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
         )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
-            settingsManager.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, mockIsTvCheck, restrictionsFlow, isIPv6FeatureFlagEnabled
+            settingsManager.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, mockIsTvCheck, restrictionsFlow, isIPv6FeatureFlagEnabled, isCustomDnsEnabled
         )
         effectiveSettings = EffectiveCurrentUserSettings(
             testScope.backgroundScope, effectiveCurrentUserSettingsFlow
@@ -174,6 +175,7 @@ class SettingsViewModelTests {
             mockWidgetManager,
             prefs,
             isIPv6FeatureFlagEnabled,
+            isCustomDnsEnabled
         )
     }
 

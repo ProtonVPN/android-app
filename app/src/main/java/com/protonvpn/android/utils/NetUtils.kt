@@ -19,6 +19,8 @@
 package com.protonvpn.android.utils
 
 import com.protonvpn.android.BuildConfig
+import inet.ipaddr.IPAddressString
+import inet.ipaddr.IPAddressStringParameters
 import me.proton.core.network.domain.ApiResult
 import java.io.ByteArrayOutputStream
 import java.io.DataOutputStream
@@ -57,6 +59,26 @@ object NetUtils {
         return byteStream.toByteArray()
     }
 }
+
+private val ipStringParams = IPAddressStringParameters.Builder()
+    .allowSingleSegment(false)
+    .allowMask(false)
+    .allowPrefixOnly(false)
+    .allowEmpty(false)
+    .allowWildcardedSeparator(false)
+    .allow_inet_aton(false)
+    .toParams()
+
+
+fun String.isValidIp(allowIpv6: Boolean = true): Boolean =
+    this.isNotBlank()
+            && with(IPAddressString(this, ipStringParams)) {
+        isValid && !isPrefixed && (allowIpv6 || isIPv4)
+    }
+
+
+fun String.isIPv6(): Boolean =
+    this.isNotBlank() && IPAddressString(this).isIPv6
 
 fun jitterMs(
     baseMs: Long,

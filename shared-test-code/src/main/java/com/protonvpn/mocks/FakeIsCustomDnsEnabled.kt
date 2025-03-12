@@ -20,6 +20,6 @@
 package com.protonvpn.mocks
 
 import com.protonvpn.android.base.data.FakeVpnFeatureFlag
-import com.protonvpn.android.vpn.IsCustomDnsEnabled
+import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 
-class FakeIsCustomDnsEnabled(enabled: Boolean) : IsCustomDnsEnabled, FakeVpnFeatureFlag(enabled)
+class FakeIsCustomDnsEnabled(enabled: Boolean) : IsCustomDnsFeatureFlagEnabled, FakeVpnFeatureFlag(enabled)
