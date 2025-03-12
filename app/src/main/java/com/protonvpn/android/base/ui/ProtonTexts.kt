@@ -39,6 +39,7 @@ fun AnnotatedClickableText(
     modifier: Modifier = Modifier,
     onAnnotatedOutsideClick: (() -> Unit)? = null,
     style: TextStyle = ProtonTheme.typography.body1Regular,
+    annotatedStyle: TextStyle = ProtonTheme.typography.body1Medium,
     color: Color = Color.Unspecified,
 ) {
     val annotatedString = buildAnnotatedString {
@@ -48,11 +49,12 @@ fun AnnotatedClickableText(
         append(fullText)
 
         if (startIndex >= 0) {
+            val linkSpanStyle = SpanStyle(
+                color = ProtonTheme.colors.textAccent,
+                textDecoration = TextDecoration.None
+            )
             addStyle(
-                style = SpanStyle(
-                    color = ProtonTheme.colors.textAccent,
-                    textDecoration = TextDecoration.None
-                ),
+                style = linkSpanStyle.merge(annotatedStyle.toSpanStyle()),
                 start = startIndex,
                 end = endIndex
             )

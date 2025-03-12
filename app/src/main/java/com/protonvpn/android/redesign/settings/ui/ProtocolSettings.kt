@@ -60,6 +60,7 @@ fun ProtocolSettings(
                 annotatedPart = stringResource(protocolViewState.annotationRes),
                 onAnnotatedClick = onLearnMore,
                 style = ProtonTheme.typography.body2Regular,
+                annotatedStyle = ProtonTheme.typography.body2Medium,
                 color = ProtonTheme.colors.textWeak,
                 modifier = footerPadding,
             )

@@ -46,6 +46,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -209,6 +210,7 @@ fun NetShieldBottomComposable(
             onAnnotatedOutsideClick = null,
             modifier = Modifier.padding(vertical = 8.dp),
             style = ProtonTheme.typography.body2Regular,
+            annotatedStyle = ProtonTheme.typography.body2Medium,
             color = ProtonTheme.colors.textWeak,
         )
 

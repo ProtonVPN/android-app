@@ -143,6 +143,7 @@ fun IconSelectionScreen(
         )
         AnnotatedClickableText(
             style = ProtonTheme.typography.body2Regular,
+            annotatedStyle = ProtonTheme.typography.body2Medium,
             color = ProtonTheme.colors.textWeak,
             onAnnotatedClick = { context.openUrl(Constants.CHANGE_ICON_URL) },
             annotatedPart = stringResource(id = R.string.settings_icon_change_learn_more),
@@ -220,4 +221,3 @@ fun AppIcon(
         contentScale = ContentScale.Crop
     )
 }
-
