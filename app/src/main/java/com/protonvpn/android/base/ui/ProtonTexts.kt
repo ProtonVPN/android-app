@@ -38,8 +38,8 @@ fun AnnotatedClickableText(
     onAnnotatedClick: () -> Unit,
     modifier: Modifier = Modifier,
     onAnnotatedOutsideClick: (() -> Unit)? = null,
-    style: TextStyle = ProtonTheme.typography.body1Regular,
-    annotatedStyle: TextStyle = ProtonTheme.typography.body1Medium,
+    style: TextStyle = TextStyle.Default,
+    annotatedStyle: TextStyle = TextStyle.Default,
     color: Color = Color.Unspecified,
 ) {
     val annotatedString = buildAnnotatedString {
