@@ -54,6 +54,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.base.ui.ProtonVpnPreview
+import com.protonvpn.android.base.ui.SettingsFeatureToggle
 import com.protonvpn.android.base.ui.volumeBytesToString
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
@@ -183,23 +184,14 @@ fun NetShieldBottomComposable(
 
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.toggleable(
-                value = switchEnabled,
-                role = Role.Switch,
-                onValueChange = { isEnabled ->
-                    onValueChanged(if (isEnabled) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED)
-                }
-            )
-        ) {
-            androidx.compose.material.Text(
-                text = stringResource(id = R.string.settings_netshield_title),
-                style = ProtonTheme.typography.defaultNorm,
-                modifier = Modifier.weight(1f)
-            )
-            ProtonSwitch(checked = switchEnabled, onCheckedChange = null)
-        }
+        SettingsFeatureToggle(
+            label = stringResource(id = R.string.settings_netshield_title),
+            checked = switchEnabled,
+            onCheckedChange = { isEnabled ->
+                onValueChanged(if (isEnabled) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED)
+            },
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
         AnnotatedClickableText(
             fullText = stringResource(
                 id = R.string.netshield_settings_description_not_html,
