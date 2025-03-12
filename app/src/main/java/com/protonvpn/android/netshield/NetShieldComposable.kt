@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -42,23 +41,19 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
-import com.protonvpn.android.base.ui.ProtonSwitch
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SettingsFeatureToggle
 import com.protonvpn.android.base.ui.volumeBytesToString
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
-import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.presentation.R as CoreR
 
 @Composable
@@ -219,7 +214,7 @@ fun NetShieldBottomComposable(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                androidx.compose.material.Text(
+                Text(
                     text = stringResource(id = R.string.netshield_what_data_means),
                     style = ProtonTheme.typography.body1Regular,
                     modifier = Modifier.padding(bottom = 16.dp)
@@ -255,12 +250,12 @@ private fun StatsDescriptionRow(titleId: Int, detailsId: Int) {
         .padding(8.dp)
     ) {
         Box(modifier = Modifier.weight(0.7f, fill = true)) {
-            androidx.compose.material.Text(
+            Text(
                 text = stringResource(id = titleId),
                 style = ProtonTheme.typography.body2Medium,
             )
         }
-        androidx.compose.material.Text(
+        Text(
             text = stringResource(id = detailsId),
             style = ProtonTheme.typography.body2Regular,
             color = ProtonTheme.colors.textWeak,
