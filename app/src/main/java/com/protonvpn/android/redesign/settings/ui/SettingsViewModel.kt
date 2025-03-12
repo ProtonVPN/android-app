@@ -43,6 +43,7 @@ import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.BuildConfigUtils
+import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
@@ -82,6 +83,7 @@ class SettingsViewModel @Inject constructor(
     private val appWidgetManager: WidgetManager,
     private val appFeaturePrefs: AppFeaturesPrefs,
     private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
+    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -183,6 +185,30 @@ class SettingsViewModel @Inject constructor(
             descriptionRes = R.string.settings_advanced_alternative_routing_description,
         )
 
+        class CustomDns(
+            enabled: Boolean,
+            val customDns: List<String>,
+            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
+            isFreeUser: Boolean,
+        ) : SettingViewState<Boolean>(
+            value = enabled,
+            isRestricted = isFreeUser,
+            titleRes = R.string.settings_custom_dns_title,
+            settingValueView =
+            if (overrideProfilePrimaryLabel != null) {
+                SettingValue.SettingOverrideValue(
+                    connectIntentPrimaryLabel = overrideProfilePrimaryLabel,
+                    subtitleRes = if (enabled) R.string.custom_dns_state_on else R.string.custom_dns_state_off
+                )
+            } else {
+                SettingValue.SettingStringRes(
+                    subtitleRes = if (enabled) R.string.custom_dns_state_on else R.string.custom_dns_state_off
+                )
+            },
+            descriptionRes = R.string.settings_advanced_dns_description,
+            annotationRes = R.string.learn_more
+        )
+
         class LanConnections(
             enabled: Boolean,
             isFreeUser: Boolean,
@@ -248,6 +274,7 @@ class SettingsViewModel @Inject constructor(
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
         val ipV6: SettingViewState.IPv6?,
+        val customDns: SettingViewState.CustomDns?,
         val buildInfo: String?,
         val showSignOut: Boolean,
         val showDebugTools: Boolean,
@@ -325,6 +352,19 @@ class SettingsViewModel @Inject constructor(
                 showSignOut = !isCredentialLess && !managedConfig.isManaged,
                 accountScreenEnabled = !managedConfig.isManaged,
                 isWidgetDiscovered = isWidgetDiscovered,
+                customDns =
+                    if (isCustomDnsFeatureFlagEnabled())
+                        SettingViewState.CustomDns(
+                            enabled = settings.customDnsEnabled,
+                            customDns = settings.customDnsList,
+                            overrideProfilePrimaryLabel = profileOverrideInfo?.primaryLabel,
+                            enabled = settings.customDns.enabled,
+                            customDns = settings.customDns.dnsList,
+                            overrideProfilePrimaryLabel = null,
+                            isFreeUser = isFree
+                        )
+                    else
+                        null,
                 versionName = BuildConfig.VERSION_NAME,
                 ipV6 = if (isIPv6FeatureFlagEnabled) SettingViewState.IPv6(enabled = settings.ipV6Enabled) else null,
             )
@@ -338,6 +378,7 @@ class SettingsViewModel @Inject constructor(
     val natType = viewState.map { it.natType }.distinctUntilChanged()
     val ipv6 = viewState.map { it.ipV6 }.distinctUntilChanged()
     val protocol = viewState.map { it.protocol }.distinctUntilChanged()
+    val customDns = viewState.map { it.customDns }.distinctUntilChanged()
     val splitTunneling = viewState.map { it.splitTunneling }.distinctUntilChanged()
 
     data class AdvancedSettingsViewState(
@@ -345,21 +386,31 @@ class SettingsViewModel @Inject constructor(
         val lanConnections: SettingViewState.LanConnections,
         val natType: SettingViewState.Nat,
         val ipV6: SettingViewState.IPv6?,
+        val customDns: SettingViewState.CustomDns?,
         val profileOverrideInfo: ProfileOverrideInfo? = null,
     )
+
+    private val ipv6AndCustomDnsCombined = combine(
+        ipv6,
+        customDns
+    ) { ipv6Enabled, customDns ->
+        Pair(ipv6Enabled, customDns)
+    }
+
     val advancedSettings = combine(
         altRouting,
         lanConnections,
         natType,
         profileOverrideInfo,
-        ipv6
-    ) { altRouting, lanConnections, natType, profileOverrideInfo, ipV6 ->
+        ipv6AndCustomDnsCombined,
+    ) { altRouting, lanConnections, natType, profileOverrideInfo, (ipv6, customDns) ->
         AdvancedSettingsViewState(
             altRouting = altRouting,
             lanConnections = lanConnections,
             natType = natType,
             profileOverrideInfo = profileOverrideInfo,
-            ipV6 = ipV6
+            ipV6 = ipv6,
+            customDns = customDns,
         )
     }.distinctUntilChanged()
 

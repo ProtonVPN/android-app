@@ -46,6 +46,9 @@ import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
+import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
+import com.protonvpn.android.redesign.settings.ui.customdns.AddNewDnsScreen
+import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsScreen
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -156,6 +159,7 @@ fun SubSettingsRoute(
                             altRouting = advancedViewState.altRouting,
                             allowLan = advancedViewState.lanConnections,
                             natType = advancedViewState.natType,
+                            customDns = advancedViewState.customDns,
                             onAltRoutingChange = settingsChangeViewModel::toggleAltRouting,
                             onAllowLanChange = {
                                 onOverrideSettingClick(OverrideType.LAN) {
@@ -169,6 +173,9 @@ fun SubSettingsRoute(
                                 onOverrideSettingClick(OverrideType.NatType) {
                                     onNavigateToSubSetting(SubSettingsScreen.Type.NatType)
                                 }
+                            },
+                            onNavigateToCustomDns = {
+                                onNavigateToSubSetting(SubSettingsScreen.Type.CustomDns)
                             },
                             onAllowLanRestricted = {
                                 onOverrideSettingClick(OverrideType.LAN) {
@@ -184,9 +191,51 @@ fun SubSettingsRoute(
                             },
                             ipV6 = advancedViewState.ipV6,
                             onIPv6Toggle = { settingsChangeViewModel.toggleIPv6(vpnUiDelegate) },
-                            onIPv6InfoClick = { infoSheetState.show(InfoType.IPv6Traffic) }
+                            onIPv6InfoClick = { infoSheetState.show(InfoType.IPv6Traffic) },
+                            onCustomDnsLearnMore = {
+                                context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
+                            },
+                            onCustomDnsRestricted = {
+                                CarouselUpgradeDialogActivity.launch<UpgradeAdvancedCustomizationHighlightsFragment>(
+                                    context
+                                )
+                            }
                         )
                     }
+                }
+            }
+            SubSettingsScreen.Type.AddNewDns -> {
+                val viewState = settingsChangeViewModel.addDnsResultFlow.collectAsStateWithLifecycle().value
+                AddNewDnsScreen(
+                    onClose = {
+                        settingsChangeViewModel.addDnsResultFlow.value = AddDnsResult.WaitingForInput
+                        onClose()
+                    },
+                    addDnsState = viewState,
+                    onAddDns = {
+                        settingsChangeViewModel.addNewDns(vpnUiDelegate, it)
+                    }
+                )
+            }
+            SubSettingsScreen.Type.CustomDns -> {
+                val viewState = viewModel.customDns.collectAsStateWithLifecycle(null).value
+                if (viewState != null) {
+                    CustomDnsScreen(
+                        onClose = onClose,
+                        onDnsToggled = {
+                            settingsChangeViewModel.toggleCustomDns(vpnUiDelegate)
+                        },
+                        onDnsChange = {
+                            settingsChangeViewModel.updateCustomDnsList(vpnUiDelegate, it)
+                        },
+                        onAddNewAddress = {
+                            onNavigateToSubSetting(SubSettingsScreen.Type.AddNewDns)
+                        },
+                        onLearnMore = {
+                            context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
+                        },
+                        viewState = viewState
+                    )
                 }
             }
 

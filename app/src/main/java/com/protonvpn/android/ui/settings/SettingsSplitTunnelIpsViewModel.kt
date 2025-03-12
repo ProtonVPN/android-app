@@ -27,10 +27,10 @@ import com.protonvpn.android.logging.logUiSettingChange
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.ui.SaveableSettingsViewModel
+import com.protonvpn.android.utils.isIPv6
+import com.protonvpn.android.utils.isValidIp
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import dagger.hilt.android.lifecycle.HiltViewModel
-import inet.ipaddr.IPAddressString
-import inet.ipaddr.IPAddressStringParameters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,15 +38,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-private val ipStringParams = IPAddressStringParameters.Builder()
-    .allowSingleSegment(false)
-    .allowMask(false)
-    .allowPrefixOnly(false)
-    .allowEmpty(false)
-    .allowWildcardedSeparator(false)
-    .allow_inet_aton(false)
-    .toParams()
 
 @HiltViewModel
 class SettingsSplitTunnelIpsViewModel @Inject constructor(
@@ -83,13 +74,7 @@ class SettingsSplitTunnelIpsViewModel @Inject constructor(
         }
     }
 
-    suspend fun isValidIp(ip: String) =
-        ip.isNotBlank()
-            && with(IPAddressString(ip, ipStringParams)) {
-                isValid && !isPrefixed && (isIPv6FeatureFlagEnabled() || isIPv4)
-            }
-
-    private fun isIPv6(ip: String) = ip.isNotBlank() && IPAddressString(ip).isIPv6
+    suspend fun isValidIp(ip: String) = ip.isValidIp(isIPv6FeatureFlagEnabled())
 
     fun addAddress(newAddress: String): Boolean {
         val alreadyAdded = ipAddresses.value.contains(newAddress)
@@ -124,7 +109,7 @@ class SettingsSplitTunnelIpsViewModel @Inject constructor(
         }
 
     private suspend fun shouldDisplayIPv6SettingDialog(mode: SplitTunnelingMode, ipText: String): Boolean =
-        mode == SplitTunnelingMode.INCLUDE_ONLY && isIPv6(ipText)
+        mode == SplitTunnelingMode.INCLUDE_ONLY && ipText.isIPv6()
             && isIPv6FeatureFlagEnabled() && !userSettingsManager.rawCurrentUserSettingsFlow.first().ipV6Enabled
 
     fun onEnableIPv6() {

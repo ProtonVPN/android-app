@@ -30,6 +30,7 @@ import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
+import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
@@ -80,6 +81,7 @@ class EffectiveCurrentUserSettingsFlowTests {
         every { mockIsTv.invoke() } returns false
 
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
+        val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
         val currentUser = CurrentUser(testUserProvider)
         effectiveSettingsFlow = EffectiveCurrentUserSettingsFlow(
             rawSettingsFlow,
@@ -87,7 +89,8 @@ class EffectiveCurrentUserSettingsFlowTests {
             currentUser,
             mockIsTv,
             restrictionFlow,
-            isIPv6FeatureFlagEnabled
+            isIPv6FeatureFlagEnabled,
+            isCustomDnsEnabled
         )
     }
 

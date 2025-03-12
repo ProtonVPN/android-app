@@ -31,6 +31,10 @@ import com.protonvpn.android.redesign.settings.ui.AdvancedSettings
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.SettingsView
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
+import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
+import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
+import com.protonvpn.android.redesign.settings.ui.customdns.AddNewDnsScreen
+import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsScreen
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -93,12 +97,53 @@ fun AdvancedSettingsNotConnectedPaid() {
             ipV6 = settingsPaid.settingsViewState.ipV6,
             onIPv6Toggle = {},
             onIPv6InfoClick = {},
+            customDns = settingsPaid.settingsViewState.customDns,
+            onCustomDnsLearnMore = {},
+            onCustomDnsRestricted = {},
+            onNavigateToCustomDns = {},
         )
     }
 }
 
 @Composable
 @Preview()
+fun CustomDnsEmptyState() {
+    ProtonVpnPreview(addSurface = true) {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onAddNewAddress = {},
+            onLearnMore = {},
+            viewState =
+            SettingsViewModel.SettingViewState.CustomDns(
+                enabled = false,
+                customDns = emptyList(),
+                overrideProfilePrimaryLabel = null,
+                isFreeUser = false
+            )
+        )
+    }
+}
+
+@Composable
+@Preview()
+fun CustomDnsState() {
+    val settingsPaid = SettingsData(false, true)
+    ProtonVpnPreview(addSurface = true) {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onAddNewAddress = {},
+            onLearnMore = {},
+            viewState = settingsPaid.settingsViewState.customDns!!
+        )
+    }
+}
+
+@Preview
+@Composable
 fun AdvancedSettingsProfileConnected() {
     val settingsPaid = SettingsData(false, true)
     ProtonVpnPreview(addSurface = true) {
@@ -117,6 +162,62 @@ fun AdvancedSettingsProfileConnected() {
             ipV6 = settingsPaid.settingsViewState.ipV6,
             onIPv6Toggle = {},
             onIPv6InfoClick = {},
+            customDns = settingsPaid.settingsViewState.customDns,
+            onCustomDnsLearnMore = {},
+            onCustomDnsRestricted = {},
+            onNavigateToCustomDns = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+fun AdvancedSettingsFree() {
+    val settingsPaid = SettingsData(true, false)
+    ProtonVpnPreview(addSurface = true) {
+        AdvancedSettings(
+            onClose = {},
+            profileOverrideInfo = settingsPaid.overrideInfo,
+            altRouting = settingsPaid.settingsViewState.altRouting,
+            allowLan = settingsPaid.settingsViewState.lanConnections,
+            natType = settingsPaid.settingsViewState.natType,
+            onAltRoutingChange = {},
+            onAllowLanChange = {},
+            onNatTypeRestricted = {},
+            onNatTypeLearnMore = {},
+            onAllowLanRestricted = {},
+            onNavigateToNatType = {},
+            customDns = settingsPaid.settingsViewState.customDns,
+            onCustomDnsLearnMore = {},
+            onCustomDnsRestricted = {},
+            onNavigateToCustomDns = {},
+            ipV6 = settingsPaid.settingsViewState.ipV6,
+            onIPv6Toggle = {},
+            onIPv6InfoClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+fun AddNewDnsScreenPreview() {
+    ProtonVpnPreview(addSurface = true) {
+        AddNewDnsScreen(
+            addDnsState = AddDnsResult.WaitingForInput,
+            onClose = {},
+            onAddDns = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun AddNewDnsScreenErrorPreview() {
+    ProtonVpnPreview(addSurface = true) {
+        AddNewDnsScreen(
+            addDnsState = AddDnsError.InvalidInput,
+            onClose = {},
+            onAddDns = {}
         )
     }
 }
@@ -173,6 +274,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false)
     private val vpnAccelerator = SettingsViewModel.SettingViewState.VpnAccelerator(true, isFree)
     private val protocol = SettingsViewModel.SettingViewState.Protocol(ProtocolSelection.SMART, overrideInfo?.primaryLabel)
     private val altRouting = SettingsViewModel.SettingViewState.AltRouting(true)
+    private val customDns = SettingsViewModel.SettingViewState.CustomDns(true, listOf("1.1.1.1", "8.8.8.8", "2001:db8:3333:4444:5555:6666:7777:8888"), overrideInfo?.primaryLabel, isFree)
     private val lanConnections = SettingsViewModel.SettingViewState.LanConnections(true, isFree, overrideInfo?.primaryLabel)
     private val natType = SettingsViewModel.SettingViewState.Nat(NatType.Strict, isFree, overrideInfo?.primaryLabel)
     private val ipV6 = SettingsViewModel.SettingViewState.IPv6(enabled = true)
@@ -191,8 +293,9 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false)
         natType = natType,
         versionName = "1.2.3.4",
         isWidgetDiscovered = false,
-        showDebugTools = false,
         ipV6 = ipV6,
+        customDns = customDns,
+        showDebugTools = false
     )
 
     val credentiallessAccountViewState =

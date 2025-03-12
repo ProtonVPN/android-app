@@ -36,11 +36,15 @@ fun AdvancedSettings(
     allowLan: SettingsViewModel.SettingViewState.LanConnections,
     ipV6: SettingsViewModel.SettingViewState.IPv6?,
     natType: SettingsViewModel.SettingViewState.Nat,
+    customDns: SettingsViewModel.SettingViewState.CustomDns?,
     onAltRoutingChange: () -> Unit,
     onAllowLanChange: () -> Unit,
     onIPv6Toggle: () -> Unit,
     onNatTypeLearnMore: () -> Unit,
     onNavigateToNatType: () -> Unit,
+    onNavigateToCustomDns: () -> Unit,
+    onCustomDnsLearnMore: () -> Unit,
+    onCustomDnsRestricted: () -> Unit,
     onAllowLanRestricted: () -> Unit,
     onNatTypeRestricted: () -> Unit,
     onIPv6InfoClick: () -> Unit,
@@ -65,12 +69,23 @@ fun AdvancedSettings(
             onToggle = onAllowLanChange,
             onRestricted = onAllowLanRestricted
         )
-        SettingsNatItem(
-            natType,
-            onNatTypeLearnMore = onNatTypeLearnMore,
-            onNavigateToNatType = onNavigateToNatType,
-            onNatTypeRestricted = onNatTypeRestricted
+
+        SettingsValueItem(
+            state = natType,
+            onLearnMore = onNatTypeLearnMore,
+            onNavigateTo = onNavigateToNatType,
+            onRestricted = onNatTypeRestricted
         )
+
+        if (customDns != null) {
+            SettingsValueItem(
+                state = customDns,
+                onLearnMore = onCustomDnsLearnMore,
+                onNavigateTo = onNavigateToCustomDns,
+                onRestricted = onCustomDnsRestricted
+            )
+        }
+
         if (ipV6 != null) {
             SettingsToggleItem(
                 ipV6,
@@ -82,26 +97,25 @@ fun AdvancedSettings(
 }
 
 @Composable
-private fun SettingsNatItem(
-    setting: SettingsViewModel.SettingViewState.Nat,
-    onNatTypeLearnMore: () -> Unit,
-    onNavigateToNatType: () -> Unit,
-    onNatTypeRestricted: () -> Unit,
-) = with(setting) {
-    val natOnClick = if (isRestricted) onNatTypeRestricted else onNavigateToNatType
+fun <T> SettingsValueItem(
+    state: SettingsViewModel.SettingViewState<T>,
+    onLearnMore: () -> Unit,
+    onNavigateTo: () -> Unit,
+    onRestricted: () -> Unit,
+) {
+    val onClick = if (state.isRestricted) onRestricted else onNavigateTo
     SettingsValueItem(
-        onClick = natOnClick,
-        onUpgrade = onNatTypeRestricted,
-        name = stringResource(id = titleRes),
-        description = descriptionText(),
-        needsUpgrade = isRestricted,
-        settingValue = settingValueView,
-        descriptionAnnotation = annotationRes?.let {
+        name = stringResource(id = state.titleRes),
+        description = state.descriptionText(),
+        needsUpgrade = state.isRestricted,
+        settingValue = state.settingValueView,
+        descriptionAnnotation = state.annotationRes?.let {
             ClickableTextAnnotation(
                 annotatedPart = stringResource(id = it),
-                onAnnotatedClick = onNatTypeLearnMore,
-                onAnnotatedOutsideClick = natOnClick,
+                onAnnotatedClick = onLearnMore,
+                onAnnotatedOutsideClick = onClick,
             )
         },
+        onClick = onClick
     )
 }

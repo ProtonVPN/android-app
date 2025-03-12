@@ -23,12 +23,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
+import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
+import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
+import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsState
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.userstorage.DontShowAgainStore
+import com.protonvpn.android.utils.isValidIp
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,6 +45,64 @@ class SettingsChangeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val showReconnectDialogFlow = reconnectHandler.showReconnectDialogFlow
+    val addDnsResultFlow = MutableStateFlow<AddDnsState>(AddDnsResult.WaitingForInput)
+
+    fun addNewDns(uiDelegate: VpnUiDelegate, newDns: String) {
+        viewModelScope.launch {
+            val currentSettings = userSettingsManager.rawCurrentUserSettingsFlow.first()
+            val currentList = currentSettings.customDnsList
+
+            val error = when {
+                newDns.isEmpty() -> AddDnsError.EmptyInput
+                currentList.contains(newDns) -> AddDnsError.DuplicateInput
+                !newDns.isValidIp(allowIpv6 = true) -> AddDnsError.InvalidInput
+                else -> null
+            }
+
+            if (error != null) {
+                addDnsResultFlow.value = error
+            } else {
+                val updatedDnsList = currentList.toMutableList().apply {
+                    add(newDns)
+                }
+                updateCustomDns(uiDelegate, updatedDnsList)
+                addDnsResultFlow.value = AddDnsResult.Added
+            }
+        }
+    }
+
+    private suspend fun updateCustomDns(uiDelegate: VpnUiDelegate, newDnsList: List<String>) {
+        userSettingsManager.update { current ->
+            if (current.customDnsList != newDnsList && current.customDnsEnabled) {
+                viewModelScope.launch {
+                    reconnectionCheck(
+                        uiDelegate,
+                        DontShowAgainStore.Type.DnsChangeWhenConnected
+                    )
+                }
+            }
+            val dnsEnabled = when {
+                // Current list is empty, and user is adding new values, master switch must be on
+                current.customDnsList.isEmpty() && newDnsList.isNotEmpty() -> true
+
+                // Disable master switch all values in list are deleted
+                newDnsList.isEmpty() -> false
+
+                // Otherwise, keep the current setting
+                else -> current.customDnsEnabled
+            }
+            current.copy(
+                customDnsEnabled = dnsEnabled,
+                customDnsList = newDnsList
+            )
+        }
+    }
+
+    fun updateCustomDnsList(uiDelegate: VpnUiDelegate, newDnsList: List<String>) {
+        viewModelScope.launch {
+            updateCustomDns(uiDelegate, newDnsList)
+        }
+    }
 
     fun toggleNetShield() {
         viewModelScope.launch {
@@ -75,10 +139,18 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
+
     fun toggleIPv6(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
             userSettingsManager.toggleIPv6()
             reconnectionCheck(uiDelegate, DontShowAgainStore.Type.IPv6ChangeWhenConnected)
+        }
+    }
+
+    fun toggleCustomDns(uiDelegate: VpnUiDelegate) {
+        viewModelScope.launch {
+            userSettingsManager.toggleCustomDNS()
+            reconnectionCheck(uiDelegate, DontShowAgainStore.Type.DnsChangeWhenConnected)
         }
     }
 
