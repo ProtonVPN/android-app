@@ -23,7 +23,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -69,44 +68,14 @@ data class ClickableTextAnnotation(
 
 @Composable
 fun SettingsItemScaffold(
-    title: String,
-    modifier: Modifier = Modifier,
-    titleAdjecent: (@Composable RowScope.() -> Unit)? = null,
-    titleTrailing: (@Composable RowScope.() -> Unit)? = null,
-    subtitle: (@Composable () -> Unit)? = null,
-    description: (@Composable () -> Unit)? = null,
-) {
-    SettingsItemScaffold(
-        titleRow = {
-            Row(
-                modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(title, modifier = Modifier.weight(1f, fill = false))
-                if (titleAdjecent != null)
-                    titleAdjecent()
-            }
-            if (titleTrailing != null)
-                titleTrailing()
-        },
-        modifier = modifier,
-        subtitle = subtitle,
-        description = description,
-    )
-}
-
-@Composable
-fun SettingsItemScaffold(
-    titleRow: @Composable RowScope.() -> Unit,
+    titleRow: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     subtitle: (@Composable () -> Unit)? = null,
     description: (@Composable () -> Unit)? = null,
 ) {
     Column(modifier.padding(16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            ProvideTextStyle(ProtonTheme.typography.body1Regular) {
-                titleRow()
-            }
+        ProvideTextStyle(ProtonTheme.typography.body1Regular) {
+            titleRow()
         }
         if (subtitle != null) {
             ProvideTextStyle(ProtonTheme.typography.defaultWeak) {
@@ -135,7 +104,7 @@ fun SettingsItem(
     descriptionAnnotation: ClickableTextAnnotation? = null,
 ) {
     SettingsItemScaffold(
-        name,
+        titleRow = { SettingItemTitleRow(name) },
         modifier = modifier,
         subtitle = subTitle?.let { { Text(subTitle) } },
         description = description?.let {
@@ -156,15 +125,15 @@ fun SettingsValueItem(
     onUpgrade: (() -> Unit)? = null,
 ) {
     val itemModifier = modifier.clickable(onClick = if (needsUpgrade && onUpgrade != null) onUpgrade else onClick)
+    val settingValueView = @Composable {
+        when {
+            needsUpgrade -> IconNeedsUpgrade()
+            settingValue != null -> { InlineSettingValue(settingValue) }
+        }
+    }
     SettingsItemScaffold(
-        name,
+        titleRow = { SettingItemTitleRow(name, trailingContent = settingValueView) },
         modifier = itemModifier,
-        titleTrailing = {
-            when {
-                needsUpgrade -> IconNeedsUpgrade()
-                settingValue != null -> { InlineSettingValue(settingValue) }
-            }
-        },
         description = description?.let {
             { SettingDescription(it, descriptionAnnotation, modifier = Modifier.padding(end = 8.dp)) }
         }
@@ -189,30 +158,16 @@ fun SettingsToggleItem(
     } else {
         modifier.toggleable(value, onValueChange = { onToggle() })
     }
+    val trailingContent = @Composable {
+        when {
+            needsUpgrade -> IconNeedsUpgrade()
+            settingsValue is SettingValue.SettingOverrideValue -> OverrideSettingLabel(settingsValue)
+            else -> ProtonSwitch(checked = value, onCheckedChange = null)
+        }
+    }
     SettingsItemScaffold(
-        title = name,
+        titleRow = { SettingItemTitleRow(name, onInfoClick = onInfoClick, trailingContent = trailingContent) },
         modifier = itemModifier,
-        titleTrailing = {
-            when {
-                needsUpgrade -> IconNeedsUpgrade()
-                settingsValue is SettingValue.SettingOverrideValue -> OverrideSettingLabel(settingsValue)
-                else -> ProtonSwitch(checked = value, onCheckedChange = null)
-            }
-        },
-        titleAdjecent = onInfoClick?.let {
-            {
-                Icon(
-                    painterResource(CoreR.drawable.ic_proton_info_circle_filled),
-                    contentDescription = null,
-                    tint = ProtonTheme.colors.iconWeak,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .clickable { onInfoClick() }
-                        .padding(8.dp)
-                        .size(16.dp)
-                )
-            }
-        },
         description = description?.let {
             { SettingDescription(it, descriptionAnnotation, modifier = Modifier.padding(end = 8.dp)) }
         }
@@ -297,7 +252,36 @@ fun SettingsRadioItemSmall(
 }
 
 @Composable
-private fun RowScope.InlineSettingValue(
+private fun SettingItemTitleRow(
+    title: String,
+    modifier: Modifier = Modifier,
+    onInfoClick: (() -> Unit)? = null,
+    trailingContent: @Composable (() -> Unit)? = null
+) {
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+            Text(title, modifier = Modifier.weight(1f, fill = false))
+            if (onInfoClick != null) {
+                Icon(
+                    painterResource(CoreR.drawable.ic_proton_info_circle_filled),
+                    contentDescription = null,
+                    tint = ProtonTheme.colors.iconWeak,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable { onInfoClick() }
+                        .padding(8.dp)
+                        .size(16.dp)
+                )
+            }
+        }
+        if (trailingContent != null) {
+            trailingContent()
+        }
+    }
+}
+
+@Composable
+private fun InlineSettingValue(
     settingValue: SettingValue,
     modifier: Modifier = Modifier
 ) {
@@ -310,23 +294,24 @@ private fun RowScope.InlineSettingValue(
                 .size(16.dp)
         )
     }
+    Row(modifier = modifier) {
+        CompositionLocalProvider(
+            LocalContentColor provides ProtonTheme.colors.textWeak,
+            LocalTextStyle provides ProtonTheme.typography.body2Regular
+        ) {
+            when (settingValue) {
+                is SettingValue.SettingOverrideValue ->
+                    OverrideSettingLabel(settingValue = settingValue, modifier = modifier)
 
-    CompositionLocalProvider(
-        LocalContentColor provides ProtonTheme.colors.textWeak,
-        LocalTextStyle provides ProtonTheme.typography.body2Regular
-    ) {
-        when (settingValue) {
-            is SettingValue.SettingOverrideValue ->
-                OverrideSettingLabel(settingValue = settingValue, modifier = modifier)
+                is SettingValue.SettingStringRes -> {
+                    Text(text = stringResource(settingValue.subtitleRes), modifier = modifier)
+                    Chevron()
+                }
 
-            is SettingValue.SettingStringRes -> {
-                Text(text = stringResource(settingValue.subtitleRes), modifier = modifier)
-                Chevron()
-            }
-
-            is SettingValue.SettingText -> {
-                Text(text = settingValue.text, modifier = modifier)
-                Chevron()
+                is SettingValue.SettingText -> {
+                    Text(text = settingValue.text, modifier = modifier)
+                    Chevron()
+                }
             }
         }
     }
@@ -371,7 +356,39 @@ fun SettingTogglePreview() {
                 value = true,
                 onToggle = {},
                 descriptionAnnotation = ClickableTextAnnotation("Learn more", {}, {}),
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SettingToggleInfoPreview() {
+    VpnTheme(isDark = true) {
+        Surface {
+            SettingsToggleItem(
+                name = "Toggle option with a long description that wraps",
+                description = "Long toggle description. Long toggle description. Long toggle description. Learn more",
+                value = true,
+                onToggle = {},
+                descriptionAnnotation = ClickableTextAnnotation("Learn more", {}, {}),
                 onInfoClick = {},
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SettingValuePreview() {
+    VpnTheme(isDark = true) {
+        Surface {
+            SettingsValueItem(
+                name = "Setting name",
+                description = "Long toggle description. Long toggle description. Long toggle description. Learn more",
+                settingValue = SettingValue.SettingText("Current value"),
+                descriptionAnnotation = ClickableTextAnnotation("Learn more", {}, {}),
+                onClick = {},
             )
         }
     }
