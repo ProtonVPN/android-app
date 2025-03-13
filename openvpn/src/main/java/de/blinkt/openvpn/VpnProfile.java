@@ -46,8 +46,10 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PSSParameterSpec;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.Vector;
@@ -121,6 +123,7 @@ public class VpnProfile implements Serializable, Cloneable {
     public String mIPv4Address;
     public String mIPv6Address;
     public boolean mOverrideDNS = false;
+    public List<String> mCustomDNS = new ArrayList<>();
     public String mSearchDomain = "blinkt.de";
     public boolean mUseDefaultRoute = true;
     public boolean mUsePull = true;
@@ -643,11 +646,8 @@ public class VpnProfile implements Serializable, Cloneable {
         cfg.append(routes);
 
         if (mOverrideDNS || !mUsePull) {
-            if (!TextUtils.isEmpty(mDNS1)) {
-                cfg.append("dhcp-option DNS ").append(mDNS1).append("\n");
-            }
-            if (!TextUtils.isEmpty(mDNS2)) {
-                cfg.append("dhcp-option DNS ").append(mDNS2).append("\n");
+            for (String dns: mCustomDNS) {
+                cfg.append("dhcp-option DNS ").append(dns).append("\n");
             }
             if (!TextUtils.isEmpty(mSearchDomain))
                 cfg.append("dhcp-option DOMAIN ").append(mSearchDomain).append("\n");
