@@ -152,7 +152,10 @@ fun ChangeServerButton(
         ChangeServerBottomSheetComposable(
             state = state,
             onDismissRequest = { dialogShown = false },
-            onChangeServerClick = onChangeServerClick,
+            onChangeServerClick = {
+                dialogShown = false
+                onChangeServerClick()
+            },
         )
     }
 }
