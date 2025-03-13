@@ -23,18 +23,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,12 +38,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
@@ -197,61 +190,6 @@ fun SettingDescription(
 }
 
 @Composable
-fun SettingsRadioItemSmall(
-    title: String,
-    description: String?,
-    selected: Boolean,
-    onSelected: () -> Unit,
-    modifier: Modifier = Modifier,
-    titleColor: Color = Color.Unspecified,
-    horizontalContentPadding: Dp = 0.dp,
-    trailingTitleContent: (@Composable () -> Unit)? = null,
-    leadingContent: (@Composable () -> Unit)? = null
-) {
-    Row(
-        modifier = modifier
-            .selectable(selected, onClick = onSelected)
-            .padding(vertical = 12.dp, horizontal = horizontalContentPadding),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (leadingContent != null) {
-            leadingContent()
-        }
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    title,
-                    style = ProtonTheme.typography.body2Regular,
-                    color = titleColor,
-                    modifier = Modifier.weight(1f, fill = false)
-                )
-                if (trailingTitleContent != null) {
-                    Spacer(Modifier.width(8.dp))
-                    trailingTitleContent()
-                }
-            }
-            if (description != null) {
-                VerticalSpacer(height = 4.dp)
-                Text(
-                    description,
-                    style = ProtonTheme.typography.body2Regular,
-                    color = ProtonTheme.colors.textWeak
-                )
-            }
-        }
-        RadioButton(
-            selected = selected,
-            onClick = null,
-            modifier = Modifier
-                .clearAndSetSemantics {}
-                .padding(start = 8.dp)
-        )
-    }
-}
-
-@Composable
 private fun SettingItemTitleRow(
     title: String,
     modifier: Modifier = Modifier,
@@ -327,22 +265,6 @@ private fun IconNeedsUpgrade(
         contentDescription = null,
         modifier = modifier,
     )
-}
-
-@Preview
-@Composable
-fun RadioButtonPreview() {
-    VpnTheme(isDark = true) {
-        Surface {
-            SettingsRadioItemSmall(
-                title = "Radio option",
-                description = "Long radio button description. Long radio button description. Long radio button description.",
-                selected = true,
-                onSelected = {},
-                horizontalContentPadding = 16.dp,
-            )
-        }
-    }
 }
 
 @Preview

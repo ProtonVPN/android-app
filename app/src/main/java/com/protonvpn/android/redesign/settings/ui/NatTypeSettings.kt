@@ -31,7 +31,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallWeak
-import java.lang.RuntimeException
 
 class TestCrash : RuntimeException("Test exception, everything's fine")
 
