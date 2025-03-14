@@ -22,16 +22,15 @@ package com.protonvpn.android.widget
 import android.content.ComponentName
 import android.content.Context
 import android.net.VpnService
-import androidx.glance.ExperimentalGlanceApi
-import androidx.glance.action.ActionParameters
-import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
 import androidx.glance.appwidget.action.actionSendBroadcast
 import androidx.glance.appwidget.updateAll
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.WidgetStateUpdate
+import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.VpnState
@@ -106,13 +105,15 @@ class WidgetStateUpdater @Inject constructor(
             ) { vpnStatus, recents ->
                 val haveVpnPermission = VpnService.prepare(appContext) == null
                 val widgetRecents = recents.recents.map {
+                    val canConnectInBackground = haveVpnPermission && !it.isProfileAutoOpen
                     WidgetRecent(
-                        actionConnect(haveVpnPermission, mainComponentName, recentId = it.id),
+                        actionConnect(canConnectInBackground, mainComponentName, recentId = it.id),
                         it.connectIntent
                     )
                 }
+                val canCardConnectInBackground = haveVpnPermission && !recents.recents.first().isProfileAutoOpen
                 val cardAction =
-                    if (vpnStatus.isActionConnect) actionConnect(haveVpnPermission, mainComponentName)
+                    if (vpnStatus.isActionConnect) actionConnect(canCardConnectInBackground, mainComponentName)
                     else actionSendBroadcast(WidgetActionBroadcastReceiver.intentDisconnect(appContext))
                 WidgetViewState.LoggedIn(
                     recents.connectionCard.connectIntentViewState,
@@ -136,15 +137,18 @@ class WidgetStateUpdater @Inject constructor(
         WidgetVpnStatus.Disconnected -> true
     }
 
-    private fun actionConnect(havePermission: Boolean, mainComponentName: ComponentName, recentId: Long? = null) =
-        if (havePermission) {
-            actionSendBroadcast(WidgetActionBroadcastReceiver.intentConnect(appContext, recentId))
-        } else {
-            actionStartActivity(
-                mainComponentName,
-                WidgetActionHandler.connectActionParameters(recentId),
-            )
-        }
+    private fun actionConnect(
+        canConnectInBackground: Boolean,
+        mainComponentName: ComponentName,
+        recentId: Long? = null
+    ) = if (canConnectInBackground) {
+        actionSendBroadcast(WidgetActionBroadcastReceiver.intentConnect(appContext, recentId))
+    } else {
+        actionStartActivity(
+            mainComponentName,
+            WidgetActionHandler.connectActionParameters(recentId),
+        )
+    }
 
     fun start() {
         widgetViewStateFlow
@@ -156,3 +160,6 @@ class WidgetStateUpdater @Inject constructor(
             .launchIn(mainScope)
     }
 }
+
+private val RecentItemViewState.isProfileAutoOpen get() =
+    (connectIntent.primaryLabel as? ConnectIntentPrimaryLabel.Profile)?.isAutoOpen == true

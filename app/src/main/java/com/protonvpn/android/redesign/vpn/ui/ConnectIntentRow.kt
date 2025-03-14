@@ -87,7 +87,8 @@ sealed interface ConnectIntentPrimaryLabel {
     data class Country(val exitCountry: CountryId, val entryCountry: CountryId?) : ConnectIntentPrimaryLabel
 
     data class Gateway(val gatewayName: String, val country: CountryId?) : ConnectIntentPrimaryLabel
-    data class Profile(val name: String, val country: CountryId, val isGateway: Boolean, val icon: ProfileIcon, val color: ProfileColor) : ConnectIntentPrimaryLabel
+    data class Profile(val name: String, val country: CountryId, val isGateway: Boolean, val icon: ProfileIcon,
+           val color: ProfileColor, val isAutoOpen: Boolean = false) : ConnectIntentPrimaryLabel
 }
 
 sealed interface ConnectIntentSecondaryLabel {
