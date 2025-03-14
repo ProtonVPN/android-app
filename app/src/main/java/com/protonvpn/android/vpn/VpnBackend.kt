@@ -571,7 +571,9 @@ abstract class VpnBackend(
                     if (certInfo is CertificateRepository.CertificateResult.Success) {
                         val settings = settingsForConnection.getFor(lastConnectionParams?.connectIntent)
                         val features = getFeatures(settings)
-                        agent = createAgentConnection(certInfo, hostname, createNativeClient(), features)
+                        agent = withContext(dispatcherProvider.Comp) {
+                            createAgentConnection(certInfo, hostname, createNativeClient(), features)
+                        }
                     } else {
                         setError(
                             ErrorType.LOCAL_AGENT_ERROR,
