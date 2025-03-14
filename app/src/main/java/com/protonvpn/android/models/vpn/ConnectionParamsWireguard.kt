@@ -112,10 +112,7 @@ class ConnectionParamsWireguard(
         }
         val splitTunneling = userSettings.splitTunneling
         val dnsServers: String = buildList {
-            if (userSettings.customDnsEnabled) {
-                addAll(userSettings.customDnsList)
-            }
-
+            addAll(userSettings.customDns.effectiveDnsList)
             add(dns)
         }.joinToString(",")
         val iface = Interface.Builder()

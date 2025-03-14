@@ -50,7 +50,7 @@ class SettingsChangeViewModel @Inject constructor(
     fun addNewDns(uiDelegate: VpnUiDelegate, newDns: String) {
         viewModelScope.launch {
             val currentSettings = userSettingsManager.rawCurrentUserSettingsFlow.first()
-            val currentList = currentSettings.customDnsList
+            val currentList = currentSettings.customDns.rawDnsList
 
             val error = when {
                 newDns.isEmpty() -> AddDnsError.EmptyInput
@@ -72,30 +72,16 @@ class SettingsChangeViewModel @Inject constructor(
     }
 
     private suspend fun updateCustomDns(uiDelegate: VpnUiDelegate, newDnsList: List<String>) {
-        userSettingsManager.update { current ->
-            if (current.customDnsList != newDnsList && current.customDnsEnabled) {
-                viewModelScope.launch {
-                    reconnectionCheck(
-                        uiDelegate,
-                        DontShowAgainStore.Type.DnsChangeWhenConnected
-                    )
-                }
+        val settings = userSettingsManager.rawCurrentUserSettingsFlow.first()
+        if (settings.customDns.rawDnsList != newDnsList && settings.customDns.enabled) {
+            viewModelScope.launch {
+                reconnectionCheck(
+                    uiDelegate,
+                    DontShowAgainStore.Type.DnsChangeWhenConnected
+                )
             }
-            val dnsEnabled = when {
-                // Current list is empty, and user is adding new values, master switch must be on
-                current.customDnsList.isEmpty() && newDnsList.isNotEmpty() -> true
-
-                // Disable master switch all values in list are deleted
-                newDnsList.isEmpty() -> false
-
-                // Otherwise, keep the current setting
-                else -> current.customDnsEnabled
-            }
-            current.copy(
-                customDnsEnabled = dnsEnabled,
-                customDnsList = newDnsList
-            )
         }
+        userSettingsManager.updateCustomDnsList(newDnsList)
     }
 
     fun updateCustomDnsList(uiDelegate: VpnUiDelegate, newDnsList: List<String>) {

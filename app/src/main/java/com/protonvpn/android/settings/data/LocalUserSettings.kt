@@ -67,6 +67,15 @@ data class SplitTunnelingSettings(
     private fun effectiveIps() = if (isEnabled) currentModeIps() else emptyList()
 }
 
+@Parcelize
+@Serializable
+data class CustomDnsSettings(
+    val enabled: Boolean = false,
+    val rawDnsList: List<String> = emptyList()
+): Parcelable {
+    val effectiveDnsList: List<String> get() = if (enabled && rawDnsList.isNotEmpty()) rawDnsList else emptyList()
+}
+
 @Serializable
 data class LocalUserSettings(
     // Version of the LocalUserSettings structure. Only increase when needed for migration.
@@ -87,8 +96,7 @@ data class LocalUserSettings(
     val telemetry: Boolean = true,
     val vpnAccelerator: Boolean = true,
     val ipV6Enabled: Boolean = true,
-    val customDnsEnabled: Boolean = false,
-    val customDnsList: List<String> = emptyList(),
+    val customDns: CustomDnsSettings = CustomDnsSettings(false)
     // Whenever adding a new setting add it also in toLogList below.
 ) {
     companion object {
@@ -113,8 +121,8 @@ fun LocalUserSettings.toLogList(): List<String> {
         "Use DoH for API: ${apiUseDoh.toLog()}",
         "VPN Accelerator: ${vpnAccelerator.toLog()}",
         "IPv6 enabled: ${ipV6Enabled.toLog()}",
-        "Custom DNS enabled: ${customDnsEnabled.toLog()}",
-        "Custom DNS list: ${customDnsList.itemCountToLog()}",
+        "Custom DNS enabled: ${customDns.enabled.toLog()}",
+        "Custom DNS list: ${customDns.rawDnsList.itemCountToLog()}",
     )
     return regularSettings
 }
