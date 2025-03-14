@@ -66,7 +66,7 @@ class EffectiveCurrentUserSettings(
     val vpnAccelerator = distinct { it.vpnAccelerator }
     val splitTunneling = distinct { it.splitTunneling }
     val ipV6Enabled = distinct { it.ipV6Enabled }
-    val customDnsEnabled = distinct { it.customDnsEnabled }
+    val customDns= distinct { it.customDns }
 
     @Inject
     constructor(mainScope: CoroutineScope, effectiveCurrentUserSettingsFlow: EffectiveCurrentUserSettingsFlow)
@@ -106,8 +106,7 @@ class EffectiveCurrentUserSettingsFlow constructor(
             } else {
                 NetShieldProtocol.DISABLED
             },
-            customDnsEnabled = if (customDnsFeatureFlagEnabled) settings.customDnsEnabled else false,
-            customDnsList = if (customDnsFeatureFlagEnabled) settings.customDnsList else emptyList(),
+            customDns = if (customDnsFeatureFlagEnabled) settings.customDns else CustomDnsSettings(false),
             telemetry = settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
