@@ -28,6 +28,8 @@ import com.protonvpn.android.redesign.recents.usecases.RecentsManager
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
+import com.protonvpn.android.utils.isIPv6
+import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.data.WidgetTracker
 import dagger.assisted.Assisted
@@ -47,6 +49,7 @@ class SettingsSnapshotWorker @AssistedInject constructor(
     private val appInUseMonitor: AppInUseMonitor,
     private val widgetTracker: WidgetTracker,
     private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
+    private val connectivityMonitor: ConnectivityMonitor,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -63,7 +66,17 @@ class SettingsSnapshotWorker @AssistedInject constructor(
                         this["first_widget_size"] = it.getTelemetrySizeName()
                         this["first_widget_theme"] = it.getTelemetryThemeName()
                     }
-                    this["is_ipv6_enabled"] = effectiveCurrentUserSettings.ipV6Enabled.first().toTelemetry()
+                    val settings = effectiveCurrentUserSettings.effectiveSettings.first()
+                    val customDnsList = settings.customDns.effectiveDnsList
+                    this["custom_dns_count"] = customDnsList.size.toCustomDnsCountBucketString()
+                    customDnsList.firstOrNull()?.let {
+                        this["first_custom_dns_address_family"] = it.toTelemetryAddressFamily()
+                    }
+                    val isPrivateDnsActive = connectivityMonitor.isPrivateDnsActive.first()
+                    if (isPrivateDnsActive != null) {
+                        this["is_system_custom_dns_enabled"] = isPrivateDnsActive.toTelemetry()
+                    }
+                    this["is_ipv6_enabled"] = settings.ipV6Enabled.toTelemetry()
                     commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 }
                 TelemetryEventData(
@@ -103,6 +116,15 @@ class SettingsSnapshotWorker @AssistedInject constructor(
         this <= 4 -> "2-4"
         else -> ">=5"
     }
+
+    private fun Int.toCustomDnsCountBucketString(): String = when {
+        this == 0 -> "0"
+        this == 1 -> "1"
+        this <= 4 -> "2-4"
+        else -> ">=5"
+    }
+
+    private fun String.toTelemetryAddressFamily() = if (isIPv6()) "ipv6" else "ipv4"
 
     companion object {
         const val MEASUREMENT_GROUP = "vpn.any.settings"
