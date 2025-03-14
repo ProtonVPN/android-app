@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.vpn.ui
 
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.profiles.data.Profile
+import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.profiles.usecases.GetProfileById
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.countries.Translator
@@ -79,7 +80,8 @@ class GetConnectIntentViewState @Inject constructor(
         }
         val primaryLabel = with(profile) {
             val isGateway = connectIntent is ConnectIntent.Gateway
-            ConnectIntentPrimaryLabel.Profile(info.name, exit, isGateway, info.icon, info.color)
+            ConnectIntentPrimaryLabel.Profile(info.name, exit, isGateway, info.icon, info.color,
+                isAutoOpen = autoOpen !is ProfileAutoOpen.None)
         }
         return ConnectIntentViewStateProfile(
             primaryLabel, secondaryLabel, effectiveServerFeatures(profile.connectIntent, null))
