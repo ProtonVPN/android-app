@@ -45,6 +45,8 @@ import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
+import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -73,6 +75,7 @@ class SettingsViewModel @Inject constructor(
     accountUserSettings: ObserveUserSettings,
     buildConfigInfo: BuildConfigInfo,
     settingsForConnection: SettingsForConnection,
+    vpnStatusProviderUI: VpnStatusProviderUI,
     private val recentsManager: RecentsManager,
     private val installedAppsProvider: InstalledAppsProvider,
     private val getConnectIntentViewState: GetConnectIntentViewState,
@@ -387,11 +390,22 @@ class SettingsViewModel @Inject constructor(
         val profileOverrideInfo: ProfileOverrideInfo? = null,
     )
 
+    data class CustomDnsViewState(
+        val dnsViewState: SettingViewState.CustomDns,
+        val isConnected: Boolean
+    )
+
     private val ipv6AndCustomDnsCombined = combine(
         ipv6,
         customDns
     ) { ipv6Enabled, customDns ->
         Pair(ipv6Enabled, customDns)
+    }
+
+    val customDnsViewState = combine(customDns, vpnStatusProviderUI.uiStatus) { customDns, status ->
+        customDns?.let {
+            CustomDnsViewState(dnsViewState = it, isConnected = status.state is VpnState.Connected)
+        }
     }
 
     val advancedSettings = combine(

@@ -165,6 +165,7 @@ class SettingsViewModelTests {
             mockObserveUserSettings,
             mockBuildConfigInfo,
             settingsForConnection,
+            vpnStatusProviderUI,
             mockRecentManager,
             mockInstalledAppsProvider,
             mockGetQuickIntent,
