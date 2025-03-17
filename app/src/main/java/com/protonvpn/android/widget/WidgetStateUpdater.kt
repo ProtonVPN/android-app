@@ -28,9 +28,9 @@ import androidx.glance.appwidget.updateAll
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.logging.WidgetStateUpdate
-import com.protonvpn.android.redesign.recents.ui.RecentItemViewState
 import com.protonvpn.android.redesign.recents.usecases.RecentsListViewStateFlow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
+import com.protonvpn.android.redesign.vpn.ui.ConnectIntentViewState
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.utils.flatMapLatestNotNull
 import com.protonvpn.android.vpn.VpnState
@@ -105,13 +105,14 @@ class WidgetStateUpdater @Inject constructor(
             ) { vpnStatus, recents ->
                 val haveVpnPermission = VpnService.prepare(appContext) == null
                 val widgetRecents = recents.recents.map {
-                    val canConnectInBackground = haveVpnPermission && !it.isProfileAutoOpen
+                    val canConnectInBackground = haveVpnPermission && !it.connectIntent.isProfileAutoOpen
                     WidgetRecent(
                         actionConnect(canConnectInBackground, mainComponentName, recentId = it.id),
                         it.connectIntent
                     )
                 }
-                val canCardConnectInBackground = haveVpnPermission && !recents.recents.first().isProfileAutoOpen
+                val canCardConnectInBackground =
+                    haveVpnPermission && !recents.connectionCard.connectIntentViewState.isProfileAutoOpen
                 val cardAction =
                     if (vpnStatus.isActionConnect) actionConnect(canCardConnectInBackground, mainComponentName)
                     else actionSendBroadcast(WidgetActionBroadcastReceiver.intentDisconnect(appContext))
@@ -161,5 +162,5 @@ class WidgetStateUpdater @Inject constructor(
     }
 }
 
-private val RecentItemViewState.isProfileAutoOpen get() =
-    (connectIntent.primaryLabel as? ConnectIntentPrimaryLabel.Profile)?.isAutoOpen == true
+private val ConnectIntentViewState.isProfileAutoOpen get() =
+    (primaryLabel as? ConnectIntentPrimaryLabel.Profile)?.isAutoOpen == true
