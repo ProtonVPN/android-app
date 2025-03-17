@@ -106,7 +106,10 @@ class EffectiveCurrentUserSettingsFlow constructor(
             } else {
                 NetShieldProtocol.DISABLED
             },
-            customDns = if (customDnsFeatureFlagEnabled) settings.customDns else CustomDnsSettings(false),
+            customDns = if (customDnsFeatureFlagEnabled && vpnUser?.isUserPlusOrAbove == true)
+                settings.customDns
+            else
+                CustomDnsSettings(false),
             telemetry = settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
