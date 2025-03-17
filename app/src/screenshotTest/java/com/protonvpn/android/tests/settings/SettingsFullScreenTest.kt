@@ -31,6 +31,7 @@ import com.protonvpn.android.redesign.settings.ui.AdvancedSettings
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.SettingsView
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
+import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
 import com.protonvpn.android.redesign.settings.ui.customdns.AddNewDnsScreen
@@ -47,7 +48,8 @@ fun SettingsCredentialless() {
     val settings = SettingsData(true)
 
     ProtonVpnPreview(addSurface = false) {
-        SettingsView(accountSettingsViewState = settings.credentiallessAccountViewState,
+        SettingsView(
+            accountSettingsViewState = settings.credentiallessAccountViewState,
             viewState = settings.settingsViewState,
             onVpnAcceleratorClick = {},
             onAccountClick = {},
@@ -115,12 +117,16 @@ fun CustomDnsEmptyState() {
             onDnsToggled = {},
             onAddNewAddress = {},
             onLearnMore = {},
-            viewState =
-            SettingsViewModel.SettingViewState.CustomDns(
-                enabled = false,
-                customDns = emptyList(),
-                overrideProfilePrimaryLabel = null,
-                isFreeUser = false
+            showReconnectionDialog = {},
+            viewState = SettingsViewModel.CustomDnsViewState(
+                dnsViewState =
+                SettingViewState.CustomDns(
+                    enabled = false,
+                    customDns = emptyList(),
+                    overrideProfilePrimaryLabel = null,
+                    isFreeUser = false
+                ),
+                isConnected = false
             )
         )
     }
@@ -137,7 +143,12 @@ fun CustomDnsState() {
             onDnsToggled = {},
             onAddNewAddress = {},
             onLearnMore = {},
-            viewState = settingsPaid.settingsViewState.customDns!!
+            showReconnectionDialog = {},
+            viewState = SettingsViewModel.CustomDnsViewState(
+                dnsViewState = settingsPaid.settingsViewState.customDns!!,
+                isConnected = false
+            )
+
         )
     }
 }
@@ -274,9 +285,16 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false)
     private val vpnAccelerator = SettingsViewModel.SettingViewState.VpnAccelerator(true, isFree)
     private val protocol = SettingsViewModel.SettingViewState.Protocol(ProtocolSelection.SMART, overrideInfo?.primaryLabel)
     private val altRouting = SettingsViewModel.SettingViewState.AltRouting(true)
-    private val customDns = SettingsViewModel.SettingViewState.CustomDns(true, listOf("1.1.1.1", "8.8.8.8", "2001:db8:3333:4444:5555:6666:7777:8888"), overrideInfo?.primaryLabel, isFree)
-    private val lanConnections = SettingsViewModel.SettingViewState.LanConnections(true, isFree, overrideInfo?.primaryLabel)
-    private val natType = SettingsViewModel.SettingViewState.Nat(NatType.Strict, isFree, overrideInfo?.primaryLabel)
+    private val customDns = SettingsViewModel.SettingViewState.CustomDns(
+        true,
+        listOf("1.1.1.1", "8.8.8.8", "2001:db8:3333:4444:5555:6666:7777:8888"),
+        overrideInfo?.primaryLabel,
+        isFree
+    )
+    private val lanConnections =
+        SettingsViewModel.SettingViewState.LanConnections(true, isFree, overrideInfo?.primaryLabel)
+    private val natType =
+        SettingsViewModel.SettingViewState.Nat(NatType.Strict, isFree, overrideInfo?.primaryLabel)
     private val ipV6 = SettingsViewModel.SettingViewState.IPv6(enabled = true)
 
     val settingsViewState = SettingsViewModel.SettingsViewState(

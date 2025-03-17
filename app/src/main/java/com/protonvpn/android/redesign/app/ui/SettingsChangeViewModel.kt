@@ -47,7 +47,7 @@ class SettingsChangeViewModel @Inject constructor(
     val showReconnectDialogFlow = reconnectHandler.showReconnectDialogFlow
     val addDnsResultFlow = MutableStateFlow<AddDnsState>(AddDnsResult.WaitingForInput)
 
-    fun addNewDns(uiDelegate: VpnUiDelegate, newDns: String) {
+    fun addNewDns(newDns: String) {
         viewModelScope.launch {
             val currentSettings = userSettingsManager.rawCurrentUserSettingsFlow.first()
             val currentList = currentSettings.customDns.rawDnsList
@@ -65,28 +65,24 @@ class SettingsChangeViewModel @Inject constructor(
                 val updatedDnsList = currentList.toMutableList().apply {
                     add(newDns)
                 }
-                updateCustomDns(uiDelegate, updatedDnsList)
+                userSettingsManager.updateCustomDnsList(updatedDnsList)
                 addDnsResultFlow.value = AddDnsResult.Added
             }
         }
     }
 
-    private suspend fun updateCustomDns(uiDelegate: VpnUiDelegate, newDnsList: List<String>) {
-        val settings = userSettingsManager.rawCurrentUserSettingsFlow.first()
-        if (settings.customDns.rawDnsList != newDnsList && settings.customDns.enabled) {
-            viewModelScope.launch {
-                reconnectionCheck(
-                    uiDelegate,
-                    DontShowAgainStore.Type.DnsChangeWhenConnected
-                )
-            }
+    fun showDnsReconnectionDialog(uiDelegate: VpnUiDelegate) {
+        viewModelScope.launch {
+            reconnectionCheck(
+                uiDelegate,
+                DontShowAgainStore.Type.DnsChangeWhenConnected
+            )
         }
-        userSettingsManager.updateCustomDnsList(newDnsList)
     }
 
-    fun updateCustomDnsList(uiDelegate: VpnUiDelegate, newDnsList: List<String>) {
+    fun updateCustomDnsList(newDnsList: List<String>) {
         viewModelScope.launch {
-            updateCustomDns(uiDelegate, newDnsList)
+            userSettingsManager.updateCustomDnsList(newDnsList)
         }
     }
 
@@ -133,10 +129,9 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
-    fun toggleCustomDns(uiDelegate: VpnUiDelegate) {
+    fun toggleCustomDns() {
         viewModelScope.launch {
             userSettingsManager.toggleCustomDNS()
-            reconnectionCheck(uiDelegate, DontShowAgainStore.Type.DnsChangeWhenConnected)
         }
     }
 

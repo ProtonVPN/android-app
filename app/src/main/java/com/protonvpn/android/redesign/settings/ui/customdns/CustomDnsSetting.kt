@@ -20,6 +20,8 @@
 package com.protonvpn.android.redesign.settings.ui.customdns
 
 import android.os.Build
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -49,6 +51,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
@@ -76,6 +79,7 @@ import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.FeatureSubSettingScaffold
+import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
 import com.protonvpn.android.redesign.settings.ui.addFeatureSettingItems
 import me.proton.core.compose.theme.ProtonTheme
@@ -92,14 +96,47 @@ fun CustomDnsScreen(
     onLearnMore: () -> Unit,
     onDnsChange: (List<String>) -> Unit,
     onAddNewAddress: () -> Unit,
-    viewState: SettingViewState.CustomDns,
+    showReconnectionDialog: () -> Unit,
+    viewState: SettingsViewModel.CustomDnsViewState,
 ) {
     val listState = rememberLazyListState()
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
+    val dnsViewState = viewState.dnsViewState
+
+    val initialEnabled = rememberSaveable { dnsViewState.value }
+    val initialCustomDns = rememberSaveable { dnsViewState.customDns.toList() }
+
+    val valuesChanged = rememberSaveable { mutableStateOf(false) }
+    val toastShown = rememberSaveable { mutableStateOf(false) }
+
+    // Track any changes and show toast for reconnection on first data change
+    LaunchedEffect(dnsViewState.value, dnsViewState.customDns) {
+        val enabledChanged = dnsViewState.value != initialEnabled
+        val dnsListChanged = dnsViewState.customDns.toList() != initialCustomDns
+        valuesChanged.value = enabledChanged || dnsListChanged
+
+        if (valuesChanged.value && !toastShown.value && viewState.isConnected) {
+            toastShown.value = true
+            Toast.makeText(
+                context,
+                context.getString(R.string.settings_changes_apply_on_reconnect_toast),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+    val handleClose = {
+        if (valuesChanged.value) {
+            showReconnectionDialog()
+        }
+        onClose()
+    }
+
+    BackHandler(onBack = handleClose)
+
     FeatureSubSettingScaffold(
-        title = stringResource(id = viewState.titleRes),
-        onClose = onClose,
+        title = stringResource(id = dnsViewState.titleRes),
+        onClose = handleClose,
         listState = listState,
         titleInListIndex = 1,
     ) { contentPadding ->
@@ -109,10 +146,10 @@ fun CustomDnsScreen(
                 .padding(contentPadding)
         ) {
             val largeScreenModifier = Modifier.largeScreenContentPadding()
-            if (viewState.customDns.isNotEmpty()) {
+            if (dnsViewState.customDns.isNotEmpty()) {
                 CustomDnsContent(
                     listState = listState,
-                    currentDnsList = viewState.customDns,
+                    currentDnsList = dnsViewState.customDns,
                     onDnsChange = onDnsChange,
                     onCopyToClipboard = {
                         if (Build.VERSION.SDK_INT < 33) {
@@ -120,7 +157,7 @@ fun CustomDnsScreen(
                         }
                         clipboardManager.setText(AnnotatedString(it))
                     },
-                    settingViewState = viewState,
+                    settingViewState = dnsViewState,
                     onToggle = onDnsToggled,
                     onLearnMore = onLearnMore,
                     largeScreenPaddingModifier = largeScreenModifier,
@@ -128,7 +165,7 @@ fun CustomDnsScreen(
                 )
             } else {
                 EmptyState(
-                    dnsDescription = viewState.descriptionRes,
+                    dnsDescription = dnsViewState.descriptionRes,
                     onLearnMore = onLearnMore,
                     modifier = largeScreenModifier.weight(1f)
                 )
@@ -408,13 +445,16 @@ fun CustomDnsPreview() {
         onDnsToggled = {},
         onAddNewAddress = {},
         onLearnMore = {},
-        viewState =
-            SettingViewState.CustomDns(
+        showReconnectionDialog = {},
+        viewState = SettingsViewModel.CustomDnsViewState(
+            dnsViewState = SettingViewState.CustomDns(
                 enabled = true,
                 customDns = listOf("1.1.1.1", "1.2.1.1"),
                 overrideProfilePrimaryLabel = null,
                 isFreeUser = false
-            )
+            ),
+            isConnected = false
+        )
     )
 }
 
@@ -427,12 +467,15 @@ fun CustomDnsDisabledPreview() {
         onDnsToggled = {},
         onAddNewAddress = {},
         onLearnMore = {},
-        viewState =
-        SettingViewState.CustomDns(
-            enabled = false,
-            customDns = listOf("1.1.1.1", "1.2.1.1"),
-            overrideProfilePrimaryLabel = null,
-            isFreeUser = false
+        showReconnectionDialog = {},
+        viewState = SettingsViewModel.CustomDnsViewState(
+            dnsViewState = SettingViewState.CustomDns(
+                enabled = false,
+                customDns = listOf("1.1.1.1", "1.2.1.1"),
+                overrideProfilePrimaryLabel = null,
+                isFreeUser = false
+            ),
+            isConnected = false
         )
     )
 }
@@ -446,12 +489,15 @@ fun CustomDnsEmptyState() {
         onDnsToggled = {},
         onAddNewAddress = {},
         onLearnMore = {},
-        viewState =
-        SettingViewState.CustomDns(
-            enabled = false,
-            customDns = emptyList(),
-            overrideProfilePrimaryLabel = null,
-            isFreeUser = false
+        showReconnectionDialog = {},
+        viewState = SettingsViewModel.CustomDnsViewState(
+            dnsViewState = SettingViewState.CustomDns(
+                enabled = false,
+                customDns = emptyList(),
+                overrideProfilePrimaryLabel = null,
+                isFreeUser = false
+            ),
+            isConnected = false
         )
     )
 }

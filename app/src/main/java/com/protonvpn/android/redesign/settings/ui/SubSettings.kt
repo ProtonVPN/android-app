@@ -213,26 +213,29 @@ fun SubSettingsRoute(
                     },
                     addDnsState = viewState,
                     onAddDns = {
-                        settingsChangeViewModel.addNewDns(vpnUiDelegate, it)
+                        settingsChangeViewModel.addNewDns(it)
                     }
                 )
             }
             SubSettingsScreen.Type.CustomDns -> {
-                val viewState = viewModel.customDns.collectAsStateWithLifecycle(null).value
+                val viewState = viewModel.customDnsViewState.collectAsStateWithLifecycle(null).value
                 if (viewState != null) {
                     CustomDnsScreen(
                         onClose = onClose,
                         onDnsToggled = {
-                            settingsChangeViewModel.toggleCustomDns(vpnUiDelegate)
+                            settingsChangeViewModel.toggleCustomDns()
                         },
                         onDnsChange = {
-                            settingsChangeViewModel.updateCustomDnsList(vpnUiDelegate, it)
+                            settingsChangeViewModel.updateCustomDnsList(it)
                         },
                         onAddNewAddress = {
                             onNavigateToSubSetting(SubSettingsScreen.Type.AddNewDns)
                         },
                         onLearnMore = {
                             context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
+                        },
+                        showReconnectionDialog = {
+                            settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
                         },
                         viewState = viewState
                     )
