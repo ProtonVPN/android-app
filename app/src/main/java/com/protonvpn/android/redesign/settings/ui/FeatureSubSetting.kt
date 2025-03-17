@@ -70,10 +70,12 @@ fun FeatureSubSettingScaffold(
         topBar = {
             SimpleTopAppBar(
                 title = {
-                    Text(
-                        text = title,
-                        color = ProtonTheme.colors.textNorm.copy(alpha = topAppBarTitleVisibleFraction)
-                    )
+                    if (topAppBarTitleVisibleFraction > 0f) { // Remove invisible text to hide it from accessibility.
+                        Text(
+                            text = title,
+                            color = ProtonTheme.colors.textNorm.copy(alpha = topAppBarTitleVisibleFraction)
+                        )
+                    }
                 },
                 isScrolledPredicate = {
                     with(listState) { firstVisibleItemScrollOffset > 0 || firstVisibleItemIndex > 0 }
