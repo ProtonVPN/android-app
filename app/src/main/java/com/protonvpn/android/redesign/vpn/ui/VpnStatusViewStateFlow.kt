@@ -28,6 +28,7 @@ import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
 import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.vpn.IsPrivateSystemDnsEnabled
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -49,6 +50,7 @@ class VpnStatusViewStateFlow(
     currentUser: CurrentUser,
     changeServerViewStateFlow: Flow<ChangeServerViewState?>,
     homeScreenPromoBannerFlow: Flow<PromoOfferBannerState?>,
+    isPrivateDnsActiveFlow: Flow<Boolean>,
 ) : Flow<VpnStatusViewState> {
 
     @Inject
@@ -60,6 +62,7 @@ class VpnStatusViewStateFlow(
         currentUser: CurrentUser,
         changeServerViewStateFlow: ChangeServerViewStateFlow,
         homeScreenPromoBannerFlow: HomeScreenPromoBannerFlow,
+        isPrivateSystemDnsEnabled: IsPrivateSystemDnsEnabled,
     ) : this(
         vpnStatusProvider,
         serverListUpdaterPrefs,
@@ -67,7 +70,8 @@ class VpnStatusViewStateFlow(
         settingsForConnection,
         currentUser,
         changeServerViewStateFlow as Flow<ChangeServerViewState?>,
-        homeScreenPromoBannerFlow as Flow<PromoOfferBannerState?>
+        homeScreenPromoBannerFlow as Flow<PromoOfferBannerState?>,
+        isPrivateSystemDnsEnabled as Flow<Boolean>,
     )
 
     private val locationTextFlow = combine(
@@ -84,16 +88,21 @@ class VpnStatusViewStateFlow(
             currentUser.vpnUserFlow,
             changeServerViewStateFlow,
             homeScreenPromoBannerFlow.map { it != null },
-        ) { stats, user, changeServer, hasPromoBanner ->
+            isPrivateDnsActiveFlow,
+        ) { stats, user, changeServer, hasPromoBanner, isPrivateDnsActive ->
             val availability = user.getNetShieldAvailability()
             when {
                 hasPromoBanner && availability != NetShieldAvailability.AVAILABLE -> null
                 changeServer is ChangeServerViewState.Locked -> StatusBanner.UnwantedCountry
                 else -> when (availability) {
-                    NetShieldAvailability.AVAILABLE -> StatusBanner.NetShieldBanner(
-                        NetShieldViewState(connectionSettings.connectionSettings.netShield, stats)
-                    )
-
+                    NetShieldAvailability.AVAILABLE -> {
+                        val netShieldState = if (isPrivateDnsActive) {
+                            NetShieldViewState.Unavailable
+                        } else {
+                            NetShieldViewState.Available(connectionSettings.connectionSettings.netShield, stats)
+                        }
+                        StatusBanner.NetShieldBanner(netShieldState)
+                    }
                     NetShieldAvailability.HIDDEN -> null
                     NetShieldAvailability.UPGRADE_VPN_PLUS -> StatusBanner.UpgradePlus
                 }

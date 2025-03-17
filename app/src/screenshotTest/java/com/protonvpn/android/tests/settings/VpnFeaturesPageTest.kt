@@ -38,12 +38,35 @@ fun NetshieldSettingPage() {
         NetShieldSetting(
             onClose = {},
             onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
             onNetShieldToggle = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldEnabled = true,
                 isRestricted = false,
                 overrideProfilePrimaryLabel = null
-            )
+            ),
+            isPrivateSystemDnsEnabled = false,
+        )
+    }
+}
+
+@Preview
+@Composable
+fun NetshieldPrivateDnsSettingPage() {
+    ProtonVpnPreview {
+        NetShieldSetting(
+            onClose = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            onNetShieldToggle = {},
+            netShield = SettingsViewModel.SettingViewState.NetShield(
+                netShieldEnabled = true,
+                isRestricted = false,
+                overrideProfilePrimaryLabel = null
+            ),
+            isPrivateSystemDnsEnabled = true,
         )
     }
 }

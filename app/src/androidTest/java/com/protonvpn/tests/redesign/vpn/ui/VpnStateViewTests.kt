@@ -68,7 +68,7 @@ class VpnStatusViewTests : FusionComposeTest() {
         val state = VpnStatusViewState.Connected(
             isSecureCoreServer = true,
             banner = StatusBanner.NetShieldBanner(
-                NetShieldViewState(
+                NetShieldViewState.Available(
                     protocol = NetShieldProtocol.ENABLED_EXTENDED,
                     netShieldStats = NetShieldStats(
                         adsBlocked = 5,

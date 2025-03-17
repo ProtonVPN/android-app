@@ -20,17 +20,27 @@ package com.protonvpn.android.netshield
 
 import com.protonvpn.android.R
 
-data class NetShieldViewState(
-    val protocol: NetShieldProtocol,
-    val netShieldStats: NetShieldStats
-) {
-    val bandwidthShown = protocol != NetShieldProtocol.DISABLED
-    val iconRes = when (protocol) {
-        NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
-        NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_f2
+sealed interface NetShieldViewState {
+    val iconRes: Int
+    val stateRes: Int
+
+    object Unavailable : NetShieldViewState {
+        override val iconRes = R.drawable.ic_netshield_off
+        override val stateRes = R.string.netshield_state_unavailable
     }
-    val stateRes = when (protocol) {
-        NetShieldProtocol.DISABLED -> R.string.netshield_state_off
-        NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.string.netshield_state_on
+
+    data class Available(
+        val protocol: NetShieldProtocol,
+        val netShieldStats: NetShieldStats
+    ) : NetShieldViewState {
+        val bandwidthShown = protocol != NetShieldProtocol.DISABLED
+        override val iconRes = when (protocol) {
+            NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
+            NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_f2
+        }
+        override val stateRes = when (protocol) {
+            NetShieldProtocol.DISABLED -> R.string.netshield_state_off
+            NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.string.netshield_state_on
+        }
     }
 }

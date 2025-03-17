@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.redesign.vpn.ui
 
+import android.content.Intent
+import android.provider.Settings
 import android.text.BidiFormatter
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloat
@@ -63,6 +65,7 @@ import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -76,13 +79,16 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.netshield.NetShieldActions
-import com.protonvpn.android.netshield.NetShieldBottomComposable
+import com.protonvpn.android.netshield.NetShieldBottomPrivateDns
+import com.protonvpn.android.netshield.NetShieldBottomSettings
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.netshield.NetShieldStats
 import com.protonvpn.android.netshield.NetShieldView
 import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
 import com.protonvpn.android.redesign.base.ui.vpnGreen
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.openUrl
 import kotlinx.coroutines.delay
 import me.proton.core.compose.theme.ProtonColors
 import me.proton.core.compose.theme.ProtonTheme
@@ -341,15 +347,23 @@ private fun VpnConnectedView(
         }
     }
     if (isModalVisible && banner is StatusBanner.NetShieldBanner) {
+        val context = LocalContext.current
         ModalBottomSheet(
             sheetState = bottomSheetState,
             containerColor = ProtonTheme.colors.backgroundNorm,
             content = {
-                NetShieldBottomComposable(
-                    currentNetShield = banner.netShieldState.protocol,
-                    onNetShieldLearnMore = netShieldActions.onNetShieldLearnMore,
-                    onValueChanged = netShieldActions.onNetShieldValueChanged
-                )
+                when (banner.netShieldState) {
+                    is NetShieldViewState.Available -> NetShieldBottomSettings(
+                        currentNetShield = banner.netShieldState.protocol,
+                        onNetShieldLearnMore = netShieldActions.onNetShieldLearnMore,
+                        onValueChanged = netShieldActions.onNetShieldValueChanged
+                    )
+                    is NetShieldViewState.Unavailable -> NetShieldBottomPrivateDns(
+                        onPrivateDnsLearnMore = { context.openUrl(Constants.URL_PRIVATE_DNS_NETSHIELD_LEARN_MORE) },
+                        onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
+                    )
+                }
+
             },
             onDismissRequest = {
                 isModalVisible = !isModalVisible
@@ -544,7 +558,7 @@ private fun PreviewVpnConnectedState() {
     PreviewHelper(
         state = VpnStatusViewState.Connected(
             false, banner = StatusBanner.NetShieldBanner(
-                NetShieldViewState(
+                NetShieldViewState.Available(
                     protocol = NetShieldProtocol.ENABLED_EXTENDED,
                     netShieldStats = NetShieldStats(
                         adsBlocked = 3,
@@ -566,7 +580,7 @@ private fun PreviewVpnConnectedSecureCoreState() {
     PreviewHelper(
         state = VpnStatusViewState.Connected(
             true, banner = StatusBanner.NetShieldBanner(
-                NetShieldViewState(
+                NetShieldViewState.Available(
                     protocol = NetShieldProtocol.ENABLED_EXTENDED,
                     netShieldStats = NetShieldStats(
                         adsBlocked = 3,

@@ -76,8 +76,10 @@ import androidx.core.view.HapticFeedbackConstantsCompat
 import androidx.core.view.ViewCompat.performHapticFeedback
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
+import com.protonvpn.android.redesign.settings.ui.DnsConflictBanner
 import com.protonvpn.android.redesign.settings.ui.FeatureSubSettingScaffold
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
@@ -96,8 +98,13 @@ fun CustomDnsScreen(
     onLearnMore: () -> Unit,
     onDnsChange: (List<String>) -> Unit,
     onAddNewAddress: () -> Unit,
+    onPrivateDnsLearnMore: () -> Unit,
+    onOpenPrivateDnsSettings: () -> Unit,
     showReconnectionDialog: () -> Unit,
     viewState: SettingsViewModel.CustomDnsViewState,
+    // TODO: we need to uncouple the setting state in main screen and subscreens and then we can put
+    //  isPrivateSystemDnsEnabled in state class for this CustomDnsScreen.
+    isPrivateSystemDnsEnabled: Boolean,
 ) {
     val listState = rememberLazyListState()
     val clipboardManager = LocalClipboardManager.current
@@ -146,36 +153,50 @@ fun CustomDnsScreen(
                 .padding(contentPadding)
         ) {
             val largeScreenModifier = Modifier.largeScreenContentPadding()
-            if (dnsViewState.customDns.isNotEmpty()) {
-                CustomDnsContent(
-                    listState = listState,
-                    currentDnsList = dnsViewState.customDns,
-                    onDnsChange = onDnsChange,
-                    onCopyToClipboard = {
-                        if (Build.VERSION.SDK_INT < 33) {
-                            context.showToast(context.getString(R.string.copied_to_clipboard))
-                        }
-                        clipboardManager.setText(AnnotatedString(it))
-                    },
-                    settingViewState = dnsViewState,
-                    onToggle = onDnsToggled,
-                    onLearnMore = onLearnMore,
-                    largeScreenPaddingModifier = largeScreenModifier,
-                    modifier = Modifier.weight(1f)
-                )
-            } else {
-                EmptyState(
-                    dnsDescription = dnsViewState.descriptionRes,
-                    onLearnMore = onLearnMore,
-                    modifier = largeScreenModifier.weight(1f)
-                )
+            when {
+                isPrivateSystemDnsEnabled -> {
+                    CustomDnsWithPrivateDnsConflict(
+                        listState = listState,
+                        settingViewState = dnsViewState,
+                        onPrivateDnsLearnMore = onPrivateDnsLearnMore,
+                        onOpenPrivateDnsSettings = onOpenPrivateDnsSettings,
+                        largeScreenPaddingModifier = largeScreenModifier,
+                    )
+                }
+                dnsViewState.customDns.isNotEmpty() -> {
+                    CustomDnsContent(
+                        listState = listState,
+                        currentDnsList = dnsViewState.customDns,
+                        onDnsChange = onDnsChange,
+                        onCopyToClipboard = {
+                            if (Build.VERSION.SDK_INT < 33) {
+                                context.showToast(context.getString(R.string.copied_to_clipboard))
+                            }
+                            clipboardManager.setText(AnnotatedString(it))
+                        },
+                        settingViewState = dnsViewState,
+                        onToggle = onDnsToggled,
+                        onLearnMore = onLearnMore,
+                        largeScreenPaddingModifier = largeScreenModifier,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                else -> {
+                    EmptyState(
+                        dnsDescription = dnsViewState.descriptionRes,
+                        onLearnMore = onLearnMore,
+                        modifier = largeScreenModifier.weight(1f)
+                    )
+                }
             }
 
-            VpnSolidButton(
-                text = stringResource(R.string.settings_add_dns_title),
-                onClick = onAddNewAddress,
-                modifier = largeScreenModifier.padding(16.dp)
-            )
+            if (!isPrivateSystemDnsEnabled) {
+                VpnSolidButton(
+                    text = stringResource(R.string.settings_add_dns_title),
+                    onClick = onAddNewAddress,
+                    modifier = largeScreenModifier.padding(16.dp)
+                )
+            }
         }
     }
 }
@@ -215,6 +236,39 @@ private fun EmptyState(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(Modifier.height(24.dp))
+    }
+}
+
+@Composable
+private fun CustomDnsWithPrivateDnsConflict(
+    listState: LazyListState,
+    settingViewState: SettingViewState<Boolean>,
+    onPrivateDnsLearnMore: () -> Unit,
+    onOpenPrivateDnsSettings: () -> Unit,
+    largeScreenPaddingModifier: Modifier,
+    modifier: Modifier = Modifier
+) {
+    val itemModifier = largeScreenPaddingModifier.padding(horizontal = 16.dp)
+    LazyColumn(
+        state = listState,
+        modifier = modifier,
+    ) {
+        addFeatureSettingItems(
+            setting = settingViewState,
+            imageRes = R.drawable.setting_custom_dns,
+            onLearnMore = onPrivateDnsLearnMore,
+            itemModifier = itemModifier,
+        )
+        item {
+            DnsConflictBanner(
+                titleRes = R.string.private_dns_conflict_banner_custom_dns_title,
+                descriptionRes = R.string.private_dns_conflict_banner_custom_dns_description,
+                buttonRes = R.string.private_dns_conflict_banner_network_settings_button,
+                onLearnMore = onPrivateDnsLearnMore,
+                onButtonClicked = onOpenPrivateDnsSettings,
+                modifier = itemModifier.padding(top = 24.dp),
+            )
+        }
     }
 }
 
@@ -438,66 +492,108 @@ private fun moveItemDown(list: List<String>, index: Int, item: String, onDnsChan
 
 @Preview
 @Composable
-fun CustomDnsPreview() {
-    CustomDnsScreen(
-        onClose = {},
-        onDnsChange = {},
-        onDnsToggled = {},
-        onAddNewAddress = {},
-        onLearnMore = {},
-        showReconnectionDialog = {},
-        viewState = SettingsViewModel.CustomDnsViewState(
-            dnsViewState = SettingViewState.CustomDns(
-                enabled = true,
-                customDns = listOf("1.1.1.1", "1.2.1.1"),
-                overrideProfilePrimaryLabel = null,
-                isFreeUser = false
-            ),
-            isConnected = false
+private fun CustomDnsPreview() {
+    ProtonVpnPreview {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onAddNewAddress = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            showReconnectionDialog = {},
+            isPrivateSystemDnsEnabled = false,
+            viewState = SettingsViewModel.CustomDnsViewState(
+                dnsViewState = SettingViewState.CustomDns(
+                    enabled = true,
+                    customDns = listOf("1.1.1.1", "1.2.1.1"),
+                    overrideProfilePrimaryLabel = null,
+                    isFreeUser = false
+                ),
+                isConnected = false
+            )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
-fun CustomDnsDisabledPreview() {
-    CustomDnsScreen(
-        onClose = {},
-        onDnsChange = {},
-        onDnsToggled = {},
-        onAddNewAddress = {},
-        onLearnMore = {},
-        showReconnectionDialog = {},
-        viewState = SettingsViewModel.CustomDnsViewState(
-            dnsViewState = SettingViewState.CustomDns(
-                enabled = false,
-                customDns = listOf("1.1.1.1", "1.2.1.1"),
-                overrideProfilePrimaryLabel = null,
-                isFreeUser = false
-            ),
-            isConnected = false
+private fun CustomDnsConflictPreview() {
+    ProtonVpnPreview {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onAddNewAddress = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            showReconnectionDialog = {},
+            isPrivateSystemDnsEnabled = true,
+            viewState = SettingsViewModel.CustomDnsViewState(
+                dnsViewState = SettingViewState.CustomDns(
+                    enabled = false,
+                    customDns = listOf("1.1.1.1", "1.2.1.1"),
+                    overrideProfilePrimaryLabel = null,
+                    isFreeUser = false
+                ),
+                isConnected = false
+            )
         )
-    )
+    }
 }
 
 @Preview
 @Composable
-fun CustomDnsEmptyState() {
-    CustomDnsScreen(
-        onClose = {},
-        onDnsChange = {},
-        onDnsToggled = {},
-        onAddNewAddress = {},
-        onLearnMore = {},
-        showReconnectionDialog = {},
-        viewState = SettingsViewModel.CustomDnsViewState(
-            dnsViewState = SettingViewState.CustomDns(
-                enabled = false,
-                customDns = emptyList(),
-                overrideProfilePrimaryLabel = null,
-                isFreeUser = false
-            ),
-            isConnected = false
+private fun CustomDnsDisabledPreview() {
+    ProtonVpnPreview {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onAddNewAddress = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            showReconnectionDialog = {},
+            isPrivateSystemDnsEnabled = false,
+            viewState = SettingsViewModel.CustomDnsViewState(
+                dnsViewState = SettingViewState.CustomDns(
+                    enabled = false,
+                    customDns = emptyList(),
+                    overrideProfilePrimaryLabel = null,
+                    isFreeUser = false
+                ),
+                isConnected = false
+            )
         )
-    )
+    }
+}
+
+@Preview
+@Composable
+private fun CustomDnsEmptyState() {
+    ProtonVpnPreview {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onAddNewAddress = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            showReconnectionDialog = {},
+            isPrivateSystemDnsEnabled = false,
+            viewState = SettingsViewModel.CustomDnsViewState(
+                dnsViewState = SettingViewState.CustomDns(
+                    enabled = false,
+                    customDns = emptyList(),
+                    overrideProfilePrimaryLabel = null,
+                    isFreeUser = false
+                ),
+                isConnected = false
+            )
+        )
+    }
 }

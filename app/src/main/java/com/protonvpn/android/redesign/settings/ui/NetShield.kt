@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.SettingsFeatureToggle
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -34,8 +35,11 @@ import me.proton.core.compose.theme.ProtonTheme
 fun NetShieldSetting(
     onClose: () -> Unit,
     netShield: SettingsViewModel.SettingViewState.NetShield,
+    isPrivateSystemDnsEnabled: Boolean,
     onLearnMore: () -> Unit,
     onNetShieldToggle: () -> Unit,
+    onPrivateDnsLearnMore: () -> Unit,
+    onOpenPrivateDnsSettings: () -> Unit,
 ) {
     val listState = rememberLazyListState()
     FeatureSubSettingScaffold(
@@ -55,15 +59,33 @@ fun NetShieldSetting(
                 setting = netShield,
                 imageRes = R.drawable.setting_netshield,
                 onLearnMore = onLearnMore,
-                onToggle = onNetShieldToggle,
                 itemModifier = horizontalItemPaddingModifier,
             )
+            item {
+                if (isPrivateSystemDnsEnabled) {
+                    DnsConflictBanner(
+                        titleRes = R.string.private_dns_conflict_banner_netshield_title,
+                        descriptionRes = R.string.private_dns_conflict_banner_netshield_description,
+                        buttonRes = R.string.private_dns_conflict_banner_network_settings_button,
+                        onLearnMore = onPrivateDnsLearnMore,
+                        onButtonClicked = onOpenPrivateDnsSettings,
+                        modifier = horizontalItemPaddingModifier.padding(top = 24.dp),
+                    )
+                } else {
+                    SettingsFeatureToggle(
+                        label = stringResource(netShield.titleRes),
+                        checked = netShield.value,
+                        onCheckedChange = { _ -> onNetShieldToggle() },
+                        modifier = horizontalItemPaddingModifier.padding(top = 16.dp)
+                    )
+                }
+            }
             item {
                 Text(
                     text = stringResource(id = R.string.netshield_setting_warning),
                     style = ProtonTheme.typography.body2Regular,
                     color =  ProtonTheme.colors.textWeak,
-                    modifier = horizontalItemPaddingModifier,
+                    modifier = horizontalItemPaddingModifier.padding(top = 16.dp),
                 )
             }
         }
