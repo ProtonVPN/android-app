@@ -85,7 +85,7 @@ fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit)
             )
 
             Text(
-                text = stringResource(state.titleRes),
+                text = stringResource(state.stateRes),
                 style = ProtonTheme.typography.body2Regular,
                 color = ProtonTheme.colors.textWeak,
                 modifier = Modifier.padding(horizontal = 4.dp)
