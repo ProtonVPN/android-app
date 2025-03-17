@@ -60,6 +60,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -110,7 +114,7 @@ fun CustomDnsScreen(
                     listState = listState,
                     currentDnsList = viewState.customDns,
                     onDnsChange = onDnsChange,
-                    onItemLongPress = {
+                    onCopyToClipboard = {
                         if (Build.VERSION.SDK_INT < 33) {
                             context.showToast(context.getString(R.string.copied_to_clipboard))
                         }
@@ -185,7 +189,7 @@ private fun CustomDnsContent(
     onLearnMore: () -> Unit,
     onToggle: () -> Unit,
     onDnsChange: (List<String>) -> Unit,
-    onItemLongPress: (String) -> Unit,
+    onCopyToClipboard: (String) -> Unit,
     largeScreenPaddingModifier: Modifier,
     modifier: Modifier = Modifier
 ) {
@@ -238,7 +242,7 @@ private fun CustomDnsContent(
                     modifier = largeScreenPaddingModifier.padding(16.dp)
                 )
             }
-            itemsIndexed(dnsList, key = { _, item -> item }) { _, item ->
+            itemsIndexed(dnsList, key = { _, item -> item }) { index, item ->
                 ReorderableItem(reorderableLazyListState, key = item) { isDragging ->
                     val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp, label = "")
                     val backgroundColor by animateColorAsState(
@@ -259,15 +263,22 @@ private fun CustomDnsContent(
                             )
                         }
                     )
+                    // TODO(VPNAND-2125): this kind of logic belongs in the UI state or even viewmodel.
+                    val onMoveUp = remember(index, currentDnsList, item, onDnsChange) {
+                        { moveItemUp(currentDnsList, index, item, onDnsChange) }.takeIf { index > 0 }
+                    }
+                    val onMoveDown = remember(index, currentDnsList, item, onDnsChange) {
+                        { moveItemDown(currentDnsList, index, item, onDnsChange) }
+                            .takeIf { index < currentDnsList.size - 1 }
+                    }
                     DnsListItem(
-                        item = item,
+                        label = item,
                         elevation = elevation,
                         backgroundColor = backgroundColor,
-                        onItemLongPress = onItemLongPress,
-                        onDelete = {
-                            val newList = currentDnsList.toMutableList().apply { remove(item) }
-                            onDnsChange(newList)
-                        },
+                        onCopyToClipboard = onCopyToClipboard,
+                        onMoveUp = onMoveUp,
+                        onMoveDown = onMoveDown,
+                        onDelete = { onDnsChange(currentDnsList - item) },
                         modifier = largeScreenPaddingModifier.animateItem(),
                         dragModifier = dragModifier
                     )
@@ -289,24 +300,32 @@ private fun CustomDnsContent(
 
 @Composable
 private fun DnsListItem(
-    item: String,
+    label: String,
     elevation: Dp,
     backgroundColor: Color,
-    onItemLongPress: (String) -> Unit,
+    onCopyToClipboard: (String) -> Unit,
+    onMoveUp: (() -> Unit)?,
+    onMoveDown: (() -> Unit)?,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
     dragModifier: Modifier = Modifier
 ) {
+    val copyToClipboard = remember(label, onCopyToClipboard) { { onCopyToClipboard(label) } }
+
+    val accessibilityActions = customAccessibilityActions(
+        onMoveUp = onMoveUp, onMoveDown = onMoveDown, onCopyToClipboard = copyToClipboard, onDelete = onDelete
+    )
     Surface(
         shadowElevation = elevation,
         color = backgroundColor,
         modifier = modifier
             .fillMaxWidth()
+            .semantics(mergeDescendants = true) {
+                customActions = accessibilityActions
+            }
             .pointerInput(Unit) {
                 detectTapGestures(
-                    onLongPress = {
-                        onItemLongPress(item)
-                    }
+                    onLongPress = { copyToClipboard() }
                 )
             },
     ) {
@@ -323,12 +342,13 @@ private fun DnsListItem(
                 modifier = dragModifier.padding(16.dp)
             )
             Text(
-                text = item,
+                text = label,
                 style = ProtonTheme.typography.body1Regular,
                 modifier = Modifier.weight(1f)
             )
             IconButton(
-                onClick = onDelete
+                onClick = onDelete,
+                modifier = Modifier.clearAndSetSemantics() {}
             ) {
                 Icon(
                     painterResource(id = CoreR.drawable.ic_proton_trash),
@@ -340,6 +360,43 @@ private fun DnsListItem(
             Spacer(modifier = Modifier.width(16.dp))
         }
     }
+}
+
+@Composable
+private fun customAccessibilityActions(
+    onMoveUp: (() -> Unit)?,
+    onMoveDown: (() -> Unit)?,
+    onDelete: () -> Unit,
+    onCopyToClipboard: () -> Unit,
+): List<CustomAccessibilityAction> {
+    @Composable
+    fun createAction(@StringRes labelRes: Int, action: () -> Unit) =
+        CustomAccessibilityAction(label = stringResource(labelRes), action = { action(); true })
+
+    return buildList {
+        if (onMoveUp != null)
+            add(createAction(R.string.accessibility_action_item_move_up, onMoveUp))
+        if (onMoveDown != null)
+            add(createAction(R.string.accessibility_action_item_move_down, onMoveDown))
+        add(createAction(R.string.accessibility_action_item_delete, onDelete))
+        add(createAction(R.string.accessibility_action_copy_to_clipboard, onCopyToClipboard))
+    }
+}
+
+private fun moveItemUp(list: List<String>, index: Int, item: String, onDnsChange: (List<String>) -> Unit) {
+    val newList = list.toMutableList().apply {
+        removeAt(index)
+        add(index - 1, item)
+    }
+    onDnsChange(newList)
+}
+
+private fun moveItemDown(list: List<String>, index: Int, item: String, onDnsChange: (List<String>) -> Unit) {
+    val newList = list.toMutableList().apply {
+        removeAt(index)
+        add(index + 1, item)
+    }
+    onDnsChange(newList)
 }
 
 @Preview
