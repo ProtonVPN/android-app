@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,7 +40,6 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.redesign.settings.ui.SubSetting
-import me.proton.core.compose.theme.ProtonTheme
 
 sealed interface AddDnsState
 
@@ -100,6 +98,8 @@ private fun ColumnScope.DnsInputRow(
             placeholderText = stringResource(id = R.string.settings_add_dns_placeholder),
             onValueChange = { currentDns = it },
             isError = addDnsState is AddDnsError,
+            assistiveText = stringResource(R.string.settings_add_dns_description),
+            errorText = (addDnsState as? AddDnsError)?.errorRes?.let { stringResource(it) },
             singleLine = true,
         )
         Spacer(modifier = Modifier.width(8.dp))
@@ -110,21 +110,6 @@ private fun ColumnScope.DnsInputRow(
             },
         )
     }
-    Text(
-        text = stringResource(
-            if (addDnsState is AddDnsError)
-                addDnsState.errorRes
-            else
-                R.string.settings_add_dns_description
-        ),
-        style = ProtonTheme.typography.body2Regular,
-        color =
-            if (addDnsState is AddDnsError)
-                ProtonTheme.colors.notificationError
-            else
-                ProtonTheme.colors.textWeak,
-        modifier = Modifier.padding(horizontal = 16.dp)
-    )
 }
 
 @Preview

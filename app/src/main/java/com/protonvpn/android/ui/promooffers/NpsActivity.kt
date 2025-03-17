@@ -75,6 +75,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.TopAppBarCloseIcon
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.VpnSolidButton
@@ -341,7 +342,7 @@ private fun RatingButton(modifier: Modifier, number: Int, isSelected: Boolean, o
 @Preview
 @Composable
 fun PreviewNPS() {
-    ProtonTheme3(isDark = true) {
+    ProtonVpnPreview {
         RateMeScreen(
             onClose = {},
             onSubmit = { _, _ -> }
