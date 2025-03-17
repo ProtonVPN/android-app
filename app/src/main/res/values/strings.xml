@@ -174,6 +174,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Remove from Included apps</string>
+    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
+    <string name="accessibility_action_item_delete">Delete</string>
+    <string name="accessibility_action_item_move_up">Move up</string>
+    <string name="accessibility_action_item_move_down">Move down</string>
     <string name="tileConnected">Connected: %1$s</string>
     <string name="openUrlError">%1$s could not be opened. Web browser was not detected on your device.</string>
     <string name="loaderErrorTimeout">Connection timed out. Please try again.</string>
