@@ -43,7 +43,9 @@ import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.BuildConfigUtils
+import com.protonvpn.android.vpn.ConnectivityMonitor
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
+import com.protonvpn.android.vpn.IsPrivateSystemDnsEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -86,7 +88,8 @@ class SettingsViewModel @Inject constructor(
     private val appWidgetManager: WidgetManager,
     private val appFeaturePrefs: AppFeaturesPrefs,
     private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
-    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled
+    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
+    val isPrivateSystemDnsEnabled: IsPrivateSystemDnsEnabled,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(

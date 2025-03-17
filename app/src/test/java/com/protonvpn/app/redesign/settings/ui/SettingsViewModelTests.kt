@@ -44,6 +44,7 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.vpn.IsPrivateSystemDnsEnabled
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
@@ -59,8 +60,10 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -160,6 +163,10 @@ class SettingsViewModelTests {
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         settingsForConnection = SettingsForConnection(effectiveSettings, mockProfilesDao, vpnStatusProviderUI)
 
+        val isPrivateSystemDnsEnabled = MutableStateFlow<Boolean>(false)
+        val isPrivateSystemDnsEnabledMock = mockk<IsPrivateSystemDnsEnabled> {
+            coEvery { collect(any()) } coAnswers { isPrivateSystemDnsEnabled.collect(firstArg()) }
+        }
         settingsViewModel = SettingsViewModel(
             currentUser,
             mockObserveUserSettings,
@@ -176,7 +183,8 @@ class SettingsViewModelTests {
             mockWidgetManager,
             prefs,
             isIPv6FeatureFlagEnabled,
-            isCustomDnsEnabled
+            isCustomDnsEnabled,
+            isPrivateSystemDnsEnabledMock,
         )
     }
 

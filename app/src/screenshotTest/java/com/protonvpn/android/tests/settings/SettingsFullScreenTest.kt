@@ -117,17 +117,19 @@ fun CustomDnsEmptyState() {
             onDnsToggled = {},
             onAddNewAddress = {},
             onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
             viewState = SettingsViewModel.CustomDnsViewState(
-                dnsViewState =
-                SettingViewState.CustomDns(
+                dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
                     customDns = emptyList(),
                     overrideProfilePrimaryLabel = null,
                     isFreeUser = false
                 ),
                 isConnected = false
-            )
+            ),
+            isPrivateSystemDnsEnabled = false,
         )
     }
 }
@@ -143,12 +145,37 @@ fun CustomDnsState() {
             onDnsToggled = {},
             onAddNewAddress = {},
             onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = settingsPaid.settingsViewState.customDns!!,
                 isConnected = false
-            )
+            ),
+            isPrivateSystemDnsEnabled = false,
+        )
+    }
+}
 
+@Composable
+@Preview()
+fun CustomDnsStatePrivateDns() {
+    val settingsPaid = SettingsData(false, true)
+    ProtonVpnPreview(addSurface = true) {
+        CustomDnsScreen(
+            onClose = {},
+            onDnsChange = {},
+            onDnsToggled = {},
+            onAddNewAddress = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            showReconnectionDialog = {},
+            viewState = SettingsViewModel.CustomDnsViewState(
+                dnsViewState = settingsPaid.settingsViewState.customDns!!,
+                isConnected = false
+            ),
+            isPrivateSystemDnsEnabled = true,
         )
     }
 }

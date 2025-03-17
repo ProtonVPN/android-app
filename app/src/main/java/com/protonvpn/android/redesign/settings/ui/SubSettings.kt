@@ -19,6 +19,8 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
+import android.content.Intent
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -114,11 +116,15 @@ fun SubSettingsRoute(
 
             SubSettingsScreen.Type.NetShield -> {
                 val netShield = viewModel.netShield.collectAsStateWithLifecycle(initialValue = null).value
+                val isPrivateSystemDnsEnabled = viewModel.isPrivateSystemDnsEnabled.collectAsStateWithLifecycle(false).value
                 if (netShield != null) {
                     NetShieldSetting(
                         onClose = onClose,
                         netShield = netShield,
+                        isPrivateSystemDnsEnabled = isPrivateSystemDnsEnabled,
                         onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
+                        onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
+                        onPrivateDnsLearnMore = { context.openUrl(Constants.URL_PRIVATE_DNS_NETSHIELD_LEARN_MORE) },
                         onNetShieldToggle = settingsChangeViewModel::toggleNetShield
                     )
                 }
@@ -219,6 +225,7 @@ fun SubSettingsRoute(
             }
             SubSettingsScreen.Type.CustomDns -> {
                 val viewState = viewModel.customDnsViewState.collectAsStateWithLifecycle(null).value
+                val isPrivateSystemDnsEnabled = viewModel.isPrivateSystemDnsEnabled.collectAsStateWithLifecycle(false).value
                 if (viewState != null) {
                     CustomDnsScreen(
                         onClose = onClose,
@@ -234,10 +241,16 @@ fun SubSettingsRoute(
                         onLearnMore = {
                             context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
                         },
+                        onPrivateDnsLearnMore = {
+                            // TODO: do we have a special URL for system private DNS?
+                            context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
+                        },
+                        onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
                         showReconnectionDialog = {
                             settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
                         },
-                        viewState = viewState
+                        viewState = viewState,
+                        isPrivateSystemDnsEnabled = isPrivateSystemDnsEnabled
                     )
                 }
             }

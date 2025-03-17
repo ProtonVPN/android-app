@@ -233,6 +233,7 @@
     <string name="netshield_feature_name" translatable="false">NetShield</string>
     <string name="netshield_state_on" comment="Describes state, not action">On</string>
     <string name="netshield_state_off" comment="Describes state, not action">Off</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">On</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Off</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">On</string>
@@ -1394,6 +1395,11 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">Remove IP address from the list?</string>
     <string name="settings_dialog_reconnect">New settings will apply next time you connect.</string>
     <string name="settings_needs_reconnect_banner">New settings will apply next time you connect.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
     <string name="info_secure_core_standard_high_privacy">High privacy</string>
     <string name="info_secure_core_standard_lower_latency">Lower latency</string>
     <string name="info_secure_core_advanced_privacy">Advanced privacy</string>

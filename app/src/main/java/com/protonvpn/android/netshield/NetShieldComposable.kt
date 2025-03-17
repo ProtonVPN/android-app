@@ -52,6 +52,7 @@ import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SettingsFeatureToggle
 import com.protonvpn.android.base.ui.volumeBytesToString
+import com.protonvpn.android.redesign.settings.ui.DnsConflictBanner
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.presentation.R as CoreR
@@ -97,11 +98,13 @@ fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit)
                 modifier = Modifier.size(16.dp)
             )
         }
-        AnimatedVisibility(state.bandwidthShown) {
-            BandwidthStatsRow(
-                stats = state.netShieldStats,
-                modifier = Modifier.padding(top = 8.dp)
-            )
+        if (state is NetShieldViewState.Available) {
+            AnimatedVisibility(state.bandwidthShown) {
+                BandwidthStatsRow(
+                    stats = state.netShieldStats,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
         }
     }
 }
@@ -169,8 +172,26 @@ private fun BandwidthColumn(
         )
     }
 }
+
 @Composable
-fun NetShieldBottomComposable(
+fun NetShieldBottomPrivateDns(
+    onPrivateDnsLearnMore: () -> Unit,
+    onOpenPrivateDnsSettings: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    DnsConflictBanner(
+        titleRes = R.string.private_dns_conflict_banner_netshield_title,
+        descriptionRes = R.string.private_dns_conflict_banner_netshield_description,
+        buttonRes = R.string.private_dns_conflict_banner_network_settings_button,
+        onLearnMore = onPrivateDnsLearnMore,
+        onButtonClicked = onOpenPrivateDnsSettings,
+        modifier = modifier,
+        backgroundColor = Color.Transparent
+    )
+}
+
+@Composable
+fun NetShieldBottomSettings(
     currentNetShield: NetShieldProtocol,
     onValueChanged: (protocol: NetShieldProtocol) -> Unit,
     onNetShieldLearnMore: () -> Unit
@@ -268,7 +289,7 @@ private fun StatsDescriptionRow(titleId: Int, detailsId: Int) {
 @Composable
 private fun NetShieldBottomPreview() {
     ProtonVpnPreview {
-        NetShieldBottomComposable(
+        NetShieldBottomSettings(
             currentNetShield = NetShieldProtocol.DISABLED,
             onValueChanged = {},
             onNetShieldLearnMore = {}
@@ -280,7 +301,7 @@ private fun NetShieldBottomPreview() {
 @Composable
 private fun NetShieldBottomSheetPreview() {
     ProtonVpnPreview {
-        NetShieldBottomComposable(
+        NetShieldBottomSettings(
             currentNetShield = NetShieldProtocol.DISABLED,
             onValueChanged = {},
             onNetShieldLearnMore = {}
@@ -292,8 +313,7 @@ private fun NetShieldBottomSheetPreview() {
 private fun NetShieldOnPreview() {
     ProtonVpnPreview {
         NetShieldView(
-            state =
-            NetShieldViewState(
+            state = NetShieldViewState.Available(
                 protocol = NetShieldProtocol.ENABLED_EXTENDED,
                 netShieldStats = NetShieldStats(
                     adsBlocked = 3,
@@ -311,13 +331,24 @@ private fun NetShieldOnPreview() {
 private fun NetShieldOffPreview() {
     ProtonVpnPreview {
         NetShieldView(
-            state = NetShieldViewState(
+            state = NetShieldViewState.Available(
                 protocol = NetShieldProtocol.DISABLED,
                 netShieldStats = NetShieldStats(
                     adsBlocked = 3,
                     trackersBlocked = 5,
                 )
             ),
+            onNavigateToSubsetting = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun NetShieldUnavailablePreview() {
+    ProtonVpnPreview {
+        NetShieldView(
+            state = NetShieldViewState.Unavailable,
             onNavigateToSubsetting = {}
         )
     }

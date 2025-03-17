@@ -124,15 +124,44 @@ fun LazyListScope.addFeatureSettingItems(
     setting: SettingViewState<Boolean>,
     @DrawableRes imageRes: Int,
     onLearnMore: () -> Unit,
+    itemModifier: Modifier = Modifier,
+) {
+    addFeatureSettingItems(
+        imageRes = imageRes,
+        title = { stringResource(setting.titleRes) },
+        description = {
+            CompositionLocalProvider(
+                LocalTextStyle provides ProtonTheme.typography.body2Regular,
+                LocalContentColor provides ProtonTheme.colors.textWeak
+            ) {
+                // TODO: refactor how we handle the embedded links, current Compose version should have better tools.
+                SettingDescription(
+                    setting.descriptionText(),
+                    setting.annotationRes?.let {
+                        ClickableTextAnnotation(
+                            annotatedPart = stringResource(it),
+                            onAnnotatedClick = onLearnMore,
+                            onAnnotatedOutsideClick = {}
+                        )
+                    },
+                    modifier = itemModifier.padding(top = 8.dp)
+                )
+            }
+        },
+        itemModifier = itemModifier
+    )
+}
+
+fun LazyListScope.addFeatureSettingItems(
+    setting: SettingViewState<Boolean>,
+    @DrawableRes imageRes: Int,
+    onLearnMore: () -> Unit,
     onToggle: () -> Unit,
     itemModifier: Modifier = Modifier,
 ) {
     addFeatureSettingItems(
         imageRes = imageRes,
         title = { stringResource(setting.titleRes) },
-        switchLabel = { stringResource(setting.titleRes) },
-        switchValue = { setting.value },
-        onSwitchChange = { _ -> onToggle() },
         description = {
             CompositionLocalProvider(
                 LocalTextStyle provides ProtonTheme.typography.body2Regular,
@@ -154,14 +183,19 @@ fun LazyListScope.addFeatureSettingItems(
         },
         itemModifier = itemModifier,
     )
+    item {
+        SettingsFeatureToggle(
+            label = stringResource(setting.titleRes),
+            checked = setting.value,
+            onCheckedChange = { _ -> onToggle() },
+            modifier = itemModifier.padding(vertical = 16.dp)
+        )
+    }
 }
 
 private fun LazyListScope.addFeatureSettingItems(
     @DrawableRes imageRes: Int,
     title: @Composable () -> String,
-    switchLabel: @Composable () -> String,
-    switchValue: () -> Boolean,
-    onSwitchChange: (Boolean) -> Unit,
     itemModifier: Modifier = Modifier,
     description: @Composable (() -> Unit)? = null,
 ) {
@@ -183,15 +217,6 @@ private fun LazyListScope.addFeatureSettingItems(
         item {
             description()
         }
-    }
-
-    item {
-        SettingsFeatureToggle(
-            label = switchLabel(),
-            checked = switchValue(),
-            onCheckedChange = onSwitchChange,
-            modifier = itemModifier.padding(vertical = 16.dp)
-        )
     }
 }
 

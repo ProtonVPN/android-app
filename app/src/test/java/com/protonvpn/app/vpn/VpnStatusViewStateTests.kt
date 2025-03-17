@@ -23,6 +23,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.ConnectionParams
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.netshield.NetShieldStats
+import com.protonvpn.android.netshield.NetShieldViewState
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
@@ -82,6 +83,7 @@ class VpnStatusViewStateFlowTest {
     private lateinit var netShieldStatsFlow: MutableStateFlow<NetShieldStats>
     private lateinit var changeServerFlow: MutableStateFlow<ChangeServerViewState?>
     private lateinit var promoBannerFlow: MutableStateFlow<PromoOfferBannerState?>
+    private lateinit var isPrivateDnsActiveFlow: MutableStateFlow<Boolean>
 
     private val freeUser = TestUser.freeUser.vpnUser
     private val plusUser = TestUser.plusUser.vpnUser
@@ -112,6 +114,7 @@ class VpnStatusViewStateFlowTest {
         settingsFlow = MutableStateFlow(LocalUserSettings.Default)
         changeServerFlow = MutableStateFlow(null)
         promoBannerFlow = MutableStateFlow(null)
+        isPrivateDnsActiveFlow = MutableStateFlow(false)
         val effectiveUserSettings =
             EffectiveCurrentUserSettings(testScope.backgroundScope, settingsFlow)
         val settingsForConnection = SettingsForConnection(effectiveUserSettings, mockProfilesDao, vpnStatusProviderUi)
@@ -123,6 +126,7 @@ class VpnStatusViewStateFlowTest {
             currentUser,
             changeServerFlow,
             promoBannerFlow,
+            isPrivateDnsActiveFlow,
         )
     }
 
@@ -180,9 +184,10 @@ class VpnStatusViewStateFlowTest {
         statusFlow.emit(VpnStatusProviderUI.Status(VpnState.Connected, connectionParams))
         assert(vpnStatusViewStateFlow.first() is VpnStatusViewState.Connected)
         netShieldStatsFlow.emit(NetShieldStats(3, 3, 3000))
-        val netShieldStats =
-            ((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner as StatusBanner.NetShieldBanner).netShieldState.netShieldStats
-        assertEquals(NetShieldStats(3L, 3L, 3000L), netShieldStats)
+        val banner = ((vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner as StatusBanner.NetShieldBanner)
+        val netShieldState = banner.netShieldState
+        assertIs<NetShieldViewState.Available>(netShieldState)
+        assertEquals(NetShieldStats(3L, 3L, 3000L), netShieldState.netShieldStats)
     }
 
     @Test
@@ -211,5 +216,14 @@ class VpnStatusViewStateFlowTest {
         val vpnStatusViewState = vpnStatusViewStateFlow.first()
         assertIs<VpnStatusViewState.Connected>(vpnStatusViewState)
         assertIs<StatusBanner.NetShieldBanner>(vpnStatusViewState.banner)
+    }
+
+    @Test
+    fun `when private DNS is enabled then NetShield is unavailable`() = runTest {
+        statusFlow.value = VpnStatusProviderUI.Status(VpnState.Connected, connectionParams)
+        isPrivateDnsActiveFlow.value = true
+        val banner = (vpnStatusViewStateFlow.first() as VpnStatusViewState.Connected).banner
+        assertIs<StatusBanner.NetShieldBanner>(banner)
+        assertIs<NetShieldViewState.Unavailable>(banner.netShieldState)
     }
 }

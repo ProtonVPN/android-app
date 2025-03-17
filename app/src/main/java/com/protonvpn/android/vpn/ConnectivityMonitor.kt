@@ -61,10 +61,14 @@ import com.protonvpn.android.logging.NetworkChanged
 import com.protonvpn.android.logging.NetworkUnavailable
 import com.protonvpn.android.logging.ProtonLogger
 import com.protonvpn.android.utils.AndroidUtils.registerBroadcastReceiver
+import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.EnumSet
 import javax.inject.Inject
@@ -73,6 +77,18 @@ import javax.inject.Singleton
 const val CAPABILITY_NOT_VPN = "NOT_VPN"
 const val CAPABILITY_VALIDATED = "VALIDATED"
 private const val UNSUPPORTED_TRANSPORT: Int = -1 // The TRANSPORT_* constants are non-negative.
+
+@Reusable
+class IsPrivateSystemDnsEnabled @Inject constructor(
+    private val connectivityMonitor: ConnectivityMonitor,
+) : Flow<Boolean> {
+
+    override suspend fun collect(collector: FlowCollector<Boolean>) {
+        connectivityMonitor.isPrivateDnsActive
+            .map { it == true }
+            .collect(collector)
+    }
+}
 
 @Singleton
 class ConnectivityMonitor @Inject constructor(

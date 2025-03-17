@@ -37,7 +37,7 @@ class NetShieldComponentTests : FusionComposeTest() {
     @Before
     fun setup() {
         netShieldStateFlow = MutableStateFlow(
-            NetShieldViewState(
+            NetShieldViewState.Available(
                 NetShieldProtocol.ENABLED,
                 NetShieldStats(1, 2, 0)
             )
@@ -52,7 +52,7 @@ class NetShieldComponentTests : FusionComposeTest() {
 
     @Test
     fun savedBytesExpressedInKbAndMb() {
-        netShieldStateFlow.value = NetShieldViewState(
+        netShieldStateFlow.value = NetShieldViewState.Available(
             NetShieldProtocol.ENABLED,
             NetShieldStats(1, 2, 10_000)
         )
@@ -62,7 +62,7 @@ class NetShieldComponentTests : FusionComposeTest() {
             .withTag("value")
             .assertContainsText("10.00 KB")
 
-        netShieldStateFlow.value = NetShieldViewState(
+        netShieldStateFlow.value = NetShieldViewState.Available(
             NetShieldProtocol.ENABLED,
             NetShieldStats(1, 2, 10_000_000)
         )
