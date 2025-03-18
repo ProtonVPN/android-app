@@ -404,7 +404,10 @@ class SettingsViewModel @Inject constructor(
     data class CustomDnsViewState(
         val dnsViewState: SettingViewState.CustomDns,
         val isConnected: Boolean
-    )
+    ) {
+        val showAddDnsButton get() =
+            !dnsViewState.isPrivateDnsActive && (dnsViewState.customDns.isEmpty() || dnsViewState.value)
+    }
 
     private val ipv6AndCustomDnsCombined = combine(
         ipv6,
