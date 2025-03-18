@@ -187,7 +187,7 @@ fun CustomDnsScreen(
                 }
             }
 
-            if (!viewState.dnsViewState.isPrivateDnsActive) {
+            if (viewState.showAddDnsButton) {
                 VpnSolidButton(
                     text = stringResource(R.string.settings_add_dns_title),
                     onClick = onAddNewAddress,
