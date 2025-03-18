@@ -19,12 +19,13 @@
 package com.protonvpn.android.netshield
 
 import com.protonvpn.android.R
+import com.protonvpn.android.vpn.DnsOverride
 
 sealed interface NetShieldViewState {
     val iconRes: Int
     val stateRes: Int
 
-    object Unavailable : NetShieldViewState {
+    data class Unavailable(val dnsOverride: DnsOverride) : NetShieldViewState {
         override val iconRes = R.drawable.ic_netshield_off
         override val stateRes = R.string.netshield_state_unavailable
     }

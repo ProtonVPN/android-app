@@ -113,6 +113,9 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun toggleCustomDNS() =
         update { current -> current.copy(customDns = current.customDns.copy(enabled = !current.customDns.enabled)) }
 
+    suspend fun disableCustomDNS() =
+        update { current -> current.copy(customDns = current.customDns.copy(enabled = false)) }
+
     suspend fun setRandomizedNat(value: Boolean) =
         update { current -> current.copy(randomizedNat = value) }
 

@@ -79,6 +79,7 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.netshield.NetShieldActions
+import com.protonvpn.android.netshield.NetShieldBottomCustomDns
 import com.protonvpn.android.netshield.NetShieldBottomPrivateDns
 import com.protonvpn.android.netshield.NetShieldBottomSettings
 import com.protonvpn.android.netshield.NetShieldProtocol
@@ -89,6 +90,7 @@ import com.protonvpn.android.redesign.base.ui.UpsellBannerContent
 import com.protonvpn.android.redesign.base.ui.vpnGreen
 import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.openUrl
+import com.protonvpn.android.vpn.DnsOverride
 import kotlinx.coroutines.delay
 import me.proton.core.compose.theme.ProtonColors
 import me.proton.core.compose.theme.ProtonTheme
@@ -358,10 +360,19 @@ private fun VpnConnectedView(
                         onNetShieldLearnMore = netShieldActions.onNetShieldLearnMore,
                         onValueChanged = netShieldActions.onNetShieldValueChanged
                     )
-                    is NetShieldViewState.Unavailable -> NetShieldBottomPrivateDns(
-                        onPrivateDnsLearnMore = { context.openUrl(Constants.URL_PRIVATE_DNS_NETSHIELD_LEARN_MORE) },
-                        onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
-                    )
+                    is NetShieldViewState.Unavailable -> when (banner.netShieldState.dnsOverride) {
+                        DnsOverride.None -> check(false) { "Should never happen" }
+                        DnsOverride.CustomDns -> NetShieldBottomCustomDns(
+                            onCustomDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },
+                            onDisableCustomDns = netShieldActions.onDisableCustomDns,
+                        )
+                        DnsOverride.SystemPrivateDns -> NetShieldBottomPrivateDns(
+                            onPrivateDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_PRIVATE_DNS_LEARN_MORE) },
+                            onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
+                        )
+                    }
+
+
                 }
 
             },
@@ -601,7 +612,7 @@ private fun PreviewHelper(state: VpnStatusViewState, modifier: Modifier = Modifi
     ProtonVpnPreview {
         Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
             VpnStatusTop(state = state, transitionValue = { 1f })
-            VpnStatusBottom(state = state, transitionValue = { 1f }, NetShieldActions({}, {}, {}, {}))
+            VpnStatusBottom(state = state, transitionValue = { 1f }, NetShieldActions({}, {}, {}, {}, {}))
         }
     }
 }

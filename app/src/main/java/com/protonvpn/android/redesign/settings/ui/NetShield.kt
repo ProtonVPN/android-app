@@ -29,15 +29,18 @@ import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SettingsFeatureToggle
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
+import com.protonvpn.android.vpn.DnsOverride
 import me.proton.core.compose.theme.ProtonTheme
 
 @Composable
 fun NetShieldSetting(
     onClose: () -> Unit,
     netShield: SettingsViewModel.SettingViewState.NetShield,
-    isPrivateSystemDnsEnabled: Boolean,
+    dnsOverride: DnsOverride,
     onLearnMore: () -> Unit,
     onNetShieldToggle: () -> Unit,
+    onDisableCustomDns: () -> Unit,
+    onCustomDnsLearnMore: () -> Unit,
     onPrivateDnsLearnMore: () -> Unit,
     onOpenPrivateDnsSettings: () -> Unit,
 ) {
@@ -62,21 +65,30 @@ fun NetShieldSetting(
                 itemModifier = horizontalItemPaddingModifier,
             )
             item {
-                if (isPrivateSystemDnsEnabled) {
-                    DnsConflictBanner(
+                when (dnsOverride) {
+                    DnsOverride.None -> SettingsFeatureToggle(
+                        label = stringResource(netShield.titleRes),
+                        checked = netShield.value,
+                        onCheckedChange = { _ -> onNetShieldToggle() },
+                        modifier = horizontalItemPaddingModifier.padding(top = 16.dp)
+                    )
+
+                    DnsOverride.CustomDns -> DnsConflictBanner(
+                        titleRes = R.string.custom_dns_conflict_banner_netshield_title,
+                        descriptionRes = R.string.custom_dns_conflict_banner_netshield_description,
+                        buttonRes = R.string.custom_dns_conflict_banner_disable_custom_dns_button,
+                        onLearnMore = onCustomDnsLearnMore,
+                        onButtonClicked = onDisableCustomDns,
+                        modifier = horizontalItemPaddingModifier.padding(top = 24.dp),
+                    )
+
+                    DnsOverride.SystemPrivateDns -> DnsConflictBanner(
                         titleRes = R.string.private_dns_conflict_banner_netshield_title,
                         descriptionRes = R.string.private_dns_conflict_banner_netshield_description,
                         buttonRes = R.string.private_dns_conflict_banner_network_settings_button,
                         onLearnMore = onPrivateDnsLearnMore,
                         onButtonClicked = onOpenPrivateDnsSettings,
                         modifier = horizontalItemPaddingModifier.padding(top = 24.dp),
-                    )
-                } else {
-                    SettingsFeatureToggle(
-                        label = stringResource(netShield.titleRes),
-                        checked = netShield.value,
-                        onCheckedChange = { _ -> onNetShieldToggle() },
-                        modifier = horizontalItemPaddingModifier.padding(top = 16.dp)
                     )
                 }
             }

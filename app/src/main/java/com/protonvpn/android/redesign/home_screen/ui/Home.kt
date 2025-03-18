@@ -73,6 +73,7 @@ import com.protonvpn.android.base.ui.SimpleModalBottomSheet
 import com.protonvpn.android.netshield.NetShieldActions
 import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.app.ui.MainActivityViewModel
+import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
@@ -128,6 +129,7 @@ fun HomeRoute(
     val coroutineScope = rememberCoroutineScope()
     val activityViewModel: MainActivityViewModel = hiltViewModel(viewModelStoreOwner = activity)
     val homeViewModel: HomeViewModel = hiltViewModel()
+    val settingsChangeViewModel: SettingsChangeViewModel = hiltViewModel(viewModelStoreOwner = activity)
     // The MainActivity keeps the splash screen on until VPN status is available so that it can be shown here
     // instantly. That's why the flow from MainActivityViewModel is used, and not an independent flow in HomeViewModel.
     val vpnStatusViewState = activityViewModel.vpnStateViewFlow.collectAsStateWithLifecycle().value
@@ -218,6 +220,7 @@ fun HomeRoute(
         elapsedRealtimeClock = homeViewModel.elapsedRealtimeClock,
         onDismissDialog = homeViewModel::dismissDialog,
         onNetshieldValueChanged = { homeViewModel.setNetShieldProtocol(it) },
+        onDisableCustomDns = { settingsChangeViewModel.disableCustomDns(vpnUiDelegate) },
         snackbarHostState = snackbarHostState,
         bottomPromoComponent = bottomPromoComponent,
         prominentPromoComponent = prominentBannerPromo,
@@ -261,6 +264,7 @@ fun HomeView(
     elapsedRealtimeClock: () -> Long,
     onDismissDialog: () -> Unit,
     onNetshieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
+    onDisableCustomDns: () -> Unit,
     bottomPromoComponent: BottomPromoComponent?,
     prominentPromoComponent: ProminentPromoComponent?,
     connectionCardComponent: ConnectionCardComponent,
@@ -370,6 +374,7 @@ fun HomeView(
                 onNetShieldValueChanged = onNetshieldValueChanged,
                 onUpgradeNetShield = { CarouselUpgradeDialogActivity.launch<UpgradeNetShieldHighlightsFragment>(context) },
                 onNetShieldLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
+                onDisableCustomDns = onDisableCustomDns,
             )
         }
 

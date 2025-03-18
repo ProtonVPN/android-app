@@ -21,6 +21,7 @@ package com.protonvpn.android.redesign.app.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
@@ -33,6 +34,8 @@ import com.protonvpn.android.utils.isValidIp
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -46,6 +49,7 @@ class SettingsChangeViewModel @Inject constructor(
 
     val showReconnectDialogFlow = reconnectHandler.showReconnectDialogFlow
     val addDnsResultFlow = MutableStateFlow<AddDnsState>(AddDnsResult.WaitingForInput)
+    val eventShowCustomDnsNetShieldConflict = Channel<Unit>(capacity = 1, BufferOverflow.DROP_OLDEST)
 
     fun addNewDns(newDns: String) {
         viewModelScope.launch {
@@ -67,6 +71,9 @@ class SettingsChangeViewModel @Inject constructor(
                 }
                 userSettingsManager.updateCustomDnsList(updatedDnsList)
                 addDnsResultFlow.value = AddDnsResult.Added
+                if (currentList.isEmpty() && currentSettings.netShield != NetShieldProtocol.DISABLED) {
+                    eventShowCustomDnsNetShieldConflict.trySend(Unit)
+                }
             }
         }
     }
@@ -83,6 +90,22 @@ class SettingsChangeViewModel @Inject constructor(
     fun updateCustomDnsList(newDnsList: List<String>) {
         viewModelScope.launch {
             userSettingsManager.updateCustomDnsList(newDnsList)
+        }
+    }
+
+    fun disableCustomDns(uiDelegate: VpnUiDelegate) {
+        viewModelScope.launch {
+            userSettingsManager.disableCustomDNS()
+            reconnectionCheck(uiDelegate, DontShowAgainStore.Type.DnsChangeWhenConnected)
+        }
+    }
+
+    fun toggleCustomDns() {
+        viewModelScope.launch {
+            val newSettings = userSettingsManager.toggleCustomDNS()
+            if (newSettings != null && with(newSettings) { customDns.enabled && netShield != NetShieldProtocol.DISABLED }) {
+                eventShowCustomDnsNetShieldConflict.trySend(Unit)
+            }
         }
     }
 
@@ -126,12 +149,6 @@ class SettingsChangeViewModel @Inject constructor(
         viewModelScope.launch {
             userSettingsManager.toggleIPv6()
             reconnectionCheck(uiDelegate, DontShowAgainStore.Type.IPv6ChangeWhenConnected)
-        }
-    }
-
-    fun toggleCustomDns() {
-        viewModelScope.launch {
-            userSettingsManager.toggleCustomDNS()
         }
     }
 

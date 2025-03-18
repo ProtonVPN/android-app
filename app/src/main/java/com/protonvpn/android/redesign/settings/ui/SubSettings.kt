@@ -26,26 +26,40 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
+import com.protonvpn.android.base.ui.AnnotatedClickableText
+import com.protonvpn.android.base.ui.ProtonTextButton
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
+import com.protonvpn.android.redesign.base.ui.DIALOG_CONTENT_PADDING
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
+import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
@@ -62,7 +76,9 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.openVpnSettings
+import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.widget.ui.WidgetAddScreen
+import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.domain.entity.UserId
 import me.proton.core.usersettings.presentation.entity.SettingsInput
@@ -116,15 +132,17 @@ fun SubSettingsRoute(
 
             SubSettingsScreen.Type.NetShield -> {
                 val netShield = viewModel.netShield.collectAsStateWithLifecycle(initialValue = null).value
-                val isPrivateSystemDnsEnabled = viewModel.isPrivateSystemDnsEnabled.collectAsStateWithLifecycle(false).value
+                val dnsOverride = viewModel.dnsOverrideFlow.collectAsStateWithLifecycle(DnsOverride.None).value
                 if (netShield != null) {
                     NetShieldSetting(
                         onClose = onClose,
                         netShield = netShield,
-                        isPrivateSystemDnsEnabled = isPrivateSystemDnsEnabled,
+                        dnsOverride = dnsOverride,
                         onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
+                        onDisableCustomDns = { settingsChangeViewModel.disableCustomDns(vpnUiDelegate) },
+                        onCustomDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },
                         onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
-                        onPrivateDnsLearnMore = { context.openUrl(Constants.URL_PRIVATE_DNS_NETSHIELD_LEARN_MORE) },
+                        onPrivateDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_PRIVATE_DNS_LEARN_MORE) },
                         onNetShieldToggle = settingsChangeViewModel::toggleNetShield
                     )
                 }
@@ -225,7 +243,7 @@ fun SubSettingsRoute(
             }
             SubSettingsScreen.Type.CustomDns -> {
                 val viewState = viewModel.customDnsViewState.collectAsStateWithLifecycle(null).value
-                val isPrivateSystemDnsEnabled = viewModel.isPrivateSystemDnsEnabled.collectAsStateWithLifecycle(false).value
+                val dnsOverride = viewModel.dnsOverrideFlow.collectAsStateWithLifecycle(false).value
                 if (viewState != null) {
                     CustomDnsScreen(
                         onClose = onClose,
@@ -242,15 +260,23 @@ fun SubSettingsRoute(
                             context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
                         },
                         onPrivateDnsLearnMore = {
-                            // TODO: do we have a special URL for system private DNS?
-                            context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
+                            context.openUrl(Constants.URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE)
                         },
                         onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
                         showReconnectionDialog = {
                             settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
                         },
                         viewState = viewState,
-                        isPrivateSystemDnsEnabled = isPrivateSystemDnsEnabled
+                        isPrivateSystemDnsEnabled = dnsOverride == DnsOverride.SystemPrivateDns
+                    )
+                }
+                var customDnsNetShieldConflictDialog by remember { mutableStateOf(false) }
+                settingsChangeViewModel.eventShowCustomDnsNetShieldConflict.receiveAsFlow()
+                    .collectAsEffect { customDnsNetShieldConflictDialog = true }
+                if (customDnsNetShieldConflictDialog) {
+                    CustomDnsNetShieldConflictDialog(
+                        onDismissRequest = { customDnsNetShieldConflictDialog = false },
+                        onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },
                     )
                 }
             }
@@ -345,6 +371,34 @@ fun SubSettingsRoute(
 }
 
 private fun UserId.toInput() = SettingsInput(this.id)
+
+@Composable
+private fun CustomDnsNetShieldConflictDialog(
+    onLearnMore: () -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    ProtonBasicAlert(onDismissRequest = onDismissRequest) {
+        Column(
+            modifier = Modifier.padding(horizontal = DIALOG_CONTENT_PADDING)
+        ) {
+            Text(
+                stringResource(R.string.settings_custom_dns_netshield_conflict_dialog_title),
+                style = ProtonTheme.typography.subheadline,
+            )
+            Spacer(Modifier.height(16.dp))
+            AnnotatedClickableText(
+                fullText = stringResource(R.string.settings_custom_dns_netshield_conflict_dialog_message),
+                annotatedPart = stringResource(R.string.learn_more),
+                color = ProtonTheme.colors.textWeak,
+                onAnnotatedClick = onLearnMore,
+            )
+            Spacer(Modifier.height(24.dp))
+            ProtonTextButton(onClick = onDismissRequest, modifier = Modifier.align(Alignment.End)) {
+                Text(stringResource(R.string.got_it))
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

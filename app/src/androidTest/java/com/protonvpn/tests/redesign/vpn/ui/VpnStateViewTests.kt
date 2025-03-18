@@ -28,6 +28,7 @@ import com.protonvpn.android.redesign.vpn.ui.StatusBanner
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusBottom
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusTop
 import com.protonvpn.android.redesign.vpn.ui.VpnStatusViewState
+import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.testRules.setVpnContent
 import me.proton.test.fusion.Fusion.node
 import me.proton.test.fusion.ui.compose.FusionComposeTest
@@ -90,6 +91,24 @@ class VpnStatusViewTests : FusionComposeTest() {
     }
 
     @Test
+    fun connectedStateNetShieldUnavailable() {
+        val state = VpnStatusViewState.Connected(
+            isSecureCoreServer = true,
+            banner = StatusBanner.NetShieldBanner(
+                NetShieldViewState.Unavailable(DnsOverride.CustomDns)
+            ),
+        )
+
+        setContentForState(state)
+
+        node.withText("Protected")
+            .assertIsDisplayed()
+        node.useUnmergedTree()
+            .withTag("netshieldState")
+            .assertContainsText("Unavailable")
+    }
+
+    @Test
     fun lockedChangeServerDisplayNotTheCountryWantedBanner() {
         val state = VpnStatusViewState.Connected(
             isSecureCoreServer = true,
@@ -121,7 +140,7 @@ class VpnStatusViewTests : FusionComposeTest() {
                 VpnStatusBottom(
                     state = state,
                     transitionValue = { 1f },
-                    NetShieldActions({}, {}, {}, {})
+                    NetShieldActions({}, {}, {}, {}, {})
                 )
             }
         }

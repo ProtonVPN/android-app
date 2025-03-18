@@ -40,6 +40,8 @@ object Constants {
     const val FORCE_UPDATE_URL = "https://protonvpn.com/support/vpn-update/"
     const val URL_SUPPORT_ASSIGN_VPN_CONNECTION = "https://protonvpn.com/support/assign-vpn-connection"
     const val URL_NETSHIELD_LEARN_MORE = "https://protonvpn.com/support/netshield/"
+    const val URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE = "https://protonvpn.com/support/custom-dns#netshield"
+    const val URL_NETSHIELD_PRIVATE_DNS_LEARN_MORE = "http://protonvpn.com/support/custom-dns#netshield"
     const val URL_LOAD_LEARN_MORE = "https://protonvpn.com/support/server-load-percentages-and-colors-explained"
     const val URL_SPEED_LEARN_MORE = "https://protonvpn.com/support/increase-vpn-speeds/"
     const val URL_PROTOCOL_LEARN_MORE = "https://protonvpn.com/support/how-to-change-vpn-protocols/"
@@ -51,7 +53,7 @@ object Constants {
     const val URL_IP_ADDRESS_LEARN_MORE = "https://protonvpn.com/blog/what-is-an-ip-address"
     const val URL_IPV6_ADDRESS_LEARN_MORE = "https://protonvpn.com/blog/what-is-an-ip-address#ipv6"
     const val URL_CUSTOM_DNS_LEARN_MORE = "https://protonvpn.com/support/custom-dns#android"
-    const val URL_PRIVATE_DNS_NETSHIELD_LEARN_MORE = "http://protonvpn.com/support/custom-dns#netshield"
+    const val URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE = "http://protonvpn.com/support/custom-dns#privatevscustom"
     const val PROTON_URL_UTM_SOURCE = "androidvpn"
     const val MINIMUM_MAINTENANCE_CHECK_MINUTES = 5L
     const val DEFAULT_MAINTENANCE_CHECK_MINUTES = 40L
