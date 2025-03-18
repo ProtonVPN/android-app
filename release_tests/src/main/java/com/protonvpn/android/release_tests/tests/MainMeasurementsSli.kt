@@ -31,6 +31,7 @@ import com.protonvpn.android.release_tests.robots.CountriesRobot
 import com.protonvpn.android.release_tests.robots.HomeRobot
 import com.protonvpn.android.release_tests.robots.LoginRobot
 import com.protonvpn.android.release_tests.rules.LaunchVpnAppRule
+import com.protonvpn.android.release_tests.rules.ScreenshotTakingRule
 import me.proton.core.test.performance.MeasurementProfile
 import me.proton.core.test.performance.MeasurementRule
 import me.proton.core.test.performance.annotation.Measure
@@ -51,6 +52,7 @@ class MainMeasurementsSli {
     @get:Rule
     val rule: RuleChain = RuleChain
         .outerRule(LaunchVpnAppRule())
+        .around(ScreenshotTakingRule())
         .around(measurementRule)
 
     @Before
