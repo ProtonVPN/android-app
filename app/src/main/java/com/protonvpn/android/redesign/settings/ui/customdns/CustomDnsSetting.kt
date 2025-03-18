@@ -102,9 +102,6 @@ fun CustomDnsScreen(
     onOpenPrivateDnsSettings: () -> Unit,
     showReconnectionDialog: () -> Unit,
     viewState: SettingsViewModel.CustomDnsViewState,
-    // TODO: we need to uncouple the setting state in main screen and subscreens and then we can put
-    //  isPrivateSystemDnsEnabled in state class for this CustomDnsScreen.
-    isPrivateSystemDnsEnabled: Boolean,
 ) {
     val listState = rememberLazyListState()
     val clipboardManager = LocalClipboardManager.current
@@ -154,7 +151,7 @@ fun CustomDnsScreen(
         ) {
             val largeScreenModifier = Modifier.largeScreenContentPadding()
             when {
-                isPrivateSystemDnsEnabled -> {
+                viewState.dnsViewState.isPrivateDnsActive -> {
                     CustomDnsWithPrivateDnsConflict(
                         listState = listState,
                         settingViewState = dnsViewState,
@@ -190,7 +187,7 @@ fun CustomDnsScreen(
                 }
             }
 
-            if (!isPrivateSystemDnsEnabled) {
+            if (!viewState.dnsViewState.isPrivateDnsActive) {
                 VpnSolidButton(
                     text = stringResource(R.string.settings_add_dns_title),
                     onClick = onAddNewAddress,
@@ -503,13 +500,13 @@ private fun CustomDnsPreview() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
-            isPrivateSystemDnsEnabled = false,
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = true,
                     customDns = listOf("1.1.1.1", "1.2.1.1"),
                     overrideProfilePrimaryLabel = null,
-                    isFreeUser = false
+                    isFreeUser = false,
+                    isPrivateDnsActive = false
                 ),
                 isConnected = false
             )
@@ -530,13 +527,13 @@ private fun CustomDnsConflictPreview() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
-            isPrivateSystemDnsEnabled = true,
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
                     customDns = listOf("1.1.1.1", "1.2.1.1"),
                     overrideProfilePrimaryLabel = null,
-                    isFreeUser = false
+                    isFreeUser = false,
+                    isPrivateDnsActive = true,
                 ),
                 isConnected = false
             )
@@ -557,13 +554,13 @@ private fun CustomDnsDisabledPreview() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
-            isPrivateSystemDnsEnabled = false,
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
                     customDns = emptyList(),
                     overrideProfilePrimaryLabel = null,
-                    isFreeUser = false
+                    isFreeUser = false,
+                    isPrivateDnsActive = true
                 ),
                 isConnected = false
             )
@@ -584,13 +581,13 @@ private fun CustomDnsEmptyState() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
-            isPrivateSystemDnsEnabled = false,
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
                     customDns = emptyList(),
                     overrideProfilePrimaryLabel = null,
-                    isFreeUser = false
+                    isFreeUser = false,
+                    isPrivateDnsActive = false,
                 ),
                 isConnected = false
             )

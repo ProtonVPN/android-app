@@ -125,11 +125,11 @@ fun CustomDnsEmptyState() {
                     enabled = false,
                     customDns = emptyList(),
                     overrideProfilePrimaryLabel = null,
-                    isFreeUser = false
+                    isFreeUser = false,
+                    isPrivateDnsActive = false,
                 ),
                 isConnected = false
             ),
-            isPrivateSystemDnsEnabled = false,
         )
     }
 }
@@ -152,7 +152,6 @@ fun CustomDnsState() {
                 dnsViewState = settingsPaid.settingsViewState.customDns!!,
                 isConnected = false
             ),
-            isPrivateSystemDnsEnabled = false,
         )
     }
 }
@@ -160,7 +159,7 @@ fun CustomDnsState() {
 @Composable
 @Preview()
 fun CustomDnsStatePrivateDns() {
-    val settingsPaid = SettingsData(false, true)
+    val settingsPaid = SettingsData(false, true, isPrivateDnsActive = true)
     ProtonVpnPreview(addSurface = true) {
         CustomDnsScreen(
             onClose = {},
@@ -175,7 +174,6 @@ fun CustomDnsStatePrivateDns() {
                 dnsViewState = settingsPaid.settingsViewState.customDns!!,
                 isConnected = false
             ),
-            isPrivateSystemDnsEnabled = true,
         )
     }
 }
@@ -296,7 +294,7 @@ fun SettingsPaidProfileConnected() {
     }
 }
 
-private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false) {
+private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false, isPrivateDnsActive: Boolean = false) {
     private val splitTunneling = SettingsViewModel.SettingViewState.SplitTunneling(
         false, SplitTunnelingMode.EXCLUDE_ONLY, listOf(), listOf(), isFree
     )
@@ -316,7 +314,8 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false)
         true,
         listOf("1.1.1.1", "8.8.8.8", "2001:db8:3333:4444:5555:6666:7777:8888"),
         overrideInfo?.primaryLabel,
-        isFree
+        isFreeUser = isFree,
+        isPrivateDnsActive = isPrivateDnsActive,
     )
     private val lanConnections =
         SettingsViewModel.SettingViewState.LanConnections(true, isFree, overrideInfo?.primaryLabel)

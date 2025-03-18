@@ -243,7 +243,6 @@ fun SubSettingsRoute(
             }
             SubSettingsScreen.Type.CustomDns -> {
                 val viewState = viewModel.customDnsViewState.collectAsStateWithLifecycle(null).value
-                val dnsOverride = viewModel.dnsOverrideFlow.collectAsStateWithLifecycle(false).value
                 if (viewState != null) {
                     CustomDnsScreen(
                         onClose = onClose,
@@ -267,7 +266,6 @@ fun SubSettingsRoute(
                             settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
                         },
                         viewState = viewState,
-                        isPrivateSystemDnsEnabled = dnsOverride == DnsOverride.SystemPrivateDns
                     )
                 }
                 var customDnsNetShieldConflictDialog by remember { mutableStateOf(false) }

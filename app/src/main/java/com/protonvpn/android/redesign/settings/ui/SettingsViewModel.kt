@@ -43,7 +43,8 @@ import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.BuildConfigUtils
-import com.protonvpn.android.vpn.ConnectivityMonitor
+import com.protonvpn.android.utils.combine
+import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.DnsOverrideFlow
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -196,20 +197,25 @@ class SettingsViewModel @Inject constructor(
             val customDns: List<String>,
             overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
             isFreeUser: Boolean,
+            val isPrivateDnsActive: Boolean,
         ) : SettingViewState<Boolean>(
             value = enabled,
             isRestricted = isFreeUser,
             titleRes = R.string.settings_custom_dns_title,
-            settingValueView =
-            if (overrideProfilePrimaryLabel != null) {
-                SettingValue.SettingOverrideValue(
-                    connectIntentPrimaryLabel = overrideProfilePrimaryLabel,
-                    subtitleRes = if (enabled) R.string.custom_dns_state_on else R.string.custom_dns_state_off
-                )
-            } else {
-                SettingValue.SettingStringRes(
-                    subtitleRes = if (enabled) R.string.custom_dns_state_on else R.string.custom_dns_state_off
-                )
+            settingValueView = when {
+                isPrivateDnsActive ->
+                    SettingValue.SettingStringRes(R.string.custom_dns_state_unavailable)
+
+                overrideProfilePrimaryLabel != null ->
+                    SettingValue.SettingOverrideValue(
+                        connectIntentPrimaryLabel = overrideProfilePrimaryLabel,
+                        subtitleRes = if (enabled) R.string.custom_dns_state_on else R.string.custom_dns_state_off
+                    )
+
+                else ->
+                    SettingValue.SettingStringRes(
+                        subtitleRes = if (enabled) R.string.custom_dns_state_on else R.string.custom_dns_state_off
+                    )
             },
             descriptionRes = R.string.settings_advanced_dns_description,
             annotationRes = R.string.learn_more
@@ -300,8 +306,9 @@ class SettingsViewModel @Inject constructor(
             // Will return override settings if connected else global
             settingsForConnection.getFlowForCurrentConnection(),
             appFeaturePrefs.isWidgetDiscoveredFlow,
-            isIPv6FeatureFlagEnabled.observe()
-        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled ->
+            isIPv6FeatureFlagEnabled.observe(),
+            dnsOverrideFlow,
+        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, dnsOverride ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -364,7 +371,8 @@ class SettingsViewModel @Inject constructor(
                             enabled = settings.customDns.enabled,
                             customDns = settings.customDns.rawDnsList,
                             overrideProfilePrimaryLabel = null,
-                            isFreeUser = isFree
+                            isFreeUser = isFree,
+                            isPrivateDnsActive = dnsOverride == DnsOverride.SystemPrivateDns,
                         )
                     else
                         null,

@@ -244,6 +244,7 @@
     <string name="alt_routing_state_off" comment="Describes state, not action">Off</string>
     <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="netshield_free_title" translatable="false">NetShield</string>
     <string name="netshield_free_description">Block ads, trackers, and malware on websites and apps</string>
     <string name="netshield_what_data_means">What NetShield data means</string>

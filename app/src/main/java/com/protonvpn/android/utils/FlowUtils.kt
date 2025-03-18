@@ -107,3 +107,23 @@ suspend fun <T> suspendForCallbackWithTimeout(
     withTimeoutOrNull(timeoutMs) {
         suspendForCallback(onClose, registerCallback)
     }
+
+inline fun <T1, T2, T3, T4, T5, T6, R> combine(
+    f1: Flow<T1>,
+    f2: Flow<T2>,
+    f3: Flow<T3>,
+    f4: Flow<T4>,
+    f5: Flow<T5>,
+    f6: Flow<T6>,
+    crossinline transform: suspend (T1, T2, T3, T4, T5, T6) -> R,
+): Flow<R> = kotlinx.coroutines.flow.combine(f1, f2, f3, f4, f5, f6) { args: Array<*> ->
+    @Suppress("UNCHECKED_CAST")
+    transform(
+        args[0] as T1,
+        args[1] as T2,
+        args[2] as T3,
+        args[3] as T4,
+        args[4] as T5,
+        args[5] as T6,
+    )
+}
