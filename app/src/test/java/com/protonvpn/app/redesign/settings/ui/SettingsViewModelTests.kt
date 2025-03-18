@@ -44,7 +44,8 @@ import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.BuildConfigInfo
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.vpn.IsPrivateSystemDnsEnabled
+import com.protonvpn.android.vpn.DnsOverride
+import com.protonvpn.android.vpn.DnsOverrideFlow
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
@@ -163,9 +164,9 @@ class SettingsViewModelTests {
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         settingsForConnection = SettingsForConnection(effectiveSettings, mockProfilesDao, vpnStatusProviderUI)
 
-        val isPrivateSystemDnsEnabled = MutableStateFlow<Boolean>(false)
-        val isPrivateSystemDnsEnabledMock = mockk<IsPrivateSystemDnsEnabled> {
-            coEvery { collect(any()) } coAnswers { isPrivateSystemDnsEnabled.collect(firstArg()) }
+        val dnsOverride = MutableStateFlow<DnsOverride>(DnsOverride.None)
+        val dnsOverrideMock = mockk<DnsOverrideFlow> {
+            coEvery { collect(any()) } coAnswers { dnsOverride.collect(firstArg()) }
         }
         settingsViewModel = SettingsViewModel(
             currentUser,
@@ -184,7 +185,7 @@ class SettingsViewModelTests {
             prefs,
             isIPv6FeatureFlagEnabled,
             isCustomDnsEnabled,
-            isPrivateSystemDnsEnabledMock,
+            dnsOverrideMock,
         )
     }
 

@@ -28,7 +28,8 @@ import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.ui.promooffers.HomeScreenPromoBannerFlow
 import com.protonvpn.android.ui.promooffers.PromoOfferBannerState
 import com.protonvpn.android.utils.CountryTools
-import com.protonvpn.android.vpn.IsPrivateSystemDnsEnabled
+import com.protonvpn.android.vpn.DnsOverride
+import com.protonvpn.android.vpn.DnsOverrideFlow
 import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -50,7 +51,7 @@ class VpnStatusViewStateFlow(
     currentUser: CurrentUser,
     changeServerViewStateFlow: Flow<ChangeServerViewState?>,
     homeScreenPromoBannerFlow: Flow<PromoOfferBannerState?>,
-    isPrivateDnsActiveFlow: Flow<Boolean>,
+    dnsOverrideFlow: Flow<DnsOverride>,
 ) : Flow<VpnStatusViewState> {
 
     @Inject
@@ -62,7 +63,7 @@ class VpnStatusViewStateFlow(
         currentUser: CurrentUser,
         changeServerViewStateFlow: ChangeServerViewStateFlow,
         homeScreenPromoBannerFlow: HomeScreenPromoBannerFlow,
-        isPrivateSystemDnsEnabled: IsPrivateSystemDnsEnabled,
+        dnsOverrideFlow: DnsOverrideFlow
     ) : this(
         vpnStatusProvider,
         serverListUpdaterPrefs,
@@ -71,7 +72,7 @@ class VpnStatusViewStateFlow(
         currentUser,
         changeServerViewStateFlow as Flow<ChangeServerViewState?>,
         homeScreenPromoBannerFlow as Flow<PromoOfferBannerState?>,
-        isPrivateSystemDnsEnabled as Flow<Boolean>,
+        dnsOverrideFlow as Flow<DnsOverride>
     )
 
     private val locationTextFlow = combine(
@@ -88,16 +89,16 @@ class VpnStatusViewStateFlow(
             currentUser.vpnUserFlow,
             changeServerViewStateFlow,
             homeScreenPromoBannerFlow.map { it != null },
-            isPrivateDnsActiveFlow,
-        ) { stats, user, changeServer, hasPromoBanner, isPrivateDnsActive ->
+            dnsOverrideFlow,
+        ) { stats, user, changeServer, hasPromoBanner, dnsOverride ->
             val availability = user.getNetShieldAvailability()
             when {
                 hasPromoBanner && availability != NetShieldAvailability.AVAILABLE -> null
                 changeServer is ChangeServerViewState.Locked -> StatusBanner.UnwantedCountry
                 else -> when (availability) {
                     NetShieldAvailability.AVAILABLE -> {
-                        val netShieldState = if (isPrivateDnsActive) {
-                            NetShieldViewState.Unavailable
+                        val netShieldState = if (dnsOverride != DnsOverride.None) {
+                            NetShieldViewState.Unavailable(dnsOverride)
                         } else {
                             NetShieldViewState.Available(connectionSettings.connectionSettings.netShield, stats)
                         }

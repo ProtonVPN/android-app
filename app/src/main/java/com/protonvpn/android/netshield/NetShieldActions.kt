@@ -23,4 +23,5 @@ data class NetShieldActions(
     val onNetShieldValueChanged: (protocol: NetShieldProtocol) -> Unit,
     val onNetShieldLearnMore: () -> Unit,
     val onUpgradeNetShield: () -> Unit,
+    val onDisableCustomDns: () -> Unit,
 )

@@ -30,6 +30,7 @@ import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.settings.ui.SplitTunnelingSubSetting
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.settings.data.SplitTunnelingSettings
+import com.protonvpn.android.vpn.DnsOverride
 
 @Preview
 @Composable
@@ -40,13 +41,15 @@ fun NetshieldSettingPage() {
             onLearnMore = {},
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
+            onDisableCustomDns = {},
+            onCustomDnsLearnMore = {},
             onNetShieldToggle = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldEnabled = true,
                 isRestricted = false,
                 overrideProfilePrimaryLabel = null
             ),
-            isPrivateSystemDnsEnabled = false,
+            dnsOverride = DnsOverride.None,
         )
     }
 }
@@ -60,13 +63,37 @@ fun NetshieldPrivateDnsSettingPage() {
             onLearnMore = {},
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
+            onDisableCustomDns = {},
+            onCustomDnsLearnMore = {},
             onNetShieldToggle = {},
             netShield = SettingsViewModel.SettingViewState.NetShield(
                 netShieldEnabled = true,
                 isRestricted = false,
                 overrideProfilePrimaryLabel = null
             ),
-            isPrivateSystemDnsEnabled = true,
+            dnsOverride = DnsOverride.SystemPrivateDns,
+        )
+    }
+}
+
+@Preview
+@Composable
+fun NetshieldCustomDnsSettingPage() {
+    ProtonVpnPreview {
+        NetShieldSetting(
+            onClose = {},
+            onLearnMore = {},
+            onPrivateDnsLearnMore = {},
+            onOpenPrivateDnsSettings = {},
+            onDisableCustomDns = {},
+            onCustomDnsLearnMore = {},
+            onNetShieldToggle = {},
+            netShield = SettingsViewModel.SettingViewState.NetShield(
+                netShieldEnabled = true,
+                isRestricted = false,
+                overrideProfilePrimaryLabel = null
+            ),
+            dnsOverride = DnsOverride.CustomDns,
         )
     }
 }

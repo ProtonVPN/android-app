@@ -53,6 +53,7 @@ import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.SettingsFeatureToggle
 import com.protonvpn.android.base.ui.volumeBytesToString
 import com.protonvpn.android.redesign.settings.ui.DnsConflictBanner
+import com.protonvpn.android.vpn.DnsOverride
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.captionWeak
 import me.proton.core.presentation.R as CoreR
@@ -89,7 +90,7 @@ fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit)
                 text = stringResource(state.stateRes),
                 style = ProtonTheme.typography.body2Regular,
                 color = ProtonTheme.colors.textWeak,
-                modifier = Modifier.padding(horizontal = 4.dp)
+                modifier = Modifier.padding(horizontal = 4.dp).testTag("netshieldState")
             )
             Icon(
                 painter = painterResource(id = CoreR.drawable.ic_proton_chevron_right),
@@ -171,6 +172,23 @@ private fun BandwidthColumn(
             textAlign = TextAlign.Center,
         )
     }
+}
+
+@Composable
+fun NetShieldBottomCustomDns(
+    onCustomDnsLearnMore: () -> Unit,
+    onDisableCustomDns: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    DnsConflictBanner(
+        titleRes = R.string.custom_dns_conflict_banner_netshield_title,
+        descriptionRes = R.string.custom_dns_conflict_banner_netshield_description,
+        buttonRes = R.string.custom_dns_conflict_banner_disable_custom_dns_button,
+        onLearnMore = onCustomDnsLearnMore,
+        onButtonClicked = onDisableCustomDns,
+        modifier = modifier,
+        backgroundColor = Color.Transparent
+    )
 }
 
 @Composable
@@ -348,7 +366,7 @@ private fun NetShieldOffPreview() {
 private fun NetShieldUnavailablePreview() {
     ProtonVpnPreview {
         NetShieldView(
-            state = NetShieldViewState.Unavailable,
+            state = NetShieldViewState.Unavailable(DnsOverride.CustomDns),
             onNavigateToSubsetting = {}
         )
     }
