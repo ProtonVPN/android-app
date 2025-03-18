@@ -30,6 +30,7 @@ import com.protonvpn.android.release_tests.helpers.TestApiClient
 import com.protonvpn.android.release_tests.robots.LoginRobot
 import com.protonvpn.android.release_tests.rules.BtiScenarioRule
 import com.protonvpn.android.release_tests.rules.LaunchVpnAppRule
+import com.protonvpn.android.release_tests.rules.ScreenshotTakingRule
 import me.proton.core.test.performance.MeasurementProfile
 import me.proton.core.test.performance.MeasurementRule
 import me.proton.core.test.performance.annotation.Measure
@@ -52,6 +53,7 @@ class AltRoutingSli {
     val rule: RuleChain = RuleChain
         .outerRule(BtiScenarioRule(altRoutingScenario))
         .around(LaunchVpnAppRule())
+        .around(ScreenshotTakingRule())
         .around(measurementRule)
 
     @Test
