@@ -66,7 +66,9 @@ class SettingsSplitTunnelIpsViewModelTests {
         val viewModel = createViewModel()
         assertTrue(viewModel.isValidIp("1.1.1.1"))
         assertTrue(viewModel.isValidIp("2000::"))
-        assertTrue(viewModel.isValidIp("::1"))
+        assertFalse(viewModel.isValidIp("::1"))
+        assertFalse(viewModel.isValidIp("127.0.0.1"))
+        assertFalse(viewModel.isValidIp("0.0.0.0"))
         assertFalse(viewModel.isValidIp("1.1"))
         assertFalse(viewModel.isValidIp("1.1.1.1/24")) // Don't allow ranges for now
         assertFalse(viewModel.isValidIp("2000::/8"))
