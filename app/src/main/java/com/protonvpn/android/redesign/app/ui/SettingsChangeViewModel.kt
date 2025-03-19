@@ -36,6 +36,7 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -74,6 +75,39 @@ class SettingsChangeViewModel @Inject constructor(
                 if (currentList.isEmpty() && currentSettings.netShield != NetShieldProtocol.DISABLED) {
                     eventShowCustomDnsNetShieldConflict.trySend(Unit)
                 }
+            }
+        }
+    }
+
+
+    data class UndoSnackbar(
+        val removedItem: String,
+        val position: Int
+    )
+
+    val undoSnackbarFlow = MutableSharedFlow<UndoSnackbar>()
+
+    fun removeDnsItem(item: String) {
+        viewModelScope.launch {
+            val currentList = userSettingsManager.rawCurrentUserSettingsFlow.first().customDns.rawDnsList
+            val position = currentList.indexOf(item)
+
+            userSettingsManager.updateCustomDnsList(currentList - item)
+            undoSnackbarFlow.emit(UndoSnackbar(
+                removedItem = item,
+                position = position
+            ))
+        }
+    }
+
+    fun undoRemoval(undoData: UndoSnackbar) {
+        viewModelScope.launch {
+            userSettingsManager.updateCustomDns { current ->
+                val newList = current.rawDnsList.toMutableList()
+                val safePosition = minOf(undoData.position, newList.size)
+
+                newList.add(safePosition, undoData.removedItem)
+                current.copy(rawDnsList = newList)
             }
         }
     }

@@ -121,6 +121,7 @@ fun CustomDnsEmptyState() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
+            onItemRemoved = {},
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
@@ -149,6 +150,7 @@ fun CustomDnsState() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
+            onItemRemoved = {},
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = settingsPaid.settingsViewState.customDns!!,
                 isConnected = false
@@ -171,6 +173,7 @@ fun CustomDnsStatePrivateDns() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
+            onItemRemoved = {},
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = settingsPaid.settingsViewState.customDns!!,
                 isConnected = false
