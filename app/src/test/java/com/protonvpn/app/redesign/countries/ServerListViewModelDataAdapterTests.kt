@@ -33,6 +33,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -71,7 +72,7 @@ class ServerListViewModelDataAdapterTests {
             listOf(
                 server(exitCountry = "PL", isOnline = false),
                 server(exitCountry = "PL", isOnline = true),
-                server(exitCountry = "PL", features = SERVER_FEATURE_TOR),
+                server(exitCountry = "PL", features = SERVER_FEATURE_TOR, isOnline = false),
                 server(exitCountry = "FR", features = SERVER_FEATURE_P2P or SERVER_FEATURE_TOR),
                 server(exitCountry = "DE", entryCountry = "SE", isSecureCore = true, tier = 2, isOnline = false),
                 server(exitCountry = "DE", entryCountry = "IS", isSecureCore = true, tier = 3, isOnline = false),
@@ -87,6 +88,7 @@ class ServerListViewModelDataAdapterTests {
 
         assertEquals(listOf("PL", "FR"), allCountries.map { it.countryId.countryCode })
         assertEquals(listOf("PL", "FR"), torCountries.map { it.countryId.countryCode })
+        assertTrue(torCountries.find { it.countryId == CountryId("PL") }?.inMaintenance == true)
         assertEquals(listOf("FR"), p2pCountries.map { it.countryId.countryCode })
         assertEquals(
             ServerGroupItemData.Country(

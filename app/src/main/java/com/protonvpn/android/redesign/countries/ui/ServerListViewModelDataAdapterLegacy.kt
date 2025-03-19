@@ -74,6 +74,8 @@ class ServerListViewModelDataAdapterLegacy @Inject constructor(
                     .getVpnExitCountry(countryCode, secureCore)
                     ?.serverList
                     ?.takeIf { it.isNotEmpty() }
+                    ?.asFilteredSequence(filter)
+                    ?.toList()
                     ?.toCountryItem(countryCode, entryCountryId)
             }
         }
