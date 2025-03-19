@@ -26,12 +26,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,8 +65,11 @@ fun AddNewDnsScreen(
     onAddDns: (String) -> Unit,
 ) {
     if (addDnsState == AddDnsResult.Added) {
-        onClose()
+        LaunchedEffect(Unit) {
+            onClose()
+        }
     }
+
     SubSetting(
         title = stringResource(R.string.settings_add_dns_title),
         onClose = onClose,
@@ -89,6 +96,11 @@ private fun ColumnScope.DnsInputRow(
         mutableStateOf(TextFieldValue())
     }
 
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
     Row(
         verticalAlignment = Alignment.Top,
         modifier = modifier
@@ -101,6 +113,7 @@ private fun ColumnScope.DnsInputRow(
             assistiveText = stringResource(R.string.settings_add_dns_description),
             errorText = (addDnsState as? AddDnsError)?.errorRes?.let { stringResource(it) },
             singleLine = true,
+            modifier = Modifier.focusRequester(focusRequester),
         )
         Spacer(modifier = Modifier.width(8.dp))
         VpnSolidButton(
