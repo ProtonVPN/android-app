@@ -38,6 +38,7 @@ import com.protonvpn.android.redesign.settings.ui.customdns.AddNewDnsScreen
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsScreen
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.settings.data.SplitTunnelingMode
+import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.accountmanager.presentation.compose.viewmodel.AccountSettingsViewState
 import me.proton.core.domain.entity.UserId
@@ -306,7 +307,12 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         ProfileColor.Color1
     ), "name") else null
 
-    private val netshield = SettingsViewModel.SettingViewState.NetShield(true, isFree, overrideInfo?.primaryLabel)
+    private val netshield = SettingsViewModel.SettingViewState.NetShield(
+        netShieldEnabled = true,
+        isRestricted = isFree,
+        overrideProfilePrimaryLabel = overrideInfo?.primaryLabel,
+        dnsOverride = if (isPrivateDnsActive) DnsOverride.SystemPrivateDns else DnsOverride.None
+    )
     private val vpnAccelerator = SettingsViewModel.SettingViewState.VpnAccelerator(true, isFree)
     private val protocol = SettingsViewModel.SettingViewState.Protocol(ProtocolSelection.SMART, overrideInfo?.primaryLabel)
     private val altRouting = SettingsViewModel.SettingViewState.AltRouting(true)
