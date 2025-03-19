@@ -1348,7 +1348,8 @@
     <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">Servers (%1$d)</string>
-    <string name="settings_dns_list_description">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
+    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
+    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
