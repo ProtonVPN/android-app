@@ -34,8 +34,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,9 +63,11 @@ import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
+import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
 import com.protonvpn.android.redesign.settings.ui.customdns.AddNewDnsScreen
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsScreen
@@ -241,6 +247,7 @@ fun SubSettingsRoute(
             SubSettingsScreen.Type.CustomDns -> {
                 val viewState = viewModel.customDnsViewState.collectAsStateWithLifecycle(null).value
                 if (viewState != null) {
+                    val snackbarHostState = remember { SnackbarHostState() }
                     CustomDnsScreen(
                         onClose = onClose,
                         onDnsToggled = {
@@ -252,6 +259,9 @@ fun SubSettingsRoute(
                         onAddNewAddress = {
                             onNavigateToSubSetting(SubSettingsScreen.Type.AddNewDns)
                         },
+                        onItemRemoved = {
+                            settingsChangeViewModel.removeDnsItem(it)
+                        },
                         onLearnMore = {
                             context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
                         },
@@ -262,8 +272,25 @@ fun SubSettingsRoute(
                         showReconnectionDialog = {
                             settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
                         },
+                        snackbarHostState = snackbarHostState,
                         viewState = viewState,
                     )
+                    val itemRemovedMessage = stringResource(R.string.custom_dns_item_removed_snackbar)
+                    val snackUndo = stringResource(R.string.undo)
+                    LaunchedEffect(Unit) {
+                        settingsChangeViewModel.undoSnackbarFlow.collect { event ->
+                            val result = snackbarHostState.showSnackbar(
+                                message = itemRemovedMessage,
+                                actionLabel = snackUndo,
+                                duration = SnackbarDuration.Short,
+                                type = ProtonSnackbarType.NORM
+                            )
+
+                            if (result == SnackbarResult.ActionPerformed) {
+                                settingsChangeViewModel.undoRemoval(event)
+                            }
+                        }
+                    }
                 }
                 var customDnsNetShieldConflictDialog by remember { mutableStateOf(false) }
                 settingsChangeViewModel.eventShowCustomDnsNetShieldConflict.receiveAsFlow()

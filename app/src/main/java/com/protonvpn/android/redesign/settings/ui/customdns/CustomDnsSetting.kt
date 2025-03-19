@@ -44,6 +44,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -78,6 +80,7 @@ import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonVpnPreview
 import com.protonvpn.android.base.ui.VpnSolidButton
+import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.DnsConflictBanner
 import com.protonvpn.android.redesign.settings.ui.FeatureSubSettingScaffold
@@ -97,10 +100,12 @@ fun CustomDnsScreen(
     onDnsToggled: () -> Unit,
     onLearnMore: () -> Unit,
     onDnsChange: (List<String>) -> Unit,
+    onItemRemoved: (String) -> Unit,
     onAddNewAddress: () -> Unit,
     onPrivateDnsLearnMore: () -> Unit,
     onOpenPrivateDnsSettings: () -> Unit,
     showReconnectionDialog: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     viewState: SettingsViewModel.CustomDnsViewState,
 ) {
     val listState = rememberLazyListState()
@@ -175,6 +180,7 @@ fun CustomDnsScreen(
                         onToggle = onDnsToggled,
                         onLearnMore = onLearnMore,
                         largeScreenPaddingModifier = largeScreenModifier,
+                        onItemRemoved = onItemRemoved,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -186,7 +192,12 @@ fun CustomDnsScreen(
                     )
                 }
             }
-
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier
+            ) {
+                ProtonSnackbar(it)
+            }
             if (viewState.showAddDnsButton) {
                 VpnSolidButton(
                     text = stringResource(R.string.settings_add_dns_title),
@@ -276,6 +287,7 @@ private fun CustomDnsContent(
     settingViewState: SettingViewState<Boolean>,
     onLearnMore: () -> Unit,
     onToggle: () -> Unit,
+    onItemRemoved: (String) -> Unit,
     onDnsChange: (List<String>) -> Unit,
     onCopyToClipboard: (String) -> Unit,
     largeScreenPaddingModifier: Modifier,
@@ -366,7 +378,7 @@ private fun CustomDnsContent(
                         onCopyToClipboard = onCopyToClipboard,
                         onMoveUp = onMoveUp,
                         onMoveDown = onMoveDown,
-                        onDelete = { onDnsChange(currentDnsList - item) },
+                        onDelete = { onItemRemoved(item) },
                         modifier = largeScreenPaddingModifier.animateItem(),
                         dragModifier = dragModifier
                     )
@@ -503,6 +515,7 @@ private fun CustomDnsPreview() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
+            onItemRemoved = {},
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = true,
@@ -530,6 +543,7 @@ private fun CustomDnsConflictPreview() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
+            onItemRemoved = {},
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
@@ -557,6 +571,7 @@ private fun CustomDnsDisabledPreview() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
+            onItemRemoved = {},
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
@@ -584,6 +599,7 @@ private fun CustomDnsEmptyState() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             showReconnectionDialog = {},
+            onItemRemoved = {},
             viewState = SettingsViewModel.CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,

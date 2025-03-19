@@ -60,20 +60,28 @@ class CurrentUserLocalSettingsManager @Inject constructor(
         update { current -> current.copy(mtuSize = newSize) }
 
     suspend fun updateCustomDnsList(newDnsList: List<String>) {
-        update { current ->
-            val dnsEnabled = when {
-                // Current list is empty, and user is adding new values, master switch must be on
-                current.customDns.rawDnsList.isEmpty() && newDnsList.isNotEmpty() -> true
-
-                // Disable master switch all values in list are deleted
-                newDnsList.isEmpty() -> false
-
-                // Otherwise, keep the current setting
-                else -> current.customDns.enabled
-            }
-            current.copy(customDns = CustomDnsSettings(dnsEnabled, newDnsList))
+        updateCustomDns { current ->
+            current.copy(rawDnsList = newDnsList)
         }
     }
+
+    suspend fun updateCustomDns(transform: (CustomDnsSettings) -> (CustomDnsSettings)) =
+        update { current ->
+            val updatedCustomDns = transform(current.customDns)
+            
+            val dnsEnabled = when {
+                // Current list is empty, and user is adding new values, master switch must be on
+                current.customDns.rawDnsList.isEmpty() && updatedCustomDns.rawDnsList.isNotEmpty() -> true
+
+                // Disable master switch if all values in list are deleted
+                updatedCustomDns.rawDnsList.isEmpty() -> false
+
+                // Otherwise, keep the current setting
+                else -> updatedCustomDns.enabled
+            }
+
+            current.copy(customDns = updatedCustomDns.copy(enabled = dnsEnabled))
+        }
 
     suspend fun updateNetShield(newNetShieldProtocol: NetShieldProtocol) =
         update { current -> current.copy(netShield = newNetShieldProtocol) }
