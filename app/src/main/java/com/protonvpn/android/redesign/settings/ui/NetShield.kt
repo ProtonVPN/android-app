@@ -36,7 +36,6 @@ import me.proton.core.compose.theme.ProtonTheme
 fun NetShieldSetting(
     onClose: () -> Unit,
     netShield: SettingsViewModel.SettingViewState.NetShield,
-    dnsOverride: DnsOverride,
     onLearnMore: () -> Unit,
     onNetShieldToggle: () -> Unit,
     onDisableCustomDns: () -> Unit,
@@ -65,7 +64,7 @@ fun NetShieldSetting(
                 itemModifier = horizontalItemPaddingModifier,
             )
             item {
-                when (dnsOverride) {
+                when (netShield.dnsOverride) {
                     DnsOverride.None -> SettingsFeatureToggle(
                         label = stringResource(netShield.titleRes),
                         checked = netShield.value,

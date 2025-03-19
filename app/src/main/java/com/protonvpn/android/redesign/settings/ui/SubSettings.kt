@@ -76,7 +76,6 @@ import com.protonvpn.android.utils.Constants
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.openVpnSettings
-import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.widget.ui.WidgetAddScreen
 import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
@@ -132,12 +131,10 @@ fun SubSettingsRoute(
 
             SubSettingsScreen.Type.NetShield -> {
                 val netShield = viewModel.netShield.collectAsStateWithLifecycle(initialValue = null).value
-                val dnsOverride = viewModel.dnsOverrideFlow.collectAsStateWithLifecycle(DnsOverride.None).value
                 if (netShield != null) {
                     NetShieldSetting(
                         onClose = onClose,
                         netShield = netShield,
-                        dnsOverride = dnsOverride,
                         onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_LEARN_MORE) },
                         onDisableCustomDns = { settingsChangeViewModel.disableCustomDns(vpnUiDelegate) },
                         onCustomDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },

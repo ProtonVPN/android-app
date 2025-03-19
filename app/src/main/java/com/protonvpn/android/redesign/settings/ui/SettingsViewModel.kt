@@ -106,21 +106,29 @@ class SettingsViewModel @Inject constructor(
             netShieldEnabled: Boolean,
             isRestricted: Boolean,
             overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
-            override val iconRes: Int = if (netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off
+            val dnsOverride: DnsOverride,
+            override val iconRes: Int =
+                if (netShieldEnabled && dnsOverride == DnsOverride.None) R.drawable.feature_netshield_on
+                else R.drawable.feature_netshield_off,
         ) : SettingViewState<Boolean>(
             value = netShieldEnabled,
             isRestricted = isRestricted,
             titleRes = R.string.netshield_feature_name,
-            settingValueView = run {
-                val subtitleRes =
-                    if (netShieldEnabled) R.string.netshield_state_on else R.string.netshield_state_off
-                if (overrideProfilePrimaryLabel != null) {
-                    SettingValue.SettingOverrideValue(
-                        connectIntentPrimaryLabel = overrideProfilePrimaryLabel,
-                        subtitleRes = subtitleRes
-                    )
-                } else {
-                    SettingValue.SettingStringRes(subtitleRes)
+            settingValueView = when {
+                dnsOverride != DnsOverride.None -> {
+                    SettingValue.SettingStringRes(R.string.netshield_state_unavailable)
+                }
+                else -> {
+                    val subtitleRes =
+                        if (netShieldEnabled) R.string.netshield_state_on else R.string.netshield_state_off
+                    if (overrideProfilePrimaryLabel != null) {
+                        SettingValue.SettingOverrideValue(
+                            connectIntentPrimaryLabel = overrideProfilePrimaryLabel,
+                            subtitleRes = subtitleRes
+                        )
+                    } else {
+                        SettingValue.SettingStringRes(subtitleRes)
+                    }
                 }
             },
             descriptionRes = R.string.netshield_settings_description_not_html,
@@ -324,7 +332,8 @@ class SettingsViewModel @Inject constructor(
                 else -> SettingViewState.NetShield(
                     settings.netShield != NetShieldProtocol.DISABLED,
                     overrideProfilePrimaryLabel = profileOverrideInfo?.primaryLabel,
-                    isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE
+                    isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
+                    dnsOverride = dnsOverride,
                 )
             }
             val currentModeAppNames =
