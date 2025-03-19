@@ -372,9 +372,12 @@ private fun CustomDnsContent(
                     )
                 }
             }
-            item {
+            item(key = "footer") {
+                val label =
+                    if (currentDnsList.size == 1) R.string.settings_dns_list_description
+                    else R.string.settings_dns_list_description_multiple
                 Text(
-                    text = stringResource(id = R.string.settings_dns_list_description),
+                    text = stringResource(id = label),
                     style = ProtonTheme.typography.body2Regular,
                     color = ProtonTheme.colors.textHint,
                     modifier = largeScreenPaddingModifier
