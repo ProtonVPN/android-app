@@ -25,8 +25,11 @@ sealed interface NetShieldViewState {
     val iconRes: Int
     val stateRes: Int
 
-    data class Unavailable(val dnsOverride: DnsOverride) : NetShieldViewState {
-        override val iconRes = R.drawable.ic_netshield_off
+    data class Unavailable(val protocol: NetShieldProtocol, val dnsOverride: DnsOverride) : NetShieldViewState {
+        override val iconRes = when (protocol) {
+            NetShieldProtocol.DISABLED -> R.drawable.ic_netshield_off
+            NetShieldProtocol.ENABLED, NetShieldProtocol.ENABLED_EXTENDED -> R.drawable.ic_netshield_f2
+        }
         override val stateRes = R.string.netshield_state_unavailable
     }
 

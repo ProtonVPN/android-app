@@ -95,7 +95,7 @@ class VpnStatusViewTests : FusionComposeTest() {
         val state = VpnStatusViewState.Connected(
             isSecureCoreServer = true,
             banner = StatusBanner.NetShieldBanner(
-                NetShieldViewState.Unavailable(DnsOverride.CustomDns)
+                NetShieldViewState.Unavailable(NetShieldProtocol.ENABLED_EXTENDED, DnsOverride.CustomDns)
             ),
         )
 

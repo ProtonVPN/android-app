@@ -107,9 +107,7 @@ class SettingsViewModel @Inject constructor(
             isRestricted: Boolean,
             overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
             val dnsOverride: DnsOverride,
-            override val iconRes: Int =
-                if (netShieldEnabled && dnsOverride == DnsOverride.None) R.drawable.feature_netshield_on
-                else R.drawable.feature_netshield_off,
+            override val iconRes: Int = if (netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off,
         ) : SettingViewState<Boolean>(
             value = netShieldEnabled,
             isRestricted = isRestricted,

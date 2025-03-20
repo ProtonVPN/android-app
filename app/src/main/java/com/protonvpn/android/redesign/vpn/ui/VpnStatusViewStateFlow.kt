@@ -92,15 +92,16 @@ class VpnStatusViewStateFlow(
             dnsOverrideFlow,
         ) { stats, user, changeServer, hasPromoBanner, dnsOverride ->
             val availability = user.getNetShieldAvailability()
+            val netShieldProtocol = connectionSettings.connectionSettings.netShield
             when {
                 hasPromoBanner && availability != NetShieldAvailability.AVAILABLE -> null
                 changeServer is ChangeServerViewState.Locked -> StatusBanner.UnwantedCountry
                 else -> when (availability) {
                     NetShieldAvailability.AVAILABLE -> {
                         val netShieldState = if (dnsOverride != DnsOverride.None) {
-                            NetShieldViewState.Unavailable(dnsOverride)
+                            NetShieldViewState.Unavailable(netShieldProtocol, dnsOverride)
                         } else {
-                            NetShieldViewState.Available(connectionSettings.connectionSettings.netShield, stats)
+                            NetShieldViewState.Available(netShieldProtocol, stats)
                         }
                         StatusBanner.NetShieldBanner(netShieldState)
                     }
