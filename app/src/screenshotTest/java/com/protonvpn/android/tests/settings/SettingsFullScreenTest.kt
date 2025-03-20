@@ -244,8 +244,7 @@ fun AddNewDnsScreenPreview() {
     ProtonVpnPreview(addSurface = true) {
         AddNewDnsScreen(
             addDnsState = AddDnsResult.WaitingForInput,
-            onClose = {},
-            onAddDns = {}
+            {}, {}, {}
         )
     }
 }
@@ -256,8 +255,7 @@ fun AddNewDnsScreenErrorPreview() {
     ProtonVpnPreview(addSurface = true) {
         AddNewDnsScreen(
             addDnsState = AddDnsError.InvalidInput,
-            onClose = {},
-            onAddDns = {}
+            {}, {}, {}
         )
     }
 }

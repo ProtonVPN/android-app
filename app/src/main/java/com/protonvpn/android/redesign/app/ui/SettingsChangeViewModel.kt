@@ -79,6 +79,11 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
+    fun onAddNewDnsTextChanged() {
+        // Typing clears error.
+        addDnsResultFlow.value = AddDnsResult.WaitingForInput
+    }
+
 
     data class UndoSnackbar(
         val removedItem: String,
