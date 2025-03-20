@@ -90,7 +90,9 @@ fun NetShieldView(state: NetShieldViewState, onNavigateToSubsetting: () -> Unit)
                 text = stringResource(state.stateRes),
                 style = ProtonTheme.typography.body2Regular,
                 color = ProtonTheme.colors.textWeak,
-                modifier = Modifier.padding(horizontal = 4.dp).testTag("netshieldState")
+                modifier = Modifier
+                    .padding(horizontal = 4.dp)
+                    .testTag("netshieldState")
             )
             Icon(
                 painter = painterResource(id = CoreR.drawable.ic_proton_chevron_right),
@@ -366,7 +368,10 @@ private fun NetShieldOffPreview() {
 private fun NetShieldUnavailablePreview() {
     ProtonVpnPreview {
         NetShieldView(
-            state = NetShieldViewState.Unavailable(DnsOverride.CustomDns),
+            state = NetShieldViewState.Unavailable(
+                protocol = NetShieldProtocol.ENABLED_EXTENDED,
+                DnsOverride.CustomDns
+            ),
             onNavigateToSubsetting = {}
         )
     }
