@@ -143,18 +143,35 @@ fun CustomDnsScreen(
 
     BackHandler(onBack = handleClose)
 
+    val largeScreenModifier = Modifier.largeScreenContentPadding()
+
     FeatureSubSettingScaffold(
         title = stringResource(id = dnsViewState.titleRes),
         onClose = handleClose,
         listState = listState,
         titleInListIndex = 1,
+        bottomBar = {
+            if (viewState.showAddDnsButton) {
+                VpnSolidButton(
+                    text = stringResource(R.string.settings_add_dns_title),
+                    onClick = onAddNewAddress,
+                    modifier = largeScreenModifier.padding(16.dp)
+                )
+            }
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+            ) {
+                ProtonSnackbar(it)
+            }
+        }
     ) { contentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
         ) {
-            val largeScreenModifier = Modifier.largeScreenContentPadding()
             when {
                 viewState.dnsViewState.isPrivateDnsActive -> {
                     CustomDnsWithPrivateDnsConflict(
@@ -191,19 +208,6 @@ fun CustomDnsScreen(
                         modifier = largeScreenModifier.weight(1f)
                     )
                 }
-            }
-            SnackbarHost(
-                hostState = snackbarHostState,
-                modifier = Modifier
-            ) {
-                ProtonSnackbar(it)
-            }
-            if (viewState.showAddDnsButton) {
-                VpnSolidButton(
-                    text = stringResource(R.string.settings_add_dns_title),
-                    onClick = onAddNewAddress,
-                    modifier = largeScreenModifier.padding(16.dp)
-                )
             }
         }
     }

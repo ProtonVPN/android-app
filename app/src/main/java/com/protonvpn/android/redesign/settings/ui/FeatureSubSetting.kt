@@ -61,12 +61,16 @@ fun FeatureSubSettingScaffold(
     onClose: () -> Unit,
     listState: LazyListState = rememberLazyListState(),
     titleInListIndex: Int,
+    modifier: Modifier = Modifier,
+    bottomBar: @Composable () -> Unit = {},
+    snackbarHost: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
     val topAppBarTitleVisibleFraction by remember {
         derivedStateOf { titleVisibilityFraction(listState, titleInListIndex) }
     }
     Scaffold(
+        modifier = modifier,
         topBar = {
             SimpleTopAppBar(
                 title = {
@@ -83,6 +87,8 @@ fun FeatureSubSettingScaffold(
                 navigationIcon = { TopAppBarBackIcon(onClose) }
             )
         },
+        bottomBar = bottomBar,
+        snackbarHost = snackbarHost,
         content = content
     )
 }
