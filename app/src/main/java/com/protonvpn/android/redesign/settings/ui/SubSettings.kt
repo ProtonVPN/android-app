@@ -239,9 +239,8 @@ fun SubSettingsRoute(
                         onClose()
                     },
                     addDnsState = viewState,
-                    onAddDns = {
-                        settingsChangeViewModel.addNewDns(it)
-                    }
+                    onAddDns = settingsChangeViewModel::addNewDns,
+                    onTextChanged = settingsChangeViewModel::onAddNewDnsTextChanged
                 )
             }
             SubSettingsScreen.Type.CustomDns -> {

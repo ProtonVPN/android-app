@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -63,6 +66,7 @@ fun AddNewDnsScreen(
     addDnsState: AddDnsState,
     onClose: () -> Unit,
     onAddDns: (String) -> Unit,
+    onTextChanged: () -> Unit,
 ) {
     if (addDnsState == AddDnsResult.Added) {
         LaunchedEffect(Unit) {
@@ -81,7 +85,8 @@ fun AddNewDnsScreen(
             addDnsState = addDnsState,
             onAddDns = { newDns ->
                 onAddDns(newDns)
-            }
+            },
+            onTextChanged = onTextChanged,
         )
     }
 }
@@ -90,7 +95,8 @@ fun AddNewDnsScreen(
 private fun ColumnScope.DnsInputRow(
     modifier: Modifier,
     addDnsState: AddDnsState,
-    onAddDns: (String) -> Unit
+    onAddDns: (String) -> Unit,
+    onTextChanged: () -> Unit,
 ) {
     var currentDns by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
@@ -108,11 +114,16 @@ private fun ColumnScope.DnsInputRow(
         ProtonOutlinedTextField(
             value = currentDns,
             placeholderText = stringResource(id = R.string.settings_add_dns_placeholder),
-            onValueChange = { currentDns = it },
+            onValueChange = {
+                currentDns = it
+                onTextChanged()
+            },
             isError = addDnsState is AddDnsError,
             assistiveText = stringResource(R.string.settings_add_dns_description),
             errorText = (addDnsState as? AddDnsError)?.errorRes?.let { stringResource(it) },
             singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { onAddDns(currentDns.text) }),
             modifier = Modifier.focusRequester(focusRequester),
         )
         Spacer(modifier = Modifier.width(8.dp))
@@ -130,8 +141,7 @@ private fun ColumnScope.DnsInputRow(
 fun AddNewDnsScreenPreview() {
     AddNewDnsScreen(
         addDnsState = AddDnsResult.WaitingForInput,
-        onClose = {},
-        onAddDns = {}
+        {}, {}, {}
     )
 }
 
@@ -140,7 +150,6 @@ fun AddNewDnsScreenPreview() {
 fun AddNewDnsScreenErrorPreview() {
     AddNewDnsScreen(
         addDnsState = AddDnsError.InvalidInput,
-        onClose = {},
-        onAddDns = {}
+        {}, {}, {}
     )
 }
