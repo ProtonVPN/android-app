@@ -89,6 +89,7 @@
     <string name="done">GATA</string>
     <string name="add">ADĂUGARE</string>
     <string name="copy_to_clipboard">Copiere</string>
+    <string name="copied_to_clipboard">Copiat în memorie.</string>
     <string name="got_it">Am înțeles</string>
     <string name="something_went_wrong">Ceva nu a funcționat corect</string>
     <string name="try_again">Reîncercați</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">Nu există conexiune la internet</string>
     <string name="loaderErrorGeneric">Ceva nu a funcționat corect</string>
     <string name="inputIpAddressLabel">Adresa IP</string>
-    <string name="inputIpAddressHint">Scrieți adresa IP</string>
+    <string name="inputIpAddressHelp">Introduceți adresa IPv4 sau IPv6 a serverului</string>
     <string name="inputIpAddressErrorInvalid">Adresă IP nevalidă</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NOU</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Eliminare din aplicațiile incluse</string>
+    <string name="accessibility_action_copy_to_clipboard">Copiere în memorie</string>
+    <string name="accessibility_action_item_delete">Ștergere</string>
+    <string name="accessibility_action_item_move_up">Mutare în sus</string>
+    <string name="accessibility_action_item_move_down">Mutare în jos</string>
     <string name="tileConnected">Conectat: %1$s</string>
     <string name="openUrlError">%1$s nu a putut fi deschisă. Navigatorul web nu a fost detectat pe dispozitiv.</string>
     <string name="loaderErrorTimeout">Conexiunea a expirat. Reîncercați.</string>
@@ -217,6 +222,7 @@
     <string name="learn_more">Detalii</string>
     <string name="netshield_state_on" comment="Describes state, not action">Pornit</string>
     <string name="netshield_state_off" comment="Describes state, not action">Oprit</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Indisponibil</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Pornit</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Oprit</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Pornit</string>
@@ -225,6 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Oprită</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Pornită</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Oprită</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Activat</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Dezactivat</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Indisponibil</string>
+    <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">Blocați reclame, urmăritori și malware pe pagini web și aplicații</string>
     <string name="netshield_what_data_means">Ce înseamnă datele NetShield</string>
     <string name="netshield_ads_title">Reclame</string>
@@ -297,7 +307,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">Încărcare server %1$s%%</string>
+    <string name="tv_server_list_load">Încărcare server %1$s %%</string>
     <string name="tv_recently_used_servers">Servere utilizate recent (%1$d)</string>
     <string name="tv_available_servers">Servere disponibile (%1$d)</string>
     <string name="tv_locked_servers">Servere blocate (%1$d)</string>
@@ -312,9 +322,9 @@
     <string name="notification_max_sessions_title">Ați atins limita maximă de dispozitive folosite</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la Plus pentru a avea până la un dispozitiv conectat în același timp.</item>
-        <item quantity="few">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la Plus pentru a avea până la %1$d dispozitive conectate în același timp.</item>
-        <item quantity="other">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la Plus pentru a avea până la %1$d de dispozitive conectate în același timp.</item>
+        <item quantity="one">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la planul Plus pentru a avea până la %1$d dispozitiv conectat.</item>
+        <item quantity="few">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la planul Plus pentru a avea până la %1$d dispozitive conectate simultan.</item>
+        <item quantity="other">Deconectați un alt dispozitiv pentru a-l conecta pe acesta sau treceți la planul Plus pentru a avea până la %1$d de dispozitive conectate simultan.</item>
     </plurals>
     <string name="notification_max_sessions_content">Deconectați un alt dispozitiv pentru a-l conecta pe acesta.</string>
     <string name="notification_cancel_to_free">Sunteți pe planul gratuit. Sunt disponibile serverele și funcțiile gratuite.</string>
@@ -334,7 +344,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">Un server</item>
+        <item quantity="one">%1$d server</item>
         <item quantity="few">%1$d servere</item>
         <item quantity="other">%1$d de servere</item>
     </plurals>
@@ -344,7 +354,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">O țară</item>
+        <item quantity="one">%1$d țară</item>
         <item quantity="few">%1$d țări</item>
         <item quantity="other">%1$d de țări</item>
     </plurals>
@@ -389,7 +399,7 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">Un server securizat</item>
+        <item quantity="one">%d server securizat</item>
         <item quantity="few">%d servere securizate</item>
         <item quantity="other">%d de servere securizate</item>
     </plurals>
@@ -399,7 +409,7 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="one">O țară</item>
+        <item quantity="one">%d țară</item>
         <item quantity="few">%d țări</item>
         <item quantity="other">%d de țări</item>
     </plurals>
@@ -429,19 +439,19 @@
     <string name="upgrade_unlimited_vpn_double_vpn">VPN dublu</string>
     <string name="upgrade_unlimited_vpn_p2p">Suport P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="one">%1$d domeniu personal de e-mail</item>
-        <item quantity="few">%1$d domenii personale de e-mail</item>
-        <item quantity="other">%1$d de domenii personale de e-mail</item>
+        <item quantity="one">Domenii personale de e-mail: %1$d</item>
+        <item quantity="few">Domenii personale de e-mail: %1$d</item>
+        <item quantity="other">Domenii personale de e-mail: %1$d</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">Atașamente de %1$d MiB</item>
         <item quantity="few">Atașamente de %1$d MiB</item>
-        <item quantity="other">Atașamente de %1$d de MiB</item>
+        <item quantity="other">Atașamente de %1$d MiB</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="one">%1$d adresă de e-mail</item>
-        <item quantity="few">%1$d adrese de e-mail</item>
-        <item quantity="other">%1$d de adrese de e-mail</item>
+        <item quantity="one">Adrese de e-mail: %1$d</item>
+        <item quantity="few">Adrese de e-mail: %1$d</item>
+        <item quantity="other">Adrese de e-mail: %1$d</item>
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">Foldere și etichete nelimitate</string>
     <string name="upgrade_unlimited_mail_dark_web">Monitorizare pe internetul ascuns</string>
@@ -449,9 +459,9 @@
     <string name="upgrade_unlimited_mail_autoreply">Răspunsuri automate</string>
     <string name="upgrade_unlimited_mail_scheduled_send">Trimitere programată</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="one">%1$d calendar personal</item>
-        <item quantity="few">%1$d calendare personale</item>
-        <item quantity="other">%1$d de calendare personale</item>
+        <item quantity="one">Calendare personale: %1$d</item>
+        <item quantity="few">Calendare personale: %1$d</item>
+        <item quantity="other">Calendare personale: %1$d</item>
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">Partajare calendar</string>
     <string name="upgrade_unlimited_calendar_invites">Trimiteți și primiți invitații</string>
@@ -463,9 +473,9 @@
     <string name="upgrade_unlimited_pass_manager">Manager criptat de parole</string>
     <string name="upgrade_unlimited_pass_logins_aliases">Conectări nelimitate și aliasuri hide-my-email</string>
     <plurals name="upgrade_unlimited_pass_vaults">
-        <item quantity="one">%1$d seif</item>
-        <item quantity="few">%1$d seifuri</item>
-        <item quantity="other">%1$d de seifuri</item>
+        <item quantity="one">Seifuri: %1$d</item>
+        <item quantity="few">Seifuri: %1$d</item>
+        <item quantity="other">Seifuri: %1$d</item>
     </plurals>
     <string name="upgrade_unlimited_pass_logins">Conectări nelimitate</string>
     <string name="upgrade_unlimited_pass_aliases">Aliasuri hide-my-email nelimitate</string>
@@ -473,8 +483,8 @@
     <string name="upgrade_unlimited_pass_devices">Dispozitive nelimitate</string>
     <plurals name="upgrade_unlimited_pass_users">
         <item quantity="one">Partajați cu încă %1$d persoană</item>
-        <item quantity="few">Partajați cu până la încă %1$d persoane</item>
-        <item quantity="other">Partajați cu până la încă %1$d de persoane</item>
+        <item quantity="few">Partajați cu maxim %1$d persoane</item>
+        <item quantity="other">Partajați cu maxim %1$d de persoane</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Autentificare cu doi factori integrată</string>
     <string name="upgrade_not_now_button">Nu acum</string>
@@ -570,7 +580,7 @@
     <string name="dynamic_report_contact_us">Contactați-ne</string>
     <string name="dynamic_report_tips_description">Aceste sfaturi ar putea ajuta la rezolvarea mai rapidă a problemei.</string>
     <string name="dynamic_report_tips_title">Rezolvări rapide</string>
-    <string name="dynamic_report_logs_title">Trimitere jurnale erori</string>
+    <string name="dynamic_report_logs_title">Trimitere jurnale de erori</string>
     <string name="dynamic_report_success_title">Vă mulțumim pentru feedback.</string>
     <string name="dynamic_report_success_description">Vă vom contacta cât de curând posibil.</string>
     <string name="dynamic_report_field_mandatory">Acest câmp este obligatoriu</string>
@@ -699,8 +709,8 @@
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
         <item quantity="one">Maxim %1$d dispozitiv</item>
-        <item quantity="few">Până la %1$d dispozitive simultan</item>
-        <item quantity="other">Până la %1$d de dispozitive simultan</item>
+        <item quantity="few">Maxim %1$d dispozitive simultan</item>
+        <item quantity="other">Maxim %1$d de dispozitive simultan</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -1091,7 +1101,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Solicitare: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Solicitare: %1$s %%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1117,10 +1127,16 @@
     <string name="accessibility_show_ip">Afișare IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Înapoi</string>
+    <string name="accessibility_close">Închidere</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">IP personal</string>
+    <string name="connection_details_my_ipv4">IPv4 locală</string>
+    <string name="connection_details_my_ipv6">IPv6 locală</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">IP VPN</string>
+    <string name="connection_details_vpn_ip4_6">IPv4/IPv6 VPN</string>
+    <string name="connection_details_vpn_ipv4">IPv4 VPN</string>
+    <string name="connection_details_vpn_ipv6">IPv6 VPN</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1167,6 +1183,7 @@
     <string name="connection_details_download">Descărcare</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Viteză VPN</string>
+    <string name="connection_details_section_ip">Adresa IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Care este viteza prin VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1177,6 +1194,7 @@
     <string name="info_dialog_tor_description">Conectați-vă la un server Tor pentru a accesa servicii ascunse și site-uri de tip onion folosind orice navigator web.</string>
     <string name="info_dialog_button_learn_more_tor">Cum se accesează rețeaua Tor?</string>
     <string name="info_dialog_button_learn_more_p2p">Cum se folosește partajarea fișierelor prin torrent cu P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Ce este o adresă IP?</string>
     <string name="info_dialog_button_learn_more_streaming">Aveți nevoie de ajutor pentru vizionare?</string>
     <string name="info_dialog_streaming_title">Transmisii în flux</string>
     <string name="info_dialog_streaming_description">Serverele pentru transmisii în flux sunt destinate pentru redarea rapidă și sigură a emisiunilor TV și a filmelor.</string>
@@ -1188,7 +1206,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Conectați-vă la orice server Plus și începeți vizionarea.</string>
     <string name="info_dialog_profiles_title">Profiluri</string>
+    <string name="info_dialog_ipaddress_title">Adresa IP</string>
+    <string name="info_dialog_ipv6_traffic_title">Trafic IPv6</string>
     <string name="info_dialog_profiles_description">Profilurile sunt conexiuni VPN personalizate pe care vi le puteți adapta nevoilor și le puteți salva pentru acces rapid.\n\nSetați țara preferată și optimizați setările pentru securitate, performanță, jocuri sau orice alt scenariu.</string>
+    <string name="info_dialog_ipaddress_description">Adresa IP din VPN vă maschează adresa IP reală. Acest lucru face să pară că navigați de la adresa din VPN, astfel încât activitatea online nu vă poate fi corelată cu cea a dispozitivului.</string>
+    <string name="info_dialog_ipv6_traffic_description">Protocolul de internet (IP) atribuie adrese dispozitivelor și direcționează traficul de internet. IPv6 este cea mai recentă versiune, oferind mai multe adrese și o conectivitate mai bună, dar nu este încă adoptată universal.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Pe acest server este activată partajarea persoană-la-persoană.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1203,7 +1225,8 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
     <string name="country_smart_routing_info">Serverele se află fizic în %1$s, dar se pare că navigați din %2$s.</string>
     <!--
@@ -1235,7 +1258,7 @@
     <plurals name="full_name_speed_bytes_per_second">
         <item quantity="one">%1$s bait pe secundă</item>
         <item quantity="few">%1$s baiți pe secundă</item>
-        <item quantity="other">%1$s baiți pe secundă</item>
+        <item quantity="other">%1$s de baiți pe secundă</item>
     </plurals>
     <plurals name="full_name_speed_kilobytes_per_second">
         <item quantity="one">%1$s kibibait pe secundă</item>
@@ -1333,6 +1356,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Contul meu</string>
     <string name="settings_account_button_delete_account">Ștergere cont</string>
+    <string name="settings_custom_dns_title">DNS personal</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Adăugare server DNS</string>
+    <string name="settings_add_dns_new_entry_button">Adăugare</string>
+    <string name="settings_add_dns_description">Introduceți adresa IPv4 sau IPv6 a serverului</string>
+    <string name="settings_add_dns_invalid_input">Introduceți o adresă IPv4 sau IPv6 validă</string>
+    <string name="settings_add_dns_empty_input">Introduceți o adresă IPv4 sau IPv6</string>
+    <string name="settings_add_dns_duplicate_input">Server deja adăugat.</string>
+    <string name="settings_advanced_dns_description">Conectare la VPN cu un sistem de nume de domenii (DNS) autogăzduit sau terță-parte. Detalii</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Servere (%1$d)</string>
+    <string name="settings_dns_list_description">Dacă serverul DNS personal nu funcționează, va fi folosit DNS-ul standard din VPN.</string>
+    <string name="settings_dns_list_description_multiple">Se va încerca accesarea în ordine a acestor servere. Dacă nu funcționează niciunul, va fi folosit DNS-ul din VPN.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Modificările se vor aplica după reconectare</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield va fi indisponibil</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield nu poate filtra reclame, instrumente de urmărire și malițioase când se folosește un DNS personal. Detalii</string>
     <string name="settings_advanced_alternative_routing_title">Rută alternativă</string>
     <string name="settings_advanced_alternative_routing_description">Dacă serviciile Proton sunt blocate din cauza restricțiilor de rețea, vom încerca să utilizăm o rută alternativă de rețea pentru a vă conecta la site-urile noastre.</string>
     <string name="settings_advanced_allow_lan_title">Conexiuni LAN</string>
@@ -1380,6 +1419,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">Eliminați adresa IP din listă?</string>
     <string name="settings_dialog_reconnect">Noile setări vor fi aplicate la următoarea conectare.</string>
     <string name="settings_needs_reconnect_banner">Noile setări vor fi aplicate la următoarea conectare.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">DNS-ul personal nu este disponibil</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Dispozitivul folosește un DNS terță-parte care împiedică funcționarea DNS-ului personal din Proton VPN. Detalii</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield nu este disponibil</string>
+    <string name="private_dns_conflict_banner_netshield_description">Dispozitivul folosește un DNS terță-parte care împiedică NetShield să funcționeze. Detalii</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Setări rețea</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield nu este disponibil</string>
+    <string name="custom_dns_conflict_banner_netshield_description">DNS-ul personal este activat și împiedică funcționarea NetShield. Detalii</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Opriți DNS-ul personal</string>
     <string name="info_secure_core_standard_high_privacy">Intimitate mare</string>
     <string name="info_secure_core_standard_lower_latency">Latență scăzută</string>
     <string name="info_secure_core_advanced_privacy">Intimitate avansată</string>
@@ -1468,7 +1515,7 @@
     <string name="generic_info_label">Informații</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Conectare și deschidere</string>
+    <string name="create_profile_connect_and_go_label">Conectare și accesare</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
     <string name="create_profile_auto_open_label_badge">Nou</string>
     <string name="create_profile_auto_open_url_input_label">URL Website</string>
@@ -1495,4 +1542,16 @@
     <string name="widget_status_connecting">Se conectează</string>
     <string name="widget_sign_in">Conectare</string>
     <string name="widget_toast_added_message">Modulul a fost adăugat pe ecran.</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Direcționează traficul IPv6 prin VPN. Poate spori compatibilitatea cu rețelele IPv6.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Pentru a utiliza această adresă, trebuie să permiteți conexiuni IPv6 prin tunelul VPN.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Activare IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 este dezactivat</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 activat</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Asigură accesul la serviciile și site-urile web doar cu IPv6</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Previne problemele cu rețelele care depind de IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">S-ar putea să nu funcționeze cu rețelele sau aplicațiile vechi</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Unele rețele gestionează traficul IPv6 impredictibil</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Dezavantaje</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Avantaje</string>
 </resources>

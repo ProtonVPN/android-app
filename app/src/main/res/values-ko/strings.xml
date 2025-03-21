@@ -89,6 +89,7 @@
     <string name="done">완료</string>
     <string name="add">추가</string>
     <string name="copy_to_clipboard">복사</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="got_it">알겠습니다</string>
     <string name="something_went_wrong">문제가 발생했습니다</string>
     <string name="try_again">다시 시도</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">인터넷에 연결되지 않음</string>
     <string name="loaderErrorGeneric">문제가 발생했습니다</string>
     <string name="inputIpAddressLabel">IP 주소</string>
-    <string name="inputIpAddressHint">IP 주소 입력</string>
+    <string name="inputIpAddressHelp">Enter the server’s IPv4 or IPv6 address</string>
     <string name="inputIpAddressErrorInvalid">유효하지 않은 IP 주소</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">신규</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">포함된 앱에서 삭제</string>
+    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
+    <string name="accessibility_action_item_delete">Delete</string>
+    <string name="accessibility_action_item_move_up">Move up</string>
+    <string name="accessibility_action_item_move_down">Move down</string>
     <string name="tileConnected">연결됨: %1$s</string>
     <string name="openUrlError">%1$s 를 열 수 없습니다. 기기에서 웹 브라우저가 탐지되지 않았습니다.</string>
     <string name="loaderErrorTimeout">연결 시간 초과. 다시 시도하십시오.</string>
@@ -218,6 +223,7 @@
     <string name="learn_more">더 알아보기</string>
     <string name="netshield_state_on" comment="Describes state, not action">켬</string>
     <string name="netshield_state_off" comment="Describes state, not action">끔</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">켬</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">끔</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">켬</string>
@@ -226,6 +232,10 @@
     <string name="lan_state_off" comment="Describes state, not action">끔</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">켬</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">끔</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">웹사이트 및 앱에서 광고, 트래커와 멀웨어를 차단하세요</string>
     <string name="netshield_what_data_means">NetShield 데이터의 의미</string>
     <string name="netshield_ads_title">광고</string>
@@ -294,7 +304,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% 서버 부하</string>
+    <string name="tv_server_list_load">%1$s%% Server Load</string>
     <string name="tv_recently_used_servers">최근 사용한 서버 (%1$d)</string>
     <string name="tv_available_servers">이용 가능한 서버 (%1$d)</string>
     <string name="tv_locked_servers">잠긴 서버 (%1$d)</string>
@@ -329,7 +339,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="other">%1$d 서버</item>
+        <item quantity="other">%1$d개 서버</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -337,7 +347,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="other">%1$d 국가</item>
+        <item quantity="other">%1$d개 국가</item>
     </plurals>
     <string name="upsell_upgrade_again">다시 업그레이드하고 모든 기능들을 즐기세요:</string>
     <plurals name="upgrade_devices_title">
@@ -386,7 +396,7 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="other">%d 국가</item>
+        <item quantity="other">%d개 국가</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -412,7 +422,7 @@
     <string name="upgrade_unlimited_vpn_double_vpn">더블 VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">P2P 지원</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">사용자 지정 이메일 도메인 %1$d개</item>
+        <item quantity="other">%1$d개 커스텀 이메일 도메인</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="other">첨부 파일 %1$d MB</item>
@@ -666,7 +676,7 @@
      1200+ new servers
      -->
     <plurals name="welcome_plus_servers">
-        <item quantity="other">%d개 새 서버</item>
+        <item quantity="other">%d개 이상 새로운 서버</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
 
@@ -774,7 +784,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">피어 투 피어</string>
     <string name="server_feature_content_description_tor">Tor</string>
-    <string name="server_feature_content_description_smart_routing">스마트 라우팅</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">가장 빠른 국가</string>
     <string name="fastest_country_excluding_my_country">가장 빠른 국가 (현재 거주 국가 제외)</string>
@@ -1042,7 +1052,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">부하: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1068,10 +1078,16 @@
     <string name="accessibility_show_ip">IP 보기</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">이전</string>
+    <string name="accessibility_close">닫기</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">내 IP</string>
+    <string name="connection_details_my_ipv4">나의 IPv4</string>
+    <string name="connection_details_my_ipv6">나의 IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1118,6 +1134,7 @@
     <string name="connection_details_download">다운로드</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN 속도</string>
+    <string name="connection_details_section_ip">IP 주소</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">VPN 속도가 무엇인가요?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1128,6 +1145,7 @@
     <string name="info_dialog_tor_description">Tor 서버에 접속하면 히든 서비스와 어니언 사이트에 어느 브라우저를 사용해도 접근할 수 있습니다.</string>
     <string name="info_dialog_button_learn_more_tor">Tor 네트워크에 접속하는 방법</string>
     <string name="info_dialog_button_learn_more_p2p">P2P를 이용해 토렌트하는 방법</string>
+    <string name="info_dialog_button_learn_more_ipaddress">IP 주소란?</string>
     <string name="info_dialog_button_learn_more_streaming">스트리밍 도움이 필요하신가요?</string>
     <string name="info_dialog_streaming_title">스트리밍</string>
     <string name="info_dialog_streaming_description">스트리밍 서버는 빠르고 안전하게 TV와 영화 다시 보기를 시청할 수 있도록 설계되었습니다.</string>
@@ -1139,7 +1157,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Plus 서버에 접속한 뒤 스트리밍을 시작하세요.</string>
     <string name="info_dialog_profiles_title">프로필</string>
+    <string name="info_dialog_ipaddress_title">IP 주소</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
     <string name="info_dialog_profiles_description">프로필은 필요에 맞게 커스터마이징하고 빠르게 접근할 수 있도록 저장할 수 있는 맞춤형 VPN 연결 방식입니다.\n\n선호하는 위치를 설정하고 보안, 성능, 게임 또는 기타 시나리오에 맞게 설정을 최적화하세요.</string>
+    <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
+    <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">P2P 파일 공유가 이 서버에서 활성화 되었습니다.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1154,7 +1176,8 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
     <string name="country_smart_routing_info">%1$s에 위치한 서버지만, %2$s에서 탐색하는 것으로 표시됩니다.</string>
     <!--
@@ -1253,7 +1276,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">성능 강화 기술을 통해 연결 속도가 400%%까지 빨라집니다. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">계정 설정</string>
     <string name="settings_account_change_password">비밀번호 변경</string>
     <string name="settings_account_recovery_email">복구 이메일</string>
@@ -1262,6 +1285,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">내 계정</string>
     <string name="settings_account_button_delete_account">계정 삭제</string>
+    <string name="settings_custom_dns_title">Custom DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Add new DNS server</string>
+    <string name="settings_add_dns_new_entry_button">Add</string>
+    <string name="settings_add_dns_description">Enter the server’s IPv4 or IPv6 address</string>
+    <string name="settings_add_dns_invalid_input">Enter a valid IPv4 or IPv6 address</string>
+    <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
+    <string name="settings_add_dns_duplicate_input">Server already added</string>
+    <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Servers (%1$d)</string>
+    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
+    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
     <string name="settings_advanced_alternative_routing_title">대체 라우팅</string>
     <string name="settings_advanced_alternative_routing_description">Proton 서비스가 네트워크 제한으로 막혔다면, 대체 네트워크 라우딩을 이용해서 연결해보세요.</string>
     <string name="settings_advanced_allow_lan_title">LAN 연결</string>
@@ -1310,6 +1349,14 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP 주소를 목록에서 삭제하시겠습니까?</string>
     <string name="settings_dialog_reconnect">다음에 연결할 때 새 설정이 적용됩니다.</string>
     <string name="settings_needs_reconnect_banner">다음에 연결할 때 새 설정이 적용됩니다.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
     <string name="info_secure_core_standard_high_privacy">강화된 개인정보 보호</string>
     <string name="info_secure_core_standard_lower_latency">낮은 레이턴시</string>
     <string name="info_secure_core_advanced_privacy">향상된 개인정보 보호</string>
@@ -1425,4 +1472,16 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="widget_status_connecting">연결 중</string>
     <string name="widget_sign_in">로그인</string>
     <string name="widget_toast_added_message">위젯이 홈 화면에 추가되었습니다.</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
 </resources>

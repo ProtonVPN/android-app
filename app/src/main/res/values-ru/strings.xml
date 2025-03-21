@@ -19,7 +19,7 @@
 -->
 <resources>
     <string name="app_icon_name_classic">Классическая</string>
-    <string name="app_icon_name_dark">Тёмная</string>
+    <string name="app_icon_name_dark">Темная</string>
     <string name="app_icon_name_retro">Ретро</string>
     <string name="app_icon_name_weather">Погода</string>
     <string name="app_icon_name_notes">Заметки</string>
@@ -40,7 +40,7 @@
     <string name="buttonConnect">Подключиться</string>
     <string name="loaderConnectingTo">Подключение к %1$s</string>
     <string name="loaderNotConnected">Не подключен (не защищен)</string>
-    <string name="loaderConnectedTo">Подключен к %1$s</string>
+    <string name="loaderConnectedTo">Подключение к %1$s</string>
     <string name="loaderDisconnecting">Отключение</string>
     <string name="loaderReconnecting">Повторное подключение</string>
     <string name="loaderReconnectNoNetwork">Ожидание доступной сети</string>
@@ -89,6 +89,7 @@
     <string name="done">ГОТОВО</string>
     <string name="add">ДОБАВИТЬ</string>
     <string name="copy_to_clipboard">Копировать</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="got_it">Я понял</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
     <string name="try_again">Попробовать снова</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">Отсутствует подключение к Интернету</string>
     <string name="loaderErrorGeneric">Что-то пошло не так</string>
     <string name="inputIpAddressLabel">IP-адрес</string>
-    <string name="inputIpAddressHint">Напишите IP-адрес</string>
+    <string name="inputIpAddressHelp">Enter the server’s IPv4 or IPv6 address</string>
     <string name="inputIpAddressErrorInvalid">Недействительный IP-адрес</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">НОВОЕ</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Удалить из выбранных приложений</string>
+    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
+    <string name="accessibility_action_item_delete">Delete</string>
+    <string name="accessibility_action_item_move_up">Move up</string>
+    <string name="accessibility_action_item_move_down">Move down</string>
     <string name="tileConnected">Подключено: %1$s</string>
     <string name="openUrlError">%1$s не может быть открыт. Веб-браузер не был обнаружен на вашем устройстве.</string>
     <string name="loaderErrorTimeout">Время ожидания соединения истекло. Пожалуйста, попробуйте еще раз.</string>
@@ -178,7 +183,7 @@
     <string name="troubleshootNoInternetDescription">Пожалуйста, убедитесь, что ваше интернет-соединение работает.</string>
     <string name="troubleshootNoInternetTitle">Нет подключения к интернету</string>
     <string name="troubleshootIspProblemTitle">Проблема с интернет-провайдером (ISP)</string>
-    <string name="troubleshootIspProblemDescription"><![CDATA[Попробуйте подключиться к Proton из другой сети (или используйте <a href=\'%1$s\'>TOR</a>)]]></string>
+    <string name="troubleshootIspProblemDescription"><![CDATA[Попробуйте подключиться к Proton из другой сети (или используйте <a href=\'%1$s\'>Tor</a>)]]></string>
     <string name="troubleshootAntivirusProblemTitle">Конфликт с антивирусом</string>
     <string name="troubleshootAntivirusProblemDescription">Временно отключите или удалите антивирусное программное обеспечение.</string>
     <string name="troubleshootProxyFirewallProblemTitle">Конфликт с прокси-сервером/брандмауэром</string>
@@ -188,7 +193,7 @@
     <string name="troubleshootContactUsSectionTitle">Все еще нужна помощь? Свяжитесь с нами напрямую</string>
     <string name="troubleshootCustomerSupport">Поддержка клиентов</string>
     <string name="settingsAllowAlternativeRoutingTitle">Альтернативная маршрутизация</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[В случае если Proton заблокирован, позвольте приложению попытаться использовать альтернативные пути для получения доступа к серверам Proton. <a href="%1$s">Learn more</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Правительственная блокировка</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ваша страна возможно блокирует доступ к Proton. Попробуйте использовать <a href=\'%1$s\'>Tor</a> для входа в Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">Как включить kill switch</string>
@@ -215,16 +220,21 @@
     <string name="settings_icon_change_description">Замаскируйте приложение Proton VPN с помощью незаметного значка. В уведомлениях по-прежнему будут отображаться название и значок Proton VPN по умолчанию. %1$s</string>
     <string name="settings_icon_change_learn_more">Подробнее</string>
     <string name="learn_more">Подробнее</string>
-    <string name="netshield_state_on" comment="Describes state, not action">Вкл.</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Выкл.</string>
-    <string name="split_tunneling_state_on" comment="Describes state, not action">Вкл.</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">Выкл.</string>
-    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Вкл.</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Выкл.</string>
-    <string name="lan_state_on" comment="Describes state, not action">Вкл.</string>
-    <string name="lan_state_off" comment="Describes state, not action">Выкл.</string>
-    <string name="alt_routing_state_on" comment="Describes state, not action">Вкл.</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">Выкл.</string>
+    <string name="netshield_state_on" comment="Describes state, not action">Включён</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Выключено</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="split_tunneling_state_on" comment="Describes state, not action">Включён</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Выключено</string>
+    <string name="vpn_accelerator_state_on" comment="Describes state, not action">Включён</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Выключено</string>
+    <string name="lan_state_on" comment="Describes state, not action">Включён</string>
+    <string name="lan_state_off" comment="Describes state, not action">Выключено</string>
+    <string name="alt_routing_state_on" comment="Describes state, not action">Включён</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Выключено</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">Блокирует рекламу, трекеры и вредоносные программы на веб-сайтах и в приложениях</string>
     <string name="netshield_what_data_means">Что означают данные NetShield</string>
     <string name="netshield_ads_title">Реклама</string>
@@ -261,7 +271,7 @@
     <string name="nameAfricaAndMiddleEast">Африка и Ближний и Средний Восток</string>
     <string name="nameOceania">Океания</string>
     <string name="tv_row_settings">Настройки</string>
-    <string name="tv_card_split_tunneling_label">Split Tunneling</string>
+    <string name="tv_card_split_tunneling_label">Раздельное туннелирование</string>
     <string name="tv_card_protocol_label">Протокол</string>
     <string name="tv_detail_default_connection_checkbox_short">Избранная</string>
     <string name="tv_detail_connect_streaming">Стримить с Plus</string>
@@ -292,14 +302,14 @@
     <string name="tv_signout_dialog_description_connected">Так вы отключите телевизор от любого VPN-сервера.</string>
     <string name="tv_signout_dialog_ok">Выйти</string>
     <string name="tv_quick_connect_recommened">Рекомендованное</string>
-    <string name="tv_quick_connect_favourite">Избранная</string>
+    <string name="tv_quick_connect_favourite">Избранное</string>
     <string name="tv_country_maintenance_dialog_title">Страна недоступна</string>
     <string name="tv_country_maintenance_dialog_description">Пожалуйста, повторите попытку позже или выберите другую страну.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% нагрузка на сервер</string>
+    <string name="tv_server_list_load">%1$s%% Server Load</string>
     <string name="tv_recently_used_servers">Недавно использованные серверы (%1$d)</string>
     <string name="tv_available_servers">Доступные серверы (%1$d)</string>
     <string name="tv_locked_servers">Заблокированные серверы (%1$d)</string>
@@ -329,7 +339,7 @@
     <string name="enable">Включить</string>
     <string name="notification_smart_protocol_disabled_title">Smart Protocol в настоящее время отключен</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN обнаружила, что ваша текущая сеть препятствует подключению к VPN. Включение Smart Protocol может помочь в обходе этих ограничений.</string>
-    <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Дополнительные возможности: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Доступ к службам трансляции (Netflix, Disney+ и т. д.) в любой точке мира</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -355,10 +365,10 @@
     </plurals>
     <string name="upsell_upgrade_again">Улучшите снова, чтобы воспользоваться всеми функциями:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Защитите сразу %1$d устройство</item>
-        <item quantity="few">Защитите сразу %1$d устройства</item>
-        <item quantity="many">Защитите сразу %1$d устройств</item>
-        <item quantity="other">Защитите сразу %1$d устройств</item>
+        <item quantity="one">Защитите %1$d устройство одновременно</item>
+        <item quantity="few">Защитите %1$d устройства одновременно</item>
+        <item quantity="many">Защитите %1$d устройств одновременно</item>
+        <item quantity="other">Защитите %1$d устройств одновременно</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN доступна на 8 различных платформах.</string>
     <string name="upgrade_plus_title">Улучшите свою конфиденциальность</string>
@@ -395,10 +405,10 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d защищенный сервер</item>
-        <item quantity="few">%d защищенных сервера</item>
-        <item quantity="many">%d защищенных серверов</item>
-        <item quantity="other">%d защищенного сервера</item>
+        <item quantity="one">%d защищённый сервер</item>
+        <item quantity="few">%d защищённых серверов</item>
+        <item quantity="many">%d защищённый сервер</item>
+        <item quantity="other">%d защищённых сервера</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -435,7 +445,7 @@
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Защищенный просмотр трансляций</string>
     <string name="upgrade_unlimited_vpn_adblocker">Блокировщик рекламы и защита от вредоносных программ</string>
-    <string name="upgrade_unlimited_vpn_double_vpn">Двойная VPN</string>
+    <string name="upgrade_unlimited_vpn_double_vpn">Двойной VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">Поддержка P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="one">%1$d пользовательский домен электронной почты</item>
@@ -512,10 +522,10 @@
     <string name="upsell_card_customization_title">И многое другое…</string>
     <string name="upsell_card_customization_description">Разблокируйте ещё большую производительность и функции приватности</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Защитите %1$d устройство</item>
-        <item quantity="few">Защитите %1$d устройства</item>
-        <item quantity="many">Защитите %1$d устройств</item>
-        <item quantity="other">Защитите %1$d устройств</item>
+        <item quantity="one">Защитить %1$d устройство</item>
+        <item quantity="few">Защитить %1$d устройства</item>
+        <item quantity="many">Защитить %1$d устройств</item>
+        <item quantity="other">Защитить %1$d устройств</item>
     </plurals>
     <string name="upsell_card_devices_description">Безопасность и конфиденциальность на всех ваших устройствах</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -532,7 +542,7 @@
         Example:
         Browse at even higher speeds (up to 10&160;Gbps) -->
     <string name="upsell_card_speed_description">Просматривайте веб-страницы на ещё более высоких скоростях (до %1$d Гбит/с)</string>
-    <string name="upsell_card_split_tunneling_title">Split Tunneling</string>
+    <string name="upsell_card_split_tunneling_title">Раздельное туннелирование</string>
     <string name="upsell_card_split_tunneling_description">Просматривайте веб-страницы из двух мест одновременно</string>
     <string name="upsell_card_streaming_title">Стриминг</string>
     <string name="upsell_card_streaming_description">Смотрите свои любимые фильмы и телепрограммы</string>
@@ -564,8 +574,8 @@
     <string name="payment_welcome_price_message_monthly">Приветственное предложение. Автоматическое продление по цене %1$s/в месяц</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_annual">Приветственное предложение. Автоматическое продление по цене %1$s/в год</string>
-    <string name="payment_auto_renew_message_monthly">Подписка автоматически продлевается по цене %1$s в месяц.</string>
-    <string name="payment_auto_renew_message_annual">Подписка автоматически продлевается по цене %1$s в год.</string>
+    <string name="payment_auto_renew_message_monthly">Подписка автоматически продлевается за %1$s в месяц</string>
+    <string name="payment_auto_renew_message_annual">Подписка автоматически продлевается за %1$s в год</string>
     <string name="payment_welcome_price_message_monthly_fallback">Подписка автоматически обновляется каждый месяц</string>
     <string name="payment_welcome_price_message_annual_fallback">Подписка автоматически продлевается ежегодно</string>
     <string name="smart_routing_title">Smart Routing</string>
@@ -611,7 +621,7 @@
     <string name="upgrade_country_message"><![CDATA[Разблокируйте <b>выбор страны</b> с помощью VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free автоматически подключает вас к самому быстрому из доступных серверов. Обычно это ближайший к вашему местоположению сервер.</string>
     <string name="free_connections_info_server_locations">Месторасположение серверов Free (%1$d)</string>
-    <string name="free_connections_info_banner_text">Получите всемирное покрытие с помощью VPN Plus</string>
+    <string name="free_connections_info_banner_text">Получите глобальное покрытие с помощью VPN Plus</string>
     <string name="free_connection_info_title">Бесплатные подключения</string>
     <string name="search_upsell_banner_title">Смотрите видео из любой точки мира</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -624,8 +634,8 @@
     <string name="select_default_connection">Выберите ваше подключение по умолчанию</string>
     <string name="settings_default_connection_title">Подключение по умолчанию</string>
     <string name="fastest_country_description">Лучший сервер на основе вашего местоположения</string>
-    <string name="settings_last_connection_title">Последнее соединение</string>
-    <string name="settings_last_connection_description">Ваше последнее использованное подключение</string>
+    <string name="settings_last_connection_title">Последнее подключение</string>
+    <string name="settings_last_connection_description">Последнее использованное подключение</string>
     <string name="settings_change_icon_title">Значок приложения</string>
     <string name="settings_change_icon_details">Настройте, как приложение Proton VPN будет отображаться на вашем устройстве. Почему?</string>
     <string name="settings_change_icon_confirmation_title">Сменить значок приложения?</string>
@@ -676,7 +686,7 @@
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
         <item quantity="one">%1$d день</item>
-        <item quantity="few">%1$d дня</item>
+        <item quantity="few">%1$d дня</item>
         <item quantity="many">%1$d дней</item>
         <item quantity="other">%1$d дней</item>
     </plurals>
@@ -721,8 +731,8 @@
     <plurals name="welcome_plus_feature_devices">
         <item quantity="one">Подключайте до %1$d устройств одновременно</item>
         <item quantity="few">До %1$d устройств одновременно</item>
-        <item quantity="many">До %1$d устройств одновременно</item>
-        <item quantity="other">До %1$d устройств одновременно</item>
+        <item quantity="many">До %1$d устройства одновременно</item>
+        <item quantity="other">До %1$d устройства одновременно</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -732,9 +742,9 @@
      -->
     <plurals name="welcome_plus_servers">
         <item quantity="one">%d новый сервер</item>
-        <item quantity="few">%d+ новых сервера</item>
+        <item quantity="few">%d+ новых серверов</item>
         <item quantity="many">%d+ новых серверов</item>
-        <item quantity="other">%d+ нового сервера</item>
+        <item quantity="other">%d+ новых серверов</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
 
@@ -788,7 +798,7 @@
          a list item for country Switzerland will be read by a screen reader as:
          "Switzerland. Double tap to connect"
         -->
-    <string name="accessibility_action_connect">подключить</string>
+    <string name="accessibility_action_connect">подключиться</string>
     <!-- tag(Redesign_2023)
          Text added to clickable elements that redirect the user to upgrade their subscription plan.
          Only used by accessibility services.
@@ -844,13 +854,13 @@
     <!-- tag(Redesign_2023): label indicating that a server routes connection through the Tor network. -->
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">peer-to-peer</string>
-    <string name="server_feature_content_description_tor">Tor</string>
+    <string name="server_feature_content_description_tor">tor</string>
     <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Самая быстрая страна</string>
     <string name="fastest_country_excluding_my_country">Быстрая локация (исключая мою)</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest free server is connected to. -->
-    <string name="fastest_free_server">Самый быстрый бесплатный сервер</string>
+    <string name="fastest_free_server">Самый быстрый сервер Free</string>
     <!-- tag(Redesign_2023)
          Label describing a Secure Core connection via Iceland.
          Translate entry country name in correct declension, including the preposition and article, if needed.
@@ -962,7 +972,7 @@
     <!-- Label above the connection card when not connected and the user is on the free plan.
          The connection card always shows "Fastest free server" (fastest_free_server) for free
          users. -->
-    <string name="connection_card_label_free_connection">Free подключение</string>
+    <string name="connection_card_label_free_connection">Подключение Free</string>
     <!-- tag(Redesign_2023)
          Label above the connection card indicating that a connection is being established.
      -->
@@ -1002,7 +1012,7 @@
          a button with this description will be read by a screen reader as:
          "more information about free connections, button. Double tap to activate"
     -->
-    <string name="connection_card_accessbility_label_free_connections">more information about free connections</string>
+    <string name="connection_card_accessbility_label_free_connections">подробнее о бесплатных подключениях</string>
     <!-- tag(Redesign_2023)
          Displayed above the list of recently made connections.
      -->
@@ -1010,7 +1020,7 @@
     <!-- Displayed above the list of VPN Plus features in the home screen -->
     <string name="home_upsell_carousel_headline">Откройте для себя VPN Plus</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">Закрепить</string>
+    <string name="recent_action_pin">Прикрепить</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_unpin">Открепить</string>
     <!-- tag(Redesign_2023) -->
@@ -1021,9 +1031,9 @@
     -->
     <string name="recent_action_accessibility_state_pinned">Закреплено</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">Все серверы в этой стране на техобслуживании</string>
+    <string name="message_country_servers_in_maintenance">Все серверы в этой стране находятся на техническом обслуживании</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">Все серверы в этом городе на техобслуживании</string>
+    <string name="message_city_servers_in_maintenance">Все серверы в этом городе находятся на техническом обслуживании</string>
     <!-- State means here US state, like California -->
     <string name="message_state_servers_in_maintenance">Все серверы в этом штате находятся на техническом обслуживании</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1044,7 +1054,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_netshield_title">NetShield</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_split_tunneling_title">Split Tunneling</string>
+    <string name="settings_split_tunneling_title">Раздельное туннелирование</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_kill_switch_title">Kill Switch</string>
     <!-- tag(Redesign_2023) -->
@@ -1080,7 +1090,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_third_party_licenses">Лицензии третьих сторон</string>
     <!-- tag(Redesign_2023) -->
-    <string name="dialog_sign_out_title">Выйти?</string>
+    <string name="dialog_sign_out_title">Bыйти?</string>
     <!-- tag(Redesign_2023) -->
     <string name="dialog_sign_out_message">Вы будете отключены от VPN.</string>
     <!-- tag(Redesign_2023) -->
@@ -1103,20 +1113,20 @@
     <string name="country_filter_all_list_header">Все страны (%1$d)</string>
     <string name="country_filter_all_list_header_free">Страны Plus (%1$d)</string>
     <string name="country_filter_countries_list_header">Страны (%1$d)</string>
-    <string name="country_filter_cities_list_header">Города (%1$d)</string>
+    <string name="country_filter_cities_list_header">Городов (%1$d)</string>
     <string name="country_filter_states_list_header">Штаты (%1$d)</string>
     <string name="country_filter_servers_list_header">Серверы (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Страны с серверами Secure Core (%1$d)</string>
     <string name="country_filter_p2p_list_header">Страны P2P (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">Города P2P (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">(%1$d) штатов P2P</string>
+    <string name="country_filter_p2p_list_header_states">Страны P2P (%1$d)</string>
     <string name="country_filter_tor_list_header">Страны Tor (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Серверы Tor (%1$d)</string>
     <string name="country_filter_info_label">Информация</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Загруженность %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1128,7 +1138,7 @@
     <!-- tag(Redesign_2023)
          Text is shown while connection is being established
     -->
-    <string name="vpn_status_connecting">Защита ваших цифровых личных данных.</string>
+    <string name="vpn_status_connecting">Защита ваших цифровых личных данных</string>
     <!-- tag(Redesign_2023)
          Displays Country name and IP of user if he is not connected.
          First parameter is country, second is IP.
@@ -1142,14 +1152,20 @@
     <string name="accessibility_show_ip">Показать IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Назад</string>
+    <string name="accessibility_close">Close</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Мой IP</string>
+    <string name="connection_details_my_ipv4">My IPv4</string>
+    <string name="connection_details_my_ipv6">My IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
-    <string name="connection_details_connected_for">Подключено в течение</string>
+    <string name="connection_details_connected_for">Подключено к</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server">Сервер</string>
     <!-- tag(Redesign_2023) -->
@@ -1177,11 +1193,11 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Высокая (91–100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN может работать медленнее обычного.</string>
+    <string name="connection_details_server_load_high_description">VPN может работать медленнее обычного </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Протокол</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_protocol_description">Протокол — это набор инструкций, которым следует ваше устройство для подключения и взаимодействия с сервером.</string>
+    <string name="connection_details_protocol_description">Протокол — это набор инструкций, которым следует ваше устройство для подключения к серверу и взаимодействия с ним.</string>
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
@@ -1192,16 +1208,18 @@
     <string name="connection_details_download">Скачать</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Скорость VPN</string>
+    <string name="connection_details_section_ip">IP address</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Что такое скорость VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
     <string name="info_dialog_p2p_title">P2P</string>
-    <string name="info_dialog_secure_core_description">Secure Core соединяет вас с конечным сервером через другой, максимально защищенный сервер VPN.\n\nЭтот более высокий уровень защиты может привести к увеличению задержек и снижению скорости.</string>
+    <string name="info_dialog_secure_core_description">Secure Core соединяет вас с конечным сервером через другой, максимально защищённый сервер VPN.\n\nЭтот более высокий уровень защиты может привести к увеличению задержек и снижению скорости.</string>
     <string name="info_secure_core_standard_header">Обычное подключение к VPN </string>
     <string name="info_secure_core_secure_header">Подключение к VPN через Secure Core</string>
     <string name="info_dialog_tor_description">Подключайтесь к серверу Tor для доступа к скрытым сервисам и сайтам onion через любой браузер.</string>
     <string name="info_dialog_button_learn_more_tor">Как получить доступ к сети Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Как использовать торренты в P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">What is an IP address?</string>
     <string name="info_dialog_button_learn_more_streaming">Нужна помощь по просмотру?</string>
     <string name="info_dialog_streaming_title">Трансляция</string>
     <string name="info_dialog_streaming_description">Потоковые серверы предназначены для быстрого и безопасного воспроизведения телепрограмм и фильмов.</string>
@@ -1213,7 +1231,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Подключитесь к любому серверу Plus и начните просмотр трансляции</string>
     <string name="info_dialog_profiles_title">Профили</string>
+    <string name="info_dialog_ipaddress_title">IP address</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
     <string name="info_dialog_profiles_description">Profiles are custom VPN connections that you can tailor to your needs and save for quick access.\n\nSet your preferred location and optimize your settings for security, performance, gaming, or any other scenario.</string>
+    <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
+    <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">На этом сервере включен одноранговый обмен файлами.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1228,9 +1250,10 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Smart Routing</string>
+    <string name="country_smart_routing_info">Servers are physically located in %1$s, but you’ll appear to be browsing from %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1242,14 +1265,14 @@
     <!-- tag(Redesign_2023)
         Used to describe IP which is not known
     -->
-    <string name="connection_details_unknown_ip">Неизвестный</string>
+    <string name="connection_details_unknown_ip">Неизвестен</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_description">Этот график показывает скорость загрузки и скачивания в настоящий момент. Ваше подключение к VPN вряд ли замедлит нормальную работу в Интернете.</string>
-    <string name="speed_bytes_per_second">%1$s Б/c.</string>
-    <string name="speed_kilobytes_per_second">%1$s КБ/c.</string>
-    <string name="speed_megabytes_per_second">%1$s МБ/c.</string>
-    <string name="speed_gigabytes_per_second">%1$s ГБ/c.</string>
-    <string name="speed_terabytes_per_second">%1$s ТБ/c.</string>
+    <string name="speed_bytes_per_second">%1$s Б/c</string>
+    <string name="speed_kilobytes_per_second">%1$s КБ/c</string>
+    <string name="speed_megabytes_per_second">%1$s МБ/c</string>
+    <string name="speed_gigabytes_per_second">%1$s ГБ/c</string>
+    <string name="speed_terabytes_per_second">%1$s ТБ/c</string>
     <!-- Used as graph label to indicate speed measurement. Example: Speed KB/s or Speed MB/s-->
     <string name="speed_graph_title">Скорость %1$s</string>
     <string name="bytes_per_second">Б/с</string>
@@ -1329,9 +1352,9 @@
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="one">%1$d день</item>
-        <item quantity="few">%1$d дня</item>
-        <item quantity="many">%1$d дней</item>
-        <item quantity="other">%1$d дней</item>
+        <item quantity="few">%1$d дня</item>
+        <item quantity="many">%1$d дня</item>
+        <item quantity="other">%1$d дня</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_hours_shortened">%1$d ч</string>
@@ -1360,7 +1383,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Увеличьте скорость подключения до 400 %% благодаря технологиям повышения производительности. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">Настройки учётной записи</string>
     <string name="settings_account_change_password">Изменить пароль</string>
     <string name="settings_account_recovery_email">Резервный адрес электронной почты</string>
@@ -1369,6 +1392,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Мой аккаунт</string>
     <string name="settings_account_button_delete_account">Удалить аккаунт</string>
+    <string name="settings_custom_dns_title">Custom DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Add new DNS server</string>
+    <string name="settings_add_dns_new_entry_button">Add</string>
+    <string name="settings_add_dns_description">Enter the server’s IPv4 or IPv6 address</string>
+    <string name="settings_add_dns_invalid_input">Enter a valid IPv4 or IPv6 address</string>
+    <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
+    <string name="settings_add_dns_duplicate_input">Server already added</string>
+    <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Servers (%1$d)</string>
+    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
+    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
     <string name="settings_advanced_alternative_routing_title">Альтернативная маршрутизация</string>
     <string name="settings_advanced_alternative_routing_description">Если сервисы Proton заблокированы из-за сетевых ограничений, мы попробуем использовать альтернативные маршруты для подключения к нашим сайтам.</string>
     <string name="settings_advanced_allow_lan_title">Подключения по LAN</string>
@@ -1376,20 +1415,20 @@
     <string name="settings_advanced_nat_type_title">Тип NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Выберите тип преобразования сетевых адресов для вашего подключения. %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">Выберите тип преобразования сетевых адресов для вашего подключения.</string>
-    <string name="settings_advanced_nat_type_strict">Строгое (тип 3)</string>
+    <string name="settings_advanced_nat_type_description_no_learn">Выберите тип преобразования сетевых адресов для подключения.</string>
+    <string name="settings_advanced_nat_type_strict">Строгий (тип 3)</string>
     <string name="settings_advanced_nat_type_strict_short">Type 3</string>
-    <string name="settings_advanced_nat_type_moderate">Умеренное (тип 2)</string>
+    <string name="settings_advanced_nat_type_moderate">Умеренный (тип 2)</string>
     <string name="settings_advanced_nat_type_moderate_short">Type 2</string>
     <string name="settings_advanced_nat_type_strict_description">Ограничивает поступление данных в сеть. Этот вариант более безопасен, но может затруднить одноранговые игровые соединения.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Некоторое ограничение на поступление данных в вашу сеть. Этот вариант лучше всего подходит для сетевых видеоигр.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Некоторое ограничение на поступление данных в вашу сеть. Этот вариант лучше всего подходит для онлайн-видеоигр.</string>
     <string name="settings_split_tunneling_description">Настройте свое подключение, определив, какие приложения и адреса IP будут защищены VPN. %1$s</string>
     <string name="settings_protocol_description">Протокол VPN определяет, как данные перемещаются между сервером VPN и вашим устройством. %1$s</string>
     <string name="settings_protocol_description_no_link">Протокол VPN определяет способ передачи данных между сервером VPN и вашим устройством.</string>
     <string name="settings_protocol_section_speed">Скорость (UDP)</string>
     <string name="settings_protocol_section_reliability">Надёжность (TCP)</string>
     <string name="settings_protocol_smart_title">Smart</string>
-    <string name="settings_protocol_smart_description">Автоматически выбирает лучший протокол для вашего подключения.</string>
+    <string name="settings_protocol_smart_description">Автоматически выбирает лучший протокол для подключения.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
     <string name="settings_protocol_wireguard_udp_description">Передовой протокол для обеспечения безопасности и производительности.</string>
     <string name="settings_protocol_wireguard_tcp_description">Передовой протокол для обеспечения безопасности и производительности.</string>
@@ -1401,8 +1440,8 @@
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">Рекомендуется</string>
     <string name="settings_split_tunneling_mode_title">Режим</string>
-    <string name="settings_split_tunneling_mode_standard">Стандартный</string>
-    <string name="settings_split_tunneling_mode_inverse">Обратный</string>
+    <string name="settings_split_tunneling_mode_standard">Стандартные</string>
+    <string name="settings_split_tunneling_mode_inverse">Обратное</string>
     <string name="settings_split_tunneling_mode_description_standard">Выбранные приложения и IP-адреса исключены из подключения через VPN.</string>
     <string name="settings_split_tunneling_mode_description_inverse">Через VPN подключаются только выбранные приложения и IP-адреса, весь остальной трафик остается незащищенным.</string>
     <string name="settings_split_tunneling_excluded_apps">Исключённые приложения</string>
@@ -1416,6 +1455,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">Удалить IP-адреса из списка?</string>
     <string name="settings_dialog_reconnect">Новые настройки будут применены при следующем подключении.</string>
     <string name="settings_needs_reconnect_banner">Новые настройки будут применены при следующем подключении.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
     <string name="info_secure_core_standard_high_privacy">Высокая степень приватности</string>
     <string name="info_secure_core_standard_lower_latency">Меньшая задержка</string>
     <string name="info_secure_core_advanced_privacy">Продвинутая конфиденциальность</string>
@@ -1427,12 +1474,12 @@
     <string name="info_p2p_why_title">Зачем использовать сервер P2P для торрентов?</string>
     <string name="info_p2p_why_description_speed">Повышенная скорость загрузки и скачивания</string>
     <string name="info_p2p_why_description_logs">Нет журналов действий</string>
-    <string name="info_p2p_why_description_hide">Скрывайте свой адрес IP от поставщика услуг и других пользователей.</string>
+    <string name="info_p2p_why_description_hide">Скрывайте свой IP-адрес от поставщика услуг и других пользователей</string>
     <string name="info_dialog_smart_routing_description">Smart Routing использует виртуальные серверы для обеспечения покрытия VPN в труднодоступных странах.\n\nКогда вы подключаетесь к серверу Smart Routing, создается впечатление, что вы находитесь в стране назначения, хотя физический сервер расположен в другом месте.\n\nSmart Routing обычно используется для обхода законов, ограничивающих конфиденциальность, и других форм цензуры.</string>
     <string name="countries_upsell_banner_description">Получите глобальное покрытие с помощью VPN Plus</string>
-    <string name="secure_core_upsell_banner_description">Добавьте еще один уровень шифрования к своему подключению к VPN</string>
+    <string name="secure_core_upsell_banner_description">Добавьте ещё один уровень шифрования к VPN-подключению</string>
     <string name="p2p_upsell_banner_description">Скачивайте файлы через BitTorrent и другие протоколы обмена файлами</string>
-    <string name="tor_upsell_banner_description">Используйте сеть Tor через подключение к VPN для обеспечения дополнительной приватности</string>
+    <string name="tor_upsell_banner_description">Используйте сеть Tor через VPN-подключение для дополнительной приватности</string>
     <string name="vpnplus_upsell_banner_description">Улучшить до VPN Plus</string>
     <string name="search_zero_screen_title">Попробуйте найти…</string>
     <string name="search_zero_screen_info_countries_title">Страны</string>
@@ -1447,7 +1494,7 @@
     <string name="tv_settings_split_tunneling_mode_description_standard">Выбранные приложения исключаются из подключения к VPN.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">Через VPN подключаются только выбранные приложения, весь остальной трафик остается незащищенным.</string>
     <!-- Temporary strings for auto-login feature -->
-    <string name="profile_action_edit">Изменить</string>
+    <string name="profile_action_edit">Редактировать</string>
     <string name="profile_action_duplicate">Дублировать</string>
     <string name="profile_action_delete">Удалить</string>
     <!-- Label when showing profile\'s NAT (Network Address Translation) setting. Preferably short. -->
@@ -1463,11 +1510,11 @@
     <string name="initial_profile_name_max_security">Максимальная безопасность</string>
     <string name="create_profile_pick_country_title">Страна</string>
     <string name="create_profile_pick_type_title">Тип</string>
-    <string name="create_profile_type_standard">Стандартный</string>
+    <string name="create_profile_type_standard">Стандартные</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
     <string name="create_profile_gateway">Шлюз</string>
-    <string name="create_profile_pick_state_title">Штат</string>
+    <string name="create_profile_pick_state_title">Страна</string>
     <string name="create_profile_pick_city_title">Город</string>
     <string name="create_profile_pick_server_title">Сервер</string>
     <string name="create_profile_pick_gateway_title">Шлюз</string>
@@ -1480,16 +1527,16 @@
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
      -->
     <string name="create_profile_copy_name">%1$s (copy)</string>
-    <string name="create_profile_fastest_city">Самый быстрый</string>
-    <string name="create_profile_fastest_state">Самый быстрый</string>
-    <string name="create_profile_fastest_server">Самый быстрый</string>
-    <string name="create_profile_pick_middle_country_title">Средняя страна</string>
+    <string name="create_profile_fastest_city">Быстрейший</string>
+    <string name="create_profile_fastest_state">Быстрейший</string>
+    <string name="create_profile_fastest_server">Быстрейший</string>
+    <string name="create_profile_pick_middle_country_title">Транзитная страна</string>
     <string name="profiles_zero_state_title">Создайте свой первый профиль</string>
     <string name="profiles_zero_state_description">Профили — это сохранённые подключения с выбранными вами местоположением, сервером и протоколом.</string>
     <string name="profiles_button_create_profile">Создать профиль</string>
     <string name="profile_deleted_snackbar_message">Профиль удалён</string>
     <string name="profile_connected_edit_setting">This setting is connected to your active profile. \n\nEdit your profile to make changes, or disconnect to edit your general VPN settings.</string>
-    <string name="profile_connected_dialog_title">Manage %1$s in Profiles</string>
+    <string name="profile_connected_dialog_title">Управление %1$s в Профилях</string>
     <string name="undo">Отменить</string>
     <string name="profile_unavailable_dialog_title">Profile unavailable</string>
     <!-- %1$s - profile name
@@ -1504,14 +1551,14 @@
     <string name="generic_info_label">Информация</string>
     <!-- Branded name for a feature that opens url after VPN connection to given profile is established.
          Please don't use & in translation and capitalize key words. -->
-    <string name="create_profile_connect_and_go_label">Connect and Go</string>
+    <string name="create_profile_connect_and_go_label">Подключайтесь и действуйте</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
-    <string name="create_profile_auto_open_label_badge">Новый</string>
+    <string name="create_profile_auto_open_label_badge">Новая</string>
     <string name="create_profile_auto_open_url_input_label">URL веб-сайта</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_off">Выкл.</string>
+    <string name="profile_auto_open_off">Выключено</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">Вкл.</string>
+    <string name="profile_auto_open_on">Включён</string>
     <string name="create_profile_auto_open_description">Автоматическое открытие выбранного вами веб-сайта при подключении к этому профилю.</string>
     <string name="profile_auto_open_error_invalid_url">Введите действительный URL</string>
     <string name="nps_how_likely_question">Насколько вероятно, что вы порекомендуете Proton VPN другу или коллеге?</string>
@@ -1526,9 +1573,21 @@
     <string name="widget_preview_spain">Испания</string>
     <string name="widget_preview_germany">Германия</string>
     <string name="widget_preview_france">Франция</string>
-    <string name="widget_status_unprotected">Unprotected</string>
-    <string name="widget_status_error">Error</string>
+    <string name="widget_status_unprotected">Не защищено</string>
+    <string name="widget_status_error">Ошибка</string>
     <string name="widget_status_connecting">Подключение</string>
-    <string name="widget_sign_in">Sign in</string>
+    <string name="widget_sign_in">Войти</string>
     <string name="widget_toast_added_message">Виджет добавлен на домашний экран</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
 </resources>

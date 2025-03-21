@@ -48,7 +48,7 @@
     <string name="quickConnect">Snel verbinden</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s %%</string>
+    <string name="serverLoad">%1$s %%</string>
     <string name="cancel">Annuleren</string>
     <string name="close">Sluiten</string>
     <string name="drawerReportProblem">Een probleem melden</string>
@@ -89,6 +89,7 @@
     <string name="done">KLAAR</string>
     <string name="add">TOEVOEGEN</string>
     <string name="copy_to_clipboard">Kopieer</string>
+    <string name="copied_to_clipboard">Gekopieerd naar het klembord</string>
     <string name="got_it">Begrepen</string>
     <string name="something_went_wrong">Er is iets fout gegaan</string>
     <string name="try_again">Probeer opnieuw</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">Geen internetverbinding</string>
     <string name="loaderErrorGeneric">Er is iets fout gegaan</string>
     <string name="inputIpAddressLabel">IP-adres</string>
-    <string name="inputIpAddressHint">Voer IP-adres in</string>
+    <string name="inputIpAddressHelp">Voer het IPv4 of IPv6 van de server in</string>
     <string name="inputIpAddressErrorInvalid">Ongeldig IP-adres</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NIEUW</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Verwijderen uit Inbegrepen apps</string>
+    <string name="accessibility_action_copy_to_clipboard">Kopiëren naar klembord</string>
+    <string name="accessibility_action_item_delete">Verwijder</string>
+    <string name="accessibility_action_item_move_up">Omhoog verplaatsen</string>
+    <string name="accessibility_action_item_move_down">Omlaag verplaatsen</string>
     <string name="tileConnected">Verbonden: %1$s</string>
     <string name="openUrlError">%1$s kon niet worden geopend. Webbrowser is niet gedetecteerd op uw apparaat.</string>
     <string name="loaderErrorTimeout">Time-out verbinding. Probeer het opnieuw.</string>
@@ -217,6 +222,7 @@
     <string name="learn_more">Lees meer</string>
     <string name="netshield_state_on" comment="Describes state, not action">Aan</string>
     <string name="netshield_state_off" comment="Describes state, not action">Uit</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Niet beschikbaar</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Aan</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Uit</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Aan</string>
@@ -225,6 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Uit</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Aan</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Uit</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Aan</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Uit</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Niet beschikbaar</string>
+    <string name="custom_dns_item_removed_snackbar">Item verwijderd</string>
     <string name="netshield_free_description">Blokkeer advertenties, trackers en malware op websites en apps</string>
     <string name="netshield_what_data_means">Wat NetShield data betekent</string>
     <string name="netshield_ads_title">Advertenties</string>
@@ -341,7 +351,7 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
         <item quantity="one">%1$d land</item>
-        <item quantity="other">%1$d landen</item>
+        <item quantity="other">%1$d+ landen</item>
     </plurals>
     <string name="upsell_upgrade_again">Upgrade opnieuw om te genieten van alle functies:</string>
     <plurals name="upgrade_devices_title">
@@ -393,7 +403,7 @@
          -->
     <plurals name="upgrade_plus_countries">
         <item quantity="one">%d land</item>
-        <item quantity="other">%d landen</item>
+        <item quantity="other">%d+ landen</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -421,7 +431,7 @@
     <string name="upgrade_unlimited_vpn_p2p">P2P-ondersteuning</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="one">%1$d eigen e-maildomein</item>
-        <item quantity="other">%1$d eigen e-maildomeinen</item>
+        <item quantity="other">%1$d aangepaste e-maildomeinen</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">%1$d MB bijlage</item>
@@ -1066,7 +1076,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Geladen: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Belasting: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1092,10 +1102,16 @@
     <string name="accessibility_show_ip">IP-adres tonen</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Terug</string>
+    <string name="accessibility_close">Sluiten</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Mijn IP-adres</string>
+    <string name="connection_details_my_ipv4">Mijn IPv4</string>
+    <string name="connection_details_my_ipv6">Mijn IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1142,6 +1158,7 @@
     <string name="connection_details_download">Downloaden</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN-snelheid</string>
+    <string name="connection_details_section_ip">IP-adres</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Wat is VPN-snelheid?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1152,6 +1169,7 @@
     <string name="info_dialog_tor_description">Maak verbinding met een Tor-server om via een willekeurige browser toegang te krijgen tot verborgen services en privé(onion)sites.</string>
     <string name="info_dialog_button_learn_more_tor">Hoe krijgt u toegang tot het Tor-netwerk</string>
     <string name="info_dialog_button_learn_more_p2p">Hoe torrent met P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Wat is een IP-adres?</string>
     <string name="info_dialog_button_learn_more_streaming">Hulp nodig bij streamen?</string>
     <string name="info_dialog_streaming_title">Streamen</string>
     <string name="info_dialog_streaming_description">Streamingservers zijn ontworpen voor snelle en veilige TV-- en filmweergave.</string>
@@ -1163,7 +1181,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Maak verbinding met een Plus-server en begin met streamen</string>
     <string name="info_dialog_profiles_title">Profielen</string>
+    <string name="info_dialog_ipaddress_title">IP-adres</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 verkeer</string>
     <string name="info_dialog_profiles_description">Profielen zijn aangepaste VPN-verbindingen die u kunt aanpassen aan uw behoeften en opslaan voor snelle toegang.\n\nStel uw gewenste locatie in en optimaliseer uw instellingen voor veiligheid, prestaties, gaming, of een ander scenario.</string>
+    <string name="info_dialog_ipaddress_description">Uw VPN IP maskeert uw echte IP-adres. Het lijkt alsof u op uw VPN-locatie surft, zodat uw online activiteit niet aan uw apparaat kan worden gekoppeld.</string>
+    <string name="info_dialog_ipv6_traffic_description">Het Internet Protocol (IP) wijst adressen toe aan toestellen en creëert een route voor internet verkeer. IPv6 is de nieuwste versie, die meer adressen en betere connectiviteit biedt, maar nog niet universeel is aangenomen.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Peer-to-peer bestanden delen is ingeschakeld op deze server.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1178,9 +1200,10 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Servers bevinden zich fysiek in %1$s, maar u zult vanuit %2$s lijken te surfen.</string>
+    <string name="country_smart_routing_info">Servers bevinden zich fysiek in %1$s, maar u lijkt te browsen vanuit %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1288,7 +1311,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Verhoog uw verbindingssnelheid met maximaal 400%% met prestatieverbetering technologieën. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Verhoog uw verbindingssnelheid met tot 400%% met prestatieverbeterende technologieën. %1$s</string>
     <string name="settings_account_settings_title">Accountinstellingen</string>
     <string name="settings_account_change_password">Wachtwoord wijzigen</string>
     <string name="settings_account_recovery_email">Herstel-e-mailadres</string>
@@ -1297,6 +1320,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Mijn account</string>
     <string name="settings_account_button_delete_account">Account verwijderen</string>
+    <string name="settings_custom_dns_title">Aangepaste DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Nieuwe DNS-server toevoegen</string>
+    <string name="settings_add_dns_new_entry_button">Voeg toe</string>
+    <string name="settings_add_dns_description">Voer het IPv4 of IPv6 adres van de server in</string>
+    <string name="settings_add_dns_invalid_input">Voer een geldig IPv4 of IPv6 adres in</string>
+    <string name="settings_add_dns_empty_input">Voer een IPv4 of IPv6 adres in</string>
+    <string name="settings_add_dns_duplicate_input">Server is al toegevoegd</string>
+    <string name="settings_advanced_dns_description">Maak verbinding met VPN met een domain name system (DNS) van derde of zelf gehost. Meer informatie</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Servers (%1$d)</string>
+    <string name="settings_dns_list_description">Als uw aangepaste DNS-server niet werkt, zal de standaard VPN DNS worden gebruikt.</string>
+    <string name="settings_dns_list_description_multiple">We zullen proberen om verbinding te maken met deze servers in deze volgorde. Als geen van hen werkt, zal de VPN DNS worden gebruikt.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Wijzigingen zijn van toepassing zodra u opnieuw verbinding maakt</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield zal niet beschikbaar zijn</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield kan geen advertenties, trackers en malware filteren wanneer een aangepaste DNS wordt gebruikt. Lees meer</string>
     <string name="settings_advanced_alternative_routing_title">Alternatieve routing</string>
     <string name="settings_advanced_alternative_routing_description">Als Proton-diensten worden geblokkeerd vanwege netwerkbeperkingen, zullen we proberen alternatieve netwerkrouting te gebruiken om verbinding te maken met onze sites.</string>
     <string name="settings_advanced_allow_lan_title">LAN-verbindingen</string>
@@ -1344,6 +1383,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP-adres uit de lijst verwijderen?</string>
     <string name="settings_dialog_reconnect">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
     <string name="settings_needs_reconnect_banner">De nieuwe instellingen gelden de volgende keer dat u verbinding maakt.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Aangepaste DNS is niet beschikbaar</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Uw apparaat gebruikt een DNS van derden waardoor Proton VPN\'s aangepaste DNS niet werkt. Lees meer</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield is niet beschikbaar</string>
+    <string name="private_dns_conflict_banner_netshield_description">Uw apparaat gebruikt een DNS van derden waardoor NetShield niet werkt. Lees meer</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Netwerk instellingen</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield is niet beschikbaar</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Aangepaste DNS is ingeschakeld waardoor NetShield niet werkt. Lees meer</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Aangepaste DNS uitschakelen</string>
     <string name="info_secure_core_standard_high_privacy">Hoge privacy</string>
     <string name="info_secure_core_standard_lower_latency">Lagere latentie</string>
     <string name="info_secure_core_advanced_privacy">Geavanceerde privacy</string>
@@ -1459,4 +1506,16 @@
     <string name="widget_status_connecting">Verbinden</string>
     <string name="widget_sign_in">Aanmelden</string>
     <string name="widget_toast_added_message">Widget toegevoegd aan startscherm</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Tunnelt IPv6 verkeer via het VPN. Kan de compatibiliteit met IPv6 netwerken verbeteren.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Om dit adres te gebruiken, moet u IPv6 verbindingen via de VPN-tunnel toestaan.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 inschakelen</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is uitgeschakeld</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 ingeschakeld</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Verzorgt toegang tot IPv6-only websites en services</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Voorkomt problemen op netwerken die afhankelijk zijn van IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Werkt mogelijk niet goed met oudere netwerken of apps</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Sommige netwerken gaan onvoorspelbaar om met IPv6 verkeer</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Nadelen</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Voordelen</string>
 </resources>
