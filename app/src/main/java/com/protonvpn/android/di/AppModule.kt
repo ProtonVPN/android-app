@@ -91,6 +91,8 @@ import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabledImpl
+import com.protonvpn.android.vpn.usecases.ServerNameTopStrategyEnabled
+import com.protonvpn.android.vpn.usecases.ServerNameTopStrategyEnabledImpl
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
 import dagger.Binds
 import dagger.Module
@@ -385,6 +387,9 @@ object AppModule {
 
         @Binds
         fun bindIsIPv6FeatureFlagEnabled(impl: IsIPv6FeatureFlagEnabledImpl): IsIPv6FeatureFlagEnabled
+
+        @Binds
+        fun bindServerNameTopStrategyEnabled(impl: ServerNameTopStrategyEnabledImpl): ServerNameTopStrategyEnabled
 
         @Binds
         fun bindProvideLocalNetworks(impl: ProvideLocalNetworksImpl): ProvideLocalNetworks
