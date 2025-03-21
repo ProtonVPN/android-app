@@ -47,6 +47,7 @@ import com.protonvpn.android.vpn.PrepareForConnection
 import com.protonvpn.android.vpn.PrepareResult
 import com.protonvpn.android.vpn.VpnBackend
 import com.protonvpn.android.vpn.VpnState
+import com.protonvpn.android.vpn.usecases.ServerNameTopStrategyEnabled
 import com.wireguard.android.backend.BackendException
 import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Tunnel
@@ -68,6 +69,11 @@ import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
 
+enum class ServerNameStrategy(val value: Int) {
+    ServerNameRandom(0),
+    ServerNameTop(1),
+}
+
 @Singleton
 class WireguardBackend @Inject constructor(
     @ApplicationContext val context: Context,
@@ -84,6 +90,7 @@ class WireguardBackend @Inject constructor(
     private val computeAllowedIPs: ComputeAllowedIPs,
     foregroundActivityTracker: ForegroundActivityTracker,
     @SharedOkHttpClient okHttp: OkHttpClient,
+    private val serverNameTopStrategyEnabled: ServerNameTopStrategyEnabled,
 ) : VpnBackend(
     settingsForConnection, certificateRepository, networkManager, networkCapabilitiesFlow, VpnProtocol.WireGuard, mainScope,
     dispatcherProvider, localAgentUnreachableTracker, currentUser, getNetZone, foregroundActivityTracker, okHttp
@@ -140,13 +147,16 @@ class WireguardBackend @Inject constructor(
             )
             val transmission = wireguardParams.protocolSelection?.transmission ?: TransmissionProtocol.UDP
             val transmissionStr = transmission.toString().lowercase()
+            val serverNameStrategy =
+                if (serverNameTopStrategyEnabled()) ServerNameStrategy.ServerNameTop
+                else ServerNameStrategy.ServerNameRandom
             withContext(wireGuardIo) {
                 try {
-                    backend.setState(testTunnel, Tunnel.State.UP, config, transmissionStr)
+                    backend.setState(testTunnel, Tunnel.State.UP, config, transmissionStr, serverNameStrategy.value)
                 } catch (e: BackendException) {
                     if (e.reason == BackendException.Reason.UNABLE_TO_START_VPN && e.cause is TimeoutException) {
                         // GoBackend waits only 2s for the VPN service to start. Sometimes this is not enough, retry.
-                        backend.setState(testTunnel, Tunnel.State.UP, config, transmissionStr)
+                        backend.setState(testTunnel, Tunnel.State.UP, config, transmissionStr, serverNameStrategy.value)
                     } else {
                         throw e
                     }
