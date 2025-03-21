@@ -89,6 +89,7 @@
     <string name="done">HOTOVO</string>
     <string name="add">PŘIDAT</string>
     <string name="copy_to_clipboard">Kopírovat</string>
+    <string name="copied_to_clipboard">Zkopírováno do schránky</string>
     <string name="got_it">Rozumím</string>
     <string name="something_went_wrong">Něco se pokazilo</string>
     <string name="try_again">Zkuste to znovu</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">Bez připojení k Internetu</string>
     <string name="loaderErrorGeneric">Něco se pokazilo</string>
     <string name="inputIpAddressLabel">IP adresa</string>
-    <string name="inputIpAddressHint">Napište IP adresu</string>
+    <string name="inputIpAddressHelp">Zadejte adresu serveru IPv4 nebo IPv6</string>
     <string name="inputIpAddressErrorInvalid">Neplatná IP adresa</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NOVÉ</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Odebrat ze Zahrnutých aplikací</string>
+    <string name="accessibility_action_copy_to_clipboard">Zkopírovat do schránky</string>
+    <string name="accessibility_action_item_delete">Smazat</string>
+    <string name="accessibility_action_item_move_up">Přesunout nahoru</string>
+    <string name="accessibility_action_item_move_down">Přesunout dolů</string>
     <string name="tileConnected">Připojeno: %1$s</string>
     <string name="openUrlError">%1$s nelze otevřít. Na vašem zařízení nebyl detekován webový prohlížeč.</string>
     <string name="loaderErrorTimeout">Připojení vypršelo. Zkuste to prosím znovu.</string>
@@ -217,6 +222,7 @@
     <string name="learn_more">Více informací</string>
     <string name="netshield_state_on" comment="Describes state, not action">Zap.</string>
     <string name="netshield_state_off" comment="Describes state, not action">Vyp.</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Nedostupné</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Zap.</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Vyp.</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Zap.</string>
@@ -225,6 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Vyp.</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Zap.</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Vyp.</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Zap.</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Vyp.</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Nedostupné</string>
+    <string name="custom_dns_item_removed_snackbar">Položka odebrána</string>
     <string name="netshield_free_description">Blokujte reklamy, sledovací prvky a malware na webových stránkách a v aplikacích</string>
     <string name="netshield_what_data_means">Co data NetShield znamenají</string>
     <string name="netshield_ads_title">Reklamy</string>
@@ -236,14 +246,14 @@
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
         <item quantity="one">Reklama zablokována</item>
         <item quantity="few">Reklamy zablokovány</item>
-        <item quantity="many">Reklam zablokováno</item>
-        <item quantity="other">Reklam zablokováno</item>
+        <item quantity="many">Reklamy zablokovány</item>
+        <item quantity="other">Reklamy zablokovány</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
         <item quantity="one">Sledovací prvek zastaven</item>
         <item quantity="few">Sledovací prvky zastaveny</item>
-        <item quantity="many">Sledovacích prvků zastaveno</item>
-        <item quantity="other">Sledovacích prvků zastaveno</item>
+        <item quantity="many">Sledovací prvky zastaveny</item>
+        <item quantity="other">Sledovací prvky zastaveny</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Ušetřená data</string>
     <string name="netshield_setting_warning">Některé webové stránky se nemusí správně načíst, pokud je blokována reklama a sledovací prvky.</string>
@@ -299,7 +309,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">Zatížení serveru %1$s %%</string>
+    <string name="tv_server_list_load">Vytížení serveru %1$s%%</string>
     <string name="tv_recently_used_servers">Nedávno použité servery (%1$d)</string>
     <string name="tv_available_servers">Dostupné servery (%1$d)</string>
     <string name="tv_locked_servers">Uzamčené servery (%1$d)</string>
@@ -338,7 +348,7 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
         <item quantity="one">%1$d server</item>
-        <item quantity="few">%1$d serverů</item>
+        <item quantity="few">%1$d servery</item>
         <item quantity="many">%1$d serverů</item>
         <item quantity="other">%1$d serverů</item>
     </plurals>
@@ -355,10 +365,10 @@
     </plurals>
     <string name="upsell_upgrade_again">Znovu navyšte tarif pro využití všech funkcí:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Chraňte až %1$d zařízení současně</item>
-        <item quantity="few">Chraňte až %1$d zařízení současně</item>
-        <item quantity="many">Chraňte až %1$d zařízení současně</item>
-        <item quantity="other">Chraňte až %1$d zařízení současně</item>
+        <item quantity="one">Chraňte %1$d zařízení</item>
+        <item quantity="few">Chraňte %1$d zařízení současně</item>
+        <item quantity="many">Chraňte %1$d zařízení současně</item>
+        <item quantity="other">Chraňte %1$d zařízení současně</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN je k dispozici na 8 různých platformách.</string>
     <string name="upgrade_plus_title">Navyšte své soukromí</string>
@@ -429,9 +439,9 @@
     <string name="upgrade_unlimited_vpn_higher_speeds">Ještě vyšší rychlost VPN</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
         <item quantity="one">Chraňte %1$d zařízení</item>
-        <item quantity="few">Chraňte zároveň %1$d zařízení</item>
-        <item quantity="many">Chraňte zároveň %1$d zařízení</item>
-        <item quantity="other">Chraňte zároveň %1$d zařízení</item>
+        <item quantity="few">Chraňte %1$d zařízení současně</item>
+        <item quantity="many">Chraňte %1$d zařízení současně</item>
+        <item quantity="other">Chraňte %1$d zařízení současně</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Bezpečné streamování</string>
     <string name="upgrade_unlimited_vpn_adblocker">Blokování reklam a ochrana před malware</string>
@@ -446,8 +456,8 @@
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">%1$d MB příloha</item>
         <item quantity="few">%1$d MB přílohy</item>
-        <item quantity="many">%1$d MB přílohy</item>
-        <item quantity="other">%1$d MB přílohy</item>
+        <item quantity="many">%1$d MB příloh</item>
+        <item quantity="other">%1$d MB příloh</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d e-mailová adresa</item>
@@ -719,7 +729,7 @@
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Až %1$d zařízení najednou</item>
+        <item quantity="one">Až %1$d zařízení</item>
         <item quantity="few">Až %1$d zařízení najednou</item>
         <item quantity="many">Až %1$d zařízení najednou</item>
         <item quantity="other">Až %1$d zařízení najednou</item>
@@ -1142,10 +1152,16 @@
     <string name="accessibility_show_ip">Zobrazit IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Zpět</string>
+    <string name="accessibility_close">Zavřít</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Moje IP</string>
+    <string name="connection_details_my_ipv4">Moje IPv4</string>
+    <string name="connection_details_my_ipv6">Moje IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1192,6 +1208,7 @@
     <string name="connection_details_download">Stahování</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Rychlost VPN</string>
+    <string name="connection_details_section_ip">IP adresa</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Co je rychlost VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1202,6 +1219,7 @@
     <string name="info_dialog_tor_description">Připojte se k serveru Tor a získejte přístup ke skrytým službám a onion webům pomocí libovolného prohlížeče.</string>
     <string name="info_dialog_button_learn_more_tor">Jak získat přístup k síti Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Jak používat torrenty pomocí P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Co je IP adresa?</string>
     <string name="info_dialog_button_learn_more_streaming">Potřebujete pomoc se streamováním?</string>
     <string name="info_dialog_streaming_title">Streamování</string>
     <string name="info_dialog_streaming_description">Streamovací servery jsou navrženy pro rychlé a bezpečné přehrávání televizních pořadů a filmů.</string>
@@ -1213,7 +1231,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Připojte se ke kterémukoli serveru Plus a spusťte streamování</string>
     <string name="info_dialog_profiles_title">Profily</string>
+    <string name="info_dialog_ipaddress_title">IP adresa</string>
+    <string name="info_dialog_ipv6_traffic_title">Provoz IPv6</string>
     <string name="info_dialog_profiles_description">Profily jsou vlastní připojení VPN, které si můžete přizpůsobit svým potřebám a uložit si je pro rychlý přístup.\n\nNastavte si preferované umístění a optimalizujte svá nastavení pro zabezpečení, výkon, hraní her nebo jakýkoli jiný scénář.</string>
+    <string name="info_dialog_ipaddress_description">IP adresa VPN maskuje vaši skutečnou IP adresu. Díky tomu to vypadá, že procházíte internet z místa, kde se nachází server VPN, takže vaši online aktivitu nelze spojit s vaším zařízením.</string>
+    <string name="info_dialog_ipv6_traffic_description">Internetový protokol (IP) přiděluje adresy zařízením a směruje internetový provoz. IPv6 je nejnovější verze, která nabízí více adres a lepší konektivitu, ale zatím není všeobecně rozšířená.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Na tomto serveru je zapnuté peer-to-peer sdílení souborů.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1228,9 +1250,10 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
-    <string name="country_smart_routing_info">Země fyzického umístění serverů je %1$s, ale při vašem procházení se bude zdát, že vaše země je %2$s.</string>
+    <string name="country_smart_routing_info">Fyzické umístění serverů je %1$s, ale bude to vypadat, že procházení internetu probíhá ze země %2$s.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
@@ -1360,7 +1383,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Zvyšte rychlost připojení až o 400 %% pomocí technologií zvyšujících výkon. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Zvyšte rychlost připojení až o 400%% pomocí technologií zvyšujících výkon. %1$s</string>
     <string name="settings_account_settings_title">Nastavení účtu</string>
     <string name="settings_account_change_password">Změnit heslo</string>
     <string name="settings_account_recovery_email">E-mail pro obnovení</string>
@@ -1369,6 +1392,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Můj účet</string>
     <string name="settings_account_button_delete_account">Smazat účet</string>
+    <string name="settings_custom_dns_title">Vlastní DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Přidat nový DNS server</string>
+    <string name="settings_add_dns_new_entry_button">Přidat</string>
+    <string name="settings_add_dns_description">Zadejte adresu serveru IPv4 nebo IPv6</string>
+    <string name="settings_add_dns_invalid_input">Zadejte platnou adresu IPv4 nebo IPv6</string>
+    <string name="settings_add_dns_empty_input">Zadejte adresu IPv4 nebo IPv6</string>
+    <string name="settings_add_dns_duplicate_input">Server je již přidán</string>
+    <string name="settings_advanced_dns_description">Připojení k VPN pomocí vlastního systému doménových jmen nebo systému doménových jmen třetích stran (DNS). Více informací</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Servery (%1$d)</string>
+    <string name="settings_dns_list_description">Pokud váš vlastní server DNS nefunguje, použije se standardní DNS VPN.</string>
+    <string name="settings_dns_list_description_multiple">Pokusíme se k těmto serverům připojit postupně. Pokud žádný z nich nebude fungovat, použije se DNS VPN.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Změny se uplatní po opětovném připojení</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield bude nedostupný</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield nedokáže odfiltrovat reklamy, sledovací prvky a malware, pokud se používá vlastní DNS. Více informací</string>
     <string name="settings_advanced_alternative_routing_title">Alternativní směrování</string>
     <string name="settings_advanced_alternative_routing_description">Pokud jsou služby Protonu blokovány poskytovatelem síťového připojení, pokusíme se vás připojit k našim stránkám pomocí alternativního síťového směrování.</string>
     <string name="settings_advanced_allow_lan_title">LAN připojení</string>
@@ -1416,6 +1455,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">Odebrat IP adresu ze seznamu?</string>
     <string name="settings_dialog_reconnect">Nové nastavení se projeví při příštím připojení.</string>
     <string name="settings_needs_reconnect_banner">Nové nastavení se projeví při příštím připojení.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Vlastní DNS je nedostupný</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Vaše zařízení používá DNS třetí strany, který zabraňuje fungování vlastního DNS Proton VPN. Více informací</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield je nedostupný</string>
+    <string name="private_dns_conflict_banner_netshield_description">Vaše zařízení používá DNS třetí strany, což brání fungování NetShield. Více informací</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Nastavení sítě</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield je nedostupný</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Je povolen vlastní systém DNS, což brání fungování NetShield. Více informací</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Vypnout vlastní DNS</string>
     <string name="info_secure_core_standard_high_privacy">Vysoký stupeň soukromí</string>
     <string name="info_secure_core_standard_lower_latency">Nižší latence</string>
     <string name="info_secure_core_advanced_privacy">Pokročilé soukromí</string>
@@ -1531,4 +1578,16 @@
     <string name="widget_status_connecting">Připojování</string>
     <string name="widget_sign_in">Přihlásit se</string>
     <string name="widget_toast_added_message">Widget přidán na domovskou obrazovku</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Tuneluje přenos IPv6 skrze VPN. Může zvýšit kompatibilitu se sítěmi IPv6.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Chcete-li tuto adresu používat, musíte povolit připojení IPv6 skrze tunel VPN.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Povolit IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 je deaktivována</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 povolena</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Zajišťuje přístup k webovým stránkám a službám pouze pro IPv6</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Předchází problémům v sítích, které využívají IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Nemusí dobře fungovat se staršími sítěmi nebo aplikacemi</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Některé sítě zpracovávají přenosy IPv6 nepředvídatelně</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Nevýhody</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Výhody</string>
 </resources>

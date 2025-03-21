@@ -89,6 +89,7 @@
     <string name="done">ГАТОВА</string>
     <string name="add">ДАДАЦЬ</string>
     <string name="copy_to_clipboard">Капіяваць</string>
+    <string name="copied_to_clipboard">Скапіявана ў буфер абмену</string>
     <string name="got_it">Зразумела</string>
     <string name="something_went_wrong">Нешта пайшло не так</string>
     <string name="try_again">Паспрабаваць яшчэ раз</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">Няма падключэння да інтэрнэту</string>
     <string name="loaderErrorGeneric">Нешта пайшло не так</string>
     <string name="inputIpAddressLabel">IP-адрас</string>
-    <string name="inputIpAddressHint">Напішыце IP-адрас</string>
+    <string name="inputIpAddressHelp">Увядзіце адрас сервера IPv4 або IPv6</string>
     <string name="inputIpAddressErrorInvalid">Памылковы IP-адрас</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">НОВАЕ</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Выдаліць з уключаных праграм</string>
+    <string name="accessibility_action_copy_to_clipboard">Скапіяваць у буфер абмену</string>
+    <string name="accessibility_action_item_delete">Выдаліць</string>
+    <string name="accessibility_action_item_move_up">Перамясціць уверх</string>
+    <string name="accessibility_action_item_move_down">Перамясціць уніз</string>
     <string name="tileConnected">Падключана: %1$s</string>
     <string name="openUrlError">Не атрымалася адкрыць %1$s. На вашай прыладзе не знойдзены браўзер.</string>
     <string name="loaderErrorTimeout">Час чакання падключэння завяршыўся. Паспрабуйце яшчэ раз.</string>
@@ -217,6 +222,7 @@
     <string name="learn_more">Даведацца больш</string>
     <string name="netshield_state_on" comment="Describes state, not action">Уключана</string>
     <string name="netshield_state_off" comment="Describes state, not action">Выключана</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Недаступна</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Уключана</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Выключана</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Уключана</string>
@@ -225,6 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Выключана</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Уключана</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Выключана</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Уключана</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Выключана</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недаступна</string>
+    <string name="custom_dns_item_removed_snackbar">Элемент выдалены</string>
     <string name="netshield_free_description">Блакіроўка рэкламы, праграм сачэння і шкодных праграм на вэб-сайтах і ў праграмах</string>
     <string name="netshield_what_data_means">Што азначаюць даныя NetShield</string>
     <string name="netshield_ads_title">Рэклама</string>
@@ -299,7 +309,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">Загружанасць сервера %1$s%%</string>
+    <string name="tv_server_list_load">Сервер загружаны на %1$s%%</string>
     <string name="tv_recently_used_servers">Серверы, якімі вы нядаўна карысталіся (%1$d)</string>
     <string name="tv_available_servers">Даступныя серверы (%1$d)</string>
     <string name="tv_locked_servers">Заблакіраваныя серверы (%1$d)</string>
@@ -315,7 +325,7 @@
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
         <item quantity="one">Адключыце іншую прыладу для падключэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае падключэнне да %1$d прылады адначасова.</item>
-        <item quantity="few">Адключыце іншую прыладу для падключэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае падключэнне да %1$d прылад адначасова.</item>
+        <item quantity="few">Адключыце іншую прыладу для падключэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае злучэнне да %1$d прылад адначасова.</item>
         <item quantity="many">Адключыце іншую прыладу для падключэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае падключэнне да %1$d прылад адначасова.</item>
         <item quantity="other">Адключыце іншую прыладу для падключэння гэтай або палепшыце свой тарыфны план да Plus, які падтрымлівае падключэнне да %1$d прылад адначасова.</item>
     </plurals>
@@ -348,17 +358,17 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d краіна</item>
-        <item quantity="few">%1$d краіны</item>
-        <item quantity="many">%1$d краін</item>
-        <item quantity="other">%1$d краін</item>
+        <item quantity="one">%1$d краіне</item>
+        <item quantity="few">%1$d краінах</item>
+        <item quantity="many">%1$d краінах</item>
+        <item quantity="other">%1$d краінах</item>
     </plurals>
     <string name="upsell_upgrade_again">Палепшыць яшчэ раз, каб карыстацца ўсімі функцыямі:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Абараніце да %1$d прылады адначасова</item>
-        <item quantity="few">Абараніце да %1$d прылад адначасова</item>
-        <item quantity="many">Абараніце да %1$d прылад адначасова</item>
-        <item quantity="other">Абараніце да %1$d прылад адначасова</item>
+        <item quantity="one">Абараняйце да %1$d прылады адначасова</item>
+        <item quantity="few">Абараняйце да %1$d прылад адначасова</item>
+        <item quantity="many">Абараняйце да %1$d прылад адначасова</item>
+        <item quantity="other">Абараняйце да %1$d прылад адначасова</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN даступны на 8 розных платформах.</string>
     <string name="upgrade_plus_title">Палепшыце сваю прыватнасць</string>
@@ -486,10 +496,10 @@
     <string name="upgrade_unlimited_pass_credit_cards">Неабмежаваная колькасць крэдытных картак</string>
     <string name="upgrade_unlimited_pass_devices">Неабмежаваная колькасць прылад</string>
     <plurals name="upgrade_unlimited_pass_users">
-        <item quantity="one">Абагуліце з %1$d іншым карыстальнікам</item>
-        <item quantity="few">Абагуліце з %1$d іншымі карыстальнікамі</item>
-        <item quantity="many">Абагуліце з %1$d іншымі карыстальнікамі</item>
-        <item quantity="other">Абагуліце з %1$d іншымі карыстальнікамі</item>
+        <item quantity="one">Абагуленне з %1$d іншым карыстальнікам</item>
+        <item quantity="few">Абагуленне з %1$d іншымі карыстальнікамі</item>
+        <item quantity="many">Абагуленне з %1$d іншымі карыстальнікамі</item>
+        <item quantity="other">Абагуленне з %1$d іншымі карыстальнікамі</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Інтэграваная аўтэнтыфікацыя 2ФА</string>
     <string name="upgrade_not_now_button">Не зараз</string>
@@ -742,10 +752,10 @@
          55 countries
          -->
     <plurals name="welcome_plus_countries">
-        <item quantity="one">%d краіна</item>
-        <item quantity="few">%d краіны</item>
-        <item quantity="many">%d краін</item>
-        <item quantity="other">%d краін</item>
+        <item quantity="one">%d краіне</item>
+        <item quantity="few">%d краінах</item>
+        <item quantity="many">%d краінах</item>
+        <item quantity="other">%d краінах</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
@@ -1142,10 +1152,16 @@
     <string name="accessibility_show_ip">Паказаць IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Назад</string>
+    <string name="accessibility_close">Закрыць</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Мой IP</string>
+    <string name="connection_details_my_ipv4">Мой IPv4</string>
+    <string name="connection_details_my_ipv6">Мой IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1192,6 +1208,7 @@
     <string name="connection_details_download">Спампавана</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Хуткасць VPN</string>
+    <string name="connection_details_section_ip">IP-адрас</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Што такое хуткасць VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1202,6 +1219,7 @@
     <string name="info_dialog_tor_description">Падключайцеся да сервера Tor, каб атрымаць доступ да схаваных сэрвісаў і сайтаў onion праз любы браўзер.</string>
     <string name="info_dialog_button_learn_more_tor">Як атрымаць доступ да сеткі Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Як карыстацца торэнтамі з дапамогай P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Што такое IP-адрас?</string>
     <string name="info_dialog_button_learn_more_streaming">Патрэбная дапамогай з трансляцыяй?</string>
     <string name="info_dialog_streaming_title">Трансляцыя</string>
     <string name="info_dialog_streaming_description">Серверы трансляцый распрацаваны для хуткага і бяспечнага ўзнаўлення тэлебачання і фільмаў.</string>
@@ -1213,7 +1231,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Падключыцеся да любога сервера Plus і пачніце трансляцыю</string>
     <string name="info_dialog_profiles_title">Профілі</string>
+    <string name="info_dialog_ipaddress_title">IP-адрас</string>
+    <string name="info_dialog_ipv6_traffic_title">Трафік IPv6</string>
     <string name="info_dialog_profiles_description">Профілі - гэта карыстальніцкія падключэнні па VPN, якія вы можаце наладзіць пад свае патрэбы і захаваць для хуткага доступу.\n\nЗадайце пажаданае месцазнаходжанне і аптымізуйце свае налады бяспекі, прадукцыйнасці, сеткавых гульняў або любых іншых сцэнарыяў.</string>
+    <string name="info_dialog_ipaddress_description">Ваш IP-адрас у VPN маскіруе ваш рэальны IP-адрас. Гэта выглядае так, быццам вы праглядаеце старонкі з месцазнаходжання да якога падключыліся праз VPN. Дзякуючы гэтаму вашу актыўнасць у інтэрнэце нельга звязаць з вашай прыладай.</string>
+    <string name="info_dialog_ipv6_traffic_description">Пратакол інтэрнэту (IP) прызначае адрасы прыладам і накіроўвае трафік інтэрнэту. IPv6 - гэта апошняя версія, якая прапануе больш адрасоў і лепшую сувязь, але яна яшчэ адносна рэдка выкарыстоўваецца.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Аднарангавае абагульванне файла ўключана на гэтым серверы.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1228,7 +1250,8 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
     <string name="country_smart_routing_info">Фізічна серверы размяшчаюцца ў краіне %1$s, але будзе выглядаць быццам вы праглядаеце сайты з краіны %2$s</string>
     <!--
@@ -1360,7 +1383,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Павялічце хуткасць свайго падключэння да 400 %% дзякуючы тэхналогіям павышэння прадукцыйнасці. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Павялічце хуткасць свайго падключэння да 400%% дзякуючы тэхналогіям павышэння прадукцыйнасці. %1$s</string>
     <string name="settings_account_settings_title">Налады ўліковага запісу</string>
     <string name="settings_account_change_password">Змяніць пароль</string>
     <string name="settings_account_recovery_email">Электронная пошта для аднаўлення доступу</string>
@@ -1369,6 +1392,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Мой уліковы запіс</string>
     <string name="settings_account_button_delete_account">Выдаліць уліковы запіс</string>
+    <string name="settings_custom_dns_title">Карыстальніцкія DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Дадаць новы сервер DNS</string>
+    <string name="settings_add_dns_new_entry_button">Дадаць</string>
+    <string name="settings_add_dns_description">Увядзіце адрас сервера IPv4 або IPv6</string>
+    <string name="settings_add_dns_invalid_input">Увядзіце сапраўдны адрас IPv4 або IPv6</string>
+    <string name="settings_add_dns_empty_input">Увядзіце адрас IPv4 або IPv6</string>
+    <string name="settings_add_dns_duplicate_input">Сервер ужо дададзены</string>
+    <string name="settings_advanced_dns_description">Падключыцца да VPN з дапамогай уласнага вузла або старонняга сервера DNS. Даведацца больш</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Серверы (%1$d)</string>
+    <string name="settings_dns_list_description">Калі ваш карыстальніцкі DNS-сервер не працуе, будзе выкарыстоўвацца стандартны VPN DNS.</string>
+    <string name="settings_dns_list_description_multiple">Будзе зроблена спроба падключыцца да гэтых сервераў па парадку. Калі ніводны з іх працаваць не будзе, то будуць выкарыстоўвацца VPN DNS.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Змены будуць ужытыя пасля перападключэння</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield будзе недаступны</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield не зможа адфільтраваць рэкламу, праграмы сачэння і шкодныя праграмы, калі выкарыстоўваецца карыстальніцкі DNS. Даведацца больш</string>
     <string name="settings_advanced_alternative_routing_title">Альтэрнатыўная маршрутызацыя</string>
     <string name="settings_advanced_alternative_routing_description">Калі сэрвісы Proton заблакіраваны па прычыне абмежаванняў сеткі, мы паспрабуем скарыстацца альтэрнатыўным сеткавым маршрутам для падключэння да нашых сайтаў.</string>
     <string name="settings_advanced_allow_lan_title">Падключэнні па лакальнай сетцы</string>
@@ -1416,6 +1455,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">Выдаліць IP-адрас са спіса?</string>
     <string name="settings_dialog_reconnect">Новыя налады будуць ужыты пры наступным падключэнні.</string>
     <string name="settings_needs_reconnect_banner">Новыя налады будуць ужыты пры наступным падключэнні.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Карыстальніцкі DNS недаступны</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Ваша прылада выкарыстоўвае старонні DNS, які перашкаджае працы карыстальніцкаму DNS ад Proton VPN. Даведацца больш</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield недаступны</string>
+    <string name="private_dns_conflict_banner_netshield_description">Ваша прылада выкарыстоўвае старонні DNS, які перашкаджае працы NetShield. Даведацца больш</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Налады сеткі</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield недаступны</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Карыстальніцкі DNS уключаны і гэта перашкаджае працы NetShield. Даведацца больш</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Выключыце карыстальніцкі DNS</string>
     <string name="info_secure_core_standard_high_privacy">Высокая прыватнасць</string>
     <string name="info_secure_core_standard_lower_latency">Ніжэйшая затрымка</string>
     <string name="info_secure_core_advanced_privacy">Пашыраная прыватнасць</string>
@@ -1531,4 +1578,16 @@
     <string name="widget_status_connecting">Падключэнне</string>
     <string name="widget_sign_in">Увайсці</string>
     <string name="widget_toast_added_message">Віджэт дададзены на галоўны экран</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Адпраўляе ў тунэль трафік IPv6 праз VPN. Можа палепшыць сумяшчальнасць з сеткамі IPv6.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Вам неабходна дазволіць падключэнні па IPv6 праз тунэль VPN, каб выкарыстоўваць гэты адрас.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Уключыць IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 адключаны</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 уключаны</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Забяспечвае доступ толькі да вэб-сайтаў і сэрвісаў IPv6</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Прадухіляе праблемы ў сетках, якія абапіраюцца на IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Можа не працаваць адпаведным чынам з больш старымі сеткамі або праграмамі</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Некаторыя сеткі апрацоўваюць трафік IPv6 непрадказальна</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Недахопы</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Перавагі</string>
 </resources>

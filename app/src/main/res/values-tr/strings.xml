@@ -48,7 +48,7 @@
     <string name="quickConnect">Hızlı bağlan</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%%%1$s</string>
+    <string name="serverLoad">%1$s%%</string>
     <string name="cancel">İptal</string>
     <string name="close">Kapat</string>
     <string name="drawerReportProblem">Sorun bildireceğim</string>
@@ -89,6 +89,7 @@
     <string name="done">TAMAM</string>
     <string name="add">EKLE</string>
     <string name="copy_to_clipboard">Kopyala</string>
+    <string name="copied_to_clipboard">Panoya kopyalandı</string>
     <string name="got_it">Anladım</string>
     <string name="something_went_wrong">Bir şeyler ters gitti</string>
     <string name="try_again">Yeniden dene</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">İnternet bağlantısı yok</string>
     <string name="loaderErrorGeneric">Bir şeyler ters gitti</string>
     <string name="inputIpAddressLabel">IP adresi</string>
-    <string name="inputIpAddressHint">IP adresini yazın</string>
+    <string name="inputIpAddressHelp">Sunucunun IPv4 ya da IPv6 adresini yazın</string>
     <string name="inputIpAddressErrorInvalid">IP adresi geçersiz</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">YENİ</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Katılacak uygulamalardan kaldır</string>
+    <string name="accessibility_action_copy_to_clipboard">Panoya kopyala</string>
+    <string name="accessibility_action_item_delete">Sil</string>
+    <string name="accessibility_action_item_move_up">Yukarı taşı</string>
+    <string name="accessibility_action_item_move_down">Aşağı taşı</string>
     <string name="tileConnected">Bağlandı: %1$s</string>
     <string name="openUrlError">%1$s açılamadı. Aygıtınızda bir tarayıcı uygulaması bulunamadı.</string>
     <string name="loaderErrorTimeout">Bağlantı zaman aşımına uğradı. Lütfen yeniden deneyin.</string>
@@ -217,6 +222,7 @@
     <string name="learn_more">Ayrıntılı bilgi alın</string>
     <string name="netshield_state_on" comment="Describes state, not action">Açık</string>
     <string name="netshield_state_off" comment="Describes state, not action">Kapalı</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Mevcut değil</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Açık</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Kapalı</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Açık</string>
@@ -225,6 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Kapalı</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Açık</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Kapalı</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Açık</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Kapalı</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Mevcut değil</string>
+    <string name="custom_dns_item_removed_snackbar">Öğe kaldırıldı</string>
     <string name="netshield_free_description">Siteler ile uygulamalarda bulunabilecek reklamları, izleyicileri ve kötü amaçlı yazılımları engelleyin</string>
     <string name="netshield_what_data_means">NetShield verilerinin anlamı nedir</string>
     <string name="netshield_ads_title">Reklamlar</string>
@@ -295,7 +305,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">Sunucu yükü %%%1$s</string>
+    <string name="tv_server_list_load">Sunucu yükü %1$s[%1$s]</string>
     <string name="tv_recently_used_servers">Son kullanılan sunucular (%1$d)</string>
     <string name="tv_available_servers">Kullanılabilecek sunucular (%1$d)</string>
     <string name="tv_locked_servers">Kilitli sunucular (%1$d)</string>
@@ -331,8 +341,8 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d sunucu</item>
-        <item quantity="other">%1$d sunucu</item>
+        <item quantity="one">%1$d sunucuya</item>
+        <item quantity="other">%1$d sunucuya</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -688,7 +698,7 @@
      -->
     <plurals name="welcome_plus_servers">
         <item quantity="one">%d yeni sunucu</item>
-        <item quantity="other">%d yeni sunucu</item>
+        <item quantity="other">%d+ yeni sunucu</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
 
@@ -696,8 +706,8 @@
          55 countries
          -->
     <plurals name="welcome_plus_countries">
-        <item quantity="one">%d ülke</item>
-        <item quantity="other">%d ülke</item>
+        <item quantity="one">%d ülkede</item>
+        <item quantity="other">%d ülkede</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
@@ -1066,7 +1076,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Yük: %%%1$s</string>
+    <string name="country_filter_server_load_content_description">Yük: %1$s[%1$s]</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1092,10 +1102,16 @@
     <string name="accessibility_show_ip">IP adresini görüntüle</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Geri</string>
+    <string name="accessibility_close">Kapat</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">IP adresim</string>
+    <string name="connection_details_my_ipv4">IPv4 adresim</string>
+    <string name="connection_details_my_ipv6">IPv6 adresim</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP adresi</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1142,6 +1158,7 @@
     <string name="connection_details_download">İndirme</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN hızı</string>
+    <string name="connection_details_section_ip">IP adresi</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">VPN hızı nedir?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1152,6 +1169,7 @@
     <string name="info_dialog_tor_description">Herhangi bir tarayıcı ile gizli hizmetlere ve onion sitelerine erişmek için bir Tor sunucusuna bağlanın.</string>
     <string name="info_dialog_button_learn_more_tor">Tor ağına nasıl erişilir</string>
     <string name="info_dialog_button_learn_more_p2p">P2P ile torrent nasıl kullanılır</string>
+    <string name="info_dialog_button_learn_more_ipaddress">IP adresi nedir?</string>
     <string name="info_dialog_button_learn_more_streaming">Yayın akışı izlemek için yardım mı gerekli?</string>
     <string name="info_dialog_streaming_title">Yayın akışı izlemek</string>
     <string name="info_dialog_streaming_description">Yayın akışı sunucuları TV ve film oynatımlarını hızlı ve güvenli olarak sağlamak için tasarlanmıştır.</string>
@@ -1163,7 +1181,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Herhangi bir Plus sunucusuna bağlanın ve yayın akışını izlemeye başlayın</string>
     <string name="info_dialog_profiles_title">Profiller</string>
+    <string name="info_dialog_ipaddress_title">IP adresi</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 trafiği</string>
     <string name="info_dialog_profiles_description">Profiller, gereksinimlerinize göre uyarlayabileceğiniz ve hızlı erişmek üzere kaydedebileceğiniz özel VPN bağlantılarıdır.\n\nBağlanmak istediğiniz konumu seçin ve ayarlarınızı güvenlik, başarım, oyun veya başka herhangi bir senaryoya göre yapılandırın.</string>
+    <string name="info_dialog_ipaddress_description">VPN IP adresiniz gerçek IP adresinizi gizler. Böylece VPN bağlantınızın konumundan geziniyormuşsunuz gibi görünürsünüz ve çevrim içi etkinliğiniz aygıtınız ile ilişkilendirilemez.</string>
+    <string name="info_dialog_ipv6_traffic_description">İnternet Protokolü (IP) aygıtlara adresler atar ve internet trafiğini yöneltir. IPv6, daha fazla adres ve daha iyi bağlantı sunan son sürümdür, ancak henüz her yerde kullanılmıyor.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Bu sunucuda eşler arası dosya paylaşımı kullanılıyor.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1178,7 +1200,8 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
     <string name="country_smart_routing_info">Sunucular fiziksel olarak %1$s konumunda bulunuyor ancak siz %2$s konumundan geziniyor gibi görüneceksiniz.</string>
     <!--
@@ -1288,7 +1311,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Başarım artırıcı teknolojilerle bağlantı hızınızı 400%% oranına kadar artırın. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Başarımı artırıcı teknolojilerle bağlantı hızınızı %%400 oranına kadar artırın. %1$s</string>
     <string name="settings_account_settings_title">Hesap ayarları</string>
     <string name="settings_account_change_password">Parolayı değiştir</string>
     <string name="settings_account_recovery_email">Kurtarma e-postası adresi</string>
@@ -1297,6 +1320,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Hesabım</string>
     <string name="settings_account_button_delete_account">Hesabı sil</string>
+    <string name="settings_custom_dns_title">Özel DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Yeni DNS sunucusu ekle</string>
+    <string name="settings_add_dns_new_entry_button">Ekle</string>
+    <string name="settings_add_dns_description">Sunucunun IPv4 ya da IPv6 adresini girin</string>
+    <string name="settings_add_dns_invalid_input">Geçerli bir IPv4 veya IPv6 adresi girin</string>
+    <string name="settings_add_dns_empty_input">Bir IPv4 veya IPv6 adresi girin</string>
+    <string name="settings_add_dns_duplicate_input">Sunucu zaten eklendi</string>
+    <string name="settings_advanced_dns_description">Kendi barındırdığınız veya üçüncü taraf bir alan adı sistemi (DNS) ile VPN hizmetine bağlanın. Ayrıntılı bilgi alın</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Sunucular (%1$d)</string>
+    <string name="settings_dns_list_description">Özel DNS sunucunuz çalışmazsa, standart VPN DNS kullanılacaktır.</string>
+    <string name="settings_dns_list_description_multiple">Sırayla bu sunuculara bağlanmaya çalışacağız. Hiçbiri çalışmazsa, VPN DNS kullanılacaktır.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Değişiklikler yeniden bağlandığınızda geçerli olur</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield kullanılamıyor olabilir</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield, özel DNS kullanıldığında reklamları, izleyicileri ve kötü amaçlı yazılımları filtreleyemez. Ayrıntılı bilgi alın</string>
     <string name="settings_advanced_alternative_routing_title">Alternatif yöneltme</string>
     <string name="settings_advanced_alternative_routing_description">Proton hizmetlerine erişim ağ üzerinden engelleniyorsa, sitelerimizle bağlantınızı kurmak için alternatif ağ yöneltmesi kullanmayı deneyeceğiz.</string>
     <string name="settings_advanced_allow_lan_title">Yerel ağ bağlantıları</string>
@@ -1344,6 +1383,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP adresi listeden kaldırılsın mı?</string>
     <string name="settings_dialog_reconnect">Yeni ayarlar kurulacak bir sonraki bağlantıya uygulanacak.</string>
     <string name="settings_needs_reconnect_banner">Yeni ayarlar kurulacak bir sonraki bağlantıya uygulanacak.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Özel DNS kullanılamıyor</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Aygıtınız Proton VPN hizmetinin Özel DNS ayarını çalışmasını engelleyen üçüncü taraf bir DNS kullanıyor. Ayrıntılı bilgi alın</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield kullanılamıyor</string>
+    <string name="private_dns_conflict_banner_netshield_description">Aygıtınız NetShield hizmetinin çalışmasını engelleyen üçüncü taraf bir DNS kullanıyor. Ayrıntılı bilgi alın</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Ağ ayarları</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield kullanılamıyor</string>
+    <string name="custom_dns_conflict_banner_netshield_description">NetShield hizmetinin çalışmasını engelleyen Özel DNS etkinleştirildi. Ayrıntılı bilgi alın</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Özel DNS ayarını kapat</string>
     <string name="info_secure_core_standard_high_privacy">Yüksek gizlilik</string>
     <string name="info_secure_core_standard_lower_latency">Düşük gecikme</string>
     <string name="info_secure_core_advanced_privacy">Gelişmiş gizlilik</string>
@@ -1459,4 +1506,16 @@
     <string name="widget_status_connecting">Bağlantı kuruluyor</string>
     <string name="widget_sign_in">Oturum aç</string>
     <string name="widget_toast_added_message">Araç takımı ana ekrana eklendi</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">IPv6 trafiğini VPN üzerinden iletir. IPv6 ağları ile uyumluluğu artırabilir.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Bu adresi kullanmak için VPN tüneli üzerinde IPv6 bağlantılarının kurulmasına izin vermeniz gerekir.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 kullanılsın</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 kullanılmıyor</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 kullanılıyor</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Yalnızca IPv6 kullanan sitelere ve hizmetlere erişilmesini sağlar</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">IPv6 kullanan ağlar ile sorun yaşanmasını önler</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Daha eski ağlar veya uygulamalarla iyi çalışmayabilir</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Bazı ağlar IPv6 trafiğini öngörülemeyen şekilde işler</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Kötü yanları</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">İyi yanları</string>
 </resources>

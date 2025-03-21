@@ -48,7 +48,7 @@
     <string name="quickConnect">Schnellverbinden</string>
     <!-- Displays a percentage value. Please use %% sign for %.
          Example value: "70%" -->
-    <string name="serverLoad">%1$s %%</string>
+    <string name="serverLoad">%1$s%%</string>
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
     <string name="drawerReportProblem">Problem melden</string>
@@ -89,6 +89,7 @@
     <string name="done">FERTIG</string>
     <string name="add">HINZUFÜGEN</string>
     <string name="copy_to_clipboard">Kopieren</string>
+    <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
     <string name="got_it">Verstanden</string>
     <string name="something_went_wrong">Etwas ist schief gelaufen</string>
     <string name="try_again">Erneut versuchen</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">Keine Internetverbindung</string>
     <string name="loaderErrorGeneric">Ein Problem ist aufgetreten</string>
     <string name="inputIpAddressLabel">IP-Adresse</string>
-    <string name="inputIpAddressHint">IP-Adresse eingeben</string>
+    <string name="inputIpAddressHelp">Gib die IPv4- oder IPv6-Adresse des Servers ein.</string>
     <string name="inputIpAddressErrorInvalid">Ungültige IP-Adresse</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NEU</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Von einbezogenen Anwendungen entfernen</string>
+    <string name="accessibility_action_copy_to_clipboard">In Zwischenablage kopieren</string>
+    <string name="accessibility_action_item_delete">Löschen</string>
+    <string name="accessibility_action_item_move_up">Aufwärts</string>
+    <string name="accessibility_action_item_move_down">Abwärts</string>
     <string name="tileConnected">Verbunden: %1$s</string>
     <string name="openUrlError">%1$s konnte nicht geöffnet werden. Auf deinem Gerät wurde kein Webbrowser gefunden.</string>
     <string name="loaderErrorTimeout">Zeitüberschreitung der Verbindung. Bitte versuche es erneut.</string>
@@ -188,15 +193,15 @@
     <string name="troubleshootContactUsSectionTitle">Benötigst du noch Hilfe? Kontaktiere uns direkt</string>
     <string name="troubleshootCustomerSupport">Kundensupport</string>
     <string name="settingsAllowAlternativeRoutingTitle">Alternatives Routing</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Falls Proton gesperrt wurde, erlaube der App es mit alternativen Pfaden zu versuchen, um die Proton-Server zu erreichen. <a href="%1$s">Mehr erfahren</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[Falls Proton gesperrt wurde, erlaube der App es mit alternativen Pfaden zu versuchen, um die Proton-Server zu erreichen. <a href="%1$s">Mehr erfahren</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Regierungssperren</string>
-    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ihr Land sperrt möglicherweise den Zugang zu Proton. Versuchen Sie, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
+    <string name="troubleshootGovernmentBlockDescription"><![CDATA[Dein Land sperrt möglicherweise den Zugang zu Proton. Versuche, mit <a href=\'%1$s\'>Tor</a> auf Proton zuzugreifen.]]></string>
     <string name="settingsKillSwitchEnableTitle">So aktivierst du den Kill Switch</string>
     <string name="settingsKillSwitchEnableStep1">1. Öffne deine Geräteeinstellungen</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Suche Proton VPN und tippe %1$s an</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
-    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">Einstellungen</string>
+    <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">einstellungen</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
     <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Aktiviere \„<b>Always-on-VPN</b>\“ und \„<b>>Verbindungen ohne VPN sperren</b>\“]]></string>
@@ -217,6 +222,7 @@
     <string name="learn_more">Mehr erfahren</string>
     <string name="netshield_state_on" comment="Describes state, not action">Ein</string>
     <string name="netshield_state_off" comment="Describes state, not action">Aus</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Nicht verfügbar</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Ein</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Aus</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Ein</string>
@@ -225,6 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Aus</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Ein</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Aus</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Ein</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Aus</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Nicht verfügbar</string>
+    <string name="custom_dns_item_removed_snackbar">Eintrag entfernt</string>
     <string name="netshield_free_description">Blockiere Werbung, Tracker und Malware auf Websites und Apps.</string>
     <string name="netshield_what_data_means">Was die NetShield-Daten bedeuten</string>
     <string name="netshield_ads_title">Werbung</string>
@@ -323,7 +333,7 @@
     <string name="enable">Aktivieren</string>
     <string name="notification_smart_protocol_disabled_title">„Smart Protocol“ ist derzeit deaktiviert</string>
     <string name="notification_smart_protocol_disabled_content">Proton VPN hat festgestellt, dass dein aktuelles Netzwerk eine Verbindung zum VPN verhindert. Die Aktivierung von „Smart Protocol“ kann diese Einschränkungen umgehen.</string>
-    <string name="upsell_advanced_features">Erweiterte Funktionen: NetShield, Secure Core, TOR, P2P</string>
+    <string name="upsell_advanced_features">Erweiterte Funktionen: NetShield, Secure Core, Tor, P2P</string>
     <string name="upsell_streaming_services">Zugang zu Streaming-Diensten (Netflix, Disney+, usw.) überall auf der Welt</string>
     <!-- Number of servers available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -341,12 +351,12 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
         <item quantity="one">%1$d Land</item>
-        <item quantity="other">%1$d Länder</item>
+        <item quantity="other">%1$d Ländern</item>
     </plurals>
     <string name="upsell_upgrade_again">Erneut upgraden, um alle Funktionen nutzen zu können:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Verbinde %1$d Gerät gleichzeitig</item>
-        <item quantity="other">Verbinde %1$d Geräte gleichzeitig</item>
+        <item quantity="one">Schütze %1$d Gerät gleichzeitig</item>
+        <item quantity="other">Schütze %1$d Geräte gleichzeitig</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN ist auf 8 verschiedenen Plattformen verfügbar.</string>
     <string name="upgrade_plus_title">Verbessere deine Privatsphäre</string>
@@ -393,7 +403,7 @@
          -->
     <plurals name="upgrade_plus_countries">
         <item quantity="one">%d Land</item>
-        <item quantity="other">%d Länder</item>
+        <item quantity="other">%d Ländern</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -421,7 +431,7 @@
     <string name="upgrade_unlimited_vpn_p2p">P2P‐Unterstützung</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="one">%1$d eigene E-Mail-Domain</item>
-        <item quantity="other">%1$d eigene E-Mail-Domains</item>
+        <item quantity="other">%1$d benutzerdefinierte E-Mail-Domains</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">%1$d MB Anhang</item>
@@ -429,7 +439,7 @@
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d E-Mail-Adresse</item>
-        <item quantity="other">%1$d E-Mail-Adressen</item>
+        <item quantity="other">%1$d E-Mail-Adressen</item>
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">Unbegrenzte Anzahl an Ordnern und Kategorien</string>
     <string name="upgrade_unlimited_mail_dark_web">Dark Web-Überwachung</string>
@@ -532,8 +542,8 @@
     <string name="payment_welcome_price_message_monthly">Willkommensangebot. Wird automatisch für %1$s/Monat verlängert.</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
     <string name="payment_welcome_price_message_annual">Willkommensangebot. Wird automatisch für %1$s/Jahr verlängert.</string>
-    <string name="payment_auto_renew_message_monthly">Abonnement wird automatisch für %1$s/Monat verlängert.</string>
-    <string name="payment_auto_renew_message_annual">Abonnement wird automatisch für %1$s/Jahr verlängert.</string>
+    <string name="payment_auto_renew_message_monthly">Abonnement verlängert sich automatisch für %1$s/Monat</string>
+    <string name="payment_auto_renew_message_annual">Abonnement verlängert sich automatisch für %1$s/Jahr</string>
     <string name="payment_welcome_price_message_monthly_fallback">Abonnement wird automatisch jeden Monat verlängert.</string>
     <string name="payment_welcome_price_message_annual_fallback">Abonnement wird automatisch jedes Jahr verlängert.</string>
     <string name="smart_routing_title">Smart Routing</string>
@@ -626,7 +636,7 @@
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
         <item quantity="one">%1$d Minute</item>
-        <item quantity="other">%1$d Minuten</item>
+        <item quantity="other">%1$d minuten</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
@@ -754,7 +764,7 @@
      Text added to clickable elements that initiate a search.
      Only used by accessibility services.
     -->
-    <string name="accessibility_action_search">suche</string>
+    <string name="accessibility_action_search">suchen</string>
     <!-- Name of action for opening a screen/panel for an item.
          The action is listed in a menu of additional actions available to accessibility services.
 
@@ -797,7 +807,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">Peer-to-Peer</string>
     <string name="server_feature_content_description_tor">Tor</string>
-    <string name="server_feature_content_description_smart_routing">Intelligentes Routing</string>
+    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">Schnellstes Land</string>
     <string name="fastest_country_excluding_my_country">Schnellstes Land (ohne mein Land)</string>
@@ -1059,10 +1069,10 @@
     <string name="country_filter_secure_core_list_header">Secure Core-Länder (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P-Länder (%1$d)</string>
     <string name="country_filter_p2p_list_header_cities">P2P-Städte (%1$d)</string>
-    <string name="country_filter_p2p_list_header_states">P2P-Staaten (%1$d)</string>
+    <string name="country_filter_p2p_list_header_states">P2P-Länder (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor-Länder (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Tor-Server (%1$d)</string>
-    <string name="country_filter_info_label">Info</string>
+    <string name="country_filter_info_label">Information</string>
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
@@ -1092,10 +1102,16 @@
     <string name="accessibility_show_ip">IP anzeigen</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Zurück</string>
+    <string name="accessibility_close">Schließen</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Meine IP</string>
+    <string name="connection_details_my_ipv4">Meine IPv4</string>
+    <string name="connection_details_my_ipv6">Meine IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1127,7 +1143,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_server_load_high_title">Hoch (91-100%)</string>
     <!-- tag(Redesign_2023) -->
-    <string name="connection_details_server_load_high_description">VPN läuft möglicherweise langsamer als normal</string>
+    <string name="connection_details_server_load_high_description">VPN läuft möglicherweise langsamer als normal </string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_protocol">Protokoll</string>
     <!-- tag(Redesign_2023) -->
@@ -1135,13 +1151,14 @@
     <!-- tag(Redesign_2023)
          Label in front of upload speed in connection details. It is followed by upload speed number and unit.
     -->
-    <string name="connection_details_upload">Hochladen</string>
+    <string name="connection_details_upload">Upload</string>
     <!-- tag(Redesign_2023)
          Label in front of download speed in connection details. It is followed by download speed number and unit.
     -->
     <string name="connection_details_download">Herunterladen</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN-Geschwindigkeit</string>
+    <string name="connection_details_section_ip">IP-Adresse</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Was ist die VPN-Geschwindigkeit?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1152,6 +1169,7 @@
     <string name="info_dialog_tor_description">Verbinde dich mit einem Tor-Server, um mit einem beliebigen Browser auf versteckte Dienste und Onion-Seiten zuzugreifen.</string>
     <string name="info_dialog_button_learn_more_tor">Wie man auf das Tor-Netzwerk zugreift</string>
     <string name="info_dialog_button_learn_more_p2p">Wie man P2P mit Hilfe von Torrent durchführt</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Was ist eine IP-Adresse?</string>
     <string name="info_dialog_button_learn_more_streaming">Brauchst du Hilfe beim Streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">Streaming-Server sind für die schnelle und sichere Wiedergabe von Fernsehen und Filmen konzipiert.</string>
@@ -1163,7 +1181,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Verbinde dich mit einem beliebigen Plus-Server und fang an zu streamen</string>
     <string name="info_dialog_profiles_title">Profile</string>
+    <string name="info_dialog_ipaddress_title">IP-Adresse</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6-Datendurchsatz</string>
     <string name="info_dialog_profiles_description">Profile sind benutzerdefinierte VPN-Verbindungen, die du auf deine Bedürfnisse zuschneiden und für den schnellen Zugriff speichern kannst.\n\n Stelle deinen bevorzugten Standort ein und optimiere deine Einstellungen für Sicherheit, Leistung, Spiele oder jedes andere Szenario.</string>
+    <string name="info_dialog_ipaddress_description">Deine VPN-IP maskiert deine echte IP-Adresse. Dadurch sieht es so aus, als würdest du von deinem VPN-Standort aus surfen, sodass deine Online-Aktivitäten nicht mit deinem Gerät in Verbindung gebracht werden können.</string>
+    <string name="info_dialog_ipv6_traffic_description">Das Internetprotokoll (IP) weist den Geräten Adressen zu und leitet den Internetverkehr weiter. IPv6 ist die neueste Version, die mehr Adressen und eine bessere Konnektivität bietet, aber noch nicht allgemein eingeführt ist.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Peer-to-Peer-Filesharing ist auf diesem Server aktiviert.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1178,13 +1200,14 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
     <string name="country_smart_routing_info">Die Server befinden sich physisch in %1$s, aber es wird so aussehen, als würdest du von %2$s surfen.</string>
     <!--
         Displayed next to an icon which provides more information if clicked
     -->
-    <string name="connection_details_info_label">Info</string>
+    <string name="connection_details_info_label">Information</string>
     <!-- tag(Redesign_2023)
          Used for button title to learn more about different contexts
     -->
@@ -1288,7 +1311,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Steigere deine Verbindungsgeschwindigkeit mit leistungssteigernden Technologien um bis zu 400%%. %1$s</string>
+    <string name="settings_vpn_accelerator_description">Steigere deine Verbindungsgeschwindigkeit um bis zu 400%% mit leistungssteigernden Technologien. %1$s</string>
     <string name="settings_account_settings_title">Kontoeinstellungen</string>
     <string name="settings_account_change_password">Passwort ändern</string>
     <string name="settings_account_recovery_email">Wiederherstellungs-E-Mail-Adresse</string>
@@ -1297,6 +1320,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Mein Konto</string>
     <string name="settings_account_button_delete_account">Konto löschen</string>
+    <string name="settings_custom_dns_title">Benutzerdefinierte DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Neuen DNS-Server hinzufügen</string>
+    <string name="settings_add_dns_new_entry_button">Hinzufügen</string>
+    <string name="settings_add_dns_description">Gib die IPv4- oder IPv6-Adresse des Servers ein</string>
+    <string name="settings_add_dns_invalid_input">Gib eine gültige IPv4- oder IPv6-Adresse ein</string>
+    <string name="settings_add_dns_empty_input">Gib eine IPv4- oder IPv6-Adresse ein</string>
+    <string name="settings_add_dns_duplicate_input">Server bereits hinzugefügt</string>
+    <string name="settings_advanced_dns_description">Über ein selbst gehostetes oder ein Drittanbieter-Domain-Namen-System (DNS) mit VPN verbinden. Mehr erfahren</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Server (%1$d)</string>
+    <string name="settings_dns_list_description">Wenn der benutzerdefinierte DNS-Server nicht funktioniert, wird der Standard-VPN-DNS verwendet.</string>
+    <string name="settings_dns_list_description_multiple">Es wird versucht, der Reihe nach, eine Verbindung zu diesen Servern herzustellen. Wenn keiner von ihnen funktioniert, wird der VPN-DNS verwendet.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Änderungen werden bei erneuter Verbindung übernommen</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield wird nicht verfügbar sein</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield kann Werbung, Tracker und Malware nicht herausfiltern, wenn ein benutzerdefinierter DNS verwendet wird. Mehr erfahren</string>
     <string name="settings_advanced_alternative_routing_title">Alternatives Routing</string>
     <string name="settings_advanced_alternative_routing_description">Wenn Proton-Dienste aufgrund von Netzbeschränkungen blockiert sind, versuchen wir, dich über eine alternative Netzweiterleitung mit unseren Websites zu verbinden.</string>
     <string name="settings_advanced_allow_lan_title">LAN‐Verbindungen</string>
@@ -1319,7 +1358,7 @@
     <string name="settings_protocol_smart_title">Smart</string>
     <string name="settings_protocol_smart_description">Wählt automatisch das beste Protokoll für deine Verbindung aus.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Protokoll auf dem neuesten Stand der Technik für Sicherheit und Leistung.</string>
+    <string name="settings_protocol_wireguard_udp_description">Hochmodernes Protokoll für Sicherheit und Leistung.</string>
     <string name="settings_protocol_wireguard_tcp_description">Hochmodernes Protokoll für Sicherheit und Leistung.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">Bewährt, gut getestet und sicher. OpenVPN ist weniger Akku-effizient als einige andere Protokolle.</string>
@@ -1344,6 +1383,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">IP-Adresse aus der Liste entfernen?</string>
     <string name="settings_dialog_reconnect">Die neuen Einstellungen werden erst nach dem nächsten Verbindungsaufbau übernommen.</string>
     <string name="settings_needs_reconnect_banner">Die neuen Einstellungen werden erst nach dem nächsten Verbindungsaufbau übernommen.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Benutzerdefinierter DNS nicht verfügbar</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Dein Gerät verwendet einen DNS eines Drittanbieters, der verhindert, dass der benutzerdefinierte DNS von Proton VPN funktioniert. Mehr erfahren</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield nicht verfügbar</string>
+    <string name="private_dns_conflict_banner_netshield_description">Dein Gerät verwendet einen DNS eines Drittanbieters, der verhindert, dass NetShield funktioniert. Mehr erfahren</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Netzwerkeinstellungen</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield nicht verfügbar</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Der benutzerdefinierte DNS ist aktiviert und verhindert, dass NetShield funktioniert. Mehr erfahren</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Benutzerdefiniertes DNS deaktivieren</string>
     <string name="info_secure_core_standard_high_privacy">Hohe Privatsphäre</string>
     <string name="info_secure_core_standard_lower_latency">Niedrigere Latenz</string>
     <string name="info_secure_core_advanced_privacy">Erweiterte Privatsphäre</string>
@@ -1408,10 +1455,10 @@
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
      -->
     <string name="create_profile_copy_name">%1$s (Kopie)</string>
-    <string name="create_profile_fastest_city">Am schnellsten</string>
-    <string name="create_profile_fastest_state">Am schnellsten</string>
-    <string name="create_profile_fastest_server">Am schnellsten</string>
-    <string name="create_profile_pick_middle_country_title">Übermittlungsland</string>
+    <string name="create_profile_fastest_city">Schnellster Server</string>
+    <string name="create_profile_fastest_state">Schnellster Server</string>
+    <string name="create_profile_fastest_server">Schnellster Server</string>
+    <string name="create_profile_pick_middle_country_title">Land in der Mitte</string>
     <string name="profiles_zero_state_title">Erstelle dein erstes Profil</string>
     <string name="profiles_zero_state_description">Profile sind gespeicherte Verbindungen mit dem von dir gewählten Standort, Server und Protokoll.</string>
     <string name="profiles_button_create_profile">Profil erstellen</string>
@@ -1459,4 +1506,16 @@
     <string name="widget_status_connecting">Verbindung wird hergestellt</string>
     <string name="widget_sign_in">Anmelden</string>
     <string name="widget_toast_added_message">Widget zum Startbildschirm hinzugefügt</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Tunnelt IPv6-Datenverkehr durch das VPN. Kann die Kompatibilität mit IPv6-Netzwerken verbessern.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Um diese Adresse verwenden zu können, musst du IPv6-Verbindungen durch den VPN-Tunnel zulassen.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 aktivieren</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 ist deaktiviert</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 aktiviert</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Gewährleistet den Zugang zu ausschließlich IPv6-basierten Websites und Diensten</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Verhindert Probleme in Netzwerken, die auf IPv6 basieren</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Funktioniert möglicherweise nicht optimal mit älteren Netzwerken oder Anwendungen</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Einige Netze behandeln den IPv6-Verkehr auf unvorhersehbare Weise</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Nachteile</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Vorteile</string>
 </resources>

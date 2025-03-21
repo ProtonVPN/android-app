@@ -89,6 +89,7 @@
     <string name="done">UTFØRT</string>
     <string name="add">LEGG TIL</string>
     <string name="copy_to_clipboard">Kopier</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="got_it">Skjønner</string>
     <string name="something_went_wrong">Noe gikk galt</string>
     <string name="try_again">Prøv igjen</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">Ingen internettforbindelse</string>
     <string name="loaderErrorGeneric">Noe gikk galt</string>
     <string name="inputIpAddressLabel">IP-adresse</string>
-    <string name="inputIpAddressHint">Skriv IP-adresse</string>
+    <string name="inputIpAddressHelp">Enter the server’s IPv4 or IPv6 address</string>
     <string name="inputIpAddressErrorInvalid">Ugyldig IP-adresse</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NY</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Fjern fra inkluderte apper</string>
+    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
+    <string name="accessibility_action_item_delete">Delete</string>
+    <string name="accessibility_action_item_move_up">Move up</string>
+    <string name="accessibility_action_item_move_down">Move down</string>
     <string name="tileConnected">Tilkoblet: %1$s</string>
     <string name="openUrlError">%1$s kunne ikke åpnes. Nettleser ble ikke oppdaget på enheten din.</string>
     <string name="loaderErrorTimeout">Tilkoblingen ble tidsavbrutt. Prøv på nytt.</string>
@@ -217,6 +222,7 @@
     <string name="learn_more">Lær mer</string>
     <string name="netshield_state_on" comment="Describes state, not action">På</string>
     <string name="netshield_state_off" comment="Describes state, not action">Av</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">På</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Av</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">På</string>
@@ -225,6 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Av</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">På</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Av</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">Blokkér annonser, sporere og skadelig programvare på nettsteder og apper</string>
     <string name="netshield_what_data_means">Hva som menes med NetShield-data</string>
     <string name="netshield_ads_title">Annonser</string>
@@ -295,7 +305,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% tjenerbelastning</string>
+    <string name="tv_server_list_load">%1$s%% Server Load</string>
     <string name="tv_recently_used_servers">Nylig brukte tjenere (%1$d)</string>
     <string name="tv_available_servers">Tilgjengelige tjenere (%1$d)</string>
     <string name="tv_locked_servers">Låste tjenere (%1$d)</string>
@@ -332,7 +342,7 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
         <item quantity="one">%1$d tjener</item>
-        <item quantity="other">%1$d tjenere</item>
+        <item quantity="other">%1$d tjener</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -880,7 +890,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Auto-valgt fra [flagg]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -1066,7 +1076,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Belastning: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1092,10 +1102,16 @@
     <string name="accessibility_show_ip">Vis IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Tilbake</string>
+    <string name="accessibility_close">Close</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Min IP</string>
+    <string name="connection_details_my_ipv4">My IPv4</string>
+    <string name="connection_details_my_ipv6">My IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN-IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1142,6 +1158,7 @@
     <string name="connection_details_download">Nedlasting</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN-hastighet</string>
+    <string name="connection_details_section_ip">IP address</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Hva er VPN-hastighet?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1152,6 +1169,7 @@
     <string name="info_dialog_tor_description">Koble til en Tor-tjener for å få tilgang til skjulte tjenester og onion-sider ved hjelp av hvilken som helst nettleser.</string>
     <string name="info_dialog_button_learn_more_tor">Hvordan få tilgang til Tor-nettverket</string>
     <string name="info_dialog_button_learn_more_p2p">Hvordan laste ned/opp torrent med P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">What is an IP address?</string>
     <string name="info_dialog_button_learn_more_streaming">Trenger du hjelp med strømming?</string>
     <string name="info_dialog_streaming_title">Strømming</string>
     <string name="info_dialog_streaming_description">Strømmetjenere er designet for rask og sikker TV- og filmavspilling.</string>
@@ -1163,7 +1181,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Koble til hvilken som helst Plus-tjener og start å strømme</string>
     <string name="info_dialog_profiles_title">Profiler</string>
+    <string name="info_dialog_ipaddress_title">IP address</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
     <string name="info_dialog_profiles_description">Profiler er tilpassede VPN-tilkoblinger som du kan skreddersy til dine behov og lagre for rask tilgang.\n\nAngi din foretrukne plassering og optimaliser innstillingene dine for sikkerhet, ytelse, spill eller andre scenarier.</string>
+    <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
+    <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Node-til-node-fildeling er aktivert på denne tjeneren.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1178,7 +1200,8 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
     <string name="country_smart_routing_info">Tjenere er fysisk plassert i %1$s, men det ser ut til at du surfer fra %2$s.</string>
     <!--
@@ -1288,7 +1311,7 @@
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">Øk tilkoblingshastigheten med opptil 400 %% med ytelsesforbedrende teknologier. %1$s.</string>
+    <string name="settings_vpn_accelerator_description">Increase your connection speed by up to 400%% with performance enhancing technologies. %1$s</string>
     <string name="settings_account_settings_title">Kontoinnstillinger</string>
     <string name="settings_account_change_password">Endre passord</string>
     <string name="settings_account_recovery_email">E-post for gjenoppretting</string>
@@ -1297,6 +1320,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Min konto</string>
     <string name="settings_account_button_delete_account">Slett konto</string>
+    <string name="settings_custom_dns_title">Custom DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Add new DNS server</string>
+    <string name="settings_add_dns_new_entry_button">Add</string>
+    <string name="settings_add_dns_description">Enter the server’s IPv4 or IPv6 address</string>
+    <string name="settings_add_dns_invalid_input">Enter a valid IPv4 or IPv6 address</string>
+    <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
+    <string name="settings_add_dns_duplicate_input">Server already added</string>
+    <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Servers (%1$d)</string>
+    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
+    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
     <string name="settings_advanced_alternative_routing_title">Alternativ ruting</string>
     <string name="settings_advanced_alternative_routing_description">Hvis Proton-tjenester er blokkert på grunn av nettverksbegrensninger, prøver vi å bruke alternativ nettverksruting for å koble deg til nettstedene våre.</string>
     <string name="settings_advanced_allow_lan_title">LAN-forbindelser</string>
@@ -1344,6 +1383,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">Fjerne IP-adressen fra listen?</string>
     <string name="settings_dialog_reconnect">Nye innstillinger vil gjelde neste gang du kobler til.</string>
     <string name="settings_needs_reconnect_banner">Nye innstillinger vil gjelde neste gang du kobler til.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
     <string name="info_secure_core_standard_high_privacy">Høy personvern</string>
     <string name="info_secure_core_standard_lower_latency">Lavere latens</string>
     <string name="info_secure_core_advanced_privacy">Avansert personvern</string>
@@ -1459,4 +1506,16 @@
     <string name="widget_status_connecting">Kobler til</string>
     <string name="widget_sign_in">Logg på</string>
     <string name="widget_toast_added_message">Widget lagt til på startskjermen</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
 </resources>

@@ -27,12 +27,12 @@
     <!-- Strings related to login -->
     <string name="login">サインイン</string>
     <string name="menuActionSignOut">サインアウト</string>
-    <string name="connectionAllocationHelpTitle">アップグレードしていただき感謝します</string>
+    <string name="connectionAllocationHelpTitle">アップグレードありがとうございます</string>
     <string name="connectionAllocationHelpDescription1">Proton VPN を始めるには、お客様のアカウントまたはその他のサブアカウントに VPN 接続を割り当ててください。</string>
     <string name="connectionAllocationHelpDescription2">この手順は数分かかります。その後、ログインしてすべてのデバイスを保護することができます。</string>
     <string name="connectionAllocationHelpDescription1AskAdmin">現在、このアカウントでは VPN 接続が有効になっていません。Proton VPN を使い始めるには、管理者にご連絡ください。</string>
     <string name="connectionAllocationHelpAssignConnectionsButton">VPN 接続を有効にする</string>
-    <string name="connectionAllocationHelpLoginAgainButton">もう一度サインイン</string>
+    <string name="connectionAllocationHelpLoginAgainButton">再度ログイン</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
     <string name="ok">OK</string>
     <string name="dialogLearnMore">詳細</string>
@@ -40,7 +40,7 @@
     <string name="buttonConnect">接続</string>
     <string name="loaderConnectingTo">%1$s に接続中</string>
     <string name="loaderNotConnected">接続されていません (非保護)</string>
-    <string name="loaderConnectedTo">%1$s に接続完了</string>
+    <string name="loaderConnectedTo">%1$s に接続しました</string>
     <string name="loaderDisconnecting">切断中</string>
     <string name="loaderReconnecting">再接続中</string>
     <string name="loaderReconnectNoNetwork">利用可能なネットワークを待機中</string>
@@ -89,6 +89,7 @@
     <string name="done">完了</string>
     <string name="add">追加</string>
     <string name="copy_to_clipboard">コピー</string>
+    <string name="copied_to_clipboard">クリップボードにコピーされました</string>
     <string name="got_it">了承</string>
     <string name="something_went_wrong">不具合が発生しました。</string>
     <string name="try_again">再試行</string>
@@ -123,11 +124,11 @@
     <string name="loaderErrorNoInternet">インターネットに接続されていません</string>
     <string name="loaderErrorGeneric">不具合が発生しました</string>
     <string name="inputIpAddressLabel">IPアドレス</string>
-    <string name="inputIpAddressHint">IP アドレスを記載</string>
+    <string name="inputIpAddressHelp">サーバーの IPv4 または IPv6 アドレスを入力してください</string>
     <string name="inputIpAddressErrorInvalid">無効な IP アドレスです</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">新規</string>
-    <string name="settingsExcludedIPAddressesListHeader">除外されたIPアドレス(%1$d)</string>
+    <string name="settingsExcludedIPAddressesListHeader">除外する IP アドレス (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">含まれているIPアドレス(%1$d)</string>
     <string name="settingsExcludedApps">除外するアプリ</string>
     <string name="settingsExcludedAppsEmpty">VPN トラフィックからアプリを追加して除外することができます。</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">含めるアプリから削除</string>
+    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
+    <string name="accessibility_action_item_delete">Delete</string>
+    <string name="accessibility_action_item_move_up">Move up</string>
+    <string name="accessibility_action_item_move_down">Move down</string>
     <string name="tileConnected">接続済み: %1$s</string>
     <string name="openUrlError">%1$s が開けません。このデバイス内にウェブブラウザが見つかりません。</string>
     <string name="loaderErrorTimeout">接続が時間切れになりました。もう一度やり直してください。</string>
@@ -213,10 +218,11 @@
     <string name="settingsTelemetryScreenInfo"><![CDATA[この統計にあなたの IP アドレスは含まれず、あなたを特定することはできません。この統計は第三者に共有しません。<a href="%1$s">詳細</a>]]></string>
     <string name="netshield_settings_description_not_html">ウェブサイトやアプリ上の広告、マルウェア、トラッカーから身を守ります。ウェブサイトが読み込まれない場合は、NetShield を無効にしてみてください。%1$s</string>
     <string name="settings_icon_change_description">Proton VPNアプリを目立たないアイコンで偽装します。通知には引き続きデフォルトのProton VPNの名前とアイコンが表示されます。%1$s</string>
-    <string name="settings_icon_change_learn_more">もっと詳しく</string>
-    <string name="learn_more">もっと詳しく</string>
+    <string name="settings_icon_change_learn_more">より詳しく</string>
+    <string name="learn_more">より詳しく</string>
     <string name="netshield_state_on" comment="Describes state, not action">オン</string>
     <string name="netshield_state_off" comment="Describes state, not action">オフ</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">オン</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">オフ</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">オン</string>
@@ -225,6 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">オフ</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">オン</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">オフ</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">オン</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">オフ</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">ウェブサイトとアプリの広告、トラッカー、マルウェアをブロック</string>
     <string name="netshield_what_data_means">NetShield のデータの意味</string>
     <string name="netshield_ads_title">広告</string>
@@ -328,7 +338,7 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="other">%1$d 台のサーバー</item>
+        <item quantity="other">%1$d サーバー</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -336,11 +346,11 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="other">%1$d か国</item>
+        <item quantity="other">%1$d カ国</item>
     </plurals>
     <string name="upsell_upgrade_again">再度すべての機能を利用するにはアップデートしてください:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="other">%1$d台のデバイスを一度に保護</item>
+        <item quantity="other">一度に%1$d 台のデバイスを保護</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPNは8つの異なるプラットフォームでご利用いただけます。</string>
     <string name="upgrade_plus_title">プライバシーをアップグレードする</string>
@@ -351,7 +361,7 @@
     <string name="upgrade_secure_core_message"><![CDATA[<b>Secure Core</b> を使用して、VPN 接続に別の暗号化層を追加します。]]></string>
     <string name="upgrade_p2p_title">ピアツーピア(P2P)通信のダウンロードとファイル共有をアンロック </string>
     <string name="upgrade_p2p_text">あなたのIPアドレスを隠したままアップロードとダウンロード速度が向上します。</string>
-    <string name="upgrade_profiles_title">よく使う接続先に素早くアクセスする</string>
+    <string name="upgrade_profiles_title">頻繁に利用するコネクションに素早くアクセス</string>
     <string name="upgrade_profiles_text">VPN Plusでプロファイルをアンロック</string>
     <string name="upgrade_streaming_title">4Kでストリーミング</string>
     <string name="upgrade_streaming_text">世界中どこからでもお気に入りの映画やテレビ番組を楽しめます。</string>
@@ -385,7 +395,7 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="other">%d か国</item>
+        <item quantity="other">%d カ国</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -397,27 +407,27 @@
     <string name="upgrade_plus_countries_title_new"><![CDATA[<b>VPN Plus</b> を使用して %2$s の %1$s のロックを解除します。]]></string>
     <string name="mail_app_name" translateable="false">Proton Mail</string>
     <string name="upgrade_unlimited_all_apps_title">全てのプレミアムProtonサービス。一つの簡単なサブスクリプションで。</string>
-    <string name="upgrade_unlimited_all_apps_description">Proton Unlimitedで完全なプライバシー範囲を取得</string>
+    <string name="upgrade_unlimited_all_apps_description">Proton Unlimitedで完全なプライバシー保護を取得しましょう。</string>
     <string name="upgrade_unlimited_more">さらに</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">全ての国をアンロック</string>
     <string name="upgrade_unlimited_vpn_all_features">他のすべてのVPN Plus機能</string>
-    <string name="upgrade_unlimited_vpn_any_location">任意の場所を選択してください</string>
+    <string name="upgrade_unlimited_vpn_any_location">任意の場所を選択</string>
     <string name="upgrade_unlimited_vpn_higher_speeds">さらに高速なVPN速度</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="other">一度に%1$d個のデバイスを保護</item>
+        <item quantity="other">一度に%1$d台のデバイスを保護</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">安全なストリーミング</string>
     <string name="upgrade_unlimited_vpn_adblocker">広告ブロックとマルウェア保護</string>
     <string name="upgrade_unlimited_vpn_double_vpn">ダブルVPN</string>
-    <string name="upgrade_unlimited_vpn_p2p">P2Pサポート</string>
+    <string name="upgrade_unlimited_vpn_p2p">P2P対応</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
-        <item quantity="other">%1$d個のカスタムメールドメイン</item>
+        <item quantity="other">%1$d個の独自メールドメイン</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="other">%1$d MBの添付ファイル</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
-        <item quantity="other">%1$d個のメールアドレス</item>
+        <item quantity="other">%1$d 個のメールアドレス</item>
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">無制限のフォルダとフィルタ</string>
     <string name="upgrade_unlimited_mail_dark_web">ダークウェブモニタリング</string>
@@ -425,7 +435,7 @@
     <string name="upgrade_unlimited_mail_autoreply">自動返信</string>
     <string name="upgrade_unlimited_mail_scheduled_send">送信予約</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
-        <item quantity="other">%1$d個の個人向けカレンダー</item>
+        <item quantity="other">%1$d個の個人用カレンダー</item>
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">カレンダー共有</string>
     <string name="upgrade_unlimited_calendar_invites">招待の送受信</string>
@@ -446,7 +456,7 @@
     <plurals name="upgrade_unlimited_pass_users">
         <item quantity="other">最大%1$d人までと共有</item>
     </plurals>
-    <string name="upgrade_unlimited_pass_2fa_auth">2要素認証統合</string>
+    <string name="upgrade_unlimited_pass_2fa_auth">統合された2要素認証機能</string>
     <string name="upgrade_not_now_button">後で</string>
     <!-- Content description for plan selection list.
          Only used by accessibility services.
@@ -513,14 +523,14 @@
          Example: "Get VPN Plus", "Get Proton Unlimited". -->
     <string name="payment_button_get_plan">%1$sを入手</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_monthly">ウェルカムオファー。%1$s/月で自動更新</string>
+    <string name="payment_welcome_price_message_monthly">歓迎オファー。%1$s/月で自動更新</string>
     <!-- Parameters: %1$s - replaced with price (e.g. "CHF 100") -->
-    <string name="payment_welcome_price_message_annual">ウェルカムオファー。%1$s/年で自動更新</string>
+    <string name="payment_welcome_price_message_annual">歓迎オファー。%1$s/年で自動更新</string>
     <string name="payment_auto_renew_message_monthly">サブスクリプションは%1$s/月で自動更新</string>
     <string name="payment_auto_renew_message_annual">サブスクリプションは%1$s/年で自動更新</string>
     <string name="payment_welcome_price_message_monthly_fallback">サブスクリプションは毎月自動更新</string>
     <string name="payment_welcome_price_message_annual_fallback">サブスクリプションは毎年自動更新</string>
-    <string name="smart_routing_title">Smart Routing</string>
+    <string name="smart_routing_title">スマートルーティング</string>
     <string name="smart_routing_description">この技術は Proton VPN の提供が困難な国で高速な速度とセキュリティを提供します。</string>
     <string name="tor_title">Tor</string>
     <string name="server_load_title">サーバー負荷</string>
@@ -562,7 +572,7 @@
     <string name="upgrade_country_title">特定の国に接続したいですか?</string>
     <string name="upgrade_country_message"><![CDATA[VPN Plus で<b>国の選択</b>を解除します。]]></string>
     <string name="free_connections_info_message">Proton Freeでは、利用可能な最速のサーバーに自動的に接続されます。これは通常、あなたの所在地に最も近いサーバーとなります。</string>
-    <string name="free_connections_info_server_locations">無料サーバーの場所 (%1$d)</string>
+    <string name="free_connections_info_server_locations">無料のサーバーの場所 (%1$d)</string>
     <string name="free_connections_info_banner_text">VPN Plusで世界中をカバー</string>
     <string name="free_connection_info_title">無料接続</string>
     <string name="search_upsell_banner_title">どこからでもストリーミング</string>
@@ -638,8 +648,8 @@
       -->
     <string name="server_change_button_time_left_seconds_content_description">%1$s 内で可能</string>
     <string name="server_change_progress_finished_contend_description">今すぐ入手可能</string>
-    <string name="not_wanted_country_title">ご希望の国ではありませんか？</string>
-    <string name="not_wanted_country_description">アップグレードして任意のサーバーを選択</string>
+    <string name="not_wanted_country_title">望んでいた国ではありませんか？</string>
+    <string name="not_wanted_country_description">アップグレードして、任意のサーバーを選択できます。</string>
     <string name="whats_new_title">最新情報</string>
     <string name="whats_new_profiles_title">プロファイルが戻ってきました</string>
     <string name="whats_new_profiles_description">お好みの場所、サーバー、プロトコルを選択してカスタム接続として保存できます。</string>
@@ -673,7 +683,7 @@
          55 countries
          -->
     <plurals name="welcome_plus_countries">
-        <item quantity="other">%dカ国</item>
+        <item quantity="other">%d カ国</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
@@ -773,7 +783,7 @@
     <string name="server_feature_label_tor">Tor</string>
     <string name="server_feature_content_description_p2p">ピアツーピア</string>
     <string name="server_feature_content_description_tor">Tor</string>
-    <string name="server_feature_content_description_smart_routing">Smart Routing</string>
+    <string name="server_feature_content_description_smart_routing">スマートルーティング</string>
     <!-- tag(Redesign_2023): label used in place of country when the fastest country is connected to. -->
     <string name="fastest_country">最速の国</string>
     <string name="fastest_country_excluding_my_country">最も高速な国(自分の国を除外)</string>
@@ -935,7 +945,7 @@
     <!-- Displayed above the list of VPN Plus features in the home screen -->
     <string name="home_upsell_carousel_headline">VPN プラスを発見する</string>
     <!-- tag(Redesign_2023) -->
-    <string name="recent_action_pin">ピン留め</string>
+    <string name="recent_action_pin">ピン留めする</string>
     <!-- tag(Redesign_2023) -->
     <string name="recent_action_unpin">ピン留めを解除</string>
     <!-- tag(Redesign_2023) -->
@@ -1033,7 +1043,7 @@
     <string name="country_filter_servers_list_header">サーバー (%1$d)</string>
     <string name="country_filter_secure_core_list_header">Secure Core の国 (%1$d)</string>
     <string name="country_filter_p2p_list_header">P2P対応国 (%1$d)</string>
-    <string name="country_filter_p2p_list_header_cities">P2P 対応都市 (%1$d)</string>
+    <string name="country_filter_p2p_list_header_cities">P2P 都市 (%1$d)</string>
     <string name="country_filter_p2p_list_header_states">P2P 対応州 (%1$d)</string>
     <string name="country_filter_tor_list_header">Tor対応国 (%1$d)</string>
     <string name="country_filter_tor_servers_list_header">Torサーバー (%1$d)</string>
@@ -1067,10 +1077,16 @@
     <string name="accessibility_show_ip">IP を表示</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">戻る</string>
+    <string name="accessibility_close">閉じる</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">自分の IP</string>
+    <string name="connection_details_my_ipv4">自分の IPv4</string>
+    <string name="connection_details_my_ipv6">自分の IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">VPN の IP</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPv6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1117,6 +1133,7 @@
     <string name="connection_details_download">ダウンロード</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">VPN速度</string>
+    <string name="connection_details_section_ip">IPアドレス</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">VPNの速度とは？</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1127,18 +1144,23 @@
     <string name="info_dialog_tor_description">Tor サーバーに接続し、任意のブラウザを使用して隠しサービスやオニオン サイトにアクセスします。</string>
     <string name="info_dialog_button_learn_more_tor">Tor ネットワークにアクセスする方法</string>
     <string name="info_dialog_button_learn_more_p2p">P2Pでトレントする方法</string>
-    <string name="info_dialog_button_learn_more_streaming">ストリーミングに助けが必要ですか？</string>
+    <string name="info_dialog_button_learn_more_ipaddress">IPアドレスとは？</string>
+    <string name="info_dialog_button_learn_more_streaming">ストリーミングに関する助けが必要ですか？</string>
     <string name="info_dialog_streaming_title">ストリーミング</string>
     <string name="info_dialog_streaming_description">ストリーミングサーバーは、テレビや映画の再生を迅速かつ安全に行うように設計されています。</string>
     <string name="info_dialog_how_to_stream">ストリーム方法：</string>
     <!-- item 1 in the numbered list -->
-    <string name="info_dialog_how_to_stream_step_1">携帯の設定に行き、位置情報サービスをオフにしてください</string>
+    <string name="info_dialog_how_to_stream_step_1">携帯電話の設定に行き、位置情報サービスをオフにしてください</string>
     <!-- item 2 in the numbered list -->
     <string name="info_dialog_how_to_stream_step_2">ストリーミングサービスを再スタート</string>
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">いずれかのPlusサーバーに接続してストリーミングを開始</string>
     <string name="info_dialog_profiles_title">プロファイル</string>
+    <string name="info_dialog_ipaddress_title">IPアドレス</string>
+    <string name="info_dialog_ipv6_traffic_title">IPv6 トラフィック</string>
     <string name="info_dialog_profiles_description">プロファイルはカスタムVPN接続で、ニーズに合わせて素早くアクセスできるように保存できます。\n\nご希望の場所を設定し、セキュリティ、パフォーマンス、ゲーム、その他のシナリオで設定を最適化します。</string>
+    <string name="info_dialog_ipaddress_description">VPN IPはあなたの本当のIPアドレスを隠します。これにより、あなたのブラウジングがVPNの位置から行われているように見えるので、オンライン上の行動があなたの端末にリンクされなくなります。</string>
+    <string name="info_dialog_ipv6_traffic_description">インターネットプロトコル(IP)は、デバイスにアドレスを割り当て、インターネットトラフィックをルーティングします。 IPv6は最新バージョンで、より多くのアドレスとより良い接続を提供していますが、まだ普遍的に採用されていません。</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">ピアツーピアファイル共有はこのサーバーで有効化されています。</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1147,13 +1169,14 @@
     <string name="connection_feature_secure_core_description">あなたの活動は 2 つの高度なセキュリティのVPNサーバーで暗号化されています</string>
     <string name="connection_feature_streaming_title">ストリーミング</string>
     <string name="connection_feature_streaming_description">このサーバーはテレビと映画の再生に最適化されています。</string>
-    <string name="connection_feature_smart_routing_title">Smart Routing</string>
+    <string name="connection_feature_smart_routing_title">スマートルーティング</string>
     <string name="connection_feature_smart_routing_description">物理的に別の場所にあるサーバーを経由して、目的の国に接続します。</string>
     <!--
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
     <string name="country_smart_routing_info">サーバーは物理的に %1$s にありますが、%2$s から参照しているように見えます。</string>
     <!--
@@ -1240,19 +1263,19 @@
     <string name="edit_profile_dialog_action">プロファイルを編集</string>
     <string name="create_profile_name_hint">プロファイル名</string>
     <string name="create_profile_name_error_empty">プロファイル名を入力</string>
-    <string name="create_profile_name_error_too_long">プロファイル名は 30 文字までか以下である必要があります</string>
+    <string name="create_profile_name_error_too_long">プロファイル名は 30 文字以下である必要があります</string>
     <string name="create_profile_type_and_location_title">接続種類と位置を選択</string>
     <string name="create_profile_features_and_settings_title">機能と設定</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
      -->
-    <string name="create_profile_steps">ステップ %1$d / %2$d</string>
+    <string name="create_profile_steps">ステップ %1$d/%2$d</string>
     <string name="create_profile_button_next">次へ</string>
     <!-- Important: please note the double % sign after 400. It is displayed as a single % in the app.
          (this doesn\'t apply to other percent sign characters, e.g. ٪)
          %1$s - will have translated learn_more value -->
-    <string name="settings_vpn_accelerator_description">パフォーマンス強化テクノロジーにより、接続速度が最大 400%% 向上します。 %1$s</string>
+    <string name="settings_vpn_accelerator_description">パフォーマンス強化テクノロジーにより、接続速度が最大 400 %% 向上します。 %1$s</string>
     <string name="settings_account_settings_title">アカウントの設定</string>
     <string name="settings_account_change_password">パスワードを変更する</string>
     <string name="settings_account_recovery_email">回復用メールアドレス</string>
@@ -1261,6 +1284,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">マイアカウント</string>
     <string name="settings_account_button_delete_account">アカウントを削除する</string>
+    <string name="settings_custom_dns_title">カスタム DNS</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">新しいDNSサーバーを追加</string>
+    <string name="settings_add_dns_new_entry_button">追加</string>
+    <string name="settings_add_dns_description">サーバーの IPv4 または IPv6 アドレスを入力してください</string>
+    <string name="settings_add_dns_invalid_input">有効なIPv4またはIPv6アドレスを入力してください</string>
+    <string name="settings_add_dns_empty_input">IPv4 または IPv6 アドレスを入力してください</string>
+    <string name="settings_add_dns_duplicate_input">サーバーは既に追加されています</string>
+    <string name="settings_advanced_dns_description">自己ホストまたはサードパーティ製のドメインネームシステム(DNS)を使用してVPNに接続します。詳細はこちら</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">サーバー (%1$d)</string>
+    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
+    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
     <string name="settings_advanced_alternative_routing_title">代替ルーティング</string>
     <string name="settings_advanced_alternative_routing_description">ネットワーク制限により Proton サービスがブロックされている場合は、代替ネットワーク ルーティングを使用してサイトに接続しようとします。</string>
     <string name="settings_advanced_allow_lan_title">LAN 接続</string>
@@ -1268,7 +1307,7 @@
     <string name="settings_advanced_nat_type_title">NAT タイプ</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">接続用のネットワークアドレス変換タイプを選択してください。 %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">接続用のネットワークアドレス変換タイプを選択してください。</string>
+    <string name="settings_advanced_nat_type_description_no_learn">接続のネットワーク アドレス変換タイプを選択します。</string>
     <string name="settings_advanced_nat_type_strict">厳密(タイプ 3)</string>
     <string name="settings_advanced_nat_type_strict_short">タイプ 3</string>
     <string name="settings_advanced_nat_type_moderate">中程度(タイプ 2)</string>
@@ -1288,7 +1327,7 @@
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
     <string name="settings_protocol_openvpn_udp_description">確立され、十分にテストされ、安全です。 OpenVPN は、他のプロトコルに比べてバッテリー効率が低くなります。</string>
     <string name="settings_protocol_openvpn_tcp_description">確立され、十分にテストされ、安全です。 OpenVPN はネットワーク状態が悪い場合でも信頼性がありますが、他のプロトコルほど高速ではない可能性があります。</string>
-    <string name="settings_protocol_stealth_title">Stealth</string>
+    <string name="settings_protocol_stealth_title">ステルス</string>
     <string name="settings_protocol_stealth_description">VPN 接続を検閲から隠すことで、VPN ブロックを回避します。このプロトコルは DPI (ディープ パケット インスペクション) に耐性がありますが、他のプロトコルほど高速ではない可能性があります。ステルスは Proton VPN 専用です。</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
     <string name="settings_protocol_badge_recommended">推奨</string>
@@ -1308,6 +1347,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">リストから IP アドレスを削除しますか?</string>
     <string name="settings_dialog_reconnect">新しい設定は次の接続から適用されます。</string>
     <string name="settings_needs_reconnect_banner">新しい設定は次の接続から適用されます。</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
     <string name="info_secure_core_standard_high_privacy">高いプライバシー</string>
     <string name="info_secure_core_standard_lower_latency">低レイテンシー</string>
     <string name="info_secure_core_advanced_privacy">高度なプライバシー</string>
@@ -1348,25 +1395,25 @@
     <string name="profile_bottom_sheet_lan_title">LAN</string>
     <string name="profile_needs_reconnect">これにより接続が再スタートされます。</string>
     <string name="profile_overrides_setting">これらの設定は <b>%1$s</b> に接続されており、プロファイルでのみ管理できます。</string>
-    <string name="initial_profile_name_streaming_us">USストリーミング</string>
+    <string name="initial_profile_name_streaming_us">アメリカにストリーミング</string>
     <string name="initial_profile_name_work_school">職場/学校</string>
     <string name="initial_profile_name_anti_censorship">反検閲</string>
-    <string name="initial_profile_name_gaming">ゲーミング</string>
+    <string name="initial_profile_name_gaming">ゲーム</string>
     <string name="initial_profile_name_max_security">最大のセキュリティ</string>
-    <string name="create_profile_pick_country_title">国</string>
+    <string name="create_profile_pick_country_title">国名</string>
     <string name="create_profile_pick_type_title">種類</string>
-    <string name="create_profile_type_standard">スタンダード</string>
+    <string name="create_profile_type_standard">標準</string>
     <string name="create_profile_type_secure_core">Secure Core</string>
     <string name="create_profile_type_p2p">P2P</string>
     <string name="create_profile_gateway">ゲートウェイ</string>
     <string name="create_profile_pick_state_title">州</string>
-    <string name="create_profile_pick_city_title">市区町村</string>
+    <string name="create_profile_pick_city_title">都市</string>
     <string name="create_profile_pick_server_title">サーバー</string>
     <string name="create_profile_pick_gateway_title">ゲートウェイ</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">ウェブサイトやアプリから広告、追跡、マルウェアをブロック</string>
+    <string name="create_profile_pick_netshield_description">ウェブサイトとアプリの広告、トラッカー、マルウェアをブロック</string>
     <string name="create_profile_pick_protocol_title">プロトコル</string>
-    <string name="create_profile_pick_nat_title">NATタイプ</string>
+    <string name="create_profile_pick_nat_title">NAT タイプ</string>
     <!--
          Example:
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
@@ -1375,11 +1422,11 @@
     <string name="create_profile_fastest_city">最速</string>
     <string name="create_profile_fastest_state">最速</string>
     <string name="create_profile_fastest_server">最速</string>
-    <string name="create_profile_pick_middle_country_title">中心</string>
-    <string name="profiles_zero_state_title">最初のプロフィールを作成</string>
+    <string name="create_profile_pick_middle_country_title">中間の国</string>
+    <string name="profiles_zero_state_title">最初のプロファイルを作成</string>
     <string name="profiles_zero_state_description">プロファイルは、場所、サーバー、プロトコルを選択して保存された接続です。</string>
-    <string name="profiles_button_create_profile">プロフィールを作成</string>
-    <string name="profile_deleted_snackbar_message">プロフィールを削除</string>
+    <string name="profiles_button_create_profile">プロファイルを作成</string>
+    <string name="profile_deleted_snackbar_message">プロファイルを削除しました</string>
     <string name="profile_connected_edit_setting">この設定は、アクティブなプロファイルに関連付けられています。 \n\nプロファイルを編集して変更を加えるか、切断して一般的な VPN 設定を編集します。</string>
     <string name="profile_connected_dialog_title">プロファイルで%1$sを管理</string>
     <string name="undo">戻す</string>
@@ -1398,12 +1445,12 @@
          Please don't use & in translation and capitalize key words. -->
     <string name="create_profile_connect_and_go_label">接続して続ける</string>
     <!-- Displayed as a badge next to create_profile_auto_open_label ("Auto-launch website [NEW]") -->
-    <string name="create_profile_auto_open_label_badge">新しい</string>
+    <string name="create_profile_auto_open_label_badge">新着情報</string>
     <string name="create_profile_auto_open_url_input_label">ウェブサイトURL</string>
     <!-- Label for disabled "Auto-launch website" setting in profile creation -->
     <string name="profile_auto_open_off">オフ</string>
     <!-- Label for enabled "Auto-launch website" setting in profile creation -->
-    <string name="profile_auto_open_on">オン</string>
+    <string name="profile_auto_open_on">有効</string>
     <string name="create_profile_auto_open_description">このプロファイルに接続した際、あなたが選んだウェブサイトが自動的に開きます。</string>
     <string name="profile_auto_open_error_invalid_url">有効なURLを入力してください</string>
     <string name="nps_how_likely_question">ProtonVPNを友人や同僚に推奨する可能性はどれくらいですか?</string>
@@ -1421,6 +1468,18 @@
     <string name="widget_status_unprotected">保護されていません</string>
     <string name="widget_status_error">エラー</string>
     <string name="widget_status_connecting">接続中</string>
-    <string name="widget_sign_in">サインイン</string>
+    <string name="widget_sign_in">ログイン</string>
     <string name="widget_toast_added_message">ホーム画面にウィジェットを追加</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">VPN経由のIPv6トラフィックをトンネルします。 IPv6ネットワークとの互換性を強化できます。</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">このアドレスを使用するには、VPNトンネルを介してIPv6接続を許可する必要があります。</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">IPv6 を有効にする</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 は無効です</string>
+    <string name="settings_ipv6_enabled_toast">IPv6が有効です</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">IPv6 のみのウェブサイトやサービスへのアクセスを保証します</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">IPv6 に依存するネットワーク上の問題を防止</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">古いネットワークやアプリでうまく動作しない可能性があります</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">一部のネットワークは IPv6 トラフィックを予期せず処理します</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">短所</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">長所</string>
 </resources>

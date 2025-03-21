@@ -89,6 +89,7 @@
     <string name="done">HECHO</string>
     <string name="add">AÑADIR</string>
     <string name="copy_to_clipboard">Copiar</string>
+    <string name="copied_to_clipboard">Copiado al portapapeles</string>
     <string name="got_it">Entendido</string>
     <string name="something_went_wrong">Se ha producido un error.</string>
     <string name="try_again">Inténtalo de nuevo</string>
@@ -110,7 +111,7 @@
     <string name="noNotificationPermissionGrantTitle">No te dejes sorprender…</string>
     <string name="noNotificationPermissionGrantDescription">Activa las notificaciones para recibir alertas cuando ocurran cambios en tu conexión.</string>
     <string name="noNotificationPermissionGrantNowTitle">Activar las notificaciones</string>
-    <string name="error_prepare_vpn_description"><![CDATA[Desactiva la opción &quot;VPN siempre activa&quot; para todas las demás aplicaciones VPN en la configuración del sistema de Android, ya que eso impide que Proton VPN pueda establecer una conexión VPN. Concede también los permisos VPN si aparece un cuadro de diálogo solicitándolos. Es posible que también sea necesario desinstalar otras aplicaciones VPN para evitar conflictos. Después inténtalo de nuevo. &lt;a href=&quot;%1$s&quot;&gt;Más información&lt;/a&gt;]]></string>
+    <string name="error_prepare_vpn_description"><![CDATA[Desactiva la opción VPN siempre activa para todas las demás aplicaciones VPN en la configuración del sistema de Android, ya que eso impide que Proton VPN pueda establecer una conexión VPN. Concede también los permisos VPN si aparece un cuadro de diálogo solicitándolos. Es posible que también sea necesario desinstalar otras aplicaciones VPN para evitar conflictos. Después inténtalo de nuevo. <a href="%1$s">Más información</a>]]></string>
     <string name="error_prepare_vpn_settings">Ir a la configuración de VPN en Android</string>
     <string name="error_prepare_vpn_title">Error: problema de permisos de VPN</string>
     <string name="error_server_not_set">El servidor ya no está disponible</string>
@@ -123,7 +124,7 @@
     <string name="loaderErrorNoInternet">No hay conexión a Internet.</string>
     <string name="loaderErrorGeneric">Se ha producido un error.</string>
     <string name="inputIpAddressLabel">Dirección IP</string>
-    <string name="inputIpAddressHint">Escribe la dirección IP</string>
+    <string name="inputIpAddressHelp">Introduzca la dirección IPv4 o IPv6 del servidor</string>
     <string name="inputIpAddressErrorInvalid">Dirección IP no válida</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NUEVO</string>
@@ -169,6 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Eliminar de las aplicaciones incluidas</string>
+    <string name="accessibility_action_copy_to_clipboard">Copiar al portapapeles</string>
+    <string name="accessibility_action_item_delete">Eliminar</string>
+    <string name="accessibility_action_item_move_up">Mover arriba</string>
+    <string name="accessibility_action_item_move_down">Mover abajo</string>
     <string name="tileConnected">Conectado: %1$s</string>
     <string name="openUrlError">No se pudo abrir %1$s. El navegador web no se detectó en su dispositivo.</string>
     <string name="loaderErrorTimeout">Se ha agotado el tiempo de conexión. Inténtalo de nuevo.</string>
@@ -188,7 +193,7 @@
     <string name="troubleshootContactUsSectionTitle">¿Aún necesitas ayuda? Contáctanos directamente.</string>
     <string name="troubleshootCustomerSupport">Atención al cliente</string>
     <string name="settingsAllowAlternativeRoutingTitle">Enrutado alternativo</string>
-    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permite que la aplicación intente rutas alternativas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>]]></string>
+    <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[En caso de que Proton esté bloqueado, permite que la aplicación intente rutas alternativas para llegar a los servidores de Proton. <a href="%1$s">Más información</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Bloqueo gubernamental</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Tu país puede estar bloqueando el acceso a Proton. Prueba usando <a href=\'%1$s\'>Tor</a> para acceder a Proton.]]></string>
     <string name="settingsKillSwitchEnableTitle">¿Cómo activar el interruptor de bloqueo?</string>
@@ -217,6 +222,7 @@
     <string name="learn_more">Más información</string>
     <string name="netshield_state_on" comment="Describes state, not action">Activado</string>
     <string name="netshield_state_off" comment="Describes state, not action">Desactivado</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">No disponible</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Activado</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Desactivado</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Activado</string>
@@ -225,6 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Desactivado</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Activado</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Desactivado</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Activado</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Desactivado</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">No disponible</string>
+    <string name="custom_dns_item_removed_snackbar">Elemento eliminado</string>
     <string name="netshield_free_description">Bloquea anuncios, rastreadores y software malicioso en sitios web y apps</string>
     <string name="netshield_what_data_means">Lo que significan los datos de NetShield</string>
     <string name="netshield_ads_title">Anuncios</string>
@@ -341,9 +351,9 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
         <item quantity="one">%1$d país</item>
-        <item quantity="other">%1$d países</item>
+        <item quantity="other">%1$d país</item>
     </plurals>
-    <string name="upsell_upgrade_again">Mejora tu plan de nuevo para disfrutar de todas las funciones:</string>
+    <string name="upsell_upgrade_again">Actualiza de nuevo para disfrutar de todas las funciones:</string>
     <plurals name="upgrade_devices_title">
         <item quantity="one">Protege %1$d dispositivo a la vez</item>
         <item quantity="other">Protege %1$d dispositivos a la vez</item>
@@ -393,7 +403,7 @@
          -->
     <plurals name="upgrade_plus_countries">
         <item quantity="one">%d país</item>
-        <item quantity="other">%d países</item>
+        <item quantity="other">%d país</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -579,7 +589,7 @@
     <string name="upgrade_country_message"><![CDATA[Accede a la <b>selección de países</b> con VPN Plus.]]></string>
     <string name="free_connections_info_message">Proton Free te conecta automáticamente al servidor más rápido disponible. Normalmente es el servidor más cercano a tu ubicación.</string>
     <string name="free_connections_info_server_locations">Ubicaciones de servidores gratuitos (%1$d)</string>
-    <string name="free_connections_info_banner_text">Disfruta de una cobertura global con VPN Plus</string>
+    <string name="free_connections_info_banner_text">Disfruta de una cobertura global con VPN Plus.</string>
     <string name="free_connection_info_title">Conexiones gratuitas</string>
     <string name="search_upsell_banner_title">Disfruta del streaming dondequiera que estés.</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
@@ -589,9 +599,9 @@
     </plurals>
     <string name="select_default_connection">Selecciona la conexión por defecto</string>
     <string name="settings_default_connection_title">Conexión por defecto</string>
-    <string name="fastest_country_description">El mejor servidor basado en tu ubicación</string>
+    <string name="fastest_country_description">El mejor servidor en función de tu ubicación</string>
     <string name="settings_last_connection_title">Última conexión</string>
-    <string name="settings_last_connection_description">Conexión más usada últimamente</string>
+    <string name="settings_last_connection_description">Tu conexión usada más recientemente</string>
     <string name="settings_change_icon_title">Icono de la aplicación</string>
     <string name="settings_change_icon_details">¿Por qué personalizar como Proton VPN aparece en tu dispositivo?</string>
     <string name="settings_change_icon_confirmation_title">¿Cambiar el icono de la aplicación?</string>
@@ -688,7 +698,7 @@
      -->
     <plurals name="welcome_plus_servers">
         <item quantity="one">%d servidor nuevo</item>
-        <item quantity="other">%d servidores nuevos</item>
+        <item quantity="other">Más de %d servidores nuevos</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
 
@@ -697,7 +707,7 @@
          -->
     <plurals name="welcome_plus_countries">
         <item quantity="one">%d país</item>
-        <item quantity="other">%d países</item>
+        <item quantity="other">%d país</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
@@ -971,11 +981,11 @@
     -->
     <string name="recent_action_accessibility_state_pinned">Anclado</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_country_servers_in_maintenance">Todos los servidores de este país están en mantenimiento.</string>
+    <string name="message_country_servers_in_maintenance">Todos los servidores de este país están en mantenimiento</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
-    <string name="message_city_servers_in_maintenance">Todos los servidores de esta ciudad están en mantenimiento.</string>
+    <string name="message_city_servers_in_maintenance">Todos los servidores de esta ciudad están en mantenimiento</string>
     <!-- State means here US state, like California -->
-    <string name="message_state_servers_in_maintenance">Todos los servidores de este estado están en mantenimiento.</string>
+    <string name="message_state_servers_in_maintenance">Todos los servidores de este estado están en mantenimiento</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
     <string name="message_server_in_maintenance">El servidor está en mantenimiento.</string>
     <!-- tag(Redesign_2023): Displayed in a dialog -->
@@ -1092,10 +1102,16 @@
     <string name="accessibility_show_ip">Mostrar IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Volver</string>
+    <string name="accessibility_close">Cerrar</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Mi IP</string>
+    <string name="connection_details_my_ipv4">Mi IPv4</string>
+    <string name="connection_details_my_ipv6">Mi IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">IP de VPN</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ipv4">VPN IPv4</string>
+    <string name="connection_details_vpn_ipv6">VPN IPV6</string>
     <!-- tag(Redesign_2023)
          Will be shown in a UI row which indicates for how long user has been connected. Like \'Connected for 2hours\'
     -->
@@ -1142,6 +1158,7 @@
     <string name="connection_details_download">Descarga</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Velocidad de VPN</string>
+    <string name="connection_details_section_ip">Dirección IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">¿Qué es la velocidad de la VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1152,6 +1169,7 @@
     <string name="info_dialog_tor_description">Conéctate a un servidor Tor para acceder a servicios ocultos y sitios onion usando cualquier navegador.</string>
     <string name="info_dialog_button_learn_more_tor">Cómo acceder a la red Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Cómo hacer torrent con P2P</string>
+    <string name="info_dialog_button_learn_more_ipaddress">¿Qué es una dirección IP?</string>
     <string name="info_dialog_button_learn_more_streaming">¿Necesitas ayuda con el streaming?</string>
     <string name="info_dialog_streaming_title">Streaming</string>
     <string name="info_dialog_streaming_description">Los servidores de streaming están diseñados para una reproducción rápida y segura de películas y programas de televisión.</string>
@@ -1163,7 +1181,11 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Conéctate a cualquier servidor Plus e inicie el streaming.</string>
     <string name="info_dialog_profiles_title">Perfiles</string>
+    <string name="info_dialog_ipaddress_title">Dirección IP</string>
+    <string name="info_dialog_ipv6_traffic_title">Tráfico IPv6</string>
     <string name="info_dialog_profiles_description">Los perfiles son conexiones VPN personalizadas que puedes adaptar según tus necesidades y guardar para acceder a ellas rápidamente.\n\nEstablece tu ubicación preferida y optimiza la configuración de seguridad, rendimiento, juegos u otros escenarios.</string>
+    <string name="info_dialog_ipaddress_description">La IP de tu VPN enmascara tu dirección IP real. Esto hace que parezca que estás navegando desde la ubicación de tu VPN, de forma que tu actividad online no puede ser asociada a tu dispositivo.</string>
+    <string name="info_dialog_ipv6_traffic_description">El Protocolo de Internet (IP) asigna direcciones a dispositivos y rutas de tráfico de Internet. IPv6 es la última versión, ofreciendo más direcciones y mejor conectividad, pero aún no se adopta universalmente.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">El intercambio de archivos P2P está activado en este servidor.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1178,7 +1200,8 @@
         %1$s - physical server location country
         %2$s - destination country
         Warning: country names are inserted in the nominative case.
-        For INFLECTED languages, insert phrase “Smart Routing” (verbatim) in the translation field.
+        For INFLECTED languages, translate the following phrase instead:
+        "Your physical server location: %1$s.\nYour browsing country: %2$s"
     -->
     <string name="country_smart_routing_info">Los servidores están físicamente ubicados en %1$s pero aparecerá que navegas desde %2$s.</string>
     <!--
@@ -1297,6 +1320,22 @@
     <!-- Label of a button that opens user\'s account page -->
     <string name="settings_account_button_my_account">Mi cuenta</string>
     <string name="settings_account_button_delete_account">Eliminar la cuenta</string>
+    <string name="settings_custom_dns_title">DNS personalizado</string>
+    <string name="settings_add_dns_placeholder">192.0.2.0</string>
+    <string name="settings_add_dns_title">Añadir un nuevo servidor DNS</string>
+    <string name="settings_add_dns_new_entry_button">Añadir</string>
+    <string name="settings_add_dns_description">Introduzca la dirección IPv4 o IPv6 del servidor.</string>
+    <string name="settings_add_dns_invalid_input">Introduzca una dirección IPv4 o IPv6 válida.</string>
+    <string name="settings_add_dns_empty_input">Introduzca una dirección IPv4 o IPv6.</string>
+    <string name="settings_add_dns_duplicate_input">Ya se ha añadido el servidor.</string>
+    <string name="settings_advanced_dns_description">Conéctate a la VPN con un sistema de nombres de dominio (DNS) autoalojado o de terceros. Más información</string>
+    <!-- %1$d - Corresponds to number of servers added -->
+    <string name="settings_dns_list_title">Servidores (%1$d)</string>
+    <string name="settings_dns_list_description">Si tu servidor DNS personalizado no funciona, se utilizará el DNS estándar de la VPN.</string>
+    <string name="settings_dns_list_description_multiple">Intentaremos conectarte a estos servidores en orden. Si ninguno de ellos funciona, se utilizará el DNS de la VPN.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Los cambios se aplicarán cuando te conectes de nuevo.</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield no estará disponible.</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield no puede filtrar anuncios, rastreadores y malware cuando se usa DNS personalizados. Más información</string>
     <string name="settings_advanced_alternative_routing_title">Enrutamiento alternativo</string>
     <string name="settings_advanced_alternative_routing_description">Si los servicios de Proton están bloqueados debido a restricciones de red, intentaremos usar enrutamiento de red alternativo para conectarte a nuestros sitios.</string>
     <string name="settings_advanced_allow_lan_title">Conexiones LAN</string>
@@ -1309,21 +1348,21 @@
     <string name="settings_advanced_nat_type_strict_short">Tipo 3</string>
     <string name="settings_advanced_nat_type_moderate">Moderada (tipo 2)</string>
     <string name="settings_advanced_nat_type_moderate_short">Tipo 2</string>
-    <string name="settings_advanced_nat_type_strict_description">Restringe los datos que entran en la red. Esta opción es más segura pero puede dificultar más las conexiones de juegos por pares.</string>
-    <string name="settings_advanced_nat_type_moderate_description">Alguna restricción en los datos que entran en tu red. Esta opción es mejor para juegos en línea.</string>
+    <string name="settings_advanced_nat_type_strict_description">Restringe los datos que entran en tu red. Esta opción es más segura pero puede dificultar más las conexiones de juegos entre pares.</string>
+    <string name="settings_advanced_nat_type_moderate_description">Cierta restricción en los datos que entran en tu red. Esta opción es la mejor para juegos online.</string>
     <string name="settings_split_tunneling_description">Personaliza tu conexión al decidir cuáles aplicaciones y direcciones IP serán protegidas con VPN. %1$s</string>
     <string name="settings_protocol_description">Un protocolo VPN determina cómo se mueven los datos entre un servidor VPN y tu dispositivo. %1$s</string>
-    <string name="settings_protocol_description_no_link">Un protocolo VPN determina cómo se mueven los datos entre un servidor VPN y el dispositivo.</string>
+    <string name="settings_protocol_description_no_link">Un protocolo VPN determina cómo se mueven los datos entre un servidor VPN y tu dispositivo.</string>
     <string name="settings_protocol_section_speed">Velocidad (UDP)</string>
     <string name="settings_protocol_section_reliability">Confiabilidad (TCP)</string>
     <string name="settings_protocol_smart_title">Inteligente</string>
-    <string name="settings_protocol_smart_description">Selecciona automáticamente el mejor protocolo para la conexión.</string>
+    <string name="settings_protocol_smart_description">Selecciona automáticamente el mejor protocolo para tu conexión.</string>
     <string name="settings_protocol_wireguard_title">WireGuard</string>
-    <string name="settings_protocol_wireguard_udp_description">Protocolo más novedoso en seguridad y rendimiento.</string>
-    <string name="settings_protocol_wireguard_tcp_description">Protocolo más novedoso en seguridad y rendimiento.</string>
+    <string name="settings_protocol_wireguard_udp_description">Protocolo de última generación para seguridad y rendimiento.</string>
+    <string name="settings_protocol_wireguard_tcp_description">Protocolo de última generación para seguridad y rendimiento.</string>
     <string name="settings_protocol_openvpn_title">OpenVPN</string>
-    <string name="settings_protocol_openvpn_udp_description">Establecido, comprobado y seguro. OpenVPN es menos eficiente con la batería que otros protocolos.</string>
-    <string name="settings_protocol_openvpn_tcp_description">Establecido, comprobado y seguro. OpenVPN es confiable en condiciones de red pobres pero podría no ser rápido como otros protocolos.</string>
+    <string name="settings_protocol_openvpn_udp_description">De eficacia demostrada, sometido a numerosas pruebas y seguro. OpenVPN es menos eficiente con la batería que otros protocolos.</string>
+    <string name="settings_protocol_openvpn_tcp_description">De eficacia demostrada, sometido a numerosas pruebas y seguro. OpenVPN es fiable en condiciones de red malas, pero podría no ser tan rápido como otros protocolos.</string>
     <string name="settings_protocol_stealth_title">Stealth</string>
     <string name="settings_protocol_stealth_description">Supera los bloqueos de VPN ocultando la conexión VPN a los censores. Este protocolo es resistente a DPI (inspección profunda de paquetes), pero puede no ser tan rápido como otros protocolos. Stealth es exclusivo de Proton VPN.</string>
     <!-- Text on a badge displayed next to the "smart" protocol name in settings -->
@@ -1344,6 +1383,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">¿Eliminar la dirección IP de la lista?</string>
     <string name="settings_dialog_reconnect">La nueva configuración se aplicará la próxima vez que te conectes.</string>
     <string name="settings_needs_reconnect_banner">La nueva configuración se aplicará la próxima vez que te conectes.</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">El DNS personalizado no está disponible.</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Tu dispositivo está usando un DNS de terceros que impide el funcionamiento de los DNS personalizados de Proton VPN. Más información</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield no está disponible.</string>
+    <string name="private_dns_conflict_banner_netshield_description">Tu dispositivo está usando un DNS de terceros que impide el funcionamiento de NetShield. Más información</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Ajustes de red</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield no está disponible.</string>
+    <string name="custom_dns_conflict_banner_netshield_description">El DNS personalizado está activo, lo que impide el funcionamiento de NetShield. Más información</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Desactivar el DNS personalizado</string>
     <string name="info_secure_core_standard_high_privacy">Privacidad alta</string>
     <string name="info_secure_core_standard_lower_latency">Latencia baja</string>
     <string name="info_secure_core_advanced_privacy">Privacidad avanzada</string>
@@ -1358,9 +1405,9 @@
     <string name="info_p2p_why_description_hide">Oculta tu dirección IP de tu proveedor de servicios y de tus pares</string>
     <string name="info_dialog_smart_routing_description">Smart Routing usa servidores virtuales para proporcionar cobertura VPN en países de difícil acceso.\n\nCuando te conectas a un servidor de Smart Routing, parecerá que estás navegando en tu país de destino, aunque el servidor físico esté en otro lugar.  \n\nEl enrutamiento inteligente se usa normalmente para evitar las leyes contra la privacidad y otras formas de censura.</string>
     <string name="countries_upsell_banner_description">Disfruta de una cobertura global con VPN Plus.</string>
-    <string name="secure_core_upsell_banner_description">Añade otra capa de cifrado a tu conexión VPN</string>
+    <string name="secure_core_upsell_banner_description">Añade otra capa de encriptación a tu conexión VPN</string>
     <string name="p2p_upsell_banner_description">Descarga archivos con BitTorrent y otros protocolos de intercambio de archivos</string>
-    <string name="tor_upsell_banner_description">Usa la red Tor sobre tu conexión VPN para más privacidad</string>
+    <string name="tor_upsell_banner_description">Usa la red Tor a través de tu conexión VPN para más privacidad</string>
     <string name="vpnplus_upsell_banner_description">Mejorar a VPN Plus</string>
     <string name="search_zero_screen_title">Intenta buscar...</string>
     <string name="search_zero_screen_info_countries_title">Países</string>
@@ -1400,7 +1447,7 @@
     <string name="create_profile_pick_server_title">Servidor</string>
     <string name="create_profile_pick_gateway_title">Puerta de enlace</string>
     <string name="create_profile_pick_netshield_title">NetShield</string>
-    <string name="create_profile_pick_netshield_description">Bloquea anuncios, rastreadores y software malicioso en sitios web y aplicaciones</string>
+    <string name="create_profile_pick_netshield_description">Bloquea anuncios, rastreadores y software malicioso en sitios web y apps</string>
     <string name="create_profile_pick_protocol_title">Protocolo</string>
     <string name="create_profile_pick_nat_title">Tipo de NAT</string>
     <!--
@@ -1413,7 +1460,7 @@
     <string name="create_profile_fastest_server">Más rápido</string>
     <string name="create_profile_pick_middle_country_title">País intermerdio</string>
     <string name="profiles_zero_state_title">Crea tu primer perfil</string>
-    <string name="profiles_zero_state_description">Los perfiles son conexiones guardadas con la ubicación, servidor y protocolo de tu elección.</string>
+    <string name="profiles_zero_state_description">Los perfiles son conexiones guardadas con la ubicación, el servidor y el protocolo de tu elección.</string>
     <string name="profiles_button_create_profile">Crear un perfil</string>
     <string name="profile_deleted_snackbar_message">Se ha eliminado el perfil.</string>
     <string name="profile_connected_edit_setting">Este ajuste está conectado a tu perfil activo. \n\nEdita tu perfil para realizar cambios o desconéctate para editar tu configuración general de VPN.</string>
@@ -1459,4 +1506,16 @@
     <string name="widget_status_connecting">Conectando</string>
     <string name="widget_sign_in">Iniciar sesión</string>
     <string name="widget_toast_added_message">Se ha añadido el widget a la pantalla de inicio.</string>
+    <string name="settings_advanced_ipv6_title">IPv6</string>
+    <string name="settings_advanced_ipv6_description">Túneles de tráfico IPv6 a través de la VPN. Puede mejorar la compatibilidad con redes IPv6.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Para utilizar esta dirección, es necesario permitir conexiones IPv6 a través del túnel VPN.</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Activar IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 está desactivado</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 activado</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Garantiza el acceso a sitios y servicios únicamente mediante IPv6</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Evita problemas en las redes que dependen de IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Puede no funcionar bien con redes o aplicaciones antiguas</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Algunas redes manejan el tráfico IPv6 de manera impredecible</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Inconvenientes</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Beneficios</string>
 </resources>
