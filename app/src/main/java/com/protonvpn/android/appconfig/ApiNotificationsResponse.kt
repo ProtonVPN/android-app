@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Proton Technologies AG
+ * Copyright (c) 2019 Proton AG
  *
  * This file is part of ProtonVPN.
  *
