@@ -20,6 +20,7 @@
 package com.protonvpn.android.appconfig
 
 import android.telephony.TelephonyManager
+import com.protonvpn.android.api.data.DebugApiPrefs
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
 import com.protonvpn.android.utils.mobileCountryCode
 import dagger.Reusable
@@ -34,8 +35,9 @@ interface UserCountryProvider {
 class DefaultUserCountryProvider @Inject constructor(
     private val telephonyManager: TelephonyManager?,
     private val serverListUpdaterPrefs: ServerListUpdaterPrefs,
+    private val debugApiPrefs: DebugApiPrefs?,
 ) : UserCountryProvider {
-    override fun getTelephonyCountryCode(): String? = telephonyManager?.mobileCountryCode()?.uppercase()
+    override fun getTelephonyCountryCode(): String? = debugApiPrefs?.country ?: telephonyManager?.mobileCountryCode()?.uppercase()
 
     override fun getCountryCode(): String? =
         (getTelephonyCountryCode() ?: serverListUpdaterPrefs.lastKnownCountry)?.uppercase()
