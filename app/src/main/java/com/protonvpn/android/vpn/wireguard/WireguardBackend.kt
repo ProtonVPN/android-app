@@ -1,7 +1,7 @@
 package com.protonvpn.android.vpn.wireguard
 
 /*
- * Copyright (c) 2021 Proton Technologies AG
+ * Copyright (c) 2021 Proton AG
  *
  * This file is part of ProtonVPN.
  *
