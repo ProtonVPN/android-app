@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton AG
+ Copyright (c) 2017 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -170,7 +170,7 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Usuń z uwzględnionych aplikacji</string>
-    <string name="accessibility_action_copy_to_clipboard">Skopiuj do schowka</string>
+    <string name="accessibility_action_copy_to_clipboard">Kopiuj do schowka</string>
     <string name="accessibility_action_item_delete">Usuń</string>
     <string name="accessibility_action_item_move_up">Move up</string>
     <string name="accessibility_action_item_move_down">Move down</string>
@@ -441,7 +441,7 @@
         <item quantity="one">Ochrona %1$d urządzenia jednocześnie</item>
         <item quantity="few">Ochrona %1$d urządzeń jednocześnie</item>
         <item quantity="many">Ochrona %1$d urządzeń jednocześnie</item>
-        <item quantity="other">Ochrona %1$d urządzenia jednocześnie</item>
+        <item quantity="other">Ochrona %1$d urządzeń jednocześnie</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Bezpieczny streaming</string>
     <string name="upgrade_unlimited_vpn_adblocker">Blokada reklam i ochrona przed złośliwym oprogramowaniem</string>
@@ -497,9 +497,9 @@
     <string name="upgrade_unlimited_pass_devices">Nieograniczona liczba urządzeń</string>
     <plurals name="upgrade_unlimited_pass_users">
         <item quantity="one">Udostępnij %1$d użytkownikowi</item>
-        <item quantity="few">Udostępnij do %1$d użytkownikom</item>
-        <item quantity="many">Udostępnij do %1$d użytkownikom</item>
-        <item quantity="other">Udostępnij do %1$d użytkownikom</item>
+        <item quantity="few">Udostępnij maksymalnie %1$d użytkownikom</item>
+        <item quantity="many">Udostępnij maksymalnie %1$d użytkownikom</item>
+        <item quantity="other">Udostępnij maksymalnie %1$d użytkownikom</item>
     </plurals>
     <string name="upgrade_unlimited_pass_2fa_auth">Zintegrowana aplikacja uwierzytelniająca</string>
     <string name="upgrade_not_now_button">Nie teraz</string>
@@ -667,7 +667,7 @@
         <item quantity="one">%1$d sekunda</item>
         <item quantity="few">%1$d sekundy</item>
         <item quantity="many">%1$d sekund</item>
-        <item quantity="other">%1$d sekundy</item>
+        <item quantity="other">%1$d sekund</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
@@ -681,14 +681,14 @@
         <item quantity="one">%1$d godzina</item>
         <item quantity="few">%1$d godziny</item>
         <item quantity="many">%1$d godzin</item>
-        <item quantity="other">%1$d godziny</item>
+        <item quantity="other">%1$d godzin</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
         <item quantity="one">%1$d dzień</item>
         <item quantity="few">%1$d dni</item>
         <item quantity="many">%1$d dni</item>
-        <item quantity="other">%1$d dnia</item>
+        <item quantity="other">%1$d dni</item>
     </plurals>
     <string name="server_change_max_reached">Osiągnięto maksymalną liczbę darmowych zmian serwerów.</string>
     <string name="server_change_upsell">Uzyskaj nieograniczoną liczbę zmian serwerów w planie VPN Plus.</string>
@@ -1159,7 +1159,7 @@
     <string name="connection_details_my_ipv6">Mój adres IPv6</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_ip">Adres IP VPN</string>
-    <string name="connection_details_vpn_ip4_6">VPN IPv4/IPv6</string>
+    <string name="connection_details_vpn_ip4_6">VPN IPv4 / IPv6</string>
     <string name="connection_details_vpn_ipv4">Adres VPN IPv4</string>
     <string name="connection_details_vpn_ipv6">Adres VPN IPv6</string>
     <!-- tag(Redesign_2023)
@@ -1354,7 +1354,7 @@
         <item quantity="one">%1$d dzień</item>
         <item quantity="few">%1$d dni</item>
         <item quantity="many">%1$d dni</item>
-        <item quantity="other">%1$d dnia</item>
+        <item quantity="other">%1$d dni</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_hours_shortened">%1$d godz.</string>
@@ -1462,7 +1462,7 @@
     <string name="private_dns_conflict_banner_network_settings_button">Ustawienia sieci</string>
     <string name="custom_dns_conflict_banner_netshield_title">NetShield jest niedostępny</string>
     <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
-    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Wyłącz niestandardowy serwer DNS</string>
     <string name="info_secure_core_standard_high_privacy">Wysoki poziom prywatności</string>
     <string name="info_secure_core_standard_lower_latency">Niższe opóźnienie</string>
     <string name="info_secure_core_advanced_privacy">Zaawansowana prywatność</string>
@@ -1581,13 +1581,13 @@
     <string name="settings_advanced_ipv6_title">IPv6</string>
     <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
-    <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Włącz IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 jest wyłączony</string>
     <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
     <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
     <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
     <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
     <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
     <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
-    <string name="info_dialog_ipv6_traffic_benefits_title">Benefits</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Bonusy</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton AG
+ Copyright (c) 2017 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -406,8 +406,8 @@
          -->
     <plurals name="upgrade_plus_servers_new">
         <item quantity="one">%d защищённый сервер</item>
-        <item quantity="few">%d защищённых серверов</item>
-        <item quantity="many">%d защищённый сервер</item>
+        <item quantity="few">%d защищённых сервера</item>
+        <item quantity="many">%d защищённых серверов</item>
         <item quantity="other">%d защищённых сервера</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
@@ -455,7 +455,7 @@
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">%1$d МБ вложения</item>
-        <item quantity="few">%1$d МБ вложений</item>
+        <item quantity="few">%1$d МБ вложения</item>
         <item quantity="many">%1$d МБ вложений</item>
         <item quantity="other">%1$d МБ вложений</item>
     </plurals>
@@ -729,10 +729,10 @@
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Подключайте до %1$d устройств одновременно</item>
+        <item quantity="one">До %1$d устройства одновременно</item>
         <item quantity="few">До %1$d устройств одновременно</item>
-        <item quantity="many">До %1$d устройства одновременно</item>
-        <item quantity="other">До %1$d устройства одновременно</item>
+        <item quantity="many">До %1$d устройств одновременно</item>
+        <item quantity="other">До %1$d устройств одновременно</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -1353,7 +1353,7 @@
     <plurals name="connection_details_days">
         <item quantity="one">%1$d день</item>
         <item quantity="few">%1$d дня</item>
-        <item quantity="many">%1$d дня</item>
+        <item quantity="many">%1$d дней</item>
         <item quantity="other">%1$d дня</item>
     </plurals>
     <!-- tag(Redesign_2023) -->

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton AG
+ Copyright (c) 2017 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -1301,7 +1301,7 @@
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield akan tidak tersedia</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShiled tidak dapat menyaring iklan, pelacak, dan malware pada saat DNS khusus sedang digunakan. Pelajari lebih lanjut</string>
     <string name="settings_advanced_alternative_routing_title">Pengalihan lalu lintas alternatif</string>
-    <string name="settings_advanced_alternative_routing_description">Apabila layanan Proton diblokir karena pembatasan jaringan, kami akan mencoba untuk menghubungkan Anda ke situs kami melalui rute jaringan alternatif.</string>
+    <string name="settings_advanced_alternative_routing_description">Apabila layanan Proton diblokir akibat pembatasan jaringan, kami akan mencoba untuk menggunakan rute jaringan alternatif demi menghubungkan Anda ke situs kami.</string>
     <string name="settings_advanced_allow_lan_title">Koneksi LAN</string>
     <string name="settings_advanced_allow_lan_description">Memungkinkan Anda untuk terhubung ke printer, speaker, dan perangkat lainnya pada jaringan lokal milik perangkat Anda.</string>
     <string name="settings_advanced_nat_type_title">NAT tipe</string>

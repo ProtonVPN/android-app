@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton AG
+ Copyright (c) 2017 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -347,10 +347,10 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_servers">
-        <item quantity="one">%1$d сервера</item>
-        <item quantity="few">%1$d сервер</item>
-        <item quantity="many">%1$d сервер</item>
-        <item quantity="other">%1$d сервер</item>
+        <item quantity="one">%1$d сервер</item>
+        <item quantity="few">%1$d сервери</item>
+        <item quantity="many">%1$d серверів</item>
+        <item quantity="other">%1$d серверів</item>
     </plurals>
     <!-- Number of countries available in the service.
          This phrase will be combined with "upsell_many_countries" to form:<upsell_many_servers>, <upsell_many_countries>.
@@ -358,17 +358,17 @@
 
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
-        <item quantity="one">%1$d країни</item>
-        <item quantity="few">%1$d країні</item>
-        <item quantity="many">%1$d країні</item>
-        <item quantity="other">%1$d країні</item>
+        <item quantity="one">%1$d країна</item>
+        <item quantity="few">%1$d країни</item>
+        <item quantity="many">%1$d країн</item>
+        <item quantity="other">%1$d країн</item>
     </plurals>
     <string name="upsell_upgrade_again">Передплатіть тарифний план знову, щоб користуватись усіма можливостями:</string>
     <plurals name="upgrade_devices_title">
         <item quantity="one">Захистіть %1$d пристрій</item>
-        <item quantity="few">Захистіть %1$d пристроїв</item>
-        <item quantity="many">Захистіть %1$d пристрої</item>
-        <item quantity="other">Захистіть %1$d пристрої</item>
+        <item quantity="few">Захистіть %1$d пристрої</item>
+        <item quantity="many">Захистіть %1$d пристроїв</item>
+        <item quantity="other">Захистіть %1$d пристроїв</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN доступна для 8 різних платформ.</string>
     <string name="upgrade_plus_title">Вдоскональте свою приватність</string>
@@ -405,10 +405,10 @@
          1200 secure servers
          -->
     <plurals name="upgrade_plus_servers_new">
-        <item quantity="one">%d захищеного сервера</item>
-        <item quantity="few">%d захищеного сервера</item>
-        <item quantity="many">%d захищеного сервера</item>
-        <item quantity="other">%d захищеного сервера</item>
+        <item quantity="one">%d захищений сервер</item>
+        <item quantity="few">%d захищені сервери</item>
+        <item quantity="many">%d захищених серверів</item>
+        <item quantity="other">%d захищених серверів</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
 
@@ -416,10 +416,10 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="one">%d країни</item>
-        <item quantity="few">%d країні</item>
-        <item quantity="many">%d країні</item>
-        <item quantity="other">%d країні</item>
+        <item quantity="one">%d країна</item>
+        <item quantity="few">%d країни</item>
+        <item quantity="many">%d країн</item>
+        <item quantity="other">%d країн</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -439,9 +439,9 @@
     <string name="upgrade_unlimited_vpn_higher_speeds">Ще вища швидкість VPN</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
         <item quantity="one">Захистіть %1$d пристрій</item>
-        <item quantity="few">Захистіть %1$d пристроїв</item>
-        <item quantity="many">Захистіть %1$d пристрої</item>
-        <item quantity="other">Захистіть %1$d пристрої</item>
+        <item quantity="few">Захистіть %1$d пристрої</item>
+        <item quantity="many">Захистіть %1$d пристроїв</item>
+        <item quantity="other">Захистіть %1$d пристроїв</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Захищена потокова трансляція</string>
     <string name="upgrade_unlimited_vpn_adblocker">Блокування реклами й захист від зловмисних програм</string>
@@ -449,9 +449,9 @@
     <string name="upgrade_unlimited_vpn_p2p">Підтримка P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
         <item quantity="one">%1$d власний домен електронної пошти</item>
-        <item quantity="few">%1$d власних поштових доменів</item>
-        <item quantity="many">%1$d власних поштових доменів</item>
-        <item quantity="other">%1$d власних поштових доменів</item>
+        <item quantity="few">%1$d власні домени електронної пошти</item>
+        <item quantity="many">%1$d власних доменів електронної пошти</item>
+        <item quantity="other">%1$d власних доменів електронної пошти</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">%1$d МБ вкладення</item>
@@ -462,8 +462,8 @@
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d адреса електронної пошти</item>
         <item quantity="few">%1$d адреси електронної пошти</item>
-        <item quantity="many">%1$d адреси електронної пошти</item>
-        <item quantity="other">%1$d адреси електронної пошти</item>
+        <item quantity="many">%1$d адрес електронної пошти</item>
+        <item quantity="other">%1$d адрес електронної пошти</item>
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">Необмежена кількість тек і фільтрів</string>
     <string name="upgrade_unlimited_mail_dark_web">Відстеження Dark Web</string>
@@ -472,7 +472,7 @@
     <string name="upgrade_unlimited_mail_scheduled_send">Заплановане надсилання</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d особистий календар</item>
-        <item quantity="few">%1$d особистих календарів</item>
+        <item quantity="few">%1$d особисті календарі</item>
         <item quantity="many">%1$d особистих календарів</item>
         <item quantity="other">%1$d особистих календарів</item>
     </plurals>
@@ -672,23 +672,23 @@
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
         <item quantity="one">%1$d хвилина</item>
-        <item quantity="few">%1$d хвилин</item>
-        <item quantity="many">%1$d хвилини</item>
-        <item quantity="other">%1$d хвилини</item>
+        <item quantity="few">%1$d хвилини</item>
+        <item quantity="many">%1$d хвилин</item>
+        <item quantity="other">%1$d хвилин</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
         <item quantity="one">%1$d година</item>
-        <item quantity="few">%1$d години</item>
-        <item quantity="many">%1$d годин</item>
-        <item quantity="other">%1$d годин</item>
+        <item quantity="few">%1$d годин</item>
+        <item quantity="many">%1$d години</item>
+        <item quantity="other">%1$d години</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
         <item quantity="one">%1$d день</item>
-        <item quantity="few">%1$d днів</item>
-        <item quantity="many">%1$d дні</item>
-        <item quantity="other">%1$d дні</item>
+        <item quantity="few">%1$d дні</item>
+        <item quantity="many">%1$d днів</item>
+        <item quantity="other">%1$d днів</item>
     </plurals>
     <string name="server_change_max_reached">Ви досягли максимальної кількості змін серверів Free.</string>
     <string name="server_change_upsell">Змінюйте сервери без обмежень з VPN Plus.</string>
@@ -752,10 +752,10 @@
          55 countries
          -->
     <plurals name="welcome_plus_countries">
-        <item quantity="one">%d країни</item>
-        <item quantity="few">%d країні</item>
-        <item quantity="many">%d країні</item>
-        <item quantity="other">%d країні</item>
+        <item quantity="one">%d країна</item>
+        <item quantity="few">%d країни</item>
+        <item quantity="many">%d країн</item>
+        <item quantity="other">%d країн</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
@@ -1352,9 +1352,9 @@
     <!-- tag(Redesign_2023) -->
     <plurals name="connection_details_days">
         <item quantity="one">%1$d день</item>
-        <item quantity="few">%1$d днів</item>
-        <item quantity="many">%1$d дні</item>
-        <item quantity="other">%1$d дні</item>
+        <item quantity="few">%1$d дні</item>
+        <item quantity="many">%1$d днів</item>
+        <item quantity="other">%1$d днів</item>
     </plurals>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_hours_shortened">%1$d год</string>

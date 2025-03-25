@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton AG
+ Copyright (c) 2017 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -234,7 +234,7 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Ativado</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Desativado</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Indisponível</string>
-    <string name="custom_dns_item_removed_snackbar">Item removed</string>
+    <string name="custom_dns_item_removed_snackbar">O item foi removido.</string>
     <string name="netshield_free_description">Bloqueia anúncios, rastreadores e malware em sítios web e aplicações</string>
     <string name="netshield_what_data_means">O que significam os dados do NetShield</string>
     <string name="netshield_ads_title">Anúncios</string>

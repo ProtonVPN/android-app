@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton AG
+ Copyright (c) 2017 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -53,7 +53,7 @@
     <string name="close">Zapri</string>
     <string name="drawerReportProblem">Prijava napake</string>
     <string name="action_share">Deli</string>
-    <string name="accountFree">Brezplačen Proton</string>
+    <string name="accountFree">Proton Free</string>
     <string name="restrictedMaintenanceTitle">Vzdrževalna dela v teku</string>
     <string name="restrictedMaintenanceDescription">Strežnik, s katerim se trenutno poskušate povezati, je v vzdrževanju. Poskusite z drugim strežnikom.</string>
     <string name="errorUserDelinquent"><![CDATA[Vaš račun ima trenutno zapadli račun. Vse neplačane račune plačajte na &#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
@@ -326,7 +326,7 @@
     <plurals name="notification_max_sessions_upsell_content">
         <item quantity="one">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d napravo.</item>
         <item quantity="two">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d napravi.</item>
-        <item quantity="few">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d naprav.</item>
+        <item quantity="few">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d naprave.</item>
         <item quantity="other">Prekinite povezavo z drugo napravo, da povežete to, ali nadgradite na Plus, da boste hkrati povezali do %1$d naprav.</item>
     </plurals>
     <string name="notification_max_sessions_content">Odklopite drugo napravo, da povežete to.</string>
@@ -359,16 +359,16 @@
          Example: 1364 servers, 55 countries -->
     <plurals name="upsell_many_countries">
         <item quantity="one">%1$d država</item>
-        <item quantity="two">%1$d države</item>
-        <item quantity="few">%1$d državi</item>
-        <item quantity="other">%1$d državi</item>
+        <item quantity="two">%1$d državi</item>
+        <item quantity="few">%1$d države</item>
+        <item quantity="other">%1$d držav</item>
     </plurals>
     <string name="upsell_upgrade_again">Znova nadgradite in uživajte v vseh funkcijah:</string>
     <plurals name="upgrade_devices_title">
         <item quantity="one">Zaščitite %1$d napravo hkrati</item>
         <item quantity="two">Zaščitite %1$d napravi hkrati</item>
         <item quantity="few">Zaščitite %1$d naprave hkrati</item>
-        <item quantity="other">Zaščitite %1$d naprave hkrati</item>
+        <item quantity="other">Zaščitite %1$d naprav hkrati</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN je na voljo na 8 različnih platformah.</string>
     <string name="upgrade_plus_title">Nadgradite svojo zasebnost</string>
@@ -407,8 +407,8 @@
          -->
     <plurals name="upgrade_plus_servers_new">
         <item quantity="one">%d varen strežnik</item>
-        <item quantity="two">%d varnih strežnikov</item>
-        <item quantity="few">%d varnih strežnikov</item>
+        <item quantity="two">%d varna strežnika</item>
+        <item quantity="few">%d varni strežniki</item>
         <item quantity="other">%d varnih strežnikov</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "upgrade_plus_countries_title_new".
@@ -419,8 +419,8 @@
     <plurals name="upgrade_plus_countries">
         <item quantity="one">%d država</item>
         <item quantity="two">%d državi</item>
-        <item quantity="few">%d državi</item>
-        <item quantity="other">%d državi</item>
+        <item quantity="few">%d države</item>
+        <item quantity="other">%d držav</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -442,10 +442,10 @@
         <item quantity="one">Zaščitite %1$d napravo hkrati</item>
         <item quantity="two">Zaščitite %1$d napravi hkrati</item>
         <item quantity="few">Zaščitite %1$d naprave hkrati</item>
-        <item quantity="other">Zaščitite %1$d naprave hkrati</item>
+        <item quantity="other">Zaščitite %1$d naprav hkrati</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Varni pretočni prenos</string>
-    <string name="upgrade_unlimited_vpn_adblocker">Prepoved oglasov in zaščita pred zlonamerno programsko opremo</string>
+    <string name="upgrade_unlimited_vpn_adblocker">Onemogočanje oglasov in zaščita pred zlonamerno programsko opremo</string>
     <string name="upgrade_unlimited_vpn_double_vpn">Double VPN</string>
     <string name="upgrade_unlimited_vpn_p2p">Podpora za P2P</string>
     <plurals name="upgrade_unlimited_mail_custom_domains">
@@ -462,8 +462,8 @@
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d e-poštni naslov</item>
-        <item quantity="two">%1$d e-poštnih naslovov</item>
-        <item quantity="few">%1$d e-poštnih naslovov</item>
+        <item quantity="two">%1$d e-poštna naslova</item>
+        <item quantity="few">%1$d e-poštni naslovi</item>
         <item quantity="other">%1$d e-poštnih naslovov</item>
     </plurals>
     <string name="upgrade_unlimited_mail_unlimited_folders">Unlimited folders and filters</string>
@@ -473,8 +473,8 @@
     <string name="upgrade_unlimited_mail_scheduled_send">Scheduled send</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d osebni koledar</item>
-        <item quantity="two">%1$d osebnih koledarjev</item>
-        <item quantity="few">%1$d osebnih koledarjev</item>
+        <item quantity="two">%1$d osebna koledarja</item>
+        <item quantity="few">%1$d osebni koledarji</item>
         <item quantity="other">%1$d osebnih koledarjev</item>
     </plurals>
     <string name="upgrade_unlimited_calendar_sharing">Deljenje koledarja</string>
@@ -488,9 +488,9 @@
     <string name="upgrade_unlimited_pass_logins_aliases">Unlimited logins and hide-my-email aliases</string>
     <plurals name="upgrade_unlimited_pass_vaults">
         <item quantity="one">%1$d trezor</item>
-        <item quantity="two">%1$d trezorji</item>
-        <item quantity="few">%1$d trezorja</item>
-        <item quantity="other">%1$d trezorja</item>
+        <item quantity="two">%1$d trezorja</item>
+        <item quantity="few">%1$d trezorji</item>
+        <item quantity="other">%1$d trezorjev</item>
     </plurals>
     <string name="upgrade_unlimited_pass_logins">Unlimited logins</string>
     <string name="upgrade_unlimited_pass_aliases">Neomejeno število vzdevkov hide-my-email</string>
@@ -628,7 +628,7 @@
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
         <item quantity="one">Odklenite geografsko blokirano vsebino iz %1$d države z VPN Plus</item>
-        <item quantity="two">Odklenite geografsko blokirano vsebino iz %1$d države z VPN Plus</item>
+        <item quantity="two">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
         <item quantity="few">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
         <item quantity="other">Odklenite geografsko blokirano vsebino iz %1$d držav z VPN Plus</item>
     </plurals>
@@ -673,8 +673,8 @@
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
         <item quantity="one">%1$d minuta</item>
-        <item quantity="two">%1$d minut</item>
-        <item quantity="few">%1$d minut</item>
+        <item quantity="two">%1$d minuti</item>
+        <item quantity="few">%1$d minute</item>
         <item quantity="other">%1$d minut</item>
     </plurals>
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
@@ -730,9 +730,9 @@
     <!-- Example: Up to 10 devices at once
          In practice one will never be a value here -->
     <plurals name="welcome_plus_feature_devices">
-        <item quantity="one">Do %1$d naprave hkrati</item>
-        <item quantity="two">Do %1$d naprav hkrati</item>
-        <item quantity="few">Do %1$d naprav hkrati</item>
+        <item quantity="one">Do %1$d naprava hkrati</item>
+        <item quantity="two">Do %1$d napravi hkrati</item>
+        <item quantity="few">Do %1$d naprave hkrati</item>
         <item quantity="other">Do %1$d naprav hkrati</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
@@ -743,8 +743,8 @@
      -->
     <plurals name="welcome_plus_servers">
         <item quantity="one">%d nov strežnik</item>
-        <item quantity="two">%d novih strežnikov</item>
-        <item quantity="few">%d novih strežnikov</item>
+        <item quantity="two">%d nova strežnika</item>
+        <item quantity="few">%d novi strežniki</item>
         <item quantity="other">%d novih strežnikov</item>
     </plurals>
     <!-- Number of countries inserted as %2$s in "welcome_plus_feature_servers_count".
@@ -755,8 +755,8 @@
     <plurals name="welcome_plus_countries">
         <item quantity="one">%d država</item>
         <item quantity="two">%d državi</item>
-        <item quantity="few">%d državi</item>
-        <item quantity="other">%d državi</item>
+        <item quantity="few">%d države</item>
+        <item quantity="other">%d držav</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"
@@ -948,7 +948,7 @@
          -->
     <plurals name="connection_info_accessibility_auto_selected_free_countries">
         <item quantity="one">Samodejno izbrano iz %1$d države</item>
-        <item quantity="two">Samodejno izbrano iz %1$d državi</item>
+        <item quantity="two">Samodejno izbrano iz %1$d držav</item>
         <item quantity="few">Samodejno izbrano iz %1$d držav</item>
         <item quantity="other">Samodejno izbrano iz %1$d držav</item>
     </plurals>
@@ -1290,31 +1290,31 @@
     <plurals name="full_name_speed_kilobytes_per_second">
         <item quantity="one">%1$s kilobajt na sekundo</item>
         <item quantity="two">%1$s kilobajta na sekundo</item>
-        <item quantity="few">%1$s kilobajte na sekundo</item>
+        <item quantity="few">%1$s kilobajti na sekundo</item>
         <item quantity="other">%1$s kilobajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_megabytes_per_second">
         <item quantity="one">%1$s megabajt na sekundo</item>
         <item quantity="two">%1$s megabajta na sekundo</item>
-        <item quantity="few">%1$s megabajte na sekundo</item>
+        <item quantity="few">%1$s megabajti na sekundo</item>
         <item quantity="other">%1$s megabajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_gigabytes_per_second">
         <item quantity="one">%1$s gigabajt na sekundo</item>
         <item quantity="two">%1$s gigabajta na sekundo</item>
-        <item quantity="few">%1$s gigabajte na sekundo</item>
+        <item quantity="few">%1$s gigabajti na sekundo</item>
         <item quantity="other">%1$s gigabajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_speed_terabytes_per_second">
         <item quantity="one">%1$s terabajt na sekundo</item>
         <item quantity="two">%1$s terabajta na sekundo</item>
-        <item quantity="few">%1$s terabajte na sekundo</item>
+        <item quantity="few">%1$s terabajti na sekundo</item>
         <item quantity="other">%1$s terabajtov na sekundo</item>
     </plurals>
     <plurals name="full_name_traffic_volume_bytes">
         <item quantity="one">%1$s bajt</item>
         <item quantity="two">%1$s bajta</item>
-        <item quantity="few">%1$s bajte</item>
+        <item quantity="few">%1$s bajti</item>
         <item quantity="other">%1$s bajtov</item>
     </plurals>
     <plurals name="full_name_traffic_volume_kilobytes">
