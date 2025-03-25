@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 
@@ -35,10 +36,20 @@ fun GatewaysRoute(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        ServerGroupsWithToolbarRoute(
+        val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value
+        val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
+        ServerGroupsWithToolbar(
+            mainState,
+            subScreenState,
             onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
             onNavigateToSearch = null,
-            viewModel = viewModel,
+            ServerGroupsActions(
+                setLocale = { viewModel.localeFlow.value = it },
+                onNavigateBack = viewModel::onNavigateBack,
+                onClose = viewModel::onClose,
+                onItemOpen = viewModel::onItemOpen,
+                onItemConnect = viewModel::onItemConnect
+            ),
             titleRes = R.string.gateways_title,
         )
     }
