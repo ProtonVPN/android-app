@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton AG
+ Copyright (c) 2017 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -365,10 +365,10 @@
     </plurals>
     <string name="upsell_upgrade_again">Znovu navýšte tarif pre využitie všetkých funkcií:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Chráňte %1$d zariadenie</item>
+        <item quantity="one">Chráňte %1$d zariadenie súčasne</item>
         <item quantity="few">Chráňte %1$d zariadenia súčasne</item>
-        <item quantity="many">Chráňte %1$d zariadení naraz</item>
-        <item quantity="other">Chráňte %1$d zariadení naraz</item>
+        <item quantity="many">Chráňte %1$d zariadení súčasne</item>
+        <item quantity="other">Chráňte %1$d zariadení súčasne</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN je k dispozícii na 8 rôznych platformách.</string>
     <string name="upgrade_plus_title">Navýšte svoje súkromie</string>
@@ -416,10 +416,10 @@
          55 countries
          -->
     <plurals name="upgrade_plus_countries">
-        <item quantity="one">%d krajine</item>
-        <item quantity="few">%d krajina</item>
-        <item quantity="many">%d krajina</item>
-        <item quantity="other">%d krajina</item>
+        <item quantity="one">%d krajina</item>
+        <item quantity="few">%d krajín</item>
+        <item quantity="many">%d krajín</item>
+        <item quantity="other">%d krajín</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "upgrade_plus_servers_new"
@@ -438,10 +438,10 @@
     <string name="upgrade_unlimited_vpn_any_location">Vyberte si ľubovoľnú lokalitu</string>
     <string name="upgrade_unlimited_vpn_higher_speeds">Ešte vyššie rýchlosti VPN</string>
     <plurals name="upgrade_unlimited_vpn_many_devices">
-        <item quantity="one">Chráňte %1$d zariadenie</item>
+        <item quantity="one">Chráňte %1$d zariadenie súčasne</item>
         <item quantity="few">Chráňte %1$d zariadenia súčasne</item>
-        <item quantity="many">Chráňte %1$d zariadení naraz</item>
-        <item quantity="other">Chráňte %1$d zariadení naraz</item>
+        <item quantity="many">Chráňte %1$d zariadení súčasne</item>
+        <item quantity="other">Chráňte %1$d zariadení súčasne</item>
     </plurals>
     <string name="upgrade_unlimited_vpn_streaming">Bezpečné streamovanie</string>
     <string name="upgrade_unlimited_vpn_adblocker">Blokovanie reklám a ochrana pred škodlivým softvérom</string>
@@ -455,13 +455,13 @@
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
         <item quantity="one">%1$d MB príloha</item>
-        <item quantity="few">%1$d MB prílohy</item>
+        <item quantity="few">%1$d MB príloh</item>
         <item quantity="many">%1$d MB prílohy</item>
         <item quantity="other">%1$d MB prílohy</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d emailová adresa</item>
-        <item quantity="few">%1$d emailové adresy</item>
+        <item quantity="few">%1$d emailových adries</item>
         <item quantity="many">%1$d emailové adresy</item>
         <item quantity="other">%1$d emailové adresy</item>
     </plurals>
@@ -472,7 +472,7 @@
     <string name="upgrade_unlimited_mail_scheduled_send">Naplánované odoslanie</string>
     <plurals name="upgrade_unlimited_calendar_calendars">
         <item quantity="one">%1$d osobný kalendár</item>
-        <item quantity="few">%1$d osobné kalendáre</item>
+        <item quantity="few">%1$d osobných kalendárov</item>
         <item quantity="many">%1$d osobné kalendáre</item>
         <item quantity="other">%1$d osobné kalendáre</item>
     </plurals>
@@ -487,7 +487,7 @@
     <string name="upgrade_unlimited_pass_logins_aliases">Neobmedzený počet prihlásení a hide-my-email aliasov</string>
     <plurals name="upgrade_unlimited_pass_vaults">
         <item quantity="one">%1$d trezor</item>
-        <item quantity="few">%1$d trezory</item>
+        <item quantity="few">%1$d trezorov</item>
         <item quantity="many">%1$d trezorov</item>
         <item quantity="other">%1$d trezorov</item>
     </plurals>
@@ -523,7 +523,7 @@
     <string name="upsell_card_customization_description">Odomknite ešte viac funkcií výkonu a ochrany súkromia</string>
     <plurals name="upsell_card_devices_title">
         <item quantity="one">Ochráňte %1$d zariadenie</item>
-        <item quantity="few">Ochráňte %1$d zariadenia</item>
+        <item quantity="few">Ochráňte %1$d zariadení</item>
         <item quantity="many">Ochráňte %1$d zariadení</item>
         <item quantity="other">Ochráňte %1$d zariadení</item>
     </plurals>
@@ -666,13 +666,13 @@
     <plurals name="time_left_seconds">
         <item quantity="one">%1$d sekunda</item>
         <item quantity="few">%1$d sekundy</item>
-        <item quantity="many">%1$d sekúnd</item>
+        <item quantity="many">%1$d sekundy</item>
         <item quantity="other">%1$d sekúnd</item>
     </plurals>
     <!-- See offer_time_left, example: 2 minutes 5 seconds left -->
     <plurals name="time_left_minutes">
         <item quantity="one">%1$d minúta</item>
-        <item quantity="few">%1$d minút</item>
+        <item quantity="few">%1$d minúty</item>
         <item quantity="many">%1$d minút</item>
         <item quantity="other">%1$d minút</item>
     </plurals>
@@ -686,9 +686,9 @@
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
         <item quantity="one">%1$d deň</item>
-        <item quantity="few">%1$d dní</item>
-        <item quantity="many">%1$d dni</item>
-        <item quantity="other">%1$d dni</item>
+        <item quantity="few">%1$d dni</item>
+        <item quantity="many">%1$d dní</item>
+        <item quantity="other">%1$d dní</item>
     </plurals>
     <string name="server_change_max_reached">Momentálne ste dosiahli maximálny počet zmien bezplatného servera.</string>
     <string name="server_change_upsell">Získajte neobmedzené zmeny s VPN Plus.</string>
@@ -732,7 +732,7 @@
         <item quantity="one">Pripojte až %1$d zariadenie súčasne</item>
         <item quantity="few">Pripojte až %1$d zariadenia súčasne</item>
         <item quantity="many">Pripojte až %1$d zariadení súčasne</item>
-        <item quantity="other">Až %1$d zariadení súčasne</item>
+        <item quantity="other">Pripojte až %1$d zariadení súčasne</item>
     </plurals>
     <!-- Number of secure servers inserted as %1$s in the "welcome_plus_feature_servers_count".
      The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -752,10 +752,10 @@
          55 countries
          -->
     <plurals name="welcome_plus_countries">
-        <item quantity="one">%d krajine</item>
-        <item quantity="few">%d krajina</item>
-        <item quantity="many">%d krajina</item>
-        <item quantity="other">%d krajina</item>
+        <item quantity="one">%d krajina</item>
+        <item quantity="few">%d krajiny</item>
+        <item quantity="many">%d krajín</item>
+        <item quantity="other">%d krajín</item>
     </plurals>
     <!-- Parameters:
      %1$s - replaced with "welcome_plus_servers"

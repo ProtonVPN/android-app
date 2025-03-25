@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton AG
+ Copyright (c) 2017 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -413,9 +413,9 @@
      Unlock 1300+ secure servers in 61 countries with VPN Plus.
      -->
     <string name="upgrade_plus_countries_title_new"><![CDATA[Desbloqueie %1$s em %2$s com <b>VPN Plus</b>.]]></string>
-    <string name="mail_app_name" translateable="false">Proton Mail</string>
+    <string name="mail_app_name" translateable="false">E-mail Proton</string>
     <string name="upgrade_unlimited_all_apps_title">Todos os serviços premium da Proton com uma assinatura fácil.</string>
-    <string name="upgrade_unlimited_all_apps_description">Obtenha cobertura completa de privacidade com o Proton Unlimited.</string>
+    <string name="upgrade_unlimited_all_apps_description">Obtenha cobertura completa de privacidade com o Proton Ilimitado.</string>
     <string name="upgrade_unlimited_more">E mais</string>
     <string name="upgrade_unlimited_vpn_unlimited_countries">Desbloqueie todos os países</string>
     <string name="upgrade_unlimited_vpn_all_features">Todos os outros recursos do Proton VPN Plus</string>

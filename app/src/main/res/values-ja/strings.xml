@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton AG
+ Copyright (c) 2017 Proton Technologies AG
 
  This file is part of ProtonVPN.
 
@@ -170,10 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">含めるアプリから削除</string>
-    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
-    <string name="accessibility_action_item_delete">Delete</string>
-    <string name="accessibility_action_item_move_up">Move up</string>
-    <string name="accessibility_action_item_move_down">Move down</string>
+    <string name="accessibility_action_copy_to_clipboard">クリップボードにコピー</string>
+    <string name="accessibility_action_item_delete">削除</string>
+    <string name="accessibility_action_item_move_up">上へ移動</string>
+    <string name="accessibility_action_item_move_down">下へ移動</string>
     <string name="tileConnected">接続済み: %1$s</string>
     <string name="openUrlError">%1$s が開けません。このデバイス内にウェブブラウザが見つかりません。</string>
     <string name="loaderErrorTimeout">接続が時間切れになりました。もう一度やり直してください。</string>
@@ -222,7 +222,7 @@
     <string name="learn_more">より詳しく</string>
     <string name="netshield_state_on" comment="Describes state, not action">オン</string>
     <string name="netshield_state_off" comment="Describes state, not action">オフ</string>
-    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">使用不可</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">オン</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">オフ</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">オン</string>
@@ -233,8 +233,8 @@
     <string name="alt_routing_state_off" comment="Describes state, not action">オフ</string>
     <string name="custom_dns_state_on" comment="Describes state, not action">オン</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">オフ</string>
-    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
-    <string name="custom_dns_item_removed_snackbar">Item removed</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">使用不可</string>
+    <string name="custom_dns_item_removed_snackbar">アイテムが削除されました</string>
     <string name="netshield_free_description">ウェブサイトとアプリの広告、トラッカー、マルウェアをブロック</string>
     <string name="netshield_what_data_means">NetShield のデータの意味</string>
     <string name="netshield_ads_title">広告</string>
@@ -1295,11 +1295,11 @@
     <string name="settings_advanced_dns_description">自己ホストまたはサードパーティ製のドメインネームシステム(DNS)を使用してVPNに接続します。詳細はこちら</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">サーバー (%1$d)</string>
-    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
-    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
-    <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
+    <string name="settings_dns_list_description">カスタム DNS サーバーが動作しない場合は、標準 VPN DNS が使用されます。</string>
+    <string name="settings_dns_list_description_multiple">これらのサーバーに順番に接続しようとします。どれも動作しない場合は、VPN DNSが使用されます。</string>
+    <string name="settings_changes_apply_on_reconnect_toast">再接続すると変更が適用されます</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield は利用できません</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">カスタムDNSが使用されている場合、NetShieldは広告、トラッカー、マルウェアを除外できません。詳細はこちら</string>
     <string name="settings_advanced_alternative_routing_title">代替ルーティング</string>
     <string name="settings_advanced_alternative_routing_description">ネットワーク制限により Proton サービスがブロックされている場合は、代替ネットワーク ルーティングを使用してサイトに接続しようとします。</string>
     <string name="settings_advanced_allow_lan_title">LAN 接続</string>
@@ -1347,14 +1347,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">リストから IP アドレスを削除しますか?</string>
     <string name="settings_dialog_reconnect">新しい設定は次の接続から適用されます。</string>
     <string name="settings_needs_reconnect_banner">新しい設定は次の接続から適用されます。</string>
-    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
-    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
-    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
-    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
-    <string name="custom_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
-    <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
-    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">カスタム DNS は利用できません</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">お使いのデバイスはサードパーティ製のDNSを使用しており、Proton VPNのカスタムDNSが動作しないようにしています。詳細はこちら</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield は利用できません</string>
+    <string name="private_dns_conflict_banner_netshield_description">お使いのデバイスはサードパーティ製のDNSを使用しており、NetShieldが動作しないようにしています。詳細はこちら</string>
+    <string name="private_dns_conflict_banner_network_settings_button">ネットワーク設定</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield は利用できません</string>
+    <string name="custom_dns_conflict_banner_netshield_description">NetShield が動作しないようにするカスタム DNS が有効になっています。詳細はこちら</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">カスタム DNS をオフにします</string>
     <string name="info_secure_core_standard_high_privacy">高いプライバシー</string>
     <string name="info_secure_core_standard_lower_latency">低レイテンシー</string>
     <string name="info_secure_core_advanced_privacy">高度なプライバシー</string>
