@@ -68,7 +68,8 @@ import com.protonvpn.android.redesign.base.ui.InfoSheetState
 import com.protonvpn.android.redesign.countries.ui.FiltersRow
 import com.protonvpn.android.redesign.countries.ui.ServerGroupItemsList
 import com.protonvpn.android.redesign.countries.ui.ServerGroupsMainScreenState
-import com.protonvpn.android.redesign.countries.ui.ServerGroupsRoute
+import com.protonvpn.android.redesign.countries.ui.ServerGroups
+import com.protonvpn.android.redesign.countries.ui.ServerGroupsActions
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.headlineNorm
@@ -100,9 +101,20 @@ fun SearchRoute(
                 focusRequester = focusRequester
             )
 
-            ServerGroupsRoute(
+            val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value
+            val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
+            val serverGroupsActions = ServerGroupsActions(
+                setLocale = { viewModel.localeFlow.value = it },
+                onNavigateBack = viewModel::onNavigateBack,
+                onClose = viewModel::onClose,
+                onItemOpen = viewModel::onItemOpen,
+                onItemConnect = viewModel::onItemConnect
+            )
+            ServerGroups(
+                mainState,
+                subScreenState,
                 onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
-                viewModel = viewModel,
+                actions = serverGroupsActions,
             ) { mainState, infoSheetState ->
                 val modifier = Modifier.weight(1f).fillMaxWidth()
                 when (mainState) {
@@ -110,7 +122,7 @@ fun SearchRoute(
                         SearchZeroScreen(modifier)
 
                     is SearchViewState.Result ->
-                        ResultScreen(viewModel, mainState.result, onNavigateToHomeOnConnect, infoSheetState, modifier)
+                        ResultScreen(serverGroupsActions, mainState.result, onNavigateToHomeOnConnect, infoSheetState, modifier)
                 }
             }
         }
@@ -123,7 +135,7 @@ fun SearchRoute(
 
 @Composable
 fun ResultScreen(
-    viewModel: SearchViewModel,
+    serverGroupsActions: ServerGroupsActions,
     result: ServerGroupsMainScreenState,
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     infoSheetState: InfoSheetState,
@@ -137,7 +149,7 @@ fun ResultScreen(
         if (result.items.isEmpty())
             EmptySearchResult(Modifier.fillMaxSize())
         else
-            ServerGroupItemsList(viewModel, result, onNavigateToHomeOnConnect, infoSheetState)
+            ServerGroupItemsList(serverGroupsActions, result, onNavigateToHomeOnConnect, infoSheetState)
     }
 }
 

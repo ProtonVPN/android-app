@@ -43,6 +43,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -55,7 +56,6 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.protonElevation
 import com.protonvpn.android.redesign.base.ui.InfoSheet
@@ -80,34 +80,58 @@ import com.protonvpn.android.vpn.VpnUiDelegate
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultSmallUnspecified
 import me.proton.core.presentation.utils.currentLocale
+import java.util.Locale
 import me.proton.core.presentation.R as CoreR
 
+typealias OnItemConnect = (
+    vpnUiDelegate: VpnUiDelegate,
+    item: ServerGroupUiItem.ServerGroup,
+    filterType: ServerFilterType,
+    navigateToHome: (ShowcaseRecents) -> Unit,
+    navigateToUpsell: () -> Unit
+) -> Unit
+
+@Immutable
+data class ServerGroupsActions(
+    val setLocale: (Locale) -> Unit,
+    val onNavigateBack:  suspend (onHide: suspend () -> Unit) -> Unit,
+    val onClose: () -> Unit,
+    val onItemOpen: (group: ServerGroupUiItem.ServerGroup, serverFilterType: ServerFilterType) -> Unit,
+    val onItemConnect: OnItemConnect,
+)
+
 @Composable
-fun ServerGroupsWithToolbarRoute(
+fun ServerGroupsWithToolbar(
+    mainState: ServerGroupsMainScreenState?,
+    subScreenState: ServerGroupsSubScreenState?,
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     onNavigateToSearch: (() -> Unit)?,
-    viewModel: ServerGroupsViewModel<ServerGroupsMainScreenState>,
+    actions: ServerGroupsActions,
     @StringRes titleRes: Int,
 ) {
-    ServerGroupsRoute(
+    ServerGroups(
+        mainState,
+        subScreenState,
         onNavigateToHomeOnConnect = onNavigateToHomeOnConnect,
-        viewModel = viewModel,
+        actions = actions,
     ) { mainState, infoSheetState ->
         ServerGroupToolbarScaffold(
             onNavigateToSearch = onNavigateToSearch,
             toolbarFilters = mainState.filterButtons,
             titleRes = titleRes,
             content = { paddingValues ->
-                ServerGroupItemsList(viewModel, mainState, onNavigateToHomeOnConnect, infoSheetState, paddingValues)
+                ServerGroupItemsList(actions, mainState, onNavigateToHomeOnConnect, infoSheetState, paddingValues)
             }
         )
     }
 }
 
-// Generic route template shared by Gateways, Countries and Search screens.
+// Generic composable shared by Gateways, Countries and Search screens.
 @Composable
-fun <T> ServerGroupsRoute(
-    viewModel: ServerGroupsViewModel<T>,
+fun <T> ServerGroups(
+    mainState: T?,
+    subScreenState: ServerGroupsSubScreenState?,
+    actions: ServerGroupsActions,
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     content: @Composable (mainState: T, info: InfoSheetState) -> Unit,
 ) {
@@ -116,23 +140,21 @@ fun <T> ServerGroupsRoute(
 
     val locale = LocalConfiguration.current.currentLocale()
     LaunchedEffect(Unit) {
-        viewModel.localeFlow.value = locale
+        actions.setLocale(locale)
     }
-    val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value ?: return
     val infoSheetState = rememberInfoSheetState()
 
-    content(mainState, infoSheetState)
-
-    val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
+    if (mainState != null)
+        content(mainState, infoSheetState)
 
     if (subScreenState != null) {
         ServerGroupsBottomSheet(
             modifier = Modifier,
             screen = subScreenState,
-            onNavigateBack = { onHide -> viewModel.onNavigateBack(onHide) },
-            onNavigateToItem = { viewModel.onItemOpen(it, subScreenState.selectedFilter) },
-            onItemClicked = createOnConnectAction(viewModel, uiDelegate, context, subScreenState.selectedFilter, onNavigateToHomeOnConnect),
-            onClose = { viewModel.onClose() },
+            onNavigateBack = actions.onNavigateBack,
+            onNavigateToItem = { actions.onItemOpen(it, subScreenState.selectedFilter) },
+            onItemClicked = createOnConnectAction(actions, uiDelegate, context, subScreenState.selectedFilter, onNavigateToHomeOnConnect),
+            onClose = actions.onClose,
             infoSheetState = infoSheetState,
             navigateToUpsell = { navigateToUpsellFromBanner(context, it) }
         )
@@ -146,18 +168,18 @@ fun <T> ServerGroupsRoute(
 
 @Composable
 fun createOnConnectAction(
-    viewModel: ServerGroupsViewModel<*>,
+    actions: ServerGroupsActions,
     uiDelegate: VpnUiDelegate,
     context: Context,
     filterType: ServerFilterType,
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit
 ): (ServerGroupUiItem.ServerGroup) -> Unit = { item ->
-    viewModel.onItemConnect(
-        vpnUiDelegate = uiDelegate,
-        item = item,
-        filterType = filterType,
-        navigateToHome = { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) },
-        navigateToUpsell = {
+    actions.onItemConnect(
+        uiDelegate,
+        item,
+        filterType,
+        { showcaseRecents: ShowcaseRecents -> onNavigateToHomeOnConnect(showcaseRecents) },
+        {
             val countryId = item.data.countryId
             if (countryId != null && !countryId.isFastest) {
                 PlusOnlyUpgradeDialogActivity.launch<UpgradeCountryHighlightsFragment>(
@@ -304,7 +326,7 @@ fun FiltersRow(buttonActions: List<FilterButton>, modifier: Modifier = Modifier)
 
 @Composable
 fun ServerGroupItemsList(
-    viewModel: ServerGroupsViewModel<*>,
+    actions: ServerGroupsActions,
     state: ServerGroupsMainScreenState,
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     infoSheetState: InfoSheetState,
@@ -314,8 +336,8 @@ fun ServerGroupItemsList(
     val uiDelegate = LocalVpnUiDelegate.current
     ServerGroupItemsList(
         items = state.items,
-        onItemClick = createOnConnectAction(viewModel, uiDelegate, context, state.selectedFilter, onNavigateToHomeOnConnect),
-        onItemOpen = { viewModel.onItemOpen(it, state.selectedFilter) },
+        onItemClick = createOnConnectAction(actions, uiDelegate, context, state.selectedFilter, onNavigateToHomeOnConnect),
+        onItemOpen = { actions.onItemOpen(it, state.selectedFilter) },
         onOpenInfo = { infoType -> infoSheetState.show(infoType) },
         navigateToUpsell = { navigateToUpsellFromBanner(context, it) },
         horizontalContentPadding = largeScreenContentPadding(),

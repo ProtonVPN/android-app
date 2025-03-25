@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.redesign.home_screen.ui.ShowcaseRecents
 
@@ -32,13 +33,24 @@ fun CountriesRoute(
     onNavigateToHomeOnConnect: (ShowcaseRecents) -> Unit,
     onNavigateToSearch: () -> Unit,
 ) {
+    val viewModel: CountriesViewModel = hiltViewModel()
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        ServerGroupsWithToolbarRoute(
+        val mainState = viewModel.stateFlow.collectAsStateWithLifecycle().value
+        val subScreenState = viewModel.subScreenStateFlow.collectAsStateWithLifecycle().value
+        ServerGroupsWithToolbar(
+            mainState,
+            subScreenState,
             onNavigateToHomeOnConnect,
             onNavigateToSearch,
-            hiltViewModel<CountriesViewModel>(),
+            ServerGroupsActions(
+                setLocale = { viewModel.localeFlow.value = it },
+                onNavigateBack = viewModel::onNavigateBack,
+                onClose = viewModel::onClose,
+                onItemOpen = viewModel::onItemOpen,
+                onItemConnect = viewModel::onItemConnect
+            ),
             R.string.countries_title
         )
     }
