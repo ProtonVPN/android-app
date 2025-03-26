@@ -1,0 +1,3 @@
+What's new
+- Introducing Custom DNS. Take control of your browsing experience with the flexibility to use third-party DNS resolvers tailored to your preferences.
+- IPv6 support is now available, allowing to securely access IPv6 websites and services through VPN connection
