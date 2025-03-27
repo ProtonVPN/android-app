@@ -27,6 +27,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -55,6 +56,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -82,6 +84,7 @@ import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.ProtonDialogButton
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.redesign.base.ui.SettingsRadioItemSmall
+import com.protonvpn.android.redesign.settings.ui.DnsConflictBanner
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.ProtocolSettingsList
 import com.protonvpn.android.redesign.vpn.ui.label
@@ -620,10 +623,18 @@ fun ProfileNetShieldItem(
     modifier: Modifier = Modifier,
     value: Boolean,
     onNetShieldChange: (Boolean) -> Unit,
+    onDisableCustomDns: () -> Unit,
+    onCustomDnsLearnMore: () -> Unit,
+    customDnsEnabled: Boolean
 ) {
+    val netshieldStateResource = when {
+        !value -> R.string.netshield_state_off
+        customDnsEnabled -> R.string.netshield_state_unavailable
+        else -> R.string.netshield_state_on
+    }
     ProfileValueItem(
         labelRes = R.string.create_profile_pick_netshield_title,
-        valueText = stringResource(if (value) R.string.netshield_state_on else R.string.netshield_state_off),
+        valueText = stringResource(netshieldStateResource),
         online = true,
         iconContent = {
             Image(
@@ -635,17 +646,50 @@ fun ProfileNetShieldItem(
             )
         },
         modal = { closeModal ->
-            PickNetShield(
-                selected = value,
-                onSelect = {
-                    onNetShieldChange(it)
-                    closeModal()
-                },
-                onDismissRequest = closeModal
-            )
+            if (customDnsEnabled) {
+                NetShieldConflictDialog(
+                    onDisableCustomDns = onDisableCustomDns,
+                    onCustomDnsLearnMore = onCustomDnsLearnMore,
+                    onDismissRequest = closeModal
+                )
+            } else {
+                PickNetShield(
+                    selected = value,
+                    onSelect = {
+                        onNetShieldChange(it)
+                        closeModal()
+                    },
+                    onDismissRequest = closeModal
+                )
+            }
         },
         modifier = modifier
     )
+}
+
+@Composable
+fun NetShieldConflictDialog(
+    onDismissRequest: () -> Unit,
+    onDisableCustomDns: () -> Unit,
+    onCustomDnsLearnMore: () -> Unit,
+) {
+    ProtonBasicAlert(
+        content = {
+            DnsConflictBanner(
+                titleRes = R.string.custom_dns_conflict_banner_netshield_title,
+                descriptionRes = R.string.custom_dns_conflict_banner_netshield_description,
+                buttonRes = R.string.custom_dns_conflict_banner_disable_custom_dns_button,
+                onLearnMore = onCustomDnsLearnMore,
+                onButtonClicked = onDisableCustomDns,
+                modifier = Modifier,
+                backgroundColor = Color.Transparent,
+                contentPadding = PaddingValues(horizontal = 24.dp)
+            )
+        },
+        onDismissRequest = onDismissRequest,
+        isWideDialog = true
+    )
+
 }
 
 @Composable
@@ -703,6 +747,22 @@ fun ProfileLanConnectionsItem(
             )
         },
         modifier = modifier
+    )
+}
+
+@Composable
+fun ProfileCustomDnsItem(
+    value: Boolean,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    ProfileValueItem(
+        labelRes = R.string.settings_custom_dns_title,
+        valueText = stringResource(if (value) R.string.lan_state_on else R.string.lan_state_off),
+        online = true,
+        modifier = modifier,
+        onClick = onClick,
+        isDropdown = false
     )
 }
 
@@ -879,8 +939,35 @@ private fun ProfileValueItem(
     iconContent: (@Composable RowScope.() -> Unit)? = null,
     bottomPadding: Dp = 20.dp,
 ) {
-    val textColor = if (online) ProtonTheme.colors.textNorm else ProtonTheme.colors.textHint
     var showDialog by rememberSaveable { mutableStateOf(false) }
+    ProfileValueItem(
+        labelRes = labelRes,
+        valueText = valueText,
+        online = online,
+        modifier = modifier,
+        labelBadge = labelBadge,
+        iconContent = iconContent,
+        bottomPadding = bottomPadding,
+        onClick = { showDialog = true }
+    )
+    if (showDialog)
+        modal { showDialog = false }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun ProfileValueItem(
+    @StringRes labelRes: Int?,
+    valueText: String,
+    online: Boolean,
+    modifier: Modifier = Modifier,
+    labelBadge: Int? = null,
+    isDropdown: Boolean = true,
+    iconContent: (@Composable RowScope.() -> Unit)? = null,
+    bottomPadding: Dp = 20.dp,
+    onClick: () -> Unit,
+) {
+    val textColor = if (online) ProtonTheme.colors.textNorm else ProtonTheme.colors.textHint
     Column(
         modifier = modifier
             .padding(vertical = 8.dp)
@@ -915,10 +1002,10 @@ private fun ProfileValueItem(
                 .fillMaxWidth()
                 .clip(ProtonTheme.shapes.medium)
                 .semantics {
-                    role = Role.DropdownList
+                    role = if (isDropdown) Role.DropdownList else Role.Button
                     if (label != null) text = AnnotatedString(label)
                 }
-                .clickable(onClick = { showDialog = true })
+                .clickable(onClick = onClick)
                 .background(ProtonTheme.colors.backgroundSecondary)
                 .heightIn(min = 48.dp)
                 .padding(horizontal = 16.dp),
@@ -941,15 +1028,13 @@ private fun ProfileValueItem(
                 AvailabilityIndicator(online, Modifier.padding(horizontal = 12.dp))
             }
             Icon(
-                painter = painterResource(id = CoreR.drawable.ic_proton_chevron_down),
+                painter = painterResource(id = if (isDropdown) CoreR.drawable.ic_proton_chevron_down else CoreR.drawable.ic_proton_chevron_right),
                 contentDescription = null,
                 modifier = Modifier
                     .size(16.dp)
             )
         }
     }
-    if (showDialog)
-        modal { showDialog = false }
 }
 
 @Composable
@@ -1215,7 +1300,10 @@ private fun ProfileNetShieldItemPreview() {
         Surface {
             ProfileNetShieldItem(
                 value = true,
-                onNetShieldChange = {}
+                onNetShieldChange = {},
+                onDisableCustomDns = {},
+                onCustomDnsLearnMore = {},
+                customDnsEnabled = false
             )
         }
     }

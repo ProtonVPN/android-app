@@ -223,7 +223,10 @@ fun HomeRoute(
         elapsedRealtimeClock = homeViewModel.elapsedRealtimeClock,
         onDismissDialog = homeViewModel::dismissDialog,
         onNetshieldValueChanged = { homeViewModel.setNetShieldProtocol(it) },
-        onDisableCustomDns = { settingsChangeViewModel.disableCustomDns(vpnUiDelegate) },
+        onDisableCustomDns = {
+            if (homeViewModel.disableCustomDns())
+                settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
+        },
         snackbarHostState = snackbarHostState,
         bottomPromoComponent = bottomPromoComponent,
         prominentPromoComponent = prominentBannerPromo,

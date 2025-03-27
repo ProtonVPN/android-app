@@ -57,6 +57,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
@@ -80,7 +81,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.view.HapticFeedbackConstantsCompat
 import androidx.core.view.ViewCompat.performHapticFeedback
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.AnnotatedClickableText
 import com.protonvpn.android.base.ui.ProtonTextButton
@@ -90,6 +90,7 @@ import com.protonvpn.android.redesign.base.ui.DIALOG_CONTENT_PADDING
 import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbar
 import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.showSnackbar
 import com.protonvpn.android.redesign.settings.ui.DnsConflictBanner
@@ -97,74 +98,117 @@ import com.protonvpn.android.redesign.settings.ui.FeatureSubSettingScaffold
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
 import com.protonvpn.android.redesign.settings.ui.addFeatureSettingItems
 import com.protonvpn.android.utils.Constants
-import com.protonvpn.android.utils.isValidIp
 import com.protonvpn.android.utils.openUrl
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.presentation.utils.showToast
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 import me.proton.core.presentation.R as CoreR
 
+data class CustomDnsActions(
+    val onClose: () -> Unit,
+    val onAddDns: (String) -> Unit,
+    val onAddDnsTextChanged: () -> Unit,
+    val toggleSetting: () -> Unit,
+    val updateDnsList: (List<String>) -> Unit,
+    val removeDns: suspend (String) -> UndoCustomDnsRemove?,
+    val openAddDnsScreen: () -> Unit,
+    val closeAddDnsScreen: () -> Unit,
+    val showReconnectDialog: (() -> Unit)?,
+)
+
+private fun CustomDnsViewState.effectiveCustomDnsList() : List<String> =
+    with (dnsViewState) { if (value) customDns else emptyList() }
+
 @Composable
 fun DnsSettingsScreen(
-    dataSource: DnsSettingsDataSource,
-    onClose: () -> Unit,
-    onShowReconnectionDialog: () -> Unit
+    viewState: CustomDnsViewState,
+    events: Flow<DnsSettingViewModelHelper.Event>,
+    actions: CustomDnsActions,
 ) {
     val context = LocalContext.current
-    val viewState = dataSource.viewStateFlow.collectAsStateWithLifecycle(null).value ?: return
 
     var showCustomDnsNetShieldConflictDialog by remember { mutableStateOf(false) }
 
     val itemRemovedMessage = stringResource(R.string.custom_dns_item_removed_snackbar)
     val snackUndo = stringResource(R.string.undo)
     val snackbarHostState = remember { SnackbarHostState() }
+    var applySettingsToastShown by rememberSaveable { mutableStateOf(false) }
+    var netshieldConfictDialogShown by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(dataSource) {
-        dataSource.undoSnackbarFlow.collect { event ->
-            val result = snackbarHostState.showSnackbar(
-                message = itemRemovedMessage,
-                actionLabel = snackUndo,
-                duration = SnackbarDuration.Short,
-                type = ProtonSnackbarType.NORM
+    events.collectAsEffect { event ->
+        when (event) {
+            DnsSettingViewModelHelper.Event.NetShieldConflictDetected -> {
+                if (!netshieldConfictDialogShown) {
+                    netshieldConfictDialogShown = true
+                    showCustomDnsNetShieldConflictDialog = true
+                }
+            }
+            DnsSettingViewModelHelper.Event.CustomDnsSettingChangedWhenConnected -> {
+                if (!applySettingsToastShown) {
+                    applySettingsToastShown = true
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.settings_changes_apply_on_reconnect_toast),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    val initialEffectiveList = rememberSaveable { viewState.effectiveCustomDnsList().toList() }
+    val onBack = {
+        if (viewState is CustomDnsViewState.DnsListState) {
+            if (initialEffectiveList != viewState.effectiveCustomDnsList())
+                actions.showReconnectDialog?.invoke()
+            actions.onClose()
+        } else {
+            actions.closeAddDnsScreen()
+        }
+    }
+    BackHandler(onBack = onBack)
+
+    when (viewState) {
+        is CustomDnsViewState.AddNewDnsState -> {
+            AddNewDnsScreen(
+                error = viewState.addDnsError,
+                onClose = onBack,
+                onAddDns = actions.onAddDns,
+                onTextChanged = actions.onAddDnsTextChanged,
             )
-
-            if (result == SnackbarResult.ActionPerformed) {
-                dataSource.undoRemoval(event)
-            }
         }
-    }
+        is CustomDnsViewState.DnsListState -> {
+            val coroutineScope = rememberCoroutineScope()
+            CustomDnsScreen(
+                onClose = onBack,
+                onDnsToggled = actions.toggleSetting,
+                onDnsChange = actions.updateDnsList,
+                onItemRemoved = { item ->
+                    coroutineScope.launch {
+                        val undoData = actions.removeDns(item)
+                        val result = snackbarHostState.showSnackbar(
+                            message = itemRemovedMessage,
+                            actionLabel = snackUndo,
+                            duration = SnackbarDuration.Short,
+                            type = ProtonSnackbarType.NORM
+                        )
 
-    LaunchedEffect(dataSource) {
-        dataSource.eventShowNetShieldConflict.receiveAsFlow().collect {
-            showCustomDnsNetShieldConflictDialog = true
+                        if (result == SnackbarResult.ActionPerformed && undoData != null) {
+                            undoData()
+                        }
+                    }
+                },
+                onLearnMore = { context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE) },
+                onOpenAddAddress = actions.openAddDnsScreen,
+                onPrivateDnsLearnMore = { context.openUrl(Constants.URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE) },
+                onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
+                snackbarHostState = snackbarHostState,
+                viewState = viewState,
+            )
         }
-    }
-
-    if (viewState.addDnsState != AddDnsResult.Finished) {
-        AddNewDnsScreen(
-            addDnsState = viewState.addDnsState,
-            onClose = { dataSource.setAddDnsState(AddDnsResult.Finished) },
-            onAddDns = { newDns ->
-                val validationError = when {
-                    newDns.isEmpty() -> AddDnsError.EmptyInput
-                    viewState.dnsViewState.customDns.contains(newDns) -> AddDnsError.DuplicateInput
-                    !newDns.isValidIp(allowIpv6 = true) -> AddDnsError.InvalidInput
-                    else -> null
-                }
-
-                if (validationError != null) {
-                    dataSource.setAddDnsState(validationError)
-                } else {
-                    dataSource.addDnsAddress(newDns)
-                }
-            },
-            onTextChanged = {
-                dataSource.resetAddDnsError()
-            }
-        )
-        return
     }
 
     if (showCustomDnsNetShieldConflictDialog) {
@@ -173,60 +217,6 @@ fun DnsSettingsScreen(
             onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) }
         )
     }
-    val dnsViewState = viewState.dnsViewState
-    val initialEnabled = rememberSaveable { dnsViewState.value }
-    val initialCustomDns = rememberSaveable { dnsViewState.customDns.toList() }
-
-    val valuesChanged = rememberSaveable { mutableStateOf(false) }
-    val toastShown = rememberSaveable { mutableStateOf(false) }
-
-    // Track any changes and show toast for reconnection on first data change
-    LaunchedEffect(dnsViewState.value, dnsViewState.customDns) {
-        val enabledChanged = dnsViewState.value != initialEnabled
-        val dnsListChanged = dnsViewState.customDns.toList() != initialCustomDns
-        valuesChanged.value = enabledChanged || dnsListChanged
-
-        if (valuesChanged.value && !toastShown.value && viewState.isConnected) {
-            toastShown.value = true
-            Toast.makeText(
-                context,
-                context.getString(R.string.settings_changes_apply_on_reconnect_toast),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-    val handleClose = {
-        if (viewState.addDnsState != AddDnsResult.Finished) {
-            dataSource.setAddDnsState(AddDnsResult.Finished)
-        } else {
-            if (valuesChanged.value) {
-                onShowReconnectionDialog()
-            }
-            onClose()
-        }
-    }
-    BackHandler {
-        handleClose()
-    }
-    CustomDnsScreen(
-        onClose = handleClose,
-        onDnsToggled = {
-            dataSource.toggleEnabled()
-        },
-        onDnsChange = { newList ->
-            dataSource.updateDnsList(newList)
-        },
-        onItemRemoved = { item ->
-            dataSource.removeDnsAddress(viewState.dnsViewState.customDns, item)
-        },
-        onLearnMore = { context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE) },
-        onOpenAddAddress = { dataSource.setAddDnsState(AddDnsResult.WaitingForInput) },
-        onPrivateDnsLearnMore = { context.openUrl(Constants.URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE) },
-        onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
-        snackbarHostState = snackbarHostState,
-        viewState = viewState,
-    )
-
 }
 
 @Composable
@@ -268,7 +258,7 @@ fun CustomDnsScreen(
     onPrivateDnsLearnMore: () -> Unit,
     onOpenPrivateDnsSettings: () -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    viewState: CustomDnsViewState,
+    viewState: CustomDnsViewState.DnsListState,
 ) {
     val listState = rememberLazyListState()
     val clipboardManager = LocalClipboardManager.current
@@ -650,7 +640,7 @@ private fun CustomDnsPreview() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             onItemRemoved = {},
-            viewState = CustomDnsViewState(
+            viewState = CustomDnsViewState.DnsListState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = true,
                     customDns = listOf("1.1.1.1", "1.2.1.1"),
@@ -658,7 +648,6 @@ private fun CustomDnsPreview() {
                     isFreeUser = false,
                     isPrivateDnsActive = false
                 ),
-                isConnected = false
             )
         )
     }
@@ -676,7 +665,7 @@ private fun CustomDnsConflictPreview() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             onItemRemoved = {},
-            viewState = CustomDnsViewState(
+            viewState = CustomDnsViewState.DnsListState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
                     customDns = listOf("1.1.1.1", "1.2.1.1"),
@@ -684,7 +673,6 @@ private fun CustomDnsConflictPreview() {
                     isFreeUser = false,
                     isPrivateDnsActive = true,
                 ),
-                isConnected = false
             )
         )
     }
@@ -702,7 +690,7 @@ private fun CustomDnsDisabledPreview() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             onItemRemoved = {},
-            viewState = CustomDnsViewState(
+            viewState = CustomDnsViewState.DnsListState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
                     customDns = emptyList(),
@@ -710,7 +698,6 @@ private fun CustomDnsDisabledPreview() {
                     isFreeUser = false,
                     isPrivateDnsActive = true
                 ),
-                isConnected = false
             )
         )
     }
@@ -728,7 +715,7 @@ private fun CustomDnsEmptyState() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             onItemRemoved = {},
-            viewState = CustomDnsViewState(
+            viewState = CustomDnsViewState.DnsListState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
                     customDns = emptyList(),
@@ -736,7 +723,6 @@ private fun CustomDnsEmptyState() {
                     isFreeUser = false,
                     isPrivateDnsActive = false,
                 ),
-                isConnected = false
             )
         )
     }

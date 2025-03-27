@@ -42,6 +42,7 @@ import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewState
 import com.protonvpn.android.redesign.vpn.ui.ChangeServerViewStateFlow
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentAvailability
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
+import com.protonvpn.android.settings.usecases.DisableCustomDnsForCurrentConnection
 import com.protonvpn.android.telemetry.UpgradeSource
 import com.protonvpn.android.telemetry.UpgradeTelemetry
 import com.protonvpn.android.tv.main.CountryHighlight
@@ -121,6 +122,7 @@ class HomeViewModel @Inject constructor(
     @ElapsedRealtimeClock val elapsedRealtimeClock: () -> Long,
     private val setNetShield: SetNetShield,
     private val widgetManager: WidgetManager,
+    private val disableCustomDnsForCurrentConnection: DisableCustomDnsForCurrentConnection,
 ) : ViewModel() {
 
     private val connectionMapHighlightsFlow = vpnStatusProviderUI.uiStatus.map {
@@ -287,6 +289,10 @@ class HomeViewModel @Inject constructor(
 
         is RecentConnection.ProfileRecent -> DialogState.ProfileNotAvailable(profile.info.name)
     }
+
+    // Returns true if reconnection is needed to apply the change
+    fun disableCustomDns(): Boolean =
+        disableCustomDnsForCurrentConnection()
 }
 
 private fun VpnState.toMapHighlightState() = when {

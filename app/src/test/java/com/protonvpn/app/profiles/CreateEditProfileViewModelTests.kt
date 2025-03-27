@@ -50,17 +50,21 @@ import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.servers.ServerManager2
+import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.telemetry.ProfilesTelemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.ui.storage.UiStateStoreProvider
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
+import com.protonvpn.android.vpn.DnsOverride
+import com.protonvpn.android.vpn.DnsOverrideFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.mocks.FakeCommonDimensions
+import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
@@ -77,6 +81,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asExecutor
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -103,6 +108,7 @@ class CreateEditProfileViewModelTests {
     private lateinit var serversAdapter: ProfilesServerDataAdapter
     private lateinit var shouldAskForProfileReconnection: ShouldAskForProfileReconnection
     private lateinit var viewModel: CreateEditProfileViewModel
+    private lateinit var dnsOverrideFlow: MutableStateFlow<DnsOverride>
 
     private val servers = listOf(createServer(exitCountry = "SE"))
     private val vpnUser =
@@ -113,6 +119,7 @@ class CreateEditProfileViewModelTests {
         natType = NatType.Moderate,
         lanConnections = true,
         autoOpen = ProfileAutoOpen.None(""),
+        customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
     )
     // Matches the screen states above.
@@ -155,6 +162,7 @@ class CreateEditProfileViewModelTests {
         }
         profilesDao = db.profilesDao()
 
+        val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
         val currentUser = CurrentUser(TestCurrentUserProvider(vpnUser))
         val profilesTelemetry = ProfilesTelemetry(
             FakeCommonDimensions(mapOf("user_tier" to "paid")),
@@ -180,6 +188,7 @@ class CreateEditProfileViewModelTests {
         serversAdapter = ProfilesServerDataAdapter(ServerManager2(serverManager, supportsProtocol), Translator(testScope.backgroundScope, serverManager))
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         shouldAskForProfileReconnection = ShouldAskForProfileReconnection(vpnStatusProviderUI, profilesDao, createOrUpdate)
+        dnsOverrideFlow = MutableStateFlow(DnsOverride.None)
         viewModel = CreateEditProfileViewModel(
             SavedStateHandle(),
             testScope.backgroundScope,
@@ -191,6 +200,8 @@ class CreateEditProfileViewModelTests {
             mockk(relaxed = true),
             shouldAskForProfileReconnection,
             UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
+            DnsOverrideFlow(dnsOverrideFlow),
+            isCustomDnsEnabled
         )
         viewModel.localeFlow.value = Locale("en")
     }

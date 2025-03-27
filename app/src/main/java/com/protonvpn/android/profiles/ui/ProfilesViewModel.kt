@@ -76,6 +76,7 @@ data class ProfileViewItem(
     val availability: ConnectIntentAvailability,
     val intent: ConnectIntentViewStateProfile,
     val netShieldEnabled: Boolean,
+    val customDnsEnabled: Boolean,
     val protocol: ProtocolSelection,
     val natType: NatType,
     val lanConnections: Boolean,
@@ -208,6 +209,7 @@ class ProfilesViewModel @Inject constructor(
         val intentViewState = getConnectIntentViewState.forProfile(this)
         val netShieldEnabled = intent.settingsOverrides?.netShield == NetShieldProtocol.ENABLED_EXTENDED
         val protocol = intent.settingsOverrides?.protocol ?: settingsProtocol
+        val customDnsEnabled = intent.settingsOverrides?.customDns?.enabled
         val natType = NatType.fromRandomizedNat(intent.settingsOverrides?.randomizedNat == true)
         val lanConnections = intent.settingsOverrides?.lanConnections == true
         return ProfileViewItem(
@@ -218,6 +220,7 @@ class ProfilesViewModel @Inject constructor(
             netShieldEnabled = netShieldEnabled,
             protocol = protocol,
             natType = natType,
+            customDnsEnabled = customDnsEnabled == true,
             lanConnections = lanConnections,
         )
     }

@@ -27,6 +27,7 @@ import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.util.kotlin.takeIfNotBlank
 
@@ -59,6 +60,7 @@ data class SettingsOverrides(
     val netShield: NetShieldProtocol?,
     val randomizedNat: Boolean?,
     val lanConnections: Boolean?,
+    @Embedded val customDns: CustomDnsSettings?
 ): java.io.Serializable {
     val protocol get() = protocolData?.toProtocolSelection()
 }

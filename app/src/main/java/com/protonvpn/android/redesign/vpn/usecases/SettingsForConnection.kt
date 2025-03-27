@@ -103,6 +103,7 @@ fun LocalUserSettings.applyOverrides(overrides: SettingsOverrides?) : LocalUserS
         netShield = overrides.netShield ?: netShield,
         lanConnections = overrides.lanConnections ?: lanConnections,
         randomizedNat = overrides.randomizedNat ?: randomizedNat,
-        protocol = overrides.protocol ?: protocol
+        protocol = overrides.protocol ?: protocol,
+        customDns = overrides.customDns ?: customDns
     )
 }

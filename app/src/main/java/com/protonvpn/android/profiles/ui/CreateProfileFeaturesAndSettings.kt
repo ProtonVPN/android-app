@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,9 @@ import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.models.config.VpnProtocol
 import com.protonvpn.android.profiles.data.ProfileAutoOpen
 import com.protonvpn.android.redesign.settings.ui.NatType
+import com.protonvpn.android.settings.data.CustomDnsSettings
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
 
@@ -43,10 +47,12 @@ import me.proton.core.compose.theme.ProtonTheme
 @Composable
 fun CreateProfileFeaturesAndSettingsRoute(
     viewModel: CreateEditProfileViewModel,
+    onOpenCustomDns: () -> Unit,
     onNext: () -> Unit,
     onBack: () -> Unit
 ) {
     val state = viewModel.settingsScreenStateFlow.collectAsStateWithLifecycle().value
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,6 +66,9 @@ fun CreateProfileFeaturesAndSettingsRoute(
                 onNatChange = viewModel::setNatType,
                 onLanChange = viewModel::setLanConnections,
                 onAutoOpenChange = viewModel::setAutoOpen,
+                onDisableCustomDns = { viewModel.toggleCustomDns() },
+                onOpenCustomDns = onOpenCustomDns,
+                onCustomDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },
                 onNext = onNext,
                 onBack = onBack
             )
@@ -77,6 +86,9 @@ fun ProfileFeaturesAndSettings(
     onProtocolChange: (ProtocolSelection) -> Unit,
     onNatChange: (NatType) -> Unit,
     onLanChange: (Boolean) -> Unit,
+    onDisableCustomDns: () -> Unit,
+    onCustomDnsLearnMore: () -> Unit,
+    onOpenCustomDns: () -> Unit,
     onNext: () -> Unit,
     onBack: () -> Unit,
     onAutoOpenChange: (ProfileAutoOpen) -> Unit,
@@ -89,14 +101,23 @@ fun ProfileFeaturesAndSettings(
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             Text(
-                text = stringResource(id = R.string.create_profile_features_and_settings_title),
+                text = stringResource(id = R.string.configure_profile_features_and_settings_title),
                 color = ProtonTheme.colors.textNorm,
                 style = ProtonTheme.typography.body1Bold,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = stringResource(id = R.string.configure_profile_features_and_settings_description),
+                color = ProtonTheme.colors.textWeak,
+                style = ProtonTheme.typography.body2Regular,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             ProfileNetShieldItem(
                 value = state.netShield,
                 onNetShieldChange = onNetShieldChange,
+                onDisableCustomDns = onDisableCustomDns,
+                onCustomDnsLearnMore = onCustomDnsLearnMore,
+                customDnsEnabled = state.customDnsSettings?.enabled == true
             )
             ProfileProtocolItem(
                 value = state.protocol,
@@ -115,6 +136,12 @@ fun ProfileFeaturesAndSettings(
                 onChange = onAutoOpenChange,
                 isNew = state.isAutoOpenNew,
             )
+            state.customDnsSettings?.let {
+                ProfileCustomDnsItem(
+                    value = it.enabled,
+                    onClick = onOpenCustomDns
+                )
+            }
         }
     }
 }
@@ -130,6 +157,7 @@ fun PreviewFeaturesAndSettings() {
                 NatType.Strict,
                 false,
                 ProfileAutoOpen.None(""),
+                customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = true,
             ),
             onNetShieldChange = {},
@@ -137,7 +165,10 @@ fun PreviewFeaturesAndSettings() {
             onNatChange = {},
             onLanChange = {},
             onNext = {},
+            onDisableCustomDns = {},
             onBack = {},
+            onOpenCustomDns = {},
+            onCustomDnsLearnMore = {},
             onAutoOpenChange = {}
         )
     }

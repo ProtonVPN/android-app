@@ -27,6 +27,7 @@ import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.recents.data.toConnectIntent
 import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.parcelize.Parcelize
 import me.proton.core.domain.entity.UserId
@@ -96,9 +97,11 @@ fun profileSettingsOverrides(
     netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
     randomizedNat: Boolean = true,
     lanConnections: Boolean = true,
+    customDnsSettings: CustomDnsSettings = CustomDnsSettings(false),
 ) = SettingsOverrides(
     protocolData = protocolData,
     netShield = netShield,
     randomizedNat = randomizedNat,
+    customDns = customDnsSettings,
     lanConnections = lanConnections,
 )

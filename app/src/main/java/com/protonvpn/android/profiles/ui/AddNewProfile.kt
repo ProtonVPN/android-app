@@ -58,6 +58,7 @@ import com.protonvpn.android.base.ui.TopAppBarCloseIcon
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
+import com.protonvpn.android.profiles.ui.nav.ProfileCustomDnsScreen
 import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
@@ -107,6 +108,10 @@ fun AddEditProfileScreen(
     val name = viewModel.nameScreenStateFlow.collectAsStateWithLifecycle()
     val reconnectDialog = viewModel.showReconnectDialogFlow.collectAsStateWithLifecycle().value
 
+    val currentBackStackEntry = navController.currentBackStackEntryAsState()
+    // Top appbar and steps counter should not be included for profile CustomDns
+    val isOnCustomDnsScreen = currentBackStackEntry.value?.destination?.route == ProfileCustomDnsScreen.route
+
     if (reconnectDialog) {
         ProtonAlert(
             title = null,
@@ -129,22 +134,28 @@ fun AddEditProfileScreen(
             }
         )
     }
+
     Scaffold(
         topBar = {
-            SimpleTopAppBar(
-                title = {
-                    Text(
-                        text =
+            if (!isOnCustomDnsScreen) {
+                SimpleTopAppBar(
+                    title = {
+                        Text(
+                            text =
                             if (isEditMode)
-                                stringResource(id = R.string.edit_profile_title, name.value?.name ?: "")
+                                stringResource(
+                                    id = R.string.edit_profile_title,
+                                    name.value?.name ?: ""
+                                )
                             else
                                 stringResource(id = R.string.create_profile_title),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
-                navigationIcon = { TopAppBarCloseIcon(onDismiss) }
-            )
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    },
+                    navigationIcon = { TopAppBarCloseIcon(onDismiss) }
+                )
+            }
         }
     ) { paddingValues ->
         Column(modifier = Modifier
@@ -152,10 +163,11 @@ fun AddEditProfileScreen(
             // Workaround for https://issuetracker.google.com/issues/249727298
             .consumeWindowInsets(paddingValues)
         ) {
-            StepHeader(navController, totalSteps)
+            if (!isOnCustomDnsScreen) {
+                StepHeader(navController, totalSteps)
 
-            Spacer(modifier = Modifier.height(16.dp))
-
+                Spacer(modifier = Modifier.height(16.dp))
+            }
             navigator.NavHost(
                 viewModel,
                 onDone = onProfileSave,

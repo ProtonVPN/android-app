@@ -54,6 +54,9 @@ abstract class ProfilesDao {
     @Query("UPDATE profiles SET netShield = :netShield WHERE profileId = :profileId")
     abstract suspend fun updateNetShield(profileId: Long, netShield: NetShieldProtocol)
 
+    @Query("UPDATE profiles SET customDnsEnabled = 0 WHERE profileId = :profileId")
+    abstract suspend fun disableCustomDNS(profileId: Long)
+
     @Upsert
     abstract suspend fun upsert(profile: ProfileEntity): Long
 
