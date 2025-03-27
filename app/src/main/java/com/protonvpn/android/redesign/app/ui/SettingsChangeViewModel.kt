@@ -21,24 +21,14 @@ package com.protonvpn.android.redesign.app.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.SettingsReconnectHandler
-import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
-import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
-import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsState
 import com.protonvpn.android.settings.data.CurrentUserLocalSettingsManager
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.userstorage.DontShowAgainStore
-import com.protonvpn.android.utils.isValidIp
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnUiDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,102 +39,11 @@ class SettingsChangeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val showReconnectDialogFlow = reconnectHandler.showReconnectDialogFlow
-    val addDnsResultFlow = MutableStateFlow<AddDnsState>(AddDnsResult.WaitingForInput)
-    val eventShowCustomDnsNetShieldConflict = Channel<Unit>(capacity = 1, BufferOverflow.DROP_OLDEST)
-
-    fun addNewDns(newDns: String) {
-        viewModelScope.launch {
-            val currentSettings = userSettingsManager.rawCurrentUserSettingsFlow.first()
-            val currentList = currentSettings.customDns.rawDnsList
-
-            val error = when {
-                newDns.isEmpty() -> AddDnsError.EmptyInput
-                currentList.contains(newDns) -> AddDnsError.DuplicateInput
-                !newDns.isValidIp(allowIpv6 = true) -> AddDnsError.InvalidInput
-                else -> null
-            }
-
-            if (error != null) {
-                addDnsResultFlow.value = error
-            } else {
-                val updatedDnsList = currentList.toMutableList().apply {
-                    add(newDns)
-                }
-                userSettingsManager.updateCustomDnsList(updatedDnsList)
-                addDnsResultFlow.value = AddDnsResult.Added
-                if (currentList.isEmpty() && currentSettings.netShield != NetShieldProtocol.DISABLED) {
-                    eventShowCustomDnsNetShieldConflict.trySend(Unit)
-                }
-            }
-        }
-    }
-
-    fun onAddNewDnsTextChanged() {
-        // Typing clears error.
-        addDnsResultFlow.value = AddDnsResult.WaitingForInput
-    }
-
-
-    data class UndoSnackbar(
-        val removedItem: String,
-        val position: Int
-    )
-
-    val undoSnackbarFlow = MutableSharedFlow<UndoSnackbar>()
-
-    fun removeDnsItem(item: String) {
-        viewModelScope.launch {
-            val currentList = userSettingsManager.rawCurrentUserSettingsFlow.first().customDns.rawDnsList
-            val position = currentList.indexOf(item)
-
-            userSettingsManager.updateCustomDnsList(currentList - item)
-            undoSnackbarFlow.emit(UndoSnackbar(
-                removedItem = item,
-                position = position
-            ))
-        }
-    }
-
-    fun undoRemoval(undoData: UndoSnackbar) {
-        viewModelScope.launch {
-            userSettingsManager.updateCustomDns { current ->
-                val newList = current.rawDnsList.toMutableList()
-                val safePosition = minOf(undoData.position, newList.size)
-
-                newList.add(safePosition, undoData.removedItem)
-                current.copy(rawDnsList = newList)
-            }
-        }
-    }
-
-    fun showDnsReconnectionDialog(uiDelegate: VpnUiDelegate) {
-        viewModelScope.launch {
-            reconnectionCheck(
-                uiDelegate,
-                DontShowAgainStore.Type.DnsChangeWhenConnected
-            )
-        }
-    }
-
-    fun updateCustomDnsList(newDnsList: List<String>) {
-        viewModelScope.launch {
-            userSettingsManager.updateCustomDnsList(newDnsList)
-        }
-    }
 
     fun disableCustomDns(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
             userSettingsManager.disableCustomDNS()
             reconnectionCheck(uiDelegate, DontShowAgainStore.Type.DnsChangeWhenConnected)
-        }
-    }
-
-    fun toggleCustomDns() {
-        viewModelScope.launch {
-            val newSettings = userSettingsManager.toggleCustomDNS()
-            if (newSettings != null && with(newSettings) { customDns.enabled && netShield != NetShieldProtocol.DISABLED }) {
-                eventShowCustomDnsNetShieldConflict.trySend(Unit)
-            }
         }
     }
 
@@ -182,7 +81,6 @@ class SettingsChangeViewModel @Inject constructor(
             userSettingsManager.toggleAltRouting()
         }
     }
-
 
     fun toggleIPv6(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
@@ -230,12 +128,17 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
-
     fun onReconnectClicked(uiDelegate: VpnUiDelegate, dontShowAgain: Boolean, type: DontShowAgainStore.Type) =
         reconnectHandler.onReconnectClicked(uiDelegate, dontShowAgain, type)
 
     fun dismissReconnectDialog(dontShowAgain: Boolean, type: DontShowAgainStore.Type) =
         reconnectHandler.dismissReconnectDialog(dontShowAgain, type)
+
+    fun showDnsReconnectionDialog(uiDelegate: VpnUiDelegate) {
+        viewModelScope.launch {
+            reconnectionCheck(uiDelegate, DontShowAgainStore.Type.DnsChangeWhenConnected)
+        }
+    }
 
     private suspend fun reconnectionCheck(uiDelegate: VpnUiDelegate, type: DontShowAgainStore.Type) =
         reconnectHandler.reconnectionCheck(uiDelegate, type)
