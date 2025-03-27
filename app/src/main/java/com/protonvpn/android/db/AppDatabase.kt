@@ -30,9 +30,9 @@ import com.protonvpn.android.auth.data.VpnUserDatabase
 import com.protonvpn.android.profiles.data.ProfileEntity
 import com.protonvpn.android.profiles.data.VpnProfilesDatabase
 import com.protonvpn.android.redesign.recents.data.DefaultConnectionEntity
-import com.protonvpn.android.redesign.recents.data.UnnamedRecentIntentEntity
 import com.protonvpn.android.redesign.recents.data.RecentConnectionEntity
 import com.protonvpn.android.redesign.recents.data.RecentsTypeConverters
+import com.protonvpn.android.redesign.recents.data.UnnamedRecentIntentEntity
 import com.protonvpn.android.redesign.recents.data.VpnRecentsDatabase
 import me.proton.core.account.data.db.AccountConverters
 import me.proton.core.account.data.db.AccountDatabase
@@ -159,6 +159,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         AutoMigration(from = 33, to = 34),
         AutoMigration(from = 37, to = 38),
         AutoMigration(from = 39, to = 40),
+        AutoMigration(from = 40, to = 41),
     ],
     version = AppDatabase.version,
     exportSchema = true
@@ -205,7 +206,7 @@ abstract class AppDatabase :
     AuthDatabase {
 
     companion object {
-        const val version = 40
+        const val version = 41
 
         @VisibleForTesting
         val migrations = listOf(

@@ -40,13 +40,20 @@ import com.protonvpn.android.redesign.recents.data.ConnectIntentData
 import com.protonvpn.android.redesign.recents.data.SettingsOverrides
 import com.protonvpn.android.redesign.recents.data.toData
 import com.protonvpn.android.redesign.settings.ui.NatType
+import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
+import com.protonvpn.android.redesign.settings.ui.customdns.DnsSettingViewModelHelper
+import com.protonvpn.android.redesign.settings.ui.customdns.UndoCustomDnsRemove
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.redesign.vpn.ServerFeature
+import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ConnectTrigger
+import com.protonvpn.android.vpn.DnsOverride
+import com.protonvpn.android.vpn.DnsOverrideFlow
+import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnect
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -67,12 +74,13 @@ import java.util.Locale
 import javax.inject.Inject
 import me.proton.core.presentation.R as CoreR
 
-private fun defaultSettingScreenState(isAutOpenNew: Boolean) = SettingsScreenState(
+private fun defaultSettingScreenState(isAutOpenNew: Boolean, customDnsFeatureFlagEnabled: Boolean) = SettingsScreenState(
     protocol = ProtocolSelection.SMART,
     netShield = true,
     natType = NatType.Strict,
     lanConnections = true,
     autoOpen = ProfileAutoOpen.None(""),
+    customDnsSettings = if (customDnsFeatureFlagEnabled) CustomDnsSettings(false) else null,
     isAutoOpenNew = isAutOpenNew,
 )
 
@@ -188,11 +196,13 @@ data class SettingsScreenState(
     val lanConnections: Boolean,
     val autoOpen: ProfileAutoOpen,
     val isAutoOpenNew: Boolean,
+    val customDnsSettings: CustomDnsSettings?,
 ) : Parcelable {
     fun toSettingsOverrides() = SettingsOverrides(
         protocolData = protocol.toData(),
         netShield = if (netShield) NetShieldProtocol.ENABLED_EXTENDED else NetShieldProtocol.DISABLED,
         randomizedNat = natType.toRandomizedNat(),
+        customDns = customDnsSettings,
         lanConnections = lanConnections,
     )
 }
@@ -213,6 +223,8 @@ class CreateEditProfileViewModel @Inject constructor(
     private val vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
     private val shouldAskForReconnection: ShouldAskForProfileReconnection,
     private val uiStateStorage: UiStateStorage,
+    val dnsOverrideFlow: DnsOverrideFlow,
+    private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
@@ -233,6 +245,25 @@ class CreateEditProfileViewModel @Inject constructor(
     }
 
     val showReconnectDialogFlow = MutableStateFlow(false)
+
+    val customDnsHelper = DnsSettingViewModelHelper(
+        viewModelScope,
+        dnsViewState =
+            combine(
+                settingsScreenStateFlow,
+                dnsOverrideFlow
+            ) { settingsState, dnsOverride ->
+                settingsState?.customDnsSettings?.let {
+                    SettingViewState.CustomDns(
+                        enabled = it.enabled,
+                        customDns = it.rawDnsList,
+                        overrideProfilePrimaryLabel = null,
+                        isFreeUser = false,
+                        isPrivateDnsActive = dnsOverride == DnsOverride.SystemPrivateDns
+                    )
+                }
+            }
+    )
 
     val typeAndLocationScreenStateFlow : Flow<TypeAndLocationScreenState> = combine(
         typeAndLocationScreenSavedStateFlow.filterNotNull(),
@@ -346,7 +377,7 @@ class CreateEditProfileViewModel @Inject constructor(
             ProfileIcon.Icon1,
         )
         typeAndLocationScreenSavedState = standardTypeDefault()
-        settingsScreenState = defaultSettingScreenState(isAutoOpenNew.first())
+        settingsScreenState = defaultSettingScreenState(isAutoOpenNew.first(), isCustomDnsFeatureFlagEnabled())
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -368,13 +399,14 @@ class CreateEditProfileViewModel @Inject constructor(
 
     private suspend fun getSettingsScreenState(profile: Profile) : SettingsScreenState {
         val intent = profile.connectIntent
-        val defaultSettingScreenState = defaultSettingScreenState(isAutoOpenNew.first())
+        val defaultSettingScreenState = defaultSettingScreenState(isAutoOpenNew.first(), isCustomDnsFeatureFlagEnabled())
         return SettingsScreenState(
             netShield = intent.settingsOverrides?.netShield?.let { it != NetShieldProtocol.DISABLED } ?: defaultSettingScreenState.netShield,
             protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
             natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
             lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
             autoOpen = profile.autoOpen,
+            customDnsSettings = intent.settingsOverrides?.customDns ?: defaultSettingScreenState.customDnsSettings,
             isAutoOpenNew = isAutoOpenNew.first()
         )
     }
@@ -632,6 +664,21 @@ class CreateEditProfileViewModel @Inject constructor(
         settingsScreenState = settingsScreenState?.copy(protocol = protocol)
     }
 
+    fun toggleCustomDns() {
+        val currentDns = settingsScreenState?.customDnsSettings
+        currentDns?.let {
+            val updatedSettings = CustomDnsSettings(
+                enabled = !it.enabled,
+                rawDnsList = it.rawDnsList
+            )
+            settingsScreenState = settingsScreenState?.copy(customDnsSettings = updatedSettings)
+        }
+    }
+
+    fun setCustomDns(customDns: CustomDnsSettings) {
+        settingsScreenState = settingsScreenState?.copy(customDnsSettings = customDns)
+    }
+
     fun setNatType(natType: NatType) {
         settingsScreenState = settingsScreenState?.copy(natType = natType)
     }
@@ -647,6 +694,49 @@ class CreateEditProfileViewModel @Inject constructor(
     fun settingsScreenShown() {
         viewModelScope.launch {
             uiStateStorage.update { it.copy(hasSeenProfileAutoOpen = true) }
+        }
+    }
+
+    private inner class ProfileUndoCustomDnsRemove(
+        removedItem: String,
+        position: Int
+    ) : UndoCustomDnsRemove(removedItem, position) {
+        override fun invoke() {
+            val currentSettings = settingsScreenStateFlow.value?.customDnsSettings ?: return
+            val updatedList = currentSettings.rawDnsList.toMutableList()
+            val position = position.coerceIn(0, updatedList.size)
+            updatedList.add(position, removedItem)
+
+            val updatedSettings = CustomDnsSettings(
+                enabled = true,
+                rawDnsList = updatedList
+            )
+            setCustomDns(updatedSettings)
+        }
+    }
+
+    fun updateDnsList(newList: List<String>) {
+        val currentSettings = settingsScreenStateFlow.value?.customDnsSettings ?: return
+        val shouldBeEnabled = currentSettings.enabled || newList.isNotEmpty()
+        val updatedSettings = CustomDnsSettings(enabled = shouldBeEnabled, rawDnsList = newList)
+        setCustomDns(updatedSettings)
+    }
+
+    fun removeDnsAddress(dns: String) : UndoCustomDnsRemove? {
+        val currentList = settingsScreenStateFlow.value?.customDnsSettings?.rawDnsList ?: return null
+        val updatedList = currentList.filter { it != dns }
+        updateDnsList(updatedList)
+        return ProfileUndoCustomDnsRemove(removedItem = dns, position = currentList.indexOf(dns))
+    }
+
+    fun validateAndAddDnsAddress(dns: String) {
+        val state = settingsScreenState ?: return
+        val customDns = state.customDnsSettings ?: return
+
+        val currentList = customDns.rawDnsList
+        val netShieldConflict = state.netShield && !customDns.enabled
+        customDnsHelper.validateAndAddDnsAddress(dns, netShieldConflict) {
+            setCustomDns(CustomDnsSettings(enabled = true, rawDnsList = currentList + dns))
         }
     }
 }

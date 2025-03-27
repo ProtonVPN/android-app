@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.vpn
 
-import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
+import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -32,21 +32,26 @@ enum class DnsOverride {
 }
 
 @Reusable
-class DnsOverrideFlow @Inject constructor(
-    connectivityMonitor: ConnectivityMonitor,
-    effectiveCurrentUserSettings: EffectiveCurrentUserSettings
+class DnsOverrideFlow(
+    private val flow: Flow<DnsOverride>,
 ): Flow<DnsOverride> {
 
-    private val flow = combine(
-        connectivityMonitor.isPrivateDnsActive.map { it == true },
-        effectiveCurrentUserSettings.customDns.map { it.enabled }
-    ) { privateDns, customDns ->
-        when {
-            privateDns -> DnsOverride.SystemPrivateDns
-            customDns -> DnsOverride.CustomDns
-            else -> DnsOverride.None
+    @Inject
+    constructor(
+        connectivityMonitor: ConnectivityMonitor,
+        settingsForConnection: SettingsForConnection,
+    ) : this(
+        combine(
+            connectivityMonitor.isPrivateDnsActive.map { it == true },
+            settingsForConnection.getFlowForCurrentConnection().map { it.connectionSettings.customDns.enabled }
+        ) { privateDns, customDns ->
+            when {
+                privateDns -> DnsOverride.SystemPrivateDns
+                customDns -> DnsOverride.CustomDns
+                else -> DnsOverride.None
+            }
         }
-    }
+    )
 
     override suspend fun collect(collector: FlowCollector<DnsOverride>) {
         flow.collect(collector)

@@ -32,7 +32,9 @@ import com.protonvpn.android.profiles.ui.CreateProfileFeaturesAndSettingsRoute
 import com.protonvpn.android.profiles.ui.CreateProfileNameRoute
 import com.protonvpn.android.profiles.ui.CreateProfileTypeAndLocationRoute
 import com.protonvpn.android.profiles.ui.ProfilesRoute
+import com.protonvpn.android.profiles.ui.customdns.ProfileCustomDnsRoute
 import com.protonvpn.android.profiles.ui.nav.CreateProfileNameScreen.createProfileName
+import com.protonvpn.android.profiles.ui.nav.ProfileCustomDnsScreen.profileCustomDnsScreen
 import com.protonvpn.android.profiles.ui.nav.ProfileFeaturesAndSettingsScreen.profileFeaturesAndSettingsScreen
 import com.protonvpn.android.profiles.ui.nav.ProfileTypeAndLocationScreen.profileTypeAndLocationScreen
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
@@ -66,7 +68,9 @@ object AddEditProfileScreen : Screen<AddEditProfileScreen.ProfileCreationArgs, R
         val navigateTo: ProfileCreationTarget? = null,
     )
 
-    fun SafeNavGraphBuilder<RootNav>.addEditProfile(onDismiss: () -> Unit) = addToGraphWithSlideAnim(this) { entry ->
+    fun SafeNavGraphBuilder<RootNav>.addEditProfile(
+        onDismiss: () -> Unit,
+    ) = addToGraphWithSlideAnim(this) { entry ->
         val profileArgs = AddEditProfileScreen.getArgs<ProfileCreationArgs>(entry)
         AddEditProfileRoute(
             profileArgs.editingProfileId,
@@ -102,10 +106,21 @@ object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditNav>("profi
 
     fun SafeNavGraphBuilder<ProfilesAddEditNav>.profileFeaturesAndSettingsScreen(
         viewModel: CreateEditProfileViewModel,
+        onOpenCustomDns: () -> Unit,
         onNext: () -> Unit,
         onBack: () -> Unit
     ) = addToGraph(this) {
-        CreateProfileFeaturesAndSettingsRoute(viewModel, onNext = onNext, onBack = onBack)
+        CreateProfileFeaturesAndSettingsRoute(viewModel, onNext = onNext, onOpenCustomDns = onOpenCustomDns, onBack = onBack)
+    }
+}
+
+object ProfileCustomDnsScreen : ScreenNoArg<ProfilesAddEditNav>("profileCustomDns") {
+
+    fun SafeNavGraphBuilder<ProfilesAddEditNav>.profileCustomDnsScreen(
+        viewModel: CreateEditProfileViewModel,
+        onClose: () -> Unit
+    ) = addToGraph(this) {
+        ProfileCustomDnsRoute(viewModel, onClose)
     }
 }
 
@@ -157,10 +172,18 @@ class ProfilesAddEditNav(
                         profileFeaturesAndSettingsScreen(
                             viewModel,
                             onNext = onDone,
+                            onOpenCustomDns = {
+                                navigateInternal(ProfileCustomDnsScreen, navOptions)
+                            },
                             onBack = { navigateUpWhenOn(target.screen) }
                         )
                 }
             }
+            
+            profileCustomDnsScreen(
+                viewModel,
+                onClose = { navigateUp() }
+            )
         }
         // If we're navigating to a specific step, pre-populate the back stack exactly once
         navigateTo?.let {

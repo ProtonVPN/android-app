@@ -37,6 +37,7 @@ import com.protonvpn.android.profiles.ui.TypeAndLocationScreenState
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.settings.ui.NatType
+import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.vpn.ProtocolSelection
 
 @Preview
@@ -107,6 +108,7 @@ fun ProfileFeaturesAndSettingsScreen() {
                 natType = NatType.Strict,
                 lanConnections = true,
                 autoOpen = ProfileAutoOpen.None("Off"),
+                customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = false
             ),
             onNext = {},
@@ -115,8 +117,38 @@ fun ProfileFeaturesAndSettingsScreen() {
             onNatChange = {},
             onProtocolChange = {},
             onAutoOpenChange = {},
-            onNetShieldChange = {}
+            onNetShieldChange = {},
+            onDisableCustomDns = {},
+            onCustomDnsLearnMore = {},
+            onOpenCustomDns = {}
         )
     }
 }
 
+@Preview
+@Composable
+fun ProfileFeaturesAndSettingsScreenCustomDnsConflict() {
+    ProtonVpnPreview {
+        ProfileFeaturesAndSettings(
+            state = SettingsScreenState(
+                netShield = true,
+                protocol = ProtocolSelection.SMART,
+                natType = NatType.Strict,
+                lanConnections = true,
+                autoOpen = ProfileAutoOpen.None("Off"),
+                customDnsSettings = CustomDnsSettings(true),
+                isAutoOpenNew = true
+            ),
+            onNext = {},
+            onBack = {},
+            onLanChange = {},
+            onNatChange = {},
+            onProtocolChange = {},
+            onAutoOpenChange = {},
+            onNetShieldChange = {},
+            onDisableCustomDns = {},
+            onCustomDnsLearnMore = {},
+            onOpenCustomDns = {}
+        )
+    }
+}

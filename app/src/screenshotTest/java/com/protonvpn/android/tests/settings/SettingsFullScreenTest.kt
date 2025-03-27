@@ -33,7 +33,6 @@ import com.protonvpn.android.redesign.settings.ui.SettingsView
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel
 import com.protonvpn.android.redesign.settings.ui.SettingsViewModel.SettingViewState
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
-import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
 import com.protonvpn.android.redesign.settings.ui.customdns.AddNewDnsScreen
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsScreen
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewState
@@ -121,16 +120,15 @@ fun CustomDnsEmptyState() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             onItemRemoved = {},
-            viewState = CustomDnsViewState(
+            viewState = CustomDnsViewState.DnsListState(
                 dnsViewState = SettingViewState.CustomDns(
-                    enabled = false,
+                    enabled = true,
                     customDns = emptyList(),
                     overrideProfilePrimaryLabel = null,
                     isFreeUser = false,
-                    isPrivateDnsActive = false,
+                    isPrivateDnsActive = false
                 ),
-                isConnected = false
-            ),
+            )
         )
     }
 }
@@ -148,10 +146,9 @@ fun CustomDnsState() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             onItemRemoved = {},
-            viewState = CustomDnsViewState(
-                dnsViewState = settingsPaid.settingsViewState.customDns!!,
-                isConnected = false
-            ),
+            viewState = CustomDnsViewState.DnsListState(
+                dnsViewState = settingsPaid.settingsViewState.customDns!!
+            )
         )
     }
 }
@@ -169,9 +166,8 @@ fun CustomDnsStatePrivateDns() {
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
             onItemRemoved = {},
-            viewState = CustomDnsViewState(
-                dnsViewState = settingsPaid.settingsViewState.customDns!!,
-                isConnected = false
+            viewState = CustomDnsViewState.DnsListState(
+                dnsViewState = settingsPaid.settingsViewState.customDns!!
             ),
         )
     }
@@ -238,7 +234,7 @@ fun AdvancedSettingsFree() {
 fun AddNewDnsScreenPreview() {
     ProtonVpnPreview(addSurface = true) {
         AddNewDnsScreen(
-            addDnsState = AddDnsResult.WaitingForInput,
+            null,
             {}, {}, {}
         )
     }
@@ -249,7 +245,7 @@ fun AddNewDnsScreenPreview() {
 fun AddNewDnsScreenErrorPreview() {
     ProtonVpnPreview(addSurface = true) {
         AddNewDnsScreen(
-            addDnsState = AddDnsError.InvalidInput,
+            AddDnsError.InvalidInput,
             {}, {}, {}
         )
     }

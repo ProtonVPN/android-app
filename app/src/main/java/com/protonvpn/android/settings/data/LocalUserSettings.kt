@@ -20,6 +20,7 @@
 package com.protonvpn.android.settings.data
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import com.protonvpn.android.logging.itemCountToLog
 import com.protonvpn.android.logging.toLog
 import com.protonvpn.android.netshield.NetShieldProtocol
@@ -70,6 +71,7 @@ data class SplitTunnelingSettings(
 @Parcelize
 @Serializable
 data class CustomDnsSettings(
+    @ColumnInfo(name = "customDnsEnabled")
     val enabled: Boolean = false,
     val rawDnsList: List<String> = emptyList()
 ): Parcelable {

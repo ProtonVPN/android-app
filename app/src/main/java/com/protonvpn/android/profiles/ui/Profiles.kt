@@ -254,6 +254,7 @@ fun ProfileItemPreview() {
                 netShieldEnabled = true,
                 protocol = ProtocolSelection.SMART,
                 natType = NatType.Strict,
+                customDnsEnabled = false,
                 lanConnections = true,
             ),
             onConnect = {},

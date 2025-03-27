@@ -48,22 +48,9 @@ import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.redesign.settings.ui.SubSetting
 
-sealed interface AddDnsState
-
-enum class AddDnsResult : AddDnsState {
-    WaitingForInput,
-    Finished
-}
-
-enum class AddDnsError(@StringRes val errorRes: Int) : AddDnsState {
-    EmptyInput(R.string.settings_add_dns_empty_input),
-    InvalidInput(R.string.settings_add_dns_invalid_input),
-    DuplicateInput(R.string.settings_add_dns_duplicate_input)
-}
-
 @Composable
 fun AddNewDnsScreen(
-    addDnsState: AddDnsState,
+    error: AddDnsError?,
     onClose: () -> Unit,
     onAddDns: (String) -> Unit,
     onTextChanged: () -> Unit,
@@ -76,7 +63,7 @@ fun AddNewDnsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            addDnsState = addDnsState,
+            error = error,
             onAddDns = { newDns ->
                 onAddDns(newDns)
             },
@@ -88,7 +75,7 @@ fun AddNewDnsScreen(
 @Composable
 private fun ColumnScope.DnsInputRow(
     modifier: Modifier,
-    addDnsState: AddDnsState,
+    error: AddDnsError?,
     onAddDns: (String) -> Unit,
     onTextChanged: () -> Unit,
 ) {
@@ -112,9 +99,9 @@ private fun ColumnScope.DnsInputRow(
                 currentDns = it
                 onTextChanged()
             },
-            isError = addDnsState is AddDnsError,
+            isError = error != null,
             assistiveText = stringResource(R.string.settings_add_dns_description),
-            errorText = (addDnsState as? AddDnsError)?.errorRes?.let { stringResource(it) },
+            errorText = error?.errorRes?.let { stringResource(it) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { onAddDns(currentDns.text) }),
@@ -134,7 +121,7 @@ private fun ColumnScope.DnsInputRow(
 @Composable
 fun AddNewDnsScreenPreview() {
     AddNewDnsScreen(
-        addDnsState = AddDnsResult.WaitingForInput,
+        error = null,
         {}, {}, {}
     )
 }
@@ -143,7 +130,7 @@ fun AddNewDnsScreenPreview() {
 @Composable
 fun AddNewDnsScreenErrorPreview() {
     AddNewDnsScreen(
-        addDnsState = AddDnsError.InvalidInput,
+        error = AddDnsError.InvalidInput,
         {}, {}, {}
     )
 }

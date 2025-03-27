@@ -33,7 +33,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -49,9 +48,9 @@ import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
+import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsActions
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewModel
 import com.protonvpn.android.redesign.settings.ui.customdns.DnsSettingsScreen
-import com.protonvpn.android.redesign.settings.ui.customdns.GlobalDnsSettingsDataSource
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -64,6 +63,7 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.openVpnSettings
 import com.protonvpn.android.widget.ui.WidgetAddScreen
+import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.domain.entity.UserId
 import me.proton.core.usersettings.presentation.entity.SettingsInput
@@ -182,7 +182,9 @@ fun SubSettingsRoute(
                                 }
                             },
                             onNavigateToCustomDns = {
-                                onNavigateToSubSetting(SubSettingsScreen.Type.CustomDns)
+                                onOverrideSettingClick(OverrideType.CustomDns) {
+                                    onNavigateToSubSetting(SubSettingsScreen.Type.CustomDns)
+                                }
                             },
                             onAllowLanRestricted = {
                                 onOverrideSettingClick(OverrideType.LAN) {
@@ -213,18 +215,25 @@ fun SubSettingsRoute(
             }
             SubSettingsScreen.Type.CustomDns -> {
                 val customDnsViewModel = hiltViewModel<CustomDnsViewModel>()
-
-                val dataSource = remember(customDnsViewModel) {
-                    GlobalDnsSettingsDataSource(customDnsViewModel)
+                val dataSource = customDnsViewModel.customDnsHelper
+                val viewState = dataSource.customDnsSettingState.collectAsStateWithLifecycle(null).value
+                if (viewState != null) {
+                    DnsSettingsScreen(
+                        viewState = viewState,
+                        events = dataSource.events.receiveAsFlow(),
+                        actions = CustomDnsActions(
+                            onClose = onClose,
+                            onAddDns = customDnsViewModel::validateAndAddDnsAddress,
+                            onAddDnsTextChanged = dataSource::onAddDnsTextChanged,
+                            removeDns = customDnsViewModel::removeDnsItem,
+                            toggleSetting = customDnsViewModel::toggleCustomDns,
+                            updateDnsList = customDnsViewModel::updateCustomDnsList,
+                            openAddDnsScreen = dataSource::openAddDnsScreen,
+                            closeAddDnsScreen = dataSource::closeAddDnsScreen,
+                            showReconnectDialog = { settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate) },
+                        ),
+                    )
                 }
-
-                DnsSettingsScreen(
-                    dataSource = dataSource,
-                    onClose = onClose,
-                    onShowReconnectionDialog = {
-                        settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
-                    }
-                )
             }
 
             SubSettingsScreen.Type.DebugTools -> {

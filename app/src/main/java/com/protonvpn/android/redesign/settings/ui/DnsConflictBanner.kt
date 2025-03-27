@@ -22,6 +22,7 @@ package com.protonvpn.android.redesign.settings.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -51,6 +52,7 @@ fun DnsConflictBanner(
     onButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
     backgroundColor: Color = ProtonTheme.colors.backgroundSecondary,
+    contentPadding: PaddingValues = PaddingValues(16.dp),
 ) {
     Surface(
         modifier = modifier,
@@ -58,7 +60,7 @@ fun DnsConflictBanner(
         shape = ProtonTheme.shapes.medium
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(contentPadding)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

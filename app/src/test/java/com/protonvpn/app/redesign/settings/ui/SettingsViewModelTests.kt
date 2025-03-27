@@ -165,9 +165,6 @@ class SettingsViewModelTests {
         settingsForConnection = SettingsForConnection(effectiveSettings, mockProfilesDao, vpnStatusProviderUI)
 
         val dnsOverride = MutableStateFlow<DnsOverride>(DnsOverride.None)
-        val dnsOverrideMock = mockk<DnsOverrideFlow> {
-            coEvery { collect(any()) } coAnswers { dnsOverride.collect(firstArg()) }
-        }
         settingsViewModel = SettingsViewModel(
             currentUser,
             mockObserveUserSettings,
@@ -185,7 +182,7 @@ class SettingsViewModelTests {
             prefs,
             isIPv6FeatureFlagEnabled,
             isCustomDnsEnabled,
-            dnsOverrideMock,
+            DnsOverrideFlow(dnsOverride),
         )
     }
 

@@ -130,6 +130,7 @@ private object ProfilesData {
             netShieldEnabled = true,
             protocol = ProtocolSelection.STEALTH,
             natType = NatType.Strict,
+            customDnsEnabled = true,
             lanConnections = true
         )
     }

@@ -106,12 +106,28 @@ private fun ProfileSheetContent(
             connectIntentIconSize = ConnectIntentIconSize.LARGE,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
-        ProfileSettingItem(
-           R.string.netshield_feature_name,
-           stringResource(if (profile.netShieldEnabled) R.string.netshield_state_on else R.string.netshield_state_off),
-           if (profile.netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.ic_netshield_off,
-           modifier = Modifier.fillMaxWidth().padding(top = 16.dp, start = 16.dp, end = 16.dp)
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
+            val netshieldStateResource = when {
+                !profile.netShieldEnabled -> R.string.netshield_state_off
+                profile.customDnsEnabled -> R.string.netshield_state_unavailable
+                else -> R.string.netshield_state_on
+            }
+            ProfileSettingItem(
+                R.string.netshield_feature_name,
+                stringResource(netshieldStateResource),
+                if (profile.netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.ic_netshield_off,
+                modifier = Modifier.weight(1f)
+            )
+            ProfileSettingItem(
+                R.string.settings_custom_dns_title,
+                stringResource(if (profile.customDnsEnabled) R.string.netshield_state_on else R.string.netshield_state_off),
+                null,
+                modifier = Modifier.weight(1f)
+            )
+        }
         VpnDivider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -269,6 +285,7 @@ private fun ProfileBottomSheetPreview() {
                 netShieldEnabled = true,
                 protocol = ProtocolSelection.SMART,
                 natType = NatType.Strict,
+                customDnsEnabled = false,
                 lanConnections = true,
             ),
             {},

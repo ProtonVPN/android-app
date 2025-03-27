@@ -40,6 +40,7 @@ import com.protonvpn.android.profiles.usecases.CreateOrUpdateProfileFromUi
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.vpn.ConnectIntent
+import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.telemetry.ProfilesTelemetry
 import com.protonvpn.android.telemetry.TelemetryFlowHelper
 import com.protonvpn.android.vpn.ProtocolSelection
@@ -94,6 +95,7 @@ class CreateOrUpdateProfileFromUiTests {
         natType = NatType.Moderate,
         lanConnections = true,
         autoOpen = ProfileAutoOpen.None(""),
+        customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
     )
     // Matches the screen states above.
