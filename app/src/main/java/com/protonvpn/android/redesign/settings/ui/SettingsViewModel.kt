@@ -49,7 +49,6 @@ import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.DnsOverrideFlow
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.ProtocolSelection
-import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
@@ -386,7 +385,7 @@ class SettingsViewModel @Inject constructor(
                         SettingViewState.CustomDns(
                             enabled = settings.customDns.enabled,
                             customDns = settings.customDns.rawDnsList,
-                            overrideProfilePrimaryLabel = null,
+                            overrideProfilePrimaryLabel = profileOverrideInfo?.primaryLabel,
                             isFreeUser = isFree,
                             isPrivateDnsActive = dnsOverride == DnsOverride.SystemPrivateDns,
                         )
@@ -417,25 +416,11 @@ class SettingsViewModel @Inject constructor(
         val profileOverrideInfo: ProfileOverrideInfo? = null,
     )
 
-    data class CustomDnsViewState(
-        val dnsViewState: SettingViewState.CustomDns,
-        val isConnected: Boolean
-    ) {
-        val showAddDnsButton get() =
-            !dnsViewState.isPrivateDnsActive && (dnsViewState.customDns.isEmpty() || dnsViewState.value)
-    }
-
     private val ipv6AndCustomDnsCombined = combine(
         ipv6,
         customDns
     ) { ipv6Enabled, customDns ->
         Pair(ipv6Enabled, customDns)
-    }
-
-    val customDnsViewState = combine(customDns, vpnStatusProviderUI.uiStatus) { customDns, status ->
-        customDns?.let {
-            CustomDnsViewState(dnsViewState = it, isConnected = status.state is VpnState.Connected)
-        }
     }
 
     val advancedSettings = combine(

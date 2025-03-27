@@ -34,7 +34,6 @@ object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsS
     enum class Type {
         Account,
         Advanced,
-        AddNewDns,
         CustomDns,
         DebugTools,
         DefaultConnection,

@@ -36,6 +36,7 @@ import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsError
 import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
 import com.protonvpn.android.redesign.settings.ui.customdns.AddNewDnsScreen
 import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsScreen
+import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewState
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.vpn.DnsOverride
@@ -116,13 +117,11 @@ fun CustomDnsEmptyState() {
             onClose = {},
             onDnsChange = {},
             onDnsToggled = {},
-            onAddNewAddress = {},
             onLearnMore = {},
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
-            showReconnectionDialog = {},
             onItemRemoved = {},
-            viewState = SettingsViewModel.CustomDnsViewState(
+            viewState = CustomDnsViewState(
                 dnsViewState = SettingViewState.CustomDns(
                     enabled = false,
                     customDns = emptyList(),
@@ -145,13 +144,11 @@ fun CustomDnsState() {
             onClose = {},
             onDnsChange = {},
             onDnsToggled = {},
-            onAddNewAddress = {},
             onLearnMore = {},
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
-            showReconnectionDialog = {},
             onItemRemoved = {},
-            viewState = SettingsViewModel.CustomDnsViewState(
+            viewState = CustomDnsViewState(
                 dnsViewState = settingsPaid.settingsViewState.customDns!!,
                 isConnected = false
             ),
@@ -168,13 +165,11 @@ fun CustomDnsStatePrivateDns() {
             onClose = {},
             onDnsChange = {},
             onDnsToggled = {},
-            onAddNewAddress = {},
             onLearnMore = {},
             onPrivateDnsLearnMore = {},
             onOpenPrivateDnsSettings = {},
-            showReconnectionDialog = {},
             onItemRemoved = {},
-            viewState = SettingsViewModel.CustomDnsViewState(
+            viewState = CustomDnsViewState(
                 dnsViewState = settingsPaid.settingsViewState.customDns!!,
                 isConnected = false
             ),

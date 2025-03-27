@@ -52,7 +52,7 @@ sealed interface AddDnsState
 
 enum class AddDnsResult : AddDnsState {
     WaitingForInput,
-    Added
+    Finished
 }
 
 enum class AddDnsError(@StringRes val errorRes: Int) : AddDnsState {
@@ -68,12 +68,6 @@ fun AddNewDnsScreen(
     onAddDns: (String) -> Unit,
     onTextChanged: () -> Unit,
 ) {
-    if (addDnsState == AddDnsResult.Added) {
-        LaunchedEffect(Unit) {
-            onClose()
-        }
-    }
-
     SubSetting(
         title = stringResource(R.string.settings_add_dns_title),
         onClose = onClose,

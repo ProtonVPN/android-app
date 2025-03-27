@@ -26,51 +26,32 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.AnnotatedClickableText
-import com.protonvpn.android.base.ui.ProtonTextButton
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
-import com.protonvpn.android.redesign.base.ui.DIALOG_CONTENT_PADDING
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.LocalVpnUiDelegate
-import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
-import com.protonvpn.android.redesign.base.ui.ProtonSnackbarType
-import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.rememberInfoSheetState
-import com.protonvpn.android.redesign.base.ui.showSnackbar
-import com.protonvpn.android.redesign.settings.ui.customdns.AddDnsResult
-import com.protonvpn.android.redesign.settings.ui.customdns.AddNewDnsScreen
-import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsScreen
+import com.protonvpn.android.redesign.settings.ui.customdns.CustomDnsViewModel
+import com.protonvpn.android.redesign.settings.ui.customdns.DnsSettingsScreen
+import com.protonvpn.android.redesign.settings.ui.customdns.GlobalDnsSettingsDataSource
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.telemetry.UpgradeSource
@@ -83,7 +64,6 @@ import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.utils.openVpnSettings
 import com.protonvpn.android.widget.ui.WidgetAddScreen
-import kotlinx.coroutines.flow.receiveAsFlow
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.domain.entity.UserId
 import me.proton.core.usersettings.presentation.entity.SettingsInput
@@ -231,75 +211,20 @@ fun SubSettingsRoute(
                     }
                 }
             }
-            SubSettingsScreen.Type.AddNewDns -> {
-                val viewState = settingsChangeViewModel.addDnsResultFlow.collectAsStateWithLifecycle().value
-                AddNewDnsScreen(
-                    onClose = {
-                        settingsChangeViewModel.addDnsResultFlow.value = AddDnsResult.WaitingForInput
-                        onClose()
-                    },
-                    addDnsState = viewState,
-                    onAddDns = settingsChangeViewModel::addNewDns,
-                    onTextChanged = settingsChangeViewModel::onAddNewDnsTextChanged
-                )
-            }
             SubSettingsScreen.Type.CustomDns -> {
-                val viewState = viewModel.customDnsViewState.collectAsStateWithLifecycle(null).value
-                if (viewState != null) {
-                    val snackbarHostState = remember { SnackbarHostState() }
-                    CustomDnsScreen(
-                        onClose = onClose,
-                        onDnsToggled = {
-                            settingsChangeViewModel.toggleCustomDns()
-                        },
-                        onDnsChange = {
-                            settingsChangeViewModel.updateCustomDnsList(it)
-                        },
-                        onAddNewAddress = {
-                            onNavigateToSubSetting(SubSettingsScreen.Type.AddNewDns)
-                        },
-                        onItemRemoved = {
-                            settingsChangeViewModel.removeDnsItem(it)
-                        },
-                        onLearnMore = {
-                            context.openUrl(Constants.URL_CUSTOM_DNS_LEARN_MORE)
-                        },
-                        onPrivateDnsLearnMore = {
-                            context.openUrl(Constants.URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE)
-                        },
-                        onOpenPrivateDnsSettings = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
-                        showReconnectionDialog = {
-                            settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
-                        },
-                        snackbarHostState = snackbarHostState,
-                        viewState = viewState,
-                    )
-                    val itemRemovedMessage = stringResource(R.string.custom_dns_item_removed_snackbar)
-                    val snackUndo = stringResource(R.string.undo)
-                    LaunchedEffect(Unit) {
-                        settingsChangeViewModel.undoSnackbarFlow.collect { event ->
-                            val result = snackbarHostState.showSnackbar(
-                                message = itemRemovedMessage,
-                                actionLabel = snackUndo,
-                                duration = SnackbarDuration.Short,
-                                type = ProtonSnackbarType.NORM
-                            )
+                val customDnsViewModel = hiltViewModel<CustomDnsViewModel>()
 
-                            if (result == SnackbarResult.ActionPerformed) {
-                                settingsChangeViewModel.undoRemoval(event)
-                            }
-                        }
+                val dataSource = remember(customDnsViewModel) {
+                    GlobalDnsSettingsDataSource(customDnsViewModel)
+                }
+
+                DnsSettingsScreen(
+                    dataSource = dataSource,
+                    onClose = onClose,
+                    onShowReconnectionDialog = {
+                        settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate)
                     }
-                }
-                var customDnsNetShieldConflictDialog by remember { mutableStateOf(false) }
-                settingsChangeViewModel.eventShowCustomDnsNetShieldConflict.receiveAsFlow()
-                    .collectAsEffect { customDnsNetShieldConflictDialog = true }
-                if (customDnsNetShieldConflictDialog) {
-                    CustomDnsNetShieldConflictDialog(
-                        onDismissRequest = { customDnsNetShieldConflictDialog = false },
-                        onLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },
-                    )
-                }
+                )
             }
 
             SubSettingsScreen.Type.DebugTools -> {
@@ -392,34 +317,6 @@ fun SubSettingsRoute(
 }
 
 private fun UserId.toInput() = SettingsInput(this.id)
-
-@Composable
-private fun CustomDnsNetShieldConflictDialog(
-    onLearnMore: () -> Unit,
-    onDismissRequest: () -> Unit,
-) {
-    ProtonBasicAlert(onDismissRequest = onDismissRequest) {
-        Column(
-            modifier = Modifier.padding(horizontal = DIALOG_CONTENT_PADDING)
-        ) {
-            Text(
-                stringResource(R.string.settings_custom_dns_netshield_conflict_dialog_title),
-                style = ProtonTheme.typography.subheadline,
-            )
-            Spacer(Modifier.height(16.dp))
-            AnnotatedClickableText(
-                fullText = stringResource(R.string.settings_custom_dns_netshield_conflict_dialog_message),
-                annotatedPart = stringResource(R.string.learn_more),
-                color = ProtonTheme.colors.textWeak,
-                onAnnotatedClick = onLearnMore,
-            )
-            Spacer(Modifier.height(24.dp))
-            ProtonTextButton(onClick = onDismissRequest, modifier = Modifier.align(Alignment.End)) {
-                Text(stringResource(R.string.got_it))
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
