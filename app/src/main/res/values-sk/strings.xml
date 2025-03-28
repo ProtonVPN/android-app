@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (c) 2017 Proton Technologies AG
+ Copyright (c) 2017 Proton AG
 
  This file is part of ProtonVPN.
 
@@ -170,10 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Odstrániť zo Zahrnutých aplikácií</string>
-    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
-    <string name="accessibility_action_item_delete">Delete</string>
-    <string name="accessibility_action_item_move_up">Move up</string>
-    <string name="accessibility_action_item_move_down">Move down</string>
+    <string name="accessibility_action_copy_to_clipboard">Skopírovať do schránky</string>
+    <string name="accessibility_action_item_delete">Vymazať</string>
+    <string name="accessibility_action_item_move_up">Presunúť hore</string>
+    <string name="accessibility_action_item_move_down">Presunúť dole</string>
     <string name="tileConnected">Pripojené: %1$s</string>
     <string name="openUrlError">%1$s sa nepodarilo otvoriť. Vo vašom zariadení sa nezistil webový prehliadač.</string>
     <string name="loaderErrorTimeout">Časový limit pripojenia vypršal, skúste to prosím znovu</string>
@@ -222,7 +222,7 @@
     <string name="learn_more">Zistiť viac</string>
     <string name="netshield_state_on" comment="Describes state, not action">Zap.</string>
     <string name="netshield_state_off" comment="Describes state, not action">Vyp.</string>
-    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Nedostupné</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Zap.</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Vyp.</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Zap.</string>
@@ -233,8 +233,8 @@
     <string name="alt_routing_state_off" comment="Describes state, not action">Vyp.</string>
     <string name="custom_dns_state_on" comment="Describes state, not action">Zap.</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Vyp.</string>
-    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
-    <string name="custom_dns_item_removed_snackbar">Item removed</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Nedostupné</string>
+    <string name="custom_dns_item_removed_snackbar">Položka odstránená</string>
     <string name="netshield_free_description">Blokovanie reklám, sledovačov a malvéru na webových stránkach a v aplikáciách</string>
     <string name="netshield_what_data_means">Čo znamenajú údaje NetShield</string>
     <string name="netshield_ads_title">Reklamy</string>
@@ -1403,11 +1403,11 @@
     <string name="settings_advanced_dns_description">Pripojenie k VPN pomocou vlastného systému doménových názvov (DNS) alebo systému názvov domén tretích strán. Zistiť viac</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">Servery (%1$d)</string>
-    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
-    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
-    <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
+    <string name="settings_dns_list_description">Ak váš vlastný DNS server nefunguje, použije sa štandardný VPN DNS.</string>
+    <string name="settings_dns_list_description_multiple">Pokúsime sa pripojiť k týmto serverom v uvedenom poradí. Ak žiadny z nich nebude fungovať, použije sa DNS siete VPN.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Zmeny sa uplatnia po opätovnom pripojení</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield bude nedostupný</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield nedokáže odfiltrovať reklamy, sledovače a malvér, ak používate vlastnú DNS. Zistite viac</string>
     <string name="settings_advanced_alternative_routing_title">Alternatívne smerovanie</string>
     <string name="settings_advanced_alternative_routing_description">Ak sú služby spoločnosti Proton zablokované z dôvodu sieťových obmedzení, pokúsime sa na pripojenie k našim stránkam použiť alternatívne sieťové smerovanie.</string>
     <string name="settings_advanced_allow_lan_title">LAN pripojenia</string>
@@ -1455,14 +1455,14 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">Odstrániť IP adresu zo zoznamu?</string>
     <string name="settings_dialog_reconnect">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
     <string name="settings_needs_reconnect_banner">Nové nastavenia sa aplikujú pri ďalšom pripojení.</string>
-    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
-    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
-    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
-    <string name="private_dns_conflict_banner_network_settings_button">Network settings</string>
-    <string name="custom_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
-    <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
-    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Turn off custom DNS</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Vlastné DNS je nodstupné</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Vaše zariadenie používa DNS tretej strany, ktoré zabraňuje fungovaniu vlastného DNS Proton VPN. Zistite viac</string>
+    <string name="private_dns_conflict_banner_netshield_title">NetShield je nedostupný</string>
+    <string name="private_dns_conflict_banner_netshield_description">Vaše zariadenie používa DNS tretej strany, ktorý bráni funkcii NetShield. Zistite viac</string>
+    <string name="private_dns_conflict_banner_network_settings_button">Nastavenia siete</string>
+    <string name="custom_dns_conflict_banner_netshield_title">NetShield je nedostupný</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Je povolená vlastná DNS, ktorá bráni funkčnosti služby NetShield. Zistite viac</string>
+    <string name="custom_dns_conflict_banner_disable_custom_dns_button">Vypnúť vlastné DNS</string>
     <string name="info_secure_core_standard_high_privacy">Väčšie súkromie</string>
     <string name="info_secure_core_standard_lower_latency">Nižšia latencia</string>
     <string name="info_secure_core_advanced_privacy">Pokročilé súkromie</string>
