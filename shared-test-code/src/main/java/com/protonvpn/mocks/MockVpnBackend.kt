@@ -20,7 +20,6 @@ package com.protonvpn.mocks
 
 import com.proton.gopenpgp.localAgent.Features
 import com.proton.gopenpgp.localAgent.LocalAgent
-import com.proton.gopenpgp.localAgent.StatusMessage
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.concurrency.VpnDispatcherProvider
 import com.protonvpn.android.models.config.TransmissionProtocol
@@ -125,7 +124,7 @@ class MockVpnBackend(
 
 class MockAgentConnection(
     scope: CoroutineScope,
-    val client: VpnBackend.VpnAgentClient,
+    private val client: VpnBackend.VpnAgentClient,
     override val certInfo: CertificateRepository.CertificateResult.Success
 ) : AgentConnectionInterface {
     private val constants = LocalAgent.constants()
@@ -133,18 +132,12 @@ class MockAgentConnection(
     init {
         scope.launch {
             yield()
-            state = constants.stateConnecting
-            state = constants.stateConnected
+            client.onState(constants.stateConnecting)
+            client.onState(constants.stateConnected)
         }
     }
 
-    override var state: String = constants.stateDisconnected
-        set(value) {
-            field = value
-            client.onState(value)
-        }
-
-    override val status: StatusMessage? = null
+    override val lastState: String? get() = client.lastState
     override fun setFeatures(features: Features) {}
     override fun sendGetStatus(withStatistics: Boolean) {}
     override fun setConnectivity(connectivity: Boolean) {}

@@ -98,8 +98,7 @@ interface VpnBackendProvider {
 }
 
 interface AgentConnectionInterface {
-    val state: String
-    val status: StatusMessage?
+    val lastState: String?
     val certInfo: CertificateRepository.CertificateResult.Success
     fun setFeatures(features: Features)
     fun sendGetStatus(withStatistics: Boolean)
@@ -128,7 +127,13 @@ abstract class VpnBackend(
         private var gatherStatsJob: Job? = null
 
         @Volatile
+        var lastState: String? = null
+
+        @Volatile
         private var isClosed: Boolean = false
+        // Keep "is final error" between onStatusUpdate and onError callbacks.
+        @Volatile
+        private var isFinalError: Boolean = false
 
         fun close() {
             isClosed = true
@@ -183,7 +188,7 @@ abstract class VpnBackend(
                         ProtonLogger.logCustom(LogCategory.LOCAL_AGENT, "Restricted server, waiting...")
 
                     else -> {
-                        if (agent?.status?.reason?.final == true)
+                        if (isFinalError)
                             setError(ErrorType.LOCAL_AGENT_ERROR, description = description)
                     }
                 }
@@ -194,6 +199,7 @@ abstract class VpnBackend(
             mainScope.launch {
                 if (isClosed) return@launch
                 ProtonLogger.log(LocalAgentStateChanged, state)
+                lastState = state
                 processCombinedState(vpnProtocolState, state)
             }
         }
@@ -227,6 +233,7 @@ abstract class VpnBackend(
                             getNetZone.updateCountry(newConnectionDetails.deviceCountry)
                     }
                 }
+                isFinalError = status.reason?.final == true
                 ProtonLogger.log(LocalAgentStatus, status.toString())
             }
         }
@@ -317,8 +324,8 @@ abstract class VpnBackend(
             2
         )
 
-        override val state: String get() = agent.state
-        override val status: StatusMessage? get() = agent.status
+        override val lastState: String?
+            get() = nativeClient.lastState
         override val certInfo = certInfo
 
         override fun setFeatures(features: Features) {
@@ -432,7 +439,7 @@ abstract class VpnBackend(
             } else {
                 lastKnownExitIp.value = null
             }
-            processCombinedState(value, agent?.state)
+            processCombinedState(value, agent?.lastState)
         }
     }
 

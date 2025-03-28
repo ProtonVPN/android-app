@@ -335,23 +335,12 @@ class VpnConnectionTests {
     }
 
     private fun setupMockAgent(action: suspend (NativeClient) -> Unit) {
-        class NativeClientWrapper(private val client: NativeClient) : NativeClient by client {
-            var lastState: String = LocalAgent.constants().stateDisconnected
-                private set
-
-            override fun onState(state: String) {
-                lastState = state
-                client.onState(state)
-            }
-        }
-
         val mockAgentProvider: MockAgentProvider = { certInfo, _, client ->
-            val wrappedClient = NativeClientWrapper(client)
             scope.launch {
                 yield() // Don't set state immediately, yield for mockAgent to be returned first.
                 action(client)
             }
-            every { mockAgent.state } answers { wrappedClient.lastState }
+            every { mockAgent.lastState } answers { client.lastState }
             every { mockAgent.certInfo } answers { certInfo }
             mockAgent
         }
@@ -905,19 +894,19 @@ class VpnConnectionTests {
 
         manager.connect(mockVpnUiDelegate, connectIntentFastest, trigger)
         assertNotNull(nativeClient)
-        nativeClient!!.onState(agentConsts.stateConnected)
+        nativeClient.onState(agentConsts.stateConnected)
         assertEquals(VpnState.Connected, mockWireguard.selfState)
 
         every {
             mockLocalAgentUnreachableTracker.onUnreachable()
         } returns LocalAgentUnreachableTracker.UnreachableAction.ERROR
-        nativeClient!!.onState(agentConsts.stateServerUnreachable)
+        nativeClient.onState(agentConsts.stateServerUnreachable)
         coVerify(exactly = 0) { vpnErrorHandler.onUnreachableError(any()) }
 
         every {
             mockLocalAgentUnreachableTracker.onUnreachable()
         } returns  LocalAgentUnreachableTracker.UnreachableAction.FALLBACK
-        nativeClient!!.onState(agentConsts.stateServerUnreachable)
+        nativeClient.onState(agentConsts.stateServerUnreachable)
         coVerify { vpnErrorHandler.onUnreachableError(any()) }
     }
 
