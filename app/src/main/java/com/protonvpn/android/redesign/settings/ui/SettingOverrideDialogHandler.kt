@@ -19,9 +19,12 @@
 
 package com.protonvpn.android.redesign.settings.ui
 
+import android.content.Intent
+import android.provider.Settings
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -37,6 +40,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -50,11 +55,13 @@ import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.redesign.CountryId
-import com.protonvpn.android.redesign.base.ui.ConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.ProfileConnectIntentIcon
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
+import com.protonvpn.android.redesign.base.ui.ProtonBasicAlert
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
+import com.protonvpn.android.utils.Constants
+import com.protonvpn.android.utils.openUrl
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultWeak
 
@@ -68,16 +75,39 @@ fun SettingOverrideDialogHandler(
     var dialogSettingType by rememberSaveable { mutableStateOf<OverrideType?>(null) }
 
     dialogSettingType?.let { type ->
-        SettingOverrideDialog(
-            onDismissRequest = { dialogSettingType = null },
-            settingType = type,
-            onProfileSettingChosen = {
-                viewModel.getCurrentProfileId()?.let { profileId ->
-                    onNavigateToEditProfile(profileId, ProfileCreationTarget.FeaturesAndSettings)
-                }
-                dialogSettingType = null
+        when (type) {
+            OverrideType.LAN, OverrideType.Protocol, OverrideType.NatType, OverrideType.NetShield, OverrideType.CustomDns -> {
+                SettingOverrideDialog(
+                    onDismissRequest = { dialogSettingType = null },
+                    settingType = type,
+                    onProfileSettingChosen = {
+                        viewModel.getCurrentProfileId()?.let { profileId ->
+                            onNavigateToEditProfile(profileId, ProfileCreationTarget.FeaturesAndSettings)
+                        }
+                        dialogSettingType = null
+                    }
+                )
             }
-        )
+            is OverrideType.SystemDnsConflict -> {
+                val context = LocalContext.current
+                ProtonBasicAlert(
+                    content = {
+                        DnsConflictBanner(
+                            titleRes = type.stringRes,
+                            descriptionRes = type.descriptionRes,
+                            buttonRes = R.string.custom_dns_conflict_banner_disable_custom_dns_button,
+                            onLearnMore = { context.openUrl(Constants.URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE) },
+                            onButtonClicked = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
+                            modifier = Modifier,
+                            backgroundColor = Color.Transparent,
+                            contentPadding = PaddingValues(horizontal = 24.dp)
+                        )
+                    },
+                    onDismissRequest = { dialogSettingType = null },
+                    isWideDialog = true
+                )
+            }
+        }
     }
 
     val onSettingItemClick: (OverrideType, () -> Unit) -> Unit = { type, onSettingAction ->
@@ -168,12 +198,24 @@ fun OverrideSettingLabel(
     }
 }
 
-enum class OverrideType(@StringRes val stringRes: Int) {
-    LAN(R.string.settings_advanced_allow_lan_title),
-    NatType(R.string.settings_advanced_nat_type_title),
-    NetShield(R.string.settings_netshield_title),
-    CustomDns(R.string.settings_custom_dns_title),
-    Protocol(R.string.settings_protocol_title),
+sealed class OverrideType(@StringRes val stringRes: Int) {
+    data object LAN : OverrideType(R.string.settings_advanced_allow_lan_title)
+    data object NatType : OverrideType(R.string.settings_advanced_nat_type_title)
+    data object NetShield : OverrideType(R.string.settings_netshield_title)
+    data object CustomDns : OverrideType(R.string.settings_custom_dns_title)
+    data object Protocol : OverrideType(R.string.settings_protocol_title)
+
+    sealed class SystemDnsConflict(@StringRes stringRes: Int, @StringRes val descriptionRes: Int) : OverrideType(stringRes) {
+        data object NetShield : SystemDnsConflict(
+            R.string.private_dns_conflict_banner_netshield_title,
+            R.string.private_dns_conflict_banner_netshield_description
+        )
+
+        data object CustomDns : SystemDnsConflict(
+            R.string.private_dns_conflict_banner_custom_dns_title,
+            R.string.private_dns_conflict_banner_custom_dns_description
+        )
+    }
 }
 
 @Preview
