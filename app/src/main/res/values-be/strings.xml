@@ -1403,8 +1403,8 @@
     <string name="settings_advanced_dns_description">Падключыцца да VPN з дапамогай уласнага вузла або старонняга сервера DNS. Даведацца больш</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">Серверы (%1$d)</string>
-    <string name="settings_dns_list_description">Калі ваш карыстальніцкі DNS-сервер не працуе, будзе выкарыстоўвацца стандартны VPN DNS.</string>
-    <string name="settings_dns_list_description_multiple">Будзе зроблена спроба падключыцца да гэтых сервераў па парадку. Калі ніводны з іх працаваць не будзе, то будуць выкарыстоўвацца VPN DNS.</string>
+    <string name="settings_dns_list_description">Будзе выкарыстоўвацца стандартны DNS ад VPN, калі ваш карыстальніцкі сервер DNS не працуе.</string>
+    <string name="settings_dns_list_description_multiple">Будзе зроблена спроба падключыцца да гэтых сервераў па парадку. Калі ніводны з іх працаваць не будзе, то будуць выкарыстоўвацца DNS ад VPN.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Змены будуць ужытыя пасля перападключэння</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield будзе недаступны</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield не зможа адфільтраваць рэкламу, праграмы сачэння і шкодныя праграмы, калі выкарыстоўваецца карыстальніцкі DNS. Даведацца больш</string>
