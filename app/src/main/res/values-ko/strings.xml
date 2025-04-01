@@ -172,8 +172,8 @@
     <string name="accessibility_action_remove_included_app">포함된 앱에서 삭제</string>
     <string name="accessibility_action_copy_to_clipboard">클립보드로 복사</string>
     <string name="accessibility_action_item_delete">삭제</string>
-    <string name="accessibility_action_item_move_up">Move up</string>
-    <string name="accessibility_action_item_move_down">Move down</string>
+    <string name="accessibility_action_item_move_up">위로 이동</string>
+    <string name="accessibility_action_item_move_down">아래로 이동</string>
     <string name="tileConnected">연결됨: %1$s</string>
     <string name="openUrlError">%1$s 를 열 수 없습니다. 기기에서 웹 브라우저가 탐지되지 않았습니다.</string>
     <string name="loaderErrorTimeout">연결 시간 초과. 다시 시도하십시오.</string>
@@ -245,10 +245,10 @@
     <string name="netshield_data_title">데이터</string>
     <string name="netshield_data_details">NetShield로 차단된 광고, 트래커, 멀웨어의 개수</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="other">광고가 차단됨</item>
+        <item quantity="other">차단된 광고</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="other">트래커가 멈춤</item>
+        <item quantity="other">멈춘 트래커</item>
     </plurals>
     <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">데이터 절약됨</string>
     <string name="netshield_setting_warning">일부 웹사이트는 광고 그리고 트래커 차단 중에 제대로 로드되지 않을 수도 있습니다.</string>
@@ -542,7 +542,7 @@
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
     <string name="onboarding_welcome_title">Proton VPN에 오신 것을 환영합니다</string>
-    <string name="onboarding_welcome_description">브라우징은 은밀하게, 막힌 컨텐츠는 열리게, 디지털 자유를 그렇게 누리세요.</string>
+    <string name="onboarding_welcome_description">브라우징은 은밀하게, 막힌 컨텐츠는 열리게, 디지털 자유를 그렇게 누려보세요.</string>
     <string name="onboarding_welcome_action">시작하기</string>
     <string name="upgrade_success_get_started_button">시작하기</string>
     <string name="dynamic_report_suggestion_didnt_work">소용이 없었나요?</string>
@@ -1307,15 +1307,15 @@
     <string name="settings_advanced_allow_lan_description">로컬 네트워크에 있는 프린터, 스피커 및 기타 기기에 연결할 수 있게 합니다.</string>
     <string name="settings_advanced_nat_type_title">NAT 방식</string>
     <!-- %1$s - will have translated learn_more value -->
-    <string name="settings_advanced_nat_type_description">네트워크 주소 변환 방식을 선택하십시오. %1$s</string>
-    <string name="settings_advanced_nat_type_description_no_learn">네트워크 주소 변환 방식을 선택하십시오.</string>
+    <string name="settings_advanced_nat_type_description">네트워크 주소 변환 방식을 선택하세요. %1$s</string>
+    <string name="settings_advanced_nat_type_description_no_learn">네트워크 주소 변환 방식을 선택하세요.</string>
     <string name="settings_advanced_nat_type_strict">엄격하게 (3번)</string>
     <string name="settings_advanced_nat_type_strict_short">유형 3</string>
     <string name="settings_advanced_nat_type_moderate">일반형 (type 2)</string>
     <string name="settings_advanced_nat_type_moderate_short">유형 2</string>
     <string name="settings_advanced_nat_type_strict_description">네트워크에 들어오는 데이터를 통제합니다. 확실한 만큼 피어 투 피어 (P2P) 게이밍 접속이 어려워질 수 있습니다.</string>
-    <string name="settings_advanced_nat_type_moderate_description">네트워크에 들어오는 데이터를 약간 통제합니다. 온라인 비디오 게이밍에 최적입니다.</string>
-    <string name="settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 커스텀할 수 있습니다. %1$s</string>
+    <string name="settings_advanced_nat_type_moderate_description">네트워크에 들어오는 데이터를 일부 통제합니다. 온라인 비디오 게이밍에 최적화 되어있습니다.</string>
+    <string name="settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 사용자화할 수 있습니다. %1$s</string>
     <string name="settings_protocol_description">VPN 프로토콜은 서버와 여러분의 장치 사이에서 데이터가 이동하는 방식을 정의합니다. %1$s</string>
     <string name="settings_protocol_description_no_link">VPN 프로토콜은 서버와 내 기기 사이에서 데이터가 이동하는 방식을 정의합니다.</string>
     <string name="settings_protocol_section_speed">속도 (UDP)</string>
@@ -1366,7 +1366,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="info_p2p_torrenting_title">토렌트한다는 것은?</string>
     <string name="info_p2p_torrenting_description">P2P 네트워크를 통하여 대용량 파일을 빠르게 공유하고 다운로드함을 말합니다.</string>
     <string name="info_p2p_why_title">토렌트에 P2P 서버를 쓰는 이유라면?</string>
-    <string name="info_p2p_why_description_speed">업로드와 다운로드 속도가 더욱 빠릅니다</string>
+    <string name="info_p2p_why_description_speed">업로드와 다운로드 속도가 더욱 증가됩니다</string>
     <string name="info_p2p_why_description_logs">활동 로그가 없습니다</string>
     <string name="info_p2p_why_description_hide">사용자의 IP 주소를 서비스 제공자와 피어로부터 숨깁니다</string>
     <string name="info_dialog_smart_routing_description">Smart Routing은 가상 서버를 이용하여 접근이 어려운 국가에 VPN 커버리지를 제공합니다.\n\nSmart Routing 서버에 접속했다면 물리적 서버의 위치와 상관없이 목적지 국가에서 탐색하는 것으로 보이게 됩니다.\n\nSmart Routing은 보통 안티-프라이버시 법령과 기타 유형의 검열을 우회하는 데 쓸모가 있습니다.</string>
@@ -1384,7 +1384,7 @@ Stealth는 Proton VPN만의 기능입니다.</string>
     <string name="search_zero_screen_info_servers_examples">JP#50, CA#3, IT#14…</string>
     <string name="error_fetching_prices">가격을 불러오던 중 오류가 발생했습니다.</string>
     <!-- TV settings -->
-    <string name="tv_settings_split_tunneling_description">VPN이 보호할 앱을 지정하여 연결을 커스텀할 수 있습니다.</string>
+    <string name="tv_settings_split_tunneling_description">VPN이 보호할 앱과 IP 주소를 지정하여 연결을 사용자화할 수 있습니다.</string>
     <string name="tv_settings_split_tunneling_mode_description_standard">선택된 앱들이 VPN 연결에서 제외됩니다.</string>
     <string name="tv_settings_split_tunneling_mode_description_inverse">오직 선택된 앱만이 VPN을 통해 연결됩니다. 제외된 항목은 보호되지 않습니다.</string>
     <!-- Temporary strings for auto-login feature -->

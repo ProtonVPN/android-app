@@ -231,8 +231,8 @@
     <string name="lan_state_off" comment="Describes state, not action">Wyłączone</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Włączone</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Wyłączone</string>
-    <string name="custom_dns_state_on" comment="Describes state, not action">Wł.</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">Wył.</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Włączony</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Wyłączony</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Niedostępny</string>
     <string name="custom_dns_item_removed_snackbar">Item removed</string>
     <string name="netshield_free_description">Zablokuj reklamy, elementy śledzące i złośliwe oprogramowanie na stronach internetowych oraz w aplikacjach</string>
@@ -1460,7 +1460,7 @@
     <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
     <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
     <string name="private_dns_conflict_banner_network_settings_button">Ustawienia sieci</string>
-    <string name="custom_dns_conflict_banner_netshield_title">NetShield jest niedostępny</string>
+    <string name="custom_dns_conflict_banner_netshield_title">Funkcja NetShield jest niedostępna</string>
     <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Wyłącz niestandardowy serwer DNS</string>
     <string name="info_secure_core_standard_high_privacy">Wysoki poziom prywatności</string>
