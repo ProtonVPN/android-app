@@ -25,9 +25,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.protonvpn.android.databinding.ActivityWhatsNewBinding
 import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import me.proton.core.presentation.utils.onClick
 import me.proton.core.presentation.utils.viewBinding
 import javax.inject.Inject
@@ -48,10 +50,12 @@ class WhatsNewActivity : AppCompatActivity() {
             gotItButton.onClick {
                 finish()
             }
-            addWidgetButton.isVisible = widgetManager.supportsNativeWidgetSelector()
             addWidgetButton.onClick {
                 widgetManager.openNativeWidgetSelector()
                 finish()
+            }
+            lifecycleScope.launch {
+                addWidgetButton.isVisible = widgetManager.supportsNativeWidgetSelector()
             }
         }
     }
