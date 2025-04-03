@@ -69,6 +69,7 @@ import com.protonvpn.android.profiles.data.ProfileIcon
 import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
+import com.protonvpn.android.redesign.base.ui.collectAsEffect
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.settings.ui.nav.SubSettingsScreen
 import com.protonvpn.android.redesign.vpn.ui.ConnectIntentPrimaryLabel
@@ -117,6 +118,13 @@ fun SettingsRoute(
         // Return a composable even when viewState == null to avoid transition glitches
         Box(modifier = Modifier.fillMaxSize()) {}
         return
+    }
+
+    viewModel.event.collectAsEffect { event ->
+        when(event) {
+            SettingsViewModel.UiEvent.NavigateToWidgetInstructions ->
+                onNavigateToSubSetting(SubSettingsScreen.Type.Widget)
+        }
     }
 
     val context = LocalContext.current
@@ -199,10 +207,7 @@ fun SettingsRoute(
                     context.startActivity(Intent(context, OssLicensesActivity::class.java))
                 },
                 onWidgetClick = {
-                    viewModel.onWidgetSettingClick(
-                        onNativeSelectionUnavailable = {
-                            onNavigateToSubSetting(SubSettingsScreen.Type.Widget)
-                    })
+                    viewModel.onWidgetSettingClick()
                 },
                 onDebugToolsClick = {
                     onNavigateToSubSetting(SubSettingsScreen.Type.DebugTools)

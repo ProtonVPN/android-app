@@ -48,13 +48,22 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import me.proton.core.util.kotlin.DispatcherProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+enum class WidgetAdoptionUiType {
+    None,
+    AddWidgetButton, // Application can trigger pin widget directly.
+    Instructions // Can't trigger pin widget, show instructions.
+}
+
 @Singleton
 class WidgetManager @Inject constructor(
     private val scope: CoroutineScope,
+    private val dispatcherProvider: DispatcherProvider,
     @ApplicationContext private val context: Context,
     widgetTracker: WidgetTracker,
     private val uiStateStorage: UiStateStorage,
@@ -74,11 +83,19 @@ class WidgetManager @Inject constructor(
 
     private val hasAddedWidget: StateFlow<Boolean?> = widgetTracker.haveWidgets
 
-    val showWidgetAdoptionFlow: Flow<Boolean> = combine(
+    val showWidgetAdoptionFlow: Flow<WidgetAdoptionUiType> = combine(
         uiStateStorage.state.map { it.shouldShowWidgetAdoption ?: false },
         hasAddedWidget
     ) { shouldShowWidgetAdoption, hasAddedWidget ->
-        shouldShowWidgetAdoption && hasAddedWidget != true
+        if (shouldShowWidgetAdoption && hasAddedWidget != true) {
+            if (supportsNativeWidgetSelector()) {
+                WidgetAdoptionUiType.AddWidgetButton
+            } else {
+                WidgetAdoptionUiType.Instructions
+            }
+        } else {
+            WidgetAdoptionUiType.None
+        }
     }
 
     init {
@@ -105,22 +122,20 @@ class WidgetManager @Inject constructor(
     }
 
     @TargetApi(26)
-    fun supportsNativeWidgetSelector(): Boolean =
+    suspend fun supportsNativeWidgetSelector(): Boolean =
         if (Build.VERSION.SDK_INT < 26 || Build.MANUFACTURER.lowercase() in PICKER_UNSUPPORTED_MANUFACTURER_LIST) {
             false
         } else {
-            widgetManager?.isRequestPinAppWidgetSupported ?: false
+            withContext(dispatcherProvider.Io) {
+                widgetManager?.isRequestPinAppWidgetSupported ?: false
+            }
         }
 
     @RequiresApi(26)
-    private fun adoptWidget() {
+    fun addWidget() {
         openNativeWidgetSelector()
         onWidgetAdoptionShown()
     }
-
-    @TargetApi(26)
-    fun getAdoptWidgetAction(): (() -> Unit)? =
-        if (supportsNativeWidgetSelector()) ::adoptWidget else null
 
     fun onWidgetAdoptionShown() {
         scope.launch {
@@ -139,11 +154,16 @@ class WidgetManager @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        widgetManager?.requestPinAppWidget(
-            myWidgetProvider,
-            null,
-            successPendingIntent
-        )
+        try {
+            widgetManager?.requestPinAppWidget(
+                myWidgetProvider,
+                null,
+                successPendingIntent
+            )
+        } catch (_: IllegalStateException) {
+            // The app is not in foreground - this can happen rarely if the app goes to background right after user
+            // taps the button.
+        }
     }
 }
 

@@ -18,6 +18,7 @@
  */
 package com.protonvpn.android.redesign.home_screen.ui
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
@@ -61,6 +62,7 @@ import com.protonvpn.android.vpn.VpnErrorUIManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.VpnUiDelegate
+import com.protonvpn.android.widget.WidgetAdoptionUiType
 import com.protonvpn.android.widget.WidgetManager
 import dagger.Reusable
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -68,6 +70,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -129,10 +132,8 @@ class HomeViewModel @Inject constructor(
             null
     }.distinctUntilChanged()
 
-    fun onWidgetAdoptionShown() = widgetManager.onWidgetAdoptionShown()
-
-    val widgetAdoptionAddNewAction = widgetManager.getAdoptWidgetAction()
     val showWidgetAdoptionFlow = widgetManager.showWidgetAdoptionFlow
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(1_000), WidgetAdoptionUiType.None)
 
     val mapHighlightState = combine(
         connectionMapHighlightsFlow,
@@ -258,6 +259,15 @@ class HomeViewModel @Inject constructor(
 
     fun dismissPromoOffer(notificationId: String) {
         promoOffersPrefs.addVisitedOffer(notificationId)
+    }
+
+    fun onWidgetAdoptionShown() {
+        widgetManager.onWidgetAdoptionShown()
+    }
+
+    @TargetApi(26)
+    fun onAddWidget() {
+        widgetManager.addWidget()
     }
 
     private fun RecentConnection.toMaintenanceDialogType() = when(this) {

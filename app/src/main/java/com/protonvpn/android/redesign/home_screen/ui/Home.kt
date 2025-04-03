@@ -109,6 +109,7 @@ import com.protonvpn.android.utils.openUrl
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DisconnectTrigger
 import com.protonvpn.android.vpn.VpnErrorUIManager
+import com.protonvpn.android.widget.WidgetAdoptionUiType
 import com.protonvpn.android.widget.ui.OnboardingWidgetBottomSheetContent
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -145,7 +146,7 @@ fun HomeRoute(
     val prominentPromoBannerState =
         homeViewModel.prominentPromoBannerStateFlow.collectAsStateWithLifecycle().value
     val snackError = homeViewModel.snackbarErrorFlow.collectAsStateWithLifecycle().value
-    val showWidgetAdoption = homeViewModel.showWidgetAdoptionFlow.collectAsStateWithLifecycle(initialValue = false).value
+    val showWidgetAdoption = homeViewModel.showWidgetAdoptionFlow.collectAsStateWithLifecycle().value
 
     // Not using material3 snackbar because of inability to show multiline correctly
     val snackbarHostState = remember { androidx.compose.material.SnackbarHostState() }
@@ -206,11 +207,13 @@ fun HomeRoute(
             }
         )
     }
-    val widgetAdoptionComponent = if (showWidgetAdoption)
-        WidgetAdoptionComponent(
-            onDismiss = { homeViewModel.onWidgetAdoptionShown() },
-            onAddWidget = homeViewModel.widgetAdoptionAddNewAction
-        ) else null
+    val widgetAdoptionComponent = when(showWidgetAdoption) {
+        WidgetAdoptionUiType.None -> null
+        WidgetAdoptionUiType.AddWidgetButton ->
+            WidgetAdoptionComponent(homeViewModel::onWidgetAdoptionShown, homeViewModel::onAddWidget)
+        WidgetAdoptionUiType.Instructions ->
+            WidgetAdoptionComponent(homeViewModel::onWidgetAdoptionShown, null)
+    }
 
     HomeView(
         vpnState = vpnStatusViewState,

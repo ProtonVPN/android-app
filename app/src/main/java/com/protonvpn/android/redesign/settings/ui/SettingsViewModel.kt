@@ -22,6 +22,7 @@ import android.annotation.TargetApi
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.BuildConfig
 import com.protonvpn.android.R
 import com.protonvpn.android.appconfig.AppFeaturesPrefs
@@ -55,11 +56,13 @@ import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import me.proton.core.auth.domain.feature.IsFido2Enabled
 import me.proton.core.auth.fido.domain.entity.Fido2RegisteredKey
 import me.proton.core.domain.entity.UserId
@@ -301,9 +304,15 @@ class SettingsViewModel @Inject constructor(
         val versionName: String,
     )
 
+    enum class UiEvent {
+        NavigateToWidgetInstructions
+    }
+
     // The configuration doesn't change during runtime.
     private val displayDebugUi = BuildConfigUtils.displayDebugUi()
     private val buildConfigText = if (displayDebugUi) buildConfigInfo() else null
+
+    val event = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
 
     val viewState =
         combine(
@@ -482,13 +491,15 @@ class SettingsViewModel @Inject constructor(
     fun setNewAppIcon(newIcon: CustomAppIconData) = appIconManager.setNewAppIcon(newIcon)
 
     @TargetApi(26)
-    fun onWidgetSettingClick(onNativeSelectionUnavailable: () -> Unit) {
-        if (appWidgetManager.supportsNativeWidgetSelector()) {
-            appWidgetManager.openNativeWidgetSelector()
-        } else {
-            onNativeSelectionUnavailable()
+    fun onWidgetSettingClick() {
+        viewModelScope.launch {
+            if (appWidgetManager.supportsNativeWidgetSelector()) {
+                appWidgetManager.openNativeWidgetSelector()
+            } else {
+                event.tryEmit(UiEvent.NavigateToWidgetInstructions)
+            }
+            appFeaturePrefs.isWidgetDiscovered = true
         }
-        appFeaturePrefs.isWidgetDiscovered = true
     }
 }
 
