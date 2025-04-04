@@ -18,7 +18,6 @@
  */
 package com.protonvpn.android.redesign.settings.ui.customdns
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,7 +43,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protonvpn.android.R
-import com.protonvpn.android.base.ui.VpnSolidButton
+import com.protonvpn.android.base.ui.VpnSolidCompactButton
 import com.protonvpn.android.redesign.base.ui.ProtonOutlinedTextField
 import com.protonvpn.android.redesign.settings.ui.SubSetting
 
@@ -105,10 +104,10 @@ private fun ColumnScope.DnsInputRow(
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { onAddDns(currentDns.text) }),
-            modifier = Modifier.focusRequester(focusRequester),
+            modifier = Modifier.focusRequester(focusRequester).weight(1f),
         )
         Spacer(modifier = Modifier.width(8.dp))
-        VpnSolidButton(
+        VpnSolidCompactButton(
             text = stringResource(R.string.settings_add_dns_new_entry_button),
             onClick = {
                 onAddDns(currentDns.text)
