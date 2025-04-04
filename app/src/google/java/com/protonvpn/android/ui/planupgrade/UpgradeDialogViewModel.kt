@@ -182,7 +182,9 @@ class UpgradeDialogViewModel(
             }
         }.runCatchingCheckedExceptions { e ->
             // loadGoogleSubscriptionPlans throws errors.
-            state.value = State.LoadError(error = e)
+            val errorMessage =
+                if (e is LoadGoogleSubscriptionPlans.PartialPrices) R.string.error_fetching_prices else null
+            state.value = State.LoadError(messageRes = errorMessage, error = e)
         }
     }
 
