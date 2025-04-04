@@ -200,7 +200,7 @@ class ConnectivityMonitor @Inject constructor(
         ) {
             if (Build.VERSION.SDK_INT >= 28) {
                 isPrivateDnsActive.value = linkProperties.isPrivateDnsActive && linkProperties.privateDnsServerName != null
-                ProtonLogger.log(NetworkChanged, "isPrivateDnsActive: ${linkProperties.isPrivateDnsActive}")
+                ProtonLogger.log(NetworkChanged, "isPrivateDnsActive: ${isPrivateDnsActive.value}")
             }
         }
     }

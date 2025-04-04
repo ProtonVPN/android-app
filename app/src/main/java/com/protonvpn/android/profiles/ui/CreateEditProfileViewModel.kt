@@ -52,8 +52,8 @@ import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DnsOverride
-import com.protonvpn.android.vpn.DnsOverrideFlow
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
+import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnect
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,7 +66,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import me.proton.core.presentation.savedstate.state
@@ -74,7 +76,11 @@ import java.util.Locale
 import javax.inject.Inject
 import me.proton.core.presentation.R as CoreR
 
-private fun defaultSettingScreenState(isAutOpenNew: Boolean, customDnsFeatureFlagEnabled: Boolean) = SettingsScreenState(
+private fun defaultSettingScreenState(
+    isAutOpenNew: Boolean,
+    customDnsFeatureFlagEnabled: Boolean,
+    isPrivateDnsEnabled: Boolean,
+) = SettingsScreenState(
     protocol = ProtocolSelection.SMART,
     netShield = true,
     natType = NatType.Strict,
@@ -82,6 +88,7 @@ private fun defaultSettingScreenState(isAutOpenNew: Boolean, customDnsFeatureFla
     autoOpen = ProfileAutoOpen.None(""),
     customDnsSettings = if (customDnsFeatureFlagEnabled) CustomDnsSettings(false) else null,
     isAutoOpenNew = isAutOpenNew,
+    isPrivateDnsActive = isPrivateDnsEnabled,
 )
 
 @Parcelize
@@ -191,6 +198,7 @@ sealed interface TypeAndLocationScreenState {
 @Parcelize
 data class SettingsScreenState(
     val netShield: Boolean,
+    val isPrivateDnsActive: Boolean,
     val protocol: ProtocolSelection,
     val natType: NatType,
     val lanConnections: Boolean,
@@ -205,6 +213,12 @@ data class SettingsScreenState(
         customDns = customDnsSettings,
         lanConnections = lanConnections,
     )
+
+    val dnsOverride get() = when {
+        isPrivateDnsActive -> DnsOverride.SystemPrivateDns
+        customDnsSettings?.effectiveEnabled == true -> DnsOverride.CustomDns
+        else -> DnsOverride.None
+    }
 }
 
 private const val NAME_SCREEN_STATE_KEY = "nameScreenState"
@@ -223,7 +237,7 @@ class CreateEditProfileViewModel @Inject constructor(
     private val vpnBackgroundUiDelegate: VpnBackgroundUiDelegate,
     private val shouldAskForReconnection: ShouldAskForProfileReconnection,
     private val uiStateStorage: UiStateStorage,
-    val dnsOverrideFlow: DnsOverrideFlow,
+    private val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
 ) : ViewModel() {
 
@@ -251,19 +265,27 @@ class CreateEditProfileViewModel @Inject constructor(
         dnsViewState =
             combine(
                 settingsScreenStateFlow,
-                dnsOverrideFlow
-            ) { settingsState, dnsOverride ->
+                isPrivateDnsActiveFlow,
+            ) { settingsState, isPrivateDnsActive ->
                 settingsState?.customDnsSettings?.let {
                     SettingViewState.CustomDns(
                         enabled = it.enabled,
                         customDns = it.rawDnsList,
                         overrideProfilePrimaryLabel = null,
                         isFreeUser = false,
-                        isPrivateDnsActive = dnsOverride == DnsOverride.SystemPrivateDns
+                        isPrivateDnsActive = isPrivateDnsActive
                     )
                 }
             }
     )
+
+    init {
+        isPrivateDnsActiveFlow.onEach { active ->
+            settingsScreenState = settingsScreenState?.copy(isPrivateDnsActive = active)
+        }.launchIn(viewModelScope)
+    }
+
+    val isPrivateDnsActive get() = isPrivateDnsActiveFlow.value
 
     val typeAndLocationScreenStateFlow : Flow<TypeAndLocationScreenState> = combine(
         typeAndLocationScreenSavedStateFlow.filterNotNull(),
@@ -377,7 +399,11 @@ class CreateEditProfileViewModel @Inject constructor(
             ProfileIcon.Icon1,
         )
         typeAndLocationScreenSavedState = standardTypeDefault()
-        settingsScreenState = defaultSettingScreenState(isAutoOpenNew.first(), isCustomDnsFeatureFlagEnabled())
+        settingsScreenState = defaultSettingScreenState(
+            isAutoOpenNew.first(),
+            customDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled(),
+            isPrivateDnsEnabled = isPrivateDnsActive
+        )
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -399,15 +425,16 @@ class CreateEditProfileViewModel @Inject constructor(
 
     private suspend fun getSettingsScreenState(profile: Profile) : SettingsScreenState {
         val intent = profile.connectIntent
-        val defaultSettingScreenState = defaultSettingScreenState(isAutoOpenNew.first(), isCustomDnsFeatureFlagEnabled())
+        val defaultSettingScreenState = defaultSettingScreenState(isAutoOpenNew.first(), isCustomDnsFeatureFlagEnabled(), isPrivateDnsActive)
         return SettingsScreenState(
             netShield = intent.settingsOverrides?.netShield?.let { it != NetShieldProtocol.DISABLED } ?: defaultSettingScreenState.netShield,
+            isPrivateDnsActive = isPrivateDnsActive,
             protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
             natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
             lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
             autoOpen = profile.autoOpen,
             customDnsSettings = intent.settingsOverrides?.customDns ?: defaultSettingScreenState.customDnsSettings,
-            isAutoOpenNew = isAutoOpenNew.first()
+            isAutoOpenNew = isAutoOpenNew.first(),
         )
     }
 

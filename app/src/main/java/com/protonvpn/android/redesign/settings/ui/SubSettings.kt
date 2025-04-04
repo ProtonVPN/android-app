@@ -183,7 +183,7 @@ fun SubSettingsRoute(
                             },
                             onNavigateToCustomDns = {
                                 val overrideType = if (advancedViewState.customDns?.isPrivateDnsActive == true)
-                                    OverrideType.SystemDnsConflict.CustomDns else OverrideType.CustomDns
+                                    OverrideType.CustomDnsPrivateDnsConflict else OverrideType.CustomDns
                                 onOverrideSettingClick(overrideType) {
                                     onNavigateToSubSetting(SubSettingsScreen.Type.CustomDns)
                                 }

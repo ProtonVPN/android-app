@@ -97,6 +97,7 @@ class CreateOrUpdateProfileFromUiTests {
         autoOpen = ProfileAutoOpen.None(""),
         customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
+        isPrivateDnsActive = false,
     )
     // Matches the screen states above.
     private val testProfile = Profile(

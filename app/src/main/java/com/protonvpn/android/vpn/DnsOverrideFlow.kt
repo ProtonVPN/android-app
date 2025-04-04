@@ -19,10 +19,13 @@
 
 package com.protonvpn.android.vpn
 
+import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.redesign.vpn.usecases.SettingsForConnection
+import com.protonvpn.android.utils.mapState
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -32,17 +35,28 @@ enum class DnsOverride {
 }
 
 @Reusable
+class IsPrivateDnsActiveFlow @VisibleForTesting constructor(
+    private val flow: StateFlow<Boolean>,
+) : StateFlow<Boolean> by flow {
+
+    @Inject
+    constructor(connectivityMonitor: ConnectivityMonitor) : this(
+        connectivityMonitor.isPrivateDnsActive.mapState { it == true }
+    )
+}
+
+@Reusable
 class DnsOverrideFlow(
     private val flow: Flow<DnsOverride>,
 ): Flow<DnsOverride> {
 
     @Inject
     constructor(
-        connectivityMonitor: ConnectivityMonitor,
+        isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
         settingsForConnection: SettingsForConnection,
     ) : this(
         combine(
-            connectivityMonitor.isPrivateDnsActive.map { it == true },
+            isPrivateDnsActiveFlow,
             settingsForConnection.getFlowForCurrentConnection().map { it.connectionSettings.customDns.enabled }
         ) { privateDns, customDns ->
             when {

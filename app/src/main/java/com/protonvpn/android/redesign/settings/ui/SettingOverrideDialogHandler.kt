@@ -88,16 +88,19 @@ fun SettingOverrideDialogHandler(
                     }
                 )
             }
-            is OverrideType.SystemDnsConflict -> {
+            OverrideType.CustomDnsPrivateDnsConflict, OverrideType.NetShieldPrivateDnsConflict -> {
                 val context = LocalContext.current
                 ProtonBasicAlert(
                     content = {
                         DnsConflictBanner(
                             titleRes = type.stringRes,
                             descriptionRes = type.descriptionRes,
-                            buttonRes = R.string.custom_dns_conflict_banner_disable_custom_dns_button,
+                            buttonRes = R.string.private_dns_conflict_banner_network_settings_button,
                             onLearnMore = { context.openUrl(Constants.URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE) },
-                            onButtonClicked = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
+                            onButtonClicked = {
+                                dialogSettingType = null
+                                context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+                            },
                             modifier = Modifier,
                             backgroundColor = Color.Transparent,
                             contentPadding = PaddingValues(horizontal = 24.dp)
@@ -198,24 +201,20 @@ fun OverrideSettingLabel(
     }
 }
 
-sealed class OverrideType(@StringRes val stringRes: Int) {
-    data object LAN : OverrideType(R.string.settings_advanced_allow_lan_title)
-    data object NatType : OverrideType(R.string.settings_advanced_nat_type_title)
-    data object NetShield : OverrideType(R.string.settings_netshield_title)
-    data object CustomDns : OverrideType(R.string.settings_custom_dns_title)
-    data object Protocol : OverrideType(R.string.settings_protocol_title)
-
-    sealed class SystemDnsConflict(@StringRes stringRes: Int, @StringRes val descriptionRes: Int) : OverrideType(stringRes) {
-        data object NetShield : SystemDnsConflict(
-            R.string.private_dns_conflict_banner_netshield_title,
-            R.string.private_dns_conflict_banner_netshield_description
-        )
-
-        data object CustomDns : SystemDnsConflict(
-            R.string.private_dns_conflict_banner_custom_dns_title,
-            R.string.private_dns_conflict_banner_custom_dns_description
-        )
-    }
+enum class OverrideType(@StringRes val stringRes: Int, val descriptionRes: Int = 0) {
+    LAN(R.string.settings_advanced_allow_lan_title),
+    NatType(R.string.settings_advanced_nat_type_title),
+    NetShield(R.string.settings_netshield_title),
+    CustomDns(R.string.settings_custom_dns_title),
+    Protocol(R.string.settings_protocol_title),
+    NetShieldPrivateDnsConflict(
+        R.string.private_dns_conflict_banner_netshield_title,
+        R.string.private_dns_conflict_banner_netshield_description
+    ),
+    CustomDnsPrivateDnsConflict(
+        R.string.private_dns_conflict_banner_custom_dns_title,
+        R.string.private_dns_conflict_banner_custom_dns_description
+    )
 }
 
 @Preview

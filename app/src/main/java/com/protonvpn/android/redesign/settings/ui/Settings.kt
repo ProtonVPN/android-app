@@ -145,7 +145,7 @@ fun SettingsRoute(
                 },
                 onNetShieldClick = {
                     val overrideType = if (viewState.customDns?.isPrivateDnsActive == true)
-                        OverrideType.SystemDnsConflict.NetShield else OverrideType.NetShield
+                        OverrideType.NetShieldPrivateDnsConflict else OverrideType.NetShield
                     onOverrideSettingClick(overrideType) {
                         onNavigateToSubSetting(SubSettingsScreen.Type.NetShield)
                     }

@@ -18,6 +18,8 @@
  */
 package com.protonvpn.android.profiles.ui
 
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -67,8 +69,10 @@ fun CreateProfileFeaturesAndSettingsRoute(
                 onLanChange = viewModel::setLanConnections,
                 onAutoOpenChange = viewModel::setAutoOpen,
                 onDisableCustomDns = { viewModel.toggleCustomDns() },
+                onDisablePrivateDns = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
                 onOpenCustomDns = onOpenCustomDns,
                 onCustomDnsLearnMore = { context.openUrl(Constants.URL_NETSHIELD_CUSTOM_DNS_LEARN_MORE) },
+                onPrivateDnsLearnMore = { context.openUrl(Constants.URL_CUSTOM_DNS_PRIVATE_DNS_LEARN_MORE) },
                 onNext = onNext,
                 onBack = onBack
             )
@@ -87,7 +91,9 @@ fun ProfileFeaturesAndSettings(
     onNatChange: (NatType) -> Unit,
     onLanChange: (Boolean) -> Unit,
     onDisableCustomDns: () -> Unit,
+    onDisablePrivateDns: () -> Unit,
     onCustomDnsLearnMore: () -> Unit,
+    onPrivateDnsLearnMore: () -> Unit,
     onOpenCustomDns: () -> Unit,
     onNext: () -> Unit,
     onBack: () -> Unit,
@@ -116,8 +122,10 @@ fun ProfileFeaturesAndSettings(
                 value = state.netShield,
                 onNetShieldChange = onNetShieldChange,
                 onDisableCustomDns = onDisableCustomDns,
+                onDisablePrivateDns = onDisablePrivateDns,
                 onCustomDnsLearnMore = onCustomDnsLearnMore,
-                customDnsEnabled = state.customDnsSettings?.enabled == true
+                onPrivateDnsLearnMore = onPrivateDnsLearnMore,
+                dnsOverride = state.dnsOverride,
             )
             ProfileProtocolItem(
                 value = state.protocol,
@@ -138,8 +146,9 @@ fun ProfileFeaturesAndSettings(
             )
             state.customDnsSettings?.let {
                 ProfileCustomDnsItem(
-                    value = it.enabled,
-                    onClick = onOpenCustomDns
+                    value = it.effectiveEnabled,
+                    onClick = onOpenCustomDns,
+                    dnsOverride = state.dnsOverride,
                 )
             }
         }
@@ -153,6 +162,7 @@ fun PreviewFeaturesAndSettings() {
         ProfileFeaturesAndSettings(
             state = SettingsScreenState(
                 netShield = true,
+                isPrivateDnsActive = false,
                 ProtocolSelection(VpnProtocol.WireGuard, null),
                 NatType.Strict,
                 false,
@@ -169,7 +179,9 @@ fun PreviewFeaturesAndSettings() {
             onBack = {},
             onOpenCustomDns = {},
             onCustomDnsLearnMore = {},
-            onAutoOpenChange = {}
+            onAutoOpenChange = {},
+            onDisablePrivateDns = {},
+            onPrivateDnsLearnMore = {},
         )
     }
 }

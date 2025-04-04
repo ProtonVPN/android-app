@@ -89,6 +89,7 @@ import com.protonvpn.android.redesign.settings.ui.NatType
 import com.protonvpn.android.redesign.settings.ui.ProtocolSettingsList
 import com.protonvpn.android.redesign.vpn.ui.label
 import com.protonvpn.android.redesign.vpn.ui.viaCountry
+import com.protonvpn.android.vpn.DnsOverride
 import com.protonvpn.android.vpn.ProtocolSelection
 import me.proton.core.compose.theme.ProtonTheme
 import me.proton.core.compose.theme.defaultNorm
@@ -624,12 +625,14 @@ fun ProfileNetShieldItem(
     value: Boolean,
     onNetShieldChange: (Boolean) -> Unit,
     onDisableCustomDns: () -> Unit,
+    onDisablePrivateDns: () -> Unit,
     onCustomDnsLearnMore: () -> Unit,
-    customDnsEnabled: Boolean
+    onPrivateDnsLearnMore: () -> Unit,
+    dnsOverride: DnsOverride,
 ) {
     val netshieldStateResource = when {
         !value -> R.string.netshield_state_off
-        customDnsEnabled -> R.string.netshield_state_unavailable
+        dnsOverride != DnsOverride.None -> R.string.netshield_state_unavailable
         else -> R.string.netshield_state_on
     }
     ProfileValueItem(
@@ -646,21 +649,34 @@ fun ProfileNetShieldItem(
             )
         },
         modal = { closeModal ->
-            if (customDnsEnabled) {
-                NetShieldConflictDialog(
-                    onDisableCustomDns = onDisableCustomDns,
-                    onCustomDnsLearnMore = onCustomDnsLearnMore,
-                    onDismissRequest = closeModal
-                )
-            } else {
-                PickNetShield(
-                    selected = value,
-                    onSelect = {
-                        onNetShieldChange(it)
-                        closeModal()
-                    },
-                    onDismissRequest = closeModal
-                )
+            when (dnsOverride) {
+                DnsOverride.None ->
+                    PickNetShield(
+                        selected = value,
+                        onSelect = {
+                            onNetShieldChange(it)
+                            closeModal()
+                        },
+                        onDismissRequest = closeModal
+                    )
+                DnsOverride.CustomDns ->
+                    NetShieldConflictDialog(
+                        titleRes = R.string.custom_dns_conflict_banner_netshield_title,
+                        descriptionRes = R.string.custom_dns_conflict_banner_netshield_description,
+                        buttonRes = R.string.custom_dns_conflict_banner_disable_custom_dns_button,
+                        onButtonClicked = onDisableCustomDns,
+                        onLearnMore = onCustomDnsLearnMore,
+                        onDismissRequest = closeModal
+                    )
+                DnsOverride.SystemPrivateDns ->
+                    NetShieldConflictDialog(
+                        titleRes = R.string.private_dns_conflict_banner_netshield_title,
+                        descriptionRes = R.string.private_dns_conflict_banner_custom_dns_description,
+                        buttonRes = R.string.private_dns_conflict_banner_network_settings_button,
+                        onButtonClicked = onDisablePrivateDns,
+                        onLearnMore = onPrivateDnsLearnMore,
+                        onDismissRequest = closeModal
+                    )
             }
         },
         modifier = modifier
@@ -669,18 +685,24 @@ fun ProfileNetShieldItem(
 
 @Composable
 fun NetShieldConflictDialog(
+    @StringRes titleRes: Int,
+    @StringRes descriptionRes: Int,
+    @StringRes buttonRes: Int,
     onDismissRequest: () -> Unit,
-    onDisableCustomDns: () -> Unit,
-    onCustomDnsLearnMore: () -> Unit,
+    onButtonClicked: () -> Unit,
+    onLearnMore: () -> Unit,
 ) {
     ProtonBasicAlert(
         content = {
             DnsConflictBanner(
-                titleRes = R.string.custom_dns_conflict_banner_netshield_title,
-                descriptionRes = R.string.custom_dns_conflict_banner_netshield_description,
-                buttonRes = R.string.custom_dns_conflict_banner_disable_custom_dns_button,
-                onLearnMore = onCustomDnsLearnMore,
-                onButtonClicked = onDisableCustomDns,
+                titleRes = titleRes,
+                descriptionRes = descriptionRes,
+                buttonRes = buttonRes,
+                onLearnMore = onLearnMore,
+                onButtonClicked = {
+                    onDismissRequest()
+                    onButtonClicked()
+                },
                 modifier = Modifier,
                 backgroundColor = Color.Transparent,
                 contentPadding = PaddingValues(horizontal = 24.dp)
@@ -753,12 +775,19 @@ fun ProfileLanConnectionsItem(
 @Composable
 fun ProfileCustomDnsItem(
     value: Boolean,
+    dnsOverride: DnsOverride,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
     ProfileValueItem(
         labelRes = R.string.settings_custom_dns_title,
-        valueText = stringResource(if (value) R.string.lan_state_on else R.string.lan_state_off),
+        valueText = stringResource(
+            when {
+                !value -> R.string.custom_dns_state_off
+                dnsOverride == DnsOverride.SystemPrivateDns -> R.string.custom_dns_state_unavailable
+                else -> R.string.custom_dns_state_on
+            }
+        ),
         online = true,
         modifier = modifier,
         onClick = onClick,
@@ -1302,8 +1331,10 @@ private fun ProfileNetShieldItemPreview() {
                 value = true,
                 onNetShieldChange = {},
                 onDisableCustomDns = {},
+                onDisablePrivateDns = {},
                 onCustomDnsLearnMore = {},
-                customDnsEnabled = false
+                onPrivateDnsLearnMore = {},
+                dnsOverride = DnsOverride.None,
             )
         }
     }

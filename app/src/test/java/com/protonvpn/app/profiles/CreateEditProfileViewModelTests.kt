@@ -57,8 +57,7 @@ import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.ui.storage.UiStateStoreProvider
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.Storage
-import com.protonvpn.android.vpn.DnsOverride
-import com.protonvpn.android.vpn.DnsOverrideFlow
+import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
@@ -108,7 +107,7 @@ class CreateEditProfileViewModelTests {
     private lateinit var serversAdapter: ProfilesServerDataAdapter
     private lateinit var shouldAskForProfileReconnection: ShouldAskForProfileReconnection
     private lateinit var viewModel: CreateEditProfileViewModel
-    private lateinit var dnsOverrideFlow: MutableStateFlow<DnsOverride>
+    private lateinit var isPrivateDnsActiveFlow: MutableStateFlow<Boolean>
 
     private val servers = listOf(createServer(exitCountry = "SE"))
     private val vpnUser =
@@ -121,6 +120,7 @@ class CreateEditProfileViewModelTests {
         autoOpen = ProfileAutoOpen.None(""),
         customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
+        isPrivateDnsActive = false,
     )
     // Matches the screen states above.
     private val testProfile = Profile(
@@ -188,7 +188,7 @@ class CreateEditProfileViewModelTests {
         serversAdapter = ProfilesServerDataAdapter(ServerManager2(serverManager, supportsProtocol), Translator(testScope.backgroundScope, serverManager))
         val vpnStatusProviderUI = VpnStatusProviderUI(testScope.backgroundScope, vpnStateMonitor)
         shouldAskForProfileReconnection = ShouldAskForProfileReconnection(vpnStatusProviderUI, profilesDao, createOrUpdate)
-        dnsOverrideFlow = MutableStateFlow(DnsOverride.None)
+        isPrivateDnsActiveFlow = MutableStateFlow(false)
         viewModel = CreateEditProfileViewModel(
             SavedStateHandle(),
             testScope.backgroundScope,
@@ -200,7 +200,7 @@ class CreateEditProfileViewModelTests {
             mockk(relaxed = true),
             shouldAskForProfileReconnection,
             UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
-            DnsOverrideFlow(dnsOverrideFlow),
+            IsPrivateDnsActiveFlow(isPrivateDnsActiveFlow),
             isCustomDnsEnabled
         )
         viewModel.localeFlow.value = Locale("en")

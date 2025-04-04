@@ -109,7 +109,8 @@ fun ProfileFeaturesAndSettingsScreen() {
                 lanConnections = true,
                 autoOpen = ProfileAutoOpen.None("Off"),
                 customDnsSettings = CustomDnsSettings(false),
-                isAutoOpenNew = false
+                isAutoOpenNew = false,
+                isPrivateDnsActive = false,
             ),
             onNext = {},
             onBack = {},
@@ -120,7 +121,9 @@ fun ProfileFeaturesAndSettingsScreen() {
             onNetShieldChange = {},
             onDisableCustomDns = {},
             onCustomDnsLearnMore = {},
-            onOpenCustomDns = {}
+            onOpenCustomDns = {},
+            onDisablePrivateDns = {},
+            onPrivateDnsLearnMore = {},
         )
     }
 }
@@ -136,8 +139,9 @@ fun ProfileFeaturesAndSettingsScreenCustomDnsConflict() {
                 natType = NatType.Strict,
                 lanConnections = true,
                 autoOpen = ProfileAutoOpen.None("Off"),
-                customDnsSettings = CustomDnsSettings(true),
-                isAutoOpenNew = true
+                customDnsSettings = CustomDnsSettings(true, listOf("1.1.1.1")),
+                isAutoOpenNew = true,
+                isPrivateDnsActive = false,
             ),
             onNext = {},
             onBack = {},
@@ -148,7 +152,9 @@ fun ProfileFeaturesAndSettingsScreenCustomDnsConflict() {
             onNetShieldChange = {},
             onDisableCustomDns = {},
             onCustomDnsLearnMore = {},
-            onOpenCustomDns = {}
+            onOpenCustomDns = {},
+            onDisablePrivateDns = {},
+            onPrivateDnsLearnMore = {},
         )
     }
 }
