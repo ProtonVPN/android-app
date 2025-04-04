@@ -30,6 +30,7 @@ import me.proton.core.payment.domain.usecase.GetAvailablePaymentProviders
 import me.proton.core.payment.domain.usecase.PaymentProvider
 import me.proton.core.plan.domain.entity.DynamicPlan
 import me.proton.core.plan.domain.entity.DynamicPlanState
+import me.proton.core.plan.domain.repository.PlansRepository
 import me.proton.core.plan.domain.usecase.GetDynamicPlansAdjustedPrices
 import me.proton.core.plan.presentation.entity.PlanCycle
 import javax.inject.Inject
@@ -49,40 +50,49 @@ data class GiapPlanInfo(
 @Reusable
 class LoadGoogleSubscriptionPlans(
     private val vpnUserFlow: Flow<VpnUser?>,
-    private val dynamicPlans: suspend (UserId?) -> List<DynamicPlan>,
+    private val rawDynamicPlans: suspend (UserId?) -> List<DynamicPlan>,
+    private val dynamicPlansAdjustedPrices: suspend (UserId?) -> List<DynamicPlan>,
     private val availablePaymentProviders: suspend () -> Set<PaymentProvider>,
     private val defaultCycles: List<PlanCycle>,
     private val defaultPreselectedCycle: PlanCycle
 ) {
+    class PartialPrices(
+        loadedPricesCycleIds: List<String>,
+        missingPricesCycleIds: List<String>
+    ) : Exception(
+        "Google prices available only for a subset of plans/cycles: $loadedPricesCycleIds; " +
+            "missing for: $missingPricesCycleIds"
+    )
 
     @Inject constructor(
         currentUser: CurrentUser,
-        getDynamicPlans: GetDynamicPlansAdjustedPrices,
+        appStore: AppStore,
+        plansRepository: PlansRepository,
+        getDynamicPlansAdjustedPrices: GetDynamicPlansAdjustedPrices,
         getAvailablePaymentProviders: GetAvailablePaymentProviders
     ) : this(
         vpnUserFlow = currentUser.vpnUserFlow,
-        dynamicPlans = { userId -> getDynamicPlans(userId).plans },
+        rawDynamicPlans = { userId -> plansRepository.getDynamicPlans(userId, appStore).plans },
+        dynamicPlansAdjustedPrices = { userId -> getDynamicPlansAdjustedPrices(userId).plans },
         availablePaymentProviders = getAvailablePaymentProviders::invoke,
         DEFAULT_CYCLES,
         DEFAULT_PRESELECTED_CYCLE
     )
 
-    private suspend fun availableDynamicPlans(planNames: List<String>) : List<DynamicPlan> {
-        val vpnUser = vpnUserFlow.first() ?: return emptyList()
-        if (vpnUser.hasSubscription)
-            return emptyList()
-        return dynamicPlans(vpnUser.userId)
-            .filter { it.name in planNames && it.state == DynamicPlanState.Available }
-            .distinctBy { it.name }
+    private fun DynamicPlan.getAvailableDefaultCycles() = defaultCycles.mapNotNull { cycle ->
+        instances[cycle.cycleDurationMonths]?.vendors?.get(AppStore.GooglePlay)?.productId?.let {
+            CycleInfo(cycle, it)
+        }
     }
+
+    private fun List<DynamicPlan>.filterAvailablePlans(planNames: List<String>) : List<DynamicPlan> =
+        filter { plan -> plan.name in planNames && plan.state == DynamicPlanState.Available }
+            .distinctBy { it.name }
 
     private fun DynamicPlan.toPlanInfo(): GiapPlanInfo? {
         val planName = name ?: return null
-        val cycles = defaultCycles.mapNotNull { cycle ->
-            instances[cycle.cycleDurationMonths]?.vendors?.get(AppStore.GooglePlay)?.productId?.let {
-                CycleInfo(cycle, it)
-            }
-        }
+        val cycles = getAvailableDefaultCycles()
+
         if (cycles.isEmpty())
             return null
         val preselectedCycle = if (cycles.any { it.cycle == defaultPreselectedCycle })
@@ -98,13 +108,37 @@ class LoadGoogleSubscriptionPlans(
         )
     }
 
+    // Throws PartialPrices and whatever GetDynamicPlansAdjustedPrices and PlansRepository.getDynamicPlans may throw.
     suspend operator fun invoke(planNames: List<String>): List<GiapPlanInfo> {
         if (availablePaymentProviders().any { it != PaymentProvider.GoogleInAppPurchase })
             return emptyList()
 
-        return availableDynamicPlans(planNames)
+        val vpnUser = vpnUserFlow.first() ?: return emptyList()
+        if (vpnUser.hasSubscription)
+            return emptyList()
+
+        val availableCycleIds = rawDynamicPlans(vpnUser.userId)
+            .filterAvailablePlans(planNames)
+            .flatMap { plan ->
+                plan.getAvailableDefaultCycles().map { cycle -> cycleId(plan.name ?: "unknown", cycle) }
+            }
+        val giapPlansWithPrices = dynamicPlansAdjustedPrices(vpnUser.userId)
+            .filterAvailablePlans(planNames)
             .mapNotNull { it.toPlanInfo() }
+
+        val giapPlansCycleIds = giapPlansWithPrices.flatMap { plan ->
+            plan.cycles.map { cycle -> cycleId(plan.name, cycle) }
+        }
+        val missingPricesCycleIds =
+            availableCycleIds.filterNot { expectedProductId -> giapPlansCycleIds.contains(expectedProductId) }
+        if (missingPricesCycleIds.isNotEmpty() && missingPricesCycleIds.size < availableCycleIds.size) {
+            throw PartialPrices(giapPlansCycleIds, missingPricesCycleIds)
+        }
+
+        return giapPlansWithPrices
     }
+
+    private fun cycleId(planName: String, cycle: CycleInfo): String = "${planName}_${cycle.cycle.name}"
 
     companion object {
         // TODO: in future this should come from API
