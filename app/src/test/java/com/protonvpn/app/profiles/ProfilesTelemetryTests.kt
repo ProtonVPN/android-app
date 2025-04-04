@@ -60,6 +60,7 @@ class ProfilesTelemetryTests {
         autoOpen = ProfileAutoOpen.None(""),
         customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
+        isPrivateDnsActive = false,
     )
 
     private lateinit var profilesTelemetry: ProfilesTelemetry
@@ -273,6 +274,7 @@ class ProfilesTelemetryTests {
                 autoOpen = ProfileAutoOpen.None(""),
                 customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = true,
+                isPrivateDnsActive = false,
             ),
         )
         assertEquals("off", settingsDimensions1["netshield_setting"])
@@ -290,6 +292,7 @@ class ProfilesTelemetryTests {
                 autoOpen = ProfileAutoOpen.None(""),
                 customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = true,
+                isPrivateDnsActive = false,
             )
         )
         assertEquals("f2", settingsDimensions2["netshield_setting"])

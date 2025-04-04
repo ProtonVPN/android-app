@@ -76,6 +76,7 @@ data class CustomDnsSettings(
     val rawDnsList: List<String> = emptyList()
 ): Parcelable {
     val effectiveDnsList: List<String> get() = if (enabled && rawDnsList.isNotEmpty()) rawDnsList else emptyList()
+    val effectiveEnabled get() = effectiveDnsList.isNotEmpty()
 }
 
 @Serializable
