@@ -625,13 +625,13 @@
     <string name="settings_change_icon_confirmation_details">Acest lucru va determina închiderea aplicației Proton VPN. Pentru a reporni Proton VPN, trebuie doar să atingeți nou pictogramă a aplicației.</string>
     <string name="settings_change_icon_header_protonvpn">Proton VPN</string>
     <string name="settings_change_icon_header_discreet">Pictogramă discretă aplicație</string>
-    <string name="settings_widget_title">Modul</string>
-    <string name="settings_widget_selection_title">Încercați modulul Proton VPN</string>
+    <string name="settings_widget_title">Widget</string>
+    <string name="settings_widget_selection_title">Încercați widget-ul Proton VPN</string>
     <string name="settings_widget_selection_description">Vedeți starea conexiunii și accesați conexiunile VPN preferate direct de pe ecranul principal.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">Pentru a adăuga modulul, țineți apăsat oriunde pe ecranul de pornire, apoi selectați %1$s din meniul de module.</string>
-    <string name="settings_widget_selection_button_title">Adăugare modul</string>
-    <string name="setting_widget_try_title">Încercați modulul Proton VPN</string>
+    <string name="setting_widget_selection_additional_description">Pentru a adăuga widget-ul, țineți apăsat oriunde pe ecranul de pornire, apoi selectați %1$s din meniul afișat.</string>
+    <string name="settings_widget_selection_button_title">Adăugare widget</string>
+    <string name="setting_widget_try_title">Încercați widget-ul Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Ascundere banner</string>
@@ -695,9 +695,9 @@
     <string name="whats_new_title">Ce este nou</string>
     <string name="whats_new_profiles_title">Profilurile au revenit</string>
     <string name="whats_new_profiles_description">Creați și salvați conexiuni personale alegându-vă locul, serverul și protocolul.</string>
-    <string name="whats_new_widget_title">Vă prezentăm modulele</string>
+    <string name="whats_new_widget_title">Vă prezentăm widget-urile</string>
     <string name="whats_new_widget_description">Acum vă puteți vedea și gestiona VPN-ul fără a părăsi ecranul principal.</string>
-    <string name="whats_new_add_widget_button">Adăugare modul</string>
+    <string name="whats_new_add_widget_button">Adăugare widget</string>
     <string name="welcome_plus_title">Bun venit la VPN Plus</string>
     <string name="welcome_plus_description">Bucurați-vă de funcții suplimentare de confidențialitate, performanță îmbunătățită și personalizare VPN la nivelul următor.</string>
     <string name="welcome_plus_feature_security">Funcții avansate de securitate</string>
@@ -1541,7 +1541,7 @@
     <string name="widget_status_error">Eroare</string>
     <string name="widget_status_connecting">Se conectează</string>
     <string name="widget_sign_in">Conectare</string>
-    <string name="widget_toast_added_message">Modulul a fost adăugat pe ecran.</string>
+    <string name="widget_toast_added_message">Widget-ul a fost adăugat pe ecran</string>
     <string name="settings_advanced_ipv6_title">IPv6</string>
     <string name="settings_advanced_ipv6_description">Direcționează traficul IPv6 prin VPN. Poate spori compatibilitatea cu rețelele IPv6.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Pentru a utiliza această adresă, trebuie să permiteți conexiuni IPv6 prin tunelul VPN.</string>
