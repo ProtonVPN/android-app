@@ -22,6 +22,7 @@ package com.protonvpn.android.base.ui
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -49,6 +50,26 @@ fun VpnSolidButton(
 ) {
     ProtonSolidButton(onClick = onClick, modifier = modifier.fillMaxWidth(), enabled = enabled) {
         VpnButtonContent(text, isExternalLink)
+    }
+}
+
+val ButtonDefaults.ProtonContentPaddingCompact: PaddingValues
+    get() = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
+
+@Composable
+fun VpnSolidCompactButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
+    ProtonSolidButton(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        contentPadding = ButtonDefaults.ProtonContentPaddingCompact
+    ) {
+        VpnButtonContent(text, isExternalLink = false)
     }
 }
 
