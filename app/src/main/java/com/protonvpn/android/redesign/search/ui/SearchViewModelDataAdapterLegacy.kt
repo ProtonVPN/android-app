@@ -36,11 +36,13 @@ import com.protonvpn.android.third_party.ApacheStringUtils
 import com.protonvpn.android.utils.CountryTools
 import com.protonvpn.android.utils.addToList
 import com.protonvpn.android.utils.addToSet
+import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Locale
 import javax.inject.Inject
 
+@Reusable
 class SearchViewModelDataAdapterLegacy @Inject constructor(
     private val serverManager2: ServerManager2,
     private val translator: Translator,
@@ -57,9 +59,9 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
             val serverResults = mutableMapOf<ServerFilterType, MutableList<ServerGroupItemData.Server>>()
 
             // This runs though all servers so all operations should be as fast as possible.
-            servers.asSequence().forEach { server ->
+            servers.forEach { server ->
                 // For servers search for matches in this loop
-                val serverMatch = match(normalizedTerm, server.serverName, removeAccents = true)
+                val serverMatch = match(term, normalizedTerm, server.serverName)
                 if (serverMatch != null) {
                     ServerFilterType.entries.forEach { filter ->
                         if (filter.isMatching(server))
@@ -73,9 +75,9 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
                 if (server.state != null) allStatesEn.addToSet(server.exitCountry, server.state)
             }
 
-            val countriesResult = countriesResult(normalizedTerm, allExitCountryCodes, locale)
-            val citiesResult = citiesResult(normalizedTerm, allCitiesEn)
-            val statesResult = statesResult(normalizedTerm, allStatesEn)
+            val countriesResult = countriesResult(term, normalizedTerm, allExitCountryCodes, locale)
+            val citiesResult = citiesResult(term, normalizedTerm, allCitiesEn)
+            val statesResult = statesResult(term, normalizedTerm, allStatesEn)
 
             ServerFilterType.entries.associateWith { filter ->
                 SearchResults(
@@ -88,6 +90,7 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
         }
 
     private suspend fun countriesResult(
+        term: String,
         normalizedTerm: String,
         allExitCountryCodes: Set<String>,
         locale: Locale,
@@ -97,7 +100,7 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
         }
         return buildMap<ServerFilterType, MutableList<ServerGroupItemData.Country>> {
             countriesNames.forEach { (countryId, nameLocalized, nameEn) ->
-                val match = matchLocalizedAndEnglish(normalizedTerm, nameLocalized, nameEn)
+                val match = matchLocalizedAndEnglish(term, normalizedTerm, nameLocalized, nameEn)
                 if (match != null) {
                     addItem(countryId) { isSecureCore ->
                         toCountryItem(
@@ -142,6 +145,7 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
         } ?: emptyList()
 
     private suspend fun citiesResult(
+        term: String,
         normalizedTerm: String,
         countriesWithCities: Map<String, Set<String>>,
     ) : Map<ServerFilterType, List<ServerGroupItemData.City>> {
@@ -151,7 +155,7 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
         return buildMap<ServerFilterType, MutableList<ServerGroupItemData.City>> {
             countryToCitiesTranslated.forEach { (countryCode, cities) ->
                 cities.forEach { (cityEn, cityLocalized) ->
-                    val match = matchLocalizedAndEnglish(normalizedTerm, cityLocalized, cityEn)
+                    val match = matchLocalizedAndEnglish(term, normalizedTerm, cityLocalized, cityEn)
                     if (match != null) {
                         addItem(CountryId(countryCode), CityStateId(cityEn, isState = false)) { _ ->
                             toCityItem(translator, isState = false, cityEn, this, match)
@@ -163,6 +167,7 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
     }
 
     private suspend fun statesResult(
+        term: String,
         normalizedTerm: String,
         countriesWithStates: Map<String, Set<String>>,
     ) : Map<ServerFilterType, List<ServerGroupItemData.City>> {
@@ -172,7 +177,7 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
         return buildMap<ServerFilterType, MutableList<ServerGroupItemData.City>> {
             countriesWithStatesTranslated.forEach { (countryCode, states) ->
                 states.forEach { (stateEn, stateLocalized) ->
-                    val match = matchLocalizedAndEnglish(normalizedTerm, stateLocalized, stateEn)
+                    val match = matchLocalizedAndEnglish(term, normalizedTerm, stateLocalized, stateEn)
                     if (match != null)
                         addItem(CountryId(countryCode), CityStateId(stateEn, isState = true)) { _ ->
                             toCityItem(translator, isState = true, stateEn, this, match)
@@ -183,8 +188,8 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
     }
 }
 
-private fun matchLocalizedAndEnglish(term: String, textLocalized: String, textEn: String): TextMatch? =
-    match(term, textLocalized) ?: match(term, textEn)
+private fun matchLocalizedAndEnglish(term: String, normalizedTerm: String, textLocalized: String, textEn: String): TextMatch? =
+    match(term, normalizedTerm, textLocalized) ?: match(term, normalizedTerm, textEn)
 
 private val ADDITIONAL_SEPARATORS = charArrayOf('-', '#')
 
@@ -193,19 +198,16 @@ data class TextMatch(val index: Int, val length: Int, val fullText: String)
 @VisibleForTesting
 fun match(
     term: String,
+    normalizedTerm: String,
     text: String,
-    removeAccents: Boolean = true,
     ignoreCase: Boolean = true,
     matchOnlyWordPrefixes: Boolean = true,
     additionalSeparators: CharArray = ADDITIONAL_SEPARATORS // Separators that are not whitespace
 ): TextMatch? {
     fun Char.isSeparator() = isWhitespace() || this in additionalSeparators
 
-    val normalizedText =
-        if (removeAccents) ApacheStringUtils.stripAccents(text)
-        else text
-
-    val idx = normalizedText.indexOf(term, ignoreCase = ignoreCase)
+    val normalizedText = ApacheStringUtils.stripAccents(text)
+    val idx = normalizedText.indexOf(normalizedTerm, ignoreCase = ignoreCase)
     return when {
         idx < 0 -> null
         !matchOnlyWordPrefixes
@@ -215,7 +217,7 @@ fun match(
         else -> {
             var idxAcc = 0
             val matched = normalizedText.splitToSequence(*additionalSeparators).any { word ->
-                word.startsWith(term, ignoreCase = ignoreCase).also { matched ->
+                word.startsWith(normalizedTerm, ignoreCase = ignoreCase).also { matched ->
                     if (!matched)
                         idxAcc += word.length + 1
                 }

@@ -28,35 +28,37 @@ class SearchUtilTests {
 
     @Test
     fun testmatch() {
-        assertEquals(null, match("a", "b"))
-        assertEquals(null, match("a", ""))
-        assertEquals(TextMatch(0, 0, ""), match("", ""))
-        assertEquals(TextMatch(0, 1, "a"), match("a", "a"))
+        assertEquals(null, match("a", "a", "b"))
+        assertEquals(null, match("a", "a", ""))
+        assertEquals(TextMatch(0, 0, ""), match("", "", ""))
+        assertEquals(TextMatch(0, 1, "a"), match("a", "a", "a"))
     }
 
     @Test
     fun testSearchMatchIgnoreCase() {
-        assertEquals(null, match("kra", "Krakow", ignoreCase = false))
-        assertEquals(TextMatch(0, 3, "Kraków"), match("kra", "Kraków", ignoreCase = true))
+        assertEquals(null, match("kra", "kra", "Krakow", ignoreCase = false))
+        assertEquals(TextMatch(0, 3, "Kraków"), match("kra", "kra", "Kraków", ignoreCase = true))
     }
 
     @Test
     fun testSearchMatchOnlyWords() {
-        assertEquals(TextMatch(1, 2, "abc"), match("bc", "abc", matchOnlyWordPrefixes = false))
-        assertEquals(null, match("bc", "abc", matchOnlyWordPrefixes = true))
+        assertEquals(TextMatch(1, 2, "abc"), match("bc", "bc", "abc", matchOnlyWordPrefixes = false))
+        assertEquals(null, match("bc", "bc", "abc", matchOnlyWordPrefixes = true))
         assertEquals(
             // Should match only second occurrence of "ab" (_ not defined as additional separator)
             TextMatch(5, 2, "_abc-abc"),
-            match("ab", "_abc-abc", matchOnlyWordPrefixes = true, additionalSeparators = charArrayOf('-'))
+            match("ab", "ab", "_abc-abc", matchOnlyWordPrefixes = true, additionalSeparators = charArrayOf('-'))
         )
         // Allow matches for terms starting with separator
-        assertEquals(TextMatch(2, 3, "PL#30"), match("#30", "PL#30", matchOnlyWordPrefixes = true))
+        assertEquals(TextMatch(2, 3, "PL#30"), match("#30", "#30", "PL#30", matchOnlyWordPrefixes = true))
     }
 
     @Test
     fun testSearchMatchAccents() {
-        assertEquals(null, match("krakow", "kraków", removeAccents = false))
-        assertEquals(TextMatch(0, 3, "kraków"), match("kra", "kraków", removeAccents = true))
-        assertEquals(TextMatch(7, 3, "miasto kraków"), match("kra", "miasto kraków", removeAccents = true))
+        assertEquals(TextMatch(0, 5, "kraków"), match("krakó", "krako", "kraków"))
+        assertEquals(TextMatch(7, 3, "miasto kraków"), match("kra", "kra", "miasto kraków"))
+        // Normalization in some languages can affect length of the string (fewer UTF-16 chars), at least in theory.
+        // Highlight should cover the original search term.
+        assertEquals(TextMatch(0, 6, "kraków"), match(term = "kraków", normalizedTerm = "krako", text = "kraków"))
     }
 }
