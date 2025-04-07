@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Proton AG
+ * Copyright (c) 2025 Proton AG
  *
  * This file is part of ProtonVPN.
  *
@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ProtonVPN.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.protonvpn.android.models.vpn
+package com.protonvpn.android.models.vpn.data
 
-import com.protonvpn.android.models.vpn.data.LogicalsMetadata
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class ServerList(
-    @SerialName(value = "LogicalServers") val serverList: List<Server>,
-    @SerialName(value = "ResponseMetadata") val metadata: LogicalsMetadata? = null,
+class LogicalsMetadata(
+    @SerialName(value = "ListIsTruncated") val listIsTruncated: Boolean = false,
 )

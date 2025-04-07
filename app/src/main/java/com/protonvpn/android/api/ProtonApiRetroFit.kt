@@ -69,15 +69,22 @@ open class ProtonApiRetroFit @Inject constructor(
         protocols: List<String>,
         freeOnly: Boolean,
         lastModified: Long,
+        enableTruncation: Boolean,
+        mustHaveIDs: Set<String>?,
     ) = manager {
         getServers(
-            TimeoutOverride(readTimeoutSeconds = 20),
-            createNetZoneHeaders(netzone) +
-                mapOf("If-Modified-Since" to httpHeaderDateFormatter.format(Instant.ofEpochMilli(lastModified))),
-            lang,
-            protocols.joinToString(","),
+            timeoutOverride = TimeoutOverride(readTimeoutSeconds = 20),
+            headers = createNetZoneHeaders(netzone) +
+                buildMap {
+                    put("If-Modified-Since", httpHeaderDateFormatter.format(Instant.ofEpochMilli(lastModified)))
+                    if (enableTruncation)
+                        put("x-pm-response-truncation-permitted", "true")
+                },
+            language = lang,
+            protocols = protocols.joinToString(","),
             withState = true,
-            if (freeOnly) VpnUser.FREE_TIER else null
+            userTier = if (freeOnly) VpnUser.FREE_TIER else null,
+            includeIDs = mustHaveIDs.takeIf { enableTruncation }
         )
     }
 

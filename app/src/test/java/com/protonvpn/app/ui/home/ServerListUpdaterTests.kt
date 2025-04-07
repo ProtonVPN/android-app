@@ -40,6 +40,7 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -157,7 +158,7 @@ class ServerListUpdaterTests {
         coEvery { mockServerManager.setServers(any(), any()) } answers { allServers = firstArg() }
         every { mockServerManager.allServers } answers { allServers }
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
-        coEvery { mockApi.getServerList(any(), any(), any(), any(), any()) } answers {
+        coEvery { mockApi.getServerList(any(), any(), any(), any(), any(), any(), any()) } answers {
             val freeOnly = arg<Boolean>(3)
             val lastModified = arg<Long>(4)
             val list = if (freeOnly) FREE_LIST_MODIFIED else FULL_LIST
@@ -189,7 +190,8 @@ class ServerListUpdaterTests {
             emptyFlow(),
             remoteConfig,
             RestrictionsConfig(testScope.backgroundScope, restrictionsFlow),
-            testScope::currentTime
+            testScope::currentTime,
+            FakeServerListTruncationEnabled(false),
         )
     }
 
@@ -256,13 +258,13 @@ class ServerListUpdaterTests {
         serverListUpdater.updateServers()
 
         coVerifyOrder {
-            mockApi.getServerList(any(), any(), any(), freeOnly = false, any())
+            mockApi.getServerList(any(), any(), any(), freeOnly = false, any(), any(), any())
             mockServerManager.setServers(withArg { assertEquals(FULL_LIST, it) }, any())
 
-            mockApi.getServerList(any(), any(), any(), freeOnly = true, any())
+            mockApi.getServerList(any(), any(), any(), freeOnly = true, any(), any(), any())
             mockServerManager.setServers(withArg { assertTrue(it.isModifiedList()) }, any())
 
-            mockApi.getServerList(any(), any(), any(), freeOnly = false, any())
+            mockApi.getServerList(any(), any(), any(), freeOnly = false, any(), any(), any())
         }
     }
 

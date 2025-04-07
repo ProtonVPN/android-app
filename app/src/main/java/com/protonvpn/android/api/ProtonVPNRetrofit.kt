@@ -66,7 +66,8 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @Query("WithTranslations") language: String,
         @Query("WithEntriesForProtocols") protocols: String,
         @Query("WithState") withState: Boolean,
-        @Query("Tier") userTier: Int?
+        @Query("Tier") userTier: Int?,
+        @Query("IncludeID") includeIDs: Set<String>?,
     ): Response<ServerList>
 
     @GET("vpn/v1/loads")
