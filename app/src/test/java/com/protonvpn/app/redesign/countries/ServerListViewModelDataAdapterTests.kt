@@ -415,7 +415,7 @@ class ServerListViewModelDataAdapterTests {
     @Test
     fun accentAndCaseSearchTest() = runTest {
         searchTestSetup()
-        val result = searchAdapter.search("krak", Locale("PL")).first()
+        val result = searchAdapter.search("krako", Locale("PL")).first()
         assertEquals(
             listOf("Kraków"),
             result[ServerFilterType.All]?.cities?.map { it.textMatch?.fullText }
