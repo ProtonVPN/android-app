@@ -44,5 +44,6 @@ fun createProfileEntity(
     autoOpenEnabled = false,
     createdAt,
     isUserCreated = isUserCreated,
-    connectIntent.toData().copy(profileId = id),
+    lastConnectedAt = null,
+    connectIntentData = connectIntent.toData().copy(profileId = id),
 )

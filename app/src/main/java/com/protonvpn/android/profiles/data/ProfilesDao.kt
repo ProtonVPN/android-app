@@ -36,11 +36,18 @@ abstract class ProfilesDao {
         entities.map { it.toProfile() }
     }
 
+    fun getProfilesOrderedByConnectionRecency(userId: UserId) : Flow<List<Profile>> = getEntitiesOrderedByConnectionRecency(userId).map { entities ->
+        entities.map { it.toProfile() }
+    }
+
     suspend fun getProfileById(id: Long) : Profile? = getEntityById(id)?.toProfile()
     fun getProfileByIdFlow(id: Long) : Flow<Profile?> = getEntityByIdFlow(id).map { it?.toProfile() }
 
     @Query("SELECT * FROM profiles WHERE userId = :userId ORDER BY createdAt")
     protected abstract fun getEntities(userId: UserId): Flow<List<ProfileEntity>>
+
+    @Query("SELECT * FROM profiles WHERE userId = :userId ORDER BY lastConnectedAt DESC, createdAt DESC")
+    protected abstract fun getEntitiesOrderedByConnectionRecency(userId: UserId): Flow<List<ProfileEntity>>
 
     @Query("SELECT * FROM profiles WHERE profileId = :id")
     protected abstract fun getEntityByIdFlow(id: Long): Flow<ProfileEntity?>
@@ -53,6 +60,9 @@ abstract class ProfilesDao {
 
     @Query("UPDATE profiles SET netShield = :netShield WHERE profileId = :profileId")
     abstract suspend fun updateNetShield(profileId: Long, netShield: NetShieldProtocol)
+
+    @Query("UPDATE profiles SET lastConnectedAt = :lastConnectedAt WHERE profileId = :profileId")
+    abstract suspend fun updateLastConnectedAt(profileId: Long, lastConnectedAt: Long)
 
     @Query("UPDATE profiles SET customDnsEnabled = 0 WHERE profileId = :profileId")
     abstract suspend fun disableCustomDNS(profileId: Long)
