@@ -91,6 +91,8 @@ import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabledImpl
+import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
+import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabledImpl
 import com.protonvpn.android.vpn.usecases.ServerNameTopStrategyEnabled
 import com.protonvpn.android.vpn.usecases.ServerNameTopStrategyEnabledImpl
 import com.protonvpn.android.vpn.wireguard.WireguardBackend
@@ -390,6 +392,9 @@ object AppModule {
 
         @Binds
         fun bindServerNameTopStrategyEnabled(impl: ServerNameTopStrategyEnabledImpl): ServerNameTopStrategyEnabled
+
+        @Binds
+        fun bindServerListTruncationEnabled(impl: ServerListTruncationEnabledImpl): ServerListTruncationEnabled
 
         @Binds
         fun bindProvideLocalNetworks(impl: ProvideLocalNetworksImpl): ProvideLocalNetworks
