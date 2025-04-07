@@ -186,9 +186,9 @@ class ServerManager @Inject constructor(
             }.takeRandomStable(serverCount).shuffled()
             ).distinct().take(serverCount)
 
-    suspend fun setServers(serverList: List<Server>, language: String?) {
+    suspend fun setServers(serverList: List<Server>, language: String?, retainIDs: Set<String> = emptySet()) {
         ensureLoaded()
-        serversData.replaceServers(serverList)
+        serversData.replaceServers(serverList, retainIDs)
 
         lastUpdateTimestamp = wallClock()
         serverListAppVersionCode = BuildConfig.VERSION_CODE

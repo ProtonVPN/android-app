@@ -62,8 +62,22 @@ class ServersDataManager @Inject constructor(
         updateWithMutex(serversStore.allServers, saveToStorage = false)
     }
 
-    suspend fun replaceServers(serverList: List<Server>) {
-        updateWithMutex(serverList)
+    suspend fun replaceServers(serverList: List<Server>, retainIDs: Set<String>) {
+        updateWithMutex(serverList) { servers ->
+            if (retainIDs.isNotEmpty()) {
+                withContext(dispatcherProvider.Comp) {
+                    val missingServerIDs = retainIDs.toMutableSet()
+                    for (server in servers) {
+                        if (server.serverId in retainIDs)
+                            missingServerIDs.remove(server.serverId)
+                    }
+                    val retainedServers = allServers.filter { it.serverId in missingServerIDs }
+                    servers + retainedServers
+                }
+            } else {
+                servers
+            }
+        }
     }
 
     suspend fun updateServerDomainStatus(connectingDomain: ConnectingDomain) {
