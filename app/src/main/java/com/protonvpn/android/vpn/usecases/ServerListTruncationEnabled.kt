@@ -24,13 +24,14 @@ import com.protonvpn.android.base.data.FakeVpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlag
 import com.protonvpn.android.base.data.VpnFeatureFlagImpl
 import dagger.Reusable
+import kotlinx.coroutines.flow.Flow
 import me.proton.core.featureflag.domain.FeatureFlagManager
 import me.proton.core.featureflag.domain.entity.FeatureId
 import javax.inject.Inject
 
 interface ServerListTruncationEnabled : VpnFeatureFlag
 
-class FakeServerListTruncationEnabled(enabled: Boolean): ServerListTruncationEnabled, FakeVpnFeatureFlag(enabled)
+class FakeServerListTruncationEnabled(enabled: Flow<Boolean>): ServerListTruncationEnabled, FakeVpnFeatureFlag(enabled)
 
 @Reusable
 class ServerListTruncationEnabledImpl @Inject constructor(

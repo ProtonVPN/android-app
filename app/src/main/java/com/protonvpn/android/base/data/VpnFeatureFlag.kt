@@ -24,6 +24,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -39,9 +40,10 @@ interface VpnFeatureFlag {
     fun observe(): Flow<Boolean>
 }
 
-open class FakeVpnFeatureFlag(private val enabled: Boolean) : VpnFeatureFlag {
-    override suspend operator fun invoke(): Boolean = enabled
-    override fun observe(): Flow<Boolean> = flowOf(enabled)
+open class FakeVpnFeatureFlag(private val enabledFlow: Flow<Boolean>) : VpnFeatureFlag {
+    constructor(enabled: Boolean) : this(flowOf(enabled))
+    override suspend operator fun invoke(): Boolean = enabledFlow.first()
+    override fun observe(): Flow<Boolean> = enabledFlow
 }
 
 open class VpnFeatureFlagImpl @Inject constructor(

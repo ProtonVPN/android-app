@@ -52,6 +52,7 @@ import com.protonvpn.android.utils.mapState
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import dagger.Reusable
 import kotlinx.coroutines.CancellationException
@@ -61,6 +62,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -106,7 +108,8 @@ class ServerListUpdater @Inject constructor(
     private val remoteConfig: ServerListUpdaterRemoteConfig,
     private val restrictionsConfig: RestrictionsConfig,
     @WallClock private val wallClock: () -> Long,
-    private val truncationEnabled: ServerListTruncationEnabled,
+    private val truncationFeatureFlagEnabled: ServerListTruncationEnabled,
+    private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
 ) {
     val ipAddress = prefs.ipAddressFlow
 
@@ -268,24 +271,27 @@ class ServerListUpdater @Inject constructor(
         val apiResult: ApiResult<ServerList?>,
         val freeOnly: Boolean,
         val lastModified: Date?,
+        val usedMustHaveIDs: Set<String>,
     )
     private suspend fun updateServerListInternal(netzone: String?, lang: String): ServerListResult {
         val realProtocolsNames = ProtocolSelection.REAL_PROTOCOLS.map {
             it.apiName
         }
         val freeOnly = freeOnlyUpdateNeeded()
+        val enableTruncation = truncationFeatureFlagEnabled()
+        val mustHaveIDs = if (enableTruncation) getTruncationMustHaveIDs() else emptySet()
         return api.getServerList(
             netzone,
             lang,
             realProtocolsNames,
             freeOnly,
-            enableTruncation = truncationEnabled(),
+            enableTruncation = enableTruncation,
             lastModified = prefs.serverListLastModified,
-            mustHaveIDs = null,
-        ).toServerListResult(freeOnly)
+            mustHaveIDs = mustHaveIDs,
+        ).toServerListResult(freeOnly, mustHaveIDs)
     }
 
-    private fun ApiResult<Response<ServerList>>.toServerListResult(freeOnly: Boolean): ServerListResult {
+    private fun ApiResult<Response<ServerList>>.toServerListResult(freeOnly: Boolean, usedMustHaveIDs: Set<String>): ServerListResult {
         var lastModified: Date? = null
         val apiResult = when(this) {
             is ApiResult.Error.Http ->
@@ -305,7 +311,7 @@ class ServerListUpdater @Inject constructor(
                 }
             }
         }
-        return ServerListResult(apiResult, freeOnly, lastModified)
+        return ServerListResult(apiResult, freeOnly, lastModified, usedMustHaveIDs)
     }
 
     private val okhttp3.Response.durationMs get() = receivedResponseAtMillis - sentRequestAtMillis
@@ -336,14 +342,20 @@ class ServerListUpdater @Inject constructor(
 
         if (serverListResult.apiResult is ApiResult.Success) {
             prefs.lastNetzoneForLogicals = netzone
-            val resultList = serverListResult.apiResult.value?.serverList
-            if (resultList != null) {
+            val result = serverListResult.apiResult.value
+            if (result != null) {
                 serverManager.ensureLoaded()
+                val retainIDs = if (result.metadata?.listIsTruncated == true) {
+                    // retain only those ID that were not in must-haves for this call
+                    getTruncationMustHaveIDs() - serverListResult.usedMustHaveIDs
+                } else {
+                    emptySet()
+                }
                 val newList = if (serverListResult.freeOnly)
-                    serverManager.allServers.updateTier(resultList, VpnUser.FREE_TIER)
+                    serverManager.allServers.updateTier(result.serverList, VpnUser.FREE_TIER, retainIDs)
                 else
-                    resultList
-                serverManager.setServers(newList, lang)
+                    result.serverList
+                serverManager.setServers(newList, lang, retainIDs = retainIDs)
             } else {
                 serverManager.updateTimestamp()
             }
@@ -376,7 +388,11 @@ class ServerListUpdater @Inject constructor(
 }
 
 @VisibleForTesting
-fun List<Server>.updateTier(update: List<Server>, tier: Int) : List<Server> {
+fun List<Server>.updateTier(update: List<Server>, tier: Int, retainIDs: Set<String>) : List<Server> {
     DebugUtils.debugAssert { update.all { it.tier == tier }}
-    return update + filterNot { it.tier == tier }
+    val updateIDs = update.mapTo(mutableSetOf()) { it.serverId }
+    return update + filter {
+        // keep servers with different tier or servers to be retained that are not in the update
+        it.tier != tier || (it.serverId in retainIDs && it.serverId !in updateIDs)
+    }
 }

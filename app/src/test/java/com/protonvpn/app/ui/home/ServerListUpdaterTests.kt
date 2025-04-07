@@ -31,6 +31,7 @@ import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.models.vpn.ServerList
 import com.protonvpn.android.models.vpn.UserLocation
+import com.protonvpn.android.models.vpn.data.LogicalsMetadata
 import com.protonvpn.android.ui.home.GetNetZone
 import com.protonvpn.android.ui.home.ServerListUpdater
 import com.protonvpn.android.ui.home.ServerListUpdaterPrefs
@@ -41,6 +42,7 @@ import com.protonvpn.android.utils.UserPlanManager
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
+import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.MockedServers
 import com.protonvpn.test.shared.TestUser
@@ -57,6 +59,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -122,6 +125,10 @@ class ServerListUpdaterTests {
     private lateinit var serverListUpdaterPrefs: ServerListUpdaterPrefs
     private lateinit var testScope: TestScope
     private lateinit var vpnStateMonitor: VpnStateMonitor
+    private lateinit var mustHaveIDs: Set<String>
+    private lateinit var truncationEnabled: MutableStateFlow<Boolean>
+    private var applyTruncation: Boolean = true
+    private lateinit var runWhileGettingServerList: () -> Unit
 
     private lateinit var serverListUpdater: ServerListUpdater
     private var lastModifiedOverride: Long? = null
@@ -147,6 +154,7 @@ class ServerListUpdaterTests {
                 )
             )
         )
+        runWhileGettingServerList = {}
         restrictionsFlow = MutableStateFlow(Restrictions(false, ChangeServerConfig(100, 4, 60)))
         coEvery { guestHole.runWithGuestHoleFallback(any<suspend () -> Any?>()) } coAnswers { firstArg<suspend () -> Any?>()() }
         coEvery { mockCurrentUser.isLoggedIn() } returns true
@@ -159,13 +167,21 @@ class ServerListUpdaterTests {
         every { mockServerManager.allServers } answers { allServers }
         coEvery { mockApi.getStreamingServices() } returns ApiResult.Error.Timeout(false)
         coEvery { mockApi.getServerList(any(), any(), any(), any(), any(), any(), any()) } answers {
+            runWhileGettingServerList()
             val freeOnly = arg<Boolean>(3)
             val lastModified = arg<Long>(4)
+            val enableTruncation = arg<Boolean>(5)
+            truncationEnabled.value
             val list = if (freeOnly) FREE_LIST_MODIFIED else FULL_LIST
             val serverLastModified = lastModifiedOverride ?: testScope.currentTime
             if (serverLastModified > lastModified) {
                 val headers = Headers.Builder().add("Last-Modified", Date(serverLastModified)).build()
-                ApiResult.Success(Response.success(ServerList(list), headers))
+                ApiResult.Success(
+                    Response.success(
+                        ServerList(list, LogicalsMetadata(listIsTruncated = enableTruncation && applyTruncation)),
+                        headers
+                    )
+                )
             } else {
                 ApiResult.Success(RESPONSE_304)
             }
@@ -174,6 +190,9 @@ class ServerListUpdaterTests {
         every { mockTelephonyManager.phoneType } returns TelephonyManager.PHONE_TYPE_GSM
         every { mockTelephonyManager.networkCountryIso } returns "ch"
 
+        mustHaveIDs = emptySet()
+        truncationEnabled = MutableStateFlow(true)
+        applyTruncation = true
         val getNetZone = GetNetZone(serverListUpdaterPrefs)
         serverListUpdater = ServerListUpdater(
             testScope.backgroundScope,
@@ -191,7 +210,8 @@ class ServerListUpdaterTests {
             remoteConfig,
             RestrictionsConfig(testScope.backgroundScope, restrictionsFlow),
             testScope::currentTime,
-            FakeServerListTruncationEnabled(false),
+            FakeServerListTruncationEnabled(truncationEnabled),
+            GetTruncationMustHaveIDs { mustHaveIDs }
         )
     }
 
@@ -269,6 +289,42 @@ class ServerListUpdaterTests {
     }
 
     @Test
+    fun `only additional must-have IDs are retained`() = testScope.runTest {
+        truncationEnabled.value = true
+        mustHaveIDs = setOf("1", "2")
+        runWhileGettingServerList = { mustHaveIDs = setOf("1", "2", "3") }
+        serverListUpdater.updateServers()
+
+        coVerifyOrder {
+            mockApi.getServerList(any(), any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2"))
+            mockServerManager.setServers(any(), any(), retainIDs = setOf("3"))
+        }
+    }
+
+    @Test
+    fun `no truncation when feature flag is off`() = testScope.runTest {
+        truncationEnabled.value = false
+        mustHaveIDs = setOf("1", "2", "3")
+        serverListUpdater.updateServers()
+        coVerifyOrder {
+            mockApi.getServerList(any(), any(), any(), any(), any(), enableTruncation = false, mustHaveIDs = emptySet())
+            mockServerManager.setServers(any(), any(), retainIDs = emptySet())
+        }
+    }
+
+    @Test
+    fun `don't retain server IDs if truncation not applied`() = testScope.runTest {
+        truncationEnabled.value = true
+        applyTruncation = false
+        mustHaveIDs = setOf("1", "2", "3")
+        serverListUpdater.updateServers()
+        coVerifyOrder {
+            mockApi.getServerList(any(), any(), any(), any(), any(), enableTruncation = true, mustHaveIDs = setOf("1", "2", "3"))
+            mockServerManager.setServers(any(), any(), retainIDs = emptySet())
+        }
+    }
+
+    @Test
     fun `no refresh if client already have newest version`() = testScope.runTest {
         val result1 = serverListUpdater.updateServers()
         assertTrue(result1 is ApiResult.Success && result1.value != null)
@@ -298,8 +354,8 @@ class ServerListUpdaterTests {
     @Test
     fun updateTier() {
         // Updating tier 0 with empty list removes all tier 0 servers
-        assertEquals(FULL_LIST.filter { it.tier != 0 }, FULL_LIST.updateTier(emptyList(), 0))
-        assertTrue(FULL_LIST.updateTier(FREE_LIST_MODIFIED, 0).isModifiedList())
+        assertEquals(FULL_LIST.filter { it.tier != 0 }, FULL_LIST.updateTier(emptyList(), 0, emptySet()))
+        assertTrue(FULL_LIST.updateTier(FREE_LIST_MODIFIED, 0, emptySet()).isModifiedList())
     }
 
     @Test

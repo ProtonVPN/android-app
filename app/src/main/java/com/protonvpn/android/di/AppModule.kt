@@ -89,6 +89,8 @@ import com.protonvpn.android.vpn.VpnConnectionManager
 import com.protonvpn.android.vpn.VpnPermissionDelegate
 import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
+import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
+import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDsImpl
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
@@ -395,6 +397,9 @@ object AppModule {
 
         @Binds
         fun bindServerListTruncationEnabled(impl: ServerListTruncationEnabledImpl): ServerListTruncationEnabled
+
+        @Binds
+        fun bindGetTruncationMustHaveIDs(impl: GetTruncationMustHaveIDsImpl): GetTruncationMustHaveIDs
 
         @Binds
         fun bindProvideLocalNetworks(impl: ProvideLocalNetworksImpl): ProvideLocalNetworks
