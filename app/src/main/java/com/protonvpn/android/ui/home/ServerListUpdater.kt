@@ -52,6 +52,7 @@ import com.protonvpn.android.utils.mapState
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
+import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import dagger.Reusable
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -104,7 +105,8 @@ class ServerListUpdater @Inject constructor(
     @IsInForeground private val inForeground: Flow<Boolean>,
     private val remoteConfig: ServerListUpdaterRemoteConfig,
     private val restrictionsConfig: RestrictionsConfig,
-    @WallClock private val wallClock: () -> Long
+    @WallClock private val wallClock: () -> Long,
+    private val truncationEnabled: ServerListTruncationEnabled,
 ) {
     val ipAddress = prefs.ipAddressFlow
 
@@ -277,7 +279,9 @@ class ServerListUpdater @Inject constructor(
             lang,
             realProtocolsNames,
             freeOnly,
-            prefs.serverListLastModified
+            enableTruncation = truncationEnabled(),
+            lastModified = prefs.serverListLastModified,
+            mustHaveIDs = null,
         ).toServerListResult(freeOnly)
     }
 
