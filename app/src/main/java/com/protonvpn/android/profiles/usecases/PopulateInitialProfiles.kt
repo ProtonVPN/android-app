@@ -78,6 +78,7 @@ class PopulateInitialProfiles @Inject constructor(
                 color = ProfileColor.Color1,
                 icon = ProfileIcon.Icon2,
                 createdAt = now,
+                lastConnectedAt = null,
                 isUserCreated = false,
                 connectIntentData = ConnectIntent.FastestInCountry(
                     CountryId("US"),
@@ -95,6 +96,7 @@ class PopulateInitialProfiles @Inject constructor(
                 color = ProfileColor.Color1,
                 icon = ProfileIcon.Icon7,
                 createdAt = now,
+                lastConnectedAt = null,
                 isUserCreated = false,
                 connectIntentData = ConnectIntent.FastestInCountry(
                     CountryId.fastest,
@@ -112,6 +114,7 @@ class PopulateInitialProfiles @Inject constructor(
                 color = ProfileColor.Color1,
                 icon = ProfileIcon.Icon5,
                 createdAt = now,
+                lastConnectedAt = null,
                 isUserCreated = false,
                 connectIntentData = ConnectIntent.FastestInCountry(
                     CountryId.fastestExcludingMyCountry,
@@ -129,6 +132,7 @@ class PopulateInitialProfiles @Inject constructor(
                 color = ProfileColor.Color1,
                 icon = ProfileIcon.Icon3,
                 createdAt = now,
+                lastConnectedAt = null,
                 isUserCreated = false,
                 connectIntentData = ConnectIntent.SecureCore(
                     exitCountry = CountryId.fastest,
@@ -146,6 +150,7 @@ class PopulateInitialProfiles @Inject constructor(
                 color = ProfileColor.Color1,
                 icon = ProfileIcon.Icon9,
                 createdAt = now,
+                lastConnectedAt = null,
                 isUserCreated = false,
                 connectIntentData = ConnectIntent.FastestInCountry(
                     CountryId.fastest,

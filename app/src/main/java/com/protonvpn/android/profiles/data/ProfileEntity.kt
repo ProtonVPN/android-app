@@ -55,6 +55,8 @@ data class ProfileEntity(
     @ColumnInfo(defaultValue = "0")
     val autoOpenEnabled: Boolean,
     val createdAt: Long,
+    @ColumnInfo(defaultValue = "NULL")
+    val lastConnectedAt: Long?,
     @ColumnInfo(defaultValue = "1")
     val isUserCreated: Boolean,
     @Embedded

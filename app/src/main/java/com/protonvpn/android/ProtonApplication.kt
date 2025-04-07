@@ -44,6 +44,7 @@ import com.protonvpn.android.notifications.NotificationHelper.Companion.initNoti
 import com.protonvpn.android.notifications.NotificationPermissionManager
 import com.protonvpn.android.profiles.usecases.PopulateInitialProfiles
 import com.protonvpn.android.profiles.usecases.ProfileAutoOpenHandler
+import com.protonvpn.android.profiles.usecases.UpdateProfileLastConnected
 import com.protonvpn.android.quicktile.QuickTileDataStoreUpdater
 import com.protonvpn.android.redesign.recents.usecases.ConnectingUpdatesRecents
 import com.protonvpn.android.redesign.recents.usecases.RecentsListValidator
@@ -125,6 +126,7 @@ open class ProtonApplication : Application() {
         val settingChangesLogger: SettingChangesLogger?
         val notificationPermissionManager: NotificationPermissionManager?
         val showUpgradeSuccess: ShowUpgradeSuccess?
+        val updateProfileLastConnected: UpdateProfileLastConnected
         val updateServersOnLocaleChange: UpdateServersOnStartAndLocaleChange?
         val updateSettingsOnVpnUserChange: UpdateSettingsOnVpnUserChange?
         val updateSettingsOnFeatureFlagChange: UpdateSettingsOnFeatureFlagChange?
@@ -198,6 +200,7 @@ open class ProtonApplication : Application() {
         dependencies.purchaseStateHandler.start()
         dependencies.recentsValidator
         dependencies.reviewTracker
+        dependencies.updateProfileLastConnected.start()
         dependencies.updateServersOnLocaleChange
         dependencies.updateSettingsOnVpnUserChange
         dependencies.updateSettingsOnFeatureFlagChange

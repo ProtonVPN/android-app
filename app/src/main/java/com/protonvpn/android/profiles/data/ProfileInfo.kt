@@ -39,6 +39,7 @@ data class ProfileInfo(
     val icon: ProfileIcon,
     val createdAt: Long,
     val isUserCreated: Boolean,
+    val lastConnectedAt: Long? = null,
 )
 
 sealed class ProfileAutoOpen : Parcelable {
@@ -67,6 +68,7 @@ fun Profile.toProfileEntity() = ProfileEntity(
     color = info.color,
     connectIntentData = connectIntent.toData(),
     createdAt = info.createdAt,
+    lastConnectedAt = info.lastConnectedAt,
     icon = info.icon,
     isUserCreated = info.isUserCreated,
     userId = userId,
@@ -86,6 +88,7 @@ fun ProfileEntity.toProfile() = Profile(
         icon = icon,
         createdAt = createdAt,
         isUserCreated = isUserCreated,
+        lastConnectedAt = lastConnectedAt,
     ),
     autoOpen = ProfileAutoOpen.from(autoOpenText, autoOpenEnabled),
     connectIntent = connectIntentData.toConnectIntent(),
