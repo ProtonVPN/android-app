@@ -28,6 +28,7 @@ import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
 import com.protonvpn.android.redesign.search.ui.SearchViewModel
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewState
+import com.protonvpn.android.redesign.search.ui.TextMatch
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
@@ -40,6 +41,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -48,6 +50,7 @@ import java.util.ArrayDeque
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.test.Test
+import kotlin.test.assertIs
 
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
@@ -61,7 +64,6 @@ class SearchViewModelTests {
 
     @Inject
     lateinit var currentUserProvider: TestCurrentUserProvider
-
 
     @Inject
     lateinit var searchViewModelInjector: SearchViewModelInjector
@@ -111,6 +113,49 @@ class SearchViewModelTests {
         val state = viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
         state.assertSearchResult(
             expectedCities = listOf("York", "New York"),
+        )
+    }
+
+    @Test
+    fun `match server names`() = runTest {
+        fun assertTextMatch(expected: TextMatch, state: SearchViewState.Result) {
+            // First item is the header, the second item is the matching server.
+            assertEquals(2, state.result.items.size)
+            val result = state.result.items[1]
+            assertIs<ServerGroupUiItem.ServerGroup>(result)
+            assertEquals(expected, result.data.textMatch)
+        }
+
+        serverManager.setServers(
+            listOf(server(exitCountry = "US", city = "Portland", serverName = "US-CA#10")),
+            null
+        )
+        viewModel.localeFlow.value = Locale.US
+
+        viewModel.setQuery("us-ca#1")
+        var state = viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
+        state.assertSearchResult(
+            expectedServers = listOf("US-CA#10")
+        )
+
+        viewModel.setQuery("us-ca1")
+        // Assert that the highlight span accounts for the #.
+        assertTextMatch(
+            TextMatch(0, 7, "US-CA#10"),
+            viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
+        )
+
+        viewModel.setQuery("ca#1")
+        assertTextMatch(
+            TextMatch(3, 4, "US-CA#10"),
+            viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
+        )
+
+        viewModel.setQuery("ca1")
+        // Assert that the highlight span accounts for the #.
+        assertTextMatch(
+            TextMatch(3, 4, "US-CA#10"),
+            viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
         )
     }
 
