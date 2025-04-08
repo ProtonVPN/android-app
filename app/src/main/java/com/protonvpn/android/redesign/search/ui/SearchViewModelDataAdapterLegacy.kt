@@ -58,10 +58,12 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
 
             val serverResults = mutableMapOf<ServerFilterType, MutableList<ServerGroupItemData.Server>>()
 
+            val serverSearchTerm = addServerNameHash(term)
+            val normalizedServerSearchTerm = addServerNameHash(normalizedTerm)
             // This runs though all servers so all operations should be as fast as possible.
             servers.forEach { server ->
                 // For servers search for matches in this loop
-                val serverMatch = match(term, normalizedTerm, server.serverName)
+                val serverMatch = match(serverSearchTerm, normalizedServerSearchTerm, server.serverName)
                 if (serverMatch != null) {
                     ServerFilterType.entries.forEach { filter ->
                         if (filter.isMatching(server))
@@ -191,6 +193,16 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
 private fun matchLocalizedAndEnglish(term: String, normalizedTerm: String, textLocalized: String, textEn: String): TextMatch? =
     match(term, normalizedTerm, textLocalized) ?: match(term, normalizedTerm, textEn)
 
+private fun addServerNameHash(term: String): String {
+    return if (term.matches(SERVER_SEARCH_ENHANCE_PATTERN)) {
+        val digitsStart = term.indexOfFirst { it in "0123456789" }
+        term.substring(0, digitsStart) + "#" + term.substring(digitsStart)
+    } else {
+        term
+    }
+}
+
+private val SERVER_SEARCH_ENHANCE_PATTERN = Regex("^[a-zA-Z-]+[0-9]+$")
 private val ADDITIONAL_SEPARATORS = charArrayOf('-', '#')
 
 data class TextMatch(val index: Int, val length: Int, val fullText: String)
