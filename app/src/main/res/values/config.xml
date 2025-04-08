@@ -31,6 +31,7 @@
     <bool name="core_feature_payments_v5_enabled">true</bool>
     <!-- VPN already handle the Notification Permission (after successful vpn connection). -->
     <bool name="core_feature_notifications_permission_request_enabled">false</bool>
+    <bool name="core_feature_device_migration_enabled">true</bool>
 
     <integer name="core_feature_event_manager_worker_repeat_internal_foreground_seconds">120</integer>
     <integer name="core_feature_event_manager_worker_repeat_internal_background_seconds">43200</integer> <!-- 12h -->
