@@ -193,7 +193,8 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
 private fun matchLocalizedAndEnglish(term: String, normalizedTerm: String, textLocalized: String, textEn: String): TextMatch? =
     match(term, normalizedTerm, textLocalized) ?: match(term, normalizedTerm, textEn)
 
-private fun addServerNameHash(term: String): String {
+// TODO: move to common file
+fun addServerNameHash(term: String): String {
     return if (term.matches(SERVER_SEARCH_ENHANCE_PATTERN)) {
         val digitsStart = term.indexOfFirst { it in "0123456789" }
         term.substring(0, digitsStart) + "#" + term.substring(digitsStart)

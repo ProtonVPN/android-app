@@ -220,6 +220,14 @@ class ServerManager @Inject constructor(
         onServersUpdate()
     }
 
+    suspend fun updateOrAddServer(server: Server) {
+        ensureLoaded()
+        serversData.updateOrAddServer(server)
+
+        Storage.save(this, ServerManager::class.java)
+        onServersUpdate()
+    }
+
     fun getGuestHoleServers(): List<Server> =
         guestHoleServers ?: run {
             FileUtils.getObjectFromAssets(

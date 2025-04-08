@@ -23,6 +23,7 @@ package com.protonvpn.android.redesign.search.ui
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.protonvpn.android.R
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -36,19 +37,25 @@ import com.protonvpn.android.redesign.countries.ui.ServerGroupsViewModel
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.countries.ui.sortedForUi
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
+import com.protonvpn.android.redesign.search.FetchServerResult
+import com.protonvpn.android.redesign.search.SearchServerRemote
 import com.protonvpn.android.utils.DebugUtils
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.transformLatest
 import me.proton.core.presentation.savedstate.state
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 sealed class SearchViewState {
     data object ZeroScreen : SearchViewState()
@@ -60,6 +67,7 @@ class SearchViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     dataAdapter: ServerListViewModelDataAdapter,
     private val searchDataAdapter: SearchViewModelDataAdapter,
+    private val remoteSearch: SearchServerRemote,
     connect: VpnConnect,
     shouldShowcaseRecents: ShouldShowcaseRecents,
     currentUser: CurrentUser,
@@ -78,8 +86,25 @@ class SearchViewModel @Inject constructor(
         selectedFilter = ServerFilterType.All
     )
 ) {
+    private var remoteSearchDisabled = false
+
     private var searchQuery by savedStateHandle.state<String>("", "search_query")
     val searchQueryFlow = savedStateHandle.getStateFlow("search_query", searchQuery)
+
+    init {
+        searchQueryFlow
+            .transformLatest<String, Unit> { query ->
+                if (!remoteSearchDisabled) {
+                    delay(5.seconds)
+                    // Search results are added to the server list and thus will bubble up to search results
+                    // (if they match the filters).
+                    val result = remoteSearch(query)
+                    if (result is FetchServerResult.TryLater)
+                        remoteSearchDisabled = true
+                }
+            }
+            .launchIn(viewModelScope)
+    }
 
     override fun mainScreenState(
         savedStateFlow: Flow<ServerGroupsMainScreenSaveState>,
@@ -95,7 +120,7 @@ class SearchViewModel @Inject constructor(
                 flowOf(SearchViewState.ZeroScreen)
             } else combine(
                 savedStateFlow,
-                searchDataAdapter.search(query, locale)
+                searchDataAdapter.search(query, locale),
             ) { savedState, queryResult ->
                 val filter = savedState.selectedFilter
                 val result = queryResult[filter] ?: SearchResults.empty
