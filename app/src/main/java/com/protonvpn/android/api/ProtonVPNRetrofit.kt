@@ -37,6 +37,7 @@ import com.protonvpn.android.models.vpn.ConnectingDomainResponse
 import com.protonvpn.android.models.vpn.LoadsResponse
 import com.protonvpn.android.models.vpn.PromoCodesBody
 import com.protonvpn.android.models.vpn.ServerList
+import com.protonvpn.android.models.vpn.ServerSearchResponse
 import com.protonvpn.android.models.vpn.ServersCountResponse
 import com.protonvpn.android.models.vpn.StreamingServicesResponse
 import com.protonvpn.android.models.vpn.UserLocation
@@ -69,6 +70,11 @@ interface ProtonVPNRetrofit : BaseRetrofitApi {
         @Query("Tier") userTier: Int?,
         @Query("IncludeID") includeIDs: Set<String>?,
     ): Response<ServerList>
+
+    @GET("vpn/v1/logicals/lookup/{nameQuery}")
+    suspend fun getServerByName(
+        @Path(value = "nameQuery", encoded = true) nameQuery: String
+    ): ServerSearchResponse
 
     @GET("vpn/v1/loads")
     suspend fun getLoads(

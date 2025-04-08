@@ -138,6 +138,10 @@ class ServerManager2 @Inject constructor(
         serverManager.updateServerDomainStatus(connectingDomain)
     }
 
+    suspend fun updateOrAddServer(server: Server) {
+        serverManager.updateOrAddServer(server)
+    }
+
     // Sorted by score (best at front)
     suspend fun getOnlineAccessibleServers(
         secureCore: Boolean,

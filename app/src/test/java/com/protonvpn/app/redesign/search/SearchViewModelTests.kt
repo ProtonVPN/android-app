@@ -20,28 +20,41 @@
 package com.protonvpn.app.redesign.search
 
 import androidx.lifecycle.SavedStateHandle
+import app.cash.turbine.test
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.redesign.countries.Translator
 import com.protonvpn.android.redesign.countries.ui.ServerGroupUiItem
 import com.protonvpn.android.redesign.countries.ui.ServerListViewModelDataAdapter
 import com.protonvpn.android.redesign.main_screen.ui.ShouldShowcaseRecents
+import com.protonvpn.android.redesign.search.FetchServerByName
+import com.protonvpn.android.redesign.search.FetchServerResult
+import com.protonvpn.android.redesign.search.SearchServerRemote
 import com.protonvpn.android.redesign.search.ui.SearchViewModel
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewState
 import com.protonvpn.android.redesign.search.ui.TextMatch
+import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
+import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import com.protonvpn.app.redesign.countries.server
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import dagger.hilt.android.testing.HiltAndroidTest
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -52,6 +65,7 @@ import javax.inject.Inject
 import kotlin.test.Test
 import kotlin.test.assertIs
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
 class SearchViewModelTests {
@@ -132,31 +146,120 @@ class SearchViewModelTests {
         )
         viewModel.localeFlow.value = Locale.US
 
-        viewModel.setQuery("us-ca#1")
-        var state = viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
-        state.assertSearchResult(
-            expectedServers = listOf("US-CA#10")
+        viewModel.stateFlow.test {
+            viewModel.setQuery("us-ca#1")
+            var state = assertIs<SearchViewState.Result>(expectMostRecentItem())
+            state.assertSearchResult(
+                expectedServers = listOf("US-CA#10")
+            )
+
+            viewModel.setQuery("us-ca1")
+            // Assert that the highlight span accounts for the #.
+            assertTextMatch(
+                TextMatch(0, 7, "US-CA#10"),
+                assertIs<SearchViewState.Result>(expectMostRecentItem())
+            )
+
+            viewModel.setQuery("ca#1")
+            assertTextMatch(
+                TextMatch(3, 4, "US-CA#10"),
+                assertIs<SearchViewState.Result>(expectMostRecentItem())
+            )
+
+            viewModel.setQuery("ca1")
+            // Assert that the highlight span accounts for the #.
+            assertTextMatch(
+                TextMatch(3, 4, "US-CA#10"),
+                assertIs<SearchViewState.Result>(expectMostRecentItem())
+            )
+        }
+    }
+
+    @Test
+    fun `remote server search - fetch server`() = runTest {
+        val ch2 = server(serverId = "2", exitCountry = "CH", serverName = "CH#2")
+        val fetchServerByName: FetchServerByName = mockk()
+        coEvery { fetchServerByName.invoke("CH#2") } returns FetchServerResult.Success(ch2)
+
+        viewModel = searchViewModelInjector.getViewModel(
+            fetchServerByName = fetchServerByName,
+            serverListTruncationEnabled = FakeServerListTruncationEnabled(true)
         )
 
-        viewModel.setQuery("us-ca1")
-        // Assert that the highlight span accounts for the #.
-        assertTextMatch(
-            TextMatch(0, 7, "US-CA#10"),
-            viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
+        serverManager.setServers(
+            listOf(server(serverId = "1", exitCountry = "CH", serverName = "CH#1")),
+            null
+        )
+        viewModel.localeFlow.value = Locale.US
+
+        viewModel.stateFlow.test {
+            viewModel.setQuery("CH#2")
+            val state1 = expectMostRecentItem()
+            assertIs<SearchViewState.Result>(state1)
+            assertTrue(state1.result.items.isEmpty())
+
+            advanceTimeBy(5_100)
+            val state2 = expectMostRecentItem()
+            assertIs<SearchViewState.Result>(state2)
+            state2.assertSearchResult(
+                expectedServers = listOf("CH#2")
+            )
+        }
+
+        assertEquals(listOf("CH#1", "CH#2"), serverManager.allServers.map { it.serverName })
+    }
+
+    @Test
+    fun `remote server search - don't search when available locally`() = runTest {
+        val ch2 = server(serverId = "2", exitCountry = "CH", serverName = "CH#2", city = "Zurich")
+        val fetchServerByName: FetchServerByName = mockk()
+        coEvery { fetchServerByName.invoke("CH#2") } returns FetchServerResult.Success(ch2)
+        viewModel.localeFlow.value = Locale.US
+        serverManager.setServers(listOf(ch2), null)
+
+        viewModel.stateFlow.test {
+            viewModel.setQuery("CH#2")
+            advanceTimeBy(5_100)
+            val state = expectMostRecentItem()
+            assertIs<SearchViewState.Result>(state)
+            state.assertSearchResult(
+                expectedServers = listOf("CH#2")
+            )
+            coVerify(exactly = 0) { fetchServerByName.invoke(any()) }
+        }
+    }
+
+    @Test
+    fun `remote server search - don't search for regular queries`() = runTest {
+        val ch2 = server(serverId = "2", exitCountry = "CH", serverName = "CH#2", city = "Zurich")
+        val fetchServerByName: FetchServerByName = mockk()
+        coEvery { fetchServerByName.invoke("CH#2") } returns FetchServerResult.Success(ch2)
+        viewModel.localeFlow.value = Locale.US
+
+        viewModel.setQuery("Zurich")
+
+        advanceTimeBy(5_100)
+        val state = viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
+        assertTrue(state.result.items.isEmpty())
+        coVerify(exactly = 0) { fetchServerByName.invoke(any()) }
+    }
+
+    @Test
+    fun `remote server search - disabled after a 429`() = runTest {
+        val fetchServerByName: FetchServerByName = mockk()
+        coEvery { fetchServerByName.invoke(any()) } returns FetchServerResult.TryLater
+        viewModel = searchViewModelInjector.getViewModel(
+            fetchServerByName = fetchServerByName,
+            serverListTruncationEnabled = FakeServerListTruncationEnabled(true)
         )
 
-        viewModel.setQuery("ca#1")
-        assertTextMatch(
-            TextMatch(3, 4, "US-CA#10"),
-            viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
-        )
+        viewModel.setQuery("CH#1")
+        advanceTimeBy(5_100)
+        coVerify(exactly = 1) { fetchServerByName.invoke(any()) }
 
-        viewModel.setQuery("ca1")
-        // Assert that the highlight span accounts for the #.
-        assertTextMatch(
-            TextMatch(3, 4, "US-CA#10"),
-            viewModel.stateFlow.filterIsInstance<SearchViewState.Result>().first()
-        )
+        viewModel.setQuery("CH#2")
+        advanceTimeBy(5_100)
+        coVerify(exactly = 1) { fetchServerByName.invoke(any()) }
     }
 
     private fun SearchViewState.Result.assertSearchResult(
@@ -197,11 +300,14 @@ class SearchViewModelInjector @Inject constructor(
     private val currentUser: CurrentUser,
     private val shouldShowcaseRecents: ShouldShowcaseRecents,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
-    private val translator: Translator
+    private val translator: Translator,
+    private val serverManager: ServerManager2,
 ) {
     fun getViewModel(
         savedStateHandle: SavedStateHandle = SavedStateHandle(),
         connect: VpnConnect = VpnConnect { _, _, _ -> },
+        fetchServerByName: FetchServerByName = mockk(relaxed = true),
+        serverListTruncationEnabled: ServerListTruncationEnabled = FakeServerListTruncationEnabled(false),
     ) = SearchViewModel(
         savedStateHandle,
         dataAdapter = adapter,
@@ -211,5 +317,6 @@ class SearchViewModelInjector @Inject constructor(
         currentUser = currentUser,
         vpnStatusProviderUI = vpnStatusProviderUI,
         translator = translator,
+        remoteSearch = SearchServerRemote(serverListTruncationEnabled, fetchServerByName, serverManager)
     )
 }

@@ -88,6 +88,9 @@ open class ProtonApiRetroFit @Inject constructor(
         )
     }
 
+    open suspend fun getServerByName(nameQuery: String) =
+        manager { getServerByName(nameQuery) }
+
     open suspend fun getLoads(netzone: String?, freeOnly: Boolean) =
         manager {
             getLoads(

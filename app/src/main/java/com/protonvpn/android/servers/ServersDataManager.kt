@@ -132,6 +132,17 @@ class ServersDataManager @Inject constructor(
         }
     }
 
+    suspend fun updateOrAddServer(server: Server) {
+        updateWithMutex(allServers) { servers ->
+            withContext(dispatcherProvider.Comp) {
+                servers.toMutableList().apply {
+                    removeIf { it.serverId == server.serverId }
+                    add(server)
+                }
+            }
+        }
+    }
+
     private suspend fun updateWithMutex(
         servers: List<Server>,
         saveToStorage: Boolean = true,
