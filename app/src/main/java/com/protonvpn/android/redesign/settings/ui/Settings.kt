@@ -92,6 +92,7 @@ import me.proton.core.compose.theme.captionWeak
 import me.proton.core.compose.theme.defaultNorm
 import me.proton.core.compose.theme.defaultSmallWeak
 import me.proton.core.compose.theme.defaultWeak
+import me.proton.core.devicemigration.presentation.settings.SignInToAnotherDeviceItem
 import me.proton.core.domain.entity.UserId
 import me.proton.core.presentation.utils.openMarketLink
 import me.proton.core.telemetry.presentation.ProductMetricsDelegateOwner
@@ -497,6 +498,16 @@ private fun ColumnScope.AccountCategory(
             signOutButtonGone = true,
             initialCount = 1,
             state = state
+        )
+        SignInToAnotherDeviceItem(
+            content = { label, onLogOut ->
+                SettingRowWithIcon(
+                    icon = CoreR.drawable.ic_proton_qr_code,
+                    title = label,
+                    onClick = onLogOut
+                )
+            },
+            onLogOut = { _ -> onSignOutClick() }
         )
     }
 }

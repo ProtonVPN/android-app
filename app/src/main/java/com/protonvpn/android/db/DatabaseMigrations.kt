@@ -280,4 +280,10 @@ object DatabaseMigrations {
             VpnProfilesDatabase.MIGRATION_0.migrate(db)
         }
     }
+
+    val MIGRATION_44_45 = object : Migration(44, 45) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            AccountDatabase.MIGRATION_10.migrate(db)
+        }
+    }
 }
