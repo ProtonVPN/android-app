@@ -172,8 +172,8 @@
     <string name="accessibility_action_remove_included_app">Usuń z uwzględnionych aplikacji</string>
     <string name="accessibility_action_copy_to_clipboard">Kopiuj do schowka</string>
     <string name="accessibility_action_item_delete">Usuń</string>
-    <string name="accessibility_action_item_move_up">Move up</string>
-    <string name="accessibility_action_item_move_down">Move down</string>
+    <string name="accessibility_action_item_move_up">Przesuń w górę</string>
+    <string name="accessibility_action_item_move_down">Przesuń w dół</string>
     <string name="tileConnected">Połączono: %1$s</string>
     <string name="openUrlError">Adres %1$s nie może zostać otwarty. Przeglądarka internetowa nie została wykryta na urządzeniu.</string>
     <string name="loaderErrorTimeout">Upłynął limit czasu połączenia. Spróbuj ponownie.</string>
@@ -234,7 +234,7 @@
     <string name="custom_dns_state_on" comment="Describes state, not action">Włączony</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Wyłączony</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Niedostępny</string>
-    <string name="custom_dns_item_removed_snackbar">Item removed</string>
+    <string name="custom_dns_item_removed_snackbar">Element został usunięty</string>
     <string name="netshield_free_description">Zablokuj reklamy, elementy śledzące i złośliwe oprogramowanie na stronach internetowych oraz w aplikacjach</string>
     <string name="netshield_what_data_means">Co oznaczają dane NetShield</string>
     <string name="netshield_ads_title">Reklamy</string>
@@ -396,7 +396,7 @@
     <string name="upgrade_split_tunneling_message"><![CDATA[Podziel ruch sieciowy na częściowy tunel VPN dzięki funkcji <b>Split Tunneling</b>.]]></string>
     <string name="upgrade_customization_title">Odblokuj zaawansowane ustawienia VPN</string>
     <string name="upgrade_lan_access_message"><![CDATA[Uzyskaj dostęp do urządzeń w <b>sieci lokalnej (LAN)</b> w planie VPN Plus.]]></string>
-    <string name="upgrade_customization_message"><![CDATA[Unlock <b>LAN connections</b>, <b>Custom DNS</b>, and <b>NAT type 2</b> with VPN Plus.]]></string>
+    <string name="upgrade_customization_message"><![CDATA[Odblokuj <b>połączenia LAN</b>, <b>niestandardowy serwer DNS</b> i <b>NAT typ 2</b> w planie VPN Plus.]]></string>
     <string name="upgrade_all_countries_title">Dostęp do wszystkich krajów</string>
     <!-- Number of servers inserted as %1$s in the "upgrade_plus_countries_title_new".
          The number is rounded to the hundreds, e.g. for a value of 1234 the number used in this text is 1200.
@@ -644,9 +644,9 @@
     <string name="settings_change_icon_header_discreet">Dyskretna ikona aplikacji</string>
     <string name="settings_widget_title">Widżet</string>
     <string name="settings_widget_selection_title">Wypróbuj widżet Proton VPN</string>
-    <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
+    <string name="settings_widget_selection_description">Sprawdź status połączenia i uzyskaj dostęp do ulubionych połączeń VPN z ekranu głównego.</string>
     <!-- Placeholder is for non-translatable app_name-->
-    <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
+    <string name="setting_widget_selection_additional_description">Aby dodać widżet, przytrzymaj dowolne miejsce na ekranie głównym, a następnie wybierz %1$s z menu widżetów.</string>
     <string name="settings_widget_selection_button_title">Dodaj widżet</string>
     <string name="setting_widget_try_title">Wypróbuj widżet Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
@@ -715,9 +715,9 @@
     <string name="not_wanted_country_description">Ulepsz plan, aby wybrać inny serwer</string>
     <string name="whats_new_title">Co nowego</string>
     <string name="whats_new_profiles_title">Profile powróciły</string>
-    <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
+    <string name="whats_new_profiles_description">Twórz i zapisuj niestandardowe połączenia z wybraną lokalizacją, serwerem i protokołem.</string>
     <string name="whats_new_widget_title">Przedstawiamy widżety</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_widget_description">Możesz zarządzać usługą VPN bez opuszczania ekranu głównego.</string>
     <string name="whats_new_add_widget_button">Dodaj widżet</string>
     <string name="welcome_plus_title">Witaj w planie VPN Plus</string>
     <string name="welcome_plus_description">Ciesz się dodatkowymi funkcjami prywatności, zwiększoną wydajnością i dostosowaniem VPN na wyższym poziomie.</string>
@@ -1232,10 +1232,10 @@
     <string name="info_dialog_how_to_stream_step_3">Połącz się z serwerem planu Plus i streamuj</string>
     <string name="info_dialog_profiles_title">Profile</string>
     <string name="info_dialog_ipaddress_title">Adres IP</string>
-    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
+    <string name="info_dialog_ipv6_traffic_title">Ruch IPv6</string>
     <string name="info_dialog_profiles_description">Profile to niestandardowe połączenia VPN, które możesz dostosować do własnych potrzeb i zapisać w celu szybkiego dostępu.\n\nUstaw preferowaną lokalizację i zoptymalizuj ustawienia pod kątem bezpieczeństwa, wydajności, gier lub dowolnego innego scenariusza.</string>
-    <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
-    <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
+    <string name="info_dialog_ipaddress_description">Adres IP VPN maskuje Twój prawdziwy adres IP. Dzięki temu przeglądanie Internetu wygląda tak, jakby odbywało się z lokalizacji serwera VPN. Twoja aktywność online nie jest powiązana z urządzeniem.</string>
+    <string name="info_dialog_ipv6_traffic_description">Protokół internetowy (IP) przypisuje adresy do urządzeń i kieruje ruchem internetowym. IPv6 to najnowsza wersja, oferująca więcej adresów i lepszą łączność, ale nie została jeszcze powszechnie zaadaptowana.</string>
     <string name="connection_feature_p2p_title">P2P</string>
     <string name="connection_feature_p2p_description">Udostępnianie plików P2P jest włączone na tym serwerze.</string>
     <string name="connection_feature_tor_title">Tor</string>
@@ -1374,6 +1374,8 @@
     <string name="create_profile_name_error_too_long">Nazwa profilu nie może zawierać więcej niż 30 znaków</string>
     <string name="create_profile_type_and_location_title">Wybierz typ połączenia i lokalizację</string>
     <string name="create_profile_features_and_settings_title">Funkcje i ustawienia</string>
+    <string name="configure_profile_features_and_settings_title">Skonfiguruj ustawienia profilu</string>
+    <string name="configure_profile_features_and_settings_description">Ustawienia profilu zastąpią podczas połączenia ustawienia VPN.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
@@ -1398,16 +1400,16 @@
     <string name="settings_add_dns_new_entry_button">Dodaj</string>
     <string name="settings_add_dns_description">Wpisz adres IPv4 lub IPv6 serwera</string>
     <string name="settings_add_dns_invalid_input">Wpisz prawidłowy adres IPv4 lub IPv6 serwera</string>
-    <string name="settings_add_dns_empty_input">Enter an IPv4 or IPv6 address</string>
-    <string name="settings_add_dns_duplicate_input">Server already added</string>
-    <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
+    <string name="settings_add_dns_empty_input">Wpisz adres IPv4 lub IPv6</string>
+    <string name="settings_add_dns_duplicate_input">Serwer został już dodany</string>
+    <string name="settings_advanced_dns_description">Połącz się z VPN za pomocą własnego serwera DNS. Dowiedz się więcej</string>
     <!-- %1$d - Corresponds to number of servers added -->
-    <string name="settings_dns_list_title">Servers (%1$d)</string>
-    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
-    <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
-    <string name="settings_changes_apply_on_reconnect_toast">Changes apply when you reconnect</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield will be unavailable</string>
-    <string name="settings_custom_dns_netshield_conflict_dialog_message">NetShield can not filter out ads, trackers and malware when custom DNS is used. Learn more</string>
+    <string name="settings_dns_list_title">Serwery (%1$d)</string>
+    <string name="settings_dns_list_description">Jeśli niestandardowy serwer DNS nie działa, zostanie użyty standardowy serwer DNS usługi VPN.</string>
+    <string name="settings_dns_list_description_multiple">Spróbujemy połączyć się z tymi serwerami według kolejności. Jeśli żaden nie będzie działać, zostanie użyty serwer DNS usługi VPN.</string>
+    <string name="settings_changes_apply_on_reconnect_toast">Zmiany zostaną zastosowane po ponownym połączeniu</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_title">Funkcja NetShield będzie niedostępna</string>
+    <string name="settings_custom_dns_netshield_conflict_dialog_message">Funkcja NetShield nie może filtrować reklam, elementów śledzących i złośliwego oprogramowania, kiedy używany jest niestandardowy serwer DNS. Dowiedz się więcej</string>
     <string name="settings_advanced_alternative_routing_title">Alternatywne przekierowanie połączenia</string>
     <string name="settings_advanced_alternative_routing_description">Jeśli usługi Proton są zablokowane z powodu ograniczeń sieciowych, spróbujemy użyć alternatywnego przekierowania połączenia.</string>
     <string name="settings_advanced_allow_lan_title">Połączenia LAN</string>
@@ -1455,13 +1457,13 @@
     <string name="settings_split_tunneling_remove_ip_dialog_message">Usunąć adres IP z listy?</string>
     <string name="settings_dialog_reconnect">Nowe ustawienia zostaną zastosowane przy kolejnym połączeniu.</string>
     <string name="settings_needs_reconnect_banner">Nowe ustawienia zostaną zastosowane przy kolejnym połączeniu.</string>
-    <string name="private_dns_conflict_banner_custom_dns_title">Custom DNS is unavailable</string>
-    <string name="private_dns_conflict_banner_custom_dns_description">Your device is using a third-party DNS which prevents Proton VPN’s Custom DNS from working. Learn more</string>
-    <string name="private_dns_conflict_banner_netshield_title">NetShield is unavailable</string>
-    <string name="private_dns_conflict_banner_netshield_description">Your device is using a third-party DNS which prevents NetShield from working. Learn more</string>
+    <string name="private_dns_conflict_banner_custom_dns_title">Niestandardowy serwer DNS jest niedostępny</string>
+    <string name="private_dns_conflict_banner_custom_dns_description">Urządzenie korzysta z serwera DNS innej firmy, co uniemożliwia działanie niestandardowego serwera DNS usługi Proton VPN. Dowiedz się więcej</string>
+    <string name="private_dns_conflict_banner_netshield_title">Funkcja NetShield jest niedostępna</string>
+    <string name="private_dns_conflict_banner_netshield_description">Urządzenie korzysta z serwera DNS innej firmy, co uniemożliwia działanie funkcji NetShield. Dowiedz się więcej</string>
     <string name="private_dns_conflict_banner_network_settings_button">Ustawienia sieci</string>
     <string name="custom_dns_conflict_banner_netshield_title">Funkcja NetShield jest niedostępna</string>
-    <string name="custom_dns_conflict_banner_netshield_description">Custom DNS is enabled which prevents NetShield from working. Learn more</string>
+    <string name="custom_dns_conflict_banner_netshield_description">Niestandardowy serwer DNS jest włączony, co uniemożliwia działanie funkcji NetShield. Dowiedz się więcej</string>
     <string name="custom_dns_conflict_banner_disable_custom_dns_button">Wyłącz niestandardowy serwer DNS</string>
     <string name="info_secure_core_standard_high_privacy">Wysoki poziom prywatności</string>
     <string name="info_secure_core_standard_lower_latency">Niższe opóźnienie</string>
@@ -1561,13 +1563,13 @@
     <string name="profile_auto_open_on">Włączone</string>
     <string name="create_profile_auto_open_description">Automatycznie otwórz wybraną stronę internetową, kiedy się połączysz z tym profilem.</string>
     <string name="profile_auto_open_error_invalid_url">Wpisz prawidłowy adres URL</string>
-    <string name="nps_how_likely_question">How likely are you to recommend Proton VPN to a friend or colleague?</string>
-    <string name="nps_additional_comment_title">Please let us know why you gave that rating</string>
+    <string name="nps_how_likely_question">Jak bardzo prawdopodobne jest, że polecisz Proton VPN znajomemu lub współpracownikowi?</string>
+    <string name="nps_additional_comment_title">Dlaczego taka ocena</string>
     <string name="nps_additional_comment_optional">Opcjonalne</string>
-    <string name="nps_rating_low_values_explain">0 is very unlikely</string>
-    <string name="nps_rating_high_values_explain">10 is very likely</string>
+    <string name="nps_rating_low_values_explain">0 to bardzo nieprawdopodobne</string>
+    <string name="nps_rating_high_values_explain">10 to bardzo prawdopodobne</string>
     <string name="nps_toast_submit_message">Dziękujemy. Twoja opinia pomoże nam ulepszyć usługę Proton VPN.</string>
-    <string name="nps_submit_error_char_limit">Your answer should be 250 characters or shorter</string>
+    <string name="nps_submit_error_char_limit">Odpowiedź powinna zawierać maksymalnie 250 znaków</string>
     <string name="nps_button_submit_title">Udostępnij anonimowo</string>
     <string name="widget_preview_switzerland">Szwajcaria</string>
     <string name="widget_preview_spain">Hiszpania</string>
@@ -1579,15 +1581,15 @@
     <string name="widget_sign_in">Zaloguj się</string>
     <string name="widget_toast_added_message">Widżet został dodany do ekranu głównego</string>
     <string name="settings_advanced_ipv6_title">IPv6</string>
-    <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
+    <string name="settings_advanced_ipv6_description">Przekieruj ruch IPv6 przez VPN. Opcja może zwiększyć kompatybilność z sieciami IPv6.</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_message">Aby użyć tego adresu, zezwól na połączenia IPv6 przez usługę VPN.</string>
     <string name="setting_ipv6_disabled_dialog_action_enable">Włącz IPv6</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 jest wyłączony</string>
-    <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
-    <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
-    <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks2">Some networks handle IPv6 traffic unpredictably</string>
-    <string name="info_dialog_ipv6_traffic_drawbacks_title">Drawbacks</string>
-    <string name="info_dialog_ipv6_traffic_benefits_title">Bonusy</string>
+    <string name="settings_ipv6_enabled_toast">Połączenia IPv6 zostały włączone</string>
+    <string name="info_dialog_ipv6_traffic_benefits1">Zapewnia dostęp do stron internetowych i usług opartych na protokole IPv6</string>
+    <string name="info_dialog_ipv6_traffic_benefits2">Zapobiega problemom w sieciach opartych na protokole IPv6</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks1">Może nie działać dobrze ze starszymi sieciami lub aplikacjami</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks2">Niektóre sieci obsługują ruch IPv6 w sposób nieprzewidywalny</string>
+    <string name="info_dialog_ipv6_traffic_drawbacks_title">Wady</string>
+    <string name="info_dialog_ipv6_traffic_benefits_title">Zalety</string>
 </resources>
