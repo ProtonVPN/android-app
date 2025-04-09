@@ -20,6 +20,7 @@ package com.protonvpn.android.vpn.usecases
 
 import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.auth.usecase.CurrentUser
+import com.protonvpn.android.di.WallClock
 import com.protonvpn.android.profiles.data.ProfilesDao
 import com.protonvpn.android.redesign.recents.data.RecentsDao
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -27,7 +28,10 @@ import com.protonvpn.android.vpn.VpnStatusProviderUI
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
+import javax.inject.Singleton
 
+private const val TRANSIENT_LIFE_MS = 60 * 60_000L
+private const val MAX_TRANSIENTS = 3
 private const val MAX_RECENTS = 15
 private const val MAX_MUST_HAVES = 35
 
@@ -35,11 +39,38 @@ fun interface GetTruncationMustHaveIDs {
     suspend operator fun invoke(): Set<String>
 }
 
+/**
+ * Track IDs of servers that have been chosen by the user but not yet connected to.
+ * This could be a server selected while editing a profile or result of search.
+ */
+@Singleton
+class TransientMustHaves @Inject constructor(
+    @WallClock private val now: () -> Long
+) {
+    private data class Entry(val id: String, val timestamp: Long)
+
+    private val serverIds = ArrayList<Entry>()
+
+    fun add(serverId: String) {
+        with(serverIds) {
+            if (size == MAX_TRANSIENTS)
+                removeAt(size - 1)
+            add(0, Entry(serverId, now()))
+        }
+    }
+
+    fun getAll(): List<String> {
+        val timeThresholdMs = now() - TRANSIENT_LIFE_MS
+        return serverIds.filter { it.timestamp > timeThresholdMs }.map { it.id }
+    }
+}
+
 @Reusable
 class GetTruncationMustHaveIDsImpl @Inject constructor(
     private val currentUser: CurrentUser,
     private val profilesDao: ProfilesDao,
     private val recentsDao: RecentsDao,
+    private val transientMustHaves: TransientMustHaves,
     private val vpnStatusProviderUI: VpnStatusProviderUI,
 ) : GetTruncationMustHaveIDs {
 
@@ -55,6 +86,7 @@ class GetTruncationMustHaveIDsImpl @Inject constructor(
             currentServerID = vpnStatusProviderUI.connectingToServer?.serverId,
             recentsServerIDs = recentsServerIDs,
             profilesServerIDs = profilesServerIDs,
+            transientIDs = transientMustHaves.getAll(),
         )
     }
 
@@ -64,15 +96,17 @@ class GetTruncationMustHaveIDsImpl @Inject constructor(
             currentServerID: String?,
             recentsServerIDs: List<String>,
             profilesServerIDs: List<String>,
+            transientIDs: List<String>,
             maxRecents: Int = MAX_RECENTS,
             maxMustHaves: Int = MAX_MUST_HAVES,
         ) : Set<String> = LinkedHashSet<String>().apply {
             currentServerID?.let { add(it) }
             val (recentIDs, recentIDsRest) = LinkedHashSet(
-                recentsServerIDs.filter { it != currentServerID }
+                recentsServerIDs.filter { it != currentServerID && !transientIDs.contains(it) }
             ).let {
                 it.take(maxRecents) to it.drop(maxRecents)
             }
+            addAll(transientIDs)
             addAll(recentIDs)
             addAll(profilesServerIDs)
             // If there are still slots left, add remaining recent servers

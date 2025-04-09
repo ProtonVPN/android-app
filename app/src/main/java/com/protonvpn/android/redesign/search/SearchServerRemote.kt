@@ -25,6 +25,7 @@ import com.protonvpn.android.models.vpn.ServerSearchResponse
 import com.protonvpn.android.redesign.search.ui.addServerNameHash
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
+import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import dagger.Reusable
 import kotlinx.coroutines.flow.first
 import me.proton.core.network.domain.ApiResult
@@ -57,6 +58,7 @@ class FetchServerByName @Inject constructor(
 class SearchServerRemote @Inject constructor(
     private val isEnabled: ServerListTruncationEnabled,
     private val fetchServerByName: FetchServerByName,
+    private val transientMustHaves: TransientMustHaves,
     private val serverManager: ServerManager2,
 ) {
 
@@ -71,6 +73,7 @@ class SearchServerRemote @Inject constructor(
         return if (!availableLocally) {
             val result = fetchServerByName(serverTerm)
             if (result is FetchServerResult.Success) {
+                transientMustHaves.add(result.server.serverId)
                 serverManager.updateOrAddServer(result.server)
             }
             result
