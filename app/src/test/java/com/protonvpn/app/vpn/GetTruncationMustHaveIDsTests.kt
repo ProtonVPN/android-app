@@ -57,6 +57,7 @@ class GetTruncationMustHaveIDsTests {
             currentServerID = "r2",
             recentsServerIDs = listOf("r1", "r2", "r3", "r4"),
             profilesServerIDs = listOf("r3", "p5", "p6", "p7"),
+            transientIDs = listOf("p5"),
             maxRecents = 2,
             maxMustHaves = 5
         )
@@ -69,10 +70,24 @@ class GetTruncationMustHaveIDsTests {
             currentServerID = null,
             recentsServerIDs = listOf("r1", "r2", "r3", "r4", "r5"),
             profilesServerIDs = listOf("r1", "r2", "p1"),
+            transientIDs = emptyList(),
             maxRecents = 2,
             maxMustHaves = 5
         )
         assertEquals(setOf("r1", "r2", "p1", "r3", "r4"), result)
+    }
+
+    @Test
+    fun `transient IDs are added with second highest priority`() = testScope.runTest {
+        val result = GetTruncationMustHaveIDsImpl.getMustHaveIDs(
+            currentServerID = "current",
+            recentsServerIDs = listOf("r1", "r2", "r3"),
+            profilesServerIDs = listOf("p1", "p2", "p3"),
+            transientIDs = listOf("t1", "t2"),
+            maxRecents = 3,
+            maxMustHaves = 5
+        )
+        assertEquals(setOf("current", "t1", "t2", "r1", "r2"), result)
     }
 
     @Test
@@ -81,6 +96,7 @@ class GetTruncationMustHaveIDsTests {
             currentServerID = null,
             recentsServerIDs = emptyList(),
             profilesServerIDs = emptyList(),
+            transientIDs = emptyList(),
             maxRecents = 2,
             maxMustHaves = 5
         )

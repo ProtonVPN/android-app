@@ -38,7 +38,9 @@ import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnect
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.usecases.FakeServerListTruncationEnabled
+import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
+import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import com.protonvpn.app.redesign.countries.server
 import com.protonvpn.app.testRules.RobolectricHiltAndroidRule
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -78,6 +80,9 @@ class SearchViewModelTests {
 
     @Inject
     lateinit var currentUserProvider: TestCurrentUserProvider
+
+    @Inject
+    lateinit var getMustHaveServers: GetTruncationMustHaveIDs
 
     @Inject
     lateinit var searchViewModelInjector: SearchViewModelInjector
@@ -177,7 +182,7 @@ class SearchViewModelTests {
 
     @Test
     fun `remote server search - fetch server`() = runTest {
-        val ch2 = server(serverId = "2", exitCountry = "CH", serverName = "CH#2")
+        val ch2 = server(serverId = "id2", exitCountry = "CH", serverName = "CH#2")
         val fetchServerByName: FetchServerByName = mockk()
         coEvery { fetchServerByName.invoke("CH#2") } returns FetchServerResult.Success(ch2)
 
@@ -187,7 +192,7 @@ class SearchViewModelTests {
         )
 
         serverManager.setServers(
-            listOf(server(serverId = "1", exitCountry = "CH", serverName = "CH#1")),
+            listOf(server(serverId = "id1", exitCountry = "CH", serverName = "CH#1")),
             null
         )
         viewModel.localeFlow.value = Locale.US
@@ -207,6 +212,7 @@ class SearchViewModelTests {
         }
 
         assertEquals(listOf("CH#1", "CH#2"), serverManager.allServers.map { it.serverName })
+        assertTrue(getMustHaveServers().contains("id2"))
     }
 
     @Test
@@ -302,6 +308,7 @@ class SearchViewModelInjector @Inject constructor(
     private val vpnStatusProviderUI: VpnStatusProviderUI,
     private val translator: Translator,
     private val serverManager: ServerManager2,
+    private val transientMustHaves: TransientMustHaves,
 ) {
     fun getViewModel(
         savedStateHandle: SavedStateHandle = SavedStateHandle(),
@@ -317,6 +324,11 @@ class SearchViewModelInjector @Inject constructor(
         currentUser = currentUser,
         vpnStatusProviderUI = vpnStatusProviderUI,
         translator = translator,
-        remoteSearch = SearchServerRemote(serverListTruncationEnabled, fetchServerByName, serverManager)
+        remoteSearch = SearchServerRemote(
+            serverListTruncationEnabled,
+            fetchServerByName,
+            transientMustHaves,
+            serverManager,
+        )
     )
 }

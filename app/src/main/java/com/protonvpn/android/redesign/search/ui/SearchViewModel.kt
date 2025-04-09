@@ -86,6 +86,8 @@ class SearchViewModel @Inject constructor(
         selectedFilter = ServerFilterType.All
     )
 ) {
+    // Remote search gets disabled if the server returns a 429. Avoid making remote search requests until the search
+    // screen is closed. Opening search again will obviously start with remote search enabled again.
     private var remoteSearchDisabled = false
 
     private var searchQuery by savedStateHandle.state<String>("", "search_query")

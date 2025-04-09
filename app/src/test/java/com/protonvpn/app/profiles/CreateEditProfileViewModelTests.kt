@@ -62,6 +62,7 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.FakeIsCustomDnsEnabled
 import com.protonvpn.mocks.TestTelemetryReporter
@@ -201,7 +202,8 @@ class CreateEditProfileViewModelTests {
             shouldAskForProfileReconnection,
             UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
             IsPrivateDnsActiveFlow(isPrivateDnsActiveFlow),
-            isCustomDnsEnabled
+            isCustomDnsEnabled,
+            TransientMustHaves({ testScope.currentTime })
         )
         viewModel.localeFlow.value = Locale("en")
     }

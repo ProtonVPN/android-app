@@ -56,6 +56,7 @@ import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnect
+import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -239,6 +240,7 @@ class CreateEditProfileViewModel @Inject constructor(
     private val uiStateStorage: UiStateStorage,
     private val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
+    private val transientMustHaves: TransientMustHaves,
 ) : ViewModel() {
 
     private var editedProfileId: Long? = null
@@ -662,6 +664,8 @@ class CreateEditProfileViewModel @Inject constructor(
     }
 
     fun setServer(server: TypeAndLocationScreenState.ServerItem) {
+        if (server.id != null)
+            transientMustHaves.add(server.id)
         typeAndLocationScreenSavedState = typeAndLocationScreenSavedState?.copy(serverId = server.id)
     }
 
