@@ -25,6 +25,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.protonvpn.android.api.DohEnabled
+import com.protonvpn.android.app.AppExitObservability
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout
 import com.protonvpn.android.auth.usecase.LogoutOnForceUpdate
@@ -99,6 +100,7 @@ open class ProtonApplication : Application() {
     @InstallIn(SingletonComponent::class)
     internal interface DependencyEntryPoints {
         val accountStateHandler: AccountStateHandler
+        val appExitObservability: AppExitObservability
         val autoLoginManager: AutoLoginManager?
         val certificateRepository: CertificateRepository?
         val closeSessionOnForceLogout: CloseSessionOnForceLogout?
@@ -187,6 +189,7 @@ open class ProtonApplication : Application() {
         dependencies.settingChangesLogger
 
         dependencies.accountStateHandler.start()
+        dependencies.appExitObservability.start()
         dependencies.autoLoginManager
         dependencies.certificateRepository
         dependencies.connectingUpdatesRecents
