@@ -19,8 +19,10 @@
 
 package com.protonvpn.android.logging
 
+import android.app.ActivityManager.RunningAppProcessInfo
 import com.protonvpn.android.auth.data.VpnUser
 import com.protonvpn.android.models.profiles.Profile
+import com.protonvpn.android.observability.AppExitTotal
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
@@ -97,3 +99,22 @@ fun SplitTunnelingMode.toLog() = when (this) {
     SplitTunnelingMode.INCLUDE_ONLY -> "inverse"
     SplitTunnelingMode.EXCLUDE_ONLY -> "standard"
 }
+
+fun Int.toImportanceLog() =
+    when (this) {
+        RunningAppProcessInfo.IMPORTANCE_BACKGROUND,
+        RunningAppProcessInfo.IMPORTANCE_CACHED,
+        RunningAppProcessInfo.IMPORTANCE_EMPTY -> "cached"
+        RunningAppProcessInfo.IMPORTANCE_CANT_SAVE_STATE -> "can't save state"
+        RunningAppProcessInfo.IMPORTANCE_FOREGROUND -> "foreground"
+        RunningAppProcessInfo.IMPORTANCE_FOREGROUND_SERVICE -> "foreground service"
+        RunningAppProcessInfo.IMPORTANCE_GONE -> "gone"
+        RunningAppProcessInfo.IMPORTANCE_PERCEPTIBLE,
+        RunningAppProcessInfo.IMPORTANCE_PERCEPTIBLE_PRE_26 -> "perceptible"
+        RunningAppProcessInfo.IMPORTANCE_SERVICE -> "service"
+        RunningAppProcessInfo.IMPORTANCE_TOP_SLEEPING,
+        RunningAppProcessInfo.IMPORTANCE_TOP_SLEEPING_PRE_28 -> "top sleeping"
+        RunningAppProcessInfo.IMPORTANCE_VISIBLE -> "visible"
+
+        else -> "unknown"
+    }

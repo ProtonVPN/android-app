@@ -21,11 +21,10 @@ package com.protonvpn.android
 import android.app.Application
 import android.app.ApplicationExitInfo
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.protonvpn.android.api.DohEnabled
 import com.protonvpn.android.app.AppExitObservability
+import com.protonvpn.android.app.AppStartExitLogger
 import com.protonvpn.android.appconfig.periodicupdates.PeriodicUpdateManager
 import com.protonvpn.android.auth.usecase.CloseSessionOnForceLogout
 import com.protonvpn.android.auth.usecase.LogoutOnForceUpdate
@@ -58,7 +57,6 @@ import com.protonvpn.android.ui.promooffers.OneTimePopupNotificationTrigger
 import com.protonvpn.android.utils.SentryIntegration.initSentry
 import com.protonvpn.android.utils.Storage
 import com.protonvpn.android.utils.VpnCoreLogger
-import com.protonvpn.android.utils.getAppMainProcessExitReason
 import com.protonvpn.android.utils.initPurchaseHandler
 import com.protonvpn.android.utils.isMainProcess
 import com.protonvpn.android.utils.migrateProtonPreferences
@@ -101,6 +99,7 @@ open class ProtonApplication : Application() {
     internal interface DependencyEntryPoints {
         val accountStateHandler: AccountStateHandler
         val appExitObservability: AppExitObservability
+        val appStartExitLogger: AppStartExitLogger
         val autoLoginManager: AutoLoginManager?
         val certificateRepository: CertificateRepository?
         val closeSessionOnForceLogout: CloseSessionOnForceLogout?
@@ -153,17 +152,7 @@ open class ProtonApplication : Application() {
 
         if (isMainProcess()) {
             initLogger()
-            val exitReasonLog = if (Build.VERSION.SDK_INT >= 30) {
-                val reason = getAppMainProcessExitReason()
-                lastMainProcessExitReason = reason?.reason
-                reason?.toLogString()
-            } else {
-                null
-            }
-            ProtonLogger.log(
-                AppProcessStart,
-                "version: " + BuildConfig.VERSION_NAME + (if (exitReasonLog != null) "; last exit cause: $exitReasonLog" else "")
-            )
+            ProtonLogger.log(AppProcessStart, "version: " + BuildConfig.VERSION_NAME)
 
             initNotificationChannel(this)
 
@@ -183,6 +172,7 @@ open class ProtonApplication : Application() {
         dependencies.coreEventManagerStarter.start()
 
         // Logging
+        dependencies.appStartExitLogger.log()
         dependencies.currentStateLogger.logCurrentState()
         dependencies.logcatLogCapture
         dependencies.powerStateLogger
@@ -276,15 +266,4 @@ open class ProtonApplication : Application() {
             appContext = context
         }
     }
-}
-
-@RequiresApi(30)
-private fun ApplicationExitInfo.toLogString(): String {
-    val reason = if (reason == ApplicationExitInfo.REASON_SIGNALED) {
-        "signal $status"
-    } else {
-        reason
-    }
-    return "$description; reason: $reason; importance: $importance; " +
-        "time: ${ProtonLogger.formatTime(timestamp)}"
 }
