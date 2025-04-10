@@ -103,7 +103,7 @@ class MemoryMonitor @Inject constructor(
                     ProtonLogger.logCustom(LogCategory.APP, "MemoryMonitor: $result, " +
                         "available: ${memInfo.availMem / 1024 / 1024}MB, low: ${memInfo.lowMemory}")
                     ProtonLogger.logCustom(LogCategory.APP, "MemoryMonitor importance: " +
-                        "${memState.importance}/${memState.importanceReasonCode}/" +
+                        "${memState.importance.toImportanceLog()}/${memState.importanceReasonCode}/" +
                         memState.importanceReasonComponent?.shortClassName)
 
                     if (
