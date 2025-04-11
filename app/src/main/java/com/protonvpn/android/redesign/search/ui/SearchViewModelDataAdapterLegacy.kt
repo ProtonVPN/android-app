@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.redesign.search.ui
 
-import androidx.annotation.VisibleForTesting
 import com.protonvpn.android.models.vpn.Server
 import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
@@ -31,6 +30,8 @@ import com.protonvpn.android.redesign.countries.ui.matches
 import com.protonvpn.android.redesign.countries.ui.toCityItem
 import com.protonvpn.android.redesign.countries.ui.toCountryItem
 import com.protonvpn.android.redesign.countries.ui.toServerItem
+import com.protonvpn.android.redesign.search.addServerNameHash
+import com.protonvpn.android.redesign.search.match
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.third_party.ApacheStringUtils
 import com.protonvpn.android.utils.CountryTools
@@ -190,55 +191,5 @@ class SearchViewModelDataAdapterLegacy @Inject constructor(
     }
 }
 
-private fun matchLocalizedAndEnglish(term: String, normalizedTerm: String, textLocalized: String, textEn: String): TextMatch? =
+private fun matchLocalizedAndEnglish(term: String, normalizedTerm: String, textLocalized: String, textEn: String): com.protonvpn.android.redesign.search.TextMatch? =
     match(term, normalizedTerm, textLocalized) ?: match(term, normalizedTerm, textEn)
-
-// TODO: move to common file
-fun addServerNameHash(term: String): String {
-    return if (term.matches(SERVER_SEARCH_ENHANCE_PATTERN)) {
-        val digitsStart = term.indexOfFirst { it in "0123456789" }
-        term.substring(0, digitsStart) + "#" + term.substring(digitsStart)
-    } else {
-        term
-    }
-}
-
-private val SERVER_SEARCH_ENHANCE_PATTERN = Regex("^[a-zA-Z-]+[0-9]+$")
-private val ADDITIONAL_SEPARATORS = charArrayOf('-', '#')
-
-data class TextMatch(val index: Int, val length: Int, val fullText: String)
-
-@VisibleForTesting
-fun match(
-    term: String,
-    normalizedTerm: String,
-    text: String,
-    ignoreCase: Boolean = true,
-    matchOnlyWordPrefixes: Boolean = true,
-    additionalSeparators: CharArray = ADDITIONAL_SEPARATORS // Separators that are not whitespace
-): TextMatch? {
-    fun Char.isSeparator() = isWhitespace() || this in additionalSeparators
-
-    val normalizedText = ApacheStringUtils.stripAccents(text)
-    val idx = normalizedText.indexOf(normalizedTerm, ignoreCase = ignoreCase)
-    return when {
-        idx < 0 -> null
-        !matchOnlyWordPrefixes
-            || idx == 0
-            || normalizedText[idx - 1].isSeparator()
-            || normalizedText[idx].isSeparator() -> TextMatch(idx, term.length, text)
-        else -> {
-            var idxAcc = 0
-            val matched = normalizedText.splitToSequence(*additionalSeparators).any { word ->
-                word.startsWith(normalizedTerm, ignoreCase = ignoreCase).also { matched ->
-                    if (!matched)
-                        idxAcc += word.length + 1
-                }
-            }
-            if (matched)
-                TextMatch(idxAcc, term.length, text)
-            else
-                null
-        }
-    }
-}

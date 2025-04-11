@@ -26,7 +26,7 @@ import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
 import com.protonvpn.android.redesign.countries.Translator
-import com.protonvpn.android.redesign.search.ui.TextMatch
+import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.isVirtualLocation
 import com.protonvpn.android.servers.ServerManager2

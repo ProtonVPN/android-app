@@ -75,7 +75,7 @@ import com.protonvpn.android.redesign.base.ui.InfoType
 import com.protonvpn.android.redesign.base.ui.ServerLoadBar
 import com.protonvpn.android.redesign.base.ui.thenNotNull
 import com.protonvpn.android.redesign.base.ui.unavailableServerAlpha
-import com.protonvpn.android.redesign.search.ui.TextMatch
+import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.redesign.vpn.ServerFeature
 import com.protonvpn.android.redesign.vpn.ui.iconRes
 import com.protonvpn.android.redesign.vpn.ui.label

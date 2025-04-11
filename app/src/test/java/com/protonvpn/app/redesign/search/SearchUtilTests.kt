@@ -19,8 +19,8 @@
 
 package com.protonvpn.app.redesign.search
 
-import com.protonvpn.android.redesign.search.ui.TextMatch
-import com.protonvpn.android.redesign.search.ui.match
+import com.protonvpn.android.redesign.search.TextMatch
+import com.protonvpn.android.redesign.search.match
 import org.junit.Test
 import kotlin.test.assertEquals
 
