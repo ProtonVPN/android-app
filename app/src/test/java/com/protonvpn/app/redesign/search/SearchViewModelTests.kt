@@ -32,7 +32,7 @@ import com.protonvpn.android.redesign.search.SearchServerRemote
 import com.protonvpn.android.redesign.search.ui.SearchViewModel
 import com.protonvpn.android.redesign.search.ui.SearchViewModelDataAdapter
 import com.protonvpn.android.redesign.search.ui.SearchViewState
-import com.protonvpn.android.redesign.search.ui.TextMatch
+import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.servers.ServerManager2
 import com.protonvpn.android.utils.ServerManager
 import com.protonvpn.android.vpn.VpnConnect

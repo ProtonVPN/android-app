@@ -23,7 +23,7 @@ import com.protonvpn.android.redesign.CityStateId
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.ServerId
 import com.protonvpn.android.redesign.base.ui.InfoType
-import com.protonvpn.android.redesign.search.ui.TextMatch
+import com.protonvpn.android.redesign.search.TextMatch
 import com.protonvpn.android.redesign.vpn.ServerFeature
 
 // Server data as needed by the UI, doesn't have dynamic properties like isConnected or
