@@ -26,11 +26,11 @@ import androidx.annotation.RequiresApi
 import com.protonvpn.android.release_tests.BuildConfig
 import com.protonvpn.android.release_tests.data.LokiConfig
 import com.protonvpn.android.release_tests.data.TestConstants
-import com.protonvpn.android.release_tests.helpers.TestApiClient
 import com.protonvpn.android.release_tests.robots.CountriesRobot
 import com.protonvpn.android.release_tests.robots.HomeRobot
 import com.protonvpn.android.release_tests.robots.LoginRobot
 import com.protonvpn.android.release_tests.rules.LaunchVpnAppRule
+import com.protonvpn.android.release_tests.rules.ProtonPermissionsRule
 import com.protonvpn.android.release_tests.rules.ScreenshotTakingRule
 import me.proton.core.test.performance.MeasurementProfile
 import me.proton.core.test.performance.MeasurementRule
@@ -52,6 +52,7 @@ class MainMeasurementsSli {
     @get:Rule
     val rule: RuleChain = RuleChain
         .outerRule(LaunchVpnAppRule())
+        .around(ProtonPermissionsRule())
         .around(ScreenshotTakingRule())
         .around(measurementRule)
 
@@ -87,9 +88,11 @@ class MainMeasurementsSli {
         HomeRobot.connect()
 
         profile.measure {
-            HomeRobot.waitForNotificationPermissionRequest()
+            HomeRobot.waitUntilConnected()
         }
-        disconnectWithDelay()
+
+        // Allow some time for the network to settle down
+        Thread.sleep(TestConstants.FIVE_SECONDS_TIMEOUT_MS)
     }
 
     @Test
@@ -100,18 +103,19 @@ class MainMeasurementsSli {
             .setServiceLevelIndicator("specific_server_connect")
             .setLogcatFilter(LokiConfig.logcatFilter)
 
-        val server: String = TestApiClient.getRandomServer()
-
         LoginRobot.waitUntilLoggedIn()
         HomeRobot.navigateToCountries()
         CountriesRobot.clickOnSearchIcon()
-            .searchFor(server)
-            .connectTo(server)
+            .searchFor(getRandomCountryCode())
+            .connectToAnySearchResult()
         HomeRobot.allowVpnPermission()
+
         profile.measure {
-            HomeRobot.waitForNotificationPermissionRequest()
+            HomeRobot.waitUntilConnected()
         }
-        disconnectWithDelay()
+
+        // Allow some time for the network to settle down
+        Thread.sleep(TestConstants.FIVE_SECONDS_TIMEOUT_MS)
     }
 
     @After
@@ -120,10 +124,8 @@ class MainMeasurementsSli {
         profile.clearLogcatLogs()
     }
 
-    private fun disconnectWithDelay(){
-        HomeRobot.dismissNotificationRequest()
-            .disconnect()
-        //Delay to prevent issues when sending SLI results
-        Thread.sleep(TestConstants.FIVE_SECONDS_TIMEOUT_MS)
+    private fun getRandomCountryCode(): String {
+        val codes = listOf("CH#", "US-", "UK#", "FR#")
+        return codes.random()
     }
 }
