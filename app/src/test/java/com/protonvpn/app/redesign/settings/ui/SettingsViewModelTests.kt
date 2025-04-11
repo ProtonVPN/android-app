@@ -57,6 +57,7 @@ import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import com.protonvpn.mocks.FakeGetProfileById
 import com.protonvpn.mocks.FakeIsCustomDnsEnabled
+import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
 import com.protonvpn.test.shared.MockSharedPreferencesProvider
 import com.protonvpn.test.shared.TestCurrentUserProvider
@@ -155,14 +156,14 @@ class SettingsViewModelTests {
                 changeServerConfig
             )
         }
-        val getFeatureFlags = GetFeatureFlags(MutableStateFlow(FeatureFlags()))
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
         val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
+        val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
         settingsManager = CurrentUserLocalSettingsManager(
             LocalUserSettingsStoreProvider(InMemoryDataStoreFactory()),
         )
         val effectiveCurrentUserSettingsFlow = EffectiveCurrentUserSettingsFlow(
-            settingsManager.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, mockIsTvCheck, restrictionsFlow, isIPv6FeatureFlagEnabled, isCustomDnsEnabled
+            settingsManager.rawCurrentUserSettingsFlow, currentUser, mockIsTvCheck, restrictionsFlow, isIPv6FeatureFlagEnabled, isCustomDnsEnabled, isDirectLanConnectionsFeatureFlagEnabled
         )
         effectiveSettings = EffectiveCurrentUserSettings(
             testScope.backgroundScope, effectiveCurrentUserSettingsFlow

@@ -121,7 +121,7 @@ class GetOnlineServersForIntentTests {
 
     @Test
     fun gatewayWithProtocolOverride() = testScope.runTest {
-        val overrides = SettingsOverrides(ProtocolSelection(VpnProtocol.WireGuard).toData(), null, null, null, null)
+        val overrides = SettingsOverrides(ProtocolSelection(VpnProtocol.WireGuard).toData(), null, null, null, null, null)
         val profileIntent = ConnectIntent.Gateway("GT", null, settingsOverrides = overrides)
         val result = getOnlineServersForIntent(profileIntent, userSettingsFlow.value, VpnUser.FREE_TIER)
         assertEquals(listOf("CH-GT#1", "CH-GT#2"), result.map { it.serverName })

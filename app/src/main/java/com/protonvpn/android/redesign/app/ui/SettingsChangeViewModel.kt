@@ -96,6 +96,13 @@ class SettingsChangeViewModel @Inject constructor(
         }
     }
 
+    fun toggleLanAllowDirectConnections(delegate: VpnUiDelegate) {
+        viewModelScope.launch {
+            userSettingsManager.toggleLanAllowDirectConnections()
+            reconnectionCheck(delegate, DontShowAgainStore.Type.LanConnectionsChangeWhenConnected)
+        }
+    }
+
     fun toggleSplitTunneling(uiDelegate: VpnUiDelegate) {
         viewModelScope.launch {
             userSettingsManager.update { current ->

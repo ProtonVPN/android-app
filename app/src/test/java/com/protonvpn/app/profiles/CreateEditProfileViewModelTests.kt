@@ -22,6 +22,7 @@ package com.protonvpn.app.profiles
 import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
+import coil.decode.ImageSource
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.db.AppDatabase
 import com.protonvpn.android.db.AppDatabase.Companion.buildDatabase
@@ -62,9 +63,11 @@ import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnState
 import com.protonvpn.android.vpn.VpnStateMonitor
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import com.protonvpn.mocks.FakeCommonDimensions
 import com.protonvpn.mocks.FakeIsCustomDnsEnabled
+import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.mocks.TestTelemetryReporter
 import com.protonvpn.mocks.createInMemoryServerManager
 import com.protonvpn.test.shared.InMemoryDataStoreFactory
@@ -118,6 +121,7 @@ class CreateEditProfileViewModelTests {
         protocol = ProtocolSelection(VpnProtocol.WireGuard),
         natType = NatType.Moderate,
         lanConnections = true,
+        lanConnectionsAllowDirect = false,
         autoOpen = ProfileAutoOpen.None(""),
         customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,
@@ -203,6 +207,7 @@ class CreateEditProfileViewModelTests {
             UiStateStorage(UiStateStoreProvider(InMemoryDataStoreFactory()), currentUser),
             IsPrivateDnsActiveFlow(isPrivateDnsActiveFlow),
             isCustomDnsEnabled,
+            FakeIsLanDirectConnectionsFeatureFlagEnabled(true),
             TransientMustHaves({ testScope.currentTime })
         )
         viewModel.localeFlow.value = Locale("en")

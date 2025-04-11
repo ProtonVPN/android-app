@@ -92,6 +92,7 @@ data class LocalUserSettings(
     @Serializable(with = UUIDSerializer::class)
     val defaultProfileId: UUID? = null,
     val lanConnections: Boolean = false,
+    val lanConnectionsAllowDirect: Boolean = false,
     val mtuSize: Int = 1375,
     val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
     val protocol: ProtocolSelection = ProtocolSelection.SMART,
@@ -111,7 +112,7 @@ data class LocalUserSettings(
 // Provide log strings for all settings.
 fun LocalUserSettings.toLogList(): List<String> {
     val regularSettings = listOf(
-        "LAN connections: ${lanConnections.toLog()}",
+        "LAN connections: ${lanConnections.toLog()} (allow direct: ${lanConnectionsAllowDirect.toLog()})",
         "MTU size: $mtuSize bytes",
         "NetShield: $netShield",
         "Protocol: ${protocol.apiName}",

@@ -38,7 +38,7 @@ fun AdvancedSettings(
     natType: SettingsViewModel.SettingViewState.Nat,
     customDns: SettingsViewModel.SettingViewState.CustomDns?,
     onAltRoutingChange: () -> Unit,
-    onAllowLanChange: () -> Unit,
+    onNavigateToLan: () -> Unit,
     onIPv6Toggle: () -> Unit,
     onNatTypeLearnMore: () -> Unit,
     onNavigateToNatType: () -> Unit,
@@ -64,9 +64,10 @@ fun AdvancedSettings(
             altRouting,
             onToggle = onAltRoutingChange
         )
-        SettingsToggleItem(
-            allowLan,
-            onToggle = onAllowLanChange,
+        SettingsValueItem(
+            state = allowLan,
+            onLearnMore = null,
+            onNavigateTo = onNavigateToLan,
             onRestricted = onAllowLanRestricted
         )
 
@@ -99,7 +100,7 @@ fun AdvancedSettings(
 @Composable
 fun <T> SettingsValueItem(
     state: SettingsViewModel.SettingViewState<T>,
-    onLearnMore: () -> Unit,
+    onLearnMore: (() -> Unit)?,
     onNavigateTo: () -> Unit,
     onRestricted: () -> Unit,
 ) {
@@ -109,13 +110,16 @@ fun <T> SettingsValueItem(
         description = state.descriptionText(),
         needsUpgrade = state.isRestricted,
         settingValue = state.settingValueView,
-        descriptionAnnotation = state.annotationRes?.let {
-            ClickableTextAnnotation(
-                annotatedPart = stringResource(id = it),
-                onAnnotatedClick = onLearnMore,
-                onAnnotatedOutsideClick = onClick,
-            )
-        },
+        descriptionAnnotation =
+            if (onLearnMore != null && state.annotationRes != null) {
+                ClickableTextAnnotation(
+                    annotatedPart = stringResource(id = state.annotationRes),
+                    onAnnotatedClick = onLearnMore,
+                    onAnnotatedOutsideClick = onClick,
+                )
+            } else {
+                null
+            },
         onClick = onClick
     )
 }

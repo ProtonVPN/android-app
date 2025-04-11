@@ -23,6 +23,7 @@ import com.protonvpn.android.models.config.TransmissionProtocol
 import com.protonvpn.android.models.vpn.ConnectionParamsWireguard
 import com.protonvpn.android.models.vpn.usecase.ComputeAllowedIPs
 import com.protonvpn.android.models.vpn.usecase.ProvideLocalNetworks
+import com.protonvpn.android.models.vpn.usecase.toIPAddress
 import com.protonvpn.android.redesign.vpn.AnyConnectIntent
 import com.protonvpn.android.redesign.vpn.ConnectIntent
 import com.protonvpn.android.settings.data.LocalUserSettings
@@ -32,6 +33,7 @@ import com.protonvpn.android.vpn.CertificateRepository
 import com.protonvpn.test.shared.createServer
 import com.protonvpn.test.shared.dummyConnectingDomain
 import com.wireguard.config.Config
+import inet.ipaddr.IPAddress
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -49,7 +51,7 @@ class WireguardParamsTests {
     @MockK
     private lateinit var mockCertRepository: CertificateRepository
 
-    private lateinit var localNetworks: List<String>
+    private lateinit var localNetworks: List<IPAddress>
     private lateinit var connectionParams: ConnectionParamsWireguard
 
     private var v6SupportEnabled: Boolean = true
@@ -108,7 +110,7 @@ class WireguardParamsTests {
         coEvery { mockCertRepository.getX25519Key(any()) } returns dummyKeyBase64
 
         v6SupportEnabled = true
-        localNetworks = emptyList<String>()
+        localNetworks = emptyList<IPAddress>()
         connectionParams = createConnectionParams(ConnectIntent.Fastest)
     }
 
@@ -126,7 +128,7 @@ class WireguardParamsTests {
             splitTunneling = splitTunnelingIncludeOnly1App,
             lanConnections = true,
         )
-        localNetworks = listOf("10.0.0.0/8")
+        localNetworks = listOf("10.0.0.0/8".toIPAddress())
         val config = getTunnelConfigInTest(settings)
         val allowedIps = config.peers.first().allowedIps.map { it.toString() }
 
@@ -215,7 +217,7 @@ class WireguardParamsTests {
         userSettings = settings,
         sessionId = null,
         certificateRepository = mockCertRepository,
-        computeAllowedIPs = ComputeAllowedIPs(ProvideLocalNetworks { localNetworks }),
+        computeAllowedIPs = ComputeAllowedIPs(ProvideLocalNetworks { _, _ -> localNetworks }),
     )
 
     private fun createConnectionParams(connectIntent: AnyConnectIntent, ipV6Server: Boolean = true) =

@@ -60,6 +60,7 @@ data class SettingsOverrides(
     val netShield: NetShieldProtocol?,
     val randomizedNat: Boolean?,
     val lanConnections: Boolean?,
+    val lanConnectionsAllowDirect: Boolean?,
     @Embedded val customDns: CustomDnsSettings?
 ): java.io.Serializable {
     val protocol get() = protocolData?.toProtocolSelection()

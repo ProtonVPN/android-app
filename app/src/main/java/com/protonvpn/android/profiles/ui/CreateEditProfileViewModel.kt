@@ -49,6 +49,7 @@ import com.protonvpn.android.settings.data.CustomDnsSettings
 import com.protonvpn.android.ui.storage.UiStateStorage
 import com.protonvpn.android.ui.vpn.VpnBackgroundUiDelegate
 import com.protonvpn.android.utils.CountryTools
+import com.protonvpn.android.utils.mapState
 import com.protonvpn.android.utils.sortedByLocaleAware
 import com.protonvpn.android.vpn.ConnectTrigger
 import com.protonvpn.android.vpn.DnsOverride
@@ -56,6 +57,7 @@ import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
 import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnConnect
+import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.TransientMustHaves
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -78,17 +80,19 @@ import javax.inject.Inject
 import me.proton.core.presentation.R as CoreR
 
 private fun defaultSettingScreenState(
-    isAutOpenNew: Boolean,
+    isAutoOpenNew: Boolean,
     customDnsFeatureFlagEnabled: Boolean,
+    lanDirectConnectionsFeatureFlagEnabled: Boolean,
     isPrivateDnsEnabled: Boolean,
 ) = SettingsScreenState(
     protocol = ProtocolSelection.SMART,
     netShield = true,
     natType = NatType.Strict,
     lanConnections = true,
+    lanConnectionsAllowDirect = if (lanDirectConnectionsFeatureFlagEnabled) false else null,
     autoOpen = ProfileAutoOpen.None(""),
     customDnsSettings = if (customDnsFeatureFlagEnabled) CustomDnsSettings(false) else null,
-    isAutoOpenNew = isAutOpenNew,
+    isAutoOpenNew = isAutoOpenNew,
     isPrivateDnsActive = isPrivateDnsEnabled,
 )
 
@@ -203,6 +207,7 @@ data class SettingsScreenState(
     val protocol: ProtocolSelection,
     val natType: NatType,
     val lanConnections: Boolean,
+    val lanConnectionsAllowDirect: Boolean?,
     val autoOpen: ProfileAutoOpen,
     val isAutoOpenNew: Boolean,
     val customDnsSettings: CustomDnsSettings?,
@@ -213,6 +218,7 @@ data class SettingsScreenState(
         randomizedNat = natType.toRandomizedNat(),
         customDns = customDnsSettings,
         lanConnections = lanConnections,
+        lanConnectionsAllowDirect = lanConnectionsAllowDirect,
     )
 
     val dnsOverride get() = when {
@@ -240,6 +246,7 @@ class CreateEditProfileViewModel @Inject constructor(
     private val uiStateStorage: UiStateStorage,
     private val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
     private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
+    private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
     private val transientMustHaves: TransientMustHaves,
 ) : ViewModel() {
 
@@ -280,6 +287,17 @@ class CreateEditProfileViewModel @Inject constructor(
                 }
             }
     )
+
+    val lanValuesFlow = settingsScreenStateFlow.mapState { profileSettings ->
+        profileSettings?.let {
+            SettingViewState.LanConnections(
+                profileSettings.lanConnections,
+                profileSettings.lanConnectionsAllowDirect,
+                isFreeUser = false,
+                overrideProfilePrimaryLabel = null
+            )
+        }
+    }
 
     init {
         isPrivateDnsActiveFlow.onEach { active ->
@@ -404,6 +422,7 @@ class CreateEditProfileViewModel @Inject constructor(
         settingsScreenState = defaultSettingScreenState(
             isAutoOpenNew.first(),
             customDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled(),
+            lanDirectConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled(),
             isPrivateDnsEnabled = isPrivateDnsActive
         )
     }
@@ -427,15 +446,33 @@ class CreateEditProfileViewModel @Inject constructor(
 
     private suspend fun getSettingsScreenState(profile: Profile) : SettingsScreenState {
         val intent = profile.connectIntent
-        val defaultSettingScreenState = defaultSettingScreenState(isAutoOpenNew.first(), isCustomDnsFeatureFlagEnabled(), isPrivateDnsActive)
+        val customDnsFeatureFlagEnabled = isCustomDnsFeatureFlagEnabled()
+        val directLanConnectionsFeatureFlagEnabled = isDirectLanConnectionsFeatureFlagEnabled()
+        val defaultSettingScreenState = defaultSettingScreenState(
+            isAutoOpenNew = isAutoOpenNew.first(),
+            customDnsFeatureFlagEnabled = customDnsFeatureFlagEnabled,
+            lanDirectConnectionsFeatureFlagEnabled = directLanConnectionsFeatureFlagEnabled,
+            isPrivateDnsEnabled = isPrivateDnsActive
+        )
+
+        val lanConnectionsAllowDirect = if (directLanConnectionsFeatureFlagEnabled) {
+            intent.settingsOverrides?.lanConnectionsAllowDirect
+                ?: defaultSettingScreenState.lanConnectionsAllowDirect
+        } else null
+
+        val customDnsSetting = if (customDnsFeatureFlagEnabled) {
+            intent.settingsOverrides?.customDns ?: defaultSettingScreenState.customDnsSettings
+        } else null
+
         return SettingsScreenState(
             netShield = intent.settingsOverrides?.netShield?.let { it != NetShieldProtocol.DISABLED } ?: defaultSettingScreenState.netShield,
             isPrivateDnsActive = isPrivateDnsActive,
             protocol = intent.settingsOverrides?.protocolData?.toProtocolSelection() ?: defaultSettingScreenState.protocol,
             natType = intent.settingsOverrides?.randomizedNat?.let { NatType.fromRandomizedNat(it) } ?: defaultSettingScreenState.natType,
             lanConnections = intent.settingsOverrides?.lanConnections ?: defaultSettingScreenState.lanConnections,
+            lanConnectionsAllowDirect = lanConnectionsAllowDirect,
             autoOpen = profile.autoOpen,
-            customDnsSettings = intent.settingsOverrides?.customDns ?: defaultSettingScreenState.customDnsSettings,
+            customDnsSettings = customDnsSetting,
             isAutoOpenNew = isAutoOpenNew.first(),
         )
     }
@@ -714,8 +751,18 @@ class CreateEditProfileViewModel @Inject constructor(
         settingsScreenState = settingsScreenState?.copy(natType = natType)
     }
 
-    fun setLanConnections(isEnabled: Boolean) {
-        settingsScreenState = settingsScreenState?.copy(lanConnections = isEnabled)
+    fun toggleLanConnections() {
+        settingsScreenState = settingsScreenState?.let { state -> state.copy(lanConnections = !state.lanConnections) }
+    }
+
+    fun toggleLanAllowDirectConnections() {
+        settingsScreenState = settingsScreenState?.let { state ->
+            if (state.lanConnectionsAllowDirect != null) {
+                state.copy(lanConnectionsAllowDirect = !state.lanConnectionsAllowDirect)
+            } else {
+                state
+            }
+        }
     }
 
     fun setAutoOpen(autoOpen: ProfileAutoOpen) {

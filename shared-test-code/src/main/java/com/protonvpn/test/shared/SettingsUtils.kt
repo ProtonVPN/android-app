@@ -30,5 +30,6 @@ fun createSettingsOverrides(
     netShield: NetShieldProtocol? = NetShieldProtocol.ENABLED_EXTENDED,
     randomizedNat: Boolean? = true,
     lanConnections: Boolean? = false,
+    lanConnectionsAllowDirect: Boolean? = false,
     customDns: CustomDnsSettings? = CustomDnsSettings(toggleEnabled = false)
-) = SettingsOverrides(protocolData, netShield, randomizedNat, lanConnections, customDns)
+) = SettingsOverrides(protocolData, netShield, randomizedNat, lanConnections, lanConnectionsAllowDirect, customDns)

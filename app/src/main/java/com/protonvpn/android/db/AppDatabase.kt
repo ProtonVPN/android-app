@@ -161,6 +161,7 @@ import me.proton.core.usersettings.data.entity.UserSettingsEntity
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 40, to = 41),
         AutoMigration(from = 42, to = 43),
+        AutoMigration(from = 45, to = 46, spec = DatabaseMigrations.AutoMigration45to46::class)
     ],
     version = AppDatabase.version,
     exportSchema = true
@@ -207,7 +208,7 @@ abstract class AppDatabase :
     AuthDatabase {
 
     companion object {
-        const val version = 45
+        const val version = 46
 
         @VisibleForTesting
         val migrations = listOf(

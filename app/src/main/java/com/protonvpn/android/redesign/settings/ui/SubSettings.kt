@@ -168,11 +168,9 @@ fun SubSettingsRoute(
                             natType = advancedViewState.natType,
                             customDns = advancedViewState.customDns,
                             onAltRoutingChange = settingsChangeViewModel::toggleAltRouting,
-                            onAllowLanChange = {
+                            onNavigateToLan = {
                                 onOverrideSettingClick(OverrideType.LAN) {
-                                    settingsChangeViewModel.toggleLanConnections(
-                                        vpnUiDelegate
-                                    )
+                                    onNavigateToSubSetting(SubSettingsScreen.Type.Lan)
                                 }
                             },
                             onNatTypeLearnMore = { context.openUrl(Constants.MODERATE_NAT_INFO_URL) },
@@ -234,6 +232,19 @@ fun SubSettingsRoute(
                             closeAddDnsScreen = dataSource::closeAddDnsScreen,
                             showReconnectDialog = { settingsChangeViewModel.showDnsReconnectionDialog(vpnUiDelegate) },
                         ),
+                    )
+                }
+            }
+            SubSettingsScreen.Type.Lan -> {
+                val lan = viewModel.lan.collectAsStateWithLifecycle(initialValue = null).value
+                if (lan != null) {
+                    LanSetting(
+                        onClose = onClose,
+                        lan = lan,
+                        onToggleLan = { settingsChangeViewModel.toggleLanConnections(vpnUiDelegate) },
+                        onToggleAllowDirectConnection = {
+                            settingsChangeViewModel.toggleLanAllowDirectConnections(vpnUiDelegate)
+                        },
                     )
                 }
             }
