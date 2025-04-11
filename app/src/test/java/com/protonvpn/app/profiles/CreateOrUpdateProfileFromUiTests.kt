@@ -94,6 +94,7 @@ class CreateOrUpdateProfileFromUiTests {
         protocol = ProtocolSelection(VpnProtocol.WireGuard),
         natType = NatType.Moderate,
         lanConnections = true,
+        lanConnectionsAllowDirect = false,
         autoOpen = ProfileAutoOpen.None(""),
         customDnsSettings = CustomDnsSettings(false),
         isAutoOpenNew = true,

@@ -48,6 +48,7 @@ class LocalUserSettingsUnitTests {
                 "apiUseDoh": true,
                 "defaultProfileId": null,
                 "lanConnections": false,
+                "lanConnectionsAllowDirect": false,
                 "mtuSize": 1375,
                 "netShield": "ENABLED_EXTENDED",
                 "protocol": {
@@ -91,7 +92,8 @@ class LocalUserSettingsUnitTests {
                 "version": 2,
                 "apiUseDoh": false,
                 "defaultProfileId": "00000000-0000-0001-0000-000000000002",
-                "lanConnections": true,
+                "lanConnections": true, 
+                "lanConnectionsAllowDirect": true,
                 "mtuSize": 1000,
                 "netShield": "DISABLED",
                 "protocol": {
@@ -128,6 +130,7 @@ class LocalUserSettingsUnitTests {
             apiUseDoh = false,
             defaultProfileId = UUID(1L, 2L),
             lanConnections = true,
+            lanConnectionsAllowDirect = true,
             mtuSize = 1000,
             netShield = NetShieldProtocol.DISABLED,
             protocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),

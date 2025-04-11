@@ -39,6 +39,7 @@ object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsS
         DefaultConnection,
         IconChange,
         KillSwitch,
+        Lan,
         NatType,
         NetShield,
         Protocol,

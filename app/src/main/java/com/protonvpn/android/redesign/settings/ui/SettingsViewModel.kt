@@ -51,6 +51,7 @@ import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStatusProviderUI
 import com.protonvpn.android.vpn.getDnsOverride
+import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -94,6 +95,7 @@ class SettingsViewModel @Inject constructor(
     private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
     val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
+    private val isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -234,21 +236,24 @@ class SettingsViewModel @Inject constructor(
         )
 
         class LanConnections(
-            enabled: Boolean,
+            value: Boolean,
+            val allowDirectConnections: Boolean?,
             isFreeUser: Boolean,
             overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
         ) : SettingViewState<Boolean>(
-            value = enabled,
+            value = value,
             isRestricted = isFreeUser,
             titleRes = R.string.settings_advanced_allow_lan_title,
             settingValueView =
                 if (overrideProfilePrimaryLabel != null) {
                     SettingValue.SettingOverrideValue(
                         connectIntentPrimaryLabel = overrideProfilePrimaryLabel,
-                        subtitleRes = if (enabled) R.string.lan_state_on else R.string.lan_state_off
+                        subtitleRes = if (value) R.string.lan_state_on else R.string.lan_state_off
                     )
                 } else {
-                    null
+                    SettingValue.SettingStringRes(
+                        subtitleRes = if (value) R.string.lan_state_on else R.string.lan_state_off
+                    )
                 },
             descriptionRes = R.string.settings_advanced_allow_lan_description,
         )
@@ -377,7 +382,12 @@ class SettingsViewModel @Inject constructor(
                 protocol = SettingViewState.Protocol(settings.protocol, profileOverrideInfo?.primaryLabel),
                 defaultConnection = defaultConnectionSetting,
                 altRouting = SettingViewState.AltRouting(settings.apiUseDoh),
-                lanConnections = SettingViewState.LanConnections(settings.lanConnections, isFree, profileOverrideInfo?.primaryLabel),
+                lanConnections = SettingViewState.LanConnections(
+                    settings.lanConnections,
+                    allowDirectConnections = settings.lanConnectionsAllowDirect.takeIf { isDirectLanConnectionsFeatureFlagEnabled() },
+                    isFree,
+                    profileOverrideInfo?.primaryLabel
+                ),
                 natType = SettingViewState.Nat(NatType.fromRandomizedNat(settings.randomizedNat), isFree, profileOverrideInfo?.primaryLabel),
                 buildInfo = buildConfigText,
                 showDebugTools = displayDebugUi,
@@ -402,6 +412,7 @@ class SettingsViewModel @Inject constructor(
 
     val vpnAccelerator = viewState.map { it.vpnAccelerator }.distinctUntilChanged()
     val netShield = viewState.map { it.netShield }.distinctUntilChanged()
+    val lan = viewState.map { it.lanConnections }.distinctUntilChanged()
     private val profileOverrideInfo = viewState.map { it.profileOverrideInfo }.distinctUntilChanged()
     private val altRouting = viewState.map { it.altRouting }.distinctUntilChanged()
     private val lanConnections = viewState.map { it.lanConnections }.distinctUntilChanged()

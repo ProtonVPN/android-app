@@ -47,12 +47,12 @@ class ComputeAllowedIPsTests {
 
     private lateinit var computeAllowedIPs: ComputeAllowedIPs
 
-    private lateinit var localNetworks: List<String>
+    private lateinit var localNetworks: List<IPAddress>
 
     @Before
     fun setup() {
         localNetworks = emptyList()
-        computeAllowedIPs = ComputeAllowedIPs(ProvideLocalNetworks { localNetworks })
+        computeAllowedIPs = ComputeAllowedIPs(ProvideLocalNetworks { _, _ -> localNetworks })
     }
 
     @Test
@@ -146,7 +146,7 @@ class ComputeAllowedIPsTests {
         assertEquals(setOf("::/0", "0.0.0.0/0"), computeStringSet(supportIPv6 = false))
 
         // LAN
-        localNetworks = listOf("fe80::/10")
+        localNetworks = listOf("fe80::/10".toIPAddress())
         assertEquals(setOf("::/0", "0.0.0.0/0"), computeStringSet(supportIPv6 = false, lanConnections = true))
 
         // Split tunneling include
@@ -189,7 +189,7 @@ class ComputeAllowedIPsTests {
 
     @Test
     fun `LAN ranges are excluded`() {
-        localNetworks = listOf("fe80::/10", "1.0.0.0/2")
+        localNetworks = listOf("fe80::/10", "1.0.0.0/2").map { it.toIPAddress() }
         assertEquals(
             setOf("64.0.0.0/2", "128.0.0.0/1", "::/1", "8000::/2", "c000::/3", "e000::/4",
                 "f000::/5", "f800::/6", "fc00::/7", "fe00::/9", "fec0::/10", "ff00::/8"),

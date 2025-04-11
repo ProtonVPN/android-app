@@ -100,6 +100,7 @@ fun profileSettingsOverrides(
     netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
     randomizedNat: Boolean = true,
     lanConnections: Boolean = true,
+    lanConnectionsAllowDirect: Boolean = false,
     customDnsSettings: CustomDnsSettings = CustomDnsSettings(false),
 ) = SettingsOverrides(
     protocolData = protocolData,
@@ -107,4 +108,5 @@ fun profileSettingsOverrides(
     randomizedNat = randomizedNat,
     customDns = customDnsSettings,
     lanConnections = lanConnections,
+    lanConnectionsAllowDirect = lanConnectionsAllowDirect,
 )

@@ -119,7 +119,7 @@ class ConnectionParamsWireguard(
             .parseAddresses(addresses)
             .parseDnsServers(dnsServers.trim())
             .parsePrivateKey(certificateRepository.getX25519Key(sessionId))
-            .splitTunnelingApps(connectIntent, myPackageName, splitTunneling)
+            .splitTunnelingApps(connectIntent, myPackageName, splitTunneling, userSettings.lanConnectionsAllowDirect)
             .build()
 
         return Config.Builder().addPeer(peer).setInterface(iface).build()
@@ -138,10 +138,11 @@ class ConnectionParamsWireguard(
     private fun Interface.Builder.splitTunnelingApps(
         connectIntent: AnyConnectIntent,
         myPackageName: String,
-        splitTunneling: SplitTunnelingSettings
+        splitTunneling: SplitTunnelingSettings,
+        allowDirectLanConnections: Boolean
     ): Interface.Builder {
         val configurator = SplitTunnelAppsWgConfigurator(this)
-        applyAppsSplitTunneling(configurator, connectIntent, myPackageName, splitTunneling)
+        applyAppsSplitTunneling(configurator, connectIntent, myPackageName, splitTunneling, allowDirectLanConnections)
         return this
     }
 }

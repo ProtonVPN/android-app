@@ -35,9 +35,11 @@ import com.protonvpn.android.profiles.ui.CreateProfileNameRoute
 import com.protonvpn.android.profiles.ui.CreateProfileTypeAndLocationRoute
 import com.protonvpn.android.profiles.ui.ProfilesRoute
 import com.protonvpn.android.profiles.ui.customdns.ProfileCustomDnsRoute
+import com.protonvpn.android.profiles.ui.ProfileLanRoute
 import com.protonvpn.android.profiles.ui.nav.CreateProfileNameScreen.createProfileName
 import com.protonvpn.android.profiles.ui.nav.ProfileCustomDnsSubcreen.profileCustomDnsScreen
 import com.protonvpn.android.profiles.ui.nav.ProfileFeaturesAndSettingsScreen.profileFeaturesAndSettingsScreen
+import com.protonvpn.android.profiles.ui.nav.ProfileLanSubScreen.profileLanScreen
 import com.protonvpn.android.profiles.ui.nav.ProfileMainScreen.profileMainScreen
 import com.protonvpn.android.profiles.ui.nav.ProfileTypeAndLocationScreen.profileTypeAndLocationScreen
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
@@ -63,11 +65,12 @@ object ProfilesScreen : ScreenNoArg<MainNav>("profiles") {
 }
 
 enum class ProfileCreationSubscreenTarget {
-    MainSteps, CustomDns;
+    MainSteps, CustomDns, Lan;
 
     val screen get() = when(this) {
         MainSteps -> ProfileMainScreen
         CustomDns -> ProfileCustomDnsSubcreen
+        Lan -> ProfileLanSubScreen
     }
 }
 
@@ -138,6 +141,16 @@ object ProfileCustomDnsSubcreen : ScreenNoArg<ProfilesRegularAndSubscreenNav>("p
     }
 }
 
+object ProfileLanSubScreen : ScreenNoArg<ProfilesRegularAndSubscreenNav>("profileLan") {
+
+    fun SafeNavGraphBuilder<ProfilesRegularAndSubscreenNav>.profileLanScreen(
+        viewModel: CreateEditProfileViewModel,
+        onClose: () -> Unit
+    ) = addToGraphWithSlideAnim(this, vertical = false) {
+        ProfileLanRoute(viewModel, onClose)
+    }
+}
+
 object CreateProfileNameScreen : ScreenNoArg<ProfilesAddEditStepNav>("createProfileName") {
 
     fun SafeNavGraphBuilder<ProfilesAddEditStepNav>.createProfileName(
@@ -164,10 +177,11 @@ object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditStepNav>("p
     fun SafeNavGraphBuilder<ProfilesAddEditStepNav>.profileFeaturesAndSettingsScreen(
         viewModel: CreateEditProfileViewModel,
         onOpenCustomDns: () -> Unit,
+        onOpenLan: () -> Unit,
         onNext: () -> Unit,
         onBack: () -> Unit
     ) = addToGraph(this) {
-        CreateProfileFeaturesAndSettingsRoute(viewModel, onNext = onNext, onOpenCustomDns = onOpenCustomDns, onBack = onBack)
+        CreateProfileFeaturesAndSettingsRoute(viewModel, onNext = onNext, onOpenCustomDns = onOpenCustomDns, onBack = onBack, onOpenLan = onOpenLan)
     }
 }
 
@@ -202,6 +216,11 @@ class ProfilesRegularAndSubscreenNav(
             )
 
             profileCustomDnsScreen(
+                viewModel,
+                onClose = { navigateUp() }
+            )
+
+            profileLanScreen(
                 viewModel,
                 onClose = { navigateUp() }
             )
@@ -243,6 +262,9 @@ class ProfilesAddEditStepNav(
                 onNext = onDone,
                 onOpenCustomDns = {
                     onNavigateToSubscreen(ProfileCreationSubscreenTarget.CustomDns)
+                },
+                onOpenLan = {
+                    onNavigateToSubscreen(ProfileCreationSubscreenTarget.Lan)
                 },
                 onBack = { navigateUpWhenOn(ProfileCreationStepTarget.FeaturesAndSettings.screen) }
             )

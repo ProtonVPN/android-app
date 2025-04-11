@@ -28,6 +28,8 @@ import com.protonvpn.android.settings.data.SplitTunnelingMode
 import com.protonvpn.android.utils.Constants
 import dagger.Reusable
 import dagger.hilt.android.qualifiers.ApplicationContext
+import de.blinkt.openvpn.core.LOCAL_RANGES_IP_V4
+import de.blinkt.openvpn.core.LOCAL_RANGES_IP_V6
 import de.blinkt.openvpn.core.NetworkUtils
 import inet.ipaddr.IPAddress
 import inet.ipaddr.IPAddressSeqRange
@@ -39,18 +41,19 @@ import inet.ipaddr.ipv6.IPv6AddressSeqRange
 import javax.inject.Inject
 
 fun interface ProvideLocalNetworks {
-    operator fun invoke(ipV6Enabled: Boolean): List<String>
+    operator fun invoke(ipV6Enabled: Boolean): List<IPAddress>
 }
 
 @Reusable
 class ProvideLocalNetworksImpl @Inject constructor(
     @ApplicationContext private val appContext: Context,
 ): ProvideLocalNetworks {
-
-    override fun invoke(ipV6Enabled: Boolean): List<String> =
-        NetworkUtils.getLocalNetworks(appContext, false) +
-            if (ipV6Enabled) NetworkUtils.getLocalNetworks(appContext, true)
-            else emptyList()
+    override fun invoke(ipV6Enabled: Boolean): List<IPAddress> =
+        buildList {
+            addAll(NetworkUtils.getLocalNetworks(appContext, false))
+            if (ipV6Enabled)
+                NetworkUtils.getLocalNetworks(appContext, true)
+        }.map { it.toIPAddress() }
 }
 
 // Computes IPs for routing inside of the tunnel.
@@ -89,10 +92,14 @@ class ComputeAllowedIPs @Inject constructor(
             if (splitTunneling.isEnabled && splitTunneling.mode == SplitTunnelingMode.EXCLUDE_ONLY)
                 excludedIps += splitTunneling.excludedIps.map { it.toIPAddress() }
 
-            if (userSettings.lanConnections)
-                excludedIps += provideLocalNetworks(ipV6Enabled).map { it.toIPAddress() }.apply {
+            if (userSettings.lanConnections) {
+                excludedIps += getLocalRanges(
+                    ipV6Enabled = ipV6Enabled,
+                    allowDirectConnections = userSettings.lanConnectionsAllowDirect
+                ).apply {
                     ProtonLogger.logCustom(LogCategory.CONN, "Excluded local networks: $this")
                 }
+            }
 
             val allowedIPsV4 = excludeFrom(FULL_RANGE_IP_V4, excludedIps)
             val allowedIPsV6 =
@@ -103,6 +110,14 @@ class ComputeAllowedIPs @Inject constructor(
         val allRanges = (alwaysAllowedFilteredIPs + allowedIPs).map { it.toSequentialRange() }
         return allRanges.joinToIPList()
     }
+
+    @VisibleForTesting
+    fun getLocalRanges(ipV6Enabled: Boolean, allowDirectConnections: Boolean): List<IPAddress> =
+        if (allowDirectConnections) {
+            LOCAL_RANGES_IP_V4 + if (ipV6Enabled) LOCAL_RANGES_IP_V6 else emptyList()
+        } else {
+            provideLocalNetworks(ipV6Enabled)
+        }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun excludeFrom(

@@ -91,6 +91,8 @@ import com.protonvpn.android.vpn.VpnServicePermissionDelegate
 import com.protonvpn.android.vpn.openvpn.OpenVpnBackend
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
 import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDsImpl
+import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
+import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabledImpl
 import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
@@ -388,6 +390,11 @@ object AppModule {
         @Singleton
         @Binds
         fun provideVpnConnect(impl: VpnConnectionManager): VpnConnect
+
+        @Binds
+        fun bindIsDirectLanConnectionsFeatureFlagEnabled(
+            impl: IsDirectLanConnectionsFeatureFlagEnabledImpl
+        ): IsDirectLanConnectionsFeatureFlagEnabled
 
         @Binds
         fun bindIsIPv6FeatureFlagEnabled(impl: IsIPv6FeatureFlagEnabledImpl): IsIPv6FeatureFlagEnabled

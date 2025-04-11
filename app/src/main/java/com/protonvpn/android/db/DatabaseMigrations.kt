@@ -19,6 +19,7 @@
 
 package com.protonvpn.android.db
 
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.protonvpn.android.profiles.data.VpnProfilesDatabase
@@ -284,6 +285,13 @@ object DatabaseMigrations {
     val MIGRATION_44_45 = object : Migration(44, 45) {
         override fun migrate(db: SupportSQLiteDatabase) {
             AccountDatabase.MIGRATION_10.migrate(db)
+        }
+    }
+
+    class AutoMigration45to46 : AutoMigrationSpec {
+        override fun onPostMigrate(db: SupportSQLiteDatabase) {
+            db.execSQL("UPDATE profiles SET lanConnectionsAllowDirect = 0")
+            db.execSQL("UPDATE unnamedRecentsIntents SET lanConnectionsAllowDirect = 0")
         }
     }
 }

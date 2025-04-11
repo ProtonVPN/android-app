@@ -101,7 +101,8 @@ class ConnectionParamsOpenVpn(
             appsSplitTunnelingConfigurator,
             connectIntent,
             myPackageName,
-            userSettings.splitTunneling
+            userSettings.splitTunneling,
+            allowDirectLanConnections = userSettings.lanConnectionsAllowDirect,
         )
         mConnections[0] = Connection().apply {
             mServerName = entryIp ?: requireNotNull(connectingDomain.getEntryIp(protocolSelection))

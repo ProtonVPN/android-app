@@ -19,7 +19,6 @@
 
 package com.protonvpn.android.settings.data
 
-import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.appconfig.RestrictionsConfig
 import com.protonvpn.android.auth.usecase.CurrentUser
@@ -30,6 +29,7 @@ import com.protonvpn.android.netshield.getNetShieldAvailability
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.utils.SyncStateFlow
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
+import com.protonvpn.android.vpn.usecases.IsDirectLanConnectionsFeatureFlagEnabled
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -79,54 +79,71 @@ class EffectiveCurrentUserSettings(
 @Singleton
 class EffectiveCurrentUserSettingsFlow constructor(
     rawCurrentUserSettingsFlow: Flow<LocalUserSettings>,
-    getFeatureFlags: GetFeatureFlags,
     currentUser: CurrentUser,
     isTv: IsTvCheck,
     restrictionFlow: Flow<Restrictions>,
     isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
+    isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled,
 ) : Flow<LocalUserSettings> {
+
+    private data class Flags(
+        val isIPv6Enabled: Boolean,
+        val isCustomDnsEnabled: Boolean,
+        val isDirectLanConnectionsEnabled: Boolean
+    )
+    private val flagsFlow = combine(
+        isIPv6FeatureFlagEnabled.observe(),
+        isCustomDnsFeatureFlagEnabled.observe(),
+        isDirectLanConnectionsFeatureFlagEnabled.observe()
+    ) { ipV6FeatureFlagEnabled, customDnsFeatureFlagEnabled, isDirectLanConnectionsFeatureFlagEnabled ->
+        Flags(ipV6FeatureFlagEnabled, customDnsFeatureFlagEnabled, isDirectLanConnectionsFeatureFlagEnabled)
+    }
 
     private val effectiveSettings: Flow<LocalUserSettings> = combine(
         rawCurrentUserSettingsFlow,
         currentUser.vpnUserFlow,
         restrictionFlow,
-        isIPv6FeatureFlagEnabled.observe(),
-        isCustomDnsFeatureFlagEnabled.observe()
-    ) { settings, vpnUser, restrictions, ipV6FeatureFlagEnabled, customDnsFeatureFlagEnabled ->
+        flagsFlow,
+    ) { settings, vpnUser, restrictions, flags ->
         val effectiveVpnAccelerator = restrictions.vpnAccelerator || settings.vpnAccelerator
         val netShieldAvailable = vpnUser.getNetShieldAvailability() == NetShieldAvailability.AVAILABLE
         val effectiveSplitTunneling = if (restrictions.splitTunneling)
             SplitTunnelingSettings(isEnabled = false) else settings.splitTunneling
+        val lanConnections = isTv() || (!restrictions.lan && settings.lanConnections)
         settings.copy(
             defaultProfileId = if (!restrictions.quickConnect || isTv()) settings.defaultProfileId else null,
-            lanConnections = isTv() || (!restrictions.lan && settings.lanConnections),
+            lanConnections = lanConnections,
+            lanConnectionsAllowDirect =
+                lanConnections && settings.lanConnectionsAllowDirect && flags.isDirectLanConnectionsEnabled,
             netShield = if (netShieldAvailable) {
                 if (isTv()) NetShieldProtocol.ENABLED else settings.netShield
             } else {
                 NetShieldProtocol.DISABLED
             },
-            customDns = if (customDnsFeatureFlagEnabled && vpnUser?.isUserPlusOrAbove == true)
+            customDns = if (flags.isCustomDnsEnabled && vpnUser?.isUserPlusOrAbove == true)
                 settings.customDns
             else
                 CustomDnsSettings(false),
             telemetry = settings.telemetry,
             vpnAccelerator = effectiveVpnAccelerator,
             splitTunneling = effectiveSplitTunneling,
-            ipV6Enabled = settings.ipV6Enabled && ipV6FeatureFlagEnabled && !isTv()
+            ipV6Enabled = settings.ipV6Enabled && flags.isIPv6Enabled && !isTv()
         )
     }
 
     @Inject
     constructor(
         localUserSettings: CurrentUserLocalSettingsManager,
-        getFeatureFlags: GetFeatureFlags,
         currentUser: CurrentUser,
         isTv: IsTvCheck,
         restrictions: RestrictionsConfig,
         isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
         isCustomDnsEnabled: IsCustomDnsFeatureFlagEnabled,
-    ) : this(localUserSettings.rawCurrentUserSettingsFlow, getFeatureFlags, currentUser, isTv, restrictions.restrictionFlow, isIPv6FeatureFlagEnabled, isCustomDnsEnabled)
+        isDirectLanConnectionsFeatureFlagEnabled: IsDirectLanConnectionsFeatureFlagEnabled
+    ) : this(localUserSettings.rawCurrentUserSettingsFlow, currentUser, isTv,
+             restrictions.restrictionFlow, isIPv6FeatureFlagEnabled, isCustomDnsEnabled,
+             isDirectLanConnectionsFeatureFlagEnabled)
 
     override suspend fun collect(collector: FlowCollector<LocalUserSettings>) = effectiveSettings.collect(collector)
 }

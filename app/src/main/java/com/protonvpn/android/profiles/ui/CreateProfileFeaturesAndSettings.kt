@@ -50,6 +50,7 @@ import me.proton.core.compose.theme.ProtonTheme
 fun CreateProfileFeaturesAndSettingsRoute(
     viewModel: CreateEditProfileViewModel,
     onOpenCustomDns: () -> Unit,
+    onOpenLan: () -> Unit,
     onNext: () -> Unit,
     onBack: () -> Unit
 ) {
@@ -66,7 +67,7 @@ fun CreateProfileFeaturesAndSettingsRoute(
                 onNetShieldChange = viewModel::setNetShield,
                 onProtocolChange = viewModel::setProtocol,
                 onNatChange = viewModel::setNatType,
-                onLanChange = viewModel::setLanConnections,
+                onOpenLan = onOpenLan,
                 onAutoOpenChange = viewModel::setAutoOpen,
                 onDisableCustomDns = { viewModel.toggleCustomDns() },
                 onDisablePrivateDns = { context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS)) },
@@ -89,7 +90,7 @@ fun ProfileFeaturesAndSettings(
     onNetShieldChange: (Boolean) -> Unit,
     onProtocolChange: (ProtocolSelection) -> Unit,
     onNatChange: (NatType) -> Unit,
-    onLanChange: (Boolean) -> Unit,
+    onOpenLan: () -> Unit,
     onDisableCustomDns: () -> Unit,
     onDisablePrivateDns: () -> Unit,
     onCustomDnsLearnMore: () -> Unit,
@@ -137,7 +138,7 @@ fun ProfileFeaturesAndSettings(
             )
             ProfileLanConnectionsItem(
                 value = state.lanConnections,
-                onSelect = onLanChange
+                onClick = onOpenLan,
             )
             ProfileAutoOpenItem(
                 value = state.autoOpen,
@@ -165,7 +166,8 @@ fun PreviewFeaturesAndSettings() {
                 isPrivateDnsActive = false,
                 ProtocolSelection(VpnProtocol.WireGuard, null),
                 NatType.Strict,
-                false,
+                lanConnections = false,
+                lanConnectionsAllowDirect = false,
                 ProfileAutoOpen.None(""),
                 customDnsSettings = CustomDnsSettings(false),
                 isAutoOpenNew = true,
@@ -173,7 +175,7 @@ fun PreviewFeaturesAndSettings() {
             onNetShieldChange = {},
             onProtocolChange = {},
             onNatChange = {},
-            onLanChange = {},
+            onOpenLan = {},
             onNext = {},
             onDisableCustomDns = {},
             onBack = {},

@@ -119,6 +119,7 @@ class ConnectionParamsTests {
                 netShield = NetShieldProtocol.ENABLED_EXTENDED,
                 randomizedNat = false,
                 lanConnections = true,
+                lanConnectionsAllowDirect = false,
                 customDns = CustomDnsSettings(
                     toggleEnabled = true,
                     rawDnsList = listOf("1.2.3.4", "2.3.4.5")

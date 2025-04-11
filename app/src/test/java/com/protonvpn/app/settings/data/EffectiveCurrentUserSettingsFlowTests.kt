@@ -19,8 +19,6 @@
 
 package com.protonvpn.app.settings.data
 
-import com.protonvpn.android.appconfig.FeatureFlags
-import com.protonvpn.android.appconfig.GetFeatureFlags
 import com.protonvpn.android.appconfig.Restrictions
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.netshield.NetShieldProtocol
@@ -31,6 +29,7 @@ import com.protonvpn.android.settings.data.SplitTunnelingSettings
 import com.protonvpn.android.tv.IsTvCheck
 import com.protonvpn.android.vpn.usecases.FakeIsIPv6FeatureFlagEnabled
 import com.protonvpn.mocks.FakeIsCustomDnsEnabled
+import com.protonvpn.mocks.FakeIsLanDirectConnectionsFeatureFlagEnabled
 import com.protonvpn.test.shared.TestCurrentUserProvider
 import com.protonvpn.test.shared.TestUser
 import io.mockk.MockKAnnotations
@@ -57,7 +56,6 @@ class EffectiveCurrentUserSettingsFlowTests {
     @MockK
     private lateinit var mockIsTv: IsTvCheck
 
-    private lateinit var featureFlagsFlow: MutableStateFlow<FeatureFlags>
     private lateinit var rawSettingsFlow: MutableStateFlow<LocalUserSettings>
     private lateinit var restrictionFlow: MutableStateFlow<Restrictions>
     private lateinit var testScope: TestScope
@@ -74,7 +72,6 @@ class EffectiveCurrentUserSettingsFlowTests {
         testScope = TestScope(UnconfinedTestDispatcher())
 
         testUserProvider = TestCurrentUserProvider(plusUser)
-        featureFlagsFlow = MutableStateFlow(FeatureFlags())
         rawSettingsFlow = MutableStateFlow(LocalUserSettings.Default)
         restrictionFlow = MutableStateFlow(Restrictions(false, mockk()))
 
@@ -82,15 +79,16 @@ class EffectiveCurrentUserSettingsFlowTests {
 
         val isIPv6FeatureFlagEnabled = FakeIsIPv6FeatureFlagEnabled(true)
         val isCustomDnsEnabled = FakeIsCustomDnsEnabled(true)
+        val isDirectLanConnectionsFeatureFlagEnabled = FakeIsLanDirectConnectionsFeatureFlagEnabled(true)
         val currentUser = CurrentUser(testUserProvider)
         effectiveSettingsFlow = EffectiveCurrentUserSettingsFlow(
             rawSettingsFlow,
-            GetFeatureFlags(featureFlagsFlow),
             currentUser,
             mockIsTv,
             restrictionFlow,
             isIPv6FeatureFlagEnabled,
-            isCustomDnsEnabled
+            isCustomDnsEnabled,
+            isDirectLanConnectionsFeatureFlagEnabled,
         )
     }
 

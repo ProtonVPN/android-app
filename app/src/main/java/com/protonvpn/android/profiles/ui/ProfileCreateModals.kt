@@ -754,21 +754,16 @@ fun PickNetShield(
 @Composable
 fun ProfileLanConnectionsItem(
     value: Boolean,
-    onSelect: (Boolean) -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     ProfileValueItem(
         labelRes = R.string.settings_advanced_allow_lan_title,
         valueText = stringResource(if (value) R.string.lan_state_on else R.string.lan_state_off),
         online = true,
-        modal = { closeModal ->
-            PickLanConnection(
-                selected = value,
-                onSelect = onSelect,
-                onDismissRequest = closeModal
-            )
-        },
-        modifier = modifier
+        modifier = modifier,
+        onClick = onClick,
+        isDropdown = false,
     )
 }
 
@@ -927,32 +922,6 @@ fun fixAndValidateAutoOpenUri(isOn: Boolean, text: String) : Pair<ProfileAutoOpe
         }
     } catch (e: IllegalArgumentException) {
         invalid
-    }
-}
-
-@Composable
-private fun PickLanConnection(
-    selected: Boolean,
-    onSelect: (Boolean) -> Unit,
-    onDismissRequest: () -> Unit,
-) {
-    BaseItemPickerDialog(
-        R.string.settings_advanced_allow_lan_title,
-        description = R.string.settings_advanced_allow_lan_description,
-        onDismissRequest = onDismissRequest
-    ) {
-        items(listOf(true, false)) { value ->
-            SettingsRadioItemSmall(
-                title = stringResource(if (value) R.string.netshield_state_on else R.string.netshield_state_off),
-                description = null,
-                selected = value == selected,
-                onSelected = {
-                    onSelect(value)
-                    onDismissRequest()
-                },
-                horizontalContentPadding = DIALOG_CONTENT_PADDING,
-            )
-        }
     }
 }
 
@@ -1359,14 +1328,6 @@ private fun PickNetShieldPreview() {
 private fun ProfileLanConnectionsItemPreview() {
     ProtonVpnPreview {
         ProfileLanConnectionsItem(true, {})
-    }
-}
-
-@Preview
-@Composable
-private fun PickLanConnectionsPreview() {
-    ProtonVpnPreview {
-        PickLanConnection(true, {}, {})
     }
 }
 

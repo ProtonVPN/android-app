@@ -114,6 +114,9 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun toggleLanConnections() =
         update { current -> current.copy(lanConnections = !current.lanConnections) }
 
+    suspend fun toggleLanAllowDirectConnections() =
+        update { current -> current.copy(lanConnectionsAllowDirect = !current.lanConnectionsAllowDirect) }
+
     suspend fun setRandomizedNat(value: Boolean) =
         update { current -> current.copy(randomizedNat = value) }
 

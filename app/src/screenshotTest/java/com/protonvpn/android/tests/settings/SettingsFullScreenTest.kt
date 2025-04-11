@@ -92,7 +92,7 @@ fun AdvancedSettingsNotConnectedPaid() {
             allowLan = settingsPaid.settingsViewState.lanConnections,
             natType = settingsPaid.settingsViewState.natType,
             onAltRoutingChange = {},
-            onAllowLanChange = {},
+            onNavigateToLan = {},
             onNatTypeRestricted = {},
             onNatTypeLearnMore = {},
             onAllowLanRestricted = {},
@@ -185,7 +185,7 @@ fun AdvancedSettingsProfileConnected() {
             allowLan = settingsPaid.settingsViewState.lanConnections,
             natType = settingsPaid.settingsViewState.natType,
             onAltRoutingChange = {},
-            onAllowLanChange = {},
+            onNavigateToLan = {},
             onNatTypeRestricted = {},
             onNatTypeLearnMore = {},
             onAllowLanRestricted = {},
@@ -213,7 +213,7 @@ fun AdvancedSettingsFree() {
             allowLan = settingsPaid.settingsViewState.lanConnections,
             natType = settingsPaid.settingsViewState.natType,
             onAltRoutingChange = {},
-            onAllowLanChange = {},
+            onNavigateToLan = {},
             onNatTypeRestricted = {},
             onNatTypeLearnMore = {},
             onAllowLanRestricted = {},
@@ -316,7 +316,7 @@ private class SettingsData(isFree: Boolean, connectedToProfile: Boolean = false,
         isPrivateDnsActive = isPrivateDnsActive,
     )
     private val lanConnections =
-        SettingsViewModel.SettingViewState.LanConnections(true, isFree, overrideInfo?.primaryLabel)
+        SettingsViewModel.SettingViewState.LanConnections(true, false, isFree, overrideInfo?.primaryLabel)
     private val natType =
         SettingsViewModel.SettingViewState.Nat(NatType.Strict, isFree, overrideInfo?.primaryLabel)
     private val ipV6 = SettingsViewModel.SettingViewState.IPv6(enabled = true)
