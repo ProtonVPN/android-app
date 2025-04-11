@@ -717,7 +717,7 @@
     <string name="whats_new_profiles_title">Profily jsou zpět</string>
     <string name="whats_new_profiles_description">Vytvářejte a ukládejte vlastní připojení s výběrem umístění, serveru a protokolu.</string>
     <string name="whats_new_widget_title">Představujeme widgety</string>
-    <string name="whats_new_widget_description">Svou VPN nyní můžete zobrazit a spravovat, aniž byste opustili domovskou obrazovku. </string>
+    <string name="whats_new_widget_description">Svou VPN nyní můžete zobrazit a spravovat, aniž byste opustili domovskou obrazovku.</string>
     <string name="whats_new_add_widget_button">Přidat widget</string>
     <string name="welcome_plus_title">Vítejte ve VPN Plus</string>
     <string name="welcome_plus_description">Užívejte si další funkce pro ochranu soukromí, vyšší výkon a další úroveň přizpůsobení VPN.</string>
@@ -1375,7 +1375,7 @@
     <string name="create_profile_type_and_location_title">Vyberte typ připojení a polohu</string>
     <string name="create_profile_features_and_settings_title">Funkce a nastavení</string>
     <string name="configure_profile_features_and_settings_title">Nastavení profilu</string>
-    <string name="configure_profile_features_and_settings_description">Nastavení profilu bude mít po připojení přednost před nastavením VPN. </string>
+    <string name="configure_profile_features_and_settings_description">Nastavení profilu bude mít po připojení přednost před nastavením VPN.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

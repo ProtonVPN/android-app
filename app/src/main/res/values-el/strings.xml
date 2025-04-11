@@ -675,7 +675,7 @@
     <string name="whats_new_profiles_title">Τα προφίλ επέστρεψαν</string>
     <string name="whats_new_profiles_description">Δημιουργήστε και αποθηκεύστε προσαρμοσμένες συνδέσεις με την τοποθεσία, το διακομιστή και το πρωτόκολλο της επιλογής σας.</string>
     <string name="whats_new_widget_title">Παρουσιάζουμε τα widgets</string>
-    <string name="whats_new_widget_description">Τώρα μπορείτε να δείτε και να διαχειριστείτε το VPN σας χωρίς να φύγετε από την αρχική οθόνη. </string>
+    <string name="whats_new_widget_description">Τώρα μπορείτε να προβάλετε και να διαχειριστείτε το VPN σας χωρίς να βγείτε από την αρχική οθόνη.</string>
     <string name="whats_new_add_widget_button">Προσθήκη widget</string>
     <string name="welcome_plus_title">Καλώς ήλθατε στο VPN Plus</string>
     <string name="welcome_plus_description">Απολαύστε επιπλέον λειτουργίες απορρήτου, υπερφορτισμένη απόδοση και επόμενου επιπέδου προσαρμογές VPN.</string>
@@ -1303,7 +1303,7 @@
     <string name="create_profile_type_and_location_title">Επιλέξτε τύπο σύνδεσης και τοποθεσία</string>
     <string name="create_profile_features_and_settings_title">Χαρακτηριστικά και ρυθμίσεις</string>
     <string name="configure_profile_features_and_settings_title">Διαμόρφωση των ρυθμίσεων του προφίλ</string>
-    <string name="configure_profile_features_and_settings_description">Οι ρυθμίσεις προφίλ θα παρακάμψουν τις ρυθμίσεις VPN σας όταν είστε συνδεδεμένοι. </string>
+    <string name="configure_profile_features_and_settings_description">Οι ρυθμίσεις προφίλ θα παρακάμψουν τις ρυθμίσεις VPN σας όταν είστε συνδεδεμένοι.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

@@ -654,7 +654,7 @@
     <string name="whats_new_profiles_title">プロファイルが戻ってきました</string>
     <string name="whats_new_profiles_description">お好みの場所、サーバー、プロトコルを選択してカスタム接続として保存できます。</string>
     <string name="whats_new_widget_title">ウィジェットの紹介</string>
-    <string name="whats_new_widget_description">ホームスクリーンから直接、VPNを確認・管理することができるようになりました。</string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">ウィジェットを追加</string>
     <string name="welcome_plus_title">VPN Plusへようこそ</string>
     <string name="welcome_plus_description">特別なプライバシー機能、超高速パフォーマンス、そしてハイレベルなVPNカスタマイズをお楽しみください。</string>
@@ -1267,7 +1267,7 @@
     <string name="create_profile_type_and_location_title">接続種類と位置を選択</string>
     <string name="create_profile_features_and_settings_title">機能と設定</string>
     <string name="configure_profile_features_and_settings_title">プロファイル設定を構成</string>
-    <string name="configure_profile_features_and_settings_description">接続時にプロファイル設定がVPN設定を上書きします。 </string>
+    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

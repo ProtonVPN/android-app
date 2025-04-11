@@ -654,7 +654,7 @@
     <string name="whats_new_profiles_title">Profiles are back</string>
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
     <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">歡迎加入 VPN Plus</string>
     <string name="welcome_plus_description">享受額外的隱私功能，最好的性能以及前瞻性的虛擬私有網路自定義。</string>
@@ -1267,7 +1267,7 @@
     <string name="create_profile_type_and_location_title">選擇連線類型與位置</string>
     <string name="create_profile_features_and_settings_title">功能與設定</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected. </string>
+    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

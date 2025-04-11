@@ -675,7 +675,7 @@
     <string name="whats_new_profiles_title">Profiilit ovat palanneet</string>
     <string name="whats_new_profiles_description">Luo ja tallenna mukautettuja yhteyksiä, jotka sisältävät valitsemasi sijainnin, palvelimen ja protokollan.</string>
     <string name="whats_new_widget_title">Esittelyssä widgetit</string>
-    <string name="whats_new_widget_description">Voit nyt tarkastella ja hallita VPN:ääsi poistumatta aloitusnäytöltä. </string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">Lisää widgetti</string>
     <string name="welcome_plus_title">Tervetluoa VPN Plussaan</string>
     <string name="welcome_plus_description">Nauti laajemmista yksityisyysominaisuuksista, turboahdetusta suorituskyvystä ja seuraavan tason VPN-mukautuksesta.</string>
@@ -1303,7 +1303,7 @@
     <string name="create_profile_type_and_location_title">Valitse yhteystyyppi ja -sijainti</string>
     <string name="create_profile_features_and_settings_title">Ominaisuudet ja asetukset</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected. </string>
+    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

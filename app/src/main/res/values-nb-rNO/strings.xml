@@ -675,7 +675,7 @@
     <string name="whats_new_profiles_title">Profiler er tilbake</string>
     <string name="whats_new_profiles_description">Opprett og lagre tilpassede tilkoblinger med ditt valg av plassering, tjener og protokoll.</string>
     <string name="whats_new_widget_title">Vi introduserer widgets</string>
-    <string name="whats_new_widget_description">Du kan nå se og administrere VPN-en din uten å forlate startskjermen. </string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">Legg til widget</string>
     <string name="welcome_plus_title">Velkommen til VPN Plus</string>
     <string name="welcome_plus_description">Nyt ekstra personvernfunksjoner, forbedret ytelse og VPN-tilpasning på neste nivå.</string>
@@ -1303,7 +1303,7 @@
     <string name="create_profile_type_and_location_title">Velg forbindelsestype og plassering</string>
     <string name="create_profile_features_and_settings_title">Funksjoner og innstillinger</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected. </string>
+    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
