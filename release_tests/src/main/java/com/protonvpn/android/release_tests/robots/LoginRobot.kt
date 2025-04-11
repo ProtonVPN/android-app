@@ -60,9 +60,11 @@ object LoginRobot {
     }
 
     private fun fillSignIn(username: String, password: String) {
-        byObject.protonComposeInput("LOGIN_USERNAME_FIELD_TAG").typeText(username)
+        byObject.protonComposeInput("LOGIN_USERNAME_FIELD_TAG")
+            .waitForExists(TestConstants.TWO_MINUTES_TIMEOUT).typeText(username)
         byObject.withText("Continue").click()
-        byObject.protonComposeInput("LOGIN_PASSWORD_FIELD_TAG").typeText(password)
+        byObject.protonComposeInput("LOGIN_PASSWORD_FIELD_TAG")
+            .waitForExists(TestConstants.TWO_MINUTES_TIMEOUT).typeText(password)
         byObject.withText("Continue").click()
     }
 

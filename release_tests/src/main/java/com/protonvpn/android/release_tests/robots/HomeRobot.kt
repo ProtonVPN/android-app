@@ -44,8 +44,8 @@ object HomeRobot {
         return this
     }
 
-    fun waitForNotificationPermissionRequest(): HomeRobot {
-        byObject.withText("No thanks").waitForExists(TestConstants.TWENTY_SECOND_TIMEOUT)
+    fun waitUntilConnected(): HomeRobot {
+        byObject.withText("Disconnect").waitForExists(TestConstants.TWENTY_SECOND_TIMEOUT)
         return this
     }
 

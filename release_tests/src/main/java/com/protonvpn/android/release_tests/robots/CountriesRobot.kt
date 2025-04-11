@@ -34,8 +34,8 @@ object CountriesRobot {
         return this
     }
 
-    fun connectTo(server: String): CountriesRobot {
-        byObject.withResName("searchResult").withText(server).click()
+    fun connectToAnySearchResult(): CountriesRobot {
+        byObject.withResName("searchResult").click()
         return this
     }
 }
