@@ -675,7 +675,7 @@
     <string name="whats_new_profiles_title">პროფილები ისევ დაბრუნდა</string>
     <string name="whats_new_profiles_description">შექმენით და შეინახეთ მორგებული კავშირები თქვენი არჩეული მდებარეობით, სერვერით და პროტოკოლით.</string>
     <string name="whats_new_widget_title">წარმოგიდგენთ ვიჯეტებს</string>
-    <string name="whats_new_widget_description">ახლა შეგიძლიათ ნახოთ და მართოთ თქვენი VPN საწყისი ეკრანიდან გაუსვლელად. </string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">ვიჯეტის დამატება</string>
     <string name="welcome_plus_title">მოგესალმებათ VPN Plus</string>
     <string name="welcome_plus_description">ისიამოვნეთ დამატებითი კონფიდენციალობის ფუნქციებით, ჩქაროსნული წარმადობით და შემდეგ დონეზე აყვანილი VPN-ის მორგებით.</string>
@@ -1303,7 +1303,7 @@
     <string name="create_profile_type_and_location_title">აირჩიეთ კავშირის ტიპი და მდებარეობა</string>
     <string name="create_profile_features_and_settings_title">თვისებები და პარამეტრებ</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected. </string>
+    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

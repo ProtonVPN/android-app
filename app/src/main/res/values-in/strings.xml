@@ -654,7 +654,7 @@
     <string name="whats_new_profiles_title">Profil kini kembali hadir</string>
     <string name="whats_new_profiles_description">Buat dan simpan koneksi khusus dengan lokasi, server, dan protokol pilihan Anda.</string>
     <string name="whats_new_widget_title">Memperkenalkan widget</string>
-    <string name="whats_new_widget_description">Anda kini dapat melihat dan mengelola VPN Anda tanpa meninggalkan layar beranda. </string>
+    <string name="whats_new_widget_description">Anda kini dapat melihat dan mengelola VPN Anda tanpa harus meninggalkan layar beranda.</string>
     <string name="whats_new_add_widget_button">Tambah widget</string>
     <string name="welcome_plus_title">Selamat datang di VPN Plus</string>
     <string name="welcome_plus_description">Nikmati berbagai fitur privasi tambahan, performa yang jauh lebih cepat, dan opsi kostumisasi VPN lanjutan.</string>
@@ -1267,7 +1267,7 @@
     <string name="create_profile_type_and_location_title">Pilih jenis dan lokasi koneksi</string>
     <string name="create_profile_features_and_settings_title">Fitur dan pengaturan</string>
     <string name="configure_profile_features_and_settings_title">Atur pengaturan profil</string>
-    <string name="configure_profile_features_and_settings_description">Pengaturan profil akan menimpa pengaturan VPN Anda pada saat terhubung. </string>
+    <string name="configure_profile_features_and_settings_description">Pengaturan profil akan menimpa pengaturan VPN Anda pada saat terhubung.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

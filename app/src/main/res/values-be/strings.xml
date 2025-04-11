@@ -717,7 +717,7 @@
     <string name="whats_new_profiles_title">Профілі вярнуліся</string>
     <string name="whats_new_profiles_description">Стварайце і захоўвайце карыстальніцкія падключэнні з вабраным месцазнаходжаннем, серверам і пратаколам.</string>
     <string name="whats_new_widget_title">Уводзіны ў віджэты</string>
-    <string name="whats_new_widget_description">Цяпер вы можаце праглядаць і кіраваць сваім VPN не пакідаючы галоўны экран. </string>
+    <string name="whats_new_widget_description">Цяпер вы можаце праглядаць і кіраваць сваім VPN не пакідаючы галоўны экран.</string>
     <string name="whats_new_add_widget_button">Дадаць віджэт</string>
     <string name="welcome_plus_title">Вітаем у VPN Plus</string>
     <string name="welcome_plus_description">Атрымлівайце асалоду ад дадатковых функцый прыватнасці, палепшанай прадукцыйнасці і больш гнуткага наладжвання вашага падключэння да VPN.</string>
@@ -1375,7 +1375,7 @@
     <string name="create_profile_type_and_location_title">Выберыце тып падключэння і месцазнаходжанне</string>
     <string name="create_profile_features_and_settings_title">Функцыі і налады</string>
     <string name="configure_profile_features_and_settings_title">Сканфігурыраваць налады профілю</string>
-    <string name="configure_profile_features_and_settings_description">Налады профілю будуць перавызначаць вашы налады VPN пры падключэнні. </string>
+    <string name="configure_profile_features_and_settings_description">Налады профілю перавызначаць вашы налады VPN пры падключэнні.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

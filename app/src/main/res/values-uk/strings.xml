@@ -235,7 +235,7 @@
     <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
     <string name="custom_dns_item_removed_snackbar">Item removed</string>
-    <string name="netshield_free_description">Блокуйте рекламу, стеження та зловмисні програми на вебсайтах і в програмах</string>
+    <string name="netshield_free_description">Блокуйте рекламу, стеження і зловмисні програми на вебсайтах і в програмах</string>
     <string name="netshield_what_data_means">Що означають дані NetShield</string>
     <string name="netshield_ads_title">Реклама</string>
     <string name="netshield_ads_details">Рекламні оголошення та невидимі рекламні вистежувачі</string>
@@ -244,18 +244,18 @@
     <string name="netshield_data_title">Дані</string>
     <string name="netshield_data_details">Обсяг небажаних даних від реклами, вистежувачів та зловмисних програм, заблокованих NetShield</string>
     <plurals name="netshield_ads_blocked" comment="Number of ads blocked by netshield. Number displayed above the text">
-        <item quantity="one">Заблоковане оголошення</item>
+        <item quantity="one">Заблоковані оголошення</item>
         <item quantity="few">Заблоковані оголошення</item>
-        <item quantity="many">Заблокованих оголошень</item>
+        <item quantity="many">Заблоковані оголошення</item>
         <item quantity="other">Заблокованих оголошень</item>
     </plurals>
     <plurals name="netshield_trackers_stopped" comment="Number of trackers stopped by netshield. Number displayed above the text">
-        <item quantity="one">Зупинений вистежувач</item>
+        <item quantity="one">Зупинені вистежувачі</item>
         <item quantity="few">Зупинені вистежувачі</item>
-        <item quantity="many">Зупинених вистежувачів</item>
-        <item quantity="other">Зупинених вистежувачів</item>
+        <item quantity="many">Зупинені вистежувачі</item>
+        <item quantity="other">Зупинені вистежувачі</item>
     </plurals>
-    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Заощаджено даних</string>
+    <string name="netshield_data_saved" comment="Total data saved by netshield shown in kb/mb">Заощаджені дані</string>
     <string name="netshield_setting_warning">Під час блокування реклами та стеження деякі вебсайти можуть завантажуватися некоректно.</string>
     <string name="dialogDontShowAgain">Не показувати знову</string>
     <string name="guestHoleNotificationContent">Спроба обійти проблеми з мережею. Це допоможе вам одержати доступ до Proton VPN.</string>
@@ -324,10 +324,10 @@
     <string name="notification_max_sessions_title">Ви досягли обмеження кількості пристроїв</string>
     <!-- The number of devices will always be greater than 1. -->
     <plurals name="notification_max_sessions_upsell_content">
-        <item quantity="one">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристрою.</item>
-        <item quantity="few">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
-        <item quantity="many">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
-        <item quantity="other">Будь ласка, від\'єднайте інший пристрій для приєднання цього пристрою, або перейдіть на версію Plus для одночасного приєднання %1$d пристроїв.</item>
+        <item quantity="one">Щоб під\'єднати цей пристрій, спочатку від\'єднайте інший, або передплатіть тарифний план Plus для одночасного під\'єднання %1$d пристрою.</item>
+        <item quantity="few">Щоб під\'єднати цей пристрій, спочатку від\'єднайте інший, або передплатіть тарифний план Plus для одночасного під\'єднання %1$d пристроїв.</item>
+        <item quantity="many">Щоб під\'єднати цей пристрій, спочатку від\'єднайте інший, або передплатіть тарифний план Plus для одночасного під\'єднання %1$d пристроїв.</item>
+        <item quantity="other">Щоб під\'єднати цей пристрій, спочатку від\'єднайте інший, або передплатіть тарифний план Plus для одночасного під\'єднання %1$d пристроїв.</item>
     </plurals>
     <string name="notification_max_sessions_content">Від\'єднайте інший пристрій, щоб під\'єднати цей.</string>
     <string name="notification_cancel_to_free">У вас зараз тарифний план Free. Доступні сервери та функції Free.</string>
@@ -365,16 +365,16 @@
     </plurals>
     <string name="upsell_upgrade_again">Передплатіть тарифний план знову, щоб користуватись усіма можливостями:</string>
     <plurals name="upgrade_devices_title">
-        <item quantity="one">Захистіть %1$d пристрій</item>
-        <item quantity="few">Захистіть %1$d пристрої</item>
-        <item quantity="many">Захистіть %1$d пристроїв</item>
-        <item quantity="other">Захистіть %1$d пристроїв</item>
+        <item quantity="one">Захист %1$d пристрою</item>
+        <item quantity="few">Захист %1$d пристроїв</item>
+        <item quantity="many">Захист %1$d пристроїв</item>
+        <item quantity="other">Захист %1$d пристроїв</item>
     </plurals>
     <string name="upgrade_devices_text">Proton VPN можна використовувати на 8 різних платформах.</string>
     <string name="upgrade_plus_title">Вдоскональте свою приватність</string>
     <string name="upgrade_plus_message">Отримайте розширені функції приватності та вищу швидкість з VPN Plus.</string>
     <string name="upgrade_netshield_title">Насолоджуйтеся відсутністю реклами</string>
-    <string name="upgrade_netshield_message"><![CDATA[Блокуйте рекламу, стеження й зловмисні програми з <b>NetShield</b>.]]></string>
+    <string name="upgrade_netshield_message"><![CDATA[Блокуйте рекламу, стеження і зловмисні програми з <b>NetShield</b>.]]></string>
     <string name="upgrade_secure_core_title">Посильте шифрування</string>
     <string name="upgrade_secure_core_message"><![CDATA[Додайте ще один рівень шифрування вашого VPN-з\'єднання з <b>Secure Core</b>.]]></string>
     <string name="upgrade_p2p_title">Отримайте доступ до завантажень peer-to-peer (P2P) та обміну файлами </string>
@@ -454,10 +454,10 @@
         <item quantity="other">%1$d власних доменів електронної пошти</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_attachments">
-        <item quantity="one">%1$d МБ вкладення</item>
-        <item quantity="few">%1$d МБ вкладення</item>
-        <item quantity="many">%1$d МБ вкладення</item>
-        <item quantity="other">%1$d МБ вкладення</item>
+        <item quantity="one">Вкладення розміром %1$d МБ</item>
+        <item quantity="few">Вкладення розміром %1$d МБ</item>
+        <item quantity="many">Вкладення розміром %1$d МБ</item>
+        <item quantity="other">Вкладення розміром %1$d МБ</item>
     </plurals>
     <plurals name="upgrade_unlimited_mail_many_addresses">
         <item quantity="one">%1$d адреса електронної пошти</item>
@@ -522,10 +522,10 @@
     <string name="upsell_card_customization_title">І багато іншого…</string>
     <string name="upsell_card_customization_description">Користуйтеся розширеними функціями швидкодії та приватності</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Захистіть %1$d пристрій</item>
-        <item quantity="few">Захистіть %1$d пристрої</item>
-        <item quantity="many">Захистіть %1$d пристроїв</item>
-        <item quantity="other">Захистіть %1$d пристроїв</item>
+        <item quantity="one">Захист %1$d пристрою</item>
+        <item quantity="few">Захист %1$d пристроїв</item>
+        <item quantity="many">Захист %1$d пристроїв</item>
+        <item quantity="other">Захист %1$d пристроїв</item>
     </plurals>
     <string name="upsell_card_devices_description">Безпека і приватність на всіх ваших пристроях</string>
     <string name="upsell_card_netshield_title">NetShield</string>
@@ -588,7 +588,7 @@
     <string name="server_load_high">Високе</string>
     <!-- Override Human verification links from core -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Ласкаво просимо у Proton VPN</string>
+    <string name="onboarding_welcome_title">Вітаємо у Proton VPN</string>
     <string name="onboarding_welcome_description">Приватний перегляд, доступ до заблокованого вмісту і задоволення від цифрової свободи.</string>
     <string name="onboarding_welcome_action">Розпочнімо</string>
     <string name="upgrade_success_get_started_button">Розпочати</string>
@@ -626,10 +626,10 @@
     <string name="search_upsell_banner_title">Дивіться трансляції звідусіль</string>
     <!-- Example: Unlock geoblocked content from 10 countries with VPN Plus. -->
     <plurals name="search_upsell_banner_message">
-        <item quantity="one">Отримайте доступ до географічно заблокованих матеріалів у %1$d країні з VPN Plus</item>
-        <item quantity="few">Отримайте доступ до географічно заблокованих матеріалів у %1$d країнах з VPN Plus</item>
-        <item quantity="many">Отримайте доступ до географічно заблокованих матеріалів у %1$d країнах з VPN Plus</item>
-        <item quantity="other">Отримайте доступ до географічно заблокованих матеріалів у %1$d країнах з VPN Plus</item>
+        <item quantity="one">Отримайте доступ до географічно заблокованого вмісту в %1$d країні з VPN Plus</item>
+        <item quantity="few">Отримайте доступ до географічно заблокованого вмісту в %1$d країнах з VPN Plus</item>
+        <item quantity="many">Отримайте доступ до географічно заблокованого вмісту в %1$d країнах з VPN Plus</item>
+        <item quantity="other">Отримайте доступ до географічно заблокованого вмісту в %1$d країнах з VPN Plus</item>
     </plurals>
     <string name="select_default_connection">Виберіть типове з\'єднання</string>
     <string name="settings_default_connection_title">Типове з\'єднання</string>
@@ -679,9 +679,9 @@
     <!-- See offer_time_left, example: 2 hours 5 minutes left -->
     <plurals name="time_left_hours">
         <item quantity="one">%1$d година</item>
-        <item quantity="few">%1$d годин</item>
-        <item quantity="many">%1$d години</item>
-        <item quantity="other">%1$d години</item>
+        <item quantity="few">%1$d години</item>
+        <item quantity="many">%1$d годин</item>
+        <item quantity="other">%1$d годин</item>
     </plurals>
     <!-- See offer_time_left, example: 2 days 5 hours left -->
     <plurals name="time_left_days">
@@ -717,7 +717,7 @@
     <string name="whats_new_profiles_title">Profiles are back</string>
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
     <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">Add widget</string>
     <string name="welcome_plus_title">Вітаємо у VPN Plus</string>
     <string name="welcome_plus_description">Оцініть додаткові функції приватності, вдосконалену продуктивність і налаштування VPN нового рівня.</string>
@@ -1375,7 +1375,7 @@
     <string name="create_profile_type_and_location_title">Виберіть тип з\'єднання і розташування</string>
     <string name="create_profile_features_and_settings_title">Функції та налаштування</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected. </string>
+    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

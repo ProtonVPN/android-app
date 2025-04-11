@@ -492,7 +492,7 @@
     <string name="upsell_card_customization_title">Y mucho más…</string>
     <string name="upsell_card_customization_description">Accede a más funciones de privacidad y rendimiento</string>
     <plurals name="upsell_card_devices_title">
-        <item quantity="one">Protege hasta %1$d dispositivos</item>
+        <item quantity="one">Protege %1$d dispositivo</item>
         <item quantity="other">Protege hasta %1$d dispositivos</item>
     </plurals>
     <string name="upsell_card_devices_description">Seguridad y privacidad en todos tus dispositivos</string>
@@ -675,7 +675,7 @@
     <string name="whats_new_profiles_title">Los perfiles están de vuelta</string>
     <string name="whats_new_profiles_description">Crea y guarda conexiones personalizadas con tu elección de ubicación, servidor y protocolo.</string>
     <string name="whats_new_widget_title">Presentamos los widgets</string>
-    <string name="whats_new_widget_description">Ahora puedes ver y administrar tu VPN sin salir de la pantalla de inicio. </string>
+    <string name="whats_new_widget_description">Ahora puedes ver y administrar tu VPN sin salir de la pantalla de inicio.</string>
     <string name="whats_new_add_widget_button">Añadir el widget</string>
     <string name="welcome_plus_title">Te damos la bienvenida a VPN Plus</string>
     <string name="welcome_plus_description">Disfruta de funciones de privacidad adicionales, rendimiento excepcional y una personalización de VPN de otro nivel.</string>
@@ -1303,7 +1303,7 @@
     <string name="create_profile_type_and_location_title">Selecciona la ubicación y el tipo de conexión</string>
     <string name="create_profile_features_and_settings_title">Funciones y ajustes</string>
     <string name="configure_profile_features_and_settings_title">Configurar los ajustes del perfil</string>
-    <string name="configure_profile_features_and_settings_description">Los ajustes del perfil sobreescribirán los ajustes de la VPN cuando te conectes. </string>
+    <string name="configure_profile_features_and_settings_description">Los ajustes del perfil anularán la configuración de tu VPN cuando te conectas.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

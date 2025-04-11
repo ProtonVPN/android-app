@@ -718,7 +718,7 @@
     <string name="whats_new_profiles_title">Profiles are back</string>
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
     <string name="whats_new_widget_title">Introducing widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen. </string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">Dodaj gradnik</string>
     <string name="welcome_plus_title">Dobrodošli pri Proton Plus</string>
     <string name="welcome_plus_description">Uživajte v dodatnih funkcijah zasebnosti, okrepljeni zmogljivosti in prilagoditvi VPN naslednje stopnje.</string>
@@ -1377,7 +1377,7 @@ Ta naprava ne dovoljuje povezav VPN.</string>
     <string name="create_profile_type_and_location_title">Select connection type and location</string>
     <string name="create_profile_features_and_settings_title">Features and settings</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected. </string>
+    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

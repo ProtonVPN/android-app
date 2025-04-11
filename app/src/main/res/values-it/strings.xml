@@ -675,7 +675,7 @@
     <string name="whats_new_profiles_title">I profili sono tornati</string>
     <string name="whats_new_profiles_description">Crea e salva connessioni personalizzate con la tua scelta di posizione, server e protocollo.</string>
     <string name="whats_new_widget_title">Introduzione ai widget</string>
-    <string name="whats_new_widget_description">Ora puoi visualizzare e gestire la tua VPN senza lasciare la schermata principale. </string>
+    <string name="whats_new_widget_description">Ora puoi visualizzare e gestire la tua VPN senza lasciare la schermata principale.</string>
     <string name="whats_new_add_widget_button">Aggiungi widget</string>
     <string name="welcome_plus_title">Benvenuto in VPN Plus</string>
     <string name="welcome_plus_description">Approfitta di funzioni aggiuntive per la privacy, di prestazioni potenziate e di una personalizzazione della VPN di livello superiore.</string>
@@ -1303,7 +1303,7 @@
     <string name="create_profile_type_and_location_title">Selezione il tipo di connessione e posizione</string>
     <string name="create_profile_features_and_settings_title">Funzionalità e impostazioni</string>
     <string name="configure_profile_features_and_settings_title">Configura le impostazioni del profilo</string>
-    <string name="configure_profile_features_and_settings_description">Una volta effettuata la connessione, le impostazioni del profilo sovrascriveranno quelle della VPN. </string>
+    <string name="configure_profile_features_and_settings_description">Una volta effettuata la connessione, le impostazioni del profilo sovrascriveranno le tue impostazioni VPN.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

@@ -717,7 +717,7 @@
     <string name="whats_new_profiles_title">Профили вернулись</string>
     <string name="whats_new_profiles_description">Создавайте и сохраняйте пользовательские подключения с помощью выбранного вами местоположения, сервера и протокола.</string>
     <string name="whats_new_widget_title">Представляем виджеты</string>
-    <string name="whats_new_widget_description">Теперь вы можете просматривать и управлять VPN, не покидая домашний экран. </string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">Добавить виджет</string>
     <string name="welcome_plus_title">Добро пожаловать в VPN Plus</string>
     <string name="welcome_plus_description">Используйте расширенные функции конфиденциальности, максимальную производительность и настройку VPN нового уровня.</string>
@@ -1375,7 +1375,7 @@
     <string name="create_profile_type_and_location_title">Выберите тип подключения и местоположение</string>
     <string name="create_profile_features_and_settings_title">Функции и настройки</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected. </string>
+    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

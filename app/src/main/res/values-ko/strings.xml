@@ -655,7 +655,7 @@
     <string name="whats_new_profiles_title">프로필 기능이 돌아왔습니다</string>
     <string name="whats_new_profiles_description">선택한 위치, 서버 및 프로토콜로 사용자 지정 연결을 만들고 저장하세요.</string>
     <string name="whats_new_widget_title">위젯을 소개합니다</string>
-    <string name="whats_new_widget_description">이제 더 이상 홈 화면을 떠나지 않고 VPN을 확인하고 관리할 수 있습니다. </string>
+    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
     <string name="whats_new_add_widget_button">위젯 추가</string>
     <string name="welcome_plus_title">VPN Plus에 오신 것을 환영합니다</string>
     <string name="welcome_plus_description">더 많은 개인정보 보호 기능과 강력한 성능, 그리고 한 차원 높은 VPN 사용자화를 사용해 보세요.</string>
@@ -1268,7 +1268,7 @@
     <string name="create_profile_type_and_location_title">연결 종류와 위치를 선택하세요</string>
     <string name="create_profile_features_and_settings_title">기능 및 설정</string>
     <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected. </string>
+    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

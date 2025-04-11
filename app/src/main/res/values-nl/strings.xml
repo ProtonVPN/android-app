@@ -675,7 +675,7 @@
     <string name="whats_new_profiles_title">Profielen zijn terug</string>
     <string name="whats_new_profiles_description">Maak en bewaar aangepaste verbindingen met uw keuze van locatie, server en protocol.</string>
     <string name="whats_new_widget_title">Widgets introduceren</string>
-    <string name="whats_new_widget_description">U kunt nu uw VPN bekijken en beheren zonder het startscherm te verlaten. </string>
+    <string name="whats_new_widget_description">U kunt nu uw VPN bekijken en beheren zonder het startscherm te verlaten.</string>
     <string name="whats_new_add_widget_button">Widget toevoegen</string>
     <string name="welcome_plus_title">Welkom bij VPN Plus</string>
     <string name="welcome_plus_description">Geniet van de extra privacyfuncties, verhoogde prestaties en geoptimaliseerde VPN-aanpassingen.</string>
@@ -1303,7 +1303,7 @@
     <string name="create_profile_type_and_location_title">Selecteer type verbinding en locatie</string>
     <string name="create_profile_features_and_settings_title">Functies en instellingen</string>
     <string name="configure_profile_features_and_settings_title">Profielinstellingen configureren</string>
-    <string name="configure_profile_features_and_settings_description">Profielinstellingen overschrijven uw VPN-instellingen wanneer verbonden. </string>
+    <string name="configure_profile_features_and_settings_description">Profielinstellingen overschrijven uw VPN-instellingen wanneer er verbinding is.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

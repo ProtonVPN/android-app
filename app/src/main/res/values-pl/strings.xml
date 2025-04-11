@@ -1375,7 +1375,7 @@
     <string name="create_profile_type_and_location_title">Wybierz typ połączenia i lokalizację</string>
     <string name="create_profile_features_and_settings_title">Funkcje i ustawienia</string>
     <string name="configure_profile_features_and_settings_title">Skonfiguruj ustawienia profilu</string>
-    <string name="configure_profile_features_and_settings_description">Ustawienia profilu zastąpią podczas połączenia ustawienia VPN.</string>
+    <string name="configure_profile_features_and_settings_description">Ustawienia profilu zastąpią ustawienia VPN podczas połączenia.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
