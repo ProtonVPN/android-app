@@ -20,6 +20,7 @@
 package com.protonvpn.android.logging
 
 import android.content.Context
+import android.icu.util.TimeZone
 import com.protonvpn.android.auth.usecase.CurrentUser
 import com.protonvpn.android.settings.data.EffectiveCurrentUserSettings
 import com.protonvpn.android.utils.SentryIntegration
@@ -32,6 +33,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -75,7 +77,16 @@ class CurrentStateLogger @Inject constructor(
             ProtonLogger.log(ConnCurrentState, vpnStateMonitor.state.toString())
             ProtonLogger.log(OsPowerCurrent, powerStateLogger.getStatusString())
             ProtonLogger.log(SettingsCurrent, "\n$settingsText")
+            ProtonLogger.logCustom(LogCategory.APP, timezoneInfo())
             ProtonLogger.logCustom(LogCategory.APP, "Sentry ID: ${SentryIntegration.getInstallationId()}")
         }
+    }
+
+    private fun timezoneInfo(): String {
+        val timezone = TimeZone.getDefault()
+        val timezoneCanonicalId = TimeZone.getCanonicalID(timezone.id)
+        val timezoneCurrentOffsetMinutes =
+            TimeUnit.MILLISECONDS.toMinutes(timezone.getOffset(System.currentTimeMillis()).toLong())
+        return "Timezone: $timezoneCanonicalId $timezoneCurrentOffsetMinutes"
     }
 }
