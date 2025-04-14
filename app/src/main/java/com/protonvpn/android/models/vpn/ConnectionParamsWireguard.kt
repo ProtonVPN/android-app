@@ -117,7 +117,7 @@ class ConnectionParamsWireguard(
         }.joinToString(",")
         val iface = Interface.Builder()
             .parseAddresses(addresses)
-            .parseDnsServers(dnsServers)
+            .parseDnsServers(dnsServers.trim())
             .parsePrivateKey(certificateRepository.getX25519Key(sessionId))
             .splitTunnelingApps(connectIntent, myPackageName, splitTunneling)
             .build()

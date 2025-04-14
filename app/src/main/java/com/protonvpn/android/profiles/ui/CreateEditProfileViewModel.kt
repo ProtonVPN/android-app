@@ -763,7 +763,7 @@ class CreateEditProfileViewModel @Inject constructor(
         val currentList = customDns.rawDnsList
         val netShieldConflict = state.netShield && !customDns.enabled
         customDnsHelper.validateAndAddDnsAddress(dns, netShieldConflict) {
-            setCustomDns(CustomDnsSettings(enabled = true, rawDnsList = currentList + dns))
+            setCustomDns(CustomDnsSettings(enabled = true, rawDnsList = currentList + dns.trim()))
         }
     }
 }

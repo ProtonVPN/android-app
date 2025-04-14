@@ -146,7 +146,7 @@ class CustomDnsViewModel @Inject constructor(
             val netShieldConflict = connectionSettings.netShield != NetShieldProtocol.DISABLED
                 && connectionSettings.customDns.effectiveDnsList.isEmpty()
             customDnsHelper.validateAndAddDnsAddress(dns, netShieldConflict) {
-                addNewDns(dns)
+                addNewDns(dns.trim())
             }
         }
     }
