@@ -30,6 +30,8 @@ import com.protonvpn.android.ui.settings.AppIconManager
 import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.isIPv6
 import com.protonvpn.android.vpn.ConnectivityMonitor
+import com.protonvpn.android.vpn.usecases.GetTruncationMustHaveIDs
+import com.protonvpn.android.vpn.usecases.ServerListTruncationEnabled
 import com.protonvpn.android.widget.WidgetType
 import com.protonvpn.android.widget.data.WidgetTracker
 import dagger.assisted.Assisted
@@ -50,6 +52,8 @@ class SettingsSnapshotWorker @AssistedInject constructor(
     private val widgetTracker: WidgetTracker,
     private val effectiveCurrentUserSettings: EffectiveCurrentUserSettings,
     private val connectivityMonitor: ConnectivityMonitor,
+    private val isServerListTruncationEnabled: ServerListTruncationEnabled,
+    private val getTruncationMustHaveIDs: GetTruncationMustHaveIDs,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -78,6 +82,12 @@ class SettingsSnapshotWorker @AssistedInject constructor(
                     }
                     this["is_ipv6_enabled"] = settings.ipV6Enabled.toTelemetry()
                     this["lan_mode"] = lanModeToTelemetry(settings.lanConnections, settings.lanConnectionsAllowDirect)
+                    if (isServerListTruncationEnabled()) {
+                        this["server_list_truncation_protected_ids_count"] = getTruncationMustHaveIDs(
+                            maxRecents = Int.MAX_VALUE,
+                            maxMustHaves = Int.MAX_VALUE
+                        ).size.toTruncationMustHaveSizeBucketString()
+                    }
                     commonDimensions.add(this, CommonDimensions.Key.USER_TIER)
                 }
                 TelemetryEventData(
@@ -123,6 +133,14 @@ class SettingsSnapshotWorker @AssistedInject constructor(
         this == 1 -> "1"
         this <= 4 -> "2-4"
         else -> ">=5"
+    }
+
+    private fun Int.toTruncationMustHaveSizeBucketString(): String = when {
+        this == 0 -> "0"
+        this == 1 -> "1"
+        this <= 10 -> "2-10"
+        this <= 50 -> "11-50"
+        else -> ">=51"
     }
 
     private fun String.toTelemetryAddressFamily() = if (isIPv6()) "ipv6" else "ipv4"
