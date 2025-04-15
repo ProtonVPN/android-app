@@ -383,7 +383,7 @@ class SettingsViewModel @Inject constructor(
                 customDns =
                     if (isCustomDnsFeatureFlagEnabled())
                         SettingViewState.CustomDns(
-                            enabled = settings.customDns.enabled,
+                            enabled = settings.customDns.effectiveEnabled,
                             customDns = settings.customDns.rawDnsList,
                             overrideProfilePrimaryLabel = profileOverrideInfo?.primaryLabel,
                             isFreeUser = isFree,

@@ -68,20 +68,16 @@ class CurrentUserLocalSettingsManager @Inject constructor(
     suspend fun updateCustomDns(transform: (CustomDnsSettings) -> (CustomDnsSettings)) =
         update { current ->
             val updatedCustomDns = transform(current.customDns)
-            
-            val dnsEnabled = when {
-                // Current list is empty, and user is adding new values, master switch must be on
-                current.customDns.rawDnsList.isEmpty() && updatedCustomDns.rawDnsList.isNotEmpty() -> true
-
-                // Disable master switch if all values in list are deleted
-                updatedCustomDns.rawDnsList.isEmpty() -> false
-
-                // Otherwise, keep the current setting
-                else -> updatedCustomDns.enabled
-            }
-
-            current.copy(customDns = updatedCustomDns.copy(enabled = dnsEnabled))
+            current.copy(customDns = updatedCustomDns)
         }
+
+    suspend fun toggleCustomDNS() =
+        update { current ->
+            current.copy(customDns = current.customDns.copy(toggleEnabled = !current.customDns.toggleEnabled))
+        }
+
+    suspend fun disableCustomDNS() =
+        update { current -> current.copy(customDns = current.customDns.copy(toggleEnabled = false)) }
 
     suspend fun updateNetShield(newNetShieldProtocol: NetShieldProtocol) =
         update { current -> current.copy(netShield = newNetShieldProtocol) }
@@ -117,12 +113,6 @@ class CurrentUserLocalSettingsManager @Inject constructor(
 
     suspend fun toggleLanConnections() =
         update { current -> current.copy(lanConnections = !current.lanConnections) }
-
-    suspend fun toggleCustomDNS() =
-        update { current -> current.copy(customDns = current.customDns.copy(enabled = !current.customDns.enabled)) }
-
-    suspend fun disableCustomDNS() =
-        update { current -> current.copy(customDns = current.customDns.copy(enabled = false)) }
 
     suspend fun setRandomizedNat(value: Boolean) =
         update { current -> current.copy(randomizedNat = value) }
