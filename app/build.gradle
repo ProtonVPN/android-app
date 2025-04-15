@@ -514,10 +514,16 @@ tasks.register("generateReleaseNotesForPublishing") {
 tasks.register("prepareGuestHoleServers") {
     doLast {
         def guestHoleUrl = System.getenv("GUEST_HOLE_URL")
-        if (guestHoleUrl == null)
-            throw new GradleException("GUEST_HOLE_URL needs to be set for prepareGuestHoleServers")
+        def guestHoleHeaders = System.getenv("GUEST_HOLE_HEADERS")
+        if (guestHoleUrl == null || guestHoleHeaders == null)
+            throw new GradleException("GUEST_HOLE_URL and GUEST_HOLE_HEADERS need to be set for prepareGuestHoleServers")
 
-        def allServers = new JsonSlurper().parse(new URL(guestHoleUrl))["LogicalServers"]
+        def connection = new URL(guestHoleUrl).openConnection()
+        for (header in new JsonSlurper().parseText(guestHoleHeaders))
+            connection.setRequestProperty(header.key, header.value)
+        if (connection.getResponseCode() != 200)
+            throw new GradleException("Failed to fetch guest hole servers: ${connection.getResponseCode()} ${connection.getResponseMessage()}")
+        def allServers = new JsonSlurper().parse(connection.getInputStream())["LogicalServers"]
         def candidateServers = allServers.stream().filter { s ->
             def country = s["ExitCountry"]
             def secureCore = (s["Features"] & 1) == 1
