@@ -717,7 +717,7 @@
     <string name="whats_new_profiles_title">Profily sú späť</string>
     <string name="whats_new_profiles_description">Vytvárajte a ukladajte vlastné pripojenia s výberom umiestnenia, servera a protokolu.</string>
     <string name="whats_new_widget_title">Predstavujeme widgety</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
+    <string name="whats_new_widget_description">Svoju VPN teraz môžete zobraziť a spravovať bez toho, aby ste opustili domovskú obrazovku.</string>
     <string name="whats_new_add_widget_button">Pridať widget</string>
     <string name="welcome_plus_title">Vitajte vo VPN Plus</string>
     <string name="welcome_plus_description">Vychutnajte si ďalšie funkcie ochrany súkromia, vyšší výkon a prispôsobenie VPN na novej úrovni.</string>
@@ -1374,8 +1374,8 @@
     <string name="create_profile_name_error_too_long">Názov profilu musí mať menej ako 30 znakov</string>
     <string name="create_profile_type_and_location_title">Vyberte typ pripojenia a umiestnenie</string>
     <string name="create_profile_features_and_settings_title">Vlastnosti a nastavenia</string>
-    <string name="configure_profile_features_and_settings_title">Configure profile settings</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
+    <string name="configure_profile_features_and_settings_title">Konfigurácia nastavení profilu</string>
+    <string name="configure_profile_features_and_settings_description">Nastavenia profilu budú mať po pripojení prednosť pred nastaveniami vašej VPN.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7

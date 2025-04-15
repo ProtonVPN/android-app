@@ -82,7 +82,7 @@
     <string name="report_bug_email_label">Email Anda</string>
     <string name="report_bug_email_hint">Masukkan alamat email Anda</string>
     <string name="report_bug_message_label">Pesan</string>
-    <string name="report_bug_message_hint">Mohon jelaskan bug yang bersangkutan dan bagaimana Anda menemukan bug ini</string>
+    <string name="report_bug_message_hint">Silakan jelaskan bug yang dimaksud dan di mana Anda menemukan bug ini</string>
     <string name="send_report">Kirim laporan</string>
     <string name="discardChanges">Buang perubahan yang belum disimpan?</string>
     <string name="discard">Buang</string>
@@ -132,7 +132,7 @@
     <string name="settingsIncludedIPAddressesListHeader">Alamat IP yang disertakan (%1$d)</string>
     <string name="settingsExcludedApps">Aplikasi yang Dikecualikan</string>
     <string name="settingsExcludedAppsEmpty">Tambahkan aplikasi untuk dikecualikan dari lalu lintas VPN.</string>
-    <string name="settingsIncludedAppsEmpty">Tambahkan aplikasi untuk disertakan ke dalam lintas VPN.</string>
+    <string name="settingsIncludedAppsEmpty">Tambahkan aplikasi untuk disertakan ke dalam lalu lintas VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplikasi yang Dikecualikan (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Aplikasi yang Disertakan (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Seluruh aplikasi reguler lainnya (%1$d)</string>
