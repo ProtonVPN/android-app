@@ -23,7 +23,7 @@
     <string name="app_icon_name_retro">Ρετρό</string>
     <string name="app_icon_name_weather">Καιρός</string>
     <string name="app_icon_name_notes">Σημειώσεις</string>
-    <string name="app_icon_name_calculator">Υπολογιστής</string>
+    <string name="app_icon_name_calculator">Αριθμομηχανή</string>
     <!-- Strings related to login -->
     <string name="login">Σύνδεση</string>
     <string name="menuActionSignOut">Αποσύνδεση</string>
