@@ -1,0 +1,2 @@
+What's new
+Custom DNS is now available in Profiles configurations, allowing you to create distinct Profiles with varying third-party DNS resolvers.
