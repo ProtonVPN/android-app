@@ -271,7 +271,7 @@ class CreateEditProfileViewModel @Inject constructor(
             ) { settingsState, isPrivateDnsActive ->
                 settingsState?.customDnsSettings?.let {
                     SettingViewState.CustomDns(
-                        enabled = it.enabled,
+                        enabled = it.toggleEnabled,
                         customDns = it.rawDnsList,
                         overrideProfilePrimaryLabel = null,
                         isFreeUser = false,
@@ -699,7 +699,7 @@ class CreateEditProfileViewModel @Inject constructor(
         val currentDns = settingsScreenState?.customDnsSettings
         currentDns?.let {
             val updatedSettings = CustomDnsSettings(
-                enabled = !it.enabled,
+                toggleEnabled = !it.toggleEnabled,
                 rawDnsList = it.rawDnsList
             )
             settingsScreenState = settingsScreenState?.copy(customDnsSettings = updatedSettings)
@@ -739,7 +739,7 @@ class CreateEditProfileViewModel @Inject constructor(
             updatedList.add(position, removedItem)
 
             val updatedSettings = CustomDnsSettings(
-                enabled = true,
+                toggleEnabled = true,
                 rawDnsList = updatedList
             )
             setCustomDns(updatedSettings)
@@ -748,8 +748,8 @@ class CreateEditProfileViewModel @Inject constructor(
 
     fun updateDnsList(newList: List<String>) {
         val currentSettings = settingsScreenStateFlow.value?.customDnsSettings ?: return
-        val shouldBeEnabled = currentSettings.enabled || newList.isNotEmpty()
-        val updatedSettings = CustomDnsSettings(enabled = shouldBeEnabled, rawDnsList = newList)
+        val shouldBeEnabled = currentSettings.toggleEnabled || newList.isNotEmpty()
+        val updatedSettings = CustomDnsSettings(toggleEnabled = shouldBeEnabled, rawDnsList = newList)
         setCustomDns(updatedSettings)
     }
 
@@ -765,9 +765,9 @@ class CreateEditProfileViewModel @Inject constructor(
         val customDns = state.customDnsSettings ?: return
 
         val currentList = customDns.rawDnsList
-        val netShieldConflict = state.netShield && !customDns.enabled
+        val netShieldConflict = state.netShield && !customDns.toggleEnabled
         customDnsHelper.validateAndAddDnsAddress(dns, netShieldConflict) {
-            setCustomDns(CustomDnsSettings(enabled = true, rawDnsList = currentList + dns.trim()))
+            setCustomDns(CustomDnsSettings(toggleEnabled = true, rawDnsList = currentList + dns.trim()))
         }
     }
 }

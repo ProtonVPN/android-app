@@ -209,7 +209,7 @@ class ProfilesViewModel @Inject constructor(
         val intentViewState = getConnectIntentViewState.forProfile(this)
         val netShieldEnabled = intent.settingsOverrides?.netShield == NetShieldProtocol.ENABLED_EXTENDED
         val protocol = intent.settingsOverrides?.protocol ?: settingsProtocol
-        val customDnsEnabled = intent.settingsOverrides?.customDns?.enabled
+        val customDnsEnabled = intent.settingsOverrides?.customDns?.effectiveEnabled
         val natType = NatType.fromRandomizedNat(intent.settingsOverrides?.randomizedNat == true)
         val lanConnections = intent.settingsOverrides?.lanConnections == true
         return ProfileViewItem(

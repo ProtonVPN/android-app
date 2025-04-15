@@ -57,7 +57,7 @@ class DnsOverrideFlow(
     ) : this(
         combine(
             isPrivateDnsActiveFlow,
-            settingsForConnection.getFlowForCurrentConnection().map { it.connectionSettings.customDns.enabled }
+            settingsForConnection.getFlowForCurrentConnection().map { it.connectionSettings.customDns.effectiveEnabled }
         ) { privateDns, customDns ->
             when {
                 privateDns -> DnsOverride.SystemPrivateDns

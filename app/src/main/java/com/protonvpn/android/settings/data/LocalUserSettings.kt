@@ -72,10 +72,10 @@ data class SplitTunnelingSettings(
 @Serializable
 data class CustomDnsSettings(
     @ColumnInfo(name = "customDnsEnabled")
-    val enabled: Boolean = false,
+    val toggleEnabled: Boolean = false,
     val rawDnsList: List<String> = emptyList()
 ): Parcelable {
-    val effectiveDnsList: List<String> get() = if (enabled && rawDnsList.isNotEmpty()) rawDnsList else emptyList()
+    val effectiveDnsList: List<String> get() = if (toggleEnabled && rawDnsList.isNotEmpty()) rawDnsList else emptyList()
     val effectiveEnabled get() = effectiveDnsList.isNotEmpty()
 }
 
@@ -124,7 +124,7 @@ fun LocalUserSettings.toLogList(): List<String> {
         "Use DoH for API: ${apiUseDoh.toLog()}",
         "VPN Accelerator: ${vpnAccelerator.toLog()}",
         "IPv6 enabled: ${ipV6Enabled.toLog()}",
-        "Custom DNS enabled: ${customDns.enabled.toLog()}",
+        "Custom DNS enabled: ${customDns.toggleEnabled.toLog()}",
         "Custom DNS list: ${customDns.rawDnsList.itemCountToLog()}",
     )
     return regularSettings

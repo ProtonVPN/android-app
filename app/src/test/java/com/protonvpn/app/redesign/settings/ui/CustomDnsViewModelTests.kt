@@ -91,7 +91,7 @@ class CustomDnsViewModelTests {
             val effectiveSettingsTurbine = effectiveCurrentUserSettings.effectiveSettings.testIn(backgroundScope)
             val viewStateTurbine = viewModel.customDnsHelper.customDnsSettingState.testIn(backgroundScope)
             val initialSettings = effectiveSettingsTurbine.expectMostRecentItem()
-            assertEquals(CustomDnsSettings(enabled = false, rawDnsList = emptyList()), initialSettings.customDns)
+            assertEquals(CustomDnsSettings(toggleEnabled = false, rawDnsList = emptyList()), initialSettings.customDns)
 
             viewModel.addNewDns("1.2.3.4")
             runCurrent()
@@ -109,7 +109,7 @@ class CustomDnsViewModelTests {
             val effectiveSettingsTurbine = effectiveCurrentUserSettings.effectiveSettings.testIn(backgroundScope)
             val viewStateTurbine = viewModel.customDnsHelper.customDnsSettingState.testIn(backgroundScope)
             userSettingsManager.updateCustomDns {
-                CustomDnsSettings(enabled = true, rawDnsList = listOf("1.2.3.4"))
+                CustomDnsSettings(toggleEnabled = true, rawDnsList = listOf("1.2.3.4"))
             }
 
             viewModel.toggleCustomDns()
@@ -133,7 +133,7 @@ class CustomDnsViewModelTests {
             val effectiveSettingsTurbine = effectiveCurrentUserSettings.effectiveSettings.testIn(backgroundScope)
             val viewStateTurbine = viewModel.customDnsHelper.customDnsSettingState.testIn(backgroundScope)
             userSettingsManager.updateCustomDns {
-                CustomDnsSettings(enabled = true, rawDnsList = dnsList)
+                CustomDnsSettings(toggleEnabled = true, rawDnsList = dnsList)
             }
 
             viewModel.toggleCustomDns()
@@ -150,7 +150,6 @@ class CustomDnsViewModelTests {
             assertTrue(viewState.value)
             assertEquals(dnsList, settings.customDns.effectiveDnsList)
             assertEquals(dnsList, viewState.customDns)
-
         }
     }
 }

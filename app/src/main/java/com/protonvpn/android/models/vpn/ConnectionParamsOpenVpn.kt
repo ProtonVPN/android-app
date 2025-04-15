@@ -93,7 +93,7 @@ class ConnectionParamsOpenVpn(
             }
         }
 
-        mOverrideDNS = userSettings.customDns.enabled
+        mOverrideDNS = userSettings.customDns.effectiveEnabled
         mCustomDNS = userSettings.customDns.effectiveDnsList
 
         val appsSplitTunnelingConfigurator = SplitTunnelAppsOpenVpnConfigurator(this)

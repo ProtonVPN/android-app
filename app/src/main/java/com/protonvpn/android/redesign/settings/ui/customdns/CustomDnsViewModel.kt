@@ -75,7 +75,7 @@ class CustomDnsViewModel @Inject constructor(
             }
 
             SettingViewState.CustomDns(
-                enabled = customDnsSetting.enabled,
+                enabled = customDnsSetting.toggleEnabled,
                 customDns = customDnsSetting.rawDnsList,
                 overrideProfilePrimaryLabel = profileOverrideInfo?.primaryLabel,
                 isFreeUser = isFree,
@@ -99,9 +99,10 @@ class CustomDnsViewModel @Inject constructor(
 
     fun addNewDns(newDns: String) {
         mainScope.launch {
-            val currentSettings = userSettingsManager.rawCurrentUserSettingsFlow.first()
-            val currentList = currentSettings.customDns.rawDnsList
-            userSettingsManager.updateCustomDnsList(currentList + newDns)
+            userSettingsManager.updateCustomDns { customDns ->
+                val currentList = customDns.rawDnsList
+                customDns.copy(toggleEnabled = true, rawDnsList = currentList + newDns)
+            }
         }
     }
 
