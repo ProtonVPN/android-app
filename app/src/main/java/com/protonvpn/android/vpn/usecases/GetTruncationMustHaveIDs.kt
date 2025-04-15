@@ -36,7 +36,13 @@ private const val MAX_RECENTS = 15
 private const val MAX_MUST_HAVES = 35
 
 fun interface GetTruncationMustHaveIDs {
-    suspend operator fun invoke(): Set<String>
+    suspend operator fun invoke(): Set<String> =
+        invoke(MAX_RECENTS, MAX_MUST_HAVES)
+
+    suspend operator fun invoke(
+        maxRecents: Int,
+        maxMustHaves: Int,
+    ): Set<String>
 }
 
 /**
@@ -74,7 +80,10 @@ class GetTruncationMustHaveIDsImpl @Inject constructor(
     private val vpnStatusProviderUI: VpnStatusProviderUI,
 ) : GetTruncationMustHaveIDs {
 
-    override suspend fun invoke(): Set<String> {
+    override suspend fun invoke(
+        maxRecents: Int,
+        maxMustHaves: Int,
+    ): Set<String> {
         val userId = currentUser.vpnUser()?.userId
         val recentsServerIDs = userId?.let {
             recentsDao.getRecentsList(userId).first().mapNotNull { it.connectIntent.serverId }
@@ -87,6 +96,8 @@ class GetTruncationMustHaveIDsImpl @Inject constructor(
             recentsServerIDs = recentsServerIDs,
             profilesServerIDs = profilesServerIDs,
             transientIDs = transientMustHaves.getAll(),
+            maxRecents = maxRecents,
+            maxMustHaves = maxMustHaves,
         )
     }
 
@@ -97,8 +108,8 @@ class GetTruncationMustHaveIDsImpl @Inject constructor(
             recentsServerIDs: List<String>,
             profilesServerIDs: List<String>,
             transientIDs: List<String>,
-            maxRecents: Int = MAX_RECENTS,
-            maxMustHaves: Int = MAX_MUST_HAVES,
+            maxRecents: Int,
+            maxMustHaves: Int,
         ) : Set<String> = LinkedHashSet<String>().apply {
             currentServerID?.let { add(it) }
             val (recentIDs, recentIDsRest) = LinkedHashSet(

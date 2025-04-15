@@ -211,7 +211,7 @@ class ServerListUpdaterTests {
             RestrictionsConfig(testScope.backgroundScope, restrictionsFlow),
             testScope::currentTime,
             FakeServerListTruncationEnabled(truncationEnabled),
-            GetTruncationMustHaveIDs { mustHaveIDs }
+            GetTruncationMustHaveIDs { _, _ -> mustHaveIDs }
         )
     }
 
