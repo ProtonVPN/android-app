@@ -19,6 +19,20 @@
 
 package com.protonvpn.android.profiles.data
 
+import androidx.sqlite.db.SupportSQLiteDatabase
+import me.proton.core.data.room.db.migration.DatabaseMigration
+
 interface VpnProfilesDatabase {
     fun profilesDao(): ProfilesDao
+
+    companion object {
+        val MIGRATION_0 = object : DatabaseMigration {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // In profiles Custom DNS is always set either on or off, remove the NULL values.
+                // Note: unnamedRecentsIntents should remain NULL.
+                database.execSQL("UPDATE `profiles` SET `customDnsEnabled` = '0' WHERE `customDnsEnabled` IS NULL")
+                database.execSQL("UPDATE `profiles` SET `rawDnsList` = '' WHERE `rawDnsList` IS NULL")
+            }
+        }
+    }
 }
