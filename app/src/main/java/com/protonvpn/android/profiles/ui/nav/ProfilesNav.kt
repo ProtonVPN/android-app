@@ -155,31 +155,23 @@ class ProfilesAddEditNav(
             startScreen = CreateProfileNameScreen,
             transition = NavigationTransition.SlideInTowardsStart,
         ) {
-            ProfileCreationTarget.entries.forEach { target ->
-                when(target) {
-                    ProfileCreationTarget.CreateProfileName ->
-                        createProfileName(
-                            viewModel,
-                            onNext = { navigateInternal(ProfileTypeAndLocationScreen, navOptions) },
-                        )
-                    ProfileCreationTarget.TypeAndLocation ->
-                        profileTypeAndLocationScreen(
-                            viewModel,
-                            onNext = { navigateInternal(ProfileFeaturesAndSettingsScreen, navOptions) },
-                            onBack = { navigateUpWhenOn(target.screen) }
-                        )
-                    ProfileCreationTarget.FeaturesAndSettings ->
-                        profileFeaturesAndSettingsScreen(
-                            viewModel,
-                            onNext = onDone,
-                            onOpenCustomDns = {
-                                navigateInternal(ProfileCustomDnsScreen, navOptions)
-                            },
-                            onBack = { navigateUpWhenOn(target.screen) }
-                        )
-                }
-            }
-            
+            createProfileName(
+                viewModel,
+                onNext = { navigateInternal(ProfileTypeAndLocationScreen, navOptions) },
+            )
+            profileTypeAndLocationScreen(
+                viewModel,
+                onNext = { navigateInternal(ProfileFeaturesAndSettingsScreen, navOptions) },
+                onBack = { navigateUpWhenOn(ProfileCreationTarget.TypeAndLocation.screen) }
+            )
+            profileFeaturesAndSettingsScreen(
+                viewModel,
+                onNext = onDone,
+                onOpenCustomDns = {
+                    navigateInternal(ProfileCustomDnsScreen, navOptions)
+                },
+                onBack = { navigateUpWhenOn(ProfileCreationTarget.FeaturesAndSettings.screen) }
+            )
             profileCustomDnsScreen(
                 viewModel,
                 onClose = { navigateUp() }
