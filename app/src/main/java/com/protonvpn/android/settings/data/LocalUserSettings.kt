@@ -27,6 +27,7 @@ import com.protonvpn.android.netshield.NetShieldProtocol
 import com.protonvpn.android.userstorage.UUIDSerializer
 import com.protonvpn.android.vpn.ProtocolSelection
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
@@ -72,6 +73,7 @@ data class SplitTunnelingSettings(
 @Serializable
 data class CustomDnsSettings(
     @ColumnInfo(name = "customDnsEnabled")
+    @SerialName("enabled") // For backwards compatibility.
     val toggleEnabled: Boolean = false,
     val rawDnsList: List<String> = emptyList()
 ): java.io.Serializable, Parcelable {
