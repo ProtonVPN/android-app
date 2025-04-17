@@ -25,8 +25,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.protonvpn.android.profiles.ui.AddEditProfileRoute
+import com.protonvpn.android.profiles.ui.AddEditProfileSteps
 import com.protonvpn.android.profiles.ui.CreateEditProfileViewModel
 import com.protonvpn.android.profiles.ui.CreateProfileFeaturesAndSettingsRoute
 import com.protonvpn.android.profiles.ui.CreateProfileNameRoute
@@ -34,8 +36,9 @@ import com.protonvpn.android.profiles.ui.CreateProfileTypeAndLocationRoute
 import com.protonvpn.android.profiles.ui.ProfilesRoute
 import com.protonvpn.android.profiles.ui.customdns.ProfileCustomDnsRoute
 import com.protonvpn.android.profiles.ui.nav.CreateProfileNameScreen.createProfileName
-import com.protonvpn.android.profiles.ui.nav.ProfileCustomDnsScreen.profileCustomDnsScreen
+import com.protonvpn.android.profiles.ui.nav.ProfileCustomDnsSubcreen.profileCustomDnsScreen
 import com.protonvpn.android.profiles.ui.nav.ProfileFeaturesAndSettingsScreen.profileFeaturesAndSettingsScreen
+import com.protonvpn.android.profiles.ui.nav.ProfileMainScreen.profileMainScreen
 import com.protonvpn.android.profiles.ui.nav.ProfileTypeAndLocationScreen.profileTypeAndLocationScreen
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.BaseNav
@@ -59,13 +62,34 @@ object ProfilesScreen : ScreenNoArg<MainNav>("profiles") {
     }
 }
 
+enum class ProfileCreationSubscreenTarget {
+    MainSteps, CustomDns;
+
+    val screen get() = when(this) {
+        MainSteps -> ProfileMainScreen
+        CustomDns -> ProfileCustomDnsSubcreen
+    }
+}
+
+enum class ProfileCreationStepTarget {
+    CreateProfileName,
+    TypeAndLocation,
+    FeaturesAndSettings;
+
+    val screen get() = when(this) {
+        CreateProfileName -> CreateProfileNameScreen
+        TypeAndLocation -> ProfileTypeAndLocationScreen
+        FeaturesAndSettings -> ProfileFeaturesAndSettingsScreen
+    }
+}
+
 object AddEditProfileScreen : Screen<AddEditProfileScreen.ProfileCreationArgs, RootNav>("addNewProfile") {
 
     @Serializable
     data class ProfileCreationArgs(
         val editingProfileId: Long? = null,
         val duplicate: Boolean = false,
-        val navigateTo: ProfileCreationTarget? = null,
+        val navigateTo: ProfileCreationStepTarget? = null,
     )
 
     fun SafeNavGraphBuilder<RootNav>.addEditProfile(
@@ -81,9 +105,42 @@ object AddEditProfileScreen : Screen<AddEditProfileScreen.ProfileCreationArgs, R
     }
 }
 
-object CreateProfileNameScreen : ScreenNoArg<ProfilesAddEditNav>("createProfileName") {
+object ProfileMainScreen : ScreenNoArg<ProfilesRegularAndSubscreenNav>("profileMain") {
 
-    fun SafeNavGraphBuilder<ProfilesAddEditNav>.createProfileName(
+    fun SafeNavGraphBuilder<ProfilesRegularAndSubscreenNav>.profileMainScreen(
+        viewModel: CreateEditProfileViewModel,
+        stepsNavController: NavHostController,
+        navigateTo: ProfileCreationStepTarget?,
+        isEditMode: Boolean = false,
+        onNavigateToSubscreen: (ProfileCreationSubscreenTarget) -> Unit,
+        onDone: () -> Unit,
+        onDismiss: () -> Unit,
+    ) = addToGraph(this) {
+        AddEditProfileSteps(
+            viewModel,
+            stepsNavController,
+            navigateTo,
+            isEditMode,
+            onNavigateToSubscreen,
+            onDone = onDone,
+            onDismiss = onDismiss
+        )
+    }
+}
+
+object ProfileCustomDnsSubcreen : ScreenNoArg<ProfilesRegularAndSubscreenNav>("profileCustomDns") {
+
+    fun SafeNavGraphBuilder<ProfilesRegularAndSubscreenNav>.profileCustomDnsScreen(
+        viewModel: CreateEditProfileViewModel,
+        onClose: () -> Unit
+    ) = addToGraphWithSlideAnim(this, vertical = false) {
+        ProfileCustomDnsRoute(viewModel, onClose)
+    }
+}
+
+object CreateProfileNameScreen : ScreenNoArg<ProfilesAddEditStepNav>("createProfileName") {
+
+    fun SafeNavGraphBuilder<ProfilesAddEditStepNav>.createProfileName(
         viewModel: CreateEditProfileViewModel,
         onNext: () -> Unit,
     ) = addToGraph(this) {
@@ -91,9 +148,9 @@ object CreateProfileNameScreen : ScreenNoArg<ProfilesAddEditNav>("createProfileN
     }
 }
 
-object ProfileTypeAndLocationScreen : ScreenNoArg<ProfilesAddEditNav>("profileTypeAndLocation") {
+object ProfileTypeAndLocationScreen : ScreenNoArg<ProfilesAddEditStepNav>("profileTypeAndLocation") {
 
-    fun SafeNavGraphBuilder<ProfilesAddEditNav>.profileTypeAndLocationScreen(
+    fun SafeNavGraphBuilder<ProfilesAddEditStepNav>.profileTypeAndLocationScreen(
         viewModel: CreateEditProfileViewModel,
         onNext: () -> Unit,
         onBack: () -> Unit
@@ -102,9 +159,9 @@ object ProfileTypeAndLocationScreen : ScreenNoArg<ProfilesAddEditNav>("profileTy
     }
 }
 
-object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditNav>("profileFeaturesAndSettings") {
+object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditStepNav>("profileFeaturesAndSettings") {
 
-    fun SafeNavGraphBuilder<ProfilesAddEditNav>.profileFeaturesAndSettingsScreen(
+    fun SafeNavGraphBuilder<ProfilesAddEditStepNav>.profileFeaturesAndSettingsScreen(
         viewModel: CreateEditProfileViewModel,
         onOpenCustomDns: () -> Unit,
         onNext: () -> Unit,
@@ -114,38 +171,55 @@ object ProfileFeaturesAndSettingsScreen : ScreenNoArg<ProfilesAddEditNav>("profi
     }
 }
 
-object ProfileCustomDnsScreen : ScreenNoArg<ProfilesAddEditNav>("profileCustomDns") {
-
-    fun SafeNavGraphBuilder<ProfilesAddEditNav>.profileCustomDnsScreen(
-        viewModel: CreateEditProfileViewModel,
-        onClose: () -> Unit
-    ) = addToGraph(this) {
-        ProfileCustomDnsRoute(viewModel, onClose)
-    }
-}
-
-enum class ProfileCreationTarget {
-    CreateProfileName,
-    TypeAndLocation,
-    FeaturesAndSettings;
-
-    val screen get() = when(this) {
-        CreateProfileName -> CreateProfileNameScreen
-        TypeAndLocation -> ProfileTypeAndLocationScreen
-        FeaturesAndSettings -> ProfileFeaturesAndSettingsScreen
-    }
-}
-
-class ProfilesAddEditNav(
+class ProfilesRegularAndSubscreenNav(
     selfNav: NavHostController,
-) : BaseNav<ProfilesAddEditNav>(selfNav, "profilesNav") {
+) : BaseNav<ProfilesRegularAndSubscreenNav>(selfNav, "profilesNav") {
 
     @Composable
     fun NavHost(
         viewModel: CreateEditProfileViewModel,
+        isEditMode: Boolean,
+        navigateTo: ProfileCreationStepTarget?,
+        stepsNavController: NavHostController = rememberNavController(),
         onDone: () -> Unit,
-        modifier: Modifier,
-        navigateTo: ProfileCreationTarget?,
+        onClose: () -> Unit,
+        modifier: Modifier = Modifier
+    ) {
+        SafeNavHost(
+            modifier = modifier,
+            startScreen = ProfileMainScreen,
+        ) {
+            profileMainScreen(
+                viewModel = viewModel,
+                stepsNavController = stepsNavController,
+                isEditMode = isEditMode,
+                navigateTo = navigateTo,
+                onNavigateToSubscreen = { target ->
+                    navigateInternal(target.screen)
+                },
+                onDone = onDone,
+                onDismiss = onClose,
+            )
+
+            profileCustomDnsScreen(
+                viewModel,
+                onClose = { navigateUp() }
+            )
+        }
+    }
+}
+
+class ProfilesAddEditStepNav(
+    selfNav: NavHostController,
+) : BaseNav<ProfilesAddEditStepNav>(selfNav, "profileStepsNav") {
+
+    @Composable
+    fun NavHost(
+        viewModel: CreateEditProfileViewModel,
+        onNavigateToSubscreen: (ProfileCreationSubscreenTarget) -> Unit,
+        onDone: () -> Unit,
+        navigateTo: ProfileCreationStepTarget?,
+        modifier: Modifier = Modifier,
     ) {
         val navOptions = navOptions {
             launchSingleTop = true
@@ -162,19 +236,15 @@ class ProfilesAddEditNav(
             profileTypeAndLocationScreen(
                 viewModel,
                 onNext = { navigateInternal(ProfileFeaturesAndSettingsScreen, navOptions) },
-                onBack = { navigateUpWhenOn(ProfileCreationTarget.TypeAndLocation.screen) }
+                onBack = { navigateUpWhenOn(ProfileCreationStepTarget.TypeAndLocation.screen) }
             )
             profileFeaturesAndSettingsScreen(
                 viewModel,
                 onNext = onDone,
                 onOpenCustomDns = {
-                    navigateInternal(ProfileCustomDnsScreen, navOptions)
+                    onNavigateToSubscreen(ProfileCreationSubscreenTarget.CustomDns)
                 },
-                onBack = { navigateUpWhenOn(ProfileCreationTarget.FeaturesAndSettings.screen) }
-            )
-            profileCustomDnsScreen(
-                viewModel,
-                onClose = { navigateUp() }
+                onBack = { navigateUpWhenOn(ProfileCreationStepTarget.FeaturesAndSettings.screen) }
             )
         }
         // If we're navigating to a specific step, pre-populate the back stack exactly once
@@ -182,7 +252,7 @@ class ProfilesAddEditNav(
             val populatedBackNav = rememberSaveable { mutableStateOf(false) }
             LaunchedEffect(true) {
                 if (!populatedBackNav.value) {
-                    ProfileCreationTarget.entries.take(navigateTo.ordinal + 1).forEach {
+                    ProfileCreationStepTarget.entries.take(navigateTo.ordinal + 1).forEach {
                         navigateInternal(it.screen, navOptions)
                     }
                     populatedBackNav.value = true

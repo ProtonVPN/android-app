@@ -57,9 +57,10 @@ import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarCloseIcon
 import com.protonvpn.android.base.ui.VpnSolidButton
 import com.protonvpn.android.base.ui.VpnWeakSolidButton
-import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
-import com.protonvpn.android.profiles.ui.nav.ProfileCustomDnsScreen
-import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditNav
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationSubscreenTarget
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
+import com.protonvpn.android.profiles.ui.nav.ProfilesAddEditStepNav
+import com.protonvpn.android.profiles.ui.nav.ProfilesRegularAndSubscreenNav
 import com.protonvpn.android.redesign.base.ui.ProtonAlert
 import com.protonvpn.android.redesign.base.ui.largeScreenContentPadding
 import com.protonvpn.android.redesign.base.ui.preventMultiClick
@@ -70,7 +71,7 @@ import me.proton.core.presentation.utils.currentLocale
 fun AddEditProfileRoute(
     profileId: Long? = null,
     duplicate: Boolean = false,
-    navigateTo: ProfileCreationTarget?,
+    navigateTo: ProfileCreationStepTarget?,
     onDismiss: () -> Unit,
 ) {
     val viewModel : CreateEditProfileViewModel = hiltViewModel()
@@ -98,20 +99,11 @@ fun AddEditProfileRoute(
 fun AddEditProfileScreen(
     viewModel: CreateEditProfileViewModel,
     onDismiss: () -> Unit,
-    navigateTo: ProfileCreationTarget?,
+    navigateTo: ProfileCreationStepTarget?,
     isEditMode: Boolean = false,
     onProfileSave: () -> Unit,
 ) {
-    val navController = rememberNavController()
-    val navigator = remember { ProfilesAddEditNav(navController) }
-    val totalSteps = ProfileCreationTarget.entries.size
-    val name = viewModel.nameScreenStateFlow.collectAsStateWithLifecycle()
     val reconnectDialog = viewModel.showReconnectDialogFlow.collectAsStateWithLifecycle().value
-
-    val currentBackStackEntry = navController.currentBackStackEntryAsState()
-    // Top appbar and steps counter should not be included for profile CustomDns
-    val isOnCustomDnsScreen = currentBackStackEntry.value?.destination?.route == ProfileCustomDnsScreen.route
-
     if (reconnectDialog) {
         ReconnectDialog(
             onConfirm = {
@@ -124,42 +116,65 @@ fun AddEditProfileScreen(
         )
     }
 
+    val mainNavController = rememberNavController()
+    val mainNavigator = remember { ProfilesRegularAndSubscreenNav(mainNavController) }
+    mainNavigator.NavHost(
+        viewModel = viewModel,
+        navigateTo = navigateTo,
+        isEditMode = isEditMode,
+        onDone = onProfileSave,
+        onClose = onDismiss,
+    )
+}
+
+@Composable
+fun AddEditProfileSteps(
+    viewModel: CreateEditProfileViewModel,
+    navController: NavHostController,
+    navigateTo: ProfileCreationStepTarget?,
+    isEditMode: Boolean = false,
+    onNavigateToSubscreen: (ProfileCreationSubscreenTarget) -> Unit,
+    onDone: () -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val navigator = remember { ProfilesAddEditStepNav(navController) }
+    val nameState = viewModel.nameScreenStateFlow.collectAsStateWithLifecycle()
+    val totalSteps = ProfileCreationStepTarget.entries.size
     Scaffold(
         topBar = {
-            if (!isOnCustomDnsScreen) {
-                SimpleTopAppBar(
-                    title = {
-                        Text(
-                            text =
+            SimpleTopAppBar(
+                title = {
+                    Text(
+                        text =
                             if (isEditMode)
                                 stringResource(
                                     id = R.string.edit_profile_title,
-                                    name.value?.name ?: ""
+                                    nameState.value?.name ?: ""
                                 )
                             else
                                 stringResource(id = R.string.create_profile_title),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    },
-                    navigationIcon = { TopAppBarCloseIcon(onDismiss) }
-                )
-            }
-        }
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+                navigationIcon = { TopAppBarCloseIcon(onDismiss) }
+            )
+        },
+        modifier = modifier
     ) { paddingValues ->
         Column(modifier = Modifier
             .padding(paddingValues)
             // Workaround for https://issuetracker.google.com/issues/249727298
             .consumeWindowInsets(paddingValues)
         ) {
-            if (!isOnCustomDnsScreen) {
-                StepHeader(navController, totalSteps)
+            StepHeader(navController, totalSteps)
 
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+            Spacer(modifier = Modifier.height(16.dp))
             navigator.NavHost(
                 viewModel,
-                onDone = onProfileSave,
+                onDone = onDone,
+                onNavigateToSubscreen = onNavigateToSubscreen,
                 navigateTo = navigateTo,
                 modifier = Modifier
                     .fillMaxSize()
@@ -178,7 +193,7 @@ private fun StepHeader(
     Column {
         val currentBackStackEntry = navController.currentBackStackEntryAsState()
 
-        val currentStep = enumValues<ProfileCreationTarget>()
+        val currentStep = enumValues<ProfileCreationStepTarget>()
             .firstOrNull { it.screen.route == currentBackStackEntry.value?.destination?.route }
             ?.ordinal?.plus(1) ?: 0
 

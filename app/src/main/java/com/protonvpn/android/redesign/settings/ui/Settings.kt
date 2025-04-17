@@ -66,7 +66,7 @@ import com.protonvpn.android.base.ui.LabelBadge
 import com.protonvpn.android.base.ui.theme.VpnTheme
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
-import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.CollapsibleToolbarScaffold
 import com.protonvpn.android.redesign.base.ui.collectAsEffect
@@ -106,7 +106,7 @@ fun SettingsRoute(
     onSignInClick: () -> Unit,
     onSignOutClick: () -> Unit,
     onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
-    onNavigateToEditProfile: (Long, ProfileCreationTarget) -> Unit
+    onNavigateToEditProfile: (Long, ProfileCreationStepTarget) -> Unit
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
     val viewState = viewModel.viewState.collectAsStateWithLifecycle(initialValue = null).value

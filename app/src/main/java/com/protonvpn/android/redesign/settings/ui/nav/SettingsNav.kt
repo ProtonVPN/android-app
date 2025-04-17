@@ -19,7 +19,7 @@
 
 package com.protonvpn.android.redesign.settings.ui.nav
 
-import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
 import com.protonvpn.android.redesign.app.ui.CoreNavigation
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
@@ -34,7 +34,7 @@ object SettingsScreen : ScreenNoArg<MainNav>("settings") {
         settingsChangeViewModel: SettingsChangeViewModel,
         coreNavigation: CoreNavigation,
         onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
-        onNavigateToEditProfile: (Long, ProfileCreationTarget) -> Unit,
+        onNavigateToEditProfile: (Long, ProfileCreationStepTarget) -> Unit,
     ) = addToGraph(this) {
         SettingsRoute(
             onSignUpClick = coreNavigation.onSignUp,
