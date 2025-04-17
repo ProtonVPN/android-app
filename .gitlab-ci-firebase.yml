@@ -48,10 +48,6 @@
             done;
       fi
     - date
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - app/build/outputs/
 
 mobile tests mocked api:
   extends: .tests_preparation_script
