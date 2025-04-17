@@ -50,10 +50,16 @@ class AppStartExitLogger @Inject constructor(
                 val activityManager = appContext.getSystemService(ActivityManager::class.java)
 
                 if (Build.VERSION.SDK_INT >= 35) {
-                    val startInfo = activityManager.getHistoricalProcessStartReasons(5)
-                        .firstOrNull { it.processName == appContext.packageName }
-                    if (startInfo != null) {
-                        ProtonLogger.logCustom(LogCategory.APP, "Start cause: ${startInfo.toLogString()}")
+                    val startInfoText = try {
+                        activityManager.getHistoricalProcessStartReasons(5)
+                             .firstOrNull { it.processName == appContext.packageName }
+                             ?.toLogString()
+                    } catch (_: NullPointerException) {
+                        // Realme, OPPO and OnePlus like to crash when processing the binder transaction results.
+                        "error obtaining start info"
+                    }
+                    if (startInfoText != null) {
+                        ProtonLogger.logCustom(LogCategory.APP, "Start cause: ${startInfoText}")
                     }
                 }
 
