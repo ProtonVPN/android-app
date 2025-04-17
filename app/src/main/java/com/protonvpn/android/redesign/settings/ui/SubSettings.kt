@@ -41,7 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.protonvpn.android.R
 import com.protonvpn.android.base.ui.SimpleTopAppBar
 import com.protonvpn.android.base.ui.TopAppBarBackIcon
-import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.base.ui.InfoSheet
 import com.protonvpn.android.redesign.base.ui.InfoType
@@ -78,7 +78,7 @@ fun SubSettingsRoute(
     type: SubSettingsScreen.Type,
     onClose: () -> Unit,
     onNavigateToSubSetting: (SubSettingsScreen.Type) -> Unit,
-    onNavigateToEditProfile: (Long, ProfileCreationTarget) -> Unit,
+    onNavigateToEditProfile: (Long, ProfileCreationStepTarget) -> Unit,
 ) {
     val context = LocalContext.current
     val vpnUiDelegate = LocalVpnUiDelegate.current

@@ -53,7 +53,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.protonvpn.android.R
 import com.protonvpn.android.profiles.data.ProfileColor
 import com.protonvpn.android.profiles.data.ProfileIcon
-import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
 import com.protonvpn.android.redesign.CountryId
 import com.protonvpn.android.redesign.base.ui.ConnectIntentIconSize
 import com.protonvpn.android.redesign.base.ui.ProfileConnectIntentIcon
@@ -68,7 +68,7 @@ import me.proton.core.compose.theme.defaultWeak
 
 @Composable
 fun SettingOverrideDialogHandler(
-    onNavigateToEditProfile: (Long, ProfileCreationTarget) -> Unit,
+    onNavigateToEditProfile: (Long, ProfileCreationStepTarget) -> Unit,
     content: @Composable (onSettingItemClick: (OverrideType, () -> Unit) -> Unit) -> Unit
 ) {
     val viewModel = hiltViewModel<SettingOverrideViewModel>()
@@ -82,7 +82,7 @@ fun SettingOverrideDialogHandler(
                     settingType = type,
                     onProfileSettingChosen = {
                         viewModel.getCurrentProfileId()?.let { profileId ->
-                            onNavigateToEditProfile(profileId, ProfileCreationTarget.FeaturesAndSettings)
+                            onNavigateToEditProfile(profileId, ProfileCreationStepTarget.FeaturesAndSettings)
                         }
                         dialogSettingType = null
                     }

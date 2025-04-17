@@ -20,7 +20,7 @@
 package com.protonvpn.android.redesign.settings.ui.nav
 
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.protonvpn.android.profiles.ui.nav.ProfileCreationTarget
+import com.protonvpn.android.profiles.ui.nav.ProfileCreationStepTarget
 import com.protonvpn.android.redesign.app.ui.SettingsChangeViewModel
 import com.protonvpn.android.redesign.app.ui.nav.RootNav
 import com.protonvpn.android.redesign.base.ui.nav.SafeNavGraphBuilder
@@ -52,7 +52,7 @@ object SubSettingsScreen : Screen<SubSettingsScreen.Type, RootNav>("subSettingsS
         settingsChangeViewModel: SettingsChangeViewModel,
         onClose: () -> Unit,
         onNavigateToSubSetting: (Type) -> Unit,
-        onNavigateToEditProfile: (Long, ProfileCreationTarget) -> Unit,
+        onNavigateToEditProfile: (Long, ProfileCreationStepTarget) -> Unit,
     ) = addToGraph(this) { entry ->
         val type = getArgs<Type>(entry)
         val viewModel = hiltViewModel<SettingsViewModel>()
