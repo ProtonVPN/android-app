@@ -113,25 +113,14 @@ fun AddEditProfileScreen(
     val isOnCustomDnsScreen = currentBackStackEntry.value?.destination?.route == ProfileCustomDnsScreen.route
 
     if (reconnectDialog) {
-        ProtonAlert(
-            title = null,
-            text = stringResource(R.string.profile_needs_reconnect),
-            confirmLabel = stringResource(id = R.string.reconnect_now),
-            isWideDialog = true,
+        ReconnectDialog(
             onConfirm = {
                 viewModel.saveAndReconnect(
                     routedFromSettings = navigateTo != null
                 )
                 onDismiss()
             },
-            dismissLabel = stringResource(id = R.string.cancel),
-            onDismissButton = {
-                viewModel.dismissReconnectDialog()
-            },
-            checkBoxInitialValue = false,
-            onDismissRequest = {
-                viewModel.dismissReconnectDialog()
-            }
+            onDismiss = viewModel::dismissReconnectDialog
         )
     }
 
@@ -193,6 +182,7 @@ private fun StepHeader(
             .firstOrNull { it.screen.route == currentBackStackEntry.value?.destination?.route }
             ?.ordinal?.plus(1) ?: 0
 
+        // TODO: this should not be a progress indicator, it doesn't look as in designs.
         LinearProgressIndicator(
             progress = { currentStep / totalSteps.toFloat() },
             modifier = Modifier.fillMaxWidth().semantics { invisibleToUser() },
@@ -243,7 +233,7 @@ fun CreateProfileStep(
 }
 
 @Composable
-fun ProfileNavigationButtons(
+private fun ProfileNavigationButtons(
     modifier: Modifier = Modifier,
     onNext: () -> Unit,
     onNextText: String,
@@ -272,4 +262,21 @@ fun ProfileNavigationButtons(
             enabled = nextEnabledState.value
         )
     }
+}
+
+@Composable
+fun ReconnectDialog(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    ProtonAlert(
+        title = null,
+        text = stringResource(R.string.profile_needs_reconnect),
+        confirmLabel = stringResource(id = R.string.reconnect_now),
+        isWideDialog = true,
+        onConfirm = { onConfirm() },
+        dismissLabel = stringResource(id = R.string.cancel),
+        onDismissButton = { onDismiss },
+        onDismissRequest = onDismiss,
+    )
 }
