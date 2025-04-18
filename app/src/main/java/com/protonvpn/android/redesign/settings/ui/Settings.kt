@@ -368,7 +368,7 @@ fun SettingsView(
                 if (viewState.showDebugTools) {
                     SettingRowWithIcon(
                         icon = CoreR.drawable.ic_proton_wrench,
-                        title = "Debug Tools",
+                        title = "Debug tools",
                         onClick = onDebugToolsClick,
                     )
                 }
