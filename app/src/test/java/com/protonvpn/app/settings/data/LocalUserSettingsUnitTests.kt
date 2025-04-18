@@ -55,7 +55,6 @@ class LocalUserSettingsUnitTests {
                     "transmission": null
                 },
                 "randomizedNat": true,
-                "secureCore": false,
                 "splitTunneling": {
                     "isEnabled": false,
                     "mode": "INCLUDE_ONLY",
@@ -100,7 +99,6 @@ class LocalUserSettingsUnitTests {
                     "transmission": "TCP"
                 },
                 "randomizedNat": false,
-                "secureCore": true,
                 "splitTunneling": {
                     "isEnabled": true,
                     "mode": "EXCLUDE_ONLY",
@@ -134,7 +132,6 @@ class LocalUserSettingsUnitTests {
             netShield = NetShieldProtocol.DISABLED,
             protocol = ProtocolSelection(VpnProtocol.OpenVPN, TransmissionProtocol.TCP),
             randomizedNat = false,
-            secureCore = true,
             splitTunneling = SplitTunnelingSettings(
                 isEnabled = true,
                 mode = SplitTunnelingMode.EXCLUDE_ONLY,

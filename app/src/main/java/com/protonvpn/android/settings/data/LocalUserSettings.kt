@@ -96,7 +96,6 @@ data class LocalUserSettings(
     val netShield: NetShieldProtocol = NetShieldProtocol.ENABLED_EXTENDED,
     val protocol: ProtocolSelection = ProtocolSelection.SMART,
     val randomizedNat: Boolean = true,
-    @Deprecated("used only for migration") val secureCore: Boolean = false, // Value needed only for migrated profiles.
     val splitTunneling: SplitTunnelingSettings = SplitTunnelingSettings(),
     val telemetry: Boolean = true,
     val vpnAccelerator: Boolean = true,
