@@ -590,7 +590,7 @@
     <string name="dynamic_report_step1">Step 1 of 3</string>
     <string name="dynamic_report_step2">Step 2 of 3</string>
     <string name="dynamic_report_step3">Step 3 of 3</string>
-    <string name="dynamic_report_your_issue_headline">What is your issue</string>
+    <string name="dynamic_report_your_issue_headline">What’s the issue?</string>
     <string name="update_screen_title">Update Proton VPN</string>
     <string name="update_screen_description">You’re more likely to have issues on older versions of Proton VPN.</string>
     <string name="dialog_create_account_title">Create an account to continue</string>
