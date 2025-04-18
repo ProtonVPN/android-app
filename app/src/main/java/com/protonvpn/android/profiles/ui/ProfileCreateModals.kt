@@ -631,8 +631,8 @@ fun ProfileNetShieldItem(
     dnsOverride: DnsOverride,
 ) {
     val netshieldStateResource = when {
-        !value -> R.string.netshield_state_off
         dnsOverride != DnsOverride.None -> R.string.netshield_state_unavailable
+        !value -> R.string.netshield_state_off
         else -> R.string.netshield_state_on
     }
     ProfileValueItem(
