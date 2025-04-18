@@ -1303,7 +1303,7 @@
     <string name="create_profile_type_and_location_title">Välj anslutningstyp och plats</string>
     <string name="create_profile_features_and_settings_title">Funktioner och inställningar</string>
     <string name="configure_profile_features_and_settings_title">Konfigurera profilinställningar</string>
-    <string name="configure_profile_features_and_settings_description">Profile settings will override your VPN settings when connected.</string>
+    <string name="configure_profile_features_and_settings_description">Profilinställningar kommer åsidosätta dina VPN-inställningar när du är ansluten.</string>
     <!--
         First input will be for current step, second one will be for total number of steps
         Example: Step 3 of 7
@@ -1333,7 +1333,7 @@
     <string name="settings_advanced_dns_description">Connect to VPN with a self-hosted or third-party domain name system (DNS). Learn more</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">Servrar (%1$d)</string>
-    <string name="settings_dns_list_description">If your custom DNS server doesn’t work, the standard VPN DNS will be used.</string>
+    <string name="settings_dns_list_description">Om din anpassad DNS-server inte fungerar kommer standard-VPN DNS att användas.</string>
     <string name="settings_dns_list_description_multiple">We’ll try to connect to these servers in order. If none of them work, the VPN DNS will be used.</string>
     <string name="settings_changes_apply_on_reconnect_toast">Ändringar tillämpas när du ansluter igen</string>
     <string name="settings_custom_dns_netshield_conflict_dialog_title">NetShield kommer vara otillgänglig</string>

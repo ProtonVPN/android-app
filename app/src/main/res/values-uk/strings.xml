@@ -89,7 +89,7 @@
     <string name="done">ВИКОНАНО</string>
     <string name="add">ДОДАТИ</string>
     <string name="copy_to_clipboard">Копіювати</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="copied_to_clipboard">Скопійовано до буфера обміну</string>
     <string name="got_it">Зрозуміло</string>
     <string name="something_went_wrong">Виникла проблема</string>
     <string name="try_again">Повторити спробу</string>
@@ -124,11 +124,11 @@
     <string name="loaderErrorNoInternet">Немає з\'єднання з інтернетом</string>
     <string name="loaderErrorGeneric">Щось пішло не так</string>
     <string name="inputIpAddressLabel">IP-адреса</string>
-    <string name="inputIpAddressHelp">Enter the server’s IPv4 or IPv6 address</string>
+    <string name="inputIpAddressHelp">Введіть адресу IPv4 або IPv6 сервера</string>
     <string name="inputIpAddressErrorInvalid">Недійсна IP-адреса</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
-    <string name="settings_new_label_badge">НОВА</string>
-    <string name="settingsExcludedIPAddressesListHeader">Виключені IP-адреси (%1$d)</string>
+    <string name="settings_new_label_badge">НОВЕ</string>
+    <string name="settingsExcludedIPAddressesListHeader">Винятки IP-адрес (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Включені IP-адреси (%1$d)</string>
     <string name="settingsExcludedApps">Виключені програми</string>
     <string name="settingsExcludedAppsEmpty">Додайте програми, які потрібно виключити з вашого трафіку VPN.</string>
@@ -170,10 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Вилучити з включених програм</string>
-    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
-    <string name="accessibility_action_item_delete">Delete</string>
-    <string name="accessibility_action_item_move_up">Move up</string>
-    <string name="accessibility_action_item_move_down">Move down</string>
+    <string name="accessibility_action_copy_to_clipboard">Копіювати в буфер обміну</string>
+    <string name="accessibility_action_item_delete">Видалити</string>
+    <string name="accessibility_action_item_move_up">Посунути вгору</string>
+    <string name="accessibility_action_item_move_down">Посунути вниз</string>
     <string name="tileConnected">Під\'єднано: %1$s</string>
     <string name="openUrlError">Не вдалося відкрити %1$s. Не вдалося знайти браузер на вашому пристрої.</string>
     <string name="loaderErrorTimeout">Час очікування з\'єднання завершився. Будь ласка, спробуйте ще раз.</string>
@@ -196,33 +196,33 @@
     <string name="settingsAllowAlternativeRoutingDescription"><![CDATA[У разі блокування Proton, дозвольте програмі спробувати альтернативні способи з\'єднання з серверами Proton. <a href="%1$s">Докладніше</a>.]]></string>
     <string name="troubleshootGovernmentBlockTitle">Блокування урядом</string>
     <string name="troubleshootGovernmentBlockDescription"><![CDATA[Ваша країна може блокувати доступ до Proton. Спробуйте скористатися <a href=\'%1$s\'>Tor</a> для доступу до Proton.]]></string>
-    <string name="settingsKillSwitchEnableTitle">How to enable kill switch</string>
-    <string name="settingsKillSwitchEnableStep1">1. Open your device settings</string>
+    <string name="settingsKillSwitchEnableTitle">Як увімкнути Kill Switch</string>
+    <string name="settingsKillSwitchEnableStep1">1. Відкрийте налаштування пристрою</string>
     <!-- %1$s here will be replaced by "gear" icon -->
     <string name="settingsKillSwitchEnableStep2">2. Знайдіть Proton VPN і торкніться %1$s</string>
     <!-- Content description for the "gear" icon in settingsKillSwitchEnableStep2. Used only by accessibility services. -->
     <string name="settingsKillSwitchEnableStep2_gearIconContentDescription">налаштування</string>
     <!-- The phrases "Always-on VPN" and "Block connections without VPN" needs to be translated exactly
          the same as in Android VPN settings. -->
-    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Enable \"<b>Always-on VPN</b>\" and \"<b>Block connections without VPN</b>\"]]></string>
+    <string name="settingsKillSwitchEnableStep3"><![CDATA[3. Увімкніть \"<b>Постійна VPN</b>\" і \"<b>Блокувати з\'єднання без VPN</b>\"]]></string>
     <string name="settingsKillSwitchAndroidSettingsButton">Налаштування</string>
-    <string name="settingsKillSwitchLearnMoreButton">What is kill switch?</string>
-    <string name="settingsKillSwitchWarningMain">When kill switch is on, you won’t be able to connect to:</string>
-    <string name="settingsKillSwitchWarningPoint1">Websites and apps excluded from your VPN connection through split tunneling</string>
-    <string name="settingsKillSwitchWarningPoint2">Devices on your local area network (LAN)</string>
+    <string name="settingsKillSwitchLearnMoreButton">Що таке Kill Switch?</string>
+    <string name="settingsKillSwitchWarningMain">Якщо ввімкнено Kill Switch, ви не зможете з\'єднатися з:</string>
+    <string name="settingsKillSwitchWarningPoint1">Вебсайти й програми, виключені з VPN-з\'єднання через роздільне тунелювання</string>
+    <string name="settingsKillSwitchWarningPoint2">Пристрої у вашій локальній мережі (LAN)</string>
     <string name="settingsEnableTelemetryTitle">Ділитися анонімною статистикою використання</string>
     <string name="settingsEnableTelemetryDescription">Дані про використання допомагають нам обходити блокування VPN і вдосконалювати швидкодію програми.</string>
     <string name="settingsSendCrashReportsTitle">Ділитися анонімними звітами про збої</string>
     <string name="settingsSendCrashReportsDescription">Звіти про збої допомагають нам виправляти помилки, виявляти мережеві екрани та уникати блокування VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статистика використання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ця статистика не містить вашої IP-адреси та не може бути використана для вашої ідентифікації. Ми ніколи не передаємо ці дані третім сторонам. <a href="%1$s">Докладніше</a>]]></string>
-    <string name="netshield_settings_description_not_html">Захистіться від реклами, зловмисних програм і елементів стеження на вебсайтах і в програмах. Якщо вебсайти не завантажуються, спробуйте вимкнути NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Захистіться від реклами, зловмисних програм і стеження на вебсайтах і в програмах. Якщо вебсайти не завантажуються, спробуйте вимкнути NetShield. %1$s</string>
     <string name="settings_icon_change_description">Замаскуйте програму Proton VPN за допомогою стриманої піктограми. Сповіщення й надалі показуватимуться зі звичайною назвою та піктограмою Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Докладніше</string>
     <string name="learn_more">Докладніше</string>
     <string name="netshield_state_on" comment="Describes state, not action">Увімк</string>
     <string name="netshield_state_off" comment="Describes state, not action">Вимк</string>
-    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Недоступно</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Увімк</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Вимк</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Увімк</string>
@@ -231,10 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Вимк</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Увімк</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Вимк</string>
-    <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
-    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
-    <string name="custom_dns_item_removed_snackbar">Item removed</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">Увімкнено</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Вимкнено</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Недоступно</string>
+    <string name="custom_dns_item_removed_snackbar">Елемент вилучено</string>
     <string name="netshield_free_description">Блокуйте рекламу, стеження і зловмисні програми на вебсайтах і в програмах</string>
     <string name="netshield_what_data_means">Що означають дані NetShield</string>
     <string name="netshield_ads_title">Реклама</string>
@@ -302,14 +302,14 @@
     <string name="tv_signout_dialog_description_connected">Це від\'єднає ваше ТБ від усіх VPN-серверів.</string>
     <string name="tv_signout_dialog_ok">Вийти</string>
     <string name="tv_quick_connect_recommened">Рекомендовано</string>
-    <string name="tv_quick_connect_favourite">Улюблене</string>
+    <string name="tv_quick_connect_favourite">Улюблені</string>
     <string name="tv_country_maintenance_dialog_title">Країна недоступна</string>
     <string name="tv_country_maintenance_dialog_description">Будь ласка, повторіть спробу пізніше або оберіть іншу країну.</string>
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Server Load</string>
+    <string name="tv_server_list_load">Навантаження сервера %1$s%%</string>
     <string name="tv_recently_used_servers">Недавно використані сервери (%1$d)</string>
     <string name="tv_available_servers">Доступні сервери (%1$d)</string>
     <string name="tv_locked_servers">Заблоковані сервери (%1$d)</string>
@@ -647,8 +647,8 @@
     <string name="settings_widget_selection_description">See your connection status and access your favorite VPN connections from the home screen.</string>
     <!-- Placeholder is for non-translatable app_name-->
     <string name="setting_widget_selection_additional_description">To add the widget, just press and hold anywhere on your home screen then select %1$s from the widget menu.</string>
-    <string name="settings_widget_selection_button_title">Add widget</string>
-    <string name="setting_widget_try_title">Try the Proton VPN widget</string>
+    <string name="settings_widget_selection_button_title">Додати віджет</string>
+    <string name="setting_widget_try_title">Спробуйте віджет Proton VPN</string>
     <!-- Content description used by accessibility services for a button for dismissing (hiding)
          a notification banner (usually used for special offers). -->
     <string name="notification_banner_dismiss_accessibility_label">Відхилити банер</string>
@@ -718,7 +718,7 @@
     <string name="whats_new_profiles_description">Create and save custom connections with your choice of location, server, and protocol.</string>
     <string name="whats_new_widget_title">Introducing widgets</string>
     <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
-    <string name="whats_new_add_widget_button">Add widget</string>
+    <string name="whats_new_add_widget_button">Додати віджет</string>
     <string name="welcome_plus_title">Вітаємо у VPN Plus</string>
     <string name="welcome_plus_description">Оцініть додаткові функції приватності, вдосконалену продуктивність і налаштування VPN нового рівня.</string>
     <string name="welcome_plus_feature_security">Розширені функції безпеки</string>
@@ -1126,7 +1126,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Завантаження: %1$s%%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1152,7 +1152,7 @@
     <string name="accessibility_show_ip">Показати IP-адресу</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Назад</string>
-    <string name="accessibility_close">Close</string>
+    <string name="accessibility_close">Закрити</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Моя IP-адреса</string>
     <string name="connection_details_my_ipv4">My IPv4</string>
@@ -1208,7 +1208,7 @@
     <string name="connection_details_download">Завантажити</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_section_vpn_speed">Швидкість VPN</string>
-    <string name="connection_details_section_ip">IP address</string>
+    <string name="connection_details_section_ip">IP-адреса</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_vpn_speed_question">Що таке швидкість VPN?</string>
     <string name="info_dialog_secure_core_title">Secure Core</string>
@@ -1219,7 +1219,7 @@
     <string name="info_dialog_tor_description">Під\'єднайтеся до сервера Tor, щоб отримати доступ до прихованих сервісів і сайтів onion, використовуючи будь-який браузер.</string>
     <string name="info_dialog_button_learn_more_tor">Як отримати доступ до мережі Tor</string>
     <string name="info_dialog_button_learn_more_p2p">Як користуватися торентами за допомогою P2P</string>
-    <string name="info_dialog_button_learn_more_ipaddress">What is an IP address?</string>
+    <string name="info_dialog_button_learn_more_ipaddress">Що таке IP-адреса?</string>
     <string name="info_dialog_button_learn_more_streaming">Потрібна допомога з потоковою трансляцією?</string>
     <string name="info_dialog_streaming_title">Потокова трансляція</string>
     <string name="info_dialog_streaming_description">Сервери з підтримкою потокової трансляції призначені для швидкого та безпечного відтворення телебачення і фільмів.</string>
@@ -1231,8 +1231,8 @@
     <!-- item 3 in the numbered list (last item) -->
     <string name="info_dialog_how_to_stream_step_3">Під\'єднайтеся до будь-якого сервера Plus і почніть потокову трансляцію</string>
     <string name="info_dialog_profiles_title">Профілі</string>
-    <string name="info_dialog_ipaddress_title">IP address</string>
-    <string name="info_dialog_ipv6_traffic_title">IPv6 traffic</string>
+    <string name="info_dialog_ipaddress_title">IP-адреса</string>
+    <string name="info_dialog_ipv6_traffic_title">Трафік IPv6</string>
     <string name="info_dialog_profiles_description">Профілі – це користувацькі VPN-з\'єднання, які можна пристосувати до власних потреб і зберегти для швидкого доступу.\n\nВстановіть бажане розташування й оптимізуйте налаштування для безпеки, продуктивності, ігор або будь-якого іншого сценарію.</string>
     <string name="info_dialog_ipaddress_description">Your VPN IP masks your real IP address. This makes it look like you’re browsing from your VPN location, so your online activity can’t be linked to your device.</string>
     <string name="info_dialog_ipv6_traffic_description">The Internet Protocol (IP) assigns addresses to devices and routes internet traffic. IPv6 is the latest version, offering more addresses and better connectivity, but it is not yet universally adopted.</string>
@@ -1424,7 +1424,7 @@
     <string name="settings_advanced_nat_type_moderate_short">Тип 2</string>
     <string name="settings_advanced_nat_type_strict_description">Обмежує дані, що входять до вашої мережі. Цей параметр безпечніший, але може ускладнити ігрові з\'єднання peer-to-peer.</string>
     <string name="settings_advanced_nat_type_moderate_description">Обмеження щодо даних, які входять до вашої мережі. Цей параметр найкраще використовувати для відеоігор онлайн.</string>
-    <string name="settings_split_tunneling_description">Налаштуйте з\'єднання, вирішивши, які програми та IP-адреси захищаються VPN. %1$s</string>
+    <string name="settings_split_tunneling_description">Налаштуйте своє з\'єднання, визначивши програми та IP-адреси, які захищаються VPN. %1$s</string>
     <string name="settings_protocol_description">Протокол VPN визначає спосіб обміну даними між VPN-сервером і вашим пристроєм. %1$s</string>
     <string name="settings_protocol_description_no_link">Протокол VPN визначає спосіб обміну даними між VPN-сервером і вашим пристроєм.</string>
     <string name="settings_protocol_section_speed">Швидкість (UDP)</string>
@@ -1445,7 +1445,7 @@
     <string name="settings_split_tunneling_mode_standard">Стандартний</string>
     <string name="settings_split_tunneling_mode_inverse">Інвертувати</string>
     <string name="settings_split_tunneling_mode_description_standard">Вибрані програми та IP-адреси виключаються з VPN-з\'єднання.</string>
-    <string name="settings_split_tunneling_mode_description_inverse">Лише вибрані програми та IP-адреси під\'єднуються через VPN, а весь інший трафік є незахищеним.</string>
+    <string name="settings_split_tunneling_mode_description_inverse">Лише вибрані програми та IP-адреси під\'єднуються через VPN, а весь інший трафік не захищається.</string>
     <string name="settings_split_tunneling_excluded_apps">Винятки програм</string>
     <string name="settings_split_tunneling_excluded_ips">Винятки IP-адрес</string>
     <string name="settings_split_tunneling_included_apps">Включені програми</string>
@@ -1583,9 +1583,9 @@
     <string name="settings_advanced_ipv6_title">IPv6</string>
     <string name="settings_advanced_ipv6_description">Tunnels IPv6 traffic through the VPN. Can enhance compatibility with IPv6 networks.</string>
     <string name="settings_split_tunneling_ipv6_disabled_dialog_message">To use this address, you need to allow IPv6 connections through the VPN tunnel.</string>
-    <string name="setting_ipv6_disabled_dialog_action_enable">Enable IPv6</string>
-    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 is disabled</string>
-    <string name="settings_ipv6_enabled_toast">IPv6 enabled</string>
+    <string name="setting_ipv6_disabled_dialog_action_enable">Увімкнути IPv6</string>
+    <string name="settings_split_tunneling_ipv6_disabled_dialog_title">IPv6 вимкнуто</string>
+    <string name="settings_ipv6_enabled_toast">IPv6 увімкнуто</string>
     <string name="info_dialog_ipv6_traffic_benefits1">Ensures access to IPv6-only websites and services</string>
     <string name="info_dialog_ipv6_traffic_benefits2">Prevents issues on networks that rely on IPv6</string>
     <string name="info_dialog_ipv6_traffic_drawbacks1">May not work well with older networks or apps</string>

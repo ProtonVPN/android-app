@@ -28,9 +28,9 @@
     <string name="login">Masuk</string>
     <string name="menuActionSignOut">Keluar</string>
     <string name="connectionAllocationHelpTitle">Terima kasih telah meningkatkan akun</string>
-    <string name="connectionAllocationHelpDescription1">Untuk mulai menggunakan Proton VPN, silakan tetapkan koneksi VPN pada akun Anda atau sub-akun lainnya.</string>
-    <string name="connectionAllocationHelpDescription2">Langkah ini hanya akan memakan waktu beberapa menit. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
-    <string name="connectionAllocationHelpDescription1AskAdmin">Akun ini sedang tidak memiliki koneksi VPN yang aktif. Untuk mulai menggunakan Proton VPN, silakan hubungi administrator Anda. </string>
+    <string name="connectionAllocationHelpDescription1">Untuk memulai pengalaman Proton VPN Anda, silakan tetapkan koneksi VPN ke akun Anda atau sub-akun lainnya.</string>
+    <string name="connectionAllocationHelpDescription2">Langkah ini hanya akan memakan waktu sejenak. Setelahnya, Anda akan dapat masuk dan melindungi seluruh perangkat Anda.</string>
+    <string name="connectionAllocationHelpDescription1AskAdmin">Akun ini sedang tidak memiliki koneksi VPN yang diaktifkan. Untuk mulai menggunakan Proton VPN, silakan hubungi administrator Anda. </string>
     <string name="connectionAllocationHelpAssignConnectionsButton">Aktifkan koneksi VPN</string>
     <string name="connectionAllocationHelpLoginAgainButton">Masuk kembali</string>
     <!-- tag(Redesign_2023) "OK" button on dialogs -->
@@ -57,15 +57,15 @@
     <string name="restrictedMaintenanceTitle">Dalam pemeliharaan</string>
     <string name="restrictedMaintenanceDescription">Server yang Anda coba sambungkan sedang dalam pemeliharaan. Mohon coba server lainnya.</string>
     <string name="errorUserDelinquent"><![CDATA[Akun Anda saat ini memiliki faktur yang tertunggak. Silakan lunasi seluruh tagihan yang belum lunas pada&#160;<a href="https://account.protonvpn.com">account.protonvpn.com</a>]]></string>
-    <string name="errorMaxSessions">Anda telah mencapai jumlah sambungan serentak yang diizinkan bagi akun Anda. Silakan tingkatkan jenis akun Proton VPN Anda untuk memperoleh lebih banyak sambungan.</string>
+    <string name="errorMaxSessions">Anda telah mencapai jumlah sambungan serentak yang diizinkan bagi akun Anda. Silakan tingkatkan paket Proton VPN Anda untuk memperoleh lebih banyak sambungan.</string>
     <string name="listItemMaintenance">Dalam pemeliharaan</string>
     <string name="insufficientPermissionsTitle">Tindakan pengguna dibutuhkan</string>
-    <string name="insufficientPermissionsDetails">Tidak dapat menciptakan sambungan VPN secara otomatis. Mohon sambungkan secara manual satu kali untuk memberikan izin.</string>
+    <string name="insufficientPermissionsDetails">Koneksi VPN tidak dapat dikukuhkan secara otomatis. Silakan hubungkan VPN secara manual satu kali untuk memberikan izin.</string>
     <string name="log_title">Log</string>
     <string name="disconnect">Putuskan</string>
     <string name="state_connecting">Menghubungkan…</string>
     <string name="state_connected">Terhubung</string>
-    <string name="state_disconnecting">Memutuskan hubungan…</string>
+    <string name="state_disconnecting">Memutuskan…</string>
     <string name="state_error">Kesalahan</string>
     <string name="error_server_list_load_failed">Silakan periksa koneksi Anda dan coba lagi.</string>
     <string name="error_server_unreachable">Tidak dapat terhubung ke VPN. Mohon periksa koneksi Anda dan coba lagi.</string>
@@ -91,7 +91,7 @@
     <string name="copy_to_clipboard">Salin</string>
     <string name="copied_to_clipboard">Disalin ke papan klip</string>
     <string name="got_it">Mengerti</string>
-    <string name="something_went_wrong">Ada yang salah</string>
+    <string name="something_went_wrong">Terdapat suatu kesalahan</string>
     <string name="try_again">Coba lagi</string>
     <string name="delete">Hapus</string>
     <string name="remove">Hapus</string>
@@ -100,7 +100,7 @@
     <string name="activityLicensesTitle">Lisensi pihak ketiga</string>
     <string name="stateFragmentUnknownIp">Tidak diketahui</string>
     <string name="noVpnPermissionMainTitle">Tindakan diperlukan untuk dapat terhubung ke VPN</string>
-    <string name="noVpnPermissionMainMessage">Untuk dapat terhubung ke Proton VPN, harap lakukan hal-hal berikut:</string>
+    <string name="noVpnPermissionMainMessage">Untuk terhubung ke Proton VPN, silakan lakukan hal-hal berikut:</string>
     <string name="noVpnPermissionGrantPermissionTitle">Berikan VPN izin</string>
     <string name="noVpnPermissionGrantPemrissionMessage">Sistem Android memerlukan izin Anda untuk terhubung ke Proton VPN. Berikan izin ini dengan mengetuk \"OK\" pada saat sistem Android menampilkan layar \"Permintaan hubungan\".</string>
     <string name="noVpnPermissionDisableAlwaysOnTitle">Nonaktifkan fitur always-on milik aplikasi VPN lain</string>
@@ -221,16 +221,16 @@
     <string name="settings_icon_change_learn_more">Pelajari lebih lanjut</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
     <string name="netshield_state_on" comment="Describes state, not action">Aktif</string>
-    <string name="netshield_state_off" comment="Describes state, not action">Nonaktifkan</string>
+    <string name="netshield_state_off" comment="Describes state, not action">Nonaktif</string>
     <string name="netshield_state_unavailable" comment="Describes state, not action">Tidak tersedia</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">Aktif</string>
-    <string name="split_tunneling_state_off" comment="Describes state, not action">Nonaktifkan</string>
+    <string name="split_tunneling_state_off" comment="Describes state, not action">Nonaktif</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">Aktif</string>
-    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Nonaktifkan</string>
+    <string name="vpn_accelerator_state_off" comment="Describes state, not action">Nonaktif</string>
     <string name="lan_state_on" comment="Describes state, not action">Aktif</string>
-    <string name="lan_state_off" comment="Describes state, not action">Nonaktifkan</string>
+    <string name="lan_state_off" comment="Describes state, not action">Nonaktif</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">Aktif</string>
-    <string name="alt_routing_state_off" comment="Describes state, not action">Nonaktifkan</string>
+    <string name="alt_routing_state_off" comment="Describes state, not action">Nonaktif</string>
     <string name="custom_dns_state_on" comment="Describes state, not action">Aktif</string>
     <string name="custom_dns_state_off" comment="Describes state, not action">Nonaktif</string>
     <string name="custom_dns_state_unavailable" comment="Describes state, not action">Tidak tersedia</string>
@@ -366,7 +366,7 @@
     <string name="upgrade_streaming_title">Streaming dengan kualitas 4K</string>
     <string name="upgrade_streaming_text">Nikmati film dan tayangan TV kesayangan Anda di mana pun Anda berada.</string>
     <string name="upgrade_tor_title">Akses jaringan Tor dengan sekali ketuk</string>
-    <string name="upgrade_tor_text">Hubungkan diri Anda ke berbagai layanan tersembunyi dan situs onion melalui browser yang biasa Anda gunakan.</string>
+    <string name="upgrade_tor_text">Hubungkan diri Anda ke layanan tersembunyi dan situs onion melalui browser yang biasa Anda gunakan.</string>
     <string name="upgrade_vpn_accelerator_title">Jelajahi internet pada kecepatan yang jauh lebih tinggi</string>
     <!--
         %1$s - speed in Gbps
@@ -1294,7 +1294,7 @@
     <string name="settings_add_dns_invalid_input">Masukkan alamat IPv4 aatau IPv6 yang valid</string>
     <string name="settings_add_dns_empty_input">Masukkan alamat IPv4 aatau IPv6</string>
     <string name="settings_add_dns_duplicate_input">Server telah ditambahkan</string>
-    <string name="settings_advanced_dns_description">Hubungkan diri Anda ke VPN dengan domain name system (DNS) pihak ketiga atau yang dikelola secara mandiri. Pelajari lebih lanjut</string>
+    <string name="settings_advanced_dns_description">Hubungkan diri Anda ke VPN dengan nama domain (DNS) milik pihak ketiga atau yang dikelola secara mandiri. Pelajari lebih lanjut</string>
     <!-- %1$d - Corresponds to number of servers added -->
     <string name="settings_dns_list_title">Server (%1$d)</string>
     <string name="settings_dns_list_description">Apabila server DNS khusus Anda tidak berfungsi, DNS VPN standar akan digunakan.</string>
@@ -1306,7 +1306,7 @@
     <string name="settings_advanced_alternative_routing_description">Apabila layanan Proton diblokir akibat pembatasan jaringan, kami akan mencoba untuk menggunakan rute jaringan alternatif demi menghubungkan Anda ke situs kami.</string>
     <string name="settings_advanced_allow_lan_title">Koneksi LAN</string>
     <string name="settings_advanced_allow_lan_description">Memungkinkan Anda untuk terhubung ke printer, speaker, dan perangkat lainnya pada jaringan lokal milik perangkat Anda.</string>
-    <string name="settings_advanced_nat_type_title">NAT tipe</string>
+    <string name="settings_advanced_nat_type_title">Tipe NAT</string>
     <!-- %1$s - will have translated learn_more value -->
     <string name="settings_advanced_nat_type_description">Pilih tipe terjemahan alamat jaringan (NAT) untuk koneksi Anda. %1$s</string>
     <string name="settings_advanced_nat_type_description_no_learn">Pilih tipe terjemahan alamat jaringan (NAT) untuk koneksi Anda.</string>
@@ -1415,7 +1415,7 @@
     <string name="create_profile_pick_netshield_title">NetShield</string>
     <string name="create_profile_pick_netshield_description">Blokir iklan, pelacak, dan malware pada berbagai situs web dan aplikasi</string>
     <string name="create_profile_pick_protocol_title">Protokol</string>
-    <string name="create_profile_pick_nat_title">NAT tipe</string>
+    <string name="create_profile_pick_nat_title">Tipe NAT</string>
     <!--
          Example:
          if a profile named "My Profile" is duplicated, the new suggested name is "My Profile (copy)"
