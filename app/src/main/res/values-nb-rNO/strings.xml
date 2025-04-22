@@ -89,7 +89,7 @@
     <string name="done">UTFØRT</string>
     <string name="add">LEGG TIL</string>
     <string name="copy_to_clipboard">Kopier</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="copied_to_clipboard">Kopiert til utklippstavlen</string>
     <string name="got_it">Skjønner</string>
     <string name="something_went_wrong">Noe gikk galt</string>
     <string name="try_again">Prøv igjen</string>
@@ -124,7 +124,7 @@
     <string name="loaderErrorNoInternet">Ingen internettforbindelse</string>
     <string name="loaderErrorGeneric">Noe gikk galt</string>
     <string name="inputIpAddressLabel">IP-adresse</string>
-    <string name="inputIpAddressHelp">Enter the server’s IPv4 or IPv6 address</string>
+    <string name="inputIpAddressHelp">Oppgi tjenerens IPv4- eller IPv6-adresse</string>
     <string name="inputIpAddressErrorInvalid">Ugyldig IP-adresse</string>
     <!-- Displayed as a badge next to setting item ("Widget [NEW]") -->
     <string name="settings_new_label_badge">NY</string>
@@ -170,10 +170,10 @@
          "Internet Browser, double tap to remove from included apps"
     -->
     <string name="accessibility_action_remove_included_app">Fjern fra inkluderte apper</string>
-    <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
-    <string name="accessibility_action_item_delete">Delete</string>
-    <string name="accessibility_action_item_move_up">Move up</string>
-    <string name="accessibility_action_item_move_down">Move down</string>
+    <string name="accessibility_action_copy_to_clipboard">Kopier til utklippstavlen</string>
+    <string name="accessibility_action_item_delete">Slett</string>
+    <string name="accessibility_action_item_move_up">Flytt opp</string>
+    <string name="accessibility_action_item_move_down">Flytt ned</string>
     <string name="tileConnected">Tilkoblet: %1$s</string>
     <string name="openUrlError">%1$s kunne ikke åpnes. Nettleser ble ikke oppdaget på enheten din.</string>
     <string name="loaderErrorTimeout">Tilkoblingen ble tidsavbrutt. Prøv på nytt.</string>
@@ -222,7 +222,7 @@
     <string name="learn_more">Lær mer</string>
     <string name="netshield_state_on" comment="Describes state, not action">På</string>
     <string name="netshield_state_off" comment="Describes state, not action">Av</string>
-    <string name="netshield_state_unavailable" comment="Describes state, not action">Unavailable</string>
+    <string name="netshield_state_unavailable" comment="Describes state, not action">Utilgjengelig</string>
     <string name="split_tunneling_state_on" comment="Describes state, not action">På</string>
     <string name="split_tunneling_state_off" comment="Describes state, not action">Av</string>
     <string name="vpn_accelerator_state_on" comment="Describes state, not action">På</string>
@@ -231,10 +231,10 @@
     <string name="lan_state_off" comment="Describes state, not action">Av</string>
     <string name="alt_routing_state_on" comment="Describes state, not action">På</string>
     <string name="alt_routing_state_off" comment="Describes state, not action">Av</string>
-    <string name="custom_dns_state_on" comment="Describes state, not action">On</string>
-    <string name="custom_dns_state_off" comment="Describes state, not action">Off</string>
-    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Unavailable</string>
-    <string name="custom_dns_item_removed_snackbar">Item removed</string>
+    <string name="custom_dns_state_on" comment="Describes state, not action">På</string>
+    <string name="custom_dns_state_off" comment="Describes state, not action">Av</string>
+    <string name="custom_dns_state_unavailable" comment="Describes state, not action">Utilgjengelig</string>
+    <string name="custom_dns_item_removed_snackbar">Elementet er fjernet</string>
     <string name="netshield_free_description">Blokkér annonser, sporere og skadelig programvare på nettsteder og apper</string>
     <string name="netshield_what_data_means">Hva som menes med NetShield-data</string>
     <string name="netshield_ads_title">Annonser</string>
@@ -305,7 +305,7 @@
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
          Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Server Load</string>
+    <string name="tv_server_list_load">%1$s %% tjenerbelastning</string>
     <string name="tv_recently_used_servers">Nylig brukte tjenere (%1$d)</string>
     <string name="tv_available_servers">Tilgjengelige tjenere (%1$d)</string>
     <string name="tv_locked_servers">Låste tjenere (%1$d)</string>
@@ -675,7 +675,7 @@
     <string name="whats_new_profiles_title">Profiler er tilbake</string>
     <string name="whats_new_profiles_description">Opprett og lagre tilpassede tilkoblinger med ditt valg av plassering, tjener og protokoll.</string>
     <string name="whats_new_widget_title">Vi introduserer widgets</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
+    <string name="whats_new_widget_description">Du kan nå se og administrere VPN-en din uten å forlate startskjermen.</string>
     <string name="whats_new_add_widget_button">Legg til widget</string>
     <string name="welcome_plus_title">Velkommen til VPN Plus</string>
     <string name="welcome_plus_description">Nyt ekstra personvernfunksjoner, forbedret ytelse og VPN-tilpasning på neste nivå.</string>
@@ -890,7 +890,7 @@
          Example, if there are 5 countries to select from the text will be:
          Auto selected from [flags]+2
          -->
-    <string name="connection_info_auto_selected_free_countries_more">Auto-selected from [flags]+%1$d</string>
+    <string name="connection_info_auto_selected_free_countries_more">Automatisk valgt fra [flags]+%1$d</string>
     <!-- tag(Redesign_2023)
          Accessibility label describing a connection to a free server that is automatically selected
          from one in several countries. Placed directly below fastest_free_server.
@@ -1076,7 +1076,7 @@
     <!-- Content description for server load indicator. Used by accessibility services only.
          Note: the trailing \'%\' sign needs to be doubled
          (this doesn\'t apply to other percent sign characters, e.g. ٪). -->
-    <string name="country_filter_server_load_content_description">Load: %1$s%%</string>
+    <string name="country_filter_server_load_content_description">Belastning: %1$s %%</string>
     <!-- tag(Redesign_2023)
          Indicates that VPN is connected and network is protected
     -->
@@ -1102,7 +1102,7 @@
     <string name="accessibility_show_ip">Vis IP</string>
     <!-- tag(Redesign_2023) -->
     <string name="accessibility_back">Tilbake</string>
-    <string name="accessibility_close">Close</string>
+    <string name="accessibility_close">Lukk</string>
     <!-- tag(Redesign_2023) -->
     <string name="connection_details_my_ip">Min IP</string>
     <string name="connection_details_my_ipv4">My IPv4</string>
