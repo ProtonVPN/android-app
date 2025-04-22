@@ -21,15 +21,16 @@ package de.blinkt.openvpn.core
 
 import inet.ipaddr.IPAddressString
 
-private val LOCAL_RANGES_IP_V4 = listOf(
+val LOCAL_RANGES_IP_V4 = listOf(
     IPAddressString("10.0.0.0/8").address,
     IPAddressString("172.16.0.0/12").address,
     IPAddressString("192.168.0.0/16").address,
-    IPAddressString("169.254.0.0/16").address,
+    IPAddressString("169.254.0.0/16").address, // link-local v4
     IPAddressString("224.0.0.0/4").address, // multicast v4
+    IPAddressString("255.255.255.255/32").address, // broadcast v4
 )
 
-private val LOCAL_RANGES_IP_V6 = listOf(
+val LOCAL_RANGES_IP_V6 = listOf(
     IPAddressString("fc00::/7").address, // unique local v6
     IPAddressString("fe80::/10").address, // link-local v6
     IPAddressString("ff00::/8").address, // multicast v6
