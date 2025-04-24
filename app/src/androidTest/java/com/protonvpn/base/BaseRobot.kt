@@ -33,6 +33,7 @@ import org.hamcrest.Matcher
 /**
  * [BaseRobot] Contains common actions for views
  */
+@Deprecated("Legacy Espresso actions. Use Fusion core raw actions. VPNAND-2182")
 open class BaseRobot : CoreRobot() {
 
     inline fun <reified T> clickElementByText(@StringRes resId: Int): T =
@@ -59,70 +60,6 @@ open class BaseRobot : CoreRobot() {
                 .click()
         }
 
-    inline fun <reified T> clickElementByText(text: String): T =
-        executeAndReturnRobot {
-            view
-                .withText(text)
-                .click()
-        }
-
-    inline fun <reified T> clickElementByIdAndText(@IdRes id: Int, @StringRes resId: Int): T =
-        executeAndReturnRobot {
-            view
-                .withId(id)
-                .withText(resId)
-                .click()
-        }
-
-    inline fun <reified T> clickElementByContentDescription(text: String): T =
-        executeAndReturnRobot {
-            view
-                .withContentDesc(text)
-                .click()
-        }
-
-    inline fun <reified T> clickElementByContentDescription(@StringRes resId: Int): T =
-        executeAndReturnRobot {
-            view
-                .withContentDesc(resId)
-                .click()
-        }
-
-    inline fun <reified T> swipeLeftOnElementById(@IdRes id: Int): T =
-        executeAndReturnRobot {
-            view
-                .withId(id)
-                .swipeLeft()
-        }
-
-    inline fun <reified T> swipeDownOnElementById(@IdRes id: Int): T =
-        executeAndReturnRobot {
-            view
-                .withId(id)
-                .swipeDown()
-        }
-
-    inline fun <reified T> clickElementByIdAndContentDescription(
-        @IdRes id: Int,
-        description: String
-    ): T =
-        executeAndReturnRobot {
-            view
-                .withId(id)
-                .withContentDesc(description)
-                .click()
-        }
-
-    inline fun <reified T> clickElementByIndexInParent(
-        @IdRes parentId: Int,
-        index: Int
-    ): T = executeAndReturnRobot {
-        view
-            .withParent(view.withId(parentId))
-            .withParentIndex(index)
-            .click()
-    }
-
     inline fun <reified T> waitUntilDisplayed(@IdRes id: Int): T =
         executeAndReturnRobot {
             view
@@ -137,32 +74,11 @@ open class BaseRobot : CoreRobot() {
                 .checkDisplayed()
         }
 
-    inline fun <reified T> waitUntilDisplayedByText(text: String): T =
-        executeAndReturnRobot {
-            view
-                .withText(text)
-                .checkDisplayed()
-        }
-
-    inline fun <reified T> waitUntilDisplayedByContentDesc(@StringRes resId: Int): T =
-        executeAndReturnRobot {
-            view
-                .withContentDesc(resId)
-                .checkDisplayed()
-        }
-
     inline fun <reified T> pressBack(@IdRes id: Int): T =
         executeAndReturnRobot {
             view
                 .withId(id)
                 .pressBack()
-        }
-
-    inline fun <reified T> longClickByCustomMatcher(matcher: Matcher<View>): T =
-        executeAndReturnRobot {
-            view
-                .withCustomMatcher(matcher)
-                .longClick()
         }
 
     fun getText(matcher: ViewInteraction): String {

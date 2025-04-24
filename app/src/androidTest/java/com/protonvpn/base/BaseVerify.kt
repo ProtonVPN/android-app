@@ -30,6 +30,7 @@ import me.proton.core.test.android.instrumented.ui.espresso.OnView
 /**
  * [BaseVerify] Contains common view independent verification methods
  */
+@Deprecated("Legacy Espresso verifications. Use Fusion core raw actions. VPNAND-2182")
 open class BaseVerify : BaseRobot() {
 
     fun checkIfElementIsDisplayedById(@IdRes Id: Int) =
@@ -44,43 +45,17 @@ open class BaseVerify : BaseRobot() {
     fun checkIfElementIsNotDisplayedByStringId(@StringRes resId: Int) =
         view.withText(resId).checkDoesNotExist()
 
-    fun checkIfElementIsNotDisplayedByText(text: String) =
-        view.withText(text).checkDoesNotExist()
-
     fun checkIfElementIsDisplayedByContentDesc(text: String) =
         view.withContentDesc(text).checkDisplayed()
-
-    fun checkIfElementDoesNotExistByContentDesc(text: String) =
-        view.withContentDesc(text).checkDoesNotExist()
-
-    fun checkIfElementDoesNotExistById(@IdRes id: Int) =
-        view.withId(id).checkDoesNotExist()
 
     fun checkIfElementIsDisplayedByStringId(@StringRes resId: Int) =
         view.withVisibility(ViewMatchers.Visibility.VISIBLE).withText(resId).checkDisplayed()
 
-    fun checkIfElementIsDisplayedByHtmlStringId(@StringRes resId: Int) =
-        view.withVisibility(ViewMatchers.Visibility.VISIBLE).withCustomMatcher(ProtonMatcher.withHtmlText(resId))
-
     fun checkIfElementIsDisplayedByText(text: String) =
         view.withText(text).checkDisplayed()
-
-    fun checkIfElementIsDisplayedByText(text: String, clazz: Class<*>) =
-        view.instanceOf(clazz).withText(text).checkDisplayed()
 
     fun checkIfDialogContainsText(@StringRes textRes: Int): OnView =
         view.withText(textRes)
             .inRoot(rootView.isDialog())
             .checkDisplayed()
-
-
-    fun checkIfElementIsChecked(@IdRes id: Int) = view.withId(id).checkIsChecked()
-
-    fun checkIfElementIsNotChecked(@IdRes id: Int) = view.withId(id).checkIsNotChecked()
-
-    fun checkIfBrowserIsOpened(browserPackageName: String) {
-        val myDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        val currentPackage = myDevice.currentPackageName
-        assertThat(currentPackage).isEqualTo(browserPackageName)
-    }
 }

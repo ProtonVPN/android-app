@@ -19,14 +19,18 @@
  *
  */
 
-package com.protonvpn.testSuites
+package com.protonvpn.robots.mobile
 
-import com.protonvpn.tests.connection.mobile.RealConnectionTestsProd
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
+import com.protonvpn.interfaces.Robot
+import com.protonvpn.android.R
+import me.proton.test.fusion.Fusion.node
 
-@RunWith(Suite::class)
-@Suite.SuiteClasses(
-    RealConnectionTestsProd::class
-)
-class RealConnectionTestSuite
+object ConnectionPanelRobot : Robot {
+    private val backButton get() = node.withContentDescription(R.string.accessibility_back)
+
+    fun goBack(): ConnectionPanelRobot = backButton.clickTo(this)
+
+    fun correctIpIsDisplayed(ip: String) = nodeWithTextDisplayed(ip)
+    fun correctProtocolIsDisplayed(protocol: Int) =
+        node.withText(protocol).scrollTo().await { assertIsDisplayed() }
+}

@@ -19,18 +19,18 @@
 
 package com.protonvpn.testSuites
 
-import com.protonvpn.tests.db.MigrationTests
-import com.protonvpn.tests.netshield.NetShieldComponentTests
-import com.protonvpn.tests.profiles.ProfilesTests
-import com.protonvpn.tests.promooffer.PromoOfferCountDownTests
-import com.protonvpn.tests.redesign.base.ui.ProtonTextFieldTests
-import com.protonvpn.tests.redesign.base.ui.nav.NavigationTests
-import com.protonvpn.tests.redesign.recents.RecentsListUiTests
-import com.protonvpn.tests.redesign.recents.RecentsListValidatorTests
-import com.protonvpn.tests.redesign.vpn.ui.ConnectionDetailsTests
-import com.protonvpn.tests.redesign.vpn.ui.GetConnectIntentViewStateTests
-import com.protonvpn.tests.redesign.vpn.ui.VpnStatusViewTests
-import com.protonvpn.tests.upgrade.PaymentPanelUiTests
+import com.protonvpn.tests.db.MigrationTestsIntegration
+import com.protonvpn.tests.netshield.NetShieldTestsCompose
+import com.protonvpn.tests.profiles.ProfilesTestsMocked
+import com.protonvpn.tests.promooffer.PromoOfferCountDownTestsCompose
+import com.protonvpn.tests.base.ui.ui.ProtonTextFieldTestsCompose
+import com.protonvpn.tests.base.ui.nav.NavigationTests
+import com.protonvpn.tests.recents.RecentsListTestsCompose
+import com.protonvpn.tests.recents.RecentsListValidatorTestsIntegration
+import com.protonvpn.tests.base.ui.ui.ConnectionDetailsTestsCompose
+import com.protonvpn.tests.base.ui.ui.GetConnectIntentViewStateTestsCompose
+import com.protonvpn.tests.base.ui.ui.VpnStatusViewTests
+import com.protonvpn.tests.upgrade.PaymentPanelTestsCompose
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -39,17 +39,17 @@ import org.junit.runners.Suite
 // Therefore they can be run without test orchestrator when their amount is large enough to justify a separate CI job.
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-    ConnectionDetailsTests::class,
-    GetConnectIntentViewStateTests::class,
-    MigrationTests::class,
+    ConnectionDetailsTestsCompose::class,
+    GetConnectIntentViewStateTestsCompose::class,
+    MigrationTestsIntegration::class,
     NavigationTests::class,
-    NetShieldComponentTests::class,
-    PaymentPanelUiTests::class,
-    ProfilesTests::class,
-    PromoOfferCountDownTests::class,
-    ProtonTextFieldTests::class,
-    RecentsListUiTests::class,
-    RecentsListValidatorTests::class,
+    NetShieldTestsCompose::class,
+    PaymentPanelTestsCompose::class,
+    ProfilesTestsMocked::class,
+    PromoOfferCountDownTestsCompose::class,
+    ProtonTextFieldTestsCompose::class,
+    RecentsListTestsCompose::class,
+    RecentsListValidatorTestsIntegration::class,
     VpnStatusViewTests::class,
 )
 class IsolatedTestsSuite

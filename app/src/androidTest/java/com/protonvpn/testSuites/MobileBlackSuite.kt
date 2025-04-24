@@ -1,20 +1,20 @@
 package com.protonvpn.testSuites
 
-import com.protonvpn.tests.login.AutoLoginTests
-import com.protonvpn.tests.login.LoginTests
-import com.protonvpn.tests.signin.SignInGuestTests
-import com.protonvpn.tests.signin.SignInTests
+import com.protonvpn.tests.login.mobile.AutoLoginTestsBlack
+import com.protonvpn.tests.login.mobile.LoginTestsBlack
+import com.protonvpn.tests.login.mobile.LoginCredentialessTestsCoreBlack
+import com.protonvpn.tests.login.mobile.LoginSsoTestsCoreBlack
 import com.protonvpn.tests.signup.SignupTests
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
-    LoginTests::class,
-    SignInTests::class,
+    LoginTestsBlack::class,
+    LoginSsoTestsCoreBlack::class,
     SignupTests::class,
-    SignInGuestTests::class,
-    AutoLoginTests::class
+    LoginCredentialessTestsCoreBlack::class,
+    AutoLoginTestsBlack::class
     //BugReportTests::class, TODO Implement this when bug report is implemented on redesign.
     //TokenExpirationTests::class, TODO Implement this when there is a way to trigger API call from UI.
 )
