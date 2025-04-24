@@ -19,14 +19,19 @@
  *
  */
 
-package com.protonvpn.testSuites
+package com.protonvpn.robots.mobile
 
-import com.protonvpn.tests.connection.mobile.RealConnectionTestsProd
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
+import com.protonvpn.interfaces.Robot
+import me.proton.core.test.android.instrumented.matchers.inputFieldMatcher
+import me.proton.test.fusion.Fusion.view
+import me.proton.core.auth.presentation.R as AuthR
 
-@RunWith(Suite::class)
-@Suite.SuiteClasses(
-    RealConnectionTestsProd::class
-)
-class RealConnectionTestSuite
+object SignupRobot : Robot {
+    private val emailInput get() = view.withCustomMatcher(inputFieldMatcher(AuthR.id.email))
+    private val nextButton get() = view.withId(AuthR.id.next)
+
+    fun enterRecoveryEmail(email: String){
+        emailInput.clearText().typeText(email)
+        nextButton.click()
+    }
+}

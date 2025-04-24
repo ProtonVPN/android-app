@@ -19,13 +19,13 @@
 
 package com.protonvpn.testSuites
 
-import com.protonvpn.tests.api.FeatureFlagUserCountryTests
-import com.protonvpn.tests.api.RefreshTokenTests
-import com.protonvpn.tests.bugReport.MockedBugReportTests
-import com.protonvpn.tests.logging.ProtonLoggerImplTests
-import com.protonvpn.tests.login.LogoutTests
-import com.protonvpn.tests.telemetry.TelemetryCacheTests
-import com.protonvpn.tests.vpn.VpnConnectionTests
+import com.protonvpn.tests.api.FeatureFlagUserCountryTestsIntegration
+import com.protonvpn.tests.login.mobile.RefreshTokenTests
+import com.protonvpn.tests.bugReport.BugReportMockedTests
+import com.protonvpn.tests.logging.ProtonLoggerImplTestsIntegration
+import com.protonvpn.tests.login.mobile.LogoutTestsMocked
+import com.protonvpn.tests.telemetry.TelemetryCacheTestsIntegration
+import com.protonvpn.tests.vpn.VpnConnectionTestsIntegration
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -35,14 +35,14 @@ import org.junit.runners.Suite
 //    HomeActivityPromoOfferTests::class,
 //    PartnershipTests::class,
 //    PromoOfferActivityTests::class,
-    FeatureFlagUserCountryTests::class,
+    FeatureFlagUserCountryTestsIntegration::class,
     // Note: when we have a lot of isolated tests they can be run in a separate CI job without test orchestrator.
     IsolatedTestsSuite::class,
-    LogoutTests::class,
-    MockedBugReportTests::class,
-    ProtonLoggerImplTests::class,
+    LogoutTestsMocked::class,
+    BugReportMockedTests::class,
+    ProtonLoggerImplTestsIntegration::class,
     RefreshTokenTests::class,
-    TelemetryCacheTests::class,
-    VpnConnectionTests::class,
+    TelemetryCacheTestsIntegration::class,
+    VpnConnectionTestsIntegration::class,
 )
 class MobileMockApiSuite

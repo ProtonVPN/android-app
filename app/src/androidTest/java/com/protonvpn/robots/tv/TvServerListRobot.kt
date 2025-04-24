@@ -19,14 +19,27 @@
  *
  */
 
-package com.protonvpn.testSuites
+package com.protonvpn.robots.tv
 
-import com.protonvpn.tests.connection.mobile.RealConnectionTestsProd
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
+import com.protonvpn.base.BaseRobot
+import com.protonvpn.android.R
 
-@RunWith(Suite::class)
-@Suite.SuiteClasses(
-    RealConnectionTestsProd::class
-)
-class RealConnectionTestSuite
+/**
+ * [TvServerListRobot] Contains all actions and verifications for server list view
+ */
+class TvServerListRobot : BaseRobot() {
+
+    fun disconnectFromServer() : TvServerListRobot = clickElementByText(R.string.disconnect)
+
+    fun connectToServer() : TvServerListRobot {
+        recyclerView
+                .withId(R.id.row_content)
+                .onItemAtPosition(0)
+                .click()
+        return TvServerListRobot()
+    }
+
+    class Verify : ConnectionVerify()
+
+    inline fun verify(block: Verify.() -> Unit) = Verify().apply(block)
+}
