@@ -134,7 +134,7 @@
     <string name="settingsExcludedAppsEmpty">Adicione aplicativos a serem excluídos do tráfego VPN.</string>
     <string name="settingsIncludedAppsEmpty">Adicione aplicativos a serem incluídos no tráfego VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Aplicativos excluídos (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Aplicativos incluídos (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Aplicativos incluído (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Todos os outros aplicativos regulares (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Todos os outros aplicativos do sistema (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Todos os outros aplicativos (%1$d)</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Os relatórios de erros nos ajudam a corrigir erros, detectar firewalls e evitar bloqueios de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Estatísticas de uso</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Estas estatísticas não contêm seu endereço IP, e não podem ser usadas para te identificar. Nunca as compartilharemos com terceiros. <a href="%1$s">Saiba mais</a>]]></string>
-    <string name="netshield_settings_description_not_html">Proteja-se contra anúncios, malware e rastreadores em sites e aplicativos. Se os sites não carregarem, tente desativar o NetShield.%1$s</string>
+    <string name="netshield_settings_description_not_html">Proteja-se contra anúncios, malware e rastreadores em sites e aplicativos. %1$s</string>
     <string name="settings_icon_change_description">Disfarce o aplicativo do Proton VPN com um ícone discreto. As notificações ainda exibirão o nome e o ícone padrão do Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Saiba mais</string>
     <string name="learn_more">Saiba mais</string>
@@ -304,8 +304,8 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Carga do servidor</string>
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% carga do servidor</string>
     <string name="tv_recently_used_servers">Servidores usados recentemente (%1$d)</string>
     <string name="tv_available_servers">Servidores disponíveis (%1$d)</string>
     <string name="tv_locked_servers">Servidores bloqueados (%1$d)</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">Etapa 1 de 3</string>
     <string name="dynamic_report_step2">Etapa 2 de 3</string>
     <string name="dynamic_report_step3">Etapa 3 de 3</string>
-    <string name="dynamic_report_your_issue_headline">Reportar problema</string>
+    <string name="dynamic_report_your_issue_headline">Qual é o problema?</string>
     <string name="update_screen_title">Atualizar Proton VPN</string>
     <string name="update_screen_description">É provável você ter problemas em versões mais antigas do Proton VPN.</string>
     <string name="dialog_create_account_title">Crie uma conta para continuar</string>
@@ -1006,7 +1006,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Tunelamento dividido</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Conexão</string>
     <!-- tag(Redesign_2023) -->

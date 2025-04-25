@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Přidat do Vyloučených aplikací</string>
+    <string name="accessibility_action_add_excluded_app">Přidat do vyloučených aplikací</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Odebrat z Vyloučených aplikací</string>
+    <string name="accessibility_action_remove_excluded_app">Odebrat z vyloučených aplikací</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Přidat do Zahrnutých aplikací</string>
+    <string name="accessibility_action_add_included_app">Přidat do zahrnutých aplikací</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Odebrat ze Zahrnutých aplikací</string>
+    <string name="accessibility_action_remove_included_app">Odebrat ze zahrnutých aplikací</string>
     <string name="accessibility_action_copy_to_clipboard">Zkopírovat do schránky</string>
     <string name="accessibility_action_item_delete">Smazat</string>
     <string name="accessibility_action_item_move_up">Přesunout nahoru</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Hlášení o pádech nám pomáhají opravovat chyby, detekovat firewally a vyhýbat se blokování VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistiky o používání</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tyto statistiky neobsahují vaši IP adresu a nelze je použít k vaší identifikaci. Nikdy je nebudeme sdílet se třetími stranami. <a href="%1$s">Více informací</a>]]></string>
-    <string name="netshield_settings_description_not_html">Chraňte se před reklamou, malware a sledovacími prvky na webových stránkách a v aplikacích. Pokud se stránky nenačítají, zkuste vypnout NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Chraňte se před reklamou, malware a sledovacími prvky na webech a v aplikacích. %1$s</string>
     <string name="settings_icon_change_description">Maskuje ikonu aplikace Proton VPN pomocí diskrétní ikony. Upozornění stále zobrazí název a ikonu aplikace Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Zjistit více</string>
     <string name="learn_more">Více informací</string>
@@ -308,7 +308,7 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
+         Example: 76% server load -->
     <string name="tv_server_list_load">Vytížení serveru %1$s%%</string>
     <string name="tv_recently_used_servers">Nedávno použité servery (%1$d)</string>
     <string name="tv_available_servers">Dostupné servery (%1$d)</string>
@@ -605,7 +605,7 @@
     <string name="dynamic_report_step1">Krok 1 ze 3</string>
     <string name="dynamic_report_step2">Krok 2 ze 3</string>
     <string name="dynamic_report_step3">Krok 3 ze 3</string>
-    <string name="dynamic_report_your_issue_headline">Jaký máte problém</string>
+    <string name="dynamic_report_your_issue_headline">V čem je problém?</string>
     <string name="update_screen_title">Aktualizovat Proton VPN</string>
     <string name="update_screen_description">Je pravděpodobnější, že u starších verzí Proton VPN budete mít více problémů.</string>
     <string name="dialog_create_account_title">Pro pokračování si vytvořte účet</string>

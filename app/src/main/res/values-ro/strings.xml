@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Adăugare la aplicațiile excluse</string>
+    <string name="accessibility_action_add_excluded_app">Adăugare la aplicații excluse</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Eliminare din aplicațiile excluse</string>
+    <string name="accessibility_action_remove_excluded_app">Eliminare din aplicații excluse</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Adăugare la aplicațiile incluse</string>
+    <string name="accessibility_action_add_included_app">Adăugare la aplicații incluse</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Eliminare din aplicațiile incluse</string>
+    <string name="accessibility_action_remove_included_app">Eliminare din aplicații incluse</string>
     <string name="accessibility_action_copy_to_clipboard">Copiere în memorie</string>
     <string name="accessibility_action_item_delete">Ștergere</string>
     <string name="accessibility_action_item_move_up">Mutare în sus</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Rapoartele de erori ne ajută să reparăm erorile, să detectăm paravanele de protecție și să evităm blocările VPN-ului.</string>
     <string name="settingsTelemetryScreenTitle">Statistici de utilizare</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Aceste statistici nu vă conțin adresa IP și nu pot fi utilizate să vă identifice. Nu le vom partaja cu terțe părți. <a href="%1$s">Detalii</a>]]></string>
-    <string name="netshield_settings_description_not_html">Protejați-vă de reclame, programe malițioase și urmărirea de pe paginile web și din aplicații. Dacă paginile web nu se încarcă, încercați cu NetShield dezactivat. %1$s.</string>
+    <string name="netshield_settings_description_not_html">Vă protejați de reclame, malware și instrumente de urmărire de pe site-uri și aplicații. %1$s</string>
     <string name="settings_icon_change_description">Deghizați aplicația Proton VPN cu o pictogramă discretă. Notificările vor afișa în continuare numele și pictograma implicite Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Detalii</string>
     <string name="learn_more">Detalii</string>
@@ -306,8 +306,8 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
-    <string name="tv_server_list_load">Încărcare server %1$s %%</string>
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s %% încărcare server</string>
     <string name="tv_recently_used_servers">Servere utilizate recent (%1$d)</string>
     <string name="tv_available_servers">Servere disponibile (%1$d)</string>
     <string name="tv_locked_servers">Servere blocate (%1$d)</string>
@@ -565,7 +565,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Această tehnologie permite ca Proton VPN să ofere viteză și securitate mai mare în țările dificil de accesat.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Încărcare server</string>
+    <string name="server_load_title">Solicitare server</string>
     <string name="activity_information_learn_more">Detalii</string>
     <string name="server_load_low">Redusă</string>
     <string name="server_load_medium">Medie</string>
@@ -589,7 +589,7 @@
     <string name="dynamic_report_step1">Pasul 1 din 3</string>
     <string name="dynamic_report_step2">Pasul 2 din 3</string>
     <string name="dynamic_report_step3">Pasul 3 din 3</string>
-    <string name="dynamic_report_your_issue_headline">Care este problema</string>
+    <string name="dynamic_report_your_issue_headline">Care este problema?</string>
     <string name="update_screen_title">Actualizare Proton VPN</string>
     <string name="update_screen_description">Este mai probabil să aveți probleme cu versiunile mai vechi ale Proton VPN .</string>
     <string name="dialog_create_account_title">Creați un cont pentru a continua</string>
@@ -1039,7 +1039,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Setări Avansate</string>
+    <string name="settings_advanced_settings_title">Setări avansate</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">Generale</string>
     <!-- tag(Redesign_2023) -->
@@ -1051,9 +1051,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Centru de ajutor</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Raportare o problemă</string>
+    <string name="settings_report_issue_title">Raportare problemă</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Jurnal depanare</string>
+    <string name="settings_debug_logs_title">Jurnal de depanare</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Îmbunătățire Proton</string>
     <!-- tag(Redesign_2023) -->

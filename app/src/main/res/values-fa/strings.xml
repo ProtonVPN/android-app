@@ -130,11 +130,11 @@
     <string name="settings_new_label_badge">جدید</string>
     <string name="settingsExcludedIPAddressesListHeader">Excluded IP addresses (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Included IP addresses (%1$d)</string>
-    <string name="settingsExcludedApps">برنامه‌های مستثنی شده</string>
+    <string name="settingsExcludedApps">Excluded apps</string>
     <string name="settingsExcludedAppsEmpty">برنامه‌هایی که می‌خواهید از ترافیک VPN جدا شوند را اضافه کنید.</string>
     <string name="settingsIncludedAppsEmpty">Add apps to be included in the VPN traffic.</string>
-    <string name="settingsExcludedAppsSelectedHeader">برنامه‌های استثنا شده (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Included Apps (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">All other regular apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">All other system apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">تمام برنامه های دیگر (%1$d)</string>
@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Add to Excluded apps</string>
+    <string name="accessibility_action_add_excluded_app">Add to excluded apps</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Remove from Excluded apps</string>
+    <string name="accessibility_action_remove_excluded_app">Remove from excluded apps</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Add to Included apps</string>
+    <string name="accessibility_action_add_included_app">Add to included apps</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Remove from Included apps</string>
+    <string name="accessibility_action_remove_included_app">Remove from included apps</string>
     <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
     <string name="accessibility_action_item_delete">Delete</string>
     <string name="accessibility_action_item_move_up">Move up</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">گزارش‌های فروپاشی به ما کمک می‌کند تا اشکالات را رفع کنیم، دیوارهای آتش را شناسایی کنیم و از مسدود شدن VPN جلوگیری کنیم.</string>
     <string name="settingsTelemetryScreenTitle">آمارهای استفاده</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[این آمارها نشانی IP شما را شامل‌ نمی‌شوند، و برای شناسایی شما قابل استفاده نیستند. ما هرگز آن‌ها را با اشخاص ثالث در اشتراک نمی‌گذاریم. <a href="%1$s"> بیشتر بدانید </a>]]></string>
-    <string name="netshield_settings_description_not_html">از خودتان در برابر تبلیغات، بدافزارها، و ردیاب‌های درون وب‌سایت‌ها و برنامه‌ها محافظت کنید. اگر وب‌سایت‌ها بارگیری نمی‌شوند، خاموش کردن NetShield را امتحان کنید. %1$s</string>
+    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
     <string name="settings_icon_change_description">Disguise the Proton VPN app with a discreet icon. Notifications will still display the default Proton VPN name and icon. %1$s</string>
     <string name="settings_icon_change_learn_more">بیشتر بدانید</string>
     <string name="learn_more">بیشتر بدانید</string>
@@ -304,8 +304,8 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Server Load</string>
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">سرورهای تازه استفاده شده (%1$d)</string>
     <string name="tv_available_servers">سرورهای در دسترس (%1$d)</string>
     <string name="tv_locked_servers">سرورهای قفل شده (%1$d)</string>
@@ -549,7 +549,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">این فناوری به Proton VPN اجازه می‌دهد تا در کشورهایی که ارائهٔ خدمات در آن‌ها دشوار است، سرعت و امنیت بالاتری را ارائه کند.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">بار ترافیکی سرور</string>
+    <string name="server_load_title">Server load</string>
     <string name="activity_information_learn_more">بیشتر یاد بگیرید</string>
     <string name="server_load_low">پایین</string>
     <string name="server_load_medium">متوسط</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">مرحلهٔ ۱ از ۳</string>
     <string name="dynamic_report_step2">مرحلهٔ ۲ از ۳</string>
     <string name="dynamic_report_step3">مرحلهٔ ۳ از ۳</string>
-    <string name="dynamic_report_your_issue_headline">مشکل شما چیست؟</string>
+    <string name="dynamic_report_your_issue_headline">What’s the issue?</string>
     <string name="update_screen_title">به‌روزرسانی Proton VPN</string>
     <string name="update_screen_description">اگر از نسخه‌های قدیمی‌تر Proton VPN استفاده می‌کنید احتمال برخورد با اشکال برای شما بالاتر است.</string>
     <string name="dialog_create_account_title">یک حساب کاربری بسازید تا ادامه بدهيد</string>
@@ -1006,7 +1006,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">اتصال</string>
     <!-- tag(Redesign_2023) -->
@@ -1014,7 +1014,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">شتاب دهنده VPN</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Advanced Settings</string>
+    <string name="settings_advanced_settings_title">Advanced settings</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">عمومی</string>
     <!-- tag(Redesign_2023) -->
@@ -1026,9 +1026,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Help Center</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">گزارش اشکال</string>
+    <string name="settings_report_issue_title">Report an issue</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Debug Logs</string>
+    <string name="settings_debug_logs_title">Debug logs</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">بهبود بخشیدن به Proton</string>
     <!-- tag(Redesign_2023) -->

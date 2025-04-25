@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Raporty o awariach pomagają nam naprawić błędy, wykryć zapory sieciowe i ominąć blokady VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statystyki użytkowania</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Te statystyki nie zawierają adresu IP i nie mogą zostać użyte do identyfikacji użytkownika. Dane nie zostaną udostępnione stronom trzecim. <a href="%1$s">Dowiedz się więcej</a>]]></string>
-    <string name="netshield_settings_description_not_html">Chroń się przed reklamami, złośliwym oprogramowaniem i elementami śledzącymi na stronach internetowych oraz w aplikacjach. Jeśli strony internetowe się nie ładują, spróbuj wyłączyć funkcję NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Chroń się przed reklamami, złośliwym oprogramowaniem i elementami śledzącymi na stronach internetowych oraz w aplikacjach. %1$s</string>
     <string name="settings_icon_change_description">Ukryj aplikację Proton VPN za pomocą dyskretnej ikony. Powiadomienia będą nadal wyświetlać domyślną nazwę i ikonę aplikacji Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Dowiedz się więcej</string>
     <string name="learn_more">Dowiedz się więcej</string>
@@ -308,7 +308,7 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
+         Example: 76% server load -->
     <string name="tv_server_list_load">Obciążenie serwera %1$s%%</string>
     <string name="tv_recently_used_servers">Ostatnio używane serwery (%1$d)</string>
     <string name="tv_available_servers">Dostępne serwery (%1$d)</string>
@@ -605,7 +605,7 @@
     <string name="dynamic_report_step1">Krok 1 z 3</string>
     <string name="dynamic_report_step2">Krok 2 z 3</string>
     <string name="dynamic_report_step3">Krok 3 z 3</string>
-    <string name="dynamic_report_your_issue_headline">Co jest Twoim problemem</string>
+    <string name="dynamic_report_your_issue_headline">Co nie działa?</string>
     <string name="update_screen_title">Zaktualizuj Proton VPN</string>
     <string name="update_screen_description">Problemy są bardziej prawdopodobne w starszych wersjach aplikacji Proton VPN.</string>
     <string name="dialog_create_account_title">Utwórz konto, aby kontynuować</string>

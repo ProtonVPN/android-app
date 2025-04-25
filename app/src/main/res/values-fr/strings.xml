@@ -155,21 +155,21 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Retirer de la liste des applications exclues</string>
+    <string name="accessibility_action_remove_excluded_app">Retirer des applications exclues</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Ajouter aux applications inclues</string>
+    <string name="accessibility_action_add_included_app">Ajouter aux applications incluses</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Retirer de la liste des applications inclues</string>
+    <string name="accessibility_action_remove_included_app">Retirer de la liste des applications incluses</string>
     <string name="accessibility_action_copy_to_clipboard">Copier dans le presse-papiers</string>
     <string name="accessibility_action_item_delete">Supprimer</string>
     <string name="accessibility_action_item_move_up">Déplacer vers le haut</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Les rapports de plantage nous aident à corriger les bugs, à détecter les pare-feux et à éviter le blocage de VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistiques d\'utilisation</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Ces statistiques ne contiennent pas votre adresse IP, elles ne peuvent pas être utilisées pour vous identifier. Nous ne les partagerons jamais avec des tiers. <a href="%1$s">En savoir plus</a>]]></string>
-    <string name="netshield_settings_description_not_html">Protégez-vous des publicités, des logiciels malveillants et des traqueurs sur les sites internet et les applications. Si les sites internet ne se chargent pas, essayez de désactiver NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Protégez-vous des publicités, des logiciels malveillants et des traqueurs sur les sites internet et les applications. %1$s</string>
     <string name="settings_icon_change_description">Optez pour une icône plus discrète pour l\'application Proton VPN. Les notifications afficheront toujours le nom et l\'icône par défaut de Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">En savoir plus</string>
     <string name="learn_more">En savoir plus</string>
@@ -304,7 +304,7 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
+         Example: 76% server load -->
     <string name="tv_server_list_load">%1$s %% de charge serveur</string>
     <string name="tv_recently_used_servers">Serveurs récemment utilisés (%1$d)</string>
     <string name="tv_available_servers">Serveurs disponibles (%1$d)</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">Étape 1 sur 3</string>
     <string name="dynamic_report_step2">Étape 2 sur 3</string>
     <string name="dynamic_report_step3">Étape 3 sur 3</string>
-    <string name="dynamic_report_your_issue_headline">Quel est votre problème</string>
+    <string name="dynamic_report_your_issue_headline">Quel est le problème ?</string>
     <string name="update_screen_title">Mettre à jour Proton VPN</string>
     <string name="update_screen_description">Il est possible de rencontrer des problèmes avec les anciennes versions de Proton VPN.</string>
     <string name="dialog_create_account_title">Créez un compte pour continuer</string>
@@ -1026,7 +1026,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Espace Aide &amp; Support</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Signaler un bug</string>
+    <string name="settings_report_issue_title">Signaler un problème</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_debug_logs_title">Journaux de débogage</string>
     <!-- tag(Redesign_2023) -->

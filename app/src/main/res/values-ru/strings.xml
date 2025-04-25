@@ -130,11 +130,11 @@
     <string name="settings_new_label_badge">НОВОЕ</string>
     <string name="settingsExcludedIPAddressesListHeader">Исключённые IP-адреса (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Выбранные IP-адреса (%1$d)</string>
-    <string name="settingsExcludedApps">Исключенные приложения</string>
+    <string name="settingsExcludedApps">Excluded apps</string>
     <string name="settingsExcludedAppsEmpty">Добавьте приложения, трафик которых должен идти в обход VPN.</string>
     <string name="settingsIncludedAppsEmpty">Добавьте приложения, которые будут включены в VPN-трафик.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Исключенные приложения (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Выбранные приложения (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Все остальные обычные приложения (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Все остальные системные приложения (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Все остальные приложения (%1$d)</string>
@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Добавить в исключённые приложения</string>
+    <string name="accessibility_action_add_excluded_app">Add to excluded apps</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Удалить из исключённых приложений</string>
+    <string name="accessibility_action_remove_excluded_app">Remove from excluded apps</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Добавить в выбранные приложения</string>
+    <string name="accessibility_action_add_included_app">Add to included apps</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Удалить из выбранных приложений</string>
+    <string name="accessibility_action_remove_included_app">Remove from included apps</string>
     <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
     <string name="accessibility_action_item_delete">Delete</string>
     <string name="accessibility_action_item_move_up">Move up</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Отчёты об ошибках помогают нам устранять ошибки, обнаруживать брандмауэры и избегать блокировки VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статистика использования</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Эта статистика не содержит ваш IP-адрес и не может быть использована для вашей идентификации. Мы никогда не передаем её третьим лицам. <a href="%1$s">Подробнее</a>]]></string>
-    <string name="netshield_settings_description_not_html">Защитите себя от рекламы, вредоносных программ, отслеживания на веб-сайтах и в приложениях. Если сайты не загружаются, попробуйте отключить функцию NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
     <string name="settings_icon_change_description">Замаскируйте приложение Proton VPN с помощью незаметного значка. В уведомлениях по-прежнему будут отображаться название и значок Proton VPN по умолчанию. %1$s</string>
     <string name="settings_icon_change_learn_more">Подробнее</string>
     <string name="learn_more">Подробнее</string>
@@ -308,8 +308,8 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Server Load</string>
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">Недавно использованные серверы (%1$d)</string>
     <string name="tv_available_servers">Доступные серверы (%1$d)</string>
     <string name="tv_locked_servers">Заблокированные серверы (%1$d)</string>
@@ -581,7 +581,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Эта технология позволяет Proton VPN обеспечивать более высокую скорость и безопасность в трудных для обслуживания странах.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Нагрузка сервера</string>
+    <string name="server_load_title">Server load</string>
     <string name="activity_information_learn_more">Подробнее</string>
     <string name="server_load_low">Низкая</string>
     <string name="server_load_medium">Средняя</string>
@@ -605,7 +605,7 @@
     <string name="dynamic_report_step1">Шаг 1 из 3</string>
     <string name="dynamic_report_step2">Шаг 2 из 3</string>
     <string name="dynamic_report_step3">Шаг 3 из 3</string>
-    <string name="dynamic_report_your_issue_headline">В чем ваша проблема</string>
+    <string name="dynamic_report_your_issue_headline">What’s the issue?</string>
     <string name="update_screen_title">Обновить Proton VPN</string>
     <string name="update_screen_description">Вероятность возникновения проблем выше на старых версиях Proton VPN.</string>
     <string name="dialog_create_account_title">Создайте аккаунт, чтобы продолжить</string>
@@ -1056,7 +1056,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Раздельное туннелирование</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Подключение</string>
     <!-- tag(Redesign_2023) -->
@@ -1064,7 +1064,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Дополнительные настройки</string>
+    <string name="settings_advanced_settings_title">Advanced settings</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">Общие</string>
     <!-- tag(Redesign_2023) -->
@@ -1076,9 +1076,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Справочный центр</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Сообщить о проблеме</string>
+    <string name="settings_report_issue_title">Report an issue</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Журналы отладки</string>
+    <string name="settings_debug_logs_title">Debug logs</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Улучшить Proton</string>
     <!-- tag(Redesign_2023) -->

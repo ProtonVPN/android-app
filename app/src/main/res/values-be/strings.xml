@@ -133,7 +133,7 @@
     <string name="settingsExcludedApps">Выключаныя праграмы</string>
     <string name="settingsExcludedAppsEmpty">Дадайце праграмы, якія будуць падключацца без VPN.</string>
     <string name="settingsIncludedAppsEmpty">Дадайце праграмы, якія будуць уключаны ў трафік VPN.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Выключаныя праграмы (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Выключаныя праграмы: (%1$d)</string>
     <string name="settingsIncludedAppsSelectedHeader">Уключаныя праграмы (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Усе іншыя звычайныя праграмы (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Усе іншыя сістэмныя праграмы (%1$d)</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Справаздачы аб збоях дапамагаюць нам выпраўляць памылкі, вызначаць міжсеткавыя экраны, а таксама пазбягаць блакіровак VPN.</string>
     <string name="settingsTelemetryScreenTitle">Статыстыка выкарыстання</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Гэта статыстыка не змяшчае ваш IP-адрас і яна не будзе выкарыстана, каб ідэнтыфікаваць вас. Мы ніколі не перадаём яе староннім асобам. <a href="%1$s">Даведацца больш</a>]]></string>
-    <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм і праграм сачэння на вэб-сайтах і ў праграмах. Калі вэб-сайты не грузяцца, паспрабуйце адключыць NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Абараніце сябе ад рэкламы, шкодных праграм, праграм сачэння ў інтэрнэце і на камп\'ютары. %1$s</string>
     <string name="settings_icon_change_description">Замаскіраваць праграму Proton VPN з дапамогай непрыметнага значка. Апавяшчэнні як і раней будуць адлюстроўваць прадвызначаную назву Proton VPN і значок. %1$s</string>
     <string name="settings_icon_change_learn_more">Даведацца больш</string>
     <string name="learn_more">Даведацца больш</string>
@@ -308,8 +308,8 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
-    <string name="tv_server_list_load">Сервер загружаны на %1$s%%</string>
+         Example: 76% server load -->
+    <string name="tv_server_list_load">Загружанасць сервера %1$s%%</string>
     <string name="tv_recently_used_servers">Серверы, якімі вы нядаўна карысталіся (%1$d)</string>
     <string name="tv_available_servers">Даступныя серверы (%1$d)</string>
     <string name="tv_locked_servers">Заблакіраваныя серверы (%1$d)</string>
@@ -581,7 +581,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Гэта тэхналогія дазваляе Proton VPN забяспечваць больш высокую хуткасць і бяспеку ў краінах, дзе ёсць праблемы з прыватнасцю.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Загрузка сервера</string>
+    <string name="server_load_title">Загружанасць сервера</string>
     <string name="activity_information_learn_more">Даведацца больш</string>
     <string name="server_load_low">Нізкая</string>
     <string name="server_load_medium">Сярэдняя</string>
@@ -605,7 +605,7 @@
     <string name="dynamic_report_step1">Крок 1 з 3</string>
     <string name="dynamic_report_step2">Крок 2 з 3</string>
     <string name="dynamic_report_step3">Крок 3 з 3</string>
-    <string name="dynamic_report_your_issue_headline">У чым ваша праблема</string>
+    <string name="dynamic_report_your_issue_headline">У чым ваша праблема?</string>
     <string name="update_screen_title">Абнавіць Proton VPN</string>
     <string name="update_screen_description">Хутчэй за ўсё ў вас з\'явяцца праблемы са старымі версіямі Proton VPN.</string>
     <string name="dialog_create_account_title">Стварыце ўліковы запіс, каб працягнуць</string>
@@ -1064,7 +1064,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Пашыраныя налады</string>
+    <string name="settings_advanced_settings_title">Дадатковыя налады</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">Агульныя</string>
     <!-- tag(Redesign_2023) -->
@@ -1078,7 +1078,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Паведаміць аб праблеме</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Журналы адладкі</string>
+    <string name="settings_debug_logs_title">Журналы адладак</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Удасканаліць Proton</string>
     <!-- tag(Redesign_2023) -->
