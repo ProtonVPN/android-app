@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Zu ausgeschlossenen Anwendungen hinzufügen</string>
+    <string name="accessibility_action_add_excluded_app">Zu ausgeschlossenen Apps hinzufügen</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Von ausgeschlossenen Anwendungen entfernen</string>
+    <string name="accessibility_action_remove_excluded_app">Aus ausgeschlossenen Apps entfernen</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Zu einbezogenen Anwendungen hinzufügen</string>
+    <string name="accessibility_action_add_included_app">Zu einbezogenen Apps hinzufügen</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Von einbezogenen Anwendungen entfernen</string>
+    <string name="accessibility_action_remove_included_app">Aus einbezogenen Apps entfernen</string>
     <string name="accessibility_action_copy_to_clipboard">In Zwischenablage kopieren</string>
     <string name="accessibility_action_item_delete">Löschen</string>
     <string name="accessibility_action_item_move_up">Aufwärts</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Absturzberichte helfen uns Fehler zu beheben, Firewalls zu erkennen und VPN-Sperren zu vermeiden.</string>
     <string name="settingsTelemetryScreenTitle">Nutzungsstatistiken</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Diese Statistiken enthalten weder deine IP-Adresse noch können diese dazu verwendet werden, um dich zu identifizieren. Wir werden die Statistiken nie an Dritte weitergeben. <a href="%1$s">Mehr erfahren</a>]]></string>
-    <string name="netshield_settings_description_not_html">Schütze dich vor Werbung, Malware und Trackern auf Websites und in Apps. Wenn Websites nicht geladen werden, versuche NetShield zu deaktivieren. %1$s</string>
+    <string name="netshield_settings_description_not_html">Schütze dich vor Werbung, Malware und Trackern auf Websites und in Apps. %1$s</string>
     <string name="settings_icon_change_description">Tarne die Proton VPN-App mit einem diskreten Symbol. Benachrichtigungen zeigen weiterhin Standardname und -symbol von Proton VPN an. %1$s</string>
     <string name="settings_icon_change_learn_more">Mehr erfahren</string>
     <string name="learn_more">Mehr erfahren</string>
@@ -304,7 +304,7 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
+         Example: 76% server load -->
     <string name="tv_server_list_load">%1$s%% Serverauslastung</string>
     <string name="tv_recently_used_servers">Zuletzt genutzte Server (%1$d)</string>
     <string name="tv_available_servers">Verfügbare Server (%1$d)</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">Schritt 1 von 3</string>
     <string name="dynamic_report_step2">Schritt 2 von 3</string>
     <string name="dynamic_report_step3">Schritt 3 von 3</string>
-    <string name="dynamic_report_your_issue_headline">Beschreibe dein Problem</string>
+    <string name="dynamic_report_your_issue_headline">Beschreibe das Problem</string>
     <string name="update_screen_title">Proton VPN aktualisieren</string>
     <string name="update_screen_description">Bei älteren Versionen von Proton VPN ist die Wahrscheinlichkeit größer, dass Probleme auftreten.</string>
     <string name="dialog_create_account_title">Erstelle ein Konto, um fortzufahren.</string>
@@ -1028,7 +1028,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Problem melden</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Fehlerprotokolle</string>
+    <string name="settings_debug_logs_title">Debug-Protokolle</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Proton verbessern</string>
     <!-- tag(Redesign_2023) -->

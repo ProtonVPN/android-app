@@ -130,11 +130,11 @@
     <string name="settings_new_label_badge">BARU</string>
     <string name="settingsExcludedIPAddressesListHeader">Alamat IP yang dikecualikan (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">Alamat IP yang disertakan (%1$d)</string>
-    <string name="settingsExcludedApps">Aplikasi yang Dikecualikan</string>
+    <string name="settingsExcludedApps">Aplikasi yang dikecualikan</string>
     <string name="settingsExcludedAppsEmpty">Tambahkan aplikasi untuk dikecualikan dari lalu lintas VPN.</string>
     <string name="settingsIncludedAppsEmpty">Tambahkan aplikasi untuk disertakan ke dalam lalu lintas VPN.</string>
-    <string name="settingsExcludedAppsSelectedHeader">Aplikasi yang Dikecualikan (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Aplikasi yang Disertakan (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Aplikasi yang dikecualikan (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Aplikasi yang disertakan (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Seluruh aplikasi reguler lainnya (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Seluruh aplikasi sistem lainnya (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Seluruh aplikasi lainnya (%1$d)</string>
@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Tambah ke Aplikasi yang dikecualikan</string>
+    <string name="accessibility_action_add_excluded_app">Tambahkan ke aplikasi yang dikecualikan</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Hapus dari Aplikasi yang dikecualikan</string>
+    <string name="accessibility_action_remove_excluded_app">Hapus dari aplikasi yang dikecualikan</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Tambah ke Aplikasi yang disertakan</string>
+    <string name="accessibility_action_add_included_app">Tambahkan ke aplikasi yang disertakan</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Hapus dari Aplikasi yang disertakan</string>
+    <string name="accessibility_action_remove_included_app">Hapus dari aplikasi yang disertakan</string>
     <string name="accessibility_action_copy_to_clipboard">Salin ke papan klip</string>
     <string name="accessibility_action_item_delete">Hapus</string>
     <string name="accessibility_action_item_move_up">Pindahkan ke atas</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Laporan crash membantu kami dalam memperbaiki bug, mendeteksi firewall, dan menghindari pemblokiran VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistik pemakaian</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Statistik ini tidak mengandung alamat IP Anda dan tidak dapat digunakan untuk mengenali diri Anda. Kami tidak akan pernah membagikan statistik ini kepada pihak ketiga mana pun. <a href="%1$s">Pelajari lebih lanjut</a>]]></string>
-    <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak pada berbagai situs web dan aplikasi. Apabila situs web yang ingin Anda kunjungi tidak termuat, cobalah untuk menonaktifkan NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Lindungi diri Anda dari iklan, malware, dan pelacak di situs web dan aplikasi. %1$s</string>
     <string name="settings_icon_change_description">Samarkan Proton VPN dengan ikon aplikasi yang tidak mencolok. Notifikasi yang masuk akan tetap menampilkan nama dan ikon Proton VPN bawaan. %1$s</string>
     <string name="settings_icon_change_learn_more">Pelajari lebih lanjut</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
@@ -302,8 +302,8 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
-    <string name="tv_server_list_load">Muatan Server %1$s%%</string>
+         Example: 76% server load -->
+    <string name="tv_server_list_load">Muatan server %1$s%%</string>
     <string name="tv_recently_used_servers">Server yang baru digunakan (%1$d)</string>
     <string name="tv_available_servers">Server yang tersedia (%1$d)</string>
     <string name="tv_locked_servers">Server yang terkunci (%1$d)</string>
@@ -533,7 +533,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Teknologi ini memungkinkan Proton VPN untuk menyediakan layanan yang lebih cepat dan lebih aman pada negara dengan pembatasan internet yang ketat.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Beban Server</string>
+    <string name="server_load_title">Beban server</string>
     <string name="activity_information_learn_more">Pelajari Lebih Lanjut</string>
     <string name="server_load_low">Rendah</string>
     <string name="server_load_medium">Sedang</string>
@@ -557,7 +557,7 @@
     <string name="dynamic_report_step1">Langkah 1 dari 3</string>
     <string name="dynamic_report_step2">Langkah 2 dari 3</string>
     <string name="dynamic_report_step3">Langkah 3 dari 3</string>
-    <string name="dynamic_report_your_issue_headline">Masalah apa yang Anda hadapi</string>
+    <string name="dynamic_report_your_issue_headline">Apa masalahnya?</string>
     <string name="update_screen_title">Perbarui Proton VPN</string>
     <string name="update_screen_description">Anda akan cenderung lebih rentan terhadap berbagai masalah apabila Anda menggunakan Proton VPN versi lama.</string>
     <string name="dialog_create_account_title">Buat akun untuk melanjutkan</string>
@@ -981,7 +981,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Split Tunneling</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Koneksi</string>
     <!-- tag(Redesign_2023) -->
@@ -989,7 +989,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Pengaturan Lanjutan</string>
+    <string name="settings_advanced_settings_title">Pengaturan lanjutan</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">Umum</string>
     <!-- tag(Redesign_2023) -->
@@ -1001,9 +1001,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Pusat Bantuan</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Laporkan Masalah</string>
+    <string name="settings_report_issue_title">Laporkan masalah</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Log Debug</string>
+    <string name="settings_debug_logs_title">Log awakutu</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Tingkatkan Proton</string>
     <!-- tag(Redesign_2023) -->

@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Kraschrapporter hjälper oss att åtgärda fel, upptäcka brandväggar och undvika VPN-blockeringar.</string>
     <string name="settingsTelemetryScreenTitle">Användningsstatistik</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Denna statistik innehåller inte din IP-adress och den kan inte användas för att identifiera dig. Vi kommer aldrig att dela den med tredje part. <a href="%1$s">Lär dig mer</a>]]></string>
-    <string name="netshield_settings_description_not_html">Skydda dig mot annonser, skadlig kod och spårare på webbplatser och appar. Om webbplatser inte laddas, prova inaktivera NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Skydda dig själv från annonser, skadlig kod och spårare på webbplatser och appar. %1$s</string>
     <string name="settings_icon_change_description">Maskera Proton VPN-appen med en diskret ikon. Aviseringar kommer fortfarande visa standardnamnet och ikonen för Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Lär dig mer</string>
     <string name="learn_more">Lär dig mer</string>
@@ -304,7 +304,7 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
+         Example: 76% server load -->
     <string name="tv_server_list_load">%1$s %% serverbelastning</string>
     <string name="tv_recently_used_servers">Nyligen använda servrar (%1$d)</string>
     <string name="tv_available_servers">Tillgängliga servrar (%1$d)</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">Steg 1 av 3</string>
     <string name="dynamic_report_step2">Steg 2 av 3</string>
     <string name="dynamic_report_step3">Steg 3 av 3</string>
-    <string name="dynamic_report_your_issue_headline">Vad är ditt problem</string>
+    <string name="dynamic_report_your_issue_headline">Vad är problemet?</string>
     <string name="update_screen_title">Uppdatera Proton VPN</string>
     <string name="update_screen_description">Det är mer sannolikt att du har problem med äldre versioner av Proton VPN.</string>
     <string name="dialog_create_account_title">Skapa ett konto för att fortsätta</string>
@@ -675,7 +675,7 @@
     <string name="whats_new_profiles_title">Profiler är tillbaka</string>
     <string name="whats_new_profiles_description">Skapa och spara anpassade anslutningar med ditt val av plats, server och protokoll.</string>
     <string name="whats_new_widget_title">Introducerar widgetar</string>
-    <string name="whats_new_widget_description">You can now view and manage your VPN without leaving the home screen.</string>
+    <string name="whats_new_widget_description">Du kan nu visa och hantera din VPN utan att lämna startskärmen.</string>
     <string name="whats_new_add_widget_button">Lägg till widget</string>
     <string name="welcome_plus_title">Välkommen till VPN Plus</string>
     <string name="welcome_plus_description">Njut av extra integritetsfunktioner, kraftfullare prestanda och nästa nivå av VPN-anpassning.</string>

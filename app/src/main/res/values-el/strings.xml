@@ -134,7 +134,7 @@
     <string name="settingsExcludedAppsEmpty">Προσθέστε τις εφαρμογές που θέλετε να εξαιρέσετε από την ροή δεδομένων του δικτύου VPN.</string>
     <string name="settingsIncludedAppsEmpty">Προσθέστε εφαρμογές που θα συμπεριληφθούν στην κίνηση VPN.</string>
     <string name="settingsExcludedAppsSelectedHeader">Εξαιρούμενες εφαρμογές (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Συμπεριλαμβανόμενες Εφαρμογές (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Περιλαμβανόμενες εφαρμογές (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Όλες οι άλλες κανονικές εφαρμογές (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Όλες οι άλλες εφαρμογές συστήματος (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Όλες οι άλλες εφαρμογές (%1$d)</string>
@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Προσθήκη στις Εξαιρούμενες εφαρμογές</string>
+    <string name="accessibility_action_add_excluded_app">Προσθήκη στις εξαιρούμενες εφαρμογές</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Αφαίρεση από τις Εξαιρούμενες εφαρμογές</string>
+    <string name="accessibility_action_remove_excluded_app">Κατάργηση από τις εξαιρούμενες εφαρμογές</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Προσθήκη στις Συμπεριλαμβανόμενες Εφαρμογές</string>
+    <string name="accessibility_action_add_included_app">Προσθήκη στις περιλαμβανόμενες εφαρμογές</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Αφαίρεση από τις Συμπεριλαμβανόμενες Εφαρμογές</string>
+    <string name="accessibility_action_remove_included_app">Κατάργηση από τις περιλαμβανόμενες εφαρμογές</string>
     <string name="accessibility_action_copy_to_clipboard">Αντιγραφή στο πρόχειρο</string>
     <string name="accessibility_action_item_delete">Διαγραφή</string>
     <string name="accessibility_action_item_move_up">Μετακίνηση προς τα πάνω</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Οι αναφορές σφαλμάτων μάς βοηθούν να διορθώνουμε σφάλματα, να εντοπίζουμε τείχη προστασίας και να αποφεύγουμε τα μπλοκαρίσματα VPN.</string>
     <string name="settingsTelemetryScreenTitle">Στατιστικά χρήσης</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Αυτά τα στατιστικά στοιχεία δεν περιέχουν τη διεύθυνση IP σας και δεν μπορούν να χρησιμοποιηθούν για την αναγνώρισή σας. Δε θα τα μοιραστούμε ποτέ με τρίτους. <a href="%1$s">Μάθετε περισσότερα</a>]]></string>
-    <string name="netshield_settings_description_not_html">Προστατέψτε τον εαυτό σας από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες στις ιστοσελίδες και στις εφαρμογές. Εάν οι ιστοσελίδες δε φορτώνουν, προσπαθήστε ξανά απενεργοποιώντας το NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Προστατευτείτε από διαφημίσεις, κακόβουλο λογισμικό και ιχνηλάτες σε ιστοσελίδες και εφαρμογές. %1$s</string>
     <string name="settings_icon_change_description">Μεταμφιέστε την εφαρμογή Proton VPN με ένα διακριτικό εικονίδιο. Οι ειδοποιήσεις θα εξακολουθούν να εμφανίζουν το προεπιλεγμένο όνομα και εικονίδιο Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Μάθετε περισσότερα</string>
     <string name="learn_more">Μάθετε περισσότερα</string>
@@ -304,8 +304,8 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Φορτίο Διακομιστή</string>
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% φορτίο διακομιστή</string>
     <string name="tv_recently_used_servers">Πρόσφατα χρησιμοποιημένοι διακομιστές (%1$d)</string>
     <string name="tv_available_servers">Διαθέσιμοι διακομιστές (%1$d)</string>
     <string name="tv_locked_servers">Κλειδωμένοι διακομιστές (%1$d)</string>
@@ -549,7 +549,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Η τεχνολογία αυτή επιτρέπει στο Proton VPN να παρέχει υψηλότερες ταχύτητες Internet και ασφάλεια σε χώρες με δυσκολίες στην παροχή του.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Φορτίο Διακομιστή</string>
+    <string name="server_load_title">Φορτίο διακομιστή</string>
     <string name="activity_information_learn_more">Μάθετε Περισσότερα</string>
     <string name="server_load_low">Χαμηλό</string>
     <string name="server_load_medium">Μεσαία</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">Βήμα 1 από 3</string>
     <string name="dynamic_report_step2">Βήμα 2 από 3</string>
     <string name="dynamic_report_step3">Βήμα 3 από 3</string>
-    <string name="dynamic_report_your_issue_headline">Ποιο είναι το πρόβλημά σας</string>
+    <string name="dynamic_report_your_issue_headline">Ποιο είναι το πρόβλημα;</string>
     <string name="update_screen_title">Ενημέρωση Proton VPN</string>
     <string name="update_screen_description">Σε παλαιότερες εκδόσεις του Proton VPN, είναι πιο πιθανό να έχετε προβλήματα.</string>
     <string name="dialog_create_account_title">Δημιουργήστε έναν λογαριασμό για να συνεχίσετε</string>
@@ -1006,7 +1006,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Διαίρεση σήραγγας</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Σύνδεση</string>
     <!-- tag(Redesign_2023) -->
@@ -1014,7 +1014,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">Προχωρημένες Ρυθμίσεις</string>
+    <string name="settings_advanced_settings_title">Προηγμένες ρυθμίσεις</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">Γενικά</string>
     <!-- tag(Redesign_2023) -->
@@ -1028,7 +1028,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Αναφορά προβλήματος</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Αρχεία εντοπισμού σφαλμάτων</string>
+    <string name="settings_debug_logs_title">Αρχεία καταγραφής αποσφαλμάτωσης</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Βελτιώστε το Proton</string>
     <!-- tag(Redesign_2023) -->

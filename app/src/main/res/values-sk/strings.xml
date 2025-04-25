@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Pridať do Vyradených aplikácií</string>
+    <string name="accessibility_action_add_excluded_app">Pridať do vylúčených aplikácií</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Odstrániť z Vyradených aplikácií</string>
+    <string name="accessibility_action_remove_excluded_app">Odstrániť z vylúčených aplikácií</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Pridať do Zahrnutých aplikácií</string>
+    <string name="accessibility_action_add_included_app">Pridať do zahrnutých aplikácií</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Odstrániť zo Zahrnutých aplikácií</string>
+    <string name="accessibility_action_remove_included_app">Odstrániť z aplikácií zahrnutých do výnimky</string>
     <string name="accessibility_action_copy_to_clipboard">Skopírovať do schránky</string>
     <string name="accessibility_action_item_delete">Vymazať</string>
     <string name="accessibility_action_item_move_up">Presunúť hore</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Hlásenia o pádoch nám pomáhajú opravovať chyby, detekovať firewally a vyhýbať sa blokovaniu VPN.</string>
     <string name="settingsTelemetryScreenTitle">Štatistiky používania</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Tieto štatistiky neobsahujú vašu IP adresu a nemôžu byť použité na vašu identifikáciu. Nikdy ich nebudeme zdieľať s tretími stranami. <a href="%1$s">Zistiť viac</a>]]></string>
-    <string name="netshield_settings_description_not_html">Chráňte sa pred reklamou, malware a sledovacími prvkami na webových stránkach a v aplikáciách. Ak sa stránky nenačítajú, skúste vypnúť NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Chráňte sa pred reklamami, malvérom a sledovačmi na webových stránkach a v aplikáciách. %1$s</string>
     <string name="settings_icon_change_description">Zamaskujte aplikáciu Proton VPN diskrétnou ikonou. V oznámeniach sa bude stále zobrazovať predvolený názov a ikona Proton VPN. %1$s</string>
     <string name="settings_icon_change_learn_more">Zistiť viac</string>
     <string name="learn_more">Zistiť viac</string>
@@ -308,7 +308,7 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
+         Example: 76% server load -->
     <string name="tv_server_list_load">Zaťaženie servera %1$s%%</string>
     <string name="tv_recently_used_servers">Nedávno použité servery (%1$d)</string>
     <string name="tv_available_servers">Dostupné servery (%1$d)</string>
@@ -581,7 +581,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Táto technológia umožňuje aplikácii Proton VPN poskytovať vyššiu rýchlosť a bezpečnosť v ťažko dostupných krajinách.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Vyťaženie servera</string>
+    <string name="server_load_title">Zaťaženie servera</string>
     <string name="activity_information_learn_more">Zistiť viac</string>
     <string name="server_load_low">Nízke</string>
     <string name="server_load_medium">Stredné</string>
@@ -605,7 +605,7 @@
     <string name="dynamic_report_step1">Krok 1 z 3</string>
     <string name="dynamic_report_step2">Krok 2 z 3</string>
     <string name="dynamic_report_step3">Krok 3 z 3</string>
-    <string name="dynamic_report_your_issue_headline">Aký máte problém</string>
+    <string name="dynamic_report_your_issue_headline">V čom je problém?</string>
     <string name="update_screen_title">Aktualizovať Proton VPN</string>
     <string name="update_screen_description">Je pravdepodobnejšie, že budete mať problémy so staršími verziami Proton VPN.</string>
     <string name="dialog_create_account_title">Pre pokračovanie si vytvorte účet</string>
@@ -1056,7 +1056,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Rozdelené tunelovanie</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Pripojenie</string>
     <!-- tag(Redesign_2023) -->
@@ -1078,7 +1078,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_report_issue_title">Nahlásiť problém</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Záznamy o chybách</string>
+    <string name="settings_debug_logs_title">Záznamy ladenia</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Vylepšite Proton</string>
     <!-- tag(Redesign_2023) -->

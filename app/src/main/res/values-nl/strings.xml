@@ -134,7 +134,7 @@
     <string name="settingsExcludedAppsEmpty">Voeg apps toe die moeten worden uitgesloten van het VPN-verkeer.</string>
     <string name="settingsIncludedAppsEmpty">Voeg apps toe die in het VPN-verkeer moeten worden opgenomen.</string>
     <string name="settingsExcludedAppsSelectedHeader">Uitgesloten apps (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">Inbegrepen Apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Inbegrepen apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">Alle andere gebruikelijke apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">Alle andere systeemapplicaties (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">Alle andere apps (%1$d)</string>
@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">Toevoegen aan Uitgesloten apps</string>
+    <string name="accessibility_action_add_excluded_app">Toevoegen aan uitgesloten apps</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">Verwijderen uit Uitgesloten apps</string>
+    <string name="accessibility_action_remove_excluded_app">Verwijderen uit uitgesloten apps</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">Toevoegen aan Inbegrepen apps</string>
+    <string name="accessibility_action_add_included_app">Toevoegen aan inbegrepen apps</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">Verwijderen uit Inbegrepen apps</string>
+    <string name="accessibility_action_remove_included_app">Verwijderen uit inbegrepen apps</string>
     <string name="accessibility_action_copy_to_clipboard">Kopiëren naar klembord</string>
     <string name="accessibility_action_item_delete">Verwijder</string>
     <string name="accessibility_action_item_move_up">Omhoog verplaatsen</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Crashrapporten helpen ons om programmafouten op te lossen, firewalls te detecteren en VPN-blokkeringen te vermijden.</string>
     <string name="settingsTelemetryScreenTitle">Gebruiksstatistieken</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Deze statistieken bevatten uw IP-adres niet, en kunnen niet gebruikt worden om u te identificeren. We zullen deze nooit delen met derden. <a href="%1$s">Meer informatie</a>]]></string>
-    <string name="netshield_settings_description_not_html">Bescherm uzelf tegen advertenties, malware en trackers op websites en apps. Als websites niet laden, probeer NetShield uit te schakelen. %1$s</string>
+    <string name="netshield_settings_description_not_html">Bescherm uzelf tegen advertenties, malware en trackers op websites en apps. %1$s</string>
     <string name="settings_icon_change_description">Vermom de Proton VPN app met een discreet icoon. Notificaties zullen nog steeds de standaard Proton VPN naam en icoon tonen. %1$s</string>
     <string name="settings_icon_change_learn_more">Lees meer</string>
     <string name="learn_more">Lees meer</string>
@@ -304,7 +304,7 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
+         Example: 76% server load -->
     <string name="tv_server_list_load">%1$s%% serverbelasting</string>
     <string name="tv_recently_used_servers">Recent gebruikte servers (%1$d)</string>
     <string name="tv_available_servers">Beschikbare servers (%1$d)</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">Step 1 van de 3</string>
     <string name="dynamic_report_step2">Stap 2 van de 3</string>
     <string name="dynamic_report_step3">Stap 3 van de 3</string>
-    <string name="dynamic_report_your_issue_headline">Wat is uw probleem</string>
+    <string name="dynamic_report_your_issue_headline">Wat is het probleem?</string>
     <string name="update_screen_title">Proton VPN bijwerken</string>
     <string name="update_screen_description">U heeft meer kans op problemen op oudere versies van Proton VPN.</string>
     <string name="dialog_create_account_title">Maak een account aan om door te gaan</string>
@@ -1006,7 +1006,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Gefilterde apps</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">IP-beveiliging</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Verbinding</string>
     <!-- tag(Redesign_2023) -->
@@ -1026,9 +1026,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">Helpcentrum</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">Een probleem melden</string>
+    <string name="settings_report_issue_title">Meld een probleem</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">Logboeks voor foutoplossing</string>
+    <string name="settings_debug_logs_title">Foutopsporingslogboeken</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">Verbeter Proton</string>
     <!-- tag(Redesign_2023) -->

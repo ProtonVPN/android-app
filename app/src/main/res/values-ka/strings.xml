@@ -130,11 +130,11 @@
     <string name="settings_new_label_badge">ახალი</string>
     <string name="settingsExcludedIPAddressesListHeader">გამორიცხული IP მისამართები (%1$d)</string>
     <string name="settingsIncludedIPAddressesListHeader">ჩართული IP მისამართები (%1$d)</string>
-    <string name="settingsExcludedApps">გამორიცხული აპები</string>
+    <string name="settingsExcludedApps">Excluded apps</string>
     <string name="settingsExcludedAppsEmpty">VPN-ის ტრაფიკიდან ამოღებული აპები.</string>
     <string name="settingsIncludedAppsEmpty">VPN ტრაფიკში ჩასმული აპები:</string>
-    <string name="settingsExcludedAppsSelectedHeader">გამორიცხული აპები (%1$d)</string>
-    <string name="settingsIncludedAppsSelectedHeader">ჩასმული აპები (%1$d)</string>
+    <string name="settingsExcludedAppsSelectedHeader">Excluded apps (%1$d)</string>
+    <string name="settingsIncludedAppsSelectedHeader">Included apps (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableRegularHeader">ყველა ხვა ჩვეულებრივი აპი (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableSystemHeader">ყველა სხვა სისტემური აპი (%1$d)</string>
     <string name="settingsSplitTunnelingAvailableHeader">ყველა სხვა აპი (%1$d)</string>
@@ -148,28 +148,28 @@
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to excluded apps"
     -->
-    <string name="accessibility_action_add_excluded_app">დამატება ამოღებულ აპებში</string>
+    <string name="accessibility_action_add_excluded_app">Add to excluded apps</string>
     <!-- Description for action to remove an application from "excluded apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from excluded apps"
     -->
-    <string name="accessibility_action_remove_excluded_app">წაშლა ამოღებული აპებიდან</string>
+    <string name="accessibility_action_remove_excluded_app">Remove from excluded apps</string>
     <!-- Description for action to add an application to "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to add to included apps"
     -->
-    <string name="accessibility_action_add_included_app">დამატება ჩასმულ აპებში</string>
+    <string name="accessibility_action_add_included_app">Add to included apps</string>
     <!-- Description for action to remove an application from "included apps" in split tunneling settings.
          Only used by accessibility services.
          Example:
          an item for app "Internet Browser" will be ready by a screen reader as:
          "Internet Browser, double tap to remove from included apps"
     -->
-    <string name="accessibility_action_remove_included_app">წაშლა ჩასმული აპებიდან</string>
+    <string name="accessibility_action_remove_included_app">Remove from included apps</string>
     <string name="accessibility_action_copy_to_clipboard">Copy to clipboard</string>
     <string name="accessibility_action_item_delete">Delete</string>
     <string name="accessibility_action_item_move_up">Move up</string>
@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">ავარიის ანგარიშები გვეხმარება შეცდომების გამოსწორებაში, ფეიერვოლების აღმოჩენაში და VPN ბლოკების თავიდან აცილებაში.</string>
     <string name="settingsTelemetryScreenTitle">გამოყენების სტატისტიკა</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[ეს სტატისტიკა თქვენს IP-ს არ შეიცავს და ის თქვენს ამოსაცნობად გამოყენებული ვერ იქნება. ჩვენ მას მესამე პირებს არასოდეს ვუზიარებთ. <a href="%1$s">გაიგეთ მეტი</a>]]></string>
-    <string name="netshield_settings_description_not_html">დაიცავით თავი რეკლამებისგან, ბოროტი პროგრამებისგან და ტრეკერებისგან, რომლებიც ვებგვერდებზე და აპებშია ჩაშენებული. თუ ვვებგვერდი არ იტვირთება, სცადეთ, NetSheld-ი გამორთოთ. %1$s</string>
+    <string name="netshield_settings_description_not_html">Protect yourself from ads, malware, and trackers on websites and apps. %1$s</string>
     <string name="settings_icon_change_description">დამალეთ Proton VPN განხვავებული ხატულით. გაფრთხილებები ნაგულისხმევ Proton VPN სახელს და ხატულა გაჩვენებთ. %1$s</string>
     <string name="settings_icon_change_learn_more">გაიგეთ მეტი</string>
     <string name="learn_more">გაიგეთ მეტი</string>
@@ -304,8 +304,8 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
-    <string name="tv_server_list_load">%1$s%% Server Load</string>
+         Example: 76% server load -->
+    <string name="tv_server_list_load">%1$s%% server load</string>
     <string name="tv_recently_used_servers">ახლახან გამოყენებული სერვერები (%1$d)</string>
     <string name="tv_available_servers">ხელმისაწვდომი სერვერები (%1$d)</string>
     <string name="tv_locked_servers">დაბლოკილი სერვერები (%1$d)</string>
@@ -549,7 +549,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">ეს ტექნოლოგია საშუალებას აძლევს Proton VPN-ს, მოგაწოდოთ უფრო მეტი სიჩქარე და უსაფრთხოება ძნელად მისაწვდომ ქვეყნებშიც კი.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">სერვერის დატვირთვა</string>
+    <string name="server_load_title">Server load</string>
     <string name="activity_information_learn_more">გაიგეთ მეტი</string>
     <string name="server_load_low">დაბალი</string>
     <string name="server_load_medium">საშუალო</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">ნაბიჯი 1 3-დან</string>
     <string name="dynamic_report_step2">ნაბიჯი 2 3-დან</string>
     <string name="dynamic_report_step3">ნაბიჯი 3 3-დან</string>
-    <string name="dynamic_report_your_issue_headline">რა პრობლემა გაქვთ</string>
+    <string name="dynamic_report_your_issue_headline">What’s the issue?</string>
     <string name="update_screen_title">Proton VPN-ის განახლება</string>
     <string name="update_screen_description">Proton VPN-ის ძველ ვერსიებზე პრობლემები გექნებათ.</string>
     <string name="dialog_create_account_title">გასაგრძელებლად შექმენით ანგარიში</string>
@@ -1014,7 +1014,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_vpn_accelerator_title">VPN Accelerator</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_advanced_settings_title">დამატებითი პარამეტრები</string>
+    <string name="settings_advanced_settings_title">Advanced settings</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_general">ზოგადი</string>
     <!-- tag(Redesign_2023) -->
@@ -1026,9 +1026,9 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_help_center_title">დახმარების ცენტრი</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_report_issue_title">პრობლემის ანგარიშის გადაგზავნა</string>
+    <string name="settings_report_issue_title">Report an issue</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_debug_logs_title">გამართვის ჟურნალი</string>
+    <string name="settings_debug_logs_title">Debug logs</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_category_improve_proton">გააუმჯობესეთ Proton</string>
     <!-- tag(Redesign_2023) -->

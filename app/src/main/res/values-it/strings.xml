@@ -216,7 +216,7 @@
     <string name="settingsSendCrashReportsDescription">Le segnalazioni sugli arresti anomali ci aiutano a correggere bug, rilevare firewall ed evitare blocchi VPN.</string>
     <string name="settingsTelemetryScreenTitle">Statistiche di utilizzo</string>
     <string name="settingsTelemetryScreenInfo"><![CDATA[Queste statistiche non contengono il tuo indirizzo IP e non possono essere utilizzate per identificarti. Non le condivideremo mai con terze parti. <a href="%1$s">Scopri di più</a>]]></string>
-    <string name="netshield_settings_description_not_html">Proteggiti da annunci, malware e tracker su siti web e app. Se i siti web non si caricano, prova a disabilitare NetShield. %1$s</string>
+    <string name="netshield_settings_description_not_html">Proteggiti da annunci, malware e tracker su siti web e app. %1$s</string>
     <string name="settings_icon_change_description">Maschera l\'app Proton VPN con un\'icona più discreta. Le notifiche continueranno a visualizzare il nome e l\'icona Proton VPN predefiniti. %1$s</string>
     <string name="settings_icon_change_learn_more">Scopri di più</string>
     <string name="learn_more">Scopri di più</string>
@@ -304,8 +304,8 @@
     <!-- The placeholder is replaced with a 0-100 value indicating the server load in percent.
          Please note the double % sign after the placeholder. It is displayed as a single % sign in the app.
 
-         Example: 76% Server Load -->
-    <string name="tv_server_list_load">Server carico al %1$s%%</string>
+         Example: 76% server load -->
+    <string name="tv_server_list_load">Caricamento del server %1$s%%</string>
     <string name="tv_recently_used_servers">Server usati di recente (%1$d)</string>
     <string name="tv_available_servers">Server disponibili (%1$d)</string>
     <string name="tv_locked_servers">Server bloccati (%1$d)</string>
@@ -549,7 +549,7 @@
     <string name="smart_routing_title">Smart Routing</string>
     <string name="smart_routing_description">Questa tecnologia consente a Proton VPN di fornire maggiore velocità e sicurezza in paesi difficili da servire.</string>
     <string name="tor_title">Tor</string>
-    <string name="server_load_title">Carico del Server</string>
+    <string name="server_load_title">Caricamento del server</string>
     <string name="activity_information_learn_more">Scopri di più</string>
     <string name="server_load_low">Basso</string>
     <string name="server_load_medium">Medio</string>
@@ -573,7 +573,7 @@
     <string name="dynamic_report_step1">Passaggio 1 di 3</string>
     <string name="dynamic_report_step2">Passaggio 2 di 3</string>
     <string name="dynamic_report_step3">Passaggio 3 di 3</string>
-    <string name="dynamic_report_your_issue_headline">Quale è il problema</string>
+    <string name="dynamic_report_your_issue_headline">Qual è il problema?</string>
     <string name="update_screen_title">Aggiorna Proton VPN</string>
     <string name="update_screen_description">È più probabile che tu abbia problemi con le versioni precedenti di Proton VPN.</string>
     <string name="dialog_create_account_title">Crea un account per continuare</string>
@@ -1006,7 +1006,7 @@
     <!-- tag(Redesign_2023) -->
     <string name="settings_split_tunneling_title">Split tunneling</string>
     <!-- tag(Redesign_2023) -->
-    <string name="settings_kill_switch_title">Kill Switch</string>
+    <string name="settings_kill_switch_title">Kill switch</string>
     <!-- tag(Redesign_2023) -->
     <string name="settings_connection_category">Connessione</string>
     <!-- tag(Redesign_2023) -->
