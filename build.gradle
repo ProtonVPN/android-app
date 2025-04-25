@@ -31,7 +31,7 @@ buildscript {
     // WARNING: hilt 2.51 causes runtime crashes (see breaking changes in https://github.com/google/dagger/releases/tag/dagger-2.51)
     ext.hilt_version = '2.50'
     ext.hilt_compiler_version = '1.2.0'
-    ext.govpnlib_version = '0.1.65'
+    ext.govpnlib_version = '0.1.66'
     // When updating kotlin version KSP needs to be updated as well to matching version
     ext.kotlin_version = '2.0.21'
     ext.ksp_version = '2.0.21-1.0.27'
@@ -70,7 +70,7 @@ project.ext {
     minSdkVersion = 26
     minSdkVersionAmazon = 25 // Fire OS 6, see VPNAND-1914.
     compileSdkVersion = 35
-    compileNdkVersion = "28.0.12916984-rc2"
+    compileNdkVersion = "28.1.13356709"
 }
 
 allprojects {
