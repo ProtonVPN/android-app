@@ -70,7 +70,7 @@ class CustomDnsViewModel @Inject constructor(
                 val intentView = getConnectIntentViewState.forProfile(profile)
                 ProfileOverrideInfo(
                     primaryLabel = intentView.primaryLabel,
-                    profileName = profile.info.name
+                    profileName = profile.info.name,
                 )
             }
 

@@ -46,10 +46,11 @@ import com.protonvpn.android.ui.settings.CustomAppIconData
 import com.protonvpn.android.utils.BuildConfigUtils
 import com.protonvpn.android.utils.combine
 import com.protonvpn.android.vpn.DnsOverride
-import com.protonvpn.android.vpn.DnsOverrideFlow
 import com.protonvpn.android.vpn.IsCustomDnsFeatureFlagEnabled
+import com.protonvpn.android.vpn.IsPrivateDnsActiveFlow
 import com.protonvpn.android.vpn.ProtocolSelection
 import com.protonvpn.android.vpn.VpnStatusProviderUI
+import com.protonvpn.android.vpn.getDnsOverride
 import com.protonvpn.android.vpn.usecases.IsIPv6FeatureFlagEnabled
 import com.protonvpn.android.widget.WidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -92,7 +93,7 @@ class SettingsViewModel @Inject constructor(
     private val appFeaturePrefs: AppFeaturesPrefs,
     private val isIPv6FeatureFlagEnabled: IsIPv6FeatureFlagEnabled,
     private val isCustomDnsFeatureFlagEnabled: IsCustomDnsFeatureFlagEnabled,
-    val dnsOverrideFlow: DnsOverrideFlow,
+    val isPrivateDnsActiveFlow: IsPrivateDnsActiveFlow,
 ) : ViewModel() {
 
     sealed class SettingViewState<T>(
@@ -107,7 +108,7 @@ class SettingsViewModel @Inject constructor(
         class NetShield(
             netShieldEnabled: Boolean,
             isRestricted: Boolean,
-            overrideProfilePrimaryLabel: ConnectIntentPrimaryLabel.Profile?,
+            profileOverrideInfo: ProfileOverrideInfo?,
             val dnsOverride: DnsOverride,
             override val iconRes: Int = if (netShieldEnabled) R.drawable.feature_netshield_on else R.drawable.feature_netshield_off,
         ) : SettingViewState<Boolean>(
@@ -115,15 +116,18 @@ class SettingsViewModel @Inject constructor(
             isRestricted = isRestricted,
             titleRes = R.string.netshield_feature_name,
             settingValueView = when {
-                dnsOverride != DnsOverride.None -> {
+                dnsOverride == DnsOverride.SystemPrivateDns ->
                     SettingValue.SettingStringRes(R.string.netshield_state_unavailable)
-                }
+
                 else -> {
-                    val subtitleRes =
-                        if (netShieldEnabled) R.string.netshield_state_on else R.string.netshield_state_off
-                    if (overrideProfilePrimaryLabel != null) {
+                    val subtitleRes = when {
+                        dnsOverride != DnsOverride.None -> R.string.netshield_state_unavailable
+                        netShieldEnabled -> R.string.netshield_state_on
+                        else -> R.string.netshield_state_off
+                    }
+                    if (profileOverrideInfo != null) {
                         SettingValue.SettingOverrideValue(
-                            connectIntentPrimaryLabel = overrideProfilePrimaryLabel,
+                            connectIntentPrimaryLabel = profileOverrideInfo.primaryLabel,
                             subtitleRes = subtitleRes
                         )
                     } else {
@@ -280,7 +284,7 @@ class SettingsViewModel @Inject constructor(
 
     data class ProfileOverrideInfo(
         val primaryLabel: ConnectIntentPrimaryLabel.Profile,
-        val profileName: String
+        val profileName: String,
     )
 
     data class SettingsViewState(
@@ -321,8 +325,8 @@ class SettingsViewModel @Inject constructor(
             settingsForConnection.getFlowForCurrentConnection(),
             appFeaturePrefs.isWidgetDiscoveredFlow,
             isIPv6FeatureFlagEnabled.observe(),
-            dnsOverrideFlow,
-        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, dnsOverride ->
+            isPrivateDnsActiveFlow,
+        ) { user, defaultConnection, connectionSettings, isWidgetDiscovered, isIPv6FeatureFlagEnabled, isPrivateDnsActive ->
             val isFree = user?.vpnUser?.isFreeUser == true
             val isCredentialLess = user?.user?.isCredentialLess() == true
             val settings = connectionSettings.connectionSettings
@@ -330,16 +334,16 @@ class SettingsViewModel @Inject constructor(
                 val intentView = getConnectIntentViewState.forProfile(profile)
                 ProfileOverrideInfo(
                     primaryLabel = intentView.primaryLabel,
-                    profileName = profile.info.name
+                    profileName = profile.info.name,
                 )
             }
             val netShieldSetting = when (val netShieldAvailability = user?.vpnUser.getNetShieldAvailability()) {
                 NetShieldAvailability.HIDDEN -> null
                 else -> SettingViewState.NetShield(
                     settings.netShield != NetShieldProtocol.DISABLED,
-                    overrideProfilePrimaryLabel = profileOverrideInfo?.primaryLabel,
+                    profileOverrideInfo = profileOverrideInfo,
                     isRestricted = netShieldAvailability != NetShieldAvailability.AVAILABLE,
-                    dnsOverride = dnsOverride,
+                    dnsOverride = getDnsOverride(isPrivateDnsActive, settings),
                 )
             }
             val currentModeAppNames =
@@ -387,7 +391,7 @@ class SettingsViewModel @Inject constructor(
                             customDns = settings.customDns.rawDnsList,
                             overrideProfilePrimaryLabel = profileOverrideInfo?.primaryLabel,
                             isFreeUser = isFree,
-                            isPrivateDnsActive = dnsOverride == DnsOverride.SystemPrivateDns,
+                            isPrivateDnsActive = isPrivateDnsActive,
                         )
                     else
                         null,
